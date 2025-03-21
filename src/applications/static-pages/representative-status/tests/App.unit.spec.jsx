@@ -22,6 +22,9 @@ const createFakeStore = ({
       hasRepresentative,
       currentlyLoggedIn: isLoggedIn,
     },
+    profile: {
+      loa: { current: 3 },
+    },
   },
 });
 
