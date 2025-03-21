@@ -103,6 +103,10 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_display_sidenav',
             value: true,
           },
+          {
+            name: 'mhv_medical_records_filter_and_sort',
+            value: true,
+          },
         ],
       },
     }).as('featureToggles');
