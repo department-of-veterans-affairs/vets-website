@@ -1,16 +1,16 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import { LAST_YEAR } from '../../utils/constants';
-import content from '../../locales/en/content.json';
+import { LAST_YEAR } from '../utils/constants';
+import content from '../locales/en/content.json';
 import {
   EducationalExpensesDescription,
   MedicalExpensesDescription,
   PreviousFuneralExpenses,
-} from '../FormDescriptions/ExpensesDescriptions';
-import { replaceStrValues } from '../../utils/helpers/general';
-import { inlineTitleUI } from '../FormPatterns/TitlePatterns';
-import { validateCurrency } from '../../utils/validation';
+} from '../components/FormDescriptions/ExpensesDescriptions';
+import { replaceStrValues } from '../utils/helpers/general';
+import { inlineTitleUI } from '../components/FormPatterns/TitlePatterns';
+import { validateCurrency } from '../utils/validation';
 
 const {
   deductibleMedicalExpenses,

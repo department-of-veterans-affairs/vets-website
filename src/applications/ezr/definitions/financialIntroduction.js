@@ -1,8 +1,8 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { FinancialInformationIntroduction } from '../IntroductionPage/FinancialInformation';
+import { FinancialInformationIntroduction } from '../components/IntroductionPage/FinancialInformation';
 
 /**
- * Declare schema attributes for introduction page
+ * Declare schema attributes for financial introduction page
  * @returns {PageSchema}
  */
 export const FinancialIntroductionPage = {

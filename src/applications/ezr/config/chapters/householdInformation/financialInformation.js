@@ -2,11 +2,11 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { includeSpousalInformation } from '../../../utils/helpers/form-config';
 import { FinancialInformationReviewAlert } from '../../../components/FormAlerts/FinanicalInformationReviewAlert';
 import { LAST_YEAR } from '../../../utils/constants';
-import { VeteranAnnualIncomePage } from '../../../components/FormPages/VeteranAnnualIncome';
-import { DeductibleExpensesPage } from '../../../components/FormPages/DeductibleExpenses';
-import { SpouseAnnualIncomePage } from '../../../components/FormPages/SpouseAnnualIncome';
-import { FinancialSummaryPage } from '../../../components/FormPages/FinancialSummary';
-import { FinancialIntroductionPage } from '../../../components/FormPages/FinancialIntroduction';
+import { VeteranAnnualIncomePage } from '../../../definitions/veteranAnnualIncome';
+import { DeductibleExpensesPage } from '../../../definitions/deductibleExpenses';
+import { SpouseAnnualIncomePage } from '../../../definitions/spouseAnnualIncome';
+import { FinancialSummaryPage } from '../../../definitions/financialSummary';
+import { FinancialIntroductionPage } from '../../../definitions/financialIntroduction';
 import FinancialSummaryCardDescription from '../../../components/FormDescriptions/FinancialSummaryCardDescription';
 
 /**
@@ -21,12 +21,9 @@ const options = {
   required: false,
   maxItems: 1,
   hideMaxItemsAlert: true,
-  // isItemIncomplete: validateInsurancePolicy,
   text: {
     getItemName: `Your annual income from ${LAST_YEAR}`,
-    // summaryTitleWithoutItems: 'Your income and deductible',
     summaryDescription: FinancialInformationReviewAlert,
-    // summaryDescriptionWithoutItems: "In the next few questions, we'll ask you about your household financial information.",
     cardDescription: item => {
       return FinancialSummaryCardDescription(item);
     },
@@ -49,9 +46,9 @@ const options = {
 
 // build schemas based on declared options
 const summaryPageSchemas = FinancialSummaryPage(options);
-const annualIncomePageSchemas = VeteranAnnualIncomePage();
-const deductiblePageSchemas = DeductibleExpensesPage();
-const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage();
+const annualIncomePageSchemas = VeteranAnnualIncomePage;
+const deductiblePageSchemas = DeductibleExpensesPage;
+const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage;
 
 /**
  * build list of pages to populate in the form config

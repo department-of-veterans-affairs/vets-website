@@ -2,10 +2,10 @@ import {
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { LAST_YEAR } from '../../utils/constants';
+import { LAST_YEAR } from '../utils/constants';
 
 /**
- * Declare schema attributes for summary page
+ * Declare schema attributes for financial summary page
  * @returns {PageSchema}
  */
 export const FinancialSummaryPage = options => ({

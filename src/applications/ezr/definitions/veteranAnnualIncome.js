@@ -1,16 +1,16 @@
 import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import content from '../../locales/en/content.json';
-import { replaceStrValues } from '../../utils/helpers/general';
-import { LAST_YEAR } from '../../utils/constants';
-import { inlineTitleUI } from '../FormPatterns/TitlePatterns';
+import content from '../locales/en/content.json';
+import { replaceStrValues } from '../utils/helpers/general';
+import { LAST_YEAR } from '../utils/constants';
+import { inlineTitleUI } from '../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
   PreviousNetIncome,
-} from '../FormDescriptions/IncomeDescriptions';
-import { validateCurrency } from '../../utils/validation';
+} from '../components/FormDescriptions/IncomeDescriptions';
+import { validateCurrency } from '../utils/validation';
 
 const {
   veteranGrossIncome,
@@ -19,7 +19,7 @@ const {
 } = ezrSchema.properties;
 
 /**
- * Declare schema attributes for income page
+ * Declare schema attributes for veteran income page
  * @returns {PageSchema}
  */
 export const VeteranAnnualIncomePage = () => ({
