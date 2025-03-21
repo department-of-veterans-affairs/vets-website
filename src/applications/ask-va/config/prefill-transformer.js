@@ -9,13 +9,16 @@ export default function prefillTransformer(pages, formData, metadata) {
       ...restPersonalInfo
     } = personalInfo;
 
+    const socialOrServiceNum = {};
+    if (serviceNumber) socialOrServiceNum.serviceNumber = serviceNumber;
+    if (socialSecurityNumber) socialOrServiceNum.ssn = socialSecurityNumber;
+
     return {
       aboutYourself: {
         ...restPersonalInfo,
-        socialOrServiceNum: {
-          serviceNumber: serviceNumber || '',
-          ssn: socialSecurityNumber || '',
-        },
+        ...(Object.keys(socialOrServiceNum).length > 0 && {
+          socialOrServiceNum,
+        }),
         ...veteranInfo,
       },
     };
