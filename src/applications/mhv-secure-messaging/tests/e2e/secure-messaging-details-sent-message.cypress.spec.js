@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageSentPage from './pages/PatientMessageSentPage';
-import inboxMessages from './fixtures/messages-response.json';
+import inboxMessages from './fixtures/threads-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import singleThreadResponse from './fixtures/sentResponse/sent-thread-response.json';

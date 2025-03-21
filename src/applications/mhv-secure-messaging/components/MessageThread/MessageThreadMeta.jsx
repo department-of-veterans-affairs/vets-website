@@ -5,13 +5,20 @@ import { dateFormat } from '../../util/helpers';
 const MessageThreadMeta = props => {
   const {
     message,
-    fromMe,
+    isSent,
     replyMessage,
     activeReplyDraftMessage,
     draftMessageHistoryItem,
     forPrint,
   } = props;
-  const { recipientName, senderName, triageGroupName, messageId, sentDate } =
+  const {
+    recipientName,
+    senderName,
+    triageGroupName,
+    suggestedNameDisplay,
+    messageId,
+    sentDate,
+  } =
     message ||
     replyMessage ||
     activeReplyDraftMessage ||
@@ -39,9 +46,11 @@ const MessageThreadMeta = props => {
           <span data-dd-privacy="mask">
             {draftMessageHistoryItem
               ? `${draftMessageHistoryItem[0]?.senderName} ${
-                  !fromMe ? draftMessageHistoryItem[0]?.triageGroupName : ''
+                  !isSent ? draftMessageHistoryItem[0]?.triageGroupName : ''
                 }`
-              : `${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+              : `${senderName} ${
+                  !isSent ? `(${suggestedNameDisplay || triageGroupName})` : ''
+                }`}
           </span>
         </p>
         <p
@@ -50,7 +59,9 @@ const MessageThreadMeta = props => {
         >
           <>To: </>
           <span data-dd-privacy="mask">
-            {recipientName || draftMessageHistoryItem[0]?.recipientName}
+            {(isSent && suggestedNameDisplay) ||
+              recipientName ||
+              draftMessageHistoryItem[0]?.recipientName}
           </span>
         </p>
         <p
@@ -68,7 +79,7 @@ const MessageThreadMeta = props => {
 };
 
 MessageThreadMeta.propTypes = {
-  fromMe: PropTypes.bool.isRequired,
+  isSent: PropTypes.bool.isRequired,
   activeReplyDraftMessage: PropTypes.object,
   draftMessageHistoryItem: PropTypes.array,
   forPrint: PropTypes.bool,

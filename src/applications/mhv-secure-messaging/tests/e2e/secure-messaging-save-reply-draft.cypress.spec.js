@@ -3,7 +3,7 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import mockMessages from './fixtures/messages-response.json';
+import mockMessages from './fixtures/threads-response.json';
 import mockSingleThread from './fixtures/thread-response.json';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 

@@ -1,6 +1,6 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import { AXE_CONTEXT, Arrays } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatentMessageSentPage from '../pages/PatientMessageSentPage';

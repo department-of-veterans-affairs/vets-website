@@ -4,7 +4,7 @@ import FolderManagementPage from './pages/FolderManagementPage';
 import mockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import mockCustomMessagesResponse from './fixtures/message-custom-response.json';
 import mockFoldersResponse from './fixtures/folder-response.json';
-import mockMessages from './fixtures/messages-response.json';
+import mockMessages from './fixtures/threads-response.json';
 import mockMessagewithAttachment from './fixtures/message-response-withattachments.json';
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';

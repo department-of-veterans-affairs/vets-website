@@ -192,16 +192,17 @@ const BlockedTriageGroupAlert = props => {
         }
 
         if (blockedTriageList?.length === 1) {
+          const name =
+            blockedTriageList[0].suggestedNameDisplay ||
+            blockedTriageList[0].name;
           if (blockedTriageList[0].type === Recipients.FACILITY) {
-            setAlertTitleText(
-              `${MESSAGE_TO_CARE_TEAMS} ${blockedTriageList[0].name}`,
-            );
+            setAlertTitleText(`${MESSAGE_TO_CARE_TEAMS} ${name}`);
             setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
           } else {
             setAlertTitleText(
               blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
-                ? `${ACCOUNT_DISCONNECTED} ${blockedTriageList[0].name}`
-                : `${MESSAGE_TO_CARE_TEAM} ${blockedTriageList[0].name}`,
+                ? `${ACCOUNT_DISCONNECTED} ${name}`
+                : `${MESSAGE_TO_CARE_TEAM} ${name}`,
             );
             if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
               setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
@@ -254,7 +255,8 @@ const BlockedTriageGroupAlert = props => {
                     blockedTriageGroup.type === Recipients.FACILITY
                       ? 'Care teams at '
                       : ''
-                  }${blockedTriageGroup.name}`}
+                  }${blockedTriageGroup.suggestedNameDisplay ||
+                    blockedTriageGroup.name}`}
                 </li>
               ))}
             </ul>

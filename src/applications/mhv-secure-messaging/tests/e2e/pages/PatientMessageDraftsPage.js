@@ -5,7 +5,7 @@ import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.js
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import FolderLoadPage from './FolderLoadPage';
 import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
 import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';

@@ -46,6 +46,22 @@ class GeneralFunctionsPage {
     };
   };
 
+  updateTGSuggestedName = (response, name) => {
+    return {
+      ...response,
+      data: [
+        {
+          ...response.data[0],
+          attributes: {
+            ...response.data[0].attributes,
+            suggestedNameDisplay: name,
+          },
+        },
+        ...response.data.slice(1),
+      ],
+    };
+  };
+
   getDateFormat = (date = new Date()) => {
     const options = {
       year: 'numeric',
