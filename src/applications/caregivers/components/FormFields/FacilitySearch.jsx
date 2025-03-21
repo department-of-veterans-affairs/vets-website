@@ -107,34 +107,52 @@ const FacilitySearch = props => {
     }
   };
 
+  const offersCaregiverSupport = facility => {
+    return facility.services?.health?.some(
+      service => service.serviceId === 'caregiverSupport',
+    );
+  };
+
   const facilityListProps = useMemo(
     () => {
       const caregiverSupport = async facility => {
-        const offersCaregiverSupport = facility.services?.health?.some(
-          service => service.serviceId === 'caregiverSupport',
-        );
+        const selectedOffersCaregiverSupport = offersCaregiverSupport(facility);
 
-        if (offersCaregiverSupport) {
+        // If selected facility offers caregiver support return it
+        if (selectedOffersCaregiverSupport) {
           return facility;
         }
 
+        // Check if selected facility's parent exists in the facilities array already
         const loadedParent = facilities.find(
           entry => entry.id === facility.parent.id,
         );
+
         if (loadedParent) {
-          return loadedParent;
+          // If parent facility offers caregiver services return it
+          if (offersCaregiverSupport(loadedParent)) {
+            return loadedParent;
+          }
+
+          // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+          Sentry.withScope(scope => {
+            scope.setLevel(Sentry.Severity.Log);
+            scope.setExtra('facility', facility);
+            scope.setExtra('loadedParent facility', loadedParent);
+            Sentry.captureMessage(
+              'No selected facility offers caregiver services - loaded parent',
+            );
+          });
+
+          // Display error if selected facility and selected facility's parent facility do not offer caregiver services
+          setFacilitiesListError(content['error--facilities-parent-facility']);
+          return null;
         }
 
-        // Log facility parent.id so we can troubleshoot if we are always sending the expected value
-        Sentry.withScope(scope => {
-          scope.setLevel(Sentry.Severity.Log);
-          scope.setExtra('facility', facility);
-          scope.setExtra('facility.parent.id', facility?.parent?.id);
-          Sentry.captureMessage('FetchFacilities parentId');
-        });
-
+        // Fetch parent facility from api if we have the id and it is not in the facilities list already
         const parentFacilityResponse = await fetchFacilities({
           facilityIds: [facility.parent.id],
+          // services: ['caregiverSupport'],
         });
 
         if (parentFacilityResponse.errorMessage) {
@@ -142,7 +160,25 @@ const FacilitySearch = props => {
           return null;
         }
 
-        return parentFacilityResponse.facilities[0];
+        const parentFacility = parentFacilityResponse.facilities[0];
+
+        // Display error if selected facility and selected facility's parent facility do not offer caregiver services
+        if (!offersCaregiverSupport(parentFacility)) {
+          // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+          Sentry.withScope(scope => {
+            scope.setLevel(Sentry.Severity.Log);
+            scope.setExtra('facility', facility);
+            scope.setExtra('parentFacility', parentFacility);
+            Sentry.captureMessage(
+              'No selected facility offers caregiver services - fetch parent',
+            );
+          });
+          setFacilitiesListError(content['error--facilities-parent-facility']);
+          return null;
+        }
+
+        // If parent facility offers caregiver services return it
+        return parentFacility;
       };
 
       const setSelectedFacilities = async facilityId => {
