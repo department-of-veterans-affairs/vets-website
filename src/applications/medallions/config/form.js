@@ -6,11 +6,14 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 
+import personalInformation from '../pages/personalInformation';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import viewPersonalInformation from '../pages/viewPersonalInformation';
+import { isUserSignedIn } from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,6 +52,20 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Your Name',
+          uiSchema: viewPersonalInformation.uiSchema,
+          schema: viewPersonalInformation.schema,
+          depends: formData => isUserSignedIn(formData),
+        },
+        personalInformation2: {
+          path: 'personal-information2',
+          title: 'Your Name',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
+          depends: formData => !isUserSignedIn(formData),
+        },
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',

@@ -137,3 +137,7 @@ export function parseResponse({ data }) {
     confirmationCode: data.attributes.confirmationCode,
   };
 }
+
+export function isUserSignedIn(formData) {
+  return formData?.isLoggedIn || false;
+}
