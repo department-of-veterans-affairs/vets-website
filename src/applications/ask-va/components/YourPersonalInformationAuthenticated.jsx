@@ -106,6 +106,7 @@ const mapStateToProps = state => {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     user: state.user.profile,
     formData: state.form.data,
+    formId: state.form.formId,
   };
 };
 
