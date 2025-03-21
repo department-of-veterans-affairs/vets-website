@@ -1926,14 +1926,6 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
-      - name: Encode Commit Message
-        run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
-          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//')  # Strip everything after the first newline
-          ENCODED_MSG=$(echo -n "$FIRST_LINE" | base64 -w 0)  # Encode without line breaks
-
-          echo "ENCODED_MSG=$ENCODED_MSG" >> $GITHUB_ENV
-
       - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
@@ -1942,9 +1934,8 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/dispatches \
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
-          --arg msg "${{ env.ENCODED_MSG }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
                          
   notify-failure:
     name: Notify Failure
