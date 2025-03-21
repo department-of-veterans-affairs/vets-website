@@ -30,7 +30,7 @@ runs:
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+        node-version: 22.11.0
 
     - name: Setup Yarn
       shell: bash
@@ -41,8 +41,8 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ inputs.path }}
-        key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
-        # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
+        key: 22.11.0-${{ inputs.key }}
+        # restore-keys: 22.11.0-${{ inputs.restore-keys }}
 
     - name: Install dependencies
       uses: nick-fields/retry@v3
