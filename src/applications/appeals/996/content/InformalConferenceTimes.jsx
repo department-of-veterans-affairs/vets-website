@@ -13,7 +13,7 @@ export const InformalConferenceTimesTitleRep = (
 export const InformalConferenceTimesDescription = (
   <>
     <p className="vads-u-margin-top--0">
-      We’ll call you to schedule the informal conference. We want to know the
+      We may call you to schedule the informal conference. We want to know the
       best time to call you.
     </p>
     <p>
