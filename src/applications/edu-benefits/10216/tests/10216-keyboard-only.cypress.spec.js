@@ -1,8 +1,8 @@
 import manifest from '../manifest.json';
 
-// eslint-disable-next-line import/named
-import formConfig, { SUBMIT_URL } from '../config/form';
+import formConfig from '../config/form';
 import testData from './fixtures/data/test-data.json';
+import { SUBMIT_URL } from '../config/constants';
 
 describe('22-10216 Edu form', () => {
   beforeEach(function beforeEachHook() {

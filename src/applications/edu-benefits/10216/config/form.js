@@ -21,6 +21,7 @@ import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
 import submitForm from './submitForm';
 import { certifyingOfficial } from '../pages/institutionOfficial';
+import { SUBMIT_URL } from './constants';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -29,10 +30,6 @@ const subTitle = () => (
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </p>
 );
-
-export const SUBMIT_URL = `${
-  environment.API_URL
-}/v0/education_benefits_claims/10216`;
 
 const submitFormLogic = () => {
   if (environment.isDev() || environment.isLocalhost()) {
