@@ -1,71 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import environment from 'platform/utilities/environment';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
-
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
-
-  render() {
-    const { form } = this.props;
-    const { formId, data } = form;
-
-    const { fullName } = data;
-
-    return (
-      <div className="vads-u-margin-bottom--9">
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <va-summary-box uswds>
-          <h3 slot="headline" className="vads-u-margin-top--0">
-            21P-0969 Income and Asset Statement Form Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          <va-button
-            uswds
-            class="screen-only vads-u-margin-top--2"
-            text="Print this page for your records"
-            onClick={() => {
-              window.print();
-            }}
-          />
-        </va-summary-box>
-      </div>
-    );
-  }
+let mockData;
+if (!environment.isProduction() && !environment.isStaging()) {
+  mockData = require('../tests/e2e/fixtures/data/test-data.json');
+  mockData = mockData?.data;
 }
+
+export const ConfirmationPage = props => {
+  const form = useSelector(state => state.form || {});
+  const { formConfig } = props.route;
+  const { submission } = form;
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
+
+  return (
+    <ConfirmationView
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      formConfig={formConfig}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+        mockData,
+      }}
+    />
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
+    data: PropTypes.object,
     formId: PropTypes.string,
     submission: PropTypes.shape({
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
       timestamp: PropTypes.string,
     }),
   }),
-  name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object.isRequired,
+  }),
 };
 
 function mapStateToProps(state) {
