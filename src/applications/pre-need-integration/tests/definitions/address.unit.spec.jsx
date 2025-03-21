@@ -1,13 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 
 import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import definitions from 'vets-json-schema/dist/definitions.json';
-import { schema, uiSchema } from '../../definitions/address';
+import {
+  validateNotAllWhiteSpaces,
+  schema,
+  uiSchema,
+} from '../../definitions/address';
 
 const { address } = definitions;
 const addressSchema = {
@@ -138,4 +143,109 @@ describe('Pre-need definition address', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     form.unmount();
   }).timeout(4000);
+});
+
+describe('validateNotAllWhiteSpaces', () => {
+  // Mock error object with addError method
+  let errorsLocation;
+  beforeEach(() => {
+    // Create a fresh spy for each test
+    errorsLocation = {
+      addError: sinon.spy(),
+    };
+  });
+  it('should add error when required field contains only whitespace', () => {
+    const addressField = '   '; // Field with only spaces
+    const requiredArray = ['street', 'city'];
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.calledOnce).to.be.true;
+    expect(errorsLocation.addError.calledWith('Please provide a response')).to
+      .be.true;
+  });
+  it('should not add error when required field has valid content', () => {
+    const addressField = '123 Main St';
+    const requiredArray = ['street', 'city'];
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.called).to.be.false;
+  });
+  it('should not add error when field has whitespace but is not required', () => {
+    const addressField = '   ';
+    const requiredArray = ['city', 'state']; // street not in required array
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.called).to.be.false;
+  });
+  it('should not add error when required field is null or undefined', () => {
+    // Test with null
+    validateNotAllWhiteSpaces(errorsLocation, null, ['street'], 'street');
+    expect(errorsLocation.addError.called).to.be.false;
+    // Test with undefined
+    validateNotAllWhiteSpaces(errorsLocation, undefined, ['street'], 'street');
+    expect(errorsLocation.addError.called).to.be.false;
+  });
+  it('should handle empty string explicitly', () => {
+    const addressField = '';
+    const requiredArray = ['street'];
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.calledOnce).to.be.false;
+  });
+  it('should handle mixed whitespace characters', () => {
+    const addressField = ' \t\n\r '; // Mix of spaces, tabs, newlines
+    const requiredArray = ['street'];
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.calledOnce).to.be.true;
+  });
+  it('should not add error when required array is empty', () => {
+    const addressField = '   ';
+    const requiredArray = [];
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.called).to.be.false;
+  });
+  it('should properly handle field with whitespace around valid content', () => {
+    const addressField = '  123 Main St  ';
+    const requiredArray = ['street'];
+    const requiredField = 'street';
+    validateNotAllWhiteSpaces(
+      errorsLocation,
+      addressField,
+      requiredArray,
+      requiredField,
+    );
+    expect(errorsLocation.addError.called).to.be.false;
+  });
 });
