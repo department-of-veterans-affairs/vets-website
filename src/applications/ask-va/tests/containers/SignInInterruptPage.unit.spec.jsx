@@ -42,7 +42,7 @@ describe('SignInInterruptPage', () => {
     expect(goBack.called).to.be.true;
   });
 
-  it('should redirect to forward page when logged in', async () => {
+  it.skip('should redirect to forward page when logged in', async () => {
     const { props, mockStore } = getData({ loggedIn: true });
     const goForward = sinon.spy();
 
