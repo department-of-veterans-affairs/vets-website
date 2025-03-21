@@ -5,6 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ShowAlertOrSip from '../components/shared/ShowAlertOrSip';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
@@ -27,7 +28,7 @@ const IntroductionPage = ({
   );
 
   if (!route || !route.formConfig || !route.pageList) {
-    return <div>Loading...</div>;
+    return <VaLoadingIndicator message="Loading..." />;
   }
 
   const { formConfig, pageList } = route;
