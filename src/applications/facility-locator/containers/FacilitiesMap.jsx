@@ -77,6 +77,7 @@ const FacilitiesMap = props => {
   );
   const [isSearching, setIsSearching] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [searchInitiated, setSearchInitiated] = useState(false);
 
   // refs
   const mapboxContainerRef = useRef(null);
@@ -231,11 +232,14 @@ const FacilitiesMap = props => {
 
   const handleSearchArea = () => {
     if (!map) return;
+
     resetMapElements();
-    const { currentQuery } = props;
     lastZoom = null;
+
+    const { currentQuery } = props;
     const center = map.getCenter().wrap();
     const bounds = map.getBounds();
+
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
@@ -244,6 +248,7 @@ const FacilitiesMap = props => {
 
     const currentMapBoundsDistance = calculateSearchArea();
 
+    setSearchInitiated(true);
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
@@ -467,7 +472,9 @@ const FacilitiesMap = props => {
               mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
+              searchInitiated={searchInitiated}
               selectMobileMapPin={props.selectMobileMapPin}
+              setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}

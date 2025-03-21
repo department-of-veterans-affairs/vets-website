@@ -4,7 +4,7 @@ on:
   repository_dispatch:
     types: [cd-production-deploy]
 
-run-name: "Triggered by: ${{ github.event.client_payload.github_message }}"
+run-name: "Triggered by: ${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}"
 
 jobs:
   notify-pending-deployment:
@@ -17,9 +17,24 @@ jobs:
     steps:
       - name: Notify application team in Slack
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FFCC00","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{toJson(github.event.client_payload.github_message)}}>\n\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/frontend-deployment-changes-2025|documentation> on deployments."}}]}]}'
+          payload: > 
+            {
+              "attachments": [
+                {
+                  "color": "#FFCC00",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/continuous-deployment|documentation> on deployments."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

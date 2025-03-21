@@ -167,6 +167,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
+    // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
   };
 };
 
@@ -544,6 +545,13 @@ export const MY_VA_SIP_FORMS = [
       '35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)',
     trackingPrefix: 'edu-10216-',
   },
+  // {
+  //   id: VA_FORM_IDS.FORM_28_1900,
+  //   benefit: 'VR&E Chapter 31 benefits application',
+  //   title: '28-1900 Veteran Readiness',
+  //   description: 'VR&E Chapter 31 benefits application',
+  //   trackingPrefix: 'new-careers-employment-28-1900-',
+  // },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
