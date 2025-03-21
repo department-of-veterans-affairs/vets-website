@@ -134,9 +134,8 @@ class AddressValidationView extends React.Component {
         this.props.successCallback();
 
         this.props.openModal();
+        return;
       }
-
-      return;
     }
 
     const suggestedAddressSelected = selectedAddressId !== 'userEntered';
