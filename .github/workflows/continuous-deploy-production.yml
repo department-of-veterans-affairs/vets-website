@@ -4,7 +4,7 @@ on:
   repository_dispatch:
     types: [cd-production-deploy]
 
-run-name: "Triggered by: ${{ github.event.client_payload.github_message }}"
+run-name: "Triggered by: ${{ github.event.client_payload.entry_names }} commit: ${{ github.event.client_payload.github_sha }}"
 
 jobs:
   notify-pending-deployment:
@@ -15,13 +15,6 @@ jobs:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
-      - name: Decode Commit Message
-        run: |
-          DECODED_MSG=$(echo '${{ github.event.client_payload.github_message }}' | base64 --decode)
-          ESCAPED_MSG=$(echo "$DECODED_MSG" | jq -Rs .)  # Proper JSON escaping
-
-          echo "ESCAPED_MSG=$ESCAPED_MSG" >> "$GITHUB_ENV"
-
       - name: Notify application team in Slack
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         with:
@@ -35,7 +28,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ env.ESCAPED_MSG }}>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/frontend-deployment-changes-2025|documentation> on deployments."
+                        "text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.event.client_payload.entry_app }} Deployment>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/continuous-deployment|documentation> on deployments."
                       }
                     }
                   ]
