@@ -19,9 +19,12 @@ const SignInInterruptPage = ({ goBack, goForward, formData }) => {
   const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
   const signInService = useSelector(signInServiceName);
 
+  useEffect(() => {
+    focusElement('va-alert-sign-in[heading-level="4"]');
+  }, []);
+
   useEffect(
     () => {
-      focusElement('.headline > h4');
       if (isLOA3) {
         goForward(formData);
       }
