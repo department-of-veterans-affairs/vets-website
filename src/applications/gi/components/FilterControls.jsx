@@ -36,7 +36,6 @@ function FilterControls({
       </fieldset>
 
       <fieldset role="group" aria-labelledby="state-heading">
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
         <h3
           className="vads-u-margin-bottom--2"
           id="state-heading"
