@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -24,8 +24,7 @@ export default function LicenseCertificationSearchForm() {
 
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
-
-  const inputRef = useRef(null);
+  const [shouldFocusDropdown, setShouldFocusDropdown] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -53,6 +52,19 @@ export default function LicenseCertificationSearchForm() {
       return dispatch(filterLcResults(name, dropdown.current.optionValue));
     },
     [name, dropdown.current.optionValue],
+  );
+
+  useEffect(
+    () => {
+      if (shouldFocusDropdown) {
+        const selectElement = document.getElementById(dropdown.label);
+        if (selectElement) {
+          focusElement(selectElement, 0);
+        }
+        setShouldFocusDropdown(false);
+      }
+    },
+    [shouldFocusDropdown, dropdown.label],
   );
 
   // If available, use url query params to assign initial values ONLY on mount
@@ -87,7 +99,7 @@ export default function LicenseCertificationSearchForm() {
     history.replace('/licenses-certifications-and-prep-courses');
     setName('');
     setDropdown(updateCategoryDropdown());
-    focusElement(inputRef.current, 0);
+    setShouldFocusDropdown(true);
   };
 
   const handleChange = e => {
@@ -123,7 +135,6 @@ export default function LicenseCertificationSearchForm() {
               alt={dropdown.alt}
               selectClassName="dropdown-filter"
               required={dropdown.label === 'category'}
-              ref={inputRef}
             />
             <div>
               <LicenseCertificationKeywordSearch
