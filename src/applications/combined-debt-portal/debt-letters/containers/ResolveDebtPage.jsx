@@ -41,11 +41,15 @@ const ResolveDebtPage = ({ match }) => {
           { href: '/manage-va-debt/summary', label: 'Your VA debt and bills' },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Debt details',
+            label: 'Current debts',
+          },
+          {
+            href: `/manage-va-debt/summary/debt-balances/details/${selectedId}`,
+            label: `Debt details`,
           },
           {
             href: `/manage-va-debt/summary/balances/details/${selectedId}/resolve`,
-            label: 'Resolve your debt',
+            label: `${title}`,
           },
         ]}
         label="Breadcrumb"
