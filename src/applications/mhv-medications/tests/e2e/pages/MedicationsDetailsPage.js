@@ -705,6 +705,20 @@ class MedicationsDetailsPage {
       .should('contain', text)
       .and('contain', process);
   };
+
+  verifyRefillAccordionHeaderForPartialFillOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="refill-history-accordion"] > :nth-child(1)')
+      .should('contain', text)
+      .and('contain', date);
+  };
+
+  verifyQuantityForPartialFillOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity-partial"]').should('have.text', text);
+  };
+
+  verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;

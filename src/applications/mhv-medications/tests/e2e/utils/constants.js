@@ -83,6 +83,8 @@ export const Data = {
   PHARMACY_PHONE_NUMBER_EMPTY: 'Pharmacy phone number not available',
   REASON_FOR_USE_EMPTY: 'Reason for use not available',
   INSTRUCTIONS_EMPTY: 'Instructions not available',
+  PARTIAL_FILL_TEXT:
+    'This fill has a smaller quantity on purpose. This is temporary.',
 };
 export const Paths = {
   LANDING_LIST:

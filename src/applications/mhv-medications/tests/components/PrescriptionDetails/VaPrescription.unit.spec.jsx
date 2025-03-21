@@ -239,4 +239,30 @@ describe('vaPrescription details container', () => {
 
     expect(status).to.exist;
   });
+
+  it('displays partial refill content if prescription source is pf and partial flag is on', () => {
+    const setupWithPartialFill = (rx = newRx, ffEnabled = true) => {
+      return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+        initialState: {
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_display_documentation_content: ffEnabled,
+            // eslint-disable-next-line camelcase
+            mhv_medications_display_grouping: ffEnabled,
+            // eslint-disable-next-line camelcase
+            mhv_medications_partial_fill_content: true,
+          },
+        },
+        reducers: {},
+        path: '/prescriptions/1234567891',
+      });
+    };
+    const screen = setupWithPartialFill({
+      ...prescription,
+      rxRfRecords: [{ prescriptionSource: 'PF' }],
+    });
+    const accordionHeading = screen.getByText('Partial fill');
+
+    expect(accordionHeading).to.exist;
+  });
 });
