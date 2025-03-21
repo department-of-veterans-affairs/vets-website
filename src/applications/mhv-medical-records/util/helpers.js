@@ -291,7 +291,6 @@ export const dispatchDetails = async (
   actionsGet,
 ) => {
   const matchingItem = list && list.find(item => item.id === id);
-
   if (matchingItem) {
     dispatch({ type: actionsGetFromList, response: matchingItem });
   } else {
