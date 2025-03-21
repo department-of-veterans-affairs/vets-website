@@ -11,7 +11,10 @@ import {
   selectAddressValidation,
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { formatAddress } from 'platform/forms/address/helpers';
+import {
+  formatAddress,
+  getCountryObjectFromIso3,
+} from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
@@ -32,8 +35,14 @@ import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
+  // using the context so we can get the right fieldName to access
+  // the updateProfileChoice in the vapService.formFields state
+  updateProfileChoice = this.props.vapServiceFormFields[
+    (this.context?.fieldName)
+  ]?.value?.updateProfileChoice;
+
   componentDidMount() {
-    // scroll on the alert since the web component doesn't have a focus/suto-scroll method built in like the React component
+    // scroll on the alert since the web component doesn't have a focus/auto-scroll method built in like the React component
     waitForRenderThenFocus('#address-validation-alert-heading');
   }
 
@@ -85,22 +94,46 @@ class AddressValidationView extends React.Component {
     };
 
     if (this.context && this.context?.prefillPatternEnabled) {
-      const updateProfileChoice = this.props.vapServiceFormFields[
-        (this.context?.fieldName)
-      ]?.value?.updateProfileChoice;
-
-      const shouldOnlyUpdateForm = updateProfileChoice === 'no';
+      const shouldOnlyUpdateForm = this.updateProfileChoice === 'no';
 
       if (shouldOnlyUpdateForm) {
+        // using this context allows us to get the initial formKey and keys that may
+        // potentially be customized when the main profileContactInfo factory function is used
         const { formKey, keys } = this.context;
+
+        // using the esisting timestamp to make sure the conditional logic on the
+        // ContactInfo page doesn't override the 'form only' update
+        const existingUpdatedAt = this.props.formAppData[keys.wrapper][formKey]
+          ?.updatedAt;
+
+        // if we don't get a country name then the ContactInfo page will show
+        // an alert that says that the user has no address
+        const countryName = getCountryObjectFromIso3(payload.countryCodeIso3)
+          ?.countryName;
+
+        // we need to spread the existing formAppData and then update the specific formKey
+        // with the new payload and updateProfileChoice so that all existing form fields
+        // are preserved but the address fields are updated with the new values
         const updatedFormAppData = {
           ...this.props.formAppData,
           [keys.wrapper]: {
             ...this.props.formAppData[keys.wrapper],
-            [formKey]: { ...payload, updateProfileChoice },
+            [formKey]: {
+              ...payload,
+              updateProfileChoice: this.updateProfileChoice,
+              updatedAt: existingUpdatedAt,
+              countryName,
+            },
           },
         };
+
+        // this will set the form.data in redux when in a form app
         this.props.setDataAction(updatedFormAppData);
+
+        // this should cause navigation back to the ContactInfo page
+        this.props.successCallback();
+
+        this.props.openModal();
       }
 
       return;
@@ -160,7 +193,13 @@ class AddressValidationView extends React.Component {
       'profile-action': 'edit-link',
       'profile-section': analyticsSectionName,
     });
-    this.props.openModal(addressValidationType, addressFromUser);
+
+    // adding the updateProfileChoice to the addressFromUser object so that
+    // the radio button on address form can be set correctly for new edits
+    this.props.openModal(addressValidationType, {
+      ...addressFromUser,
+      updateProfileChoice: this.updateProfileChoice,
+    });
   };
 
   renderPrimaryButton = () => {
@@ -359,7 +398,7 @@ AddressValidationView.contextType = ContactInfoFormAppConfigContext;
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
   const vapServiceFormFields = state.vapService?.formFields;
-  const formAppData = state.form.data;
+  const formAppData = state?.form?.data;
 
   const {
     addressFromUser,
@@ -436,7 +475,7 @@ AddressValidationView.propTypes = {
   refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
-  transaction: PropTypes.string,
+  transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
   validationKey: PropTypes.number,

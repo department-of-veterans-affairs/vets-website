@@ -99,24 +99,6 @@ export const ContactInfoBase = ({
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
   const address = dataWrap[keys.address] || {};
 
-  // const shouldUseFormData = useMemo(
-  //   () =>
-  //     hasAddressFormFields(data, keys) &&
-  //     data[keys.wrapper][keys.address]?.updateProfileChoice,
-  //   [data, keys],
-  // );
-
-  // const addressReactive = useMemo(
-  //   () => {
-  //     return shouldUseFormData ? data[keys.wrapper][keys.address] : {};
-  //   },
-  //   [data, keys.address, keys.wrapper, shouldUseFormData],
-  // );
-
-  // if (shouldUseFormData && addressReactive) {
-  //   dataWrap[keys.address] = addressReactive;
-  // }
-
   const missingInfo = getMissingInfo({
     data: dataWrap,
     keys,
@@ -213,6 +195,9 @@ export const ContactInfoBase = ({
               : `header-${lastEdited}`,
           );
           focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
+          setTimeout(() => {
+            clearReturnState();
+          }, 1000);
         });
       }
     },

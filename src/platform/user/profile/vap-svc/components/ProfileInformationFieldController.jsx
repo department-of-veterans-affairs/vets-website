@@ -480,7 +480,6 @@ class ProfileInformationFieldController extends React.Component {
     }
 
     if (showValidationView) {
-      // allow custom address validation view to be passed in as a prop
       content = (
         <AddressValidationView
           refreshTransaction={this.refreshTransactionNotProps}
@@ -488,6 +487,7 @@ class ProfileInformationFieldController extends React.Component {
           transactionRequest={transactionRequest}
           title={title}
           clearErrors={this.clearErrors}
+          successCallback={this.props.successCallback}
         />
       );
     }
