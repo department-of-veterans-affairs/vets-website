@@ -10,7 +10,6 @@ import { useBrowserMonitoring } from '../../util/datadog-rum/useBrowserMonitorin
 import * as initializeRealUserMonitoring from '../../util/datadog-rum/initializeRealUserMonitoring';
 import * as constants from '../../constants';
 
-// eslint-disable-next-line react/prop-types
 const TestComponent = ({ loggedIn = false }) => {
   useBrowserMonitoring({ loggedIn });
   return null;
