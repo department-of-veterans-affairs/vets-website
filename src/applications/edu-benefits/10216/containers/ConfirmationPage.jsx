@@ -71,7 +71,7 @@ export const ConfirmationPage = ({ router, route }) => {
         steps.
       </p>
       <va-link-action
-        href="/education/apply-for-education-benefits/application/10215"
+        href="/school-administrators/85-15-rule-enrollment-ratio"
         text="Go to VA Form 22-10215 now"
         class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
       />
