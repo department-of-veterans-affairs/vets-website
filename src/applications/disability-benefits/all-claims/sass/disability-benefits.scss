@@ -191,12 +191,6 @@ div.review {
   }
 }
 
-/* Remove bold on New Disability AdditionalInfo link in review #12678 */
-.usa-accordion > ul button.additional-info-button,
-.usa-accordion-bordered > ul button.additional-info-button {
-  font-weight: normal;
-}
-
 .capitalize-first-letter::first-letter {
   text-transform: capitalize;
 }
