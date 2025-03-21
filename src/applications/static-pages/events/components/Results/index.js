@@ -1,13 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment-timezone';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import ResultsWhereContent from './ResultsWhereContent';
 import {
   deriveMostRecentDate,
   deriveResultsEndNumber,
   deriveResultsStartNumber,
 } from '../../helpers';
+
+const getUserTimeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
+const isUserInUS = () => {
+  const userTimeZone = getUserTimeZone();
+  return userTimeZone.startsWith('America/');
+};
+
+/**
+ * Formats an event's date and time with the appropriate timezone
+ * Follows VA.gov date formatting standards:
+ * - Weekday abbreviated with period (e.g., "Wed.")
+ * - Month abbreviated (e.g., "Mar")
+ * - Day as number
+ * - Full year
+ * - 12-hour time with lowercase am/pm
+ * - Timezone abbreviation (e.g., "CT" for Central)
+ *
+ * @see https://design.va.gov/content-style-guide/dates-and-numbers
+ * @returns {Object} Formatted date strings
+ * @returns {string} .formattedStartsAt - Start date/time (e.g., "Wed. Mar 20, 2024, 9:00 a.m.")
+ * @returns {string} .formattedEndsAt - End time (e.g., "11:00 a.m.")
+ * @returns {string} .endsAtTimezone - Timezone abbreviation (e.g., "CT")
+ */
+export const formatEventDateTime = dateTimeRange => {
+  const {
+    value: startUnix,
+    endValue: endUnix,
+    timezone: eventTimeZone,
+  } = dateTimeRange;
+  const userTimeZone = getUserTimeZone();
+  const useUserTimeZone = isUserInUS();
+  const displayTimeZone = useUserTimeZone
+    ? userTimeZone
+    : eventTimeZone || 'America/New_York';
+  const zonedStartTime = utcToZonedTime(
+    new Date(startUnix * 1000),
+    displayTimeZone,
+  );
+  const zonedEndTime = utcToZonedTime(
+    new Date(endUnix * 1000),
+    displayTimeZone,
+  );
+  const formattedStartsAt = format(
+    zonedStartTime,
+    'EEE. MMM d, yyyy, h:mm aaaa',
+  );
+  const formattedEndsAt = format(zonedEndTime, 'h:mm aaaa');
+  const endsAtTimezone = format(zonedEndTime, 'zzz', {
+    timeZone: displayTimeZone,
+  }).replace(/S|D/i, '');
+
+  return {
+    formattedStartsAt,
+    formattedEndsAt,
+    endsAtTimezone,
+  };
+};
 
 export const Results = ({
   onPageSelect,
@@ -68,20 +125,11 @@ export const Results = ({
               event?.fieldDatetimeRangeTimezone[0],
             );
 
-            const startsAtUnix = mostRecentDate?.value;
-            const endsAtUnix = mostRecentDate?.endValue;
-            const timezone = mostRecentDate?.timezone;
-
-            const formattedStartsAt = moment
-              .tz(startsAtUnix * 1000, timezone)
-              .format('ddd MMM D, YYYY, h:mm a');
-            const formattedEndsAt = moment
-              .tz(endsAtUnix * 1000, timezone)
-              .format('h:mm a');
-            const endsAtTimezone = moment
-              .tz(endsAtUnix * 1000, timezone)
-              .format('z')
-              .replace(/S|D/i, '');
+            const {
+              formattedStartsAt,
+              formattedEndsAt,
+              endsAtTimezone,
+            } = formatEventDateTime(mostRecentDate);
 
             return (
               <div
