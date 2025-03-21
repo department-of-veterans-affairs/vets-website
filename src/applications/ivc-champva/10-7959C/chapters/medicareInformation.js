@@ -24,6 +24,19 @@ const effectiveDateHint =
 
 export const blankSchema = { type: 'object', properties: {} };
 
+const singleFileSchema = {
+  type: 'array',
+  maxItems: 1,
+  items: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+      },
+    },
+  },
+};
+
 export const applicantHasMedicareSchema = {
   uiSchema: {
     ...titleUI(
@@ -233,25 +246,22 @@ export const applicantMedicareABUploadSchema = {
       },
     ),
     ...fileUploadBlurb,
-    applicantMedicarePartAPartBCard: {
-      ...fileUploadUI({
-        label: 'Upload Medicare card',
-      }),
-      'ui:errorMessages': {
-        minItems:
-          'You must add both the front and back of your card as separate files.',
-      },
-    },
+    applicantMedicarePartAPartBCardFront: fileUploadUI({
+      label: 'Upload front of Medicare card',
+      attachmentId: 'Front of Medicare card', // used behind the scenes
+    }),
+    applicantMedicarePartAPartBCardBack: fileUploadUI({
+      label: 'Upload back of Medicare card',
+      attachmentId: 'Back of Medicare card', // used behind the scenes
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-        ['Front of Medicare card', 'Back of Medicare card'],
-        2,
-      ),
+      applicantMedicarePartAPartBCardFront: singleFileSchema,
+      applicantMedicarePartAPartBCardBack: singleFileSchema,
     },
   },
 };

@@ -47,7 +47,13 @@
     },
     "missingUploads": [
       {
-        "name": "applicantMedicarePartAPartBCard",
+        "name": "applicantMedicarePartAPartBCardFront",
+        "path": "medicare-ab-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "applicantMedicarePartAPartBCardBack",
         "path": "medicare-ab-upload",
         "required": true,
         "uploaded": false

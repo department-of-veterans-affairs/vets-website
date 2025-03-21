@@ -60,7 +60,7 @@ export const fileUploadUi = content => {
       return {
         name: file.name,
         confirmationCode: response.data.attributes.confirmationCode,
-        attachmentId: '',
+        attachmentId: content.attachmentId ?? '',
       };
     },
     attachmentSchema: (/* { fileId, index } */) => ({
