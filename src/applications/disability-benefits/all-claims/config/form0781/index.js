@@ -7,7 +7,6 @@ import { traumaticEventsPages } from '../../pages/form0781/traumaticEventsPages'
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
-import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
 import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
@@ -97,14 +96,11 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorIntroCombatPage(formData),
     CustomPage: BehaviorIntroCombatPage,
     CustomPageReview: null,
-    // uiSchema: behaviorIntroCombatPage.uiSchema,
-    // schema: behaviorIntroCombatPage.schema,
     schema: {
-      // This does still need to be here or it'll throw an error
       type: 'object',
-      properties: {}, // The properties can be empty
+      properties: {},
     },
-    uiSchema: {}, // UI schema is completely ignored
+    uiSchema: {},
   },
   behaviorListPage: {
     title: behaviorListPageTitle,
