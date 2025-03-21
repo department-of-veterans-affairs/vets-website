@@ -207,23 +207,32 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         let timeout;
         let focusRef;
 
+        let maxItemsCondition = isMaxItemsReached && maxItemsAlertRef;
+        if (isReviewPage) {
+          // we don't mind focusing the max items alert every time on
+          // the summary page going back and forward, but if they are
+          // on the review page, and the alert was already present, we
+          // don't want to focus it again.
+          maxItemsCondition =
+            isMaxItemsReached && !maxItemsAlertSeen && maxItemsAlertRef;
+        }
+
         if (
           showUpdatedAlert &&
           updateItemIndex != null &&
           updatedAlertRef.current
         ) {
           focusRef = updatedAlertRef;
-        } else if (
-          isMaxItemsReached &&
-          !maxItemsAlertSeen &&
-          maxItemsAlertRef
-        ) {
+        } else if (maxItemsCondition) {
           focusRef = maxItemsAlertRef;
         }
 
         maxItemsAlertSeen = isMaxItemsReached;
 
         if (focusRef) {
+          if (timeout) {
+            clearTimeout(timeout);
+          }
           timeout = setTimeout(() => {
             if (focusRef.current) {
               scrollAndFocus(focusRef.current);
@@ -233,7 +242,15 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert, updateItemIndex, updatedAlertRef, isMaxItemsReached],
+      [
+        showUpdatedAlert,
+        updateItemIndex,
+        updatedAlertRef,
+        isMaxItemsReached,
+        // Also refocus when save-in-progress changes.
+        // This isn't present on the review page.
+        props.contentAfterButtons,
+      ],
     );
 
     useEffect(
