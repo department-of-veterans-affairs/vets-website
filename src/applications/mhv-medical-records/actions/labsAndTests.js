@@ -92,7 +92,7 @@ export const getlabsAndTestsDetails = (
         dispatch,
         getAcceleratedLabsAndTestsDetails,
         Actions.LabsAndTests.GET_FROM_LIST,
-        Actions.LabsAndTests.GET,
+        Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST,
       );
     } else {
       let getDetailsFunc = getLabOrTest;

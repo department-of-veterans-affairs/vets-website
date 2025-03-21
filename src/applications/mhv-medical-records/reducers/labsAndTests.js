@@ -490,19 +490,20 @@ export function formatDateTime(datetimeString) {
 // Need signed by
 // the types need to line up
 export const convertUnifiedLabsAndTestRecord = record => {
-  const NONE_NOTED = 'None noted';
   const { formattedDate, formattedTime } = formatDateTime(
     record.attributes.dateCompleted,
   );
-  const date = formattedDate
-    ? `${formattedDate}, ${formattedTime}`
-    : NONE_NOTED;
+  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
   return {
     id: record.id,
-    name: record.attributes.display || NONE_NOTED,
     date,
-    type: record.attributes.testCode || labTypes.OTHER,
-    orderedBy: record.attributes.orderedBy || NONE_NOTED,
+    name: record.attributes.display,
+    location: record.attributes.location,
+    observations: record.attributes.observations,
+    orderedBy: record.attributes.orderedBy,
+    sampleSite: record.attributes.sampleSite,
+    testCode: record.attributes.testCode,
+    type: record.attributes.testCode,
     base: {
       ...record,
     },
@@ -542,6 +543,14 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
+      };
+    }
+    case Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST: {
+      return {
+        ...state,
+        labsAndTestsDetails: convertUnifiedLabsAndTestRecord(
+          action.response.data,
+        ),
       };
     }
     case Actions.LabsAndTests.GET_FROM_LIST: {

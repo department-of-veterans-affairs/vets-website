@@ -20,6 +20,7 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -69,10 +70,10 @@ const LabAndTestDetails = () => {
       />
     );
   }
-  if (isAcceleratingLabsAndTests) {
-    return <div>{JSON.stringify(labAndTestDetails)}</div>;
+  if (isAcceleratingLabsAndTests && labAndTestDetails) {
+    return <UnifiedLabsAndTests record={labAndTestDetails} />;
   }
-  // TODO: Delete this around the 4th of July
+  // TODO: Delete this with the feature toggle
   if (labAndTestDetails?.type === labTypes.CHEM_HEM) {
     return <ChemHemDetails record={labAndTestDetails} fullState={fullState} />;
   }
