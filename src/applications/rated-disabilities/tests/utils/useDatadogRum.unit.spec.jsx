@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import React from 'react';
 
 import { datadogRum } from '@datadog/browser-rum';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
 import { useBrowserMonitoring } from '../../util/datadog-rum/useBrowserMonitoring';
 import * as initializeRealUserMonitoring from '../../util/datadog-rum/initializeRealUserMonitoring';
@@ -13,7 +13,7 @@ import * as constants from '../../constants';
 // eslint-disable-next-line react/prop-types
 const TestComponent = ({ loggedIn = false }) => {
   useBrowserMonitoring({ loggedIn });
-  return <div data-testid="test" />;
+  return null;
 };
 
 describe('initializeRealUserMonitoring', () => {
@@ -67,15 +67,20 @@ describe('useBrowserMonitoring', () => {
   });
 
   context('when loggedIn false', () => {
-    it('it should return', () => {
-      render(<TestComponent />);
-
+    // Added async for these tests since there is a useEffect
+    it('it should return', async () => {
+      await waitFor(() => {
+        render(<TestComponent />);
+      });
       expect(stub.notCalled).to.be.true;
+      expect(stub.called).to.be.false;
     });
   });
   context('when loggedIn true', () => {
-    it('it should call initializeRealUserMonitoring', () => {
-      render(<TestComponent loggedIn />);
+    it('it should call initializeRealUserMonitoring', async () => {
+      await waitFor(() => {
+        render(<TestComponent loggedIn />);
+      });
       expect(stub.called).to.be.true;
     });
   });
