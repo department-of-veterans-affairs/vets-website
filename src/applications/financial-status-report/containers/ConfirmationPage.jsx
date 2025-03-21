@@ -115,11 +115,14 @@ const ConfirmationPage = ({ form, download }) => {
     return null;
   };
 
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
+  useEffect(
+    () => {
+      focusElement('.schemaform-title > h1');
 
-    scrollToTop();
-  }, []);
+      scrollToTop();
+    },
+    [data],
+  );
 
   const renderLongFormAlert = () => {
     return (

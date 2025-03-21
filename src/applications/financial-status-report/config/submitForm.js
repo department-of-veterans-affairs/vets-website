@@ -32,6 +32,25 @@ const getSubmissionType = selectedDebtsAndCopays => {
   return 'err-submission'; // Default error type if no matching conditions
 };
 
+// Helper function to determine the resolution and debt selection based on selected debts and copays
+const getResolutionForSelectedDebt = selectedDebtsAndCopays => {
+  const resolvedDebtsAndCopays = [];
+  let debtObjectResolutionSelection = '';
+
+  selectedDebtsAndCopays.forEach(debtObject => {
+    debtObjectResolutionSelection =
+      debtObject.debtType === DEBT_TYPES.DEBT
+        ? `debt-${debtObject.deductionCode}-${debtObject.resolutionOption}`
+        : `copay-${debtObject.station.facilityName}-${
+            debtObject.resolutionOption
+          }`;
+
+    resolvedDebtsAndCopays.push(debtObjectResolutionSelection);
+  });
+
+  return resolvedDebtsAndCopays;
+};
+
 // Main function to build the event data object
 export const buildEventData = ({
   selectedDebtsAndCopays,
@@ -42,6 +61,9 @@ export const buildEventData = ({
     'enhanced-submission': true,
     streamlined: getStreamlinedValue(isStreamlinedShort, isStreamlinedLong), // Get the streamlined value
     'submission-type': getSubmissionType(selectedDebtsAndCopays), // Get the submission type
+    'resolution-and-debt-selection': getResolutionForSelectedDebt(
+      selectedDebtsAndCopays,
+    ), // Get the resolution and debt selection
   };
 };
 
