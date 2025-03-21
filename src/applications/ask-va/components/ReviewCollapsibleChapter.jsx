@@ -352,10 +352,7 @@ class ReviewCollapsibleChapter extends React.Component {
       expandedPages,
     );
     return (
-      <div
-        className="usa-accordion-content schemaform-chapter-accordion-content"
-        aria-hidden="false"
-      >
+      <div className="schemaform-chapter-accordion-content" aria-hidden="false">
         {ChapterDescription && (
           <ChapterDescription
             viewedPages={viewedPages}
