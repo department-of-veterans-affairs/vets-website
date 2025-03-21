@@ -7,7 +7,7 @@ import { hasDescriptions } from '../../utils/responseOptions';
 
 /**
  *
- * @param {Array<NormalizedResponseOption} responseOptions
+ * @param {Array<NormalizedResponseOption>} responseOptions
  * @returns {[Array<string>, Record<string, string>, Record<string, string>]}
  */
 export const formatResponseOptions = responseOptions => {
