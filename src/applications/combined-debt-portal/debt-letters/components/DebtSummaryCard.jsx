@@ -10,12 +10,8 @@ import { setActiveDebt } from '../../combined/actions/debts';
 import { currency } from '../utils/page';
 import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
 
-export const TOGGLE_NAMES = {
-  showVHAPaymentHistory: 'vha_show_payment_history',
-};
-
 const DebtSummaryCard = ({ debt }) => {
-  const { useToggleValue } = useFeatureToggle();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showResolveLinks = useToggleValue(TOGGLE_NAMES.showVHAPaymentHistory);
   const dispatch = useDispatch();
   const mostRecentHistory = head(debt?.debtHistory);
