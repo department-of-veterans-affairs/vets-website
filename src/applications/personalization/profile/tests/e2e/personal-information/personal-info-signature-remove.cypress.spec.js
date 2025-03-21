@@ -1,5 +1,6 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
+import { Locators, Data, Paths } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   beforeEach(() => {
@@ -14,43 +15,46 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   });
 
   it('verify remove alert details', () => {
-    cy.get(`#remove-messages-signature`).click();
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
 
-    cy.get(`.first-focusable-child`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).should(`be.focused`);
 
-    cy.get(`#heading`).should(`have.text`, `Remove signature?`);
-    cy.get(`[modal-title="Remove signature?"] > p`).should(
+    cy.get(Locators.SIGNATURE.ALERTS.REMOVE_TITLE).should(
       `have.text`,
-      `Your signature will no longer appear on outgoing secure messages.You can always come back to your profile later if you want to add this signature again.`,
+      Data.SIGNATURE.ALERTS.REMOVE,
+    );
+    cy.get(Locators.SIGNATURE.ALERTS.REMOVE_TEXT).should(
+      `have.text`,
+      Data.SIGNATURE.ALERTS.REMOVE_TEXT,
     );
 
-    cy.get(`[modal-title="Remove signature?"] > div > button`).should(
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_REMOVE_BTN).should(
       `have.text`,
-      `Yes, remove my signature`,
+      Data.SIGNATURE.ALERTS.REMOVE_BTN,
     );
 
-    cy.get(`[modal-title="Remove signature?"] > div > va-button`)
+    cy.get(Locators.SIGNATURE.ALERTS.CANCEL_REMOVE_BTN)
       .shadow()
       .find(`button`)
-      .should(`have.text`, `No, cancel this change`);
+      .should(`have.text`, Data.SIGNATURE.ALERTS.CANCEL_REMOVE_BTN);
   });
 
   it('verify user can cancel remove signature', () => {
     // close modal by cancel btn
-    cy.get(`#remove-messages-signature`).click();
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
 
-    cy.get(`[modal-title="Remove signature?"] > div > va-button`)
+    cy.get(Locators.SIGNATURE.ALERTS.CANCEL_REMOVE_BTN)
       .shadow()
       .find(`button`)
       .click();
 
-    cy.get('#remove-messages-signature').should('be.focused');
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).should('be.focused');
 
     // close modal by cross btn
-    cy.get(`#remove-messages-signature`).click();
-    cy.get(`.first-focusable-child`).click();
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
 
-    cy.get('#remove-messages-signature').should('be.focused');
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -68,23 +72,21 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       },
     };
 
-    cy.intercept(
-      `POST`,
-      `/my_health/v1/messaging/preferences/signature`,
-      noSignatureResponse,
-    ).as('updatedSignature');
+    cy.intercept(`POST`, Paths.INTERCEPT.SIGNATURE, noSignatureResponse).as(
+      'updatedSignature',
+    );
 
-    cy.get(`#remove-messages-signature`).click();
-    cy.get(`[modal-title="Remove signature?"] > div > button`).click();
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_REMOVE_BTN).click();
 
-    cy.get(`#messagingSignature-alert`)
+    cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)
       .should(`be.visible`)
-      .and('have.text', `Update saved.`);
-    cy.get(`#edit-messages-signature`).should(`be.focused`);
+      .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
+    cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
 
-    cy.get(`[data-testid="messagingSignature"]`).should(
+    cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,
-      `Choose edit to add a messages signature.`,
+      Data.SIGNATURE.CHOOSE_EDIT,
     );
     cy.injectAxeThenAxeCheck();
   });

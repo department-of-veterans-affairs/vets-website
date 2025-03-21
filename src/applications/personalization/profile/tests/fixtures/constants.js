@@ -4,6 +4,7 @@ export const Locators = {
     EDIT_BTN: `#edit-messages-signature`,
     CANCEL_BTN: `[data-testid="cancel-edit-button"]`,
     SAVE_BTN: `[data-testid="save-edit-button"]`,
+    REMOVE_BTN: `#remove-messages-signature`,
     NAME_LABEL: `#root_signatureName-label`,
     TITLE_LABEL: `#root_signatureTitle-label`,
     NAME_FIELD: `#root_signatureName`,
@@ -13,6 +14,10 @@ export const Locators = {
       FIELD_ERROR: '[role="alert"]',
       CROSS_BTN: `.first-focusable-child`,
       CONFIRM_CANCEL_MODAL: `[data-testid="confirm-cancel-modal"]`,
+      REMOVE_TITLE: `#heading`,
+      REMOVE_TEXT: `[modal-title="Remove signature?"] > p`,
+      CONFIRM_REMOVE_BTN: `[modal-title="Remove signature?"] > div > button`,
+      CANCEL_REMOVE_BTN: `[modal-title="Remove signature?"] > div > va-button`,
     },
   },
 };
@@ -20,6 +25,7 @@ export const Locators = {
 export const Data = {
   SIGNATURE: {
     UPDATE_SAVED: `Update saved.`,
+    CHOOSE_EDIT: `Choose edit to add a messages signature.`,
     ALERTS: {
       EMPTY_FIELD: `Error Both fields are required to save a signature.`,
       CANCEL_CHANGES: `Cancel changes?`,
@@ -27,6 +33,10 @@ export const Data = {
       CANCEL_BTN: `Yes, cancel my changes`,
       BACK_TO_EDIT_BTN: `No, go back to editing`,
       REQUIRED: `(*Required)`,
+      REMOVE: `Remove signature?`,
+      REMOVE_TEXT: `Your signature will no longer appear on outgoing secure messages.You can always come back to your profile later if you want to add this signature again.`,
+      REMOVE_BTN: `Yes, remove my signature`,
+      CANCEL_REMOVE_BTN: `No, cancel this change`,
     },
   },
 };
