@@ -70,17 +70,17 @@ describe('useBrowserMonitoring', () => {
     it('it should return', async () => {
       await waitFor(() => {
         render(<TestComponent />);
+        expect(stub.notCalled).to.be.true;
+        expect(stub.called).to.be.false;
       });
-      expect(stub.notCalled).to.be.true;
-      expect(stub.called).to.be.false;
     });
   });
   context('when loggedIn true', () => {
     it('it should call initializeRealUserMonitoring', async () => {
       await waitFor(() => {
         render(<TestComponent loggedIn />);
+        expect(stub.called).to.be.true;
       });
-      expect(stub.called).to.be.true;
     });
   });
 });
