@@ -809,7 +809,6 @@ describe('actionCreators', () => {
 
       it('dispatches FETCH_LC_RESULT_SUCCEEDED on successful fetch (res.ok)', async () => {
         const mockDispatch = sinon.spy();
-        const mockSignal = new AbortController().signal;
         const mockResponse = {
           ok: true,
           json: sinon.stub().resolves({
@@ -819,7 +818,7 @@ describe('actionCreators', () => {
         const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
 
         const testId = '123';
-        await actions.fetchLcResult(testId, mockSignal)(mockDispatch);
+        await actions.fetchLcResult(testId)(mockDispatch);
 
         expect(mockDispatch.firstCall.args[0]).to.deep.equal({
           type: actions.FETCH_LC_RESULT_STARTED,
@@ -834,7 +833,6 @@ describe('actionCreators', () => {
         expect(
           fetchStub.calledWithMatch(expectedURL, {
             ...api.settings,
-            signal: mockSignal,
           }),
         ).to.be.true;
 
@@ -843,7 +841,6 @@ describe('actionCreators', () => {
 
       it('dispatches FETCH_LC_RESULT_FAILED when response is not ok', async () => {
         const mockDispatch = sinon.spy();
-        const mockSignal = new AbortController().signal;
         const errorMessage = 'Internal Server Error';
         const mockResponse = new Response(null, {
           status: 500,
@@ -851,7 +848,7 @@ describe('actionCreators', () => {
         });
         const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
 
-        await actions.fetchLcResult('999', mockSignal)(mockDispatch);
+        await actions.fetchLcResult('999')(mockDispatch);
 
         expect(mockDispatch.firstCall.args[0]).to.deep.equal({
           type: actions.FETCH_LC_RESULT_STARTED,
@@ -866,13 +863,12 @@ describe('actionCreators', () => {
 
       it('dispatches FETCH_LC_RESULT_FAILED on fetch error (promise rejection)', async () => {
         const mockDispatch = sinon.spy();
-        const mockSignal = new AbortController().signal;
         const fetchError = new Error('Network Failed');
 
         const fetchStub = sinon.stub(global, 'fetch').rejects(fetchError);
 
         await actions
-          .fetchLcResult('555', mockSignal)(mockDispatch)
+          .fetchLcResult('555')(mockDispatch)
           .catch(() => {});
 
         expect(mockDispatch.firstCall.args[0]).to.deep.equal({
@@ -888,14 +884,13 @@ describe('actionCreators', () => {
 
       it('does not dispatch FETCH_LC_RESULT_FAILED on AbortError', async () => {
         const mockDispatch = sinon.spy();
-        const mockSignal = new AbortController().signal;
         const abortError = new Error('Aborted');
         abortError.name = 'AbortError';
 
         const fetchStub = sinon.stub(global, 'fetch').rejects(abortError);
 
         await actions
-          .fetchLcResult('555', mockSignal)(mockDispatch)
+          .fetchLcResult('555')(mockDispatch)
           .catch(() => {});
 
         expect(mockDispatch.firstCall.args[0]).to.deep.equal({
