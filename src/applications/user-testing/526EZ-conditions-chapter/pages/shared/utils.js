@@ -26,25 +26,26 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   return defaultTitle;
 };
 
-export const createNonSelectedRatedDisabilities = fullData => {
+const getSelectedRatedDisabilities = fullData => {
   const currentIndex = getArrayIndexFromPathName();
-  const selectedRatedDisabilities = [];
 
-  fullData?.[arrayPath]?.forEach((item, index) => {
+  return fullData?.[arrayPath]?.reduce((acc, item, index) => {
     if (index !== currentIndex) {
-      selectedRatedDisabilities.push(item?.ratedDisability);
+      acc.push(item?.ratedDisability);
     }
-  });
+    return acc;
+  }, []);
+};
 
-  const nonSelectedRatedDisabilities = {};
+export const createNonSelectedRatedDisabilities = fullData => {
+  const selectedRatedDisabilities = getSelectedRatedDisabilities(fullData);
 
-  fullData?.ratedDisabilities?.forEach(disability => {
+  return fullData?.ratedDisabilities?.reduce((acc, disability) => {
     if (!selectedRatedDisabilities?.includes(disability.name)) {
-      nonSelectedRatedDisabilities[disability.name] = disability.name;
+      acc[disability.name] = disability.name;
     }
-  });
-
-  return nonSelectedRatedDisabilities;
+    return acc;
+  }, {});
 };
 
 export const hasRemainingRatedDisabilities = fullData => {
@@ -100,23 +101,21 @@ export const createNewConditionName = (item, capFirstLetter = false) => {
 };
 
 const getItemName = item => {
-  if (!isNewCondition(item)) {
-    return item?.ratedDisability;
+  if (isNewCondition(item)) {
+    return createNewConditionName(item, true);
   }
 
-  return createNewConditionName(item, true);
+  return item?.ratedDisability;
 };
 
-const createCauseDescriptions = item => {
-  return {
-    NEW: 'Caused by an injury or exposure during my service.',
-    SECONDARY: `Caused by ${item?.causedByCondition}.`,
-    WORSENED:
-      'Existed before I served in the military, but got worse because of my military service.',
-    VA:
-      'Caused by an injury or event that happened when I was receiving VA care.',
-  };
-};
+const createCauseDescriptions = item => ({
+  NEW: 'Caused by an injury or exposure during my service.',
+  SECONDARY: `Caused by ${item?.causedByCondition}.`,
+  WORSENED:
+    'Existed before I served in the military, but got worse because of my military service.',
+  VA:
+    'Caused by an injury or event that happened when I was receiving VA care.',
+});
 
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
@@ -127,37 +126,39 @@ const causeFollowUpChecks = {
 };
 
 const isItemIncomplete = item => {
-  if (!isNewCondition(item)) {
-    return !item?.ratedDisability;
+  if (isNewCondition(item)) {
+    return (
+      !item?.newCondition ||
+      !item?.cause ||
+      causeFollowUpChecks[item.cause](item)
+    );
   }
 
-  return (
-    !item?.newCondition || !item?.cause || causeFollowUpChecks[item.cause](item)
-  );
+  return !item?.ratedDisability;
 };
 
-export function formatYearMonth(dateString) {
+const formatYearMonth = dateString => {
   if (!dateString) {
     return '';
   }
 
   const [year, month] = dateString.split('-').map(Number);
   return format(new Date(year, month - 1), 'MMMM yyyy');
-}
+};
 
-const cardDescription = item => {
-  if (!isNewCondition(item)) {
-    let ratedDisabilityDescription = 'Claim for increase';
+const createRatedDisabilityCardDescription = item => {
+  let ratedDisabilityDescription = 'Claim for increase';
 
-    if (item?.ratedDisabilityDate) {
-      ratedDisabilityDescription += `; worsened ${formatYearMonth(
-        item?.ratedDisabilityDate,
-      )}`;
-    }
-
-    return ratedDisabilityDescription;
+  if (item?.ratedDisabilityDate) {
+    ratedDisabilityDescription += `; worsened ${formatYearMonth(
+      item?.ratedDisabilityDate,
+    )}`;
   }
 
+  return ratedDisabilityDescription;
+};
+
+const createNewConditionCardDescription = item => {
   let newConditionDescription = 'New condition';
 
   if (item?.newConditionDate) {
@@ -171,6 +172,14 @@ const cardDescription = item => {
   }`;
 
   return newConditionDescription;
+};
+
+const cardDescription = item => {
+  if (isNewCondition(item)) {
+    return createNewConditionCardDescription(item);
+  }
+
+  return createRatedDisabilityCardDescription(item);
 };
 
 /** @type {ArrayBuilderOptions} */
