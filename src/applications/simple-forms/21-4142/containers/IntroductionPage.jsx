@@ -50,7 +50,6 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
           medical records.
         </li>
       </ul>
-      <h2 id="start-your-request">Start your authorization</h2>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">

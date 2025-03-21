@@ -70,7 +70,6 @@ class IntroductionPage extends React.Component {
           </va-telephone>
           ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
-        <h2 id="start-your-request">Start your authorization</h2>
         {userLoggedIn &&
         !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
             <div className="id-not-verified-content vads-u-margin-top--4">

@@ -32,7 +32,6 @@ const IntroductionPage = props => {
           read about all our supporting forms.
         </a>
       </p>
-      <h2>Start your form</h2>
     </>
   );
 

@@ -196,57 +196,58 @@ const IntroductionPage = props => {
         </li>
         <li>You can also send copies of your documents by mail.</li>
       </ul>
-      <va-additional-info trigger="Where can I send documents by mail?" uswds>
-        <p>
-          Find the benefit type you’re requesting priority processing for. Then
-          use the corresponding mailing address.
-        </p>
-        <p className="vads-u-padding-top--2">
-          <strong>Note:</strong> Please don’t send original documents. Send
-          copies instead.
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Compensation claims
-        </p>
-        <p>
-          Department of Veterans Affairs Compensation Intake Center
-          <br />
-          PO Box 4444
-          <br />
-          Janesville, WI 53547-4444
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Pension and survivors benefit claims
-        </p>
-        <p>
-          Department of Veterans Affairs Pension Intake Center
-          <br />
-          PO Box 5365
-          <br />
-          Janesville, WI 53547-5365
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Board of Veterans’ Appeals
-        </p>
-        <p>
-          Department of Veterans Affairs Board of Veterans' Appeals
-          <br />
-          PO Box 27063
-          <br />
-          Washington, DC 20038
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Fiduciary
-        </p>
-        <p>
-          Department of Veterans Affairs Fiduciary Intake Center
-          <br />
-          PO Box 5211
-          <br />
-          Janesville, WI 53547-5211
-        </p>
-      </va-additional-info>
-      <h2 id="start-your-request">Start your request</h2>
+      <div className="vads-u-margin-bottom--4">
+        <va-additional-info trigger="Where can I send documents by mail?" uswds>
+          <p>
+            Find the benefit type you’re requesting priority processing for.
+            Then use the corresponding mailing address.
+          </p>
+          <p className="vads-u-padding-top--2">
+            <strong>Note:</strong> Please don’t send original documents. Send
+            copies instead.
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Compensation claims
+          </p>
+          <p>
+            Department of Veterans Affairs Compensation Intake Center
+            <br />
+            PO Box 4444
+            <br />
+            Janesville, WI 53547-4444
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Pension and survivors benefit claims
+          </p>
+          <p>
+            Department of Veterans Affairs Pension Intake Center
+            <br />
+            PO Box 5365
+            <br />
+            Janesville, WI 53547-5365
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Board of Veterans’ Appeals
+          </p>
+          <p>
+            Department of Veterans Affairs Board of Veterans' Appeals
+            <br />
+            PO Box 27063
+            <br />
+            Washington, DC 20038
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Fiduciary
+          </p>
+          <p>
+            Department of Veterans Affairs Fiduciary Intake Center
+            <br />
+            PO Box 5211
+            <br />
+            Janesville, WI 53547-5211
+          </p>
+        </va-additional-info>
+      </div>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div
