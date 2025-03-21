@@ -61,6 +61,7 @@
           "@department-of-veterans-affairs/platform-startup/react": "./src/platform/startup/react.js",
           "@department-of-veterans-affairs/platform-startup/setup": "./src/platform/startup/setup.js",
           "@department-of-veterans-affairs/platform-startup/router": "./src/platform/startup/router.js",
+          "@department-of-veterans-affairs/platform-startup/withoutRouter": "./src/platform/startup/withoutRouter.js",
           "@department-of-veterans-affairs/platform-startup/analytics-middleware": "./src/platform/startup/analytics-middleware.js",
 
           "@department-of-veterans-affairs/platform-utilities/date": "./src/platform/utilities/date/index.js",
@@ -185,7 +186,7 @@
           "@department-of-veterans-affairs/platform-site-wide/PageNotFound": "./src/platform/site-wide/user-nav/components/PageNotFound.jsx",
           "@department-of-veterans-affairs/platform-site-wide/user-nav": "./src/platform/site-wide/user-nav/index.js",
           "@department-of-veterans-affairs/platform-site-wide/sass/user-nav": "./src/platform/site-wide/user-nav/sass/user-nav.scss",
-          "@department-of-veterans-affairs/ask-va/sass/ask-va-too": "./src/applications/ask-va/sass/ask-va-too.scss",
+          "@department-of-veterans-affairs/ask-va/sass/ask-va": "./src/applications/ask-va/sass/ask-va.scss",
           "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent": "./src/applications/virtual-agent/sass/virtual-agent.scss",
           "@department-of-veterans-affairs/platform-site-wide/user-nav/reducers": "./src/platform/site-wide/user-nav/reducers/index.js",
           "@department-of-veterans-affairs/platform-site-wide/va-footer": "./src/platform/site-wide/va-footer/index.js",
@@ -291,7 +292,7 @@
           "@department-of-veterans-affairs/platform-forms-system/actions": "./src/platform/forms-system/src/js/actions.js",
           "@department-of-veterans-affairs/platform-forms-system/constants": "./src/platform/forms-system/src/js/constants.js",
           "@department-of-veterans-affairs/platform-forms-system/helpers": "./src/platform/forms-system/src/js/helpers.js",
-          "@department-of-veterans-affairs/platform-forms-system/routing": "./src/platform/forms-system/src/js/routing.js",
+          "@department-of-veterans-affairs/platform-forms-system/routing": "./src/platform/forms-system/src/js/routing",
           "@department-of-veterans-affairs/platform-forms-system/validation": "./src/platform/forms-system/src/js/validation.js",
           "@department-of-veterans-affairs/platform-forms-system/web-component-patterns": "./src/platform/forms-system/src/js/web-component-patterns/index.js",
           "@department-of-veterans-affairs/platform-forms-system/web-component-fields": "./src/platform/forms-system/src/js/web-component-fields/index.js",
@@ -316,8 +317,11 @@
     "test": {
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
-        ["babel-plugin-transform-import-ignore", { "patterns": [".scss", ".css", ".sass"] }],
-        ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*", "**/config/**/*"] }],
+        [
+          "babel-plugin-transform-import-ignore",
+          { "patterns": [".scss", ".css", ".sass"] }
+        ],
+        ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }],
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
