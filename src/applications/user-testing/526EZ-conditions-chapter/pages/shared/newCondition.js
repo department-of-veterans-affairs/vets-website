@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   titleUI,
   withAlertOrDescription,
@@ -11,16 +11,14 @@ import { conditionOptions } from '../../content/conditionOptions';
 import { NewConditionDescription } from '../../content/conditions';
 import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
 
-export const missingConditionMessage =
+const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
 
-const regexNonWord = /[^\w]/g;
-const generateSaveInProgressId = str =>
-  (str || 'blank').replace(regexNonWord, '').toLowerCase();
-
 const validateLength = (err, fieldData) => {
+  const errorMessage = 'This needs to be less than 256 characters';
+
   if (fieldData.length > 255) {
-    err.addError('This needs to be less than 256 characters');
+    err.addError(errorMessage);
   }
 };
 
@@ -34,34 +32,69 @@ const validateNotMissing = (err, fieldData) => {
   }
 };
 
-const validateNotDuplicate = (err, fieldData, formData, path) => {
-  const index = getUrlPathIndex(window.location.pathname);
+const regexNonWord = /[^\w]/g;
 
-  const lowerCasedConditions =
-    formData?.[path]?.map(condition => condition.newCondition?.toLowerCase()) ||
-    [];
+const generateSaveInProgressId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
+
+const validateDuplicate = (
+  err,
+  fieldData,
+  items,
+  itemAccessor,
+  errorMessage,
+) => {
+  const index = getArrayIndexFromPathName();
+
+  const lowerCasedItems =
+    items?.map(item => itemAccessor(item)?.toLowerCase()) || [];
 
   const fieldDataLowerCased = fieldData?.toLowerCase() || '';
   const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
 
-  const hasDuplicate = lowerCasedConditions.some((condition, i) => {
+  const hasDuplicate = lowerCasedItems.some((item, i) => {
     if (index === i) return false;
 
     return (
-      condition === fieldDataLowerCased ||
-      generateSaveInProgressId(condition) === fieldDataSaveInProgressId
+      item === fieldDataLowerCased ||
+      generateSaveInProgressId(item) === fieldDataSaveInProgressId
     );
   });
 
   if (hasDuplicate) {
-    err.addError('You’ve already added this condition to your claim');
+    err.addError(errorMessage);
   }
+};
+
+const validateDuplicateNewCondition = (err, fieldData, formData) => {
+  const errorMessage = "You've already added this new condition to your claim";
+
+  validateDuplicate(
+    err,
+    fieldData,
+    formData?.[arrayBuilderOptions.arrayPath],
+    condition => condition.newCondition,
+    errorMessage,
+  );
+};
+
+const validateDuplicateWithRatedDisability = (err, fieldData, formData) => {
+  const errorMessage = 'You already have this condition as a rated disability';
+
+  validateDuplicate(
+    err,
+    fieldData,
+    formData?.ratedDisabilities,
+    disability => disability.name,
+    errorMessage,
+  );
 };
 
 const validateCondition = (err, fieldData = '', formData = {}) => {
   validateLength(err, fieldData);
   validateNotMissing(err, fieldData);
-  validateNotDuplicate(err, fieldData, formData, arrayBuilderOptions.arrayPath);
+  validateDuplicateNewCondition(err, fieldData, formData);
+  validateDuplicateWithRatedDisability(err, fieldData, formData);
 };
 
 /** @returns {PageSchema} */
