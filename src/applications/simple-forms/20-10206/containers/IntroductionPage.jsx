@@ -2,7 +2,6 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
