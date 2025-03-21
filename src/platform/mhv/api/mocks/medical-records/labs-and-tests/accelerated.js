@@ -101,6 +101,18 @@ const sample = {
     },
   ],
 };
+
+const single = id => {
+  const sampleData = sample.data.find(item => item.id === id);
+  if (!sampleData) {
+    return null;
+  }
+  return {
+    data: sampleData,
+  };
+};
+
 module.exports = {
   sample,
+  single,
 };

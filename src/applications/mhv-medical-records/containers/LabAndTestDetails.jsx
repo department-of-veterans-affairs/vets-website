@@ -19,6 +19,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const LabAndTestDetails = () => {
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
   useEffect(
     () => {
@@ -44,11 +46,17 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId, labAndTestList));
+        dispatch(
+          getlabsAndTestsDetails(
+            labId,
+            labAndTestList,
+            isAcceleratingLabsAndTests,
+          ),
+        );
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
-    [labId, labAndTestList, dispatch],
+    [labId, labAndTestList, dispatch, isAcceleratingLabsAndTests],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -61,10 +69,9 @@ const LabAndTestDetails = () => {
       />
     );
   }
-  // console.log({ labAndTestDetails });
-  // if (isOHAceleuFided){
-  //   <return <New Thing that sdoes everytinbg/>
-  // }
+  if (isAcceleratingLabsAndTests) {
+    return <div>{JSON.stringify(labAndTestDetails)}</div>;
+  }
   // TODO: Delete this around the 4th of July
   if (labAndTestDetails?.type === labTypes.CHEM_HEM) {
     return <ChemHemDetails record={labAndTestDetails} fullState={fullState} />;
