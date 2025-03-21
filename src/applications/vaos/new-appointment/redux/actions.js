@@ -16,6 +16,7 @@ import {
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
   selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
@@ -307,6 +308,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
     );
     const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -324,6 +326,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             typeOfCare,
             directSchedulingEnabled,
             useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
             isCerner: true,
           });
 
@@ -360,6 +363,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           useV2: featureVAOSServiceVAAppointments,
           featureClinicFilter,
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
 
         if (showModal) {
@@ -906,6 +910,7 @@ export function submitAppointmentOrRequest(history) {
     );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -932,6 +937,7 @@ export function submitAppointmentOrRequest(history) {
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
 
         dispatch({
@@ -1020,20 +1026,15 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        let requestData;
-        if (isCommunityCare) {
-          requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-            useFeSourceOfTruth,
-          });
-        } else {
-          requestBody = transformFormToVAOSVARequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-            useFeSourceOfTruth,
-          });
-        }
+        requestBody = isCommunityCare
+          ? transformFormToVAOSCCRequest(getState())
+          : transformFormToVAOSVARequest(getState());
+
+        const requestData = await createAppointment({
+          appointment: requestBody,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
