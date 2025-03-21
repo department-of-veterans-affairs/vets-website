@@ -2,17 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useSignalFetch } from '../utils/useSignalFetch';
 import {
   focusElement,
-  capitalizeFirstLetter,
   handleLcResultsSearch,
   showLcParams,
   updateCategoryDropdown,
   updateQueryParam,
 } from '../utils/helpers';
 
-import { filterLcResults } from '../actions';
+import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import Dropdown from '../components/Dropdown';
@@ -22,14 +20,14 @@ export default function LicenseCertificationSearchForm() {
   const history = useHistory();
   const location = useLocation();
 
-  const inputRef = useRef(null);
-
   const { nameParam, categoryParams } = showLcParams(location);
-
-  const dispatch = useDispatch();
 
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
+
+  const inputRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
@@ -43,7 +41,12 @@ export default function LicenseCertificationSearchForm() {
     ...filteredResults,
   ];
 
-  useSignalFetch(hasFetchedOnce);
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      dispatch(fetchLicenseCertificationResults());
+    }
+    return null;
+  }, []);
 
   useEffect(
     () => {
@@ -111,7 +114,7 @@ export default function LicenseCertificationSearchForm() {
           <form>
             <Dropdown
               disabled={false}
-              label={capitalizeFirstLetter(dropdown.label)}
+              label="Category type"
               visible
               name={dropdown.label}
               options={dropdown.options}

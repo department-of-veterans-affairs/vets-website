@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSignalFetch } from '../utils/useSignalFetch';
 
-import { filterLcResults } from '../actions';
+import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 import {
   handleLcResultsSearch,
   isSmallScreen,
@@ -75,7 +74,12 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
-  useSignalFetch(hasFetchedOnce);
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      dispatch(fetchLicenseCertificationResults());
+    }
+    return null;
+  }, []);
 
   useEffect(
     () => {
