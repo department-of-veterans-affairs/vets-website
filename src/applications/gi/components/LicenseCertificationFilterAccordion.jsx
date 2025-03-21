@@ -39,6 +39,7 @@ export default function LicenseCertificationFilterAccordion({
           className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
           aria-expanded={isExpanded}
           aria-label={`${buttonLabel} ${isExpanded ? 'expanded' : 'collapsed'}`}
+          data-testid="update-lc-search"
         >
           <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
             <span className="vads-u-font-family--serif accordion-button-text">
