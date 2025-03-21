@@ -94,6 +94,8 @@ export default function LicenseCertificationFilterAccordion({
           `update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3`} `}
         aria-hidden={!isExpanded}
         hidden={!isExpanded}
+        role="region"
+        aria-labelledby={`${id}-button`}
       >
         {isExpanded ? children : null}
       </div>
