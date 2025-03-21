@@ -25,7 +25,13 @@ const DELETABLE_FORM_DATA_KEYS = [
 export const missingSelectionErrorMessage =
   'A response is needed for this question. If you don’t wish to answer optional questions about behavioral changes, you may select ‘no’ and continue.';
 
-const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
+const BehaviorIntroCombatPage = ({
+  goBack,
+  goForward,
+  data,
+  setFormData,
+  contentBeforeButtons,
+}) => {
   // TODO: MOVE TO CONTENT FILE
   const combatIntroTitle =
     'Do you want to answer the optional questions about behavorial changes?';
@@ -233,6 +239,7 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
           />
         </VaRadio>
         <>{mentalHealthSupportAlert()}</>
+        {contentBeforeButtons}
         <FormNavButtons
           goBack={goBack}
           goForward={handlers.onSubmit}
