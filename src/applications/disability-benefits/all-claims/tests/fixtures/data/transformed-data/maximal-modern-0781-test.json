@@ -4,6 +4,7 @@
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
+    "none": false,
     "otherHomelessHousing": "Under a bridge",
     "needToLeaveHousing": true,
     "homelessnessContact": {
@@ -122,7 +123,6 @@
         "none": false
       }
     },
-    "none": false,
     "vaTreatmentFacilities": [
       {
         "treatmentCenterName": "Treatment Center the First",

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import moment from 'moment';
+import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -709,9 +709,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -769,21 +766,19 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        const sortedSlots = [...availableSlots, ...mappedSlots]
-          // Check timezone 1st since conversion might flip the date to the
-          // previous or next day. This insures available slots are displayed
-          // for the correct day.
-          .map(slot => {
-            if (featureVAOSServiceVAAppointments) {
-              const zonedDate = utcToZonedTime(slot.start, timezone);
-              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
-                timeZone: timezone,
-              });
-              return { ...slot, start: time };
-            }
-            return slot;
-          })
-          .sort((a, b) => a.start.localeCompare(b.start));
+        // Check timezone 1st since conversion might flip the date to the
+        // previous or next day. This insures available slots are displayed
+        // for the correct day.
+        const correctedSlots = mappedSlots.map(slot => {
+          const zonedDate = utcToZonedTime(slot.start, timezone);
+          const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+            timeZone: timezone,
+          });
+          return { ...slot, start: time };
+        });
+        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
+          (a, b) => a.start.localeCompare(b.start),
+        );
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -803,16 +798,19 @@ export function onCalendarChange(
   selectedDates,
   maxSelections,
   upcomingAppointments,
+  timezone,
 ) {
   let isSame = false;
-  if (maxSelections === 1 && selectedDates?.length > 0) {
-    const date = selectedDates[0];
-
-    const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
-    const appointments = upcomingAppointments[d1.format('YYYY-MM')];
+  if (maxSelections === 1 && selectedDates?.length > 0 && timezone) {
+    const selectedDate = selectedDates[0];
+    const key = moment(selectedDate, 'YYYY-MM-DDTHH:mm:ss');
+    const appointments = upcomingAppointments[key.format('YYYY-MM')];
 
     isSame = appointments?.some(appointment => {
-      const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
+      // Convert slot date to calendar timezone since slot dates are in UTC
+      const d1 = moment.tz(selectedDate, timezone);
+      const d2 = moment.tz(appointment.start, `${appointment.timezone}`);
+
       return (
         appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
       );
