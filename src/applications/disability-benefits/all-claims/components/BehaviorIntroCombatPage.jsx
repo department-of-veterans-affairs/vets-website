@@ -71,11 +71,21 @@ const BehaviorIntroCombatPage = ({
   };
 
   const deleteBehavioralAnswers = () => {
+    // Ask roibin about lodash support or look at my notes
     const deepClone = cloneDeep(data);
 
     DELETABLE_FORM_DATA_KEYS.forEach(key => {
+      // Careful about this: JR ran through each key and check data type if string
+      // If keys are missing might cause problems
+      // Shared funciton: JR has some code we cmnight be able to use
+      // DONT DO THIS RESET ALL TO FALSE
       deepClone[key] = {};
     });
+
+    console.log("Deletion event")
+
+    // what happens when you go back? Set this to false when you choose opt in?
+    deepClone['view:deletedBehavioralQuestionAnswers'] = true;
 
     setFormData(deepClone);
   };
@@ -183,6 +193,7 @@ const BehaviorIntroCombatPage = ({
   };
 
   return (
+    // TODO: CHECK IF CAN USE HELPER FUNCTION
     <div className="vads-u-margin-y--2">
       <>
         <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
@@ -210,6 +221,7 @@ const BehaviorIntroCombatPage = ({
       </VaModal>
 
       {/* Do we need to register the handler in both the onSubmit and the go forward? */}
+      {/* Scott and Allison also noticed it doesn't seem to matter */}
       <form onSubmit={handlers.onSubmit}>
         <div />
         <VaRadio
@@ -245,9 +257,15 @@ const BehaviorIntroCombatPage = ({
           goForward={handlers.onSubmit}
           submitToContinue
         />
+        {/* Do we need this? */}
+        {/* {contentAfterButtons} */}
       </form>
     </div>
   );
 };
+
+// Proptypes validation?
+// Look at JR's example
+
 
 export default BehaviorIntroCombatPage;

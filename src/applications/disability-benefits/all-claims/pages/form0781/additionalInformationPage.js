@@ -5,6 +5,7 @@ import {
 import {
   additionalInformationPageTitle,
   additionalInformationPageQuestion,
+  deletedBeavioralQuestionsAlert,
 } from '../../content/form0781/additionalInformationPage';
 import {
   titleWithTag,
@@ -13,6 +14,7 @@ import {
 } from '../../content/form0781';
 
 export const uiSchema = {
+  'ui:description': deletedBeavioralQuestionsAlert,
   'ui:title': titleWithTag(additionalInformationPageTitle, form0781HeadingTag),
   additionalInformation: textareaUI({
     title: additionalInformationPageQuestion,
