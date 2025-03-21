@@ -59,7 +59,13 @@
         "uploaded": false
       },
       {
-        "name": "applicantMedicarePartDCard",
+        "name": "applicantMedicarePartDCardFront",
+        "path": "medicare-d-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "applicantMedicarePartDCardBack",
         "path": "medicare-d-upload",
         "required": true,
         "uploaded": false

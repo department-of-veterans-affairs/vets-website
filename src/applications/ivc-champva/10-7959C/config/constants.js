@@ -7,7 +7,8 @@ export const requiredFiles = {
   applicantMedicareIneligibleProof: 'Proof of Medicare Ineligibility',
   applicantMedicarePartAPartBCardFront: 'Front of Medicare card',
   applicantMedicarePartAPartBCardBack: 'Back of Medicare card',
-  applicantMedicarePartDCard: 'Medicare Part D card',
+  applicantMedicarePartDCardFront: 'Front of Medicare Part D card',
+  applicantMedicarePartDCardBack: 'Back of Medicare Part D card',
   // Note: The text 'Primary health insurance' and 'Secondary health insurance'
   // are replaced via regex in `MissingFileConsentPage > prefixFileNames()`
   primaryInsuranceCard: 'Primary health insurance card',

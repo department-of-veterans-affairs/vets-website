@@ -12,30 +12,17 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
-  fileWithMetadataSchema,
-  fileUploadBlurb,
-} from '../../shared/components/fileUploads/attachments';
+  fileUploadUi as fileUploadUI,
+  singleFileSchema,
+} from '../../shared/components/fileUploads/upload';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
 
 export const blankSchema = { type: 'object', properties: {} };
-
-const singleFileSchema = {
-  type: 'array',
-  maxItems: 1,
-  items: {
-    type: 'object',
-    properties: {
-      name: {
-        type: 'string',
-      },
-    },
-  },
-};
 
 export const applicantHasMedicareSchema = {
   uiSchema: {
@@ -348,25 +335,22 @@ export const applicantMedicareDUploadSchema = {
       );
     }),
     ...fileUploadBlurb,
-    applicantMedicarePartDCard: {
-      ...fileUploadUI({
-        label: 'Upload Medicare Part D card',
-      }),
-      'ui:errorMessages': {
-        minItems:
-          'You must add both the front and back of your card as separate files.',
-      },
-    },
+    applicantMedicarePartDCardFront: fileUploadUI({
+      label: 'Upload front of Medicare Part D card',
+      attachmentId: 'Front of Medicare Part D card', // used behind the scenes
+    }),
+    applicantMedicarePartDCardBack: fileUploadUI({
+      label: 'Upload back of Medicare Part D card',
+      attachmentId: 'Back of Medicare Part D card', // used behind the scenes
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartDCard: fileWithMetadataSchema(
-        ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
-        2,
-      ),
+      applicantMedicarePartDCardFront: singleFileSchema,
+      applicantMedicarePartDCardBack: singleFileSchema,
     },
   },
 };

@@ -88,3 +88,16 @@ export const fileUploadUi = content => {
     uswds: true,
   });
 };
+
+export const singleFileSchema = {
+  type: 'array',
+  maxItems: 1,
+  items: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+      },
+    },
+  },
+};
