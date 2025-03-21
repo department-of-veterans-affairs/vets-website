@@ -87,11 +87,7 @@ const capitalizeFirstLetter = string => {
   return string?.charAt(0).toUpperCase() + string?.slice(1);
 };
 
-export const createItemName = (item, capFirstLetter = false) => {
-  if (!isNewCondition(item)) {
-    return item?.ratedDisability;
-  }
-
+export const createNewConditionName = (item, capFirstLetter = false) => {
   const newCondition = capFirstLetter
     ? capitalizeFirstLetter(item?.newCondition)
     : item?.newCondition || 'condition';
@@ -101,6 +97,14 @@ export const createItemName = (item, capFirstLetter = false) => {
   }
 
   return newCondition;
+};
+
+const getItemName = item => {
+  if (!isNewCondition(item)) {
+    return item?.ratedDisability;
+  }
+
+  return createNewConditionName(item, true);
 };
 
 const createCauseDescriptions = item => {
@@ -178,7 +182,7 @@ export const arrayBuilderOptions = {
   isItemIncomplete,
   maxItems: 100,
   text: {
-    getItemName: item => createItemName(item, true),
+    getItemName,
     cardDescription,
   },
 };

@@ -4,13 +4,11 @@ import {
   currentOrPastMonthYearDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createItemName } from './utils';
-
 /** @returns {PageSchema} */
-const datePage = {
+const ratedDisabilityDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Start date of ${createItemName(formData)} worsening`,
+      ({ formData }) => `Start date of ${formData?.ratedDisability} worsening`,
     ),
     // TODO: Can we make just year required?
     // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
@@ -29,4 +27,4 @@ const datePage = {
   },
 };
 
-export default datePage;
+export default ratedDisabilityDatePage;

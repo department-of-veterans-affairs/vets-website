@@ -4,7 +4,7 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createItemName } from './utils';
+import { createNewConditionName } from './utils';
 
 export const causeOptions = {
   NEW:
@@ -19,7 +19,7 @@ export const causeOptions = {
 const causePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Cause of ${createItemName(formData)}`,
+      ({ formData }) => `Cause of ${createNewConditionName(formData)}`,
     ),
     cause: radioUI({
       title: 'What caused your condition?',

@@ -20,7 +20,7 @@ const newConditionPage = {
     ...titleUI(
       () =>
         createDefaultAndEditTitles(
-          'Tell us the condition you want to claim',
+          'Tell us the new condition you want to claim',
           'Edit new condition',
         ),
       withAlertOrDescription({

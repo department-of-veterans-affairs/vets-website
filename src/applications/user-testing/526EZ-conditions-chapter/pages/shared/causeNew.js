@@ -3,14 +3,14 @@ import {
   textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createItemName } from './utils';
+import { createNewConditionName } from './utils';
 
 /** @returns {PageSchema} */
 const causeNewPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Details of injury, event, disease or exposure that caused ${createItemName(
+        `Details of injury, event, disease or exposure that caused ${createNewConditionName(
           formData,
         )}`,
     ),

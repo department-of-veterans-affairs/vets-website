@@ -6,14 +6,23 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { conditionOptions } from '../../content/conditionOptions';
-import { arrayBuilderOptions, createItemName } from './utils';
+import { arrayBuilderOptions, createNewConditionName } from './utils';
 
 const getOtherConditions = (fullData, currentIndex) => {
-  return (
-    fullData?.[arrayBuilderOptions.arrayPath]
-      ?.filter((_, index) => index !== currentIndex)
-      ?.map(condition => createItemName(condition)) || []
+  const ratedDisabilities =
+    fullData?.ratedDisabilities.map(disability => disability.name) || [];
+
+  const otherNewConditions = fullData?.[arrayBuilderOptions.arrayPath].reduce(
+    (acc, condition, index) => {
+      if (condition.newCondition && index !== currentIndex) {
+        acc.push(createNewConditionName(condition, true));
+      }
+      return acc;
+    },
+    [],
   );
+
+  return [...ratedDisabilities, ...otherNewConditions];
 };
 
 /** @returns {PageSchema} */
@@ -21,7 +30,7 @@ const causeSecondaryPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Details of the service-connected disability or condition that caused ${createItemName(
+        `Details of the service-connected disability or condition that caused ${createNewConditionName(
           formData,
         )}`,
     ),
