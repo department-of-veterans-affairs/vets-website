@@ -21,7 +21,7 @@ const SignInInterruptPage = ({ goBack, goForward, formData }) => {
 
   useEffect(
     () => {
-      focusElement('.headline > h4');
+      focusElement('headline.h4');
       if (isLOA3) {
         goForward(formData);
       }
