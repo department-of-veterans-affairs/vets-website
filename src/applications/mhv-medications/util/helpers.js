@@ -504,6 +504,11 @@ export const sanitizeKramesHtmlStr = htmlString => {
     }
   });
 
+  // This section is to address all table tags and add role="presentation" to them
+  tempDiv.querySelectorAll('table').forEach(table => {
+    table.setAttribute('role', 'presentation');
+  });
+
   return tempDiv.innerHTML;
 };
 
