@@ -41,6 +41,7 @@ const MessageThreadHeader = props => {
   ] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
+  const messages = useSelector(state => state.sm.threadDetails.messages);
   const removeLandingPageFF = useSelector(
     state =>
       state.featureToggles[
@@ -51,10 +52,12 @@ const MessageThreadHeader = props => {
   useEffect(
     () => {
       if (message) {
-        const name = message.suggestedNameDisplay || message.triageGroupName;
         const tempRecipient = {
           recipientId,
-          name,
+          name:
+            messages.find(m => m.triageGroupName === message.triageGroupName)
+              ?.triageGroupName || message.triageGroupName,
+          suggestedNameDisplay: message.suggestedNameDisplay,
           type: Recipients.CARE_TEAM,
           status: RecipientStatus.ALLOWED,
         };
