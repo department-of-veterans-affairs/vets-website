@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import {
@@ -28,6 +31,15 @@ function AddressValidationModal(props) {
     suggestedAddresses = [],
     isValidating,
   } = addressValidation;
+
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  const [manualAddress, setManualAddress] = useState({
+    street: '',
+    street2: '',
+    city: '',
+    state: '',
+    postalCode: '',
+  });
 
   // Perform address validation when modal opens
   useEffect(
@@ -111,6 +123,10 @@ function AddressValidationModal(props) {
   const userEnteredAddress =
     formData[formFields.viewMailingAddress]?.[formFields.address];
 
+  const handleManualSubmit = () => {
+    handleAcceptAddress(manualAddress);
+  };
+
   return (
     <div>
       <VaModal
@@ -137,24 +153,96 @@ function AddressValidationModal(props) {
           />
         ) : (
           <>
-            <p>
-              We've compared your address with the U.S. Postal Service's
-              database. Please choose which address you'd like to use:
-            </p>
-
-            <div className="vads-u-margin-y--2">
-              <strong>Address as entered:</strong>
-              <p className="vads-u-margin-top--0">
-                {formatAddress(userEnteredAddress)}
-              </p>
-            </div>
-
-            {suggestedAddresses.length > 0 && (
-              <div className="vads-u-margin-y--2">
-                <strong>Suggested address:</strong>
-                <p className="vads-u-margin-top--0">
-                  {formatAddress(suggestedAddresses[0])}
+            {!showManualEntry ? (
+              <>
+                <p>
+                  We've compared your address with the U.S. Postal Service's
+                  database. Please choose which address you'd like to use:
                 </p>
+
+                <div className="vads-u-margin-y--2">
+                  <strong>Address as entered:</strong>
+                  <p className="vads-u-margin-top--0">
+                    {formatAddress(userEnteredAddress)}
+                  </p>
+                </div>
+
+                {suggestedAddresses.length > 0 && (
+                  <div className="vads-u-margin-y--2">
+                    <strong>Suggested address:</strong>
+                    <p className="vads-u-margin-top--0">
+                      {formatAddress(suggestedAddresses[0])}
+                    </p>
+                  </div>
+                )}
+
+                <button
+                  className="usa-button-secondary vads-u-margin-top--2"
+                  onClick={() => setShowManualEntry(true)}
+                >
+                  Enter different address
+                </button>
+              </>
+            ) : (
+              <div>
+                <VaTextInput
+                  label="Street address"
+                  value={manualAddress.street}
+                  onChange={e =>
+                    setManualAddress({
+                      ...manualAddress,
+                      street: e.target.value,
+                    })
+                  }
+                />
+                <VaTextInput
+                  label="Street address line 2"
+                  value={manualAddress.street2}
+                  onChange={e =>
+                    setManualAddress({
+                      ...manualAddress,
+                      street2: e.target.value,
+                    })
+                  }
+                />
+                <VaTextInput
+                  label="City"
+                  value={manualAddress.city}
+                  onChange={e =>
+                    setManualAddress({ ...manualAddress, city: e.target.value })
+                  }
+                />
+                <VaTextInput
+                  label="State"
+                  value={manualAddress.state}
+                  onChange={e =>
+                    setManualAddress({
+                      ...manualAddress,
+                      state: e.target.value,
+                    })
+                  }
+                />
+                <VaTextInput
+                  label="Postal code"
+                  value={manualAddress.postalCode}
+                  onChange={e =>
+                    setManualAddress({
+                      ...manualAddress,
+                      postalCode: e.target.value,
+                    })
+                  }
+                />
+                <div className="vads-u-margin-top--2">
+                  <button className="usa-button" onClick={handleManualSubmit}>
+                    Use this address
+                  </button>
+                  <button
+                    className="usa-button-secondary"
+                    onClick={() => setShowManualEntry(false)}
+                  >
+                    Back to suggestions
+                  </button>
+                </div>
               </div>
             )}
           </>
