@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns';
 import format from 'date-fns/format';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
@@ -15,7 +16,7 @@ const PersonalAuthenticatedInformation = ({
 }) => {
   useEffect(
     () => {
-      if (!hasPrefillInformation(formData) || !isLoggedIn) {
+      if (!hasPrefillInformation(formData)) {
         goForward(formData);
       }
     },
@@ -33,7 +34,7 @@ const PersonalAuthenticatedInformation = ({
 
   const dateOfBirthFormatted = !dateOfBirth
     ? '-'
-    : format(new Date(dateOfBirth), 'MMMM d, yyyy');
+    : format(parseISO(dateOfBirth.split('T')[0]), 'MMMM d, yyyy');
 
   let ssnLastFour = '-';
   if (ssn) {

@@ -51,7 +51,7 @@ export default function NewFeatureProgramsYRTAlert({
               >
                 Yellow Ribbon Program information
               </a>
-              {programTypes?.length > 0 && ' and '}
+              {programTypes?.length > 0 && toggleGiProgramsFlag && ' and '}
             </>
           )}{' '}
         {programTypes?.length > 0 &&

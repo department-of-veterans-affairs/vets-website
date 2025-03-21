@@ -147,9 +147,6 @@ describe('22-10216 Edu form', () => {
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('[text="Go to VA Form 22-10216 now"]');
     cy.realPress('Enter');
-    cy.url().should(
-      'include',
-      '/education/apply-for-education-benefits/application/10216',
-    );
+    cy.url().should('include', '/school-administrators/35-percent-exemption');
   });
 });
