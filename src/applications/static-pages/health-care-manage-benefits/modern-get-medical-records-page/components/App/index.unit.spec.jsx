@@ -3,70 +3,26 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { App, linkText, mapStateToProps } from './index';
+import { App, linkText } from './index';
 
 describe('Modern Get Medical Records Page', () => {
-  describe('map state properties', () => {
-    it('user not logged in', () => {
-      const state = {
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-          profile: {
-            loa: {
-              current: null,
-            },
-            loading: false,
-            mhvAccount: {
-              loading: false,
-            },
-          },
-        },
-      };
-      const result = mapStateToProps(state);
-      expect(result.userIsLoggedIn).to.eql(false);
-      expect(result.profileLoading).to.eql(false);
-      expect(result.mhvAccountLoading).to.eql(false);
-    });
-
-    it('user logged in', () => {
-      const state = {
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            loa: {
-              current: 3,
-            },
-            loading: true,
-            signIn: {
-              serviceName: CSP_IDS.ID_ME,
-            },
-            mhvAccount: {
-              loading: true,
-            },
-          },
-        },
-      };
-      const result = mapStateToProps(state);
-      expect(result.userIsLoggedIn).to.eql(true);
-      expect(result.serviceName).to.eql(CSP_IDS.ID_ME);
-      expect(result.userIsVerified).to.eql(true);
-      expect(result.profileLoading).to.eql(true);
-      expect(result.mhvAccountLoading).to.eql(true);
-    });
-  });
-
   describe('<App>', () => {
     const mockStore = configureStore([]);
 
     it('renders unanthenticated user', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: false },
+            loa: { current: 0 },
+          },
+        },
+      };
       const { container, queryByTestId } = render(
-        <Provider store={mockStore()}>
-          <App userIsLoggedIn={false} />
+        <Provider store={mockStore(initialState)}>
+          <App />
         </Provider>,
       );
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
@@ -76,13 +32,22 @@ describe('Modern Get Medical Records Page', () => {
     });
 
     it('renders unverified user', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: false },
+            loa: { current: 0 },
+          },
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      };
       const { container, queryByTestId } = render(
-        <Provider store={mockStore()}>
-          <App
-            userIsLoggedIn
-            userIsVerified={false}
-            serviceName={CSP_IDS.ID_ME}
-          />
+        <Provider store={mockStore(initialState)}>
+          <App />
         </Provider>,
       );
       expect(queryByTestId('mhv-unverified-alert')).to.exist;
@@ -92,9 +57,22 @@ describe('Modern Get Medical Records Page', () => {
     });
 
     it('renders CTA-link for verified user', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: false },
+            loa: { current: 3 },
+          },
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      };
       const { container, queryByTestId } = render(
-        <Provider store={mockStore()}>
-          <App userIsLoggedIn userIsVerified serviceName={CSP_IDS.ID_ME} />
+        <Provider store={mockStore(initialState)}>
+          <App />
         </Provider>,
       );
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
@@ -104,30 +82,44 @@ describe('Modern Get Medical Records Page', () => {
     });
 
     it('renders mhvAccount is loading indicator', () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: true },
+            loa: { current: 3 },
+          },
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      };
       const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <App
-            userIsLoggedIn
-            userIsVerified
-            serviceName={CSP_IDS.ID_ME}
-            mhvAccountLoading
-            profileLoading={false}
-          />
+        <Provider store={mockStore(initialState)}>
+          <App />
         </Provider>,
       );
       getByTestId('mhv-signin-widget-loading');
     });
 
     it('renders profile is loading indicator', () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            loading: true,
+            mhvAccount: { loading: false },
+            loa: { current: 3 },
+          },
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      };
       const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <App
-            userIsLoggedIn
-            userIsVerified
-            serviceName={CSP_IDS.ID_ME}
-            mhvAccountLoading={false}
-            profileLoading
-          />
+        <Provider store={mockStore(initialState)}>
+          <App />
         </Provider>,
       );
       getByTestId('mhv-signin-widget-loading');
