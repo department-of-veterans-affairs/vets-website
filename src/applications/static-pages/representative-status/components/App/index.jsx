@@ -1,55 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { Auth } from '../States/Auth';
+import {
+  isLOA1,
+  isLOA3,
+  selectProfile,
+} from '@department-of-veterans-affairs/platform-user/selectors';
+
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+
 import { Unauth } from '../States/Unauth';
+import { Auth } from '../States/Auth';
 import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
-export const App = ({ baseHeader, toggleLoginModal, isLoggedIn }) => {
+export const App = ({
+  baseHeader,
+  toggleLoginModal,
+  isUserLOA1,
+  isUserLOA3,
+}) => {
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
 
-  const loggedIn = isLoggedIn;
+  if (isUserLOA1) {
+    return (
+      <>
+        <VerifyAlert />
+      </>
+    );
+  }
 
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  const togglesLoading = useToggleLoadingValue();
-
-  const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
-
-  if (togglesLoading || !appEnabled) {
-    return null;
+  if (isUserLOA3) {
+    return (
+      <>
+        <Auth
+          DynamicHeader={DynamicHeader}
+          DynamicSubheader={DynamicSubheader}
+          useRepresentativeStatus={useRepresentativeStatus}
+        />
+      </>
+    );
   }
 
   return (
     <>
-      {loggedIn ? (
-        <div
-          aria-live="polite"
-          aria-atomic
-          tabIndex="-1"
-          className="poa-display"
-        >
-          <Auth
-            DynamicHeader={DynamicHeader}
-            DynamicSubheader={DynamicSubheader}
-            useRepresentativeStatus={useRepresentativeStatus}
-          />
-        </div>
-      ) : (
-        <>
-          <Unauth
-            toggleLoginModal={toggleLoginModal}
-            headingLevel={baseHeader}
-          />
-        </>
-      )}
+      <Unauth
+        toggleLoginModal={toggleLoginModal}
+        DynamicHeader={DynamicHeader}
+      />
     </>
   );
 };
@@ -58,12 +58,16 @@ App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
+  isUserLOA1: PropTypes.bool,
+  isUserLOA3: PropTypes.bool,
+  loggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   hasRepresentative: state?.user?.login?.hasRepresentative || null,
-  isLoggedIn: state?.user?.login?.currentlyLoggedIn || false,
+  isUserLOA1: isLOA1(state),
+  isUserLOA3: isLOA3(state),
+  signInServiceName: selectProfile(state).signIn?.serviceName,
 });
 
 const mapDispatchToProps = dispatch => ({

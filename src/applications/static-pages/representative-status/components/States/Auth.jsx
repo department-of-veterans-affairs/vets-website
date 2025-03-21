@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { representativeTypeMap } from '../../utilities/representativeTypeMap';
 
 export const Auth = ({
   DynamicHeader,
@@ -59,7 +60,7 @@ export const Auth = ({
             <div className="auth-rep-text">
               <div className="auth-rep-header">
                 <DynamicHeader>
-                  Your current accredited representative
+                  Your current ${representativeTypeMap(poaType)}
                 </DynamicHeader>
               </div>
               <div className="auth-rep-subheader">

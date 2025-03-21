@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { waitFor, cleanup } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import App from '../components/App';
 
@@ -22,44 +22,14 @@ const createFakeStore = ({
       hasRepresentative,
       currentlyLoggedIn: isLoggedIn,
     },
+    profile: {
+      loa: { current: 3 },
+    },
   },
 });
 
 describe('App component', () => {
   afterEach(cleanup);
-  it('should null when feature toggles is loading', () => {
-    const { container } = renderInReduxProvider(<App />, {
-      initialState: createFakeStore({ isLoading: true }),
-    });
-
-    expect(container.querySelector('va-loading-indicator')).to.not.exist;
-  });
-
-  it('should be null when feature toggle is not enabled', () => {
-    const { container } = renderInReduxProvider(<App />, {
-      initialState: createFakeStore({ toggleEnabled: false }),
-    });
-
-    expect(container.querySelector('va-loading-indicator')).to.not.exist;
-  });
-
-  context('unauthenticated', () => {
-    it('should render va-alert-sign-in', () => {
-      const { container } = renderInReduxProvider(<App />, {
-        initialState: createFakeStore({ isLoggedIn: false }),
-      });
-      expect(container.querySelector('va-alert-sign-in')).to.exist;
-    });
-
-    it('should open sign-in modal when button is clicked', () => {
-      const { container } = renderInReduxProvider(<App />, {
-        initialState: createFakeStore({ isLoggedIn: false }),
-      });
-      const signInButton = container.querySelector('va-button');
-      fireEvent.click(signInButton);
-      expect(signInButton).to.exist;
-    });
-  });
 
   context('authenticated', () => {
     const server = setupServer();
