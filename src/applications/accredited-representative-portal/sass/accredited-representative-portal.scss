@@ -38,10 +38,10 @@
   background-color: var(--vads-color-primary-darker);
   padding: 30px 16px;
   width: 100%;
-  max-width: 1000px;
 
   &__container {
-    margin: 0 0 20px 0;
+    max-width: 1000px;
+    margin: 0 auto 20px;
   }
 
   h3 {
@@ -73,6 +73,8 @@
 }
 
 .home {
+  -webkit-font-smoothing: antialiased;
+
   &__container {
     max-width: 1000px;
     margin: 0 auto;
@@ -82,8 +84,8 @@
       align-items: center;
       flex-direction: column-reverse;
 
-      @media (min-width: $medium-screen) {
-        padding: 0 16px;
+      @media (min-width: $small-desktop-screen) {
+        padding: 0;
         flex-direction: row;
       }
     }
@@ -111,6 +113,7 @@
     }
     &-header {
       margin-bottom: 20px;
+      color: $vads-color-white;
     }
 
     &-sub-header {
@@ -121,6 +124,7 @@
     &-bg {
       background-color: $vads-color-primary-dark;
       padding: 20px;
+      border-radius: 8px;
 
       @media (min-width: $medium-screen) {
         max-width: 544px;
@@ -163,19 +167,20 @@
     .vads-u-background-color--primary & {
       color: $vads-color-base-lightest;
     }
+
+    &--email {
+      word-break: break-all;
+    }
   }
 
   &__overlay {
     position: relative;
-    @media (min-width: $medium-screen) {
-      width: 50%;
-    }
 
     ~ div {
       @media (min-width: $medium-screen) {
         margin-left: 55px;
         width: 50%;
-        padding: 24px 0;
+        padding: 60px 0;
       }
     }
 
@@ -198,9 +203,16 @@
   &__portal-img {
     width: 100%;
 
-    // @media (min-width: $medium-screen) {
-    //   max-width: 464px;
-    // }
+    @media (min-width: $small-desktop-screen) {
+      width: 464px;
+      height: 340px;
+    }
+  }
+
+  &__banner {
+    &-email {
+      margin-bottom: 0;
+    }
   }
 }
 

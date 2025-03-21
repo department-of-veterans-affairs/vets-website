@@ -30,12 +30,12 @@ const IntroductionPage = props => {
     pageList,
     pathname: '/introduction',
     prefillEnabled,
-    startText: 'Start your Claim',
+    startText: 'Start your claim',
     useActionLinks: true,
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle()} />
       <p className="va-introtext">
         If you disagree with our decision on your claim, a Supplemental Claim
@@ -85,10 +85,8 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
           <p>
-            You can file a Supplemental Claim if you have new and relevant
-            evidence that we didn’t have when we reviewed your case before. You
-            can file your claim anytime, but we recommend you file within 1 year
-            from the date on your decision letter.
+            You can file your claim anytime, but we recommend you file within 1
+            year from the date on your decision letter.
           </p>
           <p>
             <strong>Note:</strong> You can’t file a Supplemental Claim if you
@@ -130,12 +128,10 @@ const IntroductionPage = props => {
               us to review more than 1 issue.
             </li>
             <li>
-              The name and address of any private medical facility you’d like us
+              The name and address of any non-VA medical facility you’d like us
               to request your records from.
             </li>
-            <li>
-              The dates you were treated at that private medical facility.
-            </li>
+            <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
           <va-additional-info trigger="Types of Evidence" uswds>
             <div>
@@ -145,7 +141,7 @@ const IntroductionPage = props => {
                 has gotten worse
               </p>
               <p>
-                Private medical records and hospital reports that relate to your
+                Non-VA medical records and hospital reports that relate to your
                 claimed condition or show that your disability has gotten worse
               </p>
               <p>

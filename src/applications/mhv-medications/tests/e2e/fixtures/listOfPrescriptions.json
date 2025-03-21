@@ -741,14 +741,14 @@
                 "prescriptionNumber": "2720542",
                 "prescriptionName": "ONDANSETRON 8 MG TAB",
                 "refillStatus": "refillinprocess",
-                "refillSubmitDate": "2023-07-24T15:48:49.000Z",
-                "refillDate": "2023-08-04T04:00:00.000Z",
+                "refillSubmitDate": "2025-03-14T15:48:49.000Z",
+                "refillDate": "2025-03-18T04:00:00.000Z",
                 "refillRemaining": 4,
                 "facilityName": "DAYT29",
                 "orderedDate": "2023-07-14T04:00:00.000Z",
                 "quantity": 30,
                 "expirationDate": "2024-07-14T04:00:00.000Z",
-                "dispensedDate": null,
+                "dispensedDate": "2025-03-15T04:00:00.000Z",
                 "stationNumber": "989",
                 "isRefillable": false,
                 "isTrackable": false,
@@ -820,7 +820,8 @@
                         "tracking": false
                     }
                 ],
-                "tracking": false
+                "tracking": false,
+                "sortedDispensedDate": "2025-03-15T04:00:00.000Z"
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22332759"

@@ -1591,5 +1591,60 @@
     "src": "/ROMANCHESTER",
     "dest": "/manchester-va-regional-benefit-office/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/reno",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RORENO",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/rates-index.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/resources_comp",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBenefits"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/sb",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBirthDefects"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/special_Benefit_Allowances_",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationSpecialBenefits"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/glossary.asp",
+    "dest": "/health-care"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/epublications.asp",
+    "dest": "/health-care"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/caregiver_eligibility_check.asp",
+    "dest": "/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/",
+    "dest": "/resources/"
   }
 ]

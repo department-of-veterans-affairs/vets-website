@@ -10,6 +10,7 @@ import {
 import { datadogRum } from '@datadog/browser-rum';
 import {
   validateField,
+  validateIfAvailable,
   getImageUri,
   dateFormat,
   createOriginalFillRecord,
@@ -219,14 +220,17 @@ const VaPrescription = prescription => {
                             cmopDivisionPhone={pharmacyPhone}
                             page={pageType.DETAILS}
                           />
-                        )}
+                        )}{' '}
                         to check on your refill, if you haven’t received it in
                         the mail yet.
                       </p>
                     </VaAlert>
                   )}
                 {showRefillProgressContent && (
-                  <ProcessList stepGuideProps={stepGuideProps} />
+                  <>
+                    <ProcessList stepGuideProps={stepGuideProps} />
+                    <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+                  </>
                 )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
@@ -284,7 +288,10 @@ const VaPrescription = prescription => {
               Refills left
             </h3>
             <p data-testid="refills-left">
-              {validateField(prescription.refillRemaining)}
+              {validateIfAvailable(
+                'Number of refills left',
+                prescription.refillRemaining,
+              )}
             </p>
             {!pendingMed && (
               <>
@@ -292,7 +299,11 @@ const VaPrescription = prescription => {
                   Request refills by this prescription expiration date
                 </h3>
                 <p data-testid="expiration-date">
-                  {dateFormat(prescription.expirationDate)}
+                  {dateFormat(
+                    prescription.expirationDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
               </>
             )}
@@ -332,7 +343,9 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p data-testid="facility-name">{prescription.facilityName}</p>
+            <p data-testid="facility-name">
+              {validateIfAvailable('Facility', prescription.facilityName)}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Pharmacy phone number
             </h3>
@@ -346,7 +359,7 @@ const VaPrescription = prescription => {
                   (<va-telephone tty contact="711" />)
                 </>
               ) : (
-                EMPTY_FIELD
+                validateIfAvailable('Pharmacy phone number')
               )}
             </div>
             {/* TODO: clean after grouping flag is gone */}
@@ -355,20 +368,31 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Instructions
                 </h3>
-                <p>{validateField(prescription?.sig)}</p>
+                <p data-testid="rx-instructions">
+                  {validateIfAvailable('Instructions', prescription?.sig)}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Reason for use
                 </h3>
-                <p>{validateField(prescription?.indicationForUse)}</p>
+                <p data-testid="rx-reason-for-use">
+                  {validateIfAvailable(
+                    'Reason for use',
+                    prescription?.indicationForUse,
+                  )}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Quantity
                 </h3>
-                <p>{validateField(prescription.quantity)}</p>
+                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
-                  {dateFormat(prescription.orderedDate)}
+                  {dateFormat(
+                    prescription.orderedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed by
@@ -376,12 +400,10 @@ const VaPrescription = prescription => {
                 <p>
                   {prescription?.providerFirstName &&
                   prescription?.providerLastName
-                    ? validateField(
-                        `${prescription.providerLastName}, ${
-                          prescription.providerFirstName
-                        }`,
-                      )
-                    : EMPTY_FIELD}
+                    ? `${prescription.providerLastName}, ${
+                        prescription.providerFirstName
+                      }`
+                    : validateIfAvailable('Provider name')}
                 </p>
               </>
             )}
@@ -401,7 +423,10 @@ const VaPrescription = prescription => {
                   Reason for use
                 </h3>
                 <p>{validateField(prescription?.indicationForUse)}</p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  data-testid="rx-quantity"
+                >
                   Quantity
                 </h3>
                 <p>{validateField(prescription.quantity)}</p>
@@ -662,9 +687,12 @@ const VaPrescription = prescription => {
                               <va-accordion-item
                                 bordered="true"
                                 key={i}
-                                subHeader={`Filled on ${dateFormat(
+                                subHeader={dateFormat(
                                   entry.dispensedDate,
-                                )}`}
+                                  'MMMM D, YYYY',
+                                  'Date not available',
+                                  'Filled on ',
+                                )}
                               >
                                 <h4
                                   className="vads-u-font-size--h6"
@@ -690,6 +718,8 @@ const VaPrescription = prescription => {
                                     >
                                       {dateFormat(
                                         latestTrackingStatus?.completeDateTime,
+                                        'MMMM D, YYYY',
+                                        'Date not available',
                                       )}
                                     </p>
                                   </>
@@ -781,10 +811,9 @@ const VaPrescription = prescription => {
                                     </>
                                   ) : (
                                     <>
-                                      No description available. Call{' '}
-                                      <VaPharmacyText phone={pharmacyPhone} />{' '}
-                                      if you need help identifying this
-                                      medication.
+                                      No description available. If you need help
+                                      identifying this medication, call{' '}
+                                      <VaPharmacyText phone={pharmacyPhone} />.
                                     </>
                                   )}
                                 </div>

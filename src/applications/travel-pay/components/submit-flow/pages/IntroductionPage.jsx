@@ -6,13 +6,17 @@ import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+
+const title = 'File a travel reimbursement claim';
 
 const IntroductionPage = ({ onStart }) => {
+  useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
 
   return (
     <div>
-      <h1 tabIndex="-1">File a travel reimbursement claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       {isLoading && (
         <va-loading-indicator
           label="Loading"
@@ -48,7 +52,7 @@ const IntroductionPage = ({ onStart }) => {
               <va-link-action
                 onClick={e => onStart(e)}
                 href="javascript0:void"
-                text="File a mileage only claim"
+                text="File a mileage-only claim"
               />
             )}
           <p>

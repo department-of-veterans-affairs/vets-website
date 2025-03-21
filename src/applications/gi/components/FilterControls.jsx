@@ -12,7 +12,10 @@ function FilterControls({
 }) {
   return (
     <div>
-      <>
+      <fieldset role="group" aria-label="Category type">
+        <legend className="vads-u-visibility--screen-reader">
+          Category type
+        </legend>
         <h3 className="vads-u-margin-bottom--3 vads-u-margin-top--0p5">
           Category type
         </h3>
@@ -28,9 +31,10 @@ function FilterControls({
             />
           );
         })}
-      </>
+      </fieldset>
 
-      <>
+      <fieldset role="group" aria-label="State">
+        <legend className="vads-u-visibility--screen-reader">State</legend>
         <h3 className="vads-u-margin-bottom--2">State</h3>
         <Dropdown
           label="Applies to only license and prep course category type. Certifications are available nationwide."
@@ -43,7 +47,7 @@ function FilterControls({
           visible
           boldLabel
         />
-      </>
+      </fieldset>
     </div>
   );
 }
@@ -60,8 +64,8 @@ FilterControls.propTypes = {
     label: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(
       PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        optionValue: PropTypes.string.isRequired,
+        optionLabel: PropTypes.string.isRequired,
       }),
     ).isRequired,
   }).isRequired,

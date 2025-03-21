@@ -26,15 +26,19 @@ export const SpouseAdditionalEvidence = () => {
         <va-accordion-item
           id="supporting-evidence"
           header="Supporting evidence you need to submit"
+          level="3"
         >
           <ul>
-            <li>
-              A copy of your marriage license, or a church record of your
-              marriage
-              {(isCommonLawMarriage || isTribalMarriage || isProxyMarriage) && (
-                <strong>, and</strong>
-              )}
-            </li>
+            {!isCommonLawMarriage && (
+              <li>
+                A copy of your marriage license, or a church record of your
+                marriage
+                {(isTribalMarriage || isProxyMarriage) && (
+                  <strong>, and</strong>
+                )}
+              </li>
+            )}
+
             {isCommonLawMarriage && (
               <>
                 <li>

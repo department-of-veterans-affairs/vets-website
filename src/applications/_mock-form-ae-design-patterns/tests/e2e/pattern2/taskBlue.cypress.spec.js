@@ -139,10 +139,10 @@ describe('Prefill pattern - Blue Task', () => {
     // check prefilled contact info page
     cy.url().should('contain', '/veteran-information');
 
-    cy.findByText('Mobile phone number').should('exist');
+    cy.findByText('Mobile phone number (optional)').should('exist');
     cy.get('va-telephone[contact="5554044567"]').should('exist');
 
-    cy.findByText('Email address').should('exist');
+    cy.findByText('Email address (optional)').should('exist');
     cy.findByText('Mitchell.Jenkins.Test@gmail.com').should('exist');
 
     cy.findByText('Mailing address').should('exist');
@@ -163,14 +163,6 @@ describe('Prefill pattern - Blue Task', () => {
 
     cy.get('@addressInput').clear();
     cy.get('@addressInput').type('345 Mailing Address St.');
-
-    // confirming save to profile ques is selected yes by default
-    // cy.contains(
-    //   'legend',
-    //   'Do you also want to update this information in your VA.gov profile?',
-    // ).should('exist');
-
-    // cy.get('#saveToProfileYes').click();
 
     cy.findByTestId('save-edit-button').click();
 
