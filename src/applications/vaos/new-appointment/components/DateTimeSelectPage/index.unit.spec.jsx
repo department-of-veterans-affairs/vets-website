@@ -9,6 +9,16 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
 import {
+  add,
+  addMinutes,
+  nextTuesday,
+  nextThursday,
+  startOfMonth,
+  endOfMonth,
+  startOfDay,
+} from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfCare,
@@ -20,6 +30,7 @@ import {
 
 import DateTimeSelectPage from '.';
 import { FETCH_STATUS } from '../../../utils/constants';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import { mockAppointmentSlotFetch } from '../../../tests/mocks/helpers';
 import { getAppointmentSlotMock } from '../../../tests/mocks/mock';
 import { mockEligibilityFetches } from '../../../tests/mocks/fetch';
@@ -36,11 +47,12 @@ const initialState = {
   },
 };
 
-function setDateTimeSelectMockFetches({
+function setDateTimeSelectMockFetchesBase({
   typeOfCareId = 'primaryCare',
   preferredDate = moment(),
   slotError = false,
   slotDatesByClinicId = {},
+  dateToStartEnd = _ => {},
 } = {}) {
   const clinicIds = Object.keys(slotDatesByClinicId);
   const clinic1 = createMockClinic({
@@ -77,13 +89,7 @@ function setDateTimeSelectMockFetches({
       const slots = slotDatesByClinicId[id].map(date => {
         return {
           ...getAppointmentSlotMock(),
-          attributes: {
-            start: date.format('YYYY-MM-DDTHH:mm:ss'),
-            end: date
-              .clone()
-              .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss'),
-          },
+          attributes: dateToStartEnd(date),
         };
       });
       mockAppointmentSlotFetch({
@@ -94,6 +100,53 @@ function setDateTimeSelectMockFetches({
       });
     });
   }
+}
+
+function setDateTimeSelectMockFetches({
+  typeOfCareId = 'primaryCare',
+  preferredDate = moment(),
+  slotError = false,
+  slotDatesByClinicId = {},
+} = {}) {
+  setDateTimeSelectMockFetchesBase({
+    typeOfCareId,
+    preferredDate,
+    slotError,
+    slotDatesByClinicId,
+    dateToStartEnd: date => {
+      return {
+        start: date.format(moment.defaultFormatUtc),
+        end: date
+          .clone()
+          .minute(20)
+          .format(moment.defaultFormatUtc),
+      };
+    },
+  });
+}
+
+function setDateTimeSelectMockFetchesDateFns({
+  typeOfCareId = 'primaryCare',
+  preferredDate = moment(),
+  slotError = false,
+  slotDatesByClinicId = {},
+} = {}) {
+  setDateTimeSelectMockFetchesBase({
+    typeOfCareId,
+    preferredDate,
+    slotError,
+    slotDatesByClinicId,
+    dateToStartEnd: date => {
+      return {
+        start: formatInTimeZone(date, 'UTC', "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+        end: formatInTimeZone(
+          addMinutes(new Date(date), 20),
+          'UTC',
+          "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        ),
+      };
+    },
+  });
 }
 
 describe('VAOS Page: DateTimeSelectPage', () => {
@@ -247,35 +300,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
   });
 
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
-    const slot308Date = moment()
-      .day(9)
-      .hour(9)
-      .minute(0)
-      .second(0);
-    const slot309Date = moment()
-      .day(11)
-      .hour(13)
-      .minute(0)
-      .second(0);
+    const facilityId = '983';
+    const timezone = getTimezoneByFacilityId(facilityId);
+    const slot308Date = nextTuesday(new Date()).setHours(9, 0, 0, 0);
+    const slot309Date = nextThursday(new Date()).setHours(13, 0, 0, 0);
     const preferredDate = moment();
 
-    mockAppointmentSlotFetch({
-      clinicId: '308',
-      facilityId: '983',
-      preferredDate,
-      response: [
-        {
-          id: '308',
-          type: 'slots',
-          attributes: {
-            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-          },
-        },
-      ],
-    });
-
-    setDateTimeSelectMockFetches({
+    setDateTimeSelectMockFetchesDateFns({
       slotDatesByClinicId: {
         '308': [slot308Date],
         '309': [slot309Date],
@@ -285,7 +316,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, facilityId);
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
@@ -306,22 +337,26 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     expect(screen.getByText('Your appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
-    let button = screen.queryByLabelText(
-      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+    const slot308DateString = formatInTimeZone(
+      slot308Date,
+      timezone,
+      'EEEE, MMMM do',
     );
+    let button = screen.queryByLabelText(new RegExp(slot308DateString, 'i'));
 
     if (!button) {
       userEvent.click(screen.getByText(/^Next/));
-      button = await screen.findByLabelText(
-        new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
-      );
+      button = await screen.findByLabelText(new RegExp(slot308DateString, 'i'));
     }
 
     userEvent.click(button);
 
-    userEvent.click(
-      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+    const expected308 = formatInTimeZone(
+      slot308Date,
+      timezone,
+      "h:mm a 'option selected'",
     );
+    userEvent.click(await screen.findByRole('radio', { name: expected308 }));
     expect(button.getAttribute('aria-label')).to.contain(', selected');
 
     userEvent.click(screen.getByText(/^Continue/));
@@ -330,23 +365,6 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     });
 
     await cleanup();
-
-    // Second pass make sure the slots associated with red team are displayed
-    mockAppointmentSlotFetch({
-      clinicId: '309',
-      facilityId: '983',
-      preferredDate,
-      response: [
-        {
-          id: '309',
-          type: 'slots',
-          attributes: {
-            start: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-          },
-        },
-      ],
-    });
 
     await setClinic(store, '983_309');
     screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
@@ -360,15 +378,16 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     }
 
     // 4. Simulate user selecting a date
-    button = screen.queryByLabelText(
-      new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+    const slot309DateString = formatInTimeZone(
+      slot309Date,
+      timezone,
+      'EEEE, MMMM do',
     );
+    button = screen.queryByLabelText(new RegExp(slot309DateString, 'i'));
 
     if (!button) {
       userEvent.click(screen.getByText(/^Next/));
-      button = await screen.findByLabelText(
-        new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
-      );
+      button = await screen.findByLabelText(new RegExp(slot309DateString, 'i'));
     }
 
     await waitFor(() => {
@@ -376,9 +395,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     });
 
     userEvent.click(button);
-    expect(
-      await screen.findByRole('radio', { name: '1:00 PM option selected' }),
-    ).to.be.ok;
+    const expected309 = formatInTimeZone(
+      slot309Date,
+      timezone,
+      "h:mm a 'option selected'",
+    );
+    expect(await screen.findByRole('radio', { name: expected309 })).to.be.ok;
   });
 
   it('should adjust look and feel by screen size', async () => {
@@ -863,25 +885,19 @@ describe('VAOS Page: DateTimeSelectPage', () => {
   });
 
   it('should fetch slots when moving between months', async () => {
+    const facilityId = '983';
+    const timezone = getTimezoneByFacilityId(facilityId);
     const preferredDate = moment()
       .add(1, 'day')
       .add(1, 'month');
-    const slot308Date = moment()
-      .add(1, 'day')
-      .add(1, 'month')
-      .startOf('month')
-      .day(9)
-      .hour(9)
-      .minute(0)
-      .second(0);
-    const secondSlotDate = slot308Date
-      .clone()
-      .add(2, 'month')
-      .day(9)
-      .hour(10)
-      .minute(0)
-      .second(0);
-    setDateTimeSelectMockFetches({
+    const slot308Date = nextTuesday(
+      startOfMonth(add(new Date(), { months: 1, days: 1 })),
+    ).setHours(9, 0, 0, 0);
+    const secondSlotDate = nextTuesday(
+      startOfMonth(add(new Date(slot308Date), { months: 2 })),
+    ).setHours(10, 0, 0, 0);
+
+    setDateTimeSelectMockFetchesDateFns({
       preferredDate,
       slotDatesByClinicId: {
         308: [slot308Date],
@@ -889,49 +905,33 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     });
 
     mockAppointmentSlotFetch({
-      facilityId: '983',
+      facilityId,
       clinicId: '308',
       response: [
         {
-          id: '308',
-          type: 'slots',
+          ...getAppointmentSlotMock(),
           attributes: {
-            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            start: formatInTimeZone(
+              secondSlotDate,
+              'UTC',
+              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+            ),
+            end: formatInTimeZone(
+              addMinutes(new Date(secondSlotDate), 20),
+              'UTC',
+              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+            ),
           },
         },
       ],
-      startDate: preferredDate.clone().startOf('month'),
-      endDate: preferredDate
-        .clone()
-        .add('1', 'months')
-        .endOf('month')
-        .startOf('day'),
-    });
-    mockAppointmentSlotFetch({
-      facilityId: '983',
-      clinicId: '308',
-      response: [
-        {
-          id: '308',
-          type: 'slots',
-          attributes: {
-            start: secondSlotDate.format('YYYY-MM-DDTHH:mm:ssZ'),
-            end: secondSlotDate.format('YYYY-MM-DDTHH:mm:ssZ'),
-          },
-        },
-      ],
-      startDate: secondSlotDate.clone().startOf('month'),
-      endDate: secondSlotDate
-        .clone()
-        .endOf('month')
-        .startOf('day'),
+      startDate: moment(startOfMonth(secondSlotDate)),
+      endDate: moment(startOfDay(endOfMonth(secondSlotDate))),
     });
 
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, facilityId);
     await setClinic(store, '983_308');
     await setPreferredDate(store, preferredDate);
 
@@ -948,13 +948,22 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
+    const slot308DateString = formatInTimeZone(
+      slot308Date,
+      timezone,
+      'EEEE, MMMM do',
+    );
     let dayOfMonthButton = screen.getByLabelText(
-      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      new RegExp(slot308DateString, 'i'),
     );
     userEvent.click(dayOfMonthButton);
-    userEvent.click(
-      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+
+    const expected308 = formatInTimeZone(
+      slot308Date,
+      timezone,
+      "h:mm a 'option selected'",
     );
+    userEvent.click(await screen.findByRole('radio', { name: expected308 }));
 
     // Need to move two months to trigger second fetch
     userEvent.click(screen.getByText(/^Next/));
@@ -964,13 +973,23 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
+    const secondDateString = formatInTimeZone(
+      secondSlotDate,
+      timezone,
+      'EEEE, MMMM do',
+    );
     dayOfMonthButton = await screen.findByLabelText(
-      new RegExp(secondSlotDate.format('dddd, MMMM Do'), 'i'),
+      new RegExp(secondDateString, 'i'),
     );
     userEvent.click(dayOfMonthButton);
 
+    const expectedSecondSlot = formatInTimeZone(
+      secondSlotDate,
+      timezone,
+      "h:mm a 'option selected'",
+    );
     userEvent.click(
-      await screen.findByRole('radio', { name: '10:00 AM option selected' }),
+      await screen.findByRole('radio', { name: expectedSecondSlot }),
     );
 
     // Go back and select initial slot
@@ -978,12 +997,10 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     userEvent.click(screen.getByText(/^Prev/));
 
     dayOfMonthButton = screen.getByLabelText(
-      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      new RegExp(slot308DateString, 'i'),
     );
     userEvent.click(dayOfMonthButton);
-    userEvent.click(
-      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
-    );
+    userEvent.click(await screen.findByRole('radio', { name: expected308 }));
 
     // Have a selected slot, can move to next screen
     userEvent.click(screen.getByText(/^Continue/));
@@ -1000,6 +1017,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     });
     expect(screen.history.push.called).to.be.false;
   });
+
   it('should show required text next to page heading', async () => {
     const preferredDate = moment();
     const slot308Date = moment().add(6, 'days');
