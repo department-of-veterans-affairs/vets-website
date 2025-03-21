@@ -2,7 +2,6 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
