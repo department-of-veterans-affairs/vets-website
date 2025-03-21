@@ -1,6 +1,6 @@
 export const uiSchema = {
-  'ui:title': 'this is a title',
-  'ui:description': 'this is a description',
+  'ui:title': 'Destructive Action',
+  'ui:description': 'Data will be removed',
 };
 export const schema = {
   type: 'object',

@@ -6,6 +6,7 @@ import { isClaimingIncrease, isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
+import { mentalHealthKeys } from '../components/ChoiceDestructiveModal';
 
 /**
  * Helper method to determine if a series of veteran selections match ONLY
@@ -74,7 +75,9 @@ export function isCompletingForm0781(formData) {
  * @returns {boolean} true if MST is selected, false otherwise
  */
 export function isRelatedToMST(formData) {
-  return isCompletingForm0781(formData) && formData?.eventTypes?.mst === true;
+  return (
+    isCompletingForm0781(formData) && formData?.eventTypes?.mst === true
+  )
 }
 
 /*
@@ -119,6 +122,76 @@ export function showBehaviorListPage(formData) {
       !combatOnlySelection(formData))
   );
 }
+
+function deepCheck(value) {
+  if (typeof value === "boolean" && value === true) {
+    console.log("Found boolean true:", value);
+    return true;
+  }
+
+  if (typeof value === "string" && value.trim() !== "") {
+    console.log("Found string:", value);
+    return true;
+  }
+
+  if (typeof value === "number") {
+    console.log("Found number:", value);
+    return true;
+  }
+
+  if (typeof value === "object" && value !== null) {
+    for (const nestedKey in value) {
+      if (deepCheck(value[nestedKey])) {
+        console.log(`Found valid data in nested key: ${nestedKey}`, value[nestedKey]);
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function checkMentalHealthData(formData) {
+  for (const key of mentalHealthKeys) {
+    console.log('my initial key ', key);
+    if (!(key in formData)) continue;
+
+    const value = formData[key];
+    console.log("Checking key:", key, "Value:", value);
+
+    if (deepCheck(value)) {
+      console.log("Valid data found in key:", key);
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Checks if the user has previously selected the choice option to upload their mental health statement online
+ * All 0781 page-specific flippers should include a check against this top level flipper
+ *
+ * @returns
+ *   TRUE if
+ *     - User has data for their mental health statement but is not opting to upload their statement online
+ *   else
+ *     - returns false
+ */
+export function showForm0781ChoiceDestructiveModal(formData) {
+  console.log('calling destructive modal, just return workflow choice, the value is? ', formData['view:mentalHealthWorkflowChoice'] ===
+    form0781WorkflowChoices.COMPLETE_ONLINE_FORM);
+  console.log('what is mental health data returning? ', checkMentalHealthData(formData));
+  return (
+    formData['view:mentalHealthWorkflowChoice'] ===
+      form0781WorkflowChoices.COMPLETE_ONLINE_FORM && checkMentalHealthData(formData)
+  );
+}
+
+// export function showForm0781ChoiceDestructiveModal(formData) {
+//   console.log('showForm0781ChoiceDestructiveModal --------------------- return true', formData['view:mentalHealthWorkflowChoice']);
+//   return true
+// }
 
 /**
  * Checks if a specific behavior description page should display for selected behavior type. It should display if:

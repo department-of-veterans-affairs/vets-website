@@ -13,6 +13,7 @@ import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions
 import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
 import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
+import * as supportingEvidencePage from '../../pages/form0781/supportingEvidencePage';
 import * as reviewPage from '../../pages/form0781/reviewPage';
 import * as choiceDestructiveModalPage from '../../pages/form0781/choiceDestructiveModalPage';
 import {
@@ -25,6 +26,7 @@ import {
   showBehaviorListPage,
   showUnlistedDescriptionPage,
   showBehaviorSummaryPage,
+  showForm0781ChoiceDestructiveModal,
 } from '../../utils/form0781';
 import { workflowChoicePageTitle } from '../../content/form0781/workflowChoicePage';
 import { manualUploadPageTitle } from '../../content/form0781/manualUploadPage';
@@ -38,6 +40,7 @@ import {
   unlistedDescriptionPageNumber,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
+import { supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
 import ChoiceDestructiveModal from '../../components/ChoiceDestructiveModal';
@@ -56,9 +59,9 @@ export const form0781PagesConfig = {
     schema: workflowChoicePage.schema,
   },
   choiceDestructiveModalPage: {
-    title: 'Hello title',
-    path: 'mental-health-form-0781/wfcdma',
-    depends: formData => showForm0781Pages(formData),
+    title: workflowChoicePageTitle,
+    path: 'mental-health-form-0781/workflow-da',
+    depends: formData => showForm0781ChoiceDestructiveModal(formData),
     CustomPage: ChoiceDestructiveModal,
     CustomPageReview: null,
     uiSchema: choiceDestructiveModalPage.uiSchema,
@@ -130,6 +133,13 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
+  },
+  supportingEvidencePage: {
+    title: supportingEvidencePageTitle,
+    path: 'mental-health-form-0781/supporting-evidence',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: supportingEvidencePage.uiSchema,
+    schema: supportingEvidencePage.schema,
   },
   treatmentReceivedPage: {
     path: 'mental-health-form-0781/treatment-received',
