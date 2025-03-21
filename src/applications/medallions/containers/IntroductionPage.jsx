@@ -165,7 +165,7 @@ export const IntroductionPage = props => {
 
             <p>
               <Link
-                to="/personal-information"
+                to="/personal-information2"
                 className="schemaform-start-button"
               >
                 Start your form without signing in

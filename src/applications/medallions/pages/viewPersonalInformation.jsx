@@ -1,5 +1,6 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { ViewPersonalInformation } from '../components/ViewPersonalInformation';
+import { MedallionsDescription } from '../components/MedallionsDescription';
 
 const blankSchema = { type: 'object', properties: {} };
 
@@ -7,6 +8,7 @@ const blankSchema = { type: 'object', properties: {} };
 export default {
   uiSchema: {
     ...titleUI('Confirm the personal information we have on file for you'),
+    'ui:description': formContext => MedallionsDescription(formContext),
     personalInformation: {
       'ui:field': () => ViewPersonalInformation(),
     },

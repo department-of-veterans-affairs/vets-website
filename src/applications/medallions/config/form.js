@@ -13,6 +13,7 @@ import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import viewPersonalInformation from '../pages/viewPersonalInformation';
+import { isUserSignedIn } from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -56,12 +57,14 @@ const formConfig = {
           title: 'Your Name',
           uiSchema: viewPersonalInformation.uiSchema,
           schema: viewPersonalInformation.schema,
+          depends: formData => isUserSignedIn(formData),
         },
         personalInformation2: {
           path: 'personal-information2',
           title: 'Your Name',
           uiSchema: personalInformation.uiSchema,
           schema: personalInformation.schema,
+          depends: formData => !isUserSignedIn(formData),
         },
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
