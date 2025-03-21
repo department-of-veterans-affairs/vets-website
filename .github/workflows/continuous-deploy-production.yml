@@ -4,7 +4,7 @@ on:
   repository_dispatch:
     types: [cd-production-deploy]
 
-run-name: "Triggered by: ${{ github.event.client_payload.entry_names }} commit: ${{ github.event.client_payload.github_sha }}"
+run-name: "Triggered by: ${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}"
 
 jobs:
   notify-pending-deployment:
@@ -28,7 +28,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.event.client_payload.entry_app }} Deployment>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/continuous-deployment|documentation> on deployments."
+                        "text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/continuous-deployment|documentation> on deployments."
                       }
                     }
                   ]
