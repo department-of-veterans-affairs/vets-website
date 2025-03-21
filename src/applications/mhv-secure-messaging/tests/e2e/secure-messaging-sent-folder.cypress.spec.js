@@ -62,7 +62,7 @@ describe('TG PLAIN NAMES', () => {
     PatientMessageSentPage.loadMessages(updatedThreadResponse);
   });
 
-  it("'verify TG plain name in thread", () => {
+  it('verify TG plain name in thread', () => {
     cy.findAllByTestId('thread-list-item')
       .first()
       .should(
