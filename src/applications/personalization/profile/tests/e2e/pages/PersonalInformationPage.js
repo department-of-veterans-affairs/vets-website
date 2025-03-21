@@ -7,6 +7,7 @@ import mockDisabilityRating from '../../fixtures/disability-rating-success.json'
 import mockStatusInfo from '../../fixtures/status-info.json';
 import mockSignature from '../../fixtures/personal-information-signature.json';
 import mockToggles from '../../fixtures/personal-information-feature-toggles.json';
+import { Locators, Paths } from '../../fixtures/constants';
 
 class PersonalInformationPage {
   getPageHeader = () => {
@@ -111,6 +112,23 @@ class PersonalInformationPage {
       `${mockSignature.data.attributes.signatureName +
         mockSignature.data.attributes.signatureTitle}`,
     );
+  };
+
+  saveSignature = (response = mockSignature) => {
+    cy.intercept(`POST`, Paths.INTERCEPT.SIGNATURE, response).as(
+      'updatedSignature',
+    );
+
+    cy.get(Locators.SIGNATURE.SAVE_BTN).click();
+  };
+
+  removeSignature = response => {
+    cy.intercept(`POST`, Paths.INTERCEPT.SIGNATURE, response).as(
+      'updatedSignature',
+    );
+
+    cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_REMOVE_BTN).click();
   };
 }
 

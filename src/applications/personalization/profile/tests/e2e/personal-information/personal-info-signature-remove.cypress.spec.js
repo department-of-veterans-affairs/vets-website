@@ -1,6 +1,6 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
-import { Locators, Data, Paths } from '../../fixtures/constants';
+import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   beforeEach(() => {
@@ -72,12 +72,7 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       },
     };
 
-    cy.intercept(`POST`, Paths.INTERCEPT.SIGNATURE, noSignatureResponse).as(
-      'updatedSignature',
-    );
-
-    cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
-    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_REMOVE_BTN).click();
+    PersonalInformationPage.removeSignature(noSignatureResponse);
 
     cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)
       .should(`be.visible`)

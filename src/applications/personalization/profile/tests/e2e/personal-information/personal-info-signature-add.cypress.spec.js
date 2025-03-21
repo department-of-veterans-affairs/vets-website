@@ -1,6 +1,6 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
-import { Locators, Data, Paths } from '../../fixtures/constants';
+import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
   beforeEach(() => {
@@ -48,11 +48,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
       .type('Name');
     cy.get(Locators.SIGNATURE.TITLE_FIELD).type('TestTitle');
 
-    cy.intercept(`POST`, Paths.INTERCEPT.SIGNATURE, mockSignature).as(
-      'updatedSignature',
-    );
-
-    cy.get(Locators.SIGNATURE.SAVE_BTN).click();
+    PersonalInformationPage.saveSignature();
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,

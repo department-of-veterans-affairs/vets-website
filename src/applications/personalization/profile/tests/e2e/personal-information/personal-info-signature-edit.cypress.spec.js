@@ -1,6 +1,6 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
-import { Locators, Data, Paths } from '../../fixtures/constants';
+import { Locators, Data } from '../../fixtures/constants';
 
 const updatedSignatureResponse = {
   ...mockSignature,
@@ -52,13 +52,7 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
 
     cy.get(Locators.SIGNATURE.TITLE_FIELD).type('Captain');
 
-    cy.intercept(
-      `POST`,
-      Paths.INTERCEPT.SIGNATURE,
-      updatedSignatureResponse,
-    ).as('updatedSignature');
-
-    cy.get(Locators.SIGNATURE.SAVE_BTN).click();
+    PersonalInformationPage.saveSignature(updatedSignatureResponse);
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,
