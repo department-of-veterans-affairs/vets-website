@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSignalFetch } from '../utils/useSignalFetch';
-
 import {
+  focusElement,
   capitalizeFirstLetter,
   handleLcResultsSearch,
   showLcParams,
@@ -21,6 +21,8 @@ import LicesnseCertificationServiceError from '../components/LicesnseCertificati
 export default function LicenseCertificationSearchForm() {
   const history = useHistory();
   const location = useLocation();
+
+  const inputRef = useRef(null);
 
   const { nameParam, categoryParams } = showLcParams(location);
 
@@ -82,6 +84,7 @@ export default function LicenseCertificationSearchForm() {
     history.replace('/licenses-certifications-and-prep-courses');
     setName('');
     setDropdown(updateCategoryDropdown());
+    focusElement(inputRef.current, 0);
   };
 
   const handleChange = e => {
@@ -117,6 +120,7 @@ export default function LicenseCertificationSearchForm() {
               alt={dropdown.alt}
               selectClassName="dropdown-filter"
               required={dropdown.label === 'category'}
+              ref={inputRef}
             />
             <div>
               <LicenseCertificationKeywordSearch
