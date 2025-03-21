@@ -9,10 +9,6 @@ import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  radioUI,
-  radioSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
@@ -58,60 +54,14 @@ import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
-const MailingAddressUpdateProfileDescription = () => (
-  <p
-    className="vads-u-color--gray-medium vads-u-margin-top--0"
-    style={{ paddingInline: '2px' }}
-  >
-    If you select "yes", this information will be updated across multiple VA.gov
-    benefits and services. Read more about{' '}
-    <va-link
-      href="/change-address/"
-      text="changing your address in your VA.gov profile"
-      external
-    />
-  </p>
-);
-
-const mailingAddressUpdateProfileUiSchema = radioUI({
-  title: 'Do you also want to update this information in your VA.gov profile?',
-  description: MailingAddressUpdateProfileDescription,
-  labels: {
-    yes: 'Yes, also update my profile',
-    no: 'No, only update this form',
-  },
-});
-
-const mailingAddressUpdateProfileSchema = radioSchema(['yes', 'no']);
-
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
-    const {
-      getInitialFormValues,
-      showMailingAddressUpdateProfileChoice,
-    } = this.props;
-
-    const initialFormValues = getInitialFormValues();
-
-    const formSchema = {
-      ...this.props.formSchema,
-      properties: {
-        ...this.props.formSchema.properties,
-        updateProfileChoice: mailingAddressUpdateProfileSchema,
-      },
-      required: [...this.props.formSchema.required, 'updateProfileChoice'],
-    };
-    const uiSchema = {
-      ...this.props.uiSchema,
-      updateProfileChoice: mailingAddressUpdateProfileUiSchema,
-    };
+    const { getInitialFormValues } = this.props;
 
     this.onChangeFormDataAndSchemas(
-      initialFormValues,
-      showMailingAddressUpdateProfileChoice
-        ? formSchema
-        : this.props.formSchema,
-      showMailingAddressUpdateProfileChoice ? uiSchema : this.props.uiSchema,
+      getInitialFormValues(),
+      this.props.formSchema,
+      this.props.uiSchema,
     );
     this.focusOnFirstFormElement();
   }
@@ -450,8 +400,6 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
-  shouldOnlyUpdateForm: PropTypes.bool,
-  showMailingAddressUpdateProfileChoice: PropTypes.bool,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
@@ -473,12 +421,6 @@ export const mapStateToProps = (state, ownProps) => {
     FIELD_NAMES.MAILING_ADDRESS,
   );
 
-  const field = selectEditedFormField(state, fieldName);
-
-  const shouldOnlyUpdateForm =
-    ownProps.showMailingAddressUpdateProfileChoice &&
-    field?.value?.updateProfileChoice === 'yes';
-
   return {
     /*
         This ternary is to deal with an edge case: if the user is currently viewing
@@ -499,7 +441,6 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
-    shouldOnlyUpdateForm,
   };
 };
 
