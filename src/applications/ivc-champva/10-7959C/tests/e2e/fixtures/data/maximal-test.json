@@ -71,13 +71,25 @@
         "uploaded": false
       },
       {
-        "name": "primaryInsuranceCard",
+        "name": "primaryInsuranceCardFront",
         "path": "insurance-upload",
         "required": true,
         "uploaded": false
       },
       {
-        "name": "secondaryInsuranceCard",
+        "name": "primaryInsuranceCardBack",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCardFront",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCardBack",
         "path": "secondary-insurance-card-upload",
         "required": true,
         "uploaded": false

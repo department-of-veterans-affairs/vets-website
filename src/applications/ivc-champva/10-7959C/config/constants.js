@@ -11,8 +11,10 @@ export const requiredFiles = {
   applicantMedicarePartDCardBack: 'Back of Medicare Part D card',
   // Note: The text 'Primary health insurance' and 'Secondary health insurance'
   // are replaced via regex in `MissingFileConsentPage > prefixFileNames()`
-  primaryInsuranceCard: 'Primary health insurance card',
-  secondaryInsuranceCard: 'Secondary health insurance card',
+  primaryInsuranceCardFront: 'Front of Primary health insurance card',
+  primaryInsuranceCardBack: 'Back of Primary health insurance card',
+  secondaryInsuranceCardFront: 'Front of Secondary health insurance card',
+  secondaryInsuranceCardBack: 'Back of Secondary health insurance card',
   primaryInsuranceScheduleOfBenefits:
     'Primary health insurance schedule of benefits document',
   secondaryInsuranceScheduleOfBenefits:
