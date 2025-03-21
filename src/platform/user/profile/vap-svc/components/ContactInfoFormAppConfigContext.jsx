@@ -18,6 +18,10 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
     formFieldData,
   };
 
+  // console.log({
+  //   contextValue,
+  // });
+
   return (
     <ContactInfoFormAppConfigContext.Provider value={contextValue}>
       {children}

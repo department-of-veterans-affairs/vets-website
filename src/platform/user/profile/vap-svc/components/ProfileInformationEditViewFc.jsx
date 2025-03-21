@@ -191,7 +191,9 @@ export const ProfileInformationEditViewFc = ({
     // this determines if we should use the form field data from the form app
     // instead of the initial form values from the profile because the user has
     // already selected "no" to updating their profile from the form app
+    // this also ONLY applies to the mailing address field
     const shouldUseFormAppFieldData =
+      contactInfoFormAppConfig.fieldName === FIELD_NAMES.MAILING_ADDRESS &&
       contactInfoFormAppConfig?.formFieldData &&
       contactInfoFormAppConfig?.formFieldData?.updateProfileChoice === 'no';
 
