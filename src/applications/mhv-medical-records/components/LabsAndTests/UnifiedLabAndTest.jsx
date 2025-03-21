@@ -50,13 +50,24 @@ const UnifiedLabsAndTests = props => {
               testId="chem-hem-category"
               data-dd-action-name="[lab and tests - category]"
             />
-            <LabelValue
-              ifEmpty="None Noted"
-              label="Site or sample tested"
-              value={record.sampleSite}
-              testId="chem-hem-sample-tested"
-              data-dd-action-name="[lab and tests - site]"
-            />
+            {record.sampleTested && (
+              <LabelValue
+                ifEmpty="None Noted"
+                label="Site or sample tested"
+                value={record.sampleTested}
+                testId="chem-hem-sample-tested"
+                data-dd-action-name="[lab and tests - site]"
+              />
+            )}
+            {record.bodySite && (
+              <LabelValue
+                ifEmpty="None Noted"
+                label="Body site tested"
+                value={record.bodySite}
+                testId="chem-hem-sample-tested"
+                data-dd-action-name="[lab and tests - site]"
+              />
+            )}
             <LabelValue
               ifEmpty="None Noted"
               label="Ordered by"
@@ -80,25 +91,28 @@ const UnifiedLabsAndTests = props => {
           </HeaderSection>
         </div>
         {/*         RESULTS CARDS            */}
-        <div className="test-results-container">
-          <HeaderSection header="Results" className="test-results-header">
-            {/* <InfoAlert highLowResults fullState={fullState} /> */}
-            <div className="print-only">
-              <p>
-                Your provider will review your results and explain what they
-                mean for your health. To ask a question now, send a secure
-                message to your care team.
-              </p>
-              <LabelValue label="Standard range">
-                The standard range is one tool your providers use to understand
-                your results. If your results are outside the standard range,
-                this doesn’t automatically mean you have a health problem. Your
-                provider will explain what your results mean for your health.
-              </LabelValue>
-            </div>
-            <UnifiedLabAndTestObservation results={record.observations} />
-          </HeaderSection>
-        </div>
+        {record.observations && (
+          <div className="test-results-container">
+            <HeaderSection header="Results" className="test-results-header">
+              {/* <InfoAlert highLowResults fullState={fullState} /> */}
+              <div className="print-only">
+                <p>
+                  Your provider will review your results and explain what they
+                  mean for your health. To ask a question now, send a secure
+                  message to your care team.
+                </p>
+                <LabelValue label="Standard range">
+                  The standard range is one tool your providers use to
+                  understand your results. If your results are outside the
+                  standard range, this doesn’t automatically mean you have a
+                  health problem. Your provider will explain what your results
+                  mean for your health.
+                </LabelValue>
+              </div>
+              <UnifiedLabAndTestObservation results={record.observations} />
+            </HeaderSection>
+          </div>
+        )}
       </HeaderSection>
     </div>
   );

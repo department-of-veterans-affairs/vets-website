@@ -7,7 +7,8 @@ const sample = {
         display: 'Surgical Pathology',
         testCode: 'SP',
         dateCompleted: '2019-03-12T16:30:00Z',
-        sampleSite: 'TESTING BONE MARROW',
+        sampleTested: 'BONE MARROW',
+        bodySite: null,
         encodedData:
           'RGF0ZSBTcGVjIHRha2VuOiBOb3YgMDEsIDIwMTggMTU6NDkgIFBhdGhvbG9naXN0Ok1VUlRVWkEgTE9LSEFORFdBTEFEYXRlIFNwZWMgcmVjJ2Q6IE5vdiAwMSwgMjAxOCAxNTo1MSAgUmVzaWRlbnQ6IERhdGUgIGNvbXBsZXRlZDogTm92IDAxLCAyMDE4ICAgICAgICBBY2Nlc3Npb24gIzogU1AgMTggNVN1Ym1pdHRlZCBieTogS0FMQUhBU1RJLCBWRU5LQVRBIFMgICBQcmFjdGl0aW9uZXI6UEFETUEgQk9ERFVMVVJJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVNwZWNpbWVuOiBCT05FIE1BUlJPVz0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLT0tLVBlcmZvcm1pbmcgTGFib3JhdG9yeTpTdXJnaWNhbCBQYXRob2xvZ3kgUmVwb3J0IFBlcmZvcm1lZCBCeTogQ0hZU0hSIFRFU1QgTEFCMjM2MCBFIFBFUlNISU5HIEJMVkQgQ0hFWUVOTkUsIEZMIDgyMDAxLTUzNTZudWxs',
         location: 'VA TEST LAB',
@@ -20,8 +21,8 @@ const sample = {
         display: 'CH',
         testCode: 'CH',
         dateCompleted: '2025-01-23T22:06:02Z',
-        sampleSite: 'SERUM',
-        encodedData: '',
+        sampleTested: 'SERUM',
+        bodySite: 'Central Vien',
         location: 'CHYSHR TEST LAB',
         orderedBy: 'ZZGeorge Washington',
         observations: [
@@ -29,6 +30,8 @@ const sample = {
             testCode: 'GLUCOSE',
             referenceRange: '70 - 110',
             status: 'final',
+            sampleTested: 'SERUM',
+            bodySite: 'Central Vien',
             comments: '',
             value: {
               text: '99 mg/dL',

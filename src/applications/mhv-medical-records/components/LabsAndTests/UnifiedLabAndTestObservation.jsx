@@ -46,20 +46,38 @@ const UnifiedLabAndTestObservation = props => {
               >
                 {result.status}
               </p>
-              {result.labComments && (
-                <>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Lab comments
-                  </h4>
-                  <p
-                    className="vads-u-margin--0 vads-u-padding-bottom--2"
-                    data-dd-privacy="mask"
-                    data-dd-action-name="[lab and tests - lab comments]"
-                  >
-                    {result.labComments}
-                  </p>
-                </>
-              )}
+              <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                Body Site
+              </h4>
+              <p
+                className="vads-u-margin--0 vads-u-padding-bottom--2"
+                data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - result]"
+              >
+                {result.bodySite}
+              </p>
+              <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                Sample tested
+              </h4>
+              <p
+                className="vads-u-margin--0 vads-u-padding-bottom--2"
+                data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - result]"
+              >
+                {result.sampleTested}
+              </p>
+              <>
+                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                  Lab comments
+                </h4>
+                <p
+                  className="vads-u-margin--0 vads-u-padding-bottom--2"
+                  data-dd-privacy="mask"
+                  data-dd-action-name="[lab and tests - lab comments]"
+                >
+                  {result.comments || 'None Noted'}
+                </p>
+              </>
             </div>
           </li>
         );
