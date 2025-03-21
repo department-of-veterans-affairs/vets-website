@@ -72,7 +72,9 @@ const ThreadListItem = props => {
 
   const categoryLabel = Categories[category];
   const addressText =
-    location.pathname === Paths.DRAFTS ? recipientName : senderName;
+    location.pathname === Paths.DRAFTS
+      ? suggestedNameDisplay || recipientName
+      : senderName;
 
   const ddTitle =
     location.pathname === Paths.DRAFTS || location.pathname === Paths.SENT
