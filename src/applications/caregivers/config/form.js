@@ -10,7 +10,7 @@ import {
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
   showFacilityConfirmation,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
