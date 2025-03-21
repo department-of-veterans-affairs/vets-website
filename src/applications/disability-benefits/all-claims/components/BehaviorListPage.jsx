@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 import {
   VaCheckboxGroup,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import {
   behaviorListDescription,
@@ -12,7 +13,7 @@ import {
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
   validateBehaviorSelections,
-  behaviorListValidationError,
+  conflictingBehaviorErrorMessage,
   showConflictingAlert,
 } from '../content/form0781/behaviorListPages';
 
@@ -28,7 +29,14 @@ import {
   mentalHealthSupportAlert,
 } from '../content/form0781';
 
-const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
+const BehaviorListPage = ({
+  goBack,
+  goForward,
+  data,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
   const [selectedWorkBehaviors, setSelectedWorkBehaviors] = useState(
     data?.workBehaviors,
     null,
@@ -41,9 +49,27 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
     data?.otherBehaviors,
     null,
   );
-  console.log('selectedWorkBehaviors state', selectedWorkBehaviors);
-  console.log('selected healthBehaviors state', selectedHealthBehaviors);
-  console.log('selected otherBehaviors state', selectedOtherBehaviors);
+  const [selectedNoBehaviors, setSelectedNoBehaviors] = useState(
+    data?.['view:noneCheckbox'],
+    null,
+  );
+
+  // const [hasError, setHasError] = useState(showConflictingAlert(data), null);
+
+  console.log('STATE', selectedNoBehaviors)
+
+  console.log('Data check', data['view:noneCheckbox']);
+  console.log('Data check', data['view:noneCheckbox']["view:noBehaviorChanges"]);
+  // const checkErrors = () => {
+  //   console.log('checkErrors-FORMDATA-', data);
+  //   const result = showConflictingAlert(data);
+  //   console.log('checkErrors-show conflict---', result);
+
+  //   setHasError(result);
+  //   const errors = { errorMessages: [] };
+  //   errors.addError = message => errors.errorMessages.push(message);
+  //   return result;
+  // };
 
   const getSelectionsBySection = behaviorSection => {
     switch (behaviorSection) {
@@ -53,43 +79,57 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
         return selectedHealthBehaviors;
       case 'otherBehaviors':
         return selectedOtherBehaviors;
+      case 'view:noneCheckbox':
+        return selectedNoBehaviors;
       default:
         return null;
     }
   };
 
   const handleUpdatedSelection = (behaviorSection, updatedData) => {
-    switch (behaviorSection) {
-      case 'workBehaviors':
-        setSelectedWorkBehaviors(updatedData);
-        break;
-      case 'healthBehaviors':
-        setSelectedHealthBehaviors(updatedData);
-        break;
-      case 'otherBehaviors':
-        setSelectedOtherBehaviors(updatedData);
-        break;
-      default:
-        break;
+    console.log("HANDLE, updatedData", updatedData)
+    console.log("HANDLE, behaviorSection", behaviorSection)
+    if (behaviorSection === 'view:noneCheckbox') {
+      console.log("handle none section", behaviorSection, updatedData)
+      setSelectedNoBehaviors(updatedData);
+      setFormData({
+        ...data,
+        'view:noneCheckbox': updatedData,
+      });
+    } else {
+      switch (behaviorSection) {
+        case 'workBehaviors':
+          setSelectedWorkBehaviors(updatedData);
+          break;
+        case 'healthBehaviors':
+          setSelectedHealthBehaviors(updatedData);
+          break;
+        case 'otherBehaviors':
+          setSelectedOtherBehaviors(updatedData);
+          break;
+        // case 'view:noneCheckbox':
+        //   console.log("handle none section", behaviorSection, updatedData)
+        //   setSelectedNoBehaviors({ [behaviorSection]: updatedData });
+        //   console.log("handle none section state", selectedNoBehaviors)
+        //   break;
+        default:
+          break;
+      }
+      setFormData({
+        ...data,
+        [behaviorSection]: updatedData,
+      });
     }
-    setFormData({
-      ...data,
-      [behaviorSection]: updatedData,
-    });
+    // checkErrors(); //NOT SYNCHRONOUS
   };
 
   const handlers = {
     onSelectionChange: event => {
-      console.log('onSelectionChange event', event);
-
       const { target } = event;
-      // TODO - get the name of the checkbox group section
-      const behaviorSection = target.name;
-
       const selection = event.target?.getAttribute('value');
-
+      const behaviorSection = target.name;
+      console.log("onSelectionChange, section", behaviorSection)
       const selectionsBySection = getSelectionsBySection(behaviorSection);
-      console.log('selectionsBySection', selectionsBySection);
 
       if (target.checked) {
         const updatedData = {
@@ -104,17 +144,14 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
         };
         handleUpdatedSelection(behaviorSection, updatedData);
       }
-
-      // checkErrors(formData);
     },
     onSubmit: event => {
       event.preventDefault();
       goForward(data);
       // if (checkErrors()) {
       //   scrollToFirstError({ focusOnAlertRole: true });
-      //   // hasSelectedBehaviors indicates they checked behavior changes boxes
-      //   // on the next page, behaviorListPage
-      // } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
+      // }
+      // else if (optIn === 'false' && hasSelectedBehaviors(data)) {
       //   setShowModal(true);
       // } else if (optIn) {
       //   goForward(data);
@@ -142,16 +179,13 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
             name="workBehaviors"
             hint={BEHAVIOR_LIST_HINTS.work}
             onVaChange={handlers.onSelectionChange}
-            // onBlur={handlers.onBlur}
-            // error={showError('issues')}
-            // required
             uswds
           >
             {Object.entries(BEHAVIOR_CHANGES_WORK).map(
               ([behaviorType, description]) => (
                 <va-checkbox
                   key={behaviorType}
-                  name="workBehaviors" //TODO - is this needed?
+                  name="workBehaviors"
                   label={description}
                   value={behaviorType}
                   checked={
@@ -171,9 +205,6 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
             name="healthBehaviors"
             hint={BEHAVIOR_LIST_HINTS.health}
             onVaChange={handlers.onSelectionChange}
-            // onBlur={handlers.onBlur}
-            // error={showError('issues')}
-            // required
             uswds
           >
             {Object.entries(BEHAVIOR_CHANGES_HEALTH).map(
@@ -203,9 +234,6 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
             form-heading-level={4}
             hint={BEHAVIOR_LIST_HINTS.other}
             onVaChange={handlers.onSelectionChange}
-            // onBlur={handlers.onBlur}
-            // error={showError('issues')}
-            // required
             uswds
           >
             {Object.entries(BEHAVIOR_CHANGES_OTHER).map(
@@ -231,23 +259,26 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
           <VaCheckboxGroup
             label={BEHAVIOR_LIST_SECTION_SUBTITLES.none}
             label-header-level={4}
-            name="noBehaviors"
+            name="view:noneCheckbox"
             hint={BEHAVIOR_LIST_HINTS.none}
             onVaChange={handlers.onSelectionChange}
-            // onBlur={handlers.onBlur}
-            // error={showError('issues')}
-            // required
+            // error={hasError}
+            // error={hasError ? conflictingBehaviorErrorMessage : ''}
             uswds
           >
             <va-checkbox
-              key="TODOkey"
-              name="noBehaviorChanges"
+              key="none"
+              name="view:noneCheckbox"
               // class="dd-privacy-hidden"
               // data-dd-action-name="issue name"
               label={behaviorListNoneLabel}
-              value="none"
-              checked={false}
-              // TODO checked={(formData?.workBehaviors || []).includes(behavior)}
+              value="view:noBehaviorChanges"
+              checked={
+                !!(
+                  data?.['view:noneCheckbox'] &&
+                  data['view:noneCheckbox']["view:noBehaviorChanges"]
+                )
+              }
               uswds
             />
           </VaCheckboxGroup>
@@ -256,7 +287,13 @@ const BehaviorListPage = ({ goBack, goForward, data, setFormData }) => {
           <>{mentalHealthSupportAlert()}</>
         </div>
       </form>
-      <FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
+      <>{contentBeforeButtons}</>
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue //NB suggestion
+      />
+      <>{contentAfterButtons}</>
     </>
   );
 };
