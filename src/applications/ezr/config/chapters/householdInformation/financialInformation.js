@@ -23,6 +23,7 @@ const options = {
   hideMaxItemsAlert: true,
   // isItemIncomplete: validateInsurancePolicy,
   text: {
+    getItemName: `Your annual income from ${LAST_YEAR}`,
     // summaryTitleWithoutItems: 'Your income and deductible',
     summaryDescription: FinancialInformationReviewAlert,
     // summaryDescriptionWithoutItems: "In the next few questions, we'll ask you about your household financial information.",

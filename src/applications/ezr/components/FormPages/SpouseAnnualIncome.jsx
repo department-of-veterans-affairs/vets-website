@@ -32,7 +32,7 @@ export const SpouseAnnualIncomePage = () => ({
         content['household-income-gross-title'],
         content['household-income-gross-description'],
       ),
-      'ui:description': GrossIncomeDescription(false),
+      'ui:description': GrossIncomeDescription('spouse'),
       spouseGrossIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -48,7 +48,7 @@ export const SpouseAnnualIncomePage = () => ({
         content['household-income-net-title'],
         content['household-income-net-description'],
       ),
-      'ui:description': PreviousNetIncome(false),
+      'ui:description': PreviousNetIncome('spouse'),
       spouseNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -64,7 +64,7 @@ export const SpouseAnnualIncomePage = () => ({
         content['household-income-other-title'],
         content['household-income-other-description'],
       ),
-      'ui:description': OtherIncomeDescription(false),
+      'ui:description': OtherIncomeDescription('spouse'),
       spouseOtherIncome: {
         ...currencyUI(
           replaceStrValues(

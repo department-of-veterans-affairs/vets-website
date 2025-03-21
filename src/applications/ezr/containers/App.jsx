@@ -116,8 +116,8 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
-    // isProvidersAndDependentsPrefillEnabled:
-    //   state.featureToggles.isProvidersAndDependentsPrefillEnabled,
+    isProvidersAndDependentsPrefillEnabled:
+      state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

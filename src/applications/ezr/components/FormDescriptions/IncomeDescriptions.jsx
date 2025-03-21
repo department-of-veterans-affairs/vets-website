@@ -2,26 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatCurrency } from '../../utils/helpers/general';
+import { includeHouseholdInformationWithV2Prefill } from '../../utils/helpers/form-config';
 
 const PreviousIncome = props => {
-  const { incomeType, isVeteran } = props;
-  const { previousFinancialInfo } =
-    useSelector(state => state.form.data.nonPrefill) || {};
-  const { veteranFinancialInfo, spouseFinancialInfo } = previousFinancialInfo;
-  const incomeYear = isVeteran
-    ? veteranFinancialInfo?.incomeYear
-    : spouseFinancialInfo?.incomeYear;
-  const income = isVeteran
-    ? veteranFinancialInfo?.[`${incomeType}`]
-    : spouseFinancialInfo?.[`${incomeType}`];
+  const { data: formData } = useSelector(state => state.form);
 
-  return incomeYear !== null &&
-    ((isVeteran && income !== null) || (!isVeteran && income !== null)) ? (
+  if (!includeHouseholdInformationWithV2Prefill(formData)) {
+    return null;
+  }
+
+  const { incomeReceiver, incomeType } = props;
+  const { previousFinancialInfo } = formData.nonPrefill || {};
+  const financialInfo =
+    previousFinancialInfo?.[`${incomeReceiver}FinancialInfo`];
+  const incomeYear = financialInfo?.incomeYear;
+  const income = financialInfo?.[`${incomeType}`];
+
+  return incomeYear && income ? (
     <>
       <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
         <va-card background>
           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Your {isVeteran ? '' : "spouse's"}{' '}
+            Your {incomeReceiver !== 'veteran' ? `${incomeReceiver}'s ` : ''}
             {incomeType
               .split('Income')
               .join(' ')
@@ -38,13 +40,15 @@ const PreviousIncome = props => {
 };
 
 PreviousIncome.propTypes = {
-  formData: PropTypes.object,
+  incomeReceiver: PropTypes.string,
   incomeType: PropTypes.string,
-  isVeteran: PropTypes.bool,
 };
 
+/**
+ * @param {String} incomeReceiver - The person who received the gross income
+ */
 // eslint-disable-next-line react/prop-types
-export const GrossIncomeDescription = (isVeteran = true) => {
+export const GrossIncomeDescription = incomeReceiver => {
   const incomeType = 'grossIncome';
 
   return (
@@ -66,22 +70,28 @@ export const GrossIncomeDescription = (isVeteran = true) => {
           </ul>
         </div>
       </va-additional-info>
-      <PreviousIncome incomeType={incomeType} isVeteran={isVeteran} />
+      <PreviousIncome incomeType={incomeType} incomeReceiver={incomeReceiver} />
     </>
   );
 };
 
-export const PreviousNetIncome = (isVeteran = true) => {
+/**
+ * @param {String} incomeReceiver - The person who received the gross income
+ */
+export const PreviousNetIncome = incomeReceiver => {
   const incomeType = 'netIncome';
 
   return (
     <>
-      <PreviousIncome incomeType={incomeType} isVeteran={isVeteran} />
+      <PreviousIncome incomeType={incomeType} incomeReceiver={incomeReceiver} />
     </>
   );
 };
 
-export const OtherIncomeDescription = (isVeteran = true) => {
+/**
+ * @param {String} incomeReceiver - The person who received the gross income
+ */
+export const OtherIncomeDescription = incomeReceiver => {
   const incomeType = 'otherIncome';
 
   return (
@@ -104,7 +114,7 @@ export const OtherIncomeDescription = (isVeteran = true) => {
           </ul>
         </div>
       </va-additional-info>
-      <PreviousIncome incomeType={incomeType} isVeteran={isVeteran} />
+      <PreviousIncome incomeType={incomeType} incomeReceiver={incomeReceiver} />
     </>
   );
 };

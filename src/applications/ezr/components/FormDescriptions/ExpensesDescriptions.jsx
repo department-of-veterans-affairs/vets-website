@@ -1,27 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { formatCurrency } from '../../utils/helpers/general';
+import { includeHouseholdInformationWithV2Prefill } from '../../utils/helpers/form-config';
 
 const PreviousExpenses = props => {
-  const { formData, expensesType } = props;
-  const { nonPrefill: previousFinancialInfo } = formData;
+  const { data: formData } = useSelector(state => state.form);
+
+  if (!includeHouseholdInformationWithV2Prefill(formData)) {
+    return null;
+  }
+
+  const { expensesType } = props;
+  const { previousFinancialInfo } = formData?.nonPrefill || {};
+  const veteranFinancialInfo = previousFinancialInfo?.veteranFinancialInfo;
+  const incomeYear = veteranFinancialInfo?.incomeYear;
+  const expense = veteranFinancialInfo?.[`${expensesType}`];
   const expensesText = {
     deductibleMedicalExpenses: 'non-reimbursable medical',
     deductibleEducationExpenses: 'education',
     deductibleFuneralExpenses: 'funeral and burial',
   };
-  const veteranFinancialInfo = previousFinancialInfo?.veteranFinancialInfo;
-  const incomeYear = veteranFinancialInfo?.incomeYear;
-  const expense = veteranFinancialInfo?.[`${expensesType}`];
 
-  return expense !== null && incomeYear !== null ? (
+  return expense && incomeYear ? (
     <>
       <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
         <va-card background>
           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
             Your {expensesText[`${expensesType}`]} expenses in {incomeYear}
           </h4>
-          <p className="vads-u-margin-y--0">{formatCurrency(expense)}</p>
+          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+            {formatCurrency(expense)}
+          </p>
         </va-card>
       </div>
     </>
@@ -30,7 +40,6 @@ const PreviousExpenses = props => {
 
 PreviousExpenses.propTypes = {
   expensesType: PropTypes.string,
-  formData: PropTypes.object,
 };
 
 export const EducationalExpensesDescription = () => {

@@ -3,12 +3,12 @@
     "id": "1234",
     "type": "in_progress_forms",
     "attributes": {
-      "formId": "20-0996",
+      "formId": "10-10EZR",
       "createdAt": "2021-06-03T00:00:00.000Z",
       "updatedAt": "2021-06-03T00:00:00.000Z",
       "metadata": {
         "version": 1,
-        "returnUrl": "/review-and-submit",
+        "returnUrl": "/veteran-information/personal-information",
         "savedAt": 1593500000000,
         "lastUpdated": 1593500000000,
         "expiresAt": 99999999999

@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { LAST_YEAR } from '../../utils/constants';
 import { includeSpousalInformation } from '../../utils/helpers/form-config';
 
-const SpousalFinancialInformation = item => {
+const SpousalFinancialInformation = props => {
+  const { item } = props;
+
   return (
     <>
       <h4>Spouse’s annual income from {LAST_YEAR}</h4>
@@ -20,8 +23,13 @@ const SpousalFinancialInformation = item => {
   );
 };
 
+SpousalFinancialInformation.propTypes = {
+  item: PropTypes.object,
+};
+
 const FinancialSummaryCardDescription = item => {
-  // Hide the 'Delete' button within the summary card
+  const { data: formData } = useSelector(state => state.form);
+  // Hide the 'Delete' button within the summary card (per design - 03/18/25)
   useEffect(() => {
     const deleteButton = document.querySelector(
       'va-card va-button-icon[data-action="remove"]',
@@ -32,14 +40,18 @@ const FinancialSummaryCardDescription = item => {
     }
   });
 
+  const { spouseGrossIncome } = item?.['view:spouseGrossIncome'] || '';
+  const { spouseNetIncome } = item?.['view:spouseNetIncome'] || '';
+  const { spouseOtherIncome } = item?.['view:spouseOtherIncome'] || '';
+
   const spouseHasIncomes =
-    item?.['view:spouseGrossIncome'] !== null &&
-    item?.['view:spouseNetIncome'] !== null &&
-    item?.['view:spouseOtherIncome'] !== null;
+    spouseGrossIncome !== null &&
+    spouseNetIncome !== null &&
+    spouseOtherIncome !== null;
 
   return item !== null ? (
     <>
-      <h4>Your annual income from {LAST_YEAR}</h4>
+      {/* The heading for this section comes from the ArrayBuilder's "itemName" attribute */}
       <p className="vads-u-margin-bottom--0">
         Gross annual income:{' '}
         {item['view:veteranGrossIncome'].veteranGrossIncome}
@@ -50,7 +62,7 @@ const FinancialSummaryCardDescription = item => {
       <p className="vads-u-margin-top--0">
         Other income: {item['view:veteranOtherIncome'].veteranOtherIncome}
       </p>
-      {includeSpousalInformation(item) && spouseHasIncomes ? (
+      {includeSpousalInformation(formData) && spouseHasIncomes ? (
         <SpousalFinancialInformation item={item} />
       ) : (
         ''
