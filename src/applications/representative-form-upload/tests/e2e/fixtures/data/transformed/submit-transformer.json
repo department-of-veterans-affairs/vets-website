@@ -1,0 +1,17 @@
+{
+  "confirmationCode": "123456",
+  "formNumber": "21-686c",
+  "formData": {
+    "idNumber": {
+      "ssn": "234232345",
+      "vaFileNumber": "456454567"
+    },
+    "postalCode": "12345",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "email": "john@veteran.com",
+    "formName": "Declaration of Status of Dependents"
+  }
+}

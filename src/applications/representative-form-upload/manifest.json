@@ -1,0 +1,6 @@
+{
+  "appName": "Representative Form Upload",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "representative-form-upload",
+  "rootUrl": "/representative-form-upload"
+}
