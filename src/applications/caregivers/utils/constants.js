@@ -1,7 +1,3 @@
-import { mapValues } from 'lodash';
-import facilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { states } from 'platform/forms/address';
 import { replaceStrValues } from './helpers';
 import content from '../locales/en/content.json';
 
@@ -34,25 +30,6 @@ export const DOWNLOAD_ERRORS_BY_CODE = {
 export const MAX_FILE_SIZE_MB = 10;
 
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-
-export const MED_CENTER_LABELS = Object.keys(facilities).reduce(
-  (labels, state) => {
-    const stateLabels = facilities[state].reduce(
-      (centers, center) =>
-        Object.assign(centers, {
-          [center.code]: center.label,
-        }),
-      {},
-    );
-
-    return Object.assign(labels, stateLabels);
-  },
-  {},
-);
-
-export const MED_CENTERS_BY_STATE = mapValues(facilities, val =>
-  val.map(c => c.code),
-);
 
 export const REQUIRED_ADDRESS_FIELDS = [
   'street',
@@ -103,5 +80,3 @@ export const SIGNATURE_CERTIFICATION_STATEMENTS = {
     content['certification-statement--rep-2'],
   ],
 };
-
-export const STATE_LABELS = createUSAStateLabels(states);

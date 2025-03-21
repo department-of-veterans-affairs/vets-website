@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 describe('CG <ConfirmationPage>', () => {

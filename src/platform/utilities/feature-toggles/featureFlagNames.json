@@ -163,6 +163,7 @@
   "militaryBenefitEstimates": "military_benefit_estimates",
   "myVaEnableMhvLink": "my_va_enable_mhv_link",
   "myVaNewMhvUrls": "my_va_new_mhv_urls",
+  "myVaMhvLinkDesignUpdate": "my_va_mhv_link_design_update",
   "myVaEnableNotificationComponent": "my_va_notification_component",
   "myVaHideNotificationsSection": "my_va_hide_notifications_section",
   "myVaLighthouseUploadsReport": "my_va_lighthouse_uploads_report",
@@ -320,5 +321,6 @@
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
   "toggleGiProgramsFlag": "toggle_gi_programs_flag",
   "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program",
-  "giCtCollab": "gi_ct_collab"
+  "giCtCollab": "gi_ct_collab",
+  "forms1516Links": "forms_10215_10216_release"
 }
