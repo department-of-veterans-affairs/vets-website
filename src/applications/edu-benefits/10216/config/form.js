@@ -35,14 +35,6 @@ export const SUBMIT_URL = `${
 }/v0/education_benefits_claims/10216`;
 
 const submitFormLogic = () => {
-  // eslint-disable-next-line no-console
-  console.log('----------------------------');
-  // eslint-disable-next-line no-console
-  console.log(`environment.isLocalhost()=${environment.isLocalhost()}`);
-  // eslint-disable-next-line no-console
-  console.log(`environment.isDev()=${environment.isDev()}`);
-  // eslint-disable-next-line no-console
-  console.log('----------------------------');
   if (environment.isDev() || environment.isLocalhost()) {
     return Promise.resolve({
       status: 201,
