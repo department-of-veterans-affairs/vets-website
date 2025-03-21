@@ -46,7 +46,7 @@ describe('<AddressValidationView/>', () => {
           zipCode: '12346',
         },
         isAddressValidationModalVisible: true,
-        addressValidationError: '',
+        addressValidationError: false,
         addressValidationType: 'mailingAddress',
         userEnteredAddress: {},
         validationKey: 1234,
