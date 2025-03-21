@@ -108,7 +108,6 @@ const newConditionPage = {
         ),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
-        hasMultipleItemPages: true,
       }),
     ),
     newCondition: {

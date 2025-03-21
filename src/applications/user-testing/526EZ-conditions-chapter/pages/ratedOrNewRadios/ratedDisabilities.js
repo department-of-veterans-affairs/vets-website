@@ -39,7 +39,6 @@ const conditionPage = {
         ),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
-        hasMultipleItemPages: true,
       }),
     ),
     ratedDisability: radioUI({
