@@ -48,6 +48,7 @@ describe('Feedback Tool Test', () => {
     cy.get('va-memorable-date').should('exist');
     cy.fillVaMemorableDate('root_serviceDateRange_from', '2023-01-01', true);
     cy.fillVaMemorableDate('root_serviceDateRange_to', '2024-01-01', true);
+
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/service-information');
 
