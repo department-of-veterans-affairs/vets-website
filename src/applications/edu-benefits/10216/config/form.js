@@ -30,11 +30,43 @@ const subTitle = () => (
   </p>
 );
 
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/10216`;
+
+const submitFormLogic = () => {
+  // eslint-disable-next-line no-console
+  console.log('----------------------------');
+  // eslint-disable-next-line no-console
+  console.log(`environment.isLocalhost()=${environment.isLocalhost()}`);
+  // eslint-disable-next-line no-console
+  console.log(`environment.isDev()=${environment.isDev()}`);
+  // eslint-disable-next-line no-console
+  console.log('----------------------------');
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve({
+      status: 201,
+      data: {
+        id: '39',
+        type: 'education_benefits_claim',
+        attributes: {
+          form:
+            '{"studentRatioCalcChapter":{"beneficiaryStudent":2,"numOfStudent":3,"dateOfCalculation":"2020-01-06","VABeneficiaryStudentsPercentage":"66.7%"},"institutionDetails":{"institutionName":"test","facilityCode":"90987890","termStartDate":"2020-01-02"}}',
+          regionalOffice:
+            'VA Regional Office\nP.O. Box 4616\nBuffalo, NY 14240-4616',
+          confirmationNumber: 'V-EBC-39',
+        },
+      },
+    });
+  }
+  return submitForm;
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
-  submit: submitForm,
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
