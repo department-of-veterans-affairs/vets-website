@@ -64,6 +64,7 @@ import CopyMailingAddress from '../containers/CopyMailingAddress';
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
+import { useContactInfoFormAppConfig } from './ContactInfoFormAppConfigContext';
 
 const MailingAddressUpdateProfileDescription = () => (
   <p
@@ -147,6 +148,8 @@ export const ProfileInformationEditViewFc = ({
   const editFormRef = useRef(null);
   const [intervalId, setIntervalId] = useState(null);
 
+  const contactInfoFormAppConfig = useContactInfoFormAppConfig();
+
   const isPendingTransactionMemo = useMemo(
     () => {
       return isPendingTransaction(transaction);
@@ -185,7 +188,16 @@ export const ProfileInformationEditViewFc = ({
 
   // Component mount effects
   useEffect(() => {
-    const initialFormValues = getInitialFormValues();
+    // this determines if we should use the form field data from the form app
+    // instead of the initial form values from the profile because the user has
+    // already selected "no" to updating their profile from the form app
+    const shouldUseFormAppFieldData =
+      contactInfoFormAppConfig?.formFieldData &&
+      contactInfoFormAppConfig?.formFieldData?.updateProfileChoice === 'no';
+
+    const initialFormValues = shouldUseFormAppFieldData
+      ? contactInfoFormAppConfig?.formFieldData
+      : getInitialFormValues();
 
     const {
       uiSchema: updatedUiSchema,

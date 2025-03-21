@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from 'react';
+import { useSelector } from 'react-redux';
 
 /**
  * This context, provider, and hook is used to pass configuration from a form schema object to a set of consuming components.
@@ -8,8 +9,17 @@ import React, { createContext, useContext } from 'react';
 export const ContactInfoFormAppConfigContext = createContext({});
 
 export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
+  const formFieldData = useSelector(
+    state => state?.form?.data?.[value.keys.wrapper]?.[value.formKey],
+  );
+
+  const contextValue = {
+    ...value,
+    formFieldData,
+  };
+
   return (
-    <ContactInfoFormAppConfigContext.Provider value={value}>
+    <ContactInfoFormAppConfigContext.Provider value={contextValue}>
       {children}
     </ContactInfoFormAppConfigContext.Provider>
   );
