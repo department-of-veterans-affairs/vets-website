@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { states } from 'platform/forms/address';
 import { replaceStrValues } from '../../utils/helpers';
+import { STATES_USA } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
@@ -18,7 +18,7 @@ export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
               : content[`form-address-${field}-label`];
           const value =
             field === 'state'
-              ? states.USA.find(s => s.value === formData.state)?.label
+              ? STATES_USA.find(s => s.value === formData.state)?.label
               : formData[field];
           return (
             <div key={field} className="review-row">
