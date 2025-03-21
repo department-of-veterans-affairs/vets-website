@@ -67,7 +67,7 @@ describe('Header <App>', () => {
 
     const renderProps = render(
       <Provider store={mockStore}>
-        <App show={show} showMinimalHeader={showMinimalHeader} />
+        <App show={show} setupMinimalHeader={() => showMinimalHeader} />
       </Provider>,
       { container: header },
     );

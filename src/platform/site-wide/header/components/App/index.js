@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
 import { updateLayoutHeaderType } from 'platform/site-wide/layout/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import {
+  isMinimalHeaderApp,
+  isMinimalHeaderPath,
+} from 'platform/forms-system/src/js/patterns/minimal-header';
 import MobileHeader from '../Header';
 import {
   hideDesktopHeader,
@@ -12,16 +16,11 @@ import {
 
 const MOBILE_BREAKPOINT_PX = 768;
 
-function determineHeaderState(show, showMinimalHeader, path, isDesktop) {
+function determineHeaderState(show, isMinimalHeader, isDesktop) {
   if (!show) {
     return 'none';
   }
-  if (
-    showMinimalHeader &&
-    (typeof showMinimalHeader === 'function'
-      ? showMinimalHeader(path)
-      : showMinimalHeader)
-  ) {
+  if (isMinimalHeader) {
     return 'minimal';
   }
 
@@ -32,15 +31,10 @@ function determineHeaderState(show, showMinimalHeader, path, isDesktop) {
   return 'default';
 }
 
-function setStaticHeaderDisplay(
-  show,
-  isMinimalHeaderApplicable,
-  headerState,
-  isDesktop,
-) {
+function setStaticHeaderDisplay(show, isMinimalHeader, headerState, isDesktop) {
   if (show) {
-    if (isMinimalHeaderApplicable) {
-      toggleMinimalHeader(headerState === 'minimal');
+    if (isMinimalHeaderApp()) {
+      toggleMinimalHeader(isMinimalHeader);
     }
     if (isDesktop) {
       showDesktopHeader();
@@ -51,19 +45,14 @@ function setStaticHeaderDisplay(
   // else everything is already hidden by default
 }
 
-export const App = ({
-  megaMenuData,
-  show,
-  showMegaMenu,
-  showNavLogin,
-  showMinimalHeader,
-}) => {
+export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
   const dispatch = useDispatch();
   const path = useSelector(state => state?.navigation?.route?.path);
   const [headerState, setHeaderState] = useState(null);
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
   );
+  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(path), [path]);
 
   useEffect(() => {
     const deriveIsDesktop = () =>
@@ -80,15 +69,14 @@ export const App = ({
     () => {
       const newHeaderState = determineHeaderState(
         show,
-        showMinimalHeader,
-        path,
+        isMinimalHeader,
         isDesktop,
       );
 
       if (headerState !== newHeaderState) {
         setStaticHeaderDisplay(
           show,
-          showMinimalHeader,
+          isMinimalHeader,
           newHeaderState,
           isDesktop,
         );
@@ -96,7 +84,7 @@ export const App = ({
         dispatch(updateLayoutHeaderType(newHeaderState));
       }
     },
-    [show, showMinimalHeader, path, isDesktop, dispatch, headerState],
+    [show, path, isDesktop, dispatch, headerState, isMinimalHeader],
   );
 
   if (!show || headerState !== 'mobile') {
@@ -114,6 +102,7 @@ export const App = ({
 
 App.propTypes = {
   megaMenuData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setupMinimalHeader: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   showNavLogin: PropTypes.bool.isRequired,
