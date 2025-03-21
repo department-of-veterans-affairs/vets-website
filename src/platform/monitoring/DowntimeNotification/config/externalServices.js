@@ -38,7 +38,7 @@ export default {
   // Login.gov, identity provider
   logingov: 'logingov',
   // Lighthouse Education Benefits API
-  lts: 'lts',
+  lighthouseBenefitsEducation: 'lighthouseBenefitsEducation',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
   // My HealtheVet

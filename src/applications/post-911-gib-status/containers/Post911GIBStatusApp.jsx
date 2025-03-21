@@ -52,7 +52,7 @@ function Post911GIBStatusApp({ user, children }) {
     <RequiredLoginView verify serviceRequired={useLighthouse} user={user}>
       <DowntimeNotification
         appTitle="Post-9/11 GI Bill benefits tracking tool"
-        dependencies={[externalServices.lts]}
+        dependencies={[externalServices.lighthouseBenefitsEducation]}
       >
         <AppContent>
           <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
