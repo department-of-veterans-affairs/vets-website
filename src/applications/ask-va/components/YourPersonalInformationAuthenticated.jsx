@@ -3,9 +3,10 @@ import format from 'date-fns/format';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { clearFormData, removeAskVaForm } from '../actions';
 import { hasPrefillInformation } from '../constants';
 
 const PersonalAuthenticatedInformation = ({
@@ -13,7 +14,10 @@ const PersonalAuthenticatedInformation = ({
   formData,
   isLoggedIn,
   router,
+  formId,
 }) => {
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (!hasPrefillInformation(formData)) {
@@ -24,6 +28,8 @@ const PersonalAuthenticatedInformation = ({
   );
 
   const handleGoBack = () => {
+    dispatch(clearFormData());
+    dispatch(removeAskVaForm(formId));
     router.push('/');
   };
 
@@ -87,6 +93,7 @@ const PersonalAuthenticatedInformation = ({
 
 PersonalAuthenticatedInformation.propTypes = {
   formData: PropTypes.object,
+  formId: PropTypes.string,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
