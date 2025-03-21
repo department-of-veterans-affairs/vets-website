@@ -46,7 +46,7 @@ describe('VAOS Component: ScheduleReferral', () => {
 
     expect(facility).to.exist;
   });
-  it.skip('should reset slot selection', async () => {
+  it('should reset slot selection', async () => {
     const referral = createReferralById(referralDate, '222');
     const selectedSlotKey = getReferralSlotKey(referral.uuid);
     sessionStorage.setItem(selectedSlotKey, '0');

@@ -44,7 +44,7 @@ describe('VAOS Component: PendingReferralCard', () => {
     ).to.exist;
   });
   // TODO: figure out how to test the click event
-  it.skip('should call handleClick when the link is clicked', () => {
+  it('should call handleClick when the link is clicked', () => {
     const link = screen.getByTestId('appointment-list-item');
     fireEvent.click(link);
     expect(handleClick.calledOnce).to.be.true;
