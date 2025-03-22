@@ -64,7 +64,7 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
 };
 
-// declare initial state for entrollment status reducer
+// declare initial state for enrollment status reducer
 export const ENROLLMENT_STATUS_INIT_STATE = {
   hasServerError: false,
   parsedStatus: null,
@@ -91,6 +91,25 @@ export const MOCK_ENROLLMENT_RESPONSE = {
   parsedStatus: 'enrolled',
   effectiveDate: '2019-04-25T00:00:00.000-06:00',
   canSubmitFinancialInfo: true,
+  nonPrefill: {
+    previousFinancialInfo: {
+      veteranFinancialInfo: {
+        incomeYear: '2023',
+        otherIncome: '6405',
+        grossIncome: '49728',
+        netIncome: '3962',
+        deductibleFuneralExpenses: '2193',
+        deductibleMedicalExpenses: '9532',
+        deductibleEducationExpenses: '1295',
+      },
+      spouseFinancialInfo: {
+        incomeYear: '2023',
+        otherIncome: '1376',
+        grossIncome: '38911',
+        netIncome: '743',
+      },
+    },
+  },
 };
 
 // declare names to use for window session storage items
