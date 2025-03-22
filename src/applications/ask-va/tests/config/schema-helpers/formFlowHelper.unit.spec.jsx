@@ -5,7 +5,6 @@ import { flowPages } from '../../../config/schema-helpers/formFlowHelper';
 import {
   CategoryDebt,
   TopicEducationBenefitOverpayments,
-  hasPrefillInformation,
   schoolInYourProfileOptions,
   yourRoleOptionsEducation,
 } from '../../../constants';
@@ -141,7 +140,7 @@ describe('flowPages', () => {
     const pages = {
       aboutyourself: {
         title: 'About Yourself',
-        depends: formData => !hasPrefillInformation(formData),
+        depends: formData => !formData.hasPrefillInformation,
       },
     };
 
@@ -165,6 +164,7 @@ describe('flowPages', () => {
             ssn: '444555212',
           },
         },
+        hasPrefillInformation: true,
         isGeneralQuestion: true,
       }),
     ).to.be.false;
