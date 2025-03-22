@@ -1,6 +1,6 @@
 import { mapValues } from 'lodash';
 import get from 'platform/utilities/data/get';
-import { caregiverProgramFacilities as facilities } from '../imports';
+import { CAREGIVER_FACILITIES as facilities } from '../imports';
 
 export const MED_CENTERS_BY_STATE = mapValues(facilities, val =>
   val.map(c => c.code),

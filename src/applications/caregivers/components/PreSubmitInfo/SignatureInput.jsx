@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { REACT_BINDINGS } from '../../utils/imports';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
+
+// define react binding components
+const { VaTextInput } = REACT_BINDINGS;
 
 const SignatureInput = props => {
   const {

@@ -6,10 +6,10 @@ import {
 import { addressWithAutofillSchema } from '../../../definitions/sharedSchema';
 import { addressWithAutofillUI } from '../../../definitions/sharedUI';
 import { replaceStrValues } from '../../../utils/helpers';
-import { fullSchema } from '../../../utils/imports';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { address } = fullSchema.definitions;
+const { address } = FULL_SCHEMA.definitions;
 const inputLabel = content['secondary-one-input-label'];
 
 const secondaryOneHomeAddress = {
