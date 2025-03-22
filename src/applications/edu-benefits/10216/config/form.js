@@ -21,6 +21,8 @@ import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
 import submitForm from './submitForm';
 import { certifyingOfficial } from '../pages/institutionOfficial';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -30,11 +32,18 @@ const subTitle = () => (
   </p>
 );
 
+const submitFormLogic = () => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm;
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
-  submit: submitForm,
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
