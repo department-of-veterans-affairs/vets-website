@@ -3,7 +3,6 @@ import {
   CategoryDebt,
   CHAPTER_2,
   CHAPTER_3,
-  hasPrefillInformation,
   schoolInYourProfileOptions,
   TopicEducationBenefitOverpayments,
   TopicEducationBenefitOverpaymentsForStudents,
@@ -175,14 +174,14 @@ export const ch3Pages = {
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => !hasPrefillInformation(form),
+    depends: form => !form.hasPrefillInformation,
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => !hasPrefillInformation(form),
+    depends: form => !form.hasPrefillInformation,
   },
   aboutYourselfRelationshipFamilyMember: {
     editModeOnReviewPage: false,
@@ -190,7 +189,7 @@ export const ch3Pages = {
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => !hasPrefillInformation(form),
+    depends: form => !form.hasPrefillInformation,
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -368,13 +367,8 @@ export const ch3Pages = {
     title: CHAPTER_3.BRANCH_OF_SERVICE.TITLE,
     uiSchema: yourBranchOfServicePage.uiSchema,
     schema: yourBranchOfServicePage.schema,
-    depends: form => {
-      const authCheck =
-        form.aboutYourself.first &&
-        form.aboutYourself.last &&
-        form.aboutYourself.dateOfBirth;
-      return authCheck && isBranchOfServiceRequired(form);
-    },
+    // TODO - Custom component due to alert message for prefill https://www.figma.com/design/aQ6JsjD4pvMxSVPAZHllMX/AVA-Page-Library?node-id=3029-74800&t=DA4C4u7Wrv7TMhYs-1
+    depends: form => isBranchOfServiceRequired(form),
   },
   stateOfProperty: {
     title: CHAPTER_3.STATE_OF_PROPERTY.TITLE,
@@ -428,7 +422,7 @@ export const flowPages = (obj, list, path) => {
 // Form flows
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
-  'yourBranchOfService',
+  // 'yourBranchOfService',
   'schoolInYourProfile',
   'searchSchools',
   'useThisSchool',

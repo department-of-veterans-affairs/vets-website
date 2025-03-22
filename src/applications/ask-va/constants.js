@@ -150,10 +150,7 @@ export const branchOfServiceRuleforCategories = [
 
 // Check to show Your Personal Information page and NOT About Yourself page
 export const hasPrefillInformation = form => {
-  if (!form?.aboutYourself) return false;
-
   const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
-
   return !!(
     first &&
     last &&
