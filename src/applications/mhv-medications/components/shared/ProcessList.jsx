@@ -222,8 +222,9 @@ const ProcessList = ({ stepGuideProps }) => {
                 >
                   {isRefillRunningLate ? (
                     <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
-                      We expected to fill it on {dateFormat(refillDate)}. Call
-                      your VA pharmacy for an update
+                      We expected to fill your prescription on{' '}
+                      {dateFormat(refillDate)}. Call your VA pharmacy for an
+                      update
                       <CallPharmacyPhone
                         cmopDivisionPhone={pharmacyPhone}
                         page={pageType.REFILL}
