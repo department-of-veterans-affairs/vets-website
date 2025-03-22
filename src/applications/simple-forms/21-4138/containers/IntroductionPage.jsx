@@ -36,7 +36,7 @@ const IntroductionPage = props => {
       <ul>
         <li>
           We may tell you to use this form in certain cases like the ones listed
-          on this page
+          on this page.
         </li>
         <li>
           In many cases, there are better ways to share information or requests
