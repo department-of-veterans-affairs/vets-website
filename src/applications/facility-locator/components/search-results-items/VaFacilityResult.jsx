@@ -62,7 +62,7 @@ const VaFacilityResult = ({
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} query={query} />
+        <LocationDirectionsLink location={location} />
         <LocationPhoneLink
           location={location}
           from="SearchResult"
@@ -81,6 +81,7 @@ const VaFacilityResult = ({
 
 VaFacilityResult.propTypes = {
   index: PropTypes.number,
+  isCemetery: PropTypes.bool,
   isMobile: PropTypes.bool,
   location: PropTypes.object,
   query: PropTypes.object,
@@ -88,7 +89,6 @@ VaFacilityResult.propTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  isCemetery: PropTypes.bool,
 };
 
 export default VaFacilityResult;
