@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -82,40 +82,54 @@ const Allergies = props => {
   const [selectedSort, setSelectedSort] = useState(
     allowFilterSort ? SortTypes.ALPHABETICAL.value : '',
   );
+  const [sortString, setSortString] = useState();
+  const [sortedAllergies, setSortedAllergies] = useState([]);
 
-  const sortString = useMemo(
+  useEffect(
     () => {
       switch (selectedSort) {
         case SortTypes.ALPHABETICAL.value:
-          return SortTypes.ALPHABETICAL.label;
+          setSortString(SortTypes.ALPHABETICAL.label);
+          break;
         case SortTypes.ASC_DATE.value:
-          return SortTypes.ASC_DATE.labelWithDateEntered;
+          setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
+          break;
         case SortTypes.DSC_DATE.value:
-          return SortTypes.DSC_DATE.labelWithDateEntered;
+          setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
+          break;
         default:
-          return SortTypes.ALPHABETICAL.label;
+          break;
       }
     },
     [selectedSort],
   );
 
-  const sortedAllergies = useMemo(
+  useEffect(
     () => {
       switch (selectedSort) {
         case SortTypes.ALPHABETICAL.value:
-          return allergies?.sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
+          setSortedAllergies(
+            allergies?.sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            }),
+          );
+          break;
         case SortTypes.ASC_DATE.value:
-          return allergies?.sort((a, b) => {
-            return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
-          });
+          setSortedAllergies(
+            allergies?.sort((a, b) => {
+              return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
+            }),
+          );
+          break;
         case SortTypes.DSC_DATE.value:
-          return allergies?.sort((a, b) => {
-            return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
-          });
+          setSortedAllergies(
+            allergies?.sort((a, b) => {
+              return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
+            }),
+          );
+          break;
         default:
-          return allergies;
+          break;
       }
     },
     [selectedSort, allergies],

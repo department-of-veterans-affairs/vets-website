@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -40,6 +40,8 @@ const HealthConditions = () => {
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort],
   );
+  const [sortString, setSortString] = useState();
+  const [sortedConditions, setSortedConditions] = useState([]);
 
   useListRefresh({
     listState,
@@ -74,39 +76,51 @@ const HealthConditions = () => {
     allowFilterSort ? SortTypes.ASC_DATE.value : '',
   );
 
-  const sortString = useMemo(
+  useEffect(
     () => {
       switch (selectedSort) {
         case SortTypes.ALPHABETICAL.value:
-          return SortTypes.ALPHABETICAL.label;
+          setSortString(SortTypes.ALPHABETICAL.label);
+          break;
         case SortTypes.ASC_DATE.value:
-          return SortTypes.ASC_DATE.labelWithDateEntered;
+          setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
+          break;
         case SortTypes.DSC_DATE.value:
-          return SortTypes.DSC_DATE.labelWithDateEntered;
+          setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
+          break;
         default:
-          return SortTypes.ASC_DATE.labelWithDateEntered;
+          break;
       }
     },
     [selectedSort],
   );
 
-  const sortedConditions = useMemo(
+  useEffect(
     () => {
       switch (selectedSort) {
         case SortTypes.ALPHABETICAL.value:
-          return conditions?.sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
+          setSortedConditions(
+            conditions?.sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            }),
+          );
+          break;
         case SortTypes.ASC_DATE.value:
-          return conditions?.sort((a, b) => {
-            return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
-          });
+          setSortedConditions(
+            conditions?.sort((a, b) => {
+              return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
+            }),
+          );
+          break;
         case SortTypes.DSC_DATE.value:
-          return conditions?.sort((a, b) => {
-            return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
-          });
+          setSortedConditions(
+            conditions?.sort((a, b) => {
+              return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
+            }),
+          );
+          break;
         default:
-          return conditions;
+          break;
       }
     },
     [selectedSort, conditions],
