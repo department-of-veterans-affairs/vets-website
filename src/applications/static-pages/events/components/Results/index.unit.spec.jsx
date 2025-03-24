@@ -9,8 +9,8 @@ import { generateTestEvents } from '../../helpers/event-generator';
 
 describe('formatEventDateTime', () => {
   const mockDateTimeRange = {
-    value: 1742565600, // Fri, Mar 21, 2025 9:00 AM UTC
-    endValue: 1742572800, // Fri, Mar 21, 2025 11:00 AM UTC
+    value: 1742565600, // Fri, Mar 21, 2025, 9:00 AM CST
+    endValue: 1742572800, // Fri, Mar 21, 2025, 11:00 AM CST
     timezone: 'America/Chicago',
   };
 
