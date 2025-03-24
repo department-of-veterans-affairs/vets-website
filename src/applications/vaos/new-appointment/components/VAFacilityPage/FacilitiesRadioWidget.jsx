@@ -37,8 +37,6 @@ export default function FacilitiesRadioWidget({
   const requestingLocationFailed =
     requestLocationStatus === FETCH_STATUS.failed;
 
-  const isRecentLocationSort =
-    sortMethod === FACILITY_SORT_METHODS.recentLocations;
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
   const [displayAll, setDisplayAll] = useState(
@@ -93,7 +91,7 @@ export default function FacilitiesRadioWidget({
             {hasUserAddress ? selectOptions : selectOptions.slice(1)}
           </VaSelect>
         </div>
-        {!hasUserAddress && !isRecentLocationSort && <NoAddressNote />}
+        {!hasUserAddress && <NoAddressNote />}
         {requestingLocationFailed && (
           <div className="vads-u-padding-top--1">
             <InfoAlert
