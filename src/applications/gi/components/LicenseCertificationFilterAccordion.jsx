@@ -4,10 +4,7 @@ import classNames from 'classnames';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
-// Consider using redux actions, as in SearchAccordion -- ok to use local state, since state is limited to this page?
-// Examine use of/need for 'id', 'buttonId', and 'isProductionOrTestProdEnv' in SearchAccordion-- for testing or anyalytics? Necessary here?
-// Upon answering these questions, assess the reusability of the original SearchAccordion component to avoid repetion.
-
+// TODO: Assess reusability of SearchAccordion component to avoid repetition.
 export default function LicenseCertificationFilterAccordion({
   children,
   buttonLabel,
@@ -15,11 +12,10 @@ export default function LicenseCertificationFilterAccordion({
   buttonOnClick, // update results
   onClick,
   headerClass,
-  ariaDescribedBy,
   expanded,
   resetSearch,
 }) {
-  const [isExpanded, setExpanded] = useState(expanded);
+  const [isExpanded, setExpanded] = useState(expanded || false);
 
   const toggle = () => {
     setExpanded(!isExpanded);
@@ -38,21 +34,17 @@ export default function LicenseCertificationFilterAccordion({
 
     return (
       <h2 className={headerClasses}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
         <button
-          // id={`${id}-button`}
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
-          // aria-isExpanded={isExpanded}
-          // aria-controls={id}
+          aria-expanded={isExpanded}
+          aria-label={`${buttonLabel} ${isExpanded ? 'expanded' : 'collapsed'}`}
           data-testid="update-lc-search"
         >
           <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
             <span className="vads-u-font-family--serif accordion-button-text">
               {buttonLabel}
             </span>
-
-            <va-icon icon={isExpanded ? 'remove' : 'add'} size={3} />
           </div>
         </button>
       </h2>
@@ -91,9 +83,11 @@ export default function LicenseCertificationFilterAccordion({
     <div className="usa-accordion-item">
       {renderHeader()}
       <div
-        className="usa-accordion-content update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3 "
+        className={`usa-accordion-content ${isExpanded &&
+          `update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3`} `}
         aria-hidden={!isExpanded}
         hidden={!isExpanded}
+        role="region"
       >
         {isExpanded ? children : null}
       </div>
@@ -102,7 +96,6 @@ export default function LicenseCertificationFilterAccordion({
           <VaButton
             className={`update-results-button-after ${updateResultsButton}`}
             onClick={buttonOnClick}
-            aria-describedby={ariaDescribedBy}
             text={button}
           />
           <ClearFiltersBtn
@@ -116,7 +109,6 @@ export default function LicenseCertificationFilterAccordion({
 }
 
 LicenseCertificationFilterAccordion.propTypes = {
-  ariaDescribedBy: PropTypes.string,
   button: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   buttonOnClick: PropTypes.func.isRequired,
