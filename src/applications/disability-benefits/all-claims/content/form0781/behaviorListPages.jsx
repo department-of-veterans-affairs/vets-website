@@ -182,12 +182,6 @@ export function validateBehaviorSelections(errors, formData) {
   }
 }
 
-export function hasProvidedBehaviorDetails(formData) {
-  // TODO compare to selected behaviors, only show if orphaned behaviors leftover
-  const providedBehaviorDetails = Object.keys(formData.behaviorsDetails || {});
-  return providedBehaviorDetails.length > 0;
-}
-
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
@@ -249,24 +243,29 @@ function behaviorSummariesList(behaviorAndDetails) {
   );
 }
 
-export const summarizeBehaviors = formData => {
+export const allSelectedBehaviorTypes = formData => {
   const allBehaviorTypes = {
     ...formData.workBehaviors,
     ...formData.healthBehaviors,
     ...formData.otherBehaviors,
   };
 
-  const allSelectedBehaviorTypes = Object.entries(allBehaviorTypes)
+  return Object.entries(allBehaviorTypes)
     .filter(([, value]) => value === true)
     .reduce((acc, [key, value]) => {
       acc[key] = value;
       return acc;
     }, {});
+};
 
-  const selectedBehaviorsWithDetails = getDescriptionForBehavior(
-    allSelectedBehaviorTypes,
+export const selectedBehaviorsWithDetails = formData => {
+  return getDescriptionForBehavior(
+    allSelectedBehaviorTypes(formData),
     formData.behaviorsDetails,
   );
+};
 
-  return behaviorSummariesList(selectedBehaviorsWithDetails);
+export const summarizeBehaviors = formData => {
+  const summarizedObject = selectedBehaviorsWithDetails(formData);
+  return behaviorSummariesList(summarizedObject);
 };
