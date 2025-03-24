@@ -19,7 +19,6 @@ const copayOnly = {
   selectedDebtsAndCopays: [
     {
       debtType: 'COPAY',
-      station: { facilityName: 'Bob Stump Medical Center' },
       resolutionOption: 'compromise',
     },
   ],
@@ -31,10 +30,9 @@ const combined = {
   selectedDebtsAndCopays: [
     {
       debtType: 'COPAY',
-      station: { facilityName: 'Bob Stump Medical Center' },
       resolutionOption: 'compromise',
     },
-    { debtType: 'DEBT', deductionCode: 30, resolutionOption: 'waiver' },
+    { debtType: 'DEBT', resolutionOption: 'waiver' },
   ],
   isStreamlinedShort: true,
   isStreamlinedLong: false,
@@ -46,7 +44,7 @@ describe('Submit event data', () => {
       'enhanced-submission': true,
       streamlined: 'streamlined-false',
       'submission-type': 'debt-submission',
-      'resolution-and-debt-selection': ['debt-30-waiver'],
+      'resolution-and-debt-selection': ['debt-waiver'],
     });
     expect(buildEventData(copayOnly)).to.deep.equal({
       'enhanced-submission': true,
@@ -58,7 +56,7 @@ describe('Submit event data', () => {
       'enhanced-submission': true,
       streamlined: 'streamlined-short',
       'submission-type': 'combo-submission',
-      'resolution-and-debt-selection': ['copay-compromise', 'debt-30-waiver'],
+      'resolution-and-debt-selection': ['copay-compromise', 'debt-waiver'],
     });
   });
 });
