@@ -71,11 +71,18 @@ export const ContactInfoBase = ({
   contactInfoPageKey,
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
+  contactPath,
   ...rest
 }) => {
   const { router } = rest;
 
-  const { pathname } = router?.location || { pathname: '' };
+  let urlPrefix = '';
+
+  if (router && router?.routes && router?.routes?.length > 0) {
+    urlPrefix = router?.routes?.[1]?.formConfig?.urlPrefix || '';
+  }
+
+  const baseEditPath = `${urlPrefix}${contactPath}`;
 
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -258,7 +265,7 @@ export const ContactInfoBase = ({
           {loggedIn && (
             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
               <VaLink
-                href={`${pathname}/edit-mailing-address`}
+                href={`${baseEditPath}/edit-mailing-address`}
                 label={content.editMailingAddress}
                 text={
                   isFieldEmpty(
@@ -270,7 +277,7 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-mailing-address`);
+                  router.push(`${baseEditPath}/edit-mailing-address`);
                 }}
                 active
               />
@@ -297,7 +304,7 @@ export const ContactInfoBase = ({
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
               <VaLink
-                href={`${pathname}/edit-home-phone`}
+                href={`${baseEditPath}/edit-home-phone`}
                 label={content.editHomePhone}
                 text={
                   getPhoneString(dataWrap[keys.homePhone])
@@ -306,7 +313,7 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-home-phone`);
+                  router.push(`${baseEditPath}/edit-home-phone`);
                 }}
                 active
               />
@@ -333,7 +340,7 @@ export const ContactInfoBase = ({
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
               <VaLink
-                href={`${pathname}/edit-mobile-phone`}
+                href={`${baseEditPath}/edit-mobile-phone`}
                 label={content.editMobilePhone}
                 text={
                   getPhoneString(dataWrap[keys.mobilePhone])
@@ -342,7 +349,7 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-mobile-phone`);
+                  router.push(`${baseEditPath}/edit-mobile-phone`);
                 }}
                 active
               />
@@ -366,7 +373,7 @@ export const ContactInfoBase = ({
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
               <VaLink
-                href={`${pathname}/edit-email-address`}
+                href={`${baseEditPath}/edit-email-address`}
                 label={content.editEmail}
                 text={
                   isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
@@ -375,7 +382,7 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${pathname}/edit-email-address`);
+                  router.push(`${baseEditPath}/edit-email-address`);
                 }}
                 active
               />

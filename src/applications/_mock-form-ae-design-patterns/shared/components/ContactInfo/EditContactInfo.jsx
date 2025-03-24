@@ -14,7 +14,7 @@ import {
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
-import { refreshProfile } from 'platform/user/exportsFile';
+import { refreshProfile, sanitizeUrl } from 'platform/user/exportsFile';
 import { ContactInfoFormAppConfigProvider } from '@@vap-svc/components/ContactInfoFormAppConfigContext';
 import { useRouteMetadata } from './useRouteMetadata';
 
@@ -38,7 +38,10 @@ export const BuildPageBase = ({
 
   const routeMetadata = useRouteMetadata(router);
 
-  const fullContactPath = `${routeMetadata?.urlPrefix || ''}${contactPath}`;
+  const sanitizedPrefix = sanitizeUrl(routeMetadata?.urlPrefix || '');
+
+  const fullContactPath = `${sanitizedPrefix}/${contactPath}`;
+  const fullReviewPath = `${sanitizedPrefix}/review-and-submit`;
 
   useEffect(
     () => {
@@ -66,7 +69,7 @@ export const BuildPageBase = ({
   );
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  const returnPath = onReviewPage ? '/review-and-submit' : fullContactPath;
+  const returnPath = onReviewPage ? fullReviewPath : fullContactPath;
 
   const handlers = {
     onSubmit: event => {
