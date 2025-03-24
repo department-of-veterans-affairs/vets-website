@@ -15,6 +15,7 @@ import {
   getVAStatusFromCRM,
 } from '../config/helpers';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import { mockInquiries } from '../utils/mockData';
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
@@ -70,7 +71,7 @@ const DashboardCards = () => {
     };
 
     if (mockTestingFlagforAPI) {
-      processData([]);
+      processData(mockInquiries.data);
       return Promise.resolve();
     }
 
