@@ -34,6 +34,11 @@ function AddressValidationModal(props) {
   const userEnteredAddress =
     formData[formFields.viewMailingAddress]?.[formFields.address];
 
+  const stateOptions = constants.states.USA.map(state => ({
+    value: state.value,
+    label: state.label,
+  }));
+
   const isAddressComplete = address => {
     if (!address) return false;
     const { street, city, state, postalCode, country = 'USA' } = address;
@@ -120,11 +125,6 @@ function AddressValidationModal(props) {
     setFormData(updatedFormData);
   };
 
-  const stateOptions = constants.states.USA.map(state => ({
-    value: state.value,
-    label: state.label,
-  }));
-
   const addressPattern = addressUI({
     required: {
       street: true,
@@ -163,7 +163,7 @@ function AddressValidationModal(props) {
           value={userEnteredAddress?.state || ''}
           required={userEnteredAddress?.country === 'USA'}
           onVaSelect={e => handleAddressChange({ state: e.detail.value })}
-          options={stateOptions}
+          options={JSON.stringify(stateOptions)}
         />
         <va-text-input
           name="postalCode"
