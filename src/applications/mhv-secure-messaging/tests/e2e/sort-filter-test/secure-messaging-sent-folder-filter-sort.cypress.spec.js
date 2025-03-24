@@ -8,7 +8,7 @@ import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(mockSentMessages);
+    PatientInboxPage.loadInboxMessages();
     PatientMessageSentPage.loadMessages();
   });
 

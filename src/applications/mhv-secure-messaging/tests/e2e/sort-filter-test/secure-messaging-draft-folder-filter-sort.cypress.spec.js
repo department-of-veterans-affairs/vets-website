@@ -9,7 +9,7 @@ import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 describe('SM DRAFT FOLDER FILTER-SORT', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(mockDraftMessages);
+    PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadDraftMessages();
   });
 
@@ -43,23 +43,21 @@ describe('SM DRAFT FOLDER PLAIN TG NAME FILTERING', () => {
     'TG | Type | Name',
   );
 
-  const filteredResponse = {
-    data: updatedThreadResponse.data.filter(
-      item => item.attributes.suggestedNameDisplay === 'TG | Type | Name',
-    ),
-  };
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages(updatedThreadResponse);
   });
 
   it('verify filter works correctly', () => {
-    PatientMessageDraftsPage.inputFilterDataText('TG');
-    PatientMessageDraftsPage.clickFilterMessagesButton(filteredResponse);
+    PatientMessageDraftsPage.inputFilterDataText(
+      updatedThreadResponse.data[0].attributes.subject,
+    );
+    PatientMessageDraftsPage.clickFilterMessagesButton(updatedThreadResponse);
 
-    PatientMessageDraftsPage.verifyDraftToField('TG');
+    PatientMessageDraftsPage.verifyDraftToField(
+      updatedThreadResponse.data[0].attributes.subject,
+    );
 
     cy.injectAxeThenAxeCheck();
   });
