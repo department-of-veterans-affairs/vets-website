@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { addressUI } from 'platform/forms-system/src/js/web-component-patterns';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import {
   setAddressValidationModalOpen,
@@ -119,6 +120,11 @@ function AddressValidationModal(props) {
     setFormData(updatedFormData);
   };
 
+  const stateOptions = constants.states.USA.map(state => ({
+    value: state.value,
+    label: state.label,
+  }));
+
   const addressPattern = addressUI({
     required: {
       street: true,
@@ -157,7 +163,7 @@ function AddressValidationModal(props) {
           value={userEnteredAddress?.state || ''}
           required={userEnteredAddress?.country === 'USA'}
           onVaSelect={e => handleAddressChange({ state: e.detail.value })}
-          options={addressPattern.stateOptions || []}
+          options={stateOptions}
         />
         <va-text-input
           name="postalCode"
