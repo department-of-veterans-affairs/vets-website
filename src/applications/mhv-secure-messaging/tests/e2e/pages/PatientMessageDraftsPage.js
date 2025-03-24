@@ -314,11 +314,11 @@ class PatientMessageDraftsPage {
     cy.realPress('Enter');
   };
 
-  clickFilterMessagesButton = () => {
+  clickFilterMessagesButton = (filteredResponse = sentSearchResponse) => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
-      sentSearchResponse,
+      filteredResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
@@ -397,24 +397,6 @@ class PatientMessageDraftsPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
-  };
-
-  verifyFilterResultsText = (
-    filterValue,
-    responseData = sentSearchResponse,
-  ) => {
-    cy.get(Locators.MESS_LIST).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
   };
 
   clickSortMessagesByDateButton = (
@@ -607,6 +589,10 @@ class PatientMessageDraftsPage {
     cy.get(`[status="warning"]`)
       .find(`va-button[text="Delete changes"]`)
       .click();
+  };
+
+  verifyDraftToField = value => {
+    cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }
 
