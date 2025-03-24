@@ -1,15 +1,27 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { optionsToAlwaysDisplay } from '../utils/helpers';
+import {
+  benefitOptionsMap,
+  getBenefitSummaryLetterLabels,
+  optionsToAlwaysDisplay,
+} from '../utils/helpers';
+import { BENEFIT_OPTIONS } from '../utils/constants';
 
 const benefitsInfo = state => state.letters.benefitInfo;
 const requestOptions = state => state.letters.requestOptions;
+const isVeteran = true;
 // const serviceInfo = state => state.letters.serviceInfo;
 
 const BenefitSummaryLetter = () => {
   const benefitsInfoSelector = useSelector(benefitsInfo);
   const requestOptionsSelector = useSelector(requestOptions);
   // const serviceInfoSelector = useSelector(serviceInfo);
+
+  // Updating options to always show to split disability rating
+  // and monthly amount into two separate labels
+  const newOptionsToAlwaysDisplay = optionsToAlwaysDisplay.concat(
+    BENEFIT_OPTIONS.monthlyAwardAmount,
+  );
 
   // console.log(benefitsInfoSelector);
   // console.log(serviceInfoSelector);
@@ -22,23 +34,24 @@ const BenefitSummaryLetter = () => {
     benefitKeys.forEach(key => {
       if (benefitsInfoSelector[key] === null) return;
 
-      // const value = benefitsInfoSelector[key];
+      const value = benefitsInfoSelector[key];
       // const displayOption =
       //   optionsToAlwaysDisplay.includes(key) || value !== false;
-      const displayOption = optionsToAlwaysDisplay.includes(key);
+      const displayOption = newOptionsToAlwaysDisplay.includes(key);
+      const labelText = getBenefitSummaryLetterLabels(key, value, isVeteran);
 
-      if (displayOption) {
+      if (displayOption && labelText) {
         benefitCheckboxes.push(
           <li key={`option-${key}`} className="form-checkbox">
             <input
-              checked={benefitsInfoSelector[key]}
+              checked={requestOptionsSelector[benefitOptionsMap[key]]}
               id={key}
               name={key}
               type="checkbox"
               onChange={() => {}} // TODO: Restore the dispatch
             />
             <label className="vads-u-margin-top--0" htmlFor={key}>
-              {key}
+              {labelText}
             </label>
           </li>,
         );
