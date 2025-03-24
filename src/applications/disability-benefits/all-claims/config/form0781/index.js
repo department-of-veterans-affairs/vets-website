@@ -132,6 +132,7 @@ export const form0781PagesConfig = {
     depends: formData => isCompletingForm0781(formData),
     uiSchema: supportingEvidencePage.uiSchema,
     schema: supportingEvidencePage.schema,
+    // THIS IS WHERE WE WILL REMOVE THE FLAG FOR BEHAVIORAL QUESTIONS
     onContinue: removeBehavioralQuestionsAlert,
   },
   treatmentReceivedPage: {

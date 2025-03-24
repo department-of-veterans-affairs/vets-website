@@ -88,6 +88,7 @@ const BehaviorIntroCombatPage = ({
     deepClone['view:deletedBehavioralQuestionAnswers'] = true;
 
     setFormData(deepClone);
+    console.log("Form data set", deepClone)
   };
 
   const handlers = {

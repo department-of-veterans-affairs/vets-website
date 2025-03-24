@@ -6,7 +6,8 @@ export const removeBehavioralQuestionsAlert = (formData) => {
 }
 
 // CAN WE DELETE THIS ON CONTINUE?
-export const deletedBeavioralQuestionsAlert = formData => {
+export const deletedBeavioralQuestionsAlert = ({formData}) => {
+  // This won't contain the data we need
   console.log("formdata", formData)
   if (formData['view:deletedBehavioralQuestionAnswers'] === true) {
     return (
