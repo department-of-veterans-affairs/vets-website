@@ -37,7 +37,7 @@ import {
   unlistedDescriptionPageNumber,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
-import { supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
+import { removeBehavioralQuestionsAlert, supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
@@ -132,6 +132,7 @@ export const form0781PagesConfig = {
     depends: formData => isCompletingForm0781(formData),
     uiSchema: supportingEvidencePage.uiSchema,
     schema: supportingEvidencePage.schema,
+    onContinue: removeBehavioralQuestionsAlert,
   },
   treatmentReceivedPage: {
     path: 'mental-health-form-0781/treatment-received',

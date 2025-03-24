@@ -11,6 +11,7 @@ import {
   supportingEvidencePageTitle,
   validateSupportingEvidenceSelections,
   supportingEvidenceBuddyStatement,
+  deletedBeavioralQuestionsAlert,
 } from '../../content/form0781/supportingEvidencePage';
 import {
   SUPPORTING_EVIDENCE_SUBTITLES,
@@ -22,6 +23,12 @@ import {
 } from '../../constants';
 
 export const uiSchema = {
+  // Can't figure out how to get this to show up
+  // 'ui:field': deletedBeavioralQuestionsAlert,
+  // WHY isnt this showing up at the top?
+  'view:deletedBeavioralQuestionsAlert': {
+    'ui:description': deletedBeavioralQuestionsAlert,
+  },
   'ui:title': titleWithTag(supportingEvidencePageTitle, form0781HeadingTag),
   'ui:description': supportingEvidenceDescription,
   supportingEvidenceReports: checkboxGroupUI({
@@ -84,6 +91,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:deletedBeavioralQuestionsAlert': {
+      type: 'object',
+      properties: {},
+    },
     'view:conflictingResponseAlert': {
       type: 'object',
       properties: {},

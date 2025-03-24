@@ -1,4 +1,32 @@
 import React from 'react';
+// import cloneDeep from 'platform/utilities/data/cloneDeep';
+
+export const removeBehavioralQuestionsAlert = (formData) => {
+  console.log("Form data", formData)
+}
+
+// CAN WE DELETE THIS ON CONTINUE?
+export const deletedBeavioralQuestionsAlert = formData => {
+  console.log("formdata", formData)
+  if (formData['view:deletedBehavioralQuestionAnswers'] === true) {
+    return (
+      <va-alert status="success" class="vads-u-margin-bottom--4">
+        <h3>Behavioral Questions deleted</h3>
+        <p className="vads-u-margin-y--0">Your submission is in progress.</p>
+        <p>I am an alert la la la</p>
+        <va-link-action
+          href="/my-va/"
+          text="Check the status of your form on My VA"
+          label="Check the status of your form on My VA"
+          message-aria-describedby="Check the status of your form on My VA"
+        />
+      </va-alert>
+    );
+  } else {
+    // This is probably bad
+    return <div />;
+  }
+};
 
 export const supportingEvidencePageTitle =
   'Select supporting documents about your mental health conditions';
