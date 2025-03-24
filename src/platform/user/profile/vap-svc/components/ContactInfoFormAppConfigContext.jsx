@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 /**
@@ -18,10 +19,6 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
     formFieldData,
   };
 
-  // console.log({
-  //   contextValue,
-  // });
-
   return (
     <ContactInfoFormAppConfigContext.Provider value={contextValue}>
       {children}
@@ -35,4 +32,12 @@ export const useContactInfoFormAppConfig = () => {
     return null;
   }
   return context;
+};
+
+ContactInfoFormAppConfigProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+  value: PropTypes.shape({
+    keys: PropTypes.object.isRequired,
+    formKey: PropTypes.string.isRequired,
+  }).isRequired,
 };
