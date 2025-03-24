@@ -116,7 +116,7 @@ const checkLimitations = (limitations, limit) => {
   return checkAuthorizations(checkLimitation);
 };
 
-const POARequestDetailsPage = () => {
+const POARequestDetailsPage = title => {
   const poaRequest = useLoaderData();
   const [error, setError] = useState(false);
   const handleChange = e => {
@@ -150,9 +150,13 @@ const POARequestDetailsPage = () => {
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      focusElement('h1');
+      document.title = title.title;
+    },
+    [title],
+  );
 
   return (
     <>
