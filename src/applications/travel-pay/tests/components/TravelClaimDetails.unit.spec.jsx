@@ -94,7 +94,7 @@ describe('TravelClaimDetails', () => {
       .true;
   });
 
-  it('handles failed data fetching and displays an error', () => {
+  it('shows a spinner while claim details are loading', () => {
     const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
       initialState: {
         ...getState({
@@ -122,32 +122,4 @@ describe('TravelClaimDetails', () => {
     expect(screen.getByText(/There was an error loading the claim details/i)).to
       .exist;
   });
-
-  // it('renders appeal link for denied claims', async () => {
-  //   global.fetch.restore();
-  //   mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
-
-  //   const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-  //     initialState: getState(),
-  //   });
-
-  //   expect(await screen.findByText('Claim status: Denied')).to.exist;
-  //   expect(
-  //     $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
-  //   ).to.exist;
-  // });
-
-  // it('does not render claims management content with flag off', async () => {
-  //   global.fetch.restore();
-  //   mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
-
-  //   const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-  //     initialState: getState({ hasClaimsManagementFlag: false }),
-  //   });
-
-  //   expect(await screen.findByText('Claim status: Denied')).to.exist;
-  //   expect(
-  //     $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
-  //   ).to.not.exist;
-  // });
 });
