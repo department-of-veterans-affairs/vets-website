@@ -7,6 +7,7 @@ const buildFormData = (
   serviceNumber = undefined,
   ssn = undefined,
   phoneNumber = '',
+  businessPhone = '',
   emailAddress = '',
   schoolInfo = {},
   branchOfService = '',
@@ -25,6 +26,7 @@ const buildFormData = (
       },
       avaProfile: {
         schoolInfo,
+        businessPhone,
       },
       veteranServiceInformation: {
         branchOfService,
@@ -35,20 +37,22 @@ const buildFormData = (
         first,
         last,
         socialOrServiceNum: {
-          serviceNumber,
+          // serviceNumber,
           ssn,
         },
         // ========
         // TODO: Transformer appears to be adding duplicate data?? joehall-tw
         branchOfService,
-        serviceNumber,
-        socialSecurityNumber: ssn,
+        // serviceNumber,
+        // socialSecurityNumber: ssn,
         // END TODO
         // ========
       },
-      phone: phoneNumber,
-      email: emailAddress,
+      // phone: phoneNumber,
+      // email: emailAddress,
       schoolInfo,
+      businessPhone,
+      businessEmail: emailAddress,
       // ========
       // TODO: Transformer appears to be adding duplicate data?? joehall-tw
       phoneNumber,
@@ -70,6 +74,7 @@ describe('Ask VA prefill transformer', () => {
       undefined,
       '123456987',
       '555-123-4567',
+      '',
       'pparker@dailyBugle.com',
       { schoolFacilityCode: '321', schoolName: 'Midtown School of Science' },
     );
