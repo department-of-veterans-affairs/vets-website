@@ -13,10 +13,27 @@ export default {
       'Your mailing address',
       'We’ll mail information about this application to the address you provide here.',
     ),
-    address: addressNoMilitaryUI({
-      omit: ['street3'],
-    }),
+    address: merge(
+      {},
+      addressNoMilitaryUI({
+        omit: ['street3'],
+      }),
+      {
+        city: {
+          'ui:title': 'City',
+          'ui:options': {
+            replaceSchema: (_, schema) => {
+              return {
+                ...schema,
+                pattern: '^[A-Za-z]+$',
+              };
+            },
+          },
+        },
+      },
+    ),
   },
+
   schema: {
     type: 'object',
     properties: {
@@ -35,6 +52,7 @@ export default {
             },
             city: {
               maxLength: 20,
+              pattern: '^[A-Za-z]+$',
             },
             postalCode: {
               maxLength: 5,
