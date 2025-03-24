@@ -12,7 +12,7 @@ describe('find forms search results', () => {
     h.clickSearch();
 
     cy.wait('@getFindAForm');
-    cy.get(h.SEARCH_RESULT_TITLE).should('exist');
+    h.verifyElementExists(h.SEARCH_RESULT_TITLE);
 
     h.validateSearchResult(
       '10-252',
@@ -59,6 +59,41 @@ describe('find forms search results', () => {
       .get('option')
       .should('be.selected')
       .should('contain', FAF_SORT_OPTIONS[0]);
+  });
+
+  it('shows proper no results messaging for non-DD214 searches', () => {
+    cy.intercept('GET', '/v0/forms?query=invalid', { data: [] }).as(
+      'getFindAForm',
+    );
+    cy.visit('/find-forms/?q=invalid');
+    cy.injectAxeThenAxeCheck();
+    cy.wait('@getFindAForm');
+
+    h.verifyElementShouldContainText(
+      h.NO_RESULTS,
+      `No results were found for "invalid." Try using fewer words or broadening your search. If you’re looking for non-VA forms, go to the .`,
+    );
+
+    h.verifyElementDoesNotExist(h.NO_RESULTS_DD214);
+  });
+
+  it('shows proper no results messaging for DD214', () => {
+    cy.intercept('GET', '/v0/forms?query=dd214', { data: [] }).as(
+      'getFindAForm',
+    );
+    cy.visit('/find-forms/?q=dd214');
+    cy.injectAxeThenAxeCheck();
+    cy.wait('@getFindAForm');
+
+    h.verifyElementShouldContainText(
+      h.NO_RESULTS,
+      `No results were found for "dd214." Try using fewer words or broadening your search. If you’re looking for non-VA forms, go to the .`,
+    );
+
+    h.verifyTextInsideLink(
+      h.NO_RESULTS_DD214,
+      'Need to request your military records including DD214?',
+    );
   });
 
   it('opens PDF modal', () => {
