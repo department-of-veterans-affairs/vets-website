@@ -137,6 +137,7 @@ export const ProfileInformationEditViewFc = ({
   saveButtonText,
   apiRoute,
   convertCleanDataToPayload,
+  successCallback,
   refreshTransaction: refreshTransactionAction,
   clearTransactionRequest: clearTransactionRequestAction,
   updateFormFieldWithSchema: updateFormFieldWithSchemaAction,
@@ -341,7 +342,7 @@ export const ProfileInformationEditViewFc = ({
     );
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const isAddressField = fieldName.toLowerCase().includes('address');
 
     if (!isAddressField) {
@@ -349,6 +350,12 @@ export const ProfileInformationEditViewFc = ({
     }
 
     let payload = field.value;
+
+    // this is to handle the case where the user has selected "no" to updating
+    // their profile information from a form app context
+    const onlyValidate =
+      payload?.updateProfileChoice && payload?.updateProfileChoice === 'no';
+
     if (convertCleanDataToPayload) {
       payload = convertCleanDataToPayload(payload, fieldName);
     }
@@ -373,13 +380,28 @@ export const ProfileInformationEditViewFc = ({
     const method = payload?.id ? 'PUT' : 'POST';
 
     if (isAddressField) {
-      validateAddressAction(
+      const validationResult = await validateAddressAction(
         apiRoute,
         method,
         fieldName,
         payload,
         analyticsSectionName,
+        onlyValidate,
       );
+
+      // this is to handle the case where the user has selected "no" to updating
+      // their profile information from a form app context
+      if (validationResult?.onlyValidate) {
+        contactInfoFormAppConfig.updateContactInfoForFormApp(
+          fieldName,
+          payload,
+          field.value?.updateProfileChoice,
+        );
+        successCallback();
+        clearTransactionRequestAction(fieldName);
+        openModal();
+      }
+
       return;
     }
 

@@ -445,6 +445,7 @@ class ProfileInformationFieldController extends React.Component {
               this.props?.prefillPatternEnabled &&
               this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
             }
+            successCallback={this.props.successCallback}
           />
         );
       } else {

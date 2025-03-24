@@ -99,7 +99,7 @@ const responses = {
   'GET /v0/maintenance_windows': (_req, res) => {
     return res.json(maintenanceWindows.noDowntime);
   },
-  'POST /v0/profile/address_validation': address.addressValidation,
+  'POST /v0/profile/address_validation': address.addressValidationMatch,
   'PUT /v0/profile/telephones': (req, res) => {
     return res.json(
       updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),

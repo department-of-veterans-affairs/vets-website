@@ -1,6 +1,8 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from 'platform/forms-system/exportsFile';
+import { getCountryObjectFromIso3 } from 'platform/forms/address/helpers';
 
 /**
  * This context, provider, and hook is used to pass configuration from a form schema object to a set of consuming components.
@@ -14,9 +16,49 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
     state => state?.form?.data?.[value.keys.wrapper]?.[value.formKey],
   );
 
+  const formData = useSelector(state => state?.form?.data);
+
+  const dispatch = useDispatch();
+
+  const updateContactInfoForFormApp = useCallback(
+    (fieldName, payload, updateProfileChoice) => {
+      // using the esisting timestamp to make sure the conditional logic on the
+      // ContactInfo page doesn't override the 'form only' update
+      const existingUpdatedAt =
+        formData[value.keys.wrapper][value.formKey]?.updatedAt;
+
+      // if we don't get a country name then the ContactInfo page will show
+      // an alert that says that the user has no address
+      const countryName = getCountryObjectFromIso3(payload.countryCodeIso3)
+        ?.countryName;
+
+      const updatedFormAppData = {
+        ...formData,
+        [value.keys.wrapper]: {
+          ...formData[value.keys.wrapper],
+          [value.formKey]: {
+            ...payload,
+            updateProfileChoice,
+            updatedAt: existingUpdatedAt,
+            countryName,
+          },
+        },
+      };
+
+      dispatch(setData(updatedFormAppData));
+
+      return {
+        ...formFieldData,
+        [fieldName]: payload,
+      };
+    },
+    [formData, dispatch, formFieldData, value.keys.wrapper, value.formKey],
+  );
+
   const contextValue = {
     ...value,
     formFieldData,
+    updateContactInfoForFormApp,
   };
 
   return (
