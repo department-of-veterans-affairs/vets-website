@@ -196,7 +196,7 @@ export function filterLcResults(
   };
 }
 
-export function fetchLicenseCertificationResults(signal) {
+export function fetchLicenseCertificationResults() {
   const url = `${api.url}/lcpe/lacs`;
 
   return async dispatch => {
@@ -205,7 +205,6 @@ export function fetchLicenseCertificationResults(signal) {
     try {
       const res = await fetch(url, {
         ...api.settings,
-        signal,
       });
 
       if (!res.ok) {
@@ -228,7 +227,7 @@ export function fetchLicenseCertificationResults(signal) {
   };
 }
 
-export function fetchLcResult(id, signal) {
+export function fetchLcResult(id) {
   return async dispatch => {
     const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
@@ -236,7 +235,6 @@ export function fetchLcResult(id, signal) {
     try {
       const res = await fetch(url, {
         ...api.settings,
-        signal,
       });
 
       if (!res.ok) {

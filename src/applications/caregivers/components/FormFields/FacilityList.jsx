@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio, VaRadioOption } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {

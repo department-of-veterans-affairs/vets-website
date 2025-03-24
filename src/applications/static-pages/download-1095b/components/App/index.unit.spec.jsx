@@ -146,6 +146,7 @@ describe('App component', () => {
       });
     });
   });
+
   describe('when authenticated and verified', () => {
     it('renders the loading message', async () => {
       const testState = {
@@ -175,11 +176,14 @@ describe('App component', () => {
       await waitFor(() => {
         expect(queryByText('Loading')).not.to.exist;
       });
-      expect(
-        container.querySelector(
-          'va-link[text="Download PDF (best for printing)"]',
-        ),
-      ).to.exist;
+      await waitFor(() => {
+        expect(
+          container.querySelector(
+            'va-link[text="Download PDF (best for printing)"]',
+          ),
+        ).to.exist;
+      });
+
       expect(
         container.querySelector(
           'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
@@ -221,6 +225,13 @@ describe('App component', () => {
           featureToggles: {
             ...authedAndVerifiedState.featureToggles,
             showDigitalForm1095b: false,
+          },
+          user: {
+            ...authedAndVerifiedState.user,
+            profile: {
+              ...authedAndVerifiedState.user.profile,
+              loading: false,
+            },
           },
         };
         const { queryByText } = renderWithProvider(testState);

@@ -1,10 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 import ProcessList from '../components/ProcessList';
+
+const CLAIM_ID = '10216claimID';
+
+export const setClaimIdInLocalStage = submission => {
+  if (submission?.response?.id) {
+    localStorage.setItem(CLAIM_ID, JSON.stringify(submission?.response?.id));
+  }
+};
+
+export const getClaimIdFromLocalStage = () => {
+  return JSON.parse(localStorage.getItem(CLAIM_ID));
+};
 
 export const ConfirmationPage = ({ router, route }) => {
   const isAccredited = localStorage.getItem('isAccredited') === 'true';
@@ -16,13 +28,8 @@ export const ConfirmationPage = ({ router, route }) => {
 
   useEffect(
     () => {
-      if (submission?.response?.id) {
-        localStorage.setItem(
-          '10216claimID',
-          JSON.stringify(submission?.response?.id),
-        );
-      }
-      setClaimID(JSON.parse(localStorage.getItem('10216claimID')));
+      setClaimIdInLocalStage(submission);
+      setClaimID(getClaimIdFromLocalStage());
     },
     [submission],
   );
@@ -71,7 +78,7 @@ export const ConfirmationPage = ({ router, route }) => {
         steps.
       </p>
       <va-link-action
-        href="/education/apply-for-education-benefits/application/10215"
+        href="/school-administrators/85-15-rule-enrollment-ratio"
         text="Go to VA Form 22-10215 now"
         class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
       />

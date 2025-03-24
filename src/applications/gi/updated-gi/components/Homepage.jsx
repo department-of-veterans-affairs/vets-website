@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LinkWithDescription from './LinkWithDescription';
+import NewFeatureProgramsYRTAlert from '../../components/profile/NewFeatureProgramsYRTAlert';
 
 const HomePage = () => {
+  const [visibleAlert, setVisibleAlert] = useState(true);
+
   return (
-    <div className="vads-u-margin-bottom--8">
+    <div className="vads-u-margin-bottom--8 vads-u-display--flex vads-u-flex-direction--column">
       <h1 data-testid="comparison-tool-title">GI Bill® Comparison Tool</h1>
       <p
         className="medium-8 vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4"
@@ -13,6 +16,14 @@ const HomePage = () => {
         and compare approved schools, employers, exams, licenses, and
         certifications to see how much your VA benefits can help cover.
       </p>
+      <div className="usa-width-two-thirds">
+        <NewFeatureProgramsYRTAlert
+          visible={visibleAlert}
+          onClose={() => setVisibleAlert(false)}
+          customHeadline="Comparison Tool new features"
+          customParagraph="Licenses & certifications, national exams, Yellow Ribbon, and approved programs"
+        />
+      </div>
       <div
         className="vads-u-display--flex flex-container"
         style={{ gap: '20px' }}
