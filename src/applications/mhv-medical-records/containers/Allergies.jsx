@@ -108,11 +108,11 @@ const Allergies = props => {
           });
         case SortTypes.ASC_DATE.value:
           return allergies?.sort((a, b) => {
-            return isBefore(new Date(a.date), new Date(b.date));
+            return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
           });
         case SortTypes.DSC_DATE.value:
           return allergies?.sort((a, b) => {
-            return isAfter(new Date(a.date), new Date(b.date));
+            return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
           });
         default:
           return allergies;
