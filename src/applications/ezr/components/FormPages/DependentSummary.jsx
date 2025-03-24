@@ -97,15 +97,10 @@ const DependentSummary = props => {
         </legend>
 
         {/** Additional Info component for description */}
-        {dependents.length === 0 ? (
-          <>
-            <DependentDescription />
-          </>
-        ) : null}
+        {dependents.length === 0 && <DependentDescription />}
 
-        {!onReviewPage && dependents.length >= MAX_DEPENDENTS ? (
-          <DependentsMaxWarning />
-        ) : null}
+        {!onReviewPage &&
+          dependents.length >= MAX_DEPENDENTS && <DependentsMaxWarning />}
 
         {/** Dependent tile list */}
         {dependents.length > 0 ? (

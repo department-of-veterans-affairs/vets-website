@@ -7,22 +7,12 @@ import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
 import { DEPENDENT_VIEW_FIELDS, LAST_YEAR } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
-const yesNoLabels = hasList => {
-  if (hasList) {
-    return {
-      labels: {
-        Y: content['household-dependent-report-yes-addtl'],
-        N: content['household-dependent-report-no-addtl'],
-      },
-    };
-  }
-  return {
-    labels: {
-      Y: content['household-dependent-report-yes'],
-      N: content['household-dependent-report-no'],
-    },
-  };
-};
+const yesNoLabels = hasList => ({
+  labels: {
+    Y: content[`household-dependent-report-yes${hasList ? '-addtl' : ''}`],
+    N: content[`household-dependent-report-no${hasList ? '-addtl' : ''}`],
+  },
+});
 
 const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
   const fieldsetRef = useRef(null);
