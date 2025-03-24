@@ -15,7 +15,6 @@ import {
   getVAStatusFromCRM,
 } from '../config/helpers';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
-import { mockInquiries } from '../utils/mockData';
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
@@ -71,7 +70,7 @@ const DashboardCards = () => {
     };
 
     if (mockTestingFlagforAPI) {
-      processData(mockInquiries.data);
+      processData([]);
       return Promise.resolve();
     }
 
@@ -415,6 +414,7 @@ const DashboardCards = () => {
             full-width="false"
             status="info"
             visible="true"
+            slim
           >
             <p className="vads-u-margin-y--0">
               You haven’t submitted a question yet.
