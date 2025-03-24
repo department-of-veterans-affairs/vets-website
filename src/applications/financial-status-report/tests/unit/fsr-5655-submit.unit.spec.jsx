@@ -8,9 +8,7 @@ import submitForm, { buildEventData } from '../../config/submitForm';
 
 const debtOnly = {
   'view:enhancedFinancialStatusReport': false,
-  selectedDebtsAndCopays: [
-    { debtType: 'DEBT', deductionCode: 30, resolutionOption: 'waiver' },
-  ],
+  selectedDebtsAndCopays: [{ debtType: 'DEBT', resolutionOption: 'waiver' }],
   isStreamlinedShort: false,
   isStreamlinedLong: false,
 };
