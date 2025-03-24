@@ -12,11 +12,14 @@ import {
   behaviorListNoneLabel,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
-  hasSelectedBehaviors,
-  hasProvidedBehaviorDetails,
+  allSelectedBehaviorTypes,
+  hasOrphanedBehaviorDetails,
+  orphanedBehaviorDetails,
+  modalContent,
   validateBehaviorSelections,
   conflictingBehaviorErrorMessage,
   showConflictingAlert,
+  summarizeBehaviors,
 } from '../content/form0781/behaviorListPages';
 
 import {
@@ -59,9 +62,7 @@ const BehaviorListPage = ({
   const [showModal, setShowModal] = useState(false);
   const [hasError, setHasError] = useState(showConflictingAlert(data), null);
 
-  console.log("SHOW MODAL", showModal)
   console.log("DETAILS", data.behaviorsDetails)
-  console.log("HAS PROVIDED", hasProvidedBehaviorDetails(data))
 
   const checkErrors = () => {
     const result = showConflictingAlert(data);
@@ -126,7 +127,6 @@ const BehaviorListPage = ({
       const { target } = event;
       const selection = event.target?.getAttribute('value');
       const behaviorSection = target.name;
-      console.log("onSelectionChange, section", behaviorSection)
       const selectionsBySection = getSelectionsBySection(behaviorSection);
 
       if (target.checked) {
@@ -147,11 +147,7 @@ const BehaviorListPage = ({
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
-      } else if (
-        hasSelectedBehaviors(data) &&
-        hasProvidedBehaviorDetails(data)
-      ) {
-        console.log("set show modal!")
+      } else if (hasOrphanedBehaviorDetails(data)) {
         setShowModal(true);
       } else { //Any other conditions? Need to have selections?
         goForward(data);
@@ -171,14 +167,11 @@ const BehaviorListPage = ({
     },
   };
 
-  // const modalContent = () => {
-  //   'If you remove these items, we’ll remove the descriptions you provided about these behavioral changes:';
-  // }
 
   return (
     <>
       <VaModal
-        modalTitle="Remove behavioral changes?"
+        // modalTitle="Remove behavioral changes?" //TODO - check styling. Here its an H2, vs content page html H4
         visible={showModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDescriptions}
         onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDescriptions}
@@ -187,9 +180,7 @@ const BehaviorListPage = ({
         secondaryButtonText="No, keep these items"
         status="warning"
       >
-        If you remove these items, we’ll remove the descriptions you provided
-        about these behavioral changes:
-        {/* {modalContent()} */}
+        {modalContent(data)}
       </VaModal>
 
       <form onSubmit={handlers.onSubmit}>
