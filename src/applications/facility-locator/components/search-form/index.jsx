@@ -30,7 +30,9 @@ export const SearchForm = props => {
     mobileMapUpdateEnabled,
     onChange,
     onSubmit,
+    searchInitiated,
     selectMobileMapPin,
+    setSearchInitiated,
     suppressPPMS,
     useProgressiveDisclosure,
     vamcAutoSuggestEnabled,
@@ -39,7 +41,6 @@ export const SearchForm = props => {
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
-  const [searchInitiated, setSearchInitiated] = useState(false);
 
   const handleFacilityTypeChange = e => {
     onChange({

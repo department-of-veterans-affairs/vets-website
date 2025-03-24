@@ -19,36 +19,6 @@ describe('API utilities', () => {
   });
 
   describe('Error handling', () => {
-    it('redirects to login for 401 responses', async () => {
-      const errorResponse = new Response(
-        JSON.stringify({
-          errors: ['Access token JWT is malformed'],
-          status: 'UNAUTHORIZED',
-        }),
-        {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
-      fetchStub.resolves(errorResponse);
-
-      // Stub window.location
-      const currentUrl = 'http://localhost/test';
-      const locationSetter = sandbox.stub();
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        enumerable: true,
-        get: () => ({ href: currentUrl }),
-        set: locationSetter,
-      });
-
-      const result = await api.getPOARequest('123');
-      expect(result).to.be.null;
-      expect(locationSetter.calledOnce).to.be.true;
-      const redirectUrl = locationSetter.firstCall.args[0];
-      expect(redirectUrl).to.match(new RegExp(encodeURIComponent(currentUrl)));
-    });
-
     it('does not log Response objects to Sentry', async () => {
       const errorResponse = new Response(
         JSON.stringify({

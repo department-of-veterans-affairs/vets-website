@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
+import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES } from '../constants';
+
+const title = 'Your travel reimbursement claim';
 
 export default function ClaimDetailsContent({
   createdOn,
@@ -14,6 +17,7 @@ export default function ClaimDetailsContent({
   facilityName,
   modifiedOn,
 }) {
+  useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
@@ -28,7 +32,9 @@ export default function ClaimDetailsContent({
 
   return (
     <>
-      <h1>Your travel reimbursement claim for {appointmentDate}</h1>
+      <h1>
+        {title} for {appointmentDate}
+      </h1>
       <span
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
