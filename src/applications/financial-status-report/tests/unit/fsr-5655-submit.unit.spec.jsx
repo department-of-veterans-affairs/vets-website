@@ -52,18 +52,13 @@ describe('Submit event data', () => {
       'enhanced-submission': true,
       streamlined: 'streamlined-long',
       'submission-type': 'copay-submission',
-      'resolution-and-debt-selection': [
-        'copay-Bob Stump Medical Center-compromise',
-      ],
+      'resolution-and-debt-selection': ['copay-compromise'],
     });
     expect(buildEventData(combined)).to.deep.equal({
       'enhanced-submission': true,
       streamlined: 'streamlined-short',
       'submission-type': 'combo-submission',
-      'resolution-and-debt-selection': [
-        'copay-Bob Stump Medical Center-compromise',
-        'debt-30-waiver',
-      ],
+      'resolution-and-debt-selection': ['copay-compromise', 'debt-30-waiver'],
     });
   });
 });

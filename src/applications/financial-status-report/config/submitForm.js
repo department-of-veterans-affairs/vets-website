@@ -41,9 +41,7 @@ const getResolutionForSelectedDebt = selectedDebtsAndCopays => {
     debtObjectResolutionSelection =
       debtObject.debtType === DEBT_TYPES.DEBT
         ? `debt-${debtObject.deductionCode}-${debtObject.resolutionOption}`
-        : `copay-${debtObject.station.facilityName}-${
-            debtObject.resolutionOption
-          }`;
+        : `copay-${debtObject.resolutionOption}`;
 
     resolvedDebtsAndCopays.push(debtObjectResolutionSelection);
   });
