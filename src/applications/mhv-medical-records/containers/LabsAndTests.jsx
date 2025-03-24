@@ -111,8 +111,8 @@ const LabsAndTests = () => {
         )}
         <RecordList
           type={recordType.LABS_AND_TESTS}
-          records={labsAndTests?.map(allergy => ({
-            ...allergy,
+          records={labsAndTests?.map(data => ({
+            ...data,
             isOracleHealthData: isAcceleratingLabsAndTests,
           }))}
         />
