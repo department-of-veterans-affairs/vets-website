@@ -40,7 +40,7 @@ export default {
         type: 'string',
         minLength: 10,
         maxLength: 15,
-        pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+        pattern: '^(\\d{3}|\\(\\d{3}\\))-?\\d{3}-?\\d{4}$',
       },
     },
     required: ['yourContactInfoEmail', 'yourContactInfoPhone'],
