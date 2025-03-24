@@ -1,21 +1,25 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   benefitOptionsMap,
   getBenefitSummaryLetterLabels,
   optionsToAlwaysDisplay,
 } from '../utils/helpers';
-import { BENEFIT_OPTIONS } from '../utils/constants';
+import {
+  BENEFIT_OPTIONS,
+  UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+} from '../utils/constants';
 
 const benefitsInfo = state => state.letters.benefitInfo;
 const requestOptions = state => state.letters.requestOptions;
+const serviceInfo = state => state.letters.serviceInfo;
 const isVeteran = true;
-// const serviceInfo = state => state.letters.serviceInfo;
 
 const BenefitSummaryLetter = () => {
+  const dispatch = useDispatch();
   const benefitsInfoSelector = useSelector(benefitsInfo);
   const requestOptionsSelector = useSelector(requestOptions);
-  // const serviceInfoSelector = useSelector(serviceInfo);
+  const serviceInfoSelector = useSelector(serviceInfo);
 
   // Updating options to always show to split disability rating
   // and monthly amount into two separate labels
@@ -27,7 +31,15 @@ const BenefitSummaryLetter = () => {
   // console.log(serviceInfoSelector);
   // console.log(requestOptionsSelector);
 
-  const handleBenefitsCheckboxes = () => {
+  const handleChange = e => {
+    dispatch({
+      type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+      propertyPath: benefitOptionsMap[e.target.id],
+      value: e.target.checked,
+    });
+  };
+
+  const renderBenefitsCheckboxes = () => {
     const benefitKeys = Object.keys(benefitsInfoSelector);
     const benefitCheckboxes = [];
 
@@ -48,7 +60,7 @@ const BenefitSummaryLetter = () => {
               id={key}
               name={key}
               type="checkbox"
-              onChange={() => {}} // TODO: Restore the dispatch
+              onChange={e => handleChange(e)}
             />
             <label className="vads-u-margin-top--0" htmlFor={key}>
               {labelText}
@@ -62,24 +74,27 @@ const BenefitSummaryLetter = () => {
   };
 
   const handleMilitaryServiceCheckbox = () => {
+    const militaryServiceRows = serviceInfoSelector || [];
     const { militaryService } = requestOptionsSelector;
 
-    if (!militaryService) return null; // Assume dependent
+    if (militaryServiceRows.length) {
+      return (
+        <li key="option-militaryService" className="form-checkbox">
+          <input
+            checked={militaryService}
+            id="militaryService"
+            name="militaryService"
+            type="checkbox"
+            onChange={e => handleChange(e)}
+          />
+          <label name="militaryService-label" htmlFor="militaryService">
+            Military service information
+          </label>
+        </li>
+      );
+    }
 
-    return (
-      <li key="option-militaryService" className="form-checkbox">
-        <input
-          checked={militaryService}
-          id="militaryService"
-          name="militaryService"
-          type="checkbox"
-          onChange={() => {}} // TODO: Restore the dispatch
-        />
-        <label name="militaryService-label" htmlFor="militaryService">
-          Military service information
-        </label>
-      </li>
-    );
+    return undefined;
   };
 
   return (
@@ -108,7 +123,7 @@ const BenefitSummaryLetter = () => {
 
         <ul className="usa-unstyled-list">
           {handleMilitaryServiceCheckbox()}
-          {handleBenefitsCheckboxes()}
+          {renderBenefitsCheckboxes()}
         </ul>
       </fieldset>
     </>
