@@ -68,7 +68,7 @@ describe('vaPrescription details container', () => {
       ),
       {
         exact: true,
-        selector: 'p',
+        selector: 'span',
       },
     );
     expect(shippedOn).to.exist;
