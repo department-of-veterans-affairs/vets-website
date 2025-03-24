@@ -452,6 +452,7 @@ AddressValidationView.propTypes = {
   closeModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
+  setDataAction: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
@@ -471,15 +472,18 @@ AddressValidationView.propTypes = {
       addressPou: PropTypes.string.isRequired,
     }),
   ),
+  formAppData: PropTypes.object,
   isLoading: PropTypes.bool,
   isNoValidationKeyAlertEnabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
+  successCallback: PropTypes.func,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
   validationKey: PropTypes.number,
+  vapServiceFormFields: PropTypes.object,
 };
 
 export default connect(
