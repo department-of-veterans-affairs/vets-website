@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/confirmation';
+const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/confirmation';
 const config = formConfig;
 
 const veteranFullName = {

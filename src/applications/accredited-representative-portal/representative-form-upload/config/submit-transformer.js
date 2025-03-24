@@ -18,13 +18,10 @@ import { getFormContent } from '../helpers';
  */
 
 const transformForSubmit = (formConfig, form) => {
-  // console.log(form)
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
 
-  // console.log("--------")
-  // console.log(transformedData)
   const { formNumber, subTitle } = getFormContent();
   const {
     veteranSsn = {},
