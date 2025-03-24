@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { TOGGLE_NAMES, Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
+import BenefitSummaryLetter from './BenefitSummaryLetter';
 
 import {
   letterContent,
@@ -67,7 +68,16 @@ export class LetterList extends React.Component {
       let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
-        content = <VeteranBenefitSummaryLetter />;
+        content = (
+          <Toggler toggleName={TOGGLE_NAMES.lettersPageNewDesign}>
+            <Toggler.Enabled>
+              <BenefitSummaryLetter />
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <VeteranBenefitSummaryLetter />
+            </Toggler.Disabled>
+          </Toggler>
+        );
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
