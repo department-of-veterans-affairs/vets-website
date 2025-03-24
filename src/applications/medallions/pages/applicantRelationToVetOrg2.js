@@ -7,7 +7,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Your organization'),
-    yourOrgText: textUI({
+    yourOrganizationText: textUI({
       title:
         'Enter the name of the Veterans Service Organization (VSO) you represent',
     }),
@@ -16,7 +16,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      yourOrgText: {
+      yourOrganizationText: {
         type: 'string',
         maxLength: 60,
       },

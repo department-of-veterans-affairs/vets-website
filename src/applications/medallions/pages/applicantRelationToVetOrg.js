@@ -7,7 +7,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Your organization'),
-    yourOrgText: textUI({
+    yourOrganizationText: textUI({
       title: 'Enter the name of the cemetery or funeral home you represent',
     }),
   },
@@ -15,7 +15,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      yourOrgText: {
+      yourOrganizationText: {
         type: 'string',
         maxLength: 60,
       },
