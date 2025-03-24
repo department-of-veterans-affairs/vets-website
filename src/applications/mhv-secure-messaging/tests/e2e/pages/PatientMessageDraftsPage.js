@@ -1,7 +1,7 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import { Data, Locators, Paths } from '../utils/constants';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import draftSearchResponse from '../fixtures/draftsResponse/drafts-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
@@ -314,7 +314,7 @@ class PatientMessageDraftsPage {
     cy.realPress('Enter');
   };
 
-  clickFilterMessagesButton = (filteredResponse = sentSearchResponse) => {
+  clickFilterMessagesButton = (filteredResponse = draftSearchResponse) => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
@@ -329,7 +329,7 @@ class PatientMessageDraftsPage {
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData = draftSearchResponse) => {
     cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
