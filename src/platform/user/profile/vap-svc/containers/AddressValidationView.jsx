@@ -11,10 +11,7 @@ import {
   selectAddressValidation,
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import {
-  formatAddress,
-  getCountryObjectFromIso3,
-} from 'platform/forms/address/helpers';
+import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
@@ -100,36 +97,13 @@ class AddressValidationView extends React.Component {
       if (shouldOnlyUpdateForm) {
         // using this context allows us to get the initial formKey and keys that may
         // potentially be customized when the main profileContactInfo factory function is used
-        const { formKey, keys } = this.context;
+        const { updateContactInfoForFormApp, fieldName } = this.context;
 
-        // using the esisting timestamp to make sure the conditional logic on the
-        // ContactInfo page doesn't override the 'form only' update
-        const existingUpdatedAt = this.props.formAppData[keys.wrapper][formKey]
-          ?.updatedAt;
-
-        // if we don't get a country name then the ContactInfo page will show
-        // an alert that says that the user has no address
-        const countryName = getCountryObjectFromIso3(payload.countryCodeIso3)
-          ?.countryName;
-
-        // we need to spread the existing formAppData and then update the specific formKey
-        // with the new payload and updateProfileChoice so that all existing form fields
-        // are preserved but the address fields are updated with the new values
-        const updatedFormAppData = {
-          ...this.props.formAppData,
-          [keys.wrapper]: {
-            ...this.props.formAppData[keys.wrapper],
-            [formKey]: {
-              ...payload,
-              updateProfileChoice: this.updateProfileChoice,
-              updatedAt: existingUpdatedAt,
-              countryName,
-            },
-          },
-        };
-
-        // this will set the form.data in redux when in a form app
-        this.props.setDataAction(updatedFormAppData);
+        updateContactInfoForFormApp(
+          fieldName,
+          payload,
+          this.updateProfileChoice,
+        );
 
         // this should cause navigation back to the ContactInfo page
         this.props.successCallback();
