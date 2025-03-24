@@ -64,10 +64,10 @@ describe('NationalExamsList', () => {
     );
   };
 
-  it('should render National Exams when not loading', () => {
+  it('should render National exams when not loading', () => {
     const wrapper = mountComponent();
     expect(wrapper.exists()).to.be.true;
-    expect(wrapper.find('h1').text()).to.equal('National Exams');
+    expect(wrapper.find('h1').text()).to.equal('National exams');
     expect(wrapper.find('p').exists()).to.be.true;
     expect(wrapper.find(VaPagination).length).to.equal(1);
     expect(wrapper.find(VaPagination).props().page).to.equal(1);
@@ -224,7 +224,7 @@ describe('NationalExamsList', () => {
     );
 
     // Check institution name and program type are displayed
-    expect(wrapper.find('h1').text()).to.equal('National Exams');
+    expect(wrapper.find('h1').text()).to.equal('National exams');
 
     wrapper.unmount();
   });
