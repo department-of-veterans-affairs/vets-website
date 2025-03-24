@@ -73,6 +73,7 @@ const CategorySelectPage = props => {
 
     onChange({
       ...formData,
+      hasPrefillInformation: hasPrefillInformation(formData),
       initialFormData: initialData,
       categoryId: selected.id,
       selectCategory: selectedValue,
