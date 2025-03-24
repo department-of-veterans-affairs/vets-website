@@ -182,6 +182,12 @@ export function validateBehaviorSelections(errors, formData) {
   }
 }
 
+export function hasProvidedBehaviorDetails(formData) {
+  // TODO compare to selected behaviors, only show if orphaned behaviors leftover
+  const providedBehaviorDetails = Object.keys(formData.behaviorsDetails || {});
+  return providedBehaviorDetails.length > 0;
+}
+
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
