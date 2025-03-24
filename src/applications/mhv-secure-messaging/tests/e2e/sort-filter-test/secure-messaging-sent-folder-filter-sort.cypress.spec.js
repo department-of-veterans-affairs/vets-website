@@ -3,6 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
@@ -43,5 +44,29 @@ describe('Secure Messaging Trash Folder filter-sort checks', () => {
     PatientMessageSentPage.verifySorting('Oldest to newest', sortedResponse);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('SM SENT FOLDER PLAIN TG NAME FILTERING', () => {
+  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
+    mockSentMessages,
+    'TG | Type | Name',
+  );
+
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageSentPage.loadMessages(updatedThreadResponse);
+  });
+
+  it('verify filter works correctly', () => {
+    PatientMessageSentPage.inputFilterDataText(
+      updatedThreadResponse.data[0].attributes.subject,
+    );
+    PatientMessageSentPage.clickFilterMessagesButton(updatedThreadResponse);
+    PatientMessageSentPage.verifySentToField(
+      updatedThreadResponse.data[0].attributes.subject,
+    );
+    cy.injectAxeThenAxeCheck();
   });
 });
