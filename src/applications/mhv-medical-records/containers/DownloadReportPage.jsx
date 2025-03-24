@@ -75,6 +75,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
+        ccdDownloadSuccess,
         error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
@@ -320,13 +321,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       />
 
       <h2>Other reports you can download</h2>
-      <div id="generating-ccd-downloading-indicator">
-        <DownloadSuccessAlert
-          ccd
-          className="vads-u-margin-bottom--1"
-          visibility={generatingCCD}
-        />
-      </div>
+
+      {(generatingCCD || ccdDownloadSuccess) &&
+        !ccdError && (
+          <DownloadSuccessAlert ccd className="vads-u-margin-bottom--1" />
+        )}
 
       {accessErrors()}
 

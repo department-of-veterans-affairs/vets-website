@@ -12,11 +12,10 @@ import PropTypes from 'prop-types';
 import { ALERT_TYPE_SUCCESS } from '../../util/constants';
 
 const DownloadSuccessAlert = props => {
-  const { className, ccd, visibility } = props;
+  const { className, ccd } = props;
   return (
     <VaAlert
       status={ALERT_TYPE_SUCCESS}
-      visible={visibility}
       class={`vads-u-margin-top--4 no-print ${className}`}
       role="alert"
       data-testid="alert-download-started"
