@@ -182,6 +182,87 @@ export function validateBehaviorSelections(errors, formData) {
   }
 }
 
+export const allSelectedBehaviorTypes = formData => {
+  const allBehaviorTypes = {
+    ...formData.workBehaviors,
+    ...formData.healthBehaviors,
+    ...formData.otherBehaviors,
+  };
+
+  return Object.entries(allBehaviorTypes)
+    .filter(([, value]) => value === true)
+    .reduce((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+};
+
+export function orphanedBehaviorDetails(formData) {
+  // TODO compare to selected behaviors, only show if orphaned behaviors leftover
+  // const providedBehaviorDetails = Object.keys(formData.behaviorsDetails || {});
+
+  const updatedSelections = allSelectedBehaviorTypes(formData);
+  const existingDetails = formData.behaviorsDetails;
+  console.log("ORPHANED", updatedSelections, existingDetails);
+
+  const orphanedArray = [];
+  Object.keys(existingDetails).forEach(behaviorType => {
+    if (
+      !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
+    ) {
+      const behaviorTypeDescription =
+        behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+      orphanedArray.push(behaviorTypeDescription);
+    }
+  });
+  console.log("ORPHANED ARRAY", orphanedArray);
+  return orphanedArray;
+}
+
+export const hasOrphanedBehaviorDetails = formData => {
+  return !!(
+    Object.keys(formData.behaviorsDetails).length > 0 &&
+    orphanedBehaviorDetails(formData).length > 0
+  );
+};
+
+export const modalContent = formData => {
+  const allSelectionsForModal = allSelectedBehaviorTypes(formData);
+
+  console.log("ALL SELECTIONS FOR MODAL", allSelectionsForModal);
+  console.log("ALL SELECTIONS function", allSelectedBehaviorTypes(formData));
+
+  const orphanedDetails = orphanedBehaviorDetails(formData);
+  console.log("ORPHANED DETAILS", orphanedDetails);
+
+  const orphanedBehaviorsCount = orphanedDetails.length;
+  const firstThreeBehaviors = orphanedDetails.slice(0, 3);
+  const remainingBehaviors = orphanedBehaviorsCount - 3;
+
+  return (
+    <>
+      <h4 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
+        Remove behavioral changes?
+      </h4>
+      <p>
+        If you remove these items, we’ll remove the descriptions you provided
+        about these behavioral changes:
+      </p>
+      <ul>
+        {firstThreeBehaviors.map((behaviorDescription, i) => (
+          <li key={i}>{behaviorDescription}</li>
+        ))}
+        {remainingBehaviors > 0 && (
+          <li>
+            And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
+          </li>
+        )}
+      </ul>
+    </>
+  );
+};
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
@@ -241,21 +322,6 @@ function behaviorSummariesList(behaviorAndDetails) {
       </div>
     </>
   );
-}
-
-export const allSelectedBehaviorTypes = formData => {
-  const allBehaviorTypes = {
-    ...formData.workBehaviors,
-    ...formData.healthBehaviors,
-    ...formData.otherBehaviors,
-  };
-
-  return Object.entries(allBehaviorTypes)
-    .filter(([, value]) => value === true)
-    .reduce((acc, [key, value]) => {
-      acc[key] = value;
-      return acc;
-    }, {});
 };
 
 export const selectedBehaviorsWithDetails = formData => {
