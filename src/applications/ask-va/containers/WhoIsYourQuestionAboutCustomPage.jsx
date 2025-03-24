@@ -2,13 +2,15 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SignInMayBeRequired from '../components/SignInMyBeRequired';
 import { CHAPTER_2, whoIsYourQuestionAboutLabels } from '../constants';
 
 const WhoIsYourQuestionAboutCustomPage = props => {
-  const { onChange, isLoggedIn, goBack, formData, goForward } = props;
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
+
+  const { onChange, goBack, formData, goForward } = props;
   const [validationError, setValidationError] = useState(null);
 
   const radioOptions = () => {
@@ -36,7 +38,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
       yourQuestionRequiresSignIn:
         (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
           selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE) &&
-        !isLoggedIn,
+        !isLOA3,
     });
   };
 
@@ -81,14 +83,12 @@ WhoIsYourQuestionAboutCustomPage.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   id: PropTypes.string,
-  isLoggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    isLoggedIn: state.user.login.currentlyLoggedIn,
     formData: state.form.data,
   };
 }
