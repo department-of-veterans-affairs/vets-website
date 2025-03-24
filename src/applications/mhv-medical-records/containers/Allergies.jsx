@@ -171,12 +171,13 @@ const Allergies = props => {
     const { title, subject, subtitles } = generateAllergiesIntro(
       refresh.status,
       lastUpdatedText,
+      sortString,
     );
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
+      ...generateAllergiesContent(sortedAllergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -215,7 +216,7 @@ ${reportGeneratedBy}\n
 This list includes all allergies, reactions, and side effects in your VA medical records. 
 If you have allergies or reactions that are missing from this list, 
 tell your care team at your next appointment.\n
-Showing ${allergies.length} from newest to oldest
+Showing ${allergies.length} records, ${sortString}
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
     const fileName = `VA-allergies-list-${getNameDateAndTime(user)}`;

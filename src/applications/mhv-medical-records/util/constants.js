@@ -527,12 +527,12 @@ export const SortTypes = {
   },
   ASC_DATE: {
     value: 'ascDate',
-    label: 'Newest to oldest',
-    labelWithDateEntered: 'Newest to oldest (date entered)',
+    label: 'newest to oldest',
+    labelWithDateEntered: 'newest to oldest (date entered)',
   },
   DSC_DATE: {
     value: 'dscDate',
-    label: 'Oldest to newest',
-    labelWithDateEntered: 'Oldest to newest (date entered)',
+    label: 'oldest to newest',
+    labelWithDateEntered: 'oldest to newest (date entered)',
   },
 };
