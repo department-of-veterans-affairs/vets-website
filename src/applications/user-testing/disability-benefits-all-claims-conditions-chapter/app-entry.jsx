@@ -5,7 +5,7 @@ import manifest from './manifest.json';
 import reducer from './reducers';
 import routes from './routes';
 
-import './sass/526EZ-conditions-chapter.scss';
+import './sass/disability-benefits-all-claims-conditions-chapter.scss';
 
 startAppFromIndex({
   entryName: manifest.entryName,
