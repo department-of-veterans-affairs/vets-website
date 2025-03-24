@@ -588,7 +588,7 @@ const VaPrescription = prescription => {
                               data-testid="shipped-on"
                             >
                               {dateFormat(
-                                latestTrackingStatus?.completeDateTime,
+                                entry?.trackingList[0].completeDateTime,
                                 'MMMM D, YYYY',
                                 'Date not available',
                               )}
@@ -773,7 +773,7 @@ const VaPrescription = prescription => {
                                       data-testid="shipped-on"
                                     >
                                       {dateFormat(
-                                        latestTrackingStatus?.completeDateTime,
+                                        entry.trackingList[0].completeDateTime,
                                         'MMMM D, YYYY',
                                         'Date not available',
                                       )}
