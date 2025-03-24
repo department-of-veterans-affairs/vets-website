@@ -20,6 +20,6 @@ export default {
         maxLength: 60,
       },
     },
-    required: ['yourOrgText'],
+    required: ['yourOrganizationText'],
   },
 };
