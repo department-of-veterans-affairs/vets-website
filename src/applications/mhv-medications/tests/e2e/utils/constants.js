@@ -67,7 +67,7 @@ export const Data = {
   STEP_TWO_PROCESS: 'Step 2: In process',
   STEP_TWO_PROCESS_HEADER: 'We’re processing your refill request',
   STEP_TWO_DELAY_NOTE:
-    'We expected to fill it on March 18, 2025. Call your VA pharmacy for an update.',
+    'We expected to fill your prescription on March 18, 2025. Call your VA pharmacy for an update.',
   STEP_THREE_NOTE_ABOVE: 'Step 3: Completed',
   STEP_THREE_DATE: 'Completed on September 24, 2024',
   STEP_THREE_NO_TRACKING:

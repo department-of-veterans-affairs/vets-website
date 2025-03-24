@@ -239,7 +239,7 @@ const VaPrescription = prescription => {
                             cmopDivisionPhone={pharmacyPhone}
                             page={pageType.DETAILS}
                           />
-                        )}
+                        )}{' '}
                         to check on your refill, if you haven’t received it in
                         the mail yet.
                       </p>
