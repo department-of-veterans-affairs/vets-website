@@ -26,6 +26,7 @@ const CustomPageReviewField = ({ name, data }) => {
     isQuestionAboutVeteranOrSomeoneElse:
       'Is your question about the Veteran or someone else?',
     theirRelationshipToVeteran: 'Their relationship to the Veteran',
+    yourRole: 'What is your role?',
   };
 
   const header = customReviewHeaderTitles[nameKey];

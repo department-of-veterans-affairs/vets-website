@@ -85,7 +85,7 @@ const EmailSignup = () => {
   };
 
   return (
-    <div className="email-signup-form form-panel">
+    <div className="email-signup-form">
       <form
         acceptCharset="UTF-8"
         action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"
@@ -129,7 +129,7 @@ const EmailSignup = () => {
         />
         <va-button
           disable-analytics
-          class="vads-u-width--auto vads-u-margin-bottom--2 vads-u-margin-top--1p5"
+          class="vads-u-margin-y--2p5"
           onClick={event => {
             event.preventDefault();
             onSignup();

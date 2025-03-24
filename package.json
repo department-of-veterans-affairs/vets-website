@@ -268,7 +268,7 @@
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@mapbox/mapbox-sdk": "~0.13.2",
-    "@reduxjs/toolkit": "^2.2.5",
+    "@reduxjs/toolkit": "^1.9.5",
     "blob-polyfill": "^5.0.20210201",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
@@ -340,7 +340,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a67a3199c68865867f59fc4ed35e1555cfe55d27",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0eb1b12601efec91d08627836b2d93950079da0b",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
