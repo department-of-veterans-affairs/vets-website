@@ -93,6 +93,8 @@ describe('Ask VA prefill transformer', () => {
         aboutYourself: {},
         phoneNumber: '',
         emailAddress: '',
+        businessPhone: '',
+        businessEmail: '',
       },
       pages,
     });
@@ -120,6 +122,8 @@ describe('Ask VA prefill transformer', () => {
         },
         phoneNumber: '555-123-4567',
         emailAddress: '',
+        businessPhone: '',
+        businessEmail: '',
       },
       pages,
     });
