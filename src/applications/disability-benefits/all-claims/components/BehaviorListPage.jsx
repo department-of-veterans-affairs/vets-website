@@ -12,6 +12,8 @@ import {
   behaviorListNoneLabel,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
+  hasSelectedBehaviors,
+  hasProvidedBehaviorDetails,
   validateBehaviorSelections,
   conflictingBehaviorErrorMessage,
   showConflictingAlert,
@@ -54,22 +56,21 @@ const BehaviorListPage = ({
     null,
   );
 
-  // const [hasError, setHasError] = useState(showConflictingAlert(data), null);
+  const [showModal, setShowModal] = useState(false);
+  const [hasError, setHasError] = useState(showConflictingAlert(data), null);
 
-  console.log('STATE', selectedNoBehaviors)
+  console.log("SHOW MODAL", showModal)
+  console.log("DETAILS", data.behaviorsDetails)
+  console.log("HAS PROVIDED", hasProvidedBehaviorDetails(data))
 
-  console.log('Data check', data['view:noneCheckbox']);
-  console.log('Data check', data['view:noneCheckbox']["view:noBehaviorChanges"]);
-  // const checkErrors = () => {
-  //   console.log('checkErrors-FORMDATA-', data);
-  //   const result = showConflictingAlert(data);
-  //   console.log('checkErrors-show conflict---', result);
+  const checkErrors = () => {
+    const result = showConflictingAlert(data);
 
-  //   setHasError(result);
-  //   const errors = { errorMessages: [] };
-  //   errors.addError = message => errors.errorMessages.push(message);
-  //   return result;
-  // };
+    setHasError(result);
+    const errors = { errorMessages: [] };
+    errors.addError = message => errors.errorMessages.push(message);
+    return result;
+  };
 
   const getSelectionsBySection = behaviorSection => {
     switch (behaviorSection) {
@@ -87,10 +88,7 @@ const BehaviorListPage = ({
   };
 
   const handleUpdatedSelection = (behaviorSection, updatedData) => {
-    console.log("HANDLE, updatedData", updatedData)
-    console.log("HANDLE, behaviorSection", behaviorSection)
     if (behaviorSection === 'view:noneCheckbox') {
-      console.log("handle none section", behaviorSection, updatedData)
       setSelectedNoBehaviors(updatedData);
       setFormData({
         ...data,
@@ -120,7 +118,7 @@ const BehaviorListPage = ({
         [behaviorSection]: updatedData,
       });
     }
-    // checkErrors(); //NOT SYNCHRONOUS
+    checkErrors(); //NOT SYNCHRONOUS
   };
 
   const handlers = {
@@ -147,20 +145,53 @@ const BehaviorListPage = ({
     },
     onSubmit: event => {
       event.preventDefault();
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (
+        hasSelectedBehaviors(data) &&
+        hasProvidedBehaviorDetails(data)
+      ) {
+        console.log("set show modal!")
+        setShowModal(true);
+      } else { //Any other conditions? Need to have selections?
+        goForward(data);
+      }
+    },
+    onCloseModal: () => {
+      console.log("on cclose")
+      setShowModal(false);
+    },
+    onConfirmDeleteBehaviorDescriptions: () => {
+      // TODO deleteBehavioralAnswers();
+      handlers.onCloseModal();
       goForward(data);
-      // if (checkErrors()) {
-      //   scrollToFirstError({ focusOnAlertRole: true });
-      // }
-      // else if (optIn === 'false' && hasSelectedBehaviors(data)) {
-      //   setShowModal(true);
-      // } else if (optIn) {
-      //   goForward(data);
-      // }
+    },
+    onCancelDeleteBehaviorDescriptions: () => {
+      handlers.onCloseModal();
     },
   };
 
+  // const modalContent = () => {
+  //   'If you remove these items, we’ll remove the descriptions you provided about these behavioral changes:';
+  // }
+
   return (
     <>
+      <VaModal
+        modalTitle="Remove behavioral changes?"
+        visible={showModal}
+        onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDescriptions}
+        onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDescriptions}
+        onCloseEvent={handlers.onCancelDeleteBehaviorDescriptions}
+        primaryButtonText="Yes, remove these items"
+        secondaryButtonText="No, keep these items"
+        status="warning"
+      >
+        If you remove these items, we’ll remove the descriptions you provided
+        about these behavioral changes:
+        {/* {modalContent()} */}
+      </VaModal>
+
       <form onSubmit={handlers.onSubmit}>
         <div className="vads-u-margin-y--2">
           <>
@@ -263,7 +294,7 @@ const BehaviorListPage = ({
             hint={BEHAVIOR_LIST_HINTS.none}
             onVaChange={handlers.onSelectionChange}
             // error={hasError}
-            // error={hasError ? conflictingBehaviorErrorMessage : ''}
+            error={hasError ? "conflictingBehaviorErrorMessage" : ''}
             uswds
           >
             <va-checkbox
