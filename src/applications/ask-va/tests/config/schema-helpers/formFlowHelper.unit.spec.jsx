@@ -94,9 +94,11 @@ describe('flowPages', () => {
       searchschools: {
         title: 'Search Schools',
         depends: formData =>
-          (formData.selectCategory === CategoryDebt &&
-            formData.selectTopic === TopicEducationBenefitOverpayments &&
-            formData.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
+          ((!formData.school ||
+            !formData.schoolInfo?.schoolName ||
+            formData.useSchoolInProfile === schoolInYourProfileOptions.NO) &&
+            (formData.selectCategory === CategoryDebt &&
+              formData.selectTopic === TopicEducationBenefitOverpayments)) ||
           ((formData.useSchoolInProfile === schoolInYourProfileOptions.NO ||
             !formData.schoolInfo?.schoolName) &&
             (formData.yourRole === yourRoleOptionsEducation.SCO ||
