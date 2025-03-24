@@ -1,12 +1,15 @@
 import { fillStatementOfTruthSignature } from 'applications/simple-forms/shared/tests/e2e/helpers';
 import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
+import testData from '../fixtures/data/test-data.json';
+import { SUBMIT_URL } from '../../config/constants';
 
 describe('22-10215 Edu Benefits Form', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
   it('should be keyboard-only navigable', () => {
+    cy.intercept('POST', SUBMIT_URL, testData);
     const institutionOfficial = {
       first: 'Jane',
       last: 'Doe',

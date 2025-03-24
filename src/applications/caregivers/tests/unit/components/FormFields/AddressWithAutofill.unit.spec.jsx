@@ -5,12 +5,12 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { inputVaTextInput } from 'platform/testing/unit/helpers';
-import { fullSchema } from '../../../../utils/imports';
+import { FULL_SCHEMA } from '../../../../utils/imports';
 import { addressWithAutofillSchema } from '../../../../definitions/sharedSchema';
 import AddressWithAutofill from '../../../../components/FormFields/AddressWithAutofill';
 import content from '../../../../locales/en/content.json';
 
-const { address } = fullSchema.definitions;
+const { address } = FULL_SCHEMA.definitions;
 
 const errorSchemas = {
   empty: { __errors: [] },
