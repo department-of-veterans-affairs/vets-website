@@ -6,5 +6,5 @@ import * as webComponentPatterns from 'platform/forms-system/src/js/web-componen
  */
 export default ({ hint, label }) => [
   webComponentPatterns.textSchema,
-  webComponentPatterns.textUI({ title: label, hint }),
+  webComponentPatterns.textareaUI({ title: label, hint }),
 ];
