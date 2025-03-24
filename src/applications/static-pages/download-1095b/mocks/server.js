@@ -18,9 +18,14 @@ const responses = {
     );
   },
   'GET /v0/form1095_bs/available_forms': (_req, res) => {
-    return res.json({
-      availableForms: [{ year: 2024, lastUpdated: '2025-02-03T18:50:40.548Z' }],
-    });
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => {
+      res.json({
+        availableForms: [
+          { year: 2024, lastUpdated: '2025-02-03T18:50:40.548Z' },
+        ],
+      });
+    }, secondsOfDelay);
   },
   // Uncomment this and import statement to mock a 500 error
   // 'GET /v0/form1095_bs/available_forms': (_req, res) => {
