@@ -26,13 +26,13 @@ import testData from '../tests/fixtures/data/test-data.json';
 
 const { date, dateRange } = commonDefinitions;
 
-const subTitle = () => (
+export const subTitle = () => (
   <p className="schemaform-subtitle">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </p>
 );
 
-const submitFormLogic = () => {
+export const submitFormLogic = () => {
   if (environment.isDev() || environment.isLocalhost()) {
     return Promise.resolve(testData);
   }
