@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { ALERT_TYPE_SUCCESS } from '../../util/constants';
 
 const DownloadSuccessAlert = props => {
-  const { className, ccd } = props;
+  const { className, type } = props;
   return (
     <VaAlert
       status={ALERT_TYPE_SUCCESS}
@@ -21,7 +21,7 @@ const DownloadSuccessAlert = props => {
       data-testid="alert-download-started"
     >
       <h2 slot="headline" data-testid="download-success-alert-message">
-        {ccd ? 'Continuity of Care Document download' : 'Download'} started
+        {`${type || 'Download'} started`}
       </h2>
       <p className="vads-u-margin--0">
         Check your device’s downloads location for your file.
@@ -33,8 +33,8 @@ const DownloadSuccessAlert = props => {
 export default DownloadSuccessAlert;
 
 DownloadSuccessAlert.propTypes = {
-  ccd: PropTypes.any,
   className: PropTypes.any,
   completed: PropTypes.any,
+  type: PropTypes.any,
   visibility: PropTypes.any,
 };
