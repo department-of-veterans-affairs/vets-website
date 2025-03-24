@@ -2,14 +2,14 @@ import React, { useMemo, useState } from 'react';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
-import FacilityList from './FacilityList';
 import { replaceStrValues } from '../../utils/helpers';
+import { VaSearchInput } from '../../utils/imports';
+import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {

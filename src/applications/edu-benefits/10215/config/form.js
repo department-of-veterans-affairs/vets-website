@@ -18,6 +18,8 @@ import SubmissionInstructions from '../components/SubmissionInstructions';
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 import {
   institutionDetails,
@@ -49,11 +51,18 @@ export const arrayBuilderOptions = {
 
 const { date } = commonDefinitions;
 
+const submitFormLogic = () => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm;
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
-  submit: submitForm,
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
