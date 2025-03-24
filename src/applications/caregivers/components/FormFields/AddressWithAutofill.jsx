@@ -5,11 +5,13 @@ import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofil
 import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
 import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
 import { replaceStrValues } from '../../utils/helpers';
-import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
+import {
+  STATES_USA,
+  VaCheckbox,
+  VaSelect,
+  VaTextInput,
+} from '../../utils/imports';
 import content from '../../locales/en/content.json';
-
-// define react binding components
-const { VaCheckbox, VaSelect, VaTextInput } = REACT_BINDINGS;
 
 // define our custom error messages
 const errorMessages = {

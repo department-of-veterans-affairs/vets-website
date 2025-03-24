@@ -5,11 +5,8 @@ import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaSelect } from '../../utils/imports';
 import GeneralErrorAlert from '../FormAlerts/GeneralErrorAlert';
-
-// define react binding components
-const { VaSelect } = REACT_BINDINGS;
 
 const apiRequestWithUrl = `${
   environment.API_URL

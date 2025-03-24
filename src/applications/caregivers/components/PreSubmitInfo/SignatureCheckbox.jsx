@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { normalizeFullName, replaceStrValues } from '../../utils/helpers';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaCheckbox } from '../../utils/imports';
 import SignatureInput from './SignatureInput';
 import content from '../../locales/en/content.json';
-
-// define react binding components
-const { VaCheckbox } = REACT_BINDINGS;
 
 const SignatureCheckbox = props => {
   const {

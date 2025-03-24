@@ -8,12 +8,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import { replaceStrValues } from '../../utils/helpers';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaSearchInput } from '../../utils/imports';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
-
-// define react binding components
-const { VaSearchInput } = REACT_BINDINGS;
 
 const FacilitySearch = props => {
   const { data: formData, goBack, goForward, goToPath } = props;
