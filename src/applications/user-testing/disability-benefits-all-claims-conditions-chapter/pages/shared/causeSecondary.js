@@ -10,7 +10,7 @@ import { arrayBuilderOptions, createNewConditionName } from './utils';
 
 const getOtherConditions = (fullData, currentIndex) => {
   const ratedDisabilities =
-    fullData?.ratedDisabilities.map(disability => disability.name) || [];
+    fullData?.ratedDisabilities?.map(disability => disability.name) || [];
 
   const otherNewConditions = fullData?.[arrayBuilderOptions.arrayPath].reduce(
     (acc, condition, index) => {

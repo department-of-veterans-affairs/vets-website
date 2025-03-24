@@ -36,12 +36,14 @@ const getSelectedRatedDisabilities = fullData => {
 export const createNonSelectedRatedDisabilities = fullData => {
   const selectedRatedDisabilities = getSelectedRatedDisabilities(fullData);
 
-  return fullData?.ratedDisabilities?.reduce((acc, disability) => {
-    if (!selectedRatedDisabilities?.includes(disability.name)) {
-      acc[disability.name] = disability.name;
-    }
-    return acc;
-  }, {});
+  return (
+    fullData?.ratedDisabilities?.reduce((acc, disability) => {
+      if (!selectedRatedDisabilities?.includes(disability.name)) {
+        acc[disability.name] = disability.name;
+      }
+      return acc;
+    }, {}) || {}
+  );
 };
 
 export const hasRemainingRatedDisabilities = fullData => {

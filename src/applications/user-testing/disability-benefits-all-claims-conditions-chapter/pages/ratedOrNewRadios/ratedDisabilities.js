@@ -12,7 +12,7 @@ import {
 } from '../shared/utils';
 
 const createRatedDisabilitiesSchema = fullData =>
-  createNonSelectedRatedDisabilities(fullData);
+  createNonSelectedRatedDisabilities(fullData) || {};
 
 const createRatedDisabilitiesDescriptions = fullData => {
   return fullData.ratedDisabilities.reduce((acc, disability) => {

@@ -32,10 +32,12 @@ const createRatedDisabilitiesSchema = fullData => {
     fullData,
   );
 
-  return {
-    ...nonSelectedRatedDisabilities,
-    ...createNewConditionOption(),
-  };
+  return (
+    {
+      ...nonSelectedRatedDisabilities,
+      ...createNewConditionOption(),
+    } || {}
+  );
 };
 
 const createRatedDisabilitiesDescriptions = fullData => {
