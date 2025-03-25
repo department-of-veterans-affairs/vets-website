@@ -116,7 +116,7 @@ describe('yourContactInformationPage', () => {
 
     it('should update schema for email-only preference (non-work connection)', () => {
       const formData = {
-        personalRelationship: "I'm the Veteran",
+        relationshipToVeteran: "I'm the Veteran",
         contactPreferences: ['Email'],
       };
 
@@ -144,7 +144,7 @@ describe('yourContactInformationPage', () => {
 
     it('should use default schema for non-email-only preferences', () => {
       const formData = {
-        personalRelationship: "I'm the Veteran",
+        relationshipToVeteran: "I'm the Veteran",
         contactPreferences: ['Phone', 'Email'],
       };
 
@@ -214,18 +214,18 @@ describe('yourContactInformationPage', () => {
   });
 
   describe('conditional fields', () => {
-    it('should show contact fields for work-related connections', () => {
+    it('should show contact fields for business/work-related connections', () => {
       const { container } = renderPage({
-        personalRelationship:
+        relationshipToVeteran:
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
-        contactPreferences: { EMAIL: true },
+        contactPreferences: ['Email'],
       });
 
       const phoneInput = container.querySelector(
-        'va-text-input[name="root_phoneNumber"]',
+        'va-text-input[name="root_businessPhone"]',
       );
       const emailInput = container.querySelector(
-        'va-text-input[name="root_emailAddress"]',
+        'va-text-input[name="root_businessEmail"]',
       );
 
       expect(phoneInput).to.exist;

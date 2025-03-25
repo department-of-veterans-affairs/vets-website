@@ -46,9 +46,9 @@ const YourVAHealthFacilityPage = props => {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
-          setApiData([mockHealthFacilityResponse]);
+          setApiData(mockHealthFacilityResponse);
           setIsSearching(false);
-          resolve([mockHealthFacilityResponse]);
+          resolve(mockHealthFacilityResponse);
         }, 500);
       });
     }
