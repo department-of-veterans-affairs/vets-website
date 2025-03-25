@@ -11,9 +11,13 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
+// eslint-disable-next-line import/no-named-as-default-member
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
-import viewPersonalInformation from '../pages/viewPersonalInformation';
 import { isUserSignedIn } from '../utils/helpers';
+// eslint-disable-next-line import/no-unresolved
+import { ViewPersonalInformation } from '../components/ViewPersonalInformation';
+import { VIEW_FIELD_SCHEMA } from '../../_mock-form-ae-design-patterns/utils/constants';
+import { ViewPersonalInformationReview } from '../components/ViewPersonalInformationReview';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,8 +59,10 @@ const formConfig = {
         personalInformation: {
           path: 'personal-information',
           title: 'Your Name',
-          uiSchema: viewPersonalInformation.uiSchema,
-          schema: viewPersonalInformation.schema,
+          CustomPage: ViewPersonalInformation,
+          CustomPageReview: ViewPersonalInformationReview,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
           depends: formData => isUserSignedIn(formData),
         },
         personalInformation2: {

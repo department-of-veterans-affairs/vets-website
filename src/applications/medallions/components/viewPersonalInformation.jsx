@@ -1,14 +1,39 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
-export const ViewPersonalInformation = () => {
-  const firstName = useSelector(state => state.user.profile.userFullName.first);
-  const lastName = useSelector(state => state.user.profile.userFullName.last);
+export const ViewPersonalInformation = props => {
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-shadow
+  const state = useSelector(state => state);
+  const fullName = state.user.profile.userFullName;
+  const firstName = fullName?.first;
+  const lastName = fullName?.last;
+
+  const formData = state.form.data;
+  const { currentlyLoggedIn } = state.user.login;
+
+  useEffect(
+    () => {
+      if (currentlyLoggedIn !== formData?.isLoggedIn) {
+        dispatch(
+          setData({
+            ...formData,
+            isLoggedIn: currentlyLoggedIn,
+          }),
+        );
+      }
+    },
+    [dispatch, currentlyLoggedIn],
+  );
 
   return (
-    <div>
-      <va-card background>
+    <div style={{ paddingTop: '1em' }}>
+      <Title title="Confirm the personal information we have on file for you" />
+      <va-card background style={{ marginTop: '2em' }}>
         <h3 className="vads-u-font-size--h4" style={{ marginTop: '1em' }}>
           Personal information
         </h3>
@@ -34,6 +59,7 @@ export const ViewPersonalInformation = () => {
         Find more detailed instructions for how to change your legal name (opens
         in new tab)
       </a>
+      <FormNavButtons goBack={props.goBack} goForward={props.goForward} />
     </div>
   );
 };

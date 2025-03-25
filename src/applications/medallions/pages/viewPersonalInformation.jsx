@@ -1,4 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+// eslint-disable-next-line import/no-unresolved
 import { ViewPersonalInformation } from '../components/ViewPersonalInformation';
 import { MedallionsDescription } from '../components/MedallionsDescription';
 
@@ -11,6 +12,9 @@ export default {
     'ui:description': formContext => MedallionsDescription(formContext),
     personalInformation: {
       'ui:field': () => ViewPersonalInformation(),
+      'ui:options': {
+        keepInPageOnReview: true,
+      },
     },
   },
   schema: {
