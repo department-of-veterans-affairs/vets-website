@@ -1,7 +1,7 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SearchControls from '../components/search/SearchControls';
@@ -21,10 +21,12 @@ const YourVAHealthFacilityPage = props => {
     goForward,
     searchQuery,
     currentPath,
+    facilityName,
   } = props;
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
+  const [previousSelection, setPreviousSelection] = useState(null);
   const [validationError, setValidationError] = useState({
     searchInputError: false,
     radioError: null,
@@ -44,9 +46,9 @@ const YourVAHealthFacilityPage = props => {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
-          setApiData(mockHealthFacilityResponse);
+          setApiData([mockHealthFacilityResponse]);
           setIsSearching(false);
-          resolve(mockHealthFacilityResponse);
+          resolve([mockHealthFacilityResponse]);
         }, 500);
       });
     }
@@ -99,6 +101,17 @@ const YourVAHealthFacilityPage = props => {
     });
   };
 
+  useEffect(
+    () => {
+      if (pageURL === '' && data.yourHealthFacility) {
+        setPreviousSelection(facilityName);
+      } else {
+        setPreviousSelection(null);
+      }
+    },
+    [pageURL],
+  );
+
   return (
     <>
       <h3>{getHealthFacilityTitle(data)}</h3>
@@ -113,6 +126,15 @@ const YourVAHealthFacilityPage = props => {
             searchTitle="City or postal code"
             hasSearchInput={validationError.searchInputError}
           />
+          {previousSelection && (
+            <div className="vads-u-margin-top--3">
+              <p className="vads-u-margin-bottom--0p5">Your selection:</p>
+              <p className="vads-u-margin-top--0p5">
+                <strong>{previousSelection}</strong>
+              </p>
+              <hr />
+            </div>
+          )}
           {isSearching ? (
             <va-loading-indicator
               label="Loading"
@@ -147,6 +169,7 @@ YourVAHealthFacilityPage.propTypes = {
 function mapStateToProps(state) {
   return {
     searchQuery: state.askVA.searchLocationInput,
+    facilityName: state.askVA.vaHealthFacility,
     currentPath: state.navigation.route.path,
   };
 }

@@ -8,6 +8,7 @@ import { expect } from 'chai';
 import {
   emailSchema,
   phoneSchema,
+  internationalPhoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -83,7 +84,7 @@ describe('yourContactInformationPage', () => {
   describe('schema updates', () => {
     it('should update schema for work-related connections with email preference', () => {
       const formData = {
-        personalRelationship:
+        relationshipToVeteran:
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
         contactPreferences: ['Email'],
       };
@@ -99,7 +100,10 @@ describe('yourContactInformationPage', () => {
       ]);
 
       expect(updatedSchema.properties).to.deep.include({
-        businessPhone: phoneSchema,
+        businessPhone: {
+          ...internationalPhoneSchema,
+          pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
+        },
         businessEmail: emailSchema,
         preferredName: {
           type: 'string',
