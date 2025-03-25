@@ -77,7 +77,6 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Other benefit record</li>
       </ul>
 
-      <h2 id="start-your-request">Start your request</h2>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
