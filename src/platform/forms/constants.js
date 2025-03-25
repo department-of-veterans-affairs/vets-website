@@ -34,6 +34,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_509_UPLOAD: '21-509-UPLOAD',
   FORM_21_526EZ: '21-526EZ',
   FORM_21_686C: '686C-674',
+  FORM_21_686C_UPLOAD: '21-686C-UPLOAD',
   FORM_21_686CV2: '686C-674-V2',
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
   FORM_21A: '21a',
@@ -361,6 +362,13 @@ export const MY_VA_SIP_FORMS = [
     title: `form 21-509 upload`,
     description: 'uploaded file for form 21-509',
     trackingPrefix: 'form-21-509-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_686C_UPLOAD,
+    benefit: `form 21-6868 upload`,
+    title: `form 21-6868 upload`,
+    description: 'uploaded file for form 21-6868',
+    trackingPrefix: 'form-21-6868-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_526EZ,

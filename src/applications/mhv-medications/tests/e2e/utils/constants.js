@@ -67,7 +67,7 @@ export const Data = {
   STEP_TWO_PROCESS: 'Step 2: In process',
   STEP_TWO_PROCESS_HEADER: 'We’re processing your refill request',
   STEP_TWO_DELAY_NOTE:
-    'We expected to fill it on March 18, 2025. Call your VA pharmacy for an update.',
+    'We expected to fill your prescription on March 18, 2025. Call your VA pharmacy for an update.',
   STEP_THREE_NOTE_ABOVE: 'Step 3: Completed',
   STEP_THREE_DATE: 'Completed on September 24, 2024',
   STEP_THREE_NO_TRACKING:
@@ -83,6 +83,8 @@ export const Data = {
   PHARMACY_PHONE_NUMBER_EMPTY: 'Pharmacy phone number not available',
   REASON_FOR_USE_EMPTY: 'Reason for use not available',
   INSTRUCTIONS_EMPTY: 'Instructions not available',
+  PARTIAL_FILL_TEXT:
+    'This fill has a smaller quantity on purpose. This is temporary.',
 };
 export const Paths = {
   LANDING_LIST:

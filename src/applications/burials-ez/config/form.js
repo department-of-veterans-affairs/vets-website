@@ -41,14 +41,10 @@ import transportationExpenses from './chapters/04-benefits-selection/transportat
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
-import deathCertificateV2 from './chapters/05-additional-information/deathCertificateV2';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
-import {
-  showUploadDocuments,
-  generateDeathFacilitySchemas,
-} from '../utils/helpers';
+import { generateDeathFacilitySchemas } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
 import migrations from '../migrations';
@@ -453,20 +449,9 @@ const formConfig = {
           reviewTitle: () => (
             <span className="vads-u-font-size--h3">Death certificate</span>
           ),
-          path: 'additional-information/death-certificate',
-          depends: () => !showUploadDocuments(),
+          path: 'additional-information/upload-death-certificate',
           uiSchema: deathCertificate.uiSchema,
           schema: deathCertificate.schema,
-        },
-        deathCertificateV2: {
-          title: 'Death certificate',
-          reviewTitle: () => (
-            <span className="vads-u-font-size--h3">Death certificate</span>
-          ),
-          path: 'additional-information/upload-death-certificate',
-          depends: () => showUploadDocuments(),
-          uiSchema: deathCertificateV2.uiSchema,
-          schema: deathCertificateV2.schema,
         },
         transportationReceipts: {
           title: 'Transportation receipts',

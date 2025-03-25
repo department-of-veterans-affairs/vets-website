@@ -1,16 +1,16 @@
 // Node modules.
-import React, { useEffect, useMemo, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
+import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
 // Relative imports.
-import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import environment from 'platform/utilities/environment';
 import {
   VaAlertSignIn,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import environment from 'platform/utilities/environment';
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
   VerifyIdmeButton,
@@ -19,6 +19,7 @@ import {
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
+import '../../sass/download-1095b.scss';
 import { selectAuthStatus } from '../../selectors/auth-status';
 import {
   downloadErrorComponent,
@@ -27,7 +28,6 @@ import {
   systemErrorComponent,
   unavailableComponent,
 } from './utils';
-import '../../sass/download-1095b.scss';
 
 export const App = ({ displayToggle, toggleLoginModal }) => {
   const [year, updateYear] = useState(0);
@@ -35,13 +35,19 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
+  const [hasLoadedMostRecentYear, setHasLoadedMostRecentYear] = useState(false);
   const isAppLoading = useMemo(
     () => {
-      return profile.isLoadingProfile;
+      return (
+        profile.isLoadingProfile ||
+        (displayToggle &&
+          profile.isUserLOA3 &&
+          hasLoadedMostRecentYear === false) ||
+        displayToggle === undefined
+      );
     },
-    [profile],
+    [displayToggle, hasLoadedMostRecentYear, profile],
   );
-
   useEffect(
     () => {
       if (profile.isUserLOA3 !== true || displayToggle !== true) {
@@ -53,7 +59,6 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           if (response.errors || response.availableForms.length === 0) {
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
           }
-          // return response.availableForms;
           const mostRecentYearData = response.availableForms[0];
           if (mostRecentYearData?.year) {
             updateYear(mostRecentYearData.year);
@@ -61,6 +66,9 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         })
         .catch(() => {
           updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+        })
+        .finally(() => {
+          setHasLoadedMostRecentYear(true);
         });
     },
     [profile.isUserLOA3, displayToggle],
