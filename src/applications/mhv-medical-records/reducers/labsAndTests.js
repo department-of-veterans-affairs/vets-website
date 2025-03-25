@@ -504,6 +504,9 @@ export const convertUnifiedLabsAndTestRecord = record => {
     sampleSite: record.attributes.sampleSite,
     testCode: record.attributes.testCode,
     type: record.attributes.testCode,
+    result: record.attributes.encodedData
+      ? decodeBase64Report(record.attributes.encodedData)
+      : null,
     base: {
       ...record,
     },
