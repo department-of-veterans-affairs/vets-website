@@ -90,15 +90,18 @@ export const behaviorListAdditionalInformation = (
 export const behaviorListNoneLabel =
   'I didn’t experience any behavioral changes after my traumatic events.';
 
-export const behaviorListValidationError = (
-  <va-alert status="error" uswds>
-    <p className="vads-u-font-size--base">
-      You selected one or more behavioral changes. You also selected "I didn’t
-      experience any behavioral changes." Revise your selection so they don’t
-      conflict to continue.
-    </p>
-  </va-alert>
-);
+export const conflictingBehaviorErrorMessage =
+  'If you select no behavioral changes to include, unselect other behavioral changes before continuing.';
+
+// export const behaviorListValidationError = (
+//   <va-alert status="error" uswds>
+//     <p className="vads-u-font-size--base">
+//       You selected one or more behavioral changes. You also selected "I didn’t
+//       experience any behavioral changes." Revise your selection so they don’t
+//       conflict to continue.
+//     </p>
+//   </va-alert>
+// );
 
 /**
  * Returns true if 'none' selected, false otherwise
@@ -161,7 +164,6 @@ export function hasSelectedBehaviors(formData) {
 export function showConflictingAlert(formData) {
   const noneSelected = hasSelectedNoneCheckbox(formData);
   const somethingSelected = hasSelectedBehaviors(formData);
-
   return !!(noneSelected && somethingSelected);
 }
 
@@ -198,12 +200,8 @@ export const allSelectedBehaviorTypes = formData => {
 };
 
 export function orphanedBehaviorDetails(formData) {
-  // TODO compare to selected behaviors, only show if orphaned behaviors leftover
-  // const providedBehaviorDetails = Object.keys(formData.behaviorsDetails || {});
-
   const updatedSelections = allSelectedBehaviorTypes(formData);
   const existingDetails = formData.behaviorsDetails;
-  console.log("ORPHANED", updatedSelections, existingDetails);
 
   const orphanedArray = [];
   Object.keys(existingDetails).forEach(behaviorType => {
@@ -217,7 +215,6 @@ export function orphanedBehaviorDetails(formData) {
       orphanedArray.push(behaviorTypeDescription);
     }
   });
-  console.log("ORPHANED ARRAY", orphanedArray);
   return orphanedArray;
 }
 
@@ -229,14 +226,7 @@ export const hasOrphanedBehaviorDetails = formData => {
 };
 
 export const modalContent = formData => {
-  const allSelectionsForModal = allSelectedBehaviorTypes(formData);
-
-  console.log("ALL SELECTIONS FOR MODAL", allSelectionsForModal);
-  console.log("ALL SELECTIONS function", allSelectedBehaviorTypes(formData));
-
   const orphanedDetails = orphanedBehaviorDetails(formData);
-  console.log("ORPHANED DETAILS", orphanedDetails);
-
   const orphanedBehaviorsCount = orphanedDetails.length;
   const firstThreeBehaviors = orphanedDetails.slice(0, 3);
   const remainingBehaviors = orphanedBehaviorsCount - 3;
@@ -322,7 +312,7 @@ function behaviorSummariesList(behaviorAndDetails) {
       </div>
     </>
   );
-};
+}
 
 export const selectedBehaviorsWithDetails = formData => {
   return getDescriptionForBehavior(

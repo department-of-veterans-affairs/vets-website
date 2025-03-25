@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 import {
@@ -12,14 +12,10 @@ import {
   behaviorListNoneLabel,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
-  allSelectedBehaviorTypes,
   hasOrphanedBehaviorDetails,
-  orphanedBehaviorDetails,
   modalContent,
-  validateBehaviorSelections,
   conflictingBehaviorErrorMessage,
   showConflictingAlert,
-  summarizeBehaviors,
 } from '../content/form0781/behaviorListPages';
 
 import {
@@ -60,16 +56,16 @@ const BehaviorListPage = ({
   );
 
   const [showModal, setShowModal] = useState(false);
-  const [hasError, setHasError] = useState(showConflictingAlert(data), null);
+  const [hasError, setHasError] = useState(null);
 
-  console.log("DETAILS", data.behaviorsDetails)
+  const checkErrors = updatedData => {
+    const result = showConflictingAlert(updatedData);
 
-  const checkErrors = () => {
-    const result = showConflictingAlert(data);
-
-    setHasError(result);
-    const errors = { errorMessages: [] };
-    errors.addError = message => errors.errorMessages.push(message);
+    if (result === true) {
+      setHasError(conflictingBehaviorErrorMessage);
+    } else {
+      setHasError(null);
+    }
     return result;
   };
 
@@ -91,10 +87,15 @@ const BehaviorListPage = ({
   const handleUpdatedSelection = (behaviorSection, updatedData) => {
     if (behaviorSection === 'view:noneCheckbox') {
       setSelectedNoBehaviors(updatedData);
-      setFormData({
+      const updatedFormData = {
         ...data,
         'view:noneCheckbox': updatedData,
-      });
+      };
+      setFormData(updatedFormData);
+      // setFormData lags a little, so check updated data
+      if (checkErrors(updatedFormData)) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      }
     } else {
       switch (behaviorSection) {
         case 'workBehaviors':
@@ -114,12 +115,16 @@ const BehaviorListPage = ({
         default:
           break;
       }
-      setFormData({
+      const updatedFormData = {
         ...data,
         [behaviorSection]: updatedData,
-      });
+      };
+      setFormData(updatedFormData);
+      // setFormData lags a little, so check updated data
+      if (checkErrors(updatedFormData)) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      }
     }
-    checkErrors(); //NOT SYNCHRONOUS
   };
 
   const handlers = {
@@ -145,16 +150,16 @@ const BehaviorListPage = ({
     },
     onSubmit: event => {
       event.preventDefault();
-      if (checkErrors()) {
+      if (checkErrors(data)) {
         scrollToFirstError({ focusOnAlertRole: true });
       } else if (hasOrphanedBehaviorDetails(data)) {
         setShowModal(true);
-      } else { //Any other conditions? Need to have selections?
+      } else {
+        // Any other conditions? Need to have selections?
         goForward(data);
       }
     },
     onCloseModal: () => {
-      console.log("on cclose")
       setShowModal(false);
     },
     onConfirmDeleteBehaviorDescriptions: () => {
@@ -166,7 +171,6 @@ const BehaviorListPage = ({
       handlers.onCloseModal();
     },
   };
-
 
   return (
     <>
@@ -284,8 +288,8 @@ const BehaviorListPage = ({
             name="view:noneCheckbox"
             hint={BEHAVIOR_LIST_HINTS.none}
             onVaChange={handlers.onSelectionChange}
-            // error={hasError}
-            error={hasError ? "conflictingBehaviorErrorMessage" : ''}
+            // error={hasError ? "conflictingBehaviorErrorMessage" : ''} //adds text and red, stops continue
+            error={hasError}
             uswds
           >
             <va-checkbox
@@ -298,7 +302,7 @@ const BehaviorListPage = ({
               checked={
                 !!(
                   data?.['view:noneCheckbox'] &&
-                  data['view:noneCheckbox']["view:noBehaviorChanges"]
+                  data['view:noneCheckbox']['view:noBehaviorChanges']
                 )
               }
               uswds
@@ -313,7 +317,7 @@ const BehaviorListPage = ({
       <FormNavButtons
         goBack={goBack}
         goForward={handlers.onSubmit}
-        submitToContinue //NB suggestion
+        submitToContinue // NB suggestion
       />
       <>{contentAfterButtons}</>
     </>
