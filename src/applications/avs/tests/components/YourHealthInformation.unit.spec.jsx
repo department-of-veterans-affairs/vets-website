@@ -42,7 +42,7 @@ describe('Avs: Your Health Information', () => {
       'COVID-19 (PFIZER)',
     );
     expect(screen.getByTestId('allergies-reactions')).to.contain.text(
-      'SIMVASTATINVerified date: June 10, 1999Severity: None notedReaction: myopathy',
+      'SIMVASTATINVerified date: June 10, 1999Severity: None recordedReaction: myopathy',
     );
     expect(screen.getByTestId('lab-results')).to.contain.text(
       'RET-HeResult: 35.7',

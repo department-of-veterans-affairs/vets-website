@@ -243,7 +243,7 @@ export const allergyTypes = {
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const EMPTY_FIELD = 'None recorded';
 
 export const trackingConfig = {
   dhl: {

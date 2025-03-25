@@ -173,7 +173,7 @@ const PrescriptionPrintOnly = props => {
               <strong>Prescribed by:</strong>{' '}
               {rx.providerLastName
                 ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'None noted'}
+                : 'None recorded'}
             </p>
             {!isDetailsRx &&
               rx.groupedMedications?.length > 0 && (

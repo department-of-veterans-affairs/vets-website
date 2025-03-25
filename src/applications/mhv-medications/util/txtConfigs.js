@@ -44,7 +44,7 @@ Documented by: ${
     prescription.providerLastName
       ? `${prescription.providerLastName}, ${prescription.providerFirstName ||
           ''}`
-      : 'None noted'
+      : 'None recorded'
   }
 
 Documented at this facility: ${validateField(prescription.facilityName)}
@@ -109,7 +109,8 @@ Quantity: ${validateField(rx.quantity)}
 
 Prescribed on: ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
 
-Prescribed by: ${(rx.providerFirstName && rx.providerLastName) || 'None noted'}
+Prescribed by: ${(rx.providerFirstName && rx.providerLastName) ||
+      'None recorded'}
 
 ${
       rx.groupedMedications?.length > 0
@@ -231,7 +232,7 @@ Prescribed on: ${dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
 
 Prescribed by: ${(prescription.providerFirstName &&
     prescription.providerLastName) ||
-    'None noted'}
+    'None recorded'}
 
 
 Refill history

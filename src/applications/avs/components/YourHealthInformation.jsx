@@ -180,11 +180,11 @@ const renderAllergy = allergy => {
       Verified date:{' '}
       {formatDateLong(parse(allergy.verifiedDate, 'MM/dd/yyyy', new Date()))}
       <br />
-      Severity: {allergy.severity || 'None noted'}
+      Severity: {allergy.severity || 'None recorded'}
       <br />
-      Reaction: {allergy.reactions.join(', ') || 'None noted'}
+      Reaction: {allergy.reactions.join(', ') || 'None recorded'}
       <br />
-      Allergy type: {allergy.type || 'None noted'}
+      Allergy type: {allergy.type || 'None recorded'}
       <br />
       Site: {allergy.site}
     </p>

@@ -22,7 +22,7 @@ import {
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
-  it("should return 'None noted' when no values are passed", () => {
+  it("should return 'None recorded' when no values are passed", () => {
     expect(dateFormat()).to.equal(EMPTY_FIELD);
   });
   it('should return a formatted date', () => {
@@ -44,7 +44,7 @@ describe('Validate Field function', () => {
     expect(validateField('Test')).to.equal('Test');
   });
 
-  it("should return 'None noted' when no values are passed", () => {
+  it("should return 'None recorded' when no values are passed", () => {
     expect(validateField()).to.equal(EMPTY_FIELD);
   });
 

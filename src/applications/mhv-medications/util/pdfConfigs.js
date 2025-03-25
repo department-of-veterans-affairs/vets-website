@@ -92,7 +92,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
                 ? `${
                     prescription.providerLastName
                   }, ${prescription.providerFirstName || ''}`
-                : 'None noted',
+                : 'None recorded',
               inline: true,
             },
             {
@@ -219,7 +219,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               title: 'Prescribed by',
               value: rx.providerLastName
                 ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'None noted',
+                : 'None recorded',
               inline: true,
               indent: 32,
             },
