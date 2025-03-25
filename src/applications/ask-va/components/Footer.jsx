@@ -1,4 +1,3 @@
-import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -33,16 +32,24 @@ const Footer = ({ currentLocation, categoryID, topicID }) => {
   const { pathname } = currentLocation;
 
   return (
-    <div className="row">
-      <div className="usa-width-two-thirds medium-8 columns">
-        {!catAndTopicPaths.includes(pathname) ? (
-          getFooter(categoryID, topicID)
-        ) : (
-          <NeedHelpFooter />
-        )}
-        <VaBackToTop />
+    <>
+      <div className="vads-u-margin-bottom--2">
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            {!catAndTopicPaths.includes(pathname) ? (
+              getFooter(categoryID, topicID)
+            ) : (
+              <NeedHelpFooter />
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="usa-width-two-thirds vads-u-display--flex vads-u-justify-content--flex-end">
+            <va-back-to-top />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
