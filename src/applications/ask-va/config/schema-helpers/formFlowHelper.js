@@ -604,7 +604,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
   'useThisSchool',
   'stateOfSchool',
   'stateOfFacility',
-  'aboutYourself',
+  'aboutYourselfGeneral',
   'yourContactInformation',
 ];
 export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = flowPages(

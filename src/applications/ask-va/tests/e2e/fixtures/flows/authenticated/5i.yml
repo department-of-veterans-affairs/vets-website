@@ -4,52 +4,52 @@ flow:
   steps:
     - action: include
       target: page
-      value:  start-your-question-auth
-    
-    - action: include
-      target: page
-      value:  select-category-education-benefits-and-work-study
+      value: start-your-question-auth
 
     - action: include
       target: page
-      value:  select-topic-work-study
+      value: select-category-education-benefits-and-work-study
 
     - action: include
       target: page
-      value:  select-subtopic-application
-      
-    - action: include
-      target: page
-      value:  what-is-your-relationship-to-the-veteran-connected-through-work
-    
-    - action: include
-      target: page
-      value:  what-is-your-role-sco
-      
-    - action: include
-      target: page
-      value:  school-information
+      value: select-topic-work-study
 
     - action: include
       target: page
-      value:  do-you-want-to-save-your-school-info
-      
-    - action: include
-      target: page
-      value:  tell-us-about-yourself
-         
-    - action: include
-      target: page
-      value:  your-contact-information-email-no-prefill 
-      
-    - action: include
-      target: page
-      value:  your-question-education
+      value: select-subtopic-application
 
     - action: include
       target: page
-      value:  editing-answers
+      value: what-is-your-relationship-to-the-veteran-connected-through-work
 
     - action: include
       target: page
-      value:  your-confirmation-number
+      value: what-is-your-role-sco
+
+    - action: include
+      target: page
+      value: school-information
+
+    - action: include
+      target: page
+      value: do-you-want-to-save-your-school-info
+
+    - action: include
+      target: page
+      value: tell-us-about-yourself-general
+
+    - action: include
+      target: page
+      value: your-contact-information-email-no-prefill
+
+    - action: include
+      target: page
+      value: your-question-education
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number
