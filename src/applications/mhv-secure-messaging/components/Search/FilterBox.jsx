@@ -99,10 +99,13 @@ const FilterBox = forwardRef((props, ref) => {
 
       <va-accordion data-dd-action-name="Accordion - Filter" open-single>
         <va-accordion-item
+          data-testid="accordion-item-filter"
           id="additional-filter-accordion"
           onClick={e => {
-            setIsItemExpanded(e.target?.getAttribute('open') === 'true');
+            const isOpen = e.target?.getAttribute('open') === 'true';
+            setIsItemExpanded(isOpen);
           }}
+          open={isItemExpanded}
         >
           <h3 slot="headline" className="headline-text">
             {isItemExpanded ? 'Hide filters' : 'Show filters'}
