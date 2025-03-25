@@ -26,8 +26,7 @@ const DownloadDateRange = () => {
   const dispatch = useDispatch();
 
   const ERROR_VALID_DATE_RANGE = 'Please select a valid date range.';
-  const ERROR_VALID_START_DATE = 'Please enter a valid start date.';
-  const ERROR_VALID_END_DATE = 'Please enter a valid end date.';
+  const ERROR_PLEASE_ENTER_COMPLETE_DATE = 'Please enter a complete date';
   const ERROR_END_AFTER_START_DATE = 'End date must be on or after start date.';
 
   const handleDateSelect = useCallback(
@@ -107,13 +106,18 @@ const DownloadDateRange = () => {
       return;
     }
     if (selectedDate === 'custom') {
+      if (customFromDate === '' && customToDate === '') {
+        setCustomFromError(ERROR_PLEASE_ENTER_COMPLETE_DATE);
+        setCustomToError(ERROR_PLEASE_ENTER_COMPLETE_DATE);
+        focusElement('#error-message', {}, startDateRef.current.shadowRoot);
+      }
       if (customFromDate === '') {
-        setCustomFromError(ERROR_VALID_START_DATE);
+        setCustomFromError(ERROR_PLEASE_ENTER_COMPLETE_DATE);
         focusElement('#error-message', {}, startDateRef.current.shadowRoot);
         return;
       }
       if (customToDate === '') {
-        setCustomToError(ERROR_VALID_END_DATE);
+        setCustomToError(ERROR_PLEASE_ENTER_COMPLETE_DATE);
         focusElement('#error-message', {}, endDateRef.current.shadowRoot);
         return;
       }
@@ -183,9 +187,6 @@ const DownloadDateRange = () => {
               label="End date"
               required="true"
               error={customToError}
-              invalidDay={customToError}
-              invalidMonth={customToError}
-              invalidYear={customToError}
               data-testid="va-date-end-date"
               onDateChange={e => {
                 const [year, month, day] = e.target.value.split('-');
@@ -193,6 +194,15 @@ const DownloadDateRange = () => {
                   setCustomToError(null);
                   setCustomToDate(e.target.value);
                 }
+              }}
+              invalidDay={() => {
+                return customToError === ERROR_END_AFTER_START_DATE;
+              }}
+              invalidMonth={() => {
+                return customToError === ERROR_END_AFTER_START_DATE;
+              }}
+              invalidYear={() => {
+                return customToError === ERROR_END_AFTER_START_DATE;
               }}
               ref={endDateRef}
             />
