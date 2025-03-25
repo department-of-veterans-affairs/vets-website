@@ -29,11 +29,13 @@ function getBack(data) {
  */
 function removeEmptyKeys(obj) {
   const cleanObject = { ...obj };
+  const keysToRemove = [];
   Object.keys(cleanObject).forEach(key => {
     if (cleanObject[key] === undefined) {
-      delete cleanObject[key];
+      keysToRemove.push(key);
     }
   });
+  keysToRemove.forEach(key => delete cleanObject[key]);
   return cleanObject;
 }
 
