@@ -336,6 +336,8 @@ describe('ConfirmationPageV2', () => {
       [EVIDENCE_PRIVATE]: false,
       [EVIDENCE_OTHER]: false,
       livingSituation: { none: true },
+      pointOfContactHasInternationalPhone: true,
+      pointOfContactPhone: '44-8005551212',
     });
     const { container } = render(
       <Provider store={mockStore(data)}>
@@ -391,7 +393,7 @@ describe('ConfirmationPageV2', () => {
       'Yes',
       'None of these situations apply to me.',
       'John Doe',
-      '<va-telephone contact="8005551212" not-clickable="true"></va-telephone>',
+      '<va-telephone contact="44-8005551212" international="true" not-clickable="true"></va-telephone>',
       '<va-telephone contact="5558001111" extension="5678" not-clickable="true"></va-telephone>',
       '<va-telephone contact="5558002222" extension="1234" not-clickable="true"></va-telephone>',
       'user@example.com',

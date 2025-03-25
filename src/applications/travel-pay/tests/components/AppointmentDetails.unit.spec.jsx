@@ -1,9 +1,13 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import AppointmentDetails from '../../components/AppointmentDetails';
+import {
+  AppointmentDetails,
+  AppointmentInfoText,
+} from '../../components/AppointmentDetails';
 
 const claimMeta = {
   status: 200,
@@ -22,16 +26,11 @@ const claimInfo = {
 };
 
 const mockAppt = {
-  practitioners: [
-    {
-      name: {
-        family: 'BERNARDO',
-        given: ['KENNETH J'],
-      },
-    },
-  ],
   start: '2024-12-30T14:00:00Z',
   localStartTime: '2024-12-30T08:00:00.000-06:00',
+  isPast: true,
+  daysSinceAppt: null,
+  isOutOfBounds: false,
   location: {
     id: '983',
     type: 'appointments',
@@ -39,33 +38,101 @@ const mockAppt = {
       name: 'Cheyenne VA Medical Center',
     },
   },
-  facilityData: {
-    name: 'Cheyenne VA Medical Center',
-  },
-  travelPayClaim: {
-    metadata: claimMeta,
-    claim: claimInfo,
-  },
 };
 
 describe('Appointment details', () => {
-  const props = {
-    appointment: mockAppt,
-  };
-
-  it('should render appointment details if no claim present', () => {
-    const screen = render(
-      <AppointmentDetails
-        appointment={{ ...mockAppt, travelPayClaim: { metadata: claimMeta } }}
-      />,
-    );
+  it('should render appointment details with original appointment object', () => {
+    const screen = render(<AppointmentDetails appointment={mockAppt} />);
 
     expect(screen.getByText(/December 30/i)).to.exist;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.exist;
   });
 
+  it('should show appropriate days left to claim', () => {
+    MockDate.set('2025-01-28T14:00:00Z');
+    const screen = render(<AppointmentDetails appointment={mockAppt} />);
+
+    expect(screen.getByText(/1 day/i)).to.exist;
+    MockDate.reset();
+  });
+});
+
+describe('Appointment info text', () => {
+  // The date in the appt is "2024-12-30T14:00:00Z"
+
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('should render correct text for if appt is over 30 days old', () => {
+    MockDate.set('2025-02-28T14:00:00Z');
+    const screen = render(
+      <AppointmentInfoText
+        appointment={{
+          ...mockAppt,
+          daysSinceAppt: 60,
+          isOutOfBounds: true,
+          travelPayClaim: {
+            metadata: claimMeta,
+          },
+        }}
+      />,
+    );
+
+    expect(screen.getByText(/Your appointment is older than 30 days/i)).to
+      .exist;
+  });
+
+  it('should render correct text for if appt is less than 30 days old', () => {
+    MockDate.set('2025-01-03T14:00:00Z');
+    const screen = render(
+      <AppointmentInfoText
+        appointment={{
+          ...mockAppt,
+          daysSinceAppt: 4,
+          isOutOfBounds: false,
+          travelPayClaim: {
+            metadata: claimMeta,
+          },
+        }}
+      />,
+    );
+
+    expect(
+      screen.getByText(/We encourage you to file your claim within 30 days/i),
+    ).to.exist;
+  });
+
+  it('should render an alert if appt is in the future', () => {
+    const screen = render(
+      <AppointmentInfoText
+        appointment={{
+          ...mockAppt,
+          isPast: false,
+          travelPayClaim: {
+            metadata: claimMeta,
+          },
+        }}
+      />,
+    );
+
+    expect(screen.getByText(/We need to wait to file your claim/i)).to.exist;
+  });
+
   it('should render a link to existing travel claim', () => {
-    const screen = render(<AppointmentDetails {...props} />);
+    const screen = render(
+      <AppointmentInfoText
+        appointment={{
+          ...mockAppt,
+          daysSinceAppt: 60,
+          isOutOfBounds: true,
+          travelPayClaim: {
+            metadata: claimMeta,
+            claim: claimInfo,
+          },
+        }}
+      />,
+    );
 
     expect(screen.getByText(/already filed/i)).to.exist;
     expect($('va-link-action[text="View your claim details"]')).to.exist;

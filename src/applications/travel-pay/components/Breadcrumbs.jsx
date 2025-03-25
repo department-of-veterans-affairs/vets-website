@@ -3,17 +3,24 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import { useLocation, useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom-v5-compat';
 
-export default function BreadCrumbs() {
+const uuidRegex = /[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}/;
+
+export default function Breadcrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const uuidPathRegex = /^\/claims\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
-  const isDetailsPage = pathname.match(uuidPathRegex);
+
+  const isDetailsPage = new RegExp(
+    /\/claims\//.source + uuidRegex.source,
+    'i',
+  ).test(pathname);
   const isStatusExplainer = pathname.includes('/help');
 
-  const { apptId } = useParams();
+  const { apptId, id: claimId } = useParams();
 
-  // TODO: this might need work - it works for now, but we might need a regex like the isDetailsPage
-  const isSubmitWrapper = pathname.includes(`/file-new-claim/${apptId}`);
+  const isSubmitWrapper = new RegExp(
+    /\/file-new-claim\//.source + apptId,
+    'i',
+  ).test(pathname);
 
   const breadcrumbList = [
     {
@@ -41,10 +48,10 @@ export default function BreadCrumbs() {
     });
   }
 
-  if (isSubmitWrapper) {
+  if (isDetailsPage) {
     breadcrumbList.push({
-      href: `/file-new-claim/${apptId}`,
-      label: 'File a new travel claim',
+      href: `/claims/${claimId}`,
+      label: 'Your travel reimbursement claim',
       isRouterLink: true,
     });
   }
@@ -54,24 +61,14 @@ export default function BreadCrumbs() {
     history.push(href);
   };
 
-  return isDetailsPage || isSubmitWrapper ? (
+  return isSubmitWrapper ? (
     <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
-      {isDetailsPage && (
-        <va-link
-          data-testid="details-back-link"
-          back
-          href="/my-health/travel-pay/claims/"
-          text="Back to your travel reimbursement claims"
-        />
-      )}
-      {isSubmitWrapper && (
-        <va-link
-          data-testid="submit-back-link"
-          back
-          href={`/my-health/appointments/past/${apptId}`}
-          text="Back to your appointment"
-        />
-      )}
+      <va-link
+        data-testid="submit-back-link"
+        back
+        href={`/my-health/appointments/past/${apptId}`}
+        text="Back to your appointment"
+      />
     </div>
   ) : (
     <VaBreadcrumbs

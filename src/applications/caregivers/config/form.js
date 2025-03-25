@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -11,14 +10,14 @@ import {
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
   showFacilityConfirmation,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import { fullSchema } from '../utils/imports';
+import { FULL_SCHEMA } from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 
@@ -69,7 +68,7 @@ const {
   fullName,
   uuid,
   signature,
-} = fullSchema.definitions;
+} = FULL_SCHEMA.definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)

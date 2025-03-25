@@ -6,12 +6,12 @@ import {
   CREATE_DRAFT_REFERRAL_APPOINTMENT,
   CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
   CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
+  FETCH_REFERRAL_APPOINTMENT_INFO,
+  FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
+  FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
   FETCH_REFERRALS,
   FETCH_REFERRALS_SUCCEEDED,
   FETCH_REFERRALS_FAILED,
-  FETCH_REFERRAL,
-  FETCH_REFERRAL_SUCCEEDED,
-  FETCH_REFERRAL_FAILED,
   SET_INIT_REFERRAL_FLOW,
   SET_SELECTED_SLOT,
 } from './actions';
@@ -29,7 +29,11 @@ const initialState = {
   referralFetchStatus: FETCH_STATUS.notStarted,
   draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
   appointmentCreateStatus: FETCH_STATUS.notStarted,
-  postAppointmentStartTime: null,
+  pollingRequestStart: null,
+  referralAppointmentInfo: {},
+  appointmentInfoLoading: false,
+  appointmentInfoError: false,
+  appointmentInfoTimeout: false,
 };
 
 function ccAppointmentReducer(state = initialState, action) {
@@ -43,19 +47,16 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         appointmentCreateStatus: FETCH_STATUS.loading,
-        postAppointmentStartTime: action.payload.postAppointmentStartTime,
       };
     case CREATE_REFERRAL_APPOINTMENT_SUCCEEDED:
       return {
         ...state,
         appointmentCreateStatus: FETCH_STATUS.succeeded,
-        postAppointmentStartTime: null,
       };
     case CREATE_REFERRAL_APPOINTMENT_FAILED:
       return {
         ...state,
         appointmentCreateStatus: FETCH_STATUS.failed,
-        postAppointmentStartTime: null,
       };
     case CREATE_DRAFT_REFERRAL_APPOINTMENT:
       return {
@@ -73,6 +74,29 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         draftAppointmentCreateStatus: FETCH_STATUS.failed,
       };
+    case FETCH_REFERRAL_APPOINTMENT_INFO:
+      return {
+        ...state,
+        appointmentInfoError: false,
+        appointmentInfoLoading: true,
+        appointmentInfoTimeout: false,
+        pollingRequestStart: action.payload.pollingRequestStart,
+      };
+    case FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED:
+      return {
+        ...state,
+        appointmentInfoLoading: false,
+        appointmentInfoError: false,
+        appointmentInfoTimeout: false,
+        referralAppointmentInfo: action.data,
+      };
+    case FETCH_REFERRAL_APPOINTMENT_INFO_FAILED:
+      return {
+        ...state,
+        appointmentInfoLoading: false,
+        appointmentInfoError: true,
+        appointmentInfoTimeout: action.payload,
+      };
     case FETCH_REFERRALS:
       return {
         ...state,
@@ -89,22 +113,6 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         referralsFetchStatus: FETCH_STATUS.failed,
       };
-    case FETCH_REFERRAL:
-      return {
-        ...state,
-        referralFetchStatus: FETCH_STATUS.loading,
-      };
-    case FETCH_REFERRAL_SUCCEEDED:
-      return {
-        ...state,
-        referralFetchStatus: FETCH_STATUS.succeeded,
-        referralDetails: [...state.referralDetails, action.data],
-      };
-    case FETCH_REFERRAL_FAILED:
-      return {
-        ...state,
-        referralFetchStatus: FETCH_STATUS.failed,
-      };
     case SET_SELECTED_SLOT:
       return {
         ...state,
@@ -117,6 +125,10 @@ function ccAppointmentReducer(state = initialState, action) {
         providerFetchStatus: FETCH_STATUS.notStarted,
         draftAppointmentInfo: {},
         draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
+        appointmentInfoTimeout: false,
+        appointmentInfoError: false,
+        appointmentInfoLoading: false,
+        referralAppointmentInfo: {},
         selectedSlot: '',
       };
     default:

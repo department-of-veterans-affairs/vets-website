@@ -28,7 +28,7 @@ describe('VAOS Component: AppointmentColumn', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentColumn />);
-    const column = screen.getByRole('cell');
+    const column = screen.queryByTestId('cell');
 
     // Assert
     expect(column.classList.contains('vads-u-flex--1'));
@@ -41,7 +41,7 @@ describe('VAOS Component: AppointmentColumn', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentColumn canceled />);
-    const column = screen.getByRole('cell');
+    const column = screen.queryByTestId('cell');
 
     // Assert
     expect(assertTextDecoration(column, 'text-decoration', 'line-through'));
@@ -55,7 +55,7 @@ describe('VAOS Component: AppointmentColumn', () => {
         <p>This is a test</p>
       </AppointmentColumn>,
     );
-    const column = screen.getByRole('cell');
+    const column = screen.queryByTestId('cell');
 
     // Assert
     expect(column.childElementCount).to.equal(1);
@@ -65,7 +65,7 @@ describe('VAOS Component: AppointmentColumn', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentColumn className="class1" />);
-    const column = screen.getByRole('cell');
+    const column = screen.queryByTestId('cell');
 
     // Assert
     expect(column.classList.contains('vads-u-flex--1'));
@@ -77,7 +77,7 @@ describe('VAOS Component: AppointmentColumn', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentColumn style={{ margin: 0 }} />);
-    const column = screen.getByRole('cell');
+    const column = screen.queryByTestId('cell');
 
     // Assert
     expect(assertTextDecoration(column, 'margin', '0px'));

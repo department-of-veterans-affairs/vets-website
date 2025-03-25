@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import {
   personalInformationPage,
-  defaultConfig,
+  defaultPageConfig,
 } from '../../../../src/js/components/PersonalInformation/index';
 import * as PersonalInformationModule from '../../../../src/js/components/PersonalInformation/PersonalInformation';
 
@@ -55,8 +55,8 @@ describe('personalInformationPage', () => {
   it('should use the default values when called without a config object as an argument', () => {
     const result = personalInformationPage();
 
-    expect(result.personalInfoPage.title).to.equal(defaultConfig.title);
-    expect(result.personalInfoPage.path).to.equal(defaultConfig.path);
+    expect(result.personalInfoPage.title).to.equal(defaultPageConfig.title);
+    expect(result.personalInfoPage.path).to.equal(defaultPageConfig.path);
   });
 
   it('should pass through title and path correctly', () => {
@@ -81,10 +81,10 @@ describe('personalInformationPage', () => {
     });
 
     expect(resultWithoutTitleAndPath.personalInfoPage.title).to.equal(
-      defaultConfig.title,
+      defaultPageConfig.title,
     );
     expect(resultWithoutTitleAndPath.personalInfoPage.path).to.equal(
-      defaultConfig.path,
+      defaultPageConfig.path,
     );
   });
 

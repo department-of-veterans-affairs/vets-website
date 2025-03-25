@@ -52,8 +52,8 @@ export default function AppointmentColumn({
     <div
       className={getClasses({ className, first, padding, last, size })}
       style={{ ...defaultStyles.canceled, ...style }}
+      data-testid="cell"
       {...props}
-      role="cell"
     >
       {children}
     </div>

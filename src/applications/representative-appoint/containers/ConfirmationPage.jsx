@@ -9,6 +9,8 @@ import { getFormNumber, getFormName } from '../utilities/helpers';
 
 import GetFormHelp from '../components/GetFormHelp';
 
+import ConfirmationDigitalSubmission from './ConfirmationDigitalSubmission';
+
 export default function ConfirmationPage({ router }) {
   const checkboxRef = useRef(null);
   const [signedForm, setSignedForm] = useState(false);
@@ -25,6 +27,10 @@ export default function ConfirmationPage({ router }) {
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
 
+  const isDigitalSubmission =
+    formData.representativeSubmissionMethod === 'digital';
+
+  const v2IsEnabled = formData?.['view:v2IsEnabled'];
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
@@ -64,6 +70,10 @@ export default function ConfirmationPage({ router }) {
       }
     },
   };
+
+  if (isDigitalSubmission && v2IsEnabled) {
+    return <ConfirmationDigitalSubmission />;
+  }
 
   return (
     <>

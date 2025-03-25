@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+<<<<<<< HEAD
 
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
@@ -11,6 +12,16 @@ describe('CG <ConfirmationPage>', () => {
       getState: () => ({
         form: {
           submission,
+=======
+import ConfirmationPage from '../../../containers/ConfirmationPage';
+
+describe('CG <ConfirmationPage>', () => {
+  const subject = () => {
+    const mockStore = {
+      getState: () => ({
+        form: {
+          submission: {},
+>>>>>>> main
           data: {
             veteranFullName: {
               first: 'John',
@@ -23,6 +34,7 @@ describe('CG <ConfirmationPage>', () => {
       }),
       subscribe: () => {},
       dispatch: () => {},
+<<<<<<< HEAD
     },
   });
   const subject = ({ mockStore }) =>
@@ -70,5 +82,25 @@ describe('CG <ConfirmationPage>', () => {
     const { container } = subject({ mockStore });
     const selector = container.querySelectorAll('.no-print');
     expect(selector).to.have.length;
+=======
+    };
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig: {} }} />
+      </Provider>,
+    );
+    const selectors = () => ({
+      wrapper: container.querySelector('.caregiver-confirmation'),
+      printContainers: container.querySelectorAll('.no-print'),
+    });
+    return { selectors };
+  };
+
+  it('should contain sections that will not be displayed in print view', () => {
+    const { selectors } = subject();
+    const { wrapper, printContainers } = selectors();
+    expect(wrapper).to.not.be.empty;
+    expect(printContainers).to.have.length;
+>>>>>>> main
   });
 });

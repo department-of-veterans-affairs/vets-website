@@ -1,0 +1,52 @@
+{
+  "type": "FeatureCollection",
+  "query": ["43231"],
+  "features": [
+    {
+      "id": "postcode.144060140",
+      "type": "Feature",
+      "place_type": ["postcode"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpDSll1N0E"
+      },
+      "text": "43231",
+      "place_name": "Columbus, Ohio 43231, United States",
+      "bbox": [-82.956872, 40.056075, -82.91829, 40.110703],
+      "center": [-82.952944, 40.060533],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-82.952944, 40.060533]
+      },
+      "context": [
+        {
+          "id": "place.68643052",
+          "mapbox_id": "dXJuOm1ieHBsYzpCQmRvN0E",
+          "wikidata": "Q16567",
+          "text": "Columbus"
+        },
+        {
+          "id": "district.7931628",
+          "mapbox_id": "dXJuOm1ieHBsYzplUWJz",
+          "wikidata": "Q113237",
+          "text": "Franklin County"
+        },
+        {
+          "id": "region.140524",
+          "mapbox_id": "dXJuOm1ieHBsYzpBaVRz",
+          "wikidata": "Q1397",
+          "short_code": "US-OH",
+          "text": "Ohio"
+        },
+        {
+          "id": "country.8940",
+          "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2025 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained."
+}

@@ -106,12 +106,22 @@ describe('EducationSearchItem', () => {
       </Provider>,
     );
 
+<<<<<<< HEAD
     expect(
       wrapper
         .find('p')
         .at(0)
         .text(),
     ).to.contain('We didn’t find any results for');
+=======
+    const errorText = wrapper
+      .find('p')
+      .at(0)
+      .text();
+    expect(errorText).to.contain('find any results for');
+    expect(errorText).to.contain('Test Input');
+
+>>>>>>> main
     expect(
       wrapper
         .find('p')
@@ -121,4 +131,176 @@ describe('EducationSearchItem', () => {
 
     wrapper.unmount();
   });
+<<<<<<< HEAD
+=======
+
+  it('should handle pagination and call getData with correct URL', async () => {
+    const facilityData = {
+      data: Array(15)
+        .fill()
+        .map((_, index) => ({
+          id: String(index + 1),
+          attributes: {
+            facilityCode: String(index + 100),
+            name: `VA Facility ${index + 1}`,
+            physicalState: 'CA',
+            physicalZip: '12345',
+          },
+        })),
+      meta: {
+        count: 15,
+      },
+      links: {
+        self: 'test-page-url&page=1&per_page=10',
+      },
+    };
+
+    const dataError = {
+      hasError: false,
+      errorMessage: '',
+    };
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <EducationSearchItem
+          facilityData={facilityData}
+          dataError={dataError}
+          onChange={mockOnChange}
+          pageURL="test-page-url"
+          getData={mockGetData}
+        />
+      </Provider>,
+    );
+
+    // Find the pagination component
+    const pagination = wrapper.find('VaPagination');
+    expect(pagination.exists()).to.be.true;
+
+    // Simulate page change
+    pagination.props().onPageSelect({ detail: { page: 2 } });
+
+    // Verify getData was called with correct URL
+    expect(mockGetData.calledOnce).to.be.true;
+    expect(mockGetData.calledWith('test-page-url&page=2&per_page=10')).to.be
+      .true;
+
+    wrapper.unmount();
+  });
+
+  it('should handle radio button selection', () => {
+    const facilityData = {
+      data: [
+        {
+          id: '1',
+          attributes: {
+            facilityCode: '123',
+            name: 'VA Facility 1',
+            physicalState: 'CA',
+            physicalZip: '12345',
+          },
+        },
+      ],
+      meta: {
+        count: 1,
+      },
+    };
+
+    const dataError = {
+      hasError: false,
+      errorMessage: '',
+    };
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <EducationSearchItem
+          facilityData={facilityData}
+          dataError={dataError}
+          onChange={mockOnChange}
+          pageURL="test-page-url"
+          getData={mockGetData}
+        />
+      </Provider>,
+    );
+
+    // Find the radio component
+    const radio = wrapper.find('VaRadio');
+    expect(radio.exists()).to.be.true;
+
+    // Simulate radio selection
+    const expectedValue = '123 - VA Facility 1 CA 12345';
+    radio.props().onVaValueChange({ detail: { value: expectedValue } });
+
+    // Verify onChange was called with the correct value
+    expect(mockOnChange.calledOnce).to.be.true;
+    expect(mockOnChange.calledWith(expectedValue)).to.be.true;
+
+    wrapper.unmount();
+  });
+
+  it('should handle pagination edge cases', () => {
+    const testCases = [
+      {
+        links: { self: 'test-page-url?page=2' },
+        expectedPage: 2,
+      },
+      {
+        links: { self: 'test-page-url' },
+        expectedPage: 1,
+      },
+      {
+        links: undefined,
+        expectedPage: 1,
+      },
+      {
+        links: { self: 'test-page-url?page=invalid' },
+        expectedPage: 1,
+      },
+    ];
+
+    testCases.forEach(({ links, expectedPage }) => {
+      const facilityData = {
+        data: [
+          {
+            id: '1',
+            attributes: {
+              facilityCode: '123',
+              name: 'VA Facility 1',
+              physicalState: 'CA',
+              physicalZip: '12345',
+            },
+          },
+        ],
+        meta: {
+          count: 20,
+        },
+        links,
+      };
+
+      const dataError = {
+        hasError: false,
+        errorMessage: '',
+      };
+
+      const wrapper = mount(
+        <Provider store={store}>
+          <EducationSearchItem
+            facilityData={facilityData}
+            dataError={dataError}
+            onChange={mockOnChange}
+            pageURL="test-page-url"
+            getData={mockGetData}
+          />
+        </Provider>,
+      );
+
+      // Find the pagination component
+      const pagination = wrapper.find('VaPagination');
+      if (pagination.exists()) {
+        expect(pagination.props().page).to.equal(expectedPage);
+      }
+
+      wrapper.unmount();
+    });
+  });
+>>>>>>> main
 });

@@ -1,7 +1,6 @@
 {
   "confirmationCode": "123456",
   "formNumber": "21-0779",
-  "formName": "Request for Nursing Home Information in Connection with Claim for Aid and Attendance",
   "formData": {
     "idNumber": {
       "ssn": "234232345",
@@ -12,6 +11,7 @@
       "first": "John",
       "last": "Veteran"
     },
-    "email": "john@veteran.com"
+    "email": "john@veteran.com",
+    "formName": "Request for Nursing Home Information in Connection with Claim for Aid and Attendance"
   }
 }

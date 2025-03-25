@@ -12,10 +12,19 @@ export const placeOfBirth = {
     ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
     birthLocation: {
       outsideUsa: {
-        'ui:title': 'They were born outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {
+        city: {
+          'ui:title': 'City',
+          'ui:required': () => true,
+          'ui:autocomplete': 'address-level2',
+          'ui:errorMessages': {
+            required: 'Enter the city where the child was born',
+          },
+          'ui:webComponentField': VaTextInputField,
+        },
         state: {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
@@ -23,9 +32,15 @@ export const placeOfBirth = {
             required: 'Select a state',
           },
           'ui:options': {
-            hideIf: formData => formData?.birthLocation?.outsideUsa,
+            hideIf: (formData, index) =>
+              formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa ||
+              formData?.birthLocation?.outsideUsa,
           },
-          'ui:required': formData => !formData?.birthLocation?.outsideUsa,
+          'ui:required': (formData, index) =>
+            !(
+              formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa ||
+              formData?.birthLocation?.outsideUsa
+            ),
         },
         country: {
           'ui:title': 'Country',
@@ -34,9 +49,15 @@ export const placeOfBirth = {
             required: 'Select a country',
           },
           'ui:options': {
-            hideIf: formData => !formData?.birthLocation?.outsideUsa,
+            hideIf: (formData, index) =>
+              !(
+                formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa ||
+                formData?.birthLocation?.outsideUsa
+              ),
           },
-          'ui:required': formData => formData?.birthLocation?.outsideUsa,
+          'ui:required': (formData, index) =>
+            formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa ||
+            formData?.birthLocation?.outsideUsa,
         },
         postalCode: {
           'ui:title': 'Postal Code',
@@ -44,7 +65,11 @@ export const placeOfBirth = {
           'ui:errorMessages': {
             required: 'Enter a postal code',
           },
-          'ui:required': formData => !formData?.birthLocation?.outsideUsa,
+          'ui:required': (formData, index) =>
+            !(
+              formData?.childrenToAdd?.[index]?.birthLocation?.outsideUsa ||
+              formData?.birthLocation?.outsideUsa
+            ),
         },
       },
     },
@@ -53,13 +78,12 @@ export const placeOfBirth = {
         "Based on your answers, you’ll need to submit a copy of this child's birth certificate to add them as your dependent. We’ll ask you to submit this document at the end of this form.",
       ),
       'ui:options': {
-        hideIf: (formData, _index) => {
-          const address =
-            formData?.veteranContactInformation?.veteranAddress || {};
-          const isMilitaryOrUSA =
-            address.isMilitary || address.country === 'USA';
-          return !isMilitaryOrUSA;
-        },
+        hideIf: (_formData, _index, fullFormData) =>
+          !(
+            fullFormData?.veteranContactInformation?.veteranAddress?.country !==
+              'USA' ||
+            fullFormData?.veteranContactInformation?.veteranAddress?.isMilitary
+          ),
       },
     },
   },

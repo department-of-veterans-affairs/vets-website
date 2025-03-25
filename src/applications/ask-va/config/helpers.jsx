@@ -5,6 +5,7 @@ import React from 'react';
 import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
+  branchOfServiceRuleforCategories,
   CategoryBenefitsIssuesOutsidetheUS,
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
@@ -18,6 +19,7 @@ import {
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
+  TopicDisabilityCompensation,
   TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
@@ -228,21 +230,24 @@ export const contactRules = {
   },
 };
 
-export const getContactMethods = (category, topic) => {
-  // const contactRules = initializeContactRules();
-  const allContactMethods = {
-    PHONE: 'Phone call',
-    EMAIL: 'Email',
-    US_MAIL: 'U.S. mail',
-  };
+export const getContactMethods = (contactPreferences = []) => {
+  let contactMethods = {};
 
-  if (contactRules[category] && contactRules[category][topic]) {
-    return contactRules[category][topic].reduce((acc, method) => {
-      acc[method] = allContactMethods[method];
-      return acc;
-    }, {});
+  if (contactPreferences.length > 0) {
+    contactPreferences.forEach(item => {
+      if (item === 'Phone') contactMethods.PHONE = 'Phone call';
+      if (item === 'Email') contactMethods.EMAIL = 'Email';
+      if (item === 'USMail') contactMethods.US_MAIL = 'U.S. mail';
+    });
+  } else {
+    contactMethods = {
+      PHONE: 'Phone call',
+      EMAIL: 'Email',
+      US_MAIL: 'U.S. mail',
+    };
   }
-  return allContactMethods;
+
+  return contactMethods;
 };
 
 export const isEqualToOnlyEmail = obj => {
@@ -553,19 +558,12 @@ export const isStateOfPropertyRequired = data => {
 
 // List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
 export const isBranchOfServiceRequired = data => {
-  const { selectCategory, whoIsYourQuestionAbout } = data;
-
-  const branchOfServiceRuleforCategories = [
-    'Veteran ID Card (VIC)',
-    'Disability compensation',
-    'Survivor benefits',
-    'Burials and memorials',
-    'Center for Women Veterans',
-    'Benefits issues outside the U.S.',
-  ];
+  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
 
   return (
-    branchOfServiceRuleforCategories.includes(selectCategory) &&
+    (branchOfServiceRuleforCategories.includes(selectCategory) ||
+      (selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+        selectTopic === TopicDisabilityCompensation)) &&
     whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
   );
 };
@@ -702,6 +700,25 @@ export const getVAStatusIconAndMessage = {
   },
 };
 
+export const getDescriptiveTextFromCRM = status => {
+  switch ((status ?? '').toLowerCase()) {
+    case 'new':
+      return 'Your inquiry is current in queue to be reviewed.';
+    case 'in progress':
+      return 'Your inquiry is currently being reviewed by an agent.';
+    case 'solved':
+      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
+    case 'reopened':
+      return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
+    case 'closed':
+      return 'Closed.';
+    case 'reference number not found':
+      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
+    default:
+      return 'error';
+  }
+};
+
 // Function to convert date to Response Inbox format using date-fns
 export const convertDateForInquirySubheader = dateString => {
   // Parse the input date string as UTC
@@ -715,6 +732,8 @@ export const convertDateForInquirySubheader = dateString => {
     utcDate.setUTCMinutes(utcDate.getMinutes());
     utcDate.setUTCSeconds(utcDate.getSeconds());
   } catch (error) {
+    // TODO: This catch block doesn't seem to be hit in testing. johall-tw
+    // istanbul ignore next
     return 'Invalid Date';
   }
 
@@ -729,7 +748,8 @@ export const convertDateForInquirySubheader = dateString => {
     'America/New_York',
     "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
     { locale: enUS },
-  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+    // ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  ).replace(/[AaPp]\.{0,1}[Mm]\.{0,1}/, match => `${match.toLowerCase()}`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -767,8 +787,12 @@ export const getFiles = files => {
   });
 };
 
+export const getFileSizeMB = size => size * 0.00000095367432;
+
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
-  const fileSizeText = fileSize ? ` (${(fileSize * 0.001).toFixed(2)} MB)` : '';
+  const fileSizeText = fileSize
+    ? ` (${getFileSizeMB(fileSize).toFixed(2)} MB)`
+    : '';
 
   return (
     <a href={fileUrl} download={fileName}>

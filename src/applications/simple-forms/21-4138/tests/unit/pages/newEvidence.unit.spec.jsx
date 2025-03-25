@@ -7,7 +7,7 @@ const {
 } = formConfig.chapters.statementTypeChapter.pages.claimStatusToolPage;
 
 const pageTestExpectation = {
-  pageTitle: "There's a better way to request your personal records",
+  pageTitle: "There's a better way to submit new evidence",
   schema,
   uiSchema,
 };

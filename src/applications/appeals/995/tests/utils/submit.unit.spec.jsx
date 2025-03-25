@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+<<<<<<< HEAD
 import {
   EVIDENCE_LIMIT,
   EVIDENCE_OTHER,
@@ -8,10 +9,14 @@ import {
   PRIMARY_PHONE,
   SC_NEW_FORM_DATA,
 } from '../../constants';
+=======
+import { PRIMARY_PHONE } from '../../constants';
+>>>>>>> main
 import {
   getAddress,
   getClaimantData,
   getEmail,
+<<<<<<< HEAD
   getEvidence,
   getForm4142,
   getPhone,
@@ -19,6 +24,9 @@ import {
   hasDuplicateFacility,
   hasDuplicateLocation,
   TEMP_DATE,
+=======
+  getPhone,
+>>>>>>> main
 } from '../../utils/submit';
 
 const text =
@@ -213,6 +221,7 @@ describe('getClaimantData', () => {
   });
 });
 
+<<<<<<< HEAD
 describe('getTreatmentDate', () => {
   const wrap = (date, noDate) => ({ treatmentDate: date, noDate });
   it('should return treatment date', () => {
@@ -288,6 +297,8 @@ describe('hasDuplicateLocation', () => {
   });
 });
 
+=======
+>>>>>>> main
 describe('getEmail', () => {
   it('should return an empty string', () => {
     expect(getEmail()).to.eq('');
@@ -308,6 +319,7 @@ describe('getEmail', () => {
     expect(result.slice(-10)).to.eq('12345@test');
   });
 });
+<<<<<<< HEAD
 
 describe('getEvidence', () => {
   const getData = ({ hasVa = true, showScNewForm = false } = {}) => ({
@@ -570,3 +582,5 @@ describe('getForm4142', () => {
     expect(getForm4142(data)).to.deep.equal(result);
   });
 });
+=======
+>>>>>>> main

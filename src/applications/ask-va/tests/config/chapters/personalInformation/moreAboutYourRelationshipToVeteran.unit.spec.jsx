@@ -1,6 +1,10 @@
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+<<<<<<< HEAD
 import { render } from '@testing-library/react';
+=======
+import { fireEvent, render, waitFor } from '@testing-library/react';
+>>>>>>> main
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -14,19 +18,36 @@ const {
 } = formConfig.chapters.aboutMyselfRelationshipFamilyMember.pages.moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember;
 
 describe('moreAboutYourRelationshipToVeteran', () => {
+<<<<<<< HEAD
   it('should render', () => {
     const { container } = render(
+=======
+  const renderPage = (formData = {}) => {
+    return render(
+>>>>>>> main
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
+<<<<<<< HEAD
           data={{}}
           formData={{}}
         />
         ,
       </Provider>,
     );
+=======
+          data={formData}
+          formData={formData}
+        />
+      </Provider>,
+    );
+  };
+
+  it('should render', () => {
+    const { container } = renderPage();
+>>>>>>> main
 
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
@@ -46,4 +67,78 @@ describe('moreAboutYourRelationshipToVeteran', () => {
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
+<<<<<<< HEAD
+=======
+
+  describe('schema updates', () => {
+    it('should only require moreAboutYourRelationshipToVeteran when relationshipNotListed is collapsed', () => {
+      const formSchema = {
+        properties: {
+          relationshipNotListed: {
+            'ui:collapsed': true,
+          },
+        },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema({}, formSchema);
+
+      expect(updatedSchema.required).to.deep.equal([
+        'moreAboutYourRelationshipToVeteran',
+      ]);
+    });
+
+    it('should require both fields when relationshipNotListed is expanded', () => {
+      const formSchema = {
+        properties: {
+          relationshipNotListed: {
+            'ui:collapsed': false,
+          },
+        },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema({}, formSchema);
+
+      expect(updatedSchema.required).to.deep.equal([
+        'moreAboutYourRelationshipToVeteran',
+        'relationshipNotListed',
+      ]);
+    });
+  });
+
+  describe('field validation', () => {
+    it('should show error when relationship not listed is selected but description is empty', async () => {
+      const { container } = renderPage({
+        moreAboutYourRelationshipToVeteran: 'NOT_LISTED',
+      });
+
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        const textInput = container.querySelector(
+          'va-text-input[name="root_relationshipNotListed"]',
+        );
+        expect(textInput.getAttribute('error')).to.equal(
+          'Please enter your relationship to the Veteran',
+        );
+      });
+    });
+
+    it('should not show relationship description error when another option is selected', async () => {
+      const { container } = renderPage({
+        moreAboutYourRelationshipToVeteran: 'SPOUSE',
+      });
+
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        const textInput = container.querySelector(
+          'va-text-input[name="root_relationshipNotListed"]',
+        );
+        expect(textInput).to.be.null;
+      });
+    });
+  });
+>>>>>>> main
 });

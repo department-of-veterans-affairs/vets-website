@@ -10,7 +10,15 @@ const CurrentBenefitsStatus = ({
   link,
 }) => {
   const response = useSelector(state => state.personalInfo);
-  if (response?.error?.error === 'Forbidden') return null;
+  if (
+    !response.personalInfo ||
+    response?.error?.error === 'Forbidden' ||
+    [
+      response.personalInfo?.verificationRecord?.status,
+      response.personalInfo?.status,
+    ].includes(204)
+  )
+    return null;
   return (
     <div className="vads-u-margin-top--5">
       <va-card>

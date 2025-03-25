@@ -15,7 +15,7 @@ export const uiSchema = {
   currentMarriageInformation: {
     ...titleUI('Where did you get married?'),
     outsideUsa: {
-      'ui:title': 'I got married outside the U.S.',
+      'ui:title': 'This occurred outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
     location: {

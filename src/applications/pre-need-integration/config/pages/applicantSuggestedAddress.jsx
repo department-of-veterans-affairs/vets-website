@@ -1,75 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { validateAddress } from 'platform/user/profile/vap-svc/actions';
 import set from 'platform/utilities/data/set';
+import { focusElement } from 'platform/utilities/ui/focus';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import AddressConfirmation from '../../components/AddressConfirmation';
-import {
-  isAuthorizedAgent,
-  shouldShowSuggestedAddress,
-} from '../../utils/helpers';
-
 import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
+import { fetchSuggestedAddress, isAuthorizedAgent } from '../../utils/helpers';
 
-function ApplicantSuggestedAddress({ formData, addressValidation }) {
+export const envUrl = environment.API_URL;
+
+function ApplicantSuggestedAddress({ formData }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [userAddress, setUserAddress] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [suggestedAddress, setSuggestedAddress] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(true);
 
   const extractUserAddress = () => {
     return formData?.application?.claimant?.address || {};
   };
-  // Prepare address for API Request
-  const prepareAddressForAPI = address => ({
-    addressLine1: address.street,
-    addressLine2: address.street2,
-    addressPou: 'CORRESPONDENCE',
-    addressType: 'DOMESTIC',
-    city: address.city,
-    countryCodeIso3: address.country,
-    stateCode: address.state,
-    zipCode: address.postalCode,
-  });
 
-  // Handle Address Validation
   useEffect(() => {
-    async function fetchSuggestedAddresses() {
-      try {
-        const formDataUserAddress = extractUserAddress();
-        setUserAddress(formDataUserAddress);
-        setSelectedAddress(formDataUserAddress);
+    const fetchData = async () => {
+      const formDataUserAddress = extractUserAddress();
+      setUserAddress(formDataUserAddress);
+      setSelectedAddress(formDataUserAddress);
 
-        await dispatch(
-          validateAddress(
-            '/profile/addresses',
-            'POST',
-            'mailingAddress',
-            prepareAddressForAPI(formDataUserAddress),
-            'mailing-address',
-          ),
-        );
-      } catch (error) {
-        setIsLoading(true); // This is temporary, send it to address confirmation screen instead
-      }
-    }
-    fetchSuggestedAddresses();
+      const {
+        fetchedSuggestedAddress,
+        fetchedShowSuggestions,
+      } = await fetchSuggestedAddress(formDataUserAddress);
+
+      setSuggestedAddress(fetchedSuggestedAddress);
+      setShowSuggestions(fetchedShowSuggestions);
+      setIsLoading(false);
+    };
+
+    fetchData();
+    focusElement('#address-validation-alert-heading');
   }, []);
-
-  useEffect(
-    () => {
-      if (addressValidation?.addressFromUser?.addressLine1) setIsLoading(false);
-    },
-    [addressValidation],
-  );
-
-  useEffect(
-    () => {
-      setSuggestedAddress(addressValidation.confirmedSuggestions?.[0]);
-    },
-    [addressValidation],
-  );
 
   // Handle Address Selection Change
   const onChangeSelectedAddress = event => {
@@ -81,8 +52,8 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
         street: selected.addressLine1,
         street2: selected.addressLine2,
         city: selected.city,
-        country: selected.countryCodeIso3,
-        state: selected.stateCode,
+        country: selected.country,
+        state: selected.state,
         postalCode: selected.zipCode,
       };
     } else {
@@ -102,7 +73,7 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
     );
   }
 
-  return shouldShowSuggestedAddress(suggestedAddress, userAddress) ? (
+  return showSuggestions ? (
     <SuggestedAddressRadio
       title={
         !isAuthorizedAgent(formData)
@@ -111,7 +82,7 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
       }
       userAddress={userAddress}
       selectedAddress={selectedAddress}
-      addressValidation={addressValidation}
+      suggestedAddress={suggestedAddress}
       onChangeSelectedAddress={onChangeSelectedAddress}
     />
   ) : (
@@ -129,7 +100,6 @@ function ApplicantSuggestedAddress({ formData, addressValidation }) {
 // Map state to props
 const mapStateToProps = state => ({
   formData: state?.form?.data,
-  addressValidation: state?.vapService?.addressValidation,
 });
 
 export default connect(mapStateToProps)(ApplicantSuggestedAddress);

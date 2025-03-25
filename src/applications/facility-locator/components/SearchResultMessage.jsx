@@ -22,13 +22,15 @@ const SearchResultMessage = ({
   }
 
   if (searchStarted && !resultsFound) {
-    return <NoResultsMessage isMobile={isMobile} resultRef={resultRef} />;
+    return (
+      <NoResultsMessage isMobileListView={isMobile} resultRef={resultRef} />
+    );
   }
 
   return (
     <p className="search-result-title">
-      Please enter a location (street, city, state, or postal code) and facility
-      type, then click search above to find facilities.
+      Enter a location (street, city, state, or zip code) and facility type,
+      then search to find facilities.
     </p>
   );
 };

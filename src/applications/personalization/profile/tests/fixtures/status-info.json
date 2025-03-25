@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": "",
+      "type": "async_transaction_va_profile_address_transactions",
+      "attributes": {
+        "transactionId": "c64327a0-796f-4c36-ad53-8a9f7aa0dff8",
+        "transactionStatus": "COMPLETED_NO_CHANGES_DETECTED",
+        "type": "AsyncTransaction::VAProfile::AddressTransaction",
+        "metadata": []
+      }
+    },
+    {
+      "id": "",
+      "type": "async_transaction_va_profile_email_transactions",
+      "attributes": {
+        "transactionId": "0d3533f7-bbf0-4ef2-a16c-c5b12b6192d3",
+        "transactionStatus": "COMPLETED_NO_CHANGES_DETECTED",
+        "type": "AsyncTransaction::VAProfile::EmailTransaction",
+        "metadata": []
+      }
+    }
+  ]
+}

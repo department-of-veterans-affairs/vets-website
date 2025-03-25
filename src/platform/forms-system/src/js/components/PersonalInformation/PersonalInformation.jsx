@@ -21,6 +21,8 @@ import {
 } from './utils';
 
 import { adaptFormData } from './adapter';
+import { DefaultHeader } from './DefaultHeader';
+import { DefaultCardHeader } from './DefaultCardHeader';
 
 /**
  * @typedef {Object} FieldConfig
@@ -34,12 +36,15 @@ import { adaptFormData } from './adapter';
  * @property {FieldConfig} [ssn] - SSN field configuration
  * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
  * @property {FieldConfig} [dateOfBirth] - Date of birth field configuration
- * @property {FieldConfig} [gender] - Gender field configuration
+ * @property {FieldConfig} [sex] - Sex field configuration
  */
 
+/**
+ * @type {FieldConfig}
+ */
 const defaultFieldConfig = {
   show: true,
-  required: true,
+  required: false,
 };
 
 /**
@@ -50,7 +55,7 @@ const defaultConfig = {
   ssn: { ...defaultFieldConfig },
   vaFileNumber: { show: false, required: false },
   dateOfBirth: { ...defaultFieldConfig },
-  gender: { show: false, required: false },
+  sex: { show: false, required: false },
 };
 
 /**
@@ -95,7 +100,7 @@ export const PersonalInformation = ({
     finalConfig,
   );
 
-  const { note, header, footer } = getChildrenByType(children);
+  const { note, header, footer, cardHeader } = getChildrenByType(children);
 
   if (missingData.length > 0) {
     let messageComponent;
@@ -119,16 +124,10 @@ export const PersonalInformation = ({
 
   return (
     <>
-      {header || (
-        <h3 className="vads-u-margin-bottom--3">
-          Confirm the personal information we have on file for you.
-        </h3>
-      )}
+      {header || <DefaultHeader />}
       <div className="vads-u-display--flex">
         <va-card>
-          <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
-            Personal information
-          </h4>
+          {cardHeader || <DefaultCardHeader />}
           {finalConfig.name?.show && (
             <p>
               <strong
@@ -189,18 +188,18 @@ export const PersonalInformation = ({
               )}
             </p>
           )}
-          {finalConfig.gender?.show && (
+          {finalConfig.sex?.show && (
             <p>
-              <strong>Gender: </strong>
+              <strong>Sex: </strong>
               {gender ? (
                 <span
-                  className="gender dd-privacy-hidden"
-                  data-dd-action-name="Veteran's gender"
+                  className="sex dd-privacy-hidden"
+                  data-dd-action-name="Veteran's sex"
                 >
                   {genderLabels?.[gender]}
                 </span>
               ) : (
-                <span data-testid="gender-not-available">Not available</span>
+                <span data-testid="sex-not-available">Not available</span>
               )}
             </p>
           )}
@@ -211,9 +210,9 @@ export const PersonalInformation = ({
         <div className="vads-u-margin-bottom--4" data-testid="default-note">
           <p>
             <strong>Note:</strong> To protect your personal information, we
-            don’t allow online changes to your name, Social Security number,
-            date of birth, or gender. If you need to change this information,
-            call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+            don’t allow online changes to your name, Social Security number, or
+            date of birth. If you need to change this information, call us at{' '}
+            <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
             <va-telephone contact="711" tty />
             ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m.
             ET. We’ll give you instructions for how to change your information.
@@ -297,6 +296,10 @@ export const PersonalInformationFooter = ({ children }) => {
   return <>{children}</>;
 };
 
+export const PersonalInformationCardHeader = ({ children }) => {
+  return <>{children}</>;
+};
+
 const ChildPropTypes = PropTypes.oneOfType([
   PropTypes.node,
   PropTypes.func,
@@ -305,6 +308,10 @@ const ChildPropTypes = PropTypes.oneOfType([
 ]);
 
 PersonalInformationNote.propTypes = {
+  children: ChildPropTypes,
+};
+
+PersonalInformationCardHeader.propTypes = {
   children: ChildPropTypes,
 };
 

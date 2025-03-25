@@ -9,16 +9,10 @@ import {
 import { geolocateUser, fetchSearchByLocationResults } from '../../actions';
 import { UseMyLocation } from '../components/school-and-employers/UseMyLocation';
 import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
+import { DISTANCE_DROPDOWN_OPTIONS } from '../../constants';
 
 const SearchByProgram = () => {
   const locationRef = useRef(null);
-  const distanceDropdownOptions = [
-    { value: '5', label: 'within 5 miles' },
-    { value: '15', label: 'within 15 miles' },
-    { value: '25', label: 'within 25 miles' },
-    { value: '50', label: 'within 50 miles' },
-    { value: '75', label: 'within 75 miles' },
-  ];
   const dispatch = useDispatch();
   const search = useSelector(state => state.search);
   const [distance, setDistance] = useState(search.query.distance);
@@ -30,6 +24,8 @@ const SearchByProgram = () => {
     locationRef?.current?.shadowRoot?.querySelector('input').focus();
   };
 
+  const isFormError = () => !distance || !location || !programName;
+
   const handleLocateUser = e => {
     e.preventDefault();
     recordEvent({
@@ -39,10 +35,11 @@ const SearchByProgram = () => {
   };
 
   const handleSearch = () => {
-    if (!searchDirty) {
-      setSearchDirty(true);
-      return;
-    }
+    setSearchDirty(true);
+
+    // API call should not be made if there is an error in the form
+    if (isFormError()) return;
+
     const description = programName;
     dispatch(
       fetchSearchByLocationResults(location, distance, null, null, description),
@@ -106,7 +103,7 @@ const SearchByProgram = () => {
           required
           error={searchDirty && !distance ? 'Please select a distance' : null}
         >
-          {distanceDropdownOptions.map(option => (
+          {DISTANCE_DROPDOWN_OPTIONS.map(option => (
             <option value={option.value} key={option.value}>
               {option.label}
             </option>

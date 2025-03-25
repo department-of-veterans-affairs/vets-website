@@ -3,7 +3,13 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
+<<<<<<< HEAD
   options,
+=======
+  isMstEvent,
+  options,
+  summaryPageTitleWithTag,
+>>>>>>> main
   traumaticEventsPages,
 } from '../../../pages/form0781/traumaticEventsPages';
 import {
@@ -11,6 +17,10 @@ import {
   eventsListDescription,
 } from '../../../content/traumaticEventsList';
 import { form0781HeadingTag } from '../../../content/form0781';
+<<<<<<< HEAD
+=======
+import { isCompletingForm0781 } from '../../../utils/form0781';
+>>>>>>> main
 
 describe('Traumatic Events Pages', () => {
   const formData = {
@@ -19,8 +29,13 @@ describe('Traumatic Events Pages', () => {
         details: 'Event details',
         location: 'Event location',
         timing: '2023-09-10',
+<<<<<<< HEAD
         reports: { police: true },
         otherReports: 'Other report type',
+=======
+        otherReports: { police: true },
+        unlistedReport: 'Other report type',
+>>>>>>> main
       },
     ],
   };
@@ -28,11 +43,26 @@ describe('Traumatic Events Pages', () => {
   const { eventsList } = traumaticEventsPages;
   const { ContentBeforeButtons } = eventsList;
   const { text } = options;
+<<<<<<< HEAD
   const { summaryTitle, summaryDescription, cardDescription } = text;
+=======
+  const {
+    summaryTitle,
+    summaryTitleWithoutItems,
+    summaryDescription,
+    summaryDescriptionWithoutItems,
+    cardDescription,
+  } = text;
+
+  afterEach(() => {
+    window.history.pushState({}, '', '/');
+  });
+>>>>>>> main
 
   it('should define correct options metadata', () => {
     expect(options.maxItems).to.equal(20);
     expect(options.useButtonInsteadOfYesNo).to.be.true;
+<<<<<<< HEAD
 
     const { container } = render(<div>{summaryTitle}</div>);
     const renderedTitle = container.textContent.trim();
@@ -41,6 +71,44 @@ describe('Traumatic Events Pages', () => {
       `${form0781HeadingTag} ${eventsListPageTitle}`,
     );
     expect(summaryDescription).to.equal(eventsListDescription);
+=======
+  });
+
+  it('should return correct summaryTitle based on URL', () => {
+    window.history.pushState({}, '', '/events-summary');
+    expect(summaryTitle()).to.equal(summaryPageTitleWithTag);
+
+    window.history.pushState({}, '', '/review-and-submit');
+    expect(summaryTitle()).to.equal(eventsListPageTitle);
+  });
+
+  it('should return correct summaryDescription based on URL', () => {
+    window.history.pushState({}, '', '/events-summary');
+
+    const { container } = render(summaryDescription());
+    expect(container.textContent).to.equal(
+      render(eventsListDescription()).container.textContent,
+    );
+
+    window.history.pushState({}, '', '/review-and-submit');
+    expect(summaryDescription()).to.equal(null);
+  });
+
+  it('should return correct summaryTitleWithoutItems', () => {
+    expect(summaryTitleWithoutItems).to.equal(summaryPageTitleWithTag);
+  });
+
+  it('should return correct summaryDescriptionWithoutItems', () => {
+    expect(summaryDescriptionWithoutItems).to.equal(eventsListDescription);
+  });
+
+  it('should render the correct summary title UI', () => {
+    window.history.pushState({}, '', '/events-summary');
+    const { container } = render(<div>{summaryTitle()}</div>);
+    expect(container.textContent.trim()).to.equal(
+      `${form0781HeadingTag} ${eventsListPageTitle}`,
+    );
+>>>>>>> main
   });
 
   it('should return the correct card item name', () => {
@@ -48,10 +116,14 @@ describe('Traumatic Events Pages', () => {
     const event = formData.events[index];
     const itemName = text.getItemName(event, index);
 
+<<<<<<< HEAD
     expect(itemName).to.equal(
       'Event #1',
       'The item name should match the format "Event #<index + 1>"',
     );
+=======
+    expect(itemName).to.equal('Event #1');
+>>>>>>> main
   });
 
   it('should render the card description with event details', () => {
@@ -64,7 +136,11 @@ describe('Traumatic Events Pages', () => {
     expect(renderedCard).to.include('Location: Event location');
     expect(renderedCard).to.include('Date: 2023-09-10');
     expect(renderedCard).to.include(
+<<<<<<< HEAD
       'Official Report: Police report, Other report type',
+=======
+      'Official Report: Police report; Other report type',
+>>>>>>> main
     );
   });
 
@@ -103,4 +179,57 @@ describe('Traumatic Events Pages', () => {
     const addButton = queryByText('Add an event');
     expect(addButton).to.be.null;
   });
+<<<<<<< HEAD
+=======
+
+  /**
+   * Tests for isMstEvent logic
+   */
+  describe('isMstEvent', () => {
+    let stub;
+
+    beforeEach(() => {
+      stub = sinon
+        .stub(isCompletingForm0781, 'isCompletingForm0781')
+        .returns(true);
+    });
+
+    afterEach(() => {
+      stub.restore();
+    });
+
+    it('should return false when eventTypes is missing', () => {
+      const testFormData = {};
+      expect(isMstEvent(testFormData)).to.be.false;
+    });
+
+    it('should return false when eventTypes is present but does not include MST', () => {
+      const testFormData = {
+        eventTypes: { combat: true, training: false },
+      };
+      expect(isMstEvent(testFormData)).to.be.false;
+    });
+
+    it('should return true when eventTypes.mst is explicitly true', () => {
+      const testFormData = {
+        eventTypes: { mst: true },
+      };
+      expect(isMstEvent(testFormData)).to.be.true;
+    });
+
+    it('should return true when eventTypes.mst is true among other event types', () => {
+      const testFormData = {
+        eventTypes: { combat: false, mst: true, other: true },
+      };
+      expect(isMstEvent(testFormData)).to.be.true;
+    });
+
+    it('should return false when eventTypes.mst is false', () => {
+      const testFormData = {
+        eventTypes: { mst: false, combat: true },
+      };
+      expect(isMstEvent(testFormData)).to.be.false;
+    });
+  });
+>>>>>>> main
 });

@@ -17,6 +17,7 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  lacpCategoryList,
 } from '../constants';
 
 /**
@@ -172,6 +173,24 @@ export const removeNonNumberCharacters = value =>
 export const formatDollarAmount = value => {
   const output = value != null ? removeNonNumberCharacters(value) : 0;
   return formatCurrency(output);
+};
+
+export const formatDollarAmountWithCents = (value, message) => {
+  if (!value) {
+    return message;
+  }
+  const formattedValue = parseFloat(value).toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  });
+
+  if (!formattedValue) {
+    return message;
+  }
+
+  return formattedValue;
 };
 
 export const handleInputFocusWithPotentialOverLap = (
@@ -492,6 +511,10 @@ export const isSearchByLocationPage = () => {
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const isUpdatedGi = window.location.pathname.includes(
+    'schools-and-employers',
+  );
+  if (isUpdatedGi) crumbLiEnding += '- Schools and employers ';
   const searchByName = isSearchByNamePage();
   const searchByLocationPage = isSearchByLocationPage();
   if (searchByName) {
@@ -529,80 +552,10 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const filterSuggestions = (
-  results,
-  nameInput,
-  typeFilter,
-  stateFilter,
-) => {
-  if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
-    return results;
-
-  return results.filter(result => {
-    let allowContinue = true;
-
-    if (typeFilter !== 'all' && typeFilter !== result.eduLacTypeNm)
-      return false;
-    if (
-      stateFilter !== 'all' &&
-      stateFilter !== result.state &&
-      result.eduLacTypeNm !== 'Certification'
-    ) {
-      allowContinue = false;
-    }
-
-    if (allowContinue) {
-      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
-    }
-
-    return false;
-  });
-};
-
-export const updateQueryParam = (history, location) => {
-  return keyValuePairs => {
-    const searchParams = new URLSearchParams(location.search);
-    keyValuePairs.forEach(([key, value]) => {
-      searchParams.set(key, value);
-    });
-
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-  };
-};
-
-export const showLcParams = location => {
-  const searchParams = new URLSearchParams(location.search);
-
-  const nameParam = searchParams.get('name') ?? '';
-  const categoryParam = searchParams.get('category') ?? 'all';
-  const stateParam = searchParams.get('state') ?? 'all';
-
-  return { nameParam, categoryParam, stateParam };
-};
-
-export const handleLcResultsSearch = (history, category, name, state) => {
-  return history.push(
-    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
-  );
-};
-
-export const formatResultCount = (results, currentPage, itemsPerPage) => {
-  if (currentPage * itemsPerPage > results.length - 1) {
-    return `${currentPage * itemsPerPage -
-      (itemsPerPage - 1)} - ${results.length - 1}  `;
-  }
-
-  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
-    itemsPerPage}  `;
-};
-
-export function capitalizeFirstLetter(string) {
+export function capitalizeFirstLetter(string, customExceptions = []) {
   if (!string) return null;
 
-  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and'];
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and', ...customExceptions];
 
   return string
     .split(' ')
@@ -622,6 +575,122 @@ export function capitalizeFirstLetter(string) {
     })
     .join(' ');
 }
+
+export const filterSuggestions = (
+  results,
+  nameInput,
+  categoryFilters, // account for mutliple types
+  stateFilter,
+) => {
+  if (
+    categoryFilters.includes('all') &&
+    stateFilter === 'all' &&
+    nameInput === ''
+  )
+    return results;
+
+  return results.filter(result => {
+    let allowContinue = true;
+
+    if (
+      !categoryFilters.includes('all') &&
+      !categoryFilters.includes(result.eduLacTypeNm?.toLowerCase())
+    ) {
+      return false;
+    }
+    if (
+      stateFilter !== 'all' &&
+      stateFilter !== result.state &&
+      result.eduLacTypeNm !== 'Certification'
+    ) {
+      allowContinue = false;
+    }
+
+    if (allowContinue) {
+      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
+    }
+
+    return false;
+  });
+};
+
+export const updateQueryParam = (history, location, newParams) => {
+  const searchParams = new URLSearchParams(location.search);
+
+  Object.entries(newParams).forEach(([key, value]) => {
+    searchParams.set(key, encodeURIComponent(value));
+  });
+
+  history.push({
+    pathname: location.pathname,
+    search: searchParams.toString(),
+  });
+};
+
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+  const categories = searchParams.getAll('category');
+
+  const rawName = location.search.split('name=')[1]?.split('&')[0] ?? '';
+
+  // Decode the name while preserving + characters
+  const nameParam = decodeURIComponent(rawName)
+    .replace(/%20/g, ' ')
+    .replace(/%2B/g, '+');
+
+  const categoryParams = categories.length === 0 ? ['all'] : categories;
+  const stateParam = searchParams.get('state') ?? 'all';
+  const initialCategoryParam = searchParams.get('initial') ?? 'all';
+  const pageParam = searchParams.get('page') ?? 1;
+
+  return {
+    nameParam,
+    categoryParams,
+    stateParam,
+    initialCategoryParam,
+    pageParam,
+  };
+};
+
+export const handleLcResultsSearch = (
+  history,
+  categories,
+  name,
+  state = 'all',
+  initialCategory = 'all',
+  page = 1,
+) => {
+  let categoryParams = '';
+
+  categories.forEach((category, index) => {
+    categoryParams = categoryParams.concat(
+      '',
+      index === categories.length - 1
+        ? `category=${category}`
+        : `category=${category}&`,
+    );
+  });
+
+  history.push(
+    `/licenses-certifications-and-prep-courses/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
+      categoryParams,
+    ),
+    {
+      path: history.location.pathname,
+    },
+  );
+};
+
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length - 1) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }`;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}`;
+};
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)
   .map(state => {
@@ -648,99 +717,113 @@ export const mappedStates = Object.entries(ADDRESS_DATA.states)
     return true;
   });
 
-export const updateDropdowns = (
+export const updateCategoryDropdown = (
   category = 'all',
-  location = 'all',
-  multiples = [],
+  categoryList = lacpCategoryList,
 ) => {
-  const initialDropdowns = [
-    {
-      label: 'category',
-      options: [
-        { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'License', optionLabel: 'License' },
-        {
-          optionValue: 'Certification',
-          optionLabel: 'Certification',
-        },
-        {
-          optionValue: 'Prep Course',
-          optionLabel: 'Prep Course',
-        },
-      ],
-      alt: 'category type',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-    {
-      label: 'state',
-      options:
-        multiples.length === 0
-          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
-          : [
-              { optionValue: 'all', optionLabel: 'All' },
-              ...mappedStates.filter(mappedState =>
-                multiples.find(
-                  multiple => multiple.state === mappedState.optionValue,
-                ),
-              ),
-            ],
-      alt: 'state',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-  ];
-
-  return initialDropdowns.map(dropdown => {
-    if (dropdown.label === 'category') {
+  return {
+    label: 'category',
+    options: categoryList.map(_category => {
       return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === category,
-        ),
+        optionValue: _category,
+        optionLabel: capitalizeFirstLetter(_category, ['course']),
       };
+    }),
+    alt: 'category type',
+    current: {
+      optionValue: category,
+      optionLabel: capitalizeFirstLetter(category, ['course']),
+    },
+  };
+};
+
+export const updateStateDropdown = (multiples = [], selected = 'all') => {
+  return {
+    label: 'State',
+    options:
+      multiples.length - 1 <= 0
+        ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+        : [
+            { optionValue: 'all', optionLabel: 'All' },
+            ...mappedStates.filter(mappedState =>
+              multiples.find(multiple => {
+                if (
+                  multiple?.state === mappedState.optionValue &&
+                  multiple.eduLacTypeNm !== 'Certification'
+                ) {
+                  return true;
+                }
+
+                return false;
+              }),
+            ),
+          ],
+    alt: 'state',
+    current:
+      selected === 'all'
+        ? { optionValue: 'all', optionLabel: 'All' }
+        : {
+            ...mappedStates.find(state => state.optionValue === selected),
+          },
+  };
+};
+
+export const createCheckboxes = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  let allValuesIncluded;
+
+  if (checkedList[0] === 'all') {
+    allValuesIncluded = true;
+  } else {
+    allValuesIncluded = valuesToCheck.every(value =>
+      checkedList.includes(value),
+    );
+  }
+
+  return categories.map(category => {
+    let checked = checkedList.includes(category);
+
+    if (allValuesIncluded) {
+      checked = true;
     }
 
-    if (dropdown.label === 'state') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === location,
-        ) ?? { ...dropdown.current },
-      };
-    }
-
-    return dropdown;
+    return {
+      name: category,
+      checked,
+      label: capitalizeFirstLetter(category),
+    };
   });
 };
 
+export function formatList(array) {
+  if (!array || array.length === 0) {
+    return '';
+  }
+
+  if (array.length === 1) {
+    return array[0];
+  }
+  if (array.length === 2) {
+    return `${array[0]} or ${array[1]}`;
+  }
+
+  const lastItem = array[array.length - 1];
+  const otherItems = array.slice(0, -1);
+
+  return `${otherItems.join(', ')} or ${lastItem}`;
+}
+
 export const showMultipleNames = (suggestions, nameInput) => {
-  return suggestions.filter(
-    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
-  );
-};
+  let final = [];
 
-export const categoryCheck = type => {
-  if (type === 'License') {
-    return true;
-  }
-  if (type === 'Prep Course') return true;
-
-  return false;
-};
-
-export const checkAlert = (type, multiples, currentLocation, newLocation) => {
-  if (multiples.length > 1 && type !== 'Certification') {
-    return true;
+  if (suggestions && nameInput) {
+    final = suggestions.filter(suggestion =>
+      suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
+    );
   }
 
-  if (categoryCheck(type) && currentLocation !== newLocation) {
-    return true;
-  }
-
-  if (type === 'Certification' && currentLocation !== 'all') {
-    return true;
-  }
-
-  return false;
+  return final;
 };
 
 export const formatProgramType = (programType = '') => {
@@ -750,11 +833,14 @@ export const formatProgramType = (programType = '') => {
     return 'On-the-job training/Apprenticeships';
   }
 
-  return programType
+  const lowerJoined = programType
+    .toLowerCase()
     .split('-')
-    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .filter(Boolean)
     .join(' ');
+
+  if (!lowerJoined) return '';
+  return lowerJoined.charAt(0).toUpperCase() + lowerJoined.slice(1);
 };
 
 export const generateMockPrograms = numPrograms => {
@@ -839,11 +925,11 @@ export const mapToAbbreviation = value => {
 
 export const mapProgramTypeToName = programType => {
   const programTypesNames = {
-    NCD: 'Non College Degree',
-    IHL: 'Institution of Higher Learning',
-    OJT: 'On The Job Training/Apprenticeship',
-    FLGT: 'Flight',
-    CORR: 'Correspondence',
+    NCD: 'non college degree',
+    IHL: 'institution of higher learning',
+    OJT: 'on-the-job training/apprenticeship',
+    FLGT: 'flight',
+    CORR: 'correspondence',
   };
 
   return programTypesNames[programType] || 'Unknown Program Type';
@@ -1017,4 +1103,34 @@ export const toTitleCase = str => {
   });
 
   return titled.join(' ');
+};
+
+export const handleZoom = () => {
+  const zoomLevel = Math.round(
+    (window.devicePixelRatio /
+      ((window.devicePixelRatio / window.outerWidth) * window.innerWidth)) *
+      100,
+  );
+
+  const elements = [
+    ...document.querySelectorAll('.lc-results-wrapper'),
+    ...document.querySelectorAll('.lc-result-cards-wrapper'),
+    ...document.querySelectorAll('.zoom-wrapper'),
+  ];
+
+  elements.forEach(element => {
+    if (zoomLevel >= 300) {
+      element.classList.add('high-zoom');
+    } else {
+      element.classList.remove('high-zoom');
+    }
+  });
+};
+
+export const focusElement = (ref, delay = 0) => {
+  setTimeout(() => {
+    if (ref) {
+      ref.focus();
+    }
+  }, delay);
 };

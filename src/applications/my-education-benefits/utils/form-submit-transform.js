@@ -425,77 +425,85 @@ function getExclusionMessage(exclusionType, exclusionPeriods) {
     ? messages[exclusionType]
     : null;
 }
+
 export function createAdditionalConsiderations(submissionForm) {
-  if (submissionForm?.mebExclusionPeriodEnabled) {
-    const exclusionPeriods = submissionForm.exclusionPeriods || [];
-    const mapping = {
-      academyRotcScholarship: {
-        formKey: 'federallySponsoredAcademy',
-        exclusionType: 'Academy',
-      },
-      seniorRotcScholarship: {
-        formKey: 'seniorRotcCommission',
-        exclusionType: 'ROTC',
-      },
-      activeDutyDodRepayLoan: {
-        formKey: 'loanPayment',
-        exclusionType: 'LRP',
-      },
-      activeDutyKicker: {
-        formKey: 'activeDutyKicker',
-        exclusionType: null,
-      },
-      reserveKicker: {
-        formKey: 'selectedReserveKicker',
-        exclusionType: null,
-      },
-    };
-    // Only add the sixHundredDollarBuyUp if meb160630Automation is true
-    if (submissionForm.meb160630Automation) {
-      mapping.sixHundredDollarBuyUp = {
-        formKey: 'sixHundredDollarBuyUp',
-        exclusionType: null,
-      };
-    }
-    return Object.entries(mapping).reduce(
-      (acc, [key, { formKey, exclusionType }]) => {
-        const value = submissionForm[formKey];
-        const exclusionMessage = exclusionType
-          ? getExclusionMessage(exclusionType, exclusionPeriods)
-          : '';
-        acc[key] =
-          setAdditionalConsideration(value) +
-          (exclusionMessage ? ` - ${exclusionMessage}` : '');
-        return acc;
-      },
-      {},
-    );
-  }
-  // Default object when mebExclusionPeriodEnabled is not true
-  const additionalConsiderations = {
-    activeDutyKicker: setAdditionalConsideration(
-      submissionForm.activeDutyKicker,
-    ),
-    academyRotcScholarship: setAdditionalConsideration(
-      submissionForm.federallySponsoredAcademy,
-    ),
-    reserveKicker: setAdditionalConsideration(
-      submissionForm.selectedReserveKicker,
-    ),
-    seniorRotcScholarship: setAdditionalConsideration(
-      submissionForm.seniorRotcCommission,
-    ),
-    activeDutyDodRepayLoan: setAdditionalConsideration(
-      submissionForm.loanPayment,
-    ),
+  const exclusionPeriods = submissionForm.exclusionPeriods || [];
+
+  const mapping = {
+    academyRotcScholarship: {
+      formKey: 'federallySponsoredAcademy',
+      exclusionType: 'Academy',
+    },
+    seniorRotcScholarship: {
+      formKey: 'seniorRotcCommission',
+      exclusionType: 'ROTC',
+    },
+    activeDutyDodRepayLoan: {
+      formKey: 'loanPayment',
+      exclusionType: 'LRP',
+    },
+    activeDutyKicker: {
+      formKey: 'activeDutyKicker',
+      exclusionType: null,
+      notificationMessage:
+        'Department of Defense data shows you are potentially eligible for an active-duty kicker.',
+      eligibilityFlag: 'eligibleForActiveDutyKicker',
+    },
+    reserveKicker: {
+      formKey: 'selectedReserveKicker',
+      exclusionType: null,
+      notificationMessage:
+        'Department of Defense data shows you are potentially eligible for a reserve kicker.',
+      eligibilityFlag: 'eligibleForReserveKicker',
+    },
+    sixHundredDollarBuyUp: {
+      formKey: 'sixHundredDollarBuyUp',
+      exclusionType: null,
+    },
   };
-  // Conditionally add sixHundredDollarBuyUp
-  if (submissionForm.meb160630Automation) {
-    additionalConsiderations.sixHundredDollarBuyUp = setAdditionalConsideration(
-      submissionForm.sixHundredDollarBuyUp,
-    );
-  }
-  return additionalConsiderations;
+
+  const { mebKickerNotificationEnabled } = submissionForm;
+
+  return Object.entries(mapping).reduce(
+    (
+      acc,
+      [key, { formKey, exclusionType, notificationMessage, eligibilityFlag }],
+    ) => {
+      const value = submissionForm[formKey];
+
+      let message = setAdditionalConsideration(value);
+
+      // Append exclusion message if applicable
+      if (exclusionType) {
+        const exclusionMessage = getExclusionMessage(
+          exclusionType,
+          exclusionPeriods,
+        );
+        if (exclusionMessage) {
+          message += ` - ${exclusionMessage}`;
+        }
+      }
+
+      // Append notification message for kicker fields if:
+      // 1. Notification is enabled
+      // 2. Applicant is eligible for the kicker
+      // 3. Applicant has answered 'Yes' or 'No'
+      if (
+        notificationMessage &&
+        mebKickerNotificationEnabled &&
+        submissionForm[eligibilityFlag] === true &&
+        value &&
+        (value.toLowerCase() === 'yes' || value.toLowerCase() === 'no')
+      ) {
+        message += ` - ${notificationMessage}`;
+      }
+
+      acc[key] = message;
+
+      return acc;
+    },
+    {},
+  );
 }
 
 function getTodayDate() {

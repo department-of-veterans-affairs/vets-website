@@ -3,6 +3,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
@@ -16,6 +17,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import militaryBranch from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
@@ -92,24 +94,38 @@ export const formConfig = {
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
+        militaryBranch: {
+          path: 'service/branch-served',
+          title: 'Military Branch Served',
+          uiSchema: militaryBranch.uiSchema,
+          schema: militaryBranch.schema,
+          depends: () => !environment.isProduction(),
+        },
         militaryService: {
           path: 'service/current',
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === true) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
         militaryServiceCompleted: {
           path: 'service/completed',
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
-          depends: formData =>
-            formData.militaryServiceCurrentlyServing === true,
+          depends: formData => {
+            return formData.militaryServiceCurrentlyServing === true;
+          },
           onNavForward: ({ formData, goPath }) => {
-            if (
-              formData.militaryServiceCurrentlyServing === true &&
-              formData.militaryServiceCompleted === false
-            ) {
+            if (formData.militaryServiceCurrentlyServing === true) {
               goPath(
                 formConfig.chapters.chapter4.pages.characterOfDischarge.path,
               );
@@ -139,6 +155,13 @@ export const formConfig = {
           title: 'Character of Discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === true) {
+              goPath(formConfig.chapters.chapter2.pages.militaryService.path);
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },

@@ -3,7 +3,7 @@ steps:
     target: header
     value: Do you want this to be your saved school facility?
   - action: click
-    target: radio
+    target: radioYesNo
     value: don\'t update my saved facility
   - action: click
     target: call-to-action

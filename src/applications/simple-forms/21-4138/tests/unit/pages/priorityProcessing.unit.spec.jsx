@@ -1,6 +1,7 @@
 import formConfig from '../../../config/form';
 import { testPage } from './pageTests.spec';
 
+<<<<<<< HEAD
 [
   {
     name: 'aboutPriorityProcessingPage',
@@ -46,3 +47,18 @@ import { testPage } from './pageTests.spec';
 
   testPage(pageTestExpectation);
 });
+=======
+const {
+  schema,
+  uiSchema,
+  title,
+} = formConfig.chapters.statementTypeChapter.pages.priorityProcessingPage;
+
+const pageTestExpectation = {
+  pageTitle: title,
+  schema,
+  uiSchema,
+};
+
+testPage(pageTestExpectation);
+>>>>>>> main

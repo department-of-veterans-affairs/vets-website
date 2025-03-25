@@ -48,7 +48,8 @@
             "facility_id": "984",
             "is_cerner": false
           }
-        ]
+        ],
+        "va_patient": true
       }
     }
   },

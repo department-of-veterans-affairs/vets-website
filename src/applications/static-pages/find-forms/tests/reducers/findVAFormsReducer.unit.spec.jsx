@@ -4,13 +4,12 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  FETCH_FORMS_SUCCESS_NO_RESULTS,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
 } from '../../constants';
-import findVAFormsReducer, {
-  initialState,
-} from '../../reducers/findVAFormsReducer';
+import findVAFormsReducer, { initialState } from '../../reducers';
 
 describe('Find VA Forms reducer: findVAFormsReducer', () => {
   it('returns the default state when no action is given', () => {
@@ -93,6 +92,28 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
         ...initialState,
         closestMatchSearchResults: results,
         results,
+      });
+    });
+
+    describe('FETCH_FORMS_SUCCESS_NO_RESULTS', () => {
+      it('returns the correct state when no results are returned', () => {
+        const results = [];
+
+        expect(
+          findVAFormsReducer(
+            {
+              ...initialState,
+              fetching: true,
+            },
+            {
+              type: FETCH_FORMS_SUCCESS_NO_RESULTS,
+              results,
+            },
+          ),
+        ).to.be.deep.equal({
+          ...initialState,
+          results,
+        });
       });
     });
 

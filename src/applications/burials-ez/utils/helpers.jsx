@@ -35,19 +35,19 @@ export const generateDeathFacilitySchemas = (
 ) => {
   return {
     uiSchema: {
-      'ui:title': generateTitle('Veteran death location information'),
-      'ui:description': `You selected that the deceased Veteran died in a ${facilityName}. We need more information about where the death occurred.`,
+      'ui:title': generateTitle('Veteran death location details'),
       [facilityKey]: {
         facilityName: textUI({
-          title: `Name of the ${facilityName}`,
+          title: `Name of ${facilityName}`,
           errorMessages: {
-            required: `Enter the Name of the ${facilityName}`,
+            required: `Enter the Name of ${facilityName}`,
           },
         }),
         facilityLocation: textUI({
-          title: `City and state of the ${facilityName}`,
+          title: `Location of ${facilityName}`,
+          hint: 'City and state',
           errorMessages: {
-            required: `Enter the city and state of the ${facilityName}`,
+            required: `Enter the city and state of ${facilityName}`,
           },
         }),
       },
@@ -99,9 +99,3 @@ export const isProductionEnv = () => {
     !window.Mocha
   );
 };
-
-export const showLocationOfDeath = () =>
-  window.sessionStorage.getItem('showLocationOfDeath') === 'true';
-
-export const showUploadDocuments = () =>
-  window.sessionStorage.getItem('showUploadDocuments') === 'true';

@@ -1,10 +1,10 @@
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
+import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const formatAddress = address => {
+const formatAddress = (address = {}) => {
   const joinAddressParts = (...parts) => {
     const [city, state, zip] = parts;
     const stateZip = state && zip ? `${state} ${zip}` : state || zip;
@@ -12,7 +12,7 @@ const formatAddress = address => {
   };
 
   return {
-    address1: address.address1,
+    address1: address?.address1 || '',
     address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
     address3: joinAddressParts(address?.city, address?.state, address?.zip),
   };
@@ -27,38 +27,6 @@ const formatFacilityIds = facilityIds => {
   return facilityIdList;
 };
 
-const fetchNewCSRFToken = async () => {
-  const message = 'No csrfToken when making fetchFacilities.';
-  const url = '/v0/maintenance_windows';
-  recordEvent({
-    event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
-  });
-
-  Sentry.withScope(scope => {
-    scope.setLevel(Sentry.Severity.Log);
-    Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
-  });
-
-  return apiRequest(`${environment.API_URL}${url}`, { method: 'HEAD' })
-    .then(() => {
-      Sentry.withScope(scope => {
-        scope.setLevel(Sentry.Severity.Log);
-        Sentry.captureMessage(
-          `${message} ${url} successfully called to generate token.`,
-        );
-      });
-    })
-    .catch(error => {
-      Sentry.withScope(scope => {
-        scope.setLevel(Sentry.Severity.Log);
-        scope.setExtra('error', error);
-        Sentry.captureMessage(
-          `${message} ${url} failed when called to generate token.`,
-        );
-      });
-    });
-};
-
 export const fetchFacilities = async ({
   lat = null,
   long = null,
@@ -68,14 +36,7 @@ export const fetchFacilities = async ({
   facilityIds = [],
   type = 'health',
 }) => {
-  const csrfToken = localStorage.getItem('csrfToken');
-  if (!csrfToken) {
-    await fetchNewCSRFToken();
-  } else {
-    recordEvent({
-      event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
-    });
-  }
+  await ensureValidCSRFToken('fetchFacilities');
 
   const url = `${
     environment.API_URL
@@ -97,6 +58,12 @@ export const fetchFacilities = async ({
     headers: { 'Content-Type': 'application/json' },
   });
 
+  Sentry.withScope(scope => {
+    scope.setLevel(Sentry.Severity.Log);
+    scope.setExtra('facilityId(s)', formatFacilityIds(facilityIds));
+    Sentry.captureMessage('FetchFacilities facilityIds');
+  });
+
   return fetchRequest
     .then(response => {
       if (!response?.data?.length) {
@@ -113,7 +80,7 @@ export const fetchFacilities = async ({
           ...attributes,
           id: facility.id,
           address: {
-            physical: formatAddress(attributes?.address.physical),
+            physical: formatAddress(attributes?.address?.physical ?? {}),
           },
         };
       });
@@ -125,7 +92,8 @@ export const fetchFacilities = async ({
     })
     .catch(error => {
       Sentry.withScope(scope => {
-        scope.setExtra('error', error.errors);
+        scope.setExtra('error', error);
+        scope.setExtra('errors', error.errors);
         Sentry.captureMessage(content['error--facilities-fetch']);
       });
 

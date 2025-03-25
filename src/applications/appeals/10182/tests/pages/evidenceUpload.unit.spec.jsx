@@ -11,11 +11,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import {
-  NEW_API,
-  EVIDENCE_UPLOAD_API,
-  EVIDENCE_UPLOAD_API_NEW,
-} from '../../constants/apis';
+import { EVIDENCE_UPLOAD_API } from '../../constants/apis';
 
 describe('Additional evidence upload', () => {
   const page = formConfig.chapters.boardReview.pages.evidenceUpload;
@@ -91,40 +87,6 @@ describe('Additional evidence upload', () => {
     const { evidence } = onSubmit.args[0][0].uiSchema;
     expect(evidence['ui:options'].fileUploadUrl).to.eq(
       `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
-    );
-    form.unmount();
-  });
-
-  it('should submit to new URL with uploaded form', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <Provider store={uploadStore}>
-        <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          onSubmit={onSubmit}
-          definitions={{}}
-          schema={schema}
-          data={{
-            evidence: [
-              {
-                confirmationCode: 'testing',
-                name: 'test.pdf',
-              },
-            ],
-            [NEW_API]: true,
-          }}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    const { evidence } = onSubmit.args[0][0].uiSchema;
-    expect(evidence['ui:options'].fileUploadUrl).to.eq(
-      `${environment.API_URL}${EVIDENCE_UPLOAD_API_NEW}`,
     );
     form.unmount();
   });

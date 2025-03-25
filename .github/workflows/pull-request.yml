@@ -111,6 +111,52 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           check_title: 'App Isolation Annotations'
           input_json: './isolation-annotations.json'
+      
+  annotate-skipped-e2e-tests:
+    name: Find and Annotate Skipped e2e Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+         fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed apps
+        id: get-changed-apps
+        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+             
+      - name: Check for apps in changed files that have skipped tests
+        run: node script/github-actions/annotate-skipped-e2e-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+        
+      - name: Create e2e annotations file  
+        if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$SKIPPED_E2E_ANNOTATIONS_JSON" > skipped-e2e-annotations.json
+          cat skipped-e2e-annotations.json
+      
+      - name: Annotate files that contain skipped e2e tests
+        if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Skipped e2e Annotations'
+          input_json: './skipped-e2e-annotations.json'
 
   eslint-disable-check:
     name: ESLint Disable Check

@@ -2,6 +2,7 @@ import React from 'react';
 import '../../../test-helpers';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as Sentry from '@sentry/browser';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -15,7 +16,9 @@ import {
   mockFetchChildFacilityWithCaregiverSupportResponse,
   mockFetchFacilitiesResponse,
   mockFetchParentFacilityResponse,
-} from '../../../mocks/responses';
+  mockFetchFacilitiesResponseWithoutCaregiverSupport,
+  mockFetchParentFacilityResponseWithoutCaregiverSupport,
+} from '../../../mocks/fetchFacility';
 
 describe('CG <FacilitySearch>', () => {
   const inputVaSearchInput = (
@@ -44,6 +47,7 @@ describe('CG <FacilitySearch>', () => {
   const goForward = sinon.spy();
   const goToPath = sinon.spy();
   const dispatch = sinon.spy();
+  let sentrySpy;
 
   const getData = ({ reviewMode = false, submitted = false, data = {} }) => ({
     props: {
@@ -90,11 +94,16 @@ describe('CG <FacilitySearch>', () => {
     return { container, selectors, getByText, queryByText };
   };
 
+  beforeEach(() => {
+    sentrySpy = sinon.spy(Sentry, 'captureMessage');
+  });
+
   afterEach(() => {
     goBack.reset();
     goForward.reset();
     dispatch.reset();
     goToPath.reset();
+    sentrySpy.restore();
   });
 
   context('when the component renders on the form page', () => {
@@ -176,160 +185,258 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    it('calls dispatch callback with facility object that offers CaregiverSupport', async () => {
-      const { props, mockStore } = getData({});
-      const { container, selectors } = subject({ props, mockStore });
-      const facilitiesResponse = mockFetchChildFacilityWithCaregiverSupportResponse;
-      mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.resolves(facilitiesResponse);
+    context('caregiverSupport callback', () => {
+      it('calls dispatch callback with facility object that offers CaregiverSupport', async () => {
+        const { props, mockStore } = getData({});
+        const { container, selectors } = subject({ props, mockStore });
+        const facilitiesResponse = mockFetchChildFacilityWithCaregiverSupportResponse;
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.resolves(facilitiesResponse);
 
-      await waitFor(() => {
-        inputVaSearchInput(container, 'Tampa', selectors().input);
-        expect(selectors().loader).to.exist;
-      });
-
-      await waitFor(() => {
-        expect(selectors().radioList).to.exist;
-        expect(selectors().loader).to.not.exist;
-      });
-
-      const [selectedFacility] = facilitiesResponse.facilities;
-
-      selectors().radioList.__events.vaValueChange({
-        detail: { value: selectedFacility.id },
-      });
-      await waitFor(() => {
-        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
-        expect(dispatch.firstCall.args[0].data).to.deep.include({
-          'view:plannedClinic': {
-            veteranSelected: selectedFacility,
-            caregiverSupport: selectedFacility,
-          },
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
         });
-      });
-    });
 
-    it('calls dispatch callback with facility object whose parent offers CaregiverSupport and is loaded', async () => {
-      const { props, mockStore } = getData({});
-      const { container, selectors } = subject({ props, mockStore });
-      mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.resolves(mockFetchFacilitiesResponse);
-
-      await waitFor(() => {
-        inputVaSearchInput(container, 'Tampa', selectors().input);
-        expect(selectors().loader).to.exist;
-      });
-
-      await waitFor(() => {
-        expect(selectors().radioList).to.exist;
-        expect(selectors().loader).to.not.exist;
-      });
-
-      const [
-        selectedFacility,
-        parentFacility,
-      ] = mockFetchFacilitiesResponse.facilities;
-
-      selectors().radioList.__events.vaValueChange({
-        detail: { value: selectedFacility.id },
-      });
-
-      await waitFor(() => {
-        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
-        expect(dispatch.firstCall.args[0].data).to.deep.include({
-          'view:plannedClinic': {
-            veteranSelected: selectedFacility,
-            caregiverSupport: parentFacility,
-          },
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
         });
-      });
-    });
 
-    it('calls dispatch callback with facility object whose parent offers CaregiverSupport and is not loaded', async () => {
-      const { props, mockStore } = getData({});
-      const { container, selectors } = subject({ props, mockStore });
-      mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.onFirstCall().resolves(mockFetchChildFacilityResponse);
+        const [selectedFacility] = facilitiesResponse.facilities;
 
-      const parentFacilityResponse = mockFetchParentFacilityResponse;
-      facilitiesStub.onSecondCall().resolves(parentFacilityResponse);
-
-      await waitFor(() => {
-        inputVaSearchInput(container, 'Tampa', selectors().input);
-        expect(selectors().loader).to.exist;
-      });
-
-      await waitFor(() => {
-        expect(selectors().radioList).to.exist;
-        expect(selectors().loader).to.not.exist;
-      });
-
-      const [selectedFacility] = mockFetchChildFacilityResponse.facilities;
-
-      selectors().radioList.__events.vaValueChange({
-        detail: { value: selectedFacility.id },
-      });
-
-      await waitFor(() => {
-        sinon.assert.calledWith(mapboxStub, 'Tampa');
-        sinon.assert.calledWith(facilitiesStub, { facilityIds: ['vha_757'] });
-        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
-        expect(dispatch.firstCall.args[0].data).to.deep.include({
-          'view:plannedClinic': {
-            veteranSelected: selectedFacility,
-            caregiverSupport: parentFacilityResponse.facilities[0],
-          },
+        selectors().radioList.__events.vaValueChange({
+          detail: { value: selectedFacility.id },
         });
-      });
-    });
-
-    it('fails to retrieve parent facility', async () => {
-      const { props, mockStore } = getData({});
-      const { container, selectors } = subject({ props, mockStore });
-      const facilitiesResponse = mockFetchChildFacilityResponse;
-      mapboxStub.resolves(mapBoxSuccessResponse);
-      facilitiesStub.onFirstCall().resolves(facilitiesResponse);
-
-      facilitiesStub.onSecondCall().resolves({
-        type: 'SEARCH_FAILED',
-        errorMessage: 'Some bad error occurred.',
-      });
-
-      await waitFor(() => {
-        inputVaSearchInput(container, 'Tampa', selectors().input);
-        expect(selectors().loader).to.exist;
-      });
-
-      await waitFor(() => {
-        expect(selectors().radioList).to.exist;
-        expect(selectors().loader).to.not.exist;
-      });
-
-      const [selectedFacility] = facilitiesResponse.facilities;
-
-      selectors().radioList.__events.vaValueChange({
-        detail: { value: selectedFacility.id },
-      });
-
-      await waitFor(() => {
-        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
-        expect(dispatch.firstCall.args[0].data).to.deep.include({
-          'view:plannedClinic': {
-            veteranSelected: selectedFacility,
-            caregiverSupport: null,
-          },
+        await waitFor(() => {
+          expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+          expect(dispatch.firstCall.args[0].data).to.deep.include({
+            'view:plannedClinic': {
+              veteranSelected: selectedFacility,
+              caregiverSupport: selectedFacility,
+            },
+          });
         });
       });
 
-      await waitFor(() => {
-        expect(selectors().radioList).to.exist;
-        expect(selectors().loader).to.not.exist;
-        expect(selectors().searchInputError.textContent).to.eq(
-          'ErrorSome bad error occurred.',
+      it('calls dispatch callback with facility object whose parent is loaded and offers CaregiverSupport', async () => {
+        const { props, mockStore } = getData({});
+        const { container, selectors } = subject({ props, mockStore });
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.resolves(mockFetchFacilitiesResponse);
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+        });
+
+        const [
+          selectedFacility,
+          parentFacility,
+        ] = mockFetchFacilitiesResponse.facilities;
+
+        selectors().radioList.__events.vaValueChange({
+          detail: { value: selectedFacility.id },
+        });
+
+        await waitFor(() => {
+          expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+          expect(dispatch.firstCall.args[0].data).to.deep.include({
+            'view:plannedClinic': {
+              veteranSelected: selectedFacility,
+              caregiverSupport: parentFacility,
+            },
+          });
+        });
+      });
+
+      it('calls dispatch callback with facility object whose parent is loaded and does not offer CaregiverSupport', async () => {
+        const { props, mockStore } = getData({});
+        const { container, selectors } = subject({ props, mockStore });
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.resolves(
+          mockFetchFacilitiesResponseWithoutCaregiverSupport,
         );
-        expect(selectors().searchInputError.parentElement).to.have.class(
-          'caregiver-facilities-search-input-error',
-        );
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+        });
+
+        const [selectedFacility] = mockFetchFacilitiesResponse.facilities;
+
+        selectors().radioList.__events.vaValueChange({
+          detail: { value: selectedFacility.id },
+        });
+
+        await waitFor(() => {
+          expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+          expect(dispatch.firstCall.args[0].data).to.deep.include({
+            'view:plannedClinic': {
+              veteranSelected: selectedFacility,
+              caregiverSupport: null,
+            },
+          });
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(sentrySpy.firstCall.args[0]).to.equal(
+            'No selected facility offers caregiver services - loaded parent',
+          );
+          expect(selectors().radioList).to.have.attr(
+            'error',
+            content['error--facilities-parent-facility'],
+          );
+        });
+      });
+
+      it('calls dispatch callback with facility object whose parent is not loaded and offers CaregiverSupport', async () => {
+        const { props, mockStore } = getData({});
+        const { container, selectors } = subject({ props, mockStore });
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.onFirstCall().resolves(mockFetchChildFacilityResponse);
+
+        const parentFacilityResponse = mockFetchParentFacilityResponse;
+        facilitiesStub.onSecondCall().resolves(parentFacilityResponse);
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+        });
+
+        const [selectedFacility] = mockFetchChildFacilityResponse.facilities;
+
+        selectors().radioList.__events.vaValueChange({
+          detail: { value: selectedFacility.id },
+        });
+
+        await waitFor(() => {
+          sinon.assert.calledWith(mapboxStub, 'Tampa');
+          sinon.assert.calledWith(facilitiesStub, { facilityIds: ['vha_757'] });
+          expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+          expect(dispatch.firstCall.args[0].data).to.deep.include({
+            'view:plannedClinic': {
+              veteranSelected: selectedFacility,
+              caregiverSupport: parentFacilityResponse.facilities[0],
+            },
+          });
+        });
+      });
+
+      it('calls dispatch callback with facility object whose parent is not loaded and does not offer CaregiverSupport', async () => {
+        const { props, mockStore } = getData({});
+        const { container, selectors } = subject({ props, mockStore });
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.onFirstCall().resolves(mockFetchChildFacilityResponse);
+
+        const parentFacilityResponse = mockFetchParentFacilityResponseWithoutCaregiverSupport;
+        facilitiesStub.onSecondCall().resolves(parentFacilityResponse);
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+        });
+
+        const [selectedFacility] = mockFetchChildFacilityResponse.facilities;
+
+        selectors().radioList.__events.vaValueChange({
+          detail: { value: selectedFacility.id },
+        });
+
+        await waitFor(() => {
+          expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+          expect(dispatch.firstCall.args[0].data).to.deep.include({
+            'view:plannedClinic': {
+              veteranSelected: selectedFacility,
+              caregiverSupport: null,
+            },
+          });
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(sentrySpy.called).to.be.true;
+          expect(sentrySpy.firstCall.args[0]).to.equal(
+            'No selected facility offers caregiver services - fetch parent',
+          );
+          expect(selectors().radioList).to.have.attr(
+            'error',
+            content['error--facilities-parent-facility'],
+          );
+        });
+      });
+
+      it('fails to retrieve parent facility', async () => {
+        const { props, mockStore } = getData({});
+        const { container, selectors } = subject({ props, mockStore });
+        const facilitiesResponse = mockFetchChildFacilityResponse;
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub.onFirstCall().resolves(facilitiesResponse);
+
+        facilitiesStub.onSecondCall().resolves({
+          type: 'SEARCH_FAILED',
+          errorMessage: 'Some bad error occurred.',
+        });
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+        });
+
+        const [selectedFacility] = facilitiesResponse.facilities;
+
+        selectors().radioList.__events.vaValueChange({
+          detail: { value: selectedFacility.id },
+        });
+
+        await waitFor(() => {
+          expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+          expect(dispatch.firstCall.args[0].data).to.deep.include({
+            'view:plannedClinic': {
+              veteranSelected: selectedFacility,
+              caregiverSupport: null,
+            },
+          });
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(selectors().searchInputError.textContent).to.eq(
+            'ErrorSome bad error occurred.',
+          );
+          expect(selectors().searchInputError.parentElement).to.have.class(
+            'caregiver-facilities-search-input-error',
+          );
+        });
       });
     });
 

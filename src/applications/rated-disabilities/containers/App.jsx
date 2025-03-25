@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, {
@@ -10,7 +11,6 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import AppContent from '../components/AppContent';
 import MVIError from '../components/MVIError';
 import { useBrowserMonitoring } from '../util/datadog-rum/useBrowserMonitoring';
 
@@ -20,7 +20,7 @@ const App = props => {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn,
-    version: '1.0.3',
+    version: '1.0.6',
     applicationId: 'ec980bd9-5d61-4cf7-88a8-bdbbdb015059',
     clientToken: 'pub7162d18113213637d731bd1ae8a0abf0',
     service: 'benefits-rated-disabilities',
@@ -47,7 +47,7 @@ const App = props => {
         {!user.profile.verified || user.profile.status !== 'OK' ? (
           <MVIError />
         ) : (
-          <AppContent />
+          <Outlet />
         )}
       </DowntimeNotification>
     </RequiredLoginView>

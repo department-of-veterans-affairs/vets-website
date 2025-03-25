@@ -1,10 +1,11 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 import FolderLoadPage from './pages/FolderLoadPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
-import mockRecipients from './fixtures/recipients-response.json';
+import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 
-describe('SM main page', () => {
+describe('SM MAIN PAGE', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
@@ -50,6 +51,8 @@ describe('SM main page', () => {
   });
 
   it('verify previous version link', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.LINKS.OLD_VERSION)
       .should(`not.have.attr`, `target`, `_blank`)
       .invoke(`attr`, `href`)
@@ -57,6 +60,8 @@ describe('SM main page', () => {
   });
 
   it('verify breadcrumbs', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     FolderLoadPage.verifyBreadCrumbsLength(3);
 
     FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
@@ -65,7 +70,7 @@ describe('SM main page', () => {
   });
 });
 
-describe('SM main page without API calls', () => {
+describe('SM MAIN PAGE WITHOUT API CALLS', () => {
   it('validate Inbox and New Message links exists in the page', () => {
     SecureMessagingSite.login();
     cy.intercept(
@@ -79,6 +84,21 @@ describe('SM main page without API calls', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  describe('SM MAIN PAGE REDIRECTING', () => {
+    it('verify redirecting to inbox with feature flag', () => {
+      const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+        { name: 'mhv_secure_messaging_remove_landing_page', value: true },
+      ]);
+      SecureMessagingSite.login(updatedFeatureToggle);
+      SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
+
+      cy.url().should(`include`, Paths.INBOX);
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
   });
 });

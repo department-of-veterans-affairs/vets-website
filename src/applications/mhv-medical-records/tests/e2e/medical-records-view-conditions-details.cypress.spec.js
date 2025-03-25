@@ -11,6 +11,7 @@ describe('Medical Records View Conditions', () => {
     // cy.visit('my-health/medical-records/conditions');
     ConditionsListPage.gotoConditionsListPage();
     ConditionsListPage.clickConditionsDetailsLink(1);
+    ConditionDetailsPage.verifyTitle(conditions.entry[0].resource.code.text);
 
     ConditionDetailsPage.verifyProvider(
       // conditions.entry[0].resource.contained[0].name[0].text, // 'JOHN,SMITH'

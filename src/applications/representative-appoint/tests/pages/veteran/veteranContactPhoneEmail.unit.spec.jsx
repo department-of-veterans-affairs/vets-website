@@ -38,4 +38,58 @@ describe('Veteran Contact Phone Email page', () => {
   it('should have proper max length for email field', () => {
     expect(schema.properties.veteranEmail.maxLength).to.equal(61);
   });
+
+  it('should require email when LOA3 is true and representative submission method is digital', () => {
+    const formData = {
+      'view:isUserLOA3': true,
+      representativeSubmissionMethod: 'digital',
+    };
+
+    const { container } = render(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={{}}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={formData}
+        />
+      </Provider>,
+    );
+
+    const emailField = container.querySelector(
+      'va-text-input[name="root_veteranEmail"]',
+    );
+
+    expect(emailField).to.exist;
+
+    expect(emailField).to.have.attribute('required');
+  });
+
+  it('should NOT require email when LOA3 is false or representative submission method is not digital', () => {
+    const formData = {
+      'view:isUserLOA3': false,
+      representativeSubmissionMethod: 'mail',
+    };
+
+    const { container } = render(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={{}}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={formData}
+        />
+      </Provider>,
+    );
+
+    const emailField = container.querySelector(
+      'va-text-input[name="root_veteranEmail"]',
+    );
+
+    expect(emailField).to.exist;
+
+    expect(emailField.required).to.equal(false);
+  });
 });

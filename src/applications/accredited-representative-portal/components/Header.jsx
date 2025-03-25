@@ -5,7 +5,10 @@ import Nav from './Header/Nav';
 
 const Header = () => {
   return (
-    <header data-testid="arp-header" className="header">
+    <header
+      data-testid="arp-header"
+      className="header vads-u-background-color--white"
+    >
       <GovBanner />
       <Nav />
     </header>

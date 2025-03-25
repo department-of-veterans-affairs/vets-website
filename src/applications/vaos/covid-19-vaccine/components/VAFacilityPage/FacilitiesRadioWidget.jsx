@@ -17,6 +17,7 @@ export default function FacilitiesRadioWidget({
   value,
   onChange,
   formContext,
+  required,
 }) {
   const { loadingEligibility, sortMethod } = formContext;
   const { enumOptions } = options;
@@ -48,7 +49,9 @@ export default function FacilitiesRadioWidget({
 
   return (
     <fieldset>
-      <legend className="sr-only">{options.title}</legend>
+      <legend className="sr-only">
+        {options.title} {required ? 'required' : ''}
+      </legend>
 
       {displayedOptions.map((option, i) => {
         const { name, legacyVAR } = option?.label;
@@ -115,6 +118,7 @@ FacilitiesRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
+  required: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };

@@ -66,7 +66,7 @@ class DownloadAllPage {
   selectDateRangeDropdown = option => {
     cy.get('[data-testid="va-select-date-range"]')
       .find('select')
-      .select(option);
+      .select(option, { force: true });
   };
 
   selectCustomStartMonth = month => {

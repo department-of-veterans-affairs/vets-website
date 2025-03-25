@@ -126,4 +126,27 @@ describe('<BackToTop>', () => {
     expect(floatingStyle.length).to.equal(0);
     wrapper.unmount();
   });
+  it('should focus on h1 element inside profilePageHeaderId when Back to Top is clicked', () => {
+    const profilePageHeaderId = 'profile-header';
+    const mockFocus = sinon.spy();
+    const headerDiv = document.createElement('div');
+    headerDiv.id = profilePageHeaderId;
+    const h1Element = document.createElement('h1');
+    h1Element.focus = mockFocus;
+    headerDiv.appendChild(h1Element);
+    document.body.appendChild(headerDiv);
+
+    const wrapper = mount(
+      <BackToTop
+        parentId="someId"
+        profilePageHeaderId={profilePageHeaderId}
+        compare={{ open: false }}
+        smallScreen={false}
+      />,
+    );
+    wrapper.find('button').simulate('click');
+    expect(mockFocus.calledOnce).to.be.true;
+    document.body.removeChild(headerDiv);
+    wrapper.unmount();
+  });
 });
