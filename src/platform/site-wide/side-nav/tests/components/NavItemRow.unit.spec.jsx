@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
-import sinon from 'sinon';
 import NavItemRow from '../../components/NavItemRow';
+import sinon from 'sinon';
 
 describe('<NavItemRow>', () => {
   const trackEventsSpy = sinon.spy();

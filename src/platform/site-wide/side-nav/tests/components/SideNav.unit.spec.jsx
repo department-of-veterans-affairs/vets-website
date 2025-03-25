@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import SideNav from '../../components/SideNav';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 describe('<SideNav>', () => {
   const firstID = uniqueId('sidenav_');
