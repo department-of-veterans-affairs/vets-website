@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -77,6 +78,13 @@ export class ProfileInformationEditView extends Component {
       focusElement('button[aria-label="Close notification"]');
     }
 
+    if (
+      prevProps.transactionRequest?.error &&
+      !clearTransactionRequest?.error
+    ) {
+      clearTransactionRequest(FIELD_NAMES);
+    }
+
     // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
@@ -118,6 +126,7 @@ export class ProfileInformationEditView extends Component {
   // 48147 - Temporary click handler that will be removed once the analytics stats have been gathered around
   // multiple inline validation errors.
   onClickUpdateHandler = () => {
+    clearTransactionRequest(this.props.fieldName);
     handleUpdateButtonClick(
       getErrorsFromDom,
       this.props.fieldName,
@@ -149,6 +158,13 @@ export class ProfileInformationEditView extends Component {
       apiRoute,
       field,
     } = this.props;
+
+    clearTransactionRequest(fieldName);
+    this.forceUpdate();
+
+    if (this.props.transactionRequest?.error) {
+      this.props.clearTransactionRequest(this.props.fieldName);
+    }
 
     const isAddressField = fieldName.toLowerCase().includes('address');
     if (!isAddressField) {
@@ -206,6 +222,7 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
+    this.props.clearTransactionRequest(fieldName);
     this.props.createTransaction(
       apiRoute,
       method,
@@ -289,8 +306,12 @@ export class ProfileInformationEditView extends Component {
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
     const error =
-      transactionRequest?.error ||
+      (transactionRequest?.isFailed && transactionRequest?.error) ||
       (isFailedTransaction(transaction) ? {} : null);
+
+    // const error =
+    //   transactionRequest?.error ||
+    //   (isFailedTransaction(transaction) ? {} : null);
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 

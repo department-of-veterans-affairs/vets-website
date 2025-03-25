@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,9 +12,11 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
-  selectProfile,
+  // selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+
+import { selectVAPContactInfoWithFallback } from 'platform/user/profile/vap-svc/selectors';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { Element } from 'platform/utilities/scroll';
@@ -93,13 +96,23 @@ export const ContactInfoBase = ({
   const [editState] = useState(getReturnState());
 
   // vapContactInfo is an empty object locally, so mock it
-  const profile = useSelector(selectProfile) || {};
+  // const profile = useSelector(selectProfile) || {};
   const loggedIn = useSelector(isLoggedIn) || false;
+  const fallbackContactInfo = useSelector(selectVAPContactInfoWithFallback);
+
+  // const contactInfo =
+  //   loggedIn && environment.isLocalhost() && !disableMockContactInfo
+  //     ? generateMockUser({ authBroker: 'iam' }).data.attributes
+  //         .vet360ContactInformation
+  //     : profile.vapContactInfo || {};
+
   const contactInfo =
     loggedIn && environment.isLocalhost() && !disableMockContactInfo
       ? generateMockUser({ authBroker: 'iam' }).data.attributes
           .vet360ContactInformation
-      : profile.vapContactInfo || {};
+      : fallbackContactInfo;
+
+  console.log('hello', useSelector(selectVAPContactInfoWithFallback));
 
   const dataWrap = data[keys.wrapper] || {};
   const email = dataWrap[keys.email] || '';
@@ -262,7 +275,8 @@ export const ContactInfoBase = ({
               ' (optional)'}
           </Headers>
           {showSuccessAlertInField('address', content.mailingAddress)}
-          <AddressView data={dataWrap[keys.address]} />
+          {/* <AddressView data={dataWrap[keys.address]} /> */}
+          <AddressView data={contactInfo[keys.address]} />
           {loggedIn && (
             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
               <VaLink

@@ -256,6 +256,14 @@ export function createTransaction(
         error,
         fieldName,
       });
+
+      const forceCacheClear = true;
+      await dispatch(refreshProfile(forceCacheClear));
+
+      dispatch({
+        type: VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
+        fieldName,
+      });
     }
   };
 }

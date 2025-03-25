@@ -102,8 +102,27 @@ export function selectVAPServicePendingCategoryTransactions(state, type) {
     );
 }
 
+// export function selectEditedFormField(state, fieldName) {
+//   return state.vapService.formFields[fieldName];
+// }
+
 export function selectEditedFormField(state, fieldName) {
-  return state.vapService.formFields[fieldName];
+  const edited = state.vapService.formFields[fieldName];
+  const fallback = state.vapService.fallbackFieldData[fieldName];
+  return edited || (fallback && { value: fallback });
+}
+
+export function selectVAPContactInfoWithFallback(state) {
+  const base = state.user.profile.vapContactInfo || {};
+  const fallback = state.vapService.fallbackFieldData;
+
+  return {
+    ...base,
+    mailingAddress: fallback.mailingAddress || base.mailingAddress,
+    homePhone: fallback.homePhone || base.homePhone,
+    mobilePhone: fallback.mobilePhone || base.mobilePhone,
+    email: fallback.email || base.email,
+  };
 }
 
 export function selectCurrentlyOpenEditModal(state) {

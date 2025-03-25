@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import { isEmpty, isEqual, pickBy } from 'lodash';
@@ -64,6 +65,7 @@ const initialState = {
     ...initialAddressValidationState,
   },
   copyAddressModal: null,
+  fallbackFieldData: {},
 };
 
 export default function vapService(state = initialState, action) {
@@ -84,7 +86,12 @@ export default function vapService(state = initialState, action) {
         ...state,
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
-          [action.fieldName]: { isPending: true, method: action.method },
+          [action.fieldName]: {
+            isPending: true,
+            method: action.method,
+            error: null,
+            isFailed: false,
+          },
         },
       };
     }
@@ -109,11 +116,18 @@ export default function vapService(state = initialState, action) {
             error: action.error,
           },
         },
+        fallbackFieldData: {
+          ...state.fallbackFieldData,
+          [action.fieldName]: state.formFields[action.fieldName]?.value || null,
+        },
         copyAddressModal,
       };
     }
 
     case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
+      const updatedFallback = { ...state.fallbackFieldData };
+      delete updatedFallback[action.fieldName];
+
       return {
         ...state,
         transactions: state.transactions.concat(action.transaction),
@@ -127,6 +141,7 @@ export default function vapService(state = initialState, action) {
         },
         initialFormFields: {},
         hasUnsavedEdits: false,
+        fallbackFieldData: updatedFallback,
       };
     }
 
@@ -210,6 +225,9 @@ export default function vapService(state = initialState, action) {
       const finishedTransactionId =
         action.transaction.data.attributes.transactionId;
       const fieldTransactionMap = { ...state.fieldTransactionMap };
+      const updatedFallback = { ...state.fallbackFieldData };
+
+      delete updatedFallback[action.fieldName];
 
       let mostRecentlySavedField;
       let copyAddressModal;
@@ -262,6 +280,7 @@ export default function vapService(state = initialState, action) {
         fieldTransactionMap,
         mostRecentlySavedField,
         copyAddressModal,
+        fallbackFieldData: updatedFallback,
       };
     }
 
