@@ -163,8 +163,13 @@ function AddressValidationModal(props) {
           value={userEnteredAddress?.state || ''}
           required={userEnteredAddress?.country === 'USA'}
           onVaSelect={e => handleAddressChange({ state: e.detail.value })}
-          options={JSON.stringify(stateOptions)}
-        />
+        >
+          {stateOptions.map(state => (
+            <option key={state.value} value={state.value}>
+              {state.label}
+            </option>
+          ))}
+        </va-select>
         <va-text-input
           name="postalCode"
           label={
