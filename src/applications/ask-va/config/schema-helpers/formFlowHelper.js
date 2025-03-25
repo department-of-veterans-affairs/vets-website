@@ -174,28 +174,14 @@ export const ch3Pages = {
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => {
-      if (!form?.aboutYourself) return true;
-      return (
-        !form.aboutYourself.first ||
-        !form.aboutYourself.last ||
-        !form.aboutYourself.socialSecurityNumber
-      );
-    },
+    depends: form => !form.hasPrefillInformation,
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => {
-      if (!form?.aboutYourself) return true;
-      return (
-        !form.aboutYourself.first ||
-        !form.aboutYourself.last ||
-        !form.aboutYourself.socialSecurityNumber
-      );
-    },
+    depends: form => !form.hasPrefillInformation,
   },
   aboutYourselfRelationshipFamilyMember: {
     editModeOnReviewPage: false,
@@ -203,23 +189,31 @@ export const ch3Pages = {
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => {
-      if (!form?.aboutYourself) return true;
-      return (
-        !form.aboutYourself.first ||
-        !form.aboutYourself.last ||
-        !form.aboutYourself.socialSecurityNumber
-      );
-    },
+    depends: form => !form.hasPrefillInformation,
+  },
+  schoolInYourProfile: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolInYourProfilePage.uiSchema,
+    schema: schoolInYourProfilePage.schema,
+    depends: form =>
+      // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
+      (form.school || form.schoolInfo?.schoolName) &&
+      ((form.selectCategory === CategoryDebt &&
+        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
     depends: form =>
-      (form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments &&
-        form.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
+      ((!form.school ||
+        !form.schoolInfo?.schoolName ||
+        form.useSchoolInProfile === schoolInYourProfileOptions.NO) &&
+        (form.selectCategory === CategoryDebt &&
+          form.selectTopic === TopicEducationBenefitOverpayments)) ||
       ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName) &&
         (form.yourRole === yourRoleOptionsEducation.SCO ||
@@ -274,19 +268,7 @@ export const ch3Pages = {
       form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
       (form.school && form.school !== 'My facility is not listed'),
   },
-  schoolInYourProfile: {
-    title: CHAPTER_3.SCHOOL.TITLE,
-    uiSchema: schoolInYourProfilePage.uiSchema,
-    schema: schoolInYourProfilePage.schema,
-    depends: form =>
-      // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
-      (form.school || form.schoolInfo?.schoolName) &&
-      ((form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments) ||
-        (form.yourRole === yourRoleOptionsEducation.SCO ||
-          form.yourRole ===
-            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
-  },
+
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
     uiSchema: yourContactInformationPage.uiSchema,
@@ -388,13 +370,8 @@ export const ch3Pages = {
     title: CHAPTER_3.BRANCH_OF_SERVICE.TITLE,
     uiSchema: yourBranchOfServicePage.uiSchema,
     schema: yourBranchOfServicePage.schema,
-    depends: form => {
-      const authCheck =
-        form.aboutYourself.first &&
-        form.aboutYourself.last &&
-        form.aboutYourself.socialSecurityNumber;
-      return authCheck && isBranchOfServiceRequired(form);
-    },
+    // TODO - Custom component due to alert message for prefill https://www.figma.com/design/aQ6JsjD4pvMxSVPAZHllMX/AVA-Page-Library?node-id=3029-74800&t=DA4C4u7Wrv7TMhYs-1
+    depends: form => isBranchOfServiceRequired(form),
   },
   stateOfProperty: {
     title: CHAPTER_3.STATE_OF_PROPERTY.TITLE,
@@ -627,7 +604,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
   'useThisSchool',
   'stateOfSchool',
   'stateOfFacility',
-  'aboutYourself',
+  'aboutYourselfGeneral',
   'yourContactInformation',
 ];
 export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = flowPages(

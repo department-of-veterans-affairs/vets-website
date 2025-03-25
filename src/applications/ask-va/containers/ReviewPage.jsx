@@ -41,6 +41,7 @@ import {
   getChapterFormConfigAskVa,
   getPageKeysForReview,
   pagesToMoveConfig,
+  hasValidValues,
 } from '../utils/reviewPageHelper';
 import {
   convertDate,
@@ -227,6 +228,8 @@ const ReviewPage = props => {
       className="vads-u-padding-x--2p5 vads-u-padding-bottom--7"
       data-testid="review-page"
     >
+      <h3 className="vads-u-margin-bottom--2">Review and submit</h3>
+
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
       <div className="vads-u-margin-y--3">
@@ -323,274 +326,287 @@ const ReviewPage = props => {
             );
           })}
 
-        <VaAccordionItem
-          bordered
-          header="Veteran's information"
-          level={4}
-          id="reviewVeteranInformation"
-          open
-          className="vads-u-margin-bottom--2"
-        >
-          {props.chapters
-            .filter(chapter => chapter.name === 'veteransPersonalInformation')
-            .map(chapter => {
-              return (
-                <>
-                  <div
-                    name={`chapter${
-                      chapterTitles.veteransPersonalInformation
-                    }ScrollElement`}
-                    key={chapter.name}
-                  />
-                  {!editSection.includes(
-                    chapterTitles.veteransPersonalInformation,
-                  ) ? (
-                    <ReviewSectionContent
-                      title={chapterTitles.veteransPersonalInformation}
-                      editSection={editAll}
-                      keys={chapter.pageKeys}
-                      items={[
-                        {
-                          name: 'First name',
-                          data: props.formData.aboutTheVeteran.first,
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Middle name',
-                          data: props.formData.aboutTheVeteran.middle,
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Last name',
-                          data: props.formData.aboutTheVeteran.last,
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Suffix',
-                          data: props.formData.aboutTheVeteran.suffix,
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Is the Veteran deceased?',
-                          data: getYesOrNoFromBool(
-                            props.formData.aboutTheVeteran.isVeteranDeceased,
-                          ),
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Social Security number',
-                          data: maskSocial(
-                            props.formData.aboutTheVeteran.socialOrServiceNum
-                              ?.ssn,
-                          ),
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Service Number',
-                          data:
-                            props.formData.aboutTheVeteran.socialOrServiceNum
-                              ?.serviceNumber,
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Date of birth',
-                          data: convertDate(
-                            props.formData.aboutTheVeteran.dateOfBirth,
-                          ),
-                          key: 'aboutTheVeteran',
-                        },
-                        {
-                          name: 'Branch of service',
-                          data: props.formData.aboutTheVeteran.branchOfService,
-                          key: 'aboutTheVeteran',
-                        },
-                      ]}
+        {hasValidValues(props.formData.aboutTheVeteran) && (
+          <VaAccordionItem
+            bordered
+            header="Veteran's information"
+            level={4}
+            id="reviewVeteranInformation"
+            open
+            className="vads-u-margin-bottom--2"
+          >
+            {props.chapters
+              .filter(chapter => chapter.name === 'veteransPersonalInformation')
+              .map(chapter => {
+                return (
+                  <>
+                    <div
+                      name={`chapter${
+                        chapterTitles.veteransPersonalInformation
+                      }ScrollElement`}
+                      key={chapter.name}
                     />
-                  ) : (
-                    <>
-                      <ReviewCollapsibleChapter
-                        key={chapter.name}
-                        expandedPages={chapter.expandedPages}
-                        chapterFormConfig={chapter.formConfig}
-                        chapterKey={chapter.name}
-                        form={props.form}
-                        formContext={props.formContext}
-                        onEdit={handleEdit}
-                        showButtons={false}
-                        open={chapter.open}
-                        pageKeys={chapter.pageKeys}
-                        pageList={getPageKeysForReview(formConfig)}
-                        setData={(...args) => handleSetData(...args)}
-                        setValid={props.setValid}
-                        toggleButtonClicked={() => handleToggleChapter(chapter)}
-                        uploadFile={props.uploadFile}
-                        viewedPages={new Set(getPageKeysForReview(formConfig))}
-                        hasUnviewedPages={chapter.hasUnviewedPages}
-                      />
-                      <SaveCancelButtons
-                        closeSection={closeAll}
-                        keys={chapter.pageKeys}
+                    {!editSection.includes(
+                      chapterTitles.veteransPersonalInformation,
+                    ) ? (
+                      <ReviewSectionContent
                         title={chapterTitles.veteransPersonalInformation}
-                        scroll={scrollToChapter}
-                      />
-                    </>
-                  )}
-                </>
-              );
-            })}
-
-          {props.chapters
-            .filter(chapter => chapter.name === 'veteransInformation')
-            .map(chapter => {
-              return (
-                <ReviewCollapsibleChapter
-                  key={chapter.name}
-                  expandedPages={chapter.expandedPages}
-                  chapterFormConfig={chapter.formConfig}
-                  chapterKey={chapter.name}
-                  form={props.form}
-                  formContext={props.formContext}
-                  onEdit={handleEdit}
-                  showButtons
-                  open={chapter.open}
-                  pageKeys={chapter.pageKeys}
-                  pageList={getPageKeysForReview(formConfig)}
-                  setData={(...args) => handleSetData(...args)}
-                  setValid={props.setValid}
-                  toggleButtonClicked={() => handleToggleChapter(chapter)}
-                  uploadFile={props.uploadFile}
-                  viewedPages={new Set(getPageKeysForReview(formConfig))}
-                  hasUnviewedPages={chapter.hasUnviewedPages}
-                />
-              );
-            })}
-        </VaAccordionItem>
-
-        <VaAccordionItem
-          bordered
-          header="Family member's information"
-          level={4}
-          id="reviewFamilyMemberInformation"
-          open
-          className="vads-u-margin-bottom--2"
-        >
-          {props.chapters
-            .filter(
-              chapter => chapter.name === 'familyMembersPersonalInformation',
-            )
-            .map(chapter => {
-              return (
-                <>
-                  <div
-                    name={`chapter${
-                      chapterTitles.familyMembersPersonalInformation
-                    }ScrollElement`}
-                    key={chapter.name}
-                  />
-                  {!editSection.includes(
-                    chapterTitles.familyMembersPersonalInformation,
-                  ) ? (
-                    <ReviewSectionContent
-                      title={chapterTitles.familyMembersPersonalInformation}
-                      editSection={editAll}
-                      keys={chapter.pageKeys}
-                      items={[
-                        {
-                          name: 'First name',
-                          data: props.formData.aboutTheFamilyMember.first,
-                          key: 'aboutYourFamilyMember',
-                        },
-                        {
-                          name: 'Middle name',
-                          data: props.formData.aboutTheFamilyMember.middle,
-                          key: 'aboutYourFamilyMember',
-                        },
-                        {
-                          name: 'Last name',
-                          data: props.formData.aboutTheFamilyMember.last,
-                          key: 'aboutYourFamilyMember',
-                        },
-                        {
-                          name: 'Suffix',
-                          data: props.formData.aboutTheFamilyMember.suffix,
-                          key: 'aboutYourFamilyMember',
-                        },
-                        {
-                          name: 'Social Security number',
-                          data: maskSocial(
-                            props.formData.aboutTheFamilyMember
-                              .socialOrServiceNum?.ssn,
-                          ),
-                          key: 'aboutYourFamilyMember',
-                        },
-                        {
-                          name: 'Date of birth',
-                          data: convertDate(
-                            props.formData.aboutTheFamilyMember.dateOfBirth,
-                          ),
-                          key: 'aboutYourFamilyMember',
-                        },
-                      ]}
-                    />
-                  ) : (
-                    <>
-                      <ReviewCollapsibleChapter
-                        key={chapter.name}
-                        expandedPages={chapter.expandedPages}
-                        chapterFormConfig={chapter.formConfig}
-                        chapterKey={chapter.name}
-                        form={props.form}
-                        formContext={props.formContext}
-                        onEdit={handleEdit}
-                        showButtons={false}
-                        open={chapter.open}
-                        pageKeys={chapter.pageKeys}
-                        pageList={getPageKeysForReview(formConfig)}
-                        setData={(...args) => handleSetData(...args)}
-                        setValid={props.setValid}
-                        toggleButtonClicked={() => handleToggleChapter(chapter)}
-                        uploadFile={props.uploadFile}
-                        viewedPages={new Set(getPageKeysForReview(formConfig))}
-                        hasUnviewedPages={chapter.hasUnviewedPages}
-                      />
-                      <SaveCancelButtons
-                        closeSection={closeAll}
+                        editSection={editAll}
                         keys={chapter.pageKeys}
-                        title={chapterTitles.familyMembersPersonalInformation}
-                        scroll={scrollToChapter}
+                        items={[
+                          {
+                            name: 'First name',
+                            data: props.formData.aboutTheVeteran.first,
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Middle name',
+                            data: props.formData.aboutTheVeteran.middle,
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Last name',
+                            data: props.formData.aboutTheVeteran.last,
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Suffix',
+                            data: props.formData.aboutTheVeteran.suffix,
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Is the Veteran deceased?',
+                            data: getYesOrNoFromBool(
+                              props.formData.aboutTheVeteran.isVeteranDeceased,
+                            ),
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Social Security number',
+                            data: maskSocial(
+                              props.formData.aboutTheVeteran.socialOrServiceNum
+                                ?.ssn,
+                            ),
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Service Number',
+                            data:
+                              props.formData.aboutTheVeteran.socialOrServiceNum
+                                ?.serviceNumber,
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Date of birth',
+                            data: convertDate(
+                              props.formData.aboutTheVeteran.dateOfBirth,
+                            ),
+                            key: 'aboutTheVeteran',
+                          },
+                          {
+                            name: 'Branch of service',
+                            data:
+                              props.formData.aboutTheVeteran.branchOfService,
+                            key: 'aboutTheVeteran',
+                          },
+                        ]}
                       />
-                    </>
-                  )}
-                </>
-              );
-            })}
+                    ) : (
+                      <>
+                        <ReviewCollapsibleChapter
+                          key={chapter.name}
+                          expandedPages={chapter.expandedPages}
+                          chapterFormConfig={chapter.formConfig}
+                          chapterKey={chapter.name}
+                          form={props.form}
+                          formContext={props.formContext}
+                          onEdit={handleEdit}
+                          showButtons={false}
+                          open={chapter.open}
+                          pageKeys={chapter.pageKeys}
+                          pageList={getPageKeysForReview(formConfig)}
+                          setData={(...args) => handleSetData(...args)}
+                          setValid={props.setValid}
+                          toggleButtonClicked={() =>
+                            handleToggleChapter(chapter)
+                          }
+                          uploadFile={props.uploadFile}
+                          viewedPages={
+                            new Set(getPageKeysForReview(formConfig))
+                          }
+                          hasUnviewedPages={chapter.hasUnviewedPages}
+                        />
+                        <SaveCancelButtons
+                          closeSection={closeAll}
+                          keys={chapter.pageKeys}
+                          title={chapterTitles.veteransPersonalInformation}
+                          scroll={scrollToChapter}
+                        />
+                      </>
+                    )}
+                  </>
+                );
+              })}
 
-          {props.chapters
-            .filter(chapter => chapter.name === 'familyMembersInformation')
-            .map(chapter => {
-              return (
-                <ReviewCollapsibleChapter
-                  key={chapter.name}
-                  expandedPages={chapter.expandedPages}
-                  chapterFormConfig={chapter.formConfig}
-                  chapterKey={chapter.name}
-                  form={props.form}
-                  formContext={props.formContext}
-                  onEdit={handleEdit}
-                  showButtons
-                  open={chapter.open}
-                  pageKeys={chapter.pageKeys}
-                  pageList={getPageKeysForReview(formConfig)}
-                  setData={(...args) => handleSetData(...args)}
-                  setValid={props.setValid}
-                  toggleButtonClicked={() => handleToggleChapter(chapter)}
-                  uploadFile={props.uploadFile}
-                  viewedPages={new Set(getPageKeysForReview(formConfig))}
-                  hasUnviewedPages={chapter.hasUnviewedPages}
-                />
-              );
-            })}
-        </VaAccordionItem>
+            {props.chapters
+              .filter(chapter => chapter.name === 'veteransInformation')
+              .map(chapter => {
+                return (
+                  <ReviewCollapsibleChapter
+                    key={chapter.name}
+                    expandedPages={chapter.expandedPages}
+                    chapterFormConfig={chapter.formConfig}
+                    chapterKey={chapter.name}
+                    form={props.form}
+                    formContext={props.formContext}
+                    onEdit={handleEdit}
+                    showButtons
+                    open={chapter.open}
+                    pageKeys={chapter.pageKeys}
+                    pageList={getPageKeysForReview(formConfig)}
+                    setData={(...args) => handleSetData(...args)}
+                    setValid={props.setValid}
+                    toggleButtonClicked={() => handleToggleChapter(chapter)}
+                    uploadFile={props.uploadFile}
+                    viewedPages={new Set(getPageKeysForReview(formConfig))}
+                    hasUnviewedPages={chapter.hasUnviewedPages}
+                  />
+                );
+              })}
+          </VaAccordionItem>
+        )}
+
+        {hasValidValues(props.formData.aboutTheFamilyMember) && (
+          <VaAccordionItem
+            bordered
+            header="Family member's information"
+            level={4}
+            id="reviewFamilyMemberInformation"
+            open
+            className="vads-u-margin-bottom--2"
+          >
+            {props.chapters
+              .filter(
+                chapter => chapter.name === 'familyMembersPersonalInformation',
+              )
+              .map(chapter => {
+                return (
+                  <>
+                    <div
+                      name={`chapter${
+                        chapterTitles.familyMembersPersonalInformation
+                      }ScrollElement`}
+                      key={chapter.name}
+                    />
+                    {!editSection.includes(
+                      chapterTitles.familyMembersPersonalInformation,
+                    ) ? (
+                      <ReviewSectionContent
+                        title={chapterTitles.familyMembersPersonalInformation}
+                        editSection={editAll}
+                        keys={chapter.pageKeys}
+                        items={[
+                          {
+                            name: 'First name',
+                            data: props.formData.aboutTheFamilyMember.first,
+                            key: 'aboutYourFamilyMember',
+                          },
+                          {
+                            name: 'Middle name',
+                            data: props.formData.aboutTheFamilyMember.middle,
+                            key: 'aboutYourFamilyMember',
+                          },
+                          {
+                            name: 'Last name',
+                            data: props.formData.aboutTheFamilyMember.last,
+                            key: 'aboutYourFamilyMember',
+                          },
+                          {
+                            name: 'Suffix',
+                            data: props.formData.aboutTheFamilyMember.suffix,
+                            key: 'aboutYourFamilyMember',
+                          },
+                          {
+                            name: 'Social Security number',
+                            data: maskSocial(
+                              props.formData.aboutTheFamilyMember
+                                .socialOrServiceNum?.ssn,
+                            ),
+                            key: 'aboutYourFamilyMember',
+                          },
+                          {
+                            name: 'Date of birth',
+                            data: convertDate(
+                              props.formData.aboutTheFamilyMember.dateOfBirth,
+                            ),
+                            key: 'aboutYourFamilyMember',
+                          },
+                        ]}
+                      />
+                    ) : (
+                      <>
+                        <ReviewCollapsibleChapter
+                          key={chapter.name}
+                          expandedPages={chapter.expandedPages}
+                          chapterFormConfig={chapter.formConfig}
+                          chapterKey={chapter.name}
+                          form={props.form}
+                          formContext={props.formContext}
+                          onEdit={handleEdit}
+                          showButtons={false}
+                          open={chapter.open}
+                          pageKeys={chapter.pageKeys}
+                          pageList={getPageKeysForReview(formConfig)}
+                          setData={(...args) => handleSetData(...args)}
+                          setValid={props.setValid}
+                          toggleButtonClicked={() =>
+                            handleToggleChapter(chapter)
+                          }
+                          uploadFile={props.uploadFile}
+                          viewedPages={
+                            new Set(getPageKeysForReview(formConfig))
+                          }
+                          hasUnviewedPages={chapter.hasUnviewedPages}
+                        />
+                        <SaveCancelButtons
+                          closeSection={closeAll}
+                          keys={chapter.pageKeys}
+                          title={chapterTitles.familyMembersPersonalInformation}
+                          scroll={scrollToChapter}
+                        />
+                      </>
+                    )}
+                  </>
+                );
+              })}
+
+            {props.chapters
+              .filter(chapter => chapter.name === 'familyMembersInformation')
+              .map(chapter => {
+                return (
+                  <ReviewCollapsibleChapter
+                    key={chapter.name}
+                    expandedPages={chapter.expandedPages}
+                    chapterFormConfig={chapter.formConfig}
+                    chapterKey={chapter.name}
+                    form={props.form}
+                    formContext={props.formContext}
+                    onEdit={handleEdit}
+                    showButtons
+                    open={chapter.open}
+                    pageKeys={chapter.pageKeys}
+                    pageList={getPageKeysForReview(formConfig)}
+                    setData={(...args) => handleSetData(...args)}
+                    setValid={props.setValid}
+                    toggleButtonClicked={() => handleToggleChapter(chapter)}
+                    uploadFile={props.uploadFile}
+                    viewedPages={new Set(getPageKeysForReview(formConfig))}
+                    hasUnviewedPages={chapter.hasUnviewedPages}
+                  />
+                );
+              })}
+          </VaAccordionItem>
+        )}
 
         <VaAccordionItem
           bordered
