@@ -37,6 +37,12 @@ export const imagesReducer = (state = initialState, action) => {
         notificationStatus: action?.payload?.flag ?? null,
       };
     }
+    case Actions.Images.SET_REQUEST_LIMIT_REACHED: {
+      return {
+        ...state,
+        studyRequestLimitReached: action?.payload ?? false,
+      };
+    }
     case Actions.Images.SET_REQUEST_API_FAILED: {
       return {
         ...state,

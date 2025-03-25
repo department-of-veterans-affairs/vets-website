@@ -191,14 +191,29 @@ export const ch3Pages = {
     reviewTitle: 'Your personal information',
     depends: form => !form.hasPrefillInformation,
   },
+  schoolInYourProfile: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolInYourProfilePage.uiSchema,
+    schema: schoolInYourProfilePage.schema,
+    depends: form =>
+      // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
+      (form.school || form.schoolInfo?.schoolName) &&
+      ((form.selectCategory === CategoryDebt &&
+        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
+  },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
     depends: form =>
-      (form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments &&
-        form.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
+      ((!form.school ||
+        !form.schoolInfo?.schoolName ||
+        form.useSchoolInProfile === schoolInYourProfileOptions.NO) &&
+        (form.selectCategory === CategoryDebt &&
+          form.selectTopic === TopicEducationBenefitOverpayments)) ||
       ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName) &&
         (form.yourRole === yourRoleOptionsEducation.SCO ||
@@ -253,19 +268,7 @@ export const ch3Pages = {
       form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
       (form.school && form.school !== 'My facility is not listed'),
   },
-  schoolInYourProfile: {
-    title: CHAPTER_3.SCHOOL.TITLE,
-    uiSchema: schoolInYourProfilePage.uiSchema,
-    schema: schoolInYourProfilePage.schema,
-    depends: form =>
-      // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
-      (form.school || form.schoolInfo?.schoolName) &&
-      ((form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments) ||
-        (form.yourRole === yourRoleOptionsEducation.SCO ||
-          form.yourRole ===
-            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
-  },
+
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
     uiSchema: yourContactInformationPage.uiSchema,
@@ -601,7 +604,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
   'useThisSchool',
   'stateOfSchool',
   'stateOfFacility',
-  'aboutYourself',
+  'aboutYourselfGeneral',
   'yourContactInformation',
 ];
 export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = flowPages(
