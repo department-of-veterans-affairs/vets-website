@@ -2,7 +2,7 @@ import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { focusElement } from 'platform/utilities/ui';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { fileTypes } from './attachments';
+import { fileTypes, maxSize, minSize } from './attachments';
 
 // Modified version of the file upload from applications/appeals/995
 
@@ -50,6 +50,8 @@ export const fileUploadUi = content => {
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
     fileTypes,
+    maxSize,
+    minSize,
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {
