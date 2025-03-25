@@ -16,16 +16,18 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
     state => state?.form?.data?.[value.keys.wrapper]?.[value.formKey],
   );
 
+  const wrapperKey = value?.keys?.wrapper;
+
   const formData = useSelector(state => state?.form?.data);
 
   const dispatch = useDispatch();
 
   const updateContactInfoForFormApp = useCallback(
     (fieldName, payload, updateProfileChoice) => {
-      // using the esisting timestamp to make sure the conditional logic on the
+      // using the existing timestamp to make sure the conditional logic on the
       // ContactInfo page doesn't override the 'form only' update
       const existingUpdatedAt =
-        formData[value.keys.wrapper][value.formKey]?.updatedAt;
+        formData?.[wrapperKey][value.formKey]?.updatedAt;
 
       // if we don't get a country name then the ContactInfo page will show
       // an alert that says that the user has no address
@@ -34,8 +36,8 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
 
       const updatedFormAppData = {
         ...formData,
-        [value.keys.wrapper]: {
-          ...formData[value.keys.wrapper],
+        [wrapperKey]: {
+          ...formData[wrapperKey],
           [value.formKey]: {
             ...payload,
             updateProfileChoice,
@@ -52,7 +54,7 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
         [fieldName]: payload,
       };
     },
-    [formData, dispatch, formFieldData, value.keys.wrapper, value.formKey],
+    [formData, dispatch, formFieldData, wrapperKey, value.formKey],
   );
 
   const contextValue = {

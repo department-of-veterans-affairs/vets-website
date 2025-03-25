@@ -519,6 +519,7 @@ ProfileInformationEditViewFc.propTypes = {
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
   showMailingAddressUpdateProfileChoice: PropTypes.bool,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
