@@ -8,7 +8,7 @@ Health conditions are available 36 hours after your providers enter them.
 
 About the codes in some condition names: Some of your health conditions may have diagnosis
 codes in the name that start with SCT or ICD. Providers use these codes to track your health
-conditions and tocommunicate with other providers about your care. If you have a question about
+conditions and to communicate with other providers about your care. If you have a question about
 these codes or a health condition, ask your provider at your next appointment.
 
 Showing ${records?.length} records from newest to oldest
