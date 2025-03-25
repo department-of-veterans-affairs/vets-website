@@ -3,7 +3,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
 
-describe.skip('Test download all page', () => {
+describe('Test download all page', () => {
   it('test download all feature', () => {
     const site = new MedicalRecordsSite();
     site.login();
@@ -33,13 +33,10 @@ describe.skip('Test download all page', () => {
     DownloadAllPage.selectCustomEndMonth('January');
     DownloadAllPage.selectCustomEndDay('1');
     DownloadAllPage.selectCustomEndYear('2016');
-    // // QUESTION - Do I need to click continue for the error to show up?
-    // // ...OR should the error appear before clicking continue?
-    // DownloadAllPage.clickContinueOnDateSelectionPage();
-    // // THIS ERROR DOES NOT APPEAR
-    // DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
-    //   'Start date cannot be greater than end date',
-    // );
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
+      'End date must be on or after start date.',
+    );
 
     // Verify "valid year" error
     DownloadAllPage.clearCustomStartYear();
@@ -50,7 +47,7 @@ describe.skip('Test download all page', () => {
     //   'Please enter a year between 1900 and 2124',
     // );
 
-    DownloadAllPage.selectDateRangeDropdown('Any');
+    DownloadAllPage.selectDateRangeDropdown('All time');
     DownloadAllPage.clickContinueOnDownloadAllPage();
 
     DownloadAllPage.selectVaccinesCheckbox();
