@@ -203,7 +203,7 @@ export function orphanedBehaviorDetails(formData) {
   const updatedSelections = allSelectedBehaviorTypes(formData);
   const existingDetails = formData.behaviorsDetails;
 
-  const orphanedArray = [];
+  const orphanedObject = {};
   Object.keys(existingDetails).forEach(behaviorType => {
     if (
       !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
@@ -212,23 +212,23 @@ export function orphanedBehaviorDetails(formData) {
         behaviorType === 'unlisted'
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
           : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
-      orphanedArray.push(behaviorTypeDescription);
+      orphanedObject[behaviorType] = behaviorTypeDescription;
     }
   });
-  return orphanedArray;
+  return orphanedObject;
 }
 
 export const hasOrphanedBehaviorDetails = formData => {
   return !!(
     Object.keys(formData.behaviorsDetails).length > 0 &&
-    orphanedBehaviorDetails(formData).length > 0
+    Object.keys(orphanedBehaviorDetails(formData)).length > 0
   );
 };
 
 export const modalContent = formData => {
   const orphanedDetails = orphanedBehaviorDetails(formData);
-  const orphanedBehaviorsCount = orphanedDetails.length;
-  const firstThreeBehaviors = orphanedDetails.slice(0, 3);
+  const orphanedBehaviorsCount = Object.keys(orphanedDetails).length;
+  const firstThreeBehaviors = Object.values(orphanedDetails).slice(0, 3);
   const remainingBehaviors = orphanedBehaviorsCount - 3;
 
   return (
@@ -241,8 +241,8 @@ export const modalContent = formData => {
         about these behavioral changes:
       </p>
       <ul>
-        {firstThreeBehaviors.map((behaviorDescription, i) => (
-          <li key={i}>{behaviorDescription}</li>
+        {firstThreeBehaviors.map((behaviorWithDetails, i) => (
+          <li key={i}>{Object.values(behaviorWithDetails)}</li>
         ))}
         {remainingBehaviors > 0 && (
           <li>
@@ -253,6 +253,7 @@ export const modalContent = formData => {
     </>
   );
 };
+
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
