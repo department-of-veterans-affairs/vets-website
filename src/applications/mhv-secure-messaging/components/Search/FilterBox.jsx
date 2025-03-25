@@ -103,7 +103,15 @@ const FilterBox = forwardRef((props, ref) => {
           id="additional-filter-accordion"
           onClick={e => {
             const isOpen = e.target?.getAttribute('open') === 'true';
-            setIsItemExpanded(isOpen);
+            const text = e.target?.shadowRoot?.querySelector('button')
+              ?.innerText;
+
+            // Only proceed if text is defined
+            if (text !== undefined) {
+              return setIsItemExpanded(isOpen && text !== undefined);
+            }
+            // If text is not defined, null
+            return null;
           }}
           open={isItemExpanded}
         >
