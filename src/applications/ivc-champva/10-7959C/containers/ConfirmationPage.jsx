@@ -54,6 +54,7 @@ const mailPreamble = (
   <>
     <va-link
       href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your"
+      target="_blank"
       external
       text="Learn more about the supporting documents you need to submit (opens in a
       new tab)"
