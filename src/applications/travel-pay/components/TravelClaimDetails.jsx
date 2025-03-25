@@ -47,7 +47,7 @@ export default function TravelClaimDetails() {
         dispatch(getClaimDetails(id));
       }
     },
-    [dispatch, data[id], error, id],
+    [dispatch, data, error, id],
   );
 
   if (isLoading || featureFlagIsLoading) {
