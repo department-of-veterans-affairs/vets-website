@@ -1,5 +1,5 @@
 // // import 'cypress';
-// import mockUser from './fixtures/mock-user.json';
+// import mockUser from './fixtures/user.json';
 
 import responseFeatureToggles from './api_va_gov/feature-toggles.json';
 import responseFormProgress from './api_va_gov/form-progress-0873.json';

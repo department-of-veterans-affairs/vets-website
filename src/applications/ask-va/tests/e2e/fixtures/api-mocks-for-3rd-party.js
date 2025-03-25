@@ -1,5 +1,5 @@
 // // import 'cypress';
-// import mockUser from './fixtures/mock-user.json';
+// import mockUser from './fixtures/user.json';
 
 import responseMapBoxAustin from './api_3rd_party/mapbox-com-austin.json';
 

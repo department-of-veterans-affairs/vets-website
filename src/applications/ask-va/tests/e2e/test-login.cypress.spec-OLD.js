@@ -1,5 +1,5 @@
 // // import 'cypress';
-// import mockUser from './fixtures/mock-user.json';
+// import mockUser from './fixtures/user.json';
 
 // import responseBenefitsIssuesOutsideUS from './fixtures/ask_va_api/v0/contents/topics/benefits-issues-outside-the-us.json';
 // import responseBurialsAndMemorials from './fixtures/ask_va_api/v0/contents/topics/burials-and-memorials.json';
