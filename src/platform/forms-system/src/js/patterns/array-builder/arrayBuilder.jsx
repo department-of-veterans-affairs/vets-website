@@ -523,6 +523,10 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       isReviewPage: true,
     };
 
+    // If the user defines their own CustomPage to override ArrayBuilderSummaryPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. Cards, Alerts, NavButtons
     const CustomPage = pageConfig.CustomPage
       ? props => (
           <pageConfig.CustomPage {...props} arrayBuilder={summaryPageProps} />
@@ -576,6 +580,10 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       getText,
     };
 
+    // If the user defines their own CustomPage to override ArrayBuilderItemPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. NavButtons, rerouting feature
     const CustomPage = pageConfig.CustomPage
       ? props => (
           <pageConfig.CustomPage {...props} arrayBuilder={itemPageProps} />
