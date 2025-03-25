@@ -184,7 +184,6 @@ const DownloadDateRange = () => {
               ref={startDateRef}
             />
             <VaDate
-              aria-hidden="true"
               label="End date"
               required="true"
               error={customToError}
