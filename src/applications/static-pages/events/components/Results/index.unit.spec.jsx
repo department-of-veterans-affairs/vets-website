@@ -2,9 +2,95 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
-import { Results } from '.';
+import sinon from 'sinon';
+import { Results, formatEventDateTime } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
 import { generateTestEvents } from '../../helpers/event-generator';
+
+describe('formatEventDateTime', () => {
+  const mockDateTimeRange = {
+    value: 1742565600, // Fri, Mar 21, 2025, 9:00 AM CST
+    endValue: 1742572800, // Fri, Mar 21, 2025, 11:00 AM CST
+    timezone: 'America/Chicago',
+  };
+
+  let resolvedOptionsStub;
+
+  beforeEach(() => {
+    resolvedOptionsStub = sinon.stub(
+      Intl.DateTimeFormat.prototype,
+      'resolvedOptions',
+    );
+  });
+
+  afterEach(() => {
+    resolvedOptionsStub.restore();
+  });
+
+  it('formats event correctly for US users (Pacific Time)', () => {
+    resolvedOptionsStub.returns({ timeZone: 'America/Los_Angeles' });
+
+    const {
+      formattedStartsAt,
+      formattedEndsAt,
+      endsAtTimezone,
+    } = formatEventDateTime(mockDateTimeRange);
+
+    expect(formattedStartsAt).to.equal('Fri. Mar 21, 2025, 7:00 a.m.');
+    expect(formattedEndsAt).to.equal('9:00 a.m.');
+    expect(endsAtTimezone).to.equal('PT');
+  });
+
+  it('formats event correctly for international users (India - IST)', () => {
+    resolvedOptionsStub.returns({ timeZone: 'Asia/Kolkata' });
+
+    const {
+      formattedStartsAt,
+      formattedEndsAt,
+      endsAtTimezone,
+    } = formatEventDateTime(mockDateTimeRange);
+
+    expect(formattedStartsAt).to.equal('Fri. Mar 21, 2025, 9:00 a.m.');
+    expect(formattedEndsAt).to.equal('11:00 a.m.');
+    expect(endsAtTimezone).to.equal('CT');
+  });
+
+  it('defaults to America/New_York when event timezone is missing and user is international', () => {
+    resolvedOptionsStub.returns({ timeZone: 'Europe/London' });
+
+    const mockDateTimeNoTimezone = {
+      ...mockDateTimeRange,
+      timezone: undefined,
+    };
+    const {
+      formattedStartsAt,
+      formattedEndsAt,
+      endsAtTimezone,
+    } = formatEventDateTime(mockDateTimeNoTimezone);
+
+    expect(formattedStartsAt).to.equal('Fri. Mar 21, 2025, 10:00 a.m.');
+    expect(formattedEndsAt).to.equal('12:00 p.m.');
+    expect(endsAtTimezone).to.equal('ET');
+  });
+
+  it('uses system time for US users when event timezone is missing', () => {
+    resolvedOptionsStub.returns({ timeZone: 'America/Denver' });
+
+    const mockDateTimeNoTimezone = {
+      ...mockDateTimeRange,
+      timezone: undefined,
+    };
+    const {
+      formattedStartsAt,
+      formattedEndsAt,
+      endsAtTimezone,
+    } = formatEventDateTime(mockDateTimeNoTimezone);
+
+    expect(formattedStartsAt).to.equal('Fri. Mar 21, 2025, 8:00 a.m.');
+    expect(formattedEndsAt).to.equal('10:00 a.m.');
+    expect(endsAtTimezone).to.equal('MT');
+  });
+});
 
 describe('Events <Results>', () => {
   it('renders what we expect', () => {
