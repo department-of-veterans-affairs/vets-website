@@ -15,15 +15,27 @@ describe('Medical Records View Allergies', () => {
       'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
 
-    cy.get('select').select('Newest to oldest (date entered)');
+    // select sort by alphabetical
+    cy.get('select').select('Alphabetically');
+    AllergiesListPage.verifyAllergyTitleByIndex(0, 'MEDIPLAST');
+    AllergiesListPage.verifyAllergyTitleByIndex(1, 'NUTS');
+    AllergiesListPage.verifyAllergyTitleByIndex(4, 'RED MEAT');
 
-    // cy.get('[data-testid="print-download-menu"]')
-    //   .should('be.visible')
-    //   .click({ force: true });
+    // select sort by newest to oldest
+    cy.get('select').select('Newest to oldest (date entered)');
+    AllergiesListPage.verifyAllergyTitleByIndex(0, 'RED MEAT');
+    AllergiesListPage.verifyAllergyTitleByIndex(1, 'NUTS');
+    AllergiesListPage.verifyAllergyTitleByIndex(4, 'MEDIPLAST');
+
+    // select sort by oldest to newest
+    cy.get('select').select('Oldest to newest (date entered)');
+    AllergiesListPage.verifyAllergyTitleByIndex(0, 'MEDIPLAST');
+    AllergiesListPage.verifyAllergyTitleByIndex(1, 'PENNSAID');
+    AllergiesListPage.verifyAllergyTitleByIndex(4, 'RED MEAT');
+
     AllergiesListPage.verifyPrintOrDownload();
     AllergiesListPage.clickPrintOrDownload();
-    // cy.injectAxe();
-    // cy.axeCheck('main');
+
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
