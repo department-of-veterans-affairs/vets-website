@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 import {
@@ -14,11 +15,13 @@ import {
   behaviorListPageTitle,
   hasOrphanedBehaviorDetails,
   modalContent,
+  orphanedBehaviorDetails,
   conflictingBehaviorErrorMessage,
   showConflictingAlert,
 } from '../content/form0781/behaviorListPages';
 
 import {
+  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
   BEHAVIOR_LIST_SECTION_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
@@ -127,6 +130,25 @@ const BehaviorListPage = ({
     }
   };
 
+  const DELETABLE_FORM_DATA_KEYS = Object.keys(
+    ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  );
+
+  const deleteBehaviorDetails = () => {
+    // TODO - double check how everyone else is doing this, might be a lodash option
+    const deepClone = cloneDeep(data);
+    const orphanedBehaviorsObject = orphanedBehaviorDetails(data);
+
+    DELETABLE_FORM_DATA_KEYS.forEach(key => {
+      if (orphanedBehaviorsObject[key]) {
+        // check for empty string?
+        delete deepClone.behaviorsDetails[key]; // TODO - confirm if totally remove the key from formData or set it to ""
+      }
+    });
+
+    setFormData(deepClone);
+  };
+
   const handlers = {
     onSelectionChange: event => {
       const { target } = event;
@@ -162,12 +184,12 @@ const BehaviorListPage = ({
     onCloseModal: () => {
       setShowModal(false);
     },
-    onConfirmDeleteBehaviorDescriptions: () => {
-      // TODO deleteBehavioralAnswers();
+    onConfirmDeleteBehaviorDetails: () => {
+      deleteBehaviorDetails();
       handlers.onCloseModal();
       goForward(data);
     },
-    onCancelDeleteBehaviorDescriptions: () => {
+    onCancelDeleteBehaviorDetails: () => {
       handlers.onCloseModal();
     },
   };
@@ -177,9 +199,9 @@ const BehaviorListPage = ({
       <VaModal
         // modalTitle="Remove behavioral changes?" //TODO - check styling. Here its an H2, vs content page html H4
         visible={showModal}
-        onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDescriptions}
-        onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDescriptions}
-        onCloseEvent={handlers.onCancelDeleteBehaviorDescriptions}
+        onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
+        onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}
+        onCloseEvent={handlers.onCancelDeleteBehaviorDetails}
         primaryButtonText="Yes, remove these items"
         secondaryButtonText="No, keep these items"
         status="warning"
