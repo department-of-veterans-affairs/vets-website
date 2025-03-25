@@ -1,7 +1,7 @@
-import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { format } from 'date-fns-tz';
 
 export function replacer(key, value) {
   // clean up empty objects, which we have no reason to send
@@ -25,7 +25,7 @@ export function transform(formConfig, form) {
       form: formData,
     },
     // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ'),
+    localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
   });
 }
 
