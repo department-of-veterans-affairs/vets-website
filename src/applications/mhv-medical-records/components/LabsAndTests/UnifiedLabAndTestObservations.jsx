@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import UnifiedLabAndTestObservationDetail from './UnifiedLabAndTestObservationDetail';
 
-const UnifiedLabAndTestObservation = props => {
+const UnifiedLabAndTestObservations = props => {
   const { results } = props;
 
   return (
@@ -62,8 +62,8 @@ const UnifiedLabAndTestObservation = props => {
   );
 };
 
-export default UnifiedLabAndTestObservation;
+export default UnifiedLabAndTestObservations;
 
-UnifiedLabAndTestObservation.propTypes = {
+UnifiedLabAndTestObservations.propTypes = {
   results: PropTypes.array,
 };

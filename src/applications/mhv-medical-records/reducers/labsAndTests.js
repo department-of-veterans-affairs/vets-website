@@ -571,10 +571,10 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         labsAndTestsList: data
           .map(record => convertUnifiedLabsAndTestRecord(record))
           .sort((a, b) => {
+            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
+            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
             const dateA = parseISO(a.base.attributes.dateCompleted);
             const dateB = parseISO(b.base.attributes.dateCompleted);
-            if (!a.base.attributes.dateCompleted) return 1; // Push nulls to the end
-            if (!b.base.attributes.dateCompleted) return -1; // Keep non-nulls at the front
             return dateB - dateA;
           }),
       };

@@ -1,9 +1,7 @@
 //TODO
 
 - print
-- re add things I remove such as
-  - alert box?
-
+  
 PR Ready:
 
 - unit tests
