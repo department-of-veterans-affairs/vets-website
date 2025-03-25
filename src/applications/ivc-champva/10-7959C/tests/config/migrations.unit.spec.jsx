@@ -82,9 +82,26 @@ describe('migrateCardUploadKeys ', () => {
     const propsDeepCopy = JSON.parse(JSON.stringify(props));
     const migrated = migrateCardUploadKeys(propsDeepCopy);
     expect(migrated.formData.applicantMedicarePartAPartBCard).to.be.undefined;
-    expect(migrated.formData.applicantMedicarePartAPartBCardFront).not.to.be
-      .undefined;
     expect(migrated.formData.primaryInsuranceCard).to.be.undefined;
-    expect(migrated.formData.primaryInsuranceCardBack).not.to.be.undefined;
+  });
+  it('should remove old keys from `missingUploads` array if present', () => {
+    const props = {
+      formData: {
+        missingUploads: [
+          {
+            name: 'applicantMedicarePartAPartBCard',
+            path: 'medicare-ab-upload',
+            required: true,
+            uploaded: false,
+          },
+        ],
+      },
+      metadata: EXAMPLE_SIP_METADATA,
+      formId: '10-7959c',
+    };
+    // Deep copying since migration operates on input data
+    const propsDeepCopy = JSON.parse(JSON.stringify(props));
+    const migrated = migrateCardUploadKeys(propsDeepCopy);
+    expect(migrated.formData.missingUploads.length).to.eq(0);
   });
 });

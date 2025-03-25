@@ -52,6 +52,13 @@ function removeEmptyKeys(obj) {
 export const migrateCardUploadKeys = ({ formData, metadata, _formId }) => {
   let tmpFormData = JSON.parse(JSON.stringify(formData));
 
+  const oldKeys = [
+    'applicantMedicarePartAPartBCard',
+    'applicantMedicarePartDCard',
+    'primaryInsuranceCard',
+    'secondaryInsuranceCard',
+  ];
+
   // Map matching old data to new property names
   const newKeys = {
     applicantMedicarePartAPartBCardFront: getFront(
@@ -72,11 +79,13 @@ export const migrateCardUploadKeys = ({ formData, metadata, _formId }) => {
     secondaryInsuranceCardBack: getBack(tmpFormData.secondaryInsuranceCard),
   };
 
-  // Remove original keys
-  delete tmpFormData.applicantMedicarePartAPartBCard;
-  delete tmpFormData.applicantMedicarePartDCard;
-  delete tmpFormData.primaryInsuranceCard;
-  delete tmpFormData.secondaryInsuranceCard;
+  // Remove original keys from form data
+  oldKeys.forEach(k => delete tmpFormData[k]);
+
+  // Clean out the `missingUploads` array if present
+  tmpFormData.missingUploads = tmpFormData.missingUploads?.filter(
+    upload => !oldKeys.includes(upload?.name),
+  );
 
   // Apply new keys to form data object
   tmpFormData = { ...tmpFormData, ...removeEmptyKeys(newKeys) };
