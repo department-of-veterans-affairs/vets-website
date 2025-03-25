@@ -402,7 +402,7 @@ class PatientInboxPage {
   openAdvancedSearch = () => {
     cy.get(Locators.ADDITIONAL_FILTER)
       .shadow()
-      .contains('Add filters')
+      .contains('Show filters')
       .click({
         waitForAnimations: true,
         force: true,
@@ -677,7 +677,7 @@ class PatientInboxPage {
       .and('contain.text', `${text}`);
   };
 
-  verifyAddFilterButton = (text = 'Add filters') => {
+  verifyAddFilterButton = (text = 'Show filters') => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
       'contain.text',
       `${text}`,
