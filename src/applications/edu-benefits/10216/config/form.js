@@ -32,11 +32,11 @@ export const subTitle = () => (
   </p>
 );
 
-export const submitFormLogic = () => {
-  if (environment.isDev() || environment.isLocalhost()) {
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev()) {
     return Promise.resolve(testData);
   }
-  return submitForm;
+  return submitForm(form, formConfig);
 };
 
 const formConfig = {
