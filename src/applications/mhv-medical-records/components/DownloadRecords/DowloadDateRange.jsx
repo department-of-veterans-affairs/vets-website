@@ -27,7 +27,7 @@ const DownloadDateRange = () => {
 
   const ERROR_VALID_DATE_RANGE = 'Please select a valid date range.';
   const ERROR_PLEASE_ENTER_COMPLETE_DATE = 'Please enter a complete date';
-  const ERROR_END_AFTER_START_DATE = 'End date must be on or after start date.';
+  const ERROR_END_AFTER_START_DATE = 'error';
 
   const handleDateSelect = useCallback(
     e => {
