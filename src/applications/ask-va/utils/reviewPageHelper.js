@@ -299,3 +299,15 @@ export const chapterTitles = {
   yourMailingAddress: 'Your mailing address',
   yourQuestion: 'Your question',
 };
+
+// Checking aboutTheFamilyMember and aboutTheVeteran objects for valid values
+export const hasValidValues = obj => {
+  if (typeof obj !== 'object' || obj === null) return false;
+
+  return Object.values(obj).some(value => {
+    if (value !== undefined && value !== null) {
+      return typeof value === 'object' ? hasValidValues(value) : true;
+    }
+    return false;
+  });
+};

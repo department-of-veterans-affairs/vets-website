@@ -70,7 +70,7 @@ const NationalExamsList = () => {
         className="vads-u-margin-bottom--3"
         data-testid="national-exams-header"
       >
-        National Exams
+        National exams
       </h1>
       <p
         className="national-exams-description vads-u-margin-bottom--2"

@@ -11,8 +11,7 @@ const mockManifest = {
   entryFile: './app-entry.jsx',
   entryName: '10216-edu-benefits',
   productId: 'db0db964-89ef-4e80-a469-499b7db330cd',
-  rootUrl:
-    '/education/apply-for-education-benefits/application/10216/institution-details',
+  rootUrl: '/school-administrators/35-percent-exemption',
 };
 
 const testConfig = createTestConfig(
@@ -32,7 +31,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      '/education/apply-for-education-benefits/application/10216/review-and-submit': ({
+      '/school-administrators/35-percent-exemption/review-and-submit': ({
         afterHook,
       }) => {
         afterHook(() => {

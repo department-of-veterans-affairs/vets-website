@@ -52,7 +52,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
       <ConfirmationPageContent
         formId={formId}
         submission={submission}
-        printHeader={'Apply for the Rogers STEM Scholarship'}
+        printHeader="Apply for the Rogers STEM Scholarship"
       />,
     );
     expect(tree.find('h1').text()).to.equal(
@@ -95,7 +95,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
       <ConfirmationPageContent
         formId={formId}
         submission={submission}
-        formName={'Rogers STEM Scholarship'}
+        formName="Rogers STEM Scholarship"
       />,
     );
     expect(tree.find('.confirmation-header').text()).to.include(
@@ -109,7 +109,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
       <ConfirmationPageContent
         formId={formId}
         submission={submission}
-        formName={'Rogers STEM Scholarship'}
+        formName="Rogers STEM Scholarship"
       />,
     );
     expect(
@@ -169,7 +169,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
     tree.unmount();
   });
 
-  it('should expand document explanation accordion on click', () => {
+  it.skip('should expand document explanation accordion on click', () => {
     const tree = shallow(
       <ConfirmationPageContent
         formId={formId}

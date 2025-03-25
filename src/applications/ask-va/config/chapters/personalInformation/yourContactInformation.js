@@ -5,6 +5,8 @@ import {
   emailUI,
   phoneSchema,
   phoneUI,
+  internationalPhoneUI,
+  internationalPhoneSchema,
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -29,7 +31,15 @@ const yourContactInformationPage = {
     'ui:description': PrefillAlertAndTitle,
     phoneNumber: phoneUI(),
     emailAddress: emailUI(),
-    businessPhone: phoneUI('Phone number'),
+    businessPhone: {
+      ...internationalPhoneUI('Phone number'),
+      'ui:errorMessages': {
+        required:
+          'Enter up to a 16-digit phone number (with or without dashes)',
+        pattern:
+          'Enter a valid phone number up to 16-digits (with or without dashes)',
+      },
+    },
     businessEmail: emailUI('Email address'),
     contactPreference: radioUI({
       title: CHAPTER_3.CONTACT_PREF.QUESTION_2.QUESTION,
@@ -75,7 +85,7 @@ const yourContactInformationPage = {
           formData.contactPreferences,
         );
         if (
-          formData.personalRelationship ===
+          formData.relationshipToVeteran ===
             "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
           isEqualToOnlyEmail(updatedCategoryTopicContactPreferences)
         ) {
@@ -83,7 +93,10 @@ const yourContactInformationPage = {
             ...formSchema,
             required: ['businessPhone', 'businessEmail'],
             properties: {
-              businessPhone: phoneSchema,
+              businessPhone: {
+                ...internationalPhoneSchema,
+                pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
+              },
               businessEmail: emailSchema,
               preferredName: {
                 type: 'string',
