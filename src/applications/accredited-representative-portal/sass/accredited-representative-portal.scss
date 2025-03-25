@@ -208,6 +208,12 @@
       height: 340px;
     }
   }
+
+  &__banner {
+    &-email {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .arp-full-width-alert {

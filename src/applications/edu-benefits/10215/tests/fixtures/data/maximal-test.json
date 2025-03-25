@@ -1,0 +1,30 @@
+{
+    "data": {
+        "institutionDetails": {
+            "institutionName": "Doe University",
+            "facilityCode": "12345678",
+            "termStartDate": "2000-01-01",
+            "dateOfCalculations": "2010-01-01"
+        },
+        "certifyingOfficial": {
+            "first": "John",
+            "last": "Doe",
+            "title": "Dean"
+        },
+        "programs": [
+            {
+                "programName": "Test Program Name",
+                "studentsEnrolled": 130,
+                "supportedStudents": 40,
+                "fte": {
+                    "supported": 20,
+                    "nonSupported": 10,
+                    "totalFTE": 30,
+                    "supportedPercentageFTE": 66.67
+                }
+            }
+        ],
+        "statementOfTruthSignature": "John Doe",
+        "dateSigned": "2025-03-22"
+    }
+}

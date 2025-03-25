@@ -40,7 +40,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('[data-testid="national-exams-header"]')
         .should('exist')
         .and('be.visible')
-        .and('have.text', 'National Exams');
+        .and('have.text', 'National exams');
       cy.get('[data-testid="national-exams-description"]')
         .should('exist')
         .and('be.visible')
