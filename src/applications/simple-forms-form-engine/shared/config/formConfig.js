@@ -40,6 +40,7 @@ export const normalizedForm = {
   formId: '2121212',
   moderationState: 'draft',
   title: 'Form with Two Steps',
+  plainLanguageHeader: 'Multiple step form',
   ombInfo: {
     expDate: '8/29/2025',
     ombNumber: '1212-1212',
@@ -140,6 +141,8 @@ export const employmentQuestionnaire = {
   formId: '21-4140',
   moderationState: 'published',
   title: 'Employment Questionnaire',
+  plainLanguageHeader:
+    'Provide your employment history and related loss of income',
   ombInfo: {
     expDate: '7/31/2024',
     ombNumber: '2900-0079',
