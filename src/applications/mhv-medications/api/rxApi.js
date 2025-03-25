@@ -216,13 +216,11 @@ export const createTooltip = async () => {
  * This logic is handled by the api.
  */
 export const incrementTooltipCounter = async tooltipId => {
-  return apiRequest(`${apiBasePath}/tooltips/${tooltipId}`, {
-    method: 'PATCH',
-    headers: getHeadersWithInflection(),
-    body: JSON.stringify({
-      tooltip: {
-        incrementCounter: true,
-      },
-    }),
-  });
+  return apiRequest(
+    `${apiBasePath}/tooltips/${tooltipId}?increment_counter=true`,
+    {
+      method: 'PATCH',
+      headers: getHeadersWithInflection(),
+    },
+  );
 };
