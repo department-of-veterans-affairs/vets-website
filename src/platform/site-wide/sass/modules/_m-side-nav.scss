@@ -173,7 +173,7 @@
       margin-top: 2.3em;
       &:first-child {
         margin-top: 0.75em; // the wrapper already has top padding, so we don't need as much space here
-        @media (max-width: $medium-screen) {
+        @media (max-width: 767px) {
           margin-top: 2em; // to accomodate mobile menu
         }
       }
