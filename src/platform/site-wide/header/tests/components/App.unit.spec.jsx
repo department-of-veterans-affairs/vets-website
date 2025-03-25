@@ -31,7 +31,7 @@ describe('Header <App>', () => {
     toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
   });
 
-  afterEach(() => {    
+  afterEach(() => {
     sandbox.reset();
     sandbox.restore();
     cleanup();
