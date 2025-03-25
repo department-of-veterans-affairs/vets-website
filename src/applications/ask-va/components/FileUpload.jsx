@@ -33,6 +33,7 @@ const FileUpload = props => {
   const [indexDBError, setIndexDBError] = useState([]);
   const route = useSelector(state => state.navigation.route.path);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   const getErrorMessage = fileID => {
     if (indexDBError.length > 0 && indexDBError.includes(fileID)) {
@@ -107,11 +108,12 @@ const FileUpload = props => {
       reader.readAsDataURL(currentFile);
       reader.onload = () => {
         const base64Img = reader.result;
+        const base64NoPrefix = base64Img.split(',')[1];
         const imgData = {
           fileName: files[0].name,
           fileSize: files[0].size,
           fileType: files[0].type,
-          base64: base64Img,
+          base64: base64NoPrefix,
           fileID: inputID,
         };
 
@@ -156,7 +158,7 @@ const FileUpload = props => {
     });
   };
 
-  return isLoggedIn ? (
+  return isLoggedIn && isLOA3 ? (
     <div>
       <div className="usa-form-group">
         {route === '/your-question' && (

@@ -1,18 +1,24 @@
-import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import React, { useMemo } from 'react';
+import { CONTACTS } from '../../utils/imports';
 
 const ConfirmationFAQ = () => {
-  const directoryLink = (
-    <va-link
-      text="Go to our Caregiver Support Program Teams directory"
-      href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
-    />
+  const directoryLink = useMemo(
+    () => (
+      <va-link
+        text="Go to our Caregiver Support Program Teams directory"
+        href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+      />
+    ),
+    [],
   );
-  const supportLine = (
-    <>
-      <va-telephone contact={CONTACTS.CAREGIVER} /> (
-      <va-telephone contact={CONTACTS[711]} tty />)
-    </>
+  const supportLine = useMemo(
+    () => (
+      <>
+        <va-telephone contact={CONTACTS.CAREGIVER} /> (
+        <va-telephone contact={CONTACTS[711]} tty />)
+      </>
+    ),
+    [],
   );
 
   return (
@@ -86,4 +92,4 @@ const ConfirmationFAQ = () => {
   );
 };
 
-export default ConfirmationFAQ;
+export default React.memo(ConfirmationFAQ);

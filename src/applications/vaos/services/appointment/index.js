@@ -142,10 +142,10 @@ export async function getAppointmentRequests({
 
     const requestsWithoutAppointments = appointments.data.filter(appt => {
       // Filter out appointments that are not requests
-      return (
-        getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
-        getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest
-      );
+      return useFeSourceOfTruth
+        ? appt.pending
+        : getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
+            getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest;
     });
 
     requestsWithoutAppointments.sort(apptRequestSort);
