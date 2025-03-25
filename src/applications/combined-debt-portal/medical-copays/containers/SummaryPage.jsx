@@ -59,7 +59,7 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h2 className="vads-u-font-size--h3">Your other VA debts</h2>
+        <h2>Your other VA debts</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
