@@ -735,7 +735,6 @@ describe('VAOS Component: PhoneLayout', () => {
           store,
         },
       );
-      screen.debug();
 
       // Assert
       expect(
