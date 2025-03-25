@@ -5,7 +5,7 @@ import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
   const { error, facilities, formContext, onChange, query, value } = props;
-  const { reviewMode = false, submitted = false } = formContext;
+  const { reviewMode = false, submitted = false } = formContext || {};
 
   const handleChange = useCallback(e => onChange(e.detail.value), [onChange]);
 
