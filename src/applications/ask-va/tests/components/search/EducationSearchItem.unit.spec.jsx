@@ -106,14 +106,6 @@ describe('EducationSearchItem', () => {
       </Provider>,
     );
 
-<<<<<<< HEAD
-    expect(
-      wrapper
-        .find('p')
-        .at(0)
-        .text(),
-    ).to.contain('We didn’t find any results for');
-=======
     const errorText = wrapper
       .find('p')
       .at(0)
@@ -121,7 +113,6 @@ describe('EducationSearchItem', () => {
     expect(errorText).to.contain('find any results for');
     expect(errorText).to.contain('Test Input');
 
->>>>>>> main
     expect(
       wrapper
         .find('p')
@@ -131,8 +122,6 @@ describe('EducationSearchItem', () => {
 
     wrapper.unmount();
   });
-<<<<<<< HEAD
-=======
 
   it('should handle pagination and call getData with correct URL', async () => {
     const facilityData = {
@@ -302,5 +291,4 @@ describe('EducationSearchItem', () => {
       wrapper.unmount();
     });
   });
->>>>>>> main
 });

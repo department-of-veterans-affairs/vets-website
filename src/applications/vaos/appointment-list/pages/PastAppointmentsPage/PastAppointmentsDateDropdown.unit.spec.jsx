@@ -2,16 +2,6 @@ import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
 import sinon from 'sinon';
-<<<<<<< HEAD
-import { getPastAppointmentDateRangeOptions } from '.';
-import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
-import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-
-const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
-
-describe('VAOS Component: PastAppointmentsDateDropDown', () => {
-  it('should trigger spy when a new date range is selected', async () => {
-=======
 import {
   getPastAppointmentDateRangeOptions,
   getMaximumPastAppointmentDateRange,
@@ -23,7 +13,6 @@ describe('VAOS Component: PastAppointmentsDateDropDown', () => {
   it('getPastAppointmentDateRangeOptions: should trigger spy when date range is selected', async () => {
     const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
 
->>>>>>> main
     const initialState = {
       featureToggles: {},
     };
@@ -51,8 +40,6 @@ describe('VAOS Component: PastAppointmentsDateDropDown', () => {
     await selectDate;
     expect(callback.calledOnce).to.be.true;
   });
-<<<<<<< HEAD
-=======
   it('getMaximumPastAppointmentDateRange: should trigger spy when date range is selected', async () => {
     const ranges = getMaximumPastAppointmentDateRange();
 
@@ -83,5 +70,4 @@ describe('VAOS Component: PastAppointmentsDateDropDown', () => {
     await selectDate;
     expect(callback.calledOnce).to.be.true;
   });
->>>>>>> main
 });

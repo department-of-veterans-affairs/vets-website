@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { render, waitFor } from '@testing-library/react';
-=======
 import { fireEvent, render, waitFor } from '@testing-library/react';
->>>>>>> main
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -98,8 +94,6 @@ describe('<DashboardCards>', () => {
         expect(view.getByText('Test question')).to.exist;
       });
     });
-<<<<<<< HEAD
-=======
 
     it('should transform inquiries data correctly', async () => {
       server.use(
@@ -1046,6 +1040,5 @@ describe('<DashboardCards>', () => {
         expect(view.queryByText('Business question')).to.not.exist;
       });
     });
->>>>>>> main
   });
 });

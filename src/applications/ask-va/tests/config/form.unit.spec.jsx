@@ -42,8 +42,6 @@ describe('Form Configuration', () => {
     });
   });
 
-<<<<<<< HEAD
-=======
   describe('Depends logic', () => {
     it('should include subtopic', () => {
       const result = formConfig.chapters.categoryAndTopic.pages.selectSubtopic.depends(
@@ -208,7 +206,6 @@ describe('Form Configuration', () => {
     });
   });
 
->>>>>>> main
   // We need to refactor this test once form submission is finalized
   describe('Submit Logic', () => {
     it.skip('should resolve with a confirmation number on submit', async () => {

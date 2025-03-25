@@ -1,10 +1,6 @@
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-<<<<<<< HEAD
-import { render } from '@testing-library/react';
-=======
 import { fireEvent, render, waitFor } from '@testing-library/react';
->>>>>>> main
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -18,26 +14,13 @@ const {
 } = formConfig.chapters.aboutSomeoneElseRelationshipVeteran.pages.aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran;
 
 describe('relationshipToFamilyMemberPage', () => {
-<<<<<<< HEAD
-  it('should render', () => {
-    const { container } = render(
-=======
   const renderPage = (formData = {}) => {
     return render(
->>>>>>> main
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-<<<<<<< HEAD
-          data={{}}
-          formData={{}}
-        />
-        ,
-      </Provider>,
-    );
-=======
           data={formData}
           formData={formData}
         />
@@ -47,7 +30,6 @@ describe('relationshipToFamilyMemberPage', () => {
 
   it('should render', () => {
     const { container } = renderPage();
->>>>>>> main
 
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
@@ -67,8 +49,6 @@ describe('relationshipToFamilyMemberPage', () => {
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
-<<<<<<< HEAD
-=======
 
   describe('schema updates', () => {
     it('should only require aboutYourRelationshipToFamilyMember when relationshipNotListed is collapsed', () => {
@@ -140,5 +120,4 @@ describe('relationshipToFamilyMemberPage', () => {
       });
     });
   });
->>>>>>> main
 });

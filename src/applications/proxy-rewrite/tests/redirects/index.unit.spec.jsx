@@ -2,70 +2,6 @@ import { expect } from 'chai';
 import redirectIfNecessary from '../../redirects';
 import redirects from '../../redirects/crossDomainRedirects.json';
 
-<<<<<<< HEAD
-describe('Redirect replaced pages', () => {
-  it('should redirect when page matches', () => {
-    const fakeWindow = {
-      location: {
-        host: 'www.benefits.va.gov',
-        pathname: '/compensation/types-disability.asp',
-      },
-    };
-
-    redirectIfNecessary(fakeWindow);
-
-    expect(fakeWindow.location.href.endsWith('.gov/disability/')).to.be.true;
-  });
-
-  it('should not redirect when there are no matches', () => {
-    const fakeWindow = {
-      location: {
-        host: 'www.benefits.va.gov',
-        pathname: '/nothing/',
-      },
-    };
-
-    redirectIfNecessary(fakeWindow);
-
-    expect(fakeWindow.location.href).to.be.undefined;
-  });
-
-  it('should redirect absolute redirects over catch-all redirects', () => {
-    const fakeWindow = {
-      location: {
-        host: 'www.altoona.va.gov',
-        pathname: '/locations/DuBois.asp',
-      },
-    };
-
-    redirectIfNecessary(fakeWindow);
-
-    expect(
-      fakeWindow.location.href.endsWith(
-        '.gov/altoona-health-care/locations/dubois-va-clinic/',
-      ),
-    ).to.be.true;
-  });
-
-  it('should redirect catch-all redirects if no absolute redirect matches', () => {
-    const fakeWindow = {
-      location: {
-        host: 'www.altoona.va.gov',
-        pathname: '/blahblahblah',
-      },
-    };
-
-    redirectIfNecessary(fakeWindow);
-
-    expect(fakeWindow.location.href.endsWith('.gov/altoona-health-care/')).to.be
-      .true;
-  });
-});
-
-describe('Validate crossDomainRedirects.json', () => {
-  const nonSubdomainRedirects = redirects.filter(
-    redirect => !redirect.isToSubdomain,
-=======
 const mockAndRedirect = (host, pathname) => {
   const fakeWindow = {
     location: {
@@ -125,17 +61,12 @@ describe('Redirect replaced pages', () => {
 describe('Validate crossDomainRedirects.json except for `isToSubdomain` and `batch`', () => {
   const nonSubdomainRedirects = redirects.filter(
     redirect => !redirect.isToSubdomain && !redirect.batch,
->>>>>>> main
   );
 
   const redirectsBySource = nonSubdomainRedirects.reduce(
     (grouped, redirect) => {
       const fullPath = `https://${redirect.domain}${redirect.src}`;
       const items = grouped[fullPath] || [];
-<<<<<<< HEAD
-=======
-
->>>>>>> main
       return {
         ...grouped,
         [fullPath]: items.concat(redirect.dest),
@@ -143,10 +74,6 @@ describe('Validate crossDomainRedirects.json except for `isToSubdomain` and `bat
     },
     {},
   );
-<<<<<<< HEAD
-=======
-
->>>>>>> main
   Object.entries(redirectsBySource).forEach(([fullSource, destinations]) => {
     it(`${fullSource} is a valid URL`, () => {
       const url = new URL(fullSource);
@@ -160,8 +87,6 @@ describe('Validate crossDomainRedirects.json except for `isToSubdomain` and `bat
     });
   });
 });
-<<<<<<< HEAD
-=======
 
 describe('validate batch redirects', () => {
   describe('exact matches', () => {
@@ -372,4 +297,3 @@ describe('validate batch redirects', () => {
     });
   });
 });
->>>>>>> main

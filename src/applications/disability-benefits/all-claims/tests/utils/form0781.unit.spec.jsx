@@ -5,16 +5,11 @@ import {
   showBehaviorIntroPage,
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
-<<<<<<< HEAD
-  isCompletingForm0781,
-  isRelatedToMST,
-=======
   showBehaviorSummaryPage,
   isCompletingForm0781,
   isRelatedToMST,
   showUnlistedDescriptionPage,
   showBehaviorDescriptionsPage,
->>>>>>> main
 } from '../../utils/form0781';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
@@ -23,15 +18,8 @@ describe('showForm0781Pages', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-=======
         'view:claimType': {
           'view:claimingNew': true,
->>>>>>> main
         },
       };
       expect(showForm0781Pages(formData)).to.eq(true);
@@ -42,52 +30,24 @@ describe('showForm0781Pages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: false,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-=======
         'view:claimType': {
           'view:claimingNew': true,
->>>>>>> main
         },
       };
       expect(showForm0781Pages(formData)).to.eq(false);
     });
   });
 
-<<<<<<< HEAD
-  describe('when the flipper is on and a user is not claiming a new condition', () => {
-    it('should return false', () => {
-      const formData = {
-        syncModern0781Flow: true,
-        mentalHealth: {
-          conditions: {
-            none: true,
-          },
-=======
   describe('when the flipper is on and a user is claiming an increase for an existing condition', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
         'view:claimType': {
           'view:claimingIncrease': true,
->>>>>>> main
         },
       };
       expect(showForm0781Pages(formData)).to.eq(false);
     });
-<<<<<<< HEAD
-
-    it('should return false', () => {
-      const formData = {
-        syncModern0781Flow: true,
-        mentalHealth: {
-          conditions: {
-            someCondition: false,
-          },
-=======
   });
 
   describe('when the flipper is off and a user is claiming an increase for an existing condition', () => {
@@ -96,7 +56,6 @@ describe('showForm0781Pages', () => {
         syncModern0781Flow: false,
         'view:claimType': {
           'view:claimingIncrease': true,
->>>>>>> main
         },
       };
       expect(showForm0781Pages(formData)).to.eq(false);
@@ -104,10 +63,6 @@ describe('showForm0781Pages', () => {
   });
 });
 
-<<<<<<< HEAD
-// Flipper is on AND user is claiming a new condition
-=======
->>>>>>> main
 describe('isCompletingForm0781', () => {
   describe('when the user selects to optIn to completing the form online', () => {
     it('should return true', () => {
@@ -115,15 +70,8 @@ describe('isCompletingForm0781', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-=======
         'view:claimType': {
           'view:claimingNew': true,
->>>>>>> main
         },
       };
       expect(isCompletingForm0781(formData)).to.eq(true);
@@ -135,15 +83,8 @@ describe('isCompletingForm0781', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.SUBMIT_PAPER_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-=======
         'view:claimType': {
           'view:claimingNew': true,
->>>>>>> main
         },
       };
       expect(isCompletingForm0781(formData)).to.eq(false);
@@ -155,15 +96,8 @@ describe('isCompletingForm0781', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-=======
         'view:claimType': {
           'view:claimingNew': true,
->>>>>>> main
         },
       };
       expect(isCompletingForm0781(formData)).to.eq(false);
@@ -179,14 +113,6 @@ describe('isRelatedToMST', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           mst: true,
@@ -201,14 +127,6 @@ describe('isRelatedToMST', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           mst: false,
@@ -227,14 +145,6 @@ describe('showBehaviorIntroCombatPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           nonMst: false,
@@ -250,14 +160,6 @@ describe('showBehaviorIntroCombatPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           nonMst: true,
@@ -273,14 +175,6 @@ describe('showBehaviorIntroCombatPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: false,
           nonMst: true,
@@ -298,14 +192,6 @@ describe('showBehaviorIntroPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           nonMst: true,
@@ -321,14 +207,6 @@ describe('showBehaviorIntroPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           nonMst: false,
@@ -347,14 +225,6 @@ describe('showBehaviorListPage', () => {
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         'view:answerCombatBehaviorQuestions': 'true',
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           nonMst: false,
@@ -370,14 +240,6 @@ describe('showBehaviorListPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-<<<<<<< HEAD
-        mentalHealth: {
-          conditions: {
-            someCondition: true,
-          },
-        },
-=======
->>>>>>> main
         eventTypes: {
           combat: true,
           nonMst: true,
@@ -387,8 +249,6 @@ describe('showBehaviorListPage', () => {
     });
   });
 });
-<<<<<<< HEAD
-=======
 
 describe('showBehaviorDescriptionPages', () => {
   /* All 14 behavior pages are similarly setup to show dynamically, this tests a few combinations.
@@ -677,4 +537,3 @@ describe('showBehaviorSummaryPage', () => {
     });
   });
 });
->>>>>>> main

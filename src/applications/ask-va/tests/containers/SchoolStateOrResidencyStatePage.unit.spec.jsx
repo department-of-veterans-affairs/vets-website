@@ -1,16 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-<<<<<<< HEAD
-import configureMockStore from 'redux-mock-store';
-import { render } from '@testing-library/react';
-import { expect } from 'chai';
-=======
 import sinon from 'sinon';
 import configureMockStore from 'redux-mock-store';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
->>>>>>> main
 import SchoolStateOrResidencyStateCustomPage from '../../containers/SchoolStateOrResidencyStatePage';
 
 const mockStore = configureMockStore();
@@ -51,8 +45,6 @@ describe('SchoolStateOrResidencyStateCustomPage Component', () => {
     expect(title.textContent).to.contain('School state or residency state');
     expect(labels.length).to.eq(2);
   });
-<<<<<<< HEAD
-=======
 
   it('should handle a selection change', async () => {
     const onChange = sinon.spy();
@@ -131,5 +123,4 @@ describe('SchoolStateOrResidencyStateCustomPage Component', () => {
       expect(onForward.called).to.be.true;
     });
   });
->>>>>>> main
 });

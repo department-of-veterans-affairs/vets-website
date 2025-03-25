@@ -1,50 +1,3 @@
-<<<<<<< HEAD
-import { expect } from 'chai';
-import sinon from 'sinon';
-import * as behaviorListPage from '../../../pages/form0781/behaviorListPage';
-import { validateBehaviorSelections } from '../../../content/form0781/behaviorListPages';
-
-describe('Behavior List Page', () => {
-  it('should define a uiSchema object', () => {
-    expect(behaviorListPage.uiSchema).to.be.an('object');
-  });
-
-  it('should define a schema object', () => {
-    expect(behaviorListPage.schema).to.be.an('object');
-  });
-});
-
-describe('validateBehaviorSelections', () => {
-  describe('invalid: selections required', () => {
-    it('should add error when nothing is selected', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-      const formData = {
-        syncModern0781Flow: true,
-        workBehaviors: {
-          absences: false,
-        },
-        unlistedBehaviors: null,
-        'view:optOut': { none: false },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.true;
-    });
-  });
-
-  describe('invalid: conflicting selections', () => {
-    it('should add error when selecting none and selecting a behavior', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
-=======
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
@@ -156,41 +109,12 @@ describe('validating selections', () => {
       otherBehaviors: { addError: sinon.spy() },
     };
     it('should add error to the none checkbox when none and behaviors are selected', () => {
->>>>>>> main
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
           reassignment: true,
           absences: false,
         },
-<<<<<<< HEAD
-        'view:optOut': { none: true },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.true;
-    });
-
-    it('should add error when selecting none and entering an unlisted behavior', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
-      const formData = {
-        syncModern0781Flow: true,
-        workBehaviors: {
-          reassignment: false,
-          absences: false,
-        },
-        unlistedBehaviors: 'another behavior',
-        'view:optOut': { none: true },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.true;
-=======
         otherBehaviors: {
           unlisted: true,
         },
@@ -205,20 +129,10 @@ describe('validating selections', () => {
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.true;
->>>>>>> main
     });
   });
 
   describe('valid selections', () => {
-<<<<<<< HEAD
-    it('should not add error when selecting none and with no other selected behaviors', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
-=======
     const errors = {
       'view:noneCheckbox': {
         addError: sinon.spy(),
@@ -228,29 +142,12 @@ describe('validating selections', () => {
       otherBehaviors: { addError: sinon.spy() },
     };
     it('should not add errors when none is selected with no other selected behaviors', () => {
->>>>>>> main
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
           reassignment: false,
           absences: false,
         },
-<<<<<<< HEAD
-        'view:optOut': { none: true },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.false;
-    });
-
-    it('should not add error when behaviors are selected and none is unselected', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
-=======
         'view:noneCheckbox': { 'view:noBehaviorChanges': true },
       };
 
@@ -265,21 +162,12 @@ describe('validating selections', () => {
     });
 
     it('should add errors when none is unselected and behaviors are selected', () => {
->>>>>>> main
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
           reassignment: false,
           absences: true,
         },
-<<<<<<< HEAD
-        unlistedBehaviors: 'another behavior',
-        'view:optOut': { none: false },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.false;
-=======
         'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
 
@@ -291,7 +179,6 @@ describe('validating selections', () => {
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.false;
->>>>>>> main
     });
   });
 });

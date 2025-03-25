@@ -1,29 +1,11 @@
-<<<<<<< HEAD
-=======
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitFor } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
->>>>>>> main
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
-<<<<<<< HEAD
-import configureStore from 'redux-mock-store';
-import sinon from 'sinon';
-import YourVAHealthFacilityPage from '../../containers/YourVAHealthFacility';
-import { mockHealthFacilityResponse } from '../../utils/mockData';
-
-describe('YourVAHealthFacilityPage', () => {
-  const mockStore = configureStore([]);
-  let store;
-  let props;
-  let fetchStub;
-
-  beforeEach(() => {
-    fetchStub = sinon.stub(global, 'fetch');
-=======
 import { combineReducers, createStore } from 'redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
@@ -49,7 +31,6 @@ describe('YourVAHealthFacilityPage', () => {
   let dispatchSpy;
 
   beforeEach(() => {
->>>>>>> main
     props = {
       data: {},
       setFormData: sinon.spy(),
@@ -66,14 +47,6 @@ describe('YourVAHealthFacilityPage', () => {
         facilityData: null,
         validationError: null,
       },
-<<<<<<< HEAD
-    });
-  });
-
-  afterEach(() => {
-    fetchStub.restore();
-    store.clearActions();
-=======
       navigation: {
         route: {
           path: '',
@@ -99,7 +72,6 @@ describe('YourVAHealthFacilityPage', () => {
     apiRequestStub.restore();
     convertLocationStub.restore();
     convertToLatLngStub.restore();
->>>>>>> main
   });
 
   const renderWithStore = (customState = {}) => {
@@ -109,14 +81,11 @@ describe('YourVAHealthFacilityPage', () => {
           ...store.getState().askVA,
           ...customState,
         },
-<<<<<<< HEAD
-=======
         navigation: {
           route: {
             path: '/test-path',
           },
         },
->>>>>>> main
       });
     }
     return mount(
@@ -126,8 +95,6 @@ describe('YourVAHealthFacilityPage', () => {
     );
   };
 
-<<<<<<< HEAD
-=======
   const renderWithStoreRTL = (customState = {}) => {
     if (Object.keys(customState).length) {
       storeWithRealReducers = mockStore({
@@ -149,7 +116,6 @@ describe('YourVAHealthFacilityPage', () => {
     );
   };
 
->>>>>>> main
   it('should render the component correctly', () => {
     const wrapper = renderWithStore();
 
@@ -164,31 +130,6 @@ describe('YourVAHealthFacilityPage', () => {
     wrapper.unmount();
   });
 
-<<<<<<< HEAD
-  it('should handle search submission', async () => {
-    fetchStub.resolves({
-      ok: true,
-      json: () => Promise.resolve(mockHealthFacilityResponse),
-    });
-
-    const wrapper = renderWithStore();
-
-    wrapper.find('input#street-city-state-zip').simulate('change', {
-      target: { value: 'Test Location' },
-    });
-    store.dispatch({ type: 'SET_SEARCH_INPUT', payload: 'Test Location' });
-
-    wrapper.find('form').simulate('submit', { preventDefault: () => {} });
-
-    const actions = store.getActions();
-    expect(actions.some(action => action.type === 'SET_SEARCH_INPUT')).to.be
-      .true;
-
-    wrapper.unmount();
-  });
-
-=======
->>>>>>> main
   it('should handle use my location button click', () => {
     const wrapper = renderWithStore({
       getLocationInProgress: true,
@@ -201,52 +142,6 @@ describe('YourVAHealthFacilityPage', () => {
     wrapper.unmount();
   });
 
-<<<<<<< HEAD
-  it('should display facility results after successful search', async () => {
-    fetchStub.resolves({
-      ok: true,
-      json: () => Promise.resolve(mockHealthFacilityResponse),
-    });
-
-    const wrapper = renderWithStore({
-      searchLocationInput: 'Test Location',
-      facilityData: mockHealthFacilityResponse,
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 0));
-    wrapper.update();
-
-    const storeState = store.getState().askVA;
-
-    expect(storeState.facilityData).to.deep.equal(mockHealthFacilityResponse);
-
-    wrapper.unmount();
-  });
-
-  it('should display error message when no location entered', async () => {
-    const wrapper = renderWithStore();
-
-    const searchInput = wrapper.find('input#street-city-state-zip');
-    expect(searchInput.exists()).to.be.true;
-    expect(searchInput.props().value).to.equal('');
-
-    const searchButton = wrapper.find('#facility-search');
-    expect(searchButton.exists()).to.be.true;
-    searchButton.simulate('click');
-
-    await new Promise(resolve => setTimeout(resolve, 0));
-    wrapper.update();
-
-    const requiredSpan = wrapper.find('.form-required-span');
-    expect(requiredSpan.exists()).to.be.true;
-    expect(requiredSpan.text()).to.equal('(*Required)');
-
-    const inputLabel = wrapper.find('#street-city-state-zip-label');
-    expect(inputLabel.exists()).to.be.true;
-    expect(inputLabel.text()).to.include('(*Required)');
-
-    wrapper.unmount();
-=======
   it('should return facilities after entering a postal code', async () => {
     apiRequestStub.resolves(mockHealthFacilityResponse);
     convertLocationStub.resolves(mockLocationResponse);
@@ -476,6 +371,5 @@ describe('YourVAHealthFacilityPage', () => {
 
     // Verify API was called
     expect(apiRequestStub.called).to.be.true;
->>>>>>> main
   });
 });

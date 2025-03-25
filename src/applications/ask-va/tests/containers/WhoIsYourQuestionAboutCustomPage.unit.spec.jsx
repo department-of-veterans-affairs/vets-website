@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import WhoIsYourQuestionAboutCustomPage from '../../containers/WhoIsYourQuestionAboutCustomPage';
-
-const mockStore = configureStore([]);
-=======
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
@@ -41,44 +31,12 @@ const generateStore = (formData = {}, isLOA3 = false) => ({
     },
   }),
 });
->>>>>>> main
 
 describe('WhoIsYourQuestionAboutCustomPage', () => {
   let store;
   let defaultProps;
 
   beforeEach(() => {
-<<<<<<< HEAD
-    store = mockStore({
-      form: {
-        data: {
-          whoIsYourQuestionAbout: '',
-          selectCategory: '',
-          selectTopic: '',
-          selectSubtopic: '',
-        },
-      },
-      user: {
-        login: {
-          currentlyLoggedIn: false,
-        },
-      },
-    });
-
-    defaultProps = {
-      goBack: () => {},
-      goToPath: () => {},
-      onChange: () => {},
-    };
-  });
-
-  it('should render the component and radio options', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <WhoIsYourQuestionAboutCustomPage {...defaultProps} />
-      </Provider>,
-    );
-=======
     store = generateStore();
 
     defaultProps = {
@@ -105,15 +63,12 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
 
   it('should render the component and radio options', () => {
     const { container } = renderComponent();
->>>>>>> main
     const options = container.querySelectorAll('va-radio-option');
 
     expect(options[0].getAttribute('label')).to.eq('Myself');
     expect(options[1].getAttribute('label')).to.eq('Someone else');
     expect(options[2].getAttribute('label')).to.eq("It's a general question");
   });
-<<<<<<< HEAD
-=======
 
   describe('handleChange', () => {
     it('should update form data when selecting "Myself" for non-LOA3 user', () => {
@@ -263,5 +218,4 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
       );
     });
   });
->>>>>>> main
 });

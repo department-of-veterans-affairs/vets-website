@@ -5,10 +5,6 @@ import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-<<<<<<< HEAD
-
-import formConfig from '../../config/form';
-=======
 import {
   phoneSchema,
   internationalPhoneSchema,
@@ -16,7 +12,6 @@ import {
 
 import formConfig from '../../config/form';
 import { baseUiSchemaErrors } from '../../pages/pointOfContact';
->>>>>>> main
 
 describe('Supplemental Claims point of contact page', () => {
   const { schema, uiSchema } = formConfig.chapters.infoPages.pages.contact;
@@ -35,19 +30,11 @@ describe('Supplemental Claims point of contact page', () => {
 
     // Not required
     expect($$('va-text-input[required="false"]', container).length).to.eq(2);
-<<<<<<< HEAD
-
-    expect($('button[type="submit"]', container)).to.exist;
-  });
-
-  it('should show error and block submission if phone is invalid', () => {
-=======
     expect($$('va-checkbox', container).length).to.eq(1);
     expect($('button[type="submit"]', container)).to.exist;
   });
 
   it('should show error and block submission if US phone is invalid', () => {
->>>>>>> main
     const onSubmit = sinon.spy();
 
     const { container } = render(
@@ -76,9 +63,6 @@ describe('Supplemental Claims point of contact page', () => {
     });
   });
 
-<<<<<<< HEAD
-  it('should allow submit if a valid phone number is entered', () => {
-=======
   it('should show error and block submission if international phone is invalid', () => {
     const onSubmit = sinon.spy();
 
@@ -113,7 +97,6 @@ describe('Supplemental Claims point of contact page', () => {
   });
 
   it('should allow submit if a valid US phone number is entered', () => {
->>>>>>> main
     const onSubmit = sinon.spy();
 
     const { container } = render(
@@ -140,8 +123,6 @@ describe('Supplemental Claims point of contact page', () => {
       expect(onSubmit.called).to.be.true;
     });
   });
-<<<<<<< HEAD
-=======
 
   it('should allow submit if a valid international phone number is entered', () => {
     const onSubmit = sinon.spy();
@@ -199,5 +180,4 @@ describe('Supplemental Claims point of contact page', () => {
       phoneSchema,
     );
   });
->>>>>>> main
 });

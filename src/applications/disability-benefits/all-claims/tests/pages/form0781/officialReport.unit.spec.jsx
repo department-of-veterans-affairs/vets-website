@@ -12,31 +12,6 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-<<<<<<< HEAD
-import officialReport from '../../../pages/form0781/officialReport';
-import {
-  officialReportPageTitle,
-  reportTypesQuestion,
-  otherReportTypesQuestion,
-} from '../../../content/officialReport';
-import { OFFICIAL_REPORT_TYPES } from '../../../constants';
-
-describe('Official report', () => {
-  const { schema, uiSchema } = {
-    schema: officialReport.schema,
-    uiSchema: officialReport.uiSchema,
-  };
-
-  it('should define a uiSchema object', () => {
-    expect(officialReport.uiSchema).to.be.a('object');
-  });
-
-  it('should define a schema object', () => {
-    expect(officialReport.schema).to.be.a('object');
-  });
-
-  it('should render with all checkboxes', () => {
-=======
 import {
   officialReport,
   officialReportMst,
@@ -68,46 +43,17 @@ describe('Official report without MST event type', () => {
   });
 
   it('should render only other and no report type checkboxes', () => {
->>>>>>> main
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
     getByText(officialReportPageTitle);
 
-<<<<<<< HEAD
-    expect($$('va-checkbox-group', container).length).to.equal(1);
-=======
     expect($$('va-checkbox-group', container).length).to.equal(2);
->>>>>>> main
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
       reportTypesQuestion,
     );
 
-<<<<<<< HEAD
-    // fail fast - verify the correct number of checkboxes are present
-    expect($$('va-checkbox', container).length).to.equal(
-      Object.keys(OFFICIAL_REPORT_TYPES).length,
-    );
-
-    // verify each checkbox exists with user facing label
-    Object.values(OFFICIAL_REPORT_TYPES).forEach(option => {
-      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
-    });
-  });
-
-  it('displays other report type field', () => {
-    const onSubmit = sinon.spy();
-    const { container, getByText } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        definitions={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-=======
     Object.values(OTHER_REPORT_TYPES).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
@@ -122,7 +68,6 @@ describe('Official report without MST event type', () => {
   it('should render optional unlisted report type field', () => {
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
->>>>>>> main
     );
 
     expect(getByText(officialReportPageTitle)).to.exist;
@@ -131,11 +76,7 @@ describe('Official report without MST event type', () => {
     expect(textInputs.length).to.eq(1);
 
     const otherReportTextInput = Array.from(textInputs).find(
-<<<<<<< HEAD
-      input => input.getAttribute('label') === otherReportTypesQuestion,
-=======
       input => input.getAttribute('label') === otherReportTypesTitle,
->>>>>>> main
     );
     expect(otherReportTextInput).to.not.be.null;
     expect(otherReportTextInput.getAttribute('required')).to.eq('false');
@@ -148,11 +89,6 @@ describe('Official report without MST event type', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-<<<<<<< HEAD
-        definitions={{}}
-        formData={{}}
-=======
->>>>>>> main
         onSubmit={onSubmit}
       />,
     );
@@ -161,32 +97,18 @@ describe('Official report without MST event type', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-<<<<<<< HEAD
-  it('should submit when 1 or more report types are selected', async () => {
-=======
   it('should submit when 1 or more report types are selected', () => {
->>>>>>> main
     const onSubmit = sinon.spy();
     const { container, getByText } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-<<<<<<< HEAD
-        definitions={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    const checkboxGroup = $('va-checkbox-group', container);
-
-=======
         onSubmit={onSubmit}
       />,
     );
 
     const checkboxGroup = $('va-checkbox-group', container);
->>>>>>> main
     checkVaCheckbox(checkboxGroup, 'restricted');
     checkVaCheckbox(checkboxGroup, 'police');
 
@@ -194,26 +116,6 @@ describe('Official report without MST event type', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-<<<<<<< HEAD
-  it('should submit without entering any text', () => {
-    const onSubmit = sinon.spy();
-    const { getByText } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        definitions={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    userEvent.click(getByText('Submit'));
-    expect(onSubmit.calledOnce).to.be.true;
-  });
-
-=======
->>>>>>> main
   it('should submit if text entered', () => {
     const onSubmit = sinon.spy();
     const { container, getByText } = render(
@@ -221,11 +123,6 @@ describe('Official report without MST event type', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-<<<<<<< HEAD
-        definitions={{}}
-        formData={{}}
-=======
->>>>>>> main
         onSubmit={onSubmit}
       />,
     );
@@ -236,8 +133,6 @@ describe('Official report without MST event type', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-<<<<<<< HEAD
-=======
 
 describe('Official Report with MST event type', () => {
   const { schema, uiSchema } = officialReportMst;
@@ -438,4 +333,3 @@ describe('Report Selection Validation', () => {
     });
   });
 });
->>>>>>> main

@@ -1,10 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-<<<<<<< HEAD
-=======
 import { waitFor } from '@testing-library/dom';
->>>>>>> main
 import SelectProviderPage from './index';
 import {
   createTestStore,
@@ -13,12 +10,6 @@ import {
 
 const defaultState = {
   featureToggles: {
-<<<<<<< HEAD
-    vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingOhDirectSchedule: true,
-    vaOnlineSchedulingOhRequest: true,
-  },
-=======
     vaOnlineSchedulingOhDirectSchedule: true,
     vaOnlineSchedulingOhRequest: true,
   },
@@ -107,7 +98,6 @@ const defaultState = {
       },
     ],
   },
->>>>>>> main
 };
 
 describe('VAOS Page: ProviderSelectPage', () => {
@@ -115,25 +105,6 @@ describe('VAOS Page: ProviderSelectPage', () => {
     mockFetch();
   });
 
-<<<<<<< HEAD
-  describe('when there is a single provider', () => {
-    it('should display the type of care specific page header', async () => {
-      const providers = [
-        {
-          name: 'Sarah Bennett, RD',
-          lastAppointment: '9/12/2024',
-        },
-      ];
-
-      const store = createTestStore(defaultState);
-
-      const screen = renderWithStoreAndRouter(
-        <SelectProviderPage providers={providers} />,
-        {
-          store,
-        },
-      );
-=======
   describe('when user is eligible to submit an appointment request', () => {
     it('should display correct call a provider text', async () => {
       const store = createTestStore(defaultState);
@@ -236,7 +207,6 @@ describe('VAOS Page: ProviderSelectPage', () => {
       const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
         store,
       });
->>>>>>> main
 
       expect(screen.getByText(/Your nutrition and food provider/i)).to.exist;
     });
@@ -244,33 +214,11 @@ describe('VAOS Page: ProviderSelectPage', () => {
 
   describe('when there are multiple providers', () => {
     it('should display the generic page header', async () => {
-<<<<<<< HEAD
-      const providers = [
-        {
-          name: 'Sarah Bennett, RD',
-          lastAppointment: '9/12/2024',
-        },
-        {
-          name: 'Julie Carson, RD',
-          lastAppointment: '7/12/2024',
-        },
-      ];
-
-      const store = createTestStore(defaultState);
-
-      const screen = renderWithStoreAndRouter(
-        <SelectProviderPage providers={providers} />,
-        {
-          store,
-        },
-      );
-=======
       const store = createTestStore(defaultState);
 
       const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
         store,
       });
->>>>>>> main
 
       expect(screen.getByText(/Which provider do you want to schedule with?/i))
         .to.exist;

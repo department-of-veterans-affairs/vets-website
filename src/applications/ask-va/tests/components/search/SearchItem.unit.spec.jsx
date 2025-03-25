@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-<<<<<<< HEAD
-=======
 import * as ui from 'platform/utilities/ui';
->>>>>>> main
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -16,10 +13,7 @@ describe('SearchItem Component', () => {
   let store;
   let mockOnChange;
   let mockGetData;
-<<<<<<< HEAD
-=======
   let focusElementStub;
->>>>>>> main
 
   beforeEach(() => {
     store = mockStore({
@@ -30,14 +24,11 @@ describe('SearchItem Component', () => {
 
     mockOnChange = sinon.spy();
     mockGetData = sinon.spy();
-<<<<<<< HEAD
-=======
     focusElementStub = sinon.stub(ui, 'focusElement');
   });
 
   afterEach(() => {
     focusElementStub.restore();
->>>>>>> main
   });
 
   it('should render the component with facility data', () => {
@@ -99,8 +90,6 @@ describe('SearchItem Component', () => {
     expect(wrapper.find('va-radio-option')).to.have.lengthOf(2);
     wrapper.unmount();
   });
-<<<<<<< HEAD
-=======
 
   it('should not focus when no results are available', () => {
     const facilityData = {
@@ -300,5 +289,4 @@ describe('SearchItem Component', () => {
 
     wrapper.unmount();
   });
->>>>>>> main
 });

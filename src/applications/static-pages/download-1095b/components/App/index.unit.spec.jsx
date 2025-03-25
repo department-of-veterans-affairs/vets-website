@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-// // Dependencies.
-// import React from 'react';
-// import { expect } from 'chai';
-// import { shallow, mount } from 'enzyme';
-// import { Provider } from 'react-redux';
-// // Relative imports.
-// import { App } from '.';
-
-// describe('Download 1095B <App>', () => {
-// });
-=======
 import React from 'react';
 import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
@@ -277,4 +265,3 @@ describe('App component', () => {
     });
   });
 });
->>>>>>> main

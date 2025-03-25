@@ -1,9 +1,4 @@
 import { expect } from 'chai';
-<<<<<<< HEAD
-import { transform } from '../../config/submit-transformer';
-
-describe('transform function', () => {
-=======
 import sinon from 'sinon';
 import * as transformHelpers from 'platform/forms-system/src/js/helpers';
 import * as utilities from '../../utilities';
@@ -34,7 +29,6 @@ describe('transform function', () => {
     transformForSubmitStub.restore();
     calculatedPercentageStub.restore();
   });
->>>>>>> main
   it('should transform form data correctly', () => {
     const formConfig = {};
     const form = {
@@ -52,19 +46,11 @@ describe('transform function', () => {
     };
 
     const result = transform(formConfig, form);
-<<<<<<< HEAD
-
-    expect(result).to.equal(
-      JSON.stringify({
-        educationBenefitsClaim: {
-          form: JSON.stringify({
-=======
     const parsedResult = JSON.parse(result);
     expect(parsedResult).to.deep.equal({
       educationBenefitsClaim: {
         form: {
           data: {
->>>>>>> main
             institutionDetails: {
               institutionName: 'test',
               facilityCode: '1234567890',
@@ -73,14 +59,6 @@ describe('transform function', () => {
             studentRatioCalcChapter: {
               numOfStudent: 100,
               beneficiaryStudent: 75,
-<<<<<<< HEAD
-              VABeneficiaryStudentsPercentage: '75.0%',
-            },
-          }),
-        },
-      }),
-    );
-=======
               VABeneficiaryStudentsPercentage: 99,
             },
             transformForSubmitCalled: true,
@@ -126,6 +104,5 @@ describe('transform function', () => {
     );
     expect(calculatedPercentageStub.calledOnce).to.be.true;
     expect(transformForSubmitStub.calledOnce).to.be.true;
->>>>>>> main
   });
 });

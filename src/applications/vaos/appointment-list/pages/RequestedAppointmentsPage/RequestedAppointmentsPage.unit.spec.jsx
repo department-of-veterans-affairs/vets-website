@@ -2,10 +2,7 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import moment from 'moment';
-<<<<<<< HEAD
-=======
 import { within } from '@testing-library/dom';
->>>>>>> main
 import React from 'react';
 import reducers from '../../../redux/reducer';
 import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
@@ -20,18 +17,11 @@ const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
-<<<<<<< HEAD
-  },
-};
-
-describe('VAOS Component: RequestedAppointmentsList', () => {
-=======
     vaOnlineSchedulingFeSourceOfTruth: true,
   },
 };
 
 describe('VAOS Component: RequestedAppointmentsPage', () => {
->>>>>>> main
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -41,8 +31,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     MockDate.reset();
   });
 
-<<<<<<< HEAD
-=======
   it('should show va request', async () => {
     // Given a veteran has VA appointment request
     const startDate = moment.utc();
@@ -182,7 +170,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       'Appointments that you request will show here until staff review and schedule them.',
     );
   });
->>>>>>> main
   it('should display pending and canceled appointments grouped', async () => {
     // And a veteran has VA appointment request
     const startDate = moment.utc();
@@ -238,10 +225,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       serviceType: '323',
       start: null,
       status: 'proposed',
-<<<<<<< HEAD
-=======
       pending: true,
->>>>>>> main
     };
     const canceledAppointment = {
       ...appointment,
@@ -275,18 +259,12 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
 
-<<<<<<< HEAD
-    // And it hsould display the cancelled appointments
-=======
     // And it should display the cancelled appointments
->>>>>>> main
     expect(screen.getByRole('heading', { level: 2, name: 'Canceled requests' }))
       .to.be.ok;
     expect(screen.getByText('These appointment requests have been canceled.'))
       .to.be.ok;
   });
-<<<<<<< HEAD
-=======
   it('should display request sorted by create date in descending order', async () => {
     // Given a veteran has VA appointment request
     const startDate = moment.utc();
@@ -394,7 +372,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     expect(within(links[1]).getByText('Audiology and speech')).to.be.ok;
     expect(within(links[2]).getByText('Primary care')).to.be.ok;
   });
->>>>>>> main
 
   it('should display pending appointments when there are no canceled appointments', async () => {
     // And a veteran has VA appointment request
@@ -451,10 +428,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       serviceType: '323',
       start: null,
       status: 'proposed',
-<<<<<<< HEAD
-=======
       pending: true,
->>>>>>> main
     };
 
     // And developer is using the v2 API
@@ -496,11 +470,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     ).not.to.be.ok;
   });
 
-<<<<<<< HEAD
-  it('should dispaly no appointments alert when there are no pending or cancelled appointments', async () => {
-=======
   it('should display no appointments alert when there are no pending or cancelled appointments', async () => {
->>>>>>> main
     // And a veteran has no pending or canceled appointment request
     // And developer is using the v2 API
     mockVAOSAppointmentsFetch({
@@ -586,10 +556,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       serviceType: '323',
       start: null,
       status: 'cancelled',
-<<<<<<< HEAD
-=======
       pending: true,
->>>>>>> main
     };
 
     // And developer is using the v2 API
@@ -630,8 +597,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       }),
     ).to.be.ok;
   });
-<<<<<<< HEAD
-=======
   it('should show error message when request fails', async () => {
     mockVAOSAppointmentsFetch({ error: true });
 
@@ -731,5 +696,4 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       );
     });
   });
->>>>>>> main
 });

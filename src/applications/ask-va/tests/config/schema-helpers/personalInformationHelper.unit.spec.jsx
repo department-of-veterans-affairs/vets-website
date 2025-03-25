@@ -1,23 +1,14 @@
 import { expect } from 'chai';
-<<<<<<< HEAD
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
-=======
 import { mount } from 'enzyme';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import sinon from 'sinon';
->>>>>>> main
 
 import {
   aboutYourselfGeneralSchema,
   aboutYourselfGeneralUISchema,
   personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
-<<<<<<< HEAD
-  personalInformationUiSchemas,
-=======
   validateSSandSNGroup,
->>>>>>> main
 } from '../../../config/schema-helpers/personalInformationHelper';
 
 describe('Personal Information Form Schemas', () => {
@@ -42,17 +33,9 @@ describe('Personal Information Form Schemas', () => {
       expect(schema.properties).to.have.property('serviceNumber');
     });
 
-<<<<<<< HEAD
-    describe('personalInformationFormSchemas', () => {
-      it('should have correct schema for date of birth', () => {
-        const schema = personalInformationFormSchemas.dateOfBirth;
-        expect(schema).to.have.property('type', 'string');
-      });
-=======
     it('should have correct schema for date of birth', () => {
       const schema = personalInformationFormSchemas.dateOfBirth;
       expect(schema).to.have.property('type', 'string');
->>>>>>> main
     });
   });
 
@@ -67,31 +50,6 @@ describe('Personal Information Form Schemas', () => {
 });
 
 describe('Personal Information UI Schemas', () => {
-<<<<<<< HEAD
-  describe('personalInformationUiSchemas', () => {
-    it('should render VaTextInputField for first name', () => {
-      const uiSchema = personalInformationUiSchemas.first;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaTextInputField);
-      expect(uiSchema['ui:title']).to.equal('First name');
-    });
-
-    it('should render VaSelectField for suffix', () => {
-      const uiSchema = personalInformationUiSchemas.suffix;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaSelectField);
-      expect(uiSchema['ui:options'].widgetClassNames).to.equal(
-        'form-select-medium',
-      );
-    });
-
-    it('should have ssn UI with validation for socialOrServiceNum', () => {
-      const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-      expect(uiSchema['ui:title'].props.children[0].type).to.equal('p');
-      expect(uiSchema['ui:validations'][0]).to.be.a('function');
-    });
-  });
-
-=======
->>>>>>> main
   describe('personalInformationAboutYourselfUiSchemas', () => {
     it('should render VaTextInputField for first name with uswds option', () => {
       const uiSchema = personalInformationAboutYourselfUiSchemas.first;
@@ -102,9 +60,6 @@ describe('Personal Information UI Schemas', () => {
     it('should have correct hideIf logic for socialOrServiceNum', () => {
       const uiSchema =
         personalInformationAboutYourselfUiSchemas.socialOrServiceNum;
-<<<<<<< HEAD
-      expect(uiSchema['ui:options'].hideIf).to.be.a('function');
-=======
       const hideIfFn = uiSchema['ui:options'].hideIf;
 
       // Test case 1: Should hide for general questions
@@ -178,7 +133,6 @@ describe('Personal Information UI Schemas', () => {
           whoIsYourQuestionAbout: "It's a general question",
         }),
       ).to.be.true;
->>>>>>> main
     });
   });
 
@@ -189,8 +143,6 @@ describe('Personal Information UI Schemas', () => {
       expect(uiSchema['ui:options'].uswds).to.be.true;
     });
   });
-<<<<<<< HEAD
-=======
 
   describe('ssnServiceInfo React Component', () => {
     let wrapper;
@@ -282,5 +234,4 @@ describe('validateSSandSNGroup', () => {
     );
     expect(errors.addError.called).to.be.false;
   });
->>>>>>> main
 });

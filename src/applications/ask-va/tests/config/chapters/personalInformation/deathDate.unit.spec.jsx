@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
-=======
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
->>>>>>> main
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -14,10 +7,6 @@ import { Provider } from 'react-redux';
 
 import formConfig from '../../../../config/form';
 import { getData } from '../../../fixtures/data/mock-form-data';
-<<<<<<< HEAD
-import { removeReqFromLabel } from '../../../fixtures/test-helpers/helpers';
-=======
->>>>>>> main
 
 const {
   schema,
@@ -25,37 +14,13 @@ const {
 } = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran.pages.dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran;
 
 describe('deathDatePage', () => {
-<<<<<<< HEAD
-  it('should render', () => {
-    const { container } = render(
-=======
   const renderPage = (formData = {}) => {
     return render(
->>>>>>> main
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-<<<<<<< HEAD
-          data={{}}
-          formData={{}}
-        />
-        ,
-      </Provider>,
-    );
-
-    const labels = $$('label', container);
-    const labelList = ['Month', 'Day', 'Year'];
-
-    expect($('h3', container).textContent).to.eq("Date of Veteran's death");
-
-    labels.forEach(
-      label =>
-        expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be
-          .true,
-    );
-=======
           data={formData}
           formData={formData}
         />
@@ -191,6 +156,5 @@ describe('deathDatePage', () => {
       expect(reviewRow).to.exist;
       expect($('dd', reviewRow).textContent.trim()).to.equal('Invalid Date');
     });
->>>>>>> main
   });
 });

@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-import { render } from '@testing-library/react';
-import { expect } from 'chai';
-import React from 'react';
-import { Provider } from 'react-redux';
-
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
-import IntroductionPage from '../../containers/IntroductionPage';
-
-import { getData } from '../fixtures/data/mock-form-data';
-
-describe('IntroductionPage', () => {
-  it('should render', () => {
-=======
 import * as apiUtils from '@department-of-veterans-affairs/platform-utilities/api';
 import { act, render, waitFor, within } from '@testing-library/react';
 import { expect } from 'chai';
@@ -65,23 +50,12 @@ describe('IntroductionPage', () => {
   });
 
   it('should show search bar to check status if not logged in', async () => {
->>>>>>> main
     const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-<<<<<<< HEAD
-    expect($('h1', container).textContent).to.eq('Ask VA');
-
-    expect($('va-button', container).outerHTML).to.contain(
-      'Sign in or create an account',
-    );
-
-    expect($$('h2', container)[1].textContent).to.eq(
-      'Only use Ask VA for non-urgent needs',
-=======
 
     const searchInput = container.querySelector(
       'va-search-input[label="Reference number"]',
@@ -559,7 +533,6 @@ describe('IntroductionPage', () => {
         );
       },
       { timeout: 3000 },
->>>>>>> main
     );
   });
 });

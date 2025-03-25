@@ -1,7 +1,4 @@
 import { expect } from 'chai';
-<<<<<<< HEAD
-import formConfig from '../../../config/form';
-=======
 import sinon from 'sinon';
 import formConfig from '../../../config/form';
 import * as helpers from '../../../helpers';
@@ -9,22 +6,12 @@ import {
   STATEMENT_TYPES,
   DECISION_REVIEW_TYPES,
 } from '../../../config/constants';
->>>>>>> main
 
 describe('formConfig', () => {
   it('should be an object', () => {
     expect(formConfig).to.be.an('object');
   });
 
-<<<<<<< HEAD
-  it('should have a rootUrl property', () => {
-    expect(formConfig).to.have.property('rootUrl');
-    expect(formConfig.rootUrl).to.be.a('string');
-  });
-
-  // Add more tests for other properties...
-
-=======
   it('should have required top-level properties', () => {
     expect(formConfig).to.include.keys(
       'chapters',
@@ -47,13 +34,10 @@ describe('formConfig', () => {
     );
   });
 
->>>>>>> main
   describe('chapters', () => {
     it('should be an object', () => {
       expect(formConfig.chapters).to.be.an('object');
     });
-<<<<<<< HEAD
-=======
 
     describe('statementTypeChapter', () => {
       describe('pages', () => {
@@ -524,6 +508,5 @@ describe('formConfig', () => {
         });
       });
     });
->>>>>>> main
   });
 });

@@ -3,13 +3,6 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-<<<<<<< HEAD
-import { render } from '@testing-library/react';
-import { expect } from 'chai';
-import React from 'react';
-import { Provider } from 'react-redux';
-
-=======
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import {
@@ -24,7 +17,6 @@ import {
   createBooleanSchemaPropertiesFromOptions,
   createUiTitlePropertiesFromOptions,
 } from '../../../../config/chapters/personalInformation/yourContactInformation';
->>>>>>> main
 import formConfig from '../../../../config/form';
 import { getData } from '../../../fixtures/data/mock-form-data';
 
@@ -34,10 +26,6 @@ const {
 } = formConfig.chapters.generalQuestion.pages.yourContactInformation_generalquestion;
 
 describe('yourContactInformationPage', () => {
-<<<<<<< HEAD
-  it('should render', () => {
-    const { container } = render(
-=======
   describe('helper functions', () => {
     it('should create boolean schema properties from options', () => {
       const options = {
@@ -70,20 +58,11 @@ describe('yourContactInformationPage', () => {
 
   const renderPage = (formData = {}) => {
     return render(
->>>>>>> main
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-<<<<<<< HEAD
-          data={{}}
-          formData={{}}
-        />
-        ,
-      </Provider>,
-    );
-=======
           data={formData}
           formData={formData}
         />
@@ -93,17 +72,11 @@ describe('yourContactInformationPage', () => {
 
   it('should render empty form', () => {
     const { container } = renderPage();
->>>>>>> main
 
     const inputs = $$('va-text-input', container);
     const options = $$('va-radio-option', container);
 
     expect($('h3', container).textContent).to.eq('Your contact information');
-<<<<<<< HEAD
-    expect(inputs.length).to.eq(4);
-    expect(options.length).to.eq(3);
-  });
-=======
     expect(inputs.length).to.eq(3);
     expect(options.length).to.eq(3);
   });
@@ -259,5 +232,4 @@ describe('yourContactInformationPage', () => {
       expect(emailInput).to.exist;
     });
   });
->>>>>>> main
 });

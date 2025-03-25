@@ -1,7 +1,4 @@
 import { expect } from 'chai';
-<<<<<<< HEAD
-import { fieldsMustMatchValidation } from '../../../helpers/validations';
-=======
 import {
   fieldsMustMatchValidation,
   certifierAddressCleanValidation,
@@ -17,7 +14,6 @@ function stubWindowLocation(url) {
   window.location = { href: url };
   return originalHref;
 }
->>>>>>> main
 
 describe('fieldsMustMatchValidation helper', () => {
   let errorMessage = [];
@@ -33,13 +29,10 @@ describe('fieldsMustMatchValidation helper', () => {
   });
 
   it('should add error message when certifierPhone does not match applicantPhone', () => {
-<<<<<<< HEAD
-=======
     // Set window.location.href to be review-and-submit since this validation
     // only fires on review page:
     const hrefBeforeMock = stubWindowLocation(REVIEW_PATH);
 
->>>>>>> main
     expect(errorMessage[0]).to.be.undefined;
 
     const props = {
@@ -62,11 +55,6 @@ describe('fieldsMustMatchValidation helper', () => {
       'sponsorPhone',
     );
     expect(errorMessage.length > 0).to.be.true;
-<<<<<<< HEAD
-  });
-
-  it('should add error message when certifierName does not match veteransFullName', () => {
-=======
 
     // Restore original href
     window.location = { href: hrefBeforeMock };
@@ -76,7 +64,6 @@ describe('fieldsMustMatchValidation helper', () => {
     // Set window.location.href to be review-and-submit since this validation
     // only fires on review page:
     const hrefBeforeMock = stubWindowLocation(REVIEW_PATH);
->>>>>>> main
     expect(errorMessage[0]).to.be.undefined;
 
     const props = {
@@ -99,8 +86,6 @@ describe('fieldsMustMatchValidation helper', () => {
       'veteransFullName',
     );
     expect(errorMessage.length > 0).to.be.true;
-<<<<<<< HEAD
-=======
 
     // Restore original href
     window.location = { href: hrefBeforeMock };
@@ -242,6 +227,5 @@ describe('validAddressCharsOnly validator', () => {
 
     applicantAddressCleanValidation(addressErrors, props.page, props.formData);
     expect(errorMessage.length === 0).to.be.true;
->>>>>>> main
   });
 });

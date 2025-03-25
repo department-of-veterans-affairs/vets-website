@@ -1,9 +1,4 @@
 import { expect } from 'chai';
-<<<<<<< HEAD
-import { flowPages } from '../../../config/schema-helpers/formFlowHelper';
-
-describe('flowPages', () => {
-=======
 import sinon from 'sinon';
 import * as helpers from '../../../config/helpers';
 import { flowPages } from '../../../config/schema-helpers/formFlowHelper';
@@ -34,17 +29,13 @@ describe('flowPages', () => {
     sandbox.restore();
   });
 
->>>>>>> main
   const testPages = {
     page1: {
       title: 'Page 1',
     },
     page2: {
       title: 'Page 2',
-<<<<<<< HEAD
-=======
       depends: formData => formData?.showPage2 || false,
->>>>>>> main
     },
   };
 
@@ -66,8 +57,6 @@ describe('flowPages', () => {
     expect(result.page1_testpath.path).to.equal('test-path-1');
     expect(result.page2_testpath.path).to.equal('test-path-2');
   });
-<<<<<<< HEAD
-=======
 
   it('preserves existing depends function', () => {
     const result = flowPages(testPages, testList, testPath);
@@ -208,5 +197,4 @@ describe('flowPages', () => {
       }),
     ).to.be.true;
   });
->>>>>>> main
 });

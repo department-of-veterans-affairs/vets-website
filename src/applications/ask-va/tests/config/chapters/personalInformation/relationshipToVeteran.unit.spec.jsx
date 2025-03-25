@@ -1,22 +1,15 @@
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-<<<<<<< HEAD
-import { render } from '@testing-library/react';
-=======
 import { fireEvent, render, waitFor } from '@testing-library/react';
->>>>>>> main
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 
 import formConfig from '../../../../config/form';
-<<<<<<< HEAD
-=======
 import {
   relationshipOptionsMyself,
   relationshipOptionsSomeoneElse,
 } from '../../../../constants';
->>>>>>> main
 import { getData } from '../../../fixtures/data/mock-form-data';
 
 const {
@@ -25,26 +18,13 @@ const {
 } = formConfig.chapters.yourQuestionPart1.pages.relationshipToVeteran;
 
 describe('relationshipToVeteranPage', () => {
-<<<<<<< HEAD
-  it('should render', () => {
-    const { container } = render(
-=======
   const renderPage = (formData = {}) => {
     return render(
->>>>>>> main
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-<<<<<<< HEAD
-          data={{}}
-          formData={{}}
-        />
-        ,
-      </Provider>,
-    );
-=======
           data={formData}
           formData={formData}
         />
@@ -54,7 +34,6 @@ describe('relationshipToVeteranPage', () => {
 
   it('should render', () => {
     const { container } = renderPage();
->>>>>>> main
 
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
@@ -72,8 +51,6 @@ describe('relationshipToVeteranPage', () => {
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
-<<<<<<< HEAD
-=======
 
   describe('schema updates', () => {
     it('should use relationshipOptionsMyself when whoIsYourQuestionAbout is Myself', () => {
@@ -136,5 +113,4 @@ describe('relationshipToVeteranPage', () => {
       });
     });
   });
->>>>>>> main
 });

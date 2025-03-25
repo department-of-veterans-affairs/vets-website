@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import { expect } from 'chai';
-import React from 'react';
-
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import ConfirmationPage from '../../containers/ConfirmationPage';
-
-import { getData } from '../fixtures/data/mock-form-data';
-
-describe('Confirmation page', () => {
-  it('should render', () => {
-    const { props, mockStore } = getData({ loggedIn: false });
-=======
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
@@ -101,18 +85,11 @@ describe('Confirmation page', () => {
 
   it('should show loading', () => {
     const { props, mockStore } = getData({ loading: true });
->>>>>>> main
     const { container } = render(
       <Provider store={mockStore}>
         <ConfirmationPage {...props} />
       </Provider>,
     );
-<<<<<<< HEAD
-    expect($('p', container).textContent).to.eq(
-      'Your question was submitted successfully.',
-    );
-=======
     expect(container.querySelector('va-loading-indicator')).to.exist;
->>>>>>> main
   });
 });

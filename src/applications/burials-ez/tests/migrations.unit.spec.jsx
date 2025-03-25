@@ -71,8 +71,6 @@ describe('Burials migrations', () => {
     expect(metadata.returnUrl).to.equal('/original-url');
     expect(formData).to.be.an('object');
   });
-<<<<<<< HEAD
-=======
   context('v3 migration', () => {
     it('should update nursingHomeUnpaid location', () => {
       const { formData, metadata } = migrations[2]({
@@ -188,5 +186,4 @@ describe('Burials migrations', () => {
       expect(formData.locationOfDeath.other).to.equal('Location');
     });
   });
->>>>>>> main
 });

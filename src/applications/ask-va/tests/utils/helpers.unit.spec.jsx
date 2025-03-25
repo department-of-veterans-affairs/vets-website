@@ -1,14 +1,10 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import {
-<<<<<<< HEAD
-  clockIcon,
-=======
   ADDRESS_TYPES,
   clockIcon,
   folderIcon,
   formatAddress,
->>>>>>> main
   getFileSize,
   setFocus,
   starIcon,
@@ -16,8 +12,6 @@ import {
 } from '../../utils/helpers';
 
 describe('Utility Functions', () => {
-<<<<<<< HEAD
-=======
   describe('formatAddress', () => {
     it('should handle undefined address', () => {
       const result = formatAddress(undefined);
@@ -150,7 +144,6 @@ describe('Utility Functions', () => {
     });
   });
 
->>>>>>> main
   describe('getFileSize', () => {
     it('should return file size in bytes', () => {
       expect(getFileSize(500)).to.equal('500 B');
@@ -163,27 +156,6 @@ describe('Utility Functions', () => {
     it('should return file size in megabytes', () => {
       expect(getFileSize(1500000)).to.equal('1.5 MB');
     });
-<<<<<<< HEAD
-  });
-
-  describe('setFocus', () => {
-    it('should set focus on an element with a given selector', () => {
-      const element = document.createElement('div');
-      element.setAttribute('id', 'test-element');
-      document.body.appendChild(element);
-
-      setFocus('#test-element');
-      expect(document.activeElement).to.equal(element);
-    });
-
-    it('should add tabIndex and set focus on an element', () => {
-      const element = document.createElement('div');
-      document.body.appendChild(element);
-
-      setFocus(element, true);
-      expect(element.getAttribute('tabIndex')).to.equal('-1');
-      expect(document.activeElement).to.equal(element);
-=======
 
     it('should handle edge cases between units', () => {
       expect(getFileSize(999)).to.equal('999 B');
@@ -210,7 +182,6 @@ describe('Utility Functions', () => {
 
     it('should handle non-existent selector', () => {
       expect(() => setFocus('#non-existent')).to.not.throw();
->>>>>>> main
     });
   });
 
@@ -221,33 +192,22 @@ describe('Utility Functions', () => {
       expect(container.querySelector('va-icon[icon="check_circle"]')).to.exist;
     });
 
-<<<<<<< HEAD
-    it('should render newIcon correctly', () => {
-=======
     it('should render starIcon correctly', () => {
->>>>>>> main
       const { container } = render(starIcon);
       expect(container.querySelector('.vads-u-color--primary')).to.exist;
       expect(container.querySelector('va-icon[icon="star"]')).to.exist;
     });
 
-<<<<<<< HEAD
-    it('should render inProgressOrReopenedIcon correctly', () => {
-=======
     it('should render clockIcon correctly', () => {
->>>>>>> main
       const { container } = render(clockIcon);
       expect(container.querySelector('.vads-u-color--grey')).to.exist;
       expect(container.querySelector('va-icon[icon="schedule"]')).to.exist;
     });
-<<<<<<< HEAD
-=======
 
     it('should render folderIcon correctly', () => {
       const { container } = render(folderIcon);
       expect(container.querySelector('.vads-u-color--grey')).to.exist;
       expect(container.querySelector('va-icon[icon="folder"]')).to.exist;
     });
->>>>>>> main
   });
 });

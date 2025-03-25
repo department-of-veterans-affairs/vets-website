@@ -5,14 +5,6 @@ import { expect } from 'chai';
 import OMBInfo from '../../../../../components/IntroductionPage/GetStarted/OMBInfo';
 
 describe('hca <OMBInfo>', () => {
-<<<<<<< HEAD
-  context('when the component renders', () => {
-    it('should render a `va-omb-info` component', () => {
-      const { container } = render(<OMBInfo />);
-      const selector = container.querySelectorAll('va-omb-info');
-      expect(selector).to.exist;
-    });
-=======
   const subject = () => {
     const { container } = render(<OMBInfo />);
     const selectors = () => ({
@@ -24,6 +16,5 @@ describe('hca <OMBInfo>', () => {
   it('should render a `va-omb-info` component', () => {
     const { selectors } = subject();
     expect(selectors().vaOmbInfo).to.exist;
->>>>>>> main
   });
 });
