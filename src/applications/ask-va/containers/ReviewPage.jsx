@@ -228,6 +228,8 @@ const ReviewPage = props => {
       className="vads-u-padding-x--2p5 vads-u-padding-bottom--7"
       data-testid="review-page"
     >
+      <h3 className="vads-u-margin-bottom--2">Review and submit</h3>
+
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
       <div className="vads-u-margin-y--3">
