@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import PrintHeader from '../shared/PrintHeader';
-// import InfoAlert from '../shared/InfoAlert';
+import InfoAlert from '../shared/InfoAlert';
 
 import DateSubheading from '../shared/DateSubheading';
 
@@ -11,10 +11,11 @@ import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 import ItemList from '../shared/ItemList';
 
-import UnifiedLabAndTestObservation from './UnifiedLabAndTestObservation';
+import UnifiedLabAndTestObservations from './UnifiedLabAndTestObservations';
 
 const UnifiedLabsAndTests = props => {
   const { record } = props;
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
@@ -31,7 +32,7 @@ const UnifiedLabsAndTests = props => {
         aria-describedby="test-result-date"
         data-testid="lab-name"
         data-dd-privacy="mask"
-        data-dd-action-name="[lab and tests - unified - name]"
+        data-dd-action-name="[lab and tests - name]"
       >
         <DateSubheading
           date={record.date}
@@ -48,7 +49,7 @@ const UnifiedLabsAndTests = props => {
               label="Type of test"
               value={record.testCode}
               testId="chem-hem-category"
-              data-dd-action-name="[lab and tests - category]"
+              data-dd-action-name="[lab and tests - test code]"
             />
             {record.sampleTested && (
               <LabelValue
@@ -56,7 +57,7 @@ const UnifiedLabsAndTests = props => {
                 label="Site or sample tested"
                 value={record.sampleTested}
                 testId="chem-hem-sample-tested"
-                data-dd-action-name="[lab and tests - site]"
+                data-dd-action-name="[lab and tests - sample tested]"
               />
             )}
             {record.bodySite && (
@@ -65,7 +66,7 @@ const UnifiedLabsAndTests = props => {
                 label="Body site tested"
                 value={record.bodySite}
                 testId="chem-hem-sample-tested"
-                data-dd-action-name="[lab and tests - site]"
+                data-dd-action-name="[lab and tests - body site]"
               />
             )}
             <LabelValue
@@ -85,7 +86,7 @@ const UnifiedLabsAndTests = props => {
 
             {record.comments && (
               <>
-                <LabelValue ifEmpty="None Noted" label="Lab comments" />
+                <LabelValue label="Lab comments" />
                 <ItemList list={record.comments} />
               </>
             )}
@@ -104,7 +105,7 @@ const UnifiedLabsAndTests = props => {
         {record.observations && (
           <div className="test-results-container">
             <HeaderSection header="Results" className="test-results-header">
-              {/* <InfoAlert highLowResults fullState={fullState} /> */}
+              <InfoAlert highLowResults />
               <div className="print-only">
                 <p>
                   Your provider will review your results and explain what they
@@ -119,7 +120,7 @@ const UnifiedLabsAndTests = props => {
                   mean for your health.
                 </LabelValue>
               </div>
-              <UnifiedLabAndTestObservation results={record.observations} />
+              <UnifiedLabAndTestObservations results={record.observations} />
             </HeaderSection>
           </div>
         )}
