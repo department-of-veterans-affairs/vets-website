@@ -130,6 +130,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
         ],
       },
       kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
       locationId: '983GC',
       id: '1234',
       practitioners: [{ id: [{ value: '123' }] }],
@@ -307,6 +308,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     appointment.attributes = {
       id: '1',
       kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
       locationId: '983',
       requestedPeriods: [{}],
       serviceType: 'audiology',

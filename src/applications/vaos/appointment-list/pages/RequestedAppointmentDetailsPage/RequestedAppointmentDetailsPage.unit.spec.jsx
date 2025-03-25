@@ -128,6 +128,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Arrange
     const response = new MockAppointmentResponse({
       kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
       serviceType: 'audiology-hearing aid support',
       status: APPOINTMENT_STATUS.proposed,
     });
