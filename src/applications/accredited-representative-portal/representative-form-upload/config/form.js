@@ -10,7 +10,6 @@ import * as isVeteranModule from '../pages/isVeteranPage';
 import GetFormHelp from '../../../accreditation/21a/components/common/GetFormHelp';
 
 import { SAVE_IN_PROGRESS_CONFIG } from './constants';
-import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 
@@ -49,8 +48,6 @@ const formConfig = {
   trackingPrefix: 'representative-form-upload-flow-',
   title,
   subTitle,
-  prefillTransformer,
-  // different format
   v3SegmentedProgressBar: {
     useDiv: false,
   },

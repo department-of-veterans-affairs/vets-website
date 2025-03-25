@@ -4,16 +4,10 @@ import { format } from 'date-fns';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
-// import GetFormHelp from './GetFormHelp';
-
 export const ConfirmationPageView = ({
-  // formType = 'application',
-  // submitterHeader = 'Applicant',
-  // submitterName,
   submitDate,
   confirmationNumber,
   formNumber,
-  // content,
   childContent = null,
 }) => {
   const alertRef = useRef(null);
