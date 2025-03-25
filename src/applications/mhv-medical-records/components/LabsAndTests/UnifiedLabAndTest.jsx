@@ -82,10 +82,20 @@ const UnifiedLabsAndTests = props => {
               testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
+
             {record.comments && (
               <>
                 <LabelValue ifEmpty="None Noted" label="Lab comments" />
                 <ItemList list={record.comments} />
+              </>
+            )}
+            {record.result && (
+              <>
+                <LabelValue
+                  ifEmpty="None Noted"
+                  label="Result"
+                  value={record.result}
+                />
               </>
             )}
           </HeaderSection>
