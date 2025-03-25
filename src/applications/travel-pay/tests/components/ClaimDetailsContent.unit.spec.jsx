@@ -65,6 +65,20 @@ describe('ClaimDetailsContent', () => {
     ).to.exist;
   });
 
+  it('renders reimbursement amount if one is provided', () => {
+    const screen = renderWithStoreAndRouter(
+      <ClaimDetailsContent
+        {...claimDetailsProps}
+        reimbursementAmount={46.93}
+      />,
+      {
+        initialState: getState(),
+      },
+    );
+
+    expect(screen.getByText('Reimbursement amount of $46.93')).to.exist;
+  });
+
   it('does not render claims management content with flag off', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
@@ -77,5 +91,6 @@ describe('ClaimDetailsContent', () => {
     expect(
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.not.exist;
+    expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
   });
 });
