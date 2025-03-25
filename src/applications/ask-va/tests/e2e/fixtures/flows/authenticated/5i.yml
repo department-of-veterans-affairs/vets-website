@@ -40,7 +40,7 @@ flow:
 
     - action: include
       target: page
-      value: your-contact-information-email-no-prefill
+      value: your-contact-information-business-no-prefill
 
     - action: include
       target: page

@@ -29,12 +29,15 @@ export default function prefillTransformer(pages, formData, metadata) {
     const avaProfile = data?.avaProfile || {};
 
     const { phone, email, ...restContactInfo } = contactInfo;
+    const { businessPhone } = avaProfile;
 
     return {
       ...restContactInfo,
       ...avaProfile,
       phoneNumber: phone || '',
       emailAddress: email || '',
+      businessPhone: businessPhone || '',
+      businessEmail: email || '',
     };
   };
 
