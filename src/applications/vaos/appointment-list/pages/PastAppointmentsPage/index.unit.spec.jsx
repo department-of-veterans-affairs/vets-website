@@ -379,14 +379,73 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     mockVAOSAppointmentsFetch({
       start: testDates().start.format('YYYY-MM-DD'),
       end: testDates().end.format('YYYY-MM-DD'),
-      requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+      avs: true,
+      fetchClaimStatus: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
+    });
+
+    await screen.findAllByLabelText(
+      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).to.contain.text('Details');
+  });
+  it('should display past cancel appt when feature toggle is on', async () => {
+    const yesterday = moment(testDates().now)
+      .utc()
+      .subtract(1, 'day');
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1';
+    appointment.attributes = {
+      ...appointment.attributes,
+      minutesDuration: 30,
+      status: 'cancelled',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      start: yesterday.format(),
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+    };
+    mockVAOSAppointmentsFetch({
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
       avs: true,
       fetchClaimStatus: true,
     });
 
     const myInitialState = {
       ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDisplayPastCancelledAppointments: true,
+      },
     };
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState: myInitialState,
@@ -397,7 +456,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).to.contain.text('Details');
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {

@@ -311,23 +311,25 @@ export function hasValidCovidPhoneNumber(facility) {
  * list
  *
  * @param {Appointment} appt A FHIR appointment resource
+ * @param {boolean} useDisplayPastCancel whether to display past canceled appointments
  * @returns {boolean} Whether or not the appt should be shown
  */
-export function isValidPastAppointment(appt) {
-  return (
-    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
-    appt.status !== APPOINTMENT_STATUS.cancelled &&
-    // Show confirmed appointments that don't have vista statuses in the exclude
-    // list
-    (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
-      // Show video appointments that have the default FUTURE status,
-      // since we can't infer anything about the video appt from that status
-      (appt.videoData?.isVideo && appt.description === DEFAULT_VIDEO_STATUS) ||
-      // Some CC appointments can have a null status because they're not from VistA
-      // And we want to show those
-      (appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
-        !appt.description))
-  );
+export function isValidPastAppointment(appt, useDisplayPastCancel) {
+  return useDisplayPastCancel
+    ? CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)
+    : CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+        appt.status !== APPOINTMENT_STATUS.cancelled &&
+        // Show confirmed appointments that don't have vista statuses in the exclude
+        // list
+        (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
+          // Show video appointments that have the default FUTURE status,
+          // since we can't infer anything about the video appt from that status
+          (appt.videoData?.isVideo &&
+            appt.description === DEFAULT_VIDEO_STATUS) ||
+          // Some CC appointments can have a null status because they're not from VistA
+          // And we want to show those
+          (appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
+            !appt.description));
 }
 
 /**

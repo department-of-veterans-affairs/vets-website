@@ -587,7 +587,7 @@ describe('VAOS Component: PhoneLayout', () => {
   });
 
   describe('When viewing canceled appointment details', () => {
-    it('should display in-person layout', async () => {
+    it('should display phone when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -604,7 +604,9 @@ describe('VAOS Component: PhoneLayout', () => {
         vaos: {
           isUpcomingAppointment: true,
           apiData: {
-            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            localStartTime: moment()
+              .add(2, 'day')
+              .format('YYYY-MM-DDTHH:mm:ss'),
             serviceType: 'primaryCare',
           },
         },
@@ -693,6 +695,100 @@ describe('VAOS Component: PhoneLayout', () => {
           'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+      ).not.exist;
+    });
+    it('should display phone when in the past', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        reasonForAppointment: 'This is a test',
+        patientComments: 'Additional information:colon',
+        location: {
+          stationId: '983',
+          clinicName: 'Clinic 1',
+          clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
+        },
+        videoData: {},
+        vaos: {
+          isPastAppointment: true,
+          apiData: {
+            localStartTime: moment()
+              .subtract(2, 'day')
+              .format('YYYY-MM-DDTHH:mm:ss'),
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'cancelled',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <PhoneLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      screen.debug();
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Canceled phone appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /If you want to reschedule, call us or schedule a new appointment online/i,
+        ),
+      );
+      expect(screen.queryByRole('heading', { level: 2, name: /How to join/ }))
+        .not.to.exist;
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /After visit summary/i,
+        }),
+      ).not.to.exist;
+
+      expect(screen.getByRole('heading', { level: 2, name: /When/i }));
+      expect(
+        screen.container.querySelector('va-button[text="Add to calendar"]'),
+      ).not.to.exist;
+
+      expect(screen.getByRole('heading', { level: 2, name: /What/i }));
+      expect(screen.getByText(/Primary care/i));
+
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Scheduling facility/i }),
+      );
+      expect(screen.getByText(/Cheyenne VA Medical Center/i));
+      expect(screen.getByText(/2360 East Pershing Boulevard/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+
+      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(/Clinic 1/i));
+      expect(screen.getByText(/Phone:/i));
+      expect(
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
+      ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Details you shared with your provider/i,
+        }),
+      );
+      expect(screen.getByText(/Reason: This is a test/i));
+      expect(screen.getByText(/Other details: Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

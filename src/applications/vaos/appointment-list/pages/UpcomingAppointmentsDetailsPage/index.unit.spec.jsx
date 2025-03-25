@@ -390,6 +390,78 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           );
         });
       });
+      it('should display document tile for canceled past phone appointment when toggle is on', async () => {
+        // Arrange
+        const defaultState = {
+          ...initialState,
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingDisplayPastCancelledAppointments: true,
+          },
+        };
+        const yesterday = moment().subtract(1, 'day');
+        const responses = MockAppointmentResponse.createPhoneResponses({
+          localStartTime: yesterday,
+          past: true,
+        });
+        responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState: defaultState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Canceled Phone Appointment On ${yesterday.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+      it('should display document tile for canceled past community care appointment when toggle is on', async () => {
+        // Arrange
+        const defaultState = {
+          ...initialState,
+          featureToggles: {
+            ...initialState.featureToggles,
+            vaOnlineSchedulingDisplayPastCancelledAppointments: true,
+          },
+        };
+        const yesterday = moment().subtract(1, 'day');
+        const responses = MockAppointmentResponse.createCCResponses({
+          localStartTime: yesterday,
+          past: true,
+        });
+        responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState: defaultState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Canceled Community Care Appointment On ${yesterday.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
     });
   });
 
