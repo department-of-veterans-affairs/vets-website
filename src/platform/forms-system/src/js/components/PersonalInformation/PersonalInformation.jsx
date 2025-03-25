@@ -50,7 +50,7 @@ const defaultFieldConfig = {
 /**
  * @type {PersonalInformationConfig}
  */
-const defaultConfig = {
+export const defaultConfig = {
   name: { ...defaultFieldConfig },
   ssn: { ...defaultFieldConfig },
   vaFileNumber: { show: false, required: false },

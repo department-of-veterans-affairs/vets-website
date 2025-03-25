@@ -11,6 +11,7 @@ import {
 import { DefaultErrorMessage } from './DefaultErrorMessage';
 import { DefaultCardHeader } from './DefaultCardHeader';
 import { DefaultHeader } from './DefaultHeader';
+import { PersonalInformationReview } from './PersonalInformationReview';
 /**
  * @typedef {import('./PersonalInformation').PersonalInformationConfig} PersonalInformationConfig
  */
@@ -32,6 +33,7 @@ export const defaultPageConfig = {
   footer: null,
   contentBeforeButtons: null,
   contentAfterButtons: null,
+  hideOnReview: false,
 };
 
 /**
@@ -55,6 +57,7 @@ const personalInformationPage = ({
   footer = defaultPageConfig.footer,
   contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
   contentAfterButtons = defaultPageConfig.contentAfterButtons,
+  hideOnReview = defaultPageConfig.hideOnReview,
 } = defaultPageConfig) => {
   return {
     [key]: {
@@ -74,13 +77,13 @@ const personalInformationPage = ({
           contentBeforeButtons={contentBeforeButtons}
           contentAfterButtons={contentAfterButtons}
         >
+          {header && (
+            <PersonalInformationHeader>{header}</PersonalInformationHeader>
+          )}
           {cardHeader && (
             <PersonalInformationCardHeader>
               {cardHeader}
             </PersonalInformationCardHeader>
-          )}
-          {header && (
-            <PersonalInformationHeader>{header}</PersonalInformationHeader>
           )}
           {note && <PersonalInformationNote>{note}</PersonalInformationNote>}
           {footer && (
@@ -88,8 +91,17 @@ const personalInformationPage = ({
           )}
         </PersonalInformation>
       ),
-      CustomPageReview: null,
-      hideOnReview: true,
+      CustomPageReview: hideOnReview
+        ? null
+        : props => (
+            <PersonalInformationReview
+              {...props}
+              config={personalInfoConfig}
+              dataAdapter={dataAdapter}
+              title={title}
+            />
+          ),
+      hideOnReview,
     },
   };
 };
