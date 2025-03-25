@@ -141,7 +141,7 @@ const OverviewPage = () => {
           showVHAPaymentHistory={showVHAPaymentHistory}
         />
         {renderOtherVA(debts?.length, debtError)}
-        <div className="vads-u-margin-top--4">
+        <div className="vads-u-margin-top--4" data-testid="need-help">
           <va-need-help id="needHelp">
             <div slot="content">
               <p>
