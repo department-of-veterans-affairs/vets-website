@@ -82,13 +82,10 @@ const BehaviorIntroCombatPage = ({
       deepClone[key] = {};
     });
 
-    console.log("Deletion event")
-
     // what happens when you go back? Set this to false when you choose opt in?
     deepClone['view:deletedBehavioralQuestionAnswers'] = true;
 
     setFormData(deepClone);
-    console.log("Form data set", deepClone)
   };
 
   const handlers = {
@@ -153,48 +150,59 @@ const BehaviorIntroCombatPage = ({
             : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
         }
 
+        // TODO: remove need for this?
         return null;
       },
     );
 
-    // Some of these are undefined for whatever reason. Why?
-    const describedBehaviors = behaviors.filter(
-      element => element !== undefined,
-    );
+    // Clean this all up
+    const describedBehaviors = behaviors.filter(element => element !== null);
 
     const describedBehaviorsCount = describedBehaviors.length;
-    const firstThreeBehaviors = describedBehaviors.slice(0, 2);
+
+    const firstThreeBehaviors = describedBehaviors.slice(0, 3);
     const remainingBehaviors = describedBehaviorsCount - 3;
+
+    const behaviorsRemaining = (
+      <li>
+        And, <b>{remainingBehaviors} other behavioral changes</b>
+      </li>
+    );
+
+    const behaviorRemaining = (
+      <li>
+        And, <b>1 other behavioral change</b>
+      </li>
+    );
+
+    const listRemainingBehaviors =
+      remainingBehaviors > 1 ? behaviorsRemaining : behaviorRemaining;
 
     return (
       <>
-        <h4 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
-          {deleteCombatAnswersModalTitle}
-        </h4>
         <p>
-          <b>What to know:</b>
+          <b>What to know: </b>
           If you change to skip questions about behavioral changes, we’ll remove
-          information you provided about these behavioral changes:
+          information you provided about behavioral changes, including:
         </p>
         <ul>
           {firstThreeBehaviors.map((behaviorDescription, i) => (
-            <li key={i}>{behaviorDescription}</li>
-          ))}
-          {remainingBehaviors > 0 && (
-            <li>
-              And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
+            <li key={i}>
+              <b>{behaviorDescription}</b>
             </li>
-          )}
+          ))}
+
+          {remainingBehaviors > 0 && listRemainingBehaviors}
         </ul>
         <p>
-          <b>Do you want to skip questions about behavioral challenges?</b>
+          <b>Do you want to skip questions about behavioral changes?</b>
         </p>
       </>
     );
   };
 
   return (
-    // TODO: CHECK IF CAN USE HELPER FUNCTION
+    // TODO: CHECK IF CAN USE HELPER FUNCTION TO RENDER THESE INSTEAD OF INLINE
     <div className="vads-u-margin-y--2">
       <>
         <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
@@ -213,7 +221,7 @@ const BehaviorIntroCombatPage = ({
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
-        primaryButtonText="Change my response"
+        primaryButtonText="Skip questions about behavioral changes"
         secondaryButtonText="Cancel and return to claim"
         status="warning"
       >
@@ -267,6 +275,5 @@ const BehaviorIntroCombatPage = ({
 
 // Proptypes validation?
 // Look at JR's example
-
 
 export default BehaviorIntroCombatPage;
