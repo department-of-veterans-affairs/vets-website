@@ -1629,46 +1629,6 @@
   },
   {
     "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_basic_eligibility.asp",
-    "dest": "/health-care/eligibility/"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_enrollment_eligibility.asp",
-    "dest": "/health-care/eligibility/"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_copayments.asp",
-    "dest": "/health-care/copay-rates/"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_additional_health_programs.asp",
-    "dest": "/family-and-caregiver-benefits/"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/index.asp",
-    "dest": "/health-care"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_aca.asp",
-    "dest": "/health-care/about-affordable-care-act/"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_medical_benefits_package.asp",
-    "dest": "/health-care/about-va-health-benefits/"
-  },
-  {
-    "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/publications/hbco/hbco_va_other_insurance.asp",
-    "dest": "/health-care/about-va-health-benefits/va-health-care-and-other-insurance/"
-  },
-  {
-    "domain": "www.va.gov",
     "src": "/healthbenefits/resources/glossary.asp",
     "dest": "/health-care"
   },

@@ -94,6 +94,18 @@ describe('TravelClaimDetails', () => {
     });
   });
 
+  it('renders reimbursement amount if one is provided', async () => {
+    global.fetch.restore();
+    mockApiRequest({ ...claimDetailsProps, reimbursementAmount: 46.93 });
+
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: getState(),
+    });
+    await waitFor(() => {
+      expect(screen.getByText('Reimbursement amount of $46.93')).to.exist;
+    });
+  });
+
   it('renders appeal link for denied claims', async () => {
     global.fetch.restore();
     mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
@@ -110,7 +122,11 @@ describe('TravelClaimDetails', () => {
 
   it('does not render claims management content with flag off', async () => {
     global.fetch.restore();
-    mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
+    mockApiRequest({
+      ...claimDetailsProps,
+      claimStatus: 'Denied',
+      reimbursementAmount: 1.0,
+    });
 
     const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
       initialState: getState({ hasClaimsManagementFlag: false }),
@@ -120,5 +136,6 @@ describe('TravelClaimDetails', () => {
     expect(
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.not.exist;
+    expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
   });
 });

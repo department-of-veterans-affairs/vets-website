@@ -3,7 +3,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearFormData, removeAskVaForm, setCategoryID } from '../actions';
@@ -27,6 +27,7 @@ const CategorySelectPage = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   const showError = () => {
     if (formData.selectCategory) {
@@ -72,13 +73,29 @@ const CategorySelectPage = props => {
 
     onChange({
       ...formData,
+      hasPrefillInformation: hasPrefillInformation(formData),
+      // FOR TESTING PREFILL LOCALLY
+      // hasPrefillInformation: true,
+      // aboutYourself: {
+      //   first: 'Wallace',
+      //   middle: 'R',
+      //   last: 'Webb',
+      //   socialOrServiceNum: {
+      //     ssn: '796128064',
+      //   },
+      //   dateOfBirth: '1950-09-13',
+      // },
+      // schoolInfo: {
+      //   schoolFacilityCode: '31002144',
+      //   schoolName: 'WESTERN GOVERNORS UNIVERSITY',
+      // },
       initialFormData: initialData,
       categoryId: selected.id,
       selectCategory: selectedValue,
       allowAttachments: selected.attributes.allowAttachments,
       contactPreferences: selected.attributes.contactPreferences,
       categoryRequiresSignIn:
-        selected.attributes.requiresAuthentication && !isLoggedIn,
+        selected.attributes.requiresAuthentication && !isLOA3,
     });
   };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -78,8 +78,14 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   );
 };
 
-const POARequestSearchPage = () => {
-  const poaRequests = useLoaderData();
+const POARequestSearchPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
+  const poaRequests = useLoaderData().data;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   return (
