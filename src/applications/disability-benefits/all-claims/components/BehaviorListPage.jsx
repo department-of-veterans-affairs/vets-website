@@ -88,6 +88,7 @@ const BehaviorListPage = ({
   };
 
   const handleUpdatedSelection = (behaviorSection, updatedData) => {
+    // TODO - clean this up, should be able to put none checkbox in the switch statement
     if (behaviorSection === 'view:noneCheckbox') {
       setSelectedNoBehaviors(updatedData);
       const updatedFormData = {
@@ -141,8 +142,9 @@ const BehaviorListPage = ({
 
     DELETABLE_FORM_DATA_KEYS.forEach(key => {
       if (orphanedBehaviorsObject[key]) {
-        // check for empty string?
-        delete deepClone.behaviorsDetails[key]; // TODO - confirm if totally remove the key from formData or set it to ""
+        // TODO:check for empty string?
+        // TODO - confirm if totally remove the key from formData or set it to ""
+        delete deepClone.behaviorsDetails[key];
       }
     });
 
@@ -177,7 +179,7 @@ const BehaviorListPage = ({
       } else if (hasOrphanedBehaviorDetails(data)) {
         setShowModal(true);
       } else {
-        // Any other conditions? Need to have selections?
+        // TODO Any other conditions? Need to have selections?
         goForward(data);
       }
     },
@@ -195,7 +197,17 @@ const BehaviorListPage = ({
   };
 
   return (
-    <>
+    <div className="vads-u-margin-y--2">
+      <>
+        <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
+          {form0781HeadingTag}
+        </h3>
+        <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
+          {behaviorListPageTitle}
+        </h3>
+      </>
+      {behaviorListDescription}
+
       <VaModal
         // modalTitle="Remove behavioral changes?" //TODO - check styling. Here its an H2, vs content page html H4
         visible={showModal}
@@ -210,139 +222,120 @@ const BehaviorListPage = ({
       </VaModal>
 
       <form onSubmit={handlers.onSubmit}>
-        <div className="vads-u-margin-y--2">
-          <>
-            <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
-              {form0781HeadingTag}
-            </h3>
-            <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
-              {behaviorListPageTitle}
-            </h3>
-          </>
-          {behaviorListDescription}
-
-          <VaCheckboxGroup
-            label={BEHAVIOR_LIST_SECTION_SUBTITLES.work}
-            label-header-level={4}
-            name="workBehaviors"
-            hint={BEHAVIOR_LIST_HINTS.work}
-            onVaChange={handlers.onSelectionChange}
-            uswds
-          >
-            {Object.entries(BEHAVIOR_CHANGES_WORK).map(
-              ([behaviorType, description]) => (
-                <va-checkbox
-                  key={behaviorType}
-                  name="workBehaviors"
-                  label={description}
-                  value={behaviorType}
-                  checked={
-                    !!(
-                      data?.workBehaviors &&
-                      data?.workBehaviors[behaviorType] === true
-                    )
-                  }
-                  uswds
-                />
-              ),
-            )}
-          </VaCheckboxGroup>
-          <VaCheckboxGroup
-            label={BEHAVIOR_LIST_SECTION_SUBTITLES.health}
-            label-header-level={4}
-            name="healthBehaviors"
-            hint={BEHAVIOR_LIST_HINTS.health}
-            onVaChange={handlers.onSelectionChange}
-            uswds
-          >
-            {Object.entries(BEHAVIOR_CHANGES_HEALTH).map(
-              ([behaviorType, description]) => (
-                <va-checkbox
-                  key={behaviorType}
-                  name="healthBehaviors"
-                  // class="dd-privacy-hidden"
-                  // data-dd-action-name="issue name"
-                  label={description}
-                  value={behaviorType}
-                  checked={
-                    !!(
-                      data?.healthBehaviors &&
-                      data?.healthBehaviors[behaviorType] === true
-                    )
-                  }
-                  uswds
-                />
-              ),
-            )}
-          </VaCheckboxGroup>
-          <VaCheckboxGroup
-            label={BEHAVIOR_LIST_SECTION_SUBTITLES.other}
-            label-header-level={4}
-            name="otherBehaviors"
-            form-heading-level={4}
-            hint={BEHAVIOR_LIST_HINTS.other}
-            onVaChange={handlers.onSelectionChange}
-            uswds
-          >
-            {Object.entries(BEHAVIOR_CHANGES_OTHER).map(
-              ([behaviorType, description]) => (
-                <va-checkbox
-                  key={behaviorType}
-                  name="otherBehaviors"
-                  // class="dd-privacy-hidden"
-                  // data-dd-action-name="issue name"
-                  label={description}
-                  value={behaviorType}
-                  checked={
-                    !!(
-                      data?.otherBehaviors &&
-                      data?.otherBehaviors[behaviorType] === true
-                    )
-                  }
-                  uswds
-                />
-              ),
-            )}
-          </VaCheckboxGroup>
-          <VaCheckboxGroup
-            label={BEHAVIOR_LIST_SECTION_SUBTITLES.none}
-            label-header-level={4}
+        <VaCheckboxGroup
+          label={BEHAVIOR_LIST_SECTION_SUBTITLES.work}
+          label-header-level={4}
+          name="workBehaviors"
+          hint={BEHAVIOR_LIST_HINTS.work}
+          onVaChange={handlers.onSelectionChange}
+          uswds
+        >
+          {Object.entries(BEHAVIOR_CHANGES_WORK).map(
+            ([behaviorType, description]) => (
+              <va-checkbox
+                key={behaviorType}
+                name="workBehaviors"
+                label={description}
+                value={behaviorType}
+                checked={
+                  !!(
+                    data?.workBehaviors &&
+                    data?.workBehaviors[behaviorType] === true
+                  )
+                }
+                uswds
+              />
+            ),
+          )}
+        </VaCheckboxGroup>
+        <VaCheckboxGroup
+          label={BEHAVIOR_LIST_SECTION_SUBTITLES.health}
+          label-header-level={4}
+          name="healthBehaviors"
+          hint={BEHAVIOR_LIST_HINTS.health}
+          onVaChange={handlers.onSelectionChange}
+          uswds
+        >
+          {Object.entries(BEHAVIOR_CHANGES_HEALTH).map(
+            ([behaviorType, description]) => (
+              <va-checkbox
+                key={behaviorType}
+                name="healthBehaviors"
+                label={description}
+                value={behaviorType}
+                checked={
+                  !!(
+                    data?.healthBehaviors &&
+                    data?.healthBehaviors[behaviorType] === true
+                  )
+                }
+                uswds
+              />
+            ),
+          )}
+        </VaCheckboxGroup>
+        <VaCheckboxGroup
+          label={BEHAVIOR_LIST_SECTION_SUBTITLES.other}
+          label-header-level={4}
+          name="otherBehaviors"
+          form-heading-level={4}
+          hint={BEHAVIOR_LIST_HINTS.other}
+          onVaChange={handlers.onSelectionChange}
+          uswds
+        >
+          {Object.entries(BEHAVIOR_CHANGES_OTHER).map(
+            ([behaviorType, description]) => (
+              <va-checkbox
+                key={behaviorType}
+                name="otherBehaviors"
+                label={description}
+                value={behaviorType}
+                checked={
+                  !!(
+                    data?.otherBehaviors &&
+                    data?.otherBehaviors[behaviorType] === true
+                  )
+                }
+                uswds
+              />
+            ),
+          )}
+        </VaCheckboxGroup>
+        <VaCheckboxGroup
+          label={BEHAVIOR_LIST_SECTION_SUBTITLES.none}
+          label-header-level={4}
+          name="view:noneCheckbox"
+          hint={BEHAVIOR_LIST_HINTS.none}
+          onVaChange={handlers.onSelectionChange}
+          error={hasError}
+          uswds
+        >
+          <va-checkbox
+            key="none"
             name="view:noneCheckbox"
-            hint={BEHAVIOR_LIST_HINTS.none}
-            onVaChange={handlers.onSelectionChange}
-            // error={hasError ? "conflictingBehaviorErrorMessage" : ''} //adds text and red, stops continue
-            error={hasError}
+            label={behaviorListNoneLabel}
+            value="view:noBehaviorChanges"
+            checked={
+              !!(
+                data?.['view:noneCheckbox'] &&
+                data['view:noneCheckbox']['view:noBehaviorChanges']
+              )
+            }
             uswds
-          >
-            <va-checkbox
-              key="none"
-              name="view:noneCheckbox"
-              // class="dd-privacy-hidden"
-              // data-dd-action-name="issue name"
-              label={behaviorListNoneLabel}
-              value="view:noBehaviorChanges"
-              checked={
-                !!(
-                  data?.['view:noneCheckbox'] &&
-                  data['view:noneCheckbox']['view:noBehaviorChanges']
-                )
-              }
-              uswds
-            />
-          </VaCheckboxGroup>
+          />
+        </VaCheckboxGroup>
 
-          {behaviorListAdditionalInformation}
-          <>{mentalHealthSupportAlert()}</>
-        </div>
+        {behaviorListAdditionalInformation}
+        <>{mentalHealthSupportAlert()}</>
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={goBack}
+          goForward={handlers.onSubmit}
+          submitToContinue
+        />
+        {contentAfterButtons}
       </form>
-      <>{contentBeforeButtons}</>
-      <FormNavButtons
-        goBack={goBack}
-        goForward={handlers.onSubmit}
-        submitToContinue // NB suggestion
-      />
-      <>{contentAfterButtons}</>
-    </>
+    </div>
   );
 };
 export default BehaviorListPage;
