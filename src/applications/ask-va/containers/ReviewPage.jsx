@@ -23,6 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -104,6 +105,7 @@ const ReviewPage = props => {
     if (storedFiles.length > 0) {
       setAttachments(storedFiles);
     }
+    focusElement('h2');
   };
 
   const deleteFile = async fileID => {
