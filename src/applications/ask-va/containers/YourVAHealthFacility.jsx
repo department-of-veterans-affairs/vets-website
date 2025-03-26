@@ -72,12 +72,20 @@ const YourVAHealthFacilityPage = props => {
   };
 
   const getFacilities = async input => {
+    setIsSearching(true);
     const latLong = await convertToLatLng(input);
-    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${
-      latLong[0]
-    }&radius=50&type=health`;
-    await getApiData(url);
-    setPageURL(url);
+
+    if (!latLong.length) {
+      setIsSearching(false);
+      setPageURL('/error');
+      setApiData(facilities);
+    } else {
+      const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${
+        latLong[0]
+      }&radius=50&type=health`;
+      await getApiData(url);
+      setPageURL(url);
+    }
   };
 
   const updateForm = selection => {
@@ -107,6 +115,7 @@ const YourVAHealthFacilityPage = props => {
         setPreviousSelection(facilityName);
       } else {
         setPreviousSelection(null);
+        setFormData({ ...data, yourHealthFacility: null });
       }
     },
     [pageURL],
