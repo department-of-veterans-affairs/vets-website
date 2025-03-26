@@ -63,7 +63,7 @@ describe('<ClaimDetailLayout>', () => {
       attributes: {
         closeDate: '2023-04-28',
         contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
-        status: 'COMPLETED',
+        status: 'COMPLETE',
       },
     };
 
