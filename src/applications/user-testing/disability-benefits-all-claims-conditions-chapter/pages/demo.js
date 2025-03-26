@@ -14,7 +14,7 @@ const demoOptions = {
 /** @type {PageSchema} */
 export default {
   title: 'Choose a demo',
-  path: 'choose-demo',
+  path: 'demo',
   initialData: {
     ratedDisabilities: [
       {

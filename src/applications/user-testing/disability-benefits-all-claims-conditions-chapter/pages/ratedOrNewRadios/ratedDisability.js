@@ -29,7 +29,7 @@ const createRatedDisabilitiesDescriptions = fullData => {
 };
 
 /** @returns {PageSchema} */
-const conditionPage = {
+const ratedDisabilityPage = {
   uiSchema: {
     ...titleUI(
       () =>
@@ -78,4 +78,4 @@ const conditionPage = {
   },
 };
 
-export default conditionPage;
+export default ratedDisabilityPage;

@@ -8,7 +8,7 @@ import {
   hasRatedDisabilitiesOrIsRatedDisability,
   isActiveDemo,
 } from '../shared/utils';
-import ratedDisabilitiesPage from './ratedDisabilities';
+import ratedDisabilityPage from './ratedDisability';
 import ratedOrNewPage from './ratedOrNew';
 
 const ratedOrNewRadiosPages = arrayBuilderPages(
@@ -24,14 +24,14 @@ const ratedOrNewRadiosPages = arrayBuilderPages(
       uiSchema: ratedOrNewPage.uiSchema,
       schema: ratedOrNewPage.schema,
     }),
-    [`${demo.name}RatedDisabilities`]: pageBuilder.itemPage({
+    [`${demo.name}RatedDisability`]: pageBuilder.itemPage({
       title: 'Select which existing disability has worsened.',
-      path: `conditions-${demo.label}/:index/rated-disabilities`,
+      path: `conditions-${demo.label}/:index/rated-disability`,
       depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
         hasRatedDisabilitiesAndIsRatedDisability(formData, index),
-      uiSchema: ratedDisabilitiesPage.uiSchema,
-      schema: ratedDisabilitiesPage.schema,
+      uiSchema: ratedDisabilityPage.uiSchema,
+      schema: ratedDisabilityPage.schema,
     }),
     ...remainingSharedPages(demo, pageBuilder, helpers),
   }),
