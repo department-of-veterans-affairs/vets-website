@@ -174,12 +174,17 @@ const BehaviorListPage = ({
     },
     onSubmit: event => {
       event.preventDefault();
+
+      // TODO: better way to handle null data
+      if (Object.keys(data).length === 0) {
+        goForward(data);
+        return;
+      }
       if (checkErrors(data)) {
         scrollToFirstError({ focusOnAlertRole: true });
       } else if (hasOrphanedBehaviorDetails(data)) {
         setShowModal(true);
       } else {
-        // TODO Any other conditions? Need to have selections?
         goForward(data);
       }
     },
@@ -208,18 +213,21 @@ const BehaviorListPage = ({
       </>
       {behaviorListDescription}
 
-      <VaModal
-        // modalTitle="Remove behavioral changes?" //TODO - check styling. Here its an H2, vs content page html H4
-        visible={showModal}
-        onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
-        onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}
-        onCloseEvent={handlers.onCancelDeleteBehaviorDetails}
-        primaryButtonText="Yes, remove these items"
-        secondaryButtonText="No, keep these items"
-        status="warning"
-      >
-        {modalContent(data)}
-      </VaModal>
+      {data &&
+        data.behaviorsDetails && (
+          <VaModal
+            // modalTitle="Remove behavioral changes?" //TODO - check styling. Here its an H2, vs content page html H4
+            visible={showModal}
+            onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
+            onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}
+            onCloseEvent={handlers.onCancelDeleteBehaviorDetails}
+            primaryButtonText="Yes, remove these items"
+            secondaryButtonText="No, keep these items"
+            status="warning"
+          >
+            {modalContent(data)}
+          </VaModal>
+        )}
 
       <form onSubmit={handlers.onSubmit}>
         <VaCheckboxGroup
