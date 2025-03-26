@@ -125,7 +125,7 @@ describe('NationalExamsList', () => {
     const expectedItemsFormatted = expectedItems.map(name =>
       formatNationalExamName(name),
     );
-    const displayedItems = wrapper.find('li h3').map(node => node.text());
+    const displayedItems = wrapper.find('li h2').map(node => node.text());
     expect(displayedItems).to.deep.equal(expectedItemsFormatted);
     wrapper.unmount();
   });
