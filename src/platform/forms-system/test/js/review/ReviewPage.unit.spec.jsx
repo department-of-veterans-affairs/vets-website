@@ -48,7 +48,10 @@ describe('Schemaform review: ReviewPage', () => {
   };
 
   afterEach(() => {
-    dom = null;
+    if (dom) {
+      document.body.removeChild(dom);
+      dom = null;
+    }
     cleanup();
   });
 
@@ -72,11 +75,7 @@ describe('Schemaform review: ReviewPage', () => {
 
   it('should render h1 header if minimal header is present', () => {
     dom = document.createElement('div');
-    dom.innerHTML += `
-      <div id="header-minimal">
-        Minimal header
-      </div>
-    `;
+    dom.id = 'header-minimal';
     document.body.appendChild(dom);
 
     const treeWithMinimalHeader = shallow(

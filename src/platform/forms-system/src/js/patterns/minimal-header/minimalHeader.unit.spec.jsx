@@ -17,11 +17,7 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
 
   it('should return a boolean true if minimal header is applicable', () => {
     dom = document.createElement('div');
-    dom.innerHTML += `
-      <div id="header-minimal">
-        Minimal header
-      </div>
-    `;
+    dom.id = 'header-minimal';
     document.body.appendChild(dom);
     expect(isMinimalHeaderApp()).to.eql(true);
     expect(isMinimalHeaderPath()).to.eql(true);
