@@ -398,7 +398,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Details');
   });
-  it('should display past cancel appt when feature toggle is on', async () => {
+  it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
     const yesterday = moment(testDates().now)
       .utc()
       .subtract(1, 'day');
