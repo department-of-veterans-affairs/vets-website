@@ -15,6 +15,7 @@ jobs:
       - name: List apps
         id: list-apps
         run: |
+          yarn install
           node -e "
           const glob = require('glob');
           const path = require('path');
