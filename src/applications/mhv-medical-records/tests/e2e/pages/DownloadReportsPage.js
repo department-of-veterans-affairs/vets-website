@@ -39,6 +39,17 @@ class DownloadReportsPage {
     cy.wait('@ccdDownloadResponse');
   };
 
+  // create a function for clicking CCD download XML file button without intercepting the download response
+  clickCcdDownloadXmlFileButtonWithoutDownloadIntercept = ccdGenerateResponse => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/ccd/generate',
+      ccdGenerateResponse,
+    ).as('ccdGenerateResponse');
+    cy.get('[data-testid="generateCcdButton"]').click();
+    cy.wait('@ccdGenerateResponse');
+  };
+
   verifySelfEnteredDownloadButton = () => {
     cy.get('[data-testid="downloadSelfEnteredButton"]').should('be.visible');
   };
