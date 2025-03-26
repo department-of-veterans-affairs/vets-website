@@ -30,7 +30,7 @@ const FillRefillButton = rx => {
     return (
       <div className="rx-fill-refill-button" data-testid="fill-refill">
         {success && (
-          <va-alert status="success" set-focus aria-live="polite" uswds>
+          <va-alert status="success" setFocus aria-live="polite" uswds>
             <p className="vads-u-margin-y--0" data-testid="success-message">
               We got your request to {`${dispensedDate ? 'refill' : 'fill'}`}{' '}
               this prescription.
