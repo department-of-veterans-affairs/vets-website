@@ -32,7 +32,7 @@ export const VeteranAnnualIncomePage = () => ({
         content['household-income-gross-title'],
         content['household-income-gross-description'],
       ),
-      'ui:description': GrossIncomeDescription('veteran'),
+      'ui:description': () => GrossIncomeDescription('veteran'),
       veteranGrossIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -48,7 +48,7 @@ export const VeteranAnnualIncomePage = () => ({
         content['household-income-net-title'],
         content['household-income-net-description'],
       ),
-      'ui:description': PreviousNetIncome('veteran'),
+      'ui:description': () => PreviousNetIncome('veteran'),
       veteranNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -64,7 +64,7 @@ export const VeteranAnnualIncomePage = () => ({
         content['household-income-other-title'],
         content['household-income-other-description'],
       ),
-      'ui:description': OtherIncomeDescription('veteran'),
+      'ui:description': () => OtherIncomeDescription('veteran'),
       veteranOtherIncome: {
         ...currencyUI(
           replaceStrValues(

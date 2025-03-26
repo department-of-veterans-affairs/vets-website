@@ -46,9 +46,9 @@ const options = {
 
 // build schemas based on declared options
 const summaryPageSchemas = FinancialSummaryPage(options);
-const annualIncomePageSchemas = VeteranAnnualIncomePage;
-const deductiblePageSchemas = DeductibleExpensesPage;
-const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage;
+const annualIncomePageSchemas = VeteranAnnualIncomePage();
+const deductiblePageSchemas = DeductibleExpensesPage();
+const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage();
 
 /**
  * build list of pages to populate in the form config

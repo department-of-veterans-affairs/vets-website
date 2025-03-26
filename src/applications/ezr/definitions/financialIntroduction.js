@@ -1,3 +1,4 @@
+import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FinancialInformationIntroduction } from '../components/IntroductionPage/FinancialInformation';
 
@@ -11,7 +12,7 @@ export const FinancialIntroductionPage = {
       'Your income and deductible',
       "In the next few questions, we'll ask you about your household financial information.",
     ),
-    'ui:description': FinancialInformationIntroduction,
+    'ui:description': () => <FinancialInformationIntroduction />,
   },
   schema: {
     type: 'object',

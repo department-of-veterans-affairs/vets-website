@@ -47,7 +47,6 @@ PreviousIncome.propTypes = {
 /**
  * @param {String} incomeReceiver - The person who received the gross income
  */
-// eslint-disable-next-line react/prop-types
 export const GrossIncomeDescription = incomeReceiver => {
   const incomeType = 'grossIncome';
 
