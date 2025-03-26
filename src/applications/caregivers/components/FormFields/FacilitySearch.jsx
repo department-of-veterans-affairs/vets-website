@@ -34,6 +34,7 @@ const FacilitySearch = props => {
     coordinates: { lat: '', long: '' },
   });
   const radius = 500;
+  const resultsPerPage = 5;
   const hasFacilities = localState.facilities.length > 0;
   const hasMoreFacilities =
     localState.facilities.length < localState.pagination.totalEntries;
@@ -69,6 +70,8 @@ const FacilitySearch = props => {
       const caregiverSupportFacilityId =
         formData?.['view:plannedClinic']?.caregiverSupport?.id;
 
+      // ensure no errors are present before navigating, to include:
+      // lack of search query & lack of selected record after search
       if (!caregiverSupportFacilityId) {
         if (!query.trim()) {
           return setLocalState(prev => ({
@@ -90,6 +93,7 @@ const FacilitySearch = props => {
         }));
       }
 
+      // proceed with navigating forward based on review mode
       return isReviewMode ? goToReviewPath() : goForward(formData);
     },
     [formData, goForward, goToReviewPath, hasFacilities, isReviewMode, query],
@@ -135,9 +139,9 @@ const FacilitySearch = props => {
       const fetchResponse = await fetchFacilities({
         long: longitude,
         lat: latitude,
-        radius,
-        perPage: 5,
+        perPage: resultsPerPage,
         page: 1,
+        radius,
       });
       if (fetchResponse.errorMessage) {
         return setLocalState(prev => ({
@@ -162,6 +166,8 @@ const FacilitySearch = props => {
   const handleShowMore = useCallback(
     async e => {
       e.preventDefault();
+
+      // reset state for search
       setLocalState(prev => ({
         ...prev,
         additionalFacilitiesCount: 0,
@@ -172,7 +178,7 @@ const FacilitySearch = props => {
       const response = await fetchFacilities({
         ...localState.coordinates,
         page: localState.pagination.currentPage + 1,
-        perPage: 5,
+        perPage: resultsPerPage,
         radius,
       });
       return response.errorMessage
@@ -206,7 +212,7 @@ const FacilitySearch = props => {
       if (loadedParent) {
         if (hasSupportServices(loadedParent)) return loadedParent;
 
-        // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+        // log facility parent.id so we can troubleshoot if we are always sending the expected value
         Sentry.withScope(scope => {
           scope.setLevel(Sentry.Severity.Log);
           scope.setExtra('facility', selectedFacility);
