@@ -178,20 +178,20 @@ function checkMentalHealthData(formData) {
  *   else
  *     - returns false
  */
-export function showForm0781ChoiceDestructiveModal(formData) {
-  console.log('calling destructive modal, just return workflow choice, the value is? ', formData['view:mentalHealthWorkflowChoice'] ===
-    form0781WorkflowChoices.COMPLETE_ONLINE_FORM);
-  console.log('what is mental health data returning? ', checkMentalHealthData(formData));
-  return (
-    formData['view:mentalHealthWorkflowChoice'] ===
-      form0781WorkflowChoices.COMPLETE_ONLINE_FORM && checkMentalHealthData(formData)
-  );
-}
-
 // export function showForm0781ChoiceDestructiveModal(formData) {
-//   console.log('showForm0781ChoiceDestructiveModal --------------------- return true', formData['view:mentalHealthWorkflowChoice']);
-//   return true
+//   console.log('calling destructive modal, just return workflow choice, the value is? ', formData['view:mentalHealthWorkflowChoice'] ===
+//     form0781WorkflowChoices.COMPLETE_ONLINE_FORM);
+//   console.log('what is mental health data returning? ', checkMentalHealthData(formData));
+//   return (
+//     formData['view:mentalHealthWorkflowChoice'] ===
+//       form0781WorkflowChoices.COMPLETE_ONLINE_FORM && checkMentalHealthData(formData)
+//   );
 // }
+
+export function showForm0781ChoiceDestructiveModal(formData) {
+  console.log('showForm0781ChoiceDestructiveModal --------------------- return true', formData['view:mentalHealthWorkflowChoice']);
+  return true
+}
 
 /**
  * Checks if a specific behavior description page should display for selected behavior type. It should display if:
