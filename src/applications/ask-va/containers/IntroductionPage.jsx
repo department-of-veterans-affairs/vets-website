@@ -25,6 +25,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import Announcements from '../components/Announcements';
 import {
   getVAStatusFromCRM,
   getVAStatusIconAndMessage,
@@ -63,6 +64,8 @@ const IntroductionPage = props => {
   const [inquiryData, setInquiryData] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
+  // TODO Feature toggle this for CRM announcements on/off
+  const showAnnouncements = true;
 
   const showSignInModal = useCallback(
     () => {
@@ -383,6 +386,7 @@ const IntroductionPage = props => {
           </div>
         )}
       </div>
+      {showAnnouncements && <Announcements />}
       {showLoadingIndicator && <va-loading-indicator set-focus />}
       {!showLoadingIndicator && (
         <>
