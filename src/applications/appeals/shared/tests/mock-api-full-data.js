@@ -131,7 +131,6 @@ const responses = {
     data: {
       features: [
         { name: 'sc_new_form', value: true },
-        { name: 'hlrConfirmationUpdate', value: true },
         { name: 'nodConfirmationUpdate', value: true },
       ],
     },
