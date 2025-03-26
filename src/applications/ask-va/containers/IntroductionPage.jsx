@@ -65,7 +65,7 @@ const IntroductionPage = props => {
   const [hasError, setHasError] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   // TODO Feature toggle this for CRM announcements on/off
-  const showAnnouncements = true;
+  const showAnnouncements = false;
 
   const showSignInModal = useCallback(
     () => {
