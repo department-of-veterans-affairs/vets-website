@@ -105,7 +105,6 @@ const ReviewPage = props => {
     if (storedFiles.length > 0) {
       setAttachments(storedFiles);
     }
-    focusElement('h2');
   };
 
   const deleteFile = async fileID => {
@@ -221,8 +220,9 @@ const ReviewPage = props => {
     );
   };
 
-  useEffect(() => {
-    getUploadedFiles();
+  useEffect(async () => {
+    await getUploadedFiles();
+    focusElement('h2');
   }, []);
 
   return (
@@ -1280,56 +1280,50 @@ const ReviewPage = props => {
                     />
                   </>
                 )}
-                {props.formData.allowAttachments &&
-                  props.isUserLOA3 && (
-                    <div
-                      className="schemaform-chapter-accordion-content vads-u-padding-top--0"
-                      aria-hidden="false"
-                    >
-                      <div className="form-review-panel-page vads-u-margin-bottom--0">
-                        <div name="questionScrollElement" />
-                        <form className="rjsf">
-                          <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-                                {!editAttachments ? (
-                                  nonEditAttachmentsMode()
-                                ) : (
-                                  <>
-                                    {attachments.map(file => (
-                                      <div
-                                        key={`${file.fileID}-${
-                                          file.fileName
-                                        }-edit`}
-                                        className="review-page-attachments"
-                                      >
-                                        <dt className="form-review-panel-page-header">
-                                          {`${file.fileName} (${
-                                            file.fileSize
-                                          })`}
-                                        </dt>
-                                        <dd className="vads-u-margin-right--0">
-                                          <va-button-icon
-                                            button-type="delete"
-                                            onClick={() =>
-                                              deleteFile(file.fileID)
-                                            }
-                                          />
-                                        </dd>
-                                      </div>
-                                    ))}
-                                    <div className="vads-u-margin-y--2">
-                                      <FileUpload />
-                                    </div>
-                                  </>
-                                )}
-                              </dl>
-                            </dl>
-                          </div>
-                        </form>
+                {/* {props.formData.allowAttachments &&
+                  props.isUserLOA3 && ( */}
+                <div
+                  className="schemaform-chapter-accordion-content vads-u-padding-top--0"
+                  aria-hidden="false"
+                >
+                  <div className="form-review-panel-page vads-u-margin-bottom--0">
+                    <div name="questionScrollElement" />
+                    <form className="rjsf">
+                      <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+                        <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                          <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                            {!editAttachments ? (
+                              nonEditAttachmentsMode()
+                            ) : (
+                              <>
+                                {attachments.map(file => (
+                                  <div
+                                    key={`${file.fileID}-${file.fileName}-edit`}
+                                    className="review-page-attachments"
+                                  >
+                                    <dt className="form-review-panel-page-header">
+                                      {`${file.fileName} (${file.fileSize})`}
+                                    </dt>
+                                    <dd className="vads-u-margin-right--0">
+                                      <va-button-icon
+                                        button-type="delete"
+                                        onClick={() => deleteFile(file.fileID)}
+                                      />
+                                    </dd>
+                                  </div>
+                                ))}
+                                <div className="vads-u-margin-y--2">
+                                  <FileUpload />
+                                </div>
+                              </>
+                            )}
+                          </dl>
+                        </dl>
                       </div>
-                    </div>
-                  )}
+                    </form>
+                  </div>
+                </div>
+                {/* )} */}
               </VaAccordionItem>
             );
           })}
