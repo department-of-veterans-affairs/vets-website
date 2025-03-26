@@ -58,7 +58,9 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       const { formData, index } = props;
       const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
 
-      if (item) item.sideOfBody = undefined;
+      if (item && !hasSideOfBody(formData, index)) {
+        item.sideOfBody = undefined;
+      }
 
       return helpers.navForwardKeepUrlParams(props);
     },
