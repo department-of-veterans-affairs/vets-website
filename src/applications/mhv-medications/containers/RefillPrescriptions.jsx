@@ -185,7 +185,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
           className="refill-loading-indicator"
           data-testid="loading-indicator"
         >
-          <va-loading-indicator message="Loading medications..." setFocus />
+          <va-loading-indicator message="Loading medications..." set-focus />
         </div>
       );
     }
