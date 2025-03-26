@@ -97,6 +97,7 @@ src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/ben
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/new-28-1900 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Pensions and Burials
 src/applications/burials-ez @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
@@ -139,6 +140,7 @@ src/applications/static-pages/BTSSS-login @department-of-veterans-affairs/vfs-pu
 src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/find-forms @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/homepage-email-signup @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage-veteran-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
@@ -263,7 +265,7 @@ src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent
 # Other
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/user-testing/new-conditions @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/user-testing/disability-benefits-all-claims-conditions-chapter @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
 
 # NCA Forms Preneed PMC Medallions
 src/applications/medallions @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend

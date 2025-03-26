@@ -107,16 +107,16 @@ const AccessToSome = () => {
 };
 const checkAuthorizations = x => {
   if (x) {
-    return <Authorized />;
+    return <NoAccess />;
   }
-  return <NoAccess />;
+  return <Authorized />;
 };
 const checkLimitations = (limitations, limit) => {
   const checkLimitation = limitations.includes(limit);
   return checkAuthorizations(checkLimitation);
 };
 
-const POARequestDetailsPage = () => {
+const POARequestDetailsPage = title => {
   const poaRequest = useLoaderData();
   const [error, setError] = useState(false);
   const handleChange = e => {
@@ -150,9 +150,13 @@ const POARequestDetailsPage = () => {
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      focusElement('h1');
+      document.title = title.title;
+    },
+    [title],
+  );
 
   return (
     <>
@@ -329,7 +333,7 @@ const POARequestDetailsPage = () => {
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
             {poaRequest.powerOfAttorneyForm.veteran && (
               <>
-                <h2>Veteran information</h2>
+                <h2>Veteran identification information</h2>
                 <ul className="poa-request-details__list poa-request-details__list--info">
                   <li>
                     <p>Name</p>
@@ -357,19 +361,21 @@ const POARequestDetailsPage = () => {
               <li>
                 <p>Change of address</p>
                 <p>
-                  {checkAuthorizations(
-                    poaRequest?.powerOfAttorneyForm.authorizations
-                      .addressChange,
+                  {poaRequest?.powerOfAttorneyForm.authorizations
+                    .addressChange ? (
+                    <Authorized />
+                  ) : (
+                    <NoAccess />
                   )}
                 </p>
               </li>
               <li>
                 <p>Protected medical records</p>
                 <p>
-                  {recordDisclosureLimitations.length === 0 && <NoAccess />}
+                  {recordDisclosureLimitations.length === 0 && <Authorized />}
                   {recordDisclosureLimitations.length < 4 &&
                     recordDisclosureLimitations.length > 0 && <AccessToSome />}
-                  {recordDisclosureLimitations.length === 4 && <Authorized />}
+                  {recordDisclosureLimitations.length === 4 && <NoAccess />}
                 </p>
               </li>
               <li>

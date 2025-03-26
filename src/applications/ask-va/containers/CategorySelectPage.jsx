@@ -3,13 +3,13 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearFormData, removeAskVaForm, setCategoryID } from '../actions';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { URL, getApiUrl } from '../constants';
+import { URL, getApiUrl, hasPrefillInformation } from '../constants';
 import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const CategorySelectPage = props => {
@@ -27,6 +27,7 @@ const CategorySelectPage = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   const showError = () => {
     if (formData.selectCategory) {
@@ -65,14 +66,36 @@ const CategorySelectPage = props => {
       await askVAAttachmentStorage.clear();
     })();
 
+    const initialData =
+      formData.initialFormData === undefined
+        ? { ...formData }
+        : { ...formData.initialFormData };
+
     onChange({
       ...formData,
+      hasPrefillInformation: hasPrefillInformation(formData),
+      // FOR TESTING PREFILL LOCALLY
+      // hasPrefillInformation: true,
+      // aboutYourself: {
+      //   first: 'Wallace',
+      //   middle: 'R',
+      //   last: 'Webb',
+      //   socialOrServiceNum: {
+      //     ssn: '796128064',
+      //   },
+      //   dateOfBirth: '1950-09-13',
+      // },
+      // schoolInfo: {
+      //   schoolFacilityCode: '31002144',
+      //   schoolName: 'WESTERN GOVERNORS UNIVERSITY',
+      // },
+      initialFormData: initialData,
       categoryId: selected.id,
       selectCategory: selectedValue,
       allowAttachments: selected.attributes.allowAttachments,
       contactPreferences: selected.attributes.contactPreferences,
       categoryRequiresSignIn:
-        selected.attributes.requiresAuthentication && !isLoggedIn,
+        selected.attributes.requiresAuthentication && !isLOA3,
     });
   };
 
@@ -104,7 +127,7 @@ const CategorySelectPage = props => {
   );
 
   const handleGoBack = () => {
-    if (!isLoggedIn) {
+    if (!hasPrefillInformation(formData)) {
       dispatch(clearFormData());
       dispatch(removeAskVaForm(formId));
       router.push('/');

@@ -7,7 +7,7 @@ import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-// import submitForm from './submitForm';
+import submitForm from './submitForm';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
 
@@ -18,6 +18,8 @@ import SubmissionInstructions from '../components/SubmissionInstructions';
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 import {
   institutionDetails,
@@ -49,20 +51,32 @@ export const arrayBuilderOptions = {
 
 const { date } = commonDefinitions;
 
+const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm(form, formConfig);
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
-  // submit: submitForm,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
     <ConfirmationPage router={router} route={route} />
   ),
   formId: '22-10215',
-  saveInProgress: {},
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your form (22-10215) is in progress.',
+      expired:
+        'Your saved form (22-10215) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
@@ -76,13 +90,17 @@ const formConfig = {
     },
   },
   customText: {
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
     reviewPageTitle: 'Review',
+    startNewAppButtonText: 'Start a new form',
     submitButtonText: 'Continue',
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for new form benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: 'Report 85/15 Rule enrollment ratios',
   subTitle: () => (
@@ -102,13 +120,17 @@ const formConfig = {
       title: 'Institution details',
       pages: {
         institutionOfficial: {
-          path: 'institution-details-1',
+          path: 'institution-details',
           title: 'Tell us about yourself',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
+          onNavForward: ({ goPath }) => {
+            goPath('/institution-details-1');
+            localStorage.removeItem('10215ClaimId');
+          },
         },
         institutionDetails: {
-          path: 'institution-details-2',
+          path: 'institution-details-1',
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,

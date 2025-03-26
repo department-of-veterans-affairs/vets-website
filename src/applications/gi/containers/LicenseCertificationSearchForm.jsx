@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-
 import {
-  capitalizeFirstLetter,
+  focusElement,
   handleLcResultsSearch,
   showLcParams,
   updateCategoryDropdown,
   updateQueryParam,
 } from '../utils/helpers';
 
-import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
+import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import Dropdown from '../components/Dropdown';
@@ -23,10 +22,11 @@ export default function LicenseCertificationSearchForm() {
 
   const { nameParam, categoryParams } = showLcParams(location);
 
-  const dispatch = useDispatch();
-
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
+  const [shouldFocusDropdown, setShouldFocusDropdown] = useState(false);
+
+  const dispatch = useDispatch();
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
@@ -42,13 +42,7 @@ export default function LicenseCertificationSearchForm() {
 
   useEffect(() => {
     if (!hasFetchedOnce) {
-      const controller = new AbortController();
-
-      dispatch(fetchLicenseCertificationResults(controller.signal));
-
-      return () => {
-        controller.abort();
-      };
+      dispatch(fetchLicenseCertificationResults());
     }
     return null;
   }, []);
@@ -57,10 +51,23 @@ export default function LicenseCertificationSearchForm() {
     () => {
       return dispatch(filterLcResults(name, dropdown.current.optionValue));
     },
-    [name],
+    [name, dropdown.current.optionValue],
   );
 
-  // If available, use url query params to assign initial dropdown values
+  useEffect(
+    () => {
+      if (shouldFocusDropdown) {
+        const selectElement = document.getElementById(dropdown.label);
+        if (selectElement) {
+          focusElement(selectElement, 0);
+        }
+        setShouldFocusDropdown(false);
+      }
+    },
+    [shouldFocusDropdown, dropdown.label],
+  );
+
+  // If available, use url query params to assign initial values ONLY on mount
   useEffect(() => {
     if (categoryParams) {
       setDropdown(updateCategoryDropdown(categoryParams[0]));
@@ -69,8 +76,7 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
-
-    return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (category, nameInput) => {
@@ -93,6 +99,7 @@ export default function LicenseCertificationSearchForm() {
     history.replace('/licenses-certifications-and-prep-courses');
     setName('');
     setDropdown(updateCategoryDropdown());
+    setShouldFocusDropdown(true);
   };
 
   const handleChange = e => {
@@ -119,7 +126,7 @@ export default function LicenseCertificationSearchForm() {
           <form>
             <Dropdown
               disabled={false}
-              label={capitalizeFirstLetter(dropdown.label)}
+              label="Category type"
               visible
               name={dropdown.label}
               options={dropdown.options}

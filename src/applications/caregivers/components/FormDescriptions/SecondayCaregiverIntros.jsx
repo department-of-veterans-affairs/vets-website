@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SecondaryCaregiverDescription from './SecondaryCaregiverDescription';
 import SecondaryRequiredAlert from '../FormAlerts/SecondaryRequiredAlert';
-import { hideCaregiverRequiredAlert } from '../../utils/helpers/form-config';
+import { hideCaregiverRequiredAlert } from '../../utils/helpers';
 
 const SecondayCaregiverOneIntro = ({ formData }) => {
   return (

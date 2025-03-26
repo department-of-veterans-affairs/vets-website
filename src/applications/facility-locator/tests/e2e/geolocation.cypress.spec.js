@@ -1,13 +1,11 @@
 import mockLaLocation from '../../constants/mock-la-location.json';
 import {
   featureCombinationsTogglesToTest,
-  isFeatureEnabled,
   enabledFeatures,
 } from './featureTogglesToTest';
 
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
-  'facilities_use_address_typeahead',
 ]);
 
 Cypress.Commands.add(
@@ -25,26 +23,10 @@ Cypress.Commands.add(
 
 for (const featureSet of featureSetsToTest) {
   describe(`Facility geolocation ${enabledFeatures(featureSet)}`, () => {
-    const isProgDiscEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
-    );
+    const useMyLocationLink = '.use-my-location-link';
 
-    const isAddressTypeaheadEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_address_typeahead'),
-    );
-
-    const useMyLocationLink =
-      isProgDiscEnabled && !isAddressTypeaheadEnabled
-        ? '.use-my-location-link-desktop'
-        : '.use-my-location-link';
-
-    let locationInputField = isProgDiscEnabled
-      ? '#location-input-field-desktop'
-      : '#location-input-field';
-
-    locationInputField = isAddressTypeaheadEnabled
-      ? '.street-city-state-zip-autosuggest-label-container'
-      : locationInputField;
+    const locationInputField =
+      '.street-city-state-zip-autosuggest-label-container';
 
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles?*', {

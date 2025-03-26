@@ -88,6 +88,17 @@ export const validateField = fieldValue => {
 };
 
 /**
+ * @param {String} fieldName field name
+ * @param {String} fieldValue value that is being validated
+ */
+export const validateIfAvailable = (fieldName, fieldValue) => {
+  if (fieldValue || fieldValue === 0) {
+    return fieldValue;
+  }
+  return `${fieldName} not available`;
+};
+
+/**
  * @param {String} fieldValue value that is being validated
  */
 export const getImageUri = fieldValue => {
@@ -301,7 +312,7 @@ export const createBreadcrumbs = (
       },
     ]);
   }
-  if (pathname === subdirectories.REFILL) {
+  if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
       ...(!removeLandingPage
         ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
@@ -491,6 +502,11 @@ export const sanitizeKramesHtmlStr = htmlString => {
       paragraph.textContent = node.textContent;
       node.replaceWith(paragraph);
     }
+  });
+
+  // This section is to address all table tags and add role="presentation" to them
+  tempDiv.querySelectorAll('table').forEach(table => {
+    table.setAttribute('role', 'presentation');
   });
 
   return tempDiv.innerHTML;

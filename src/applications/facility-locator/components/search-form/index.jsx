@@ -18,20 +18,21 @@ import { SearchFormTypes } from '../../types';
 // Components
 import BottomRow from './BottomRow';
 import FacilityType from './facility-type';
-import LocationInput from './location';
 import ServiceType from './service-type';
+import AddressAutosuggest from './location/AddressAutosuggest';
 
 export const SearchForm = props => {
   const {
     currentQuery,
-    facilitiesUseAddressTypeahead,
     isMobile,
     isSmallDesktop,
     isTablet,
     mobileMapUpdateEnabled,
     onChange,
     onSubmit,
+    searchInitiated,
     selectMobileMapPin,
+    setSearchInitiated,
     suppressPPMS,
     useProgressiveDisclosure,
     vamcAutoSuggestEnabled,
@@ -40,26 +41,6 @@ export const SearchForm = props => {
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
-  const [searchInitiated, setSearchInitiated] = useState(false);
-
-  const onlySpaces = str => /^\s+$/.test(str);
-
-  const handleQueryChange = e => {
-    // prevent users from entering only spaces
-    // because this will not trigger a change
-    // when they exit the field
-    onChange({
-      searchString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-
-  const handleLocationBlur = e => {
-    // force redux state to register a change
-    onChange({ searchString: ' ' });
-    handleQueryChange(e);
-  };
 
   const handleFacilityTypeChange = e => {
     onChange({
@@ -269,18 +250,14 @@ export const SearchForm = props => {
         </p>
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
-        <LocationInput
+        <AddressAutosuggest
           currentQuery={currentQuery}
-          facilitiesUseAddressTypeahead={facilitiesUseAddressTypeahead}
-          geolocateUser={props.geolocateUser}
-          handleClearInput={handleClearInput}
-          handleGeolocationButtonClick={handleGeolocationButtonClick}
-          handleLocationBlur={handleLocationBlur}
-          handleQueryChange={handleQueryChange}
+          geolocateUser={handleGeolocationButtonClick}
+          inputRef={locationInputFieldRef}
           isMobile={isMobile}
           isSmallDesktop={isSmallDesktop}
           isTablet={isTablet}
-          locationInputFieldRef={locationInputFieldRef}
+          onClearClick={handleClearInput}
           onChange={onChange}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />

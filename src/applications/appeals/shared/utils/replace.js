@@ -37,7 +37,8 @@ const replaceApostrophe = text => text.replace(REGEXP.APOSTROPHE, "'");
  * @param {String} text - Text to replace
  * @returns {String}
  */
-const replaceWhitespace = text => text.replace(REGEXP.WHITESPACE, ' ').trim();
+export const replaceWhitespace = text =>
+  text.replace(REGEXP.WHITESPACE, ' ').trim();
 
 /**
  * Add leading zero to numbers < 10

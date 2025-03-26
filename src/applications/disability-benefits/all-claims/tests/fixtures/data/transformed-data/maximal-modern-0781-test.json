@@ -4,6 +4,7 @@
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
+    "none": false,
     "otherHomelessHousing": "Under a bridge",
     "needToLeaveHousing": true,
     "homelessnessContact": {
@@ -99,9 +100,29 @@
         "dod": true
       },
       "optionIndicator": "yes",
-      "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?"
+      "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+      "supportingEvidenceReports": {
+        "police": true
+      },
+      "supportingEvidenceRecords": {
+        "physicians": true,
+        "counseling": true,
+        "crisis": true
+      },
+      "supportingEvidenceWitness": {
+        "family": true,
+        "faculty": false,
+        "service": false,
+        "clergy": true
+      },
+      "supportingEvidenceOther": {
+        "personal": false
+      },
+      "supportingEvidenceUnlisted": "unlisted document",
+      "supportingEvidenceNoneCheckbox": {
+        "none": false
+      }
     },
-    "none": false,
     "vaTreatmentFacilities": [
       {
         "treatmentCenterName": "Treatment Center the First",

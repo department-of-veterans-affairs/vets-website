@@ -88,9 +88,6 @@ export const selectFeatureStaticLandingPage = state =>
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
 
-export const selectFeatureDatadogRum = state =>
-  toggleValues(state).vaOnlineSchedulingDatadogRum;
-
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
 
@@ -117,11 +114,26 @@ export const selectFeaturePastApptDateRange = state =>
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
+export const selectFeatureFeSourceOfTruthVA = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthVA;
+
+export const selectFeatureFeSourceOfTruthCC = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthCC;
+
+export const selectFeatureFeSourceOfTruthModality = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthModality;
+
+export const selectFeatureFeSourceOfTruthTelehealth = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
+
 export const selectFeatureMhvRouteGuards = state =>
   toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
 
 export const selectFeatureDirectScheduleAppointmentConflict = state =>
   toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
+
+export const selectFeatureDisplayPastCancelledAppointments = state =>
+  toggleValues(state).vaOnlineSchedulingDisplayPastCancelledAppointments;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;

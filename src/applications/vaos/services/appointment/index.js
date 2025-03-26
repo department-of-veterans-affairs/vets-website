@@ -69,6 +69,7 @@ function apptRequestSort(a, b) {
  * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @param {Boolean} includeEPS Boolean to include EPS appointments
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
@@ -78,6 +79,7 @@ export async function fetchAppointments({
   fetchClaimStatus = false,
   includeEPS = false,
   useFeSourceOfTruth = false,
+  useFeSourceOfTruthCC = false,
 }) {
   try {
     const appointments = [];
@@ -99,7 +101,11 @@ export async function fetchAppointments({
     });
 
     appointments.push(
-      ...transformVAOSAppointments(filteredAppointments, useFeSourceOfTruth),
+      ...transformVAOSAppointments(
+        filteredAppointments,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+      ),
       {
         meta: allAppointments.backendSystemFailures,
       },
@@ -124,6 +130,7 @@ export async function fetchAppointments({
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} includeEPS Boolean to include EPS appointments
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
+ * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({
@@ -131,6 +138,7 @@ export async function getAppointmentRequests({
   endDate,
   includeEPS = false,
   useFeSourceOfTruth = false,
+  useFeSourceOfTruthCC = false,
 }) {
   try {
     const appointments = await getAppointments({
@@ -142,10 +150,10 @@ export async function getAppointmentRequests({
 
     const requestsWithoutAppointments = appointments.data.filter(appt => {
       // Filter out appointments that are not requests
-      return (
-        getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
-        getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest
-      );
+      return useFeSourceOfTruth
+        ? appt.pending
+        : getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
+            getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest;
     });
 
     requestsWithoutAppointments.sort(apptRequestSort);
@@ -153,6 +161,7 @@ export async function getAppointmentRequests({
     const transformRequests = transformVAOSAppointments(
       requestsWithoutAppointments,
       useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
     );
 
     transformRequests.push({
@@ -176,13 +185,22 @@ export async function getAppointmentRequests({
  * @async
  * @param {string} id Appointment request id
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
+ * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useFeSourceOfTruth = false }) {
+export async function fetchRequestById({
+  id,
+  useFeSourceOfTruth = false,
+  useFeSourceOfTruthCC = false,
+}) {
   try {
     const appointment = await getAppointment(id);
 
-    return transformVAOSAppointment(appointment, useFeSourceOfTruth);
+    return transformVAOSAppointment(
+      appointment,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -200,6 +218,7 @@ export async function fetchRequestById({ id, useFeSourceOfTruth = false }) {
  * @param {avs} Boolean to fetch avs data
  * @param {fetchClaimStatus} Boolean to fetch travel claim data
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
+ * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @returns {Appointment} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({
@@ -207,10 +226,15 @@ export async function fetchBookedAppointment({
   avs = true,
   fetchClaimStatus = true,
   useFeSourceOfTruth = true,
+  useFeSourceOfTruthCC = false,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
-    return transformVAOSAppointment(appointment, useFeSourceOfTruth);
+    return transformVAOSAppointment(
+      appointment,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -271,17 +295,14 @@ export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    !isClinicVideoAppointment(appointment)
+    !isClinicVideoAppointment(appointment) &&
+    appointment.location.vistaId === '612'
   ) {
     // 612 doesn't exist in the facilities api, but it's a valid VistA site
     // So, we want to show the facility information for the actual parent location
     // in that system, which is 612A4. This is really only visible for at home
     // video appointments, as the facility we direct users to in order to cancel
-    if (appointment.location.vistaId === '612') {
-      return '612A4';
-    }
-
-    return appointment?.location?.vistaId;
+    return '612A4';
   }
 
   return appointment?.location?.stationId;
@@ -546,12 +567,21 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @param {Boolean} params.useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
+ * @param {Boolean} params.useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment, useFeSourceOfTruth }) {
+export async function createAppointment({
+  appointment,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+}) {
   const result = await postAppointment(appointment);
 
-  return transformVAOSAppointment(result, useFeSourceOfTruth);
+  return transformVAOSAppointment(
+    result,
+    useFeSourceOfTruth,
+    useFeSourceOfTruthCC,
+  );
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
@@ -563,9 +593,14 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
  * @param {Boolean} params.useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
+ * @param {Boolean} params.useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment, useFeSourceOfTruth }) {
+export async function cancelAppointment({
+  appointment,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+}) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -590,7 +625,11 @@ export async function cancelAppointment({ appointment, useFeSourceOfTruth }) {
     });
     resetDataLayer();
 
-    return transformVAOSAppointment(updatedAppointment, useFeSourceOfTruth);
+    return transformVAOSAppointment(
+      updatedAppointment,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+    );
   } catch (e) {
     captureError(e, true);
     recordEvent({
@@ -626,7 +665,6 @@ export function getCalendarData({ appointment, facility }) {
   const isVideo = appointment?.vaos.isVideo;
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
-  // const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const signinText =
     'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
 
@@ -777,7 +815,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return useFeSourceOfTruth => {
+  return (useFeSourceOfTruth, useFeSourceOfTruthCC) => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
@@ -811,9 +849,8 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         const p1 = await fetchAppointments({
           startDate: curr.start,
           endDate: curr.end,
-          useV2VA: true,
-          useV2CC: true,
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());

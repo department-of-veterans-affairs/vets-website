@@ -25,7 +25,7 @@ export const Paths = {
   SIGNATURE: '/signature',
   FIND_LOCATIONS: '/find-locations/',
   FIND_LOCATION: '/find-locations',
-  HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
+  HEALTH_CARE_SEND_RECEIVE_MSG: '/health-care/send-receive-messages/',
   MHV_LANDING_PAGE: '/my-health',
   MHV_SM: '/secure-messages',
   THREAD: '/thread',

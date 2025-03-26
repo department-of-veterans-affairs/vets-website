@@ -182,12 +182,12 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
   };
 
-  clickLearnHowToRenewPrescriptionsLink = () => {
+  verifyLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="/health-care/refill-track-prescriptions"]`)
+      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
       .should('be.visible');
   };
 
@@ -931,10 +931,7 @@ class MedicationsListPage {
       'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
       noToolTip,
     ).as('noToolTip');
-    cy.get('[data-testid="rx-ipe-filtering-close"]')
-      .shadow()
-      .find('[aria-hidden="true"]')
-      .click({ force: true });
+    cy.get('[data-testid="rx-ipe-filtering-close"]').click({ force: true });
   };
 
   verifyToolTipNotVisibleOnListPage = () => {
@@ -956,6 +953,27 @@ class MedicationsListPage {
 
   verifyFilterAccordionDropDownIsFocused = () => {
     cy.get('[data-testid="rx-filter"]').should('have.focus');
+  };
+
+  updatedRefillDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newRefillDate = new Date(currentDate);
+        newRefillDate.setDate(currentDate.getDate() + 6);
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            refillDate:
+              item.attributes.refillDate != null
+                ? newRefillDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
   };
 }
 
