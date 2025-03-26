@@ -201,7 +201,11 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent && <RefillAlert />}
+        {showRefillProgressContent && (
+          <RefillAlert
+            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
+          />
+        )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
