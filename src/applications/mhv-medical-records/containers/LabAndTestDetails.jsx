@@ -31,6 +31,8 @@ const LabAndTestDetails = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const fullState = useSelector(state => state);
+  const user = useSelector(state => state.user.profile);
+
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
   const { isAcceleratingLabsAndTests } = useAcceleratedData();
@@ -71,7 +73,7 @@ const LabAndTestDetails = () => {
     );
   }
   if (isAcceleratingLabsAndTests && labAndTestDetails) {
-    return <UnifiedLabsAndTests record={labAndTestDetails} />;
+    return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
   }
   // TODO: Delete this with the feature toggle
   if (labAndTestDetails?.type === labTypes.CHEM_HEM) {

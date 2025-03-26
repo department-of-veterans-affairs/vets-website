@@ -102,6 +102,43 @@ const sample = {
         ],
       },
     },
+    {
+      id: 'e9513940-bf84-4120-ac9c-718f537b00e1',
+      type: 'DiagnosticReport',
+      attributes: {
+        display: 'CH - FULL SAMPLE',
+        testCode: 'CH',
+        dateCompleted: '2025-01-23T22:06:02Z',
+        sampleTested: 'SERUM',
+        bodySite: 'Central Vien',
+        location: 'CHYSHR TEST LAB',
+        orderedBy: 'ZZGeorge Washington',
+        observations: [
+          {
+            testCode: 'GLUCOSE',
+            referenceRange: '70 - 110',
+            status: 'final',
+            sampleTested: 'SERUM',
+            bodySite: 'Central Vien',
+            comments: '',
+            value: {
+              text: '99 mg/dL',
+              type: 'Quantity',
+            },
+          },
+          {
+            testCode: 'UREA NITROGEN',
+            referenceRange: '7 - 18',
+            status: 'final',
+            comments: '',
+            value: {
+              text: '200 mg/dL',
+              type: 'Quantity',
+            },
+          },
+        ],
+      },
+    },
   ],
 };
 
