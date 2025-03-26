@@ -12,11 +12,13 @@ const arrayPath = 'demos';
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
-export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
+export const isEdit = () => {
   const search = getArrayUrlSearchParams();
-  const isEdit = search.get('edit');
+  return search.get('edit');
+};
 
-  if (isEdit) {
+export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
+  if (isEdit()) {
     return editTitle;
   }
   return defaultTitle;
