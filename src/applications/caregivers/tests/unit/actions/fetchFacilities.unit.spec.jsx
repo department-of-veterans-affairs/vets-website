@@ -3,9 +3,9 @@ import * as api from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import environment from 'platform/utilities/environment';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
+import { API_ENDPOINTS } from '../../../utils/constants';
 import {
   mockFetchFacilitiesResponse,
   mockVetsApiFacilitiesResponse,
@@ -56,10 +56,7 @@ describe('CG fetchFacilities action', () => {
         facilityIds: `${facilityIds[0]},${facilityIds[1]}`,
       });
 
-      const expectedUrl = `${
-        environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities`;
-      sinon.assert.calledWith(apiRequestStub, expectedUrl, {
+      sinon.assert.calledWith(apiRequestStub, API_ENDPOINTS.facilities, {
         method,
         headers,
         body: expectedBody,
@@ -87,10 +84,7 @@ describe('CG fetchFacilities action', () => {
         facilityIds: '',
       });
 
-      const expectedUrl = `${
-        environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities`;
-      sinon.assert.calledWith(apiRequestStub, expectedUrl, {
+      sinon.assert.calledWith(apiRequestStub, API_ENDPOINTS.facilities, {
         method,
         headers,
         body: expectedBody,
@@ -110,10 +104,7 @@ describe('CG fetchFacilities action', () => {
         facilityIds: '1',
       });
 
-      const expectedUrl = `${
-        environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities`;
-      sinon.assert.calledWith(apiRequestStub, expectedUrl, {
+      sinon.assert.calledWith(apiRequestStub, API_ENDPOINTS.facilities, {
         method,
         headers,
         body: expectedBody,
