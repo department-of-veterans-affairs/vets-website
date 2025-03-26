@@ -9,8 +9,9 @@ import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
 
+// debugger
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/introduction';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const props = {
   route: {

@@ -6,8 +6,9 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
 import { CustomTopContent } from '../../../pages/helpers';
 
+// debugger
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/test-page';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const mockStore = {
   getState: () => ({

@@ -8,8 +8,9 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
+// debugger
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/confirmation';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const veteranFullName = {
   first: 'John',

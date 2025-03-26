@@ -4,7 +4,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { getFormContent } from '../helpers';
 
-const config = formConfig();
+const config = formConfig;
 
 const App = ({ location, children }) => {
   const { formNumber } = getFormContent();
