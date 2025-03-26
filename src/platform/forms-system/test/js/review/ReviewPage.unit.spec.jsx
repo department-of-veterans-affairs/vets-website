@@ -94,7 +94,7 @@ describe('Schemaform review: ReviewPage', () => {
   });
 
   it('should not contain the h1 if header-minimal is not present', () => {
-    const treeWithMinimalHeader = shallow(
+    const treeWithoutMinimalHeader = shallow(
       <ReviewPage
         form={form}
         openChapters={{}}
@@ -105,8 +105,8 @@ describe('Schemaform review: ReviewPage', () => {
       />,
     );
 
-    expect(treeWithMinimalHeader.find('h1').exists()).to.be.false;
-    treeWithMinimalHeader.unmount();
+    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
+    treeWithoutMinimalHeader.unmount();
   });
 
   it('should appropriately render a downtime notification', () => {
