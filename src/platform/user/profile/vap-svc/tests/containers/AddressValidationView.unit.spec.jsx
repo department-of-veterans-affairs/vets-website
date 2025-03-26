@@ -1,13 +1,68 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { createStore } from 'redux';
 import AddressValidationView from '../../containers/AddressValidationView';
 
-const mockStore = configureMockStore([]);
-
+const baseData = {
+  vapService: {
+    fieldTransactionMap: {
+      mailingAddress: {
+        isPending: false,
+      },
+    },
+    modal: 'addressValidation',
+    addressValidation: {
+      addressFromUser: {
+        addressLine1: '12345 1st Ave',
+        addressLine2: 'bldg 2',
+        addressLine3: 'apt 23',
+        city: 'Tampa',
+        stateCode: 'FL',
+        zipCode: '12346',
+      },
+      isAddressValidationModalVisible: true,
+      addressValidationError: '',
+      addressValidationType: 'mailingAddress',
+      userEnteredAddress: {},
+      validationKey: 1234,
+      confirmedSuggestions: [],
+      suggestedAddresses: [
+        {
+          addressLine1: '12345 1st Ave',
+          addressLine2: 'bldg 2',
+          addressLine3: 'apt 23',
+          city: 'Tampa',
+          stateCode: 'FL',
+          zipCode: '12346',
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'MIXED',
+          },
+        },
+        {
+          addressLine1: '22222 1st Ave',
+          addressLine2: 'bldg 2',
+          addressLine3: 'apt 23',
+          city: 'Saint Petersburg',
+          stateCode: 'FL',
+          zipCode: '55555',
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'MIXED',
+          },
+        },
+      ],
+    },
+  },
+};
+const getStore = data => createStore(() => data);
 // Helper function to check multiple buttons
 function expectButtons(container, expectedButtons) {
   const buttons = container.querySelectorAll('button');
@@ -28,67 +83,10 @@ function expectButtons(container, expectedButtons) {
 }
 
 describe('<AddressValidationView/>', () => {
-  const store = mockStore({
-    vapService: {
-      fieldTransactionMap: {
-        mailingAddress: {
-          isPending: false,
-        },
-      },
-      modal: 'addressValidation',
-      addressValidation: {
-        addressFromUser: {
-          addressLine1: '12345 1st Ave',
-          addressLine2: 'bldg 2',
-          addressLine3: 'apt 23',
-          city: 'Tampa',
-          stateCode: 'FL',
-          zipCode: '12346',
-        },
-        isAddressValidationModalVisible: true,
-        addressValidationError: '',
-        addressValidationType: 'mailingAddress',
-        userEnteredAddress: {},
-        validationKey: 1234,
-        confirmedSuggestions: [],
-        suggestedAddresses: [
-          {
-            addressLine1: '12345 1st Ave',
-            addressLine2: 'bldg 2',
-            addressLine3: 'apt 23',
-            city: 'Tampa',
-            stateCode: 'FL',
-            zipCode: '12346',
-            addressMetaData: {
-              confidenceScore: 100.0,
-              addressType: 'Domestic',
-              deliveryPointValidation: 'CONFIRMED',
-              residentialDeliveryIndicator: 'MIXED',
-            },
-          },
-          {
-            addressLine1: '22222 1st Ave',
-            addressLine2: 'bldg 2',
-            addressLine3: 'apt 23',
-            city: 'Saint Petersburg',
-            stateCode: 'FL',
-            zipCode: '55555',
-            addressMetaData: {
-              confidenceScore: 100.0,
-              addressType: 'Domestic',
-              deliveryPointValidation: 'CONFIRMED',
-              residentialDeliveryIndicator: 'MIXED',
-            },
-          },
-        ],
-      },
-    },
-  });
-
   it('renders VaAlert component and address elements in AddressValidationView component', async () => {
     const { getByRole, getByText, getByTestId } = render(
-      <Provider store={store}>
-        <AddressValidationView store={store} />
+      <Provider store={getStore(baseData)}>
+        <AddressValidationView />
       </Provider>,
     );
 
@@ -104,15 +102,15 @@ describe('<AddressValidationView/>', () => {
 
   it('renders va-button and confirm address button with correct attributes and text', () => {
     const { container } = render(
-      <Provider store={store}>
-        <AddressValidationView store={store} />
+      <Provider store={getStore(baseData)}>
+        <AddressValidationView />
       </Provider>,
     );
 
     expectButtons(container, [
       {
         type: 'submit',
-        text: 'Use this address',
+        text: 'Use address you entered',
         dataTestId: 'confirm-address-button',
       },
       { text: 'Go back to edit', type: 'button' },
@@ -120,33 +118,21 @@ describe('<AddressValidationView/>', () => {
   });
 
   it('renders two primary va-button components with correct text when no validationKey and suggestedAddress are present', () => {
-    const newStore = mockStore({
+    const newData = {
       vapService: {
-        fieldTransactionMap: { mailingAddress: { isPending: false } },
-        modal: 'addressValidation',
+        ...baseData.vapService,
         addressValidation: {
-          addressFromUser: {
-            addressLine1: '12345 1st Ave',
-            addressLine2: 'bldg 2',
-            addressLine3: 'apt 23',
-            city: 'Tampa',
-            stateCode: 'FL',
-            zipCode: '12346',
-          },
-          isAddressValidationModalVisible: true,
-          addressValidationError: '',
-          addressValidationType: 'mailingAddress',
-          userEnteredAddress: {},
-          validationKey: null,
+          ...baseData.vapService.addressValidation,
           confirmedSuggestions: [],
           suggestedAddresses: [],
+          validationKey: null,
         },
       },
-    });
+    };
 
     const { container } = render(
-      <Provider store={newStore}>
-        <AddressValidationView store={newStore} />
+      <Provider store={getStore(newData)}>
+        <AddressValidationView />
       </Provider>,
     );
 
@@ -157,97 +143,43 @@ describe('<AddressValidationView/>', () => {
   });
 
   it('does not render Go back to edit button while pending transaction', () => {
-    const newStore = mockStore({
+    const newData = {
       vapService: {
+        ...baseData.vapService,
         fieldTransactionMap: {
           mailingAddress: {
             isPending: true,
           },
         },
-        modal: 'addressValidation',
         addressValidation: {
-          addressFromUser: {
-            addressLine1: '12345 1st Ave',
-            addressLine2: 'bldg 2',
-            addressLine3: 'apt 23',
-            city: 'Tampa',
-            stateCode: 'FL',
-            zipCode: '12346',
-          },
-          isAddressValidationModalVisible: true,
-          addressValidationError: '',
-          addressValidationType: 'mailingAddress',
-          userEnteredAddress: {},
+          ...baseData.vapService.addressValidation,
           validationKey: null,
-          confirmedSuggestions: [],
-          suggestedAddresses: [],
         },
       },
-    });
+    };
 
     const { container } = render(
-      <Provider store={newStore}>
-        <AddressValidationView store={newStore} />
+      <Provider store={getStore(newData)}>
+        <AddressValidationView />
       </Provider>,
     );
 
     expectButtons(container, [{ text: 'Edit Address', type: 'submit' }]);
   });
 
-  describe('AddressValidationView with TWO suggestions', () => {
-    const baseStore = {
+  it('renders "Use suggested address" button when a suggested address is selected', () => {
+    const newData = {
       vapService: {
-        fieldTransactionMap: { mailingAddress: { isPending: false } },
-        modal: 'addressValidation',
-        addressValidation: {
-          addressFromUser: {
-            addressLine1: '1600 Pennsylvania Avenue NW',
-            addressPou: 'RESIDENCE/CHOICE',
-            addressType: 'DOMESTIC',
-            city: 'Washington',
-            countryCodeIso3: 'USA',
-            stateCode: 'DC',
-            zipCode: '00000',
+        ...baseData.vapService,
+        fieldTransactionMap: {
+          mailingAddress: {
+            isPending: false,
           },
-          isAddressValidationModalVisible: true,
-          addressValidationError: false,
-          addressValidationType: 'mailingAddress',
-          userEnteredAddress: {},
+        },
+        addressValidation: {
+          ...baseData.vapService.addressValidation,
+          validationKey: null,
           selectedAddressId: '0',
-          suggestedAddresses: [
-            {
-              addressLine1: '1600 Pennsylvania Ave NW',
-              addressType: 'DOMESTIC',
-              city: 'Washington',
-              countryName: 'United States',
-              countryCodeIso3: 'USA',
-              stateCode: 'DC',
-              zipCode: '20500',
-              zipCodeSuffix: '0005',
-              addressMetaData: {
-                confidenceScore: 100.0,
-                addressType: 'Domestic',
-                deliveryPointValidation: 'CONFIRMED',
-                residentialDeliveryIndicator: 'BUSINESS',
-              },
-            },
-            {
-              addressLine1: '1600 Pennsylvania Ave NW',
-              addressType: 'DOMESTIC',
-              city: 'Washington',
-              countryName: 'United States',
-              countryCodeIso3: 'USA',
-              stateCode: 'DC',
-              zipCode: '20502',
-              zipCodeSuffix: '0001',
-              addressMetaData: {
-                confidenceScore: 100.0,
-                addressType: 'Domestic',
-                deliveryPointValidation: 'CONFIRMED',
-                residentialDeliveryIndicator: 'BUSINESS',
-              },
-            },
-          ],
           confirmedSuggestions: [
             {
               addressLine1: '1600 Pennsylvania Ave NW',
@@ -267,44 +199,81 @@ describe('<AddressValidationView/>', () => {
                 residentialDeliveryIndicator: 'BUSINESS',
               },
             },
-            {
-              addressLine1: '1600 Pennsylvania Ave NW',
-              addressType: 'DOMESTIC',
-              city: 'Washington',
-              countryName: 'United States',
-              countryCodeIso3: 'USA',
-              countyCode: '11001',
-              countyName: 'District of Columbia',
-              stateCode: 'DC',
-              zipCode: '20502',
-              zipCodeSuffix: '0001',
-              addressMetaData: {
-                confidenceScore: 100.0,
-                addressType: 'Domestic',
-                deliveryPointValidation: 'CONFIRMED',
-                residentialDeliveryIndicator: 'BUSINESS',
-              },
-            },
           ],
         },
       },
     };
 
+    const { container } = render(
+      <Provider store={getStore(newData)}>
+        <AddressValidationView />
+      </Provider>,
+    );
+
+    expectButtons(container, [
+      {
+        type: 'submit',
+        text: 'Use suggested address',
+        dataTestId: 'confirm-address-button',
+      },
+      { text: 'Go back to edit', type: 'button' },
+    ]);
+  });
+
+  describe('AddressValidationView with TWO suggestions', () => {
     it('renders correct labels, buttons, and 2 radio buttons for suggested addresses when validationKey is null', () => {
-      const newStore = mockStore({
-        ...baseStore,
+      const newData = {
         vapService: {
-          ...baseStore.vapService,
+          ...baseData.vapService,
           addressValidation: {
-            ...baseStore.vapService.addressValidation,
+            ...baseData.vapService.addressValidation,
             validationKey: null,
+            selectedAddressId: '0',
+            confirmedSuggestions: [
+              {
+                addressLine1: '1600 Pennsylvania Ave NW',
+                addressType: 'DOMESTIC',
+                city: 'Washington',
+                countryName: 'United States',
+                countryCodeIso3: 'USA',
+                countyCode: '11001',
+                countyName: 'District of Columbia',
+                stateCode: 'DC',
+                zipCode: '20500',
+                zipCodeSuffix: '0005',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'BUSINESS',
+                },
+              },
+              {
+                addressLine1: '1600 Pennsylvania Ave NW',
+                addressType: 'DOMESTIC',
+                city: 'Washington',
+                countryName: 'United States',
+                countryCodeIso3: 'USA',
+                countyCode: '11001',
+                countyName: 'District of Columbia',
+                stateCode: 'DC',
+                zipCode: '20502',
+                zipCodeSuffix: '0001',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'BUSINESS',
+                },
+              },
+            ],
           },
         },
-      });
+      };
 
       const { container, getAllByRole, getByText, getAllByText } = render(
-        <Provider store={newStore}>
-          <AddressValidationView store={newStore} />
+        <Provider store={getStore(newData)}>
+          <AddressValidationView />
         </Provider>,
       );
 
@@ -324,7 +293,7 @@ describe('<AddressValidationView/>', () => {
       expectButtons(container, [
         {
           type: 'submit',
-          text: 'Use this address',
+          text: 'Use address you entered',
           dataTestId: 'confirm-address-button',
         },
         { text: 'Go back to edit', type: 'button' },
@@ -332,20 +301,56 @@ describe('<AddressValidationView/>', () => {
     });
 
     it('renders 3 radio buttons when validationKey is present', () => {
-      const newStoreWithKey = mockStore({
-        ...baseStore,
+      const newData = {
         vapService: {
-          ...baseStore.vapService,
+          ...baseData.vapService,
           addressValidation: {
-            ...baseStore.vapService.addressValidation,
+            ...baseData.vapService.addressValidation,
+            confirmedSuggestions: [
+              {
+                addressLine1: '1600 Pennsylvania Ave NW',
+                addressType: 'DOMESTIC',
+                city: 'Washington',
+                countryName: 'United States',
+                countryCodeIso3: 'USA',
+                countyCode: '11001',
+                countyName: 'District of Columbia',
+                stateCode: 'DC',
+                zipCode: '20500',
+                zipCodeSuffix: '0005',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'BUSINESS',
+                },
+              },
+              {
+                addressLine1: '1600 Pennsylvania Ave NW',
+                addressType: 'DOMESTIC',
+                city: 'Washington',
+                countryName: 'United States',
+                countryCodeIso3: 'USA',
+                countyCode: '11001',
+                countyName: 'District of Columbia',
+                stateCode: 'DC',
+                zipCode: '20502',
+                zipCodeSuffix: '0001',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'BUSINESS',
+                },
+              },
+            ],
             validationKey: 1234,
           },
         },
-      });
-
+      };
       const { getAllByRole } = render(
-        <Provider store={newStoreWithKey}>
-          <AddressValidationView store={newStoreWithKey} />
+        <Provider store={getStore(newData)}>
+          <AddressValidationView />
         </Provider>,
       );
 
@@ -354,27 +359,25 @@ describe('<AddressValidationView/>', () => {
     });
 
     it('renders the alert with the correct headline and message for NO validationKey and NO suggestedAddresses', () => {
-      const newStoreWithoutSuggestions = mockStore({
-        ...baseStore,
+      const newData = {
         featureToggles: {
           [TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert]: true,
           profileShowNoValidationKeyAddressAlert: true,
         },
         isNoValidationKeyAlertEnabled: true,
         vapService: {
-          ...baseStore.vapService,
+          ...baseData.vapService,
           addressValidation: {
-            ...baseStore.vapService.addressValidation,
-            validationKey: null,
-            suggestedAddresses: [],
+            ...baseData.vapService.addressValidation,
             confirmedSuggestions: [],
+            suggestedAddresses: [],
+            validationKey: null,
           },
         },
-      });
-
+      };
       const { container, getByRole, getByText } = render(
-        <Provider store={newStoreWithoutSuggestions}>
-          <AddressValidationView store={newStoreWithoutSuggestions} />
+        <Provider store={getStore(newData)}>
+          <AddressValidationView />
         </Provider>,
       );
 
@@ -396,14 +399,13 @@ describe('<AddressValidationView/>', () => {
     });
 
     it('renders the alert with the correct headline and message for NO validationKey and has suggestedAddresses', () => {
-      const newStoreWithSingleSuggestion = mockStore({
-        ...baseStore,
+      const newData = {
         featureToggles: { profileShowNoValidationKeyAddressAlert: true },
         isNoValidationKeyAlertEnabled: true,
         vapService: {
-          ...baseStore.vapService,
+          ...baseData.vapService,
           addressValidation: {
-            ...baseStore.vapService.addressValidation,
+            ...baseData.vapService.addressValidation,
             validationKey: null,
             suggestedAddresses: [
               {
@@ -445,11 +447,11 @@ describe('<AddressValidationView/>', () => {
             ],
           },
         },
-      });
+      };
 
       const { container, getByRole, getByText } = render(
-        <Provider store={newStoreWithSingleSuggestion}>
-          <AddressValidationView store={newStoreWithSingleSuggestion} />
+        <Provider store={getStore(newData)}>
+          <AddressValidationView />
         </Provider>,
       );
 

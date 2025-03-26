@@ -57,19 +57,25 @@ const routes = [
     children: [
       {
         index: true,
-        element: <LandingPage />,
+        element: (
+          <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+        ),
       },
       forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
         children: [
           {
             path: 'poa-requests',
-            element: <POARequestSearchPage />,
+            element: (
+              <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
+            ),
             loader: POARequestSearchPage.loader,
           },
           {
             path: 'poa-requests/:id',
-            element: <POARequestDetailsPage />,
+            element: (
+              <POARequestDetailsPage title="POA request | Veterans Affairs" />
+            ),
             loader: POARequestDetailsPage.loader,
             children: [
               {

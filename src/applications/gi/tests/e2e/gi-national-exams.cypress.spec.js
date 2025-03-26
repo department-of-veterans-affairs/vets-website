@@ -40,7 +40,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('[data-testid="national-exams-header"]')
         .should('exist')
         .and('be.visible')
-        .and('have.text', 'National Exams');
+        .and('have.text', 'National exams');
       cy.get('[data-testid="national-exams-description"]')
         .should('exist')
         .and('be.visible')
@@ -65,12 +65,12 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
     it('paginates correctly when there are more than 10 exams', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('#results-summary').should('contain', 'Showing 1-10');
+      cy.get('#results-summary').should('contain', 'Showing 1 - 10');
       cy.get('[data-testid="currentPage"]')
         .shadow()
         .find('[aria-label="Next page"]')
         .click();
-      cy.get('#results-summary').should('contain', 'Showing 11-19');
+      cy.get('#results-summary').should('contain', 'Showing 11 - 19');
     });
 
     it('displays an error message when national exams fetch fails', () => {

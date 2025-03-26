@@ -52,10 +52,39 @@ export const Data = {
   STEP_THREE_NOTE:
     'Remember to request your next refill at least 15 days before ',
   STEP_ONE_SUBMITTED: 'We received your refill request',
-  STEP_TWO_SUBMITTED: 'We will process your refill request',
-  STEP_THREE_SUBMITTED: 'We will ship your refill',
+  STEP_TWO_SUBMITTED: 'We’ll process your refill request',
+  STEP_THREE_SUBMITTED: 'ship your refill',
+  STEP_THREE_SUBMIT_ABOVE: 'Step 3: NOT STARTED',
   STEP_TWO_ACTIVE: 'We processed your refill',
   STEP_THREE_SHIPPED: 'We shipped your refill',
+  STEP_ONE_NOTE_ABOVE: 'Step 1: Completed',
+  STEP_TWO_PROCESS_ABOVE_TEXT: 'Step 2: Completed',
+  STEP_ONE_DATE_TEXT: 'Step 1: Completed',
+  STEP_ONE_NO_DATE: 'Date completed not available',
+  STEP_TWO_DATE: 'Completed on October 1, 2023',
+  STEP_TWO_NOTE: 'We’ll provide an expected fill date.',
+  STEP_TWO_DELAY: 'The refill process is taking longer than usual',
+  STEP_TWO_PROCESS: 'Step 2: In process',
+  STEP_TWO_PROCESS_HEADER: 'We’re processing your refill request',
+  STEP_TWO_DELAY_NOTE:
+    'We expected to fill your prescription on March 18, 2025. Call your VA pharmacy for an update.',
+  STEP_THREE_NOTE_ABOVE: 'Step 3: Completed',
+  STEP_THREE_DATE: 'Completed on September 24, 2024',
+  STEP_THREE_NO_TRACKING:
+    'We’ll provide the tracking information when available.',
+  STEP_THREE_NOT_STARTED: 'Step 3: Not started',
+  TOOL_TIP_TEXT: 'Filter the medications list',
+  QUANTITY_EMPTY: 'Quantity not available',
+  DATE_EMPTY: 'not available',
+  PROVIDER_NAME: 'Provider name not available',
+  SHIPPED_ON_EMPTY: 'Date not available',
+  IMAGE_EMPTY: 'Image not available',
+  MEDICATION_DESCRIPTION_EMPTY: 'No description available',
+  PHARMACY_PHONE_NUMBER_EMPTY: 'Pharmacy phone number not available',
+  REASON_FOR_USE_EMPTY: 'Reason for use not available',
+  INSTRUCTIONS_EMPTY: 'Instructions not available',
+  PARTIAL_FILL_TEXT:
+    'This fill has a smaller quantity on purpose. This is temporary.',
 };
 export const Paths = {
   LANDING_LIST:

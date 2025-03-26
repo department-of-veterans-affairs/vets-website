@@ -17,12 +17,15 @@ describe('Medications Details Page Active Submitted Progress Tracker', () => {
     detailsPage.clickMedicationDetailsLink(submittedRx, cardNumber);
     detailsPage.verifyProcessStepOneHeaderOnDetailsPage(
       Data.STEP_ONE_SUBMITTED,
+      Data.STEP_ONE_DATE_TEXT,
     );
     detailsPage.verifyProcessStepTwoHeaderOnDetailsPage(
       Data.STEP_TWO_SUBMITTED,
+      Data.STEP_TWO_NOTE,
     );
     detailsPage.verifyProcessStepThreeHeaderOnDetailsPage(
       Data.STEP_THREE_SUBMITTED,
+      Data.STEP_THREE_NO_TRACKING,
     );
     cy.injectAxe();
     cy.axeCheck('main');

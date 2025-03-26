@@ -28,6 +28,13 @@ import {
   mhvAccountStatusErrorsSorted,
 } from './mhvAccountStatus';
 
+import { profileHasEHRM, profileHasVista } from './facilities';
+import {
+  selectVaPatient,
+  selectProfileLoa,
+  selectProfileLogInProvider,
+} from './accountInformation';
+
 export {
   hasMhvAccount,
   hasMhvBasicAccount,
@@ -44,9 +51,14 @@ export {
   mhvAccountStatusErrorsSorted,
   mhvAccountStatusNonUserError,
   personalizationEnabled,
+  profileHasEHRM,
+  profileHasVista,
   selectDrupalStaticData,
   selectGreetingName,
+  selectVaPatient,
   selectProfile,
+  selectProfileLoa,
+  selectProfileLogInProvider,
   signInServiceEnabled,
   signInServiceName,
   showVerifyAndRegisterAlert,

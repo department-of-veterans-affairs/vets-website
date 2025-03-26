@@ -82,8 +82,8 @@ export function useEditOrAddForm({
 
         if (arrayPath) {
           newFullData = replaceItemInFormData({
-            fullData,
-            updatedData,
+            formData: fullData,
+            newItem: updatedData,
             arrayPath,
             index,
           });

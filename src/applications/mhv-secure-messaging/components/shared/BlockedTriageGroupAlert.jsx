@@ -29,6 +29,9 @@ const BlockedTriageGroupAlert = props => {
   const MESSAGE_TO_CARE_TEAMS = "You can't send messages to care teams at";
   const ACCOUNT_DISCONNECTED = 'Your account is no longer connected to';
 
+  const DATADOG_FIND_VA_FACILITY_LINK =
+    'Find your VA health facility link - in Blocked/Not Associated alert';
+
   const [alertTitleText, setAlertTitleText] = useState(
     alertTitle.NO_ASSOCIATIONS,
   );
@@ -189,16 +192,17 @@ const BlockedTriageGroupAlert = props => {
         }
 
         if (blockedTriageList?.length === 1) {
+          const name =
+            blockedTriageList[0].suggestedNameDisplay ||
+            blockedTriageList[0].name;
           if (blockedTriageList[0].type === Recipients.FACILITY) {
-            setAlertTitleText(
-              `${MESSAGE_TO_CARE_TEAMS} ${blockedTriageList[0].name}`,
-            );
+            setAlertTitleText(`${MESSAGE_TO_CARE_TEAMS} ${name}`);
             setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
           } else {
             setAlertTitleText(
               blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
-                ? `${ACCOUNT_DISCONNECTED} ${blockedTriageList[0].name}`
-                : `${MESSAGE_TO_CARE_TEAM} ${blockedTriageList[0].name}`,
+                ? `${ACCOUNT_DISCONNECTED} ${name}`
+                : `${MESSAGE_TO_CARE_TEAM} ${name}`,
             );
             if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
               setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
@@ -206,13 +210,19 @@ const BlockedTriageGroupAlert = props => {
               setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
             }
           }
+        } else if (noAssociations) {
+          setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
+          setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
+        } else if (allTriageGroupsBlocked) {
+          setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+          setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
         } else {
           setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
           setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
         }
       }
     },
-    [blockedTriageList, recipients],
+    [blockedTriageList, recipients, noAssociations],
   );
 
   if (!showAlert) {
@@ -239,18 +249,24 @@ const BlockedTriageGroupAlert = props => {
                   data-testid="blocked-triage-group"
                   key={i}
                   data-dd-privacy="mask"
-                  data-dd-action-name="Blocked Triage Group Name"
+                  data-dd-action-name="Blocked/Not Associated alert - expandable"
                 >
                   {`${
                     blockedTriageGroup.type === Recipients.FACILITY
                       ? 'Care teams at '
                       : ''
-                  }${blockedTriageGroup.name}`}
+                  }${blockedTriageGroup.suggestedNameDisplay ||
+                    blockedTriageGroup.name}`}
                 </li>
               ))}
             </ul>
           )}
-        <a href="/find-locations/">Find your VA health facility</a>
+        <a
+          href="/find-locations/"
+          data-dd-action-name={`${DATADOG_FIND_VA_FACILITY_LINK} - expandable`}
+        >
+          Find your VA health facility
+        </a>
       </div>
     </va-alert-expandable>
   ) : (
@@ -260,15 +276,17 @@ const BlockedTriageGroupAlert = props => {
       visible
       data-testid="blocked-triage-group-alert"
     >
-      <h2
-        slot="headline"
-        data-dd-action-name="Blocked Triage Group Alert Header"
-      >
+      <h2 slot="headline" data-dd-action-name="Blocked/Not Associated alert">
         {alertTitleText}
       </h2>
       <div>
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
-        <a href="/find-locations/">Find your VA health facility</a>
+        <a
+          href="/find-locations/"
+          data-dd-action-name={`${DATADOG_FIND_VA_FACILITY_LINK}`}
+        >
+          Find your VA health facility
+        </a>
       </div>
     </va-alert>
   );
