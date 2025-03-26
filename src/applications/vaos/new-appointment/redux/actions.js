@@ -16,6 +16,7 @@ import {
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
   selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
@@ -307,6 +308,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
     );
     const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -324,6 +326,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             typeOfCare,
             directSchedulingEnabled,
             useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
             isCerner: true,
           });
 
@@ -360,6 +363,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           useV2: featureVAOSServiceVAAppointments,
           featureClinicFilter,
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
 
         if (showModal) {
@@ -709,9 +713,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -769,21 +770,19 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        const sortedSlots = [...availableSlots, ...mappedSlots]
-          // Check timezone 1st since conversion might flip the date to the
-          // previous or next day. This insures available slots are displayed
-          // for the correct day.
-          .map(slot => {
-            if (featureVAOSServiceVAAppointments) {
-              const zonedDate = utcToZonedTime(slot.start, timezone);
-              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
-                timeZone: timezone,
-              });
-              return { ...slot, start: time };
-            }
-            return slot;
-          })
-          .sort((a, b) => a.start.localeCompare(b.start));
+        // Check timezone 1st since conversion might flip the date to the
+        // previous or next day. This insures available slots are displayed
+        // for the correct day.
+        const correctedSlots = mappedSlots.map(slot => {
+          const zonedDate = utcToZonedTime(slot.start, timezone);
+          const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+            timeZone: timezone,
+          });
+          return { ...slot, start: time };
+        });
+        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
+          (a, b) => a.start.localeCompare(b.start),
+        );
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -911,6 +910,7 @@ export function submitAppointmentOrRequest(history) {
     );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -937,6 +937,7 @@ export function submitAppointmentOrRequest(history) {
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
 
         dispatch({
@@ -1025,20 +1026,15 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        let requestData;
-        if (isCommunityCare) {
-          requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-            useFeSourceOfTruth,
-          });
-        } else {
-          requestBody = transformFormToVAOSVARequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-            useFeSourceOfTruth,
-          });
-        }
+        requestBody = isCommunityCare
+          ? transformFormToVAOSCCRequest(getState())
+          : transformFormToVAOSVARequest(getState());
+
+        const requestData = await createAppointment({
+          appointment: requestBody,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
