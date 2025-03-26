@@ -1,20 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  usePrintTitle,
+  generatePdfScaffold,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import InfoAlert from '../shared/InfoAlert';
-
 import DateSubheading from '../shared/DateSubheading';
-
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 import ItemList from '../shared/ItemList';
+import PrintDownload from '../shared/PrintDownload';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+
+import { makePdf, getNameDateAndTime } from '../../util/helpers';
+
+import {
+  pageTitles,
+  LABS_AND_TESTS_DISPLAY_DISPLAY_MAP,
+} from '../../util/constants';
+import {
+  generateLabsIntro,
+  generateGenericContent,
+} from '../../util/pdfHelpers/labsAndTests';
 
 import UnifiedLabAndTestObservations from './UnifiedLabAndTestObservations';
 
 const UnifiedLabsAndTests = props => {
-  const { record } = props;
+  const { record, user, runningUnitTest = false } = props;
 
   useEffect(
     () => {
@@ -22,6 +38,31 @@ const UnifiedLabsAndTests = props => {
     },
     [record],
   );
+  // THOUGHT: this could probably be taken to the parent component?
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+  );
+
+  const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const generatePdf = async () => {
+    setDownloadStarted(true);
+    const { title, subject, subtitles } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateGenericContent(record),
+    };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+  };
+
+  const generateTxt = async () => {
+    setDownloadStarted(true);
+  };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
@@ -37,16 +78,26 @@ const UnifiedLabsAndTests = props => {
         <DateSubheading
           date={record.date}
           id="test-result-date"
-          label="Date and time collected"
+          label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[record.date]}
           labelClass="vads-font-weight-regular"
         />
+
+        {downloadStarted && <DownloadSuccessAlert />}
+
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generatePdf}
+          downloadTxt={generateTxt}
+          allowTxtDownloads
+        />
+        <DownloadingRecordsInfo description="L&TR Detail" allowTxtDownloads />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
             <LabelValue
               ifEmpty="None Noted"
-              label="Type of test"
+              label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.testCode}
               value={record.testCode}
               testId="chem-hem-category"
               data-dd-action-name="[lab and tests - test code]"
@@ -54,7 +105,7 @@ const UnifiedLabsAndTests = props => {
             {record.sampleTested && (
               <LabelValue
                 ifEmpty="None Noted"
-                label="Site or sample tested"
+                label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.sampleTested}
                 value={record.sampleTested}
                 testId="chem-hem-sample-tested"
                 data-dd-action-name="[lab and tests - sample tested]"
@@ -63,7 +114,7 @@ const UnifiedLabsAndTests = props => {
             {record.bodySite && (
               <LabelValue
                 ifEmpty="None Noted"
-                label="Body site tested"
+                label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.bodySite}
                 value={record.bodySite}
                 testId="chem-hem-sample-tested"
                 data-dd-action-name="[lab and tests - body site]"
@@ -71,14 +122,14 @@ const UnifiedLabsAndTests = props => {
             )}
             <LabelValue
               ifEmpty="None Noted"
-              label="Ordered by"
+              label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.orderedBy}
               value={record.orderedBy}
               testId="chem-hem-ordered-by"
               data-dd-action-name="[lab and tests - ordered by]"
             />
             <LabelValue
               ifEmpty="None Noted"
-              label="Location"
+              label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.location}
               value={record.location}
               testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
@@ -86,7 +137,10 @@ const UnifiedLabsAndTests = props => {
 
             {record.comments && (
               <>
-                <LabelValue label="Lab comments" />
+                <LabelValue
+                  label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.comments}
+                  ifEmpty=""
+                />
                 <ItemList list={record.comments} />
               </>
             )}
@@ -94,7 +148,7 @@ const UnifiedLabsAndTests = props => {
               <>
                 <LabelValue
                   ifEmpty="None Noted"
-                  label="Result"
+                  label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.result}
                   value={record.result}
                 />
               </>
@@ -132,7 +186,7 @@ const UnifiedLabsAndTests = props => {
 export default UnifiedLabsAndTests;
 
 UnifiedLabsAndTests.propTypes = {
-  fullState: PropTypes.object,
   record: PropTypes.object,
   runningUnitTest: PropTypes.bool,
+  user: PropTypes.object,
 };

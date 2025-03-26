@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import UnifiedLabAndTestObservationDetail from './UnifiedLabAndTestObservationDetail';
+import { OBSERVATION_DISPLAY_LABELS } from '../../util/constants';
 
 const UnifiedLabAndTestObservations = props => {
   const { results } = props;
@@ -19,37 +20,37 @@ const UnifiedLabAndTestObservations = props => {
             </h3>
             <div className="vads-u-padding-x--3 vads-u-padding-top--2">
               <UnifiedLabAndTestObservationDetail
-                header="Result"
+                header={OBSERVATION_DISPLAY_LABELS.VALUE}
                 value={result.value.text}
                 ddActionName="[lab and tests - result]"
               />
               <UnifiedLabAndTestObservationDetail
-                header="Reference range"
+                header={OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}
                 value={result.referenceRange}
                 ddActionName="[lab and tests - reference range]"
               />
               <UnifiedLabAndTestObservationDetail
-                header="Status"
+                header={OBSERVATION_DISPLAY_LABELS.STATUS}
                 value={result.status}
                 ddActionName="[lab and tests - status]"
               />
               {result.bodySite && (
                 <UnifiedLabAndTestObservationDetail
-                  header="Body site"
+                  header={OBSERVATION_DISPLAY_LABELS.BODY_SITE}
                   value={result.bodySite}
                   ddActionName="[lab and tests - body site]"
                 />
               )}
               {result.sampleTested && (
                 <UnifiedLabAndTestObservationDetail
-                  header="Sample tested"
+                  header={OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}
                   value={result.sampleTested}
                   ddActionName="[lab and tests - sample tested]"
                 />
               )}
               {result.comments && (
                 <UnifiedLabAndTestObservationDetail
-                  header="Comments"
+                  header={OBSERVATION_DISPLAY_LABELS.COMMENTS}
                   value={result.comments}
                   ddActionName="[lab and tests - comments]"
                 />
