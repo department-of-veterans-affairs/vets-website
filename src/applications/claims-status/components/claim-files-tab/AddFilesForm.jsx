@@ -239,6 +239,7 @@ class AddFilesForm extends React.Component {
                       decrypt it.
                     </p>
                     <VaTextInput
+                      id="password-input"
                       required
                       error={
                         validateIfDirty(password, isNotBlank)

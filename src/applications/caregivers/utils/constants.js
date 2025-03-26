@@ -22,6 +22,10 @@ export const ADDRESS_REGEX = {
 
 export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
 
+export const API_ENDPOINTS = {
+  facilities: '/caregivers_assistance_claims/facilities',
+};
+
 export const DOWNLOAD_ERRORS_BY_CODE = {
   '5': content['alert-download-message--500'],
   generic: content['alert-download-message--generic'],
