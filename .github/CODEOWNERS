@@ -265,7 +265,7 @@ src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent
 # Other
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/user-testing/new-conditions @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/user-testing/disability-benefits-all-claims-conditions-chapter @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
 
 # NCA Forms Preneed PMC Medallions
 src/applications/medallions @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
