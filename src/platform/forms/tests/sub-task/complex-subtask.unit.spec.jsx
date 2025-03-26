@@ -190,13 +190,15 @@ describe('Form 526 Sub-Task', () => {
       expect($('va-button[back]', container)).to.exist;
       expect($('va-button[continue]', container)).to.exist;
 
-    expect(vaDate).to.exist;
-    expect(vaDate.getAttribute('error')).to.be.null; // no error until submit attempt
+      expect(vaDate).to.exist;
+      expect(vaDate.error).to.be.null; // no error until submit attempt
+    });
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
-    expect(vaDate.getAttribute('error')).to.contain(
-      'valid future separation date',
-    );
+
+    await waitFor(() => {
+      expect(vaDate.error).to.contain('valid future separation date');
+    });
   });
   it('should go to file early alert & introduction page', () => {
     const router = { push: sinon.spy() };
