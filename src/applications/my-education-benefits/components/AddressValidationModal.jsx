@@ -106,7 +106,18 @@ function AddressValidationModal(props) {
     }
 
     try {
-      await validateAddressAction(addressData);
+      // Format address data using camelCase
+      const formattedAddress = {
+        addressLine1: addressData.street,
+        addressLine2: addressData.street2 || '',
+        addressLine3: addressData.street3 || '',
+        city: addressData.city,
+        stateCode: addressData.state,
+        countryCode: addressData.country,
+        zipCode: addressData.postalCode,
+      };
+
+      await validateAddressAction(formattedAddress);
     } catch (error) {
       const logger = window.console;
       if (logger && logger.error) {
