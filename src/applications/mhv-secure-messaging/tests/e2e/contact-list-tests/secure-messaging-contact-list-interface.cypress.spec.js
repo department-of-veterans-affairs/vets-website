@@ -7,9 +7,10 @@ import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import PatientComposePage from '../pages/PatientComposePage';
 
-describe('SM Contact list', () => {
+describe('SM CONTACT LIST', () => {
   const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
     {
       name: 'mhv_secure_messaging_edit_contact_list',
@@ -58,5 +59,28 @@ describe('SM Contact list', () => {
     ContactListPage.verifyButtons();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it(`verify contact list wit plain TG names`, () => {
+    const updatedMockRecipientsResponse = GeneralFunctionsPage.updateTGSuggestedName(
+      mockRecipients,
+      'TG | Type | Name',
+    );
+
+    SecureMessagingSite.login(updatedFeatureToggle);
+    ContactListPage.loadContactList(updatedMockRecipientsResponse);
+
+    cy.get(
+      `[data-testid="contact-list-select-team-${
+        updatedMockRecipientsResponse.data[0].attributes.triageTeamId
+      }"]`,
+    )
+      .find(`[part="label"]`, { includeShadowDom: true })
+      .should(
+        `have.text`,
+        `${
+          updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay
+        }`,
+      );
   });
 });

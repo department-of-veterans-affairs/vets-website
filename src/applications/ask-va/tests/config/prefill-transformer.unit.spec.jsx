@@ -7,44 +7,52 @@ const buildFormData = (
   serviceNumber = undefined,
   ssn = undefined,
   phoneNumber = '',
+  businessPhone = '',
   emailAddress = '',
   schoolInfo = {},
   branchOfService = '',
 ) => {
-  return {
-    payload: {
-      personalInformation: {
-        first,
-        last,
-        serviceNumber,
-        socialSecurityNumber: ssn,
-      },
-      contactInformation: {
-        phone: phoneNumber,
-        email: emailAddress,
-      },
-      avaProfile: {
-        schoolInfo,
-      },
-      veteranServiceInformation: {
-        branchOfService,
-      },
+  const payload = {
+    personalInformation: {
+      first,
+      last,
+      ...(serviceNumber && { serviceNumber }),
+      ...(ssn && { socialSecurityNumber: ssn }),
     },
-    expected: {
-      aboutYourself: {
-        first,
-        last,
-        socialOrServiceNum: {
-          serviceNumber: serviceNumber || '',
-          ssn: ssn || '',
-        },
-        branchOfService,
-      },
-      phoneNumber: phoneNumber || '',
-      emailAddress: emailAddress || '',
+    contactInformation: {
+      phone: phoneNumber,
+      email: emailAddress,
+    },
+    avaProfile: {
       schoolInfo,
     },
+    veteranServiceInformation: {
+      branchOfService,
+    },
   };
+
+  const expected = {
+    aboutYourself: {
+      first,
+      last,
+      ...(serviceNumber || ssn
+        ? {
+            socialOrServiceNum: {
+              ...(serviceNumber && { serviceNumber }),
+              ...(ssn && { ssn }),
+            },
+          }
+        : {}),
+      branchOfService,
+    },
+    phoneNumber: phoneNumber || '',
+    emailAddress: emailAddress || '',
+    businessPhone: businessPhone || '',
+    businessEmail: emailAddress || '',
+    schoolInfo,
+  };
+
+  return { payload, expected };
 };
 
 describe('Ask VA prefill transformer', () => {
@@ -58,6 +66,7 @@ describe('Ask VA prefill transformer', () => {
       undefined,
       '123456987',
       '555-123-4567',
+      '',
       'pparker@dailyBugle.com',
       { schoolFacilityCode: '321', schoolName: 'Midtown School of Science' },
     );
@@ -81,14 +90,11 @@ describe('Ask VA prefill transformer', () => {
     expect(transformedData).to.deep.equal({
       metadata,
       formData: {
-        aboutYourself: {
-          socialOrServiceNum: {
-            serviceNumber: '',
-            ssn: '',
-          },
-        },
+        aboutYourself: {},
         phoneNumber: '',
         emailAddress: '',
+        businessPhone: '',
+        businessEmail: '',
       },
       pages,
     });
@@ -113,13 +119,11 @@ describe('Ask VA prefill transformer', () => {
         aboutYourself: {
           first: 'John',
           last: 'Doe',
-          socialOrServiceNum: {
-            serviceNumber: '',
-            ssn: '',
-          },
         },
         phoneNumber: '555-123-4567',
         emailAddress: '',
+        businessPhone: '',
+        businessEmail: '',
       },
       pages,
     });
@@ -139,5 +143,39 @@ describe('Ask VA prefill transformer', () => {
       formData: formData.expected,
       pages,
     });
+  });
+
+  it('should only include socialOrServiceNum when values are present', () => {
+    // Test with only service number
+    const withServiceNumber = buildFormData('John', 'Doe', '12345', undefined);
+    const transformedServiceNumber = prefillTransformer(
+      pages,
+      withServiceNumber.payload,
+      metadata,
+    );
+    expect(
+      transformedServiceNumber.formData.aboutYourself.socialOrServiceNum,
+    ).to.deep.equal({
+      serviceNumber: '12345',
+    });
+
+    // Test with only SSN
+    const withSSN = buildFormData('John', 'Doe', undefined, '987654321');
+    const transformedSSN = prefillTransformer(pages, withSSN.payload, metadata);
+    expect(
+      transformedSSN.formData.aboutYourself.socialOrServiceNum,
+    ).to.deep.equal({
+      ssn: '987654321',
+    });
+
+    // Test with neither
+    const withNeither = buildFormData('John', 'Doe');
+    const transformedNeither = prefillTransformer(
+      pages,
+      withNeither.payload,
+      metadata,
+    );
+    expect(transformedNeither.formData.aboutYourself.socialOrServiceNum).to.be
+      .undefined;
   });
 });

@@ -4,6 +4,7 @@ import PatientMessageSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import mockSentMessages from './fixtures/sentResponse/sent-messages-response.json';
 
 describe('secure Messaging Sent Folder checks', () => {
   beforeEach(() => {
@@ -46,5 +47,29 @@ describe('secure Messaging Sent Folder checks', () => {
     FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
     FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
     FolderLoadPage.verifyBreadCrumbText(3, 'Sent');
+  });
+});
+
+describe('TG PLAIN NAMES', () => {
+  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
+    mockSentMessages,
+    'TG | Type | Name',
+  );
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadFolders();
+    PatientMessageSentPage.loadMessages(updatedThreadResponse);
+  });
+
+  it('verify TG plain name in thread', () => {
+    cy.findAllByTestId('thread-list-item')
+      .first()
+      .should(
+        'contain.text',
+        updatedThreadResponse.data[0].attributes.suggestedNameDisplay,
+      );
+
+    cy.injectAxeThenAxeCheck();
   });
 });

@@ -33,7 +33,7 @@ const ProcessList = ({ isAccredited, id }) => {
                   <VaLink
                     external
                     text="VA Form 22-10215"
-                    href="/education/apply-for-education-benefits/application/10215"
+                    href="/school-administrators/85-15-rule-enrollment-ratio"
                   />{' '}
                 </span>{' '}
                 to fill it out. Once completed, save it as a PDF on your device.
