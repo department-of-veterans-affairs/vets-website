@@ -129,10 +129,7 @@ const responses = {
   'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
-      features: [
-        { name: 'sc_new_form', value: true },
-        { name: 'nodConfirmationUpdate', value: true },
-      ],
+      features: [{ name: 'sc_new_form', value: true }],
     },
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
