@@ -105,7 +105,6 @@ const ReviewPage = props => {
     if (storedFiles.length > 0) {
       setAttachments(storedFiles);
     }
-    focusElement('h2');
   };
 
   const deleteFile = async fileID => {
@@ -221,8 +220,9 @@ const ReviewPage = props => {
     );
   };
 
-  useEffect(() => {
-    getUploadedFiles();
+  useEffect(async () => {
+    await getUploadedFiles();
+    focusElement('h2');
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const ombInfo = {
@@ -52,20 +52,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </ul>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-          <div className="id-not-verified-content vads-u-margin-top--4">
-            <VerifyAlert headingLevel={3} />
-            <p className="vads-u-margin-top--3">
-              If you don’t want to verify your identity right now, you can still
-              download and complete the PDF version of this authorization.
-            </p>
-            <p className="vads-u-margin-y--3">
-              <va-link
-                download
-                href="https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf"
-                text="Get VA Form 21-4142 to download"
-              />
-            </p>
-          </div>
+          <IdNotVerifiedAlert formNumber="21-4142" formType="authorization" />
         )}
     </>
   );
