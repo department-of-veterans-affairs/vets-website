@@ -8,8 +8,11 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
   let dom;
 
   afterEach(() => {
+    if (dom) {
+      document.body.removeChild(dom);
+      dom = null;
+    }
     cleanup();
-    dom = null;
   });
 
   it('should return a boolean true if minimal header is applicable', () => {
@@ -33,11 +36,11 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
     const locationStub = sinon.stub(window, 'location');
 
     dom = document.createElement('div');
-    dom.innerHTML += `
-      <div id="header-minimal" data-exclude-paths="[&quot;/introduction&quot;,&quot;/confirmation&quot;]">
-        Minimal header
-      </div>
-    `;
+    dom.id = 'header-minimal';
+    dom.setAttribute(
+      'data-exclude-paths',
+      '[&quot;/introduction&quot;,&quot;/confirmation&quot;]',
+    );
     document.body.appendChild(dom);
 
     locationStub.value({
