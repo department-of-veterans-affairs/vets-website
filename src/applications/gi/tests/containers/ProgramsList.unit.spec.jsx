@@ -220,7 +220,7 @@ describe('ProgramsList component', () => {
         />
       </Provider>,
     );
-    const abbreviationsDiv = wrapper.find('h4.abbreviations').parent('div');
+    const abbreviationsDiv = wrapper.find('h3.abbreviations').parent('div');
     expect(abbreviationsDiv.hasClass('vads-u-margin-bottom--4')).to.be.true;
     wrapper.unmount();
   });
