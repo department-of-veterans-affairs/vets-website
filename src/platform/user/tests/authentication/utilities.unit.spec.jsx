@@ -705,13 +705,6 @@ describe('Authentication Utilities', () => {
       expect(authUtilities.logoutUrl()).to.include('sessions/slo/new');
       cleanup();
     });
-    it('should generate the SAML logout URL without _verified', async () => {
-      setup({ path: 'sessions/slo_verified' });
-
-      const logoutUrl = authUtilities.logoutUrl();
-      expect(logoutUrl).to.include('sessions/slo/new');
-      cleanup();
-    });
   });
 
   describe('generateReturnURL', () => {

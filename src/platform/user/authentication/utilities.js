@@ -249,7 +249,10 @@ export function sessionTypeUrl({
   const requireVerification =
     allowVerification ||
     forceVerify === 'required' ||
-    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
+    (externalRedirect &&
+      (isLogin || isSignup) &&
+      config.requiresVerification) ||
+    type !== POLICY_TYPES.SLO
       ? '_verified'
       : '';
 
@@ -450,13 +453,6 @@ export async function signupOrVerify({
   return isLink ? url : redirect(url, event);
 }
 
-function removeVerifiedFromPath(url) {
-  const urlObj = new URL(url);
-  urlObj.pathname = urlObj.pathname.replace('_verified', '');
-  return urlObj.toString();
-}
-
 export const logoutUrl = () => {
-  const url = sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
-  return removeVerifiedFromPath(url);
+  return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
 };
