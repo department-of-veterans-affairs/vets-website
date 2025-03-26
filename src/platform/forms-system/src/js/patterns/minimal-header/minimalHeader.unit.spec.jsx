@@ -37,10 +37,7 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
 
     dom = document.createElement('div');
     dom.id = 'header-minimal';
-    dom.setAttribute(
-      'data-exclude-paths',
-      '[&quot;/introduction&quot;,&quot;/confirmation&quot;]',
-    );
+    dom.setAttribute('data-exclude-paths', '["/introduction","/confirmation"]');
     document.body.appendChild(dom);
 
     locationStub.value({

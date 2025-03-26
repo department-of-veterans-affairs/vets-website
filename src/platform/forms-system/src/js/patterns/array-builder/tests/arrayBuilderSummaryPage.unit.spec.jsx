@@ -510,10 +510,7 @@ describe('ArrayBuilderSummaryPage', () => {
   it('radio should have h1 label-header-level if 0 items with minimal header', () => {
     dom = document.createElement('div');
     dom.id = 'header-minimal';
-    dom.setAttribute(
-      'data-exclude-paths',
-      '[&quot;/introduction&quot;,&quot;/confirmation&quot;]',
-    );
+    dom.setAttribute('data-exclude-paths', '["/introduction","/confirmation"]');
     document.body.appendChild(dom);
 
     const { container } = setupArrayBuilderSummaryPage({
@@ -540,10 +537,7 @@ describe('ArrayBuilderSummaryPage', () => {
   it('title should be h1, card should have h2, and radio should have h2 label-header-level if 1+ items with minimal header', () => {
     dom = document.createElement('div');
     dom.id = 'header-minimal';
-    dom.setAttribute(
-      'data-exclude-paths',
-      '[&quot;/introduction&quot;,&quot;/confirmation&quot;]',
-    );
+    dom.setAttribute('data-exclude-paths', '["/introduction","/confirmation"]');
     document.body.appendChild(dom);
 
     const { container } = setupArrayBuilderSummaryPage({
