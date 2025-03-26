@@ -133,7 +133,6 @@ const responses = {
         { name: 'sc_new_form', value: true },
         { name: 'hlrConfirmationUpdate', value: true },
         { name: 'nodConfirmationUpdate', value: true },
-        { name: 'scConfirmationUpdate', value: true },
       ],
     },
   },
