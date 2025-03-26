@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -38,6 +38,42 @@ function AddressValidationModal(props) {
     value: state.value,
     label: state.label,
   }));
+
+  const selectRef = useRef();
+
+  const handleAddressChange = newAddress => {
+    const updatedFormData = {
+      ...formData,
+      [formFields.viewMailingAddress]: {
+        ...formData[formFields.viewMailingAddress],
+        [formFields.address]: {
+          ...formData[formFields.viewMailingAddress]?.[formFields.address],
+          ...newAddress,
+        },
+        addressValidated: false,
+      },
+    };
+    setFormData(updatedFormData);
+  };
+
+  useEffect(
+    () => {
+      const selectEl = selectRef.current;
+      if (!selectEl) return;
+
+      const handleVaSelect = e => {
+        handleAddressChange({ state: e.detail.value });
+      };
+
+      selectEl.addEventListener('vaSelect', handleVaSelect);
+
+      /* eslint-disable-next-line consistent-return */
+      return () => {
+        selectEl.removeEventListener('vaSelect', handleVaSelect);
+      };
+    },
+    [handleAddressChange],
+  );
 
   const isAddressComplete = address => {
     if (!address) return false;
@@ -110,21 +146,6 @@ function AddressValidationModal(props) {
     return parts.join(', ');
   };
 
-  const handleAddressChange = newAddress => {
-    const updatedFormData = {
-      ...formData,
-      [formFields.viewMailingAddress]: {
-        ...formData[formFields.viewMailingAddress],
-        [formFields.address]: {
-          ...formData[formFields.viewMailingAddress]?.[formFields.address],
-          ...newAddress,
-        },
-        addressValidated: false,
-      },
-    };
-    setFormData(updatedFormData);
-  };
-
   const addressPattern = addressUI({
     required: {
       street: true,
@@ -162,7 +183,7 @@ function AddressValidationModal(props) {
           label="State"
           value={userEnteredAddress?.state || ''}
           required={userEnteredAddress?.country === 'USA'}
-          onVaSelect={e => handleAddressChange({ state: e.detail.value })}
+          ref={selectRef}
         >
           {stateOptions.map(state => (
             <option key={state.value} value={state.value}>
