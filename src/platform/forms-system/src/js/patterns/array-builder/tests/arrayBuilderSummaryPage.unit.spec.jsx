@@ -74,7 +74,7 @@ const mockRedux = ({
 describe('ArrayBuilderSummaryPage', () => {
   let getArrayUrlSearchParamsStub;
   let getIndexStub;
-  let dom;
+  let minimalHeader;
 
   function stubUrlParams(str) {
     getArrayUrlSearchParamsStub = sinon
@@ -97,9 +97,9 @@ describe('ArrayBuilderSummaryPage', () => {
       getIndexStub.restore();
       getIndexStub = null;
     }
-    if (dom) {
-      document.body.removeChild(dom);
-      dom = null;
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
     }
     cleanup();
   });
@@ -508,10 +508,13 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('radio should have h1 label-header-level if 0 items with minimal header', () => {
-    dom = document.createElement('div');
-    dom.id = 'header-minimal';
-    dom.setAttribute('data-exclude-paths', '["/introduction","/confirmation"]');
-    document.body.appendChild(dom);
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
+      '["/introduction","/confirmation"]',
+    );
+    document.body.appendChild(minimalHeader);
 
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [],
@@ -535,10 +538,13 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('title should be h1, card should have h2, and radio should have h2 label-header-level if 1+ items with minimal header', () => {
-    dom = document.createElement('div');
-    dom.id = 'header-minimal';
-    dom.setAttribute('data-exclude-paths', '["/introduction","/confirmation"]');
-    document.body.appendChild(dom);
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
+      '["/introduction","/confirmation"]',
+    );
+    document.body.appendChild(minimalHeader);
 
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],

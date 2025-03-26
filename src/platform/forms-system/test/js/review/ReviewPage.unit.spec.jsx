@@ -6,7 +6,7 @@ import { cleanup } from '@testing-library/react';
 import { ReviewPage } from '../../../src/js/review/ReviewPage';
 
 describe('Schemaform review: ReviewPage', () => {
-  let dom;
+  let minimalHeader;
 
   const location = {
     pathname: '/testing/0',
@@ -48,9 +48,9 @@ describe('Schemaform review: ReviewPage', () => {
   };
 
   afterEach(() => {
-    if (dom) {
-      document.body.removeChild(dom);
-      dom = null;
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
     }
     cleanup();
   });
@@ -74,9 +74,9 @@ describe('Schemaform review: ReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    dom = document.createElement('div');
-    dom.id = 'header-minimal';
-    document.body.appendChild(dom);
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
 
     const treeWithMinimalHeader = shallow(
       <ReviewPage
