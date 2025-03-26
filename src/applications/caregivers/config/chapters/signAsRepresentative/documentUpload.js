@@ -37,7 +37,7 @@ const documentUpload = {
       {
         buttonText: content['button-upload'],
         classNames: 'poa-document-upload vads-u-margin-top--2',
-        fileUploadUrl: `${environment.API_URL}/v0${API_ENDPOINTS.fileUpload}`,
+        fileUploadUrl: environment.API_URL + API_ENDPOINTS.fileUpload,
         fileTypes: ALLOWED_FILE_TYPES,
         maxSize: MAX_FILE_SIZE_BYTES,
         hideLabelText: false,

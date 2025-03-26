@@ -80,7 +80,7 @@ const {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0${API_ENDPOINTS.submission}`,
+  submitUrl: environment.API_URL + API_ENDPOINTS.submission,
   transformForSubmit: submitTransformer,
   trackingPrefix: 'caregivers-10-10cg-',
   v3SegmentedProgressBar: true,

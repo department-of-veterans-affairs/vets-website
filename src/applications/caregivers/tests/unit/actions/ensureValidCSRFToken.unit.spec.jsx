@@ -72,10 +72,10 @@ describe('CG ensureValidCSRFToken action', () => {
         expect(apiRequestStub.callCount).to.equal(1);
         expect(sentrySpy.callCount).to.equal(2);
         expect(sentrySpy.firstCall.args[0]).to.equal(
-          'No csrfToken when making myMethod call. Calling /v0/maintenance_windows to generate new one.',
+          'No csrfToken when making myMethod call. Calling /maintenance_windows to generate new one.',
         );
         expect(sentrySpy.secondCall.args[0]).to.equal(
-          'No csrfToken when making myMethod call. /v0/maintenance_windows successfully called to generate token.',
+          'No csrfToken when making myMethod call. /maintenance_windows successfully called to generate token.',
         );
       });
     });
@@ -89,10 +89,10 @@ describe('CG ensureValidCSRFToken action', () => {
         expect(apiRequestStub.callCount).to.equal(1);
         expect(sentrySpy.callCount).to.equal(2);
         expect(sentrySpy.firstCall.args[0]).to.equal(
-          'No csrfToken when making myMethod call. Calling /v0/maintenance_windows to generate new one.',
+          'No csrfToken when making myMethod call. Calling /maintenance_windows to generate new one.',
         );
         expect(sentrySpy.secondCall.args[0]).to.equal(
-          'No csrfToken when making myMethod call. /v0/maintenance_windows failed when called to generate token.',
+          'No csrfToken when making myMethod call. /maintenance_windows failed when called to generate token.',
         );
       });
     });
