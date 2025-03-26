@@ -19,15 +19,13 @@ describe('Test download all page', () => {
 
     DownloadAllPage.selectDateRangeDropdown('Custom');
     DownloadAllPage.clickContinueOnDownloadAllPage();
-    DownloadAllPage.verifyValidStartDateError(
-      'Please enter a valid start date.',
-    );
+    DownloadAllPage.verifyValidStartDateError('Please enter a complete date.');
     DownloadAllPage.selectCustomStartMonth('January');
     DownloadAllPage.selectCustomStartDay('12');
     DownloadAllPage.selectCustomStartYear('2024');
 
     DownloadAllPage.clickContinueOnDownloadAllPage();
-    DownloadAllPage.verifyValidEndDateError('Please enter a valid end date.');
+    DownloadAllPage.verifyValidEndDateError('Please enter a complete date.');
 
     // Verify "start date greater than end date" error
     DownloadAllPage.selectCustomEndMonth('January');
