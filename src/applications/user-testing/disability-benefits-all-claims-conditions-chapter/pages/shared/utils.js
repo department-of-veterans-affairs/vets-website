@@ -56,44 +56,72 @@ export const hasRatedDisabilities = fullData => {
   return Object.keys(createNonSelectedRatedDisabilities(fullData)).length > 0;
 };
 
-const checkNewConditionRadio = ratedDisability =>
+const isNewConditionFromRatedDisabilityRadio = ratedDisability =>
   !ratedDisability ||
   ratedDisability === 'Add a new condition' ||
   ratedDisability === 'Edit new condition';
 
-const isNewConditionRatedOrNewRadios = (formData, index) => {
+const isNewConditionForRatedOrNewRadiosDemo = (formData, index) => {
   if (formData?.[arrayPath]) {
     const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
 
-    return ratedOrNew === 'NEW' || !hasRatedDisabilities(formData);
+    return ratedOrNew === 'NEW' || ratedOrNew === undefined;
   }
 
-  return formData?.ratedOrNew === 'NEW' || !hasRatedDisabilities(formData);
+  return formData?.ratedOrNew === 'NEW' || formData?.ratedOrNew === undefined;
 };
 
-const isNewConditionRatedOrNewNextPage = (formData, index) => {
+const isRatedDisabilityForRatedOrNewRadiosDemo = (formData, index) => {
+  if (formData?.[arrayPath]) {
+    const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
+
+    return ratedOrNew === 'RATED';
+  }
+
+  return formData?.ratedOrNew === 'RATED';
+};
+
+const isNewConditionForRatedOrNewNextPageDemo = (formData, index) => {
   if (formData?.[arrayPath]) {
     const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
 
-    return checkNewConditionRadio(ratedDisability);
+    return isNewConditionFromRatedDisabilityRadio(ratedDisability);
   }
 
-  return checkNewConditionRadio(formData?.ratedDisability);
+  return isNewConditionFromRatedDisabilityRadio(formData?.ratedDisability);
+};
+
+const isRatedDisabilityForRatedOrNewNextPageDemo = (formData, index) => {
+  if (formData?.[arrayPath]) {
+    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+
+    return !isNewConditionFromRatedDisabilityRadio(ratedDisability);
+  }
+
+  return !isNewConditionFromRatedDisabilityRadio(formData?.ratedDisability);
 };
 
 export const isNewCondition = (formData, index) => {
   if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
-    return isNewConditionRatedOrNewRadios(formData, index);
+    return isNewConditionForRatedOrNewRadiosDemo(formData, index);
   }
 
-  return isNewConditionRatedOrNewNextPage(formData, index);
+  return isNewConditionForRatedOrNewNextPageDemo(formData, index);
+};
+
+export const isRatedDisability = (formData, index) => {
+  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
+    return isRatedDisabilityForRatedOrNewRadiosDemo(formData, index);
+  }
+
+  return isRatedDisabilityForRatedOrNewNextPageDemo(formData, index);
 };
 
 export const hasRatedDisabilitiesOrIsRatedDisability = (fullData, index) =>
-  hasRatedDisabilities(fullData) || !isNewCondition(fullData, index);
+  hasRatedDisabilities(fullData) || isRatedDisability(fullData, index);
 
 export const hasRatedDisabilitiesAndIsRatedDisability = (fullData, index) =>
-  hasRatedDisabilities(fullData) && !isNewCondition(fullData, index);
+  hasRatedDisabilities(fullData) && isRatedDisability(fullData, index);
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
 const capitalizeFirstLetter = string => {
