@@ -3,9 +3,9 @@ import * as api from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import environment from 'platform/utilities/environment';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import { ensureValidCSRFToken } from '../../../actions/ensureValidCSRFToken';
+import { API_ENDPOINTS } from '../../../utils/constants';
 
 describe('CG ensureValidCSRFToken action', () => {
   const errorResponse = { bad: 'some error' };
@@ -67,7 +67,7 @@ describe('CG ensureValidCSRFToken action', () => {
           }),
         ).to.be.false;
         expect(apiRequestStub.firstCall.args[0]).to.equal(
-          `${environment.API_URL}/v0/maintenance_windows`,
+          API_ENDPOINTS.csrfCheck,
         );
         expect(apiRequestStub.callCount).to.equal(1);
         expect(sentrySpy.callCount).to.equal(2);
