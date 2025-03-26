@@ -135,7 +135,7 @@ describe('CG `secondaryTwoHasDifferentMailingAddress` method', () => {
   });
 });
 
-describe('CG `hasPlannedMedicalCenter` method', () => {
+describe('CG `showFacilityConfirmation` method', () => {
   it('should return `false` when useFacilitiesAPI is off', () => {
     const formData = { 'view:useFacilitiesAPI': false };
     expect(showFacilityConfirmation(formData)).to.be.false;

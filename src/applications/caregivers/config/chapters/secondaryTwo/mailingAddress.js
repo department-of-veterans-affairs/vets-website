@@ -1,10 +1,10 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { addressUI } from '../../../definitions/sharedUI';
 import { addressSchema } from '../../../definitions/sharedSchema';
-import { fullSchema } from '../../../utils/imports';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { mailingAddress } = fullSchema.definitions;
+const { mailingAddress } = FULL_SCHEMA.definitions;
 const inputLabel = content['secondary-two-input-label'];
 
 const secondaryTwoMailingAddress = {

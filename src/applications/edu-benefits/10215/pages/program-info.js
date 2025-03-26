@@ -19,7 +19,7 @@ const programInfo = {
     'ui:description': (
       <va-link
         external
-        href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+        href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         text="Review the calculation instructions"
       />
     ),
