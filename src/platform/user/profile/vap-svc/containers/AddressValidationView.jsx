@@ -145,15 +145,19 @@ class AddressValidationView extends React.Component {
       validationKey,
       isLoading,
       confirmedSuggestions,
+      selectedAddressId,
     } = this.props;
 
-    let buttonText = 'Use this address';
+    let buttonText = 'Use address you entered';
 
     if (confirmedSuggestions.length === 0 && validationKey) {
-      buttonText = 'Use this address';
+      buttonText = 'Use address you entered';
     }
 
-    if (confirmedSuggestions.length === 1 && !validationKey) {
+    if (
+      confirmedSuggestions.length === 1 &&
+      selectedAddressId !== 'userEntered'
+    ) {
       buttonText = 'Use suggested address';
     }
 

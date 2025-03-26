@@ -13,7 +13,6 @@ import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
-import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
@@ -68,11 +67,11 @@ export default function ReferralAppointments() {
   }
 
   if ((!referral || isLoading) && !appointmentId) {
-    // @TODO: Switch to using ReferralLayout
     return (
-      <FormLayout pageTitle="Review Approved Referral">
-        <va-loading-indicator set-focus message="Loading your data..." />
-      </FormLayout>
+      <ReferralLayout
+        loadingMessage="Loading your data..."
+        heading="Review Approved Referral"
+      />
     );
   }
 

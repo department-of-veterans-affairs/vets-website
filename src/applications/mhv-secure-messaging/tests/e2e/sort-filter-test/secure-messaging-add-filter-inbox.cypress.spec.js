@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 import PatientFilterPage from '../pages/PatientFilterPage';
 

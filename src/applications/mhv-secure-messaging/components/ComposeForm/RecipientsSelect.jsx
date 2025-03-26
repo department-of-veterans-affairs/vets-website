@@ -92,12 +92,14 @@ const RecipientsSelect = ({
               };
             })
             .sort((a, b) => {
+              const aName = a.suggestedNameDisplay || a.name;
+              const bName = b.suggestedNameDisplay || b.name;
               // If both vamcSystemName are undefined, sort alphabetically by name
               if (
                 a.vamcSystemName === undefined &&
                 b.vamcSystemName === undefined
               ) {
-                return a.name.localeCompare(b.name);
+                return aName.localeCompare(bName);
               }
               // If only one vamcSystemName is undefined, sort it to the top
               if (a.vamcSystemName === undefined) return -1;
@@ -106,7 +108,7 @@ const RecipientsSelect = ({
               if (a.vamcSystemName !== b.vamcSystemName) {
                 return a.vamcSystemName.localeCompare(b.vamcSystemName);
               }
-              return a.name.localeCompare(b.name);
+              return aName.localeCompare(bName);
             });
         });
       }
@@ -162,7 +164,7 @@ const RecipientsSelect = ({
       if (!optGroupEnabled) {
         return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
-            {item.name}
+            {item.suggestedNameDisplay || item.name}
           </option>
         ));
       }
@@ -175,7 +177,7 @@ const RecipientsSelect = ({
         if (item.vamcSystemName === undefined) {
           options.push(
             <option key={item.id} value={item.id}>
-              {item.name}
+              {item.suggestedNameDisplay || item.name}
             </option>,
           );
         } else if (item.vamcSystemName !== currentVamcSystemName) {
@@ -194,7 +196,7 @@ const RecipientsSelect = ({
         }
         groupedOptions.push(
           <option key={item.id} value={item.id}>
-            {item.name}
+            {item.suggestedNameDisplay || item.name}
           </option>,
         );
       });
