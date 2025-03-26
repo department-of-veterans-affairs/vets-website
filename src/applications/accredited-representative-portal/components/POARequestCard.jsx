@@ -30,12 +30,13 @@ const POARequestCard = ({ poaRequest }) => {
         >
           {formatStatus(poaStatus)}
         </span>
-        <Link
-          to={`/poa-requests/${poaRequest.id}`}
-          data-testid={`poa-request-card-${poaRequest.id}-name`}
-          className="poa-request__card-title vads-u-font-size--h4 vads-u-font-family--serif"
-        >
-          {`${lastName}, ${firstName}`}
+        <Link to={`/poa-requests/${poaRequest.id}`}>
+          <h3
+            data-testid={`poa-request-card-${poaRequest.id}-name`}
+            className="poa-request__card-title vads-u-font-size--h4"
+          >
+            {`${lastName}, ${firstName}`}
+          </h3>
         </Link>
 
         <p className="poa-request__card-field poa-request__card-field--location">
