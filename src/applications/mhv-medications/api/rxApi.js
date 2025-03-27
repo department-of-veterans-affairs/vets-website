@@ -6,6 +6,7 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   filterOptions,
   rxListSortingOptions,
+  tooltipNames,
 } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
@@ -203,7 +204,7 @@ export const createTooltip = async () => {
     headers: getHeadersWithInflection(),
     body: JSON.stringify({
       tooltip: {
-        tooltipName: 'mhv_medications_tooltip_filter_accordion',
+        tooltipName: tooltipNames.mhvMedicationsTooltipFilterAccordion,
         hidden: false,
       },
     }),
