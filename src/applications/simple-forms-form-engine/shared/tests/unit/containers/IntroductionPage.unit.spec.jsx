@@ -54,6 +54,25 @@ describe('<IntroductionPage /> component', () => {
     });
   });
 
+  describe('introParagraph', () => {
+    it('renders the introduction paragraph', () => {
+      const introParagraph =
+        'A brief intro describing when to use this form. This could be 1 to 3 sentences, with no more than 25 words per sentence. This text is styled differently than body copy.';
+      const screen = renderWithProvider(
+        <IntroductionPage
+          introParagraph={introParagraph}
+          route={{
+            formConfig: {},
+            pageList: [],
+          }}
+        />,
+      );
+      const article = screen.getByRole('article');
+
+      expect(article).to.include.text(introParagraph);
+    });
+  });
+
   describe('ombInfo', () => {
     context('when ombInfo is present', () => {
       it('renders OMB info from props', () => {

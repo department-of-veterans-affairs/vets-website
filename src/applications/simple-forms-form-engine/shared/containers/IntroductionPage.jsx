@@ -10,7 +10,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
-  const { ombInfo, route } = props;
+  const { introParagraph, ombInfo, route } = props;
   const { formConfig, pageList } = route;
 
   useEffect(() => {
@@ -20,16 +20,7 @@ const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the Application"
-        hideUnauthedStartLink
-      >
-        Please complete the form to apply for benefits.
-      </SaveInProgressIntro>
+      <p>{introParagraph}</p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for benefits.
       </h2>
@@ -74,7 +65,6 @@ const IntroductionPage = props => {
         </li>
       </va-process-list>
       <SaveInProgressIntro
-        buttonOnly
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
@@ -105,6 +95,7 @@ const IntroductionPage = props => {
 };
 
 IntroductionPage.propTypes = {
+  introParagraph: PropTypes.string,
   ombInfo: PropTypes.shape({
     expDate: PropTypes.string,
     ombNumber: PropTypes.string,
