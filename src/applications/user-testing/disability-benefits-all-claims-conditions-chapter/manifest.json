@@ -1,7 +1,7 @@
 {
-  "appName": "Demo: File for disability compensation - New conditions",
+  "appName": "Demo: File for disability compensation - Conditions",
   "entryFile": "./app-entry.jsx",
   "entryName": "new-conditions",
-  "rootUrl": "/user-testing/new-conditions",
+  "rootUrl": "/user-testing/conditions",
   "productId": "0db1a222-9d73-4c26-9966-75283e6510a1"
 }
