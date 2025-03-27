@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import ReferralLayout from './components/ReferralLayout';
-import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
+import {
+  pollFetchAppointmentInfo,
+  setFormCurrentPage,
+  startNewAppointmentFlow,
+} from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
@@ -23,7 +28,9 @@ function handleScheduleClick(dispatch) {
 }
 
 export default function CompleteReferral() {
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
   const {
@@ -39,13 +46,33 @@ export default function CompleteReferral() {
     },
     [dispatch],
   );
-
-  const referralLoaded = !!referralAppointmentInfo?.appointment?.id;
-
-  if (
-    appointmentCreateStatus === FETCH_STATUS.succeeded &&
-    (appointmentInfoError || appointmentInfoTimeout)
-  ) {
+  useEffect(
+    () => {
+      if (
+        !appointmentInfoError &&
+        !appointmentInfoLoading &&
+        referralAppointmentInfo?.appointment?.status !== 'booked'
+      ) {
+        dispatch(
+          pollFetchAppointmentInfo(appointmentId, {
+            timeOut: 30000,
+            retryCount: 3,
+            retryDelay: 1000,
+          }),
+        );
+      }
+    },
+    [
+      dispatch,
+      appointmentId,
+      referralAppointmentInfo?.appointment?.status,
+      appointmentInfoError,
+      appointmentInfoTimeout,
+      appointmentCreateStatus,
+      appointmentInfoLoading,
+    ],
+  );
+  if (appointmentInfoError || appointmentInfoTimeout) {
     return (
       <ReferralLayout
         hasEyebrow
@@ -68,6 +95,14 @@ export default function CompleteReferral() {
       </ReferralLayout>
     );
   }
+
+  if (appointmentInfoLoading || !referralAppointmentInfo.appointment) {
+    return (
+      <ReferralLayout loadingMessage="Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page." />
+    );
+  }
+
+  const referralLoaded = !!referralAppointmentInfo?.appointment?.id;
 
   const { appointment, provider } = referralAppointmentInfo;
 
