@@ -1,3 +1,4 @@
+import moment from 'moment';
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
@@ -718,6 +719,15 @@ class MedicationsDetailsPage {
 
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
     cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+  };
+
+  verifyMedicationDescriptionInTxtDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const date = moment().format('M-D-YYYY');
+    const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain(text);
+    });
   };
 }
 

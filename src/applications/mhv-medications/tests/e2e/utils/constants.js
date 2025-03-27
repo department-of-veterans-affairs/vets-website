@@ -85,6 +85,7 @@ export const Data = {
   INSTRUCTIONS_EMPTY: 'Instructions not available',
   PARTIAL_FILL_TEXT:
     'This fill has a smaller quantity on purpose. This is temporary.',
+  DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
 };
 export const Paths = {
   LANDING_LIST:
