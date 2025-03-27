@@ -60,7 +60,7 @@ export const Auth = ({
             <div className="auth-rep-text">
               <div className="auth-rep-header">
                 <DynamicHeader>
-                  Your current ${representativeTypeMap(poaType)}
+                  Your current {representativeTypeMap(poaType)}
                 </DynamicHeader>
               </div>
               <div className="auth-rep-subheader">
