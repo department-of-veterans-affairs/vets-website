@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
@@ -14,6 +13,8 @@ import {
   GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
   FETCH_LOCATIONS,
+  FETCH_SPECIALTIES_DONE,
+  FETCH_SPECIALTIES_FAILED,
 } from '../actions/actionTypes';
 
 import {
@@ -56,6 +57,63 @@ describe('Actions', () => {
       return fetchVAFacility()(dispatch).then(() => {
         expect(dispatch.firstCall.args[0].type).to.deep.equal(SEARCH_STARTED);
       });
+    });
+
+    it('should handle successful API response', async () => {
+      const mockData = {
+        data: {
+          id: '123',
+          attributes: {
+            name: 'Test Facility',
+            lat: 40.7128,
+            long: -74.006,
+          },
+        },
+      };
+
+      const dispatch = sinon.spy();
+      sinon.stub(LocatorApi, 'fetchVAFacility').resolves(mockData);
+
+      await fetchVAFacility('123')(dispatch);
+
+      expect(dispatch.getCall(0).args[0].type).to.equal(SEARCH_STARTED);
+      expect(dispatch.getCall(1).args[0]).to.deep.equal({
+        type: FETCH_LOCATION_DETAIL,
+        payload: mockData.data,
+      });
+      LocatorApi.fetchVAFacility.restore();
+    });
+
+    it('should handle API errors', async () => {
+      const error = new Error('An API Error');
+      const dispatch = sinon.spy();
+      sinon.stub(LocatorApi, 'fetchVAFacility').rejects(error);
+
+      await fetchVAFacility('123')(dispatch);
+
+      expect(dispatch.getCall(0).args[0].type).to.equal(SEARCH_STARTED);
+      expect(dispatch.getCall(1).args[0].type).to.equal(SEARCH_FAILED);
+      expect(dispatch.getCall(1).args[0].error.message).to.equal(
+        'An API Error',
+      );
+      LocatorApi.fetchVAFacility.restore();
+    });
+
+    it('should handle API response with errors', async () => {
+      const mockData = {
+        data: null,
+        errors: ['ERRORS API Error'],
+      };
+
+      const dispatch = sinon.spy();
+      sinon.stub(LocatorApi, 'fetchVAFacility').resolves(mockData);
+
+      await fetchVAFacility('123')(dispatch);
+
+      expect(dispatch.getCall(0).args[0].type).to.equal(SEARCH_STARTED);
+      expect(dispatch.getCall(1).args[0].type).to.equal(SEARCH_FAILED);
+      expect(dispatch.getCall(1).args[0].error[0]).to.equal('ERRORS API Error');
+      LocatorApi.fetchVAFacility.restore();
     });
   });
 
@@ -360,6 +418,59 @@ describe('Actions', () => {
           FETCH_SPECIALTIES,
         );
       });
+    });
+
+    it('should handle successful API response', async () => {
+      const data = { data: ['Specialty1', 'Specialty2'] };
+
+      const dispatch = sinon.spy();
+      sinon.stub(LocatorApi, 'getProviderSpecialties').resolves(data);
+
+      await getProviderSpecialties()(dispatch);
+
+      expect(dispatch.getCall(0).args[0].type).to.equal(FETCH_SPECIALTIES);
+
+      expect(dispatch.getCall(1).args[0]).to.deep.equal({
+        type: FETCH_SPECIALTIES_DONE,
+        data,
+      });
+      LocatorApi.getProviderSpecialties.restore();
+    });
+
+    it('should handle API response with errors', async () => {
+      const mockData = {
+        errors: ['API Error'],
+      };
+      const dispatch = sinon.spy();
+      sinon.stub(LocatorApi, 'getProviderSpecialties').resolves(mockData);
+
+      await getProviderSpecialties()(dispatch);
+
+      expect(dispatch.getCall(0).args[0].type).to.equal(FETCH_SPECIALTIES);
+      expect(dispatch.getCall(1).args[0]).to.deep.equal({
+        type: FETCH_SPECIALTIES_FAILED,
+        error: ['API Error'],
+      });
+      LocatorApi.getProviderSpecialties.restore();
+    });
+
+    it('should handle API call failure', async () => {
+      const dispatch = sinon.spy();
+      sinon.stub(LocatorApi, 'getProviderSpecialties').restore();
+      sinon
+        .stub(LocatorApi, 'getProviderSpecialties')
+        .rejects(new Error('Network Error'));
+
+      await getProviderSpecialties()(dispatch);
+
+      expect(dispatch.getCall(0).args[0].type).to.equal(FETCH_SPECIALTIES);
+      expect(dispatch.getCall(1).args[0].type).to.equal(
+        FETCH_SPECIALTIES_FAILED,
+      );
+      expect(dispatch.getCall(1).args[0].error.message).to.equal(
+        'Network Error',
+      );
+      LocatorApi.getProviderSpecialties.restore();
     });
   });
 

@@ -31,7 +31,11 @@ export const fetchVAFacility = (id, location = null) => {
 
     try {
       const data = await LocatorApi.fetchVAFacility(id);
-      dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
+      if (data.errors) {
+        dispatch({ type: SEARCH_FAILED, error: data.errors });
+      } else {
+        dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
+      }
     } catch (error) {
       dispatch({ type: SEARCH_FAILED, error });
     }
