@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -7,11 +6,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
-import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
-import BehaviorListPage, {
-  conflictingBehaviorErrorMessage,
-  showConflictingAlert,
-} from '../../components/BehaviorListPage';
+
+import BehaviorListPage from '../../components/BehaviorListPage';
 import {
   BEHAVIOR_LIST_SECTION_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
@@ -22,9 +18,9 @@ import {
 describe('BehaviorListPage', () => {
   const page = ({
     data = {},
-    goBack = () => { },
-    goForward = () => { },
-    setFormData = () => { },
+    goBack = () => {},
+    goForward = () => {},
+    setFormData = () => {},
   } = {}) => {
     return (
       <div>
@@ -65,7 +61,9 @@ describe('BehaviorListPage', () => {
   it('should submit without making a selection', () => {
     const goForwardSpy = sinon.spy();
 
-    const data = {};
+    const data = {
+      syncModern0781Flow: true,
+    };
 
     const { container } = render(page({ data, goForward: goForwardSpy }));
 
@@ -85,11 +83,10 @@ describe('BehaviorListPage', () => {
       otherBehaviors: {
         unlisted: true,
       },
-      'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+      'view:noneCheckbox': { 'view:noBehaviorChanges': false },
     };
 
     const { container } = render(page({ data, goForward: goForwardSpy }));
-
 
     fireEvent.click($('button[type="submit"]', container));
     expect(goForwardSpy.called).to.be.true;

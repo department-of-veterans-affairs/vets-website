@@ -13,7 +13,6 @@ import {
   behaviorListNoneLabel,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
-  hasOrphanedBehaviorDetails,
   modalContent,
   orphanedBehaviorDetails,
   conflictingBehaviorErrorMessage,
@@ -174,15 +173,15 @@ const BehaviorListPage = ({
     },
     onSubmit: event => {
       event.preventDefault();
-
       // TODO: better way to handle null data
-      if (Object.keys(data).length === 0) {
-        goForward(data);
-        return;
-      }
+
       if (checkErrors(data)) {
         scrollToFirstError({ focusOnAlertRole: true });
-      } else if (hasOrphanedBehaviorDetails(data)) {
+      } else if (
+        !!data?.behaviorsDetails &&
+        Object.keys(data.behaviorsDetails).length > 0 &&
+        Object.keys(orphanedBehaviorDetails(data)).length > 0
+      ) {
         setShowModal(true);
       } else {
         goForward(data);

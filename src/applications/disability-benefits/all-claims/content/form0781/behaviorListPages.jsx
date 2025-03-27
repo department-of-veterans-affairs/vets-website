@@ -203,27 +203,32 @@ export function orphanedBehaviorDetails(formData) {
   const updatedSelections = allSelectedBehaviorTypes(formData);
   const existingDetails = formData.behaviorsDetails;
 
+  // if no existing details, return empty object
+
   const orphanedObject = {};
-  Object.keys(existingDetails).forEach(behaviorType => {
-    if (
-      !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
-    ) {
+  if (Object.keys(updatedSelections).length === 0) {
+    Object.keys(existingDetails).forEach(behaviorType => {
       const behaviorTypeDescription =
         behaviorType === 'unlisted'
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
           : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
       orphanedObject[behaviorType] = behaviorTypeDescription;
-    }
-  });
+    });
+  } else {
+    Object.keys(existingDetails).forEach(behaviorType => {
+      if (
+        !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
+      ) {
+        const behaviorTypeDescription =
+          behaviorType === 'unlisted'
+            ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+            : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+        orphanedObject[behaviorType] = behaviorTypeDescription;
+      }
+    });
+  }
   return orphanedObject;
 }
-
-export const hasOrphanedBehaviorDetails = formData => {
-  return !!(
-    Object.keys(formData.behaviorsDetails).length > 0 &&
-    Object.keys(orphanedBehaviorDetails(formData)).length > 0
-  );
-};
 
 export const modalContent = formData => {
   const orphanedDetails = orphanedBehaviorDetails(formData);
