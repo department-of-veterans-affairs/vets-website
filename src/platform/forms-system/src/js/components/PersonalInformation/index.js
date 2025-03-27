@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  defaultConfig,
   PersonalInformation,
   PersonalInformationCardHeader,
   PersonalInformationFooter,
@@ -24,7 +25,7 @@ export const defaultPageConfig = {
   key: 'personalInfoPage',
   title: 'Personal Information',
   path: 'personal-information',
-  personalInfoConfig: {},
+  personalInfoConfig: defaultConfig,
   dataAdapter: {},
   errorMessage: DefaultErrorMessage,
   cardHeader: <DefaultCardHeader />,
@@ -61,6 +62,10 @@ const personalInformationPage = ({
   hideOnReview = defaultPageConfig.hideOnReview,
   depends = defaultPageConfig.depends,
 } = defaultPageConfig) => {
+  const config = {
+    ...defaultPageConfig.personalInfoConfig,
+    ...personalInfoConfig,
+  };
   return {
     [key]: {
       title,
@@ -73,7 +78,7 @@ const personalInformationPage = ({
       CustomPage: props => (
         <PersonalInformation
           {...props}
-          config={personalInfoConfig}
+          config={config}
           dataAdapter={dataAdapter}
           errorMessage={errorMessage}
           contentBeforeButtons={contentBeforeButtons}
