@@ -45,6 +45,32 @@
         "costRequested": 10.0,
         "costSubmitted": 10.0
       }
+    ],
+    "documents": [
+      {
+        "documentId": "8993d98f-40de-4a96-b64b-9a217341a804",
+        "filename": "DecisionLetter.pdf",
+        "mimetype": "application/pdf",
+        "createdon": "2025-03-24T14:00:52.893Z"
+      },
+      {
+        "documentId": "cc832f7d-2217-48fb-a11c-5c3212dd0f8a",
+        "filename": "screenshot.jpg",
+        "mimetype": "image/jpeg",
+        "createdon": "2025-03-24T14:02:52.893Z"
+      },
+      {
+        "documentId": "12fcfecc-5132-4c16-8a9a-7af07b714cd4",
+        "filename": "screenshot-2.jpg",
+        "mimetype": "image/jpeg",
+        "createdon": "2025-03-24T14:04:00.893Z"
+      },
+      {
+        "documentId": "887ead10-d849-428c-b83b-50a054fd968b",
+        "filename": "note.txt",
+        "mimetype": "",
+        "createdon": "2025-03-24T14:06:52.893Z"
+      }
     ]
   }
 }
