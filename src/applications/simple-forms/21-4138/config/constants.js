@@ -183,11 +183,8 @@ export const DECISION_REVIEW_HANDOFF = Object.freeze(
     </PrimaryActionLink>
     <p>
       If you disagree with a VA benefit or claim decision, you can choose from 3
-      decision review options (
-      <span className="vads-u-font-weight--bold">Supplemental Claim</span>,{' '}
-      <span className="vads-u-font-weight--bold">Higher-Level Review</span>, or{' '}
-      <span className="vads-u-font-weight--bold">Board Appeal</span>) to
-      continue your case.
+      decision review options (Supplemental Claim, Higher-Level Review, or Board
+      Appeal) to continue your case.
     </p>
     <p>
       If you aren’t satisfied with the results of the first option you choose,
