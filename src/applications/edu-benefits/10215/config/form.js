@@ -132,7 +132,7 @@ const formConfig = {
       pages: {
         institutionOfficial: {
           path: 'institution-details',
-          title: 'Tell us about yourself',
+          title: 'Your name and title',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
           onNavForward: onNavForwardLogic,
