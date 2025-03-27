@@ -1,14 +1,26 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import reducers from '../../../reducers';
+import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import InProductionEducationFiltering from '../../../components/MedicationsList/InProductionEducationFiltering';
+import reducers from '../../../reducers';
+import { dataDogActionNames } from '../../../util/dataDogConstants';
 
 describe('In Production Education Filtering component', () => {
-  const setup = () => {
+  const initialState = {
+    rx: {
+      inProductEducation: {
+        tooltipVisible: true,
+        tooltipId: 123,
+      },
+    },
+  };
+  const setup = (state = initialState) => {
     return renderWithStoreAndRouter(<InProductionEducationFiltering />, {
       path: '/',
-      state: {},
+      initialState: state,
       reducers,
     });
   };
@@ -18,45 +30,45 @@ describe('In Production Education Filtering component', () => {
     expect(screen);
   });
   // TODO: need to find a way to stub the api calls to the tooltip api.
-  // it('calls Data Dog on Secondary button click', async () => {
-  //   const screen = setup();
-  //   const spyDog = sinon.spy(datadogRum, 'addAction');
-  //   const stopShowingThisHintButton = screen.getByTestId(
-  //     'rx-ipe-filtering-stop-showing-this-hint',
-  //   );
+  it('calls Data Dog on Secondary button click', async () => {
+    const screen = setup(initialState);
+    const spyDog = sinon.spy(datadogRum, 'addAction');
+    const stopShowingThisHintButton = screen.getByTestId(
+      'rx-ipe-filtering-stop-showing-this-hint',
+    );
 
-  //   fireEvent.click(stopShowingThisHintButton);
+    fireEvent.click(stopShowingThisHintButton);
 
-  //   await waitFor(() => {
-  //     expect(spyDog.called).to.be.true;
-  //     expect(
-  //       spyDog.calledWith(
-  //         dataDogActionNames.medicationsListPage
-  //           .STOP_SHOWING_IPE_FILTERING_HINT,
-  //       ),
-  //     ).to.be.true;
-  //   });
+    await waitFor(() => {
+      expect(spyDog.called).to.be.true;
+      expect(
+        spyDog.calledWith(
+          dataDogActionNames.medicationsListPage
+            .STOP_SHOWING_IPE_FILTERING_HINT,
+        ),
+      ).to.be.true;
+    });
 
-  //   spyDog.restore();
-  // });
+    spyDog.restore();
+  });
 
-  // it('calls Data Dog on Close button click', async () => {
-  //   const screen = setup();
-  //   const spyDog = sinon.spy(datadogRum, 'addAction');
-  //   const closeButton = screen.getByTestId('rx-ipe-filtering-close');
+  it('calls Data Dog on Close button click', async () => {
+    const screen = setup();
+    const spyDog = sinon.spy(datadogRum, 'addAction');
+    const closeButton = screen.getByTestId('rx-ipe-filtering-close');
 
-  //   fireEvent.click(closeButton);
+    fireEvent.click(closeButton);
 
-  //   await waitFor(() => {
-  //     expect(spyDog.called).to.be.true;
-  //     expect(
-  //       spyDog.calledWith(
-  //         dataDogActionNames.medicationsListPage
-  //           .STOP_SHOWING_IPE_FILTERING_HINT,
-  //       ),
-  //     ).to.be.true;
-  //   });
+    await waitFor(() => {
+      expect(spyDog.called).to.be.true;
+      expect(
+        spyDog.calledWith(
+          dataDogActionNames.medicationsListPage
+            .STOP_SHOWING_IPE_FILTERING_HINT,
+        ),
+      ).to.be.true;
+    });
 
-  //   spyDog.restore();
-  // });
+    spyDog.restore();
+  });
 });
