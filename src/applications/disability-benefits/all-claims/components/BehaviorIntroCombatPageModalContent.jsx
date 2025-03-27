@@ -1,18 +1,18 @@
 import React from 'react';
-import { summarizeBehaviors } from '../content/form0781/behaviorListPages';
 
-export const BehaviorIntroCombatModal = (formData) => {
+import {
+  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
+} from '../constants';
 
-
-  const summarized = summarizeBehaviors(formData);
-
-  console.log('summarized', summarized);
-
-  // const allBehaviorTypes = {
-  //   ...formData.workBehaviors,
-  //   ...formData.healthBehaviors,
-  //   ...formData.otherBehaviors,
-  // };
+// doc
+export const BehaviorIntroCombatPageModalContent = formData => {
+  // TODO: can we simplifly all of this?
+  const allBehaviorTypes = {
+    ...formData.workBehaviors,
+    ...formData.healthBehaviors,
+    ...formData.otherBehaviors,
+  };
 
   const allSelectedBehaviorTypes = Object.entries(allBehaviorTypes)
     .filter(([, value]) => value === true)
@@ -34,15 +34,9 @@ export const BehaviorIntroCombatModal = (formData) => {
     },
   );
 
-  // Clean this all up
   const describedBehaviors = behaviors.filter(element => element !== null);
-  console.log("Described Behaviors", describedBehaviors)
-
   const describedBehaviorsCount = describedBehaviors.length;
-
   const firstThreeBehaviors = describedBehaviors.slice(0, 3);
-
-  console.log("first three behaviors", firstThreeBehaviors)
 
   const remainingBehaviors = describedBehaviorsCount - 3;
 
