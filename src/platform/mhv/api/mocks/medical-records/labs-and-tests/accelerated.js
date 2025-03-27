@@ -32,7 +32,7 @@ const sample = {
             status: 'final',
             sampleTested: 'SERUM',
             bodySite: 'Central Vien',
-            comments: '',
+            comments: 'this is a comment',
             value: {
               text: '99 mg/dL',
               type: 'Quantity',
@@ -120,7 +120,7 @@ const sample = {
             status: 'final',
             sampleTested: 'SERUM',
             bodySite: 'Central Vien',
-            comments: '',
+            comments: 'this is a comment',
             value: {
               text: '99 mg/dL',
               type: 'Quantity',

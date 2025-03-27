@@ -1,10 +1,9 @@
 # //TODO
 
-- print
-  - [x] print
-  - [x] pdf
-  - [ ] text
-  
+- [ ] date picker
+  - start date
+  - end
+
 PR Ready:
 
 - unit tests

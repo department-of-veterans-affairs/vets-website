@@ -5,6 +5,10 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   usePrintTitle,
   generatePdfScaffold,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  txtLineDotted,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import InfoAlert from '../shared/InfoAlert';
@@ -16,11 +20,18 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 
-import { makePdf, getNameDateAndTime } from '../../util/helpers';
+import {
+  makePdf,
+  getNameDateAndTime,
+  generateTextFile,
+  formatNameFirstLast,
+  formatUserDob,
+} from '../../util/helpers';
 
 import {
   pageTitles,
-  LABS_AND_TESTS_DISPLAY_DISPLAY_MAP,
+  LABS_AND_TESTS_DISPLAY_LABELS,
+  OBSERVATION_DISPLAY_LABELS,
 } from '../../util/constants';
 import {
   generateLabsIntro,
@@ -62,6 +73,78 @@ const UnifiedLabsAndTests = props => {
 
   const generateTxt = async () => {
     setDownloadStarted(true);
+    const content = [
+      `${crisisLineHeader}\n`,
+      `${record.name}`,
+      `${formatNameFirstLast(user.userFullName)}`,
+      `Date of birth: ${formatUserDob(user)}`,
+      `${reportGeneratedBy}`,
+      `${LABS_AND_TESTS_DISPLAY_LABELS.DATE}: ${record.date}`,
+      `${txtLine}\n`,
+      record.testCode
+        ? `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: ${record.testCode}`
+        : `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: None Noted`,
+      record.sampleTested
+        ? `${LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}: ${
+            record.sampleTested
+          }`
+        : '',
+      record.bodySite
+        ? `${LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}: ${record.bodySite}`
+        : '',
+      record.orderedBy
+        ? `${LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}: ${record.orderedBy}`
+        : `${LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}: None Noted`,
+      record.location
+        ? `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: ${record.location}`
+        : `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: None Noted`,
+      record.comments
+        ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${record.comments}`
+        : '',
+      `${txtLine}\n`,
+    ];
+    if (record.result) {
+      const results = [
+        'Results: \n',
+        'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.\n',
+        'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.\n',
+        `${record.result}`,
+      ];
+      content.push(...results);
+    }
+    if (record.observations) {
+      const observations = [
+        'Results: \n',
+        ...record.observations.map(entry =>
+          [
+            `${txtLine}`,
+            `${entry.testCode}`,
+            `${txtLineDotted}`,
+            `${OBSERVATION_DISPLAY_LABELS.VALUE}: ${entry.value.text}`,
+            `${OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}: ${
+              entry.referenceRange
+            }`,
+            `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${entry.status}`,
+            entry.bodySite
+              ? `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: ${entry.bodySite}`
+              : '',
+            entry.sampleTested
+              ? `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: ${
+                  entry.sampleTested
+                }`
+              : '',
+            entry.comments
+              ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${entry.comments}`
+              : '',
+          ].join(`\n`),
+        ),
+      ];
+      content.push(...observations);
+    }
+
+    const txt = content.filter(line => line).join(`\n`);
+    const txtName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}.txt`;
+    generateTextFile(txt, txtName);
   };
 
   return (
@@ -78,7 +161,7 @@ const UnifiedLabsAndTests = props => {
         <DateSubheading
           date={record.date}
           id="test-result-date"
-          label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[record.date]}
+          label={LABS_AND_TESTS_DISPLAY_LABELS.DATE}
           labelClass="vads-font-weight-regular"
         />
 
@@ -97,7 +180,7 @@ const UnifiedLabsAndTests = props => {
           <HeaderSection header="Details about this test">
             <LabelValue
               ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.testCode}
+              label={LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}
               value={record.testCode}
               testId="chem-hem-category"
               data-dd-action-name="[lab and tests - test code]"
@@ -105,7 +188,7 @@ const UnifiedLabsAndTests = props => {
             {record.sampleTested && (
               <LabelValue
                 ifEmpty="None Noted"
-                label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.sampleTested}
+                label={LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}
                 value={record.sampleTested}
                 testId="chem-hem-sample-tested"
                 data-dd-action-name="[lab and tests - sample tested]"
@@ -114,7 +197,7 @@ const UnifiedLabsAndTests = props => {
             {record.bodySite && (
               <LabelValue
                 ifEmpty="None Noted"
-                label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.bodySite}
+                label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
                 value={record.bodySite}
                 testId="chem-hem-sample-tested"
                 data-dd-action-name="[lab and tests - body site]"
@@ -122,14 +205,14 @@ const UnifiedLabsAndTests = props => {
             )}
             <LabelValue
               ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.orderedBy}
+              label={LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}
               value={record.orderedBy}
               testId="chem-hem-ordered-by"
               data-dd-action-name="[lab and tests - ordered by]"
             />
             <LabelValue
               ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.location}
+              label={LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}
               value={record.location}
               testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
@@ -138,7 +221,7 @@ const UnifiedLabsAndTests = props => {
             {record.comments && (
               <>
                 <LabelValue
-                  label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.comments}
+                  label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
                   ifEmpty=""
                 />
                 <ItemList list={record.comments} />
@@ -148,7 +231,7 @@ const UnifiedLabsAndTests = props => {
               <>
                 <LabelValue
                   ifEmpty="None Noted"
-                  label={LABS_AND_TESTS_DISPLAY_DISPLAY_MAP.result}
+                  label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
                   value={record.result}
                 />
               </>
