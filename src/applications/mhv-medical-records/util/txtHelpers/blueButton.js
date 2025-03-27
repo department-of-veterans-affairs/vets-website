@@ -97,7 +97,7 @@ export const getTxtContent = (data, { userFullName, dob }, dateRange) => {
 VA Blue Button® report
 
 This report includes key information from your VA medical records.
-${userFullName.first}, ${userFullName.last}\n
+${userFullName.first} ${userFullName.last}\n
 Date of birth: ${formatUserDob({ dob: new Date(dob) })}\n
 
 What to know about your Blue Button report
