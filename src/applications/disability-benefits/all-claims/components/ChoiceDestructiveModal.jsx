@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { form0781HeadingTag, titleWithTag } from '../content/form0781';
@@ -12,7 +12,7 @@ import {
   workflowChoicePageTitle,
   mstAlert,
 } from '../content/form0781/workflowChoicePage';
-
+import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
 import { checkValidations } from '../utils/submit';
 
 export const mentalHealthKeys = [
@@ -24,7 +24,12 @@ export const mentalHealthKeys = [
 	"supportingEvidenceReports",
 	"supportingEvidenceRecords",
 	"supportingEvidenceOther",
-	"supportingEvidenceNoneCheckbox"
+	"supportingEvidenceNoneCheckbox",
+	"behaviorsDetails",
+	"workBehaviors",
+	"healthBehaviors",
+	"otherBehaviors",
+	"eventTypes",
 ];
 
 const confirmationDataUpload = {
@@ -159,6 +164,13 @@ const ChoiceDestructiveModal = props => {
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+
+	useEffect(() => {
+		if (showAlert) {
+			scrollTo("success-alert");
+		}
+	}, [showAlert]);
 
   const missingSelection = (error, _fieldData, formData) => {
     if (!formData?.[selectionField]) {
@@ -236,6 +248,7 @@ const ChoiceDestructiveModal = props => {
         console.log('show opt out of modal data');
 				setShowModal(true);
       } else {
+				setShowAlert(false);
         goForward(data);
       }
     },
@@ -245,15 +258,31 @@ const ChoiceDestructiveModal = props => {
     onGoForward: () => {
 			deleteMentalHealthStatement(data, setFormData);
 			setShowModal(false);
+			setShowAlert(true);
       if (hasError) return;
     },
 		onGoBack: () => {
-			setShowModal(false);
+			data['view:mentalHealthWorkflowChoice'] = previousWorkflowChoice.current;
+			goBack(data)
+		},
+		onCloseAlert: () => {
+			console.log('close alert clicked');
+			setShowAlert(false);
 		}
   };
 
 	return (
 		<form className="rjsf">
+			<va-alert
+				id="success-alert"
+				status="success"
+				closeable
+				visible={showAlert}
+				onCloseEvent={handlers.onCloseAlert}
+				class="vads-u-margin-bottom--4"
+			>
+        {alertContent}
+      </va-alert>
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
           <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
@@ -302,8 +331,8 @@ const ChoiceDestructiveModal = props => {
 						primaryButtonText={primaryText}
 						secondaryButtonText={secondaryText}
 						onPrimaryButtonClick={handlers.onGoForward}
-						onSecondaryButtonClick={handlers.onGoBack}
-						onCloseEvent={handlers.onGoBack}
+						onSecondaryButtonClick={handlers.onCloseModal}
+						onCloseEvent={handlers.onCloseModal}
 						visible={showModal}
 						uswds
 					>
@@ -311,7 +340,7 @@ const ChoiceDestructiveModal = props => {
 					</VaModal>
 
 			</fieldset>
-			<FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
+			<FormNavButtons goBack={handlers.onGoBack} goForward={handlers.onSubmit} />
 		</form>
 	);
 };
