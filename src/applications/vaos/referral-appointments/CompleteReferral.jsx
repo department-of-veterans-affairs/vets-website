@@ -50,6 +50,7 @@ export default function CompleteReferral() {
     () => {
       if (
         !appointmentInfoError &&
+        !appointmentInfoTimeout &&
         !appointmentInfoLoading &&
         referralAppointmentInfo?.appointment?.status !== 'booked'
       ) {
