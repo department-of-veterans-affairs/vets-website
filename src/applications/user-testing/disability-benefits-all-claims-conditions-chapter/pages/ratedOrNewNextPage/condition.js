@@ -1,3 +1,4 @@
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   radioSchema,
   radioUI,
@@ -10,16 +11,30 @@ import {
   createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
   isEdit,
+  isNewCondition,
+  isRatedDisability,
 } from '../shared/utils';
 
-const createNewConditionOption = () => {
-  if (isEdit()) {
-    return { 'Edit new condition': 'Edit new condition' };
-  }
-  return { 'Add a new condition': 'Add a new condition' };
+export const NEW_CONDITION_OPTIONS = {
+  ADD: 'Add a new condition',
+  EDIT: 'Edit new condition',
+  CHANGE: 'Change to new condition',
 };
 
-const createRatedDisabilitiesSchema = fullData => {
+const createNewConditionOption = (fullData, index) => {
+  let label;
+
+  if (isEdit() && isNewCondition(fullData, index)) {
+    label = NEW_CONDITION_OPTIONS.EDIT;
+  } else if (isEdit() && isRatedDisability(fullData, index)) {
+    label = NEW_CONDITION_OPTIONS.CHANGE;
+  } else {
+    label = NEW_CONDITION_OPTIONS.ADD;
+  }
+  return { [label]: label };
+};
+
+const createRatedDisabilitiesSchema = (fullData, index) => {
   const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
     fullData,
   );
@@ -27,7 +42,7 @@ const createRatedDisabilitiesSchema = fullData => {
   return (
     {
       ...nonSelectedRatedDisabilities,
-      ...createNewConditionOption(),
+      ...createNewConditionOption(fullData, index),
     } || {}
   );
 };
@@ -71,16 +86,9 @@ const conditionPage = {
           },
         };
       },
-      updateSchema: (
-        _formData,
-        _schema,
-        _uiSchema,
-        _index,
-        _path,
-        fullData,
-      ) => {
+      updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
         return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData)),
+          Object.keys(createRatedDisabilitiesSchema(fullData, index)),
         );
       },
     }),
@@ -99,3 +107,25 @@ const conditionPage = {
 };
 
 export default conditionPage;
+
+export const updateFormData = (_oldData, newData) => {
+  const index = getArrayIndexFromPathName();
+  const { arrayPath } = arrayBuilderOptions;
+  const condition = newData[arrayPath]?.[index];
+  const isNewConditionOption = Object.values(NEW_CONDITION_OPTIONS).includes(
+    condition?.ratedDisability,
+  );
+
+  return {
+    ...newData,
+    [arrayPath]: newData[arrayPath].map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          'view:conditionType': isNewConditionOption ? 'NEW' : 'RATED',
+        };
+      }
+      return item;
+    }),
+  };
+};

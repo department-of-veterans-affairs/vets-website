@@ -7,7 +7,7 @@ import {
   hasRatedDisabilitiesOrIsRatedDisability,
   isActiveDemo,
 } from '../shared/utils';
-import conditionPage from './condition';
+import conditionPage, { updateFormData } from './condition';
 
 const ratedOrNewNextPagePages = arrayBuilderPages(
   arrayBuilderOptions,
@@ -21,6 +21,7 @@ const ratedOrNewNextPagePages = arrayBuilderPages(
         hasRatedDisabilitiesOrIsRatedDisability(formData, index),
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
+      updateFormData,
     }),
     ...remainingSharedPages(demo, pageBuilder, helpers),
   }),
