@@ -149,8 +149,8 @@ export const ESCAPE_HATCH = Object.freeze(
 export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
   <div>
     <p>
-      Based on your answer, you should submit your statement with VA Form
-      21-10210, Lay/Witness Statement.
+      Based on your answer, you should submit a lay or witness statement to
+      support a VA claim (VA Form 21-10210).
     </p>
     <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
       Start your statement
@@ -364,8 +364,8 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
 export const PRIORITY_PROCESSING_HANDOFF = Object.freeze(
   <div>
     <p>
-      Based on your answer, you should consider submitting a priority processing
-      request.
+      Based on your answer, you should request priority processing for an
+      existing claim (VA Form 20-10207).
     </p>
     <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
       Start your priority processing request
@@ -577,9 +577,8 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
 export const RECORDS_REQUEST_HANDOFF = Object.freeze(
   <div>
     <p>
-      Based on your answer, you should request your personal records with VA
-      Form 20-10206, Freedom of Information Act (FOIA) or Privacy Act (PA)
-      Request.
+      Based on your answer, you should make a Freedom of Information Act (FOIA)
+      or Privacy Act (PA) Request (VA Form 20-10206).
     </p>
     <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
       Start your request
@@ -605,9 +604,9 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       Upload evidence using our claim status tool
     </PrimaryActionLink>
     <p>
-      If you prefer to mail copies of your documents, we recommend filling out
-      and including VA Form 20-10208 (Document Evidence Submission) along with
-      the evidence.
+      If you prefer to mail copies of your documents, we recommend we recommend
+      filling out Document Evidence Submission (VA Form 20-10208) and submitting
+      it along with the evidence.
     </p>
     <div className="vads-u-margin-y--4">
       <va-link
