@@ -41,6 +41,9 @@ export const URL = {
     mockTestingFlagforAPI ? '&user_mock_data=true' : ''
   }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
+  ANNOUNCEMENTS: `${baseURL}/announcements${
+    mockTestingFlagforAPI ? '?user_mock_data=true' : ''
+  }`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,

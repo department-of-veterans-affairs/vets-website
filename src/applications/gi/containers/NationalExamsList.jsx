@@ -150,9 +150,9 @@ const NationalExamsList = () => {
             return (
               <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
                 <va-card background>
-                  <h3 className="vads-u-margin--0 vads-u-margin-bottom--1">
+                  <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1">
                     {examName}
-                  </h3>
+                  </h2>
                   <VaLink
                     href={`/education/gi-bill-comparison-tool/national-exams/${
                       exam.enrichedId
