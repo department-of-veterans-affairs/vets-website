@@ -53,7 +53,11 @@ export const statementOfTruthBody =
   'I confirm that the identifying information in this form is accurate and ' +
   'has been represented correctly.';
 
-/** @returns {FormConfig} */
+/**
+ * @param {NormalizedForm} form
+ * @param {Object} options
+ * @returns {FormConfig}
+ */
 export const createFormConfig = (form, options) => {
   const { chapters, formId, ombInfo, title, plainLanguageHeader } = form;
   const { rootUrl, trackingPrefix } = options;
