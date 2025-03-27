@@ -44,7 +44,7 @@ const ProcessList = ({ isAccredited, id }) => {
                 Visit the{' '}
                 <va-link
                   external
-                  text="VA Education File Upload Portal"
+                  text="Education File Upload Portal"
                   href="https://www.my.va.gov/EducationFileUploads/s/"
                 />
                 , and upload both your saved VA Form 22-10216 and VA Form
@@ -81,7 +81,7 @@ const ProcessList = ({ isAccredited, id }) => {
                 Visit the{' '}
                 <va-link
                   external
-                  text="VA Education File Upload Portal"
+                  text="Education File Upload Portal"
                   href="https://www.my.va.gov/EducationFileUploads/s/"
                 />
                 , and upload your saved VA Form 22-10216.

@@ -34,7 +34,7 @@ const IntroductionPage = ({ route }) => {
           Accredited schools: Submit a copy of VA Form 22-10216 by uploading it
           to the{' '}
           <va-link
-            text="VA Education File Upload Portal."
+            text="Education File Upload Portal."
             href="https://www.my.va.gov/EducationFileUploads/s/"
           />
         </li>
@@ -43,7 +43,7 @@ const IntroductionPage = ({ route }) => {
           22-10215 (Statement of Assurance of Compliance with 85% Enrollment
           Ratios) for the corresponding term to the{' '}
           <va-link
-            text="VA Education File Upload Portal."
+            text="Education File Upload Portal."
             href="https://www.my.va.gov/EducationFileUploads/s/"
           />
         </li>
@@ -66,7 +66,7 @@ const IntroductionPage = ({ route }) => {
             Fill out the exemption request form online. You’ll need to download
             and upload the form during this process. After completing the form,
             you will download a PDF, which you will need to submit later by
-            uploading it to the VA Education File Upload Portal. Ensure you have
+            uploading it to the Education File Upload Portal. Ensure you have
             all the necessary details, such as your enrollment information,
             institution, and any required documentaion, before continuing.
           </p>
@@ -76,7 +76,7 @@ const IntroductionPage = ({ route }) => {
             will need to complete and submit both the exemption request form, VA
             Form 22-10216, and VA Form 22-10215 (Statement of Assurance of
             Compliance with 85% Enrollment Ratios) for the corresponding term.
-            You’ll need to upload all forms through the VA Education File Upload
+            You’ll need to upload all forms through the Education File Upload
             Portal in Step 3.
           </p>
         </va-process-list-item>
@@ -88,7 +88,7 @@ const IntroductionPage = ({ route }) => {
             completed form as a PDF and proceed to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the VA Education File Upload Portal">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
           <p>
             Finally, upload your completed exemption request PDF. For
             non-accredited schools, upload both VA Form 22-10216 and VA Form
