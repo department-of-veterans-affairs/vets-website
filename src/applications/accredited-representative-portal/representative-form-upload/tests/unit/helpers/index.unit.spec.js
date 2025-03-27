@@ -24,7 +24,7 @@ describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
       global.window.location = {
-        pathname: '/find-forms/upload/21-686c/upload',
+        pathname: '/representative/representative-form-upload/21-686c/upload',
       };
       expect(getFormNumber()).to.eq('21-686c');
     });
@@ -32,14 +32,14 @@ describe('Helpers', () => {
     // put back in when we have a form with upper-case characters
     // it('retains upper-case characters from formMappings', () => {
     //   global.window.location = {
-    //     pathname: '/find-forms/upload/21p-0518-1/upload',
+    //     pathname: '/representative/representative-form-upload/21-686c/upload',
     //   };
     //   expect(getFormNumber()).to.eq('21P-0518-1');
     // });
 
     it('returns empty string when formNumber does not match', () => {
       global.window.location = {
-        pathname: 'find-forms/upload/fake-form/upload',
+        pathname: 'representative/representative-form-upload/fake-form/upload',
       };
       expect(getFormNumber()).to.eq('');
     });
@@ -48,7 +48,7 @@ describe('Helpers', () => {
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
-        pathname: 'find-forms/upload/21-686c/upload',
+        pathname: 'representative/representative-form-upload/21-686c/upload',
       };
       expect(getFormContent()).to.include({ title: 'Upload form 21-686c' });
     });

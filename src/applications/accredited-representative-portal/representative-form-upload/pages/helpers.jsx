@@ -7,15 +7,9 @@ import { getAlert, getFormNumber, onClickContinue } from '../helpers';
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [
-    { href: '/', label: 'VA.gov home' },
-    { href: '/find-forms', label: 'Find a VA form' },
-    // TODO: Restore this breadcrumb when the static content at /find-forms/upload plays nicely with the Form Upload tool
-    // {
-    //   href: `/find-forms/upload`,
-    //   label: `Upload VA forms`,
-    // },
+    { href: '/representative', label: 'ARP home' },
     {
-      href: `/find-forms/upload/${formNumber}/introduction`,
+      href: `/representative/representative-form-upload/${formNumber}/introduction`,
       label: `Upload form ${formNumber}`,
     },
   ];
