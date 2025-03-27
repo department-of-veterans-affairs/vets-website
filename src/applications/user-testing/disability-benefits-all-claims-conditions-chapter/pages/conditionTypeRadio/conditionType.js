@@ -18,7 +18,7 @@ const conditionTypePage = {
       title: 'Type of condition you are applying for',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
-    conditionType: radioUI({
+    'view:conditionType': radioUI({
       title: 'Select condition type',
       labels: conditionTypeOptions,
     }),
@@ -26,7 +26,7 @@ const conditionTypePage = {
   schema: {
     type: 'object',
     properties: {
-      conditionType: radioSchema(Object.keys(conditionTypeOptions)),
+      'view:conditionType': radioSchema(Object.keys(conditionTypeOptions)),
     },
   },
 };
