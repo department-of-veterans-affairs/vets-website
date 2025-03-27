@@ -130,6 +130,7 @@ const BehaviorIntroCombatPage = ({
 
   const modalContent = () => {
     const allBehaviorTypes = {
+      // Is this the same order as on the page? It should be
       ...data.workBehaviors,
       ...data.healthBehaviors,
       ...data.otherBehaviors,
@@ -157,10 +158,14 @@ const BehaviorIntroCombatPage = ({
 
     // Clean this all up
     const describedBehaviors = behaviors.filter(element => element !== null);
+    console.log("Described Behaviors", describedBehaviors)
 
     const describedBehaviorsCount = describedBehaviors.length;
 
     const firstThreeBehaviors = describedBehaviors.slice(0, 3);
+
+    console.log("first three behaviors", firstThreeBehaviors)
+
     const remainingBehaviors = describedBehaviorsCount - 3;
 
     const behaviorsRemaining = (
