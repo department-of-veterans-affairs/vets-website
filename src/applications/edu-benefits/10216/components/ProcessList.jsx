@@ -39,7 +39,7 @@ const ProcessList = ({ isAccredited, id }) => {
                 to fill it out. Once completed, save it as a PDF on your device.
               </p>
             </VaProcessListItem>
-            <VaProcessListItem header="Upload the forms to the VA education portal">
+            <VaProcessListItem header="Upload the forms to the Education File Upload Portal">
               <p>
                 Visit the{' '}
                 <va-link
@@ -76,7 +76,7 @@ const ProcessList = ({ isAccredited, id }) => {
                 </span>
               </p>
             </VaProcessListItem>
-            <VaProcessListItem header="Upload the form to the VA education portal">
+            <VaProcessListItem header="Upload the form to the Education File Upload Portal">
               <p>
                 Visit the{' '}
                 <va-link

@@ -66,9 +66,9 @@ const IntroductionPage = ({ route }) => {
             Fill out the exemption request form online. You’ll need to download
             and upload the form during this process. After completing the form,
             you will download a PDF, which you will need to submit later by
-            uploading it to the VA Education Portal. Ensure you have all the
-            necessary details, such as your enrollment information, institution,
-            and any required documentaion, before continuing.
+            uploading it to the VA Education File Upload Portal. Ensure you have
+            all the necessary details, such as your enrollment information,
+            institution, and any required documentaion, before continuing.
           </p>
           <p>
             <strong>Note for non-accredited schools: </strong>
@@ -88,7 +88,7 @@ const IntroductionPage = ({ route }) => {
             completed form as a PDF and proceed to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the VA Educational portal">
+        <va-process-list-item header="Upload your PDF to the VA Education File Upload Portal">
           <p>
             Finally, upload your completed exemption request PDF. For
             non-accredited schools, upload both VA Form 22-10216 and VA Form
