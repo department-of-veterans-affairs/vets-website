@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import { TITLE, SUBTITLE, PrimaryActionLink } from '../config/constants';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 
 const IntroductionPage = props => {
   const { route } = props;
@@ -61,7 +62,10 @@ const IntroductionPage = props => {
           new form for each statement.
         </li>
       </ul>
-      <h2>Start your statement</h2>
+      {userLoggedIn &&
+      !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
+          <IdNotVerifiedAlert formNumber="21-4138" formType="form" />
+        )}
     </>
   );
 
