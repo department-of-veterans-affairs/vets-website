@@ -298,5 +298,105 @@ describe('BehaviorListPage', () => {
       //   });
       // });
     });
+
+    describe('Modal Selections', () => {
+      const filledOutDataWithBehaviorsDetails = {
+        workBehaviors: {
+          performance: false, // this checkbox is unselected
+        },
+        healthBehaviors: {
+          appetite: true,
+        },
+        otherBehaviors: {
+          socialEconomic: false, // this checkbox is unselected
+        },
+        behaviorsDetails: {
+          appetite: 'Details of appetite behavior',
+          performance: 'Details of performance behavior',
+          socialEconomic: 'Details of socialEconomic behavior',
+        },
+      };
+
+      describe('When the close button is clicked', () => {
+        it('closes the modal', () => {
+          const { container } = render(
+            page({ data: filledOutDataWithBehaviorsDetails }),
+          );
+
+          fireEvent.click($('button[type="submit"]', container));
+
+          const modal = container.querySelector('va-modal');
+
+          modal.__events.closeEvent();
+          expect($('va-modal[visible="true"]', container)).not.to.exist;
+        });
+      });
+
+      describe('When the confirm button is clicked', () => {
+        it('closes the modal, deletes behaviorsDetails advances to the next page', () => {
+          const setFormDataSpy = sinon.spy();
+          const goForwardSpy = sinon.spy();
+          const deepClonedData = {
+            workBehaviors: {
+              performance: false, // this checkbox is unselected
+            },
+            healthBehaviors: {
+              appetite: true,
+            },
+            otherBehaviors: {
+              socialEconomic: false, // this checkbox is unselected
+            },
+            // unselected behaviorsDetails are removed below
+            behaviorsDetails: {
+              appetite: 'Details of appetite behavior',
+            },
+          };
+
+          const { container } = render(
+            page({
+              data: filledOutDataWithBehaviorsDetails,
+              setFormData: setFormDataSpy,
+              goForward: goForwardSpy,
+            }),
+          );
+
+          fireEvent.click($('button[type="submit"]', container));
+
+          const modal = container.querySelector('va-modal');
+
+          modal.__events.primaryButtonClick();
+          expect($('va-modal[visible="true"]', container)).not.to.exist;
+
+          expect(setFormDataSpy.calledWith(deepClonedData)).to.be.true;
+
+          expect(goForwardSpy.called).to.be.true;
+        });
+      });
+
+      describe('When the cancel button is clicked', () => {
+        it('closes the modal, does not delete answered questons and does not advance to the next page', () => {
+          const setFormDataSpy = sinon.spy();
+          const goForwardSpy = sinon.spy();
+
+          const { container } = render(
+            page({
+              data: filledOutDataWithBehaviorsDetails,
+              setFormData: setFormDataSpy,
+              goForward: goForwardSpy,
+            }),
+          );
+
+          fireEvent.click($('button[type="submit"]', container));
+
+          const modal = container.querySelector('va-modal');
+
+          modal.__events.secondaryButtonClick();
+          expect($('va-modal[visible="true"]', container)).to.not.exist;
+
+          expect(setFormDataSpy.notCalled).to.be.true;
+          expect(goForwardSpy.notCalled).to.be.true;
+        });
+      });
+    });
   });
 });
