@@ -97,6 +97,7 @@ const DownloadDateRange = () => {
   };
 
   const handleSubmit = () => {
+    // Set strings to date for comparison
     const checkFrom = new Date(customFromDate);
     const checkTo = new Date(customToDate);
 
