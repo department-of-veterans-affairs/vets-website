@@ -9,7 +9,7 @@ jobs:
   list-apps:
     runs-on: ubuntu-latest
     outputs:
-        apps: ${{ steps.get-apps.outputs.apps }}
+        apps: ${{ steps.list-apps.outputs.apps }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
