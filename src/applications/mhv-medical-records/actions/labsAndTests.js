@@ -17,17 +17,18 @@ import { radiologyRecordHash } from '../util/radiologyUtil';
 export const getLabsAndTestsList = (
   isCurrent = false,
   isAccelerating = false,
+  timeFrame = '',
 ) => async dispatch => {
   dispatch({
     type: Actions.LabsAndTests.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
+    const getList = () => {
+      return getAcceleratedLabsAndTests(timeFrame);
+    };
     if (isAccelerating) {
-      const labsAndTestsResponse = await getListWithRetry(
-        dispatch,
-        getAcceleratedLabsAndTests,
-      );
+      const labsAndTestsResponse = await getListWithRetry(dispatch, getList);
       dispatch({
         type: Actions.LabsAndTests.GET_UNIFIED_LIST,
         labsAndTestsResponse,
