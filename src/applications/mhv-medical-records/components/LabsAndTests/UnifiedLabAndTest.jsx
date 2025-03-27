@@ -136,7 +136,9 @@ const UnifiedLabsAndTests = props => {
             entry.comments
               ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${entry.comments}`
               : '',
-          ].join(`\n`),
+          ]
+            .filter(line => line)
+            .join(`\n`),
         ),
       ];
       content.push(...observations);
