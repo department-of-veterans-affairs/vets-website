@@ -6,7 +6,6 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
@@ -32,7 +31,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     () => {
       if (!errors.length) return null;
       const code = errors[0].status[0];
-      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
+      return code === '5'
+        ? content['alert-download-message--500']
+        : content['alert-download-message--generic'];
     },
     [errors],
   );
