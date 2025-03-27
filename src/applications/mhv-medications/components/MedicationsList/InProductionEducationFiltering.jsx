@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { tooltipNames } from '../../util/constants';
+import { tooltipHintContent, tooltipNames } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 import {
   getTooltips,
@@ -89,7 +89,7 @@ const InProductionEducationFiltering = () => {
             className="vads-u-margin--0 vads-u-padding-right--5"
             id={RX_IPE_FILTERING_DESCRIPTION_ID}
           >
-            Filter the medications list to easily find what you are looking for.
+            {tooltipHintContent.filterAccordion.HINT}
           </p>
           <button
             aria-label="Dismiss filtering hint"

@@ -269,3 +269,10 @@ export const tooltipNames = {
   mhvMedicationsTooltipFilterAccordion:
     'mhv_medications_tooltip_filter_accordion',
 };
+
+export const tooltipHintContent = {
+  filterAccordion: {
+    HINT:
+      'Filter the medications list to easily find what you are looking for.',
+  },
+};

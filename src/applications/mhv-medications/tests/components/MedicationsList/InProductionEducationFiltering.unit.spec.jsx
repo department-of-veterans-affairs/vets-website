@@ -7,6 +7,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import InProductionEducationFiltering from '../../../components/MedicationsList/InProductionEducationFiltering';
 import reducers from '../../../reducers';
 import { dataDogActionNames } from '../../../util/dataDogConstants';
+import { tooltipHintContent } from '../../../util/constants';
 
 describe('In Production Education Filtering component', () => {
   const initialState = {
@@ -29,7 +30,7 @@ describe('In Production Education Filtering component', () => {
     const screen = setup();
     expect(screen);
   });
-  // TODO: need to find a way to stub the api calls to the tooltip api.
+
   it('calls Data Dog on Secondary button click', async () => {
     const screen = setup(initialState);
     const spyDog = sinon.spy(datadogRum, 'addAction');
@@ -70,5 +71,21 @@ describe('In Production Education Filtering component', () => {
     });
 
     spyDog.restore();
+  });
+
+  it('hides component if tooltipVisible attribute is false', async () => {
+    const initialStateToHideTooltip = {
+      ...initialState,
+      rx: {
+        tooltipVisible: false,
+      },
+    };
+
+    const screen = setup(initialStateToHideTooltip);
+
+    const hintText = screen.queryByText(
+      tooltipHintContent.filterAccordion.HINT,
+    );
+    expect(hintText).to.not.exist;
   });
 });
