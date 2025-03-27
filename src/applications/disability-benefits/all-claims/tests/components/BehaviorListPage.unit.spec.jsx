@@ -9,6 +9,11 @@ import sinon from 'sinon';
 
 import BehaviorListPage from '../../components/BehaviorListPage';
 import {
+  validateBehaviorSelections,
+  showConflictingAlert,
+  behaviorListNoneLabel,
+} from '../../content/form0781/behaviorListPages';
+import {
   BEHAVIOR_LIST_SECTION_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
@@ -36,26 +41,28 @@ describe('BehaviorListPage', () => {
 
   it('should render with all checkboxes', () => {
     const { container } = render(page());
-    expect($$('va-checkbox-group', container).length).to.equal(4);
 
-    expect($$('va-checkbox', container).length).to.equal(16);
-
-    // verify subtitles for checkbox sections are present
-    Object.values(BEHAVIOR_LIST_SECTION_SUBTITLES).forEach(option => {
-      expect($$(`va-checkbox[title="${option}"]`, container)).to.exist;
+    const checkboxGroups = $$('va-checkbox-group', container);
+    expect(checkboxGroups.length).to.equal(4);
+    checkboxGroups.forEach(group => {
+      const label = group.getAttribute('label');
+      expect(Object.values(BEHAVIOR_LIST_SECTION_SUBTITLES)).to.include(label);
     });
 
-    // verify each checkbox exists with user facing label
-    Object.values(BEHAVIOR_CHANGES_WORK).forEach(option => {
-      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
+    const checkboxes = $$('va-checkbox', container);
+    expect(checkboxes.length).to.equal(16);
+
+    const allCheckBoxDescriptions = [
+      ...Object.values(BEHAVIOR_CHANGES_WORK),
+      ...Object.values(BEHAVIOR_CHANGES_HEALTH),
+      ...Object.values(BEHAVIOR_CHANGES_OTHER),
+    ];
+    allCheckBoxDescriptions.push(behaviorListNoneLabel);
+
+    checkboxes.forEach(checkbox => {
+      const label = checkbox.getAttribute('label');
+      expect(allCheckBoxDescriptions).to.include(label);
     });
-    Object.values(BEHAVIOR_CHANGES_HEALTH).forEach(option => {
-      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
-    });
-    Object.values(BEHAVIOR_CHANGES_OTHER).forEach(option => {
-      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
-    });
-    expect($$(`va-checkbox[label="none"]`, container)).to.exist;
   });
 
   it('should submit without making a selection', () => {
@@ -71,7 +78,7 @@ describe('BehaviorListPage', () => {
     expect(goForwardSpy.called).to.be.true;
   });
 
-  it('should submit if selections made', () => {
+  it('should submit if valid selections made', () => {
     const goForwardSpy = sinon.spy();
 
     const data = {
@@ -84,11 +91,212 @@ describe('BehaviorListPage', () => {
         unlisted: true,
       },
       'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+      behaviorsDetails: {
+        reassignment: 'details about reassignment',
+        unlisted: 'details about unlisted',
+      },
     };
 
     const { container } = render(page({ data, goForward: goForwardSpy }));
 
     fireEvent.click($('button[type="submit"]', container));
     expect(goForwardSpy.called).to.be.true;
+  });
+
+  describe('validating selections', () => {
+    describe('invalid: conflicting selections', () => {
+      const errors = {
+        'view:noneCheckbox': {
+          addError: sinon.spy(),
+        },
+        workBehaviors: { addError: sinon.spy() },
+        healthBehaviors: { addError: sinon.spy() },
+        otherBehaviors: { addError: sinon.spy() },
+      };
+      it('should add error to the none checkbox when none and behaviors are selected', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          workBehaviors: {
+            reassignment: true,
+            absences: false,
+          },
+          otherBehaviors: {
+            unlisted: true,
+          },
+          'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+        };
+
+        validateBehaviorSelections(errors, formData);
+
+        expect(showConflictingAlert(formData)).to.be.true;
+
+        expect(errors.workBehaviors.addError.called).to.be.false;
+        expect(errors.healthBehaviors.addError.called).to.be.false;
+        expect(errors.otherBehaviors.addError.called).to.be.false;
+        expect(errors['view:noneCheckbox'].addError.called).to.be.true;
+      });
+    });
+
+    describe('valid selections', () => {
+      const errors = {
+        'view:noneCheckbox': {
+          addError: sinon.spy(),
+        },
+        workBehaviors: { addError: sinon.spy() },
+        healthBehaviors: { addError: sinon.spy() },
+        otherBehaviors: { addError: sinon.spy() },
+      };
+      it('should not add errors when none is selected with no other selected behaviors', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          workBehaviors: {
+            reassignment: false,
+            absences: false,
+          },
+          'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+        };
+
+        validateBehaviorSelections(errors, formData);
+
+        expect(showConflictingAlert(formData)).to.be.false;
+
+        expect(errors.workBehaviors.addError.called).to.be.false;
+        expect(errors.healthBehaviors.addError.called).to.be.false;
+        expect(errors.otherBehaviors.addError.called).to.be.false;
+        expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+      });
+
+      it('should not add errors when none is unselected and behaviors are selected', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          workBehaviors: {
+            reassignment: false,
+            absences: true,
+          },
+          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        };
+
+        validateBehaviorSelections(errors, formData);
+
+        expect(showConflictingAlert(formData)).to.be.false;
+
+        expect(errors.workBehaviors.addError.called).to.be.false;
+        expect(errors.healthBehaviors.addError.called).to.be.false;
+        expect(errors.otherBehaviors.addError.called).to.be.false;
+        expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+      });
+    });
+  });
+
+  describe('Destructive action modal', () => {
+    describe('Show the modal', () => {
+      describe('When the user has already added behavioral change details, goes back, then unselects a described behavior type', () => {
+        const data = {
+          syncModern0781Flow: true,
+          workBehaviors: {
+            reassignment: true,
+            absences: true,
+          },
+          otherBehaviors: {
+            unlisted: false, // this checkbox is unselected
+          },
+          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          behaviorsDetails: {
+            reassignment: 'details about reassignment',
+            unlisted: 'details about unlisted',
+          },
+        };
+
+        it('displays a prompt to delete the details and prevents the page from submitting', () => {
+          const goForwardSpy = sinon.spy();
+          const { container } = render(page({ data, goForward: goForwardSpy }));
+
+          fireEvent.click($('button[type="submit"]', container));
+          expect($('va-modal[visible="true"]', container)).to.exist;
+          expect(goForwardSpy.notCalled).to.be.true;
+        });
+      });
+
+      describe('When the user has already added behavioral change details, goes back, then unselects ALL described behavior types', () => {
+        const data = {
+          syncModern0781Flow: true,
+          workBehaviors: {
+            reassignment: false, // this checkbox is unselected
+            absences: false, // this checkbox is unselected
+          },
+          otherBehaviors: {
+            unlisted: false, // this checkbox is unselected
+          },
+          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          behaviorsDetails: {
+            reassignment: 'details about reassignment',
+            unlisted: 'details about unlisted',
+          },
+        };
+
+        it('displays a prompt to delete the details and prevents the page from submitting', () => {
+          const goForwardSpy = sinon.spy();
+          const { container } = render(page({ data, goForward: goForwardSpy }));
+
+          fireEvent.click($('button[type="submit"]', container));
+          expect($('va-modal[visible="true"]', container)).to.exist;
+          expect(goForwardSpy.notCalled).to.be.true;
+        });
+      });
+    });
+
+    describe('Do not show the modal', () => {
+      describe('When all behavior details have a selected behavior type', () => {
+        const data = {
+          syncModern0781Flow: true,
+          workBehaviors: {
+            reassignment: true,
+            absences: true, // this checkbox is selected, but has no optional details
+          },
+          otherBehaviors: {
+            unlisted: true,
+          },
+          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          behaviorsDetails: {
+            reassignment: 'details about reassignment',
+            unlisted: 'details about unlisted',
+          },
+        };
+
+        it('does not show a prompt and allows submit', () => {
+          const goForwardSpy = sinon.spy();
+          const { container } = render(page({ data, goForward: goForwardSpy }));
+
+          fireEvent.click($('button[type="submit"]', container));
+          expect($('va-modal[visible="false"]', container)).to.exist;
+          expect(goForwardSpy.called).to.be.true;
+        });
+      });
+      //   const data = {
+      //     syncModern0781Flow: true,
+      //     workBehaviors: {
+      //       reassignment: false, // this checkbox is unselected
+      //       absences: false, // this checkbox is unselected
+      //     },
+      //     otherBehaviors: {
+      //       unlisted: false, // this checkbox is unselected
+      //     },
+      //     'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+      //     behaviorsDetails: {
+      //       reassignment: 'details about reassignment',
+      //       unlisted: 'details about unlisted',
+      //     },
+      //   };
+
+      //   it('displays a prompt to delete the details and prevents the page from submitting', () => {
+      //     const goForwardSpy = sinon.spy();
+      //     const { container } = render(page({ data, goForward: goForwardSpy }));
+
+      //     fireEvent.click($('button[type="submit"]', container));
+      //     expect($('va-modal[visible="true"]', container)).to.exist;
+      //     expect(goForwardSpy.notCalled).to.be.true;
+      //   });
+      // });
+    });
   });
 });
