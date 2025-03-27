@@ -11,7 +11,13 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     state => state?.featureToggles?.mhvCredentialButtonDisabled,
   );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth } = getQueryParams();
+  const [oktaParams, setOktaParams] = useState({});
+  const {
+    OAuth,
+    clientId,
+    codeChallenge,
+    codeChallengeMethod,
+  } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -23,8 +29,11 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   useEffect(
     () => {
       setOAuth(OAuthEnabled && OAuth === 'true');
+      if (clientId === 'okta_test') {
+        setOktaParams({ clientId, codeChallenge, codeChallengeMethod });
+      }
     },
-    [OAuth, OAuthEnabled],
+    [OAuth, OAuthEnabled, clientId, codeChallenge, codeChallengeMethod],
   );
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
@@ -40,6 +49,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
+            queryParams={oktaParams}
           />
         ))}
         <LoginNote />

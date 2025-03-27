@@ -334,3 +334,47 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
     teardownProfileSession();
   }
 };
+
+export async function createOktaOAuthRequest({
+  application = '',
+  clientId,
+  config,
+  passedQueryParams = {},
+  passedOptions = {},
+  type = '',
+}) {
+  const isDefaultOAuth =
+    APPROVED_OAUTH_APPS.includes(application) ||
+    !application ||
+    [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
+  const { oAuthOptions } =
+    config ??
+    (externalApplicationsConfig[application] ||
+      externalApplicationsConfig.default);
+  const useType = passedOptions.isSignup
+    ? type.slice(0, type.indexOf('_'))
+    : type;
+  const { codeVerifier } = isDefaultOAuth && saveStateAndVerifier(type);
+  const { codeChallenge } =
+    passedQueryParams || (await pkceChallengeFromVerifier(codeVerifier));
+
+  const usedClientId = clientId || oAuthOptions.clientId;
+  const oAuthParams = {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
+    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+    ...(passedQueryParams.operation && {
+      [OAUTH_ALLOWED_PARAMS.OPERATION]: passedQueryParams.operation,
+    }),
+  };
+
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
+
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
+  );
+
+  sessionStorage.setItem('ci', usedClientId);
+  recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+  return url.toString();
+}

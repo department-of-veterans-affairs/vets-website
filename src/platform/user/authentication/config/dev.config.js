@@ -147,4 +147,20 @@ export default {
     requiresVerification: false,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD],
   },
+  [EXTERNAL_APPS.OKTA]: {
+    allowedSignInProviders: { ...defaultSignInProviders },
+    legacySignInProviders: {
+      ...legacySignInProviders,
+      mhv: false,
+    },
+    isMobile: false,
+    queryParams: {
+      allowOAuth: true,
+      allowPostLogin: false,
+      allowRedirect: false,
+    },
+    OAuthEnabled: false,
+    requiresVerification: true,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.OKTA],
+  },
 };
