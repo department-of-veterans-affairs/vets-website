@@ -548,7 +548,7 @@ export const OBSERVATION_DISPLAY_LABELS = {
   SAMPLE_TESTED: 'Site or sample tested',
   BODY_SITE: 'Body site tested',
   STATUS: 'Status',
-  COMMENTS: 'Comments',
+  COMMENTS: 'Lab comments',
   REFERENCE_RANGE: 'Reference range',
   VALUE: 'Result',
 };
