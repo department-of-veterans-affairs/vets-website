@@ -27,7 +27,7 @@ const PreviousExpenses = props => {
       <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
         <va-card background>
           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Your {expensesText[`${expensesType}`]} expenses in {incomeYear}
+            Your {expensesText[`${expensesType}`]} expenses from {incomeYear}
           </h4>
           <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
             {formatCurrency(expense)}

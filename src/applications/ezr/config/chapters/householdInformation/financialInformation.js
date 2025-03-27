@@ -1,6 +1,6 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { includeSpousalInformation } from '../../../utils/helpers/form-config';
-import { FinancialInformationReviewAlert } from '../../../components/FormAlerts/FinanicalInformationReviewAlert';
+import FinancialInformationReviewWarning from '../../../components/FormAlerts/FinanicalInformationReviewWarning';
 import { LAST_YEAR } from '../../../utils/constants';
 import { VeteranAnnualIncomePage } from '../../../definitions/veteranAnnualIncome';
 import { DeductibleExpensesPage } from '../../../definitions/deductibleExpenses';
@@ -23,7 +23,7 @@ const options = {
   hideMaxItemsAlert: true,
   text: {
     getItemName: `Your annual income from ${LAST_YEAR}`,
-    summaryDescription: FinancialInformationReviewAlert,
+    summaryDescription: FinancialInformationReviewWarning,
     cardDescription: item => {
       return FinancialSummaryCardDescription(item);
     },
@@ -56,7 +56,7 @@ const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage();
  */
 const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
   financialInformationIntroduction: pageBuilder.introPage({
-    title: '[noun plural]',
+    title: 'Your income and deductible',
     path: 'household-information/financial-information-introduction',
     uiSchema: FinancialIntroductionPage.uiSchema,
     schema: FinancialIntroductionPage.schema,

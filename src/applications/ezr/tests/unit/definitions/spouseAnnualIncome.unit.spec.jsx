@@ -21,7 +21,7 @@ describe('ezr SpouseAnnualIncomePage config', () => {
           data: {
             'view:householdEnabled': true,
             'view:isProvidersAndDependentsPrefillEnabled': true,
-            nonPrefill: mockPrefillWithNonPrefillData.nonPrefill,
+            nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
           },
         },
       }),

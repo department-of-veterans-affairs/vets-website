@@ -27,7 +27,7 @@ const PreviousIncome = props => {
             {incomeType
               .split('Income')
               .join(' ')
-              .toLowerCase()}{' '}
+              .toLowerCase()}
             income from {incomeYear}
           </h4>
           <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">

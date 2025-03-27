@@ -7,8 +7,6 @@ import formConfig from '../../../config/form';
 import { FinancialSummaryPage } from '../../../definitions/financialSummary';
 import mockPrefillWithNonPrefillData from '../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
 import { LAST_YEAR } from '../../../utils/constants';
-import { FinancialInformationReviewAlert } from '../../../components/FormAlerts/FinanicalInformationReviewAlert';
-import FinancialSummaryCardDescription from '../../../components/FormDescriptions/FinancialSummaryCardDescription';
 
 describe('ezr FinancialSummaryPage config', () => {
   const { schema, uiSchema } = FinancialSummaryPage({
@@ -18,10 +16,6 @@ describe('ezr FinancialSummaryPage config', () => {
     hideMaxItemsAlert: true,
     text: {
       getItemName: `Your annual income from ${LAST_YEAR}`,
-      summaryDescription: FinancialInformationReviewAlert,
-      cardDescription: item => {
-        return FinancialSummaryCardDescription(item);
-      },
     },
   });
   const definitions = {
