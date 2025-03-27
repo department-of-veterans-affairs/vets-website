@@ -6,12 +6,12 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Footer from '../../../accreditation/21a/components/common/Footer/Footer';
-import Header from '../../../accreditation/21a/components/common/Header/Header';
-import { SIGN_IN_URL } from '../../../accreditation/21a/constants';
-import { fetchUser } from '../../../accreditation/21a/actions/user';
-import { selectIsUserLoading } from '../../../accreditation/21a/selectors/user';
-import { selectShouldGoToSignIn } from '../../../accreditation/21a/selectors/navigation';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import { SIGN_IN_URL } from '../config/constants';
+import { fetchUser } from '../actions/user';
+import { selectIsUserLoading } from '../selectors/user';
+import { selectShouldGoToSignIn } from '../selectors/navigation';
 
 const App = ({ children }) => {
   const {

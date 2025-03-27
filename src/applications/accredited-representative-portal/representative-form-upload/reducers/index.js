@@ -4,8 +4,8 @@ import { FeatureToggleReducer as featureToggles } from 'platform/site-wide/featu
 import scheduledDowntime from 'platform/monitoring/DowntimeNotification/reducer';
 import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 
-import user from '../../../accreditation/21a/reducers/user';
-import navigation from '../../../accreditation/21a/reducers/navigation';
+import user from './user';
+import navigation from './navigation';
 import formConfig from '../config/form';
 
 const form = createSaveInProgressFormReducer(formConfig);
