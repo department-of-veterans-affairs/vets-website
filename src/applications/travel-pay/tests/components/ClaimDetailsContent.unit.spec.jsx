@@ -79,9 +79,38 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Reimbursement amount of $46.93')).to.exist;
   });
 
+  it('renders download links for claim attachments', () => {
+    const screen = renderWithStoreAndRouter(
+      <ClaimDetailsContent
+        {...claimDetailsProps}
+        documents={[
+          { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+          { filename: 'screenshot.png', mimetype: 'image/png' },
+          { filename: 'note-1.txt', mimetype: '' },
+        ]}
+      />,
+      {
+        initialState: getState(),
+      },
+    );
+
+    expect(screen.getByText('DecisionLetter.pdf')).to.exist;
+    expect(screen.getByText('screenshot.png')).to.exist;
+    expect(screen.queryByText('note-1.txt')).to.not.exist;
+  });
+
   it('does not render claims management content with flag off', () => {
     const screen = renderWithStoreAndRouter(
-      <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
+      <ClaimDetailsContent
+        {...claimDetailsProps}
+        claimStatus="Denied"
+        reimbursementAmount={1.0}
+        documents={[
+          { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+          { filename: 'screenshot.png', mimetype: 'image/png' },
+          { filename: 'note-1.txt', mimetype: '' },
+        ]}
+      />,
       {
         initialState: getState({ hasClaimsManagementFlag: false }),
       },
@@ -92,5 +121,7 @@ describe('ClaimDetailsContent', () => {
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.not.exist;
     expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
+    expect(screen.queryByText('DecisionLetter.pdf')).to.not.exist;
+    expect(screen.queryByText('screenshot.png')).to.not.exist;
   });
 });
