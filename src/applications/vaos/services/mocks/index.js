@@ -463,6 +463,9 @@ const responses = {
 
     if (appointmentId === 'timeout-appointment-id') {
       // Set a very high poll count to simulate a timeout
+      draftAppointments[
+        appointmentId
+      ] = providerUtils.createDraftAppointmentInfo(5);
       successPollCount = 1000;
     }
 
