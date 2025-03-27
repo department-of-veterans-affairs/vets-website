@@ -7,7 +7,7 @@ import formConfig from '../../../config/form';
 import { CustomTopContent } from '../../../pages/helpers';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/test-page';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const mockStore = {
   getState: () => ({

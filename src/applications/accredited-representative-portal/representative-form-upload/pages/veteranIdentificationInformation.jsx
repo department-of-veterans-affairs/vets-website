@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnSchema,
+  ssnUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MUST_MATCH_ALERT } from '../config/constants';
@@ -14,14 +14,14 @@ export const veteranIdentificationInformationPage = {
   uiSchema: {
     ...titleUI(
       'Veteran identification information',
-      'You must enter either a Social Security number or a VA File number.',
+      'You must enter a Social Security number',
     ),
-    idNumber: ssnOrVaFileNumberUI(),
+    veteranSsn: ssnUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      idNumber: ssnOrVaFileNumberSchema,
+      veteranSsn: ssnSchema,
     },
   },
 };

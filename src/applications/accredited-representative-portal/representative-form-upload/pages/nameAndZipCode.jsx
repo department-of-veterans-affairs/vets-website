@@ -15,7 +15,7 @@ import { CustomAlertPage } from './helpers';
 export const nameAndZipCodePage = {
   uiSchema: {
     ...titleUI('Veteran’s name and postal code'),
-    fullName: firstNameLastNameNoSuffixUI(),
+    veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
         postalCode: 'Postal code',
@@ -35,7 +35,7 @@ export const nameAndZipCodePage = {
   schema: {
     type: 'object',
     properties: {
-      fullName: firstNameLastNameNoSuffixSchema,
+      veteranFullName: firstNameLastNameNoSuffixSchema,
       address: addressSchema({
         omit: [
           'country',

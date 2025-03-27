@@ -8,10 +8,10 @@ import minimalForm from '../../e2e/fixtures/data/minimal-test.json';
 import formConfig from '../../../config/form';
 
 describe('transformForSubmit', () => {
-  it('should transform json correctly', () => {
-    const windowLocationStub = sinon
-      .stub(window, 'location')
-      .get(() => ({ pathname: 'upload/21-686c' }));
+  it('should transform veteran json correctly', () => {
+    const windowLocationStub = sinon.stub(window, 'location').get(() => ({
+      pathname: 'representative/representative-form-upload/21-686c',
+    }));
 
     const transformedResult = JSON.parse(transformForSubmit(formConfig, form));
     expect(transformedResult).to.deep.equal(transformedFixture);
@@ -20,9 +20,9 @@ describe('transformForSubmit', () => {
   });
 
   it('handles empty transformedData', () => {
-    const windowLocationStub = sinon
-      .stub(window, 'location')
-      .get(() => ({ pathname: 'upload/21-686c' }));
+    const windowLocationStub = sinon.stub(window, 'location').get(() => ({
+      pathname: 'representative/representative-form-upload/21-686c',
+    }));
 
     const transformedResult = JSON.parse(
       transformForSubmit(formConfig, minimalForm),

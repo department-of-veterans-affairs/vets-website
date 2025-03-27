@@ -1,9 +1,9 @@
 {
   "confirmationCode": "123456",
-  "formNumber": "21-686c",
+  "formName": "Declaration of Status of Dependents",
   "formData": {
-    "idNumber": {},
-    "fullName": {},
-    "formName": "Declaration of Status of Dependents"
+    "veteranSsn": {},
+    "veteranFullName": {},
+    "formNumber": "21-686c"
   }
 }

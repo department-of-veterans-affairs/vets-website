@@ -36,7 +36,9 @@ const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: `/${formNumber.toLowerCase()}/`,
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
+  submitUrl: `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/submit_representative_form`,
   dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
   trackingPrefix,
   confirmation: ConfirmationPage,

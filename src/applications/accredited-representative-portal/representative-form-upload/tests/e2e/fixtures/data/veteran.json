@@ -1,8 +1,8 @@
 {
   "data": {
-    "fullName": {
-      "first": "John",
-      "last": "Veteran"
+    "veteranFullName": {
+      "first": "Hector",
+      "last": "Allen"
     },
     "address": {
       "country": "USA",
@@ -13,7 +13,6 @@
     },
     "phoneNumber": "1231231234",
     "email": "john@veteran.com",
-    "ssn": "234232345",
-    "vaFileNumber": "456454567"
+    "veteranSsn": "796126859"
   }
 }
