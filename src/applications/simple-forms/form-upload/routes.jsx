@@ -11,7 +11,7 @@ const formUploadForms = [
   '21P-0516-1',
   '21P-0518-1',
   '21P-530a',
-  '21P-8049'
+  '21P-8049',
 ];
 
 const config = formConfig();

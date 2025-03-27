@@ -42,8 +42,7 @@ const formMappings = {
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-530a-ARE.pdf',
   },
   '21P-8049': {
-    subTitle:
-      'Request for Details of Expenses',
+    subTitle: 'Request for Details of Expenses',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-8049-ARE.pdf',
   },
 };
