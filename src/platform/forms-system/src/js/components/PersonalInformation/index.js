@@ -33,7 +33,8 @@ export const defaultPageConfig = {
   footer: null,
   contentBeforeButtons: null,
   contentAfterButtons: null,
-  hideOnReview: false,
+  hideOnReview: true,
+  depends: () => true,
 };
 
 /**
@@ -58,6 +59,7 @@ const personalInformationPage = ({
   contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
   contentAfterButtons = defaultPageConfig.contentAfterButtons,
   hideOnReview = defaultPageConfig.hideOnReview,
+  depends = defaultPageConfig.depends,
 } = defaultPageConfig) => {
   return {
     [key]: {
@@ -102,6 +104,7 @@ const personalInformationPage = ({
             />
           ),
       hideOnReview,
+      depends,
     },
   };
 };
