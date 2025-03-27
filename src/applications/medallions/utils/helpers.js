@@ -139,5 +139,5 @@ export function parseResponse({ data }) {
 }
 
 export function isUserSignedIn(formData) {
-  return formData?.isLoggedIn || false;
+  return formData?.isLoggedIn;
 }

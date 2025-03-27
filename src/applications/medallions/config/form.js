@@ -54,7 +54,7 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         ...personalInformationPage({
-          key: 'personalInfoPage',
+          key: 'personalInformation',
           title: 'Personal information',
           path: 'personal-information',
           personalInfoConfig: {
