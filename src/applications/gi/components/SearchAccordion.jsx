@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaAccordion,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
@@ -12,54 +15,22 @@ export default function SearchAccordion({
   button,
   buttonOnClick,
   onClick,
-  headerClass,
   ariaDescribedBy,
   dispatchFocusSearch,
 }) {
-  const [isExpanded, setExpanded] = useState(expanded || false);
   const [id] = useState(`${createId(button)}-accordion`);
   const [buttonId] = useState(`update-${createId(button)}-button`);
+  const accordionRef = useRef(null);
 
   useEffect(
     () => {
-      setExpanded(expanded);
+      if (expanded) {
+        accordionRef.current.setAttribute('open', 'true');
+      }
     },
     [expanded],
   );
 
-  const toggle = () => {
-    setExpanded(!isExpanded);
-    if (onClick) {
-      onClick(!isExpanded);
-    }
-  };
-
-  const renderHeader = () => {
-    const headerClasses = classNames(
-      'accordion-button-wrapper update-results-header ',
-      {
-        [headerClass]: headerClass,
-      },
-    );
-
-    return (
-      <h2 className={headerClasses}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-        <button
-          id={`${id}-button`}
-          onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md"
-          aria-expanded={isExpanded}
-          aria-controls={id}
-          data-testid="update-tuition-housing"
-        >
-          <span className="vads-u-font-family--serif accordion-button-text">
-            {button}
-          </span>
-        </button>
-      </h2>
-    );
-  };
   const updateResultsButtonsWarper = classNames(
     'vads-u-height--auto',
     'vads-u-display--flex',
@@ -88,18 +59,22 @@ export default function SearchAccordion({
     'vads-u-text-align--center',
   );
 
+  function handleToggle() {
+    if (onClick) {
+      onClick(!expanded);
+    }
+  }
+
   return (
-    <div className="usa-accordion-item" id={id}>
-      {renderHeader()}
-      <div
-        id={`${id}-content`}
-        className="usa-accordion-content update-results-form vads-u-padding-y--1"
-        aria-hidden={!expanded}
-        hidden={!expanded}
-      >
-        {expanded ? children : null}
-      </div>
-      {expanded && (
+    <VaAccordion id={id} onAccordionItemToggled={handleToggle}>
+      <va-accordion-item ref={accordionRef} header={button} id={`${id}-button`}>
+        <div
+          id={`${id}-content`}
+          className="update-results-form vads-u-padding-y--1"
+        >
+          {children}
+        </div>
+
         <div
           className={
             isProductionOrTestProdEnv()
@@ -122,8 +97,8 @@ export default function SearchAccordion({
             />
           )}
         </div>
-      )}
-    </div>
+      </va-accordion-item>
+    </VaAccordion>
   );
 }
 

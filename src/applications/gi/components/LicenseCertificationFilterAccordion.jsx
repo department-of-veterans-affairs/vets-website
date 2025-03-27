@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaAccordion,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
 // TODO: Assess reusability of SearchAccordion component to avoid repetition.
@@ -11,45 +14,19 @@ export default function LicenseCertificationFilterAccordion({
   button,
   buttonOnClick, // update results
   onClick,
-  headerClass,
   expanded,
   resetSearch,
 }) {
-  const [isExpanded, setExpanded] = useState(expanded || false);
+  const accordionRef = useRef(null);
 
-  const toggle = () => {
-    setExpanded(!isExpanded);
-    if (onClick) {
-      onClick(!isExpanded);
-    }
-  };
-
-  const renderHeader = () => {
-    const headerClasses = classNames(
-      'accordion-button-wrapper update-results-header ',
-      {
-        [headerClass]: headerClass,
-      },
-    );
-
-    return (
-      <h2 className={headerClasses}>
-        <button
-          onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
-          aria-expanded={isExpanded}
-          aria-label={`${buttonLabel} ${isExpanded ? 'expanded' : 'collapsed'}`}
-          data-testid="update-lc-search"
-        >
-          <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
-            <span className="vads-u-font-family--serif accordion-button-text">
-              {buttonLabel}
-            </span>
-          </div>
-        </button>
-      </h2>
-    );
-  };
+  useEffect(
+    () => {
+      if (expanded) {
+        accordionRef.current.setAttribute('open', 'true');
+      }
+    },
+    [expanded],
+  );
 
   const updateResultsButtonsWrapper = classNames(
     'vads-u-height--auto',
@@ -79,19 +56,21 @@ export default function LicenseCertificationFilterAccordion({
     'vads-u-text-align--center',
   );
 
+  function handleToggle() {
+    if (onClick) {
+      onClick(!expanded);
+    }
+  }
+
   return (
-    <div className="usa-accordion-item">
-      {renderHeader()}
-      <div
-        className={`usa-accordion-content ${isExpanded &&
-          `update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3`} `}
-        aria-hidden={!isExpanded}
-        hidden={!isExpanded}
-        role="region"
-      >
-        {isExpanded ? children : null}
-      </div>
-      {isExpanded && (
+    <VaAccordion ref={accordionRef} onAccordionItemToggled={handleToggle}>
+      <va-accordion-item header={buttonLabel} data-testid="update-lc-search">
+        <div
+          className="update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3"
+          role="region"
+        >
+          {children}
+        </div>
         <div className={updateResultsButtonsWrapper}>
           <VaButton
             className={`update-results-button-after ${updateResultsButton}`}
@@ -103,8 +82,8 @@ export default function LicenseCertificationFilterAccordion({
             className={`clear-filters-button-after ${clearFiltersButton}`}
           />
         </div>
-      )}
-    </div>
+      </va-accordion-item>
+    </VaAccordion>
   );
 }
 
