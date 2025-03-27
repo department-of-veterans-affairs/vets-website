@@ -4,16 +4,11 @@ import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
+import { API_ENDPOINTS, DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
-
-const apiURL = `${
-  environment.API_URL
-}/v0/caregivers_assistance_claims/download_pdf`;
 
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
@@ -61,7 +56,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
 
       try {
         await ensureValidCSRFToken('fetchPdf');
-        const response = await apiRequest(apiURL, {
+        const response = await apiRequest(API_ENDPOINTS.downloadPdf, {
           method: 'POST',
           body: formData,
           headers: { 'Content-Type': 'application/json' },

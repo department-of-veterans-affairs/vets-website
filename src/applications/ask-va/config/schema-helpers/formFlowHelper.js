@@ -209,9 +209,10 @@ export const ch3Pages = {
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
     depends: form =>
-      ((!form.school ||
-        !form.schoolInfo?.schoolName ||
-        form.useSchoolInProfile === schoolInYourProfileOptions.NO) &&
+      (!form.schoolInfo?.schoolName &&
+        (form.selectCategory === CategoryDebt &&
+          form.selectTopic === TopicEducationBenefitOverpayments)) ||
+      (form.useSchoolInProfile === schoolInYourProfileOptions.NO &&
         (form.selectCategory === CategoryDebt &&
           form.selectTopic === TopicEducationBenefitOverpayments)) ||
       ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
