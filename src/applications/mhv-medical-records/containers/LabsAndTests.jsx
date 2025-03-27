@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { useHistory, useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
+import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
 import {
@@ -11,16 +15,23 @@ import {
   pageTitles,
   recordType,
   refreshExtractTypes,
+  loadStates,
 } from '../util/constants';
+import { getMonthFromSelectedDate } from '../util/helpers';
+
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import DatePicker from '../components/shared/DatePicker';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
@@ -33,11 +44,27 @@ const LabsAndTests = () => {
   const labsAndTestsCurrentAsOf = useSelector(
     state => state.mr.labsAndTests.listCurrentAsOf,
   );
+
   const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
-  const dispatchAction = isCurrent => {
-    return getLabsAndTestsList(isCurrent, isAcceleratingLabsAndTests);
-  };
+  const urlTimeFrame = new URLSearchParams(location.search).get('timeFrame');
+  const [acceleratedLabsAndTestDate, setAcceleratedLabsAndTestDate] = useState(
+    urlTimeFrame || format(new Date(), 'yyyy-MM'),
+  );
+  const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
+
+  const dispatchAction = useMemo(
+    () => {
+      return isCurrent => {
+        return getLabsAndTestsList(
+          isCurrent,
+          isAcceleratingLabsAndTests,
+          acceleratedLabsAndTestDate,
+        );
+      };
+    },
+    [isAcceleratingLabsAndTests, acceleratedLabsAndTestDate],
+  );
 
   useListRefresh({
     listState,
@@ -59,6 +86,8 @@ const LabsAndTests = () => {
     },
     [dispatch],
   );
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
   useEffect(
     () => {
@@ -67,6 +96,43 @@ const LabsAndTests = () => {
     },
     [dispatch],
   );
+
+  useEffect(
+    () => {
+      // Only update if there is no time frame. This is only for on initial page load.
+      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+      if (!timeFrame) {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+        history.push({
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        });
+      }
+    },
+    [acceleratedLabsAndTestDate, history, location.pathname, location.search],
+  );
+  const updateDate = event => {
+    const [year, month] = event.target.value.split('-');
+    // Ignore transient date changes.
+    if (year?.length === 4 && month?.length === 2) {
+      setAcceleratedLabsAndTestDate(`${year}-${month}`);
+    }
+  };
+
+  const triggerApiUpdate = () => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
+    setDisplayDate(acceleratedLabsAndTestDate);
+    dispatch({
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: loadStates.PRE_FETCH,
+    });
+  };
 
   return (
     <div id="labs-and-tests">
@@ -109,13 +175,59 @@ const LabsAndTests = () => {
             }}
           />
         )}
-        <RecordList
-          type={recordType.LABS_AND_TESTS}
-          records={labsAndTests?.map(data => ({
-            ...data,
-            isOracleHealthData: isAcceleratingLabsAndTests,
-          }))}
-        />
+        {isAcceleratingLabsAndTests && (
+          <>
+            <div className="vads-u-margin-bottom--2">
+              <DatePicker
+                {...{
+                  updateDate,
+                  triggerApiUpdate,
+                  isLoadingAcceleratedData,
+                  dateValue: acceleratedLabsAndTestDate,
+                }}
+              />
+            </div>
+            <div className="vads-u-margin-top--2 ">
+              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+              <p className="vads-u-margin--0">
+                Showing labs and tests from{' '}
+                <span
+                  className="vads-u-font-weight--bold"
+                  data-testid="current-date-display"
+                >
+                  {getMonthFromSelectedDate({ date: displayDate })}
+                </span>
+                .
+              </p>
+              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+            </div>
+          </>
+        )}
+        {isLoadingAcceleratedData && (
+          <>
+            <div className="vads-u-margin-y--8">
+              <va-loading-indicator
+                message="We’re loading your records."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            </div>
+          </>
+        )}
+
+        {!isLoadingAcceleratedData && (
+          <RecordList
+            type={recordType.LABS_AND_TESTS}
+            records={labsAndTests?.map(data => ({
+              ...data,
+              isOracleHealthData: isAcceleratingLabsAndTests,
+            }))}
+            domainOptions={{
+              isAccelerating: isAcceleratingLabsAndTests,
+              timeFrame: acceleratedLabsAndTestDate,
+            }}
+          />
+        )}
       </RecordListSection>
     </div>
   );
