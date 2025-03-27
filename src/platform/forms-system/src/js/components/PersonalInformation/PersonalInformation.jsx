@@ -41,6 +41,7 @@ import { DefaultCardHeader } from './DefaultCardHeader';
 
 /**
  * @type {PersonalInformationConfig}
+ * @description Default configuration for the PersonalInformation component, shows the name field as non-required field
  */
 export const defaultConfig = {
   name: {
@@ -48,11 +49,11 @@ export const defaultConfig = {
     required: false,
   },
   ssn: {
-    show: true,
+    show: false,
     required: false,
   },
   dateOfBirth: {
-    show: true,
+    show: false,
     required: false,
   },
   vaFileNumber: { show: false, required: false },
