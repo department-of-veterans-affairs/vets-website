@@ -1,4 +1,3 @@
-import moment from 'moment';
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
@@ -723,7 +722,8 @@ class MedicationsDetailsPage {
 
   verifyMedicationDescriptionInTxtDownload = text => {
     const downloadsFolder = Cypress.config('downloadsFolder');
-    const date = moment().format('M-D-YYYY');
+    const now = new Date();
+    const date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
     const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
     cy.readFile(fileName).then(fileContent => {
       expect(fileContent).to.contain(text);
