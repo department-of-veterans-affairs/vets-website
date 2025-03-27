@@ -9,8 +9,8 @@ const SubmissionInstructions = () => {
       <p>
         <strong>Note:</strong> This form does not submit automatically. After
         you review your information, download the completed VA Form 22-10216.
-        Then, upload it manually through the VA Education Portal to complete the
-        submission process.
+        Then, upload it manually through the VA Education File Upload Portal to
+        complete the submission process.
       </p>
     </div>
   );
