@@ -23,7 +23,11 @@ export const ADDRESS_REGEX = {
 export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
 
 export const API_ENDPOINTS = {
+  csrfCheck: '/maintenance_windows',
+  downloadPdf: '/caregivers_assistance_claims/download_pdf',
   facilities: '/caregivers_assistance_claims/facilities',
+  fileUpload: '/v0/form1010cg/attachments',
+  submission: '/v0/caregivers_assistance_claims',
 };
 
 export const DOWNLOAD_ERRORS_BY_CODE = {
