@@ -108,7 +108,8 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
   return {
     path: page.name,
     title: data => {
-      const chosenBenefit = data?.formData?.chosenBenefit;
+      const chosenBenefit =
+        data?.chosenBenefit ?? data?.formData?.chosenBenefit;
       // Always treat kicker as ON; no mebKickerNotificationEnabled check
       return additionalConsiderationsQuestionTitleText(
         page.order,
@@ -118,7 +119,8 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     },
     uiSchema: {
       'ui:description': data => {
-        const chosenBenefit = data?.formData?.chosenBenefit;
+        const chosenBenefit =
+          data?.chosenBenefit ?? data?.formData?.chosenBenefit;
         return additionalConsiderationsQuestionTitle(
           page.order,
           chosenBenefit,
