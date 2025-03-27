@@ -6,29 +6,29 @@ import {
 
 import { arrayBuilderOptions } from '../shared/utils';
 
-const ratedOrNewOptions = {
+const conditionTypeOptions = {
   RATED: 'Already rated, it has worsened',
   NEW: 'A condition I haven’t applied for',
 };
 
 /** @returns {PageSchema} */
-const sideOfBodyPage = {
+const conditionTypePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Type of condition you are applying for',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
-    ratedOrNew: radioUI({
-      title: 'Select rated disability or new condition',
-      labels: ratedOrNewOptions,
+    conditionType: radioUI({
+      title: 'Select condition type',
+      labels: conditionTypeOptions,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      ratedOrNew: radioSchema(Object.keys(ratedOrNewOptions)),
+      conditionType: radioSchema(Object.keys(conditionTypeOptions)),
     },
   },
 };
 
-export default sideOfBodyPage;
+export default conditionTypePage;

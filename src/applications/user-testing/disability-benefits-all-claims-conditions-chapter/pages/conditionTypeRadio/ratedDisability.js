@@ -11,10 +11,10 @@ import {
   createNonSelectedRatedDisabilities,
 } from '../shared/utils';
 
-const createRatedDisabilitiesSchema = fullData =>
+const createRatedDisabilitySchema = fullData =>
   createNonSelectedRatedDisabilities(fullData) || {};
 
-const createRatedDisabilitiesDescriptions = fullData => {
+const createRatedDisabilityDescriptions = fullData => {
   return fullData.ratedDisabilities.reduce((acc, disability) => {
     let text = `Current rating: ${disability.ratingPercentage}%`;
 
@@ -47,7 +47,7 @@ const ratedDisabilityPage = {
       updateUiSchema: (_formData, fullData) => {
         return {
           'ui:options': {
-            descriptions: createRatedDisabilitiesDescriptions(fullData),
+            descriptions: createRatedDisabilityDescriptions(fullData),
           },
         };
       },
@@ -59,9 +59,7 @@ const ratedDisabilityPage = {
         _path,
         fullData,
       ) => {
-        return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData)),
-        );
+        return radioSchema(Object.keys(createRatedDisabilitySchema(fullData)));
       },
     }),
   },

@@ -4,10 +4,10 @@ import {
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-import { RATED_OR_NEW_RADIOS } from '../../constants';
+import { CONDITION_TYPE_RADIO } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 
-const arrayPath = 'demos';
+const arrayPath = 'conditions';
 
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
@@ -61,24 +61,26 @@ const isNewConditionFromRatedDisabilityRadio = ratedDisability =>
   ratedDisability === 'Add a new condition' ||
   ratedDisability === 'Edit new condition';
 
-const isNewConditionForRatedOrNewRadiosDemo = (formData, index) => {
+const isNewConditionForConditionTypeRadioDemo = (formData, index) => {
   if (formData?.[arrayPath]) {
-    const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
+    const conditionType = formData?.[arrayPath]?.[index]?.conditionType;
 
-    return ratedOrNew === 'NEW' || ratedOrNew === undefined;
+    return conditionType === 'NEW' || conditionType === undefined;
   }
 
-  return formData?.ratedOrNew === 'NEW' || formData?.ratedOrNew === undefined;
+  return (
+    formData?.conditionType === 'NEW' || formData?.conditionType === undefined
+  );
 };
 
-const isRatedDisabilityForRatedOrNewRadiosDemo = (formData, index) => {
+const isRatedDisabilityForConditionTypeRadioDemo = (formData, index) => {
   if (formData?.[arrayPath]) {
-    const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
+    const conditionType = formData?.[arrayPath]?.[index]?.conditionType;
 
-    return ratedOrNew === 'RATED';
+    return conditionType === 'RATED';
   }
 
-  return formData?.ratedOrNew === 'RATED';
+  return formData?.conditionType === 'RATED';
 };
 
 const isNewConditionForRatedOrNewNextPageDemo = (formData, index) => {
@@ -102,16 +104,16 @@ const isRatedDisabilityForRatedOrNewNextPageDemo = (formData, index) => {
 };
 
 export const isNewCondition = (formData, index) => {
-  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
-    return isNewConditionForRatedOrNewRadiosDemo(formData, index);
+  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
+    return isNewConditionForConditionTypeRadioDemo(formData, index);
   }
 
   return isNewConditionForRatedOrNewNextPageDemo(formData, index);
 };
 
 export const isRatedDisability = (formData, index) => {
-  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
-    return isRatedDisabilityForRatedOrNewRadiosDemo(formData, index);
+  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
+    return isRatedDisabilityForConditionTypeRadioDemo(formData, index);
   }
 
   return isRatedDisabilityForRatedOrNewNextPageDemo(formData, index);

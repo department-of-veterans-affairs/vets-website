@@ -1,5 +1,5 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { RATED_OR_NEW_RADIOS as demo } from '../../constants';
+import { CONDITION_TYPE_RADIO as demo } from '../../constants';
 
 import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
@@ -9,20 +9,20 @@ import {
   isActiveDemo,
 } from '../shared/utils';
 import ratedDisabilityPage from './ratedDisability';
-import ratedOrNewPage from './ratedOrNew';
+import conditionTypePage from './conditionType';
 
-const ratedOrNewRadiosPages = arrayBuilderPages(
+const conditionTypeRadioPages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
     ...introAndSummaryPages(demo, pageBuilder),
-    [`${demo.name}RatedOrNew`]: pageBuilder.itemPage({
-      title: 'Select rated disability or new condition',
-      path: `conditions-${demo.label}/:index/rated-or-new`,
+    [`${demo.name}conditionType`]: pageBuilder.itemPage({
+      title: 'Select condition type',
+      path: `conditions-${demo.label}/:index/condition-type`,
       depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
         hasRatedDisabilitiesOrIsRatedDisability(formData, index),
-      uiSchema: ratedOrNewPage.uiSchema,
-      schema: ratedOrNewPage.schema,
+      uiSchema: conditionTypePage.uiSchema,
+      schema: conditionTypePage.schema,
     }),
     [`${demo.name}RatedDisability`]: pageBuilder.itemPage({
       title: 'Select which existing disability has worsened.',
@@ -37,4 +37,4 @@ const ratedOrNewRadiosPages = arrayBuilderPages(
   }),
 );
 
-export default ratedOrNewRadiosPages;
+export default conditionTypeRadioPages;

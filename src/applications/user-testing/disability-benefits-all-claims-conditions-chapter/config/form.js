@@ -8,7 +8,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
 import demo from '../pages/demo';
 import ratedOrNewNextPagePages from '../pages/ratedOrNewNextPage';
-import ratedOrNewRadiosPages from '../pages/ratedOrNewRadios';
+import conditionTypeRadioPages from '../pages/conditionTypeRadio';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -53,7 +53,7 @@ const formConfig = {
       pages: {
         demo,
         ...ratedOrNewNextPagePages,
-        ...ratedOrNewRadiosPages,
+        ...conditionTypeRadioPages,
       },
     },
   },
