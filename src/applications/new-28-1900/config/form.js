@@ -1,15 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import {
+  TITLE,
+  SUBTITLE,
+  YOUR_INFORMATION_PAGES_CONSTANTS,
+} from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// TODO: We want to source these from current, common definitions
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import personalInformationPage from '../pages/personalInformation';
+import educationPage from '../pages/education';
+import getHelp from '../components/GetFormHelp';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -22,6 +23,8 @@ const formConfig = {
   trackingPrefix: 'new-careers-employment-28-1900-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  stepLabels: 'Your Information;Contact Information;Review',
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -47,111 +50,25 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    yourInformationChapter: {
+      title: 'Your information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        personalInformationPage: {
+          path: 'personal-information', // Do we know what we want this to be?
+          title: YOUR_INFORMATION_PAGES_CONSTANTS.personalInformationPageTitle,
+          uiSchema: personalInformationPage.uiSchema,
+          schema: personalInformationPage.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        educationPage: {
+          path: 'education', // Do we know what we want this to be?
+          title: YOUR_INFORMATION_PAGES_CONSTANTS.educationPageTitle,
+          uiSchema: educationPage.uiSchema,
+          schema: educationPage.schema,
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Mailing address',
-      pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
-    },
-
-    // TODO: Common definitions needed
-    // veteranInformationChapter: {
-    //   title: 'Your Information',
-    //   pages: {
-    //     personalInformation: {
-    //       path: 'personal-information',
-    //       title: 'Personal Information',
-    //       schema: {
-    //         type: 'object',
-    //         required: ['firstName', 'lastName', 'dateOfBirth'],
-    //         properties: {
-    //           firstName: { type: 'string' },
-    //           middleName: { type: 'string' },
-    //           lastName: { type: 'string' },
-    //           suffix: {
-    //             type: 'string',
-    //             enum: ['Jr.', 'Sr.', 'II', 'III', 'IV', ''],
-    //           },
-    //           dateOfBirth: { type: 'string', format: 'date' },
-    //         },
-    //       },
-    // uiSchema: {
-    //         firstName: {
-    //           'ui:title': 'First name',
-    //           'ui:required': () => true,
-    //           'ui:errorMessages': {
-    //             required: 'Please enter your first name.',
-    //           },
-    //         },
-    //         middleName: {
-    //           'ui:title': 'Middle name',
-    //         },
-    //         lastName: {
-    //           'ui:title': 'Last name',
-    //           'ui:required': () => true,
-    //           'ui:errorMessages': {
-    //             required: 'Please enter your last name.',
-    //           },
-    //         },
-    //         suffix: {
-    //           'ui:title': 'Suffix',
-    //           'ui:options': {
-    //             labels: {
-    //               'Jr.': 'Jr.',
-    //               'Sr.': 'Sr.',
-    //               'II': 'II',
-    //               'III': 'III',
-    //               'IV': 'IV',
-    //             },
-    //           },
-    //         },
-    //         dateOfBirth: {
-    //           'ui:title': 'Date of birth',
-    //           'ui:widget': 'date',
-    //           'ui:required': () => true,
-    //           'ui:errorMessages': {
-    //             required: 'Please provide your date of birth.',
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
   },
-  // getHelp,
+  getHelp,
   footerContent,
 };
 

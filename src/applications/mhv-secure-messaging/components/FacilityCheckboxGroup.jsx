@@ -66,7 +66,7 @@ const FacilityCheckboxGroup = props => {
                     : 'vads-u-margin-bottom--3 tablet:vads-u-margin-bottom--2'
                 }`}
                 key={team.triageTeamId}
-                label={team.name}
+                label={team.suggestedNameDisplay || team.name}
                 checked={team.preferredTeam}
                 onVaChange={() => {
                   updatePreferredTeam(team.triageTeamId, null);

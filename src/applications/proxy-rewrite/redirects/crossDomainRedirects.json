@@ -1634,11 +1634,6 @@
   },
   {
     "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/epublications.asp",
-    "dest": "/health-care"
-  },
-  {
-    "domain": "www.va.gov",
     "src": "/healthbenefits/resources/caregiver_eligibility_check.asp",
     "dest": "/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
   },
