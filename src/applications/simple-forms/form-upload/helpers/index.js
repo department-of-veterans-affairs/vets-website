@@ -45,7 +45,7 @@ const formMappings = {
     subTitle:
       'Request for Details of Expenses',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-8049-ARE.pdf',
-  }
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
