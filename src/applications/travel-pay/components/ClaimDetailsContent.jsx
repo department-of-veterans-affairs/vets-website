@@ -17,6 +17,7 @@ export default function ClaimDetailsContent({
   facilityName,
   modifiedOn,
   reimbursementAmount,
+  documents,
 }) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -43,6 +44,8 @@ export default function ClaimDetailsContent({
         Claim number: {claimNumber}
       </span>
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
+      {claimsMgmtToggle &&
+        documents?.length > 0 && <DocumentSection documents={documents} />}
       {claimsMgmtToggle &&
         claimStatus === STATUSES.Denied.name && <AppealContent />}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
@@ -74,6 +77,7 @@ ClaimDetailsContent.propTypes = {
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
+  documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
 };
 
@@ -105,3 +109,57 @@ function AppealContent() {
     </>
   );
 }
+
+function DocumentSection({ documents }) {
+  const documentCategories = documents.reduce(
+    (acc, doc) => {
+      if (!doc.mimetype) return acc;
+      // TODO: Solidify on pattern match criteria for decision letter, other statically named docs
+      if (doc.filename.includes('DecisionLetter')) acc.clerk.push(doc);
+      else acc.other.push(doc);
+      return acc;
+    },
+    { clerk: [], other: [] },
+  );
+
+  const getDocLinkList = list =>
+    // TODO: Replace href with download mechanism (encoded string, blob, etc)
+    list.map(({ href, filename }) => (
+      <div
+        key={`claim-attachment-dl-${filename}`}
+        className="vads-u-margin-top--2"
+      >
+        <a href={href ?? '#'} download>
+          <va-icon
+            class="vads-u-margin-right--1 travel-pay-claim-download-link-icon"
+            icon="file_download"
+          />
+          <span className="vads-u-text-decoration--underline">{filename}</span>
+        </a>
+      </div>
+    ));
+
+  return (
+    <>
+      <h2 className="vads-u-font-size--h3">Documents</h2>
+      <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
+        Documents the clerk submitted
+      </h3>
+      {getDocLinkList(documentCategories.clerk)}
+      <div className="vads-u-margin-top--2">
+        <va-link
+          href="#"
+          text="Download VA Form 10-0998 (PDF) to seek further review of our healthcare benefits decision"
+        />
+      </div>
+      <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
+        Documents you submitted
+      </h3>
+      {getDocLinkList(documentCategories.other)}
+    </>
+  );
+}
+
+DocumentSection.propTypes = {
+  documents: PropTypes.array,
+};
