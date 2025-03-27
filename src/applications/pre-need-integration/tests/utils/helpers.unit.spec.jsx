@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import { render } from '@testing-library/react';
 import {
   transform,
   ApplicantDescriptionWrapper,
@@ -25,6 +26,7 @@ import {
   formatName,
   claimantHeader,
   validateMilitaryHistory,
+  addressConfirmationRenderLine,
 } from '../../utils/helpers';
 import * as utils from '../../utils/helpers';
 
@@ -659,5 +661,19 @@ describe('Preneed helpers', () => {
 
       expect(errors.dateRange.to.addError.calledOnce).to.be.false;
     });
+  });
+});
+
+describe('addressConfirmationRenderLine', () => {
+  it('should render content with a line break when content is provided', () => {
+    const content = 'Test Content';
+    const { container } = render(addressConfirmationRenderLine(content));
+    expect(container.innerHTML).to.equal('Test Content<br>');
+  });
+
+  it('should return null when content is not provided', () => {
+    const content = null;
+    const result = addressConfirmationRenderLine(content);
+    expect(result).to.be.null;
   });
 });
