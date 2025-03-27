@@ -1,7 +1,7 @@
 import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import folderResponse from '../fixtures/folder-response.json';
 import { Locators, Paths } from '../utils/constants';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 
 class PatientFilterPage {
