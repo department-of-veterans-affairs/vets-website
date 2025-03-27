@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -14,10 +15,6 @@ import supportingDocuments from '../pages/supportingDocuments';
 // eslint-disable-next-line import/no-named-as-default-member
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import { isUserSignedIn } from '../utils/helpers';
-// eslint-disable-next-line import/no-unresolved
-import { ViewPersonalInformation } from '../components/ViewPersonalInformation';
-import { VIEW_FIELD_SCHEMA } from '../../_mock-form-ae-design-patterns/utils/constants';
-import { ViewPersonalInformationReview } from '../components/ViewPersonalInformationReview';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -56,15 +53,19 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        personalInformation: {
+        ...personalInformationPage({
+          key: 'personalInfoPage',
+          title: 'Personal information',
           path: 'personal-information',
-          title: 'Your Name',
-          CustomPage: ViewPersonalInformation,
-          CustomPageReview: ViewPersonalInformationReview,
-          uiSchema: {},
-          schema: VIEW_FIELD_SCHEMA,
+          personalInfoConfig: {
+            ssn: { show: false, required: false },
+            vaFileNumber: { show: false, required: false },
+            dateOfBirth: { show: false, required: false },
+            gender: { show: false, required: false },
+            name: { show: true, required: false },
+          },
           depends: formData => isUserSignedIn(formData),
-        },
+        }),
         personalInformation2: {
           path: 'personal-information2',
           title: 'Your Name',

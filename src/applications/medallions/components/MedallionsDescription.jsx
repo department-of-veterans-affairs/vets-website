@@ -16,7 +16,6 @@ export const MedallionsDescription = (formContext, description = '') => {
           }),
         );
       }
-      // Only run the effect when these things change
     },
     [dispatch, formContext.formData, isLoggedIn],
   );

@@ -55,6 +55,7 @@ const personalInformationPage = ({
   footer = defaultPageConfig.footer,
   contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
   contentAfterButtons = defaultPageConfig.contentAfterButtons,
+  depends = () => true,
 } = defaultPageConfig) => {
   return {
     [key]: {
@@ -90,6 +91,7 @@ const personalInformationPage = ({
       ),
       CustomPageReview: null,
       hideOnReview: true,
+      depends,
     },
   };
 };
