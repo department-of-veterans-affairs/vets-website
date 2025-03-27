@@ -1,5 +1,6 @@
 /* eslint-disable mocha/no-exclusive-tests */
 import React from 'react';
+import * as ReactRedux from 'react-redux';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -29,6 +30,7 @@ import {
   validateMilitaryHistory,
   addressConfirmationRenderLine,
   formatSuggestedAddress,
+  MailingAddressStateTitle,
 } from '../../utils/helpers';
 import * as utils from '../../utils/helpers';
 
@@ -680,7 +682,7 @@ describe('addressConfirmationRenderLine', () => {
   });
 });
 
-describe.only('formatSuggestedAddress', () => {
+describe('formatSuggestedAddress', () => {
   it('should format address with all fields', () => {
     const address = {
       street: '123 Shoryuken St',
@@ -757,5 +759,62 @@ describe.only('formatSuggestedAddress', () => {
     expect(result).to.equal(
       `123 Shoryuken St, Apt 4, Luthadel, CA 12345, ${countryLabel}`,
     );
+  });
+});
+
+describe('MailingAddressStateTitle', () => {
+  let useSelectorStub;
+
+  beforeEach(() => {
+    useSelectorStub = sinon.stub(ReactRedux, 'useSelector');
+  });
+
+  afterEach(() => {
+    useSelectorStub.restore();
+  });
+
+  it('should return "Province" when country is "CAN"', () => {
+    useSelectorStub.returns({ form: { data: { country: 'CAN' } } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('Province');
+    wrapper.unmount();
+  });
+
+  it('should return "State or territory" when country is not "CAN"', () => {
+    useSelectorStub.returns({ form: { data: { country: 'USA' } } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
+  });
+
+  it('should return "State or territory" when country is undefined', () => {
+    useSelectorStub.returns({ form: { data: {} } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
+  });
+
+  it('should handle empty data object', () => {
+    useSelectorStub.returns({});
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
+  });
+
+  it('should handle missing country field', () => {
+    useSelectorStub.returns({ form: { data: { otherField: 'value' } } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
   });
 });
