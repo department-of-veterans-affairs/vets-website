@@ -115,7 +115,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     );
   });
 
-  it('should show cc request', async () => {
+  it('should show cc request, vaOnlineSchedulingFeSourceOfTruthCC=false', async () => {
     // Given a veteran has CC appointment request
     // TODO: practitioners.id is same as practitioners.identifier
     const startDate = moment.utc();
@@ -168,6 +168,76 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: initialStateVAOSService,
+      reducers,
+    });
+
+    expect(await screen.findByText('Audiology and speech')).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Community care');
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'Appointments that you request will show here until staff review and schedule them.',
+    );
+  });
+
+  it('should show cc request, vaOnlineSchedulingFeSourceOfTruthCC=true', async () => {
+    // Given a veteran has CC appointment request
+    // TODO: practitioners.id is same as practitioners.identifier
+    const startDate = moment.utc();
+    const ccAppointmentRequest = getVAOSRequestMock();
+    ccAppointmentRequest.id = '1234';
+    ccAppointmentRequest.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
+      locationId: '983GC',
+      id: '1234',
+      practitioners: [{ id: [{ value: '123' }] }],
+      preferredTimesForPhoneCall: ['Morning'],
+      reasonCode: {
+        coding: [{ code: 'Routine Follow-up' }],
+        text: 'A message from the patient',
+      },
+      requestedPeriods: [
+        {
+          start: moment(startDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+        {
+          start: moment(startDate)
+            .add(4, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '203',
+      status: 'proposed',
+    };
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(2, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [ccAppointmentRequest],
+    });
+    // When veteran selects the Requested dropdown selection
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: {
+        ...initialStateVAOSService,
+        featureToggles: {
+          ...initialStateVAOSService.featureToggles,
+          vaOnlineSchedulingFeSourceOfTruthCC: true,
+        },
+      },
       reducers,
     });
 
@@ -302,7 +372,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     expect(within(links[2]).getByText('Primary care')).to.be.ok;
   });
 
-  it('should show cc request and provider facility name if available', async () => {
+  it('should show cc request and provider facility name if available, vaOnlineSchedulingFeSourceOfTruthCC=false', async () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1';
     appointment.attributes = {
@@ -336,6 +406,54 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
+      reducers,
+    });
+
+    expect(await screen.findByText('Audiology and speech')).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Community care');
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+  });
+
+  it('should show cc request and provider facility name if available, vaOnlineSchedulingFeSourceOfTruthCC=true', async () => {
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1';
+    appointment.attributes = {
+      id: '1',
+      kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
+      locationId: '983',
+      requestedPeriods: [{}],
+      serviceType: 'audiology',
+      status: 'pending',
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(1, 'month')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
+    });
+
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingFeSourceOfTruthCC: true,
+        },
+      },
       reducers,
     });
 
