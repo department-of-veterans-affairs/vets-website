@@ -267,3 +267,35 @@ export function collectMedicareInformation(formData) {
 export function includeInsuranceInformation(formData) {
   return !formData[INSURANCE_VIEW_FIELDS.skip];
 }
+
+export function includeHouseholdInformationWithV1Prefill(formData) {
+  return (
+    formData['view:householdEnabled'] &&
+    !formData['view:isProvidersAndDependentsPrefillEnabled']
+  );
+}
+
+export function includeHouseholdInformationWithV2Prefill(formData) {
+  return (
+    formData['view:householdEnabled'] &&
+    formData['view:isProvidersAndDependentsPrefillEnabled']
+  );
+}
+
+export function includeSpousalInformationWithV1Prefill(formData) {
+  if (!includeHouseholdInformationWithV1Prefill(formData)) return false;
+  const { maritalStatus } = formData['view:maritalStatus'];
+  return (
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated'
+  );
+}
+
+export function includeSpousalInformationWithV2Prefill(formData) {
+  if (!includeHouseholdInformationWithV2Prefill(formData)) return false;
+  const { maritalStatus } = formData['view:maritalStatus'];
+  return (
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated'
+  );
+}
