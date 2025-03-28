@@ -60,6 +60,12 @@ export const downloadsReducer = (state = initialState, action) => {
         recordFilter: action.response,
       };
     }
+    case Actions.Downloads.SET_FILE_TYPE_FILTER: {
+      return {
+        ...state,
+        fileTypeFilter: action.response,
+      };
+    }
     case Actions.Downloads.BB_SUCCESS: {
       return {
         ...state,
