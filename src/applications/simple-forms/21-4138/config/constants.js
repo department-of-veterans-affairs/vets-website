@@ -604,9 +604,9 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       Upload evidence using our claim status tool
     </PrimaryActionLink>
     <p>
-      If you prefer to mail copies of your documents, we recommend we recommend
-      filling out Document Evidence Submission (VA Form 20-10208) and submitting
-      it along with the evidence.
+      If you prefer to mail copies of your documents, we recommend filling out
+      Document Evidence Submission (VA Form 20-10208) and submitting it along
+      with the evidence.
     </p>
     <div className="vads-u-margin-y--4">
       <va-link
