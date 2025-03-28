@@ -704,7 +704,7 @@ describe('formatDateInLocalTimezone', () => {
   it('should format a valid ISO8601 date string to the local timezone', () => {
     const dateString = '2023-01-05T14:48:00.000-05:00';
     const formattedDate = formatDateInLocalTimezone(dateString);
-    const expectedDate = 'January 5, 2023 2:48 p.m. UTC';
+    const expectedDate = 'January 5, 2023 7:48 p.m. UTC';
     expect(formattedDate).to.equal(expectedDate);
   });
 
