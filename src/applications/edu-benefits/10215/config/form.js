@@ -29,6 +29,10 @@ import {
   ProgramSummary,
 } from '../pages';
 
+export const convertPercentageToText = percent => {
+  return percent ? `${percent} supported student FTE` : null;
+};
+
 export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
@@ -38,7 +42,7 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-      return percent ? `${percent} supported student FTE` : null;
+      return convertPercentageToText(percent);
     },
     summaryTitle: props =>
       location?.pathname.includes('review-and-submit')
@@ -51,11 +55,20 @@ export const arrayBuilderOptions = {
 
 const { date } = commonDefinitions;
 
-const submitFormLogic = (form, formConfig) => {
-  if (environment.isDev()) {
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
     return Promise.resolve(testData);
   }
   return submitForm(form, formConfig);
+};
+
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
+
+export const onNavForwardLogic = ({ goPath }) => {
+  goPath('/institution-details-1');
+  localStorage.removeItem('10215ClaimId');
 };
 
 const formConfig = {
@@ -65,9 +78,7 @@ const formConfig = {
   submit: submitFormLogic,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  confirmation: ({ router, route }) => (
-    <ConfirmationPage router={router} route={route} />
-  ),
+  confirmation: confirmFormLogic,
   formId: '22-10215',
   saveInProgress: {
     messages: {
@@ -124,10 +135,7 @@ const formConfig = {
           title: 'Tell us about yourself',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
-          onNavForward: ({ goPath }) => {
-            goPath('/institution-details-1');
-            localStorage.removeItem('10215ClaimId');
-          },
+          onNavForward: onNavForwardLogic,
         },
         institutionDetails: {
           path: 'institution-details-1',
