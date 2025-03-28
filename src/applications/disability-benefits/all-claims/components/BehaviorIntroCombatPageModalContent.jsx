@@ -1,59 +1,37 @@
 import React from 'react';
 
-import {
-  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
-  BEHAVIOR_LIST_SECTION_SUBTITLES,
-} from '../constants';
+import { ALL_BEHAVIOR_CHANGE_DESCRIPTIONS } from '../constants';
 
-// doc
-export const BehaviorIntroCombatPageModalContent = formData => {
-  // TODO: can we simplifly all of this?
-  const allBehaviorTypes = {
+// TODO DOC
+export const BehaviorIntroCombatPageModalContent = ({ formData }) => {
+  const allBehaviors = {
     ...formData.workBehaviors,
     ...formData.healthBehaviors,
     ...formData.otherBehaviors,
   };
 
-  const allSelectedBehaviorTypes = Object.entries(allBehaviorTypes)
-    .filter(([, value]) => value === true)
-    .reduce((acc, [key, value]) => {
-      acc[key] = value;
-      return acc;
-    }, {});
-
-  const behaviors = Object.keys(ALL_BEHAVIOR_CHANGE_DESCRIPTIONS).map(
-    behaviorType => {
-      if (behaviorType in allSelectedBehaviorTypes) {
-        return behaviorType === 'unlisted'
-          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
-          : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
-      }
-
-      // TODO: remove need for this?
-      return null;
-    },
+  const selectedBehaviors = Object.keys(allBehaviors).filter(
+    k => allBehaviors[k] === true,
   );
 
-  const describedBehaviors = behaviors.filter(element => element !== null);
-  const describedBehaviorsCount = describedBehaviors.length;
-  const firstThreeBehaviors = describedBehaviors.slice(0, 3);
-
-  const remainingBehaviors = describedBehaviorsCount - 3;
-
-  const behaviorsRemaining = (
-    <li>
-      And, <b>{remainingBehaviors} other behavioral changes</b>
-    </li>
+  const behaviorDescriptions = selectedBehaviors.map(
+    behaviorName => ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorName],
   );
 
-  const behaviorRemaining = (
-    <li>
-      And, <b>1 other behavioral change</b>
-    </li>
-  );
+  const describedBehaviorsCount = behaviorDescriptions.length;
+  const firstThreeBehaviors = behaviorDescriptions.slice(0, 3);
 
-  const listRemainingBehaviors =
-    remainingBehaviors > 1 ? behaviorsRemaining : behaviorRemaining;
+  const displayRemainingBehaviors = () => {
+    if (describedBehaviorsCount === 4) {
+      return <li key={4}>{behaviorDescriptions[3]}</li>;
+    }
+
+    return (
+      <li key={4}>
+        And, <b>{describedBehaviorsCount - 3} other behavioral changes</b>
+      </li>
+    );
+  };
 
   return (
     <>
@@ -69,7 +47,7 @@ export const BehaviorIntroCombatPageModalContent = formData => {
           </li>
         ))}
 
-        {remainingBehaviors > 0 && listRemainingBehaviors}
+        {displayRemainingBehaviors()}
       </ul>
       <p>
         <b>Do you want to skip questions about behavioral changes?</b>
