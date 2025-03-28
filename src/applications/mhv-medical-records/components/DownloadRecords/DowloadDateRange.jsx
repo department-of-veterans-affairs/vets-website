@@ -41,18 +41,6 @@ const DownloadDateRange = () => {
       const { value } = e.detail;
       setSelectionError(null);
       setSelectedDate(value);
-      // if (value === 'any') {
-      //   dispatch(updateReportDateRange('any', 'any', 'any'));
-      // } else if (value !== 'custom') {
-      //   const currentDate = new Date();
-      //   dispatch(
-      //     updateReportDateRange(
-      //       value,
-      //       format(subMonths(currentDate, value), 'yyyy-MM-dd'),
-      //       format(currentDate, 'yyyy-MM-dd'),
-      //     ),
-      //   );
-      // }
       const valMap = {
         any: 'All time',
         '3': 'Last 3 months',
