@@ -160,8 +160,8 @@ export default function AppointmentsPage() {
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
 
-      {/* This was commented out temporarily. When the full API integration 
-      is added then this piece of code can be integrated back in */}
+      {/* TODO: Add this back in when VeText adds support for a 
+      referral id in the url sent to the veteran  */}
       {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
 
       {isInCCPilot && (
