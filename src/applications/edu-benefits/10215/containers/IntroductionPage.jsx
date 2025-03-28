@@ -72,7 +72,7 @@ const IntroductionPage = ({ route }) => {
         <va-link
           external
           text="Review the calculation instructions"
-          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         />
       </p>
 
@@ -196,8 +196,8 @@ const IntroductionPage = ({ route }) => {
             is NOT necessary to complete OR submit VA Form 22-10215.
           </p>
           <p>
-            <strong>Non-accredited schools: </strong> must complete and submit
-            VA Form 22-10215 with the 35 percent Exemption request.
+            <strong>Nonaccredited schools: </strong> must complete and submit VA
+            Form 22-10215 with the 35 percent Exemption request.
           </p>
         </va-accordion-item>
       </va-accordion>

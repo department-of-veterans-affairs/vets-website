@@ -39,7 +39,7 @@ const GroupedMedications = props => {
   );
 
   const onPageChange = page => {
-    datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_PAGINATION);
+    datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_PAGINATION);
     setCurrentPage(page);
     waitForRenderThenFocus('#list-showing-info', document);
   };
@@ -76,7 +76,7 @@ const GroupedMedications = props => {
                 key={rx.prescriptionId}
               >
                 <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
-                  <h3 className="vads-u-font-size--md">
+                  <h3 className="vads-u-font-size--md vads-u-font-family--sans">
                     Prescription number: {rx.prescriptionNumber}
                   </h3>
                 </dt>

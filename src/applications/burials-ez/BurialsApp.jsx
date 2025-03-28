@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,25 +8,11 @@ import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
 export default function BurialsApp({ location, children }) {
-  const {
-    loading: isLoadingFeatures,
-    burialFormEnabled,
-    burialDocumentUploadUpdate,
-  } = useSelector(state => state?.featureToggles);
+  const { loading: isLoadingFeatures, burialFormEnabled } = useSelector(
+    state => state?.featureToggles,
+  );
 
   useBrowserMonitoring();
-
-  useEffect(
-    () => {
-      if (!isLoadingFeatures) {
-        window.sessionStorage.setItem(
-          'showUploadDocuments',
-          !!burialDocumentUploadUpdate,
-        );
-      }
-    },
-    [isLoadingFeatures, burialDocumentUploadUpdate],
-  );
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
