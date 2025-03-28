@@ -5,6 +5,7 @@ import {
   currentOrPastDateSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isInvalidTermStartDate } from '../utilities';
 
 const institutionDetails = () => ({
   uiSchema: {
@@ -45,6 +46,16 @@ const institutionDetails = () => ({
             required: 'Please enter a start date',
           },
         }),
+        // here
+        'ui:validations': [
+          (errors, fieldData) => {
+            if (isInvalidTermStartDate(fieldData)) {
+              errors.addError(
+                'Please provide a term start date within the last 30 days or today',
+              );
+            }
+          },
+        ],
       },
     },
   },
