@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
   VaButton,
-  VaAccordion,
+  VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
@@ -66,39 +66,42 @@ export default function SearchAccordion({
   }
 
   return (
-    <VaAccordion id={id} onAccordionItemToggled={handleToggle}>
-      <va-accordion-item ref={accordionRef} header={button} id={`${id}-button`}>
-        <div
-          id={`${id}-content`}
-          className="update-results-form vads-u-padding-y--1"
-        >
-          {children}
-        </div>
+    <VaAccordionItem
+      onAccordionItemToggled={handleToggle}
+      ref={accordionRef}
+      header={button}
+      id={`${id}-button`}
+    >
+      <div
+        id={`${id}-content`}
+        className="update-results-form vads-u-padding-y--1"
+      >
+        {children}
+      </div>
 
-        <div
-          className={
-            isProductionOrTestProdEnv()
-              ? updateResultsButtonsWarper
-              : 'update-results'
-          }
-        >
-          <VaButton
-            id={buttonId}
-            className={`update-results-button-after ${updateResultsButton}`}
-            onClick={buttonOnClick}
-            aria-describedby={ariaDescribedBy}
-            text={buttonLabel}
-            data-testid="update-estimates"
+      <div
+        className={
+          isProductionOrTestProdEnv()
+            ? updateResultsButtonsWarper
+            : 'update-results'
+        }
+      >
+        <VaButton
+          id={buttonId}
+          className={`update-results-button-after ${updateResultsButton}`}
+          onClick={buttonOnClick}
+          aria-describedby={ariaDescribedBy}
+          text={buttonLabel}
+          data-testid="update-estimates"
+        />
+        {isProductionOrTestProdEnv() && (
+          <ClearFiltersBtn
+            onClick={dispatchFocusSearch}
+            className={`clear-filters-button-after ${clearFiltersButton}`}
           />
-          {isProductionOrTestProdEnv() && (
-            <ClearFiltersBtn
-              onClick={dispatchFocusSearch}
-              className={`clear-filters-button-after ${clearFiltersButton}`}
-            />
-          )}
-        </div>
-      </va-accordion-item>
-    </VaAccordion>
+        )}
+      </div>
+    </VaAccordionItem>
   );
 }
 
