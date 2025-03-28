@@ -80,7 +80,9 @@ export const addStudentsOptions = {
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
     (item?.typeOfProgramOrBenefit &&
-      Object.values(item.typeOfProgramOrBenefit).includes(true) &&
+      ['ch35', 'fry', 'feca'].some(
+        key => item?.typeOfProgramOrBenefit?.[key] === true,
+      ) &&
       !item?.benefitPaymentDate),
   maxItems: 20,
   text: {
@@ -254,6 +256,22 @@ export const studentEducationBenefitsPage = {
         description: generateHelpText('Check all that the student receives'),
       }),
     },
+    otherProgramOrBenefit: {
+      ...textUI({
+        title:
+          'Briefly list any other programs the student receives education benefits from',
+        required: (formData, index) =>
+          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || formData?.typeOfProgramOrBenefit?.other,
+      }),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !(
+            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+              ?.other || formData?.typeOfProgramOrBenefit?.other
+          ),
+      },
+    },
     tuitionIsPaidByGovAgency: {
       ...yesNoUI({
         title:
@@ -272,6 +290,7 @@ export const studentEducationBenefitsPage = {
     type: 'object',
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
+      otherProgramOrBenefit: textSchema,
       tuitionIsPaidByGovAgency: yesNoSchema,
       'view:programExamples': {
         type: 'object',
@@ -291,6 +310,7 @@ export const studentEducationBenefitsStartDatePage = {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
+      'ui:required': () => true,
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.studentInformation?.[index];
@@ -363,7 +383,7 @@ export const studentAttendancePage = {
           'Has the student attended school continuously since they started school?',
         required: () => true,
         description: generateHelpText(
-          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year, like winter break or summer break',
+          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year like winter break or summer break',
         ),
       }),
     },

@@ -13,7 +13,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { focusElement } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 import { scrollTo } from 'platform/utilities/ui/scroll';
-import BreadCrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import { HelpTextManage } from '../components/HelpText';
@@ -56,7 +56,7 @@ export default function TravelPayStatusApp({ children }) {
   if (data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
 
-    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
+    const topStatuses = new Set(['On hold', 'Denied', 'In manual review']);
     const availableStatuses = new Set(data.map(c => c.claimStatus));
 
     const availableTopStatuses = intersection(
@@ -271,7 +271,7 @@ export default function TravelPayStatusApp({ children }) {
     return (
       <Element name="topScrollElement">
         <article className="usa-grid-full vads-u-padding-bottom--0">
-          <BreadCrumbs />
+          <Breadcrumbs />
           <h1 tabIndex="-1" data-testid="header">
             Check your travel reimbursement claim status
           </h1>
@@ -291,7 +291,7 @@ export default function TravelPayStatusApp({ children }) {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
         </h1>

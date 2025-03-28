@@ -227,54 +227,52 @@ export const formatHyphenlessDate = b => {
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
-  const featureTogglesLoaded = state.featureToggles?.loading === false;
-
-  // If feature toggles aren't loaded yet, return early
+  const featureTogglesLoaded = state?.featureToggles?.loading === false;
   if (!featureTogglesLoaded) {
-    return { metadata, formData, pages, state }; // Defer prefill until feature toggles are loaded
+    return { metadata, formData, pages, state };
   }
 
   try {
-    // Access the feature toggle values safely
     const mebKickerNotificationEnabled =
       state?.featureToggles?.mebKickerNotificationEnabled;
-
-    // Access form data (same as before)
     const bankInformation = state?.data?.bankInformation || {};
     const claimant = state?.data?.formData?.data?.attributes?.claimant || {};
     const serviceData =
       state?.data?.formData?.data?.attributes?.serviceData || [];
     const contactInfo = claimant?.contactInfo || {};
     const stateUser = state?.user || {};
-    const profile = stateUser?.profile;
-    const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
-
-    // Handle name information
+    const profile = stateUser?.profile || {};
+    const vapContactInfo = profile?.vapContactInfo || {};
     const firstName = claimant?.firstName || profile?.userFullName?.first;
     const middleName = claimant?.middleName || profile?.userFullName?.middle;
     const lastName = claimant?.lastName || profile?.userFullName?.last;
     const suffix = claimant?.suffix;
-
-    // Handle email and phone numbers
     const emailAddress =
       vapContactInfo.email?.emailAddress ||
       profile?.email ||
       contactInfo?.emailAddress;
+
     const mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
     const mobilePhoneIsInternational =
       contactInfo?.mobilePhone?.isInternational;
     const homePhoneNumber = contactInfo?.homePhoneNumber;
     const homePhoneIsInternational = contactInfo?.homePhone?.isInternational;
-    const address = vapContactInfo.mailingAddress?.addressLine1
+
+    // Choose address source
+    const hasVapLine1 = vapContactInfo.mailingAddress?.addressLine1?.trim();
+    const chosenAddress = hasVapLine1
       ? vapContactInfo.mailingAddress
       : contactInfo;
 
-    // Construct new data object
+    // Build the new formData using formFields constants
     const newData = {
       ...formData,
+
       [formFields.formId]: state?.data?.formData?.data?.id,
       [formFields.claimantId]:
         claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
+
+      // Full name object
       [formFields.viewUserFullName]: {
         [formFields.userFullName]: {
           first: firstName,
@@ -282,11 +280,14 @@ export function prefillTransformer(pages, formData, metadata, state) {
           last: lastName,
         },
       },
+
       [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+
       [formFields.email]: {
         email: emailAddress,
         confirmEmail: emailAddress,
       },
+
       [formFields.viewPhoneNumbers]: {
         [formFields.mobilePhoneNumber]: {
           phone: mobilePhoneNumber?.replace(/\D/g, ''),
@@ -297,41 +298,46 @@ export function prefillTransformer(pages, formData, metadata, state) {
           isInternational: homePhoneIsInternational,
         },
       },
+
       [formFields.viewReceiveTextMessages]: {
         [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
       },
-      [formFields.viewMailingAddress]: {
-        [formFields.address]: {
-          street: address?.addressLine1,
-          street2: address?.addressLine2,
-          city: address?.city,
-          state: address?.stateCode || address?.province,
-          postalCode:
-            address?.zipCode ||
-            address?.zipcode ||
-            address?.internationalPostalCode,
-          country: getSchemaCountryCode(
-            address?.countryCodeIso3 || address?.countryCode,
-          ),
-        },
-        [formFields.livesOnMilitaryBase]:
-          address?.addressType === 'MILITARY_OVERSEAS',
-      },
+
       [formFields.viewDirectDeposit]: {
         [formFields.bankAccount]: {
           ...bankInformation,
           accountType: bankInformation?.accountType?.toLowerCase(),
         },
       },
+
       [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
     };
+    // Remove any old mailing address to avoid leftover merges
+    delete newData[formFields.viewMailingAddress];
 
-    // Add kicker-related data only if the feature flag is enabled
+    newData[formFields.viewMailingAddress] = {
+      [formFields.address]: {
+        street: chosenAddress?.addressLine1?.trim() || '',
+        street2: chosenAddress?.addressLine2?.trim() || '',
+        city: chosenAddress?.city?.trim() || '',
+        state: chosenAddress?.stateCode || chosenAddress?.province || '',
+        postalCode:
+          chosenAddress?.zipCode ||
+          chosenAddress?.zipcode ||
+          chosenAddress?.internationalPostalCode ||
+          '',
+        country: getSchemaCountryCode(
+          chosenAddress?.countryCodeIso3 || chosenAddress?.countryCode,
+        ),
+      },
+      [formFields.livesOnMilitaryBase]:
+        chosenAddress?.addressType === 'MILITARY_OVERSEAS',
+    };
     if (mebKickerNotificationEnabled) {
-      const eligibleForActiveDutyKicker = claimant?.eligibleForActiveDutyKicker;
-      const eligibleForReserveKicker = claimant?.eligibleForReserveKicker;
-
-      // Safely handle falsey values by using ternary operators
+      const {
+        eligibleForActiveDutyKicker,
+        eligibleForReserveKicker,
+      } = claimant;
       newData[formFields.activeDutyKicker] = eligibleForActiveDutyKicker
         ? 'Yes'
         : undefined;
@@ -339,29 +345,22 @@ export function prefillTransformer(pages, formData, metadata, state) {
         ? 'Yes'
         : undefined;
     }
-
-    // Add suffix if available
     if (suffix) {
-      newData[formFields.viewUserFullName].userFullName.suffix =
-        state?.form?.pages?.applicantInformation?.schema?.properties[
+      const possibleSuffixes =
+        state?.form?.pages?.applicantInformation?.schema?.properties?.[
           formFields.viewUserFullName
-        ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-          equalsAlphaOnlyIgnoreCase(e, suffix),
-        ) || undefined;
+        ]?.properties?.userFullName?.properties?.suffix?.enum || [];
+      const matchedSuffix = possibleSuffixes.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, suffix),
+      );
+      newData[formFields.viewUserFullName][formFields.userFullName].suffix =
+        matchedSuffix || undefined;
     }
-
-    return {
-      metadata,
-      formData: newData,
-      pages,
-      state,
-    };
+    return { metadata, formData: newData, pages, state };
   } catch (error) {
-    // Error handling: Return original data if something goes wrong
-    return { metadata, formData, pages, state }; // Don't modify the form data on error
+    return { metadata, formData, pages, state };
   }
 }
-
 export function customDirectDepositDescription() {
   return (
     <div>

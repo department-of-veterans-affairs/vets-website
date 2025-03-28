@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
 import ProgramsList from '../../containers/ProgramsList';
 import { generateMockPrograms } from '../../utils/helpers';
 
@@ -219,7 +220,7 @@ describe('ProgramsList component', () => {
         />
       </Provider>,
     );
-    const abbreviationsDiv = wrapper.find('h4.abbreviations').parent('div');
+    const abbreviationsDiv = wrapper.find('h3.abbreviations').parent('div');
     expect(abbreviationsDiv.hasClass('vads-u-margin-bottom--4')).to.be.true;
     wrapper.unmount();
   });
@@ -287,15 +288,15 @@ describe('ProgramsList component', () => {
       'We’re sorry. There’s a problem with our system. Try again later.',
     );
 
-    // Check institution name and program type are displayed
+    // Check  program type is displayed
     expect(wrapper.find('h1').exists()).to.be.true;
     expect(
       wrapper
-        .find('h2')
+        .find('h1')
         .at(0)
         .text()
         .toUpperCase(),
-    ).to.include('NCD'); // Convert text to uppercase for comparison
+    ).to.include('NCD');
 
     wrapper.unmount();
   });
@@ -319,6 +320,111 @@ describe('ProgramsList component', () => {
       `We didn’t find any results for`,
     );
     expect(noResultsMessage.text()).to.include(impossibleQuery);
+
+    wrapper.unmount();
+  });
+  it('focuses on resultsSummaryRef after search results are displayed', done => {
+    const wrapper = mountComponent();
+    const resultsSummaryRef = wrapper.find('#results-summary');
+    expect(resultsSummaryRef.exists()).to.be.true;
+    const mockFocus = sinon.spy();
+    resultsSummaryRef.getDOMNode().focus = mockFocus;
+
+    const searchQuery = 'CISCO SYSTEMS - CCNA';
+    wrapper.find('VaTextInput.search-input').simulate('input', {
+      target: { value: searchQuery },
+    });
+    wrapper.update();
+
+    wrapper.find('VaButton.search-btn').simulate('click');
+    wrapper.update();
+
+    setTimeout(() => {
+      expect(mockFocus.calledOnce).to.be.true;
+      wrapper.unmount();
+      done();
+    }, 50);
+  });
+
+  it('renders "program" when there is one program and "programs" when multiple', () => {
+    const oneProgramState = {
+      institutionPrograms: {
+        institutionPrograms: generateMockPrograms(1),
+        loading: false,
+        error: null,
+      },
+    };
+
+    const multipleProgramsState = {
+      institutionPrograms: {
+        institutionPrograms: generateMockPrograms(5),
+        loading: false,
+        error: null,
+      },
+    };
+
+    let testStore = mockStore(oneProgramState);
+    let wrapper = mount(
+      <Provider store={testStore}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+
+    const singularText = wrapper.find('#results-summary').text();
+    expect(singularText).to.include('1 program');
+    wrapper.unmount();
+
+    testStore = mockStore(multipleProgramsState);
+    wrapper = mount(
+      <Provider store={testStore}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+
+    const pluralText = wrapper.find('#results-summary').text();
+    expect(pluralText).to.include('5 programs');
+    wrapper.unmount();
+  });
+  it('renders ojtAppType when programType is OJT and only description otherwise', () => {
+    const ojtProgramsState = {
+      institutionPrograms: {
+        institutionPrograms: [
+          {
+            id: '1',
+            attributes: {
+              programType: 'OJT',
+              ojtAppType: 'Apprentice',
+              description: 'Electrician Training',
+            },
+          },
+          {
+            id: '2',
+            attributes: {
+              programType: 'NCD',
+              description: 'Cybersecurity Certification',
+            },
+          },
+        ],
+        loading: false,
+        error: null,
+      },
+    };
+
+    const testStore2 = mockStore(ojtProgramsState);
+    const wrapper = mount(
+      <Provider store={testStore2}>
+        <ProgramsList
+          match={{ params: { programType: 'OJT', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+    const listItems = wrapper.find('li');
+    expect(listItems.at(0).text()).to.equal('Apprentice Electrician Training');
+    expect(listItems.at(1).text()).to.equal('Cybersecurity Certification');
 
     wrapper.unmount();
   });

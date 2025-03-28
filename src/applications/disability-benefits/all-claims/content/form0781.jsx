@@ -1,7 +1,6 @@
 import React from 'react';
 
 export const form0781HeadingTag = 'VA FORM 21-0781';
-export const additionalFormsTitle = 'Additional Forms';
 
 export const traumaticEventsExamples = (
   <va-accordion open-single>
@@ -145,7 +144,7 @@ export const mentalHealthSupportAlert = () => {
   return (
     <va-alert-expandable
       status="info"
-      trigger="How do I get mental health support right now?"
+      trigger="Learn how to get mental health help now"
     >
       <p>
         We understand that some of the questions may be difficult to answer. If

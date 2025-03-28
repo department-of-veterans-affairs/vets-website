@@ -1,67 +1,96 @@
-describe('Facility Locator error handling', () => {
-  beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/**', {
-      statusCode: 500,
-      body: {
-        error: 'server error',
-      },
-    }).as('getServerError');
+import {
+  featureCombinationsTogglesToTest,
+  isFeatureEnabled,
+  enabledFeatures,
+} from './featureTogglesToTest';
+import * as h from './helpers';
 
-    cy.intercept('POST', '/facilities_api/**', {
-      statusCode: 500,
-      body: {
-        error: 'server error',
-      },
-    }).as('getServerError');
+const featureSetsToTest = featureCombinationsTogglesToTest([
+  'facilities_use_fl_progressive_disclosure',
+]);
 
-    cy.visit('/find-locations');
+for (const featureSet of featureSetsToTest) {
+  const serviceDropdown = featureSet.some(
+    isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
+  )
+    ? '.service-type-dropdown-desktop'
+    : '.service-type-dropdown-tablet';
+
+  describe(`Facility Locator error handling ${enabledFeatures(
+    featureSet,
+  )}`, () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: featureSet,
+        },
+      });
+
+      cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', '/facilities_api/**', {
+        statusCode: 500,
+        body: {
+          error: 'server error',
+        },
+      }).as('getServerError');
+
+      cy.intercept('POST', '/facilities_api/**', {
+        statusCode: 500,
+        body: {
+          error: 'server error',
+        },
+      }).as('getServerError');
+    });
+
+    it('should show an error if the API returns a non-200 response', () => {
+      cy.visit(h.ROOT_URL);
+      cy.injectAxeThenAxeCheck();
+
+      h.typeInCityStateInput('Austin, TX');
+      h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
+
+      cy.get(serviceDropdown)
+        .find('select')
+        .select('Primary care');
+
+      h.submitSearchForm();
+
+      cy.wait('@getServerError');
+      h.verifyElementShouldContainString(
+        'h2.usa-alert-heading',
+        'Find VA locations isn’t working right now',
+      );
+
+      h.verifyElementDoesNotExist('#emergency-care-info-note');
+    });
+
+    it('should show the 911 banner for emergency searches even if the API returns a non-200 response', () => {
+      cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', '/facilities_api/**', {
+        statusCode: 500,
+        body: {
+          error: 'server error',
+        },
+      }).as('getServerError');
+
+      cy.visit(h.ROOT_URL);
+      cy.injectAxeThenAxeCheck();
+
+      h.typeInCityStateInput('Austin, TX');
+      h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.EMERGENCY);
+      h.submitSearchForm();
+
+      cy.wait('@getServerError');
+
+      h.verifyElementShouldContainString(
+        'h2.usa-alert-heading',
+        'Find VA locations isn’t working right now',
+      );
+
+      cy.get('#emergency-care-info-note')
+        .contains('call')
+        .contains('911');
+    });
   });
-
-  it('should show an error if the API returns a non-200 response', () => {
-    cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('VA health');
-    cy.get('.service-type-dropdown-container')
-      .find('select')
-      .select('Primary care');
-    cy.get('#facility-search').click({ waitForAnimations: true });
-    cy.wait('@getServerError');
-
-    cy.get('h2.usa-alert-heading').contains(
-      'Find VA locations isn’t working right now',
-    );
-    cy.get('#emergency-care-info-note').should('not.exist');
-  });
-
-  it('should show the 911 banner for emergency searches even if the API returns a non-200 response', () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/**', {
-      statusCode: 500,
-      body: {
-        error: 'server error',
-      },
-    }).as('getServerError');
-
-    cy.visit('/find-locations');
-
-    cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('Emergency care');
-    cy.get('#facility-search').click({ waitForAnimations: true });
-    cy.wait('@getServerError');
-
-    cy.get('h2.usa-alert-heading').contains(
-      'Find VA locations isn’t working right now',
-    );
-    cy.get('#emergency-care-info-note')
-      .contains('call')
-      .contains('911');
-  });
-});
+}

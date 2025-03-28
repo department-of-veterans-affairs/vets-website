@@ -23,12 +23,15 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { flattenApplicantSSN } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -49,6 +52,9 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+  sponsorAddressCleanValidation,
+  certifierAddressCleanValidation,
+  applicantAddressCleanValidation,
 } from '../helpers/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
@@ -165,7 +171,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form1010d],
   },
   saveInProgress: {
     messages: {
@@ -175,7 +181,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [flattenApplicantSSN],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -247,7 +254,10 @@ const formConfig = {
               'We’ll send any important information about this application to your address',
             ),
             certifierAddress: addressUI(),
-            'ui:validations': [certifierAddressValidation],
+            'ui:validations': [
+              certifierAddressValidation,
+              certifierAddressCleanValidation,
+            ],
           },
           schema: {
             type: 'object',
@@ -497,6 +507,7 @@ const formConfig = {
                 },
               }),
             },
+            'ui:validations': [sponsorAddressCleanValidation],
           },
           schema: {
             type: 'object',
@@ -630,13 +641,13 @@ const formConfig = {
                   ({ formData }) =>
                     `${applicantWording(formData)} identification information`,
                 ),
-                applicantSSN: ssnOrVaFileNumberCustomUI(),
+                applicantSSN: ssnUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantSSN'], {
             titleSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnSchema,
           }),
         },
         page15a: {
@@ -691,6 +702,7 @@ const formConfig = {
                         'Address is on a United States military base outside the country.',
                     },
                   }),
+                  'ui:validations': [applicantAddressCleanValidation],
                 },
               },
             },
@@ -711,7 +723,7 @@ const formConfig = {
               items: {
                 ...titleUI(
                   ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
+                    `${applicantWording(formData)} contact information`,
                   ({ formData, formContext }) => {
                     const txt = `We'll use this information to contact ${applicantWording(
                       formData,

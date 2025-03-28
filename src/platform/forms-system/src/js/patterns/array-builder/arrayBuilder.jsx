@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   createArrayBuilderItemAddPath,
@@ -272,6 +273,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
+    hideMaxItemsAlert = false,
     text: userText = {},
     reviewPath = 'review-and-submit',
     required: userRequired,
@@ -507,28 +509,48 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      hideMaxItemsAlert,
       nounPlural,
       nounSingular,
       required,
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
+      isReviewPage: false,
     };
 
+    const summaryReviewPageProps = {
+      ...summaryPageProps,
+      isReviewPage: true,
+    };
+
+    // If the user defines their own CustomPage to override ArrayBuilderSummaryPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. Cards, Alerts, NavButtons
+    const CustomPage = pageConfig.CustomPage
+      ? props => (
+          <pageConfig.CustomPage {...props} arrayBuilder={summaryPageProps} />
+        )
+      : ArrayBuilderSummaryPage(summaryPageProps);
+
+    const CustomPageReview = pageConfig.CustomPageReview
+      ? props => (
+          <pageConfig.CustomPageReview
+            {...props}
+            arrayBuilder={summaryReviewPageProps}
+          />
+        )
+      : ArrayBuilderSummaryPage(summaryReviewPageProps);
+
     const page = {
-      CustomPageReview: ArrayBuilderSummaryPage({
-        isReviewPage: true,
-        ...summaryPageProps,
-      }),
-      CustomPage: ArrayBuilderSummaryPage({
-        isReviewPage: false,
-        ...summaryPageProps,
-      }),
       scrollAndFocusTarget:
         pageConfig.scrollAndFocusTarget ||
         defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
+      CustomPageReview,
+      CustomPage,
     };
 
     if (!pageConfig.uiSchema) {
@@ -549,18 +571,29 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     verifyRequiredPropsPageConfig('itemPage', requiredOpts, pageConfig);
     const { onNavBack, onNavForward } = getNavItem(pageConfig.path);
 
+    const itemPageProps = {
+      arrayPath,
+      introRoute: introPath,
+      summaryRoute: summaryPath,
+      reviewRoute: reviewPath,
+      required,
+      getText,
+    };
+
+    // If the user defines their own CustomPage to override ArrayBuilderItemPage,
+    // then we should at least give them all the same props that we use for parity.
+    // In the future, it would be nice to extract component features as a whole
+    // to pass to a consumer's CustomPage as well, e.g. NavButtons, rerouting feature
+    const CustomPage = pageConfig.CustomPage
+      ? props => (
+          <pageConfig.CustomPage {...props} arrayBuilder={itemPageProps} />
+        )
+      : ArrayBuilderItemPage(itemPageProps);
+
     return {
       showPagePerItem: true,
       allowPathWithNoItems: true,
       arrayPath,
-      CustomPage: ArrayBuilderItemPage({
-        arrayPath,
-        introRoute: introPath,
-        summaryRoute: summaryPath,
-        reviewRoute: reviewPath,
-        required,
-        getText,
-      }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
       scrollAndFocusTarget:
@@ -571,6 +604,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       ...(pageConfig.depends
         ? { depends: safeDepends(pageConfig.depends) }
         : {}),
+      CustomPage,
       uiSchema: {
         [arrayPath]: {
           items: pageConfig.uiSchema,

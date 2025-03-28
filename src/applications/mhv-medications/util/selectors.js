@@ -14,3 +14,15 @@ export const selectGroupingFlag = state =>
 
 export const selectPendingMedsFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayPendingMeds];
+
+export const selectRefillProgressFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayRefillProgress];
+
+export const selectRemoveLandingPageFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsRemoveLandingPage];
+
+export const selectIPEContentFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsShowIpeContent];
+
+export const selectPartialFillContentFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsPartialFillContent];

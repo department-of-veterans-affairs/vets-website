@@ -19,6 +19,7 @@ describe('App', () => {
     hasClaimDetailsFeatureFlag = true,
     isLoggedIn = true,
     isLOA3 = true,
+    signInServiceName = '',
   } = {}) => {
     return {
       featureToggles: {
@@ -33,6 +34,9 @@ describe('App', () => {
           currentlyLoggedIn: isLoggedIn,
         },
         profile: {
+          signIn: {
+            serviceName: signInServiceName,
+          },
           services: [backendServices.USER_PROFILE],
           loa: {
             current: isLOA3 ? 3 : 1,
@@ -86,7 +90,7 @@ describe('App', () => {
     expect(await screen.findAllByText(/My HealtheVet/i)).to.exist;
   });
 
-  it('should render a verify identity message if user is not LOA3', async () => {
+  it('should render a verify identity message if user is not LOA3', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -97,9 +101,39 @@ describe('App', () => {
       path: `/claims/`,
       reducers: reducer,
     });
-    await waitFor(() => {
-      expect($('va-alert-sign-in')).to.exist;
-      expect(screen.findByText(/verify your identity/i)).to.exist;
+    expect($('va-alert-sign-in')).to.exist;
+    expect(screen.getAllByText(/verify with/i)).to.exist;
+  });
+
+  it('should render a verify identity message for logingov sign in service if user is not LOA3', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+        isLOA3: false,
+        signInServiceName: 'logingov',
+      }),
+      path: `/claims/`,
+      reducers: reducer,
     });
+    expect($('va-alert-sign-in[variant="verifyLoginGov"]')).to.exist;
+    expect(screen.getByText(/login.gov/i)).to.exist;
+  });
+
+  it('should render a verify identity message for idme sign in service if user is not LOA3', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+        isLOA3: false,
+        signInServiceName: 'idme',
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+    expect($('va-alert-sign-in[variant="verifyIdMe"]')).to.exist;
+    expect(screen.getByText(/id.me/i)).to.exist;
   });
 });

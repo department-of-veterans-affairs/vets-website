@@ -11,6 +11,7 @@ import { nameWording } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
+import { migrateCardUploadKeys } from './migrations';
 
 import {
   applicantNameDobSchema,
@@ -94,7 +95,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959c],
   },
   preSubmitInfo: {
     required: true,
@@ -115,7 +116,8 @@ const formConfig = {
         'Your CHAMPVA other health insurance certification application has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [migrateCardUploadKeys],
   prefillEnabled: true,
   prefillTransformer,
   transformForSubmit,
@@ -125,7 +127,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: 'File for CHAMPVA Other Health Insurance Certification',
+  title: 'Submit other health insurance VA Form 10-7959c',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {

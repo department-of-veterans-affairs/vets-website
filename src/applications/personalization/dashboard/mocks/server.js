@@ -30,7 +30,10 @@ const responses = {
     },
     true,
   ),
-  'GET /v0/user': user.simpleUser,
+  'GET /v0/user': user.simpleUser, // This is an LOA3 user
+  // 'GET /v0/user': user.loa3UserWithNoEmail, // This is simpleUser with no email
+  // 'GET /v0/user': user.loa1SimpleUser,
+  // 'GET /v0/user': user.loa1UserWithNoEmail,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,

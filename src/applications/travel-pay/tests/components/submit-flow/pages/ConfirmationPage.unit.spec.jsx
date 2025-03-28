@@ -10,11 +10,6 @@ const appointment = {
   location: { attributes: { name: 'VA location name' } },
   start: '2025-01-15T21:39:27.698Z',
   localStartTime: '2025-01-15T21:39:27+08:00',
-  practitioners: [
-    {
-      name: { family: 'Last', given: ['First', 'Middle'] },
-    },
-  ],
 };
 
 describe('Confirmation page', () => {
@@ -40,19 +35,22 @@ describe('Confirmation page', () => {
     expect(screen.getByText('We’re processing your travel reimbursement claim'))
       .to.exist;
 
+    expect($('va-link[href="/my-health/travel-pay/claims/"]')).to.exist;
+    expect($('va-link[text="Check your travel reimbursement claim status"]')).to
+      .exist;
+
     expect(
-      screen.container.querySelector(
-        '[href="/my-health/travel-pay/claims/"]',
-        '[text="Check your travel reimbursement claim status"]',
+      $(
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
+      ),
+    ).to.exist;
+    expect(
+      $(
+        'va-link[text="Learn how to set up direct deposit for travel pay reimbursement"]',
       ),
     ).to.exist;
 
-    expect(
-      screen.container.querySelector(
-        '[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
-        '[text="Learn how to set up direct deposit for travel pay reimbursement"]',
-      ),
-    ).to.exist;
+    expect($('va-alert[status="success"]')).to.exist;
   });
 
   it('should render practictioner name if available', () => {
@@ -62,7 +60,10 @@ describe('Confirmation page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: appointment,
+            data: {
+              ...appointment,
+              practitionerName: 'First Middle Last',
+            },
           },
           claimSubmission: {
             isSubmitting: false,
@@ -77,11 +78,7 @@ describe('Confirmation page', () => {
     expect(screen.getByText('We’re processing your travel reimbursement claim'))
       .to.exist;
 
-    expect(
-      screen.queryAllByText((_, element) =>
-        element.textContent.includes('with First Middle Last'),
-      ),
-    ).to.not.be.empty;
+    expect(screen.getByText(/with First Middle Last/i)).to.exist;
   });
 
   it('should render a loading spinner while claim is submitting', () => {

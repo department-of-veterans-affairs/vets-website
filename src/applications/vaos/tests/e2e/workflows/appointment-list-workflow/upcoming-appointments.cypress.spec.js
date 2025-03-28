@@ -34,6 +34,7 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createAtlasResponses({
           localStartTime: startDate,
+          future: true,
         }),
       });
       mockClinicsApi({
@@ -73,6 +74,7 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
           localStartTime: startDate,
+          future: true,
         }),
       });
       mockClinicsApi({
@@ -111,6 +113,7 @@ describe('VAOS upcoming appointment flow', () => {
         .add(1, 'day');
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: startDate,
+        future: true,
       });
       responses[0].setLocationId('983');
       mockAppointmentsGetApi({
@@ -144,45 +147,6 @@ describe('VAOS upcoming appointment flow', () => {
 
       cy.axeCheckBestPractice();
     });
-
-    it('should verify Video Connect on VA device calendar ics file format', () => {
-      // Arrange
-      const startDate = moment()
-        .clone()
-        .add(1, 'day');
-      mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createGfeResponses({
-          localStartTime: startDate,
-        }),
-      });
-      mockClinicsApi({
-        locationId: '983',
-        response: MockClinicResponse.createResponses({
-          locationId: '983',
-        }),
-      });
-      mockFacilityApi({
-        id: '983',
-        response: new MockFacilityResponse({
-          id: '983',
-        }),
-      });
-
-      // Act
-      cy.login(new MockUser());
-
-      AppointmentListPageObject.visit()
-        .assertAppointmentList({ numberOfAppointments: 1 })
-        .selectListItem();
-
-      // Assert
-      AppointmentDetailPageObject.assertUrl().assertAddToCalendarLink({
-        startDate,
-        type: VIDEO_TYPES.gfe,
-      });
-
-      cy.axeCheckBestPractice();
-    });
   });
 
   describe('When veteran has upcoming appointments', () => {
@@ -198,41 +162,49 @@ describe('VAOS upcoming appointment flow', () => {
       const response = [
         MockAppointmentResponse.createVAResponses({
           localStartTime: moment(),
+          future: true,
         }),
         MockAppointmentResponse.createCCResponses({
           localStartTime: moment()
             .clone()
             .add(1, 'day'),
+          future: true,
         }),
         MockAppointmentResponse.createPhoneResponses({
           localStartTime: moment()
             .clone()
             .add(1, 'day'),
+          future: true,
         }),
         MockAppointmentResponse.createAtlasResponses({
           localStartTime: moment()
             .clone()
             .add(2, 'day'),
+          future: true,
         }),
         MockAppointmentResponse.createClinicResponses({
           localStartTime: moment()
             .clone()
             .add(2, 'day'),
+          future: true,
         }),
         MockAppointmentResponse.createStoreForwardResponses({
           localStartTime: moment()
             .clone()
             .add(2, 'day'),
+          future: true,
         }),
         MockAppointmentResponse.createGfeResponses({
           localStartTime: moment()
             .clone()
             .add(2, 'day'),
+          future: true,
         }),
         MockAppointmentResponse.createMobileResponses({
           localStartTime: moment()
             .clone()
             .add(3, 'day'),
+          future: true,
         }),
       ];
 
@@ -283,6 +255,7 @@ describe('VAOS upcoming appointment flow', () => {
       const response = new MockAppointmentResponse({
         cancellable: true,
         localStartTime: moment(),
+        future: true,
       });
 
       const canceledAppt = {
@@ -349,6 +322,7 @@ describe('VAOS upcoming appointment flow', () => {
         const appt = new MockAppointmentResponse({
           id: i,
           localStartTime: moment(today).add(i, 'day'),
+          future: true,
         });
         response.push(appt);
       }
@@ -394,6 +368,7 @@ describe('VAOS upcoming appointment flow', () => {
           cancellable: false,
           localStartTime: i <= 2 ? today : tomorrow,
           status: APPOINTMENT_STATUS.booked,
+          future: true,
         });
         response.push(appt);
       }
@@ -437,6 +412,7 @@ describe('VAOS upcoming appointment flow', () => {
           cancellable: false,
           localStartTime: today,
           status: APPOINTMENT_STATUS.booked,
+          future: true,
         });
         response.push(appt);
       }
@@ -472,6 +448,7 @@ describe('VAOS upcoming appointment flow', () => {
           cancellable: false,
           localStartTime: today,
           status: APPOINTMENT_STATUS.booked,
+          future: true,
         });
         response.push(appt);
       }
@@ -484,6 +461,7 @@ describe('VAOS upcoming appointment flow', () => {
         cancellable: false,
         localStartTime: nextMonth,
         status: APPOINTMENT_STATUS.booked,
+        future: true,
       });
       response.push(appt);
 
@@ -522,6 +500,7 @@ describe('VAOS upcoming appointment flow', () => {
           localStartTime: moment()
             .clone()
             .add(1, 'day'),
+          future: true,
         }),
       });
       mockClinicsApi({
@@ -569,6 +548,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .add(1, 'day'),
+        future: true,
       });
       responses[0].setTypeOfCare('audiology').setCCProvider();
 
@@ -620,6 +600,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .add(1, 'day'),
+        future: true,
       });
       responses[0]
         .setLocationId('983')
@@ -673,6 +654,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .add(30, 'minutes'),
+        future: true,
       });
       response[0].setUrl();
 
@@ -718,6 +700,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .add(30, 'minutes'),
+        future: true,
       });
       response[0].setUrl();
 
@@ -764,6 +747,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .add(30, 'minutes'),
+        future: true,
       });
       response[0].setUrl();
 
@@ -812,6 +796,7 @@ describe('VAOS upcoming appointment flow', () => {
           localStartTime: moment()
             .clone()
             .add(1, 'day'),
+          future: true,
         }),
       });
       mockClinicsApi({
@@ -851,6 +836,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: moment(),
+        future: true,
       });
       responses[0]
         .setLocationId('983')
@@ -904,6 +890,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .add(2, 'day'),
+        future: true,
       });
       responses[0].setLocationId('983').setUrl();
       mockAppointmentsGetApi({
@@ -950,6 +937,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: moment()
           .clone()
           .subtract(31, 'minutes'),
+        future: true,
       });
       responses[0].setLocationId('983');
       mockAppointmentsGetApi({
@@ -995,6 +983,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       const responses = MockAppointmentResponse.createStoreForwardResponses({
         localStartTime: moment(),
+        future: true,
       });
       responses[0]
         .setLocationId('983')

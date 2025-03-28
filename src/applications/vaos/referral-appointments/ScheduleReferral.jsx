@@ -12,7 +12,7 @@ export default function ScheduleReferral(props) {
   const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
-  const selectedSlotKey = getReferralSlotKey(currentReferral.UUID);
+  const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
@@ -21,19 +21,16 @@ export default function ScheduleReferral(props) {
     },
     [location, dispatch, selectedSlotKey],
   );
-  const appointmentCountString =
-    currentReferral.numberOfAppointments === 1
-      ? '1 appointment'
-      : `${currentReferral.numberOfAppointments} appointments`;
   return (
     <ReferralLayout
       hasEyebrow
-      heading={`Referral for ${currentReferral.CategoryOfCare}`}
-      categoryOfCare={currentReferral?.CategoryOfCare}
+      heading={`Referral for ${currentReferral.categoryOfCare}`}
+      categoryOfCare={currentReferral?.categoryOfCare}
     >
       <div>
         <p data-testid="subtitle">
-          {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
+          We’ve approved your referral with a community care provider. You can
+          schedule your first appointment now.
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -48,31 +45,25 @@ export default function ScheduleReferral(props) {
         </va-additional-info>
         <ReferralAppLink
           linkText="Schedule your appointment"
-          id={currentReferral.UUID}
+          id={currentReferral.uuid}
         />
         <h2>Details about your referral</h2>
         <p data-testid="referral-details">
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
-          ${format(
-            new Date(currentReferral.ReferralExpirationDate),
-            'MMMM d, yyyy',
-          )}`}
+          ${format(new Date(currentReferral.expirationDate), 'MMMM d, yyyy')}`}
           <br />
           <strong>Type of care: </strong>
-          {currentReferral.CategoryOfCare}
+          {currentReferral.categoryOfCare}
           <br />
           <strong>Provider: </strong>
-          {currentReferral.providerName}
+          {currentReferral.provider.name}
           <br />
           <strong>Location: </strong>
-          {currentReferral.providerLocation}
-          <br />
-          <strong>Number of appointments: </strong>
-          {currentReferral.numberOfAppointments}
+          {currentReferral.provider.location}
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.ReferralNumber}
+          {currentReferral.referralNumber}
         </p>
         <va-additional-info
           data-testid="additional-appointment-help-text"
@@ -94,10 +85,10 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.ReferringFacilityInfo.FacilityName}
+          {currentReferral.referringFacilityInfo.facilityName}
           <br />
           <strong>Phone: </strong>
-          {currentReferral.ReferringFacilityInfo.Phone}
+          {currentReferral.referringFacilityInfo.phone}
         </p>
       </div>
     </ReferralLayout>

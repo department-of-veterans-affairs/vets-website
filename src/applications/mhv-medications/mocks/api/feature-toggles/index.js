@@ -7,6 +7,10 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
+    mhvMedicationsDisplayRefillProgress = true,
+    mhvMedicationsRemoveLandingPage = true,
+    mhvMedicationsShowIpeContent = true,
+    mhvMedicationsPartialFillContent = true,
   } = toggles;
 
   return {
@@ -40,6 +44,22 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_pending_meds',
           value: mhvMedicationsDisplayPendingMeds,
+        },
+        {
+          name: 'mhv_medications_display_refill_progress',
+          value: mhvMedicationsDisplayRefillProgress,
+        },
+        {
+          name: 'mhv_medications_remove_landing_page',
+          value: mhvMedicationsRemoveLandingPage,
+        },
+        {
+          name: 'mhv_medications_show_ipe_content',
+          value: mhvMedicationsShowIpeContent,
+        },
+        {
+          name: 'mhv_medications_partial_fill_content',
+          value: mhvMedicationsPartialFillContent,
         },
       ],
     },

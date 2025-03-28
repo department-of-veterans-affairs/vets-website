@@ -41,9 +41,13 @@ export default class MockAppointmentResponse {
     id = '1',
     cancellable = true,
     kind = TYPE_OF_VISIT_ID.clinic,
+    type = 'VA',
     patientHasMobileGfe = false,
     serviceType = 'primaryCare',
     status = 'booked',
+    future = false,
+    pending = false,
+    past = false,
   } = {}) {
     const requestedPeriods = [];
     let timestamp = moment();
@@ -72,6 +76,7 @@ export default class MockAppointmentResponse {
         patientHasMobileGfe,
       },
       kind,
+      type,
       localStartTime: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
       preferredDates: [
         moment()
@@ -88,10 +93,18 @@ export default class MockAppointmentResponse {
         url,
         vvsKind,
       },
+      future,
+      pending,
+      past,
     };
   }
 
-  static createAtlasResponses({ localStartTime, count = 1 }) {
+  static createAtlasResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -110,11 +123,13 @@ export default class MockAppointmentResponse {
               },
             },
             vvsKind: VIDEO_TYPES.adhoc,
+            future,
+            past,
           }),
       );
   }
 
-  static createCCResponses({ localStartTime, count = 1 }) {
+  static createCCResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -122,12 +137,19 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: 'cc',
+            type: 'COMMUNITY_CARE_APPOINTMENT',
             localStartTime,
+            future,
           }),
       );
   }
 
-  static createClinicResponses({ localStartTime, count = 1 }) {
+  static createClinicResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -137,11 +159,18 @@ export default class MockAppointmentResponse {
             kind: TYPE_OF_VISIT_ID.telehealth,
             localStartTime,
             vvsKind: VIDEO_TYPES.clinic,
+            future,
+            past,
           }),
       );
   }
 
-  static createGfeResponses({ localStartTime, count = 1 }) {
+  static createGfeResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -152,11 +181,13 @@ export default class MockAppointmentResponse {
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
             patientHasMobileGfe: true,
+            future,
+            past,
           }),
       );
   }
 
-  static createMobileResponses({ localStartTime, count = 1 }) {
+  static createMobileResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -166,11 +197,12 @@ export default class MockAppointmentResponse {
             kind: TYPE_OF_VISIT_ID.telehealth,
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
+            future,
           }),
       );
   }
 
-  static createPhoneResponses({ localStartTime, count = 1 }) {
+  static createPhoneResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -179,11 +211,16 @@ export default class MockAppointmentResponse {
             id: index,
             kind: TYPE_OF_VISIT_ID.phone,
             localStartTime,
+            future,
           }),
       );
   }
 
-  static createStoreForwardResponses({ localStartTime, count = 1 }) {
+  static createStoreForwardResponses({
+    localStartTime,
+    future = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -193,11 +230,12 @@ export default class MockAppointmentResponse {
             kind: TYPE_OF_VISIT_ID.telehealth,
             localStartTime,
             vvsKind: VIDEO_TYPES.storeForward,
+            future,
           }),
       );
   }
 
-  static createVAResponses({ localStartTime, count = 1 }) {
+  static createVAResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -205,6 +243,7 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             localStartTime,
+            future,
           }),
       );
   }
@@ -381,6 +420,7 @@ export default class MockAppointmentResponse {
 
   setUrl(value = 'test.com') {
     this.attributes.telehealth = {
+      ...this.attributes.telehealth,
       url: value,
     };
 

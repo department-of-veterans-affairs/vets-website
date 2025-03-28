@@ -27,15 +27,21 @@ const SearchItem = ({
       if (alertRef?.current) {
         focusElement(alertRef.current);
       }
+      if (!facilityData?.data.length) {
+        focusElement('#not-found-error');
+      }
     },
-    [alertRef],
+    [alertRef, pageURL],
   );
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
+    const facilityString = selectedValue.split('-');
+    const facilityCode = facilityString.shift().trim();
+    const facilityName = facilityString.join(' ').trim();
     setSelected(selectedValue);
-    onChange(selectedValue);
-    dispatch(setVAHealthFacility(event.target.textContent));
+    onChange(facilityCode);
+    dispatch(setVAHealthFacility(facilityName));
   };
 
   const facilityInfo = info => {
@@ -57,7 +63,8 @@ const SearchItem = ({
   const displayResults = `Showing ${startEntry}-${endEntry} of ${totalEntries} results for `;
 
   return (
-    facilityData?.data?.length > 0 && (
+    pageURL &&
+    (facilityData?.data?.length > 0 ? (
       <>
         <h3
           ref={alertRef}
@@ -81,9 +88,11 @@ const SearchItem = ({
                 key={facility.id}
                 id={facility.id}
                 label={facilityInfo(facility)}
-                value={facility.id}
+                value={`${facility.id} - ${facilityInfo(facility)}`}
                 name="primary"
-                checked={selected === facilityInfo(facility)}
+                checked={
+                  selected === `${facility.id} - ${facilityInfo(facility)}`
+                }
                 uswds
               />
             ))}
@@ -98,7 +107,15 @@ const SearchItem = ({
           />
         </div>
       </>
-    )
+    ) : (
+      <div className="vads-u-margin-top--3">
+        <p id="not-found-error" className="vads-u-margin-bottom--0p5">
+          We didn’t find any results for "<strong>{searchInput}</strong>
+          ." Please try again.
+        </p>
+        <hr />
+      </div>
+    ))
   );
 };
 

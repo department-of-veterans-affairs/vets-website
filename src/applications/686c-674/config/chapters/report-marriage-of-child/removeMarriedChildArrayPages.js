@@ -103,9 +103,7 @@ export const marriedChildInformationPage = {
 /** @returns {PageSchema} */
 export const dateChildMarriedPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'When did this child get married?',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s marriage date'),
     dateMarried: {
       ...currentOrPastDateUI('When did this child get married?'),
       'ui:required': () => true,

@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import { API_ENDPOINTS } from '../utils/constants';
 
-const fetchNewCSRFToken = async () => {
-  const message = 'No csrfToken when making fetchFacilities.';
-  const url = '/v0/maintenance_windows';
+const fetchNewCSRFToken = async methodName => {
+  const message = `No csrfToken when making ${methodName} call.`;
+  const url = API_ENDPOINTS.csrfCheck;
   recordEvent({
     event: 'caregivers-10-10cg-fetch-csrf-token-empty',
   });
@@ -15,7 +15,7 @@ const fetchNewCSRFToken = async () => {
     Sentry.captureMessage(`${message} Calling ${url} to generate new one.`);
   });
 
-  return apiRequest(`${environment.API_URL}${url}`, { method: 'HEAD' })
+  return apiRequest(url, { method: 'HEAD' })
     .then(() => {
       Sentry.withScope(scope => {
         scope.setLevel(Sentry.Severity.Log);
@@ -35,10 +35,10 @@ const fetchNewCSRFToken = async () => {
     });
 };
 
-export const ensureValidCSRFToken = async () => {
+export const ensureValidCSRFToken = async methodName => {
   const csrfToken = localStorage.getItem('csrfToken');
   if (!csrfToken) {
-    await fetchNewCSRFToken();
+    await fetchNewCSRFToken(methodName);
   } else {
     recordEvent({
       event: 'caregivers-10-10cg-fetch-csrf-token-present',

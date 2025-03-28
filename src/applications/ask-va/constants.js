@@ -1,10 +1,34 @@
+// import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const envUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
 
+// TODO: This logic assumes that the feature toggle is checked within
+// a React component. Need to tweak for use as a constant.
+//
+// const {
+//   TOGGLE_NAMES,
+//   useToggleLoadingValue,
+//   useToggleValue,
+// } = useFeatureToggle();
+
+// const toggleName = TOGGLE_NAMES.askVaMockApiForTesting;
+// const isMockApiEnabled = useToggleValue(toggleName);
+// const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
+
+// const isLocalhost = envUrl === 'http://localhost:3000';
+// const isToggleEnabled = !isLoadingFeatureFlags && isMockApiEnabled;
+// const isProduction = environment.isProduction();
+
+// export const mockTestingFlagforAPI =
+//   (isToggleEnabled || isLocalhost) && !isProduction;
+
 export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
+
+// Overridable for testing
+export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category${
@@ -17,6 +41,9 @@ export const URL = {
     mockTestingFlagforAPI ? '&user_mock_data=true' : ''
   }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
+  ANNOUNCEMENTS: `${baseURL}/announcements${
+    mockTestingFlagforAPI ? '?user_mock_data=true' : ''
+  }`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
@@ -70,25 +97,32 @@ export const branchesOfService = [
 ];
 
 // Categories
-export const CategoryEducation = 'Education benefits and work study';
-export const CategoryHealthCare = 'Health care';
-export const CategoryVeteranReadinessAndEmployment =
-  'Veteran Readiness and Employment';
-export const CategoryGuardianshipCustodianshipFiduciaryIssues =
-  'Guardianship, custodianship, or fiduciary issues';
-export const CategoryHousingAssistanceAndHomeLoans =
-  'Housing assistance and home loans';
 export const CategoryBenefitsIssuesOutsidetheUS =
   'Benefits issues outside the U.S.';
+export const CategoryDebt =
+  'Debt for benefit overpayments and health care copay bills';
+export const CategoryEducation = 'Education benefits and work study';
+export const CategoryGuardianshipCustodianshipFiduciaryIssues =
+  'Guardianship, custodianship, or fiduciary issues';
+export const CategoryHealthCare = 'Health care';
+export const CategoryHousingAssistanceAndHomeLoans =
+  'Housing assistance and home loans';
+export const CategoryVeteranReadinessAndEmployment =
+  'Veteran Readiness and Employment';
 
 // Topics
+export const TopicAppraisals = 'Appraisals';
+export const TopicDisabilityCompensation = 'Disability compensation';
+export const TopicEducationBenefitsAndWorkStudy =
+  'Education benefits and work study';
+export const TopicEducationBenefitOverpayments =
+  'Education benefit overpayments (for school officials)';
+export const TopicEducationBenefitOverpaymentsForStudents =
+  'Education benefit overpayments (for students)';
 export const TopicVeteranReadinessAndEmploymentChapter31 =
   'Veteran Readiness and Employment (Chapter 31)';
 export const TopicSpeciallyAdapatedHousing =
   'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
-export const TopicAppraisals = 'Appraisals';
-export const TopicEducationBenefitsAndWorkStudy =
-  'Education benefits and work study';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
@@ -115,18 +149,18 @@ export const branchOfServiceRuleforCategories = [
   'Survivor benefits',
   'Burials and memorials',
   'Center for Women Veterans',
-  'Benefits issues outside the U.S.',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
 export const hasPrefillInformation = form => {
-  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+  if (!form?.aboutYourself) return false;
 
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
   return !!(
     first &&
     last &&
     dateOfBirth &&
-    (socialOrServiceNum.ssn || socialOrServiceNum.serviceNumber)
+    (socialOrServiceNum?.ssn || socialOrServiceNum?.serviceNumber)
   );
 };
 
@@ -294,9 +328,9 @@ export const stateOrFacilityOptions = {
 
 // Do you want to use this school options
 export const useThisSchoolOptions = {
-  YES: `Yes, replace my saved school facility with this facility.
+  Y: `Yes, replace my saved school facility with this facility.
   This school facility will be saved for future submissions`,
-  NO: `No, don't update my saved facility.
+  N: `No, don't update my saved facility.
   This school facility will only be used for this submissions`,
 };
 

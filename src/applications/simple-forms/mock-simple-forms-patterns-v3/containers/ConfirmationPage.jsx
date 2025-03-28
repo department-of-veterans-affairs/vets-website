@@ -1,27 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-
-const content = {
-  headlineText: 'Thank you for completing your benefit application',
-  nextStepsText:
-    'After we review your application, we’ll contact you to tell you what happens next in the application process.',
-};
-
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const { submission, data } = form;
+  const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
-    <ConfirmationPageView
-      submitterName={data.fullName}
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
     />
   );
 };

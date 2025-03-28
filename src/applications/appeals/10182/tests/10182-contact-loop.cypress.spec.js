@@ -1,7 +1,4 @@
-import {
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-} from '../constants/apis';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import mockData from './fixtures/data/maximal-test.json';
 
@@ -24,11 +21,6 @@ describe('NOD contact info loop', () => {
     cy.intercept(
       'GET',
       `${CONTESTABLE_ISSUES_API}/compensation`,
-      mockContestableIssues,
-    );
-    cy.intercept(
-      'GET',
-      `${CONTESTABLE_ISSUES_API_NEW}/compensation`,
       mockContestableIssues,
     );
 

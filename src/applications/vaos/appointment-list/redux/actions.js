@@ -8,6 +8,8 @@ import {
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -41,7 +43,11 @@ import {
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
-import { captureError, has400LevelError } from '../../utils/error';
+import {
+  captureError,
+  has400LevelError,
+  has404AppointmentIdError,
+} from '../../utils/error';
 import { selectAppointmentById } from './selectors';
 import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
@@ -86,16 +92,15 @@ export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
 
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-      getState(),
-    );
+    const state = getState();
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+      state,
     );
-    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
-      getState(),
-    );
-    const patientFacilities = selectPatientFacilities(getState());
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
@@ -130,6 +135,8 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             .add(395, 'days')
             .format('YYYY-MM-DD'),
           includeEPS,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         }),
       ];
       if (includeRequests) {
@@ -143,6 +150,8 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
               .format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
             includeEPS,
+            useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
           })
             .then(requests => {
               dispatch({
@@ -192,11 +201,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       recordItemsRetrieved(
         'video_va_facility',
         data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic).length,
-      );
-
-      recordItemsRetrieved(
-        'video_gfe',
-        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
@@ -251,15 +255,14 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const state = getState();
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+      state,
     );
-
-    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
-      getState(),
-    );
-    const patientFacilities = selectPatientFacilities(getState());
-
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const patientFacilities = selectPatientFacilities(state);
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
       patientFacilities || [],
@@ -281,8 +284,9 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         avs: true,
         fetchClaimStatus: true,
         includeEPS,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
       });
-
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
         results.find(appt => appt.hasOwnProperty('meta')) || null;
@@ -337,6 +341,9 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -353,6 +360,8 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -396,6 +405,8 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         type === 'cc'
           ? featureVAOSServiceCCAppointments
           : featureVAOSServiceVAAppointments;
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -417,6 +428,8 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           id,
           type,
           useV2,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
         });
       }
 
@@ -465,6 +478,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       captureError(e);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
+        isBadAppointmentId: has404AppointmentIdError(e),
       });
     }
   };
@@ -479,7 +493,10 @@ export function startAppointmentCancel(appointment) {
 
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
-    const appointment = getState().appointments.appointmentToCancel;
+    const state = getState();
+    const appointment = state.appointments.appointmentToCancel;
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
 
     try {
       dispatch({
@@ -488,6 +505,8 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
       });
 
       dispatch({

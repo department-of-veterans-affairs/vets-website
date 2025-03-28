@@ -196,6 +196,9 @@ export const createAndStoreReturnUrl = () => {
     // If we are not on the USiP, we should always return the user back to their current location
     returnUrl = window.location.toString();
   }
+  if (window.location.pathname === '/verify/') {
+    returnUrl = '/';
+  }
 
   sessionStorage.setItem(
     AUTHN_SETTINGS.RETURN_URL,

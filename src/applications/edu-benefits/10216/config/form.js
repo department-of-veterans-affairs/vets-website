@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
@@ -18,25 +19,31 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
+import submitForm from './submitForm';
+import { certifyingOfficial } from '../pages/institutionOfficial';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 const { date, dateRange } = commonDefinitions;
 
-const subTitle = () => (
+export const subTitle = () => (
   <p className="schemaform-subtitle">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </p>
 );
 
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm(form, formConfig);
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  // submit: submitForm,
-  submit: async formData => {
-    return new Promise(resolve => {
-      resolve({ status: 201, data: formData });
-    });
-  },
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
@@ -44,11 +51,16 @@ const formConfig = {
   ),
   formId: '22-10216',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-10216) is in progress.',
-    //   expired: 'Your saved education benefits application (22-10216) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your education benefits application (22-10216) is in progress.',
+      expired:
+        'Your saved education benefits application (22-10216) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
+  customText: {
+    reviewPageTitle: 'Review',
   },
   version: 0,
   prefillEnabled: true,
@@ -65,13 +77,33 @@ const formConfig = {
     date,
     dateRange,
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      fullNamePath: 'certifyingOfficial',
+    },
+  },
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution Details',
       pages: {
-        institutionDetails: {
+        certifyingOfficial: {
           path: 'institution-details',
+          title: 'Tell us about yourself',
+          uiSchema: certifyingOfficial.uiSchema,
+          schema: certifyingOfficial.schema,
+          onNavForward: ({ goPath }) => {
+            goPath('/institution-details-1');
+            localStorage.removeItem('10216claimID');
+          },
+        },
+        institutionDetails: {
+          path: 'institution-details-1',
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
             const isAccredited = await validateFacilityCode(formData);

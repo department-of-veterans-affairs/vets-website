@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+
+const title = 'We can’t file this claim in this tool at this time';
 
 const UnsupportedClaimTypePage = ({
   pageIndex,
@@ -15,6 +18,8 @@ const UnsupportedClaimTypePage = ({
     scrollToTop('topScrollElement');
   }, []);
 
+  useSetPageTitle(title);
+
   const onBack = () => {
     setIsUnsupportedClaimType(false);
     setPageIndex(pageIndex);
@@ -22,10 +27,7 @@ const UnsupportedClaimTypePage = ({
 
   return (
     <div>
-      <h1 tabIndex="-1">
-        We can’t file this type of travel reimbursement claim in this tool at
-        this time
-      </h1>
+      <h1 tabIndex="-1">{title}</h1>
       <HelpTextModalities />
       <h2 className="vads-u-font-size--h4">
         How can I get help with my claim?
