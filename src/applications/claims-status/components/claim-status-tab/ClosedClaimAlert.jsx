@@ -15,7 +15,11 @@ export default function ClosedClaimAlert({
   decisionLetterSent = false,
 }) {
   return (
-    <va-alert class="vads-u-margin-bottom--4" status="info">
+    <va-alert
+      data-testid="closed-claim-alert"
+      class="vads-u-margin-bottom--4"
+      status="info"
+    >
       <h2 id="claims-alert-header" slot="headline">
         {headerText(closeDate)}
       </h2>

@@ -40,7 +40,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('[data-testid="national-exams-header"]')
         .should('exist')
         .and('be.visible')
-        .and('have.text', 'National Exams');
+        .and('have.text', 'National exams');
       cy.get('[data-testid="national-exams-description"]')
         .should('exist')
         .and('be.visible')
@@ -139,7 +139,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('h1.vads-u-margin-bottom--3')
         .should('be.visible')
         .and('contain.text', 'AP-advanced placement exams');
-      cy.get('h3.vads-u-margin-bottom--2')
+      cy.get('h2.vads-u-margin-bottom--2')
         .should('be.visible')
         .and('contain.text', 'Admin Info');
       cy.get('.provider-info-container')
@@ -208,7 +208,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('.exam-single-test')
         .should('exist')
         .within(() => {
-          cy.get('h3').should('contain.text', 'Test Info');
+          cy.get('h2').should('contain.text', 'Test Info');
           cy.get('p').should('contain.text', 'Showing 1 of 1 test');
           cy.contains('Maximum reimbursement:').should('be.visible');
           cy.contains('AP Exam Fee International').should('be.visible');

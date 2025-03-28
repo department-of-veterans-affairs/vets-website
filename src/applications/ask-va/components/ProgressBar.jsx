@@ -1,13 +1,12 @@
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import cloneDeep from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
-import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
 import {
   aboutMyselfRelationshipFamilyMemberPages,
   aboutMyselfRelationshipVeteranPages,
@@ -20,6 +19,7 @@ import {
   aboutSomeoneElseRelationshipVeteranPages,
   generalQuestionPages,
 } from '../config/schema-helpers/formFlowHelper';
+import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
 
 const formPages = [
   aboutMyselfRelationshipVeteranPages,
@@ -32,6 +32,13 @@ const formPages = [
   aboutSomeoneElseRelationshipConnectedThroughWorkPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
   generalQuestionPages,
+];
+
+const skipPaths = [
+  'category-requires-sign-in',
+  'topic-requires-sign-in',
+  'your-question-requires-sign-in',
+  'review-then-submit',
 ];
 
 const getFormDataKeys = (flowList, pagePath) => {
@@ -88,12 +95,6 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
   const isFlowPath = showProgressBar(currentPath, flowPaths);
   const onReviewPage = currentPath === 'review-then-submit';
   const onCategoryPage = currentPath === CHAPTER_1.PAGE_1.PATH;
-
-  // Add check for sign-in interrupt pages
-  const isSignInPage =
-    currentPath === 'category-requires-sign-in' ||
-    currentPath === 'topic-requires-sign-in' ||
-    currentPath === 'your-question-requires-sign-in';
 
   const removeViewedFromInvalidPages = (invalid, viewed) =>
     invalid.filter(page => !viewed.includes(page));
@@ -158,7 +159,7 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
 
       if (onReviewPage && invalidPages.length > 0) {
         const invalidKeys = invalidPages
-          .filter(path => path !== 'review-then-submit')
+          .filter(path => !skipPaths.includes(path))
           .map(pagePath => getFormDataKeys(flowPaths, pagePath))
           .flat();
 
@@ -205,7 +206,7 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
     [formData],
   );
 
-  return isConstantPath || isFlowPath || onReviewPage || isSignInPage ? (
+  return isConstantPath || isFlowPath || onReviewPage ? (
     <div className="ava-progress-bar">
       <div
         className="ava-progress-bar-inner"
