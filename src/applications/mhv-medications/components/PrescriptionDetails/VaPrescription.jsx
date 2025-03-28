@@ -24,6 +24,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
+  selectPendingMedsFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
@@ -39,6 +40,7 @@ const VaPrescription = prescription => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
+  const showPendingMedContent = useSelector(selectPendingMedsFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -312,20 +314,21 @@ const VaPrescription = prescription => {
                 prescription.refillRemaining,
               )}
             </p>
-            {!pendingMed && (
-              <>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                  Request refills by this prescription expiration date
-                </h3>
-                <p data-testid="expiration-date">
-                  {dateFormat(
-                    prescription.expirationDate,
-                    'MMMM D, YYYY',
-                    'Date not available',
-                  )}
-                </p>
-              </>
-            )}
+            {!pendingMed &&
+              !showPendingMedContent && (
+                <>
+                  <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                    Request refills by this prescription expiration date
+                  </h3>
+                  <p data-testid="expiration-date">
+                    {dateFormat(
+                      prescription.expirationDate,
+                      'MMMM D, YYYY',
+                      'Date not available',
+                    )}
+                  </p>
+                </>
+              )}
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
               <>
