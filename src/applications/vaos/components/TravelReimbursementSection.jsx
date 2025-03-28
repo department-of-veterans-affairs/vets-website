@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
@@ -14,15 +15,22 @@ export default function TravelReimbursementSection({ appointment }) {
   const claimData = selectAppointmentTravelClaim(appointment);
   if (!claimData.metadata.success) return null;
 
+  const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
+    appointment.start,
+  );
   const heading = 'Travel reimbursement';
 
   if (
-    claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
-    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
-      !claimData.claim)
+    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
+      (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
+        !claimData.claim)) &&
+    daysRemainingToFileClaim > 0
   ) {
     return (
       <Section heading={heading}>
+        <p className="vads-u-margin-y--0p5">
+          Days left to file: {daysRemainingToFileClaim}
+        </p>
         <p className="vads-u-margin-y--0p5">
           <va-link
             data-testid="file-claim-link"
@@ -35,14 +43,19 @@ export default function TravelReimbursementSection({ appointment }) {
     );
   }
   if (
-    claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
-    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
-      !claimData.claim)
+    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
+      (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
+        !claimData.claim)) &&
+    daysRemainingToFileClaim < 1
   ) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
-          You didn’t file a claim for this appointment.
+          Days left to file: {daysRemainingToFileClaim}
+        </p>
+        <p className="vads-u-margin-y--0p5">
+          You didn’t file a claim for this appointment. You can only file for
+          reimbursement within 30 days of the appointment.
         </p>
         <p className="vads-u-margin-y--0p5">
           <va-link
