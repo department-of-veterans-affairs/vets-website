@@ -12,7 +12,6 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
-// eslint-disable-next-line import/no-named-as-default-member
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import { isUserSignedIn } from '../utils/helpers';
 
