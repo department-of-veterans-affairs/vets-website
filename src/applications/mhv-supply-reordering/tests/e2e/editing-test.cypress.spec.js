@@ -4,8 +4,8 @@ import { initializeApi, userMock } from './setup';
 let heading;
 
 describe(`${appName} -- editing test`, () => {
-  before(() => initializeApi());
   beforeEach(() => {
+    initializeApi();
     cy.viewportPreset('va-top-mobile-1');
     cy.login(userMock);
     cy.visit(rootUrl);
@@ -16,7 +16,7 @@ describe(`${appName} -- editing test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
-      name: /^Order medical supplies$/,
+      name: /^Medical supplies$/,
     };
     cy.findByRole('heading', heading).should('have.focus');
     cy.findByText(/^Start a new order$/).click({ waitForAnimations: true });
@@ -28,7 +28,7 @@ describe(`${appName} -- editing test`, () => {
 
     // contact information
     cy.injectAxeThenAxeCheck();
-    // assert for email and mailing address changes
+    // assertions
     cy.findByText(/^vets\.gov\.user\+1@gmail\.com$/).should('exist');
     cy.findByText(/101 EXAMPLE STREET/).should('exist');
     cy.findByText(/APT 2/).should('exist');
@@ -105,6 +105,7 @@ describe(`${appName} -- editing test`, () => {
 
     // review: edit mailing address
     cy.get('va-button[label="Edit Shipping address"]').click();
+    cy.fillVaTextInput('root_permanentAddress_street', '');
     cy.fillVaTextInput('root_permanentAddress_street', '111 REVIEWER STREET');
     cy.get('va-button[text="Update page"]').click();
 
@@ -120,7 +121,7 @@ describe(`${appName} -- editing test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 2,
-      name: /^Your application has been submitted$/,
+      name: /^You’ve submitted your medical supplies order$/,
     };
     cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
   });

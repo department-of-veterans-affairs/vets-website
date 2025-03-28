@@ -4,12 +4,11 @@ import { testPage } from './pageTests.spec';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.statementTypeChapter.pages.selectDecisionReviewPage;
+  title,
+} = formConfig.chapters.statementTypeChapter.pages.priorityProcessingPage;
 
 const pageTestExpectation = {
-  numberOfWebComponentErrors: 1,
-  numberOfWebComponentFields: 1,
-  pageTitle: 'Which description is true for you?',
+  pageTitle: title,
   schema,
   uiSchema,
 };

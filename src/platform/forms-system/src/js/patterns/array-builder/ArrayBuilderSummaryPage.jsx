@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
@@ -23,6 +23,7 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   <div className="vads-u-margin-top--2">
     <VaAlert
       onCloseEvent={onDismiss}
+      slim
       closeable
       name={`${nounSingular}_${index}`}
       status="success"
@@ -34,14 +35,17 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   </div>
 );
 
-const MaxItemsAlert = ({ children }) => (
-  <div className="vads-u-margin-top--4">
-    <va-alert status="warning" tabIndex={-1} visible>
-      <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
-        {children}
-      </p>
-    </va-alert>
-  </div>
+const MaxItemsAlert = forwardRef(
+  ({ children, show }, ref) =>
+    show ? (
+      <div className="vads-u-margin-top--4">
+        <va-alert slim status="warning" tabIndex={-1} visible ref={ref}>
+          <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+            {children}
+          </p>
+        </va-alert>
+      </div>
+    ) : null,
 );
 
 function filterEmptyItems(arrayData) {
@@ -83,6 +87,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
  *   getFirstItemPagePath: (formData, index) => string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
+ *   hideMaxItemsAlert: boolean,
  *   introPath: string,
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
@@ -102,6 +107,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getFirstItemPagePath,
     getText,
     hasItemsKey,
+    hideMaxItemsAlert,
     introPath,
     isItemIncomplete,
     isReviewPage,
@@ -113,6 +119,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
   } = arrayBuilderOptions;
+
+  // use closure variable rather than useRef to
+  // maintain state over page navigations and review page.
+  let maxItemsAlertSeen = false;
+
   /** @type {CustomPageType} */
   function CustomPage(props) {
     const {
@@ -134,6 +145,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
+    const maxItemsAlertRef = useRef(null);
     const { uiSchema, schema } = props;
     const { headingLevel, headingStyle } = useHeadingLevels(
       titleHeaderLevel,
@@ -193,19 +205,35 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     useEffect(
       () => {
         let timeout;
+        let focusRef;
 
         if (
           showUpdatedAlert &&
           updateItemIndex != null &&
           updatedAlertRef.current
         ) {
-          timeout = setTimeout(() => {
-            scrollAndFocus(updatedAlertRef.current);
-          }, 300);
+          focusRef = updatedAlertRef;
+        } else if (
+          isMaxItemsReached &&
+          !maxItemsAlertSeen &&
+          maxItemsAlertRef
+        ) {
+          focusRef = maxItemsAlertRef;
         }
+
+        maxItemsAlertSeen = isMaxItemsReached;
+
+        if (focusRef) {
+          timeout = setTimeout(() => {
+            if (focusRef.current) {
+              scrollAndFocus(focusRef.current);
+            }
+          }, 300); // need to wait to override pageScrollAndFocus
+        }
+
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert, updateItemIndex, updatedAlertRef],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef, isMaxItemsReached],
     );
 
     useEffect(
@@ -393,32 +421,59 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
+    const Alerts = () => {
+      const showMaxItemsAlert = isMaxItemsReached && !hideMaxItemsAlert;
+      const alertsShown =
+        showMaxItemsAlert ||
+        showUpdatedAlert ||
+        showRemovedAlert ||
+        showReviewErrorAlert;
+      const isButtonOrLink = useLinkInsteadOfYesNo || useButtonInsteadOfYesNo;
+
+      return (
+        <div
+          className={
+            alertsShown && isButtonOrLink && !arrayData?.length
+              ? 'vads-u-margin-bottom--4'
+              : ''
+          }
+        >
+          <MaxItemsAlert show={showMaxItemsAlert} ref={maxItemsAlertRef}>
+            {getText(
+              'alertMaxItems',
+              updatedItemData,
+              props.data,
+              updateItemIndex,
+            )}
+          </MaxItemsAlert>
+          <RemovedAlert show={showRemovedAlert} />
+          <UpdatedAlert show={showUpdatedAlert} />
+          <ReviewErrorAlert show={showReviewErrorAlert} />
+        </div>
+      );
+    };
+
     const Cards = () => (
-      <div>
-        <RemovedAlert show={showRemovedAlert} />
-        <UpdatedAlert show={showUpdatedAlert} />
-        <ReviewErrorAlert show={showReviewErrorAlert} />
-        <ArrayBuilderCards
-          cardDescription={getText(
-            'cardDescription',
-            updatedItemData,
-            props.data,
-            updateItemIndex,
-          )}
-          arrayPath={arrayPath}
-          nounSingular={nounSingular}
-          nounPlural={nounPlural}
-          isIncomplete={isItemIncomplete}
-          getEditItemPathUrl={getFirstItemPagePath}
-          getText={getText}
-          required={required}
-          onRemoveAll={onRemoveAllItems}
-          onRemove={onRemoveItem}
-          isReview={isReviewPage}
-          forceRerender={forceRerender}
-          titleHeaderLevel={headingLevel}
-        />
-      </div>
+      <ArrayBuilderCards
+        cardDescription={getText(
+          'cardDescription',
+          updatedItemData,
+          props.data,
+          updateItemIndex,
+        )}
+        arrayPath={arrayPath}
+        nounSingular={nounSingular}
+        nounPlural={nounPlural}
+        isIncomplete={isItemIncomplete}
+        getEditItemPathUrl={getFirstItemPagePath}
+        getText={getText}
+        required={required}
+        onRemoveAll={onRemoveAllItems}
+        onRemove={onRemoveItem}
+        isReview={isReviewPage}
+        forceRerender={forceRerender}
+        titleHeaderLevel={headingLevel}
+      />
     );
 
     if (isReviewPage) {
@@ -429,6 +484,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           arrayData={arrayData}
           addAnotherItemButtonClick={addAnotherItemButtonClick}
           updatedItemData={updatedItemData}
+          Alerts={Alerts}
           Cards={Cards}
           Title={Title}
           hideAdd={isMaxItemsReached}
@@ -438,58 +494,67 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const newUiSchema = { ...uiSchema };
     let newSchema = schema;
-    let title;
-    let descriptionWithCards;
+    let titleTextType;
+    let descriptionTextType;
+    let UIDescription;
     const NavButtons = props.NavButtons || FormNavButtons;
 
     if (arrayData?.length > 0) {
-      title = (
+      titleTextType = 'summaryTitle';
+      descriptionTextType = 'summaryDescription';
+      UIDescription = (
         <>
-          <Title textType="summaryTitle" />
-          {getText('summaryDescription', null, props.data) && (
-            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
-              {getText('summaryDescription', null, props.data)}
-            </span>
-          )}
-          {isMaxItemsReached && (
-            <MaxItemsAlert>
-              {getText(
-                'alertMaxItems',
-                updatedItemData,
-                props.data,
-                updateItemIndex,
-              )}
-            </MaxItemsAlert>
-          )}
+          <Alerts />
+          <Cards />
         </>
       );
-      // ensure new reference to trigger re-render
-      descriptionWithCards = <Cards />;
     } else {
-      title = <Title textType="summaryTitleWithoutItems" />;
-      descriptionWithCards =
-        getText('summaryDescriptionWithoutItems', null, props.data) ||
-        undefined;
+      titleTextType = 'summaryTitleWithoutItems';
+      descriptionTextType = 'summaryDescriptionWithoutItems';
+      UIDescription = <Alerts />;
     }
 
-    newUiSchema['ui:title'] = title;
-    newUiSchema['ui:description'] = descriptionWithCards;
+    const descriptionText = getText(descriptionTextType, null, props.data);
+    const UITitle = (
+      <>
+        <Title textType={titleTextType} />
+        {descriptionText && (
+          <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+            {descriptionText}
+          </span>
+        )}
+      </>
+    );
+
+    newUiSchema['ui:title'] = UITitle;
+    newUiSchema['ui:description'] = UIDescription;
 
     const hideAdd = maxItems && arrayData?.length >= maxItems;
 
-    if (schema?.properties && hideAdd && newSchema.properties?.[hasItemsKey]) {
-      newSchema = { ...schema };
-      newSchema.properties[hasItemsKey]['ui:hidden'] = true;
+    if (
+      schema?.properties?.[hasItemsKey] &&
+      Boolean(newSchema.properties[hasItemsKey]['ui:hidden']) !==
+        Boolean(hideAdd)
+    ) {
+      newSchema = {
+        ...schema,
+        properties: {
+          ...schema.properties,
+          [hasItemsKey]: {
+            ...schema.properties[hasItemsKey],
+            'ui:hidden': hideAdd,
+          },
+        },
+      };
     }
 
     if (useLinkInsteadOfYesNo || useButtonInsteadOfYesNo) {
       return (
         <ArrayBuilderSummaryNoSchemaFormPage
-          title={title}
-          description={descriptionWithCards}
+          title={UITitle}
+          description={UIDescription}
           arrayData={arrayData}
           hideAdd={hideAdd}
-          Cards={Cards}
           customPageProps={props}
           arrayBuilderOptions={arrayBuilderOptions}
           addAnotherItemButtonClick={addAnotherItemButtonClick}
@@ -576,4 +641,6 @@ SuccessAlert.propTypes = {
 
 MaxItemsAlert.propTypes = {
   children: PropTypes.node,
+  alertRef: PropTypes.object,
+  show: PropTypes.bool,
 };

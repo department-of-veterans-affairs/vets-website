@@ -31,6 +31,8 @@ describe('Medical Records - Radiology images are shown when requested', () => {
 
     RadiologyDetailsPage.verifyPaginationVisible();
 
+    RadiologyDetailsPage.verifyShowingImageRecords(1, 10, 11);
+
     cy.injectAxe();
     cy.axeCheck('main', {});
   });

@@ -1,123 +1,184 @@
+import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import * as behaviorListPage from '../../../pages/form0781/behaviorListPage';
-import { validateBehaviorSelections } from '../../../content/form0781/behaviorListPages';
+import {
+  validateBehaviorSelections,
+  behaviorListPageTitle,
+  showConflictingAlert,
+} from '../../../content/form0781/behaviorListPages';
+import {
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
+  BEHAVIOR_CHANGES_WORK,
+  BEHAVIOR_CHANGES_HEALTH,
+  BEHAVIOR_CHANGES_OTHER,
+} from '../../../constants';
 
 describe('Behavior List Page', () => {
+  const { schema, uiSchema } = behaviorListPage;
+
   it('should define a uiSchema object', () => {
-    expect(behaviorListPage.uiSchema).to.be.an('object');
+    expect(uiSchema).to.be.an('object');
   });
 
   it('should define a schema object', () => {
-    expect(behaviorListPage.schema).to.be.an('object');
+    expect(schema).to.be.an('object');
+  });
+
+  it('should submit without making a selection', () => {
+    const onSubmit = sinon.spy();
+
+    const { getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should submit if selections made', () => {
+    const onSubmit = sinon.spy();
+
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'unlisted');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should render with all checkboxes', () => {
+    const { container, getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
+    );
+
+    getByText(behaviorListPageTitle);
+
+    expect($$('va-checkbox-group', container).length).to.equal(4);
+
+    // fail fast - verify the correct number of checkboxes are present
+    expect($$('va-checkbox', container).length).to.equal(16);
+
+    // verify subtitles for checkbox sections are present
+    Object.values(BEHAVIOR_LIST_SECTION_SUBTITLES).forEach(option => {
+      expect($$(`va-checkbox[title="${option}"]`, container)).to.exist;
+    });
+
+    // verify each checkbox exists with user facing label
+    Object.values(BEHAVIOR_CHANGES_WORK).forEach(option => {
+      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
+    });
+    Object.values(BEHAVIOR_CHANGES_HEALTH).forEach(option => {
+      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
+    });
+    Object.values(BEHAVIOR_CHANGES_OTHER).forEach(option => {
+      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
+    });
+    expect($$(`va-checkbox[label="none"]`, container)).to.exist;
   });
 });
 
-describe('validateBehaviorSelections', () => {
-  describe('invalid: selections required', () => {
-    it('should add error when nothing is selected', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-      const formData = {
-        syncModern0781Flow: true,
-        workBehaviors: {
-          absences: false,
-        },
-        unlistedBehaviors: null,
-        'view:optOut': { none: false },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.true;
-    });
-  });
-
+describe('validating selections', () => {
   describe('invalid: conflicting selections', () => {
-    it('should add error when selecting none and selecting a behavior', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
+    const errors = {
+      'view:noneCheckbox': {
+        addError: sinon.spy(),
+      },
+      workBehaviors: { addError: sinon.spy() },
+      healthBehaviors: { addError: sinon.spy() },
+      otherBehaviors: { addError: sinon.spy() },
+    };
+    it('should add error to the none checkbox when none and behaviors are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
           reassignment: true,
           absences: false,
         },
-        'view:optOut': { none: true },
+        otherBehaviors: {
+          unlisted: true,
+        },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
       };
 
       validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.true;
-    });
 
-    it('should add error when selecting none and entering an unlisted behavior', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
+      expect(showConflictingAlert(formData)).to.be.true;
 
-      const formData = {
-        syncModern0781Flow: true,
-        workBehaviors: {
-          reassignment: false,
-          absences: false,
-        },
-        unlistedBehaviors: 'another behavior',
-        'view:optOut': { none: true },
-      };
-
-      validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.true;
+      expect(errors.workBehaviors.addError.called).to.be.false;
+      expect(errors.healthBehaviors.addError.called).to.be.false;
+      expect(errors.otherBehaviors.addError.called).to.be.false;
+      expect(errors['view:noneCheckbox'].addError.called).to.be.true;
     });
   });
 
   describe('valid selections', () => {
-    it('should not add error when selecting none and with no other selected behaviors', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
+    const errors = {
+      'view:noneCheckbox': {
+        addError: sinon.spy(),
+      },
+      workBehaviors: { addError: sinon.spy() },
+      healthBehaviors: { addError: sinon.spy() },
+      otherBehaviors: { addError: sinon.spy() },
+    };
+    it('should not add errors when none is selected with no other selected behaviors', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
           reassignment: false,
           absences: false,
         },
-        'view:optOut': { none: true },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
       };
 
       validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.false;
+
+      expect(showConflictingAlert(formData)).to.be.false;
+
+      expect(errors.workBehaviors.addError.called).to.be.false;
+      expect(errors.healthBehaviors.addError.called).to.be.false;
+      expect(errors.otherBehaviors.addError.called).to.be.false;
+      expect(errors['view:noneCheckbox'].addError.called).to.be.false;
     });
 
-    it('should not add error when behaviors are selected and none is unselected', () => {
-      const errors = {
-        'view:optOut': {
-          addError: sinon.spy(),
-        },
-      };
-
+    it('should add errors when none is unselected and behaviors are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
           reassignment: false,
           absences: true,
         },
-        unlistedBehaviors: 'another behavior',
-        'view:optOut': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
 
       validateBehaviorSelections(errors, formData);
-      expect(errors['view:optOut'].addError.called).to.be.false;
+
+      expect(showConflictingAlert(formData)).to.be.false;
+
+      expect(errors.workBehaviors.addError.called).to.be.false;
+      expect(errors.healthBehaviors.addError.called).to.be.false;
+      expect(errors.otherBehaviors.addError.called).to.be.false;
+      expect(errors['view:noneCheckbox'].addError.called).to.be.false;
     });
   });
 });

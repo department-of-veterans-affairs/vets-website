@@ -60,3 +60,13 @@ export async function postDraftReferralAppointment(referralId) {
   );
   return response.data;
 }
+
+export async function getAppointmentInfo(appointmentId) {
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/appointments/${appointmentId}`,
+    {
+      method: 'GET',
+    },
+  );
+  return response.data;
+}

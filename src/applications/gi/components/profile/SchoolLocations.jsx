@@ -256,6 +256,8 @@ export default function SchoolLocations({
     };
 
     return (
+      // NOTE: This table purposely not converted to a va-table - DST
+      // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
       <table className="usa-table sl-table">
         <thead>
           <tr>

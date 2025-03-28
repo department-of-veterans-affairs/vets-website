@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -57,6 +56,16 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
+export const formatNameFirstLast = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  const nameParts = [first, middle, last].filter(Boolean).join(' '); // Remove empty values
+  return suffix ? `${nameParts} ${suffix}` : nameParts;
+};
+
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -78,7 +87,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const fullState = useSelector(state => state);
 
   // Extract user info
-  const name = formatName(userProfile.userFullName);
+  const name = formatNameFirstLast(userProfile.userFullName);
   const dob = formatUserDob(userProfile); // Example DOB
 
   // Extract all SEI domain data
@@ -253,6 +262,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download Continuity of Care Document xml Link');
   };
 
+  const handleDownloadSelfEnteredPdf = e => {
+    e.preventDefault();
+    generateSEIPdf();
+    sendDataDogAction('Download self-entered health information PDF link');
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -290,7 +305,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
         </>
       )}
-
       <h2>Download your VA Blue Button report</h2>
       <p className="vads-u-margin--0 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
@@ -298,13 +312,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       </p>
       <va-link-action
         href="/my-health/medical-records/download/date-range"
-        label="Select records and download"
-        text="Select records and download"
+        label="Select records and download report"
+        text="Select records and download report"
         data-dd-action-name="Select records and download"
         onClick={() => sendDataDogAction('Select records and download')}
         data-testid="go-to-download-all"
       />
+
       <h2>Other reports you can download</h2>
+      <div id="generating-ccd-downloading-indicator">
+        <DownloadSuccessAlert
+          ccd
+          className="vads-u-margin-bottom--1"
+          visibility={generatingCCD}
+        />
+      </div>
 
       {accessErrors()}
 
@@ -363,7 +385,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               download
               href="#"
               onClick={handleDownloadCCD}
-              text="Download .xml file"
+              text="Download Continuity of Care Document (XML)"
               data-testid="generateCcdButton"
             />
           )}
@@ -393,12 +415,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             <va-link
               download
               href="#"
-              onClick={e => {
-                e.preventDefault();
-                generateSEIPdf();
-                sendDataDogAction('Self entered health information PDF link ');
-              }}
-              text="Download PDF"
+              onClick={handleDownloadSelfEnteredPdf}
+              text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
           )}
@@ -410,7 +428,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of MyHealtheVet to download historical
+            text="Go to the previous version of My HealtheVet to download historical
             goals"
           />
         </va-accordion-item>

@@ -5,6 +5,7 @@ import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 
 import { checkValidSchema, createFormPageList, isActivePage } from '../helpers';
+import { getActiveFormPageContext } from './activeFormPageContext';
 
 function isHiddenField(schema = {}) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
@@ -25,7 +26,13 @@ function get(path, data) {
  * If no required fields are changing, it makes sure to not mutate the existing schema,
  * so we can still take advantage of any shouldComponentUpdate optimizations
  */
-export function updateRequiredFields(schema, uiSchema, formData, index = null) {
+export function updateRequiredFields(
+  schema,
+  uiSchema,
+  formData,
+  index = null,
+  fullData,
+) {
   if (!uiSchema) {
     return schema;
   }
@@ -35,7 +42,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
       (requiredArray, nextProp) => {
         const field = uiSchema[nextProp];
         if (field && field['ui:required']) {
-          const isRequired = field['ui:required'](formData, index);
+          const isRequired = field['ui:required'](formData, index, fullData);
           const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
           if (arrayHasField && !isRequired) {
@@ -61,6 +68,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
             uiSchema[nextProp],
             formData,
             index,
+            fullData,
           );
           if (nextSchema !== currentSchema.properties[nextProp]) {
             return set(['properties', nextProp], nextSchema, currentSchema);
@@ -86,7 +94,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = schema.items.map((item, idx) =>
-      updateRequiredFields(item, uiSchema.items, formData, idx),
+      updateRequiredFields(item, uiSchema.items, formData, idx, fullData),
     );
     if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
       return set('items', newItemSchemas, schema);
@@ -96,12 +104,12 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   return schema;
 }
 
-export function isContentExpanded(data, matcher, formData) {
+export function isContentExpanded(data, matcher, formData, index, fullData) {
   if (typeof matcher === 'undefined') {
     return !!data;
   }
   if (typeof matcher === 'function') {
-    return matcher(data, formData);
+    return matcher(data, formData, index, fullData);
   }
 
   return data === matcher;
@@ -113,7 +121,8 @@ export function isContentExpanded(data, matcher, formData) {
  * which is a non-standard JSON Schema property
  *
  * The path parameter will contain the path, relative to formData, to the
- * form data corresponding to the current schema object
+ * form data corresponding to the current schema object; and should include the
+ * page index, if within an array
  */
 export function setHiddenFields(
   schema,
@@ -121,6 +130,7 @@ export function setHiddenFields(
   formData,
   path = [],
   fullData,
+  index,
 ) {
   if (!uiSchema) {
     return schema;
@@ -132,10 +142,13 @@ export function setHiddenFields(
 
   let updatedSchema = schema;
   const hideIf = get(['ui:options', 'hideIf'], uiSchema);
-  const index = path.reduce(
-    (current, next) => (typeof next === 'number' ? next : current),
-    null,
-  );
+  if (index == null) {
+    // eslint-disable-next-line no-param-reassign
+    index = path.reduce(
+      (current, next) => (typeof next === 'number' ? next : current),
+      null,
+    );
+  }
 
   if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
@@ -150,16 +163,17 @@ export function setHiddenFields(
     ['ui:options', 'expandUnderCondition'],
     uiSchema,
   );
-  if (
-    expandUnder &&
-    !isContentExpanded(
+  if (expandUnder) {
+    const isExpanded = isContentExpanded(
       containingObject[expandUnder],
       expandUnderCondition,
       formData,
-    )
-  ) {
-    if (!updatedSchema['ui:collapsed']) {
-      updatedSchema = set('ui:collapsed', true, updatedSchema);
+      index,
+      fullData,
+    );
+    const isCollapsed = !isExpanded;
+    if (updatedSchema['ui:collapsed'] !== isCollapsed) {
+      updatedSchema = set('ui:collapsed', isCollapsed, updatedSchema);
     }
   } else if (updatedSchema['ui:collapsed']) {
     updatedSchema = unset('ui:collapsed', updatedSchema);
@@ -174,6 +188,7 @@ export function setHiddenFields(
           formData,
           path.concat(next),
           fullData,
+          index,
         );
 
         if (newSchema !== updatedSchema.properties[next]) {
@@ -200,6 +215,7 @@ export function setHiddenFields(
         formData,
         path.concat(idx),
         fullData,
+        idx,
       ),
     );
 
@@ -642,10 +658,23 @@ export function updateSchemasAndData(
   index,
 ) {
   let newSchema = updateItemsSchema(schema, formData);
-  newSchema = updateRequiredFields(newSchema, uiSchema, formData);
+  newSchema = updateRequiredFields(
+    newSchema,
+    uiSchema,
+    formData,
+    index,
+    fullData,
+  );
 
   // Update the schema with any fields that are now hidden because of the data change
-  newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
+  newSchema = setHiddenFields(
+    newSchema,
+    uiSchema,
+    formData,
+    [], // path
+    fullData,
+    index,
+  );
 
   // Update the uiSchema and  schema with any general updates based on the new data
   const newUiSchema = updateUiSchema(
@@ -689,20 +718,39 @@ export function updateSchemasAndData(
   };
 }
 
-export function recalculateSchemaAndData(initialState) {
-  return Object.keys(initialState.pages).reduce((state, pageKey) => {
+const pageWithCurrentIndex = (page, activeContext) => {
+  if (
+    activeContext &&
+    page.arrayPath &&
+    page.index === undefined &&
+    page.arrayPath === activeContext.arrayPath
+  ) {
+    return { ...page, index: activeContext.index };
+  }
+  return page;
+};
+
+export function recalculateSchemaAndData(reduxFormState) {
+  const activeContext = getActiveFormPageContext();
+
+  return Object.keys(reduxFormState.pages).reduce((state, pageKey) => {
     // on each data change, we need to do the following steps
     // Recalculate any required fields, based on the new data
     const page = state.pages[pageKey];
-    const formData = initialState.data;
+    const formData = reduxFormState.data;
 
     const { data, schema, uiSchema } = updateSchemasAndData(
       page.schema,
       page.uiSchema,
       formData,
+      false,
+      formData,
+      // index: undefined; assuming we're recalculating outside of arrays
     );
 
     let newState = state;
+
+    const pageWithIndex = pageWithCurrentIndex(page, activeContext);
 
     /**
      * If the page is inactive, in the case of a feature toggle setting or data conditional,
@@ -710,7 +758,7 @@ export function recalculateSchemaAndData(initialState) {
      * if two pages (one active, one inactive) use the same data keys in their respective
      * schemas. Thus we should not need to recalculate inactive pages any further.
      */
-    if (!isActivePage(page, formData)) {
+    if (!isActivePage(pageWithIndex, formData)) {
       return newState;
     }
 
@@ -741,7 +789,7 @@ export function recalculateSchemaAndData(initialState) {
     }
 
     return newState;
-  }, initialState);
+  }, reduxFormState);
 }
 
 export function createInitialState(formConfig) {
@@ -783,17 +831,29 @@ export function createInitialState(formConfig) {
         schema.definitions,
       );
 
+      if (state.pages[page.pageKey]) {
+        // eslint-disable-next-line no-console
+        console?.warn(
+          `Duplicate page key found: ${
+            page.pageKey
+          }. Page keys must be unique.`,
+        );
+      }
+
       /* eslint-disable no-param-reassign */
       state.pages[page.pageKey] = {
+        arrayPath: page.arrayPath,
+        chapterKey: page.chapterKey,
         CustomPage: page.CustomPage,
         CustomPageReview: page.CustomPageReview,
         depends: page.depends,
-        uiSchema: page.uiSchema,
-        schema,
         editMode: isArrayPage ? [] : false,
-        showPagePerItem: page.showPagePerItem,
-        arrayPath: page.arrayPath,
         itemFilter: page.itemFilter,
+        pageKey: page.pageKey,
+        path: page.path,
+        schema,
+        showPagePerItem: page.showPagePerItem,
+        uiSchema: page.uiSchema,
       };
 
       state.data = merge({}, state.data, data);

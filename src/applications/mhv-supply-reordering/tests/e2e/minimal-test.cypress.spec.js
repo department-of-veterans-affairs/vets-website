@@ -16,10 +16,10 @@ describe(`${appName} -- minimal test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
-      name: /^Order medical supplies$/,
+      name: /^Medical supplies$/,
     };
     cy.findByRole('heading', heading).should('have.focus');
-    cy.findByText(/^Start a new order$/).click({ waitForAnimations: true });
+    cy.findByText(/^Start a new order$/).click();
 
     // choose supplies
     cy.injectAxeThenAxeCheck();
@@ -38,8 +38,9 @@ describe(`${appName} -- minimal test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 2,
-      name: /^Your application has been submitted$/,
+      name: /^You’ve submitted your medical supplies order$/,
     };
-    cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
+    cy.findByRole('heading', heading);
+    cy.findByRole('link', { name: /^Go back to VA.gov$/ });
   });
 });

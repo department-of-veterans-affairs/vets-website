@@ -139,8 +139,7 @@ export const OTHER_REASONS = Object.freeze({
 
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
-    If you’d like to use VA Form 21-4138 for your statement without selecting an
-    answer here, you can{' '}
+    If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
     <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
@@ -153,33 +152,47 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
       Based on your answer, you should submit your statement with VA Form
       21-10210, Lay/Witness Statement.
     </p>
-    <h2 className="vads-u-font-size--h3">
-      What to know before you submit a lay or witness statement
-    </h2>
+    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
+      Start your statement
+    </PrimaryActionLink>
+    <h2 className="vads-u-font-size--h3">About lay or witness statements</h2>
     <ul>
       <li>
         You can submit a statement to support your own VA claim or someone
-        else’s VA claim. People also sometimes call this a “buddy statement.”
+        else’s VA claim. When it’s for someone else, people sometimes call this
+        a “buddy statement.”
       </li>
       <li>
         To submit a statement to support someone else’s claim, you’ll need to
         give us information like their date of birth, Social Security number, VA
         file number (if available), and contact information.
       </li>
-      <li>
-        Each statement needs its own form. If you want to submit more than one
-        statement, use a new form for each statement.
-      </li>
     </ul>
-    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
-      Start your statement
+    {ESCAPE_HATCH}
+  </div>,
+);
+
+export const DECISION_REVIEW_HANDOFF = Object.freeze(
+  <div>
+    <p>
+      Based on your answer, you should explore your options for a decision
+      review.
+    </p>
+    <PrimaryActionLink href="/resources/choosing-a-decision-review-option/">
+      Choose a decision review option
     </PrimaryActionLink>
-    <va-omb-info
-      res-burden={10}
-      omb-number="2900-0881"
-      exp-date="07/31/2027"
-      class="vads-u-margin-y--4"
-    />
+    <p>
+      If you disagree with a VA benefit or claim decision, you can choose from 3
+      decision review options (
+      <span className="vads-u-font-weight--bold">Supplemental Claim</span>,{' '}
+      <span className="vads-u-font-weight--bold">Higher-Level Review</span>, or{' '}
+      <span className="vads-u-font-weight--bold">Board Appeal</span>) to
+      continue your case.
+    </p>
+    <p>
+      If you aren’t satisfied with the results of the first option you choose,
+      you can try another eligible option.
+    </p>
     {ESCAPE_HATCH}
   </div>,
 );
@@ -348,6 +361,65 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
   </va-additional-info>,
 );
 
+export const PRIORITY_PROCESSING_HANDOFF = Object.freeze(
+  <div>
+    <p>
+      Based on your answer, you should consider submitting a priority processing
+      request.
+    </p>
+    <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
+      Start your priority processing request
+    </PrimaryActionLink>
+    <h2 className="vads-u-font-size--h3">
+      What to know before you request priority processing
+    </h2>
+    <p>
+      To qualify for priority processing, one of these descriptions must be
+      true:
+    </p>
+    <ul>
+      <li>
+        You’re homeless or at risk of becoming homeless,{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You’re experiencing extreme financial hardship (such as loss of your job
+        or a sudden decrease in income),{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s
+        disease, <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You have a terminal illness (a condition that can’t be treated),{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You have a Very Seriously Injured or Ill (VSI) or Seriously Injured or
+        Ill (SI) status from the Defense Department (DOD) (this status means you
+        have a disability from a military operation that will likely result in
+        your discharge from the military),{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You’re age 85 or older,{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You’re a former prisoner of war,{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>You received the Medal of Honor or the Purple Heart award</li>
+    </ul>
+    <p>
+      We may need supporting documents based on the situation, but you can still
+      submit your initial request without evidence.
+    </p>
+    {ESCAPE_HATCH}
+  </div>,
+);
+
 export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
   <div>
     <va-alert>
@@ -509,72 +581,16 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
       Form 20-10206, Freedom of Information Act (FOIA) or Privacy Act (PA)
       Request.
     </p>
-    <h2 className="vads-u-font-size--h3">
-      What to know before you request your personal records
-    </h2>
-    <p>
-      You must be a U.S. citizen or a legal permanent resident to access your
-      records under the Privacy Act (PA).
-    </p>
-    <p>
-      You can only use this online form to request only your own personal
-      records. If you’re a third-party representative or power of attorney
-      requesting records for someone else, you can’t submit this online form.
-      You’ll need to submit a FOIA request online using the Public Access Link
-      (PAL).
-    </p>
-    <p>
-      <a href="https://vapal.efoia-host.com/app/RequestsandFees.aspx">
-        Request records online through a FOIA request.
-      </a>{' '}
-      You’ll need to have proper authorization on record for your request to be
-      processed.
-    </p>
-    <h2 className="vads-u-font-size--h3">
-      Types of information you can request
-    </h2>
-    <p>You can request any of these kinds of personal records:</p>
-    <p>
-      <strong>Your compensation and pension records</strong>
-    </p>
-    <ul>
-      <li>
-        Certificate of Release or Discharge from Active Duty (DD Form 214)
-      </li>
-      <li>Claims file (C-file)</li>
-      <li>Disability examinations (C&P exams)</li>
-      <li>Official military personnel file (OMPF)</li>
-      <li>Pension benefit documents</li>
-      <li>Service or military treatment</li>
-      <li>Other compensation and pension records</li>
-    </ul>
-    <p>
-      <strong>Your benefit records</strong>
-    </p>
-    <ul>
-      <li>Education benefit</li>
-      <li>Fiduciary services</li>
-      <li>Financial records</li>
-      <li>Home loan benefit</li>
-      <li>Life insurance benefit</li>
-      <li>Vocational rehabilitation and employment</li>
-      <li>Other benefit record</li>
-    </ul>
-    <div className="vads-u-margin-y--3">
-      <va-alert>
-        Note: Since you’re signed into your account, you can save your
-        application in progress and come back later to finish filling it out.
-      </va-alert>
-    </div>
     <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
       Start your request
     </PrimaryActionLink>
-    <va-omb-info
-      res-burden={5}
-      omb-number="2900-0736"
-      exp-date="02/28/2026"
-      class="vads-u-margin-y--4"
-    />
+    <p>
+      You can ask for your{' '}
+      <span className="vads-u-font-weight--bold">military</span>,{' '}
+      <span className="vads-u-font-weight--bold">compensation</span>,{' '}
+      <span className="vads-u-font-weight--bold">pension</span>, or{' '}
+      <span className="vads-u-font-weight--bold">benefit</span> records.
+    </p>
     {ESCAPE_HATCH}
   </div>,
 );
@@ -601,46 +617,6 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
         text="Get VA Form 20-10208 to download"
       />
     </div>
-    <p>
-      <strong>Compensation claims</strong>
-    </p>
-    <p className="va-address-block">
-      U.S. Department of Veterans Affairs
-      <br />
-      Compensation Intake Center
-      <br />
-      P.O. Box 4444
-      <br />
-      Janesville, WI 53547
-      <br />
-      United States of America
-    </p>
-    <p>
-      <strong>Pension claims</strong>
-    </p>
-    <p className="va-address-block">
-      U.S. Department of Veterans Affairs
-      <br />
-      Pension Intake Center
-      <br />
-      P.O. Box 5365
-      <br />
-      Janesville, WI 53547
-      <br />
-      United States of America
-    </p>
-    <h2 className="vads-u-font-size--h3">What happens after I submit?</h2>
-    <p>
-      After you submit evidence, we’ll review the documents and contact you with
-      updates.
-    </p>
-    <p>
-      If you’ve also applied for a VA pension or for disability benefits, you
-      can check the status of those claims online.
-    </p>
-    <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
-      Check the status of your claim
-    </a>
     {ESCAPE_HATCH}
   </div>,
 );

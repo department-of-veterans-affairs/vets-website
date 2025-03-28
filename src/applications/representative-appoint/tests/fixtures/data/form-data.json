@@ -1,4 +1,5 @@
 {
+  "representativeSubmissionMethod": "digital",
   "view:addressAuthorizationPolicy": {},
   "authorizeAddressRadio": "Yes, they can change my address if it’s incorrect or outdated",
   "view:authorizationNote3": {},

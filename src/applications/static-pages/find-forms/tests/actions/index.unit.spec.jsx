@@ -4,7 +4,7 @@ import {
   fetchFormsAction,
   fetchFormsFailure,
   fetchFormsSuccess,
-  fetchFormsThunk,
+  fetchFormsSuccessNoResults,
   updatePaginationAction,
   updateResults,
   updateSortByPropertyName,
@@ -14,6 +14,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  FETCH_FORMS_SUCCESS_NO_RESULTS,
   INITIAL_SORT_STATE,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
@@ -54,6 +55,16 @@ describe('Find VA Forms actions', () => {
         hasOnlyRetiredForms,
         results,
         type: FETCH_FORMS_SUCCESS,
+      });
+    });
+  });
+
+  describe('fetchFormsSuccessNoResults', () => {
+    it('should return an action in the shape we expect', () => {
+      const action = fetchFormsSuccessNoResults();
+
+      expect(action).to.be.deep.equal({
+        type: FETCH_FORMS_SUCCESS_NO_RESULTS,
       });
     });
   });
@@ -116,70 +127,6 @@ describe('Find VA Forms actions', () => {
           type: UPDATE_RESULTS,
         }),
       ).to.be.true;
-    });
-  });
-
-  describe('fetchFormsThunk', () => {
-    let mockedLocation;
-    let mockedHistory;
-
-    beforeEach(() => {
-      mockedLocation = {
-        search: '',
-        pathname: '',
-      };
-
-      mockedHistory = {
-        replaceState: sinon.stub(),
-      };
-    });
-
-    it('updates search params', async () => {
-      const dispatch = sinon.stub();
-      const query = 'health';
-      const thunk = fetchFormsThunk(query, {
-        location: mockedLocation,
-        history: mockedHistory,
-        mockRequest: true,
-      });
-
-      await thunk(dispatch);
-
-      const replaceStateStub = mockedHistory.replaceState;
-
-      expect(replaceStateStub.calledOnce).to.be.true;
-      expect(replaceStateStub.firstCall.args[2]).to.be.equal('?q=health');
-    });
-
-    it('calls dispatch', async () => {
-      const dispatch = sinon.stub();
-      const query = 'health';
-      const thunk = fetchFormsThunk(query, {
-        location: mockedLocation,
-        history: mockedHistory,
-        mockRequest: true,
-      });
-
-      await thunk(dispatch);
-
-      expect(
-        dispatch.firstCall.calledWith({
-          type: FETCH_FORMS,
-          query,
-        }),
-      ).to.be.true;
-
-      expect(
-        dispatch.secondCall.calledWith({
-          page: 1,
-          startIndex: 0,
-          type: UPDATE_PAGINATION,
-        }),
-      ).to.be.true;
-
-      const thirdCallAction = dispatch.thirdCall.args[0];
-      expect(thirdCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
-      expect(thirdCallAction.results).to.be.an('array');
     });
   });
 });

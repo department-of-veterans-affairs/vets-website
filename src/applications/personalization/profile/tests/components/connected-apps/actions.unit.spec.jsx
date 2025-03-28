@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers.js';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 
 import * as actions from '../../../components/connected-apps/actions';
 

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
+
 import {
   VaProcessList,
   VaProcessListItem,
   VaLink,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
-const ProcessList = ({ isAccredited }) => {
+const ProcessList = ({ isAccredited, id }) => {
   return (
     <div>
       {!isAccredited ? (
@@ -19,8 +21,10 @@ const ProcessList = ({ isAccredited }) => {
                   <VaLink
                     download
                     filetype="PDF"
-                    href=""
-                    // fileName={''}
+                    href={`${
+                      environment.API_URL
+                    }/v0/education_benefits_claims/download_pdf/${id}`}
+                    fileName="Name"
                     text="Download VA Form 22-10216"
                   />
                 </span>
@@ -29,7 +33,7 @@ const ProcessList = ({ isAccredited }) => {
                   <VaLink
                     external
                     text="VA Form 22-10215"
-                    href="/education/apply-for-education-benefits/application/10215"
+                    href="/school-administrators/85-15-rule-enrollment-ratio"
                   />{' '}
                 </span>{' '}
                 to fill it out. Once completed, save it as a PDF on your device.
@@ -63,7 +67,9 @@ const ProcessList = ({ isAccredited }) => {
                   <va-link
                     download
                     filetype="PDF"
-                    href=""
+                    href={`${
+                      environment.API_URL
+                    }/v0/education_benefits_claims/download_pdf/${id}`}
                     // fileName={''}
                     text="Download VA Form 22-10216"
                   />
@@ -92,6 +98,7 @@ const ProcessList = ({ isAccredited }) => {
 };
 
 ProcessList.propTypes = {
+  id: PropTypes.string,
   isAccredited: PropTypes.bool,
 };
 

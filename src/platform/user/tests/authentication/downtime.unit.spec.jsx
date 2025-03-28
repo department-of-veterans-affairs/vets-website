@@ -123,8 +123,8 @@ describe('createMaintenanceBanner', () => {
       new Date().getTime() + 2 * 60 * 60 * 1000,
     ).toISOString(); // 2 hours later
     const banner = downtimeUtils.createMaintenanceBanner({
-      start_time: startTime,
-      end_time: endTime,
+      startTime,
+      endTime,
     });
 
     expect(banner).to.have.property('headline', 'Upcoming site maintenance');
@@ -144,15 +144,15 @@ describe('createMaintenanceBanner', () => {
 describe('determineMaintenance', () => {
   it('should find the first maintenance window that meets the criteria', () => {
     const maintArray = [
-      { external_service: 'logingov' },
-      { external_service: 'global' },
+      { externalService: 'logingov' },
+      { externalService: 'global' },
     ];
     const result = downtimeUtils.determineMaintenance(maintArray);
-    expect(result).to.deep.equal({ external_service: 'logingov' });
+    expect(result).to.deep.equal({ externalService: 'logingov' });
   });
 
   it('should return undefined if no maintenance window meets the criteria', () => {
-    const maintArray = [{ external_service: 'otherService' }];
+    const maintArray = [{ externalService: 'otherService' }];
     const result = downtimeUtils.determineMaintenance(maintArray);
     expect(result).to.be.undefined;
   });
@@ -186,11 +186,11 @@ describe('renderMaintenanceWindow', () => {
   it('should render the maintenance window banner when inside the maintenance window', () => {
     const maintArray = [
       {
-        external_service: 'global',
-        start_time: new Date(
+        externalService: 'global',
+        startTime: new Date(
           new Date().getTime() - 1 * 60 * 60 * 1000,
         ).toISOString(),
-        end_time: new Date(
+        endTime: new Date(
           new Date().getTime() + 1 * 60 * 60 * 1000,
         ).toISOString(),
       },
@@ -206,11 +206,11 @@ describe('renderMaintenanceWindow', () => {
   it('should return null when outside the maintenance window', () => {
     const maintArray = [
       {
-        external_service: 'global',
-        start_time: new Date(
+        externalService: 'global',
+        startTime: new Date(
           new Date().getTime() - 3 * 60 * 60 * 1000,
         ).toISOString(),
-        end_time: new Date(
+        endTime: new Date(
           new Date().getTime() - 1 * 60 * 60 * 1000,
         ).toISOString(),
       },

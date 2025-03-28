@@ -1,5 +1,4 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -126,6 +125,30 @@ describe('<FilesPage>', () => {
         expect(setPageFocusSpy.calledOnce).to.be.false;
       });
     });
+
+    it('should focus on the Notification Alert when one exists', async () => {
+      const message = {
+        title: 'Test',
+        body: 'Testing',
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={message}
+            location={{ hash: '' }}
+          />
+        </Provider>,
+      );
+
+      const selector = container.querySelector('va-alert');
+      expect(selector).to.exist;
+      await waitFor(() => {
+        expect(document.activeElement).to.equal(selector);
+      });
+    });
   });
 
   describe('document.title', () => {
@@ -211,94 +234,49 @@ describe('<FilesPage>', () => {
     });
   });
 
-  it('should clear alert', () => {
-    const claim = {
-      id: '1',
-      type: 'claim',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-02-08',
-          latestPhaseType: 'INITIAL_REVIEW',
-          previousPhases: {
-            phase1CompleteDate: '2023-02-08',
+  describe('alert', () => {
+    context('when component unmounts', () => {
+      it('should clear alert when component unmounts', () => {
+        const claim = {
+          id: '1',
+          type: 'claim',
+          attributes: {
+            claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
+            closeDate: null,
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            status: 'INITIAL_REVIEW',
+            supportingDocuments: [],
+            trackedItems: [],
           },
-        },
-        closeDate: null,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        status: 'INITIAL_REVIEW',
-        supportingDocuments: [],
-        trackedItems: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        {...props}
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.subTree('ClaimDetailLayout').props.clearNotification();
-    expect(clearNotification.called).to.be.true;
-  });
-
-  it('should clear notification when leaving', () => {
-    const claim = {
-      id: '1',
-      type: 'claim',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-02-08',
-          latestPhaseType: 'INITIAL_REVIEW',
-          previousPhases: {
-            phase1CompleteDate: '2023-02-08',
-          },
-        },
-        closeDate: null,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        status: 'INITIAL_REVIEW',
-        supportingDocuments: [
-          {
-            id: '123456',
-            originalFileName: 'test.pdf',
-            documentTypeLabel: 'Buddy / Lay Statement',
-            uploadDate: '2023-03-04',
-          },
-        ],
-        trackedItems: [],
-      },
-    };
-
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        {...props}
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.true;
+        };
+        const message = {
+          title: 'Test',
+          body: 'Test',
+        };
+        const clearNotification = sinon.spy();
+        const { unmount } = renderWithRouter(
+          <Provider store={getStore()}>
+            <FilesPage
+              {...props}
+              clearNotification={clearNotification}
+              message={message}
+              claim={claim}
+            />
+          </Provider>,
+        );
+        unmount();
+        expect(clearNotification.called).to.be.true;
+      });
+    });
   });
 
   context('when claim is open', () => {

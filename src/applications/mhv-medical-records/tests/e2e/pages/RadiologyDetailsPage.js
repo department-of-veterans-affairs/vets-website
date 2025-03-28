@@ -113,6 +113,19 @@ class RadiologyDetailsPage extends BaseDetailsPage {
   verifyFocus = () => {
     cy.get('h1').should('have.focus');
   };
+
+  verifyShowingImageRecords = (
+    displayedStartNumber,
+    displayedEndNumber,
+    numRecords,
+  ) => {
+    cy.get('[data-testid="showing-image-records"]')
+      .find('span')
+      .should(
+        'contain',
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} images`,
+      );
+  };
 }
 
 export default new RadiologyDetailsPage();

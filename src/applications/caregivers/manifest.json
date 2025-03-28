@@ -3,6 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "1010cg-application-caregiver-assistance",
   "rootUrl": "/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/apply-form-10-10cg",
-  "e2eTestsDisabled": true,
   "productId": "4d22afe4-3f1b-4b02-bebf-18840df27cbc"
 }

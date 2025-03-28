@@ -1,11 +1,11 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import { Data, Locators, Paths } from '../utils/constants';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import draftSearchResponse from '../fixtures/draftsResponse/drafts-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import FolderLoadPage from './FolderLoadPage';
 import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
 import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
@@ -314,11 +314,11 @@ class PatientMessageDraftsPage {
     cy.realPress('Enter');
   };
 
-  clickFilterMessagesButton = () => {
+  clickFilterMessagesButton = (filteredResponse = draftSearchResponse) => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
-      sentSearchResponse,
+      filteredResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
@@ -329,7 +329,7 @@ class PatientMessageDraftsPage {
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData = draftSearchResponse) => {
     cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
@@ -397,24 +397,6 @@ class PatientMessageDraftsPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
-  };
-
-  verifyFilterResultsText = (
-    filterValue,
-    responseData = sentSearchResponse,
-  ) => {
-    cy.get(Locators.MESS_LIST).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
   };
 
   clickSortMessagesByDateButton = (
@@ -607,6 +589,10 @@ class PatientMessageDraftsPage {
     cy.get(`[status="warning"]`)
       .find(`va-button[text="Delete changes"]`)
       .click();
+  };
+
+  verifyDraftToField = value => {
+    cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }
 

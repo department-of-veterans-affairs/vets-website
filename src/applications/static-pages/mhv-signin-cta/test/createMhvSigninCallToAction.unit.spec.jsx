@@ -21,6 +21,10 @@ describe('create MHV Signin Call To Action widget', () => {
         signIn: {
           serviceName: CSP_IDS.ID_ME,
         },
+        loading: false,
+        mhvAccount: {
+          loading: false,
+        },
       },
     },
   };
@@ -31,6 +35,7 @@ describe('create MHV Signin Call To Action widget', () => {
     </a>
   </span>`;
   const serviceDescription = 'a description';
+  const headingLevel = '3';
   const divId = 'div1';
 
   beforeEach(() => {
@@ -52,18 +57,18 @@ describe('create MHV Signin Call To Action widget', () => {
     });
   });
 
-  it('widget rendered with no content', async () => {
+  it('widget rendered with no content, no serviceDescription and no headingLevel', async () => {
     const div = document.createElement('div');
     div.innerHTML = `
-    <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
-     data-service-description="${serviceDescription}" />`;
+    <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} />`;
     document.body.appendChild(div);
     createMhvSigninCallToAction(mockStore(state), widgetTypes.MHV_SIGNIN_CTA);
     await waitFor(() => {
       expect(ReactDOM.render.calledOnce).to.be.true;
       const components = ReactDOM.render.getCall(0).args[0].props.children;
       expect(components).to.exist;
-      expect(components.props.serviceDescription).to.eql(serviceDescription);
+      expect(components.props.headingLevel).to.eql(null);
+      expect(components.props.serviceDescription).to.eql(null);
       expect(components.props.noAlertContent).to.not.exist;
       const replacedEl = ReactDOM.render.getCall(0).args[1];
       expect(replacedEl).to.exist;
@@ -71,10 +76,11 @@ describe('create MHV Signin Call To Action widget', () => {
     });
   });
 
-  it('widget rendered with content', async () => {
+  it('widget rendered with content and data attributes', async () => {
     const div = document.createElement('div');
     div.innerHTML = `
     <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
+     data-heading-level="${headingLevel}"
      data-service-description="${serviceDescription}">
       ${noAlertContent}
     </div>`;
@@ -84,6 +90,7 @@ describe('create MHV Signin Call To Action widget', () => {
       expect(ReactDOM.render.calledOnce).to.be.true;
       const components = ReactDOM.render.getCall(0).args[0].props.children;
       expect(components).to.exist;
+      expect(components.props.headingLevel).to.eql(headingLevel);
       expect(components.props.serviceDescription).to.eql(serviceDescription);
       expect(components.props.noAlertContent).to.exist;
       expect(components.props.noAlertContent.innerHTML).to.include(

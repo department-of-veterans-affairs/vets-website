@@ -1,42 +1,29 @@
-import {
-  fileInputUI,
-  fileInputSchema,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import environment from 'platform/utilities/environment';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { ChildAdditionalEvidence } from '../../../components/ChildAdditionalEvidence';
+import { dependentsUploadSchema, dependentsUploadUI } from '../../upload';
 
 const schema = {
   type: 'object',
+  required: ['childSupportingDocuments'],
   properties: {
-    childAdditionalEvidence: {
+    'view:additionalEvidenceDescription': {
       type: 'object',
-      properties: {
-        'view:additionalEvidenceDescription': {
-          type: 'object',
-          properties: {},
-        },
-        childSupportingDocuments: fileInputSchema,
-      },
+      properties: {},
     },
+    childSupportingDocuments: dependentsUploadSchema,
   },
 };
 
 const uiSchema = {
-  ...titleUI('Upload your supporting evidence to add your child'),
-  childAdditionalEvidence: {
-    'view:additionalEvidenceDescription': {
-      'ui:description': ChildAdditionalEvidence,
-    },
-    childSupportingDocuments: fileInputUI({
-      title: 'Upload supporting documents',
-      name: `file-input`,
-      fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-      formNumber: '686C-674-V2',
-    }),
-    'ui:options': {
-      hideOnReview: true,
-    },
+  ...titleUI({
+    title: 'Upload your supporting evidence to add your child',
+    headingLevel: 3,
+  }),
+  'view:additionalEvidenceDescription': {
+    'ui:description': ChildAdditionalEvidence,
+  },
+  childSupportingDocuments: {
+    ...dependentsUploadUI('Upload supporting documents'),
   },
 };
 

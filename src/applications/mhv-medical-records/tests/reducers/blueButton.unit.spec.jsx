@@ -283,6 +283,14 @@ describe('convertAccountSummary', () => {
             treatment: true,
           },
         },
+        {
+          facilityInfo: {
+            id: '124',
+            name: 'VA Medical Center 2',
+            stationNumber: 'TEST2',
+            treatment: false,
+          },
+        },
       ],
       ipas: [
         {
@@ -308,18 +316,13 @@ describe('convertAccountSummary', () => {
       '123',
     );
     expect(result.vaTreatmentFacilities).to.be.an('array');
-  });
 
-  it('should handle missing optional fields', () => {
-    const data = {
-      facilities: [],
-      ipas: [],
-    };
-
-    const result = convertAccountSummary(data);
-    expect(result).to.deep.equal({
-      authenticationSummary: {},
-      vaTreatmentFacilities: [],
+    // Ensure result.vaTreatmentFacilities only contains facilities where treatment is true
+    expect(result.vaTreatmentFacilities).to.have.lengthOf(1);
+    expect(result.vaTreatmentFacilities[0]).to.deep.equal({
+      facilityName: 'VA Medical Center',
+      stationNumber: 'TEST',
+      type: 'Treatment',
     });
   });
 });

@@ -16,6 +16,8 @@ import * as searchAPI from '../../../api/fetchRepresentatives';
 import repResults from '../../fixtures/data/representative-results.json';
 import * as reviewPageHook from '../../../hooks/useReviewPage';
 
+import { formIs2122 } from '../../../utilities/helpers';
+
 describe('<SelectAccreditedRepresentative>', () => {
   const getProps = ({
     currentRep = undefined,
@@ -414,6 +416,49 @@ describe('<SelectAccreditedRepresentative>', () => {
           });
         });
       });
+    });
+  });
+});
+
+describe('<SelectAccreditedRepresentative> - formIs2122 logic', () => {
+  let goToPathSpy;
+  let handleGoForward;
+
+  beforeEach(() => {
+    goToPathSpy = sinon.spy();
+
+    handleGoForward = ({ newSelection }) => {
+      const currentSelectedRep = {
+        current: {
+          type: 'representative',
+          attributes: { individualType: 'veteran_service_officer' },
+        },
+      };
+
+      if (formIs2122(currentSelectedRep.current) !== formIs2122(newSelection)) {
+        goToPathSpy('/representative-contact');
+      }
+    };
+  });
+
+  context('when the selected representative type changes', () => {
+    it('should not change the path when type changes between representative and organization', () => {
+      const newSelection = { type: 'organization' };
+
+      handleGoForward({ newSelection });
+
+      expect(goToPathSpy.called).to.be.false;
+    });
+
+    it('should call goToPath with /representative-contact if type changes to something completely different (e.g., attorney)', () => {
+      const newSelection = {
+        type: 'veteran_service_officer',
+        attributes: { individualType: 'attorney' },
+      };
+
+      handleGoForward({ newSelection });
+
+      expect(goToPathSpy.calledWith('/representative-contact')).to.be.true;
     });
   });
 });

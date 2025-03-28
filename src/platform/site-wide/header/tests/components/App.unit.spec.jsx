@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, waitFor, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import { App } from '../../components/App';
@@ -18,24 +18,32 @@ const MockMobileHeader = () => <div>Mobile header</div>;
 
 describe('Header <App>', () => {
   let sandbox;
+  let showDesktopHeader;
+  let hideDesktopHeader;
+  let toggleMinimalHeader;
+  let staticDom;
+
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
+    showDesktopHeader = sandbox.spy(helpers, 'showDesktopHeader');
+    hideDesktopHeader = sandbox.spy(helpers, 'hideDesktopHeader');
+    toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
   });
 
   afterEach(() => {
     sandbox.reset();
     sandbox.restore();
     cleanup();
+    staticDom = null;
   });
 
   function setupHeader(options = {}) {
     const show = options.show ?? true;
     const { showMinimalHeader } = options;
-    const staticDom = document.createElement('div');
-    document.body.appendChild(staticDom);
+    staticDom = document.createElement('div');
 
-    if (showMinimalHeader !== undefined) {
+    if (showMinimalHeader) {
       staticDom.innerHTML += `
       <div id="header-minimal" class="vads-u-display--none">
         Minimal header
@@ -55,6 +63,7 @@ describe('Header <App>', () => {
       </header>
     `;
 
+    document.body.appendChild(staticDom);
     const header = staticDom.querySelector('#header-v2');
 
     const renderProps = render(
@@ -64,154 +73,124 @@ describe('Header <App>', () => {
       { container: header },
     );
 
-    return { ...renderProps, staticDom };
+    return { ...renderProps };
   }
 
-  it('renders no header if show is false', () => {
-    const { queryByText, staticDom } = setupHeader({ show: false });
-    expect(staticDom.querySelector('#legacy-header')).to.have.class(
-      'vads-u-display--none',
-    );
-    expect(queryByText('Mobile header')).to.not.exist;
-    expect(staticDom.querySelector('#header-minimal')).to.not.exist;
+  it('renders no header if show is false', async () => {
+    const { queryByText } = setupHeader({ show: false });
 
-    document.body.removeChild(staticDom);
+    await waitFor(() => {
+      expect(staticDom.querySelector('#legacy-header')).to.have.class(
+        'vads-u-display--none',
+      );
+      expect(queryByText('Mobile header')).to.not.exist;
+      expect(staticDom.querySelector('#header-minimal')).to.not.exist;
+    });
   });
 
-  it('renders legacy header when our width is more than 768px', () => {
-    window.innerWidth = 768;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+  it('renders legacy header when our width is more than 768px', async () => {
+    Object.assign(window, { innerWidth: 768 });
+    fireEvent(window, new Event('resize'));
+    const { queryByText } = setupHeader();
 
-    const { queryByText, staticDom } = setupHeader();
-
-    expect(showDesktopHeaderSpy.called).to.be.true;
-    expect(hideDesktopHeaderSpy.called).to.be.false;
-    expect(toggleMinimalHeader.called).to.be.false;
-
-    expect(staticDom.querySelector('#header-default')).to.not.have.class(
-      'vads-u-display--none',
-    );
-    expect(staticDom.querySelector('#legacy-header')).to.not.have.class(
-      'vads-u-display--none',
-    );
-    expect(queryByText('Mobile header')).to.not.exist;
-    expect(staticDom.querySelector('#header-minimal')).to.not.exist;
-
-    document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
+    await waitFor(() => {
+      expect(showDesktopHeader.called).to.be.true;
+      expect(hideDesktopHeader.called).to.be.false;
+      expect(toggleMinimalHeader.called).to.be.false;
+      expect(staticDom.querySelector('#header-default')).to.not.have.class(
+        'vads-u-display--none',
+      );
+      expect(staticDom.querySelector('#legacy-header')).to.not.have.class(
+        'vads-u-display--none',
+      );
+      expect(queryByText('Mobile header')).to.not.exist;
+      expect(staticDom.querySelector('#header-minimal')).to.not.exist;
+    });
   });
 
-  it('renders header v2 (mobile) when our width is less than 768px', () => {
-    window.innerWidth = 767;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+  it('renders header v2 (mobile) when our width is less than 768px', async () => {
+    Object.assign(window, { innerWidth: 767 });
+    fireEvent(window, new Event('resize'));
+    const { queryByText } = setupHeader();
 
-    const { queryByText, staticDom } = setupHeader();
+    await waitFor(() => {
+      expect(showDesktopHeader.called).to.be.false;
+      expect(hideDesktopHeader.called).to.be.true;
+      expect(toggleMinimalHeader.called).to.be.false;
 
-    expect(showDesktopHeaderSpy.called).to.be.false;
-    expect(hideDesktopHeaderSpy.called).to.be.true;
-    expect(toggleMinimalHeader.called).to.be.false;
-
-    expect(staticDom.querySelector('#header-default')).to.not.have.class(
-      'vads-u-display--none',
-    );
-    expect(staticDom.querySelector('#legacy-header')).to.have.class(
-      'vads-u-display--none',
-    );
-    expect(queryByText('Mobile header')).to.exist;
-    expect(staticDom.querySelector('#header-minimal')).to.not.exist;
-
-    document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
+      expect(staticDom.querySelector('#header-default')).to.not.have.class(
+        'vads-u-display--none',
+      );
+      expect(staticDom.querySelector('#legacy-header')).to.have.class(
+        'vads-u-display--none',
+      );
+      expect(queryByText('Mobile header')).to.exist;
+      expect(staticDom.querySelector('#header-minimal')).to.not.exist;
+    });
   });
 
-  it('renders minimal-header when applicable', () => {
-    window.innerWidth = 768;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
+  it('renders minimal-header when applicable', async () => {
+    Object.assign(window, { innerWidth: 768 });
+    fireEvent(window, new Event('resize'));
+    const { queryByText } = setupHeader({ showMinimalHeader: true });
 
-    const { queryByText, staticDom } = setupHeader({ showMinimalHeader: true });
-
-    expect(toggleMinimalHeader.calledWith(true)).to.be.true;
-    expect(staticDom.querySelector('#header-default')).to.have.class(
-      'vads-u-display--none',
-    );
-    expect(queryByText('Mobile header')).to.not.exist;
-    expect(staticDom.querySelector('#header-minimal')).to.exist;
-
-    document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
+    await waitFor(() => {
+      expect(toggleMinimalHeader.calledWith(true)).to.be.true;
+      expect(staticDom.querySelector('#header-default')).to.have.class(
+        'vads-u-display--none',
+      );
+      expect(queryByText('Mobile header')).to.not.exist;
+      expect(staticDom.querySelector('#header-minimal')).to.exist;
+    });
   });
 
-  it('renders legacy if minimal-header is false and is Desktop size', () => {
-    window.innerWidth = 768;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
-
-    const { queryByText, staticDom } = setupHeader({
+  it('renders legacy if minimal-header is false and is Desktop size', async () => {
+    Object.assign(window, { innerWidth: 768 });
+    fireEvent(window, new Event('resize'));
+    const { queryByText } = setupHeader({
       showMinimalHeader: () => false,
     });
 
-    expect(showDesktopHeaderSpy.called).to.be.true;
-    expect(hideDesktopHeaderSpy.called).to.be.false;
-    expect(toggleMinimalHeader.calledWith(false)).to.be.true;
+    await waitFor(() => {
+      expect(showDesktopHeader.called).to.be.true;
+      expect(hideDesktopHeader.called).to.be.false;
+      expect(toggleMinimalHeader.calledWith(false)).to.be.true;
 
-    expect(staticDom.querySelector('#header-default')).to.not.have.class(
-      'vads-u-display--none',
-    );
-    expect(staticDom.querySelector('#legacy-header')).to.not.have.class(
-      'vads-u-display--none',
-    );
-    expect(queryByText('Mobile header')).to.not.exist;
-    expect(staticDom.querySelector('#header-minimal')).to.have.class(
-      'vads-u-display--none',
-    );
-
-    document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
+      expect(staticDom.querySelector('#header-default')).to.not.have.class(
+        'vads-u-display--none',
+      );
+      expect(staticDom.querySelector('#legacy-header')).to.not.have.class(
+        'vads-u-display--none',
+      );
+      expect(queryByText('Mobile header')).to.not.exist;
+      expect(staticDom.querySelector('#header-minimal')).to.have.class(
+        'vads-u-display--none',
+      );
+    });
   });
 
-  it('renders mobile if minimal-header is false and is mobile size', () => {
-    window.innerWidth = 767;
-    const showDesktopHeaderSpy = sinon.spy(helpers, 'showDesktopHeader');
-    const hideDesktopHeaderSpy = sinon.spy(helpers, 'hideDesktopHeader');
-    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
-
-    const { queryByText, staticDom } = setupHeader({
+  it('renders mobile if minimal-header is false and is mobile size', async () => {
+    Object.assign(window, { innerWidth: 767 });
+    fireEvent(window, new Event('resize'));
+    const { queryByText } = setupHeader({
       showMinimalHeader: () => false,
     });
 
-    expect(showDesktopHeaderSpy.called).to.be.false;
-    expect(hideDesktopHeaderSpy.called).to.be.true;
-    expect(toggleMinimalHeader.calledWith(false)).to.be.true;
+    await waitFor(() => {
+      expect(showDesktopHeader.called).to.be.false;
+      expect(hideDesktopHeader.called).to.be.true;
+      expect(toggleMinimalHeader.calledWith(false)).to.be.true;
 
-    expect(staticDom.querySelector('#header-default')).to.not.have.class(
-      'vads-u-display--none',
-    );
-    expect(staticDom.querySelector('#legacy-header')).to.have.class(
-      'vads-u-display--none',
-    );
-    expect(queryByText('Mobile header')).to.exist;
-    expect(staticDom.querySelector('#header-minimal')).to.have.class(
-      'vads-u-display--none',
-    );
-
-    document.body.removeChild(staticDom);
-    showDesktopHeaderSpy.restore();
-    hideDesktopHeaderSpy.restore();
-    toggleMinimalHeader.restore();
+      expect(staticDom.querySelector('#header-default')).to.not.have.class(
+        'vads-u-display--none',
+      );
+      expect(staticDom.querySelector('#legacy-header')).to.have.class(
+        'vads-u-display--none',
+      );
+      expect(queryByText('Mobile header')).to.exist;
+      expect(staticDom.querySelector('#header-minimal')).to.have.class(
+        'vads-u-display--none',
+      );
+    });
   });
 });

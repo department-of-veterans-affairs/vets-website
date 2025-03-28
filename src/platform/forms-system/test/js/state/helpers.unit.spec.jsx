@@ -99,6 +99,36 @@ describe('Schemaform formState:', () => {
         updateRequiredFields(schema, uiSchema, data).items[0].required[0],
       ).to.equal('test');
     });
+    it('should pass full data & index in arrays', () => {
+      const requiredSpy = sinon.stub().returns(true);
+      const schema = {
+        type: 'array',
+        items: [
+          { type: 'object', properties: { test: { type: 'string' } } },
+          { type: 'object', properties: { test: { type: 'string' } } },
+        ],
+        additionalItems: {
+          type: 'object',
+          properties: {
+            test: {
+              type: 'string',
+            },
+          },
+        },
+      };
+      const uiSchema = {
+        items: {
+          test: {
+            'ui:required': requiredSpy,
+          },
+        },
+      };
+      const data = [{ test2: true }];
+      const fullData = { test: data, test3: false };
+      updateRequiredFields(schema, uiSchema, data, null, fullData);
+      expect(requiredSpy.args[0]).to.deep.equal([data, 0, fullData]);
+      expect(requiredSpy.args[1]).to.deep.equal([data, 1, fullData]);
+    });
   });
   describe('setHiddenFields', () => {
     it('should set field as hidden', () => {
@@ -275,7 +305,7 @@ describe('Schemaform formState:', () => {
       const data = { field: '', field2: 'bleh' };
       // condition is met so we expect this field to not be collapsed
       const newSchema = setHiddenFields(schema, uiSchema, data);
-      expect(newSchema.properties.field['ui:collapsed']).to.be.undefined;
+      expect(newSchema.properties.field['ui:collapsed']).to.be.false;
     });
     it('should set collapsed on expandUnder field with function condition based on formData', () => {
       const schema = {
@@ -297,7 +327,87 @@ describe('Schemaform formState:', () => {
       const data = { field: '', field2: 'bleh' };
       // condition is not met so we expect this field to be collapsed
       const newSchema = setHiddenFields(schema, uiSchema, data);
-      expect(newSchema.properties.field['ui:collapsed']).not.to.be.undefined;
+      expect(newSchema.properties.field['ui:collapsed']).to.be.true;
+    });
+    it('should not set collapsed on expandUnder array field', () => {
+      const schema = {
+        type: 'array',
+        items: [
+          {
+            type: 'object',
+            properties: {
+              field: {},
+              field2: {},
+            },
+          },
+        ],
+        additionalItems: {
+          type: 'object',
+          properties: {
+            field: {},
+          },
+        },
+      };
+      const uiSchema = {
+        items: {
+          field: {
+            'ui:options': {
+              expandUnder: 'field2',
+              expandUnderCondition: (condition, formData) =>
+                formData.field2 === 'bleh',
+            },
+          },
+        },
+      };
+      const data = { field: '', field2: 'bleh' };
+      const path = ['path'];
+      const fullData = { arrayFields: data, otherField: 'bleh' };
+      // condition is met so we expect this field to not be collapsed
+      const newSchema = setHiddenFields(schema, uiSchema, data, path, fullData);
+      expect(newSchema).not.to.equal(schema);
+      expect(newSchema.items[0].properties.field['ui:collapsed']).to.be.false;
+      expect(newSchema.items[0].properties.field2['ui:collapsed']).to.be
+        .undefined;
+    });
+    it('should set collapsed on expandUnder array field', () => {
+      const schema = {
+        type: 'array',
+        items: [
+          {
+            type: 'object',
+            properties: {
+              field: {},
+              field2: {},
+            },
+          },
+        ],
+        additionalItems: {
+          type: 'object',
+          properties: {
+            field: {},
+          },
+        },
+      };
+      const uiSchema = {
+        items: {
+          field: {
+            'ui:options': {
+              expandUnder: 'field2',
+              expandUnderCondition: (condition, formData) =>
+                formData.field2 === 'foo',
+            },
+          },
+        },
+      };
+      const data = { field: '', field2: 'bleh' };
+      const path = ['path'];
+      const fullData = { arrayFields: data, otherField: 'foo' };
+      // condition is not met so we expect this field to be collapsed
+      const newSchema = setHiddenFields(schema, uiSchema, data, path, fullData);
+      expect(newSchema).not.to.equal(schema);
+      expect(newSchema.items[0].properties.field['ui:collapsed']).to.be.true;
+      expect(newSchema.items[0].properties.field2['ui:collapsed']).to.be
+        .undefined;
     });
     it('should set collapsed on nested expandUnder field', () => {
       const schema = {
@@ -340,6 +450,12 @@ describe('Schemaform formState:', () => {
               field: {},
             },
           },
+          {
+            type: 'object',
+            properties: {
+              field: {},
+            },
+          },
         ],
         additionalItems: {
           type: 'object',
@@ -366,6 +482,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema).not.to.equal(schema);
       expect(newSchema.items[0].properties.field['ui:hidden']).to.be.true;
       expect(hideIfSpy.args[0]).to.deep.equal([data, 0, fullData]);
+      expect(hideIfSpy.args[1]).to.deep.equal([data, 1, fullData]);
     });
   });
   describe('removeHiddenData', () => {

@@ -1,5 +1,10 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import {
+  FORM_UPLOAD_FILE_UPLOADING_ALERT,
+  FORM_UPLOAD_INSTRUCTION_ALERT,
+  FORM_UPLOAD_OCR_ALERT,
+} from '../config/constants';
 
 const formMappings = {
   '21-0779': {
@@ -21,17 +26,25 @@ const formMappings = {
       'Improved Pension Eligibility Verification Report (Veteran with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
   },
+  '21-4192': {
+    subTitle:
+      'Request for Employment Information in Connection with Claim for Disability Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf',
+  },
+  '21-8940': {
+    subTitle:
+      'Application for Increased Compensation Based on Un-employability',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
   const regex = /upload\/([^/]+)/;
   const match = path.match(regex)?.[1];
-  if (formMappings[match]) {
-    return match;
-  }
-
-  return '';
+  return (
+    Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
+  );
 };
 
 export const getFormContent = (pathname = null) => {
@@ -93,4 +106,33 @@ export const formattedPhoneNumber = phoneNumber => {
   const digits = phoneNumber.replaceAll('-', '');
   // Formats the phone number to look like this: (123) 456-7890
   return digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+};
+
+export const onClickContinue = (props, setContinueClicked) => {
+  setContinueClicked(true);
+
+  if (props.data?.uploadedFile?.name !== 'uploading') {
+    props.onContinue();
+  }
+};
+
+export const getAlert = (props, continueClicked) => {
+  const warnings = props.data?.uploadedFile?.warnings;
+  const fileUploading = props.data?.uploadedFile?.name === 'uploading';
+  const formNumber = getFormNumber();
+
+  if (warnings?.length > 0) {
+    return FORM_UPLOAD_OCR_ALERT(
+      formNumber,
+      getPdfDownloadUrl(formNumber),
+      onCloseAlert,
+      warnings,
+    );
+  }
+
+  if (fileUploading && continueClicked) {
+    return FORM_UPLOAD_FILE_UPLOADING_ALERT(onCloseAlert);
+  }
+
+  return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
 };

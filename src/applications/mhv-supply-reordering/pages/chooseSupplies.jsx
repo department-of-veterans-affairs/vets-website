@@ -10,7 +10,7 @@ import {
   suppliesUi,
 } from '../utils/helpers';
 
-const Description = ({ formData }) => {
+export const Description = ({ formData }) => {
   const count = formData?.supplies?.length || 0;
 
   return (

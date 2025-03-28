@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
 import {
-  apiAccountStatusEnabled,
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
 } from '../selectors';
@@ -23,7 +22,6 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
-  const isAccountStatusApiEnabled = useSelector(apiAccountStatusEnabled);
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
   const mhvAccountStatusSortedErrors = useSelector(
     mhvAccountStatusErrorsSorted,
@@ -41,20 +39,20 @@ const CardLayout = ({ data }) => {
         )}
         key={`row-${x}`}
       >
-        {row.map((col, y) => (
-          <div
-            className={classnames(
-              'vads-l-col--12',
-              'medium-screen:vads-l-col',
-              'mhv-u-grid-gap',
-              'vads-u-margin-bottom--2',
-              'medium-screen:vads-u-margin-bottom--0',
-            )}
-            data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
-            key={`col-${y}`}
-          >
-            {isAccountStatusApiEnabled ? (
-              mhvAccountStatusSortedErrors.length > 0 &&
+        {row.map((col, y) => {
+          return (
+            <div
+              className={classnames(
+                'vads-l-col--12',
+                'medium-screen:vads-l-col',
+                'mhv-u-grid-gap',
+                'vads-u-margin-bottom--2',
+                'medium-screen:vads-u-margin-bottom--0',
+              )}
+              data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
+              key={`col-${y}`}
+            >
+              {mhvAccountStatusSortedErrors.length > 0 &&
               MHV_ACCOUNT_CARDS.includes(col.title) ? (
                 <ErrorNavCard
                   title={col.title}
@@ -63,12 +61,10 @@ const CardLayout = ({ data }) => {
                 />
               ) : (
                 <NavCard {...col} />
-              )
-            ) : (
-              <NavCard {...col} />
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   });

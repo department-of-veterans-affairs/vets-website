@@ -12,18 +12,24 @@ import VehiclePage from '../components/submit-flow/pages/VehiclePage';
 import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
-import BreadCrumbs from '../components/Breadcrumbs';
-import { selectAppointment } from '../redux/selectors';
-
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
-import { getAppointmentData } from '../redux/actions';
+
+import Breadcrumbs from '../components/Breadcrumbs';
+import { selectAppointment } from '../redux/selectors';
+import { HelpTextManage } from '../components/HelpText';
+import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
-  const { data, error, isLoading } = useSelector(selectAppointment);
+  const { data: appointmentData, error, isLoading } = useSelector(
+    selectAppointment,
+  );
+  const { error: submissionError } = useSelector(
+    state => state.travelPay.claimSubmission,
+  );
 
   const {
     useToggleValue,
@@ -38,15 +44,12 @@ const SubmitFlowWrapper = () => {
 
   useEffect(
     () => {
-      if (apptId && !data && !error) {
+      if (apptId && !appointmentData && !error) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, data, apptId, error],
+    [dispatch, appointmentData, apptId, error],
   );
-
-  // This will actually be handled by the redux action, but for now it lives here
-  const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [yesNo, setYesNo] = useState({
     mileage: '',
@@ -57,19 +60,16 @@ const SubmitFlowWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+  const [isAgreementError, setIsAgreementError] = useState(false);
 
   const onSubmit = () => {
     if (!isAgreementChecked) {
+      setIsAgreementError(true);
       scrollToFirstError();
       return;
     }
-    // Placeholder until actual submit is hooked up
-
-    // Uncomment to simulate successful submission
-    // setPageIndex(pageIndex + 1);
-
-    // Uncomment to simulate an error
-    setIsSubmissionError(true);
+    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
+    setPageIndex(pageIndex + 1);
   };
 
   const pageList = [
@@ -129,6 +129,7 @@ const SubmitFlowWrapper = () => {
           setPageIndex={setPageIndex}
           isAgreementChecked={isAgreementChecked}
           setIsAgreementChecked={setIsAgreementChecked}
+          isError={isAgreementError}
         />
       ),
     },
@@ -157,8 +158,8 @@ const SubmitFlowWrapper = () => {
 
   return (
     <Element name="topScrollElement">
-      <article className="usa-grid-full vads-u-margin-bottom--3">
-        <BreadCrumbs />
+      <article className="usa-grid-full vads-u-margin-bottom--0">
+        <Breadcrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
@@ -167,10 +168,17 @@ const SubmitFlowWrapper = () => {
               setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
-          {isSubmissionError && <SubmissionErrorPage />}
+          {submissionError && <SubmissionErrorPage />}
           {!isUnsupportedClaimType &&
-            !isSubmissionError &&
+            !submissionError &&
             pageList[pageIndex].component}
+          <div className="vads-u-margin-top--4">
+            <va-need-help>
+              <div slot="content">
+                <HelpTextManage />
+              </div>
+            </va-need-help>
+          </div>
         </div>
       </article>
     </Element>

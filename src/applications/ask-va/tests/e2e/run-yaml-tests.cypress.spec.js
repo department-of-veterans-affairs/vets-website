@@ -34,8 +34,11 @@ const executeSteps = steps => {
           case 'call-to-action-not-primary':
             STEPS.clickCallToActionButton(false, step.value);
             break;
-          case 'radio':
+          case 'radio': // TODO: Refactor into a single radio button function, if possible
             STEPS.clickRadioButton(step.value);
+            break;
+          case 'radioYesNo': // NOTE: This is a special case for radio buttons with 'Yes' and 'No' labels
+            STEPS.clickRadioButtonYesNo(step.value);
             break;
           case 'search':
             STEPS.clickSearchButton(step.value);

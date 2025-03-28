@@ -19,7 +19,7 @@ export const IntroductionPage = ({
   return (
     <article className="schemaform-intro">
       <FormTitle
-        title="Apply for education benefits as an eligible dependant"
+        title="Apply for education benefits as an eligible dependent"
         subTitle="Form 22-5490 (Dependent's Application for VA Education Benefits)"
       />
       <p>

@@ -39,7 +39,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   it('should display the correct number of appointments and expiration date', () => {
     expect(
       screen.getByText(
-        'You have been approved for 1 appointment. All appointments for this referral must be scheduled by July 1, 2025.',
+        'We’ve approved your community care referral. You must schedule all appointments for this referral by July 1, 2025.',
       ),
     ).to.exist;
   });
@@ -48,6 +48,6 @@ describe('VAOS Component: PendingReferralCard', () => {
     const link = screen.getByTestId('appointment-list-item');
     fireEvent.click(link);
     expect(handleClick.calledOnce).to.be.true;
-    expect(handleClick.calledWith(sinon.match.any, referral.UUID)).to.be.true;
+    expect(handleClick.calledWith(sinon.match.any, referral.uuid)).to.be.true;
   });
 });

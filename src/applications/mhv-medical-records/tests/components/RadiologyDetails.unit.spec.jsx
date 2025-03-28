@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach, it } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -11,8 +10,8 @@ import radiologyMhvWithImages from '../fixtures/radiologyMhvWithImages.json';
 import radiologyMhvWithImagesNew from '../fixtures/radiologyMhvWithImagesNew.json';
 import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
 import images from '../fixtures/images.json';
+import threeImageRequestInProgress from '../fixtures/threeImageRequestInProgress.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
-import * as helpers from '../../util/helpers';
 import {
   convertCvixRadiologyRecord,
   convertMhvRadiologyRecord,
@@ -30,8 +29,6 @@ describe('Radiology details component - images', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -145,8 +142,6 @@ describe('Radiology details component - image with error', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -203,8 +198,6 @@ describe('Radiology details component - new image', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -337,16 +330,6 @@ describe('Radiology details component', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
   });
-
-  it('should show a request images button', async () => {
-    const sendDataDogActionStub = sinon.stub(helpers, 'sendDataDogAction');
-
-    fireEvent.click(screen.getByTestId('radiology-images-link'));
-    await waitFor(() => {
-      expect(sendDataDogActionStub.calledOnce).to.be.true;
-      sendDataDogActionStub.restore();
-    });
-  });
 });
 
 describe('Radiology details component with missing fields', () => {
@@ -379,5 +362,58 @@ describe('Radiology details component with missing fields', () => {
         'None noted',
       );
     });
+  });
+});
+
+describe('Radiology details component - over request limit', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(radiologyMhvWithImages);
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images: {
+        ...threeImageRequestInProgress,
+        studyRequestLimitReached: true, // simulating request limit reached
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('should display the over-request limit message', () => {
+    const limitMessage = screen.getByText(
+      'You can’t request images for this report right now. You can only have 3 image requests at a time.',
+      {
+        exact: false,
+        selector: 'p',
+      },
+    );
+    expect(limitMessage).to.exist;
+  });
+
+  it('should not display the request images button', () => {
+    const requestButton = screen.queryByTestId(
+      'radiology-request-images-button',
+    );
+    expect(requestButton).to.be.null;
   });
 });

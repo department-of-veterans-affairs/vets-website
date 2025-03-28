@@ -7,7 +7,9 @@ import { SEARCH_QUERY_UPDATED } from '../actionTypes';
  * @param {Object} query The current state of the Search form
  */
 
-export const updateSearchQuery = query => ({
-  type: SEARCH_QUERY_UPDATED,
-  payload: { ...query },
-});
+export const updateSearchQuery = query => {
+  return {
+    type: SEARCH_QUERY_UPDATED,
+    payload: { ...query },
+  };
+};

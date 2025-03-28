@@ -5,9 +5,13 @@ import {
   internationalPhoneUI,
   emailUI,
   phoneSchema,
-  internationalPhoneSchema,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+const dependentsIntPhoneSchema = {
+  type: 'string',
+  pattern: /^\d{1,11}$/,
+};
 
 export const uiSchema = {
   veteranContactInformation: {
@@ -17,7 +21,13 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     internationalPhoneNumber: {
-      ...internationalPhoneUI('International phone number'),
+      ...internationalPhoneUI({
+        title: 'International phone number',
+        international: true,
+      }),
+      'ui:errorMessages': {
+        pattern: 'Enter a valid international phone number up to 11-digits',
+      },
     },
     emailAddress: {
       ...emailUI('Email address'),
@@ -45,7 +55,7 @@ export const schema = {
       type: 'object',
       properties: {
         phoneNumber: phoneSchema,
-        internationalPhoneNumber: internationalPhoneSchema,
+        internationalPhoneNumber: dependentsIntPhoneSchema,
         emailAddress: emailSchema,
         electronicCorrespondence: { type: 'boolean' },
       },

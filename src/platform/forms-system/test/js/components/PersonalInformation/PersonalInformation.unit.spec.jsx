@@ -41,7 +41,7 @@ describe('PersonalInformation', () => {
             ssn: { show: true, required: true },
             vaFileNumber: { show: true, required: true },
             dateOfBirth: { show: true, required: true },
-            gender: { show: true, required: true },
+            sex: { show: true, required: true },
           }}
         />,
         {
@@ -81,6 +81,9 @@ describe('PersonalInformation', () => {
           NavButtons={NavButtons}
           data={{}}
           errorMessage={errorMessage}
+          config={{
+            ssn: { show: true, required: true },
+          }}
         />,
         {
           initialState,
@@ -101,6 +104,9 @@ describe('PersonalInformation', () => {
           NavButtons={NavButtons}
           data={{}}
           errorMessage={CustomErrorMessage}
+          config={{
+            ssn: { show: true, required: true },
+          }}
         />,
         {
           initialState,
@@ -114,7 +120,13 @@ describe('PersonalInformation', () => {
   describe('rendering the PersonalInformation component and error message when no data is present', () => {
     it('should render the error message', () => {
       const view = renderInReduxProvider(
-        <PersonalInformation NavButtons={NavButtons} data={{}} />,
+        <PersonalInformation
+          NavButtons={NavButtons}
+          data={{}}
+          config={{
+            ssn: { show: true, required: true },
+          }}
+        />,
         {
           initialState,
         },
@@ -133,7 +145,7 @@ describe('PersonalInformation', () => {
           config={{
             name: { show: true, required: false },
             ssn: { show: true, required: false },
-            gender: { show: true, required: false },
+            sex: { show: true, required: false },
             vaFileNumber: { show: true, required: false },
             dateOfBirth: { show: true, required: false },
           }}
@@ -152,7 +164,7 @@ describe('PersonalInformation', () => {
       expect(view.getByTestId('ssn-not-available')).to.exist;
       expect(view.getByTestId('va-file-number-not-available')).to.exist;
       expect(view.getByTestId('dob-not-available')).to.exist;
-      expect(view.getByTestId('gender-not-available')).to.exist;
+      expect(view.getByTestId('sex-not-available')).to.exist;
     });
   });
 

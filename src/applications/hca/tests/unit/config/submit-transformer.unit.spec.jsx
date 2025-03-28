@@ -110,21 +110,4 @@ describe('hca `submitTransformer` utility', () => {
       recordEventStub.restore();
     });
   });
-
-  it('should fire `recordEvent` method with correct event data when `SIGI` value has been provided', async () => {
-    const recordEventStub = sinon.stub(recordEventModule, 'default');
-    const testData = {
-      ...minTestData,
-      'view:isSigiEnabled': true,
-      sigiGenders: 'F',
-    };
-    const eventData = { event: 'hca-submission-with-sigi-value' };
-    const form = getForm({ formData: testData });
-
-    await waitFor(() => {
-      submitTransformer(formConfig, form);
-      expect(recordEventStub.calledWith(eventData)).to.be.true;
-      recordEventStub.restore();
-    });
-  });
 });

@@ -178,6 +178,9 @@ export const setup = (cy, testOptions = {}) => {
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
+    }
 
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
@@ -211,7 +214,7 @@ export const reviewAndSubmitPageFlow = (
   }).click();
 };
 
-export const pageHooks = cy => ({
+export const pageHooks = (cy, testOptions) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -278,6 +281,12 @@ export const pageHooks = cy => ({
         data.serviceInformation.separationLocation.label,
       );
     });
+  },
+
+  'new-disabilities/ptsd-intro': () => {
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      throw new Error(`Unexpectedly showing old 0781 page`);
+    }
   },
 
   'new-disabilities/add': () => {

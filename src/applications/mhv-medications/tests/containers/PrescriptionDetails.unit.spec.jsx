@@ -262,4 +262,20 @@ describe('Prescription details container', () => {
       );
     });
   });
+
+  it('should display alert if prescription has a prescriptionSource of PD', () => {
+    const stateWPrescriptionSource = {
+      ...initialState,
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            ...rxDetailsResponse.data.attributes,
+            prescriptionSource: 'PD',
+          },
+        },
+      },
+    };
+    const screen = setup(stateWPrescriptionSource);
+    expect(screen.getByTestId('pending-med-alert')).to.exist;
+  });
 });

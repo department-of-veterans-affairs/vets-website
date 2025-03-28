@@ -115,20 +115,20 @@ describe('Supporting documents pension page', () => {
         expect(supportingDocumentsList).to.exist;
         expect(
           within(supportingDocumentsList).getAllByRole('listitem'),
-        ).to.have.length(6);
+        ).to.have.length(4);
         const additionalEvidenceList = getByTestId('additional-evidence-list');
         expect(additionalEvidenceList).to.exist;
         const additionalEvidenceListItems = container.querySelectorAll(
           'va-accordion-item',
         );
-        expect(additionalEvidenceListItems).to.have.length(2);
+        expect(additionalEvidenceListItems).to.have.length(5);
       });
     });
 
     it('should not render special monthly pension items based on form data', async () => {
       const onSubmit = sinon.spy();
       const { data } = getData({ loggedIn: true });
-      const { getByTestId, queryByTestId } = render(
+      const { container, getByTestId } = render(
         <Provider store={mockStore(data)}>
           <DefinitionTester
             definitions={definitions}
@@ -147,11 +147,13 @@ describe('Supporting documents pension page', () => {
         expect(supportingDocumentsList).to.exist;
         expect(
           within(supportingDocumentsList).getAllByRole('listitem'),
-        ).to.have.length(5);
-        const additionalEvidenceList = queryByTestId(
-          'additional-evidence-list',
+        ).to.have.length(3);
+        const additionalEvidenceList = getByTestId('additional-evidence-list');
+        expect(additionalEvidenceList).to.exist;
+        const additionalEvidenceListItems = container.querySelectorAll(
+          'va-accordion-item',
         );
-        expect(additionalEvidenceList).to.be.null;
+        expect(additionalEvidenceListItems).to.have.length(3);
       });
     });
   });

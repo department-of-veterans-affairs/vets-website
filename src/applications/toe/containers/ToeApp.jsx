@@ -28,6 +28,7 @@ function ToeApp({
   isLOA3,
   isLoggedIn,
   location,
+  mebDpoAddressOptionEnabled,
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -209,6 +210,18 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
+    },
+    [formData, setFormData, mebDpoAddressOptionEnabled],
+  );
+
+  useEffect(
+    () => {
       if (dob !== formData?.dob) {
         setFormData({
           ...formData,
@@ -266,6 +279,7 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,

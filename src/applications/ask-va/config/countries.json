@@ -161,6 +161,12 @@
       "countryCodeFIPS": "BL"
     },
     {
+      "countryName": "Bonaire, Sint Eustatius and Saba",
+      "countryCodeISO2": "BQ",
+      "countryCodeISO3": "BES",
+      "countryCodeFIPS": "NL"
+    },
+    {
       "countryName": "Bosnia and Herzegovina",
       "countryCodeISO2": "BA",
       "countryCodeISO3": "BIH",
@@ -337,6 +343,12 @@
       "countryCodeISO2": "CU",
       "countryCodeISO3": "CUB",
       "countryCodeFIPS": "CU"
+    },
+    {
+      "countryName": "Curaçao",
+      "countryCodeISO2": "CW",
+      "countryCodeISO3": "CUW",
+      "countryCodeFIPS": "UC"
     },
     {
       "countryName": "Cyprus",
@@ -923,12 +935,6 @@
       "countryCodeFIPS": "NL"
     },
     {
-      "countryName": "Netherlands Antilles",
-      "countryCodeISO2": "AN",
-      "countryCodeISO3": "ANT",
-      "countryCodeFIPS": "NT"
-    },
-    {
       "countryName": "New Caledonia",
       "countryCodeISO2": "NC",
       "countryCodeISO3": "NCL",
@@ -1468,7 +1474,7 @@
     },
     {
       "countryName": "Saint Maarten",
-      "countryCodeISO2": "NN",
+      "countryCodeISO2": "SX",
       "countryCodeISO3": "SXM",
       "countryCodeFIPS": "SX"
     },
@@ -1479,4 +1485,3 @@
       "countryCodeFIPS": "TB"
     }
   ]
-  

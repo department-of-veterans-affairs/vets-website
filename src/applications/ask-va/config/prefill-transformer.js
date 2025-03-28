@@ -1,29 +1,49 @@
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillPersonalInformation = data => {
+    const personalInfo = data?.personalInformation || {};
+    const veteranInfo = data?.veteranServiceInformation || {};
+
+    const {
+      serviceNumber,
+      socialSecurityNumber,
+      ...restPersonalInfo
+    } = personalInfo;
+
+    const socialOrServiceNum = {};
+    if (serviceNumber) socialOrServiceNum.serviceNumber = serviceNumber;
+    if (socialSecurityNumber) socialOrServiceNum.ssn = socialSecurityNumber;
+
     return {
       aboutYourself: {
-        ...data.personalInformation,
-        socialOrServiceNum: {
-          serviceNumber: data.personalInformation.serviceNumber,
-          ssn: data.personalInformation.socialSecurityNumber,
-        },
-        ...data.veteranServiceInformation,
+        ...restPersonalInfo,
+        ...(Object.keys(socialOrServiceNum).length > 0 && {
+          socialOrServiceNum,
+        }),
+        ...veteranInfo,
       },
     };
   };
 
   const prefillContactInformation = data => {
+    const contactInfo = data?.contactInformation || {};
+    const avaProfile = data?.avaProfile || {};
+
+    const { phone, email, ...restContactInfo } = contactInfo;
+    const { businessPhone } = avaProfile;
+
     return {
-      ...data.contactInformation,
-      ...data.avaProfile,
-      phoneNumber: data.contactInformation.phone,
-      emailAddress: data.contactInformation.email,
+      ...restContactInfo,
+      ...avaProfile,
+      phoneNumber: phone || '',
+      emailAddress: email || '',
+      businessPhone: businessPhone || '',
+      businessEmail: email || '',
     };
   };
 
   const prefillFormData = {
-    ...prefillPersonalInformation(formData),
-    ...prefillContactInformation(formData),
+    ...prefillPersonalInformation(formData || {}),
+    ...prefillContactInformation(formData || {}),
   };
 
   return {

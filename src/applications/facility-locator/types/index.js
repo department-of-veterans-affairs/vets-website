@@ -198,14 +198,12 @@ export const RouterTypes = PropTypes.shape({
 });
 
 export const FacilitiesMapTypes = {
-  clearGeocodeError: PropTypes.func,
   clearSearchResults: PropTypes.func,
-  clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
+  facilityLocatorMobileMapUpdate: PropTypes.bool,
   fetchVaFacility: PropTypes.func,
   genBBoxFromAddress: PropTypes.func,
   genSearchAreaFromCenter: PropTypes.func,
-  geolocateUser: PropTypes.func,
   location: LocationTypes,
   mapMoved: PropTypes.func,
   pagination: PaginationTypes,
@@ -215,23 +213,97 @@ export const FacilitiesMapTypes = {
   route: PropTypes.any,
   routeParams: PropTypes.any,
   router: RouterTypes,
-  searchError: PropTypes.shape(PropTypes.any),
+  searchError: PropTypes.string,
   searchWithBounds: PropTypes.func,
   selectedResult: PropTypes.any,
   specialties: PropTypes.any,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
 };
 
-export const SearchControlsTypes = {
+export const SearchFormTypes = {
   clearGeocodeError: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
   geolocateUser: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  searchInitiated: PropTypes.bool,
+  selectMobileMapPin: PropTypes.func,
+  setSearchInitiated: PropTypes.func,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
+  vamcServiceDisplay: PropTypes.string,
+};
+
+export const ServiceTypeInputTypes = {
+  currentQuery: CurrentQueryTypes,
+  getProviderSpecialties: PropTypes.func,
+  handleServiceTypeChange: PropTypes.func,
+  isMobile: PropTypes.bool,
+  isSmallDesktop: PropTypes.bool,
+  isTablet: PropTypes.bool,
+  results: ResultsTypes,
+  searchInitiated: PropTypes.bool,
+  selectedServiceType: PropTypes.string,
+  setSearchInitiated: PropTypes.func,
+  useProgressiveDisclosure: PropTypes.bool,
+  vamcAutoSuggestEnabled: PropTypes.bool,
+  onChange: PropTypes.func,
+};
+
+/**
+ * AutosuggesOptionComponent: default uses the AutosuggestOption component in this directory but you can supply another
+ * inputValue: controlled component
+ * keepDataOnBlur: optional flag to clear the input on escape
+ * downshiftInputProps: props to pass to the input from downshift's getInputProps
+ * inputError: optional element to render an error message
+ * inputId: defaults to 'typeahead-input'
+ * inputRef: not required, use only if you programmatically need to focus the input or get something from it
+ * isLoading: data is loading - to be shown in place of no results if no results is to be shown
+ * labelSibling: optional element to render next to the label
+ * noItemsMessage: message to show when no items are found (an error)
+ * showDownCaret: optional flag to show the down caret/arrow
+ * showError: optional flag to show the error state
+ * stateReducer: optional function to modify the state of Downshift - e.g. handle escape to not clear
+ * shouldShowNoResults: optional to hide show no results under input - shown with aria error role
+ */
+export const AutosuggestProps = {
+  AutosuggestOptionComponent: PropTypes.elementType,
+  clearOnEscape: PropTypes.bool,
+  downshiftInputProps: PropTypes.object,
+  handleOnSelect: PropTypes.func.isRequired,
+  initialSelectedItem: PropTypes.object,
+  inputContainerClassName: PropTypes.string,
+  inputError: PropTypes.element,
+  inputId: PropTypes.string,
+  inputRef: PropTypes.object,
+  isItemDisabled: PropTypes.func,
+  isLoading: PropTypes.bool,
+  inputValue: PropTypes.string.isRequired,
+  itemToString: PropTypes.func,
+  keepDataOnBlur: PropTypes.bool,
+  label: PropTypes.element.isRequired,
+  labelSibling: PropTypes.element,
+  loadingMessage: PropTypes.string,
+  noItemsMessage: PropTypes.string,
+  onClearClick: PropTypes.func.isRequired,
+  onInputValueChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  shouldShowNoResults: PropTypes.bool,
+  showDownCaret: PropTypes.bool,
+  showError: PropTypes.bool,
+  stateReducer: PropTypes.func,
+  useProgressiveDisclosure: PropTypes.bool,
+};
+
+export const SearchAreaControlTypes = {
+  handleSearchArea: PropTypes.func.isRequired,
+  isEnabled: PropTypes.bool.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  mobileMapUpdateEnabled: PropTypes.bool.isRequired,
+  query: PropTypes.shape({
+    currentRadius: PropTypes.number,
+  }),
+  selectMobileMapPin: PropTypes.func,
 };

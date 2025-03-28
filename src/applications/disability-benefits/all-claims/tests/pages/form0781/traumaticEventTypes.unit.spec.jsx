@@ -27,7 +27,7 @@ describe('Traumatic event types', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalForms.pages.eventTypes;
+  } = formConfig.chapters.mentalHealth.pages.eventTypes;
 
   it('should define a uiSchema object', () => {
     expect(eventTypes.uiSchema).to.be.an('object');
