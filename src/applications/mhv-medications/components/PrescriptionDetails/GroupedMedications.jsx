@@ -39,7 +39,7 @@ const GroupedMedications = props => {
   );
 
   const onPageChange = page => {
-    datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_PAGINATION);
+    datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_PAGINATION);
     setCurrentPage(page);
     waitForRenderThenFocus('#list-showing-info', document);
   };
