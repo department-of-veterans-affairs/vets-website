@@ -5,7 +5,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import { STATUSES } from '../constants';
+import { STATUSES, FORM_100998_LINK } from '../constants';
 
 const title = 'Your travel reimbursement claim';
 
@@ -45,7 +45,9 @@ export default function ClaimDetailsContent({
       </span>
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle &&
-        documents?.length > 0 && <DocumentSection documents={documents} />}
+        documents?.length > 0 && (
+          <DocumentSection claimStatus={claimStatus} documents={documents} />
+        )}
       {claimsMgmtToggle &&
         claimStatus === STATUSES.Denied.name && <AppealContent />}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
@@ -110,9 +112,10 @@ function AppealContent() {
   );
 }
 
-function DocumentSection({ documents }) {
+function DocumentSection({ documents, claimStatus }) {
   const documentCategories = documents.reduce(
     (acc, doc) => {
+      // Do not show clerk note attachments
       if (!doc.mimetype) return acc;
       // TODO: Solidify on pattern match criteria for decision letter, other statically named docs
       if (doc.filename.includes('DecisionLetter')) acc.clerk.push(doc);
@@ -140,26 +143,29 @@ function DocumentSection({ documents }) {
     ));
 
   return (
-    <>
+    <div className="vads-u-margin-bottom--3">
       <h2 className="vads-u-font-size--h3">Documents</h2>
       <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
         Documents the clerk submitted
       </h3>
       {getDocLinkList(documentCategories.clerk)}
-      <div className="vads-u-margin-top--2">
-        <va-link
-          href="#"
-          text="Download VA Form 10-0998 (PDF) to seek further review of our healthcare benefits decision"
-        />
-      </div>
+      {claimStatus === STATUSES.Denied.name && (
+        <div className="vads-u-margin-top--2">
+          <va-link
+            href={FORM_100998_LINK}
+            text="Download VA Form 10-0998 (PDF) to seek further review of our healthcare benefits decision"
+          />
+        </div>
+      )}
       <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
         Documents you submitted
       </h3>
       {getDocLinkList(documentCategories.other)}
-    </>
+    </div>
   );
 }
 
 DocumentSection.propTypes = {
+  claimStatus: PropTypes.string,
   documents: PropTypes.array,
 };
