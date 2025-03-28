@@ -201,13 +201,15 @@ export const allSelectedBehaviorTypes = formData => {
 
 export function orphanedBehaviorDetails(formData) {
   const updatedSelections = allSelectedBehaviorTypes(formData);
-  const existingDetails = formData.behaviorsDetails;
 
-  // if no existing details, return empty object
+  const existingDetails = formData.behaviorsDetails;
 
   const orphanedObject = {};
   if (Object.keys(updatedSelections).length === 0) {
-    Object.keys(existingDetails).forEach(behaviorType => {
+    Object.entries(existingDetails).forEach(([behaviorType, detail]) => {
+      if (!detail) {
+        return; // skip if detail is empty string or undefined
+      }
       const behaviorTypeDescription =
         behaviorType === 'unlisted'
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
@@ -215,8 +217,9 @@ export function orphanedBehaviorDetails(formData) {
       orphanedObject[behaviorType] = behaviorTypeDescription;
     });
   } else {
-    Object.keys(existingDetails).forEach(behaviorType => {
+    Object.entries(existingDetails).forEach(([behaviorType, detail]) => {
       if (
+        !!detail &&
         !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
       ) {
         const behaviorTypeDescription =
