@@ -2,7 +2,10 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
-import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
+import {
+  createOAuthRequest,
+  createOktaOAuthRequest,
+} from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { externalApplicationsConfig } from './usip-config';
 import {
@@ -265,6 +268,27 @@ export function sessionTypeUrl({
           }),
         }
       : {};
+
+  if (clientId === 'okta_test') {
+    return createOktaOAuthRequest({
+      application,
+      clientId,
+      type,
+      config,
+      passedQueryParams: {
+        codeChallenge,
+        codeChallengeMethod,
+        ...(gaClientId && { gaClientId }),
+        // ...(scope && { scope }),
+        ...(queryParams.operation && { operation: queryParams.operation }),
+      },
+
+      passedOptions: {
+        isSignup,
+        forceVerify,
+      },
+    });
+  }
 
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
