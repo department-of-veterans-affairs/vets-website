@@ -351,6 +351,7 @@ describe('genBBoxFromAddress', () => {
       // If successful, verify SEARCH_QUERY_UPDATED was dispatched
       const searchQueryUpdate = mockDispatch.getCall(2).args[0];
       expect(searchQueryUpdate.type).to.equal('SEARCH_QUERY_UPDATED');
+      // Have to verify individually because the sinon match and deep equal don't work on nested arrays of objects
       expect(searchQueryUpdate.payload.context).to.equal(
         mockFeature.place_name,
       );
@@ -371,44 +372,4 @@ describe('genBBoxFromAddress', () => {
       });
     }
   });
-
-  // it('should handle postcode search differently', async () => {
-  //   const postcodeQuery = {
-  //     searchString: '20007',
-  //     facilityType: LocationType.HEALTH,
-  //   };
-
-  //   const thunk = genBBoxFromAddress(postcodeQuery);
-  //   await thunk(mockDispatch);
-
-  //   // Verify initial dispatch
-  //   expect(mockDispatch.getCall(0).args[0].type).to.equal('GEOCODE_STARTED');
-
-  //   // Wait for the API call to complete
-  //   expect(mockDispatch.callCount).to.be.at.least(2);
-
-  //   // Verify the last dispatch is either GEOCODE_COMPLETE or GEOCODE_FAILED
-  //   const lastDispatch = mockDispatch.lastCall.args[0];
-  //   expect(['GEOCODE_COMPLETE', 'GEOCODE_FAILED']).to.include(
-  //     lastDispatch.type,
-  //   );
-
-  //   if (lastDispatch.type === 'GEOCODE_COMPLETE') {
-  //     // If successful, verify SEARCH_QUERY_UPDATED was dispatched
-  //     const searchQueryUpdate = mockDispatch.getCall(1).args[0];
-  //     expect(searchQueryUpdate.type).to.equal('SEARCH_QUERY_UPDATED');
-  //     expect(searchQueryUpdate.payload).to.include({
-  //       radius: sinon.match.number,
-  //       context: sinon.match.string,
-  //       inProgress: true,
-  //       position: sinon.match.object,
-  //       searchCoords: sinon.match.object,
-  //       bounds: sinon.match.array,
-  //       zoomLevel: sinon.match.number,
-  //       currentPage: 1,
-  //       mapBoxQuery: sinon.match.object,
-  //       searchArea: null,
-  //     });
-  //   }
-  // });
 });
