@@ -39,7 +39,7 @@ const GroupedMedications = props => {
   );
 
   const onPageChange = page => {
-    datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_PAGINATION);
+    datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_PAGINATION);
     setCurrentPage(page);
     waitForRenderThenFocus('#list-showing-info', document);
   };
@@ -54,7 +54,7 @@ const GroupedMedications = props => {
   return (
     <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3 vads-u-margin-top--3">
       <section className="vads-u-margin-y--3" data-testid="previous-rx">
-        <h3>Previous prescriptions</h3>
+        <h2 className="vads-u-font-size--lg">Previous prescriptions</h2>
         <p
           className="vads-u-font-family--sans"
           id="list-showing-info"
@@ -76,7 +76,9 @@ const GroupedMedications = props => {
                 key={rx.prescriptionId}
               >
                 <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
-                  <h4>Prescription number: {rx.prescriptionNumber}</h4>
+                  <h3 className="vads-u-font-size--md vads-u-font-family--sans">
+                    Prescription number: {rx.prescriptionNumber}
+                  </h3>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
                   <LastFilledInfo {...rx} />

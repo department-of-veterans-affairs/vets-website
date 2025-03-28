@@ -250,6 +250,12 @@ export const pagesToMoveConfig = {
     'yourVRECounselor_generalquestion',
   ],
   schoolInformation: [
+    'searchSchools_aboutmyselfrelationshipveteran',
+    'useThisSchool_aboutmyselfrelationshipveteran',
+    'schoolInYourProfile_aboutmyselfrelationshipveteran',
+    'searchSchools_aboutmyselfrelationshipfamilymember',
+    'useThisSchool_aboutmyselfrelationshipfamilymember',
+    'schoolInYourProfile_aboutmyselfrelationshipfamilymember',
     'searchSchools_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'schoolInYourProfile_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'stateOfFacility_aboutsomeoneelserelationshipconnectedthroughworkeducation',
@@ -298,4 +304,16 @@ export const chapterTitles = {
   yourContactInformation: 'Your contact information',
   yourMailingAddress: 'Your mailing address',
   yourQuestion: 'Your question',
+};
+
+// Checking aboutTheFamilyMember and aboutTheVeteran objects for valid values
+export const hasValidValues = obj => {
+  if (typeof obj !== 'object' || obj === null) return false;
+
+  return Object.values(obj).some(value => {
+    if (value !== undefined && value !== null) {
+      return typeof value === 'object' ? hasValidValues(value) : true;
+    }
+    return false;
+  });
 };

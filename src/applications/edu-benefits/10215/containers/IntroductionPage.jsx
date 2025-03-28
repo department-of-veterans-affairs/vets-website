@@ -72,7 +72,7 @@ const IntroductionPage = ({ route }) => {
         <va-link
           external
           text="Review the calculation instructions"
-          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         />
       </p>
 
@@ -186,7 +186,7 @@ const IntroductionPage = ({ route }) => {
             Form 22-10216). Detailed instructions are provided on that form.{' '}
             <va-link
               text="Go to VA Form 22-10216"
-              href="/education/apply-for-education-benefits/application/10216/introduction"
+              href="/school-administrators/35-percent-exemption/introduction"
             />
             .
           </p>
