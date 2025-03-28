@@ -18,7 +18,7 @@ import {
 } from '../../../pages/form0781/officialReport';
 import {
   officialReportPageTitle,
-  reportTypesQuestion,
+  otherReportsHint,
   otherReportTypesTitle,
   selectedReportTypes,
   showConflictingAlert,
@@ -51,7 +51,7 @@ describe('Official report without MST event type', () => {
 
     expect($$('va-checkbox-group', container).length).to.equal(2);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
-      reportTypesQuestion,
+      otherReportsHint,
     );
 
     Object.values(OTHER_REPORT_TYPES).forEach(option => {
