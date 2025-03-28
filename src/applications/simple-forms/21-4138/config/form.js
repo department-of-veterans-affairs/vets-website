@@ -111,7 +111,7 @@ const formConfig = {
         layWitnessStatementPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.BUDDY_STATEMENT,
-          path: 'statement-type/recommend-lay-witness-statement-form-21-10210',
+          path: 'lay-witness-statement',
           title: "There's a better way to submit your statement",
           uiSchema: layWitnessStatementPage.uiSchema,
           schema: layWitnessStatementPage.schema,
