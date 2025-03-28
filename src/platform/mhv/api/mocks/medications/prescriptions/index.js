@@ -1,4 +1,5 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
+const prescriptionsList = require('../../../../../../applications/mhv-medications/tests/fixtures/prescriptionsList.json'); // Import prescriptionsList.json
 
 function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
@@ -93,6 +94,8 @@ function mockPrescription(n = 0, attrs = {}) {
 }
 
 function mockPrescriptionArray(n = 20) {
+  const realPrescriptions = prescriptionsList.data;
+
   return [...Array(n)].map((_, i) => {
     const today = new Date();
     const someDate = sub(today, { days: i * 2 + 1 });
@@ -103,16 +106,40 @@ function mockPrescriptionArray(n = 20) {
     const recentlyISOString = formatISO(recently);
     const statusString =
       differenceInDays(today, someDate) > 14 ? 'Expired' : 'Active';
-    const prescriptionName = String.fromCodePoint(65 + i).repeat(5);
+
+    const realPrescription =
+      realPrescriptions[i % realPrescriptions.length].attributes;
 
     return mockPrescription(i, {
-      lastFilledDate: formatISO(monthsAgo),
-      refillDate: recentlyISOString,
-      refillSubmitDate: formatISO(oneWeekAgo),
-      sortedDispensedDate: recentlyISOString,
-      dispStatus: statusString,
-      refillStatus: statusString,
-      prescriptionName,
+      prescriptionName: realPrescription.prescriptionName,
+      refillStatus: realPrescription.refillStatus,
+      refillSubmitDate:
+        realPrescription.refillSubmitDate || formatISO(oneWeekAgo),
+      refillDate: realPrescription.refillDate || recentlyISOString,
+      refillRemaining: realPrescription.refillRemaining,
+      facilityName: realPrescription.facilityName,
+      orderedDate: realPrescription.orderedDate || formatISO(monthsAgo),
+      quantity: realPrescription.quantity,
+      expirationDate: realPrescription.expirationDate,
+      dispensedDate: realPrescription.dispensedDate || recentlyISOString,
+      stationNumber: realPrescription.stationNumber,
+      isRefillable: realPrescription.isRefillable,
+      isTrackable: realPrescription.isTrackable,
+      sig: realPrescription.sig,
+      cmopDivisionPhone: realPrescription.cmopDivisionPhone || '(555) 555-5555',
+      dialCmopDivisionPhone:
+        realPrescription.dialCmopDivisionPhone || '5555555555',
+      notRefillableDisplayMessage: realPrescription.notRefillableDisplayMessage,
+      providerFirstName: realPrescription.providerFirstName,
+      providerLastName: realPrescription.providerLastName,
+      remarks: realPrescription.remarks,
+      divisionName: realPrescription.divisionName,
+      dispStatus: realPrescription.dispStatus || statusString,
+      ndc: realPrescription.ndc,
+      reason: realPrescription.reason,
+      prescriptionSource: realPrescription.prescriptionSource,
+      indicationForUse: realPrescription.indicationForUse,
+      category: realPrescription.category,
     });
   });
 }
