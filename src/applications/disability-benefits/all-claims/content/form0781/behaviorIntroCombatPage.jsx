@@ -11,3 +11,6 @@ export const optOutOfCombatQuestionsChoice =
 
 export const deleteCombatAnswersModalTitle =
   'Change to skip questions about behavioral changes?';
+
+export const missingSelectionErrorMessage =
+  'A response is needed for this question. If you don’t wish to answer optional questions about behavioral changes, you may select ‘no’ and continue.';

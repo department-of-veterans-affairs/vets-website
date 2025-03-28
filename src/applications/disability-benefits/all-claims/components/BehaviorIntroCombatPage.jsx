@@ -7,15 +7,25 @@ import React, { useState } from 'react';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { mentalHealthSupportAlert } from '../content/form0781';
-import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
-import { checkValidations } from '../utils/submit';
+import PropTypes from 'prop-types';
+import {
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+  titleWithTag,
+} from '../content/form0781';
+import {
+  behaviorPageTitle,
+  hasSelectedBehaviors,
+} from '../content/form0781/behaviorListPages';
+import { checkValidations } from '../../../appeals/shared/validations';
+
 import { BehaviorIntroCombatPageModalContent } from './BehaviorIntroCombatPageModalContent';
 import {
   answerCombatQuestionsChoice,
   combatIntroDescription,
   combatIntroTitle,
   deleteCombatAnswersModalTitle,
+  missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
 
@@ -25,9 +35,6 @@ const DELETABLE_FORM_DATA_KEYS = [
   'otherBehaviors',
   'behaviorsDetails',
 ];
-
-export const missingSelectionErrorMessage =
-  'A response is needed for this question. If you don’t wish to answer optional questions about behavioral changes, you may select ‘no’ and continue.';
 
 const BehaviorIntroCombatPage = ({
   goBack,
@@ -51,7 +58,6 @@ const BehaviorIntroCombatPage = ({
     }
   };
 
-  // NOTE: this and checkValidaitons is lifted from appeals
   const checkErrors = (formData = data) => {
     const error = checkValidations([missingSelection], optIn, formData);
     const result = error?.[0] || null;
@@ -61,19 +67,11 @@ const BehaviorIntroCombatPage = ({
   };
 
   const deleteBehavioralAnswers = () => {
-    // Ask roibin about lodash support or look at my notes
     const deepClone = cloneDeep(data);
 
     DELETABLE_FORM_DATA_KEYS.forEach(key => {
-      // Careful about this: JR ran through each key and check data type if string
-      // If keys are missing might cause problems
-      // Shared funciton: JR has some code we cmnight be able to use
-      // DONT DO THIS RESET ALL TO FALSE
       deepClone[key] = {};
     });
-
-    // what happens when you go back? Set this to false when you choose opt in?
-    deepClone['view:deletedBehavioralQuestionAnswers'] = true;
 
     setFormData(deepClone);
   };
@@ -89,7 +87,7 @@ const BehaviorIntroCombatPage = ({
           'view:answerCombatBehaviorQuestions': value,
         };
         setFormData(formData);
-        // ?????? setFormData lags a little, so check updated data
+        // setFormData lags a little, so check updated data
         checkErrors(formData);
       }
     },
@@ -97,8 +95,7 @@ const BehaviorIntroCombatPage = ({
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
-        // hasSelectedBehaviors indicates they checked behavior changes boxes
-        // on the next page, behaviorListPage
+        // hasSelectedBehaviors returns true if user selected behaviors already on the succeeding page, BehaviorListPage
       } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
         setShowModal(true);
       } else if (optIn) {
@@ -119,16 +116,8 @@ const BehaviorIntroCombatPage = ({
   };
 
   return (
-    // TODO: CHECK IF CAN USE HELPER FUNCTION TO RENDER THESE INSTEAD OF INLINE
     <div className="vads-u-margin-y--2">
-      <>
-        <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
-          VA FORM 21-0781
-        </h3>
-        <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
-          Behavioral Changes
-        </h3>
-      </>
+      {titleWithTag(behaviorPageTitle, form0781HeadingTag)}
 
       <p>{combatIntroDescription}</p>
 
@@ -145,8 +134,6 @@ const BehaviorIntroCombatPage = ({
         <BehaviorIntroCombatPageModalContent formData={data} />
       </VaModal>
 
-      {/* Do we need to register the handler in both the onSubmit and the go forward? */}
-      {/* Scott and Allison also noticed it doesn't seem to matter */}
       <form onSubmit={handlers.onSubmit}>
         <div />
         <VaRadio
@@ -156,7 +143,6 @@ const BehaviorIntroCombatPage = ({
           error={hasError}
           onVaValueChange={handlers.onSelection}
           required
-          // Think we need this but not sure why:
           uswds
         >
           <va-radio-option
@@ -188,7 +174,14 @@ const BehaviorIntroCombatPage = ({
   );
 };
 
-// Proptypes validation?
-// Look at JR's example
+BehaviorIntroCombatPage.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+};
 
 export default BehaviorIntroCombatPage;
