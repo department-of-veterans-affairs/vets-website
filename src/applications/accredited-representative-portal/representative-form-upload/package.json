@@ -1,5 +1,5 @@
 {
-  "name": "@department-of-veterans-affairs/applications-accredited-representative-portal",
+  "name": "@department-of-veterans-affairs/applications-representative-form-upload",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
