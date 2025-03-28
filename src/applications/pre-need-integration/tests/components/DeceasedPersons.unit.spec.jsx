@@ -5,6 +5,7 @@ import SkinDeep from 'skin-deep';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
+import * as validation from 'platform/forms-system/src/js/validation';
 import DeceasedPersons from '../../components/DeceasedPersons';
 
 const mockStore = configureStore([]);
@@ -243,6 +244,247 @@ describe('DeceasedPersons Component', () => {
     instance.onItemChange(0, { name: { first: 'Jane', last: 'Doe' } });
 
     expect(defaultProps.onChange.calledOnce).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('should handle add correctly when errorSchemaIsValid returns false', () => {
+    // Stub errorSchemaIsValid to always return false
+    const stub = sinon.stub(validation, 'errorSchemaIsValid').returns(false);
+
+    // Extend defaultProps to include a top-level formContext for this test
+    const errorProps = {
+      ...defaultProps,
+      formContext: { setTouched: sinon.spy() },
+      // errorSchema can be left empty since our stub returns false regardless
+      errorSchema: {},
+    };
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...errorProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+
+    // Call handleAdd which should trigger the else branch
+    instance.handleAdd();
+
+    // Assert that the formContext.setTouched function was called once
+    expect(errorProps.formContext.setTouched.calledOnce).to.be.true;
+
+    stub.restore();
+    wrapper.unmount();
+  });
+
+  it('should throw an error if no viewField is provided', () => {
+    const propsWithoutViewField = {
+      ...defaultProps,
+      uiSchema: { 'ui:options': {} },
+    };
+    expect(() =>
+      SkinDeep.shallowRender(<DeceasedPersons {...propsWithoutViewField} />),
+    ).to.throw('No viewField found in uiSchema for DeceasedPersons');
+  });
+
+  it('should call onChange with default items when formData is empty and schema.minItems > 0', () => {
+    const didMountProps = {
+      ...defaultProps,
+      formData: [],
+      schema: { ...defaultProps.schema, minItems: 1, additionalItems: {} },
+    };
+    const onChangeSpy = sinon.spy();
+    didMountProps.onChange = onChangeSpy;
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...didMountProps} />
+      </Provider>,
+    );
+    expect(onChangeSpy.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should call scrollToRow and focusOnFirstFocusableElement when handleEdit is called', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...defaultProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.scrollToRow = sinon.spy();
+    instance.focusOnFirstFocusableElement = sinon.spy();
+    instance.handleEdit(0);
+    expect(instance.scrollToRow.calledOnce).to.be.true;
+    expect(instance.focusOnFirstFocusableElement.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should update editing state and call scrollToTop when handleUpdate is called and errorSchemaIsValid returns true', () => {
+    const stub = sinon.stub(validation, 'errorSchemaIsValid').returns(true);
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...defaultProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.scrollToTop = sinon.spy();
+    instance.focusOnFirstFocusableElement = sinon.spy();
+
+    instance.handleUpdate(0);
+    expect(instance.state.editing[0]).to.be.false;
+    expect(instance.state.showSave[0]).to.be.false;
+    expect(instance.scrollToTop.calledOnce).to.be.true;
+    expect(instance.focusOnFirstFocusableElement.calledOnce).to.be.true;
+
+    stub.restore();
+    wrapper.unmount();
+  });
+
+  it('should call formContext.setTouched and scrollToFirstError when handleUpdate is called and errorSchemaIsValid returns false', () => {
+    const stub = sinon.stub(validation, 'errorSchemaIsValid').returns(false);
+    const setTouchedSpy = sinon.spy();
+    const invalidProps = {
+      ...defaultProps,
+      registry: {
+        ...defaultProps.registry,
+        formContext: { setTouched: setTouchedSpy, onReviewPage: false },
+      },
+      errorSchema: { 0: { __errors: ['Error'] } },
+    };
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...invalidProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.scrollToFirstError = sinon.spy();
+
+    instance.handleUpdate(0);
+    expect(setTouchedSpy.calledOnce).to.be.true;
+    // Simulate callback execution from setTouched
+    setTouchedSpy.args[0][1]();
+    expect(instance.scrollToFirstError.calledOnce).to.be.true;
+
+    stub.restore();
+    wrapper.unmount();
+  });
+
+  it('should add a new item and update state when handleAdd is called and errorSchemaIsValid returns true', () => {
+    const stub = sinon.stub(validation, 'errorSchemaIsValid').returns(true);
+    const addProps = {
+      ...defaultProps,
+      formData: [{ name: { first: 'John', last: 'Doe' } }],
+      errorSchema: { 0: {} },
+      uiSchema: {
+        'ui:options': {
+          viewField: defaultProps.uiSchema['ui:options'].viewField,
+          reviewMode: false,
+        },
+      },
+    };
+    const onChangeSpy = sinon.spy();
+    addProps.onChange = onChangeSpy;
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...addProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.scrollToRow = sinon.spy();
+    instance.focusOnFirstFocusableElement = sinon.spy();
+
+    instance.handleAdd();
+    expect(onChangeSpy.calledOnce).to.be.true;
+    expect(instance.state.editing.length).to.equal(2);
+    expect(instance.state.showSave.length).to.equal(2);
+    expect(instance.scrollToRow.calledOnce).to.be.true;
+    expect(instance.focusOnFirstFocusableElement.calledOnce).to.be.true;
+
+    stub.restore();
+    wrapper.unmount();
+  });
+
+  it('should set removing state to true when handleRemove is called with confirmRemove true', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...defaultProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.handleRemove(0, true);
+    expect(instance.state.removing[0]).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should remove the item and call onChange when handleRemove is called with confirmRemove false', () => {
+    const removeProps = {
+      ...defaultProps,
+      formData: [
+        { name: { first: 'John', last: 'Doe' } },
+        { name: { first: 'Jane', last: 'Doe' } },
+      ],
+    };
+    const onChangeSpy = sinon.spy();
+    removeProps.onChange = onChangeSpy;
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...removeProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.scrollToTop = sinon.spy();
+
+    instance.handleRemove(0, false);
+    expect(onChangeSpy.calledOnce).to.be.true;
+    // Expect the item to have been filtered out (now only one remains)
+    expect(instance.state.editing.length).to.equal(1);
+    expect(instance.scrollToTop.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should remove the item and update state when handleRemoveModal is called', () => {
+    const removeModalProps = {
+      ...defaultProps,
+      formData: [
+        { name: { first: 'John', last: 'Doe' } },
+        { name: { first: 'Jane', last: 'Doe' } },
+      ],
+    };
+    const onChangeSpy = sinon.spy();
+    removeModalProps.onChange = onChangeSpy;
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...removeModalProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.setState({
+      editing: [true, true],
+      removing: [false, true],
+    });
+    instance.scrollToTop = sinon.spy();
+
+    instance.handleRemoveModal(1);
+    expect(onChangeSpy.calledOnce).to.be.true;
+    expect(instance.scrollToTop.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should call onChange with updated item when onItemChange is called', () => {
+    const onChangeSpy = sinon.spy();
+    const itemChangeProps = {
+      ...defaultProps,
+      formData: [{ name: { first: 'John', last: 'Doe' } }],
+      onChange: onChangeSpy,
+    };
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...itemChangeProps} />
+      </Provider>,
+    );
+    const instance = wrapper.find(DeceasedPersons).instance();
+    const newValue = { name: { first: 'Jane', last: 'Doe' } };
+    instance.onItemChange(0, newValue);
+    expect(onChangeSpy.calledOnce).to.be.true;
     wrapper.unmount();
   });
 });

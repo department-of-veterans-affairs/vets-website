@@ -21,7 +21,7 @@ export const sponsorMailingAddressStateTitleWrapper = (
 );
 
 // Validation function
-const isRequired = formData => {
+export const isRequired = formData => {
   return (
     formData?.application?.veteran?.address.street !== undefined ||
     formData?.application?.veteran?.address.street2 !== undefined ||
