@@ -196,8 +196,8 @@ const IntroductionPage = ({ route }) => {
             is NOT necessary to complete OR submit VA Form 22-10215.
           </p>
           <p>
-            <strong>Non-accredited schools: </strong> must complete and submit
-            VA Form 22-10215 with the 35 percent Exemption request.
+            <strong>Nonaccredited schools: </strong> must complete and submit VA
+            Form 22-10215 with the 35 percent Exemption request.
           </p>
         </va-accordion-item>
       </va-accordion>
