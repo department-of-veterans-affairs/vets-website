@@ -268,7 +268,7 @@ Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
 `
         : ``
     }
-Description: ${description}
+Medication description: ${description}
 
     `;
   });
