@@ -38,18 +38,18 @@ const DownloadDateRange = () => {
       const { value } = e.detail;
       setSelectionError(null);
       setSelectedDate(value);
-      if (value === 'any') {
-        dispatch(updateReportDateRange('any', 'any', 'any'));
-      } else if (value !== 'custom') {
-        const currentDate = new Date();
-        dispatch(
-          updateReportDateRange(
-            value,
-            format(subMonths(currentDate, value), 'yyyy-MM-dd'),
-            format(currentDate, 'yyyy-MM-dd'),
-          ),
-        );
-      }
+      // if (value === 'any') {
+      //   dispatch(updateReportDateRange('any', 'any', 'any'));
+      // } else if (value !== 'custom') {
+      //   const currentDate = new Date();
+      //   dispatch(
+      //     updateReportDateRange(
+      //       value,
+      //       format(subMonths(currentDate, value), 'yyyy-MM-dd'),
+      //       format(currentDate, 'yyyy-MM-dd'),
+      //     ),
+      //   );
+      // }
       const valMap = {
         any: 'All time',
         '3': 'Last 3 months',
@@ -59,7 +59,7 @@ const DownloadDateRange = () => {
       };
       sendDataDogAction(`Date range option - ${valMap[value]}`);
     },
-    [setSelectedDate, dispatch],
+    [setSelectedDate],
   );
 
   const dateInputRef = useRef(null);
@@ -82,15 +82,6 @@ const DownloadDateRange = () => {
     [progressBarRef],
   );
 
-  useEffect(
-    () => {
-      if (customFromDate !== '' && customToDate !== '') {
-        dispatch(updateReportDateRange('custom', customFromDate, customToDate));
-      }
-    },
-    [customFromDate, customToDate, dispatch],
-  );
-
   const handleBack = () => {
     history.push('/download');
     sendDataDogAction('Date range  - Back');
@@ -102,6 +93,9 @@ const DownloadDateRange = () => {
       focusElement('#input-error-message', {}, dateInputRef.current.shadowRoot);
       return;
     }
+    let fromDate;
+    let toDate;
+    const currentDate = new Date();
     if (selectedDate === 'custom') {
       if (customFromDate === '') {
         setCustomFromError(ERROR_VALID_START_DATE);
@@ -113,7 +107,21 @@ const DownloadDateRange = () => {
         focusElement('#error-message', {}, endDateRef.current.shadowRoot);
         return;
       }
+      fromDate = customFromDate;
+      toDate = customToDate;
+    } else if (selectedDate === 'any') {
+      fromDate = 'any';
+      toDate = 'any';
+    } else {
+      // For preset date ranges like 3, 6, or 12 months
+      fromDate = format(
+        subMonths(currentDate, parseInt(selectedDate, 10)),
+        'yyyy-MM-dd',
+      );
+      toDate = format(currentDate, 'yyyy-MM-dd');
     }
+    // Dispatch the update once the user clicks Continue
+    dispatch(updateReportDateRange(selectedDate, fromDate, toDate));
     history.push('/download/record-type');
     sendDataDogAction('Date range  - Continue');
   };
