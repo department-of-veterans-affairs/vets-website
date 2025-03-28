@@ -183,12 +183,12 @@ const POARequestIndividualSearchPage = () => {
         <div className="poa-request-search__form-buttons-container">
           <va-button
             text="Search"
-            className="poa-request-search__form-submit"
+            class="poa-request-search__form-submit"
             onClick={handleSubmit}
           />
           <va-button
             text="Clear search"
-            className="poa-request-search__form-reset"
+            class="poa-request-search__form-reset"
             onClick={handleReset}
             secondary
           />
