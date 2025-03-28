@@ -26,7 +26,6 @@ import {
   selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
-  selectDropdownWebComponent,
 } from '../../shared/tests/helpers';
 
 import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
@@ -78,7 +77,9 @@ const testConfig = createTestConfig(
       [ALL_PAGES.supportingFilesReview.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          cy.get('.vads-c-action-link--blue').click();
+          cy.get('.vads-c-action-link--blue')
+            .first()
+            .click();
         });
       },
       // Skip upload page on first go so that we have a missing file
@@ -91,6 +92,7 @@ const testConfig = createTestConfig(
           if (url.includes('fileReview')) {
             // Upload the two files:
             cy.get('input[type="file"]')
+              .first()
               .upload(
                 path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
                 'testing',
@@ -98,23 +100,13 @@ const testConfig = createTestConfig(
               .get('.schemaform-file-uploading')
               .should('not.exist');
             cy.get('input[type="file"]')
+              .last()
               .upload(
                 path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
                 'testing',
               )
               .get('.schemaform-file-uploading')
               .should('not.exist');
-
-            cy.get('@testData').then(data => {
-              selectDropdownWebComponent(
-                'primaryInsuranceCard_0_attachmentId',
-                data.primaryInsuranceCard[0].attachmentId,
-              );
-              selectDropdownWebComponent(
-                'primaryInsuranceCard_1_attachmentId',
-                data.primaryInsuranceCard[1].attachmentId,
-              );
-            });
           } else {
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -167,7 +159,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

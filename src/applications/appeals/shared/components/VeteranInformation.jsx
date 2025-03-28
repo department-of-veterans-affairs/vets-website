@@ -86,7 +86,7 @@ const VeteranInformation = ({ formData }) => {
         <va-link
           external
           href="/resources/how-to-change-your-legal-name-on-file-with-va/"
-          text="Find more detailed instructions for how to change your legal name"
+          text="Find more detailed instructions for how to change your legal name on file"
         />
       </p>
     </>

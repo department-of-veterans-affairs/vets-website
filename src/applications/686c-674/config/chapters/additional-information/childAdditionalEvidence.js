@@ -4,7 +4,7 @@ import { dependentsUploadSchema, dependentsUploadUI } from '../../upload';
 
 const schema = {
   type: 'object',
-  // required: ['childSupportingDocuments'], // Enable after QA
+  required: ['childSupportingDocuments'],
   properties: {
     'view:additionalEvidenceDescription': {
       type: 'object',
@@ -15,7 +15,10 @@ const schema = {
 };
 
 const uiSchema = {
-  ...titleUI('Upload your supporting evidence to add your child'),
+  ...titleUI({
+    title: 'Upload your supporting evidence to add your child',
+    headingLevel: 3,
+  }),
   'view:additionalEvidenceDescription': {
     'ui:description': ChildAdditionalEvidence,
   },

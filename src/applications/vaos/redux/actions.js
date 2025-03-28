@@ -12,6 +12,8 @@ import { captureError } from '../utils/error';
 import {
   selectFeatureCCDirectScheduling,
   selectFeatureVAOSServiceRequests,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
 } from './selectors';
 import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 
@@ -84,6 +86,8 @@ export function fetchPendingAppointments() {
         state,
       );
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const patientFacilities = selectPatientFacilities(state);
       const includeEPS = getIsInCCPilot(
         featureCCDirectScheduling,
@@ -98,6 +102,8 @@ export function fetchPendingAppointments() {
           .add(featureVAOSServiceRequests ? 2 : 0, 'days')
           .format('YYYY-MM-DD'),
         includeEPS,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
       });
 
       const data = pendingAppointments?.filter(

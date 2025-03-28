@@ -54,9 +54,14 @@ const NationalExamsList = () => {
     }, 0);
   };
 
-  const handleRouteChange = examId => event => {
+  const handleRouteChange = exam => event => {
     event.preventDefault();
-    history.push(`/national-exams/${examId}`);
+    const selectedExamName = formatNationalExamName(exam.name);
+    history.push(
+      `/national-exams/${exam.enrichedId}?examName=${encodeURIComponent(
+        selectedExamName,
+      )}`,
+    );
   };
 
   const NationalExamsInfo = () => (
@@ -65,7 +70,7 @@ const NationalExamsList = () => {
         className="vads-u-margin-bottom--3"
         data-testid="national-exams-header"
       >
-        National Exams
+        National exams
       </h1>
       <p
         className="national-exams-description vads-u-margin-bottom--2"
@@ -75,9 +80,9 @@ const NationalExamsList = () => {
         exams (admissions tests required for college or graduate school and
         tests for college credit)—even if you’re already receiving other
         education benefits. We’ll pay you back for the cost to register and any
-        administrative fees. We’ll prorate the entitlement charges based on the
-        actual amount of the fee charged for the test. The amount covered by VA
-        may differ from the actual cost of the exam.
+        administrative fees. We may adjust the entitlement charges according to
+        the actual payment. The reimbursement covered by VA may differ from the
+        actual cost of the exam.
       </p>
       <va-link
         href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/"
@@ -134,32 +139,33 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex}-${endIndex} of ${
+          {`Showing ${startIndex} - ${endIndex} of ${
             nationalExams.length
           } national exams`}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="remove-bullets" role="list">
-          {currentExams.map(exam => (
-            <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
-              <va-card background>
-                <h3 className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {formatNationalExamName(exam.name)}
-                </h3>
-                <VaLink
-                  href={`/national-exams/${exam.enrichedId}`}
-                  text={`View test amount details for ${formatNationalExamName(
-                    exam.name,
-                  )}`}
-                  type="secondary"
-                  message-aria-describedby={`View test amount details for ${formatNationalExamName(
-                    exam.name,
-                  )}`}
-                  onClick={handleRouteChange(exam.enrichedId)}
-                />
-              </va-card>
-            </li>
-          ))}
+          {currentExams.map(exam => {
+            const examName = formatNationalExamName(exam.name);
+            return (
+              <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
+                <va-card background>
+                  <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1">
+                    {examName}
+                  </h2>
+                  <VaLink
+                    href={`/education/gi-bill-comparison-tool/national-exams/${
+                      exam.enrichedId
+                    }?examName=${encodeURIComponent(examName)}`}
+                    text={`View test amount details for ${examName}`}
+                    type="secondary"
+                    message-aria-describedby={`View test amount details for ${examName}`}
+                    onClick={handleRouteChange(exam)}
+                  />
+                </va-card>
+              </li>
+            );
+          })}
         </ul>
         <VaPagination
           page={currentPage}

@@ -7,6 +7,7 @@ import {
   traumaticEventsExamples,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
+  mstAlert,
 } from '../../content/form0781/workflowChoicePage';
 
 /** @type {PageSchema} */
@@ -26,6 +27,9 @@ export default {
     'view:traumaticEventsInfo': {
       'ui:description': traumaticEventsExamples,
     },
+    'view:mstAlertInfo': {
+      'ui:description': mstAlert,
+    },
   },
 
   schema: {
@@ -39,6 +43,10 @@ export default {
         ),
       },
       'view:traumaticEventsInfo': {
+        type: 'object',
+        properties: {},
+      },
+      'view:mstAlertInfo': {
         type: 'object',
         properties: {},
       },

@@ -36,10 +36,33 @@
 
 .arp-footer {
   background-color: var(--vads-color-primary-darker);
-  min-width: 100%;
+  padding: 30px 16px;
+  width: 100%;
+
+  &__container {
+    max-width: 1000px;
+    margin: 0 auto 20px;
+  }
+
+  h3 {
+    margin: 0 0 16px 0;
+  }
+
+  .va-footer-links-bottom {
+    padding: 0;
+    ul {
+      max-width: 720px;
+      padding-bottom: 20px;
+    }
+  }
 
   a:hover {
     color: var(--vads-color-warning) !important;
+  }
+
+  p,
+  p > a {
+    font-family: $font-family-serif;
   }
 }
 
@@ -49,14 +72,147 @@
   display: none;
 }
 
-.homepage-hero {
-  &__look-and-feel {
+.home {
+  -webkit-font-smoothing: antialiased;
+
+  &__container {
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .home__full-width--portal & {
+      display: flex;
+      align-items: center;
+      flex-direction: column-reverse;
+
+      @media (min-width: $small-desktop-screen) {
+        padding: 0;
+        flex-direction: row;
+      }
+    }
+  }
+  &__hero {
+    background-position: center;
     background: linear-gradient(
-      to left,
-      var(--vads-color-primary-alt) 10%,
-      var(--vads-color-primary-alt-dark) 40%,
-      var(--vads-color-primary-alt-darkest)
-    );
+        0deg,
+        rgba(0, 71, 149, 0.46),
+        rgba(0, 71, 149, 0.46)
+      ),
+      url("../../../site/assets/img/arp-hp-hero.jpg");
+    background-size: cover;
+    background-position: center;
+
+    &-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      color: $vads-color-base-lightest;
+      padding: 30px 16px;
+
+      @media (min-width: $medium-screen) {
+        padding: 72px 16px;
+      }
+    }
+    &-header {
+      margin-bottom: 20px;
+      color: $vads-color-white;
+    }
+
+    &-sub-header {
+      font-size: 24px;
+      font-family: $font-family-serif;
+    }
+
+    &-bg {
+      background-color: $vads-color-primary-dark;
+      padding: 20px;
+      border-radius: 8px;
+
+      @media (min-width: $medium-screen) {
+        max-width: 544px;
+        padding: 50px;
+      }
+    }
+  }
+
+  &__content {
+    padding: 32px 16px;
+    max-width: 732px;
+
+    @media (min-width: $medium-screen) {
+      padding: 52px 16px;
+    }
+
+    h2 {
+      margin: 0 0 24px 0;
+    }
+    &-copy {
+      margin-bottom: 32px;
+    }
+
+    .vads-u-background-color--primary & {
+      color: $vads-color-base-lightest;
+    }
+  }
+
+  &__full-width {
+    h3 {
+      margin: 0;
+    }
+    &.is--lighter {
+      background-color: $vads-color-primary-lighter;
+    }
+  }
+  &__link {
+    font-weight: 700;
+
+    .vads-u-background-color--primary & {
+      color: $vads-color-base-lightest;
+    }
+
+    &--email {
+      word-break: break-all;
+    }
+  }
+
+  &__overlay {
+    position: relative;
+
+    ~ div {
+      @media (min-width: $medium-screen) {
+        margin-left: 55px;
+        width: 50%;
+        padding: 60px 0;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba($vads-color-primary-dark, 0.46);
+    }
+  }
+
+  &__sub-header {
+    @media (min-width: $medium-screen) {
+      font-size: 20px;
+    }
+  }
+  &__portal-img {
+    width: 100%;
+
+    @media (min-width: $small-desktop-screen) {
+      width: 464px;
+      height: 340px;
+    }
+  }
+
+  &__banner {
+    &-email {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -95,5 +251,16 @@
 
   &__questions {
     font-weight: 700;
+  }
+}
+
+.mobile {
+  @media (min-width: $medium-screen) {
+    display: none !important;
+  }
+}
+.desktop {
+  @media (max-width: $medium-screen) {
+    display: none !important;
   }
 }

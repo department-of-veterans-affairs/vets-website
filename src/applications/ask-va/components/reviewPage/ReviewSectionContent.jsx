@@ -8,13 +8,13 @@ const ReviewSectionContent = ({
   items = [],
 }) => {
   const removeNullitems = items.filter(item => item.data);
-  const reviewListKeys = removeNullitems.map(
-    item => keys.filter(key => key.split('_')[0] === item.key)[0],
-  );
+  const reviewListKeys = removeNullitems
+    .map(item => keys.filter(key => key.split('_')[0] === item.key)[0])
+    .filter(key => key !== undefined && key !== null);
 
   return (
     <div
-      className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0 vads-u-margin-bottom--2"
+      className="schemaform-chapter-accordion-content vads-u-padding-top--0 vads-u-margin-bottom--2"
       aria-hidden="false"
     >
       <div className="form-review-panel-page vads-u-margin-bottom--0">
@@ -26,7 +26,7 @@ const ReviewSectionContent = ({
             <div className="vads-u-justify-content--flex-end">
               <VaButton
                 text="Edit"
-                label="Edit Your school information"
+                label={`Edit ${title}`}
                 onClick={() => editSection(reviewListKeys, title)}
                 secondary
               />

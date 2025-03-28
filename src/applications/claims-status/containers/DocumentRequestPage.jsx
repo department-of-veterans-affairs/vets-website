@@ -211,7 +211,7 @@ class DocumentRequestPage extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <ClaimsBreadcrumbs crumbs={crumbs} />
             <div>{content}</div>
-            <NeedHelp />
+            <NeedHelp item={trackedItem} />
           </div>
         </div>
       </div>

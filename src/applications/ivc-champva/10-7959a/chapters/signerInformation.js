@@ -22,6 +22,7 @@ export const certifierRoleSchema = {
   uiSchema: {
     ...titleUI('Your information'),
     certifierRole: radioUI({
+      type: 'radio',
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
@@ -68,7 +69,9 @@ export const certifierAddressSchema = {
     required: ['certifierAddress'],
     properties: {
       titleSchema,
-      certifierAddress: addressSchema(),
+      certifierAddress: addressSchema({
+        omit: ['street3'],
+      }),
     },
   },
 };
@@ -97,6 +100,7 @@ export const certifierRelationshipSchema = {
   uiSchema: {
     ...titleUI('Your relationship to the beneficiary'),
     certifierRelationship: radioUI({
+      type: 'radio',
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {

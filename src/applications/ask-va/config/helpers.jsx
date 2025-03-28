@@ -5,6 +5,7 @@ import React from 'react';
 import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
+  branchOfServiceRuleforCategories,
   CategoryBenefitsIssuesOutsidetheUS,
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
@@ -18,6 +19,7 @@ import {
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
+  TopicDisabilityCompensation,
   TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
@@ -228,21 +230,24 @@ export const contactRules = {
   },
 };
 
-export const getContactMethods = (category, topic) => {
-  // const contactRules = initializeContactRules();
-  const allContactMethods = {
-    PHONE: 'Phone call',
-    EMAIL: 'Email',
-    US_MAIL: 'U.S. mail',
-  };
+export const getContactMethods = (contactPreferences = []) => {
+  let contactMethods = {};
 
-  if (contactRules[category] && contactRules[category][topic]) {
-    return contactRules[category][topic].reduce((acc, method) => {
-      acc[method] = allContactMethods[method];
-      return acc;
-    }, {});
+  if (contactPreferences.length > 0) {
+    contactPreferences.forEach(item => {
+      if (item === 'Phone') contactMethods.PHONE = 'Phone call';
+      if (item === 'Email') contactMethods.EMAIL = 'Email';
+      if (item === 'USMail') contactMethods.US_MAIL = 'U.S. mail';
+    });
+  } else {
+    contactMethods = {
+      PHONE: 'Phone call',
+      EMAIL: 'Email',
+      US_MAIL: 'U.S. mail',
+    };
   }
-  return allContactMethods;
+
+  return contactMethods;
 };
 
 export const isEqualToOnlyEmail = obj => {
@@ -553,19 +558,12 @@ export const isStateOfPropertyRequired = data => {
 
 // List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
 export const isBranchOfServiceRequired = data => {
-  const { selectCategory, whoIsYourQuestionAbout } = data;
-
-  const branchOfServiceRuleforCategories = [
-    'Veteran ID Card (VIC)',
-    'Disability compensation',
-    'Survivor benefits',
-    'Burials and memorials',
-    'Center for Women Veterans',
-    'Benefits issues outside the U.S.',
-  ];
+  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
 
   return (
-    branchOfServiceRuleforCategories.includes(selectCategory) &&
+    (branchOfServiceRuleforCategories.includes(selectCategory) ||
+      (selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+        selectTopic === TopicDisabilityCompensation)) &&
     whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
   );
 };
@@ -734,6 +732,8 @@ export const convertDateForInquirySubheader = dateString => {
     utcDate.setUTCMinutes(utcDate.getMinutes());
     utcDate.setUTCSeconds(utcDate.getSeconds());
   } catch (error) {
+    // TODO: This catch block doesn't seem to be hit in testing. johall-tw
+    // istanbul ignore next
     return 'Invalid Date';
   }
 
@@ -748,7 +748,8 @@ export const convertDateForInquirySubheader = dateString => {
     'America/New_York',
     "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
     { locale: enUS },
-  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+    // ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  ).replace(/[AaPp]\.{0,1}[Mm]\.{0,1}/, match => `${match.toLowerCase()}`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -786,7 +787,7 @@ export const getFiles = files => {
   });
 };
 
-export const getFileSizeMB = size => size / 104857;
+export const getFileSizeMB = size => size * 0.00000095367432;
 
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
   const fileSizeText = fileSize
@@ -915,3 +916,6 @@ export const generalQuestionCondition = formData => {
     formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
   );
 };
+
+export const formatDateTimeForAnnouncements = date =>
+  format(date, "EEEE, MMMM d, yyyy 'at' h:mm a 'ET'");

@@ -3,6 +3,7 @@
 
 .header {
   min-height: auto;
+  -webkit-font-smoothing: antialiased;
 
   &__govt-site {
     width: 100%;
@@ -27,7 +28,9 @@
       &-sub-text {
         text-decoration: underline;
         display: flex;
-        margin-left: 8px;
+        @media (min-width: $medium-screen) {
+          margin-left: 8px;
+        }
       }
     }
   }
@@ -56,6 +59,10 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
 
+  &:has(.nav__container-secondary) {
+    border-bottom: none;
+  }
+
   &__container-primary {
     padding: 8px 16px;
     @media (min-width: $medium-screen) {
@@ -64,9 +71,6 @@
   }
   &__container-secondary {
     background-color: var(--vads-color-primary-darker);
-    @media (min-width: $medium-screen) {
-      padding: 4px 0;
-    }
   }
 
   &__sign-in {
@@ -138,17 +142,49 @@
     padding: 12px 20px;
     font-weight: 700;
     text-decoration: none;
-    border-radius: 4px;
     height: 40px;
     display: flex;
     align-items: center;
     margin-left: auto;
 
+    &.is--sign-in {
+      border-radius: 4px;
+      padding: 12px;
+      width: 90px;
+      justify-content: center;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background-color: $vads-color-primary-darker !important;
+      }
+    }
+
+    &.is--menu {
+      padding: 10px 12px;
+      margin-right: 0;
+      max-width: 85px;
+      font-size: 16px;
+    }
+
     &.is--open {
-      margin-bottom: 0;
+      margin: 0;
       padding-bottom: 8.4px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
+      padding: 10px 12px;
+      margin-right: 0;
+      max-width: 85px;
+
+      &::after {
+        content: "";
+        background-color: $vads-color-primary;
+        height: 16px;
+        width: 85px;
+        position: absolute;
+        bottom: -15px;
+        left: 0;
+      }
     }
     &:visited {
       color: $vads-color-white;
@@ -161,6 +197,7 @@
 
     &--user {
       background-color: transparent;
+      margin-right: 0;
       [icon="account_circle"] {
         svg {
           width: 22px;
@@ -169,6 +206,7 @@
       }
       &:hover {
         background-color: transparent !important;
+        border-radius: 0;
 
         @media (min-width: $medium-screen) {
           background-color: $vads-color-primary !important;
@@ -204,10 +242,11 @@
     .nav__container-secondary & {
       background-color: var(--vads-color-primary-darker);
       margin-left: unset;
-      padding: 16px;
+      padding: 24px 16px;
       &:hover {
         background-color: $vads-color-primary;
         color: $vads-color-white;
+        text-decoration: none;
       }
     }
   }
@@ -245,6 +284,7 @@
       right: 0;
       background-color: $vads-color-primary;
       color: $vads-color-white;
+      margin-top: 7px;
     }
 
     .nav__user-menu & {

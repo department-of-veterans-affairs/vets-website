@@ -9,10 +9,9 @@ const ProcessingBanner = ({ status, header, accepted, copy, date }) => {
       <p className="vads-u-margin-y--0">
         {accepted && (
           <>
-            <span className="processing-date">
-              {accepted} <strong>{resolutionDate(date)}</strong>.
-            </span>
-            <br />
+            <p className="processing-date">
+              {accepted} {resolutionDate(date)}.
+            </p>
           </>
         )}
         {copy}

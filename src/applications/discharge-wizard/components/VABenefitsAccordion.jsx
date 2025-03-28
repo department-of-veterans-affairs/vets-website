@@ -20,8 +20,8 @@ const VABenefitsAccordion = ({ isResultsPage = false }) => {
 
   let learnMoreLinks = (
     <ul>
-      {links.map(link => (
-        <li key={link}>
+      {links.map((link, index) => (
+        <li key={`${link}-${index}`}>
           <va-link href={link.href} text={link.text} />
         </li>
       ))}
@@ -38,8 +38,8 @@ const VABenefitsAccordion = ({ isResultsPage = false }) => {
   if (isResultsPage) {
     learnMoreLinks = (
       <ul>
-        {links.map(link => (
-          <li key={link}>
+        {links.map((link, index) => (
+          <li key={`${link}-${index}`}>
             <a href={link.href} rel="noopener noreferrer" target="_blank">
               {link.text} (opens in a new tab)
             </a>

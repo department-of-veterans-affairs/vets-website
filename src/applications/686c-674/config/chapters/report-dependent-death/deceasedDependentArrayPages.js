@@ -17,6 +17,8 @@ import {
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  dateOfDeathUI,
+  dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -199,7 +201,7 @@ export const deceasedDependentDateOfDeathPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'When did this dependent die?',
     ),
-    dependentDeathDate: currentOrPastDateUI({
+    dependentDeathDate: dateOfDeathUI({
       title: 'Date of death',
       required: () => true,
     }),
@@ -207,7 +209,7 @@ export const deceasedDependentDateOfDeathPage = {
   schema: {
     type: 'object',
     properties: {
-      dependentDeathDate: currentOrPastDateSchema,
+      dependentDeathDate: dateOfDeathSchema,
     },
   },
 };

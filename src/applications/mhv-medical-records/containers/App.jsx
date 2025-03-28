@@ -17,6 +17,7 @@ import {
   externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
@@ -27,15 +28,10 @@ import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const userServices = user.profile.services;
-  const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
   const { featureTogglesLoading, appEnabled } = useSelector(
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
-  );
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
 
   const dispatch = useDispatch();
@@ -115,32 +111,10 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
-  useEffect(
-    () => {
-      // If the user is not whitelisted or feature flag is disabled, redirect them.
-      if (featureTogglesLoading === false && appEnabled !== true) {
-        window.location.replace('/health-care/get-medical-records');
-      }
-    },
-    [featureTogglesLoading, appEnabled],
-  );
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (
-      loggedIn &&
-      hasMhvAccount &&
-      !services.includes(backendServices.MEDICAL_RECORDS)
-    ) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
-
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
-        {phase0p5Flag && <MhvSecondaryNav />}
+        <MhvSecondaryNav />
         <div className="vads-l-grid-container">
           <va-loading-indicator
             message="Loading your medical records..."
@@ -158,13 +132,13 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.MEDICAL_RECORDS]}
-    >
-      {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
+    <RequiredLoginView user={user}>
+      <MhvServiceRequiredGuard
+        user={user}
+        serviceRequired={[backendServices.MEDICAL_RECORDS]}
+      >
         <>
-          {phase0p5Flag && <MhvSecondaryNav />}
+          <MhvSecondaryNav />
           <div
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"
@@ -204,7 +178,7 @@ const App = ({ children }) => {
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>
         </>
-      )}
+      </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
 };

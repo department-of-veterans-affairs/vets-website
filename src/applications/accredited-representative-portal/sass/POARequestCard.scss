@@ -7,7 +7,7 @@
     margin: 0 0 24px;
   }
   &__copy {
-    margin: 0;
+    margin: 0 0 16px 0;
   }
   &__tabs {
     margin: 60px 0 24px;
@@ -38,6 +38,14 @@
       font-weight: 700;
       background-color: $vads-color-white;
       border-radius: 6px;
+    }
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      text-decoration: none;
     }
   }
   &__sort-by {
@@ -110,6 +118,22 @@
         align-items: center;
         margin-top: 8px;
         flex-wrap: wrap;
+      }
+
+      &--submission-status {
+        font-weight: 700;
+
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          align-items: center;
+        }
+
+        [icon="error"] {
+          color: $vads-color-error;
+        }
+        [icon] {
+          margin-right: 6px;
+        }
       }
 
       &--label {

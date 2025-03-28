@@ -7,7 +7,6 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   getAppointmentCreateStatus,
   getDraftAppointmentInfo,
-  getReferralAppointmentInfo,
   getSelectedSlot,
 } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
@@ -42,11 +41,6 @@ const ReviewAndConfirm = props => {
   );
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
-  const {
-    appointmentInfoLoading,
-    appointmentInfoError,
-    referralAppointmentInfo,
-  } = useSelector(getReferralAppointmentInfo);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const slotDetails = getSlotById(
@@ -54,11 +48,12 @@ const ReviewAndConfirm = props => {
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.ReferringFacilityInfo.FacilityCode,
+    currentReferral.referringFacilityInfo.facilityCode,
   );
   const savedSelectedSlot = sessionStorage.getItem(
-    getReferralSlotKey(currentReferral.UUID),
+    getReferralSlotKey(currentReferral.uuid),
   );
+
   useEffect(
     () => {
       dispatch(setFormCurrentPage('reviewAndConfirm'));
@@ -68,16 +63,16 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (!selectedSlot && !savedSelectedSlot) {
-        routeToCCPage(history, 'scheduleReferral', currentReferral.UUID);
+        routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
       }
     },
-    [currentReferral.UUID, history, savedSelectedSlot, selectedSlot],
+    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
   );
 
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.UUID));
+        dispatch(createDraftReferralAppointment(currentReferral.uuid));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
@@ -87,11 +82,8 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.UUID, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.uuid, dispatch, draftAppointmentCreateStatus],
   );
-
-  const loadingCreateAppointment =
-    appointmentCreateStatus === FETCH_STATUS.loading;
 
   useEffect(
     () => {
@@ -125,46 +117,27 @@ const ReviewAndConfirm = props => {
     routeToPreviousReferralPage(
       history,
       'reviewAndConfirm',
-      currentReferral.UUID,
+      currentReferral.uuid,
     );
   };
 
   useEffect(
     () => {
       if (
-        referralAppointmentInfo?.appointment &&
-        !appointmentInfoLoading &&
-        !appointmentInfoError
+        appointmentCreateStatus === FETCH_STATUS.succeeded &&
+        draftAppointmentInfo?.appointment?.id
       ) {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
-          currentReferral.UUID,
+          null,
+          draftAppointmentInfo.appointment.id,
         );
       }
     },
-    [
-      appointmentInfoError,
-      appointmentInfoLoading,
-      currentReferral.UUID,
-      history,
-      referralAppointmentInfo,
-    ],
+    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
   );
 
-  if (loading || loadingCreateAppointment) {
-    return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator
-          message={
-            loadingCreateAppointment
-              ? 'Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page.'
-              : 'Loading schedule referral review...'
-          }
-        />
-      </div>
-    );
-  }
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (
@@ -172,6 +145,7 @@ const ReviewAndConfirm = props => {
       hasEyebrow
       heading="Review your appointment details"
       apiFailure={failed}
+      loadingMessage={loading ? 'Loading your appointment details' : null}
     >
       <div>
         <hr className="vads-u-margin-y--2" />
@@ -179,7 +153,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${currentReferral.CategoryOfCare} Provider`}
+                {`${currentReferral.categoryOfCare} Provider`}
               </h2>
             </div>
           </div>
@@ -189,8 +163,8 @@ const ReviewAndConfirm = props => {
           {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={currentReferral.ReferringFacilityInfo.Address}
-          phone={currentReferral.ReferringFacilityInfo.Phone}
+          address={currentReferral.referringFacilityInfo.address}
+          phone={currentReferral.referringFacilityInfo.phone}
         />
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
@@ -201,7 +175,7 @@ const ReviewAndConfirm = props => {
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
                 href={`/my-health/appointments/schedule-referral/date-time?id=${
-                  currentReferral.UUID
+                  currentReferral.uuid
                 }`}
                 label="Edit date and time"
                 text="Edit"
@@ -230,7 +204,7 @@ const ReviewAndConfirm = props => {
                 'h:mm aaaa',
               )}{' '}
               {`${getTimezoneDescByFacilityId(
-                currentReferral.ReferringFacilityInfo.FacilityCode,
+                currentReferral.referringFacilityInfo.facilityCode,
               )}`}
             </>
           </p>
@@ -256,7 +230,7 @@ const ReviewAndConfirm = props => {
               e.preventDefault();
               dispatch(
                 createReferralAppointment({
-                  referralId: currentReferral.UUID,
+                  referralId: currentReferral.uuid,
                   slotId: selectedSlot,
                   draftApppointmentId: draftAppointmentInfo.appointment.id,
                 }),

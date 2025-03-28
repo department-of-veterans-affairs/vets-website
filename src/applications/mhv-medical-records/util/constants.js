@@ -332,11 +332,11 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE',
-  NEW: 'NEW',
-  PROCESSING: 'PROCESSING',
-  COMPLETE: 'COMPLETE',
-  ERROR: 'ERROR',
+  NONE: 'NONE', // has not been requested
+  NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  PROCESSING: 'PROCESSING', // has been requested
+  COMPLETE: 'COMPLETE', // request complete
+  ERROR: 'ERROR', // error
 };
 
 export const refreshExtractTypes = {
@@ -436,7 +436,7 @@ export const Breadcrumbs = {
   VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
   SETTINGS: {
     href: Paths.SETTINGS,
-    label: 'Medical records settings',
+    label: 'Manage your electronic sharing settings',
     isRouterLink: true,
   },
   DOWNLOAD: {

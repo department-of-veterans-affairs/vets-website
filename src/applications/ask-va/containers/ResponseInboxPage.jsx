@@ -26,12 +26,13 @@ import {
 } from '../config/helpers';
 import {
   envUrl,
-  mockTestingFlagforAPI,
+  getMockTestingFlagforAPI,
   RESPONSE_PAGE,
   URL,
 } from '../constants';
 import manifest from '../manifest.json';
 import { mockInquiryResponse, mockAttachmentResponse } from '../utils/mockData';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
@@ -47,7 +48,6 @@ const ResponseInboxPage = ({ router }) => {
   const [sendReply, setSendReply] = useState({ reply: '', files: [] });
   const [loading, setLoading] = useState(true);
   const [inquiryData, setInquiryData] = useState(null);
-  // const [fileUploadError, setFileUploadError] = useState([]);
 
   const getLastSegment = () => {
     const pathArray = window.location.pathname.split('/');
@@ -56,12 +56,11 @@ const ResponseInboxPage = ({ router }) => {
   const inquiryId = getLastSegment();
 
   const postApiData = useCallback(
-    url => {
-      const localStorageFiles = localStorage.getItem('askVAFiles');
-      const parsedLocalStoragefiles = JSON.parse(localStorageFiles);
+    async url => {
+      const files = await askVAAttachmentStorage.get('attachments');
       const transformedResponse = {
         ...sendReply,
-        files: getFiles(parsedLocalStoragefiles),
+        files: getFiles(files),
       };
       const options = {
         method: 'POST',
@@ -73,12 +72,12 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (mockTestingFlagforAPI) {
+      if (getMockTestingFlagforAPI()) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
             setLoading(false);
-            localStorage.removeItem('askVAFiles');
+            askVAAttachmentStorage.clear();
             resolve(mockInquiryResponse);
             router.push('/response-sent');
           }, 500);
@@ -88,12 +87,12 @@ const ResponseInboxPage = ({ router }) => {
       return apiRequest(url, options)
         .then(() => {
           setLoading(false);
-          localStorage.removeItem('askVAFiles');
+          askVAAttachmentStorage.clear();
           router.push('/response-sent');
         })
         .catch(() => {
           setLoading(false);
-          localStorage.removeItem('askVAFiles');
+          askVAAttachmentStorage.clear();
           setError(true);
         });
     },
@@ -119,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -141,24 +140,43 @@ const ResponseInboxPage = ({ router }) => {
       });
   }, []);
 
-  const getDownload = (fileName, filePath) => {
+  const getDownload = (fileName, fileContent) => {
+    const fileExtension = fileName.split('.');
+    const extension = fileExtension.pop();
+    const fileType =
+      extension === 'pdf' ? 'application/pdf' : `image/${extension}`;
+
+    const decoded = atob(fileContent);
+    const base64String =
+      decoded.split(',')[1] === undefined ? decoded : decoded.split(',')[1];
+    const byteCharacters = atob(base64String);
+    const byteArray = Uint8Array.from(byteCharacters, char =>
+      char.charCodeAt(0),
+    );
+    const blob = new Blob([byteArray], { type: fileType });
+    const url = window.URL.createObjectURL(blob);
+
     const link = document.createElement('a');
-    link.href = `data:image/png;base64,${filePath}`;
+    link.href = url;
     link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
     link.remove();
+    window.URL.revokeObjectURL(url);
   };
 
-  const getDownloadData = useCallback(url => {
+  const getDownloadData = url => {
     setError(false);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
-          const res = mockAttachmentResponse.data;
-          getDownload(res.attributes.fileName, res.attributes.fileContent);
+          const res = mockAttachmentResponse;
+          getDownload(
+            res.data.attributes.fileName,
+            res.data.attributes.fileContent,
+          );
           resolve(mockAttachmentResponse);
         }, 500);
       });
@@ -166,12 +184,15 @@ const ResponseInboxPage = ({ router }) => {
 
     return apiRequest(url)
       .then(res => {
-        getDownload(res.attributes.fileName, res.attributes.fileContent);
+        getDownload(
+          res.data.attributes.fileName,
+          res.data.attributes.fileContent,
+        );
       })
       .catch(() => {
         setError(true);
       });
-  }, []);
+  };
 
   const handleRetry = () => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);

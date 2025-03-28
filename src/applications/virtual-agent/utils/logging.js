@@ -1,20 +1,4 @@
-import { datadogLogs } from '@datadog/browser-logs';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-// Conditional added to prevent initialization of Datadog as it was causing tests to hang indefinitely and prevented coverage report generation
-if (!process.env.NODE_ENV === 'test') {
-  // Initialize Datadog logging
-  datadogLogs.init({
-    clientToken: 'pubf64b43174e3eb74fa640b1ec28781c07',
-    service: 'virtual-agent-front-end',
-    team: 'virtual-agent-platform',
-    site: 'ddog-gov.com',
-    env: environment.vspEnvironment(),
-    sessionSampleRate: 100,
-    forwardConsoleLogs: ['error'],
-    telemetrySampleRate: 100,
-  });
-}
+import logger from './logger';
 
 /**
  * Logs an error to Datadog if the logging feature toggle is enabled.
@@ -27,6 +11,6 @@ export function logErrorToDatadog(
   context = {},
 ) {
   if (isDatadogLoggingEnabled) {
-    datadogLogs.logger.error(message, context);
+    logger.error(message, context);
   }
 }

@@ -10,6 +10,8 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectSystemIds,
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -378,9 +380,10 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
-      getState(),
-    );
+    const state = getState();
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -399,6 +402,8 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
       });
 
       const data = selectCovid19VaccineFormData(getState());

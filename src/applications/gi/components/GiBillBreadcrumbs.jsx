@@ -1,21 +1,47 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useRouteMatch } from 'react-router-dom';
-import { giDocumentTitle, formatProgramType } from '../utils/helpers';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import {
+  isSearchByNamePage,
+  isSearchByLocationPage,
+  formatProgramType,
+} from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
-  const ProgramsTypeMatch = useRouteMatch(
-    '/institution/:facilityCode/:programType',
+  const location = useLocation();
+
+  const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');
+  const seProfileMatch = useRouteMatch(
+    '/schools-and-employers/institution/:facilityCode',
   );
   const profileMatch = useRouteMatch('/institution/:facilityCode');
-  const compareMatch = useRouteMatch('/compare');
-  const lcMatch = useRouteMatch('/lc-search');
-  const lcResultsMatch = useRouteMatch('/lc-search/results');
-  const lcResultInfoMatch = useRouteMatch('/lc-search/:type/:id/:name');
-  const crumbLiEnding = giDocumentTitle();
-  const formatedProgramType = formatProgramType(
-    ProgramsTypeMatch?.params?.programType,
+  const compareMatch = location.pathname.includes('/compare');
+  const seProgramsTypeMatch = useRouteMatch(
+    '/schools-and-employers/institution/:facilityCode/:programType',
   );
+  const programsTypeMatch = useRouteMatch(
+    '/institution/:facilityCode/:programType',
+  );
+  const lcMatch = useRouteMatch('/licenses-certifications-and-prep-courses');
+  const lcResultsMatch = useRouteMatch(
+    '/licenses-certifications-and-prep-courses/results',
+  );
+  const lcResultInfoMatch = useRouteMatch(
+    '/licenses-certifications-and-prep-courses/results/:id/:name',
+  );
+  const nationalExamsMatch = useRouteMatch('/national-exams');
+  const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
+
+  const query = new URLSearchParams(location.search);
+  const selectedExamName = query.get('examName') || '';
+  const searchByName = isSearchByNamePage();
+  const searchByLocationPage = isSearchByLocationPage();
+
+  const formatedProgramType = formatProgramType(
+    programsTypeMatch?.params?.programType ||
+      seProgramsTypeMatch?.params?.programType,
+  );
+
   const crumbs = [
     {
       href: '/',
@@ -27,24 +53,74 @@ const GiBillBreadcrumbs = () => {
     },
     {
       href: '/education/gi-bill-comparison-tool/',
-      label: crumbLiEnding,
+      label: `GI Bill® Comparison Tool ${
+        searchByName &&
+        !nationalExamsMatch &&
+        !lcMatch &&
+        !schoolsEmployersMatch &&
+        !location.pathname.includes('institution')
+          ? '(Search by name)'
+          : ''
+      }${
+        searchByLocationPage &&
+        !schoolsEmployersMatch &&
+        !location.pathname.includes('institution')
+          ? '(Search by location}'
+          : ''
+      }`,
     },
   ];
 
-  if (profileMatch) {
+  if (schoolsEmployersMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/institution/${
-        profileMatch.params.facilityCode
-      }`,
+      href: '/education/gi-bill-comparison-tool/schools-and-employers',
+      label: `Schools and employers ${
+        searchByName && !location.pathname.includes('institution')
+          ? '(Search by name)'
+          : ''
+      }${searchByLocationPage ? '(Search by location}' : ''}`,
+    });
+  }
+  if (profileMatch || programsTypeMatch) {
+    crumbs.push({
+      href: `/education/gi-bill-comparison-tool/institution/${profileMatch
+        ?.params?.facilityCode || programsTypeMatch?.params?.facilityCode}`,
       label: 'Institution details',
     });
   }
-  if (ProgramsTypeMatch) {
+  if (seProfileMatch || seProgramsTypeMatch) {
     crumbs.push({
-      href: `/institution/${ProgramsTypeMatch.params.facilityCode}/${
-        ProgramsTypeMatch.params.programType
+      href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${seProfileMatch
+        ?.params?.facilityCode || seProgramsTypeMatch?.params?.facilityCode}`,
+      label: 'Institution details',
+    });
+  }
+  if (nationalExamsMatch) {
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/national-exams',
+      label: 'National exams',
+    });
+  }
+  if (nationalExamsDetailMatch) {
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/national-exams',
+      label: selectedExamName || 'National exam details',
+    });
+  }
+  if (programsTypeMatch) {
+    crumbs.push({
+      href: `/institution/${programsTypeMatch.params.facilityCode}/${
+        programsTypeMatch.params.programType
       }`,
-      label: `${formatedProgramType}`,
+      label: `${formatedProgramType} programs`,
+    });
+  }
+  if (seProgramsTypeMatch) {
+    crumbs.push({
+      href: `/schools-and-employers/institution/${
+        seProgramsTypeMatch.params.facilityCode
+      }/${seProgramsTypeMatch.params.programType}`,
+      label: `${formatedProgramType} programs`,
     });
   }
   if (compareMatch) {
@@ -55,19 +131,21 @@ const GiBillBreadcrumbs = () => {
   }
   if (lcMatch) {
     crumbs.push({
-      href: '/education/gi-bill-comparison-tool/lc-search',
-      label: 'Licenses & Certifications',
+      href:
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
+      label: 'Licenses, certifications, and prep courses',
     });
   }
   if (lcResultsMatch) {
     crumbs.push({
-      href: '/education/gi-bill-comparison-tool/lc-search/results',
+      href:
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
       label: 'Search results',
     });
   }
   if (lcResultInfoMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/lc-search/results/${
+      href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
         lcResultInfoMatch.params.type
       }/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
       label: lcResultInfoMatch.params.name,
@@ -76,7 +154,7 @@ const GiBillBreadcrumbs = () => {
 
   return (
     <div className="row">
-      <VaBreadcrumbs uswds breadcrumbList={crumbs} />
+      <VaBreadcrumbs uswds breadcrumbList={crumbs} wrapping />
     </div>
   );
 };

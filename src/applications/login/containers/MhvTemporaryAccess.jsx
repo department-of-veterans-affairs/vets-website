@@ -12,16 +12,24 @@ export default function MhvTemporaryAccess() {
           Access the My HealtheVet sign-in option
         </h1>
         <p className="vads-u-measure--5">
-          Get temporary access to the My HealtheVet sign-in option if you
-          weren't able to create a new Login.gov or ID.me account yet.
+          If you received confirmation from VA that we've given you temporary
+          access to My HealtheVet, you can sign in here.
         </p>
 
-        <p>This sign-in process may change in the future.</p>
+        <p>
+          We'll update this page with new information before we remove this
+          option.
+        </p>
       </div>
       <h2>Sign in</h2>
       <div className="vads-u-margin-y--2">
         <va-button
-          onClick={() => login({ policy: 'mhv' })}
+          onClick={() =>
+            login({
+              policy: 'mhv',
+              queryParams: { operation: 'mhv_exception' },
+            })
+          }
           text="My HealtheVet"
           data-testid="accessMhvBtn"
         />

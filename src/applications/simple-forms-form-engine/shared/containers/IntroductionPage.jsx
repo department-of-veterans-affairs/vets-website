@@ -14,7 +14,7 @@ const IntroductionPage = props => {
   const { formConfig, pageList } = route;
 
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('.usa-breadcrumb__list');
   }, []);
 
   return (

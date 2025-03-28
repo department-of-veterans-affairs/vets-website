@@ -28,6 +28,8 @@ import {
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -98,27 +100,29 @@ export function selectFutureStatus(state) {
 export const selectFutureAppointments = createSelector(
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (pending, confirmed) => {
+  state => selectFeatureFeSourceOfTruth(state),
+  (pending, confirmed, useFeSourceOfTruth) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(isUpcomingAppointmentOrRequest)
+      .filter(item => isUpcomingAppointmentOrRequest(item, useFeSourceOfTruth))
       .sort(sortUpcoming);
   },
 );
 
 export const selectUpcomingAppointments = createSelector(
   state => state.appointments.confirmed,
-  confirmed => {
+  state => selectFeatureFeSourceOfTruth(state),
+  (confirmed, useFeSourceOfTruth) => {
     if (!confirmed) {
       return null;
     }
 
     const sortedAppointments = confirmed
-      .filter(isUpcomingAppointment)
+      .filter(item => isUpcomingAppointment(item, useFeSourceOfTruth))
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
@@ -145,7 +149,12 @@ export const selectPastAppointmentsV2 = state => {
       }
 
       const sortedAppointments = past
-        .filter(isValidPastAppointment)
+        .filter(item =>
+          isValidPastAppointment(
+            item,
+            selectFeatureDisplayPastCancelledAppointments(state),
+          ),
+        )
         .sort(sortByDateDescending);
 
       return groupAppointmentsByMonth(sortedAppointments);
@@ -280,11 +289,12 @@ export function selectBackendServiceFailuresInfo(state) {
     backendServiceFailures,
   };
 }
-
-export function selectStartDate(appointment) {
+export function selectStartDate(appointment, useFeSourceOfTruth) {
   if (
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
+    useFeSourceOfTruth
+      ? appointment.vaos.isPendingAppointment
+      : appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
+        appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
   ) {
     return moment(appointment.requestedPeriod[0].start);
   }
@@ -600,7 +610,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
 
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    isBadAppointmentId,
+  } = state.appointments;
   const facility =
     facilityData?.[locationId] || appointment?.vaos?.facilityData;
 
@@ -646,6 +660,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facilityData,
     facilityPhone,
     isCanceledAppointment,
+    isBadAppointmentId,
     isCommunityCare,
     isAtlasVideo,
     isPastAppointment,
