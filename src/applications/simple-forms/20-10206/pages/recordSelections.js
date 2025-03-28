@@ -13,7 +13,7 @@ export default {
         'Select at least one compensation, and pension, or other benefit record',
       hint:
         'Depending on your selection, we may ask for more details on the upcoming pages.',
-      labelHeaderLevel: '3',
+      labelHeaderLevel: '1',
       required: true,
       labels: RECORD_TYPE_LABELS,
       errorMessages: {
