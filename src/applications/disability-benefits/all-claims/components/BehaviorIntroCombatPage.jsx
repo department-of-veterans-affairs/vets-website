@@ -11,6 +11,13 @@ import { mentalHealthSupportAlert } from '../content/form0781';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 import { checkValidations } from '../utils/submit';
 import { BehaviorIntroCombatPageModalContent } from './BehaviorIntroCombatPageModalContent';
+import {
+  answerCombatQuestionsChoice,
+  combatIntroDescription,
+  combatIntroTitle,
+  deleteCombatAnswersModalTitle,
+  optOutOfCombatQuestionsChoice,
+} from '../content/form0781/behaviorIntroCombatPage';
 
 const DELETABLE_FORM_DATA_KEYS = [
   'workBehaviors',
@@ -30,21 +37,6 @@ const BehaviorIntroCombatPage = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  // TODO: MOVE TO CONTENT FILE
-  const combatIntroTitle =
-    'Do you want to answer the optional questions about behavorial changes?';
-
-  const combatIntroDescription =
-    "We'll now ask you a few questions about the behavioral changes you experienced after combat events. You can choose to answer these questions or skip them. If we need more information, we'll contact you.";
-
-  const answerCombatQuestionsChoice = 'Yes, I want to answer these questions.';
-  const optOutOfCombatQuestionsChoice = 'No, I want to skip these questions.';
-
-  const selectionField = 'view:answerCombatBehaviorQuestions';
-
-  const deleteCombatAnswersModalTitle =
-    'Change to skip questions about behavioral changes?';
-
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
     null,
@@ -54,7 +46,7 @@ const BehaviorIntroCombatPage = ({
   const [showModal, setShowModal] = useState(false);
 
   const missingSelection = (error, _fieldData, formData) => {
-    if (!formData?.[selectionField]) {
+    if (!formData?.['view:answerCombatBehaviorQuestions']) {
       error.addError?.(missingSelectionErrorMessage);
     }
   };
@@ -190,7 +182,6 @@ const BehaviorIntroCombatPage = ({
           goForward={handlers.onSubmit}
           submitToContinue
         />
-        {/* Do we need this? YES */}
         {contentAfterButtons}
       </form>
     </div>
