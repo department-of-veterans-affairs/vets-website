@@ -916,3 +916,6 @@ export const generalQuestionCondition = formData => {
     formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
   );
 };
+
+export const formatDateTimeForAnnouncements = date =>
+  format(date, "EEEE, MMMM d, yyyy 'at' h:mm a 'ET'");

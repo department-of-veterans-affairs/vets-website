@@ -86,8 +86,7 @@ const yourContactInformationPage = {
         );
         if (
           formData.relationshipToVeteran ===
-            "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-          isEqualToOnlyEmail(updatedCategoryTopicContactPreferences)
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)"
         ) {
           return {
             ...formSchema,

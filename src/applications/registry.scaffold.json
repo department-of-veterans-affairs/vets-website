@@ -148,14 +148,6 @@
     "widgetType": "vye-enrollment-login-widget"
   },
   {
-    "appName": "21a Apply to become a VA-accredited attorney or claims agent",
-    "entryName": "representative-21a",
-    "rootUrl": "/representative/accreditation/attorney-claims-agent-form-21a",
-    "template": {
-      "layout": "accredited-representative-portal.html"
-    }
-  },
-  {
     "appName": "Order Medical Supplies",
     "entryName": "mhv-supply-reordering",
     "rootUrl": "/my-health/order-medical-supplies"
