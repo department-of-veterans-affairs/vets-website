@@ -1,7 +1,21 @@
-import { SEARCH_STARTED, SEARCH_FAILED } from '../actionTypes';
-import { reverseGeocodeBox } from '../../utils/mapHelpers';
-import { LocationType } from '../../constants';
-import { fetchLocations } from '../locations/fetchLocations';
+import {
+  CLEAR_SEARCH_RESULTS,
+  CLEAR_SEARCH_TEXT,
+  SEARCH_FAILED,
+  SEARCH_QUERY_UPDATED,
+  SEARCH_STARTED,
+} from './actionTypes';
+import { reverseGeocodeBox } from '../utils/mapHelpers';
+import { LocationType } from '../constants';
+import { fetchLocations } from './locations';
+
+export const clearSearchResults = () => ({
+  type: CLEAR_SEARCH_RESULTS,
+});
+
+export const clearSearchText = () => async dispatch => {
+  dispatch({ type: CLEAR_SEARCH_TEXT });
+};
 
 /**
  * Find which locations exist within the given bounding box's area.
@@ -66,5 +80,19 @@ export const searchWithBounds = ({
         radius,
       );
     }
+  };
+};
+
+/**
+ * Sync form state with Redux state.
+ * (And implicitly cause updates back in VAMap)
+ *
+ * @param {Object} query The current state of the Search form
+ */
+
+export const updateSearchQuery = query => {
+  return {
+    type: SEARCH_QUERY_UPDATED,
+    payload: { ...query },
   };
 };
