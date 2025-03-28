@@ -1,4 +1,4 @@
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   radioSchema,
   radioUI,
@@ -108,24 +108,24 @@ const conditionPage = {
 
 export default conditionPage;
 
-export const updateFormData = (_oldData, newData) => {
-  const index = getArrayIndexFromPathName();
-  const { arrayPath } = arrayBuilderOptions;
-  const condition = newData[arrayPath]?.[index];
-  const isNewConditionOption = Object.values(NEW_CONDITION_OPTIONS).includes(
-    condition?.ratedDisability,
-  );
+// export const updateFormData = (_oldData, newData) => {
+//   const index = getArrayIndexFromPathName();
+//   const { arrayPath } = arrayBuilderOptions;
+//   const condition = newData[arrayPath]?.[index];
+//   const isNewConditionOption = Object.values(NEW_CONDITION_OPTIONS).includes(
+//     condition?.ratedDisability,
+//   );
 
-  return {
-    ...newData,
-    [arrayPath]: newData[arrayPath].map((item, i) => {
-      if (i === index) {
-        return {
-          ...item,
-          'view:conditionType': isNewConditionOption ? 'NEW' : 'RATED',
-        };
-      }
-      return item;
-    }),
-  };
-};
+//   return {
+//     ...newData,
+//     [arrayPath]: newData[arrayPath].map((item, i) => {
+//       if (i === index) {
+//         return {
+//           ...item,
+//           'view:conditionType': isNewConditionOption ? 'NEW' : 'RATED',
+//         };
+//       }
+//       return item;
+//     }),
+//   };
+// };
