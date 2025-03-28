@@ -284,7 +284,10 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         'ui:title': 'State (for National Guard Service only)',
         'ui:options': {
           hideIf: (formData, index) => {
-            if (index !== null) {
+            if (
+              index !== null &&
+              typeof formData?.serviceRecords !== 'undefined'
+            ) {
               return !['AG', 'NG'].includes(
                 formData?.serviceRecords[index]?.serviceBranch,
               );
