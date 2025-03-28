@@ -87,8 +87,7 @@ const formConfig = {
         label: 'Supporting forms for VA claims',
       },
       {
-        href:
-          '/supporting-forms-for-claims/statement-to-support-claim-form-21-4138',
+        href: '/supporting-forms-for-claims/submit-statement-form-21-4138',
         label: 'Submit a statement to support a claim',
       },
     ],
@@ -112,7 +111,7 @@ const formConfig = {
         layWitnessStatementPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.BUDDY_STATEMENT,
-          path: 'lay-witness-statement',
+          path: 'statement-type/recommend-lay-witness-statement-form-21-10210',
           title: "There's a better way to submit your statement",
           uiSchema: layWitnessStatementPage.uiSchema,
           schema: layWitnessStatementPage.schema,
