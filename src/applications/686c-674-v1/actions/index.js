@@ -23,7 +23,6 @@ export const verifyVaFileNumber = () => async dispatch => {
     });
     dispatch({ type: VERIFY_VA_FILE_NUMBER_FAILED, response });
   } else {
-    Sentry.captureMessage('disability-file-number-gate-successful');
     recordEvent({
       event: 'disability-file-number-gate-successful',
     });
