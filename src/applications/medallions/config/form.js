@@ -55,7 +55,7 @@ const formConfig = {
         ...personalInformationPage({
           key: 'personalInformation',
           title: 'Personal information',
-          path: 'personal-information',
+          path: 'applicant-name',
           personalInfoConfig: {
             ssn: { show: false, required: false },
             vaFileNumber: { show: false, required: false },
@@ -67,7 +67,7 @@ const formConfig = {
         }),
         personalInformation2: {
           path: 'personal-information2',
-          title: 'Your Name',
+          title: 'edit-applicant-name',
           uiSchema: personalInformation.uiSchema,
           schema: personalInformation.schema,
           depends: formData => !isUserSignedIn(formData),
