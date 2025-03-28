@@ -12,11 +12,13 @@ const arrayPath = 'demos';
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
-export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
+export const isEdit = () => {
   const search = getArrayUrlSearchParams();
-  const isEdit = search.get('edit');
+  return search.get('edit');
+};
 
-  if (isEdit) {
+export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
+  if (isEdit()) {
     return editTitle;
   }
   return defaultTitle;
@@ -46,7 +48,7 @@ export const createNonSelectedRatedDisabilities = fullData => {
   );
 };
 
-export const hasRemainingRatedDisabilities = fullData => {
+export const hasRatedDisabilities = fullData => {
   if (fullData?.ratedDisabilities?.length === 0) {
     return false;
   }
@@ -63,12 +65,10 @@ const isNewConditionRatedOrNewRadios = (formData, index) => {
   if (formData?.[arrayPath]) {
     const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
 
-    return ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData);
+    return ratedOrNew === 'NEW' || !hasRatedDisabilities(formData);
   }
 
-  return (
-    formData?.ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData)
-  );
+  return formData?.ratedOrNew === 'NEW' || !hasRatedDisabilities(formData);
 };
 
 const isNewConditionRatedOrNewNextPage = (formData, index) => {
@@ -88,6 +88,12 @@ export const isNewCondition = (formData, index) => {
 
   return isNewConditionRatedOrNewNextPage(formData, index);
 };
+
+export const hasRatedDisabilitiesOrIsRatedDisability = (fullData, index) =>
+  hasRatedDisabilities(fullData) || !isNewCondition(fullData, index);
+
+export const hasRatedDisabilitiesAndIsRatedDisability = (fullData, index) =>
+  hasRatedDisabilities(fullData) && !isNewCondition(fullData, index);
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
 const capitalizeFirstLetter = string => {
