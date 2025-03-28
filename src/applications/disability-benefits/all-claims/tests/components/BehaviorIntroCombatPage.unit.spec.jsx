@@ -33,57 +33,57 @@ describe('BehaviorIntroCombatPage', () => {
     );
   };
 
-  // it('should render with two radio selections', () => {
-  //   const { container } = render(page());
-  //   expect($$('va-radio-option', container).length).to.eq(2);
-  // });
+  it('should render with two radio selections', () => {
+    const { container } = render(page());
+    expect($$('va-radio-option', container).length).to.eq(2);
+  });
 
   describe('Answer Behavioral Questions selection', () => {
     describe('Opting in to answering behavioral questions', () => {
-      // it('should advance to the next page', () => {
-      //   const goForwardSpy = sinon.spy();
+      it('should advance to the next page', () => {
+        const goForwardSpy = sinon.spy();
 
-      //   const data = {
-      //     'view:answerCombatBehaviorQuestions': 'true',
-      //   };
+        const data = {
+          'view:answerCombatBehaviorQuestions': 'true',
+        };
 
-      //   const { container } = render(page({ data, goForward: goForwardSpy }));
+        const { container } = render(page({ data, goForward: goForwardSpy }));
 
-      //   fireEvent.click($('button[type="submit"]', container));
-      //   expect(goForwardSpy.called).to.be.true;
-      // });
+        fireEvent.click($('button[type="submit"]', container));
+        expect(goForwardSpy.called).to.be.true;
+      });
     });
 
     describe('Opting out of answering behavioral questions', () => {
-      // it('should advance to the next page', () => {
-      //   const goForwardSpy = sinon.spy();
+      it('should advance to the next page', () => {
+        const goForwardSpy = sinon.spy();
 
-      //   const data = {
-      //     'view:answerCombatBehaviorQuestions': 'false',
-      //   };
+        const data = {
+          'view:answerCombatBehaviorQuestions': 'false',
+        };
 
-      //   const { container } = render(page({ data, goForward: goForwardSpy }));
+        const { container } = render(page({ data, goForward: goForwardSpy }));
 
-      //   fireEvent.click($('button[type="submit"]', container));
-      //   expect(goForwardSpy.called).to.be.true;
-      // });
+        fireEvent.click($('button[type="submit"]', container));
+        expect(goForwardSpy.called).to.be.true;
+      });
     });
 
     describe('Validations', () => {
-      // it('raises an error if a selection is not made and does not advance', () => {
-      //   const goForwardSpy = sinon.spy();
-      //   const { container } = render(
-      //     page({ data: {}, goForward: goForwardSpy }),
-      //   );
+      it('raises an error if a selection is not made and does not advance', () => {
+        const goForwardSpy = sinon.spy();
+        const { container } = render(
+          page({ data: {}, goForward: goForwardSpy }),
+        );
 
-      //   fireEvent.click($('button[type="submit"]', container));
+        fireEvent.click($('button[type="submit"]', container));
 
-      //   expect($('va-radio', container).error).to.contain(
-      //     missingSelectionErrorMessage,
-      //   );
+        expect($('va-radio', container).error).to.contain(
+          missingSelectionErrorMessage,
+        );
 
-      //   expect(goForwardSpy.notCalled).to.be.true;
-      // });
+        expect(goForwardSpy.notCalled).to.be.true;
+      });
     });
 
     describe('Delete already declared behavioral changes modal', () => {
@@ -95,14 +95,14 @@ describe('BehaviorIntroCombatPage', () => {
           },
         };
 
-        // it('displays a prompt to delete the answers and prevents the page from submitting', () => {
-        //   const goForwardSpy = sinon.spy();
-        //   const { container } = render(page({ data, goForward: goForwardSpy }));
+        it('displays a prompt to delete the answers and prevents the page from submitting', () => {
+          const goForwardSpy = sinon.spy();
+          const { container } = render(page({ data, goForward: goForwardSpy }));
 
-        //   fireEvent.click($('button[type="submit"]', container));
-        //   expect($('va-modal[visible="true"]', container)).to.exist;
-        //   expect(goForwardSpy.notCalled).to.be.true;
-        // });
+          fireEvent.click($('button[type="submit"]', container));
+          expect($('va-modal[visible="true"]', container)).to.exist;
+          expect(goForwardSpy.notCalled).to.be.true;
+        });
       });
 
       describe('When the user has already declared behavioral changes, is opted in and clicks continue', () => {
@@ -113,17 +113,54 @@ describe('BehaviorIntroCombatPage', () => {
           },
         };
 
-        // it('does not display a prompt to delete the answers and prevent the page from submitting', () => {
-        //   const goForwardSpy = sinon.spy();
-        //   const { container } = render(page({ data, goForward: goForwardSpy }));
+        it('does not display a prompt to delete the answers and prevent the page from submitting', () => {
+          const goForwardSpy = sinon.spy();
+          const { container } = render(page({ data, goForward: goForwardSpy }));
 
-        //   fireEvent.click($('button[type="submit"]', container));
-        //   expect($('va-modal[visible="true"]', container)).not.to.exist;
-        //   expect(goForwardSpy.called).to.be.true;
-        // });
+          fireEvent.click($('button[type="submit"]', container));
+          expect($('va-modal[visible="true"]', container)).not.to.exist;
+          expect(goForwardSpy.called).to.be.true;
+        });
       });
 
+      // DOC THE EXPECTED BEHAVIOR!
       describe('Modal Content', () => {
+        describe('When the user has previously claimed three behavioral changes on the Behavioral List page', () => {
+          const threeSelectedChangesAndOptOut = {
+            'view:answerCombatBehaviorQuestions': 'false',
+            workBehaviors: {
+              performance: true,
+              reassignment: true,
+            },
+            healthBehaviors: {
+              appetite: true,
+            },
+          };
+
+          it('lists all three behavior descriptions in the modal content', () => {
+            const { container } = render(
+              page({ data: threeSelectedChangesAndOptOut }),
+            );
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+
+            const descriptionBullets = $$('li', modal);
+            expect(descriptionBullets.length).to.eq(4);
+
+            expect(descriptionBullets[0].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.performance,
+            );
+            expect(descriptionBullets[1].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.reassignment,
+            );
+            expect(descriptionBullets[2].textContent).to.contain(
+              BEHAVIOR_CHANGES_HEALTH.appetite,
+            );
+          });
+        });
+
         describe('When the user has previously claimed up to four behavioral changes on the Behavioral List page', () => {
           const fourSelectedChangesAndOptOut = {
             'view:answerCombatBehaviorQuestions': 'false',
@@ -178,37 +215,87 @@ describe('BehaviorIntroCombatPage', () => {
             },
           };
 
-          // Fix first use case firstx
-          // it('lists three behavior descriptions in the modal content and a note explaining there are two remaining', () => {
-          //   const { container } = render(
-          //     page({ data: fiveSelectedChangesAndOptOut }),
-          //   );
+          it('lists three behavior descriptions in the modal content and a note explaining there are two remaining', () => {
+            const { container } = render(
+              page({ data: fiveSelectedChangesAndOptOut }),
+            );
 
-          //   fireEvent.click($('button[type="submit"]', container));
+            fireEvent.click($('button[type="submit"]', container));
 
-          //   const modal = container.querySelector('va-modal');
+            const modal = container.querySelector('va-modal');
 
-          //   const descriptionBullets = $$('li', modal);
-          //   expect(descriptionBullets.length).to.eq(4);
+            const descriptionBullets = $$('li', modal);
 
-          //   // console.log(
-          //   //   'Description bullets',
-          //   //   descriptionBullets.map(x => x.textContent),
-          //   // );
-          //   // Should be correct order?
-          //   expect(descriptionBullets[0].textContent).to.contain(
-          //     BEHAVIOR_CHANGES_WORK.performance,
-          //   );
-          //   expect(descriptionBullets[1].textContent).to.contain(
-          //     BEHAVIOR_CHANGES_WORK.reassignment,
-          //   );
-          //   expect(descriptionBullets[2].textContent).to.contain(
-          //     BEHAVIOR_CHANGES_WORK.absences,
-          //   );
-          //   expect(descriptionBullets[3].textContent).to.contain(
-          //     'And, 2 other behavioral changes',
-          //   );
-          // });
+            expect(descriptionBullets.length).to.eq(4);
+
+            expect(descriptionBullets[0].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.performance,
+            );
+            expect(descriptionBullets[1].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.reassignment,
+            );
+            expect(descriptionBullets[2].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.absences,
+            );
+            expect(descriptionBullets[3].textContent).to.contain(
+              'And, 2 other behavioral changes',
+            );
+          });
+        });
+
+        // This is the behavior of the Forms Library when the user visits the BehaviorListPage but doesn't make a selection
+        // CONFIRM THIS
+        describe('When behavioral changes are undefined in the formData', () => {
+          it('does not display the behavioral changes in the modal', () => {
+            const undefinedPresent = {
+              'view:answerCombatBehaviorQuestions': 'false',
+              workBehaviors: {
+                performance: true,
+                reassignment: undefined,
+              },
+            };
+
+            const { container } = render(page({ data: undefinedPresent }));
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+
+            const descriptionBullets = $$('li', modal);
+
+            expect(descriptionBullets.length).to.eq(1);
+
+            expect(descriptionBullets[0].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.performance,
+            );
+          });
+        });
+
+        // Behavioral changes may be present in the formData with a false value if the user selected and then unselected the behavior on the BehaviorListPage
+        describe('When behavioral changes are false in the formData', () => {
+          it('does not display the behavioral changes in the modal', () => {
+            const undefinedPresent = {
+              'view:answerCombatBehaviorQuestions': 'false',
+              workBehaviors: {
+                performance: true,
+                reassignment: false,
+              },
+            };
+
+            const { container } = render(page({ data: undefinedPresent }));
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+
+            const descriptionBullets = $$('li', modal);
+
+            expect(descriptionBullets.length).to.eq(1);
+
+            expect(descriptionBullets[0].textContent).to.contain(
+              BEHAVIOR_CHANGES_WORK.performance,
+            );
+          });
         });
       });
 
@@ -232,81 +319,77 @@ describe('BehaviorIntroCombatPage', () => {
         };
 
         describe('When the close button is clicked', () => {
-          // it('closes the modal', () => {
-          //   const { container } = render(
-          //     page({ data: filledOutDataWithOptOut }),
-          //   );
+          it('closes the modal', () => {
+            const { container } = render(
+              page({ data: filledOutDataWithOptOut }),
+            );
 
-          //   fireEvent.click($('button[type="submit"]', container));
+            fireEvent.click($('button[type="submit"]', container));
 
-          //   const modal = container.querySelector('va-modal');
+            const modal = container.querySelector('va-modal');
 
-          //   modal.__events.closeEvent();
-          //   expect($('va-modal[visible="true"]', container)).not.to.exist;
-          // });
+            modal.__events.closeEvent();
+            expect($('va-modal[visible="true"]', container)).not.to.exist;
+          });
         });
 
         describe('When the confirm button is clicked', () => {
-          // it('closes the modal, deletes answered questions and checkboxes and advances to the next page', () => {
-          //   const setFormDataSpy = sinon.spy();
-          //   const goForwardSpy = sinon.spy();
+          it('closes the modal, deletes answered questions and checkboxes and advances to the next page', () => {
+            const setFormDataSpy = sinon.spy();
+            const goForwardSpy = sinon.spy();
 
-          //   const { container } = render(
-          //     page({
-          //       data: filledOutDataWithOptOut,
-          //       setFormData: setFormDataSpy,
-          //       goForward: goForwardSpy,
-          //     }),
-          //   );
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                setFormData: setFormDataSpy,
+                goForward: goForwardSpy,
+              }),
+            );
 
-          //   fireEvent.click($('button[type="submit"]', container));
+            fireEvent.click($('button[type="submit"]', container));
 
-          //   const modal = container.querySelector('va-modal');
+            const modal = container.querySelector('va-modal');
 
-          //   modal.__events.primaryButtonClick();
-          //   expect($('va-modal[visible="true"]', container)).not.to.exist;
+            modal.__events.primaryButtonClick();
+            expect($('va-modal[visible="true"]', container)).not.to.exist;
 
-          //   expect(
-          //     setFormDataSpy.calledWith({
-          //       'view:answerCombatBehaviorQuestions': 'false',
-          //       healthBehaviors: {},
-          //       workBehaviors: {},
-          //       otherBehaviors: {},
-          //       behaviorsDetails: {},
-          //     }),
-          //   );
+            expect(
+              setFormDataSpy.calledWith({
+                'view:answerCombatBehaviorQuestions': 'false',
+                healthBehaviors: {},
+                workBehaviors: {},
+                otherBehaviors: {},
+                behaviorsDetails: {},
+              }),
+            );
 
-          //   expect(goForwardSpy.called).to.be.true;
-          // });
+            expect(goForwardSpy.called).to.be.true;
+          });
         });
 
-
-        // TODO: TEST FILTERS OUT FALSE VALUES (WAS CLICKED AND THEN CLICKED OFF)
-        // TODO: TEST FILTERS OUT UNDEFEINED VALUES (WAS NEVER CLICKED)
-
         describe('When the cancel button is clicked', () => {
-          // it('closes the modal, does not delete answered questons and does not advance to the next page', () => {
-          //   const setFormDataSpy = sinon.spy();
-          //   const goForwardSpy = sinon.spy();
+          it('closes the modal, does not delete answered questons and does not advance to the next page', () => {
+            const setFormDataSpy = sinon.spy();
+            const goForwardSpy = sinon.spy();
 
-          //   const { container } = render(
-          //     page({
-          //       data: filledOutDataWithOptOut,
-          //       setFormData: setFormDataSpy,
-          //       goForward: goForwardSpy,
-          //     }),
-          //   );
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                setFormData: setFormDataSpy,
+                goForward: goForwardSpy,
+              }),
+            );
 
-          //   fireEvent.click($('button[type="submit"]', container));
+            fireEvent.click($('button[type="submit"]', container));
 
-          //   const modal = container.querySelector('va-modal');
+            const modal = container.querySelector('va-modal');
 
-          //   modal.__events.secondaryButtonClick();
-          //   expect($('va-modal[visible="true"]', container)).not.to.exist;
+            modal.__events.secondaryButtonClick();
+            expect($('va-modal[visible="true"]', container)).not.to.exist;
 
-          //   expect(setFormDataSpy.notCalled).to.be.true;
-          //   expect(goForwardSpy.notCalled).to.be.true;
-          // });
+            expect(setFormDataSpy.notCalled).to.be.true;
+            expect(goForwardSpy.notCalled).to.be.true;
+          });
         });
       });
     });
