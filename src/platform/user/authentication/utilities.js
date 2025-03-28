@@ -247,12 +247,12 @@ export function sessionTypeUrl({
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    allowVerification ||
-    forceVerify === 'required' ||
-    (externalRedirect &&
-      (isLogin || isSignup) &&
-      config.requiresVerification) ||
-    type !== POLICY_TYPES.SLO
+    type !== POLICY_TYPES.SLO &&
+    (allowVerification ||
+      forceVerify === 'required' ||
+      (externalRedirect &&
+        (isLogin || isSignup) &&
+        config.requiresVerification))
       ? '_verified'
       : '';
 
