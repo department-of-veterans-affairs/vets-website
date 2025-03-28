@@ -5,6 +5,7 @@ import {
   getTooltipsList,
   incrementTooltipCounter,
 } from '../api/rxApi';
+import { tooltipNames } from '../util/constants';
 
 export const getTooltips = () => async dispatch => {
   try {
@@ -78,4 +79,22 @@ export const setTooltip = (tooltipId, tooltipVisibility) => {
       payload: tooltipVisibility,
     });
   };
+};
+
+export const getTooltip = () => async dispatch => {
+  try {
+    const tooltips = await dispatch(getTooltips());
+
+    return tooltips?.find(
+      tooltip =>
+        tooltip.tooltipName ===
+        tooltipNames.mhvMedicationsTooltipFilterAccordion,
+    );
+  } catch (error) {
+    dispatch({
+      type: Actions.Tooltip.GET_TOOLTIP_ERROR,
+      error,
+    });
+    return error;
+  }
 };

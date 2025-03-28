@@ -7,14 +7,13 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { tooltipHintContent, tooltipNames } from '../../util/constants';
-import { Actions } from '../../util/actionTypes';
+import { tooltipHintContent } from '../../util/constants';
 import {
-  getTooltips,
   createNewTooltip,
   incrementTooltip,
   setTooltip,
   updateTooltipVisibility,
+  getTooltip,
 } from '../../actions/tooltip'; // Adjust the import path according to your project structure
 
 export const RX_IPE_FILTERING_DESCRIPTION_ID = 'rx-ipe-filtering-description';
@@ -32,34 +31,22 @@ const InProductionEducationFiltering = () => {
   useEffect(
     () => {
       const fetchTooltips = async () => {
-        try {
-          const tooltips = await dispatch(getTooltips());
-          const filterTooltip = tooltips?.find(
-            tooltip =>
-              tooltip.tooltipName ===
-              tooltipNames.mhvMedicationsTooltipFilterAccordion,
-          );
+        const filterTooltip = await dispatch(getTooltip());
 
-          if (filterTooltip) {
-            dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
+        if (filterTooltip) {
+          dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-            if (!filterTooltip.hidden) {
-              dispatch(incrementTooltip(filterTooltip.id));
-            }
-          } else {
-            const newTooltipResponse = await dispatch(createNewTooltip());
-
-            if (newTooltipResponse) {
-              dispatch(
-                setTooltip(newTooltipResponse.id, !newTooltipResponse.hidden),
-              );
-            }
+          if (!filterTooltip.hidden) {
+            dispatch(incrementTooltip(filterTooltip.id));
           }
-        } catch (error) {
-          dispatch({
-            type: Actions.Tooltip.GET_TOOLTIPS_ERROR,
-            error,
-          });
+        } else {
+          const newTooltipResponse = await dispatch(createNewTooltip());
+
+          if (newTooltipResponse) {
+            dispatch(
+              setTooltip(newTooltipResponse.id, !newTooltipResponse.hidden),
+            );
+          }
         }
       };
 
