@@ -9,6 +9,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import widgetTypes from 'platform/site-wide/widgetTypes';
+import createRepresentativeStatus from 'platform/user/widgets/representative-status';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
@@ -51,7 +52,6 @@ import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMap
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindARepLandingContent from './representative-search';
 import createAppointARepLandingContent from './representative-appoint';
-import createRepresentativeStatus from './representative-status';
 import {
   createFindVaForms,
   reducer as findVAFormsReducer,

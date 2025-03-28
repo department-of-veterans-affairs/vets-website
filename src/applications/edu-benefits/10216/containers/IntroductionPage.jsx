@@ -39,7 +39,7 @@ const IntroductionPage = ({ route }) => {
           />
         </li>
         <li>
-          Non-accredited schools: Submit both VA Form 22-10216 and VA Form
+          Nonaccredited schools: Submit both VA Form 22-10216 and VA Form
           22-10215 (Statement of Assurance of Compliance with 85% Enrollment
           Ratios) for the corresponding term to the{' '}
           <va-link
@@ -48,7 +48,7 @@ const IntroductionPage = ({ route }) => {
           />
         </li>
         <li>
-          <strong>Note for non-accredited schools:</strong> This exemption
+          <strong>Note for nonaccredited schools:</strong> This exemption
           applies only to the submission of routine reports. Your Educational &
           Training Institution must maintain compliance with the provisions of
           the 85/15 Rule for all programs approved to receive GI Bill Benefits
@@ -71,8 +71,8 @@ const IntroductionPage = ({ route }) => {
             and any required documentaion, before continuing.
           </p>
           <p>
-            <strong>Note for non-accredited schools: </strong>
-            If you are submitting on behalf of a non-accredited institution, you
+            <strong>Note for nonaccredited schools: </strong>
+            If you are submitting on behalf of a nonaccredited institution, you
             will need to complete and submit both the exemption request form, VA
             Form 22-10216, and VA Form 22-10215 (Statement of Assurance of
             Compliance with 85% Enrollment Ratios) for the corresponding term.
@@ -91,7 +91,7 @@ const IntroductionPage = ({ route }) => {
         <va-process-list-item header="Upload your PDF to the VA Educational portal">
           <p>
             Finally, upload your completed exemption request PDF. For
-            non-accredited schools, upload both VA Form 22-10216 and VA Form
+            nonaccredited schools, upload both VA Form 22-10216 and VA Form
             22-10215.
           </p>
         </va-process-list-item>

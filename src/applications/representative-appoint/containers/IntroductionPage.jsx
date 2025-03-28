@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import repStatusLoader from 'applications/static-pages/representative-status';
+import repStatusLoader from 'platform/user/widgets/representative-status';
 import { useStore, connect } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 
