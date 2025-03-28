@@ -2,8 +2,9 @@ import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { isCompletingForm0781 } from '../../utils/form0781';
 import eventDetails from './traumaticEventDetails';
-import { officialReport, officialReportMst } from './officialReport';
+import { officialReportCustom } from './officialReport';
 import policeReport from './policeReportLocation';
+import OfficialReport from '../../components/OfficialReport';
 import {
   eventsListPageTitle,
   eventsListDescription,
@@ -130,18 +131,10 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   officialReport: pageBuilder.itemPage({
     title: officialReportPageTitle,
     path: `mental-health-form-0781/:index/event-report`,
-    depends: (formData, index) =>
-      formData.events?.[index] && !isMstEvent(formData),
-    uiSchema: officialReport.uiSchema,
-    schema: officialReport.schema,
-  }),
-  officialReportMst: pageBuilder.itemPage({
-    title: officialReportPageTitle,
-    path: `mental-health-form-0781/:index/event-report-mst`,
-    depends: (formData, index) =>
-      formData.events?.[index] && isMstEvent(formData),
-    uiSchema: officialReportMst.uiSchema,
-    schema: officialReportMst.schema,
+    depends: (formData, index) => formData.events?.[index],
+    CustomPage: OfficialReport,
+    uiSchema: officialReportCustom.uiSchema,
+    schema: officialReportCustom.schema,
   }),
   policeReport: pageBuilder.itemPage({
     title: policeReportLocationPageTitle,
