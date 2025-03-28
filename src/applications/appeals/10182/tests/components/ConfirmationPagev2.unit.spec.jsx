@@ -10,7 +10,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import ConfirmationPageV2 from '../../components/ConfirmationPageV2';
+import ConfirmationPageV2 from '../../containers/ConfirmationPage';
 import maxData from '../fixtures/data/maximal-test.json';
 
 import { getReadableDate } from '../../../shared/utils/dates';
