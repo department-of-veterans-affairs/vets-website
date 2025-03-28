@@ -12,7 +12,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
-import repStatusLoader from 'platform/user/widgets/representative-status';
+import repStatusLoader from 'applications/static-pages/representative-status';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
