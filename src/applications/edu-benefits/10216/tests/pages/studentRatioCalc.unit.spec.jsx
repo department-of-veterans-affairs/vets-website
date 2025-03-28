@@ -36,6 +36,7 @@ describe('Student Ratio Calculation page', () => {
 
     expect($$('va-text-input', container).length).to.equal(2);
     expect($$('va-memorable-date', container).length).to.equal(1);
+    expect($$('va-alert', container).length).to.equal(1);
     getByRole('button', { name: /submit/i }).click();
     expect($$('va-memorable-date[error]', container).length).to.equal(1);
   });
