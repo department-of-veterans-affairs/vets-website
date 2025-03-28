@@ -7,11 +7,11 @@ import formConfig from '../../../../config/form';
 const {
   chapters: {
     secondaryCaregiverInformation: {
-      pages: { secondaryOneContactInformation },
+      pages: { secondaryTwoContactInformation },
     },
   },
 } = formConfig;
-const { title: pageTitle, schema, uiSchema } = secondaryOneContactInformation;
+const { title: pageTitle, schema, uiSchema } = secondaryTwoContactInformation;
 
 // run test for correct number of fields on the page
 const expectedNumberOfWebComponentFields = 3;

@@ -7,6 +7,7 @@ const buildFormData = (
   serviceNumber = undefined,
   ssn = undefined,
   phoneNumber = '',
+  businessPhone = '',
   emailAddress = '',
   schoolInfo = {},
   branchOfService = '',
@@ -46,6 +47,8 @@ const buildFormData = (
     },
     phoneNumber: phoneNumber || '',
     emailAddress: emailAddress || '',
+    businessPhone: businessPhone || '',
+    businessEmail: emailAddress || '',
     schoolInfo,
   };
 
@@ -63,6 +66,7 @@ describe('Ask VA prefill transformer', () => {
       undefined,
       '123456987',
       '555-123-4567',
+      '',
       'pparker@dailyBugle.com',
       { schoolFacilityCode: '321', schoolName: 'Midtown School of Science' },
     );
@@ -89,6 +93,8 @@ describe('Ask VA prefill transformer', () => {
         aboutYourself: {},
         phoneNumber: '',
         emailAddress: '',
+        businessPhone: '',
+        businessEmail: '',
       },
       pages,
     });
@@ -116,6 +122,8 @@ describe('Ask VA prefill transformer', () => {
         },
         phoneNumber: '555-123-4567',
         emailAddress: '',
+        businessPhone: '',
+        businessEmail: '',
       },
       pages,
     });

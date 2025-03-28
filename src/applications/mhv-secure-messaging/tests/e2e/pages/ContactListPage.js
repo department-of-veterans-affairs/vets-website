@@ -1,5 +1,5 @@
 import { Locators, Paths, Alerts, Data } from '../utils/constants';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
 class ContactListPage {
   loadContactList = (recipients = mockRecipients) => {

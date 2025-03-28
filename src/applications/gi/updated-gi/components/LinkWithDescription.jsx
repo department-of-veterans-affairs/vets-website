@@ -3,12 +3,12 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const LinkWithDescription = ({ text, href, description }) => {
+const LinkWithDescription = ({ text, href, routerHref, description }) => {
   const history = useHistory();
 
   function handleRouteChange(event) {
     event.preventDefault();
-    history.push(href);
+    history.push(routerHref);
   }
 
   return (

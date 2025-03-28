@@ -199,15 +199,8 @@ const MessageList = props => {
         currentMessages.map((message, idx) => (
           <MessageListItem
             key={`${message.messageId}+${idx}`}
-            messageId={message.messageId}
-            senderName={message.senderName}
-            sentDate={message.sentDate}
-            subject={message.subject}
-            readReceipt={message.readReceipt}
-            attachment={message.attachment}
-            recipientName={message.recipientName}
+            message={message}
             keyword={keyword}
-            category={message.category}
             activeFolder={folder}
           />
         ))}
