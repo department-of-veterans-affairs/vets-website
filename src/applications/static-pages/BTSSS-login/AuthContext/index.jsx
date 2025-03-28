@@ -25,14 +25,36 @@ const AuthContext = () => {
 
   return (
     <>
-      <va-link-action
-        data-testid="btsss-link"
-        href="https://dvagov-btsss.dynamics365portals.us/signin"
-        text="Go to BTSSS to file a claim"
-      />
-      {appEnabled && (
+      {appEnabled ? (
         <>
-          <p>You can also check your travel claim status here on VA.gov</p>
+          <va-link-action
+            data-testid="btsss-link"
+            href="/my-health/appointments/past"
+            text="Go to your past appointments"
+          />
+          <p>
+            <strong>
+              If you need to submit receipts for other expenses, like tolls,
+              meals, or lodging
+            </strong>
+            , you can file your travel claim through the{' '}
+            <va-link
+              external
+              href="https://dvagov-btsss.dynamics365portals.us/signin"
+              text="Beneficiary Travel Self-Service System"
+            />
+            .
+          </p>
+          <p>
+            If you want to check the status of all your travel claims, you can
+            do that here on VA.gov.
+          </p>
+          <p>
+            <strong>
+              If you want to check the status of all your travel claims
+            </strong>
+            , you can do that here on VA.gov.
+          </p>
           <va-link-action
             data-testid="vagov-travel-pay-link"
             type="secondary"
@@ -40,6 +62,12 @@ const AuthContext = () => {
             text="Check your travel claim status"
           />
         </>
+      ) : (
+        <va-link-action
+          data-testid="btsss-link"
+          href="https://dvagov-btsss.dynamics365portals.us/signin"
+          text="Go to BTSSS to file a claim"
+        />
       )}
     </>
   );

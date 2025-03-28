@@ -20,6 +20,7 @@ import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import ErrorAlert from '../components/alerts/ErrorAlert';
+import { BTSSS_PORTAL_URL } from '../constants';
 
 export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
@@ -299,6 +300,24 @@ export default function TravelPayStatusApp({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
+          <va-link-action
+            href="/my-health/appointments/past"
+            text="Go to your past appointments"
+            class="vads-u-margin-top--2"
+          />
+          <p>
+            <strong>
+              If you need to submit receipts for other expenses, like tolls,
+              meals, or lodging
+            </strong>
+            , you can file your travel claim through the{' '}
+            <va-link
+              external
+              href={BTSSS_PORTAL_URL}
+              text="Beneficiary Travel Self-Service System"
+            />
+            .
+          </p>
           {!error &&
             !isLoading && (
               <va-additional-info
