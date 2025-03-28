@@ -90,11 +90,11 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Institution Details',
+      title: 'Identifying Details',
       pages: {
         certifyingOfficial: {
           path: 'institution-details',
-          title: 'Tell us about yourself',
+          title: 'Your name and title',
           uiSchema: certifyingOfficial.uiSchema,
           schema: certifyingOfficial.schema,
           onNavForward: ({ goPath }) => {
@@ -104,7 +104,7 @@ const formConfig = {
         },
         institutionDetails: {
           path: 'institution-details-1',
-          title: 'Institution Details',
+          title: 'Institution details',
           onNavForward: async ({ formData, goPath }) => {
             const isAccredited = await validateFacilityCode(formData);
             localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
