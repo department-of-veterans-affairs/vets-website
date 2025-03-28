@@ -1,6 +1,6 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
 const { prescriptionDocumentationHtml } = require('./documentation');
-const prescriptionsList = require('../../../../tests/fixtures/prescriptionsList.json'); // Import prescriptionsList.json
+const prescriptionsList = require('../../../../tests/fixtures/prescriptionsList.json');
 
 function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
@@ -109,7 +109,6 @@ function mockPrescriptionArray(n = 20) {
     const statusString =
       differenceInDays(today, someDate) > 14 ? 'Expired' : 'Active';
 
-    // Cycle through real prescriptions
     const realPrescription =
       realPrescriptions[i % realPrescriptions.length].attributes;
 
