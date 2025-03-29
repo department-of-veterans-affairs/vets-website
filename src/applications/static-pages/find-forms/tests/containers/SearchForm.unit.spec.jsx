@@ -12,15 +12,15 @@ const mockStore = configureStore([]);
 const store = mockStore({ findVAFormsReducer: { fetching: false } });
 
 describe('Find VA Forms <SearchForm>', () => {
-  const oldLocation = global.window.location;
+  const oldLocation = global.window.location.href;
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    global.window.location.href = oldLocation;
     apiStub.resetHistory();
   });
 
   it('should fetch data on mount when a search query is added', async () => {
-    global.window.location = { search: '?q=health' };
+    global.window.location.href = 'http://localhost:3001/find-forms?q=health';
 
     const { queryByTestId } = render(
       <Provider store={store}>
@@ -36,7 +36,7 @@ describe('Find VA Forms <SearchForm>', () => {
   });
 
   it('should not fetch data when there is no search query', async () => {
-    global.window.location = { search: '?q=' };
+    global.window.location.href = 'http://localhost:3001/find-forms?q=';
 
     const { queryByTestId } = render(
       <Provider store={store}>
@@ -51,7 +51,7 @@ describe('Find VA Forms <SearchForm>', () => {
   });
 
   it('should not fetch data and show an error when there is only 1 character search query', async () => {
-    global.window.location = { search: '?q=a' };
+    global.window.location.href = 'http://localhost:3001/find-forms?q=a';
 
     const { queryByTestId } = render(
       <Provider store={store}>
