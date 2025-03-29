@@ -35,7 +35,7 @@ describe('EditContactInfo', () => {
       const { getByText, container } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
-          initialState: { vapProfile },
+          initialState: { user: { profile: { vapContactInfo: vapProfile } } },
           reducers: { vapService },
         },
       );
@@ -82,7 +82,7 @@ describe('EditContactInfo', () => {
       const { container, getByText } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
-          initialState: { vapProfile },
+          initialState: { user: { profile: { vapContactInfo: vapProfile } } },
           reducers: { vapService },
         },
       );

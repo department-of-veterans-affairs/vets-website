@@ -266,6 +266,7 @@ export const validateAddress = (
   fieldName,
   inputAddress,
   analyticsSectionName,
+  onlyValidate,
 ) => async dispatch => {
   const userEnteredAddress = { ...inputAddress };
   dispatch({
@@ -357,11 +358,20 @@ export const validateAddress = (
         confirmedSuggestions,
       });
     }
+
     recordEvent({
       event: 'profile-transaction',
       'profile-section': analyticsSectionName,
       'profile-addressSuggestionUsed': 'no',
     });
+
+    // when only validating, we don't want to create a transaction to update the profile
+    if (onlyValidate) {
+      return {
+        onlyValidate,
+      };
+    }
+
     sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
 
     // otherwise just send the first suggestion to the API
