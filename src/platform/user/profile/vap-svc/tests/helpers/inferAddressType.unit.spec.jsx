@@ -13,14 +13,14 @@ const address = {
 
 describe('inferAddressType', () => {
   it("should set the type to international if USA isn't selected", () => {
-    const newAddress = Object.assign({}, address, { countryName: 'Uganda' });
+    const newAddress = { ...address, countryName: 'Uganda' };
     expect(inferAddressType(newAddress).type).to.equal(
       ADDRESS_TYPES_ALTERNATE.international,
     );
   });
 
   it('should set the type to military if a military stateCode is chosen', () => {
-    const newAddress = Object.assign({}, address);
+    const newAddress = { ...address };
     Array.from(MILITARY_STATES).forEach(code => {
       newAddress.stateCode = code;
       expect(inferAddressType(newAddress).type).to.equal(
