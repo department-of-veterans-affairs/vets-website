@@ -26,7 +26,7 @@ describe('Medical Records Vitals Details Page', () => {
         defaultVitals.entry[0].resource.component[1].valueQuantity.value
       }`,
       defaultVitals.entry[0].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -38,7 +38,7 @@ describe('Medical Records Vitals Details Page', () => {
         defaultVitals.entry[10].resource.component[1].valueQuantity.value
       }`,
       defaultVitals.entry[10].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -50,7 +50,7 @@ describe('Medical Records Vitals Details Page', () => {
         defaultVitals.entry[20].resource.component[1].valueQuantity.value
       }`,
       defaultVitals.entry[20].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -62,7 +62,7 @@ describe('Medical Records Vitals Details Page', () => {
         defaultVitals.entry[30].resource.component[1].valueQuantity.value
       }`,
       defaultVitals.entry[30].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     // Axe check
