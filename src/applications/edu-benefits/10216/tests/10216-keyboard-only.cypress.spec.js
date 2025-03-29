@@ -56,11 +56,11 @@ describe('22-10216 Edu form', () => {
       'select[name="root_institutionDetails_termStartDateMonth"]',
     );
     // cy.chooseSelectOptionByTyping('April');
-    cy.realType('April');
+    cy.realType('March');
     cy.tabToElement('input[name="root_institutionDetails_termStartDateDay"]');
     cy.realType('1');
     cy.tabToElement('input[name="root_institutionDetails_termStartDateYear"]');
-    cy.realType('2024');
+    cy.realType('2025');
     cy.tabToContinueForm();
 
     // Continue past accredited warning
@@ -93,7 +93,7 @@ describe('22-10216 Edu form', () => {
       'select[name="root_studentRatioCalcChapter_dateOfCalculationMonth"]',
     );
     // cy.chooseSelectOptionByTyping('April');
-    cy.realType('April');
+    cy.realType('March');
     cy.tabToElement(
       'input[name="root_studentRatioCalcChapter_dateOfCalculationDay"]',
     );
@@ -101,7 +101,7 @@ describe('22-10216 Edu form', () => {
     cy.tabToElement(
       'input[name="root_studentRatioCalcChapter_dateOfCalculationYear"]',
     );
-    cy.realType('2024');
+    cy.realType('2025');
     cy.tabToContinueForm();
 
     cy.url().should(

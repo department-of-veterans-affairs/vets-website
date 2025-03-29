@@ -30,11 +30,22 @@ export const calculatedPercentage = formData => {
 export const isDateThirtyDaysOld = (dateOfCalculation, termStartDate) => {
   const dateOfCalculationObj = new Date(dateOfCalculation);
   const termStartDateObj = new Date(termStartDate);
+
   const diffTime = Math.abs(
     termStartDateObj.getTime() - dateOfCalculationObj.getTime(),
   );
+  termStartDateObj.setHours(0, 0, 0, 0);
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays >= 30;
+  return diffDays >= 30 || dateOfCalculationObj < termStartDateObj;
+};
+
+export const isInvalidTermStartDate = termStartDate => {
+  const termStartDateObj = new Date(termStartDate);
+  const today = new Date();
+  const thirtyDaysAgo = new Date(today);
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+
+  return termStartDateObj < thirtyDaysAgo || termStartDateObj > today;
 };
 
 export const dateSigned = () => {
