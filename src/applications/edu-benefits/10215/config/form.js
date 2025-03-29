@@ -52,7 +52,7 @@ export const arrayBuilderOptions = {
 const { date } = commonDefinitions;
 
 const submitFormLogic = (form, formConfig) => {
-  if (environment.isDev()) {
+  if (environment.isDev() || environment.isLocalhost()) {
     return Promise.resolve(testData);
   }
   return submitForm(form, formConfig);
