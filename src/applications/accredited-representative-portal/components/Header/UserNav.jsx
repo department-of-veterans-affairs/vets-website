@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { SIGN_OUT_URL } from '../../utilities/constants';
 import NavDropdown from './NavDropdown';
 
-const UserHelpLinks = () => {
+const UserHelpLinks = accreditedRepresentativePortalHelp => {
   return (
     <>
       <li>
@@ -16,31 +16,35 @@ const UserHelpLinks = () => {
           Power of Attorney Requests
         </Link>
       </li>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--white"
-          to="/get-help"
-        >
-          Get Help
-        </Link>
-      </li>
+      {!accreditedRepresentativePortalHelp && (
+        <li>
+          <Link
+            data-testid="user-nav-profile-link"
+            className="vads-u-color--white"
+            to="/get-help"
+          >
+            Get Help
+          </Link>
+        </li>
+      )}
     </>
   );
 };
 
-const UserNavLinks = () => {
+const UserNavLinks = accreditedRepresentativePortalProfile => {
   return (
     <>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--black"
-          to="/profile"
-        >
-          Profile
-        </Link>
-      </li>
+      {!accreditedRepresentativePortalProfile && (
+        <li>
+          <Link
+            data-testid="user-nav-profile-link"
+            className="vads-u-color--black"
+            to="/profile"
+          >
+            Profile
+          </Link>
+        </li>
+      )}
       <li>
         <a
           data-testid="user-nav-sign-out-link"
@@ -54,7 +58,11 @@ const UserNavLinks = () => {
   );
 };
 
-function UserNav({ profile }) {
+function UserNav({
+  profile,
+  accreditedRepresentativePortalProfile,
+  accreditedRepresentativePortalHelp,
+}) {
   return (
     <>
       <div
@@ -74,7 +82,11 @@ function UserNav({ profile }) {
           view="desktop"
           size={2}
         >
-          <UserNavLinks />
+          <UserNavLinks
+            accreditedRepresentativePortalProfile={
+              accreditedRepresentativePortalProfile
+            }
+          />
         </NavDropdown>
       </div>
       <div className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center mobile">
@@ -88,7 +100,11 @@ function UserNav({ profile }) {
           view="mobile"
           size={3}
         >
-          <UserNavLinks />
+          <UserNavLinks
+            accreditedRepresentativePortalProfile={
+              accreditedRepresentativePortalProfile
+            }
+          />
         </NavDropdown>
 
         <NavDropdown
@@ -101,7 +117,11 @@ function UserNav({ profile }) {
           view="mobile"
           size={2}
         >
-          <UserHelpLinks />
+          <UserHelpLinks
+            accreditedRepresentativePortalHelp={
+              accreditedRepresentativePortalHelp
+            }
+          />
         </NavDropdown>
       </div>
     </>
