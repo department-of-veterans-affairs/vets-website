@@ -40,10 +40,9 @@ describe('Test download all page', () => {
     DownloadAllPage.clearCustomStartYear();
     DownloadAllPage.selectCustomStartYear('1895');
     DownloadAllPage.blurCustomStartYear();
-    // This error is flaky; most of the time it appears, but occasionally it does not
-    // DownloadAllPage.verifyErrorValidYear(
-    //   'Please enter a year between 1900 and 2124',
-    // );
+    DownloadAllPage.verifyErrorValidYear(
+      'Please enter a year between 1900 and 2125',
+    );
 
     DownloadAllPage.selectDateRangeDropdown('All time');
     DownloadAllPage.clickContinueOnDownloadAllPage();
