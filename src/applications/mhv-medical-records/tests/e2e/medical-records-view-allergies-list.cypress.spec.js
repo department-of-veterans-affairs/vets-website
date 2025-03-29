@@ -15,23 +15,47 @@ describe('Medical Records View Allergies', () => {
       'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
 
-    // select sort by alphabetical
     cy.get('select').select('Alphabetically');
-    AllergiesListPage.verifyAllergyTitleByIndex(0, 'MEDIPLAST');
-    AllergiesListPage.verifyAllergyTitleByIndex(1, 'NUTS');
-    AllergiesListPage.verifyAllergyTitleByIndex(4, 'RED MEAT');
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      0, // 'MEDIPLAST'
+      allergies.entry[4].resource.code.text,
+    );
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      1, // 'NUTS'
+      allergies.entry[0].resource.code.text,
+    );
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      4, // 'RED MEAT'
+      allergies.entry[3].resource.code.text,
+    );
 
-    // select sort by newest to oldest
     cy.get('select').select('Newest to oldest (date entered)');
-    AllergiesListPage.verifyAllergyTitleByIndex(0, 'RED MEAT');
-    AllergiesListPage.verifyAllergyTitleByIndex(1, 'NUTS');
-    AllergiesListPage.verifyAllergyTitleByIndex(4, 'MEDIPLAST');
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      0, // 'RED MEAT'
+      allergies.entry[3].resource.code.text,
+    );
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      1, // 'NUTS'
+      allergies.entry[0].resource.code.text,
+    );
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      4, // 'MEDIPLAST'
+      allergies.entry[4].resource.code.text,
+    );
 
-    // select sort by oldest to newest
     cy.get('select').select('Oldest to newest (date entered)');
-    AllergiesListPage.verifyAllergyTitleByIndex(0, 'MEDIPLAST');
-    AllergiesListPage.verifyAllergyTitleByIndex(1, 'PENNSAID');
-    AllergiesListPage.verifyAllergyTitleByIndex(4, 'RED MEAT');
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      0, // 'MEDIPLAST'
+      allergies.entry[4].resource.code.text,
+    );
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      1, // 'PENNSAID'
+      allergies.entry[1].resource.code.text,
+    );
+    AllergiesListPage.verifyAllergyTitleByIndex(
+      4, // 'RED MEAT'
+      allergies.entry[3].resource.code.text,
+    );
 
     AllergiesListPage.verifyPrintOrDownload();
     AllergiesListPage.clickPrintOrDownload();
