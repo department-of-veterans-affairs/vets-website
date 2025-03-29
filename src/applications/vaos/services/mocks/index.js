@@ -91,8 +91,10 @@ const responses = {
     const future = req.body.status === 'booked';
     let reasonForAppointment;
     let patientComments;
+    let type;
     if (req.body.kind === 'cc') {
       patientComments = req.body.reasonCode?.text;
+      type = pending ? 'COMMUNITY_CARE_REQUEST' : 'COMMUNITY_CARE_APPOINTMENT';
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
@@ -111,6 +113,7 @@ const responses = {
         ...req.body,
         created: new Date().toISOString(),
         kind,
+        type,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {

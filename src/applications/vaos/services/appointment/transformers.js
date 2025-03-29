@@ -11,8 +11,7 @@ import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
 export function getAppointmentType(appt, useFeSourceOfTruthCC) {
-  // Cerner appointments have a different structure than VAOS appointments
-  // TODO: refactor this once logic is moved to vets-api
+  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
   if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
@@ -25,17 +24,18 @@ export function getAppointmentType(appt, useFeSourceOfTruthCC) {
     if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
       return APPOINTMENT_TYPES.ccAppointment;
     }
+    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+      return APPOINTMENT_TYPES.ccRequest;
+    }
   } else {
-    // This will be used for CC requests in a followup PR
-    // eslint-disable-next-line no-lonely-if
     if (appt?.kind === 'cc' && appt?.start) {
       return APPOINTMENT_TYPES.ccAppointment;
     }
+    if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+      return APPOINTMENT_TYPES.ccRequest;
+    }
   }
 
-  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
@@ -135,6 +135,9 @@ export function transformVAOSAppointment(
   const isUpcoming = useFeSourceOfTruth
     ? appt.future
     : isFutureAppointment(appt, isRequest);
+  const isCCRequest = useFeSourceOfTruthCC
+    ? appointmentType === APPOINTMENT_TYPES.ccRequest
+    : isCC && isRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -284,7 +287,7 @@ export function transformVAOSAppointment(
           }
         : null,
     preferredProviderName:
-      isCC && isRequest && appt.preferredProviderName
+      isCCRequest && appt.preferredProviderName
         ? { providerName: appt.preferredProviderName }
         : null,
     practitioners:
