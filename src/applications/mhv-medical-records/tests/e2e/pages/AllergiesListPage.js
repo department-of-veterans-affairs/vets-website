@@ -64,6 +64,10 @@ class AllergiesListPage extends BaseListPage {
       .should('have.attr', 'href', '/my-health/medical-records');
   };
 
+  selectSort = _sort => {
+    cy.get('select').select(_sort);
+  };
+
   verifyAllergyTitleByIndex = (index, title) => {
     cy.get('[data-testid="record-list-item"]')
       .eq(index)

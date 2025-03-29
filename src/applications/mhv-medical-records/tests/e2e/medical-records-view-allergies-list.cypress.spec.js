@@ -15,7 +15,7 @@ describe('Medical Records View Allergies', () => {
       'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
 
-    cy.get('select').select('Alphabetically');
+    AllergiesListPage.selectSort('Alphabetically');
     AllergiesListPage.verifyAllergyTitleByIndex(
       0, // 'MEDIPLAST'
       allergies.entry[4].resource.code.text,
@@ -29,7 +29,7 @@ describe('Medical Records View Allergies', () => {
       allergies.entry[3].resource.code.text,
     );
 
-    cy.get('select').select('Newest to oldest (date entered)');
+    AllergiesListPage.selectSort('Newest to oldest (date entered)');
     AllergiesListPage.verifyAllergyTitleByIndex(
       0, // 'RED MEAT'
       allergies.entry[3].resource.code.text,
@@ -43,7 +43,7 @@ describe('Medical Records View Allergies', () => {
       allergies.entry[4].resource.code.text,
     );
 
-    cy.get('select').select('Oldest to newest (date entered)');
+    AllergiesListPage.selectSort('Oldest to newest (date entered)');
     AllergiesListPage.verifyAllergyTitleByIndex(
       0, // 'MEDIPLAST'
       allergies.entry[4].resource.code.text,
