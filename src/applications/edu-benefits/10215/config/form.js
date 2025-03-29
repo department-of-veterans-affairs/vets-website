@@ -128,10 +128,10 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Institution details',
+      title: 'Identifying details',
       pages: {
         institutionOfficial: {
-          path: 'institution-details',
+          path: 'identifying-details',
           title: 'Your name and title',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
@@ -139,7 +139,7 @@ const formConfig = {
         },
         institutionDetails: {
           path: 'institution-details-1',
-          title: 'Institution details',
+          title: 'Identifying details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
         },
