@@ -29,7 +29,9 @@ export const mentalHealthKeys = [
 	"workBehaviors",
 	"healthBehaviors",
 	"otherBehaviors",
-	"eventTypes",
+	"eventTypes",,
+	"unlistedBehaviors",
+	"form781Upload"
 ];
 
 const confirmationDataUpload = {
@@ -58,11 +60,20 @@ const modalDescriptionSkip = (
 	<>
 		<p>
 			<strong>What to know:</strong> If you skip VA Form 21-0781,
-			you won’t be able to share any information about any mental
-			health conditions. You won’t be able to share descriptions
-			about any related traumatic events and resulting behavioral
-			changes, or any details about supporting documents related
-			to mental health.
+			you won’t be able to share any information about any
+			mental health conditions. You won’t be able to share
+			descriptions about any related traumatic events and
+			resulting behavioral changes, or any details about
+			supporting documents related to mental health.
+		</p>
+	</>
+);
+
+const modalDescriptionOnline = (
+	<>
+		<p>
+			<strong>What to know:</strong> If you change your response to answer
+			questions online, we’ll remove PDF file you’ve uploaded.
 		</p>
 		<p><strong>Do you want to change your response to upload a PDF?</strong></p>
 	</>
@@ -70,6 +81,7 @@ const modalDescriptionSkip = (
 
 const alertDescriptionSkip = 'We’ve removed information you’ve entered online about traumatic events';
 const alertDescriptionUpload = 'We’ve removed information about your traumatic events';
+const alertDescriptionOnline = 'We’ve removed your uploaded pdf';
 
 const modalTitleSkip = 'Skip VA Form 21-0781?';
 const modalTitleUpload = 'Change to upload a PDF?';
@@ -80,41 +92,14 @@ const deleteMentalHealthStatement = (data, setFormData) => {
   const updatedData = { ...data };
 
   mentalHealthKeys.forEach((key) => {
-    if (key in updatedData) {
-      const value = updatedData[key];
-
-      if (typeof value === "string") {
-        updatedData[key] = "";
-      } else if (typeof value === "boolean") {
-        updatedData[key] = false;
-      } else if (typeof value === "number") {
-        updatedData[key] = 0;
-      } else if (typeof value === "object" && value !== null) {
-        updatedData[key] = clearMentalHealthData(value);
-      }
-    }
+    delete updatedData[key];
   });
-	setFormData({
-		...updatedData,
-		showDestructiveActionAlert: true
-	});
-}
 
-const clearMentalHealthData = (obj) => {
-  const newObj = {};
-  for (const key in obj) {
-    if (typeof obj[key] === "string") {
-      newObj[key] = "";
-    } else if (typeof obj[key] === "boolean") {
-      newObj[key] = false;
-    } else if (typeof obj[key] === "number") {
-      newObj[key] = 0;
-    } else if (typeof obj[key] === "object" && obj[key] !== null) {
-      newObj[key] = clearMentalHealthData(obj[key]);
-    }
-  }
-  return newObj;
-}
+  setFormData({
+    ...updatedData,
+    showDestructiveActionAlert: true,
+  });
+};
 
 const deepCheck = (value) => {
   switch (typeof value) {
@@ -160,7 +145,9 @@ const ChoiceDestructiveModal = props => {
   } = props;
 
 	const selectionField = 'view:mentalHealthWorkflowChoice';
-	const previousWorkflowChoice = useRef(data?.['view:mentalHealthWorkflowChoice'] ?? null);
+	const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
+		data?.['view:previousMentalHealthWorkflowChoice'] ?? null
+	);
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -208,17 +195,27 @@ const ChoiceDestructiveModal = props => {
 				};
 			default:
 				return {
-					primaryText: 'Yes',
-					secondaryText: 'No',
-					modalContent: null,
-					alertContent: alertDescriptionUpload,
-					modalTitle: 'random',
-				};
+					primaryText: confirmationDataUpload.yes,
+					secondaryText: confirmationDataUpload.no,
+					modalContent: modalDescriptionOnline,
+					alertContent: alertDescriptionOnline,
+					modalTitle: modalTitleOnline,
+				}
 		}
 	})();
 
 
 	console.log('do we have data --------------------------', JSON.stringify(data))
+
+	const setPreviousData = () => {
+		const formData = {
+			...data,
+			'view:previousMentalHealthWorkflowChoice': data?.['view:mentalHealthWorkflowChoice'],
+		};
+		setPreviousWorkflowChoice(data?.['view:mentalHealthWorkflowChoice']);
+		setFormData(formData);
+		goForward(data);
+	}
 
 	 const handlers = {
 		onSelection: event => {
@@ -236,20 +233,12 @@ const ChoiceDestructiveModal = props => {
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
-      } else if (previousWorkflowChoice.current !== data?.['view:mentalHealthWorkflowChoice'] 
-					&& data?.['view:mentalHealthWorkflowChoice'] === form0781WorkflowChoices.SUBMIT_PAPER_FORM
+      } else if (previousWorkflowChoice !== data?.['view:mentalHealthWorkflowChoice'] 
 					&& checkMentalHealthData(data)) {
-				console.log('show paper form modal data')
         setShowModal(true);
-      } else if (previousWorkflowChoice.current !== data?.['view:mentalHealthWorkflowChoice']
-					&& data?.['view:mentalHealthWorkflowChoice'] === form0781WorkflowChoices.OPT_OUT_OF_FORM0781
-					&& checkMentalHealthData(data)) {
-				// code updated needed to checkMentalHealthData and if a pdf is uploaded
-        console.log('show opt out of modal data');
-				setShowModal(true);
       } else {
 				setShowAlert(false);
-        goForward(data);
+        setPreviousData();
       }
     },
     onCloseModal: () => {
@@ -262,7 +251,6 @@ const ChoiceDestructiveModal = props => {
       if (hasError) return;
     },
 		onGoBack: () => {
-			data['view:mentalHealthWorkflowChoice'] = previousWorkflowChoice.current;
 			goBack(data)
 		},
 		onCloseAlert: () => {
