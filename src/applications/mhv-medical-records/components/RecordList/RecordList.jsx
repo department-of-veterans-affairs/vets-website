@@ -113,9 +113,9 @@ const RecordList = props => {
             <VaPagination
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
-              pages={paginatedRecords.current.length}
+              pages={paginatedRecords.totalEntries}
               maxPageListLength={MAX_PAGE_LIST_LENGTH}
-              showLastPage
+              unbounded
               uswds
             />
           </div>

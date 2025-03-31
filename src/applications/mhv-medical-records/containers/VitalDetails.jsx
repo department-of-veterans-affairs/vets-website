@@ -76,7 +76,7 @@ const VitalDetails = props => {
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
-  const perPage = 10;
+  const perPage = 7;
   const [currentVitals, setCurrentVitals] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
@@ -375,9 +375,9 @@ Provider notes: ${vital.notes}\n\n`,
               sendDataDogAction(`Pagination - ${vitalDisplayName}`);
             }}
             page={currentPage}
-            pages={paginatedVitals.current.length}
+            pages={paginatedVitals.current.total}
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            showLastPage
+            unbounded
             uswds
           />
         </div>
