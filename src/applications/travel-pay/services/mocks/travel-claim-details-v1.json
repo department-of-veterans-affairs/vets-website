@@ -1,11 +1,12 @@
 {
   "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
   "claimNumber": "TC0000000000001",
+  "claimName": "Claim created for NOLLE BARAKAT",
   "claimantFirstName": "Nolle",
   "claimantMiddleName": "Polite",
   "claimantLastName": "Barakat",
   "claimStatus": "Pre approved for payment",
-  "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+  "appointmentDate": "2024-01-01T16:45:34.465Z",
   "facilityName": "Cheyenne VA Medical Center",
   "totalCostRequested": 20.0,
   "reimbursementAmount": 14.52,
