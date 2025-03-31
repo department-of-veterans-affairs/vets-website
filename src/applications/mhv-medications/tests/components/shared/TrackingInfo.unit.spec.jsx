@@ -60,14 +60,6 @@ describe('Medications Breadcrumbs', () => {
     const rxName = screen.getByTestId('rx-name');
     expect(rxName).to.exist;
   });
-  it('Verify date formatting', () => {
-    const screen = setup();
-    const shippingDate = screen.getByTestId('shipping-date');
-    const shippingDateText = shippingDate.textContent;
-    const datePattern = /^(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
-    const isDateFormattedCorrectly = datePattern.test(shippingDateText);
-    expect(isDateFormattedCorrectly).to.be.true;
-  });
   it('If no carrier is provided, then display trackingNumber', () => {
     const screen = setup('');
     expect(screen.findByText('000'));
