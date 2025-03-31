@@ -29,6 +29,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
+    ApiInitializer.initializeClaimDetails.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
@@ -70,10 +71,9 @@ describe(`${appName} -- Status Page`, () => {
       '/my-health/travel-pay/claims/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
     );
 
-    // TODO: update mock data to reflect proper claim number formatting
     cy.get('span[data-testid="claim-details-claim-number"]').should(
       'include.text',
-      'Claim number: d00606da-ee39-4a0c-b505-83f6aa052594',
+      'Claim number: TC0000000000001',
     );
 
     // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get

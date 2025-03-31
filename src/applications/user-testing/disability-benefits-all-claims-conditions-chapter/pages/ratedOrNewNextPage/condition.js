@@ -1,4 +1,3 @@
-import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   radioSchema,
   radioUI,
@@ -10,21 +9,14 @@ import {
   arrayBuilderOptions,
   createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
+  isEdit,
 } from '../shared/utils';
 
 const createNewConditionOption = () => {
-  const search = getArrayUrlSearchParams();
-  const isEdit = search.get('edit');
-
-  if (isEdit) {
-    return {
-      'Edit new condition': 'Edit new condition',
-    };
+  if (isEdit()) {
+    return { 'Edit new condition': 'Edit new condition' };
   }
-
-  return {
-    'Add a new condition': 'Add a new condition',
-  };
+  return { 'Add a new condition': 'Add a new condition' };
 };
 
 const createRatedDisabilitiesSchema = fullData => {

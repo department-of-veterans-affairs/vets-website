@@ -319,7 +319,7 @@ const SearchForm = props => {
         )}
         <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
-            text="Filter"
+            text="Apply filters"
             primary
             class="filter-button"
             data-testid="filter-messages-button"
@@ -332,20 +332,20 @@ const SearchForm = props => {
           {/* using toggle to hide this btn temporarily until filter accordion redesign is completed */}
           {mhvSecureMessagingFilterAccordion ? (
             <va-button
-              text="Clear Filters"
+              text="Clear filters"
               secondary
               class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
-              dd-action-name="Clear Filters Button"
+              dd-action-name="Clear filters Button"
             />
           ) : (
             resultsCount !== undefined && (
               <va-button
-                text="Clear Filters"
+                text="Clear filters"
                 secondary
                 class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
-                dd-action-name="Clear Filters Button"
+                dd-action-name="Clear filters Button"
               />
             )
           )}

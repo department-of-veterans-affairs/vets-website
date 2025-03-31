@@ -34,7 +34,7 @@ describe('getAppointmentType util', () => {
     const result = getAppointmentType(appointment, true);
     expect(result).to.equal('ccAppointment');
   });
-  it('should return appointment type as ccRequest', async () => {
+  it('should return appointment type as ccRequest, useFeSourceOfTruthCC=false', async () => {
     const appointment = {
       id: '123',
       kind: 'cc',
@@ -45,6 +45,14 @@ describe('getAppointmentType util', () => {
       ],
     };
     const result = getAppointmentType(appointment, false);
+    expect(result).to.equal('ccRequest');
+  });
+  it('should return appointment type as ccRequest, useFeSourceOfTruthCC=true', async () => {
+    const appointment = {
+      id: '123',
+      type: 'COMMUNITY_CARE_REQUEST',
+    };
+    const result = getAppointmentType(appointment, true);
     expect(result).to.equal('ccRequest');
   });
   it('should return appointment type as vaAppointment', async () => {

@@ -9,7 +9,6 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createMockEpsAppointment } from './utils/appointment';
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
@@ -114,28 +113,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
       .true;
   });
-  it('should call call create appointment post and begin polling for appointment state when "continue" is pressed', async () => {
-    const clock = sinon.useFakeTimers({
-      shouldAdvanceTime: false,
-      now: new Date().getTime(),
-      toFake: ['setTimeout', 'nextTick'],
-    });
-
+  it('should call call create appointment post when "continue" is pressed', async () => {
     // Stub the appointment cration function
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
       .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
-    // Stub the appointment info function to return a draft appointment on the first call and a confirmed appointment on the second call to mock polling
-    sandbox
-      .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
-      .onFirstCall()
-      .resolves(
-        createMockEpsAppointment(draftAppointmentInfo.appointment.id, 'draft'),
-      )
-      .onSecondCall()
-      .resolves(
-        createMockEpsAppointment(draftAppointmentInfo.appointment.id, 'booked'),
-      );
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -152,30 +134,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         postDraftReferralAppointmentModule.postReferralAppointment,
       );
     });
-
-    // Advance the clock to trigger the polling
-    clock.runAll();
-
-    await waitFor(() => {
-      sandbox.assert.calledTwice(
-        postDraftReferralAppointmentModule.getAppointmentInfo,
-      );
-    });
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     sandbox.spy(flow, 'routeToNextReferralPage');
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
       .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
-
-    sandbox
-      .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
-      .resolves(
-        createMockEpsAppointment(
-          draftAppointmentInfo.appointment.id,
-          'confirmed',
-        ),
-      );
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -194,10 +158,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         postDraftReferralAppointmentModule.postReferralAppointment,
       );
     });
-
-    sandbox.assert.calledOnce(
-      postDraftReferralAppointmentModule.getAppointmentInfo,
-    );
 
     sandbox.assert.calledOnce(flow.routeToNextReferralPage);
   });

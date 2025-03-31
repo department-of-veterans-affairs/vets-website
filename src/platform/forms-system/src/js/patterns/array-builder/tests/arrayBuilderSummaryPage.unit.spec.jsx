@@ -74,6 +74,7 @@ const mockRedux = ({
 describe('ArrayBuilderSummaryPage', () => {
   let getArrayUrlSearchParamsStub;
   let getIndexStub;
+  let minimalHeader;
 
   function stubUrlParams(str) {
     getArrayUrlSearchParamsStub = sinon
@@ -95,6 +96,10 @@ describe('ArrayBuilderSummaryPage', () => {
     if (getIndexStub) {
       getIndexStub.restore();
       getIndexStub = null;
+    }
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
     }
     cleanup();
   });
@@ -503,11 +508,13 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('radio should have h1 label-header-level if 0 items with minimal header', () => {
-    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
-    sessionStorage.setItem(
-      'MINIMAL_HEADER_EXCLUDE_PATHS',
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
       '["/introduction","/confirmation"]',
     );
+    document.body.appendChild(minimalHeader);
 
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [],
@@ -517,9 +524,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label-header-level')).to.equal('1');
-
-    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
-    sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
   });
 
   it('radio should have h3 label-header-level if 0 items without minimal header', () => {
@@ -534,11 +538,13 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('title should be h1, card should have h2, and radio should have h2 label-header-level if 1+ items with minimal header', () => {
-    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
-    sessionStorage.setItem(
-      'MINIMAL_HEADER_EXCLUDE_PATHS',
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
       '["/introduction","/confirmation"]',
     );
+    document.body.appendChild(minimalHeader);
 
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
@@ -552,9 +558,6 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(card.querySelector('h2')).to.exist;
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label-header-level')).to.equal('2');
-
-    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
-    sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
   });
 
   it('title should be h3, card should have h4, and radio should have h4 label-header-level if 1+ items without minimal header', () => {

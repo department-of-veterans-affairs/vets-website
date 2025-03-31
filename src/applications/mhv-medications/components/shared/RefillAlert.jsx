@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import { getRefillAlertList } from '../../actions/prescriptions';
 
-const RefillAlert = () => {
+const RefillAlert = props => {
+  const { dataDogActionName } = props;
   const dispatch = useDispatch();
 
   const refillAlertList = useSelector(
@@ -38,6 +40,7 @@ const RefillAlert = () => {
               data-testid={`refill-alert-link-${rx.prescriptionId}`}
               className="vads-u-font-weight--bold"
               to={`/prescription/${rx.prescriptionId}`}
+              data-dd-action-name={dataDogActionName}
             >
               {rx.prescriptionName}
             </Link>
@@ -46,6 +49,10 @@ const RefillAlert = () => {
       })}
     </VaAlert>
   );
+};
+
+RefillAlert.propTypes = {
+  dataDogActionName: PropTypes.string,
 };
 
 export default RefillAlert;

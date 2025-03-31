@@ -62,7 +62,6 @@ const IntroductionPage = props => {
           new form for each statement.
         </li>
       </ul>
-      <h2>Start your statement</h2>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <IdNotVerifiedAlert formNumber="21-4138" formType="form" />

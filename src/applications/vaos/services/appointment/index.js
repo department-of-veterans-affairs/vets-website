@@ -331,26 +331,43 @@ export function hasValidCovidPhoneNumber(facility) {
 }
 
 /**
- * Checks to see if an appointment should be shown in the past appointment
- * list
+ * Checks if an appointment should be shown in the past appointment list
+ * - Show appointments that don't have vista statuses in the exclude list
+ * - Show video appointments that have the default FUTURE status
+ * - Show CC appointments that have a null description status,
+ *    because these appointments are not from VistA, but we want to show them
  *
  * @param {Appointment} appt A FHIR appointment resource
+ * @param {boolean} useDisplayPastCancel whether to display past canceled appointments
  * @returns {boolean} Whether or not the appt should be shown
  */
-export function isValidPastAppointment(appt) {
+export function isValidPastAppointment(appt, useDisplayPastCancel) {
+  const isConfirmedAppointment = CONFIRMED_APPOINTMENT_TYPES.has(
+    appt.vaos.appointmentType,
+  );
+  const isNotCanceled = appt.status !== APPOINTMENT_STATUS.cancelled;
+  const isNotInHiddenList = !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description);
+  const isVideoWithDefaultStatus =
+    appt.videoData?.isVideo && appt.description === DEFAULT_VIDEO_STATUS;
+  const isCommunityCareWithNullDescription =
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
+    !appt.description;
+
+  if (useDisplayPastCancel) {
+    return (
+      isConfirmedAppointment &&
+      (isNotInHiddenList ||
+        isVideoWithDefaultStatus ||
+        isCommunityCareWithNullDescription)
+    );
+  }
+
   return (
-    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
-    appt.status !== APPOINTMENT_STATUS.cancelled &&
-    // Show confirmed appointments that don't have vista statuses in the exclude
-    // list
-    (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
-      // Show video appointments that have the default FUTURE status,
-      // since we can't infer anything about the video appt from that status
-      (appt.videoData?.isVideo && appt.description === DEFAULT_VIDEO_STATUS) ||
-      // Some CC appointments can have a null status because they're not from VistA
-      // And we want to show those
-      (appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
-        !appt.description))
+    isConfirmedAppointment &&
+    isNotCanceled &&
+    (isNotInHiddenList ||
+      isVideoWithDefaultStatus ||
+      isCommunityCareWithNullDescription)
   );
 }
 

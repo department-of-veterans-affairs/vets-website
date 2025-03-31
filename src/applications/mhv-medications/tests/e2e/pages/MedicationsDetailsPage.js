@@ -719,6 +719,16 @@ class MedicationsDetailsPage {
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
     cy.get('[data-testid="partial-fill-text"]').should('contain', text);
   };
+
+  verifyMedicationDescriptionInTxtDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const now = new Date();
+    const date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
+    const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain(text);
+    });
+  };
 }
 
 export default MedicationsDetailsPage;
