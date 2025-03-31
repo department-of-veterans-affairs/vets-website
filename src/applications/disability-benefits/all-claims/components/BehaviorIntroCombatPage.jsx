@@ -36,6 +36,16 @@ const DELETABLE_FORM_DATA_KEYS = [
   'behaviorsDetails',
 ];
 
+/**
+ * Opt-in/out page to share information on how a condition affected a veteran's behaviors
+ *
+ * A modal will display on this page if a user:
+ * 1. Selects the option to share information about how the condition affected their behavior
+ * 2. Starts filling in information about behavioral changes in the next few pages
+ * 3. Changes their mind, goes back to this page and changes their answer to "opt out"
+ *
+ * The modal tells the Veteran that if they opt out after already answering behavioral questions, this will also delete their answers to those questions. Confirming they want to take this action will delete their behavioral question answers and display an alert indicating the answers were deleted.
+ */
 const BehaviorIntroCombatPage = ({
   goBack,
   goForward,

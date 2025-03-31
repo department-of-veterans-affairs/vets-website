@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ALL_BEHAVIOR_CHANGE_DESCRIPTIONS } from '../constants';
 
-// TODO DOC
+/**
+ * Content displayed in a modal if a user opts into filling out the behavioral questions section of Form 0781, fills out some of that flow, changes their mind, goes back to this page and opts out.
+ *
+ * The modal will list all behavioral changes the user selected on the BehavioralListPage, before asking if they want to opt out and delete all their selections and any additional info they provided on these behaviors.
+ *
+ * Because there is a large number of behaviors listed on the BehavioralListPage and we don't have room for them in this modal, we truncate the list to show:
+ * - Up to the first four behaviors selected
+ * - If there are more than four behaviors selected, displays the first three and a note that says "and N other behavioral changes", where N is the number of remaining changes selected
+ */
 export const BehaviorIntroCombatPageModalContent = ({ formData }) => {
   const allBehaviors = {
     ...formData.workBehaviors,

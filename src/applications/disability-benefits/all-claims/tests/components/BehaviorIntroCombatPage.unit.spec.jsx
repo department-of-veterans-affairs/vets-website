@@ -122,9 +122,9 @@ describe('BehaviorIntroCombatPage', () => {
         });
       });
 
-      // DOC THE EXPECTED BEHAVIOR!
+      // Tests list of previously-selected behaviors in modal, we truncate this list in certain situations because listing all the behaviors a user could have selected would make the modal too big.
       describe('Modal Content', () => {
-        describe('When the user has previously claimed three behavioral changes on the Behavioral List page', () => {
+        describe('When the user has previously claimed less than four behavioral changes on the Behavioral List page', () => {
           const threeSelectedChangesAndOptOut = {
             'view:answerCombatBehaviorQuestions': 'false',
             workBehaviors: {
@@ -243,7 +243,6 @@ describe('BehaviorIntroCombatPage', () => {
         });
 
         // This is the behavior of the Forms Library when the user visits the BehaviorListPage but doesn't make a selection
-        // CONFIRM THIS
         describe('When behavioral changes are undefined in the formData', () => {
           it('does not display the behavioral changes in the modal', () => {
             const undefinedPresent = {
