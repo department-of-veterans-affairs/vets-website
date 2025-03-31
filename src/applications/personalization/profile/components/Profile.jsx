@@ -7,6 +7,7 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
+  fetchPowerOfAttorney as fetchPowerOfAttorneyAction,
 } from '@@profile/actions';
 
 import {
@@ -56,6 +57,7 @@ class Profile extends Component {
   componentDidMount() {
     const {
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -72,6 +74,7 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      fetchPowerOfAttorney();
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -86,6 +89,7 @@ class Profile extends Component {
   componentDidUpdate(prevProps) {
     const {
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -100,6 +104,7 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      fetchPowerOfAttorney();
     }
 
     if (
@@ -232,6 +237,7 @@ Profile.propTypes = {
   fetchDirectDeposit: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
+  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
@@ -334,6 +340,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
+  fetchPowerOfAttorney: fetchPowerOfAttorneyAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
