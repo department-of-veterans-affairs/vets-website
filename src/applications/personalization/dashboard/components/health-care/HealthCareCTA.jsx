@@ -41,6 +41,13 @@ const HealthCareCTA = ({
     };
   }
 
+  if (useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch)) {
+    urls = {
+      ...urls,
+      travelReimbursement: '/my-health/travel-pay/claims',
+    };
+  }
+
   if (useToggleValue(TOGGLE_NAMES.myVaMhvLinkDesignUpdate)) {
     return (
       <>
