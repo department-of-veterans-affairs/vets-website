@@ -38,6 +38,8 @@
 export const normalizedForm = {
   cmsId: 71160,
   formId: '2121212',
+  introParagraph:
+    'A brief intro describing when to use this form. This could be 1 to 3 sentences, with no more than 25 words per sentence. This text is styled differently than body copy.',
   moderationState: 'draft',
   title: 'Form with Two Steps',
   plainLanguageHeader: 'Multiple step form',
@@ -46,6 +48,11 @@ export const normalizedForm = {
     ombNumber: '1212-1212',
     resBurden: 30,
   },
+  whatToKnowBullets: [
+    'This is a test bullet',
+    'A second example',
+    'Maybe even a third one',
+  ],
   chapters: [
     {
       id: 162008,

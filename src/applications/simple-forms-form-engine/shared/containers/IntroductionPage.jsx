@@ -25,8 +25,8 @@ const IntroductionPage = props => {
         What to know before you fill out this form
       </h2>
       <va-process-list>
-        {whatToKnow.map((button, index) => (
-          <li key={index}>{button}</li>
+        {whatToKnow.map((bullet, index) => (
+          <li key={index}>{bullet}</li>
         ))}
       </va-process-list>
       <SaveInProgressIntro

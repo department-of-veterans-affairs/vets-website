@@ -82,7 +82,7 @@ describe('createFormConfig', () => {
     expect(page.uiSchema['ui:title']).not.to.eq(undefined);
   });
 
-  it('sends ombInfo to the Introduction Page', () => {
+  it('sends props to the Introduction Page', () => {
     const screen = render(formConfig.introduction());
 
     expect(screen.getByTestId('exp-date')).to.have.text(
