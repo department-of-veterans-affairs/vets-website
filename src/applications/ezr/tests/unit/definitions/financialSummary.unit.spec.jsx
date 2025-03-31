@@ -7,6 +7,7 @@ import formConfig from '../../../config/form';
 import { FinancialSummaryPage } from '../../../definitions/financialSummary';
 import mockPrefillWithNonPrefillData from '../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
 import { LAST_YEAR } from '../../../utils/constants';
+import { setMockStoreData } from '../../helpers';
 
 describe('ezr FinancialSummaryPage config', () => {
   const { schema, uiSchema } = FinancialSummaryPage({
@@ -22,24 +23,12 @@ describe('ezr FinancialSummaryPage config', () => {
     ...formConfig.defaultDefinitions,
   };
 
-  const getData = () => ({
-    mockStore: {
-      getState: () => ({
-        form: {
-          data: {
-            'view:householdEnabled': true,
-            'view:isProvidersAndDependentsPrefillEnabled': true,
-            nonPrefill: mockPrefillWithNonPrefillData.nonPrefill,
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    },
-  });
-
   it('should render', () => {
-    const { mockStore } = getData();
+    const { mockStore } = setMockStoreData({
+      'view:householdEnabled': true,
+      'view:isProvidersAndDependentsPrefillEnabled': true,
+      nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+    });
     const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
@@ -50,7 +39,6 @@ describe('ezr FinancialSummaryPage config', () => {
       </Provider>,
     );
 
-    // Verify the va-radio element is rendered with the correct label
     expect(
       container.querySelector(
         `va-radio[label="Do you have any income and deductible to add for ${LAST_YEAR}?"]`,

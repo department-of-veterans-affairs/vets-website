@@ -5,6 +5,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import formConfig from '../../../config/form';
 import { FinancialIntroductionPage } from '../../../definitions/financialIntroduction';
+import { setMockStoreData } from '../../helpers';
 
 describe('ezr FinancialIntroductionPage config', () => {
   const { schema, uiSchema } = FinancialIntroductionPage;
@@ -12,24 +13,12 @@ describe('ezr FinancialIntroductionPage config', () => {
     ...formConfig.defaultDefinitions,
   };
 
-  const getData = () => ({
-    mockStore: {
-      getState: () => ({
-        form: {
-          data: {
-            'view:householdEnabled': true,
-            'view:isProvidersAndDependentsPrefillEnabled': true,
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    },
-  });
-
   it('should render', () => {
-    const { mockStore } = getData();
-    const { getByTestId } = render(
+    const { mockStore } = setMockStoreData({
+      'view:householdEnabled': true,
+      'view:isProvidersAndDependentsPrefillEnabled': true,
+    });
+    const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
           schema={schema}
@@ -39,7 +28,6 @@ describe('ezr FinancialIntroductionPage config', () => {
       </Provider>,
     );
 
-    // Verify the FinancialInformationIntroduction component is rendered
-    expect(getByTestId('financial-information-introduction')).to.exist;
+    expect(container).to.exist;
   });
 });

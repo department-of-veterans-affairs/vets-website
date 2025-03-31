@@ -7,31 +7,20 @@ import { Provider } from 'react-redux';
 import formConfig from '../../../config/form';
 import { SpouseAnnualIncomePage } from '../../../definitions/spouseAnnualIncome';
 import mockPrefillWithNonPrefillData from '../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
+import { setMockStoreData } from '../../helpers';
 
 describe('ezr SpouseAnnualIncomePage config', () => {
   const { schema, uiSchema } = SpouseAnnualIncomePage();
   const definitions = {
     ...formConfig.defaultDefinitions,
   };
-
-  const getData = () => ({
-    mockStore: {
-      getState: () => ({
-        form: {
-          data: {
-            'view:householdEnabled': true,
-            'view:isProvidersAndDependentsPrefillEnabled': true,
-            nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    },
+  const { mockStore } = setMockStoreData({
+    'view:householdEnabled': true,
+    'view:isProvidersAndDependentsPrefillEnabled': true,
+    nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
   });
 
   it('should render', () => {
-    const { mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
@@ -47,7 +36,6 @@ describe('ezr SpouseAnnualIncomePage config', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
@@ -72,7 +60,6 @@ describe('ezr SpouseAnnualIncomePage config', () => {
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const { mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester

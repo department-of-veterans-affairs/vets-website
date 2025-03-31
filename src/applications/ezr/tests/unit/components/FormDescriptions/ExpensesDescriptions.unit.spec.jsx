@@ -1,57 +1,35 @@
-import { render } from '@testing-library/react';
-import { expect } from 'chai';
-import React from 'react';
-import { Provider } from 'react-redux';
 import {
   EducationalExpensesDescription,
   MedicalExpensesDescription,
   PreviousFuneralExpenses,
 } from '../../../../components/FormDescriptions/ExpensesDescriptions';
-import { LAST_YEAR } from '../../../../utils/constants';
 import mockPrefillWithNonPrefillData from '../../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
+import {
+  expectFinancialDescriptionComponentToRender,
+  expectFinancialDescriptionComponentToRenderWithNonPrefillContent,
+  expectFinancialDescriptionComponentToNotRender,
+  setMockStoreData,
+} from '../../../helpers';
 
-const getData = () => ({
-  mockStore: {
-    getState: () => ({
-      form: {
-        data: {
-          'view:householdEnabled': true,
-          'view:isProvidersAndDependentsPrefillEnabled': true,
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  },
-});
-const getDataWithNonPrefill = () => ({
-  mockStore: {
-    getState: () => ({
-      form: {
-        data: {
-          'view:householdEnabled': true,
-          'view:isProvidersAndDependentsPrefillEnabled': true,
-          nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  },
-});
+const mockStoreData = {
+  'view:householdEnabled': true,
+  'view:isProvidersAndDependentsPrefillEnabled': true,
+};
+
+const mockStoreDataWithNonPrefill = {
+  ...mockStoreData,
+  nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+};
 
 describe('ezr <EducationalExpensesDescription>', () => {
   context(
     'when the component renders and there is no nonPrefill financial information',
     () => {
       it('should render with content', () => {
-        const { mockStore } = getData();
-        const { container } = render(
-          <Provider store={mockStore}>
-            {EducationalExpensesDescription()}
-          </Provider>,
+        expectFinancialDescriptionComponentToRender(
+          setMockStoreData(mockStoreData),
+          EducationalExpensesDescription(),
         );
-        expect(container).to.not.be.empty;
       });
     },
   );
@@ -59,25 +37,12 @@ describe('ezr <EducationalExpensesDescription>', () => {
   context(
     'when the component renders and there is nonPrefill financial information that includes the income year and education expenses',
     () => {
-      it('should render with content', () => {
-        const { mockStore } = getDataWithNonPrefill();
-
-        const { container } = render(
-          <Provider store={mockStore}>
-            {EducationalExpensesDescription()}
-          </Provider>,
+      it('should render with non-prefill content', () => {
+        expectFinancialDescriptionComponentToRenderWithNonPrefillContent(
+          setMockStoreData(mockStoreDataWithNonPrefill),
+          EducationalExpensesDescription(),
+          'Your education expenses from',
         );
-
-        expect(container).to.not.be.empty;
-        expect(container.querySelector('va-card')).to.exist;
-        expect(
-          container.querySelector('va-card h4').textContent.trim(),
-        ).to.equal(`Your education expenses from ${LAST_YEAR}`);
-        expect(container).to.not.be.empty;
-        expect(container.querySelector('va-card')).to.exist;
-        expect(
-          container.querySelector('va-card h4').textContent.trim(),
-        ).to.equal(`Your education expenses from ${LAST_YEAR}`);
       });
     },
   );
@@ -88,11 +53,10 @@ describe('ezr <MedicalExpensesDescription>', () => {
     'when the component renders and there is no nonPrefill financial information',
     () => {
       it('should render with content', () => {
-        const { mockStore } = getData();
-        const { container } = render(
-          <Provider store={mockStore}>{MedicalExpensesDescription()}</Provider>,
+        expectFinancialDescriptionComponentToRender(
+          setMockStoreData(mockStoreData),
+          MedicalExpensesDescription(),
         );
-        expect(container).to.not.be.empty;
       });
     },
   );
@@ -100,18 +64,12 @@ describe('ezr <MedicalExpensesDescription>', () => {
   context(
     'when the component renders and there is nonPrefill financial information that includes the income year and medical expenses',
     () => {
-      it('should render with content', () => {
-        const { mockStore } = getDataWithNonPrefill();
-
-        const { container } = render(
-          <Provider store={mockStore}>{MedicalExpensesDescription()}</Provider>,
+      it('should render with non-prefill content', () => {
+        expectFinancialDescriptionComponentToRenderWithNonPrefillContent(
+          setMockStoreData(mockStoreDataWithNonPrefill),
+          MedicalExpensesDescription(),
+          'Your non-reimbursable medical expenses from',
         );
-
-        expect(container).to.not.be.empty;
-        expect(container.querySelector('va-card')).to.exist;
-        expect(
-          container.querySelector('va-card h4').textContent.trim(),
-        ).to.equal(`Your non-reimbursable medical expenses from ${LAST_YEAR}`);
       });
     },
   );
@@ -122,11 +80,10 @@ describe('ezr <PreviousFuneralExpenses>', () => {
     'when the component renders and there is no nonPrefill financial information',
     () => {
       it('should not render', () => {
-        const { mockStore } = getData();
-        const { container } = render(
-          <Provider store={mockStore}>{PreviousFuneralExpenses()}</Provider>,
+        expectFinancialDescriptionComponentToNotRender(
+          setMockStoreData(mockStoreData),
+          PreviousFuneralExpenses(),
         );
-        expect(container).be.empty;
       });
     },
   );
@@ -134,18 +91,12 @@ describe('ezr <PreviousFuneralExpenses>', () => {
   context(
     'when the component renders and there is nonPrefill financial information that includes the income year and funeral expenses',
     () => {
-      it('should render with content', () => {
-        const { mockStore } = getDataWithNonPrefill();
-
-        const { container } = render(
-          <Provider store={mockStore}>{PreviousFuneralExpenses()}</Provider>,
+      it('should render with non-prefill content', () => {
+        expectFinancialDescriptionComponentToRenderWithNonPrefillContent(
+          setMockStoreData(mockStoreDataWithNonPrefill),
+          PreviousFuneralExpenses(),
+          'Your funeral and burial expenses from',
         );
-
-        expect(container).to.not.be.empty;
-        expect(container.querySelector('va-card')).to.exist;
-        expect(
-          container.querySelector('va-card h4').textContent.trim(),
-        ).to.equal(`Your funeral and burial expenses from ${LAST_YEAR}`);
       });
     },
   );

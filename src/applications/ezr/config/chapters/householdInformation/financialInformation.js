@@ -27,6 +27,7 @@ const options = {
     cardDescription: item => {
       return FinancialSummaryCardDescription(item);
     },
+    editSaveButtonText: 'Continue',
     alertItemUpdated: `Your income and deductible for ${LAST_YEAR} has been updated`,
     alertItemDeleted: `Your income and deductible for ${LAST_YEAR} has been deleted`,
     cancelAddButtonText: `Cancel adding your income and deductible for ${LAST_YEAR}`,
@@ -69,20 +70,23 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
   }),
   veteranAnnualIncome: pageBuilder.itemPage({
     title: 'Your annual income',
-    path: 'household-information/financial-information/:index/annual-income',
+    path:
+      'household-information/financial-information/:index/veteran-annual-income',
     uiSchema: annualIncomePageSchemas.uiSchema,
     schema: annualIncomePageSchemas.schema,
   }),
   spouseAnnualIncome: pageBuilder.itemPage({
     title: 'Spouse annual income',
-    path: 'household-information/financial-information/:index/spousal-income',
+    path:
+      'household-information/financial-information/:index/spouse-annual-income',
     depends: includeSpousalInformation,
     uiSchema: spouseAnnualIncomePageSchemas.uiSchema,
     schema: spouseAnnualIncomePageSchemas.schema,
   }),
   veteranDeductible: pageBuilder.itemPage({
     title: 'Deductible expenses',
-    path: 'household-information/financial-information/:index/deductible',
+    path:
+      'household-information/financial-information/:index/deductible-expenses',
     uiSchema: deductiblePageSchemas.uiSchema,
     schema: deductiblePageSchemas.schema,
   }),
