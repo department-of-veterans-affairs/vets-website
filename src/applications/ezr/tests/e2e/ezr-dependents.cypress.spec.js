@@ -81,7 +81,6 @@ describe('EZR Dependents', () => {
   describe('dependent is between 18 and 23 years old and earned no income', () => {
     it('does not show the income or education expenses pages, but still successfully fills the other dependent information', () => {
       submitDependentInformation(testData.dependents[1], false);
-      expect(true).toEqual(false);
     });
   });
 });
