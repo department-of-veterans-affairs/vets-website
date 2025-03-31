@@ -53,7 +53,7 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         ...personalInformationPage({
-          key: 'personalInformation',
+          key: 'applicantName',
           title: 'Personal information',
           path: 'applicant-name',
           personalInfoConfig: {
@@ -65,9 +65,9 @@ const formConfig = {
           },
           depends: formData => isUserSignedIn(formData),
         }),
-        personalInformation2: {
-          path: 'personal-information2',
-          title: 'edit-applicant-name',
+        editApplicantName: {
+          title: 'Personal information',
+          path: 'edit-applicant-name',
           uiSchema: personalInformation.uiSchema,
           schema: personalInformation.schema,
           depends: formData => !isUserSignedIn(formData),
