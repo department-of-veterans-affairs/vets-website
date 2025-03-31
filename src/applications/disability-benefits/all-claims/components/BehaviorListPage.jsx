@@ -26,6 +26,7 @@ import {
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
   BEHAVIOR_LIST_HINTS,
+  ALL_BEHAVIOR_TYPES_WITH_SECTION,
 } from '../constants';
 import {
   form0781HeadingTag,
@@ -87,47 +88,27 @@ const BehaviorListPage = ({
   };
 
   const handleUpdatedSelection = (behaviorSection, updatedData) => {
-    // TODO - clean this up, should be able to put none checkbox in the switch statement
-    if (behaviorSection === 'view:noneCheckbox') {
-      setSelectedNoBehaviors(updatedData);
-      const updatedFormData = {
-        ...data,
-        'view:noneCheckbox': updatedData,
-      };
-      setFormData(updatedFormData);
-      // setFormData lags a little, so check updated data
-      if (checkErrors(updatedFormData)) {
-        scrollToFirstError({ focusOnAlertRole: true });
-      }
-    } else {
-      switch (behaviorSection) {
-        case 'workBehaviors':
-          setSelectedWorkBehaviors(updatedData);
-          break;
-        case 'healthBehaviors':
-          setSelectedHealthBehaviors(updatedData);
-          break;
-        case 'otherBehaviors':
-          setSelectedOtherBehaviors(updatedData);
-          break;
-        // case 'view:noneCheckbox':
-        //   console.log("handle none section", behaviorSection, updatedData)
-        //   setSelectedNoBehaviors({ [behaviorSection]: updatedData });
-        //   console.log("handle none section state", selectedNoBehaviors)
-        //   break;
-        default:
-          break;
-      }
-      const updatedFormData = {
-        ...data,
-        [behaviorSection]: updatedData,
-      };
-      setFormData(updatedFormData);
-      // setFormData lags a little, so check updated data
-      if (checkErrors(updatedFormData)) {
-        scrollToFirstError({ focusOnAlertRole: true });
-      }
+    switch (behaviorSection) {
+      case 'workBehaviors':
+        setSelectedWorkBehaviors(updatedData);
+        break;
+      case 'healthBehaviors':
+        setSelectedHealthBehaviors(updatedData);
+        break;
+      case 'otherBehaviors':
+        setSelectedOtherBehaviors(updatedData);
+        break;
+      case 'view:noneCheckbox':
+        setSelectedNoBehaviors(updatedData);
+        break;
+      default:
+        break;
     }
+    const updatedFormData = {
+      ...data,
+      [behaviorSection]: updatedData,
+    };
+    setFormData(updatedFormData);
   };
 
   const DELETABLE_FORM_DATA_KEYS = Object.keys(
@@ -141,8 +122,6 @@ const BehaviorListPage = ({
 
     DELETABLE_FORM_DATA_KEYS.forEach(key => {
       if (orphanedBehaviorsObject[key]) {
-        // TODO:check for empty string?
-        // TODO - confirm if totally remove the key from formData or set it to ""
         delete deepClone.behaviorsDetails[key];
       }
     });
@@ -150,11 +129,14 @@ const BehaviorListPage = ({
     setFormData(deepClone);
   };
 
+  // const resetSelections = () => {
+  // };
+
   const handlers = {
     onSelectionChange: event => {
       const { target } = event;
       const selection = event.target?.getAttribute('value');
-      const behaviorSection = target.name;
+      const behaviorSection = ALL_BEHAVIOR_TYPES_WITH_SECTION[selection];
       const selectionsBySection = getSelectionsBySection(behaviorSection);
 
       if (target.checked) {
@@ -163,23 +145,26 @@ const BehaviorListPage = ({
           [selection]: true,
         };
         handleUpdatedSelection(behaviorSection, updatedData);
+        if (checkErrors(updatedData)) {
+          scrollToFirstError({ focusOnAlertRole: true });
+        }
       } else if (!target.checked) {
         const updatedData = {
           ...selectionsBySection,
           [selection]: false,
         };
         handleUpdatedSelection(behaviorSection, updatedData);
+        if (checkErrors(updatedData)) {
+          scrollToFirstError({ focusOnAlertRole: true });
+        }
       }
     },
     onSubmit: event => {
       event.preventDefault();
-      // TODO: better way to handle null data
-
       if (checkErrors(data)) {
         scrollToFirstError({ focusOnAlertRole: true });
       } else if (
-        !!data?.behaviorsDetails &&
-        Object.keys(data.behaviorsDetails).length > 0 &&
+        data?.behaviorsDetails &&
         Object.keys(orphanedBehaviorDetails(data)).length > 0
       ) {
         setShowModal(true);
@@ -188,6 +173,8 @@ const BehaviorListPage = ({
       }
     },
     onCloseModal: () => {
+      console.log('onCloseModal---');
+      // resetSelections();
       setShowModal(false);
     },
     onConfirmDeleteBehaviorDetails: () => {
