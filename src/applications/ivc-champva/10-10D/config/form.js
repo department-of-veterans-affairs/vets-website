@@ -122,6 +122,10 @@ import {
   signerContactInfoPage,
   SignerContactInfoPage,
 } from '../pages/SignerContactInfoPage';
+import {
+  selectHealthcareParticipantsPage,
+  SelectHealthcareParticipantsPage,
+} from '../pages/SelectHealthcareParticipantsPage';
 
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
@@ -1283,6 +1287,13 @@ const formConfig = {
               acceptableFiles.va7959cCert,
             ),
           }),
+        },
+        page23a: {
+          path: 'select-healthcare-participants',
+          title: 'Select healthcare participants',
+          CustomPage: SelectHealthcareParticipantsPage,
+          CustomPageReview: null, // TODO: this doesn't work as-is
+          ...selectHealthcareParticipantsPage,
         },
       },
     },
