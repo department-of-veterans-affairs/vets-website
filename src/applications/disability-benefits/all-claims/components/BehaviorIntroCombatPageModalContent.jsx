@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { ALL_BEHAVIOR_CHANGE_DESCRIPTIONS } from '../constants';
 
 // TODO DOC
@@ -55,3 +55,13 @@ export const BehaviorIntroCombatPageModalContent = ({ formData }) => {
     </>
   );
 };
+
+BehaviorIntroCombatPageModalContent.propTypes = {
+  formData: PropTypes.shape({
+    workBehaviors: PropTypes.object,
+    healthBehaviors: PropTypes.object,
+    otherBehaviors: PropTypes.object,
+  }),
+};
+
+export default BehaviorIntroCombatPageModalContent;
