@@ -1,6 +1,6 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Inbox Folder filter-sort checks', () => {

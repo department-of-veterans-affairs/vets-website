@@ -57,6 +57,7 @@ const MessageThreadHeader = props => {
           name:
             messages.find(m => m.triageGroupName === message.triageGroupName)
               ?.triageGroupName || message.triageGroupName,
+          suggestedNameDisplay: message.suggestedNameDisplay,
           type: Recipients.CARE_TEAM,
           status: RecipientStatus.ALLOWED,
         };
