@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-// declare routes for page navigation
-const navRoutes = {
+// declare routes for page navigation when in review mode
+export const reviewModeRoutes = {
   back: '/veteran-information/va-medical-center/locator?review=true',
   forward: '/review-and-submit',
 };
@@ -19,12 +19,12 @@ const FacilityConfirmation = ({ data, goBack, goForward, goToPath }) => {
   }, []);
 
   const onGoBack = useCallback(
-    () => (isReviewPage ? goToPath(navRoutes.back) : goBack()),
+    () => (isReviewPage ? goToPath(reviewModeRoutes.back) : goBack()),
     [goBack, goToPath, isReviewPage],
   );
 
   const onGoForward = useCallback(
-    () => (isReviewPage ? goToPath(navRoutes.forward) : goForward(data)),
+    () => (isReviewPage ? goToPath(reviewModeRoutes.forward) : goForward(data)),
     [data, goForward, goToPath, isReviewPage],
   );
 

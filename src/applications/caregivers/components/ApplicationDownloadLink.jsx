@@ -67,7 +67,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
+        setErrors(error.errors);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--failure' });
         Sentry.withScope(scope => scope.setExtra('error', error));
       } finally {
