@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
@@ -173,7 +174,7 @@ const BehaviorListPage = ({
       }
     },
     onCloseModal: () => {
-      console.log('onCloseModal---');
+      // console.log('onCloseModal---');
       // resetSelections();
       setShowModal(false);
     },
@@ -331,5 +332,22 @@ const BehaviorListPage = ({
       </form>
     </div>
   );
+};
+
+BehaviorListPage.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.shape({
+    workBehaviors: PropTypes.object,
+    healthBehaviors: PropTypes.object,
+    otherBehaviors: PropTypes.object,
+    'view:noneCheckbox': PropTypes.object,
+    behaviorsDetails: PropTypes.object,
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
 export default BehaviorListPage;
