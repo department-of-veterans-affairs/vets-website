@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import omit from 'lodash/omit';
-import * as mapboxUtils from 'platform/utilities/facilities-and-mapbox';
 import {
   GEOCODE_CLEAR_ERROR,
   GEOCODE_COMPLETE,
@@ -26,8 +25,6 @@ import {
   sendUpdatedSearchQuery,
 } from '../../actions/mapbox';
 import { LocationType } from '../../constants';
-
-const mapboxStub = sinon.stub(mapboxUtils, 'mbxClient');
 
 describe('actions: mapbox', () => {
   const dispatchSpy = sinon.spy();
@@ -126,6 +123,69 @@ describe('actions: mapbox', () => {
       });
     });
 
+    describe('when the feature data is missing completely', () => {
+      it('should dispatch the correct actions', () => {
+        processFeaturesBBox(
+          {
+            facilityType: LocationType.HEALTH,
+          },
+          [],
+          dispatchSpy,
+          false,
+          false,
+        );
+
+        expect(dispatchSpy.firstCall.args[0].type).to.deep.equal(
+          GEOCODE_FAILED,
+        );
+
+        expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
+          type: SEARCH_FAILED,
+          error: { type: 'mapBox' },
+        });
+      });
+    });
+
+    describe('when the context is not a postcode', () => {
+      it('should dispatch the correct actions', () => {
+        processFeaturesBBox(
+          {
+            facilityType: LocationType.HEALTH,
+          },
+          [
+            {
+              center: null,
+              geometry: {
+                coordinates: [latitude, longitude],
+                type: 'Point',
+              },
+              context: [
+                {
+                  id: 'place.291252460',
+                  text: 'San Antonio',
+                },
+              ],
+              id: 'place.270749420',
+              // eslint-disable-next-line camelcase
+              place_name: 'Long Island, NY',
+            },
+          ],
+          dispatchSpy,
+          false,
+          false,
+        );
+
+        expect(dispatchSpy.firstCall.args[0].type).to.deep.equal(
+          GEOCODE_FAILED,
+        );
+
+        expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
+          type: SEARCH_FAILED,
+          error: { type: 'mapBox' },
+        });
+      });
+    });
+
     describe('when all the data is present', () => {
       it('should dispatch the correct actions', () => {
         processFeaturesBBox(
@@ -182,6 +242,64 @@ describe('actions: mapbox', () => {
             lng: longitude,
           },
           zoomLevel: 9,
+        });
+      });
+
+      it('should dispatch the correct actions', () => {
+        processFeaturesBBox(
+          {
+            facilityType: LocationType.HEALTH,
+          },
+          [
+            {
+              center: [longitude, latitude],
+              context: [
+                {
+                  id: 'place.291252460',
+                  text: 'San Antonio',
+                },
+              ],
+              geometry: {
+                coordinates: [longitude, latitude],
+                type: 'Point',
+              },
+              id: 'region.270749420',
+            },
+          ],
+          dispatchSpy,
+          false,
+          false,
+        );
+
+        expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
+          type: GEOCODE_COMPLETE,
+          payload: [],
+        });
+
+        expect(dispatchSpy.secondCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
+        expect(
+          omit(dispatchSpy.secondCall.args[0].payload, 'id'),
+        ).to.deep.equal({
+          bounds: [-98.875114, 29.2467, -98.115114, 30.0067],
+          context: undefined,
+          currentPage: 1,
+          facilityType: LocationType.HEALTH,
+          inProgress: true,
+          mapBoxQuery: {
+            placeName: undefined,
+            placeType: undefined,
+          },
+          position: {
+            latitude,
+            longitude,
+          },
+          radius: 69.58070354658854,
+          searchArea: null,
+          searchCoords: {
+            lat: latitude,
+            lng: longitude,
+          },
+          zoomLevel: 7,
         });
       });
     });
@@ -278,6 +396,57 @@ describe('actions: mapbox', () => {
         },
       });
     });
+
+    it('should return the correct action object', () => {
+      sendUpdatedSearchQuery(
+        dispatchSpy,
+        [
+          {
+            center: [longitude, latitude],
+            context: [
+              {
+                id: 'region.287393',
+                text: 'San Antonio',
+              },
+            ],
+            geometry: {
+              coordinates: [longitude, latitude],
+              type: 'Point',
+            },
+            id: 'region.287393',
+            // eslint-disable-next-line camelcase
+            place_type: ['region'],
+          },
+        ],
+        latitude,
+        longitude,
+        [-98.875114, 29.2467, -98.115114, 30.0067],
+      );
+
+      expect(dispatchSpy.firstCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
+      expect(dispatchSpy.firstCall.args[0].payload).to.deep.equal({
+        radius: 22.824343438601947,
+        searchString: undefined,
+        context: undefined,
+        searchArea: {
+          locationString: undefined,
+          locationCoords: {
+            lng: longitude,
+            lat: latitude,
+          },
+        },
+        mapBoxQuery: {
+          placeName: undefined,
+          placeType: 'region',
+        },
+        searchCoords: null,
+        bounds: [-98.875114, 29.2467, -98.115114, 30.0067],
+        position: {
+          latitude,
+          longitude,
+        },
+      });
+    });
   });
 
   describe('genSearchAreaFromCenter', () => {
@@ -287,28 +456,6 @@ describe('actions: mapbox', () => {
           lat: 29.6180888,
           lng: -98.498222,
           currentMapBoundsDistance: 600,
-          currentBounds: [
-            -98.878222,
-            29.2380888,
-            -98.118222,
-            29.998088799999998,
-          ],
-        })(dispatchSpy);
-
-        expect(dispatchSpy.firstCall.args[0].type).to.eq(GEOCODE_FAILED);
-        expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
-          type: SEARCH_FAILED,
-          error: { type: 'mapBox' },
-        });
-      });
-    });
-
-    describe('when the currentMapBoundsDistance is below 500', () => {
-      it.only('should return the correct action object', () => {
-        genSearchAreaFromCenter({
-          lat: 29.6180888,
-          lng: -98.498222,
-          currentMapBoundsDistance: 400,
           currentBounds: [
             -98.878222,
             29.2380888,
