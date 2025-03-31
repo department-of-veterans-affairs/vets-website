@@ -146,7 +146,7 @@ const recipients = {
         locationName: 'Baltimore VA Medical Center',
         teamName: null,
         suggestedNameDisplay:
-          'Glen Burnie VA  Clinic | Primary Care | Team 3 - Allen Smith',
+          'Glen Burnie VA Clinic | Primary Care | Team 3 - Allen Smith',
         healthCareSystemName: 'VA Maryland health care',
       },
     },
