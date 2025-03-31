@@ -98,12 +98,12 @@ const formConfig = {
           uiSchema: certifyingOfficial.uiSchema,
           schema: certifyingOfficial.schema,
           onNavForward: ({ goPath }) => {
-            goPath('/institution-details');
+            goPath('/identifying-details-1');
             localStorage.removeItem('10216claimID');
           },
         },
         institutionDetails: {
-          path: 'institution-details',
+          path: 'identifying-details-1',
           title: 'Institution details',
           onNavForward: async ({ formData, goPath }) => {
             const isAccredited = await validateFacilityCode(formData);
