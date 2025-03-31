@@ -48,6 +48,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'clinic',
+      type: 'VA',
       status: 'booked',
       locationId: '983',
       location: {
@@ -171,6 +172,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'telehealth',
+      type: 'VA',
       status: 'booked',
       localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
@@ -223,6 +225,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'phone',
+      type: 'VA',
       status: 'booked',
       localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
@@ -330,6 +333,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'telehealth',
+      type: 'VA',
       status: 'booked',
       locationId: '983',
       location: {

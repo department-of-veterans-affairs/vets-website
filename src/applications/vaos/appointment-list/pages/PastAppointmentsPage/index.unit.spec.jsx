@@ -118,6 +118,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     const data = {
       id: '1234',
       kind: 'clinic',
+      type: 'VA',
       clinic: 'fake',
       localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
@@ -165,6 +166,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       id: '1234',
       currentStatus: 'CHECKED OUT',
       kind: 'clinic',
+      type: 'VA',
       clinic: 'fake',
       localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
@@ -290,6 +292,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       clinicId: null,
       facilityId: '983',
       kind: 'telehealth',
+      type: 'VA',
       locationId: '983',
       localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
@@ -352,6 +355,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      type: 'VA',
       minutesDuration: 30,
       status: 'booked',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
@@ -407,6 +411,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      type: 'VA',
       minutesDuration: 30,
       status: 'cancelled',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),

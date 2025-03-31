@@ -10,6 +10,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -100,6 +101,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
@@ -137,6 +139,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           includeEPS,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         }),
       ];
       if (includeRequests) {
@@ -152,6 +155,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             includeEPS,
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
           })
             .then(requests => {
               dispatch({
@@ -262,6 +266,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const patientFacilities = selectPatientFacilities(state);
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
@@ -286,6 +291,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         includeEPS,
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -343,6 +349,7 @@ export function fetchRequestDetails(id) {
       const state = getState();
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
@@ -362,6 +369,7 @@ export function fetchRequestDetails(id) {
           id,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -407,6 +415,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           : featureVAOSServiceVAAppointments;
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -430,6 +439,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           useV2,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
       }
 
@@ -497,6 +507,7 @@ export function confirmCancelAppointment() {
     const appointment = state.appointments.appointmentToCancel;
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
     try {
       dispatch({
@@ -507,6 +518,7 @@ export function confirmCancelAppointment() {
         appointment,
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
 
       dispatch({

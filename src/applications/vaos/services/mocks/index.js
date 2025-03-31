@@ -105,6 +105,7 @@ const responses = {
           patientComments = token.substring('comments:'.length);
         }
       }
+      type = pending ? 'REQUEST' : 'VA';
     }
 
     const submittedAppt = {
