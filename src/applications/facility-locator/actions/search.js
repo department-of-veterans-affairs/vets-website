@@ -38,6 +38,7 @@ export const searchWithBounds = ({
     LocationType.URGENT_CARE_PHARMACIES,
     LocationType.URGENT_CARE,
   ];
+
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -55,8 +56,10 @@ export const searchWithBounds = ({
             error:
               'Reverse geocoding failed. See previous errors or network log.',
           });
+
           return;
         }
+
         fetchLocations(
           address,
           bounds,

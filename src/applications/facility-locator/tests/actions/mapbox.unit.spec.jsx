@@ -504,7 +504,11 @@ describe('actions: mapbox', () => {
 
   describe('geolocateUser', () => {
     describe(`when the user's location is defined`, () => {
-      const getCurrentPositionStub = sinon.stub();
+      const longitude = -98.495114;
+      const latitude = 29.6267;
+      const getCurrentPositionStub = sinon
+        .stub()
+        .returns({ coords: { longitude, latitude } });
 
       beforeEach(() => {
         global.navigator.geolocation = {
@@ -518,6 +522,7 @@ describe('actions: mapbox', () => {
         expect(dispatchSpy.firstCall.args[0].type).to.deep.equal(
           GEOLOCATE_USER,
         );
+
         expect(getCurrentPositionStub.calledOnce).to.be.true;
       });
     });

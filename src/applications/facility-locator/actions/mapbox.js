@@ -318,7 +318,6 @@ export const geolocateUser = () => async dispatch => {
     navigator.geolocation.getCurrentPosition(
       async currentPosition => {
         const { coords } = currentPosition;
-
         const locationData = await getLocationData(
           coords.longitude,
           coords.latitude,
