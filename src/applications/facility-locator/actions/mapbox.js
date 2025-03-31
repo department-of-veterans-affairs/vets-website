@@ -1,9 +1,8 @@
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
   isPostcode,
   MAPBOX_QUERY_TYPES,
   CountriesList,
-  mapboxClient,
+  mbxClient,
   toRadians,
 } from 'platform/utilities/facilities-and-mapbox';
 import {
@@ -26,8 +25,6 @@ import {
 } from '../constants';
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 import { updateSearchQuery } from './search';
-
-const mbxClient = mbxGeo(mapboxClient);
 
 export const constructBounds = ({
   facilityType,
@@ -68,46 +65,6 @@ export const constructBounds = ({
     longitude + searchExpandedLon,
     latitude + searchExpandedLat,
   ];
-};
-
-const sendSearchQueryUpdate = ({
-  dispatch,
-  firstFeature,
-  lat,
-  latitude,
-  lng,
-  longitude,
-  minBounds,
-  query,
-  radiusOrMinRadius,
-  zipCode,
-}) => {
-  dispatch({
-    type: SEARCH_QUERY_UPDATED,
-    payload: {
-      ...query,
-      radius: radiusOrMinRadius,
-      context: zipCode,
-      id: Date.now(),
-      inProgress: true,
-      position: {
-        latitude,
-        longitude,
-      },
-      searchCoords: {
-        lat,
-        lng,
-      },
-      bounds: minBounds,
-      zoomLevel: firstFeature.id.split('.')[0] === 'region' ? 7 : 9,
-      currentPage: 1,
-      mapBoxQuery: {
-        placeName: firstFeature.place_name,
-        placeType: firstFeature.place_type?.[0],
-      },
-      searchArea: null,
-    },
-  });
 };
 
 export const processFeaturesBBox = (
@@ -302,6 +259,7 @@ export const genSearchAreaFromCenter = query => {
     } else {
       const types = MAPBOX_QUERY_TYPES;
 
+      console.log('here');
       mbxClient
         .reverseGeocode({
           countries: CountriesList,

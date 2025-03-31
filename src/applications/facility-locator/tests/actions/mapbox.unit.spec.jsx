@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import omit from 'lodash/omit';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import * as mapboxUtils from 'platform/utilities/facilities-and-mapbox';
 import {
   GEOCODE_CLEAR_ERROR,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  GEOCODE_STARTED,
   GEOLOCATE_USER,
   MAP_MOVED,
+  MOBILE_MAP_PIN_SELECTED,
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,
 } from '../../actions/actionTypes';
@@ -20,9 +22,12 @@ import {
   mapMoved,
   processFeaturesBBox,
   searchCriteriaFromCoords,
+  selectMobileMapPin,
   sendUpdatedSearchQuery,
 } from '../../actions/mapbox';
 import { LocationType } from '../../constants';
+
+const mapboxStub = sinon.stub(mapboxUtils, 'mbxClient');
 
 describe('actions: mapbox', () => {
   const dispatchSpy = sinon.spy();
@@ -183,8 +188,14 @@ describe('actions: mapbox', () => {
   });
 
   describe('genBBoxFromAddress', () => {
-    beforeEach(() => {
-      mockFetch();
+    it('should start the geocode if a search string is given', () => {
+      const query = {
+        searchString: 'San Antonio',
+      };
+
+      genBBoxFromAddress(query)(dispatchSpy);
+
+      expect(dispatchSpy.firstCall.args[0].type).to.deep.equal(GEOCODE_STARTED);
     });
 
     it('should fail if no query searchString', () => {
@@ -202,10 +213,6 @@ describe('actions: mapbox', () => {
   });
 
   describe('clearGeocodeError', () => {
-    beforeEach(() => {
-      mockFetch();
-    });
-
     it('should have correct dispatch type', () => {
       return clearGeocodeError()(dispatchSpy).then(() => {
         expect(dispatchSpy.firstCall.args[0].type).to.deep.equal(
@@ -215,50 +222,136 @@ describe('actions: mapbox', () => {
     });
   });
 
-  // describe('sendUpdatedSearchQuery', () => {
-  //   const longitude = -98.495114;
-  //   const latitude = 29.6267;
+  describe('sendUpdatedSearchQuery', () => {
+    const longitude = -98.495114;
+    const latitude = 29.6267;
 
-  //   it('should return the correct action object', () => {
-  //     sendUpdatedSearchQuery(
-  //       dispatchSpy,
-  //       [
-  //         {
-  //           center: [longitude, latitude],
-  //           context: [
-  //             {
-  //               id: 'postcode.291252460',
-  //               text: 'San Antonio',
-  //             },
-  //           ],
-  //           geometry: {
-  //             coordinates: [longitude, latitude],
-  //             type: 'Point',
-  //           },
-  //           id: 'postcode.270749420',
-  //         }
-  //       ],
-  //       latitude,
-  //       longitude,
-  //       currentBounds: 400
-  //     );
-  //   });
-  // });
+    it('should return the correct action object', () => {
+      sendUpdatedSearchQuery(
+        dispatchSpy,
+        [
+          {
+            center: [longitude, latitude],
+            context: [
+              {
+                id: 'postcode.287393',
+                text: 'San Antonio',
+              },
+            ],
+            geometry: {
+              coordinates: [longitude, latitude],
+              type: 'Point',
+            },
+            id: 'postcode.287393',
+            // eslint-disable-next-line camelcase
+            place_name: 'San Antonio, TX',
+            // eslint-disable-next-line camelcase
+            place_type: ['postcode'],
+          },
+        ],
+        latitude,
+        longitude,
+        [-98.875114, 29.2467, -98.115114, 30.0067],
+      );
+
+      expect(dispatchSpy.firstCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
+      expect(dispatchSpy.firstCall.args[0].payload).to.deep.equal({
+        radius: 22.824343438601947,
+        searchString: 'San Antonio',
+        context: 'San Antonio',
+        searchArea: {
+          locationString: 'San Antonio',
+          locationCoords: {
+            lng: longitude,
+            lat: latitude,
+          },
+        },
+        mapBoxQuery: {
+          placeName: 'San Antonio, TX',
+          placeType: 'postcode',
+        },
+        searchCoords: null,
+        bounds: [-98.875114, 29.2467, -98.115114, 30.0067],
+        position: {
+          latitude,
+          longitude,
+        },
+      });
+    });
+  });
 
   describe('genSearchAreaFromCenter', () => {
-    it('should return the correct action object', () => {
-      genSearchAreaFromCenter({
-        lat: 29.6180888,
-        lng: -98.498222,
-        currentMapBoundsDistance: 600,
-        currentBounds: [-98.878222, 29.2380888, -98.118222, 29.998088799999998],
-      })(dispatchSpy);
+    describe('when the currentMapBoundsDistance is above 500', () => {
+      it('should return the correct action object', () => {
+        genSearchAreaFromCenter({
+          lat: 29.6180888,
+          lng: -98.498222,
+          currentMapBoundsDistance: 600,
+          currentBounds: [
+            -98.878222,
+            29.2380888,
+            -98.118222,
+            29.998088799999998,
+          ],
+        })(dispatchSpy);
 
-      expect(dispatchSpy.firstCall.args[0].type).to.eq(GEOCODE_FAILED);
-      expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
-        type: SEARCH_FAILED,
-        error: { type: 'mapBox' },
+        expect(dispatchSpy.firstCall.args[0].type).to.eq(GEOCODE_FAILED);
+        expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
+          type: SEARCH_FAILED,
+          error: { type: 'mapBox' },
+        });
       });
+    });
+
+    describe('when the currentMapBoundsDistance is below 500', () => {
+      it.only('should return the correct action object', () => {
+        genSearchAreaFromCenter({
+          lat: 29.6180888,
+          lng: -98.498222,
+          currentMapBoundsDistance: 400,
+          currentBounds: [
+            -98.878222,
+            29.2380888,
+            -98.118222,
+            29.998088799999998,
+          ],
+        })(dispatchSpy);
+
+        expect(dispatchSpy.firstCall.args[0].type).to.eq(GEOCODE_FAILED);
+        expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
+          type: SEARCH_FAILED,
+          error: { type: 'mapBox' },
+        });
+      });
+    });
+  });
+
+  describe('searchCriteriaFromCoords', () => {
+    it('should return the correct search criteria', async () => {
+      const longitude = -98.498222;
+      const latitude = 29.6180888;
+
+      const response = {
+        body: {
+          features: [
+            {
+              center: [longitude, latitude],
+              // eslint-disable-next-line camelcase
+              place_name: 'San Francisco, CA',
+            },
+          ],
+        },
+      };
+
+      const expectedResult = {
+        bounds: [-98.878222, 29.2380888, -98.118222, 29.998088799999998],
+        searchString: 'San Francisco, CA',
+        position: { longitude, latitude },
+      };
+
+      const result = searchCriteriaFromCoords(response, longitude, latitude);
+
+      expect(result).to.deep.equal(expectedResult);
     });
   });
 
@@ -291,48 +384,27 @@ describe('actions: mapbox', () => {
         );
       });
     });
+  });
 
-    describe('searchCriteriaFromCoords', () => {
-      it('should return the correct search criteria', async () => {
-        const longitude = -98.498222;
-        const latitude = 29.6180888;
+  describe('mapMoved', () => {
+    it('should return the correct action object when location is given', () => {
+      const action = mapMoved(100);
 
-        const response = {
-          body: {
-            features: [
-              {
-                center: [longitude, latitude],
-                // eslint-disable-next-line camelcase
-                place_name: 'San Francisco, CA',
-              },
-            ],
-          },
-        };
-
-        const expectedResult = {
-          bounds: [-98.878222, 29.2380888, -98.118222, 29.998088799999998],
-          searchString: 'San Francisco, CA',
-          position: { longitude, latitude },
-        };
-
-        const result = searchCriteriaFromCoords(response, longitude, latitude);
-
-        expect(result).to.deep.equal(expectedResult);
+      expect(action).to.eql({
+        type: MAP_MOVED,
+        currentRadius: 100,
       });
     });
+  });
 
-    describe('mapMoved', () => {
-      beforeEach(() => {
-        mockFetch();
-      });
+  describe('selectMobileMapPin', () => {
+    it('should return the correct action object when location is given', () => {
+      const data = { test: 'test' };
+      const action = selectMobileMapPin(data);
 
-      it('should return the correct action object when location is given', () => {
-        const action = mapMoved(100);
-
-        expect(action).to.eql({
-          type: MAP_MOVED,
-          currentRadius: 100,
-        });
+      expect(action).to.eql({
+        type: MOBILE_MAP_PIN_SELECTED,
+        payload: data,
       });
     });
   });
