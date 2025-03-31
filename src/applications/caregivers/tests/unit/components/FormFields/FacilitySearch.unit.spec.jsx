@@ -284,7 +284,7 @@ describe('CG <FacilitySearch>', () => {
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
               veteranSelected: selectedFacility,
-              caregiverSupport: null,
+              caregiverSupport: undefined,
             },
           });
         });
@@ -370,7 +370,7 @@ describe('CG <FacilitySearch>', () => {
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
               veteranSelected: selectedFacility,
-              caregiverSupport: null,
+              caregiverSupport: undefined,
             },
           });
         });
@@ -422,7 +422,7 @@ describe('CG <FacilitySearch>', () => {
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
               veteranSelected: selectedFacility,
-              caregiverSupport: null,
+              caregiverSupport: undefined,
             },
           });
         });
