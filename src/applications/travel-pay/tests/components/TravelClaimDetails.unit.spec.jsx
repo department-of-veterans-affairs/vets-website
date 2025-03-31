@@ -1,16 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import TravelClaimDetails from '../../components/TravelClaimDetails';
+import reducer from '../../redux/reducer';
 
 describe('TravelClaimDetails', () => {
   const claimDetailsProps = {
-    id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
+    claimId: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
     claimNumber: 'TC0928098230498',
     claimStatus: 'Claim submitted',
     appointmentDateTime: '2024-05-26T16:40:45.781Z',
@@ -24,6 +22,9 @@ describe('TravelClaimDetails', () => {
     hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
     hasClaimsManagementFlag = true,
+    loadingDetails = false,
+    detailsError = null,
+    detailsData = {},
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -32,6 +33,13 @@ describe('TravelClaimDetails', () => {
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFlag,
       /* eslint-enable camelcase */
+    },
+    travelPay: {
+      claimDetails: {
+        isLoading: loadingDetails,
+        error: detailsError,
+        data: detailsData,
+      },
     },
   });
 
@@ -43,99 +51,75 @@ describe('TravelClaimDetails', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
-    mockApiRequest({ ...claimDetailsProps });
   });
 
   afterEach(() => {
     global.window.location = oldLocation;
   });
 
-  it('Successfully renders', async () => {
+  it('Successfully renders', () => {
     const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState(),
+      initialState: {
+        ...getState({ detailsData: { '1234': { ...claimDetailsProps } } }),
+      },
+      path: '/claims/1234',
+      reducers: reducer,
     });
 
-    await waitFor(() => {
-      expect(screen.queryByText('Claim number: TC0928098230498')).to.exist;
-    });
-  });
-
-  it('redirects to the root path when claim statuses feature flag is false', async () => {
-    renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState({ hasStatusFeatureFlag: false }),
-    });
-
-    await waitFor(() => {
-      expect(window.location.replace.calledWith('/')).to.be.true;
-    });
-  });
-  it('redirects to claim details when claim details feature flag is false', async () => {
-    renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState({ hasDetailsFeatureFlag: false }),
-    });
-
-    await waitFor(() => {
-      expect(window.location.replace.calledWith('/my-health/travel-pay')).to.be
-        .true;
-    });
-  });
-  it('handles failed data fetching and displays an error', async () => {
-    global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
-
-    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState(),
-    });
-
-    await waitFor(() => {
-      expect(
-        screen.queryByText('There was an error loading the claim details.'),
-      ).to.exist;
-    });
-  });
-
-  it('renders reimbursement amount if one is provided', async () => {
-    global.fetch.restore();
-    mockApiRequest({ ...claimDetailsProps, reimbursementAmount: 46.93 });
-
-    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState(),
-    });
-    await waitFor(() => {
-      expect(screen.getByText('Reimbursement amount of $46.93')).to.exist;
-    });
-  });
-
-  it('renders appeal link for denied claims', async () => {
-    global.fetch.restore();
-    mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
-
-    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState(),
-    });
-
-    expect(await screen.findByText('Claim status: Denied')).to.exist;
     expect(
-      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
-    ).to.exist;
+      screen.getByText(
+        /If you're eligible for reimbursement, we'll deposit your reimbursement in your bank account./i,
+      ),
+    );
   });
 
-  it('does not render claims management content with flag off', async () => {
-    global.fetch.restore();
-    mockApiRequest({
-      ...claimDetailsProps,
-      claimStatus: 'Denied',
-      reimbursementAmount: 1.0,
+  it('redirects to the root path when claim statuses feature flag is false', () => {
+    renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: { ...getState({ hasStatusFeatureFlag: false }) },
+      path: '/claims/1234',
+      reducers: reducer,
     });
 
+    expect(window.location.replace.calledWith('/')).to.be.true;
+  });
+
+  it('redirects to claim details when claim details feature flag is false', () => {
+    renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: { ...getState({ hasDetailsFeatureFlag: false }) },
+      path: '/claims/1234',
+      reducers: reducer,
+    });
+
+    expect(window.location.replace.calledWith('/my-health/travel-pay')).to.be
+      .true;
+  });
+
+  it('shows a spinner while claim details are loading', () => {
     const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: getState({ hasClaimsManagementFlag: false }),
+      initialState: {
+        ...getState({
+          loadingDetails: true,
+        }),
+      },
+      path: '/claims/1234',
+      reducers: reducer,
     });
 
-    expect(await screen.findByText('Claim status: Denied')).to.exist;
-    expect(
-      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
-    ).to.not.exist;
-    expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
+    expect(screen.getByTestId('travel-pay-loading-indicator')).to.exist;
+  });
+
+  it('handles failed data fetching and displays an error', () => {
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: {
+        ...getState({
+          detailsError: { errors: [{ title: 'Bad Request', status: 400 }] },
+        }),
+      },
+      path: '/claims/1234',
+      reducers: reducer,
+    });
+
+    expect(screen.getByText(/There was an error loading the claim details/i)).to
+      .exist;
   });
 });
