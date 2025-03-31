@@ -7,6 +7,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
+import DownloadLetterNativeLink from '../components/DownloadLetterNativeLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
 import {
@@ -52,6 +53,8 @@ export class LetterList extends React.Component {
         content = letterContent[letter.letterType] || '';
       }
 
+      // OLD conditional download button
+      // TODO: Remove after feature flag is turned off.
       let conditionalDownloadButton;
       if (
         letter.letterType !== LETTER_TYPES.benefitSummary ||
@@ -69,12 +72,29 @@ export class LetterList extends React.Component {
         );
       }
 
+      // NEW conditional download link (KEEP)
+      let conditionalDownloadLink;
+      if (letter.letterType === LETTER_TYPES.benefitSummary) {
+        conditionalDownloadLink = <div>Hello world. Needs a button.</div>;
+      } else {
+        conditionalDownloadLink = (
+          <DownloadLetterNativeLink letterTitle={letterTitle} />
+        );
+      }
+
       return (
         <va-accordion-item key={`panel-${index}`}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
-          {conditionalDownloadButton}
-          {helpText}
+          <Toggler toggleName={TOGGLE_NAMES.lettersPageNewDesign}>
+            <Toggler.Enabled>{conditionalDownloadLink}</Toggler.Enabled>
+            <Toggler.Disabled>
+              <>
+                {conditionalDownloadButton}
+                {helpText}
+              </>
+            </Toggler.Disabled>
+          </Toggler>
         </va-accordion-item>
       );
     });
