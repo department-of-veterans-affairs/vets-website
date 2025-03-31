@@ -41,7 +41,7 @@ const HealthCareCTA = ({
     };
   }
 
-  if (useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch)) {
+  if (useToggleValue(TOGGLE_NAMES.travelPaySubmitMileageExpense)) {
     urls = {
       ...urls,
       travelReimbursement: '/my-health/travel-pay/claims',
