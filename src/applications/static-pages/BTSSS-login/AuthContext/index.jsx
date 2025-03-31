@@ -49,10 +49,6 @@ const AuthContext = () => {
             .
           </p>
           <p>
-            If you want to check the status of all your travel claims, you can
-            do that here on VA.gov.
-          </p>
-          <p>
             <strong>
               If you want to check the status of all your travel claims
             </strong>
@@ -62,7 +58,7 @@ const AuthContext = () => {
             data-testid="vagov-travel-pay-link"
             type="secondary"
             href="/my-health/travel-pay/claims"
-            text="Check your travel claim status"
+            text="Review your travel claims"
           />
         </>
       ) : (
