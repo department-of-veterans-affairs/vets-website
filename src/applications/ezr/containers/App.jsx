@@ -44,9 +44,7 @@ const App = props => {
     gender: veteranGender,
     loading: isLoadingProfile,
   } = user;
-
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
-
   // Route Guard selectors
   const isRouteGuardEnabled = useSelector(
     state => toggleValues(state)[FEATURE_FLAG_NAMES.ezrRouteGuardEnabled],
