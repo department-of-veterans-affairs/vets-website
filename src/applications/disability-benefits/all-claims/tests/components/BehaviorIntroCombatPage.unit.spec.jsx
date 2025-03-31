@@ -6,13 +6,12 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
-import BehaviorIntroCombatPage, {
-  missingSelectionErrorMessage,
-} from '../../components/BehaviorIntroCombatPage';
+import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 import {
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_WORK,
 } from '../../constants';
+import { missingSelectionErrorMessage } from '../../content/form0781/behaviorIntroCombatPage';
 
 describe('BehaviorIntroCombatPage', () => {
   const page = ({
