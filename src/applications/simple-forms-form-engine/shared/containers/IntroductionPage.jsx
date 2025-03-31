@@ -24,11 +24,13 @@ const IntroductionPage = props => {
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         What to know before you fill out this form
       </h2>
-      <va-process-list>
-        {whatToKnow.map((bullet, index) => (
-          <li key={index}>{bullet}</li>
-        ))}
-      </va-process-list>
+      <div className="process schemaform-process">
+        <ul>
+          {whatToKnow.map((bullet, index) => (
+            <li key={index}>{bullet}</li>
+          ))}
+        </ul>
+      </div>
       <SaveInProgressIntro
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
