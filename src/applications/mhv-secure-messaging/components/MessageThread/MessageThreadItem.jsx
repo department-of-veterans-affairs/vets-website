@@ -23,22 +23,18 @@ const MessageThreadItem = props => {
     messageId,
     preloaded,
     readReceipt,
-    recipientName,
     senderName,
     sentDate,
-    triageGroupName,
   } = message;
   const isDraft = folderId === DefaultFolders.DRAFTS.id;
+  const isSent = folderId === DefaultFolders.SENT.id;
 
   const isSentOrReadOrDraft =
-    folderId === DefaultFolders.SENT.id ||
-    isDraft ||
-    readReceipt === MessageReadStatus.READ;
+    isSent || isDraft || readReceipt === MessageReadStatus.READ;
 
-  const fromMe = recipientName === triageGroupName;
-  const from = fromMe ? 'Me' : `${senderName}`;
+  const from = isSent ? 'Me' : `${senderName}`;
 
-  const [isitemExpanded, setIsItemExpanded] = useState(false);
+  const [isItemExpanded, setIsItemExpanded] = useState(false);
 
   const handleExpand = () => {
     // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
@@ -72,14 +68,14 @@ const MessageThreadItem = props => {
   const accordionAriaLabel = useMemo(
     () => {
       return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
-        fromMe ? 'sent' : 'received'
+        isSent ? 'sent' : 'received'
       } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         hasAttachments || attachment ? 'with attachment' : ''
       } from ${senderName}.`;
     },
     [
       attachment,
-      fromMe,
+      isSent,
       hasAttachments,
       isSentOrReadOrDraft,
       senderName,
@@ -109,7 +105,7 @@ const MessageThreadItem = props => {
         setIsItemExpanded(e.target?.getAttribute('open'));
       }}
       data-dd-action-name={`${
-        isitemExpanded
+        isItemExpanded
           ? 'Accordion Expanded Message'
           : 'Accordion Collapsed Message'
       }`}
@@ -142,7 +138,7 @@ const MessageThreadItem = props => {
       <div>
         <MessageThreadMeta
           message={message}
-          fromMe={fromMe}
+          isSent={isSent}
           forPrint={forPrint}
         />
         <HorizontalRule />

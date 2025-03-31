@@ -60,7 +60,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sandbox.restore();
     sessionStorage.clear();
   });
-  it.skip('should get selected slot from session storage if not in redux', async () => {
+  it('should get selected slot from session storage if not in redux', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.setItem(
       selectedSlotKey,
@@ -92,7 +92,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       postDraftReferralAppointmentModule.postDraftReferralAppointment,
     );
   });
-  it.skip('should route to scheduleReferral if no slot selected', async () => {
+  it('should route to scheduleReferral if no slot selected', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.removeItem(selectedSlotKey);
     const noSelectState = {
@@ -114,7 +114,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
       .true;
   });
-  it.skip('should call call create appointment post and begin polling for appointment state when "continue" is pressed', async () => {
+  it('should call call create appointment post and begin polling for appointment state when "continue" is pressed', async () => {
     const clock = sinon.useFakeTimers({
       shouldAdvanceTime: false,
       now: new Date().getTime(),
@@ -162,7 +162,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       );
     });
   });
-  it.skip('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
+  it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     sandbox.spy(flow, 'routeToNextReferralPage');
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')

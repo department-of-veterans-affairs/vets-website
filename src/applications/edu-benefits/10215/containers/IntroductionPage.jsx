@@ -72,7 +72,7 @@ const IntroductionPage = ({ route }) => {
         <va-link
           external
           text="Review the calculation instructions"
-          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         />
       </p>
 
@@ -84,10 +84,10 @@ const IntroductionPage = ({ route }) => {
           <p>
             Fill out the form online. This is a download and upload process.
             After completing the form, you will download a PDF, which you will
-            need to submit later by uploading it to the VA Education Portal.
-            Ensure you have all the necessary details, such as your enrollment
-            information, institution, and any required documentation, before
-            continuing.
+            need to submit later by uploading it to the Education File Upload
+            Portal. Ensure you have all the necessary details, such as your
+            enrollment information, institution, and any required documentation,
+            before continuing.
           </p>
         </va-process-list-item>
         <va-process-list-item header="Download the completed form as a PDF">
@@ -98,9 +98,9 @@ const IntroductionPage = ({ route }) => {
             completed form as a PDF and proceed to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the VA Educational portal">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
           <p>
-            As the final step of this form, please go to the VA Education File
+            As the final step of this form, please go to the Education File
             Upload Portal and upload the completed PDF document that you
             downloaded. This is how you submit this form.
           </p>
@@ -196,8 +196,8 @@ const IntroductionPage = ({ route }) => {
             is NOT necessary to complete OR submit VA Form 22-10215.
           </p>
           <p>
-            <strong>Non-accredited schools: </strong> must complete and submit
-            VA Form 22-10215 with the 35 percent Exemption request.
+            <strong>Nonaccredited schools: </strong> must complete and submit VA
+            Form 22-10215 with the 35 percent Exemption request.
           </p>
         </va-accordion-item>
       </va-accordion>
