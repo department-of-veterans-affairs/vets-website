@@ -66,6 +66,18 @@ export const Hub = () => {
         </HubCard>
 
         <HubCard
+          heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
+          content="Accredited representative or VSO"
+        >
+          <>
+            <ProfileLink
+              className="vads-u-display--block vads-u-margin-bottom--2"
+              text="Review your accredited representative or VSO"
+              href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
+            />
+          </>
+        </HubCard>
+        <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
           content="Military branches and dates of service"
         >
