@@ -448,7 +448,7 @@ const WorkflowChoicePage = props => {
   };
 
   return (
-    <form className="rjsf">
+    <form onSubmit={handlers.onSubmit}>
       <va-alert
         id="success-alert"
         status="success"
