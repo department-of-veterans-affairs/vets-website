@@ -9,8 +9,8 @@ export const mapboxToken =
   'pk.eyJ1IjoiYWRob2MiLCJhIjoiY2wyZjNwM3dxMDZ4YjNjbzVwbTZ5aWQ1dyJ9.D8TZ1a4WobqcdYLWntXV_w';
 
 export const mapboxClient = new MapboxClient({ accessToken: mapboxToken });
-export const mbxClient = mbxGeo(mapboxClient);
 
+const mbxClient = mbxGeo(mapboxClient);
 export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp', 'vi'];
 
 // Mapbox API request types
