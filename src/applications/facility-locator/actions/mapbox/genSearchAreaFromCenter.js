@@ -66,7 +66,7 @@ export const genSearchAreaFromCenter = query => {
             },
           });
         })
-        .catch(_ => {
+        .catch(() => {
           dispatch({ type: GEOCODE_FAILED });
           dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
         });
