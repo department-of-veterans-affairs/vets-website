@@ -16,7 +16,6 @@ import { scrollTo } from 'platform/utilities/ui/scroll';
 import Breadcrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
-import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import ErrorAlert from '../components/alerts/ErrorAlert';
@@ -345,14 +344,18 @@ export default function TravelPayStatusApp({ children }) {
                     class="vads-u-margin-y--3"
                     trigger="How to manage your claims or get more information"
                   >
-                    <>
-                      <HelpTextManage />
+                    <div>
+                      <p className="vads-u-margin-top--0">
+                        You can call the BTSSS call center at 855-574-7292 (TTY:
+                        711) Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+                        Have your claim number ready to share when you call.
+                      </p>
                       <va-link
                         data-testid="status-explainer-link"
                         href="/my-health/travel-pay/help"
                         text="What does my claim status mean?"
                       />
-                    </>
+                    </div>
                   </va-additional-info>
                   <label
                     htmlFor="claimsOrder"
