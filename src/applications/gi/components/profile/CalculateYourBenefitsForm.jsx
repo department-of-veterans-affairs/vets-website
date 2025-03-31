@@ -374,22 +374,20 @@ function CalculateYourBenefitsForm({
 
     return (
       <>
-        <div className="vads-u-margin-top--3">
-          <LearnMoreLabel
-            text={radioButtonsLabelText}
-            onClick={() => showModal(modal)}
-            ariaLabel={ariaLabels.learnMore.inState}
-          />
-          <VARadioButton
-            radioLabel=""
-            name="inState"
-            initialValue={inputs.inState}
-            options={options}
-            onVaValueChange={(target, name) =>
-              handleInputChange(null, target, name)
-            }
-          />
-        </div>
+        <LearnMoreLabel
+          text={radioButtonsLabelText}
+          onClick={() => showModal(modal)}
+          ariaLabel={ariaLabels.learnMore.inState}
+        />
+        <VARadioButton
+          radioLabel=""
+          name="inState"
+          initialValue={inputs.inState}
+          options={options}
+          onVaValueChange={(target, name) =>
+            handleInputChange(null, target, name)
+          }
+        />
         {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
       </>
     );
@@ -1076,7 +1074,7 @@ function CalculateYourBenefitsForm({
     return (
       <VaAccordionItem
         id="military-details-item"
-        header={name}
+        header="Your military details"
         open={expanded.yourBenefits ? 'true' : 'false'}
         onAccordionItemToggled={isExpanded =>
           toggleExpanded('yourBenefits', isExpanded)
