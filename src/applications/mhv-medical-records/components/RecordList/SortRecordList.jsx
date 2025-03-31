@@ -12,10 +12,9 @@ const SortRecordList = ({
   return (
     <>
       <div className="vads-l-row vads-u-align-items--center vads-u-margin-bottom--3 no-print">
-        <span className="vads-u-margin-top--1 vads-u-margin-right--1">
-          Sort
-        </span>
         <VaSelect
+          label="Sort"
+          aria-label="sort"
           data-testid="mr-sort-selector"
           value={selectedSort}
           onVaSelect={e => {
