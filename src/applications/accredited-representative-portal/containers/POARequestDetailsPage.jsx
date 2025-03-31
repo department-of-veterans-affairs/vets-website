@@ -105,6 +105,14 @@ const AccessToSome = () => {
     </span>
   );
 };
+
+const formatPhone = phone => {
+  if (!phone || typeof phone !== 'string') return '';
+  const cleaned = phone.replace(/\D/g, '');
+  if (cleaned.length !== 10) return phone; // fallback to raw if not 10 digits
+  return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+};
+
 const checkAuthorizations = x => {
   if (x) {
     return <NoAccess />;
@@ -307,7 +315,7 @@ const POARequestDetailsPage = title => {
               </li>
               <li>
                 <p>Phone</p>
-                <p>{phone}</p>
+                <p>{formatPhone(phone)}</p>
               </li>
               <li>
                 <p>Email</p>
