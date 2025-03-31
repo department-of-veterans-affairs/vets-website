@@ -45,7 +45,15 @@ export const isInvalidTermStartDate = termStartDate => {
   const thirtyDaysAgo = new Date(today);
   thirtyDaysAgo.setDate(today.getDate() - 30);
 
-  return termStartDateObj < thirtyDaysAgo || termStartDateObj > today;
+  return termStartDateObj < thirtyDaysAgo;
+};
+
+export const isCurrentOrpastDate = date => {
+  const dateObj = new Date(date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return dateObj >= today;
 };
 
 export const dateSigned = () => {

@@ -5,7 +5,7 @@ import {
   currentOrPastDateSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isInvalidTermStartDate } from '../utilities';
+import { isInvalidTermStartDate, isCurrentOrpastDate } from '../utilities';
 
 const institutionDetails = () => ({
   uiSchema: {
@@ -53,6 +53,8 @@ const institutionDetails = () => ({
               errors.addError(
                 'Please provide a term start date within the last 30 days or today',
               );
+            } else if (isCurrentOrpastDate(fieldData)) {
+              errors.addError('Please provide a valid current or past date');
             }
           },
         ],
