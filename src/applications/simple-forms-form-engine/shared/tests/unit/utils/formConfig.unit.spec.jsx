@@ -29,8 +29,14 @@ describe('createFormConfig', () => {
   let transformSpy;
 
   beforeEach(() => {
-    const FakeComponent = ({ ombInfo }) => (
+    const FakeComponent = ({ introParagraph, ombInfo, whatToKnow = [] }) => (
       <div>
+        <p data-testid="intro-paragraph">introParagraph: {introParagraph}</p>
+        <ul data-testid="what-to-know">
+          {whatToKnow.map((bullet, index) => (
+            <li key={index}>{bullet}</li>
+          ))}
+        </ul>
         <p data-testid="exp-date">expDate: {ombInfo.expDate}</p>
         <p data-testid="omb-number">ombNumber: {ombInfo.ombNumber}</p>
         <p data-testid="res-burden">resBurden: {ombInfo.resBurden}</p>
@@ -38,11 +44,13 @@ describe('createFormConfig', () => {
     );
 
     FakeComponent.propTypes = {
+      introParagraph: PropTypes.string,
       ombInfo: PropTypes.shape({
         expDate: PropTypes.string,
         ombNumber: PropTypes.number,
         resBurden: PropTypes.string,
       }),
+      whatToKnow: PropTypes.array,
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
     transformSpy = sinon.spy(submitTransform, 'default');
@@ -85,6 +93,12 @@ describe('createFormConfig', () => {
   it('sends props to the Introduction Page', () => {
     const screen = render(formConfig.introduction());
 
+    expect(screen.getByTestId('intro-paragraph')).to.have.text(
+      `introParagraph: ${normalizedForm.introParagraph}`,
+    );
+    normalizedForm.whatToKnowBullets.map(bullet =>
+      expect(screen.getByTestId('what-to-know')).to.include.text(bullet),
+    );
     expect(screen.getByTestId('exp-date')).to.have.text(
       `expDate: ${normalizedForm.ombInfo.expDate}`,
     );

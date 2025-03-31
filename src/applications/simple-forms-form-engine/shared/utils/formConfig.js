@@ -59,7 +59,15 @@ export const statementOfTruthBody =
  * @returns {FormConfig}
  */
 export const createFormConfig = (form, options) => {
-  const { chapters, formId, ombInfo, title, plainLanguageHeader } = form;
+  const {
+    chapters,
+    formId,
+    introParagraph,
+    ombInfo,
+    title,
+    plainLanguageHeader,
+    whatToKnowBullets,
+  } = form;
   const { rootUrl, trackingPrefix } = options;
   const subTitle = `${title} (VA Form ${formId})`;
 
@@ -72,7 +80,14 @@ export const createFormConfig = (form, options) => {
       },
     },
     rootUrl,
-    introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
+    introduction: props => (
+      <IntroductionPage
+        {...props}
+        introParagraph={introParagraph}
+        ombInfo={ombInfo}
+        whatToKnow={whatToKnowBullets}
+      />
+    ),
     confirmation: ConfirmationPage,
     formId,
     saveInProgress: {},
