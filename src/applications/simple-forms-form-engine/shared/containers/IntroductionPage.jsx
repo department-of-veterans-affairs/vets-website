@@ -10,7 +10,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
-  const { introParagraph, ombInfo, route } = props;
+  const { introParagraph, ombInfo, route, whatToKnow = [] } = props;
   const { formConfig, pageList } = route;
 
   useEffect(() => {
@@ -25,44 +25,9 @@ const IntroductionPage = props => {
         What to know before you fill out this form
       </h2>
       <va-process-list>
-        <li>
-          <h3>Prepare</h3>
-          <h4>To fill out this application, you’ll need your:</h4>
-          <ul>
-            <li>Social Security number (required)</li>
-          </ul>
-          <p>
-            <strong>What if I need help filling out my application?</strong> An
-            accredited representative, like a Veterans Service Officer (VSO),
-            can help you fill out your claim.{' '}
-            <a href="/disability-benefits/apply/help/index.html">
-              Get help filing your claim
-            </a>
-          </p>
-        </li>
-        <li>
-          <h3>Apply</h3>
-          <p>Complete this benefits form.</p>
-          <p>
-            After submitting the form, you’ll get a confirmation message. You
-            can print this for your records.
-          </p>
-        </li>
-        <li>
-          <h3>VA Review</h3>
-          <p>
-            We process claims within a week. If more than a week has passed
-            since you submitted your application and you haven’t heard back,
-            please don’t apply again. Call us at.
-          </p>
-        </li>
-        <li>
-          <h3>Decision</h3>
-          <p>
-            Once we’ve processed your claim, you’ll get a notice in the mail
-            with our decision.
-          </p>
-        </li>
+        {whatToKnow.map((button, index) => (
+          <li key={index}>{button}</li>
+        ))}
       </va-process-list>
       <SaveInProgressIntro
         headingLevel={2}
@@ -109,6 +74,7 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }),
+  whatToKnow: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default IntroductionPage;

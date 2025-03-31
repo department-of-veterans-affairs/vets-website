@@ -142,6 +142,8 @@ describe('<IntroductionPage /> component', () => {
       );
     });
 
-    it('renders a bullet for each whatToKnow item');
+    it('renders a bullet for each whatToKnow item', () => {
+      whatToKnow.forEach(bullet => expect(article).to.include.text(bullet));
+    });
   });
 });
