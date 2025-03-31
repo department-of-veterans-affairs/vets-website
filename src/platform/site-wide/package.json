@@ -58,7 +58,7 @@
       "@testing-library/user-event": "*",
       "classnames": "*",
       "node-fetch": "*",
-      "libxmljs2": "*",
+      "fast-xml-parser": "*",
       "append-query": "*",
       "reselect": "*",
       "core-js": "*"
