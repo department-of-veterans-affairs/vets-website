@@ -2,6 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
@@ -83,6 +84,19 @@ const formConfig = {
     ...resolutionOptionsChapter,
     ...bankruptcyAttestationChapter,
   },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: 'manage-va-debt',
+        label: 'Manage VA debt',
+      },
+      {
+        href: 'manage-va-debt/request-debt-help-form-5655',
+        label: 'Request help with VA debt',
+      },
+    ],
+  }),
 };
 
 export default formConfig;
