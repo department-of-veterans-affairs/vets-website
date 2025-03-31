@@ -118,4 +118,30 @@ describe('<IntroductionPage /> component', () => {
       });
     });
   });
+
+  describe('whatToKnow', () => {
+    const whatToKnow = [
+      'This is a test bullet',
+      'A second example',
+      'Maybe even a third one',
+    ];
+    const screen = renderWithProvider(
+      <IntroductionPage
+        whatToKnow={whatToKnow}
+        route={{
+          formConfig: {},
+          pageList: [],
+        }}
+      />,
+    );
+    const article = screen.getByRole('article');
+
+    it('renders the correct header', () => {
+      expect(article).to.include.text(
+        'What to know before you fill out this form',
+      );
+    });
+
+    it('renders a bullet for each whatToKnow item');
+  });
 });

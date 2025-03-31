@@ -22,7 +22,7 @@ const IntroductionPage = props => {
       <FormTitle title={formConfig.title} />
       <p>{introParagraph}</p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
+        What to know before you fill out this form
       </h2>
       <va-process-list>
         <li>
