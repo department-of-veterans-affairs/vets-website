@@ -1,9 +1,8 @@
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
   isPostcode,
   MAPBOX_QUERY_TYPES,
   CountriesList,
-  mapboxClient,
+  mbxClient,
   toRadians,
 } from 'platform/utilities/facilities-and-mapbox';
 import {
@@ -26,8 +25,6 @@ import {
 } from '../constants';
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 import { updateSearchQuery } from './search';
-
-const mbxClient = mbxGeo(mapboxClient);
 
 export const constructBounds = ({
   facilityType,
@@ -262,6 +259,7 @@ export const genSearchAreaFromCenter = query => {
     } else {
       const types = MAPBOX_QUERY_TYPES;
 
+      console.log('here');
       mbxClient
         .reverseGeocode({
           countries: CountriesList,

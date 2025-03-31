@@ -1,12 +1,9 @@
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
   MAPBOX_QUERY_TYPES,
   CountriesList,
-  mapboxClient,
+  mbxClient,
   isPostcode,
 } from 'platform/utilities/facilities-and-mapbox';
-
-const mbxClient = mbxGeo(mapboxClient);
 
 /** ****************************************************
  * Helper functions specifically requiring the
