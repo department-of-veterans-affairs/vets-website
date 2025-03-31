@@ -31,7 +31,77 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     MockDate.reset();
   });
 
-  it('should show VA appointment text', async () => {
+  it('should show VA appointment text, useFeSourceOfTruthVA=false', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
+      },
+    };
+    const now = moment();
+    const start = moment(now).subtract(30, 'days');
+    const end = moment(now).add(395, 'days');
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      status: 'booked',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      start: now.format('YYYY-MM-DDTHH:mm:ss'),
+      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      future: true,
+    };
+
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findAllByLabelText(
+      new RegExp(now.format('dddd, MMMM D'), 'i'),
+    );
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+  });
+
+  it('should show VA appointment text, useFeSourceOfTruthVA=true', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
