@@ -60,7 +60,7 @@ describe('<LicenseCertificationFilterAccordion>', () => {
   it('should toggle expanded state on button click', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: false });
 
-    const button = wrapper.find('button[data-testid="update-lc-search"]');
+    const button = wrapper.find('va-accordion-item');
     button.simulate('click');
 
     expect(defaultProps.onClick.calledOnce).to.be.true;
@@ -74,32 +74,33 @@ describe('<LicenseCertificationFilterAccordion>', () => {
 
   it('should set initial expanded state correctly', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: true });
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
+    let openState = wrapper.find('va-accordion-item').prop('open');
+    expect(openState).to.be.true;
 
     const collapsedWrapper = mountComponent({
       ...defaultProps,
       expanded: false,
     });
-    expect(collapsedWrapper.find('.usa-accordion-content').props().hidden).to.be
-      .true;
+    openState = collapsedWrapper.find('va-accordion-item').prop('open');
+    expect(openState).to.be.false;
   });
 
   it('should correctly update isExpanded state when toggled', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: false });
 
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
+    expect(wrapper.find('va-accordion-item').props().open).to.be.false;
 
-    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
+    wrapper.find('va-accordion-item').simulate('click');
+    expect(wrapper.find('va-accordion-item').props().open).to.be.true;
 
-    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
+    wrapper.find('va-accordion-item').simulate('click');
+    expect(wrapper.find('va-accordion-item').props().open).to.be.false;
   });
   it('should not throw an error if onClick is undefined', () => {
     const wrapper = mountComponent({ ...defaultProps, onClick: undefined });
 
     expect(() => {
-      wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
+      wrapper.find('va-accordion-item').simulate('click');
     }).to.not.throw();
   });
 });

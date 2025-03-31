@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
   VaButton,
   VaAccordion,
+  VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
@@ -18,7 +19,7 @@ export default function LicenseCertificationFilterAccordion({
   resetSearch,
 }) {
   const accordionRef = useRef(null);
-
+  const [open, setOpen] = useState(expanded || false);
   useEffect(
     () => {
       if (expanded) {
@@ -57,14 +58,20 @@ export default function LicenseCertificationFilterAccordion({
   );
 
   function handleToggle() {
+    setOpen(!open);
     if (onClick) {
-      onClick(!expanded);
+      onClick(!open);
     }
   }
 
   return (
-    <VaAccordion ref={accordionRef} onAccordionItemToggled={handleToggle}>
-      <va-accordion-item header={buttonLabel} data-testid="update-lc-search">
+    <VaAccordion>
+      <VaAccordionItem
+        ref={accordionRef}
+        header={buttonLabel}
+        onClick={handleToggle}
+        open={open}
+      >
         <div
           className="update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3"
           role="region"
@@ -82,7 +89,7 @@ export default function LicenseCertificationFilterAccordion({
             className={`clear-filters-button-after ${clearFiltersButton}`}
           />
         </div>
-      </va-accordion-item>
+      </VaAccordionItem>
     </VaAccordion>
   );
 }
