@@ -47,13 +47,22 @@ const formMappings = {
   },
 };
 
-export const getFormNumber = (pathname = null) => {
-  const path = pathname || window?.location?.pathname;
+const extractFormSlug = path => {
   const regex = /upload\/([^/]+)/;
-  const match = path.match(regex)?.[1];
+  return path.match(regex)?.[1] ?? '';
+};
+
+const findMatchingFormNumber = slug => {
+  const lowerSlug = slug.toLowerCase();
   return (
-    Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
+    Object.keys(formMappings).find(key => key.toLowerCase() === lowerSlug) ?? ''
   );
+};
+
+export const getFormNumber = pathname => {
+  const path = pathname ?? window?.location?.pathname;
+  const match = extractFormSlug(path);
+  return findMatchingFormNumber(match);
 };
 
 export const getFormContent = (pathname = null) => {
