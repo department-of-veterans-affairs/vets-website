@@ -36,7 +36,7 @@ const formMappings = {
       'Improved Pension Eligibility Verification Report (Veteran with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
   },
-  '21P-0530a': {
+  '21P-530a': {
     subTitle:
       'State Application for Interment Allowance (Under 38 U.S.C. Chapter 23)',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-530a-ARE.pdf',
