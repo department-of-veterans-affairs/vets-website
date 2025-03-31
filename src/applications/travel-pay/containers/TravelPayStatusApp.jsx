@@ -294,16 +294,24 @@ export default function TravelPayStatusApp({ children }) {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="header">
-          Check your travel reimbursement claim status
+          Travel reimbursement claims
         </h1>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <h2 className="vads-u-font-size--h4">
-            You can use this tool to check the status of your VA travel claims.
+          <p className="vads-u-font-family--serif vads-u-font-size--lg">
+            File new claims for travel reimbursement and review the status of
+            all your travel claims.
+          </p>
+          <h2 className="vads-u-margin-top--2">
+            File a new claim for travel reimbursement online
           </h2>
+          <p>
+            If you’re claiming mileage only, you can file a travel claim for
+            eligible past appointments here on VA.gov.
+          </p>
           <va-link-action
             href="/my-health/appointments/past"
             text="Go to your past appointments"
-            class="vads-u-margin-top--2"
+            class="vads-u-margin-y--1"
           />
           <p>
             <strong>
@@ -318,23 +326,6 @@ export default function TravelPayStatusApp({ children }) {
             />
             .
           </p>
-          {!error &&
-            !isLoading && (
-              <va-additional-info
-                class="vads-u-margin-y--3"
-                trigger="How to manage your claims or get more information"
-              >
-                <>
-                  <HelpTextManage />
-                  <va-link
-                    data-testid="status-explainer-link"
-                    href="/my-health/travel-pay/help"
-                    text="What does my claim status mean?"
-                  />
-                </>
-              </va-additional-info>
-            )}
-
           {isLoading && (
             <va-loading-indicator
               label="Loading"
@@ -345,11 +336,24 @@ export default function TravelPayStatusApp({ children }) {
             data.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
-                  <h2 className="vads-u-font-size--h4">Your travel claims</h2>
+                  <h2 className="vads-u-margin-top--2">Your travel claims</h2>
                   <p>
                     This list shows all the appointments you've filed a travel
                     claim for.
                   </p>
+                  <va-additional-info
+                    class="vads-u-margin-y--3"
+                    trigger="How to manage your claims or get more information"
+                  >
+                    <>
+                      <HelpTextManage />
+                      <va-link
+                        data-testid="status-explainer-link"
+                        href="/my-health/travel-pay/help"
+                        text="What does my claim status mean?"
+                      />
+                    </>
+                  </va-additional-info>
                   <label
                     htmlFor="claimsOrder"
                     className="vads-u-margin-bottom--0 vads-u-margin-top--0"
