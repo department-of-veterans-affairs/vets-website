@@ -143,7 +143,7 @@ const formConfig = {
             if (isAccredited !== true) {
               goPath('/additional-form');
             } else {
-              goPath('/institution-details');
+              goPath('/identifying-details');
             }
           },
         },
