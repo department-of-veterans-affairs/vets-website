@@ -154,7 +154,7 @@ const BehaviorIntroCombatPage = ({
       <div className="vads-u-margin-bottom--1">
         <VaAlert
           ref={deletedAnswerConfirmationRef}
-          closeBtnAriaLabel="Close notification"
+          closeBtnAriaLabel="Deleted answers confirmation"
           closeable
           onCloseEvent={handlers.onCloseDeletedAnswersAlert}
           fullWidth="false"
