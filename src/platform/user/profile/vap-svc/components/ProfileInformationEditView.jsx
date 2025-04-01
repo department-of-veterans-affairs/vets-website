@@ -57,6 +57,7 @@ import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
     const { getInitialFormValues } = this.props;
+
     this.onChangeFormDataAndSchemas(
       getInitialFormValues(),
       this.props.formSchema,
@@ -422,12 +423,12 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     /*
-    This ternary is to deal with an edge case: if the user is currently viewing
-    the address validation view we need to handle things differently or text in
-    the modal would be inaccurate. This is an unfortunate hack to get around an
-    existing hack we've been using to determine if we need to show the address
-    validation view or not.
-    */
+        This ternary is to deal with an edge case: if the user is currently viewing
+        the address validation view we need to handle things differently or text in
+        the modal would be inaccurate. This is an unfortunate hack to get around an
+        existing hack we've been using to determine if we need to show the address
+        validation view or not.
+        */
     activeEditView:
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION

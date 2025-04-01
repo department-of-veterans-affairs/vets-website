@@ -124,10 +124,11 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
   });
 
-  it('should display CC document title', async () => {
+  it('should display CC document title, vaOnlineSchedulingFeSourceOfTruthCC=false', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
       serviceType: 'audiology-hearing aid support',
       status: APPOINTMENT_STATUS.proposed,
     });
@@ -137,6 +138,37 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Act
     renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
+      path: `/pending/${response.id}`,
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Request For Community Care Appointment | Veterans Affairs`,
+      );
+    });
+  });
+
+  it('should display CC document title, vaOnlineSchedulingFeSourceOfTruthCC=true', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse({
+      kind: 'cc',
+      type: 'COMMUNITY_CARE_REQUEST',
+      serviceType: 'audiology-hearing aid support',
+      status: APPOINTMENT_STATUS.proposed,
+    });
+
+    mockAppointmentApi({ response });
+
+    // Act
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingFeSourceOfTruthCC: true,
+        },
+      },
       path: `/pending/${response.id}`,
     });
 

@@ -71,6 +71,44 @@ describe('Form Configuration', () => {
     validateFacilityCode(errors, '12345678');
     expect(errors.messages).to.be.empty;
   });
+  it('should validate term start date within the last 30 days or today', () => {
+    const errors = {
+      addError: message => {
+        errors.messages.push(message);
+      },
+      messages: [],
+    };
+
+    const validateTermStartDate =
+      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+        .uiSchema.institutionDetails.termStartDate['ui:validations'][0];
+    validateTermStartDate(errors, '2023-09-01');
+    expect(errors.messages).to.include(
+      'Please provide a term start date within the last 30 days or today',
+    );
+  });
+  it('should validate current or past date', () => {
+    const errors = {
+      addError: message => {
+        errors.messages.push(message);
+      },
+      messages: [],
+    };
+
+    const validateTermStartDate =
+      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+        .uiSchema.institutionDetails.termStartDate['ui:validations'][0];
+    const today = new Date();
+    const futureDate = today.getDate() + 1;
+    const day = String(futureDate).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+
+    validateTermStartDate(errors, `${year}-${month}-${day}`);
+    expect(errors.messages).to.include(
+      'Please provide a valid current or past date',
+    );
+  });
   it('should show errors when required field is empty', () => {
     const onSubmit = sinon.spy();
     const form = mount(

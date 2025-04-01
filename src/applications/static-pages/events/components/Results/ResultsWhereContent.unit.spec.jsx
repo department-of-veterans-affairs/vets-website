@@ -5,16 +5,17 @@ import ResultsWhereContent from './ResultsWhereContent';
 
 describe('ResultsWhereContent', () => {
   describe('when it is an online event', () => {
-    it('should render the component as expected', () => {
+    it('should render the component with semantic p tag', () => {
       const event = {
         fieldLocationType: 'online',
       };
 
       const screen = render(<ResultsWhereContent event={event} />);
 
-      expect(screen.getByTestId('events-where-content').textContent).to.equal(
-        'This is an online event.',
-      );
+      const onlineText = screen.getByTestId('event-online');
+      expect(onlineText.tagName.toLowerCase()).to.equal('p');
+      expect(onlineText.classList.contains('vads-u-margin--0')).to.be.true;
+      expect(onlineText.textContent).to.equal('This is an online event.');
     });
   });
 

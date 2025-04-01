@@ -264,3 +264,15 @@ export const trackingConfig = {
     url: 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=',
   },
 };
+
+export const tooltipNames = {
+  mhvMedicationsTooltipFilterAccordion:
+    'mhv_medications_tooltip_filter_accordion',
+};
+
+export const tooltipHintContent = {
+  filterAccordion: {
+    HINT:
+      'Filter the medications list to easily find what you are looking for.',
+  },
+};

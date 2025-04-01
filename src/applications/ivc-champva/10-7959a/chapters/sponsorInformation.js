@@ -1,5 +1,6 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   fullNameUI,
   fullNameSchema,
@@ -71,9 +72,13 @@ export const sponsorAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address.',
     ),
-    sponsorAddress: {
-      ...addressUI(),
-    },
+    sponsorAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Regions',
+        },
+      },
+    }),
   },
   schema: {
     type: 'object',

@@ -102,3 +102,7 @@ body {
     font-size: 24px;
   }
 }
+
+va-textarea::part(input-type-textarea) {
+  box-sizing: border-box;
+}

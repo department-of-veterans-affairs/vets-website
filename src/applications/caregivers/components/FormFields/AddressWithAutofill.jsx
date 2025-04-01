@@ -49,7 +49,7 @@ const AddressWithAutofill = props => {
       [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
         const fieldName = `root_${name}_${field}`;
         const inputElement = document.getElementById(fieldName);
-        if (inputElement) formData[field] = inputElement.value;
+        formData[field] = inputElement?.value;
       });
     },
     [formData, name],

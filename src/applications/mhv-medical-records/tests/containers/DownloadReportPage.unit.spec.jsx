@@ -206,3 +206,51 @@ describe('DownloadRecordsPage with a general BB download error', () => {
     });
   });
 });
+
+describe('DownloadRecordsPage with successful Blue Button download alert', () => {
+  const stateWithBBSuccess = {
+    user,
+    mr: {
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: true, // set success flag to true
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+      selfEntered: {
+        failedDomains: [],
+        // Provide empty arrays for SEI domains if needed
+        activityJournal: [],
+        allergies: [],
+        demographics: [],
+        familyHistory: [],
+        foodJournal: [],
+        providers: [],
+        healthInsurance: [],
+        testEntries: [],
+        medicalEvents: [],
+        medications: [],
+        militaryHistory: [],
+        treatmentFacilities: [],
+        vaccines: [],
+        vitals: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithBBSuccess,
+      reducers: reducer,
+      path: '/download-all',
+    });
+  });
+
+  it('renders the Blue Button download success alert', () => {
+    expect(screen.getByText('Your VA Blue Button report download has started'))
+      .to.exist;
+  });
+});

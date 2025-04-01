@@ -31,6 +31,7 @@ export const downloadsReducer = (state = initialState, action) => {
       return {
         ...state,
         generatingCCD: false,
+        ccdDownloadSuccess: true,
         timestampCCD: action.response,
       };
     }

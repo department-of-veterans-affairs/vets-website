@@ -665,7 +665,13 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {showRefillProgressContent && <RefillAlert />}
+            {showRefillProgressContent && (
+              <RefillAlert
+                dataDogActionName={
+                  dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
+                }
+              />
+            )}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&

@@ -133,7 +133,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     });
 
     describe('Document titles', () => {
-      it('should display document tile for ATLAS video appointment', async () => {
+      it('should display document title for ATLAS video appointment', async () => {
         // Arrange
         const today = moment();
         const responses = MockAppointmentResponse.createAtlasResponses({
@@ -161,7 +161,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for past ATLAS video appointment', async () => {
+      it('should display document title for past ATLAS video appointment', async () => {
         // Arrange
         const yesterday = moment().subtract(1, 'day');
         const responses = MockAppointmentResponse.createAtlasResponses({
@@ -190,7 +190,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for canceled ATLAS video appointment', async () => {
+      it('should display document title for canceled ATLAS video appointment', async () => {
         // Arrange
         const today = moment();
         const responses = MockAppointmentResponse.createAtlasResponses({
@@ -219,7 +219,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for video appointment', async () => {
+      it('should display document title for video appointment', async () => {
         // Arrange
         const today = moment();
         const responses = MockAppointmentResponse.createGfeResponses({
@@ -247,7 +247,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for past video appointment', async () => {
+      it('should display document title for past video appointment', async () => {
         // Arrange
         const yesterday = moment().subtract(1, 'day');
         const responses = MockAppointmentResponse.createGfeResponses({
@@ -276,7 +276,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for canceled video appointment', async () => {
+      it('should display document title for canceled video appointment', async () => {
         // Arrange
         const today = moment();
         const responses = MockAppointmentResponse.createGfeResponses({
@@ -305,7 +305,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for video at VA location appointment', async () => {
+      it('should display document title for video at VA location appointment', async () => {
         // Arrange
         const today = moment();
         const responses = MockAppointmentResponse.createClinicResponses({
@@ -333,7 +333,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for past video at VA location appointment', async () => {
+      it('should display document title for past video at VA location appointment', async () => {
         // Arrange
         const yesterday = moment().subtract(1, 'day');
         const responses = MockAppointmentResponse.createClinicResponses({
@@ -362,7 +362,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
       });
 
-      it('should display document tile for canceled video at VA location appointment', async () => {
+      it('should display document title for canceled video at VA location appointment', async () => {
         // Arrange
         const today = moment();
         const responses = MockAppointmentResponse.createClinicResponses({
@@ -388,6 +388,68 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
               'dddd, MMMM D, YYYY',
             )} | Veterans Affairs`,
           );
+        });
+      });
+
+      describe('when appointment is canceled and in the past', () => {
+        it('should display document title for canceled past phone appointment', async () => {
+          // Arrange
+          const yesterday = moment().subtract(1, 'day');
+          const responses = MockAppointmentResponse.createPhoneResponses({
+            localStartTime: yesterday,
+            past: true,
+          });
+          responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+          mockAppointmentApi({
+            response: responses[0],
+            avs: true,
+            fetchClaimStatus: true,
+          });
+
+          // Act
+          renderWithStoreAndRouter(<AppointmentList />, {
+            initialState,
+            path: `/${responses[0].id}`,
+          });
+
+          // Assert
+          await waitFor(() => {
+            expect(global.document.title).to.equal(
+              `Canceled Phone Appointment On ${yesterday.format(
+                'dddd, MMMM D, YYYY',
+              )} | Veterans Affairs`,
+            );
+          });
+        });
+        it('should display document title for canceled past CC appointment', async () => {
+          // Arrange
+
+          const yesterday = moment().subtract(1, 'day');
+          const responses = MockAppointmentResponse.createCCResponses({
+            localStartTime: yesterday,
+            past: true,
+          });
+          responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+          mockAppointmentApi({
+            response: responses[0],
+            avs: true,
+            fetchClaimStatus: true,
+          });
+
+          // Act
+          renderWithStoreAndRouter(<AppointmentList />, {
+            initialState,
+            path: `/${responses[0].id}`,
+          });
+
+          // Assert
+          await waitFor(() => {
+            expect(global.document.title).to.equal(
+              `Canceled Community Care Appointment On ${yesterday.format(
+                'dddd, MMMM D, YYYY',
+              )} | Veterans Affairs`,
+            );
+          });
         });
       });
     });

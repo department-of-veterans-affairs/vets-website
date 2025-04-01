@@ -4,7 +4,7 @@ import { RATED_OR_NEW_NEXT_PAGE as demo } from '../../constants';
 import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
   arrayBuilderOptions,
-  hasRemainingRatedDisabilities,
+  hasRatedDisabilitiesOrIsRatedDisability,
   isActiveDemo,
 } from '../shared/utils';
 import conditionPage from './condition';
@@ -16,9 +16,9 @@ const ratedOrNewNextPagePages = arrayBuilderPages(
     [`${demo.name}Condition`]: pageBuilder.itemPage({
       title: 'Select rated disability or new condition',
       path: `conditions-${demo.label}/:index/condition`,
-      depends: formData =>
+      depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
-        hasRemainingRatedDisabilities(formData),
+        hasRatedDisabilitiesOrIsRatedDisability(formData, index),
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
     }),

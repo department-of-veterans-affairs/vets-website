@@ -114,6 +114,7 @@ export function mockEligibilityFetches({
       ...appt,
       attributes: {
         ...appt.attributes,
+        type: 'VA',
         clinic: clinic.id,
         locationId: facilityId.substr(0, 3),
       },

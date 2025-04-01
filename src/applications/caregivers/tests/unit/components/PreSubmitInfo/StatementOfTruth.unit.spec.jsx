@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
-import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../../../utils/constants';
+import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../../../components/PreSubmitInfo';
 import StatementOfTruth from '../../../../components/PreSubmitInfo/StatementOfTruth';
 
 describe('CG <StatementOfTruth>', () => {

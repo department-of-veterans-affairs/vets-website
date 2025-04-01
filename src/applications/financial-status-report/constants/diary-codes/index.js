@@ -11,6 +11,9 @@ const ContactDMC = () => (
   </span>
 );
 
+// GH docs source for diaryCode values
+// https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/architecture/static-codes.md
+// let's try and keep these values updated there so it's easier for stakeholders to monitor
 export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
   switch (diaryCode) {
     case '71':

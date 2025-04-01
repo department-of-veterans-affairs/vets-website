@@ -4,9 +4,9 @@ import { RATED_OR_NEW_RADIOS as demo } from '../../constants';
 import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
   arrayBuilderOptions,
-  hasRemainingRatedDisabilities,
+  hasRatedDisabilitiesAndIsRatedDisability,
+  hasRatedDisabilitiesOrIsRatedDisability,
   isActiveDemo,
-  isNewCondition,
 } from '../shared/utils';
 import ratedDisabilitiesPage from './ratedDisabilities';
 import ratedOrNewPage from './ratedOrNew';
@@ -18,9 +18,9 @@ const ratedOrNewRadiosPages = arrayBuilderPages(
     [`${demo.name}RatedOrNew`]: pageBuilder.itemPage({
       title: 'Select rated disability or new condition',
       path: `conditions-${demo.label}/:index/rated-or-new`,
-      depends: formData =>
+      depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
-        hasRemainingRatedDisabilities(formData),
+        hasRatedDisabilitiesOrIsRatedDisability(formData, index),
       uiSchema: ratedOrNewPage.uiSchema,
       schema: ratedOrNewPage.schema,
     }),
@@ -29,8 +29,7 @@ const ratedOrNewRadiosPages = arrayBuilderPages(
       path: `conditions-${demo.label}/:index/rated-disabilities`,
       depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
-        !isNewCondition(formData, index) &&
-        hasRemainingRatedDisabilities(formData),
+        hasRatedDisabilitiesAndIsRatedDisability(formData, index),
       uiSchema: ratedDisabilitiesPage.uiSchema,
       schema: ratedDisabilitiesPage.schema,
     }),

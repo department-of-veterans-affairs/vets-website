@@ -112,11 +112,21 @@ const OverviewPage = () => {
             <h2>Debt and bill overview</h2>
             <Balances />
             {showOneVADebtLetterDownload ? (
-              <VaButton
-                onClick={downloadPDF}
-                text="View combined statement"
-                secondary
-              />
+              <>
+                <VaButton
+                  onClick={downloadPDF}
+                  text="View combined statement"
+                  className="vads-u-margin-bottom--2"
+                  secondary
+                />
+                <va-additional-info trigger="What to know before you download">
+                  <p>
+                    By clicking download, you’ll download a combined PDF
+                    statement view of all your benefit debt and copay bills in
+                    one consolidated place.
+                  </p>
+                </va-additional-info>
+              </>
             ) : null}
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>

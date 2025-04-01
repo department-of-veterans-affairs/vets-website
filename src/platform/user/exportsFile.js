@@ -41,12 +41,6 @@ export {
 } from './authentication/hooks/index';
 
 export {
-  default as AccountTransitionModal,
-} from './authentication/components/account-transition/TransitionModal';
-export {
-  default as TransitionSuccessModal,
-} from './authentication/components/account-transition/TransitionSuccessModal';
-export {
   VerifyIdmeButton,
   VerifyLogingovButton,
   VerifyButton,

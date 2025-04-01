@@ -14,39 +14,47 @@ const OMB_EXP_DATE = '08/31/2025';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Check your eligibility">
+        <p className="vads-u-margin-bottom--0">
+          Make sure you meet our eligibility requirements before you apply.
+        </p>
+        <va-link
+          href="/careers-employment/vocational-rehabilitation/eligibility/"
+          text="Find out if you’re eligible for VR&E benefits"
+        />
+      </va-process-list-item>
+      <va-process-list-item header="Gather your information">
+        <p>Here’s what you’ll need to apply:</p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>Your Social Security number or VA file number</li>
+          <li>
+            An address, phone number, and email address where we can contact you
+          </li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          <span className="vads-u-font-weight--bold">
+            What if I need help filling out my application?
+          </span>{' '}
+          An accredited representative with a Veterans Service Organization
+          (VSO) can help you fill out your application.{' '}
+          <va-link
+            href="/get-help-from-accredited-representative/"
+            text="Get help filing your claim"
+          />
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="Start your application">
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          We’ll take you through each step of the process. It should take about
+          10 minutes.
         </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
+          When you submit your application, you’ll get a confirmation message.
+          You can print this message for your records.
         </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
-        </p>
+        <va-additional-info trigger="What happens after you apply?">
+          Need copy.
+        </va-additional-info>
       </va-process-list-item>
     </va-process-list>
   );
@@ -67,10 +75,18 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for VR&amp;E Chapter 31 benefits
-        application.
+      <h2 className="vads-u-margin-top--0">
+        Application for Veteran Readiness and Employment for Claimants with
+        Service-Connected Disabilities (VA Form 28-1900)
       </h2>
+      <p>
+        Veteran Readiness and Employment (VR&E) benefits–also called Chapter
+        31–provide employment support and training services to help you find and
+        keep a job, and live as independently as possible. Apply online now.
+      </p>
+      <h3 className="vads-u-font-size--h2 vads-u-margin-top--0">
+        Follow these steps to get started
+      </h3>
       <ProcessList />
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>
@@ -80,7 +96,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Apply for veteran readiness and employment"
           devOnly={{
             forceShowFormControls: true,
           }}

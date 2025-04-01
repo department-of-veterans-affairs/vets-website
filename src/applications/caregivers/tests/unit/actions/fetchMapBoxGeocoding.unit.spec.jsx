@@ -41,7 +41,7 @@ describe('CG fetchMapBoxGeocoding action', () => {
 
     it('should return a `not found` response when coordinates do not match any location', async () => {
       clientStub.returns({
-        send: sinon.stub().resolves({ body: { features: [] } }),
+        send: sinon.stub().resolves({ body: { features: undefined } }),
       });
 
       const response = await fetchMapBoxGeocoding('Dave', mockClient);

@@ -20,7 +20,7 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    dataSets: ['maximal-test.json'],
+    dataSets: ['maximal-test', 'test-data'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {

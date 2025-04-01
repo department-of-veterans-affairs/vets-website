@@ -193,16 +193,33 @@ describe('CG `validateSsnIsUnique` form validation', () => {
     expect(errors.addError.called).to.be.true;
   });
 
-  it('should not set an error for a party that is not present', () => {
+  it('should not set an error when the primary caregiver is not declared', () => {
+    const { errors, formData } = getData({
+      spy: addErrorSpy,
+      formData: {
+        veteranSsnOrTin: '222332222',
+        primarySsnOrTin: undefined,
+        secondaryOneSsnOrTin: '211332222',
+        secondaryTwoSsnOrTin: '111332356',
+        'view:hasPrimaryCaregiver': false,
+        'view:hasSecondaryCaregiverOne': true,
+        'view:hasSecondaryCaregiverTwo': true,
+      },
+    });
+    validateSsnIsUnique(errors, {}, formData);
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not set an error when the secondary caregivers are not declared', () => {
     const { errors, formData } = getData({
       spy: addErrorSpy,
       formData: {
         veteranSsnOrTin: '222332222',
         primarySsnOrTin: '111332356',
-        secondaryOneSsnOrTin: '211332222',
+        secondaryOneSsnOrTin: undefined,
         secondaryTwoSsnOrTin: undefined,
         'view:hasPrimaryCaregiver': true,
-        'view:hasSecondaryCaregiverOne': true,
+        'view:hasSecondaryCaregiverOne': false,
         'view:hasSecondaryCaregiverTwo': false,
       },
     });

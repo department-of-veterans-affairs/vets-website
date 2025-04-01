@@ -1,8 +1,0 @@
-{
-  "name": "@department-of-veterans-affairs/applications-representative-form-upload",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "react-router-dom": "^6.28.0"
-  }
-}
