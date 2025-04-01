@@ -114,9 +114,6 @@ describe('22-10216 Edu form', () => {
     cy.tabToElement('input[name="root_studentRatioCalcChapter_numOfStudent"]');
     cy.typeInFocused(100);
 
-    cy.tabToElement('va-additional-info');
-    cy.realPress('Space');
-
     cy.tabToElement(
       'select[name="root_studentRatioCalcChapter_dateOfCalculationMonth"]',
     );
@@ -152,20 +149,11 @@ describe('22-10216 Edu form', () => {
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.realPress('Space');
     cy.tabToSubmitForm();
-    // Confirmation Page will not show up on the local machine
-
-    // // Confirmation page
-
+    // Confirmation page
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
       '/confirmation',
-    ); /*
+    );
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('[data-testid="print-page"]');
-    cy.realPress('Enter');
-    cy.injectAxeThenAxeCheck();
-    cy.tabToElement('[text="Go to VA Form 22-10216 now"]');
-    cy.realPress('Enter');
-    cy.url().should('include', '/school-administrators/35-percent-exemption'); */
   });
 });

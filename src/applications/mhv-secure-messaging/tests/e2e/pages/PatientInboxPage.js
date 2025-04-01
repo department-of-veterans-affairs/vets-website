@@ -402,7 +402,7 @@ class PatientInboxPage {
   openAdvancedSearch = () => {
     cy.get(Locators.ADDITIONAL_FILTER)
       .shadow()
-      .contains('Add filters')
+      .contains('Show filters')
       .click({
         waitForAnimations: true,
         force: true,
@@ -498,8 +498,8 @@ class PatientInboxPage {
 
   clearFilterByKeyboard = () => {
     // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
       cy.tabToElement(el)
         .first()
         .click();
@@ -677,7 +677,7 @@ class PatientInboxPage {
       .and('contain.text', `${text}`);
   };
 
-  verifyAddFilterButton = (text = 'Add filters') => {
+  verifyAddFilterButton = (text = 'Show filters') => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
       'contain.text',
       `${text}`,

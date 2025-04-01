@@ -24,16 +24,21 @@ import SearchForm from '../components/search-form';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
+// Actions
 import {
   clearSearchResults,
-  fetchVAFacility,
   searchWithBounds,
+  updateSearchQuery,
+} from '../actions/search';
+import { fetchVAFacility } from '../actions/locations';
+import {
   genBBoxFromAddress,
   genSearchAreaFromCenter,
   mapMoved,
   selectMobileMapPin,
-  updateSearchQuery,
-} from '../actions';
+} from '../actions/mapbox';
+
+// Utils
 import {
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
@@ -42,7 +47,6 @@ import {
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
 import { FacilitiesMapTypes } from '../types';
-
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
   EMERGENCY_CARE_SERVICES,
