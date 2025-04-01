@@ -75,11 +75,11 @@ class PatientMessageSentPage {
       .type(`${text}`, { force: true });
   };
 
-  clickFilterMessagesButton = () => {
+  clickFilterMessagesButton = (filteredResponse = sentSearchResponse) => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/search`,
-      sentSearchResponse,
+      filteredResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
@@ -153,8 +153,8 @@ class PatientMessageSentPage {
 
   clearFilterByKeyboard = () => {
     // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
       cy.tabToElement(el)
         .first()
         .click();
@@ -219,6 +219,10 @@ class PatientMessageSentPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
+  };
+
+  verifySentToField = value => {
+    cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }
 

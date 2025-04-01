@@ -85,7 +85,7 @@ const POARequestSearchPage = title => {
     },
     [title],
   );
-  const poaRequests = useLoaderData();
+  const poaRequests = useLoaderData().data;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   return (
