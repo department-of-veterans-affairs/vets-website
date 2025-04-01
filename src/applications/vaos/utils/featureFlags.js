@@ -26,7 +26,7 @@ module.exports = [
   { name: 'vaosOnlineSchedulingUseVADate', value: true },
   { name: 'vaOnlineSchedulingPastApptDateRange', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruth', value: true },
-  { name: 'vaOnlineSchedulingFeSourceOfTruthVA', value: false },
+  { name: 'vaOnlineSchedulingFeSourceOfTruthVA', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthCC', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthModality', value: false },
   { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: false },
