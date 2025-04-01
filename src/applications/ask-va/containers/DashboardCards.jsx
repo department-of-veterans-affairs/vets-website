@@ -415,6 +415,7 @@ const DashboardCards = () => {
             full-width="false"
             status="info"
             visible="true"
+            slim
           >
             <p className="vads-u-margin-y--0">
               You haven’t submitted a question yet.

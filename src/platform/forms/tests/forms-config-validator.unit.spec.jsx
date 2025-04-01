@@ -13,7 +13,6 @@ const validatedConfigs = new Map();
 
 const formConfigFnParams = {
   'form-upload': '/find-forms/upload/21-0779',
-  'representative-form-upload': '/representative-form-upload/21-686c',
 };
 
 const missingFromVetsJsonSchema = [
@@ -262,6 +261,10 @@ const validateForm = async (formSlug, formConfigParam) => {
     const key = formSlug.split('/')[0] || 'unknown';
     const options = formConfigFnParams[key];
     config = options ? config(options) : config();
+  }
+
+  if (formSlug === 'representative-form-upload/config') {
+    config.formId = '21-686C-UPLOAD';
   }
 
   const coreValidations = [

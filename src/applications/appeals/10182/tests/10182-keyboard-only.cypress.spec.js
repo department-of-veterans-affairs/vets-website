@@ -146,7 +146,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('va-button.screen-only').should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

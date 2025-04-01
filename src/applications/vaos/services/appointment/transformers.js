@@ -10,9 +10,8 @@ import {
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(appt) {
-  // Cerner appointments have a different structure than VAOS appointments
-  // TODO: refactor this once logic is moved to vets-api
+export function getAppointmentType(appt, useFeSourceOfTruthCC) {
+  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
   if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
@@ -20,12 +19,23 @@ export function getAppointmentType(appt) {
   if (isCerner && !isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.vaAppointment;
   }
-  if (appt?.kind === 'cc' && appt?.start) {
-    return APPOINTMENT_TYPES.ccAppointment;
+
+  if (useFeSourceOfTruthCC) {
+    if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
+      return APPOINTMENT_TYPES.ccAppointment;
+    }
+    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+      return APPOINTMENT_TYPES.ccRequest;
+    }
+  } else {
+    if (appt?.kind === 'cc' && appt?.start) {
+      return APPOINTMENT_TYPES.ccAppointment;
+    }
+    if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+      return APPOINTMENT_TYPES.ccRequest;
+    }
   }
-  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
+
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
@@ -107,19 +117,27 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
-  const appointmentType = getAppointmentType(appt);
+export function transformVAOSAppointment(
+  appt,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+) {
+  const appointmentType = getAppointmentType(appt, useFeSourceOfTruthCC);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
-  const isRequest =
-    appointmentType === APPOINTMENT_TYPES.request ||
-    appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isRequest = useFeSourceOfTruth
+    ? appt.pending
+    : appointmentType === APPOINTMENT_TYPES.request ||
+      appointmentType === APPOINTMENT_TYPES.ccRequest;
   const isUpcoming = useFeSourceOfTruth
     ? appt.future
     : isFutureAppointment(appt, isRequest);
+  const isCCRequest = useFeSourceOfTruthCC
+    ? appointmentType === APPOINTMENT_TYPES.ccRequest
+    : isCC && isRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -249,7 +267,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
     },
     videoData,
     communityCareProvider:
-      isCC && !isRequest
+      appointmentType === APPOINTMENT_TYPES.ccAppointment
         ? {
             practiceName: appt.extension?.ccLocation?.practiceName,
             treatmentSpecialty: appt.extension?.ccTreatingSpecialty,
@@ -269,7 +287,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
           }
         : null,
     preferredProviderName:
-      isCC && isRequest && appt.preferredProviderName
+      isCCRequest && appt.preferredProviderName
         ? { providerName: appt.preferredProviderName }
         : null,
     practitioners:
@@ -298,6 +316,12 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   };
 }
 
-export function transformVAOSAppointments(appts, useFeSourceOfTruth) {
-  return appts.map(appt => transformVAOSAppointment(appt, useFeSourceOfTruth));
+export function transformVAOSAppointments(
+  appts,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+) {
+  return appts.map(appt =>
+    transformVAOSAppointment(appt, useFeSourceOfTruth, useFeSourceOfTruthCC),
+  );
 }

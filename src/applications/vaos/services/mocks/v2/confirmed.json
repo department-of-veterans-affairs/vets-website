@@ -1104,6 +1104,8 @@
           }
         ],
         "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "modality": "communityCare",
         "status": "booked",
         "description": "Eye Care Examination SEOC 1.3.10 PRCT",
         "patientIcn": "1013124304V115761",
@@ -1207,6 +1209,8 @@
           }
         ],
         "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "modality": "communityCare",
         "status": "cancelled",
         "description": "Podiatry DS SEOC 1.0.8 PRCT",
         "patientIcn": "1013124304V115761",
@@ -1883,6 +1887,8 @@
           }
         ],
         "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "modality": "communityCare",
         "status": "booked",
         "patientIcn": "1013120820V528557",
         "locationId": "984",
@@ -1969,6 +1975,8 @@
           }
         ],
         "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "modality": "communityCare",
         "status": "cancelled",
         "patientIcn": "1013120820V528557",
         "locationId": "984",
@@ -4403,6 +4411,8 @@
           }
         ],
         "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "modality": "communityCare",
         "status": "booked",
         "serviceTypes": [
           {
@@ -4724,7 +4734,299 @@
           }
         },
         "past": true,
-        "pending": false
+        "pending": false,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2711",
+      "type": "appointments",
+      "attributes": {
+        "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2711",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333133333234"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:13324"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "optometry",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "optometry"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "reasonCode:ROUTINEVISIT|comments:test  vaos-7661"
+        },
+        "reasonForAppointment": "Routine/Follow-up",
+        "patientComments": "test  vaos-7661",
+        "patientIcn": "1013678363V916823",
+        "locationId": "983",
+        "clinic": "437",
+        "start": "2025-03-25T16:25:00Z",
+        "end": "2025-03-25T16:40:00Z",
+        "minutesDuration": 15,
+        "slot": {
+          "id": "3230323431303235313632353A323032343130323531363430",
+          "start": "2025-03-25T16:25:00Z",
+          "end": "2025-03-25T16:40:00Z"
+        },
+        "created": "2024-11-16T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["FUTURE"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {}
+        },
+        "localStartTime": "2025-03-25T11:25:00.000-06:00",
+        "serviceName": "VISUAL FIELD",
+        "friendlyName": "VISUAL FIELD",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["2360 East Pershing Boulevard"],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        },
+        "past": true,
+        "pending": false,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2712",
+      "type": "appointments",
+      "attributes": {
+        "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2712",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333133333234"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:13324"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "optometry",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "optometry"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "reasonCode:ROUTINEVISIT|comments:test  vaos-7661"
+        },
+        "reasonForAppointment": "Routine/Follow-up",
+        "patientComments": "test  vaos-7661",
+        "patientIcn": "1013678363V916823",
+        "locationId": "983",
+        "clinic": "437",
+        "start": "2025-03-25T16:25:00Z",
+        "end": "2025-03-25T16:40:00Z",
+        "minutesDuration": 15,
+        "slot": {
+          "id": "3230323431303235313632353A323032343130323531363430",
+          "start": "2025-03-25T16:25:00Z",
+          "end": "2025-03-25T16:40:00Z"
+        },
+        "created": "2024-11-16T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["FUTURE"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {}
+        },
+        "localStartTime": "2025-03-25T10:25:00.000-06:00",
+        "serviceName": "VISUAL FIELD",
+        "friendlyName": "VISUAL FIELD",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["2360 East Pershing Boulevard"],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        },
+        "past": true,
+        "pending": false,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          },
+          "claim": {
+            "id": "987654323",
+            "claimNumber": "internalclaimnumber",
+            "claimStatus": "InProgress",
+            "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+            "facilityName": "Cheyenne VA Medical Center",
+            "createdOn": "2024-03-22T21:22:34.465Z",
+            "modifiedOn": "2024-01-01T16:44:34.465"
+          }
+        }
       }
     },
     {

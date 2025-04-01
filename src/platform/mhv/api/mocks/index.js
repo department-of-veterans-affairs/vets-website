@@ -60,6 +60,9 @@ const imaging = require('./medical-records/mhv-radiology/imaging');
 const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
 const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
 const imagingDownload = require('./medical-records/mhv-radiology/imaging-download');
+const {
+  getMockTooltips,
+} = require('../../../../applications/mhv-medications/mocks/api/tooltips/index');
 
 const responses = {
   ...commonResponses,
@@ -235,6 +238,10 @@ const responses = {
     // );
 
     return res.json(maintenanceWindows.noDowntime);
+  },
+
+  'GET /my_health/v1/tooltips': (_req, res) => {
+    return res.json(getMockTooltips());
   },
 };
 
