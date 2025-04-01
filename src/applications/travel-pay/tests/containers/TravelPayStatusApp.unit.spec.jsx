@@ -24,6 +24,7 @@ describe('TravelPayStatusApp', () => {
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
     hasClaimDetailsFeatureFlag = true,
+    hasSmocFeatureFlag = false,
   } = {}) => {
     return {
       featureToggles: {
@@ -31,6 +32,7 @@ describe('TravelPayStatusApp', () => {
         /* eslint-disable camelcase */
         travel_pay_power_switch: hasFeatureFlag,
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
+        travel_pay_submit_mileage_expense: hasSmocFeatureFlag,
         /* eslint-enable camelcase */
       },
     };
@@ -635,5 +637,23 @@ describe('TravelPayStatusApp', () => {
       );
       expect(await screen.container.querySelector('va-pagination')).to.exist;
     });
+  });
+
+  it('renders SMOC entry point with flag on', async () => {
+    global.fetch.restore();
+    mockApiRequest(travelClaims);
+
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasSmocFeatureFlag: true,
+        hasFeatureFlag: true,
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('Travel reimbursement claims')).to.exist;
+    expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
   });
 });
