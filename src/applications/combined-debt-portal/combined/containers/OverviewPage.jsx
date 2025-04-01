@@ -194,9 +194,8 @@ const OverviewPage = () => {
     date: getCurrentDate(),
     copays: mockCopayData,
     debts: mockDebtData,
-    vetData: 'vetdata here'
+    vetData: 'vetdata here',
   };
-
 
   // TODO
   // Get redux data in place of mock data
