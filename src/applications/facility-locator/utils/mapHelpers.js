@@ -6,8 +6,6 @@ import {
   isPostcode,
 } from 'platform/utilities/facilities-and-mapbox';
 
-import { BOUNDING_RADIUS } from '../constants';
-
 const mbxClient = mbxGeo(mapboxClient);
 
 /** ****************************************************
@@ -97,33 +95,6 @@ export const reverseGeocodeBox = (
 ) => {
   const { lon, lat } = getBoxCenter(bounds);
   return reverseGeocode(lon, lat, types.split(','));
-};
-
-/**
- * Generates search criteria from lat/long geocoordinates.
- */
-export const searchCriteraFromCoords = async (longitude, latitude) => {
-  const response = await mbxClient
-    .reverseGeocode({
-      query: [longitude, latitude],
-      types: ['address'],
-    })
-    .send();
-
-  const { features } = response.body;
-  const placeName = features[0].place_name;
-  const coordinates = features[0].center;
-
-  return {
-    bounds: features[0].bbox || [
-      coordinates[0] - BOUNDING_RADIUS,
-      coordinates[1] - BOUNDING_RADIUS,
-      coordinates[0] + BOUNDING_RADIUS,
-      coordinates[1] + BOUNDING_RADIUS,
-    ],
-    searchString: placeName,
-    position: { longitude, latitude },
-  };
 };
 
 export const searchAddresses = async addressTerm => {
