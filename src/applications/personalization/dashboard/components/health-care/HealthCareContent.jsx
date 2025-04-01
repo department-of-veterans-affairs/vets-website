@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -33,7 +32,6 @@ const HealthCareContent = ({
   hasAppointmentsError,
   isVAPatient,
   isLOA1,
-  isCernerPatient,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -139,8 +137,7 @@ const HealthCareContent = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
-          !isLOA1 &&
-          !isCernerPatient && <NoUpcomingAppointmentsText />}
+          !isLOA1 && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
             viewMhvLink={viewMhvLink}
@@ -190,7 +187,6 @@ const mapStateToProps = state => {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
-    isCernerPatient: selectIsCernerPatient(state),
     shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
@@ -229,7 +225,6 @@ HealthCareContent.propTypes = {
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
-  isCernerPatient: PropTypes.bool,
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
