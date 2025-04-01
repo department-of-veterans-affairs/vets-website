@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaRadio,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -30,6 +33,7 @@ import {
 } from '../actions';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
+import { formatDisplayAddressInRadio } from '../util/contact-information/addressUtils';
 
 class AddressValidationView extends React.Component {
   // using the context so we can get the right fieldName to access
@@ -253,36 +257,47 @@ class AddressValidationView extends React.Component {
       <div key={id} className="address-validation-container">
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
-            <input
-              type="radio"
-              id={id}
-              onChange={() => {
-                this.onChangeSelectedAddress(address, id);
+            <VaRadio
+              label={
+                id === 'userEntered'
+                  ? 'Address you entered:'
+                  : 'Suggested addresses:'
+              }
+              labelHeaderLevel={5}
+              onVaValueChange={event => {
+                this.onChangeSelectedAddress(address, event.detail.value);
               }}
-              checked={selectedAddressId === id}
-            />
+              className={
+                id === 'userEntered'
+                  ? 'vads-u-margin-top--12'
+                  : 'vads-u-margin-top--2'
+              }
+            >
+              {id === 'userEntered' ? (
+                <va-radio-option
+                  style={{ whiteSpace: 'pre-line' }}
+                  key="userAddress"
+                  name="addressGroup"
+                  label={formatDisplayAddressInRadio(address)}
+                  description={(street, cityStateZip, country)}
+                  value="userEntered"
+                  checked={selectedAddressId === id}
+                />
+              ) : (
+                confirmedSuggestions.map((suggestedAddress, index) => (
+                  <va-radio-option
+                    style={{ whiteSpace: 'pre-line' }}
+                    key="userAddress"
+                    name="addressGroup"
+                    label={formatDisplayAddressInRadio(suggestedAddress)}
+                    description={(street, cityStateZip, country)}
+                    value={index}
+                    checked={selectedAddressId === index.toString()}
+                  />
+                ))
+              )}
+            </VaRadio>
           )}
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label
-          htmlFor={id}
-          className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
-        >
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="street address"
-            >
-              {street}
-            </span>
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="city, state and zip code"
-            >
-              {cityStateZip}
-            </span>
-            <span>{country}</span>
-          </div>
-        </label>
       </div>
     );
   };
@@ -336,18 +351,8 @@ class AddressValidationView extends React.Component {
           </VaAlert>
         </div>
         <form onSubmit={this.onSubmit}>
-          <span className="vads-u-font-weight--bold">You entered:</span>
           {this.renderAddressOption(addressFromUser)}
-          {shouldShowSuggestions && (
-            <span className="vads-u-font-weight--bold">
-              Suggested Addresses:
-            </span>
-          )}
-          {shouldShowSuggestions &&
-            confirmedSuggestions.map((address, index) =>
-              this.renderAddressOption(address, String(index)),
-            )}
-
+          {shouldShowSuggestions && this.renderAddressOption('', 'suggested')}
           {error && (
             <div className="vads-u-margin-bottom--1" role="alert">
               <VAPServiceEditModalErrorMessage error={error} />
@@ -362,7 +367,7 @@ class AddressValidationView extends React.Component {
                 className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                 onClick={this.onEditClick}
               >
-                Go back to edit
+                Edit address
               </button>
             )}
           </div>

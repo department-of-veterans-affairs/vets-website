@@ -1,6 +1,7 @@
 import pickBy from 'lodash/pickBy';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
+import { countries } from 'platform/forms/address';
 import {
   FIELD_NAMES,
   USA,
@@ -112,4 +113,30 @@ export const handleUpdateButtonClick = (
 
     recordCustomProfileEvent(payload);
   }
+};
+
+export const formatDisplayAddressInRadio = address => {
+  if (address) {
+    let displayAddress = '';
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const zip = address.postalCode || address.zipCode;
+    const country = address.country || address.countryCodeIso3;
+
+    if (street) displayAddress += street;
+    if (street2) displayAddress += `, ${street2}`;
+    if (city || state || zip)
+      displayAddress += `\n${city || ''}${city && state ? ', ' : ''}${state ||
+        ''} ${zip || ''}`;
+
+    if (country && country !== 'USA') {
+      displayAddress += `\n${countries.find(c => c.value === country)?.label ||
+        country}`;
+    }
+
+    return displayAddress.trim();
+  }
+  return '';
 };
