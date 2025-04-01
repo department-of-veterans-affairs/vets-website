@@ -274,11 +274,6 @@ jobs:
     env:
       DISALLOWED_TESTS: ${{ needs.tests-prep.outputs.disallowed-tests }}
 
-    strategy:
-      fail-fast: false
-      max-parallel: 72
-      matrix:
-        ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -343,29 +338,26 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
-          NUM_CONTAINERS: 10
       
       - name: Archive unit test results
         if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-report-${{ matrix.ci_node_index }}
+          name: unit-test-report-all
           path: mocha/results
 
       - name: Rename Coverage Summary file
         if: ${{ env.NO_APPS_TO_RUN == 'false' }}
         run: |
           cd coverage
-          mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
+          mv coverage-summary.json coverage-summary-all.json
         
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         with:
-          name: unit-test-coverage-${{ matrix.ci_node_index }}
-          # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
+          name: unit-test-coverage-all
           path: coverage
 
   unit-tests-stress-test:
@@ -1316,9 +1308,9 @@ jobs:
           path: qa-standards-dashboard-data/coverage
           merge-multiple: true
 
-      - name: Merge all coverage reports
-        run: |
-          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
+      # - name: Merge all coverage reports
+      #   run: |
+      #     node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
