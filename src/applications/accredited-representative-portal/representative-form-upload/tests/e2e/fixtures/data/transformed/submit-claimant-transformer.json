@@ -9,9 +9,12 @@
       "first": "John",
       "last": "Veteran"
     },
-    "claimantDateOfBirth": {},
-    "claimantFullName": {},
-    "claimantSsn": {},
+    "claimantDateOfBirth": "1932-02-05",
+    "claimantFullName": {
+      "first": "John",
+      "last": "Claimant"
+    },
+    "claimantSsn": "234232345",
     "formNumber": "21-686c",
     "email": "john@veteran.com"
   }

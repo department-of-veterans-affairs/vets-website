@@ -22,6 +22,10 @@ const transformForSubmit = (formConfig, form) => {
     veteranSsn = {},
     address = {},
     veteranFullName = {},
+    veteranDateOfBirth = {},
+    claimantFullName = {},
+    claimantDateOfBirth = {},
+    claimantSsn = {},
     email,
   } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
@@ -33,8 +37,12 @@ const transformForSubmit = (formConfig, form) => {
       veteranSsn,
       postalCode: address.postalCode,
       veteranFullName,
+      veteranDateOfBirth,
       formNumber,
       email,
+      claimantFullName,
+      claimantDateOfBirth,
+      claimantSsn,
     },
   });
 };

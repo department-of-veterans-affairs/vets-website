@@ -4,6 +4,10 @@
   "formData": {
     "veteranSsn": {},
     "veteranFullName": {},
+    "veteranDateOfBirth": {},
+    "claimantDateOfBirth": {},
+    "claimantFullName": {},
+    "claimantSsn": {},
     "formNumber": "21-686c"
   }
 }
