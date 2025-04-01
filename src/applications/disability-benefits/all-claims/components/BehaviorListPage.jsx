@@ -220,10 +220,6 @@ const BehaviorListPage = ({
         scrollToFirstError({ focusOnAlertRole: true });
       }
     },
-    onGoForward: () => {
-      setShowAlert(false);
-      goForward(data);
-    },
   };
 
   return (
@@ -270,15 +266,10 @@ const BehaviorListPage = ({
             We’ve removed optional descriptions about your behavioral changes.
           </p>
           <p>
-            Click{' '}
-            <button
-              type="button"
-              className="va-button-link"
-              onClick={handlers.onGoForward}
-            >
-              continue
-            </button>{' '}
-            to proceed with your claim.
+            <va-link
+              text="Continue with your claim"
+              onClick={handlers.onSubmit}
+            />
           </p>
         </VaAlert>
       </div>
