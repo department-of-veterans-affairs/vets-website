@@ -241,7 +241,7 @@ const DownloadFileType = props => {
               : null,
           conditions:
             conditions && recordFilter?.includes('conditions')
-              ? conditions
+              ? conditions.filter(rec => filterByDate(rec.date))
               : null,
           vitals:
             vitals && recordFilter?.includes('vitals')
