@@ -108,6 +108,7 @@
   "hlrBrowserMonitoringEnabled": "hlr_browser_monitoring_enabled",
   "incomeAndAssetsFormEnabled": "income_and_assets_form_enabled",
   "intentToFileLighthouseEnabled": "intent_to_file_lighthouse_enabled",
+  "intentToFileSynchronousEnabled": "intent_to_file_synchronous_enabled",
   "lettersCheckDiscrepancies": "letters_check_discrepancies",
   "lettersPageNewDesign": "letters_page_new_design",
   "loopPages": "loop_pages",
