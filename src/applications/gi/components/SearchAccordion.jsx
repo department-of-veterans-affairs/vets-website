@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -21,15 +21,7 @@ export default function SearchAccordion({
   const [id] = useState(`${createId(button)}-accordion`);
   const [buttonId] = useState(`update-${createId(button)}-button`);
   const accordionRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (expanded) {
-        accordionRef.current.setAttribute('open', 'true');
-      }
-    },
-    [expanded],
-  );
+  const [open, setOpen] = useState(expanded);
 
   const updateResultsButtonsWarper = classNames(
     'vads-u-height--auto',
@@ -60,17 +52,19 @@ export default function SearchAccordion({
   );
 
   function handleToggle() {
+    setOpen(!open);
     if (onClick) {
-      onClick(!expanded);
+      onClick(!open);
     }
   }
 
   return (
     <VaAccordionItem
-      onAccordionItemToggled={handleToggle}
+      onClick={handleToggle}
       ref={accordionRef}
       header={button}
       id={`${id}-button`}
+      open={open}
     >
       <div
         id={`${id}-content`}

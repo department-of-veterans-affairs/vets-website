@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
+  VaAccordion,
   VaLoadingIndicator,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -128,26 +129,25 @@ export function NameSearchResults({
             >
               Showing {count} search results for "<strong>{name}</strong>"
             </p>
-
             {!smallScreen &&
               environment.isProduction() && (
-                <div className="column small-4 vads-u-padding--0">
+                <VaAccordion>
                   <TuitionAndHousingEstimates smallScreen={smallScreen} />
                   <FilterYourResults
                     smallScreen={smallScreen}
                     searchType="name"
                   />
-                </div>
+                </VaAccordion>
               )}
             {!smallScreen &&
               !environment.isProduction() && (
-                <div className="column small-4 vads-u-padding--0">
+                <VaAccordion>
                   <TuitionAndHousingEstimates smallScreen={smallScreen} />
                   <FilterYourResults
                     smallScreen={smallScreen}
                     searchType="name"
                   />
-                </div>
+                </VaAccordion>
               )}
             {/* {!smallScreen &&
               !environment.isProduction() && (

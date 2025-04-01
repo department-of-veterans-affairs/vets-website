@@ -108,7 +108,7 @@ describe('<CalculateYourBenefits>', () => {
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
-    const { container } = render(
+    const { container, getByTestId } = render(
       <Provider store={mockStore(data)}>
         <CalculateYourBenefits
           gibctEybBottomSheet={gibctEybBottomSheet}
@@ -120,7 +120,7 @@ describe('<CalculateYourBenefits>', () => {
     await waitFor(() => {
       const action = store.getActions();
       expect(action.length).to.eq(0);
-      fireEvent.click($('button.eyb-button', container));
+      fireEvent.click(getByTestId('your-estimated-benefits-acc'));
       expect($('div.va-modal', container)).to.exist;
     });
   });

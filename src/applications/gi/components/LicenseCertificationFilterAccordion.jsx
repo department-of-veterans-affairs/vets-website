@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -19,15 +19,7 @@ export default function LicenseCertificationFilterAccordion({
   resetSearch,
 }) {
   const accordionRef = useRef(null);
-  const [open, setOpen] = useState(expanded || false);
-  useEffect(
-    () => {
-      if (expanded) {
-        accordionRef.current.setAttribute('open', 'true');
-      }
-    },
-    [expanded],
-  );
+  const [open, setOpen] = useState(expanded);
 
   const updateResultsButtonsWrapper = classNames(
     'vads-u-height--auto',

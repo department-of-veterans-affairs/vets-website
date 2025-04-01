@@ -18,7 +18,8 @@ export const EstimateYourBenefitsSummarySheet = ({
       <VaAccordionItem
         header="Your estimated benefits"
         open={expandEybSheet}
-        onAccordionItemToggled={toggleEybExpansion}
+        onClick={toggleEybExpansion}
+        data-testid="your-estimated-benefits-acc"
       >
         <div className="vads-u-margin-x--2p5">
           {expandEybSheet ? (
