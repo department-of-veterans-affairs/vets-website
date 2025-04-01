@@ -1,5 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
+import moment from 'moment';
+
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -803,7 +805,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
   });
 
   describe('When viewing canceled appointment details', () => {
-    it('should display VA video layout', async () => {
+    it('should display VA video layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -944,6 +946,135 @@ describe('VAOS Component: VideoLayoutVA', () => {
         screen.container.querySelector(
           'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
+      ).to.be.ok;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+      ).not.to.exist;
+    });
+    it('should display VA video layout when in the past', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {
+          stationId: '983',
+          clinicName: 'Clinic 1',
+          clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
+        },
+        videoData: {
+          isVideo: true,
+          facilityId: '983',
+          kind: VIDEO_TYPES.clinic,
+          extension: {
+            patientHasMobileGfe: true,
+          },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
+        },
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPastAppointment: true,
+          isPendingAppointment: false,
+          isUpcomingAppointment: false,
+          isVideo: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'cancelled',
+        start: moment()
+          .subtract(2, 'day')
+          .format('YYYY-MM-DDTHH:mm:ss'),
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <VideoLayoutVA data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Canceled video appointment at VA location/i,
+        }),
+      );
+
+      expect(
+        screen.getByText(
+          /If you want to reschedule, call us or schedule a new appointment online/i,
+        ),
+      );
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /After visit summary/i,
+        }),
+      ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /How to join/i,
+        }),
+      ).not.to.exist;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /When/i,
+        }),
+      );
+      expect(
+        screen.container.querySelector('va-button[text="Add to calendar"]'),
+      ).not.to.exist;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /What/i,
+        }),
+      );
+      expect(screen.getByText(/Primary care/i));
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Who/i,
+        }),
+      );
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Where/i,
+        }),
+      );
+      expect(screen.getByText(/Cheyenne VA Medical Center/i));
+      expect(screen.getByText(/2360 East Pershing Boulevard/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
+        .ok;
+
+      expect(screen.getByText(/Clinic: Clinic 1/i));
+      expect(screen.getByText(/Location: CHEYENNE/i));
+      expect(screen.getByText(/Phone:/i));
+      expect(
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
