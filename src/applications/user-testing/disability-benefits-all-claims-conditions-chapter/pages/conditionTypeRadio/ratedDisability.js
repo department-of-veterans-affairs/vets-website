@@ -44,23 +44,13 @@ const ratedDisabilityPage = {
     ratedDisability: radioUI({
       title: 'Select which existing disability has worsened.',
       hint: 'Select one, you will have the opportunity to add more later.',
-      updateUiSchema: (_formData, fullData) => {
-        return {
-          'ui:options': {
-            descriptions: createRatedDisabilityDescriptions(fullData),
-          },
-        };
-      },
-      updateSchema: (
-        _formData,
-        _schema,
-        _uiSchema,
-        _index,
-        _path,
-        fullData,
-      ) => {
-        return radioSchema(Object.keys(createRatedDisabilitySchema(fullData)));
-      },
+      updateUiSchema: (_formData, fullData) => ({
+        'ui:options': {
+          descriptions: createRatedDisabilityDescriptions(fullData),
+        },
+      }),
+      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
+        radioSchema(Object.keys(createRatedDisabilitySchema(fullData))),
     }),
   },
   schema: {

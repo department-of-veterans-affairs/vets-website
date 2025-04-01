@@ -57,18 +57,13 @@ const conditionPage = {
       title:
         'Select a rated disability that worsened or a new condition to claim',
       hint: 'Select one, you will have the opportunity to add more later.',
-      updateUiSchema: (_formData, fullData) => {
-        return {
-          'ui:options': {
-            descriptions: createRatedDisabilitiesDescriptions(fullData),
-          },
-        };
-      },
-      updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
-        return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData)),
-        );
-      },
+      updateUiSchema: (_formData, fullData) => ({
+        'ui:options': {
+          descriptions: createRatedDisabilitiesDescriptions(fullData),
+        },
+      }),
+      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
+        radioSchema(Object.keys(createRatedDisabilitiesSchema(fullData))),
     }),
   },
   schema: {

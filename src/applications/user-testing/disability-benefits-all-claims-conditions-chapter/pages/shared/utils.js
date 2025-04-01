@@ -175,9 +175,8 @@ export const hasRatedDisabilitiesAndIsRatedDisability = (fullData, index) =>
   hasRatedDisabilities(fullData) && isRatedDisability(fullData, index);
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
-const capitalizeFirstLetter = string => {
-  return string?.charAt(0).toUpperCase() + string?.slice(1);
-};
+const capitalizeFirstLetter = string =>
+  string?.charAt(0).toUpperCase() + string?.slice(1);
 
 export const createNewConditionName = (item, capFirstLetter = false) => {
   const newCondition = capFirstLetter
