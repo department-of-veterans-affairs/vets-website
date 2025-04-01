@@ -2,20 +2,20 @@
 export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
-  MYHEALTH: '/my-health',
-  MESSAGES: '/',
-  INBOX: '/inbox/',
-  SENT: '/sent/',
-  DRAFTS: '/drafts/',
-  DRAFT: '/draft/',
-  DELETED: '/trash/',
-  COMPOSE: '/new-message/',
-  MESSAGE_THREAD: '/thread/',
-  FOLDERS: '/folders/',
-  SEARCH: '/search/',
-  SEARCH_RESULTS: '/search/results/',
-  REPLY: '/reply/',
-  CONTACT_LIST: '/contact-list/',
+  MYHEALTH: '/',
+  MESSAGES: '/my-secure-messages/',
+  INBOX: '/my-secure-messages/inbox/',
+  SENT: '/my-secure-messages/sent/',
+  DRAFTS: '/my-secure-messages/drafts/',
+  DRAFT: '/my-secure-messages/draft/',
+  DELETED: '/my-secure-messages/trash/',
+  COMPOSE: '/my-secure-messages/new-message/',
+  MESSAGE_THREAD: '/my-secure-messages/thread/',
+  FOLDERS: '/my-secure-messages/folders/',
+  SEARCH: '/my-secure-messages/search/',
+  SEARCH_RESULTS: '/my-secure-messages/search/results/',
+  REPLY: '/my-secure-messages/reply/',
+  CONTACT_LIST: '/my-secure-messages/contact-list/',
 };
 
 export const DefaultFolders = {
@@ -239,7 +239,7 @@ export const Prompts = {
     EDIT_PREFERENCES_TITLE: 'Edit your message preferences',
     EDIT_PREFERENCES_CONTENT:
       'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
-    EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
+    EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website
     (opens in a new tab)`,
     SIGNATURE_REQUIRED:
       'Messages to this team require a signature. We added a signature box to this page.',

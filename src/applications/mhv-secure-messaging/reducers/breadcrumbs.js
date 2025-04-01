@@ -9,6 +9,8 @@ const defaultCrumbsList = [
   {
     href: Breadcrumbs.MYHEALTH.href,
     label: Breadcrumbs.MYHEALTH.label,
+    // change the URL of a page without reloading it
+    isRouterLink: true,
   },
   {
     href: Breadcrumbs.MESSAGES.href,
