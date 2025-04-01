@@ -50,11 +50,3 @@ export const maxEventsAlert = () => {
     </>
   );
 };
-
-export const policeRemovedRemovedAlert = () => {
-  return (
-    <>
-      <p>Police report removed</p>
-    </>
-  );
-};

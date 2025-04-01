@@ -229,11 +229,11 @@ export const uiSchema = {
       'ui:options': {
         hideIf: formData =>
           !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
-          formData.mailingAddress?.country !== USA,
+          formData.mailingAddress.country !== USA,
         updateSchema: formData => {
           if (
             formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
-            MILITARY_CITIES.includes(formData.mailingAddress?.city)
+            MILITARY_CITIES.includes(formData.mailingAddress.city)
           ) {
             return {
               enum: MILITARY_STATE_VALUES,
@@ -248,7 +248,7 @@ export const uiSchema = {
       },
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
-        formData.mailingAddress?.country === USA,
+        formData.mailingAddress.country === USA,
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -267,7 +267,7 @@ export const uiSchema = {
       'ui:validations': [validateZIP],
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
-        formData.mailingAddress?.country === USA,
+        formData.mailingAddress.country === USA,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
@@ -277,7 +277,7 @@ export const uiSchema = {
         widgetClassNames: 'va-input-medium-large',
         hideIf: formData =>
           !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
-          formData.mailingAddress?.country !== USA,
+          formData.mailingAddress.country !== USA,
       },
     },
   },
