@@ -13,7 +13,7 @@ import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type, perPage = 10, hidePagination, domainOptions } = props;
+  const { records, type, perPage = 1, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
 
   const history = useHistory();

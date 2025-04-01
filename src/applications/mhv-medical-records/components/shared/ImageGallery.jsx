@@ -64,7 +64,7 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
               page={currentPage}
               pages={imageList.length}
               maxPageListLength={5}
-              ubounded
+              unbounded
               uswds
             />
           </div>
