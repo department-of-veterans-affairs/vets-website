@@ -17,15 +17,17 @@ const TrackingInfo = ({ carrier, trackingNumber, prescriptionName }) => {
         <span>Track your package</span>
       </h2>
 
-      <h3 className="vads-u-font-size--lg vads-u-margin-bottom--1">
-        Tracking number
-      </h3>
-      <p data-testid="tracking-number">{trackingNumber}</p>
+      <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
+        Tracking number:
+      </h4>
+      <p data-testid="tracking-number" className="vads-u-line-height--1">
+        {trackingNumber}
+      </p>
       <a href={url} rel="noreferrer">
         Track your package with {label}
       </a>
       <>
-        <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
+        <h4 className="vads-u-font-size--source-sans-normalized vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
           Prescriptions in this package:
         </h4>
         <ul className="tracking-info-med-list vads-u-margin-top--0">
