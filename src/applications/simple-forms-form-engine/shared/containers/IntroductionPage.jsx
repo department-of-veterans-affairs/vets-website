@@ -19,7 +19,7 @@ const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title={formConfig.title} />
+      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
       <p>{introParagraph}</p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         What to know before you fill out this form
@@ -72,6 +72,7 @@ IntroductionPage.propTypes = {
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
       savedFormMessages: PropTypes.shape({}),
+      subTitle: PropTypes.string,
       title: PropTypes.string,
     }),
     pageList: PropTypes.array,

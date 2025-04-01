@@ -36,6 +36,26 @@ const renderWithProvider = (Component, store = mockStore) => {
 };
 
 describe('<IntroductionPage /> component', () => {
+  // TODO: Implement this test
+  it('renders the title and subtitle', () => {
+    const formConfig = {
+      title: 'Test out this form',
+      subTitle: 'Test Form (VA Form 12-3456)',
+    };
+    const screen = renderWithProvider(
+      <IntroductionPage
+        route={{
+          formConfig,
+          pageList: [],
+        }}
+      />,
+    );
+    const article = screen.getByRole('article');
+
+    expect(article).to.include.text(formConfig.title);
+    expect(article).to.include.text(formConfig.subTitle);
+  });
+
   describe('hides links for proceeding without logging in', () => {
     it('does not render the link anywhere on the page', () => {
       const screen = renderWithProvider(
