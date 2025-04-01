@@ -130,8 +130,28 @@ const BehaviorListPage = ({
     setFormData(deepClone);
   };
 
-  // const resetSelections = () => {
-  // };
+  const resetSelections = () => {
+    const orphanedBehaviorTypes = Object.keys(orphanedBehaviorDetails(data));
+    const behaviorSections = [
+      'workBehaviors',
+      'healthBehaviors',
+      'otherBehaviors',
+    ];
+
+    behaviorSections.forEach(section => {
+      const selectionsBySection = getSelectionsBySection(section);
+      console.log("selectionsBySection", selectionsBySection);
+      orphanedBehaviorTypes.forEach(behaviorType => {
+        // if behaviorType in section
+        if (ALL_BEHAVIOR_TYPES_WITH_SECTION[behaviorType] === section) {
+          selectionsBySection[behaviorType] = true;
+        }
+      });
+      const updatedData = selectionsBySection;
+      console.log("updatedData", section, updatedData);
+      handleUpdatedSelection(section, updatedData);
+    });
+  };
 
   const handlers = {
     onSelectionChange: event => {
@@ -161,6 +181,7 @@ const BehaviorListPage = ({
       }
     },
     onSubmit: event => {
+      console.log("onSubmit", data);
       event.preventDefault();
       if (checkErrors(data)) {
         scrollToFirstError({ focusOnAlertRole: true });
@@ -174,8 +195,7 @@ const BehaviorListPage = ({
       }
     },
     onCloseModal: () => {
-      // console.log('onCloseModal---');
-      // resetSelections();
+      resetSelections();
       setShowModal(false);
     },
     onConfirmDeleteBehaviorDetails: () => {

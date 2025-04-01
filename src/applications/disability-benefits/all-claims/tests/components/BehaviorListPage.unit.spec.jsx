@@ -217,7 +217,6 @@ describe('BehaviorListPage', () => {
         });
       });
 
-
       describe('When the user has already added behavioral change details, goes back, then unselects ALL described behavior types', () => {
         const data = {
           syncModern0781Flow: true,
@@ -285,8 +284,8 @@ describe('BehaviorListPage', () => {
           },
           'view:noneCheckbox': { 'view:noBehaviorChanges': false },
           behaviorsDetails: {
-            reassignment: undefined, // when details are provided, then later deleted 
-            unlisted: undefined, // when details are provided, then later deleted 
+            reassignment: undefined, // when details are provided, then later deleted
+            unlisted: undefined, // when details are provided, then later deleted
           },
         };
 
@@ -302,7 +301,7 @@ describe('BehaviorListPage', () => {
     });
 
     describe('Modal Selections', () => {
-      const filledOutDataWithBehaviorsDetails = {
+      const updatedDataWithBehaviorDetails = {
         workBehaviors: {
           performance: false, // this checkbox is unselected
         },
@@ -323,25 +322,10 @@ describe('BehaviorListPage', () => {
         it('closes the modal, deletes behaviorsDetails, and advances to the next page', () => {
           const setFormDataSpy = sinon.spy();
           const goForwardSpy = sinon.spy();
-          const deepClonedData = {
-            workBehaviors: {
-              performance: false, // this checkbox is unselected
-            },
-            healthBehaviors: {
-              appetite: true,
-            },
-            otherBehaviors: {
-              socialEconomic: false, // this checkbox is unselected
-            },
-            // unselected behaviorsDetails are removed below
-            behaviorsDetails: {
-              appetite: 'Details of appetite behavior',
-            },
-          };
 
           const { container } = render(
             page({
-              data: filledOutDataWithBehaviorsDetails,
+              data: updatedDataWithBehaviorDetails,
               setFormData: setFormDataSpy,
               goForward: goForwardSpy,
             }),
@@ -353,10 +337,29 @@ describe('BehaviorListPage', () => {
 
           modal.__events.primaryButtonClick();
           expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-          expect(setFormDataSpy.calledWith(deepClonedData)).to.be.true;
-
           expect(goForwardSpy.called).to.be.true;
+          expect(setFormDataSpy.called).to.be.true;
+
+          // EXPECTED DATA AFTER DELETE = {
+          //   workBehaviors: { performance: false },
+          //   healthBehaviors: { appetite: true },
+          //   otherBehaviors: { socialEconomic: false },
+          //   behaviorsDetails: { appetite: 'Details of appetite behavior' },
+          // };
+
+          // expect(setFormDataSpy.calledWith(updatedData)).to.be.true;
+          expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
+            performance: false,
+          });
+          expect(setFormDataSpy.args[0][0].healthBehaviors).to.deep.equal({
+            appetite: true,
+          });
+          expect(setFormDataSpy.args[0][0].otherBehaviors).to.deep.equal({
+            socialEconomic: false,
+          });
+          expect(setFormDataSpy.args[0][0].behaviorsDetails).to.deep.equal({
+            appetite: 'Details of appetite behavior',
+          });
         });
       });
 
@@ -366,7 +369,11 @@ describe('BehaviorListPage', () => {
           const goForwardSpy = sinon.spy();
 
           const { container } = render(
-            page({ data: filledOutDataWithBehaviorsDetails }),
+            page({
+              data: updatedDataWithBehaviorDetails,
+              setFormData: setFormDataSpy,
+              goForward: goForwardSpy,
+            }),
           );
 
           fireEvent.click($('button[type="submit"]', container));
@@ -374,26 +381,53 @@ describe('BehaviorListPage', () => {
           const modal = container.querySelector('va-modal');
 
           modal.__events.closeEvent();
+
+          //   const updatedData = {
+          //   workBehaviors: {
+          //     performance: true, // reset unselected checkbox
+          //     },
+          //   healthBehaviors: {
+          //     appetite: true,
+          //     },
+          //   otherBehaviors: {
+          //     socialEconomic: true, //reset unselected checkbox
+          //     },
+          //   behaviorsDetails: {
+          //     appetite: 'Details of appetite behavior',
+          //     performance: 'Details of performance behavior',
+          //     socialEconomic: 'Details of socialEconomic behavior',
+          //     },
+          // }
+
           expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-          // expect(setFormDataSpy.called).to.be.true;
-
-          // // to do - does it need to be the cloned data?
-          // expect(setFormDataSpy.calledWith(filledOutDataWithBehaviorsDetails))
-          //   .to.be.true;
-
-          expect(goForwardSpy.notCalled).to.be.true;
+          expect(setFormDataSpy.called).to.be.true;
+          console.log('SPY---', setFormDataSpy.args[0]);
+          // expect(setFormDataSpy.calledWith(updatedData)).to.be.true;
+          expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
+            performance: true,
+          });
+          expect(setFormDataSpy.args[0][0].healthBehaviors).to.deep.equal({
+            appetite: true,
+          });
+          expect(setFormDataSpy.args[0][0].otherBehaviors).to.deep.equal({
+            socialEconomic: true,
+          });
+          expect(setFormDataSpy.args[0][0].behaviorsDetails).to.deep.equal({
+            appetite: 'Details of appetite behavior',
+            performance: 'Details of performance behavior',
+            socialEconomic: 'Details of socialEconomic behavior',
+          });
         });
       });
 
       describe('When the cancel button is clicked', () => {
-        it('closes the modal, does not reset formData, and does not advance to the next page', () => {
+        it('closes the modal, resets checkboxes, and does not advance to the next page', () => {
           const setFormDataSpy = sinon.spy();
           const goForwardSpy = sinon.spy();
 
           const { container } = render(
             page({
-              data: filledOutDataWithBehaviorsDetails,
+              data: updatedDataWithBehaviorDetails,
               setFormData: setFormDataSpy,
               goForward: goForwardSpy,
             }),
@@ -404,15 +438,40 @@ describe('BehaviorListPage', () => {
           const modal = container.querySelector('va-modal');
 
           modal.__events.secondaryButtonClick();
-          expect($('va-modal[visible="true"]', container)).to.not.exist;
 
-          // TODO expect(setFormDataSpy.called).to.be.true;
+          //   const updatedData = {
+          //   workBehaviors: {
+          //     performance: true, // reset unselected checkbox
+          //     },
+          //   healthBehaviors: {
+          //     appetite: true,
+          //     },
+          //   otherBehaviors: {
+          //     socialEconomic: true, //reset unselected checkbox
+          //     },
+          //   behaviorsDetails: {
+          //     appetite: 'Details of appetite behavior',
+          //     performance: 'Details of performance behavior',
+          //     socialEconomic: 'Details of socialEconomic behavior',
+          //     },
+          // }
 
-          // // to do - does it need to be the cloned data?
-          // expect(setFormDataSpy.calledWith(filledOutDataWithBehaviorsDetails))
-          //   .to.be.true;
-
-          expect(goForwardSpy.notCalled).to.be.true;
+          expect($('va-modal[visible="true"]', container)).not.to.exist;
+          expect(setFormDataSpy.called).to.be.true;
+          expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
+            performance: true,
+          });
+          expect(setFormDataSpy.args[0][0].healthBehaviors).to.deep.equal({
+            appetite: true,
+          });
+          expect(setFormDataSpy.args[0][0].otherBehaviors).to.deep.equal({
+            socialEconomic: true,
+          });
+          expect(setFormDataSpy.args[0][0].behaviorsDetails).to.deep.equal({
+            appetite: 'Details of appetite behavior',
+            performance: 'Details of performance behavior',
+            socialEconomic: 'Details of socialEconomic behavior',
+          });
         });
       });
     });
