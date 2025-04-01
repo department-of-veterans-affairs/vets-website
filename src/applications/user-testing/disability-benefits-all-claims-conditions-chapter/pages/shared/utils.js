@@ -98,6 +98,48 @@ export const isRatedDisability = (formData, index) => {
   return isRatedDisabilityRatedOrNewNextPage(formData, index);
 };
 
+export const clearSideOfBody = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [arrayPath]: formData[arrayPath].map(
+      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
+    ),
+  });
+};
+
+export const clearNewConditionData = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [arrayPath]: formData[arrayPath].map(
+      (item, i) =>
+        i === index
+          ? {
+              ...item,
+              newCondition: undefined,
+              cause: undefined,
+              primaryDescription: undefined,
+              causedByCondition: undefined,
+              causedByConditionDescription: undefined,
+              vaMistreatmentDescription: undefined,
+              vaMistreatmentLocation: undefined,
+              worsenedDescription: undefined,
+              worsenedEffects: undefined,
+            }
+          : item,
+    ),
+  });
+};
+
+export const clearRatedDisabilityData = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [arrayPath]: formData[arrayPath].map(
+      (item, i) =>
+        i === index ? { ...item, ratedDisability: undefined } : item,
+    ),
+  });
+};
+
 const getSelectedRatedDisabilities = fullData => {
   const currentIndex = getArrayIndexFromPathName();
 
