@@ -5,6 +5,7 @@ import {
   withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { NEW_CONDITION_OPTION } from '../../constants';
 import {
   arrayBuilderOptions,
   createDefaultAndEditTitles,
@@ -19,7 +20,7 @@ const createRatedDisabilitiesSchema = fullData => {
   return (
     {
       ...nonSelectedRatedDisabilities,
-      'New condition': 'New condition',
+      [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
     } || {}
   );
 };

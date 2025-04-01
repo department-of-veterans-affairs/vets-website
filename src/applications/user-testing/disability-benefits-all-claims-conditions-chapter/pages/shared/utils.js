@@ -4,10 +4,12 @@ import {
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-import { CONDITION_TYPE_RADIO } from '../../constants';
+import {
+  ARRAY_PATH,
+  CONDITION_TYPE_RADIO,
+  NEW_CONDITION_OPTION,
+} from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
-
-const arrayPath = 'conditions';
 
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
@@ -25,8 +27,8 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
 };
 
 const isNewConditionConditionTypeRadio = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const conditionType = formData[arrayPath]?.[index]?.['view:conditionType'];
+  if (formData?.[ARRAY_PATH]) {
+    const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
 
     return !conditionType || conditionType === 'NEW';
   }
@@ -38,8 +40,8 @@ const isNewConditionConditionTypeRadio = (formData, index) => {
 };
 
 const isRatedDisabilityConditionTypeRadio = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const conditionType = formData[arrayPath]?.[index]?.['view:conditionType'];
+  if (formData?.[ARRAY_PATH]) {
+    const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
 
     return conditionType === 'RATED';
   }
@@ -48,11 +50,11 @@ const isRatedDisabilityConditionTypeRadio = (formData, index) => {
 };
 
 const isNewConditionOption = ratedDisability =>
-  ratedDisability === 'New condition';
+  ratedDisability === NEW_CONDITION_OPTION;
 
 const isNewConditionRatedOrNewNextPage = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+  if (formData?.[ARRAY_PATH]) {
+    const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
 
     return !ratedDisability || isNewConditionOption(ratedDisability);
   }
@@ -64,8 +66,8 @@ const isNewConditionRatedOrNewNextPage = (formData, index) => {
 };
 
 const isRatedDisabilityRatedOrNewNextPage = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+  if (formData?.[ARRAY_PATH]) {
+    const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
 
     return ratedDisability && !isNewConditionOption(ratedDisability);
   }
@@ -95,7 +97,7 @@ export const isRatedDisability = (formData, index) => {
 export const clearSideOfBody = (formData, index, setFormData) => {
   setFormData({
     ...formData,
-    [arrayPath]: formData[arrayPath].map(
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
       (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
     ),
   });
@@ -104,7 +106,7 @@ export const clearSideOfBody = (formData, index, setFormData) => {
 export const clearNewConditionData = (formData, index, setFormData) => {
   setFormData({
     ...formData,
-    [arrayPath]: formData[arrayPath].map(
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
       (item, i) =>
         i === index
           ? {
@@ -127,7 +129,7 @@ export const clearNewConditionData = (formData, index, setFormData) => {
 export const clearRatedDisabilityData = (formData, index, setFormData) => {
   setFormData({
     ...formData,
-    [arrayPath]: formData[arrayPath].map(
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
       (item, i) =>
         i === index ? { ...item, ratedDisability: undefined } : item,
     ),
@@ -137,7 +139,7 @@ export const clearRatedDisabilityData = (formData, index, setFormData) => {
 const getSelectedRatedDisabilities = fullData => {
   const currentIndex = getArrayIndexFromPathName();
 
-  return fullData?.[arrayPath]?.reduce((acc, item, index) => {
+  return fullData?.[ARRAY_PATH]?.reduce((acc, item, index) => {
     if (index !== currentIndex && isRatedDisability(item)) {
       acc.push(item?.ratedDisability);
     }
@@ -274,7 +276,7 @@ const cardDescription = item => {
 
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
-  arrayPath,
+  arrayPath: ARRAY_PATH,
   nounSingular: 'condition',
   nounPlural: 'conditions',
   required: true,
@@ -287,8 +289,7 @@ export const arrayBuilderOptions = {
 };
 
 export const hasSideOfBody = (formData, index) => {
-  const condition =
-    formData?.[arrayBuilderOptions.arrayPath][index]?.newCondition;
+  const condition = formData?.[ARRAY_PATH][index]?.newCondition;
 
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,

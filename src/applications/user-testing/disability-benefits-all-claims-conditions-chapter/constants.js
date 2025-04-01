@@ -8,4 +8,6 @@ export const CONDITION_TYPE_RADIO = {
   name: 'conditionTypeRadios',
   label: 'kiwi',
 };
+export const ARRAY_PATH = 'conditions';
+export const NEW_CONDITION_OPTION = 'New condition';
 export const NULL_CONDITION_STRING = 'Unknown Condition';
