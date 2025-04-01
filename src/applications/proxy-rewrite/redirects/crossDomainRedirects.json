@@ -1634,11 +1634,6 @@
   },
   {
     "domain": "www.va.gov",
-    "src": "/healthbenefits/resources/epublications.asp",
-    "dest": "/health-care"
-  },
-  {
-    "domain": "www.va.gov",
     "src": "/healthbenefits/resources/caregiver_eligibility_check.asp",
     "dest": "/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
   },
@@ -1646,5 +1641,77 @@
     "domain": "www.va.gov",
     "src": "/healthbenefits/resources/",
     "dest": "/resources/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROFORTHARRISON",
+    "dest": "/fort-harrison-va-regional-benefit-office-at-fort-harrison-va-medical-center",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fortharrison",
+    "dest": "/fort-harrison-va-regional-benefit-office-at-fort-harrison-va-medical-center",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROCOLUMBIA",
+    "dest": "/columbia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/columbia",
+    "dest": "/columbia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOISE",
+    "dest": "/boise-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boise",
+    "dest": "/boise-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPHILADELPHIA",
+    "dest": "/philadelphia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/philadelphia",
+    "dest": "/philadelphia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROWILMINGTON",
+    "dest": "/wilmington-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/wilmington",
+    "dest": "/wilmington-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROSTPAUL",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/stpaul",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

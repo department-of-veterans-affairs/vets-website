@@ -62,9 +62,9 @@ describe('createFormConfig', () => {
     expect(formConfig.rootUrl).to.eq('/root-url');
     expect(formConfig.urlPrefix).to.eq('/');
     expect(formConfig.trackingPrefix).to.eq('tracking-prefix-');
-    expect(formConfig.title).to.eq('Form with Two Steps');
+    expect(formConfig.title).to.eq('Multiple step form');
     expect(formConfig.formId).to.eq('2121212');
-    expect(formConfig.subTitle).to.eq('VA Form 2121212');
+    expect(formConfig.subTitle).to.eq('Form with Two Steps (VA Form 2121212)');
     expect(Object.keys(formConfig.chapters).length).to.eq(
       normalizedForm.chapters.length,
     );
