@@ -120,6 +120,24 @@ export const ContactInfoBase = ({
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
+  // Get the fieldTransactionMap from Redux store
+  const { fieldTransactionMap } = useSelector(state => state.vapService) || {};
+
+  // Map editState field names to actual field names
+  const fieldNameMap = {
+    address: FIELD_NAMES.MAILING_ADDRESS,
+    'home-phone': FIELD_NAMES.HOME_PHONE,
+    'mobile-phone': FIELD_NAMES.MOBILE_PHONE,
+    email: FIELD_NAMES.EMAIL,
+  };
+
+  // Check if we have a form-only update for the current field
+  const [editField] = editState?.split(',') || [];
+  const fieldName = fieldNameMap[editField];
+  const hasFormOnlyUpdate = fieldName
+    ? fieldTransactionMap?.[fieldName]?.formOnlyUpdate
+    : false;
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -238,7 +256,7 @@ export const ContactInfoBase = ({
     return (
       <va-alert
         id={`updated-${id}`}
-        visible={editState === `${id},updated`}
+        visible={editState === `${id},updated` && !hasFormOnlyUpdate}
         class="vads-u-margin-y--1"
         status="success"
         slim
@@ -247,6 +265,27 @@ export const ContactInfoBase = ({
       </va-alert>
     );
   };
+
+  // Add alert for form-only updates
+  const showFormOnlyAlert = () => (
+    <va-alert
+      id="form-only-update-alert"
+      visible={hasFormOnlyUpdate && editState?.includes('updated')}
+      class="vads-u-margin-y--1"
+      status="error"
+      uswds
+      slim
+    >
+      <p>
+        <strong>
+          We couldn’t update your VA.gov profile, but your changes were saved to
+          this form.{' '}
+        </strong>
+        You can try again later to update your profile, or continue with the
+        form using the information you entered.
+      </p>
+    </va-alert>
+  );
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
@@ -260,7 +299,9 @@ export const ContactInfoBase = ({
             {!requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
               ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('address', content.mailingAddress)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert()
+            : showSuccessAlertInField('address', content.mailingAddress)}
           <AddressView data={dataWrap[keys.address]} />
           {loggedIn && (
             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
@@ -405,6 +446,15 @@ export const ContactInfoBase = ({
       {contentAfterButtons}
     </>
   );
+
+  // Add debug logging for render data
+  /* eslint-disable no-console */
+  console.log('Render data:', {
+    dataWrap,
+    editState,
+    hasFormOnlyUpdate,
+  });
+  /* eslint-enable no-console */
 
   return (
     <div className="vads-u-margin-y--2">

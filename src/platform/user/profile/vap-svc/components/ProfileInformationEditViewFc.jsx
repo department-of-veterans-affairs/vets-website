@@ -379,6 +379,64 @@ export const ProfileInformationEditViewFc = ({
 
     const method = payload?.id ? 'PUT' : 'POST';
 
+    // if (isAddressField) {
+    //   try {
+    //     const validationResult = await validateAddressAction(
+    //       apiRoute,
+    //       method,
+    //       fieldName,
+    //       payload,
+    //       analyticsSectionName,
+    //       onlyValidate,
+    //     );
+
+    //     // Handle original "no" choice
+    //     if (validationResult?.onlyValidate) {
+    //       contactInfoFormAppConfig.updateContactInfoForFormApp(
+    //         fieldName,
+    //         payload,
+    //         field.value?.updateProfileChoice,
+    //       );
+    //       successCallback();
+    //       clearTransactionRequestAction(fieldName);
+    //       openModal();
+    //       return;
+    //     }
+
+    //     // If we get here, they chose "yes" and validation succeeded
+    //     // The profile update will happen automatically through validateAddressAction
+    //   } catch (error) {
+    //     // If there's a 500 error and they originally chose "yes",
+    //     // fall back to form-only update
+    //     if (error?.status === 500 && !onlyValidate) {
+
+    //       contactInfoFormAppConfig.updateContactInfoForFormApp(
+    //         fieldName,
+    //         payload,
+    //         'no', // Force form-only update
+    //       );
+
+    //       updateFormFieldWithSchemaAction(
+    //         fieldName,
+    //         payload,
+    //         field.formSchema,
+    //         field.uiSchema,
+    //       );
+
+    //       successCallback();
+    //       clearTransactionRequestAction(fieldName);
+    //       openModal();
+
+    //       return;
+
+    //       // Optionally show an alert to user that profile update failed
+    //       // but form was updated
+    //     }
+    //     throw error;
+    //   }
+    //   return;
+    // }
+
     if (isAddressField) {
       const validationResult = await validateAddressAction(
         apiRoute,
