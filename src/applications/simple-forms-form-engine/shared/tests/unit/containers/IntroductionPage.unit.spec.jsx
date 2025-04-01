@@ -36,7 +36,6 @@ const renderWithProvider = (Component, store = mockStore) => {
 };
 
 describe('<IntroductionPage /> component', () => {
-  // TODO: Implement this test
   it('renders the title and subtitle', () => {
     const formConfig = {
       title: 'Test out this form',
