@@ -134,7 +134,7 @@ const resolveLandingPageLinks = (
         HEALTH_TOOL_LINKS.PAYMENTS[0],
         {
           href: '/my-health/travel-pay/claims',
-          text: 'Check travel reimbursement claim status',
+          text: 'Review and file travel claims',
         },
       ]
     : [
