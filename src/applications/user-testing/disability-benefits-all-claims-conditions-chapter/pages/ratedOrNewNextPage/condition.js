@@ -1,4 +1,3 @@
-// import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   radioSchema,
   radioUI,
@@ -13,13 +12,8 @@ import {
   isEdit,
   isNewCondition,
   isRatedDisability,
+  NEW_CONDITION_OPTIONS,
 } from '../shared/utils';
-
-export const NEW_CONDITION_OPTIONS = {
-  ADD: 'Add a new condition',
-  EDIT: 'Edit new condition',
-  CHANGE: 'Change to new condition',
-};
 
 const createNewConditionOption = (fullData, index) => {
   let label;
@@ -107,25 +101,3 @@ const conditionPage = {
 };
 
 export default conditionPage;
-
-// export const updateFormData = (_oldData, newData) => {
-//   const index = getArrayIndexFromPathName();
-//   const { arrayPath } = arrayBuilderOptions;
-//   const condition = newData[arrayPath]?.[index];
-//   const isNewConditionOption = Object.values(NEW_CONDITION_OPTIONS).includes(
-//     condition?.ratedDisability,
-//   );
-
-//   return {
-//     ...newData,
-//     [arrayPath]: newData[arrayPath].map((item, i) => {
-//       if (i === index) {
-//         return {
-//           ...item,
-//           'view:conditionType': isNewConditionOption ? 'NEW' : 'RATED',
-//         };
-//       }
-//       return item;
-//     }),
-//   };
-// };

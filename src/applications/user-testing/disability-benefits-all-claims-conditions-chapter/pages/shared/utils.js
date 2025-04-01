@@ -4,6 +4,7 @@ import {
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
+import { CONDITION_TYPE_RADIO } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 
 const arrayPath = 'conditions';
@@ -23,7 +24,7 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   return defaultTitle;
 };
 
-export const isNewCondition = (formData, index) => {
+const isNewConditionConditionTypeRadio = (formData, index) => {
   if (formData?.[arrayPath]) {
     const conditionType = formData[arrayPath]?.[index]?.['view:conditionType'];
 
@@ -36,7 +37,7 @@ export const isNewCondition = (formData, index) => {
   );
 };
 
-export const isRatedDisability = (formData, index) => {
+const isRatedDisabilityConditionTypeRadio = (formData, index) => {
   if (formData?.[arrayPath]) {
     const conditionType = formData[arrayPath]?.[index]?.['view:conditionType'];
 
@@ -44,6 +45,57 @@ export const isRatedDisability = (formData, index) => {
   }
 
   return formData?.['view:conditionType'] === 'RATED';
+};
+
+export const NEW_CONDITION_OPTIONS = {
+  ADD: 'Add a new condition',
+  EDIT: 'Edit new condition',
+  CHANGE: 'Change to new condition',
+};
+
+const isNewConditionOption = ratedDisability =>
+  Object.values(NEW_CONDITION_OPTIONS).includes(ratedDisability);
+
+const isNewConditionRatedOrNewNextPage = (formData, index) => {
+  if (formData?.[arrayPath]) {
+    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+
+    return !ratedDisability || isNewConditionOption(ratedDisability);
+  }
+
+  return (
+    !formData?.ratedDisability ||
+    isNewConditionOption(formData?.ratedDisability)
+  );
+};
+
+const isRatedDisabilityRatedOrNewNextPage = (formData, index) => {
+  if (formData?.[arrayPath]) {
+    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+
+    return ratedDisability && !isNewConditionOption(ratedDisability);
+  }
+
+  return (
+    formData?.ratedDisability &&
+    !isNewConditionOption(formData?.ratedDisability)
+  );
+};
+
+export const isNewCondition = (formData, index) => {
+  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
+    return isNewConditionConditionTypeRadio(formData, index);
+  }
+
+  return isNewConditionRatedOrNewNextPage(formData, index);
+};
+
+export const isRatedDisability = (formData, index) => {
+  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
+    return isRatedDisabilityConditionTypeRadio(formData, index);
+  }
+
+  return isRatedDisabilityRatedOrNewNextPage(formData, index);
 };
 
 const getSelectedRatedDisabilities = fullData => {

@@ -7,10 +7,7 @@ import {
   hasRatedDisabilitiesOrIsRatedDisability,
   isActiveDemo,
 } from '../shared/utils';
-import conditionPage, {
-  NEW_CONDITION_OPTIONS,
-  // updateFormData,
-} from './condition';
+import conditionPage from './condition';
 
 const ratedOrNewNextPagePages = arrayBuilderPages(
   arrayBuilderOptions,
@@ -24,23 +21,6 @@ const ratedOrNewNextPagePages = arrayBuilderPages(
         hasRatedDisabilitiesOrIsRatedDisability(formData, index),
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
-      // updateFormData,
-      onNavForward: props => {
-        const { formData, index } = props;
-        const { arrayPath } = arrayBuilderOptions;
-        const item = formData?.[arrayPath]?.[index];
-        const isNewConditionOption = Object.values(
-          NEW_CONDITION_OPTIONS,
-        ).includes(item?.ratedDisability);
-
-        item.ratedDisability = isNewConditionOption
-          ? undefined
-          : item.ratedDisability;
-
-        item['view:conditionType'] = isNewConditionOption ? 'NEW' : 'RATED';
-
-        return helpers.navForwardKeepUrlParams(props);
-      },
     }),
     ...remainingSharedPages(demo, pageBuilder, helpers),
   }),
