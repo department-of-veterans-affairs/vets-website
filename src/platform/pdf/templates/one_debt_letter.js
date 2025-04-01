@@ -21,6 +21,8 @@ const formatCurrency = amount => {
 };
 
 const generate = async (data = {}, config = defaultConfig) => {
+  const { debts, copays } = data;
+
   const doc = createAccessibleDoc(
     {
       title: 'VA medical copay charges, benefits overpayment, and obligations',
@@ -162,13 +164,14 @@ const generate = async (data = {}, config = defaultConfig) => {
   // Copay Description Row
   const descRow = doc.struct('TR');
   tableStruct.add(descRow);
-  const copayDetails = data?.copays?.details || [];
   const descriptionText =
     '– You are receiving this billing statement because you are currently enrolled in a priority group requiring copayments for treatment of nonservice-connected conditions.';
   doc.font(config.text.font).fontSize(8);
   descRow.add(
     doc.struct('TD', () => {
-      doc.text(descriptionText, tableLeft + 5, currentY, { width: col1Width });
+      doc.text(descriptionText, tableLeft + 5, currentY, {
+        width: col1Width,
+      });
     }),
   );
   descRow.add(doc.struct('TD'));
@@ -180,69 +183,74 @@ const generate = async (data = {}, config = defaultConfig) => {
   });
   currentY += descHeight + 5;
 
-  // Copay Data Rows
-  doc.font(config.text.font).fontSize(8);
-  copayDetails.forEach((detail, index) => {
-    const dataRow = doc.struct('TR');
-    tableStruct.add(dataRow);
-    const description =
-      index === 0
-        ? `1.   ${detail.pDTransDescOutput}`
-        : `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0${detail.pDTransDescOutput}`;
-    dataRow.add(
+  // All the copay data
+  let totalCopay = 0;
+  copays.forEach((copay, index) => {
+    // Copay Station Row
+    const stationRow = doc.struct('TR');
+    tableStruct.add(stationRow);
+    const stationDesc = `${index + 1}.   ${copay?.station?.facilitYDesc || ''}`;
+    stationRow.add(
       doc.struct('TD', () => {
-        doc.text(description, tableLeft + 5, currentY, { width: col1Width });
+        doc.text(stationDesc, tableLeft + 5, currentY, { width: col1Width });
       }),
     );
-    dataRow.add(
-      doc.struct('TD', () => {
-        doc.text(
-          `$${formatCurrency(parseFloat(detail.pDTransAmt || 0))}`,
-          tableLeft + col1Width,
-          currentY,
-          { align: 'right', width: col2Width - 10 },
-        );
-      }),
-    );
-    dataRow.add(
-      doc.struct('TD', () => {
-        doc.text(
-          detail.pDRefNo || '',
-          tableLeft + col1Width + col2Width + 35,
-          currentY,
-        );
-      }),
-    );
-    const rowHeight = doc.heightOfString(description, {
+    stationRow.add(doc.struct('TD'));
+    stationRow.add(doc.struct('TD'));
+    const stationHeight = doc.heightOfString(stationDesc, {
       width: col1Width,
       font: config.text.font,
       size: 8,
     });
-    currentY += rowHeight + 5;
-  });
+    currentY += stationHeight + 5;
 
-  // Copay Station Row
-  const stationRow = doc.struct('TR');
-  tableStruct.add(stationRow);
-  const stationDesc = data?.copays?.station?.facilitYDesc || '';
-  stationRow.add(
-    doc.struct('TD', () => {
-      doc.text(stationDesc, tableLeft + 5, currentY, { width: col1Width });
-    }),
-  );
-  stationRow.add(doc.struct('TD'));
-  stationRow.add(doc.struct('TD'));
-  const stationHeight = doc.heightOfString(stationDesc, {
-    width: col1Width,
-    font: config.text.font,
-    size: 8,
+    // Copay Data Rows
+    doc.font(config.text.font).fontSize(8);
+    const copayDetails = copay?.details || [];
+    copayDetails.forEach(detail => {
+      const dataRow = doc.struct('TR');
+      tableStruct.add(dataRow);
+      const description = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0${
+        detail.pDTransDescOutput
+      }`;
+      dataRow.add(
+        doc.struct('TD', () => {
+          doc.text(description, tableLeft + 5, currentY, { width: col1Width });
+        }),
+      );
+      dataRow.add(
+        doc.struct('TD', () => {
+          doc.text(
+            `$${formatCurrency(parseFloat(detail.pDTransAmt || 0))}`,
+            tableLeft + col1Width,
+            currentY,
+            { align: 'right', width: col2Width - 10 },
+          );
+        }),
+      );
+      dataRow.add(
+        doc.struct('TD', () => {
+          doc.text(
+            detail.pDRefNo || '',
+            tableLeft + col1Width + col2Width + 35,
+            currentY,
+          );
+        }),
+      );
+      const rowHeight = doc.heightOfString(description, {
+        width: col1Width,
+        font: config.text.font,
+        size: 8,
+      });
+      currentY += rowHeight + 5;
+    });
+
+    totalCopay += copay.pHAmtDue;
   });
-  currentY += stationHeight + 5;
 
   // Copay Total Row
   const totalRow = doc.struct('TR');
   tableStruct.add(totalRow);
-  const totalCopay = data?.copays?.pHAmtDue || 0;
   totalRow.add(doc.struct('TD'));
   totalRow.add(
     doc.struct('TD', () => {
@@ -378,7 +386,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   currentY += overpaymentDescHeight + 5;
 
   // Benefits Overpayment Data Rows
-  const overpaymentDetails = data?.debts?.debts || [];
+  const overpaymentDetails = debts || [];
   let totalOverpayment = 0;
   overpaymentDetails.forEach((debt, index) => {
     const overpaymentRow = doc.struct('TR');
