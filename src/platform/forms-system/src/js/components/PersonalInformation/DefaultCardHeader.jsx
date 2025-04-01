@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const DefaultCardHeader = ({ level = '3' }) => {
   return (
@@ -6,4 +7,8 @@ export const DefaultCardHeader = ({ level = '3' }) => {
       Personal information
     </h4>
   );
+};
+
+DefaultCardHeader.propTypes = {
+  level: PropTypes.string,
 };
