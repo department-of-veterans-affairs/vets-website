@@ -4,6 +4,7 @@ import testData from '../../../e2e/fixtures/data/test-data.json';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
@@ -17,30 +18,127 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       { 'va-radio': 1 },
-      'unassociated income summary page',
+      'summary page',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
       1,
-      'unassociated income summary page',
+      'summary page',
     );
     testSubmitsWithoutErrors(
       formConfig,
       schema,
       uiSchema,
-      'unassociated income summary page',
+      'summary page',
       testData.data,
       { loggedIn: true },
     );
   });
 
   describe('income recipient page', () => {
-    //  Add unit tests for this page
+    const schema =
+      unassociatedIncomePages.unassociatedIncomeRecipientPage.schema.properties
+        .unassociatedIncomes.items;
+    const uiSchema =
+      unassociatedIncomePages.unassociatedIncomeRecipientPage.uiSchema
+        .unassociatedIncomes.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-radio': 1 },
+      'recipient',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      testData.data.unassociatedIncomes[0],
+      { loggedIn: true },
+    );
+    testSelectAndValidateField(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      'root_otherRecipientRelationshipType',
+    );
+  });
+
+  describe('recipient name page', () => {
+    const schema =
+      unassociatedIncomePages.unassociatedIncomeRecipientNamePage.schema
+        .properties.unassociatedIncomes.items;
+    const uiSchema =
+      unassociatedIncomePages.unassociatedIncomeRecipientNamePage.uiSchema
+        .unassociatedIncomes.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-text-input': 1 },
+      'recipient',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      {
+        recipientName: 'Jane Doe',
+      },
+      { loggedIn: true },
+    );
   });
 
   describe('income type page', () => {
-    //  Add unit tests for this page
+    const schema =
+      unassociatedIncomePages.unassociatedIncomeTypePage.schema.properties
+        .unassociatedIncomes.items;
+    const uiSchema =
+      unassociatedIncomePages.unassociatedIncomeTypePage.uiSchema
+        .unassociatedIncomes.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-radio': 1, 'va-text-input': 1, input: 1 },
+      'income type',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      2,
+      'income type',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'income type',
+      testData.data.unassociatedIncomes[0],
+      { loggedIn: true },
+    );
   });
 });

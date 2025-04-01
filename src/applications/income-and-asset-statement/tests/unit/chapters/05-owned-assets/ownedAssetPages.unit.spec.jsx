@@ -4,6 +4,7 @@ import testData from '../../../e2e/fixtures/data/test-data.json';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
@@ -17,30 +18,121 @@ describe('owned asset list and loop pages', () => {
       schema,
       uiSchema,
       { 'va-radio': 1 },
-      'owned asset summary page',
+      'summary page',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
       1,
-      'owned asset summary page',
+      'summary page',
     );
     testSubmitsWithoutErrors(
       formConfig,
       schema,
       uiSchema,
-      'owned asset summary page',
+      'summary page',
       testData.data,
       { loggedIn: true },
     );
   });
 
-  describe('income recipient page', () => {
-    //  Add unit tests for this page
+  describe('asset recipient page', () => {
+    const schema =
+      ownedAssetPages.ownedAssetRecipientPage.schema.properties.ownedAssets
+        .items;
+    const uiSchema =
+      ownedAssetPages.ownedAssetRecipientPage.uiSchema.ownedAssets.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-radio': 1 },
+      'recipient',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      testData.data.ownedAssets[0],
+      { loggedIn: true },
+    );
+    testSelectAndValidateField(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      'root_otherRecipientRelationshipType',
+    );
   });
 
-  describe('income type page', () => {
-    //  Add unit tests for this page
+  describe('recipient name page', () => {
+    const schema =
+      ownedAssetPages.ownedAssetRecipientNamePage.schema.properties.ownedAssets
+        .items;
+    const uiSchema =
+      ownedAssetPages.ownedAssetRecipientNamePage.uiSchema.ownedAssets.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-text-input': 1 },
+      'recipient',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      testData.data.ownedAssets[0],
+      { loggedIn: true },
+    );
+  });
+
+  describe('asset type page', () => {
+    const schema =
+      ownedAssetPages.ownedAssetTypePage.schema.properties.ownedAssets.items;
+    const uiSchema =
+      ownedAssetPages.ownedAssetTypePage.uiSchema.ownedAssets.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-radio': 1, 'va-text-input': 0, input: 2 },
+      'asset type',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'asset type',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'asset type',
+      testData.data.ownedAssets[0],
+      { loggedIn: true },
+    );
   });
 });
