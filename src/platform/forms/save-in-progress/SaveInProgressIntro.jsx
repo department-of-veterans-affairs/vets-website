@@ -73,7 +73,9 @@ class SaveInProgressIntro extends React.Component {
       formConfig,
       ariaLabel = null,
       ariaDescribedby = null,
+      headingLevel = 3,
     } = this.props;
+    const HeadingTag = `h${headingLevel}`;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
@@ -166,7 +168,7 @@ class SaveInProgressIntro extends React.Component {
         alert = (
           <div>
             <va-alert status="info" visible>
-              <h3>We've prefilled some of your information</h3>
+              <HeadingTag>We've prefilled some of your information</HeadingTag>
               Since you’re signed in, we can prefill part of your {appType}{' '}
               based on your profile details. You can also save your {appType} in
               progress and come back later to finish filling it out.
