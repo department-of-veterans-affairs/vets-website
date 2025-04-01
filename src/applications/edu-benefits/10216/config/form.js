@@ -33,7 +33,7 @@ export const subTitle = () => (
 );
 
 export const submitFormLogic = (form, formConfig) => {
-  if (environment.isDev()) {
+  if (environment.isDev() || environment.isLocalhost()) {
     return Promise.resolve(testData);
   }
   return submitForm(form, formConfig);
@@ -61,6 +61,7 @@ const formConfig = {
   },
   customText: {
     reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   version: 0,
   prefillEnabled: true,
@@ -90,21 +91,21 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Institution Details',
+      title: 'Identifying Details',
       pages: {
         certifyingOfficial: {
-          path: 'institution-details',
-          title: 'Tell us about yourself',
+          path: 'identifying-details',
+          title: 'Your name and title',
           uiSchema: certifyingOfficial.uiSchema,
           schema: certifyingOfficial.schema,
           onNavForward: ({ goPath }) => {
-            goPath('/institution-details-1');
+            goPath('/identifying-details-1');
             localStorage.removeItem('10216claimID');
           },
         },
         institutionDetails: {
-          path: 'institution-details-1',
-          title: 'Institution Details',
+          path: 'identifying-details-1',
+          title: 'Institution details',
           onNavForward: async ({ formData, goPath }) => {
             const isAccredited = await validateFacilityCode(formData);
             localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
@@ -143,7 +144,7 @@ const formConfig = {
             if (isAccredited !== true) {
               goPath('/additional-form');
             } else {
-              goPath('/institution-details');
+              goPath('/identifying-details');
             }
           },
         },
