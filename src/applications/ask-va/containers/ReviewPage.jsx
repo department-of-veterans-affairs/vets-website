@@ -23,6 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -219,8 +220,9 @@ const ReviewPage = props => {
     );
   };
 
-  useEffect(() => {
-    getUploadedFiles();
+  useEffect(async () => {
+    await getUploadedFiles();
+    focusElement('h2');
   }, []);
 
   return (
@@ -1281,7 +1283,7 @@ const ReviewPage = props => {
                 {props.formData.allowAttachments &&
                   props.isUserLOA3 && (
                     <div
-                      className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
+                      className="schemaform-chapter-accordion-content vads-u-padding-top--0"
                       aria-hidden="false"
                     >
                       <div className="form-review-panel-page vads-u-margin-bottom--0">
