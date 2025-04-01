@@ -91,7 +91,7 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Identifying Details',
+      title: 'Identifying details',
       pages: {
         certifyingOfficial: {
           path: 'identifying-details',
