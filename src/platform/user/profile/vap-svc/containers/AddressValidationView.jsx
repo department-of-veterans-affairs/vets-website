@@ -80,7 +80,7 @@ class AddressValidationView extends React.Component {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
-  onSubmit = event => {
+  onSubmit = async event => {
     event.preventDefault();
     const {
       validationKey,
@@ -141,8 +141,9 @@ class AddressValidationView extends React.Component {
       });
     }
 
+    let result;
     if (suggestedAddressSelected) {
-      this.props.updateValidationKeyAndSave(
+      result = await this.props.updateValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
@@ -150,7 +151,7 @@ class AddressValidationView extends React.Component {
         analyticsSectionName,
       );
     } else {
-      this.props.createTransaction(
+      result = await this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
@@ -158,7 +159,40 @@ class AddressValidationView extends React.Component {
         analyticsSectionName,
       );
     }
+
+    // Check if we got back the special form-only update flag
+    if (result?.formOnlyUpdate && this.context?.prefillPatternEnabled) {
+      const { updateContactInfoForFormApp, fieldName } = this.context;
+
+      updateContactInfoForFormApp(
+        fieldName,
+        payload,
+        'no', // Force form-only update
+      );
+
+      this.props.successCallback();
+      this.props.openModal();
+    }
   };
+
+  //   if (suggestedAddressSelected) {
+  //     this.props.updateValidationKeyAndSave(
+  //       VAP_SERVICE.API_ROUTES.ADDRESSES,
+  //       method,
+  //       addressValidationType,
+  //       payload,
+  //       analyticsSectionName,
+  //     );
+  //   } else {
+  //     this.props.createTransaction(
+  //       VAP_SERVICE.API_ROUTES.ADDRESSES,
+  //       method,
+  //       addressValidationType,
+  //       payload,
+  //       analyticsSectionName,
+  //     );
+  //   }
+  // };
 
   onEditClick = () => {
     const {

@@ -128,6 +128,11 @@ const responses = {
     // uncomment to test 401 error
     // return res.status(401).json(require('../tests/fixtures/401.json'));
 
+    const shouldError = true;
+    if (shouldError) {
+      return res.status(500).json(genericErrors.error500);
+    }
+
     // default response
     return res.json(
       updateMemDb(req, address.mailingAddressUpdateReceivedPrefillTaskGreen),
