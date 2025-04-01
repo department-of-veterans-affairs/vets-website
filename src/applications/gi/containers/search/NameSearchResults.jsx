@@ -131,23 +131,27 @@ export function NameSearchResults({
             </p>
             {!smallScreen &&
               environment.isProduction() && (
-                <VaAccordion>
-                  <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                  <FilterYourResults
-                    smallScreen={smallScreen}
-                    searchType="name"
-                  />
-                </VaAccordion>
+                <div className="column small-4 vads-u-padding--0">
+                  <VaAccordion>
+                    <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                    <FilterYourResults
+                      smallScreen={smallScreen}
+                      searchType="name"
+                    />
+                  </VaAccordion>
+                </div>
               )}
             {!smallScreen &&
               !environment.isProduction() && (
-                <VaAccordion>
-                  <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                  <FilterYourResults
-                    smallScreen={smallScreen}
-                    searchType="name"
-                  />
-                </VaAccordion>
+                <div className="column small-4 vads-u-padding--0">
+                  <VaAccordion>
+                    <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                    <FilterYourResults
+                      smallScreen={smallScreen}
+                      searchType="name"
+                    />
+                  </VaAccordion>
+                </div>
               )}
             {/* {!smallScreen &&
               !environment.isProduction() && (
