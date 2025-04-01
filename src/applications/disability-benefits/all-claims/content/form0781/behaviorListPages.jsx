@@ -93,16 +93,6 @@ export const behaviorListNoneLabel =
 export const conflictingBehaviorErrorMessage =
   'If you select no behavioral changes to include, unselect other behavioral changes before continuing.';
 
-// export const behaviorListValidationError = (
-//   <va-alert status="error" uswds>
-//     <p className="vads-u-font-size--base">
-//       You selected one or more behavioral changes. You also selected "I didn’t
-//       experience any behavioral changes." Revise your selection so they don’t
-//       conflict to continue.
-//     </p>
-//   </va-alert>
-// );
-
 /**
  * Returns true if 'none' selected, false otherwise
  * @param {object} formData

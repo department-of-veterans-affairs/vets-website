@@ -129,7 +129,6 @@ const BehaviorListPage = ({
   );
 
   const deleteBehaviorDetails = () => {
-    // TODO - double check how everyone else is doing this, might be a lodash option
     const deepClone = cloneDeep(data);
     const orphanedBehaviorsObject = orphanedBehaviorDetails(data);
 
@@ -153,7 +152,6 @@ const BehaviorListPage = ({
     behaviorSections.forEach(section => {
       const selectionsBySection = getSelectionsBySection(section);
       orphanedBehaviorTypes.forEach(behaviorType => {
-        // if behaviorType in section
         if (ALL_BEHAVIOR_TYPES_WITH_SECTION[behaviorType] === section) {
           selectionsBySection[behaviorType] = true;
         }
@@ -239,7 +237,6 @@ const BehaviorListPage = ({
       {data &&
         data.behaviorsDetails && (
           <VaModal
-            // modalTitle="Remove behavioral changes?" //TODO - check styling. Here its an H2, vs content page html H4
             visible={showModal}
             onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
             onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}

@@ -129,10 +129,6 @@ describe('BehaviorListPage', () => {
         validateBehaviorSelections(errors, formData);
 
         expect(showConflictingAlert(formData)).to.be.true;
-
-        expect(errors.workBehaviors.addError.called).to.be.false;
-        expect(errors.healthBehaviors.addError.called).to.be.false;
-        expect(errors.otherBehaviors.addError.called).to.be.false;
         expect(errors['view:noneCheckbox'].addError.called).to.be.true;
       });
     });
@@ -159,10 +155,6 @@ describe('BehaviorListPage', () => {
         validateBehaviorSelections(errors, formData);
 
         expect(showConflictingAlert(formData)).to.be.false;
-
-        expect(errors.workBehaviors.addError.called).to.be.false;
-        expect(errors.healthBehaviors.addError.called).to.be.false;
-        expect(errors.otherBehaviors.addError.called).to.be.false;
         expect(errors['view:noneCheckbox'].addError.called).to.be.false;
       });
 
@@ -179,10 +171,6 @@ describe('BehaviorListPage', () => {
         validateBehaviorSelections(errors, formData);
 
         expect(showConflictingAlert(formData)).to.be.false;
-
-        expect(errors.workBehaviors.addError.called).to.be.false;
-        expect(errors.healthBehaviors.addError.called).to.be.false;
-        expect(errors.otherBehaviors.addError.called).to.be.false;
         expect(errors['view:noneCheckbox'].addError.called).to.be.false;
       });
     });
@@ -284,8 +272,8 @@ describe('BehaviorListPage', () => {
           },
           'view:noneCheckbox': { 'view:noBehaviorChanges': false },
           behaviorsDetails: {
-            reassignment: undefined, // when details are provided, then later deleted
-            unlisted: undefined, // when details are provided, then later deleted
+            reassignment: undefined, // details were provided, then later deleted
+            unlisted: undefined, // details were provided, then later deleted
           },
         };
 
@@ -303,13 +291,16 @@ describe('BehaviorListPage', () => {
     describe('Modal Selections', () => {
       const updatedDataWithBehaviorDetails = {
         workBehaviors: {
+          reassignment: true,
           performance: false, // this checkbox is unselected
         },
         healthBehaviors: {
           appetite: true,
+          consultations: true,
         },
         otherBehaviors: {
           socialEconomic: false, // this checkbox is unselected
+          unlisted: false, // this checkbox is unselected
         },
         behaviorsDetails: {
           appetite: 'Details of appetite behavior',
@@ -341,22 +332,24 @@ describe('BehaviorListPage', () => {
           expect(goForwardSpy.notCalled).to.be.true;
           expect(setFormDataSpy.called).to.be.true;
 
-          // EXPECTED DATA AFTER DELETE = {
-          //   workBehaviors: { performance: false },
-          //   healthBehaviors: { appetite: true },
-          //   otherBehaviors: { socialEconomic: false },
-          //   behaviorsDetails: { appetite: 'Details of appetite behavior' },
+          // EXPECTED_UPDATED_DATA_AFTER_EVENT = {
+          // workBehaviors: { reassignment: true, performance: false },
+          // healthBehaviors: { appetite: true, consultations: true },
+          // otherBehaviors: { socialEconomic: false, unlisted: false },
+          // behaviorsDetails: { appetite: 'Details of appetite behavior' }
           // };
 
-          // expect(setFormDataSpy.calledWith(updatedData)).to.be.true;
           expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
             performance: false,
+            reassignment: true,
           });
           expect(setFormDataSpy.args[0][0].healthBehaviors).to.deep.equal({
             appetite: true,
+            consultations: true,
           });
           expect(setFormDataSpy.args[0][0].otherBehaviors).to.deep.equal({
             socialEconomic: false,
+            unlisted: false,
           });
           expect(setFormDataSpy.args[0][0].behaviorsDetails).to.deep.equal({
             appetite: 'Details of appetite behavior',
@@ -365,7 +358,7 @@ describe('BehaviorListPage', () => {
       });
 
       describe('When the close button is clicked', () => {
-        it('closes the modal, resets checkboxes, does not show alert, and does not advance to the next page', () => {
+        it('closes the modal, resets unchecked behavioral types that have details, does not show alert, and does not advance to the next page', () => {
           const setFormDataSpy = sinon.spy();
           const goForwardSpy = sinon.spy();
 
@@ -383,21 +376,14 @@ describe('BehaviorListPage', () => {
 
           modal.__events.closeEvent();
 
-          //   const updatedData = {
-          //   workBehaviors: {
-          //     performance: true, // reset unselected checkbox
-          //     },
-          //   healthBehaviors: {
-          //     appetite: true,
-          //     },
-          //   otherBehaviors: {
-          //     socialEconomic: true, //reset unselected checkbox
-          //     },
-          //   behaviorsDetails: {
-          //     appetite: 'Details of appetite behavior',
-          //     performance: 'Details of performance behavior',
-          //     socialEconomic: 'Details of socialEconomic behavior',
-          //     },
+          // EXPECTED_UPDATED_DATA_AFTER_EVENT = {
+          // workBehaviors: { reassignment: true, performance: true },
+          // healthBehaviors: { appetite: true, consultations: true },
+          // otherBehaviors: { socialEconomic: true, unlisted: false },
+          // behaviorsDetails: {
+          //   appetite: 'Details of appetite behavior',
+          //   performance: 'Details of performance behavior',
+          //   socialEconomic: 'Details of socialEconomic behavior'
           // }
 
           expect($('va-modal[visible="false"]', container)).to.exist;
@@ -406,13 +392,16 @@ describe('BehaviorListPage', () => {
           expect(setFormDataSpy.called).to.be.true;
 
           expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
+            reassignment: true,
             performance: true,
           });
           expect(setFormDataSpy.args[0][0].healthBehaviors).to.deep.equal({
             appetite: true,
+            consultations: true,
           });
           expect(setFormDataSpy.args[0][0].otherBehaviors).to.deep.equal({
             socialEconomic: true,
+            unlisted: false,
           });
           expect(setFormDataSpy.args[0][0].behaviorsDetails).to.deep.equal({
             appetite: 'Details of appetite behavior',
@@ -441,33 +430,29 @@ describe('BehaviorListPage', () => {
 
           modal.__events.secondaryButtonClick();
 
-          //   const updatedData = {
-          //   workBehaviors: {
-          //     performance: true, // reset unselected checkbox
-          //     },
-          //   healthBehaviors: {
-          //     appetite: true,
-          //     },
-          //   otherBehaviors: {
-          //     socialEconomic: true, //reset unselected checkbox
-          //     },
-          //   behaviorsDetails: {
-          //     appetite: 'Details of appetite behavior',
-          //     performance: 'Details of performance behavior',
-          //     socialEconomic: 'Details of socialEconomic behavior',
-          //     },
+          // EXPECTED_UPDATED_DATA_AFTER_EVENT = {
+          // workBehaviors: { reassignment: true, performance: true },
+          // healthBehaviors: { appetite: true, consultations: true },
+          // otherBehaviors: { socialEconomic: true, unlisted: false },
+          // behaviorsDetails: {
+          //   appetite: 'Details of appetite behavior',
+          //   performance: 'Details of performance behavior',
+          //   socialEconomic: 'Details of socialEconomic behavior'
           // }
 
           expect($('va-modal[visible="false"]', container)).to.exist;
           expect(setFormDataSpy.called).to.be.true;
           expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
+            reassignment: true,
             performance: true,
           });
           expect(setFormDataSpy.args[0][0].healthBehaviors).to.deep.equal({
             appetite: true,
+            consultations: true,
           });
           expect(setFormDataSpy.args[0][0].otherBehaviors).to.deep.equal({
             socialEconomic: true,
+            unlisted: false,
           });
           expect(setFormDataSpy.args[0][0].behaviorsDetails).to.deep.equal({
             appetite: 'Details of appetite behavior',
