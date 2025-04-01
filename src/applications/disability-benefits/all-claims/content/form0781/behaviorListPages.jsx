@@ -226,8 +226,8 @@ export function orphanedBehaviorDetails(formData) {
 export const modalContent = formData => {
   const orphanedDetails = orphanedBehaviorDetails(formData);
   const orphanedBehaviorsCount = Object.keys(orphanedDetails).length;
-  const firstThreeBehaviors = Object.values(orphanedDetails).slice(0, 3);
-  const remainingBehaviors = orphanedBehaviorsCount - 3;
+  const firstFourBehaviors = Object.values(orphanedDetails).slice(0, 4);
+  const remainingBehaviors = orphanedBehaviorsCount - 4;
 
   return (
     <>
@@ -235,14 +235,16 @@ export const modalContent = formData => {
         Remove behavioral changes?
       </h4>
       <p>
-        If you remove these items, we’ll remove the descriptions you provided
-        about these behavioral changes:
+        <b>What to know:</b> If you remove these items, we’ll delete information
+        you provided about:
       </p>
       <ul>
-        {firstThreeBehaviors.map((behaviorWithDetails, i) => (
-          <li key={i}>{Object.values(behaviorWithDetails)}</li>
+        {firstFourBehaviors.map((behaviorWithDetails, i) => (
+          <li key={i}>
+            <b>{Object.values(behaviorWithDetails)}</b>
+          </li>
         ))}
-        {remainingBehaviors > 0 && (
+        {remainingBehaviors > 2 && (
           <li>
             And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
           </li>

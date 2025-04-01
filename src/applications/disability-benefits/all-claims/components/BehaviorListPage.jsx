@@ -220,6 +220,10 @@ const BehaviorListPage = ({
         scrollToFirstError({ focusOnAlertRole: true });
       }
     },
+    onGoForward: () => {
+      setShowAlert(false);
+      goForward(data);
+    },
   };
 
   return (
@@ -241,8 +245,8 @@ const BehaviorListPage = ({
             onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
             onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}
             onCloseEvent={handlers.onCancelDeleteBehaviorDetails}
-            primaryButtonText="Yes, remove these items"
-            secondaryButtonText="No, keep these items"
+            primaryButtonText="Yes, remove behavioral changes"
+            secondaryButtonText="No, return to claim"
             status="warning"
           >
             {modalContent(data)}
@@ -263,7 +267,18 @@ const BehaviorListPage = ({
           tabIndex="-1"
         >
           <p className="vads-u-margin-y--0">
-            We’ve removed information about your behavioral changes
+            We’ve removed optional descriptions about your behavioral changes.
+          </p>
+          <p>
+            Click{' '}
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={handlers.onGoForward}
+            >
+              continue
+            </button>{' '}
+            to proceed with your claim.
           </p>
         </VaAlert>
       </div>
