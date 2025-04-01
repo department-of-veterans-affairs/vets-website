@@ -9,7 +9,7 @@ import {
 const institutionDetails = () => ({
   uiSchema: {
     institutionDetails: {
-      ...titleUI('Tell us about your institution'),
+      ...titleUI('Institution details'),
       institutionName: {
         ...textUI({
           title: 'Institution name',

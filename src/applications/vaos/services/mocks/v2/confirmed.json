@@ -5030,6 +5030,141 @@
       }
     },
     {
+      "id": "0e11c5e07aa0952441c741bdcee5aabad3bc28426ed0af631323348e4bfb9dfa",
+      "type": "appointments",
+      "attributes": {
+        "id": "0e11c5e07aa0952441c741bdcee5aabad3bc28426ed0af631323348e4bfb9dfa",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333135393138"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:15918"
+          }
+        ],
+        "kind": "clinic",
+        "status": "cancelled",
+        "serviceType": "cpap",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "cpap"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "reason code:ROUTINEVISIT|comments:123Test"
+        },
+        "patientIcn": "1013124304V115761",
+        "locationId": "983GC",
+        "clinic": "1099",
+        "start": "2025-03-27T17:00:00Z",
+        "end": "2025-03-27T18:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323530333237313730303A323032353033323731383030",
+          "start": "2025-03-27T17:00:00Z",
+          "end": "2025-03-27T18:00:00Z"
+        },
+        "created": "2025-03-07T00:00:00Z",
+        "cancelationReason": {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409.2",
+              "code": "pat",
+              "display": "The appointment was cancelled by the patient"
+            }
+          ]
+        },
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["CANCELLED BY PATIENT"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+            "physicalLocation": "NONE",
+            "phoneNumber": "",
+            "phoneNumberExtension": ""
+          }
+        },
+        "localStartTime": "2025-03-27T11:00:00.000-06:00",
+        "station": "983",
+        "ien": "15918",
+        "patientComments": "123Test",
+        "reasonForAppointment": "Routine/Follow-up",
+        "serviceName": "",
+        "friendlyName": "",
+        "physicalLocation": "NONE",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": {
+              "main": "970-224-1550"
+            },
+            "physicalAddress": {
+              "line": ["2509 Research Boulevard"],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ],
+            "ehrSystem": "VistA"
+          }
+        },
+        "type": "VA",
+        "modality": "vaInPerson",
+        "pending": false,
+        "past": true,
+        "future": false,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
+      }
+    },
+    {
       "id": "cbc61b77eab168d7bb886649c0d42f6f2951b912e358cab744ca65b2296468a2",
       "type": "appointments",
       "attributes": {
