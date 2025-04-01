@@ -6,22 +6,26 @@ import {
   mapboxClient,
   toRadians,
 } from 'platform/utilities/facilities-and-mapbox';
-
+import {
+  GEOCODE_CLEAR_ERROR,
+  GEOCODE_COMPLETE,
+  GEOCODE_FAILED,
+  GEOCODE_STARTED,
+  GEOLOCATE_USER,
+  MAP_MOVED,
+  MOBILE_MAP_PIN_SELECTED,
+  SEARCH_FAILED,
+  SEARCH_QUERY_UPDATED,
+} from './actionTypes';
 import {
   BOUNDING_RADIUS,
   EXPANDED_BOUNDING_RADIUS,
   LocationType,
   MIN_RADIUS_EXP,
   MIN_RADIUS_NCA,
-} from '../../constants';
-import {
-  GEOCODE_STARTED,
-  SEARCH_FAILED,
-  SEARCH_QUERY_UPDATED,
-  GEOCODE_COMPLETE,
-  GEOCODE_FAILED,
-} from '../actionTypes';
-import { radiusFromBoundingBox } from '../../utils/facilityDistance';
+} from '../constants';
+import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
+import { updateSearchQuery } from './search';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -75,11 +79,13 @@ export const processFeaturesBBox = (
 ) => {
   // We never use anything but the first feature
   const firstFeature = features[0] || {};
+
   if (!firstFeature?.center || !firstFeature.geometry || !firstFeature.id) {
     dispatch({ type: GEOCODE_FAILED });
     dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
     return;
   }
+
   // Doesn't always have context, but if it does and it's a zipcode, use it
   const zip = firstFeature.context?.find(v => v.id.includes('postcode')) || {};
   const zipCode = zip.text || firstFeature.place_name;
@@ -109,6 +115,7 @@ export const processFeaturesBBox = (
     query?.facilityType,
     useProgressiveDisclosure,
   );
+
   dispatch({
     type: SEARCH_QUERY_UPDATED,
     payload: {
@@ -163,9 +170,11 @@ export const genBBoxFromAddress = (
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = MAPBOX_QUERY_TYPES;
+
     if (isPostcode(query.searchString?.trim() || '')) {
       types = ['postcode'];
     }
+
     mbxClient
       .forwardGeocode({
         countries: CountriesList,
@@ -188,5 +197,159 @@ export const genBBoxFromAddress = (
         dispatch({ type: GEOCODE_FAILED });
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });
+  };
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
+};
+
+/**
+ * Separated out from genSearchAreaFromCenter for unit testing
+ */
+export const sendUpdatedSearchQuery = (
+  dispatch,
+  features,
+  lat,
+  lng,
+  currentBounds,
+) => {
+  const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
+  const location = zip.text || features[0].place_name;
+
+  // Radius is computed as the distance from the center point
+  // to the western edge of the bounding box
+  const radius = distBetween(lat, lng, lat, currentBounds[0]);
+
+  dispatch({
+    type: SEARCH_QUERY_UPDATED,
+    payload: {
+      radius,
+      searchString: location,
+      context: location,
+      searchArea: {
+        locationString: location,
+        locationCoords: {
+          lng,
+          lat,
+        },
+      },
+      mapBoxQuery: {
+        placeName: features[0].place_name,
+        placeType: features[0].place_type[0],
+      },
+      searchCoords: null,
+      bounds: currentBounds,
+      position: {
+        latitude: lat,
+        longitude: lng,
+      },
+    },
+  });
+};
+
+/**
+ * Calculates a human readable location (address, zip, city, state) updated
+ * from the coordinates center of the map
+ */
+export const genSearchAreaFromCenter = query => {
+  const { lat, lng, currentMapBoundsDistance, currentBounds } = query;
+
+  return dispatch => {
+    if (currentMapBoundsDistance > 500) {
+      dispatch({ type: GEOCODE_FAILED });
+      dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+    } else {
+      const types = MAPBOX_QUERY_TYPES;
+
+      mbxClient
+        .reverseGeocode({
+          countries: CountriesList,
+          types,
+          query: [lng, lat],
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          sendUpdatedSearchQuery(dispatch, features, lat, lng, currentBounds);
+        })
+        .catch(_ => {
+          dispatch({ type: GEOCODE_FAILED });
+          dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+        });
+    }
+  };
+};
+
+const getLocationData = async (longitude, latitude) => {
+  return mbxClient
+    .reverseGeocode({
+      query: [longitude, latitude],
+      types: ['address'],
+    })
+    .send();
+};
+
+/**
+ * Generates search criteria from lat/long geocoordinates.
+ */
+export const searchCriteriaFromCoords = (response, longitude, latitude) => {
+  const { features } = response.body;
+  const placeName = features[0].place_name;
+  const coordinates = features[0].center;
+
+  return {
+    bounds: features[0].bbox || [
+      coordinates[0] - BOUNDING_RADIUS,
+      coordinates[1] - BOUNDING_RADIUS,
+      coordinates[0] + BOUNDING_RADIUS,
+      coordinates[1] + BOUNDING_RADIUS,
+    ],
+    searchString: placeName,
+    position: { longitude, latitude },
+  };
+};
+
+export const geolocateUser = () => async dispatch => {
+  const GEOLOCATION_TIMEOUT = 10000;
+
+  if (navigator?.geolocation?.getCurrentPosition) {
+    dispatch({ type: GEOLOCATE_USER });
+
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const { coords } = currentPosition;
+        const locationData = await getLocationData(
+          coords.longitude,
+          coords.latitude,
+        );
+
+        const query = searchCriteriaFromCoords(
+          locationData,
+          coords.longitude,
+          coords.latitude,
+        );
+
+        dispatch({ type: GEOCODE_COMPLETE });
+        dispatch(updateSearchQuery(query));
+      },
+      e => {
+        dispatch({ type: GEOCODE_FAILED, code: e.code });
+      },
+      { timeout: GEOLOCATION_TIMEOUT },
+    );
+  } else {
+    dispatch({ type: GEOCODE_FAILED, code: -1 });
+  }
+};
+
+export const mapMoved = currentRadius => ({
+  type: MAP_MOVED,
+  currentRadius,
+});
+
+export const selectMobileMapPin = data => {
+  return {
+    type: MOBILE_MAP_PIN_SELECTED,
+    payload: data,
   };
 };
