@@ -1,5 +1,6 @@
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import environment from 'platform/utilities/environment';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { datadogRum } from '@datadog/browser-rum';
@@ -11,7 +12,7 @@ import {
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
-const MAX_PAGE_LIST_LENGTH = 2;
+const MAX_PAGE_LIST_LENGTH = environment.isStaging() ? 2 : 10;
 const MAX_GROUPED_LIST_LENGTH = 26;
 
 const GroupedMedications = props => {
@@ -39,7 +40,7 @@ const GroupedMedications = props => {
   );
 
   const onPageChange = page => {
-    datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_PAGINATION);
+    datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_PAGINATION);
     setCurrentPage(page);
     waitForRenderThenFocus('#list-showing-info', document);
   };
@@ -76,7 +77,7 @@ const GroupedMedications = props => {
                 key={rx.prescriptionId}
               >
                 <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
-                  <h3 className="vads-u-font-size--md">
+                  <h3 className="vads-u-font-size--md vads-u-font-family--sans">
                     Prescription number: {rx.prescriptionNumber}
                   </h3>
                 </dt>
@@ -109,7 +110,7 @@ const GroupedMedications = props => {
         {totalListCount > MAX_PAGE_LIST_LENGTH && (
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
-            max-page-list-length={3}
+            max-page-list-length={MAX_PAGE_LIST_LENGTH}
             className="vads-u-justify-content--center no-print vads-u-margin-top--3"
             page={currentPage}
             pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}

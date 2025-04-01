@@ -6,6 +6,7 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import {
   ALLOWED_FILE_TYPES,
+  API_ENDPOINTS,
   MAX_FILE_SIZE_BYTES,
 } from '../../../utils/constants';
 import {
@@ -36,7 +37,7 @@ const documentUpload = {
       {
         buttonText: content['button-upload'],
         classNames: 'poa-document-upload vads-u-margin-top--2',
-        fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
+        fileUploadUrl: environment.API_URL + API_ENDPOINTS.fileUpload,
         fileTypes: ALLOWED_FILE_TYPES,
         maxSize: MAX_FILE_SIZE_BYTES,
         hideLabelText: false,

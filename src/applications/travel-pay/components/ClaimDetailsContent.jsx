@@ -9,14 +9,16 @@ import { STATUSES } from '../constants';
 
 const title = 'Your travel reimbursement claim';
 
-export default function ClaimDetailsContent({
-  createdOn,
-  claimStatus,
-  claimNumber,
-  appointmentDateTime,
-  facilityName,
-  modifiedOn,
-}) {
+export default function ClaimDetailsContent(props) {
+  const {
+    createdOn,
+    claimStatus,
+    claimNumber,
+    appointmentDate: appointmentDateTime,
+    facilityName,
+    modifiedOn,
+    reimbursementAmount,
+  } = props;
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
@@ -49,8 +51,14 @@ export default function ClaimDetailsContent({
       <p className="vads-u-margin-y--0">
         {appointmentDate} at {appointmentTime} appointment
       </p>
-      <p className="vads-u-margin-y--0">{facilityName}</p>
-      <p className="vads-u-margin-bottom--0">
+      <p className="vads-u-margin-top--0">{facilityName}</p>
+      {claimsMgmtToggle &&
+        reimbursementAmount > 0 && (
+          <p className="vads-u-margin-bottom--0">
+            Reimbursement amount of ${reimbursementAmount}
+          </p>
+        )}
+      <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
       </p>
       <p className="vads-u-margin-y--0">
@@ -61,18 +69,23 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
-  appointmentDateTime: PropTypes.string.isRequired,
+  appointmentDate: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,
   claimStatus: PropTypes.string.isRequired,
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
+  reimbursementAmount: PropTypes.number,
 };
 
 function AppealContent() {
   return (
     <>
-      <va-link text="Appeal the claim decision" href="/decision-reviews" />
+      <va-link
+        external
+        text="Appeal the claim decision"
+        href="/decision-reviews"
+      />
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="What to expect when you appeal"

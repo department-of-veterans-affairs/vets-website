@@ -17,7 +17,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import { fullSchema } from '../utils/imports';
+import { API_ENDPOINTS } from '../utils/constants';
+import { FULL_SCHEMA } from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 
@@ -68,7 +69,7 @@ const {
   fullName,
   uuid,
   signature,
-} = fullSchema.definitions;
+} = FULL_SCHEMA.definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
@@ -79,7 +80,7 @@ const {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
+  submitUrl: environment.API_URL + API_ENDPOINTS.submission,
   transformForSubmit: submitTransformer,
   trackingPrefix: 'caregivers-10-10cg-',
   v3SegmentedProgressBar: true,

@@ -2,7 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 import secureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
