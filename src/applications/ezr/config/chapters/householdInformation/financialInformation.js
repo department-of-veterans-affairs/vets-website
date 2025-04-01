@@ -1,4 +1,5 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import React from 'react';
 import { includeSpousalInformation } from '../../../utils/helpers/form-config';
 import FinancialInformationReviewWarning from '../../../components/FormAlerts/FinanicalInformationReviewWarning';
 import { LAST_YEAR } from '../../../utils/constants';
@@ -8,7 +9,6 @@ import { SpouseAnnualIncomePage } from '../../../definitions/spouseAnnualIncome'
 import { FinancialSummaryPage } from '../../../definitions/financialSummary';
 import { FinancialIntroductionPage } from '../../../definitions/financialIntroduction';
 import FinancialSummaryCardDescription from '../../../components/FormDescriptions/FinancialSummaryCardDescription';
-
 /**
  * Declare attributes for array builder pattern
  * @type {ArrayBuilderOptions}
@@ -23,7 +23,13 @@ const options = {
   hideMaxItemsAlert: true,
   text: {
     getItemName: `Your annual income from ${LAST_YEAR}`,
-    summaryDescription: FinancialInformationReviewWarning,
+    summaryDescription: () => (
+      <FinancialInformationReviewWarning
+        isFormReviewPage={window?.location?.pathname.includes(
+          'review-and-submit',
+        )}
+      />
+    ),
     cardDescription: item => {
       return FinancialSummaryCardDescription(item);
     },

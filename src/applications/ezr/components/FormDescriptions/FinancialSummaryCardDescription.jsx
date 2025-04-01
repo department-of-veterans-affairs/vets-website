@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { LAST_YEAR } from '../../utils/constants';
 import { includeSpousalInformation } from '../../utils/helpers/form-config';
+import { formatCurrency } from '../../utils/helpers/general';
 
 const SpousalFinancialInformation = props => {
   const { item } = props;
@@ -11,13 +12,16 @@ const SpousalFinancialInformation = props => {
     <>
       <h4>Spouse’s annual income from {LAST_YEAR}</h4>
       <p className="vads-u-margin-bottom--0">
-        Gross annual income: {item['view:spouseGrossIncome'].spouseGrossIncome}
+        Gross annual income:{' '}
+        {formatCurrency(item['view:spouseGrossIncome'].spouseGrossIncome)}
       </p>
       <p className="vads-u-margin-y--0">
-        Net annual income: {item['view:spouseNetIncome'].spouseNetIncome}
+        Net annual income:{' '}
+        {formatCurrency(item['view:spouseNetIncome'].spouseNetIncome)}
       </p>
       <p className="vads-u-margin-top--0">
-        Other income: {item['view:spouseOtherIncome'].spouseOtherIncome}
+        Other income:{' '}
+        {formatCurrency(item['view:spouseOtherIncome'].spouseOtherIncome)}
       </p>
     </>
   );
@@ -54,13 +58,15 @@ const FinancialSummaryCardDescription = item => {
       {/* The heading for this section comes from the ArrayBuilder's "itemName" attribute */}
       <p className="vads-u-margin-bottom--0">
         Gross annual income:{' '}
-        {item['view:veteranGrossIncome'].veteranGrossIncome}
+        {formatCurrency(item['view:veteranGrossIncome'].veteranGrossIncome)}
       </p>
       <p className="vads-u-margin-y--0">
-        Net annual income: {item['view:veteranNetIncome'].veteranNetIncome}
+        Net annual income:{' '}
+        {formatCurrency(item['view:veteranNetIncome'].veteranNetIncome)}
       </p>
       <p className="vads-u-margin-top--0">
-        Other income: {item['view:veteranOtherIncome'].veteranOtherIncome}
+        Other income:{' '}
+        {formatCurrency(item['view:veteranOtherIncome'].veteranOtherIncome)}
       </p>
       {includeSpousalInformation(formData) && spouseHasIncomes ? (
         <SpousalFinancialInformation item={item} />
@@ -69,16 +75,22 @@ const FinancialSummaryCardDescription = item => {
       )}
       <h4>Deductible expenses from {LAST_YEAR}</h4>
       <p className="vads-u-margin-bottom--0">
-        Gross annual income:{' '}
-        {item['view:deductibleMedicalExpenses'].deductibleMedicalExpenses}
+        Non-reimbursable medical expenses:{' '}
+        {formatCurrency(
+          item['view:deductibleMedicalExpenses'].deductibleMedicalExpenses,
+        )}
       </p>
       <p className="vads-u-margin-y--0">
-        Net annual income:{' '}
-        {item['view:deductibleEducationExpenses'].deductibleEducationExpenses}
+        Education expenses:{' '}
+        {formatCurrency(
+          item['view:deductibleEducationExpenses'].deductibleEducationExpenses,
+        )}
       </p>
       <p className="vads-u-margin-top--0">
-        Other income:{' '}
-        {item['view:deductibleFuneralExpenses'].deductibleFuneralExpenses}
+        Funeral expenses:{' '}
+        {formatCurrency(
+          item['view:deductibleFuneralExpenses'].deductibleFuneralExpenses,
+        )}
       </p>
     </>
   ) : null;

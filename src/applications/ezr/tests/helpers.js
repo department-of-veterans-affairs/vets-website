@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
-import { LAST_YEAR } from '../utils/constants';
 
 // simulate v1 forms library input change
 export const simulateInputChange = (formDOM, querySelectorElement, value) => {
@@ -61,48 +60,6 @@ export const expectStateInputToBeRequired = (
   expect(state).to.have.attr('required', 'true');
 };
 
-export const expectFinancialDescriptionComponentToRender = (
-  storeData,
-  component,
-) => {
-  const { mockStore } = storeData;
-  const { container } = render(
-    <Provider store={mockStore}>{component}</Provider>,
-  );
-  // eslint-disable-next-line no-unused-expressions
-  expect(container).to.not.be.empty;
-};
-
-export const expectFinancialDescriptionComponentToNotRender = (
-  storeData,
-  component,
-) => {
-  const { mockStore } = storeData;
-  const { container } = render(
-    <Provider store={mockStore}>{component}</Provider>,
-  );
-  // eslint-disable-next-line no-unused-expressions
-  expect(container).to.be.empty;
-};
-
-export const expectFinancialDescriptionComponentToRenderWithNonPrefillContent = (
-  storeData,
-  component,
-  content,
-) => {
-  const { mockStore } = storeData;
-  const { container } = render(
-    <Provider store={mockStore}>{component}</Provider>,
-  );
-  // eslint-disable-next-line no-unused-expressions
-  expect(container).to.not.be.empty;
-  // eslint-disable-next-line no-unused-expressions
-  expect(container.querySelector('va-card')).to.exist;
-  expect(container.querySelector('va-card h4').textContent.trim()).to.equal(
-    `${content} ${LAST_YEAR}`,
-  );
-};
-
 export const setMockStoreData = data => ({
   mockStore: {
     getState: () => ({
@@ -114,3 +71,39 @@ export const setMockStoreData = data => ({
     dispatch: () => {},
   },
 });
+
+export const renderProviderWrappedComponent = (storeData, component) => {
+  const { mockStore } = setMockStoreData(storeData);
+  return render(<Provider store={mockStore}>{component}</Provider>);
+};
+
+export const expectProviderWrappedComponentToRender = (
+  storeData,
+  component,
+) => {
+  const { container } = renderProviderWrappedComponent(storeData, component);
+  // eslint-disable-next-line no-unused-expressions
+  expect(container).to.not.be.empty;
+};
+
+export const expectProviderWrappedComponentToNotRender = (
+  storeData,
+  component,
+) => {
+  const { container } = renderProviderWrappedComponent(storeData, component);
+  // eslint-disable-next-line no-unused-expressions
+  expect(container).to.be.empty;
+};
+
+export const expectFinancialDescriptionComponentToRenderWithNonPrefillContent = (
+  storeData,
+  component,
+  content,
+) => {
+  const { container } = renderProviderWrappedComponent(storeData, component);
+  // eslint-disable-next-line no-unused-expressions
+  expect(container.querySelector('va-card')).to.exist;
+  expect(container.querySelector('va-card h4').textContent.trim()).to.equal(
+    `${content}`,
+  );
+};

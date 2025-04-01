@@ -270,14 +270,14 @@ export function includeInsuranceInformation(formData) {
 
 export function includeHouseholdInformationWithV1Prefill(formData) {
   return (
-    formData['view:householdEnabled'] &&
+    includeHouseholdInformation(formData) &&
     !formData['view:isProvidersAndDependentsPrefillEnabled']
   );
 }
 
 export function includeHouseholdInformationWithV2Prefill(formData) {
   return (
-    formData['view:householdEnabled'] &&
+    includeHouseholdInformation(formData) &&
     formData['view:isProvidersAndDependentsPrefillEnabled']
   );
 }

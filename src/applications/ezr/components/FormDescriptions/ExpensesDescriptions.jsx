@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatCurrency } from '../../utils/helpers/general';
-import { includeHouseholdInformationWithV2Prefill } from '../../utils/helpers/form-config';
 
 const PreviousExpenses = props => {
   const { data: formData } = useSelector(state => state.form);
 
-  if (!includeHouseholdInformationWithV2Prefill(formData)) {
+  if (!formData['view:isProvidersAndDependentsPrefillEnabled']) {
     return null;
   }
 

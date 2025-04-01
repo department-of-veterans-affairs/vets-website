@@ -67,14 +67,20 @@ export function replaceStrValues(src, val, char = '%s') {
   return src && val ? src.toString().replace(char, val) : '';
 }
 
-export const formatNumber = value => {
-  const str = (+value).toString();
-  return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
-};
+export const formatCurrency = str => {
+  // Convert the string to a number
+  const number = Number(str);
 
-export const formatCurrency = value => {
-  if (isNaN(value)) {
-    return value;
+  // Check if the conversion is successful
+  if (Number.isNaN(number)) {
+    return 'Invalid input';
   }
-  return `$${formatNumber(Math.round(+value))}`;
+
+  // Format the number as a currency string
+  return number.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 };

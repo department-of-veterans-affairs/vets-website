@@ -4,15 +4,13 @@ import {
   PreviousNetIncome,
 } from '../../../../components/FormDescriptions/IncomeDescriptions';
 import {
-  expectFinancialDescriptionComponentToRender,
   expectFinancialDescriptionComponentToRenderWithNonPrefillContent,
-  expectFinancialDescriptionComponentToNotRender,
-  setMockStoreData,
+  expectProviderWrappedComponentToRender,
+  expectProviderWrappedComponentToNotRender,
 } from '../../../helpers';
 import mockPrefillWithNonPrefillData from '../../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
 
 const mockStoreData = {
-  'view:householdEnabled': true,
   'view:isProvidersAndDependentsPrefillEnabled': true,
 };
 
@@ -23,11 +21,11 @@ const mockStoreDataWithNonPrefill = {
 
 describe('ezr <GrossIncomeDescription>', () => {
   context(
-    'when the component renders and there is no nonPrefill financial information',
+    'when the component renders and there is no non-prefill financial information',
     () => {
       it('should render with content', () => {
-        expectFinancialDescriptionComponentToRender(
-          setMockStoreData(mockStoreData),
+        expectProviderWrappedComponentToRender(
+          mockStoreData,
           GrossIncomeDescription('veteran'),
         );
       });
@@ -35,13 +33,13 @@ describe('ezr <GrossIncomeDescription>', () => {
   );
 
   context(
-    `when the component renders and there is nonPrefill financial information that includes the income year and gross income for the 'incomeReceiver'`,
+    `when the component renders and there is non-prefill financial information that includes the income year and gross income for the 'incomeReceiver'`,
     () => {
       it('should render with non-prefill content', () => {
         expectFinancialDescriptionComponentToRenderWithNonPrefillContent(
-          setMockStoreData(mockStoreDataWithNonPrefill),
+          mockStoreDataWithNonPrefill,
           GrossIncomeDescription('spouse'),
-          `Your spouse's gross income from`,
+          `Your spouse's gross income from 2023`,
         );
       });
     },
@@ -50,11 +48,11 @@ describe('ezr <GrossIncomeDescription>', () => {
 
 describe('ezr <OtherIncomeDescription>', () => {
   context(
-    'when the component renders and there is no nonPrefill financial information',
+    'when the component renders and there is no non-prefill financial information',
     () => {
       it('should render with content', () => {
-        expectFinancialDescriptionComponentToRender(
-          setMockStoreData(mockStoreData),
+        expectProviderWrappedComponentToRender(
+          mockStoreData,
           OtherIncomeDescription('veteran'),
         );
       });
@@ -62,13 +60,13 @@ describe('ezr <OtherIncomeDescription>', () => {
   );
 
   context(
-    `when the component renders and there is nonPrefill financial information that includes the income year and other income for the 'incomeReceiver'`,
+    `when the component renders and there is non-prefill financial information that includes the income year and other income for the 'incomeReceiver'`,
     () => {
       it('should render with non-prefill content', () => {
         expectFinancialDescriptionComponentToRenderWithNonPrefillContent(
-          setMockStoreData(mockStoreDataWithNonPrefill),
+          mockStoreDataWithNonPrefill,
           OtherIncomeDescription('veteran'),
-          `Your other income from`,
+          `Your other income from 2023`,
         );
       });
     },
@@ -76,26 +74,23 @@ describe('ezr <OtherIncomeDescription>', () => {
 });
 
 describe('ezr <PreviousNetIncome>', () => {
-  context(
-    'when the component renders and there is no nonPrefill financial information',
-    () => {
-      it('should not render', () => {
-        expectFinancialDescriptionComponentToNotRender(
-          setMockStoreData(mockStoreData),
-          PreviousNetIncome('spouse'),
-        );
-      });
-    },
-  );
+  context('when there is no non-prefill financial information', () => {
+    it('should not render', () => {
+      expectProviderWrappedComponentToNotRender(
+        mockStoreData,
+        PreviousNetIncome('spouse'),
+      );
+    });
+  });
 
   context(
-    `when the component renders and there is nonPrefill financial information that includes the income year and net income for the 'incomeReceiver'`,
+    `when the component renders and there is non-prefill financial information that includes the income year and net income for the 'incomeReceiver'`,
     () => {
       it('should render with non-prefill content', () => {
         expectFinancialDescriptionComponentToRenderWithNonPrefillContent(
-          setMockStoreData(mockStoreDataWithNonPrefill),
+          mockStoreDataWithNonPrefill,
           PreviousNetIncome('spouse'),
-          `Your spouse's net income from`,
+          `Your spouse's net income from 2023`,
         );
       });
     },

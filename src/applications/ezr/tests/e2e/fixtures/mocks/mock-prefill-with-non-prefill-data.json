@@ -34,19 +34,19 @@
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {
-          "otherIncome": "3453",
-          "grossIncome": "55644",
-          "netIncome": "6785",
-          "deductibleFuneralExpenses": "879",
-          "deductibleMedicalExpenses": "3454",
-          "deductibleEducationExpenses": "5654",
-          "incomeYear": "2024"
+          "otherIncome": "3453.1",
+          "grossIncome": "55644.04",
+          "netIncome": "6785.68",
+          "deductibleFuneralExpenses": "879.01",
+          "deductibleMedicalExpenses": "3454.76",
+          "deductibleEducationExpenses": "5654.87",
+          "incomeYear": "2023"
         },
         "spouseFinancialInfo": {
-          "otherIncome": "567",
-          "grossIncome": "36565",
-          "netIncome": "655",
-          "incomeYear": "2024"
+          "otherIncome": "567.05",
+          "grossIncome": "36565.95",
+          "netIncome": "655.8",
+          "incomeYear": "2023"
         }
       }
     }
