@@ -2,9 +2,6 @@ import React from 'react';
 
 export const officialReportPageTitle = 'Official report';
 
-export const reportTypesQuestion =
-  'Were any of these types of official reports filed for the event you described?';
-
 export const officialReportsDescription = (type = 'default') => {
   return (
     <>
@@ -29,10 +26,6 @@ export const officialReportsDescription = (type = 'default') => {
         It’s OK if no official reports were filed for this event. We understand
         that traumatic events often go unreported. You can skip this question if
         you don’t feel comfortable answering.
-      </p>
-      <p>
-        Were any of these types of official reports filed for the event you
-        described?
       </p>
     </>
   );

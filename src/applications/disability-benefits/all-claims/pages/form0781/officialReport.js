@@ -58,7 +58,9 @@ export const officialReport = {
     }),
     'ui:description': officialReportsDescription(),
     otherReports: checkboxGroupUI({
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.other,
       hint: otherReportsHint,
+      labelHeaderLevel: '4',
       labels: OTHER_REPORT_TYPES,
       required: false,
     }),
@@ -96,7 +98,7 @@ export const officialReport = {
 
 export const officialReportMst = {
   uiSchema: {
-    ...arrayBuilderEventPageTitleUI({
+    'ui:title': arrayBuilderEventPageTitleUI({
       title: pageTitleWithTag,
       editTitle: 'official report details',
     }),

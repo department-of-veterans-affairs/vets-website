@@ -18,6 +18,7 @@ import {
 } from '../../../pages/form0781/officialReport';
 import {
   officialReportPageTitle,
+  militaryReportsHint,
   otherReportsHint,
   otherReportTypesTitle,
   selectedReportTypes,
@@ -47,10 +48,13 @@ describe('Official report without MST event type', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(officialReportPageTitle);
+    expect(getByText(officialReportPageTitle)).to.exist;
 
     expect($$('va-checkbox-group', container).length).to.equal(2);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
+      OFFICIAL_REPORT_TYPES_SUBTITLES.other,
+    );
+    expect($('va-checkbox-group', container).getAttribute('hint')).to.equal(
       otherReportsHint,
     );
 
@@ -150,11 +154,14 @@ describe('Official Report with MST event type', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(officialReportPageTitle);
+    expect(getByText(officialReportPageTitle)).to.exist;
 
     expect($$('va-checkbox-group', container).length).to.equal(3);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
       OFFICIAL_REPORT_TYPES_SUBTITLES.military,
+    );
+    expect($('va-checkbox-group', container).getAttribute('hint')).to.equal(
+      militaryReportsHint,
     );
 
     Object.values(MILITARY_REPORT_TYPES).forEach(option => {
