@@ -67,7 +67,7 @@ export const confirmFormLogic = ({ router, route }) => (
 );
 
 export const onNavForwardLogic = ({ goPath }) => {
-  goPath('/institution-details-1');
+  goPath('/identifying-details-1');
   localStorage.removeItem('10215ClaimId');
 };
 
@@ -138,7 +138,7 @@ const formConfig = {
           onNavForward: onNavForwardLogic,
         },
         institutionDetails: {
-          path: 'institution-details-1',
+          path: 'identifying-details-1',
           title: 'Identifying details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
