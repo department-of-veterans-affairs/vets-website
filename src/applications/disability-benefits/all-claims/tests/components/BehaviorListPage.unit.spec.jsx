@@ -23,9 +23,9 @@ import {
 describe('BehaviorListPage', () => {
   const page = ({
     data = {},
-    goBack = () => { },
-    goForward = () => { },
-    setFormData = () => { },
+    goBack = () => {},
+    goForward = () => {},
+    setFormData = () => {},
   } = {}) => {
     return (
       <div>
@@ -319,7 +319,7 @@ describe('BehaviorListPage', () => {
       };
 
       describe('When the confirm button is clicked', () => {
-        it('closes the modal, deletes behaviorsDetails, and advances to the next page', () => {
+        it('closes the modal, deletes behaviorsDetails, shows a confirmation alert, and does not advance to the next page', () => {
           const setFormDataSpy = sinon.spy();
           const goForwardSpy = sinon.spy();
 
@@ -336,8 +336,9 @@ describe('BehaviorListPage', () => {
           const modal = container.querySelector('va-modal');
 
           modal.__events.primaryButtonClick();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
-          expect(goForwardSpy.called).to.be.true;
+          expect($('va-modal[visible="false"]', container)).to.exist;
+          expect($('va-alert[visible="true"]', container)).to.exist;
+          expect(goForwardSpy.notCalled).to.be.true;
           expect(setFormDataSpy.called).to.be.true;
 
           // EXPECTED DATA AFTER DELETE = {
@@ -364,7 +365,7 @@ describe('BehaviorListPage', () => {
       });
 
       describe('When the close button is clicked', () => {
-        it('closes the modal, resets checkboxes, and does not advance to the next page', () => {
+        it('closes the modal, resets checkboxes, does not show alert, and does not advance to the next page', () => {
           const setFormDataSpy = sinon.spy();
           const goForwardSpy = sinon.spy();
 
@@ -399,10 +400,11 @@ describe('BehaviorListPage', () => {
           //     },
           // }
 
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
+          expect($('va-modal[visible="false"]', container)).to.exist;
+          expect($('va-alert[visible="false"]', container)).to.exist;
+          expect(goForwardSpy.notCalled).to.be.true;
           expect(setFormDataSpy.called).to.be.true;
-          console.log('SPY---', setFormDataSpy.args[0]);
-          // expect(setFormDataSpy.calledWith(updatedData)).to.be.true;
+
           expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
             performance: true,
           });
@@ -421,7 +423,7 @@ describe('BehaviorListPage', () => {
       });
 
       describe('When the cancel button is clicked', () => {
-        it('closes the modal, resets checkboxes, and does not advance to the next page', () => {
+        it('closes the modal, resets checkboxes, does not show alert, and does not advance to the next page', () => {
           const setFormDataSpy = sinon.spy();
           const goForwardSpy = sinon.spy();
 
@@ -456,7 +458,7 @@ describe('BehaviorListPage', () => {
           //     },
           // }
 
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
+          expect($('va-modal[visible="false"]', container)).to.exist;
           expect(setFormDataSpy.called).to.be.true;
           expect(setFormDataSpy.args[0][0].workBehaviors).to.deep.equal({
             performance: true,

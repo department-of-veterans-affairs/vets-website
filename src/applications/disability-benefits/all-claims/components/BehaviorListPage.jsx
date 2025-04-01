@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-
 import {
   VaCheckboxGroup,
   VaModal,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
@@ -59,8 +59,20 @@ const BehaviorListPage = ({
     null,
   );
 
-  const [showModal, setShowModal] = useState(false);
   const [hasError, setHasError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (showAlert && alertRef.current) {
+        alertRef.current.focus();
+      }
+    },
+    [showAlert],
+  );
 
   const checkErrors = updatedData => {
     const result = showConflictingAlert(updatedData);
@@ -140,7 +152,6 @@ const BehaviorListPage = ({
 
     behaviorSections.forEach(section => {
       const selectionsBySection = getSelectionsBySection(section);
-      console.log("selectionsBySection", selectionsBySection);
       orphanedBehaviorTypes.forEach(behaviorType => {
         // if behaviorType in section
         if (ALL_BEHAVIOR_TYPES_WITH_SECTION[behaviorType] === section) {
@@ -148,7 +159,6 @@ const BehaviorListPage = ({
         }
       });
       const updatedData = selectionsBySection;
-      console.log("updatedData", section, updatedData);
       handleUpdatedSelection(section, updatedData);
     });
   };
@@ -181,7 +191,6 @@ const BehaviorListPage = ({
       }
     },
     onSubmit: event => {
-      console.log("onSubmit", data);
       event.preventDefault();
       if (checkErrors(data)) {
         scrollToFirstError({ focusOnAlertRole: true });
@@ -197,14 +206,21 @@ const BehaviorListPage = ({
     onCloseModal: () => {
       resetSelections();
       setShowModal(false);
+      setShowAlert(false);
     },
     onConfirmDeleteBehaviorDetails: () => {
       deleteBehaviorDetails();
-      handlers.onCloseModal();
-      goForward(data);
+      setShowModal(false);
+      setShowAlert(true);
     },
     onCancelDeleteBehaviorDetails: () => {
       handlers.onCloseModal();
+    },
+    onCancelAlert: () => {
+      setShowAlert(false);
+      if (hasError) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      }
     },
   };
 
@@ -235,6 +251,25 @@ const BehaviorListPage = ({
             {modalContent(data)}
           </VaModal>
         )}
+
+      <div className="vads-u-margin-bottom--1">
+        <VaAlert
+          ref={alertRef}
+          closeBtnAriaLabel="Close notification"
+          closeable
+          onCloseEvent={handlers.onCancelAlert}
+          fullWidth="false"
+          slim
+          status="success"
+          visible={showAlert}
+          uswds
+          tabIndex="-1"
+        >
+          <p className="vads-u-margin-y--0">
+            We’ve removed information about your behavioral changes
+          </p>
+        </VaAlert>
+      </div>
 
       <form onSubmit={handlers.onSubmit}>
         <VaCheckboxGroup
