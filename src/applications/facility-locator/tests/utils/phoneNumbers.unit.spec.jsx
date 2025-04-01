@@ -129,4 +129,16 @@ describe('parsePhoneNumber', () => {
     expect(international).to.equal(false);
     expect(countryCode).to.equal(undefined);
   });
+
+  it('should correctly handle an error', () => {
+    const phone = '84989484';
+
+    expect(parsePhoneNumber(phone)).to.deep.equal({
+      contact: phone,
+      extension: undefined,
+      processed: false,
+      international: false,
+      countryCode: '',
+    });
+  });
 });
