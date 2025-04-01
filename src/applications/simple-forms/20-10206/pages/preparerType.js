@@ -18,7 +18,10 @@ export default {
       errorMessages: {
         required: 'Select your identity',
       },
-      labelHeaderLevel: '1',
+      labelHeaderLevel: '3',
+      ifMinimalHeader: {
+        labelHeaderLevel: '1',
+      },
     }),
     'view:additionalInfoPreparerType': {
       'ui:description': ADDITIONAL_INFO_THIRD_PARTY,
