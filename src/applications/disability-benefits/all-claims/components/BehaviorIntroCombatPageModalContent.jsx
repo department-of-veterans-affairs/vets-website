@@ -31,7 +31,11 @@ export const BehaviorIntroCombatPageModalContent = ({ formData }) => {
 
   const displayRemainingBehaviors = () => {
     if (describedBehaviorsCount === 4) {
-      return <li key={4}>{behaviorDescriptions[3]}</li>;
+      return (
+        <li key={4}>
+          <b>{behaviorDescriptions[3]}</b>
+        </li>
+      );
     }
 
     return (
