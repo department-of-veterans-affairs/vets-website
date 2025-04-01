@@ -258,7 +258,6 @@ class ArrayField extends React.Component {
             )}
             <h4 className="form-review-panel-page-header vads-u-font-size--h4">
               {title}
-              XXXX
             </h4>
           </div>
         )}
