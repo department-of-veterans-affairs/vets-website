@@ -39,12 +39,12 @@ const ProcessList = ({ isAccredited, id }) => {
                 to fill it out. Once completed, save it as a PDF on your device.
               </p>
             </VaProcessListItem>
-            <VaProcessListItem header="Upload the forms to the VA education portal">
+            <VaProcessListItem header="Upload the forms to the Education File Upload Portal">
               <p>
                 Visit the{' '}
                 <va-link
                   external
-                  text="VA Education File Upload Portal"
+                  text="Education File Upload Portal"
                   href="https://www.my.va.gov/EducationFileUploads/s/"
                 />
                 , and upload both your saved VA Form 22-10216 and VA Form
@@ -76,12 +76,12 @@ const ProcessList = ({ isAccredited, id }) => {
                 </span>
               </p>
             </VaProcessListItem>
-            <VaProcessListItem header="Upload the form to the VA education portal">
+            <VaProcessListItem header="Upload the form to the Education File Upload Portal">
               <p>
                 Visit the{' '}
                 <va-link
                   external
-                  text="VA Education File Upload Portal"
+                  text="Education File Upload Portal"
                   href="https://www.my.va.gov/EducationFileUploads/s/"
                 />
                 , and upload your saved VA Form 22-10216.

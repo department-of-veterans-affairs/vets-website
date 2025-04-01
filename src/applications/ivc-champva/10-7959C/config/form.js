@@ -11,6 +11,7 @@ import { nameWording } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
+import { migrateCardUploadKeys } from './migrations';
 
 import {
   applicantNameDobSchema,
@@ -115,7 +116,8 @@ const formConfig = {
         'Your CHAMPVA other health insurance certification application has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [migrateCardUploadKeys],
   prefillEnabled: true,
   prefillTransformer,
   transformForSubmit,

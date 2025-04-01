@@ -37,7 +37,6 @@ export default function LicenseCertificationFilterAccordion({
         <button
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
-          aria-expanded={isExpanded}
           aria-label={`${buttonLabel} ${isExpanded ? 'expanded' : 'collapsed'}`}
           data-testid="update-lc-search"
         >

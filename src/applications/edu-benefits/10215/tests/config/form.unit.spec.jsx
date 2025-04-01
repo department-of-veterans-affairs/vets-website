@@ -1,7 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import formConfig, { arrayBuilderOptions } from '../../config/form';
+import { createMemoryRouter } from 'react-router-dom-v5-compat';
+import formConfig, {
+  arrayBuilderOptions,
+  convertPercentageToText,
+  submitFormLogic,
+  confirmFormLogic,
+  onNavForwardLogic,
+} from '../../config/form';
 import manifest from '../../manifest.json';
 
 describe('22-10215 Form Config', () => {
@@ -18,6 +25,38 @@ describe('22-10215 Form Config', () => {
       ),
     ).of.exist;
     expect(formConfig).to.have.property('chapters');
+  });
+  it('should test convertPercentageToText function', () => {
+    const percent = 3.15;
+    const result = convertPercentageToText(percent);
+    expect(result).to.eq(`${percent} supported student FTE`);
+  });
+  it('should test submitFormLogic function', () => {
+    const form = {};
+    const submitForm = submitFormLogic(form, formConfig);
+    expect(submitForm).to.not.be.undefined;
+  });
+  it('should test confirmFormLogic function', () => {
+    // router, route
+    const router = createMemoryRouter([
+      {
+        path: '/',
+      },
+    ]);
+    const route = {};
+    const props = {
+      route,
+      router,
+    };
+    const submitForm = confirmFormLogic(props);
+    expect(submitForm).to.not.be.undefined;
+  });
+  it('should test onNavForwardLogic void function', () => {
+    const goPath = () => {};
+    const props = {
+      goPath,
+    };
+    onNavForwardLogic(props);
   });
   it('should return the correct item name', () => {
     const item = { programName: 'Test Program' };
