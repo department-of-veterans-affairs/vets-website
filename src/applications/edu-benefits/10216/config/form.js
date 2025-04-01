@@ -61,6 +61,7 @@ const formConfig = {
   },
   customText: {
     reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   version: 0,
   prefillEnabled: true,

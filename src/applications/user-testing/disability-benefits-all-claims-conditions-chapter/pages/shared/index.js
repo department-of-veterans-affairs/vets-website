@@ -11,7 +11,7 @@ import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
   arrayBuilderOptions,
-  hasRemainingRatedDisabilities,
+  hasRatedDisabilitiesAndIsRatedDisability,
   hasSideOfBody,
   isActiveDemo,
   isNewCondition,
@@ -43,8 +43,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     path: `conditions-${demo.label}/:index/rated-disability-date`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
-      !isNewCondition(formData, index) &&
-      hasRemainingRatedDisabilities(formData),
+      hasRatedDisabilitiesAndIsRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
   }),
