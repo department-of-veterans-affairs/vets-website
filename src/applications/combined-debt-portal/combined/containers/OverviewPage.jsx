@@ -8,6 +8,7 @@ import {
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -56,6 +57,7 @@ const OverviewPage = () => {
     TOGGLE_NAMES.showOneVADebtLetter,
   );
 
+  // this is the old stuff
   const downloadPDF = async () => {
     // One VA Debt Letter Download url
     const pdfDownloadUrl = `${
@@ -76,6 +78,155 @@ const OverviewPage = () => {
   if (togglesLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
+  // end old stuff
+
+  // Mock copay data (unchanged)
+  const mockCopayData = {
+    details: [
+      {
+        pDTransDescOutput: 'INTEREST/ADM. CHARGE',
+        pDTransAmt: 2.03,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'Outpatient Care',
+        pDTransAmt: 15.0,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'INTEREST/ADM. CHARGE',
+        pDTransAmt: 12.03,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'Outpatient Care',
+        pDTransAmt: 35.0,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'INTEREST/ADM. CHARGE',
+        pDTransAmt: 12.03,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'Outpatient Care',
+        pDTransAmt: 55.0,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'INTEREST/ADM. CHARGE',
+        pDTransAmt: 34.03,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'Outpatient Care',
+        pDTransAmt: 45.0,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'INTEREST/ADM. CHARGE',
+        pDTransAmt: 2.03,
+        pDRefNo: '534-K90HEWN',
+      },
+      {
+        pDTransDescOutput: 'Outpatient Care',
+        pDTransAmt: 4.0,
+        pDRefNo: '534-K90HEWN',
+      },
+    ],
+    station: { facilitYDesc: 'CHALMERS P WYLIE VA ACC (757)' },
+    pHAmtDue: 216.15,
+  };
+
+  // Mock debt data (updated to match screenshot)
+  const mockDebtData = {
+    has_dependent_debts: false,
+    debts: [
+      {
+        fileNumber: '123456788',
+        payeeNumber: '00',
+        personEntitled: 'T JONES',
+        deductionCode: 'CH33 GI BILL - 71B',
+        benefitType: 'Housing overpayment',
+        diaryCode: '914',
+        diaryCodeDescription: 'Paid In Full',
+        amountOverpaid: 0.0,
+        amountWithheld: 0.0,
+        originalAR: 750.0,
+        currentAR: 750.0,
+        debtHistory: [
+          {
+            date: '00/00/2024',
+            letterCode: '101',
+            description: 'First Demand Letter - Active Benefits - Due Process',
+          },
+        ],
+      },
+      {
+        fileNumber: '123456788',
+        payeeNumber: '00',
+        personEntitled: 'T JONES',
+        deductionCode: 'CH33 GI BILL - 71B',
+        benefitType: 'Books, Supplies, Misc',
+        diaryCode: '914',
+        diaryCodeDescription: 'Paid In Full',
+        amountOverpaid: 0.0,
+        amountWithheld: 0.0,
+        originalAR: 150.0,
+        currentAR: 150.0,
+        debtHistory: [],
+      },
+      {
+        fileNumber: '123456788',
+        payeeNumber: '00',
+        personEntitled: 'T JONES',
+        deductionCode: '',
+        benefitType: 'Compensation/Pension Overpayment',
+        diaryCode: '914',
+        diaryCodeDescription: 'Paid In Full',
+        amountOverpaid: 0.0,
+        amountWithheld: 0.0,
+        originalAR: 450.0,
+        currentAR: 450.0,
+        debtHistory: [
+          {
+            date: '00/00/2024',
+            letterCode: '101',
+            description: 'First Demand Letter - Active Benefits - Due Process',
+          },
+        ],
+      },
+    ],
+  };
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so +1
+    const day = String(today.getDate()).padStart(2, '0');
+    const year = today.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+
+  // Merge into namespaced pdfData
+  const pdfData = {
+    date: getCurrentDate(),
+    copays: mockCopayData,
+    debts: mockDebtData,
+  };
+
+  const handleGeneratePdf = async () => {
+    try {
+      const result = await generatePdf(
+        'oneDebtLetter',
+        'one_debt_letter.pdf',
+        pdfData,
+      );
+      console.log('generatePdf Result:', result);
+      alert('PDF generated successfully!');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
 
   return (
     <>
@@ -114,7 +265,7 @@ const OverviewPage = () => {
             {showOneVADebtLetterDownload ? (
               <>
                 <VaButton
-                  onClick={downloadPDF}
+                  onClick={handleGeneratePdf}
                   text="View combined statement"
                   className="vads-u-margin-bottom--2"
                   secondary
