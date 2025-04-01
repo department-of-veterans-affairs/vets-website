@@ -14,7 +14,7 @@ const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
 const HEALTH_TOOL_LINKS = freeze({
   APPOINTMENTS: freeze([
     {
-      href: '/my-health/appointments/schedule/type-of-care',
+      href: '/my-appointments/schedule/type-of-care',
       text: 'Schedule a new appointment',
     },
     {
@@ -24,27 +24,27 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MESSAGES: freeze([
     {
-      href: '/my-health/secure-messages/inbox/',
+      href: '/my-secure-messages/inbox/',
       text: 'Go to inbox',
     },
     {
-      href: '/my-health/secure-messages/new-message/',
+      href: '/my-secure-messages/new-message/',
       text: 'Start a new message',
     },
   ]),
   MEDICATIONS: freeze([
     {
-      href: '/my-health/medications/refill',
+      href: '/my-medications/refill',
       text: 'Refill VA prescriptions',
     },
     {
-      href: '/my-health/medications',
+      href: '/my-medications',
       text: 'Review medications',
     },
   ]),
   MEDICAL_RECORDS: freeze([
     {
-      href: '/my-health/medical-records/',
+      href: '/medical-records/',
       text: 'Get medical records',
     },
   ]),
@@ -77,16 +77,9 @@ const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(([key, name]) => ({
   links: HEALTH_TOOL_LINKS[key],
 }));
 
-const MHV_ACCOUNT_CARDS = [
-  HEALTH_TOOL_HEADINGS.MESSAGES,
-  HEALTH_TOOL_HEADINGS.MEDICATIONS,
-  HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
-];
-
 module.exports = {
   HEALTH_TOOL_HEADINGS,
   HEALTH_TOOL_NAMES,
   HEALTH_TOOL_LINKS,
   HEALTH_TOOLS,
-  MHV_ACCOUNT_CARDS,
 };
