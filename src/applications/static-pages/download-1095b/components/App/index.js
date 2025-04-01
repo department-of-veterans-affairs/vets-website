@@ -25,6 +25,7 @@ import {
   downloadErrorComponent,
   errorTypes,
   notFoundComponent,
+  pdfHelp,
   systemErrorComponent,
   unavailableComponent,
 } from './utils';
@@ -200,14 +201,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           </div>
         </div>
       </va-card>
-      <p className="vads-u-margin-y--4">
-        If you’re having trouble viewing your IRS 1095-B tax form you may need
-        the latest version of Adobe Acrobat Reader. It’s free to download.{' '}
-        <va-link
-          href="https://get.adobe.com/reader"
-          text="Get Acrobat Reader for free from Adobe."
-        />
-      </p>
+      {pdfHelp}
     </>
   );
 
