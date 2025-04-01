@@ -1308,9 +1308,9 @@ jobs:
           path: qa-standards-dashboard-data/coverage
           merge-multiple: true
 
-      # - name: Merge all coverage reports
-      #   run: |
-      #     node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
+      - name: Merge all coverage reports
+        run: |
+          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
