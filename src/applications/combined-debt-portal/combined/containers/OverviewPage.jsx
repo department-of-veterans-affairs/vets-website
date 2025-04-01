@@ -57,28 +57,10 @@ const OverviewPage = () => {
     TOGGLE_NAMES.showOneVADebtLetter,
   );
 
-  // this is the old stuff
-  const downloadPDF = async () => {
-    // One VA Debt Letter Download url
-    const pdfDownloadUrl = `${
-      environment.API_URL
-    }/debts_api/v0/download_one_debt_letter_pdf`;
-
-    // let's tryy this for now
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.href = pdfDownloadUrl;
-    downloadAnchor.download = 'CombinedStatement.pdf';
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    document.body.removeChild(downloadAnchor);
-    URL.revokeObjectURL(pdfDownloadUrl);
-  };
-
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
-  // end old stuff
 
   // Mock copay data (unchanged)
   const mockCopayData = {
@@ -212,7 +194,16 @@ const OverviewPage = () => {
     date: getCurrentDate(),
     copays: mockCopayData,
     debts: mockDebtData,
+    vetData: 'vetdata here'
   };
+
+
+  // TODO
+  // Get redux data in place of mock data
+  // Get vet info dynamic
+  // Get legalese data in
+  // Handle empty debts/copays
+  // Handle errors
 
   const handleGeneratePdf = async () => {
     try {
@@ -221,7 +212,6 @@ const OverviewPage = () => {
         'one_debt_letter.pdf',
         pdfData,
       );
-      console.log('generatePdf Result:', result);
       alert('PDF generated successfully!');
     } catch (error) {
       console.error('Error generating PDF:', error);
