@@ -6,6 +6,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
+import * as focusUtils from '~/platform/utilities/ui/focus';
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 import {
   BEHAVIOR_CHANGES_HEALTH,
@@ -332,15 +333,10 @@ describe('BehaviorIntroCombatPage', () => {
         });
 
         describe('When the confirm button is clicked', () => {
-          it('closes the modal, deletes answered questions and checkboxes and advances to the next page', () => {
-            const setFormDataSpy = sinon.spy();
-            const goForwardSpy = sinon.spy();
-
+          it('closes the modal', () => {
             const { container } = render(
               page({
                 data: filledOutDataWithOptOut,
-                setFormData: setFormDataSpy,
-                goForward: goForwardSpy,
               }),
             );
 
@@ -350,6 +346,21 @@ describe('BehaviorIntroCombatPage', () => {
 
             modal.__events.primaryButtonClick();
             expect($('va-modal[visible="true"]', container)).not.to.exist;
+          });
+
+          it('deletes answered questions and checkboxes', () => {
+            const setFormDataSpy = sinon.spy();
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                setFormData: setFormDataSpy,
+              }),
+            );
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+            modal.__events.primaryButtonClick();
 
             expect(
               setFormDataSpy.calledWith({
@@ -360,21 +371,41 @@ describe('BehaviorIntroCombatPage', () => {
                 behaviorsDetails: {},
               }),
             );
-
-            expect(goForwardSpy.called).to.be.true;
           });
-        });
 
-        describe('When the cancel button is clicked', () => {
-          it('closes the modal, does not delete answered questons and does not advance to the next page', () => {
-            const setFormDataSpy = sinon.spy();
+          it('does not advance the page, displays a deletion confirmation and autofocuses on it', () => {
             const goForwardSpy = sinon.spy();
+            const focusElementSpy = sinon.spy(focusUtils, 'focusElement');
 
             const { container } = render(
               page({
                 data: filledOutDataWithOptOut,
-                setFormData: setFormDataSpy,
                 goForward: goForwardSpy,
+              }),
+            );
+
+            fireEvent.click($('button[type="submit"]', container));
+            // TODO: INCLUDE CORRECT ALERT CONFIRMAITON TEST
+
+            const modal = container.querySelector('va-modal');
+            modal.__events.primaryButtonClick();
+
+            expect(focusElementSpy.called).to.be.true;
+            expect(goForwardSpy.notCalled).to.be.true;
+          });
+        });
+
+        describe('deletion confirmation message', () => {
+          it('advances to the next page when the continue link is clicked', () => {
+            // TODO
+          });
+        });
+
+        describe('When the cancel button is clicked', () => {
+          it('closes the modal', () => {
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
               }),
             );
 
@@ -384,8 +415,45 @@ describe('BehaviorIntroCombatPage', () => {
 
             modal.__events.secondaryButtonClick();
             expect($('va-modal[visible="true"]', container)).not.to.exist;
+          });
+
+          it('does not delete answered questions and checkboxes', () => {
+            const setFormDataSpy = sinon.spy();
+
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                setFormData: setFormDataSpy,
+              }),
+            );
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+            modal.__events.secondaryButtonClick();
 
             expect(setFormDataSpy.notCalled).to.be.true;
+          });
+
+          it('does not display a deletion confirmation modal', () => {
+            // TODO
+          });
+
+          it('does not advance to the next page', () => {
+            const goForwardSpy = sinon.spy();
+
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                goForward: goForwardSpy,
+              }),
+            );
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+            modal.__events.secondaryButtonClick();
+
             expect(goForwardSpy.notCalled).to.be.true;
           });
         });
