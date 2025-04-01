@@ -76,34 +76,3 @@ export const renderProviderWrappedComponent = (storeData, component) => {
   const { mockStore } = setMockStoreData(storeData);
   return render(<Provider store={mockStore}>{component}</Provider>);
 };
-
-export const expectProviderWrappedComponentToRender = (
-  storeData,
-  component,
-) => {
-  const { container } = renderProviderWrappedComponent(storeData, component);
-  // eslint-disable-next-line no-unused-expressions
-  expect(container).to.not.be.empty;
-};
-
-export const expectProviderWrappedComponentToNotRender = (
-  storeData,
-  component,
-) => {
-  const { container } = renderProviderWrappedComponent(storeData, component);
-  // eslint-disable-next-line no-unused-expressions
-  expect(container).to.be.empty;
-};
-
-export const expectFinancialDescriptionComponentToRenderWithNonPrefillContent = (
-  storeData,
-  component,
-  content,
-) => {
-  const { container } = renderProviderWrappedComponent(storeData, component);
-  // eslint-disable-next-line no-unused-expressions
-  expect(container.querySelector('va-card')).to.exist;
-  expect(container.querySelector('va-card h4').textContent.trim()).to.equal(
-    `${content}`,
-  );
-};
