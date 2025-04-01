@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
@@ -126,28 +126,35 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
        * and requests lists, but needs confirmed to go back 30 days. Appointments
        * will be filtered out by date accordingly in our selectors
        */
+      const now = new Date();
+      const startDate = new Date(now);
+      startDate.setDate(startDate.getDate() - 30); // Subtract 30 days
+
+      const endDate = new Date(now);
+      endDate.setDate(endDate.getDate() + 395); // Add 395 days
+
       const promises = [
         fetchAppointments({
-          startDate: moment()
-            .subtract(30, 'days')
-            .format('YYYY-MM-DD'),
-          endDate: moment()
-            .add(395, 'days')
-            .format('YYYY-MM-DD'),
+          startDate: format(startDate, 'yyyy-MM-dd'), // Start 30 days in the past for canceled appointments
+          endDate: format(endDate, 'yyyy-MM-dd'),
           includeEPS,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
         }),
       ];
       if (includeRequests) {
+        const requestStartDate = new Date(now);
+        requestStartDate.setDate(requestStartDate.getDate() - 120); // Subtract 120 days
+
+        const requestEndDate = new Date(now);
+        if (featureVAOSServiceRequests) {
+          requestEndDate.setDate(requestEndDate.getDate() + 1); // Add 1 day
+        }
+
         promises.push(
           getAppointmentRequests({
-            startDate: moment()
-              .subtract(120, 'days')
-              .format('YYYY-MM-DD'),
-            endDate: moment()
-              .add(featureVAOSServiceRequests ? 1 : 0, 'days')
-              .format('YYYY-MM-DD'),
+            startDate: format(requestStartDate, 'yyyy-MM-dd'), // Start 120 days in the past for requests
+            endDate: format(requestEndDate, 'yyyy-MM-dd'), // End 1 day in the future for requests
             useV2: featureVAOSServiceRequests,
             includeEPS,
             useFeSourceOfTruth,
