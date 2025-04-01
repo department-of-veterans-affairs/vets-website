@@ -34,8 +34,8 @@ const App = props => {
     location,
     setFormData,
     user,
-    identityVerified,
     router,
+    identityVerified,
   } = props;
   const { veteranFullName } = formData;
   const { loading: isLoadingFeatures, isProdEnabled } = features;
@@ -45,14 +45,14 @@ const App = props => {
     loading: isLoadingProfile,
   } = user;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
+  const { isUserLOA3 } = useSelector(selectAuthStatus);
+  const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+
   // Route Guard selectors
   const isRouteGuardEnabled = useSelector(
     state => toggleValues(state)[FEATURE_FLAG_NAMES.ezrRouteGuardEnabled],
   );
   const profile = useSelector(selectProfile);
-  const { isUserLOA3 } = useSelector(selectAuthStatus);
-  const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
-  const message = location?.state?.message;
 
   // Route Guard checks
   useEffect(
@@ -61,18 +61,15 @@ const App = props => {
         return;
       }
 
-      // Check if user has preferred facility
-      if (identityVerified && !profile?.facilities?.length) {
-        router.push('/my-health/');
-        return;
-      }
-
-      // Check for required backend services
+      // Check if user has required services and facilities
       const hasRequiredServices = REQUIRED_BACKEND_SERVICES.every(service =>
         user.profile.services?.includes(service),
       );
 
-      if (identityVerified && !hasRequiredServices) {
+      if (
+        identityVerified &&
+        (!hasRequiredServices || !profile?.facilities?.length)
+      ) {
         router.push('/my-health/');
       }
     },
@@ -85,7 +82,6 @@ const App = props => {
     ],
   );
 
-  // Form data initialization
   useEffect(
     () => {
       if (isUserLOA3) {
@@ -93,7 +89,7 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isUserLOA3, fetchEnrollmentStatus],
+    [isUserLOA3],
   );
 
   /**
@@ -122,15 +118,7 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      isAppLoading,
-      canSubmitFinancialInfo,
-      veteranFullName,
-      veteranDateOfBirth,
-      veteranGender,
-      formData,
-      setFormData,
-    ],
+    [isAppLoading, canSubmitFinancialInfo, veteranFullName],
   );
 
   // Add Datadog UX monitoring to the application
@@ -147,18 +135,9 @@ const App = props => {
   }
 
   const appContent = (
-    <div>
-      {message && (
-        <div className="usa-alert usa-alert-warning">
-          <div className="usa-alert-body">
-            <p className="usa-alert-text">{message}</p>
-          </div>
-        </div>
-      )}
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
-    </div>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 
   return (
@@ -180,11 +159,11 @@ App.propTypes = {
   features: PropTypes.object,
   fetchEnrollmentStatus: PropTypes.func,
   formData: PropTypes.object,
-  identityVerified: PropTypes.bool,
   location: PropTypes.object,
-  router: PropTypes.object,
   setFormData: PropTypes.func,
   user: PropTypes.object,
+  router: PropTypes.object,
+  identityVerified: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

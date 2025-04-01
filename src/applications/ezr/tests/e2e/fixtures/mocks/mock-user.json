@@ -1,0 +1,166 @@
+{
+    "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+    "services": [
+    "facilities",
+    "hca",
+    "edu-benefits",
+    "evss-claims",
+    "user-profile",
+    "rx",
+    "messaging"
+    ],
+    "account": {
+    "accountUuid": "c049d895-ecdf-40a4-ac0f-7947a06ea0c2"
+    },
+    "profile": {
+    "email": "foo@example.com",
+    "firstName": "Eric",
+    "middleName": "Victor",
+    "lastName": "Bishop",
+    "suffix": "Sr.",
+    "birthDate": "1963-07-05",
+    "gender": "M",
+    "zip": "33611",
+    "lastSignedIn": "2020-07-21T00:04:51.589Z",
+    "loa": {
+    "current": 3,
+    "highest": 3
+    },
+    "multifactor": true,
+    "verified": true,
+    "signIn": {
+    "serviceName": "idme",
+    "accountType": "N/A",
+    "ssoe": true
+    },
+    "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+    "claims": {
+    "appeals": true
+    }
+    },
+    "vaProfile": {
+    "status": "OK",
+    "birthDate": "19630705",
+    "familyName": "Bishop",
+    "gender": "M",
+    "givenNames": [
+    "Eric",
+    "Victor"
+    ],
+    "isCernerPatient": false,
+    "facilities": [
+    {
+    "facilityId": "668QE",
+    "isCerner": false
+    }
+    ],
+    "vaPatient": true,
+    "mhvAccountState": "NONE"
+    },
+    "veteranStatus": {
+    "status": "OK",
+    "isVeteran": true,
+    "servedInMilitary": true
+    },
+    "inProgressForms": [],
+    "prefillsAvailable": [
+    "10-10EZR"
+    ],
+    "vet360ContactInformation": {
+    "email": {
+    "emailAddress": "foo@example.com"
+    },
+    "residentialAddress": {
+    "addressLine1": "4049 S Dale Mabry Hwy",
+    "addressLine2": null,
+    "addressLine3": null,
+    "addressPou": "CORRESPONDENCE",
+    "addressType": "DOMESTIC",
+    "city": "Tampa",
+    "countryName": "United States",
+    "countryCodeIso2": "US",
+    "countryCodeIso3": "USA",
+    "countryCodeFips": null,
+    "countyCode": null,
+    "countyName": null,
+    "createdAt": "2020-05-30T03:57:20.000+00:00",
+    "effectiveEndDate": null,
+    "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+    "id": 173917,
+    "internationalPostalCode": null,
+    "province": null,
+    "sourceDate": "2020-07-10T20:10:45.000+00:00",
+    "sourceSystemUser": null,
+    "stateCode": "FL",
+    "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+    "updatedAt": "2020-07-10T20:10:46.000+00:00",
+    "validationKey": null,
+    "vet360Id": "1273780",
+    "zipCode": "33611",
+    "zipCodeSuffix": null
+    },
+    "mailingAddress": {
+    "addressLine1": "4049 S Dale Mabry Hwy",
+    "addressLine2": null,
+    "addressLine3": null,
+    "addressPou": "CORRESPONDENCE",
+    "addressType": "DOMESTIC",
+    "city": "Tampa",
+    "countryName": "United States",
+    "countryCodeIso2": "US",
+    "countryCodeIso3": "USA",
+    "countryCodeFips": null,
+    "countyCode": null,
+    "countyName": null,
+    "createdAt": "2020-05-30T03:57:20.000+00:00",
+    "effectiveEndDate": null,
+    "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+    "id": 173917,
+    "internationalPostalCode": null,
+    "province": null,
+    "sourceDate": "2020-07-10T20:10:45.000+00:00",
+    "sourceSystemUser": null,
+    "stateCode": "FL",
+    "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+    "updatedAt": "2020-07-10T20:10:46.000+00:00",
+    "validationKey": null,
+    "vet360Id": "1273780",
+    "zipCode": "33611",
+    "zipCodeSuffix": null
+    },
+    "homePhone": {
+    "areaCode": "303",
+    "countryCode": "1",
+    "createdAt": "2020-06-12T16:56:37.000+00:00",
+    "extension": "2345",
+    "effectiveEndDate": null,
+    "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
+    "id": 146766,
+    "isInternational": false,
+    "isTextable": null,
+    "isTextPermitted": null,
+    "isTty": null,
+    "isVoicemailable": null,
+    "phoneNumber": "4441122",
+    "phoneType": "HOME",
+    "sourceDate": "2020-07-14T19:07:45.000+00:00",
+    "sourceSystemUser": null,
+    "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+    "updatedAt": "2020-07-14T19:07:46.000+00:00",
+    "vet360Id": "1273780"
+    },
+    "mobilePhone": null,
+    "workPhone": null,
+    "temporaryPhone": null,
+    "faxNumber": null,
+    "textPermission": null
+    }
+    }
+    },
+    "meta": {
+    "errors": null
+    }
+}
