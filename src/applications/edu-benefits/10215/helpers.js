@@ -34,13 +34,13 @@ export const childContent = (downloadLink, goBack) => (
           <p>{downloadLink}</p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Upload the form to the VA education portal">
+      <va-process-list-item header="Upload the form to the Education File Upload Portal">
         <div itemProp="itemListElement">
           <p>
             Visit the&nbsp;
             <va-link
               external
-              text="VA Education File Upload Portal"
+              text="Education File Upload Portal"
               href="https://www.my.va.gov/EducationFileUploads/s/"
             />
             , and upload your saved VA Form 22-10215.

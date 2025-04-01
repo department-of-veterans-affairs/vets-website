@@ -42,6 +42,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         <TravelReimbursementSection appointment={appointment} />,
       );
 
+      expect(screen.getByText(/Days left to file: 1/i));
       expect(screen.getByTestId('file-claim-link')).to.exist;
     });
   });
@@ -66,11 +67,36 @@ describe('VAOS Component: TravelReimbursement', () => {
       <TravelReimbursementSection appointment={appointment} />,
     );
 
+    expect(screen.getByText(/Days left to file: 1/i));
     expect(screen.getByTestId('file-claim-link')).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
       `/my-health/travel-pay/file-new-claim/${appointment.id}`,
     );
+  });
+  it('should display travel reimbursement section with how to file a claim link', async () => {
+    // appointment is past the 30 day window
+    const appointment = {
+      start: '2021-08-31T10:00:00Z',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'No claims found.',
+              success: true,
+            },
+          },
+        },
+        isPastAppointment: true,
+      },
+    };
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
+
+    expect(screen.getByText(/Days left to file: 0/i));
+    expect(screen.getByTestId('how-to-file-claim-link')).to.exist;
   });
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {

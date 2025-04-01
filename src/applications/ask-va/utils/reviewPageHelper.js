@@ -250,6 +250,12 @@ export const pagesToMoveConfig = {
     'yourVRECounselor_generalquestion',
   ],
   schoolInformation: [
+    'searchSchools_aboutmyselfrelationshipveteran',
+    'useThisSchool_aboutmyselfrelationshipveteran',
+    'schoolInYourProfile_aboutmyselfrelationshipveteran',
+    'searchSchools_aboutmyselfrelationshipfamilymember',
+    'useThisSchool_aboutmyselfrelationshipfamilymember',
+    'schoolInYourProfile_aboutmyselfrelationshipfamilymember',
     'searchSchools_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'schoolInYourProfile_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'stateOfFacility_aboutsomeoneelserelationshipconnectedthroughworkeducation',

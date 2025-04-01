@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
@@ -18,6 +19,11 @@ export default function AppointmentTasksSection({ appointment }) {
   )
     return null;
 
+  const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
+    appointment.start,
+  );
+  if (daysRemainingToFileClaim < 1) return null;
+
   return (
     <Section heading="Appointment tasks">
       <va-link-action
@@ -26,6 +32,9 @@ export default function AppointmentTasksSection({ appointment }) {
         href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
         text="File a travel reimbursement claim"
       />
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-margin-left--4">
+        Days left to file: {daysRemainingToFileClaim}
+      </p>
     </Section>
   );
 }
