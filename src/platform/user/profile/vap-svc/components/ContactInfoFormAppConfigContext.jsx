@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/exportsFile';
 import { getCountryObjectFromIso3 } from 'platform/forms/address/helpers';
+import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+import { FIELD_NAMES } from '../constants';
 
 /**
  * This context, provider, and hook is used to pass configuration from a form schema object to a set of consuming components.
@@ -19,7 +21,8 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
   const wrapperKey = value?.keys?.wrapper;
 
   const formData = useSelector(state => state?.form?.data);
-
+  const formId = useSelector(state => state?.form?.formId);
+  const version = useSelector(state => state?.form?.version);
   const dispatch = useDispatch();
 
   const updateContactInfoForFormApp = useCallback(
@@ -29,32 +32,75 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
       const existingUpdatedAt =
         formData?.[wrapperKey][value.formKey]?.updatedAt;
 
-      // if we don't get a country name then the ContactInfo page will show
-      // an alert that says that the user has no address
-      const countryName = getCountryObjectFromIso3(payload.countryCodeIso3)
-        ?.countryName;
+      let updatedFormAppData;
 
-      const updatedFormAppData = {
-        ...formData,
-        [wrapperKey]: {
-          ...formData[wrapperKey],
-          [value.formKey]: {
-            ...payload,
-            updateProfileChoice,
-            updatedAt: existingUpdatedAt,
-            countryName,
+      if (fieldName === FIELD_NAMES.MAILING_ADDRESS) {
+        // if we don't get a country name then the ContactInfo page will show
+        // an alert that says that the user has no address
+        const countryName = getCountryObjectFromIso3(payload.countryCodeIso3)
+          ?.countryName;
+
+        updatedFormAppData = {
+          ...formData,
+          [wrapperKey]: {
+            ...formData[wrapperKey],
+            [value.formKey]: {
+              ...payload,
+              updateProfileChoice,
+              updatedAt: existingUpdatedAt,
+              countryName,
+            },
           },
-        },
-      };
+        };
+      } else if (
+        [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(fieldName)
+      ) {
+        // Handle phone number updates
+        updatedFormAppData = {
+          ...formData,
+          [wrapperKey]: {
+            ...formData[wrapperKey],
+            [value.formKey]: {
+              ...formData[wrapperKey][value.formKey],
+              [fieldName]: {
+                ...payload,
+                updateProfileChoice,
+                updatedAt: existingUpdatedAt,
+              },
+            },
+          },
+        };
+      } else if (fieldName === FIELD_NAMES.EMAIL) {
+        // Handle email updates
+        updatedFormAppData = {
+          ...formData,
+          [wrapperKey]: {
+            ...formData[wrapperKey],
+            [value.formKey]: {
+              ...formData[wrapperKey][value.formKey],
+              emailAddress: payload.emailAddress,
+              updateProfileChoice,
+              updatedAt: existingUpdatedAt,
+            },
+          },
+        };
+      }
 
+      // Save to in_progress_forms endpoint using autoSaveForm
+      const returnUrl = value?.returnPath;
+
+      // Save the form data first
       dispatch(setData(updatedFormAppData));
+
+      // Then save to in-progress forms endpoint
+      dispatch(autoSaveForm(formId, updatedFormAppData, version, returnUrl));
 
       return {
         ...formFieldData,
         [fieldName]: payload,
       };
     },
-    [formData, dispatch, formFieldData, wrapperKey, value.formKey],
+    [value, formData, wrapperKey, dispatch, formId, version, formFieldData],
   );
 
   const contextValue = {
@@ -83,5 +129,7 @@ ContactInfoFormAppConfigProvider.propTypes = {
   value: PropTypes.shape({
     keys: PropTypes.object.isRequired,
     formKey: PropTypes.string.isRequired,
+    formId: PropTypes.string,
+    returnPath: PropTypes.string,
   }).isRequired,
 };

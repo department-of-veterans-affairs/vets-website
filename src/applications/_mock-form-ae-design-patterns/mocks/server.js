@@ -101,6 +101,11 @@ const responses = {
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'PUT /v0/profile/telephones': (req, res) => {
+    const shouldError = true;
+    if (shouldError) {
+      return res.status(500).json(genericErrors.error500);
+    }
+
     return res.json(
       updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
     );
@@ -120,6 +125,11 @@ const responses = {
       .json(updateMemDb(req, emailAddress.transactions.received));
   },
   'PUT /v0/profile/email_addresses': (req, res) => {
+    const shouldError = true;
+    if (shouldError) {
+      return res.status(500).json(genericErrors.error500);
+    }
+
     return res
       .status(200)
       .json(updateMemDb(req, emailAddress.transactions.received));

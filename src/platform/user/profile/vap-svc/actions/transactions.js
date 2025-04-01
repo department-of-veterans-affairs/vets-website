@@ -250,6 +250,20 @@ export function createTransaction(
       // Check if it's a 500 error
       if (error.status === 500) {
         // Instead of dispatching failure, dispatch a special action
+        // dispatch({
+        //   type: VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
+        //   fieldName,
+        //   transaction: {
+        //     data: {
+        //       attributes: {
+        //         transactionId: 'form-only-update',
+        //         transactionStatus: 'COMPLETED_SUCCESS',
+        //       },
+        //     },
+        //   },
+        // });
+        // // Return special flag to indicate form-only update should proceed
+        // return { formOnlyUpdate: true };
         dispatch({
           type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
           fieldName,
@@ -387,6 +401,12 @@ export const validateAddress = (
     if (onlyValidate) {
       return {
         onlyValidate,
+        formOnlyUpdate: true,
+        data: {
+          attributes: {
+            transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
+          },
+        },
       };
     }
 

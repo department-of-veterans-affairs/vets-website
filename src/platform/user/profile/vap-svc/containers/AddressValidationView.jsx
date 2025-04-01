@@ -36,7 +36,7 @@ class AddressValidationView extends React.Component {
   // the updateProfileChoice in the vapService.formFields state
   updateProfileChoice =
     this.context?.fieldName &&
-    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
+    this.props.vapServiceFormFields[this.context?.fieldName]?.value
       ?.updateProfileChoice;
 
   componentDidMount() {
@@ -171,25 +171,6 @@ class AddressValidationView extends React.Component {
     }
   };
 
-  //   if (suggestedAddressSelected) {
-  //     this.props.updateValidationKeyAndSave(
-  //       VAP_SERVICE.API_ROUTES.ADDRESSES,
-  //       method,
-  //       addressValidationType,
-  //       payload,
-  //       analyticsSectionName,
-  //     );
-  //   } else {
-  //     this.props.createTransaction(
-  //       VAP_SERVICE.API_ROUTES.ADDRESSES,
-  //       method,
-  //       addressValidationType,
-  //       payload,
-  //       analyticsSectionName,
-  //     );
-  //   }
-  // };
-
   onEditClick = () => {
     const {
       addressValidationType,
@@ -285,17 +266,16 @@ class AddressValidationView extends React.Component {
 
     return (
       <div key={id} className="address-validation-container">
-        {isFirstOptionOrEnabled &&
-          hasConfirmedSuggestions && (
-            <input
-              type="radio"
-              id={id}
-              onChange={() => {
-                this.onChangeSelectedAddress(address, id);
-              }}
-              checked={selectedAddressId === id}
-            />
-          )}
+        {isFirstOptionOrEnabled && hasConfirmedSuggestions && (
+          <input
+            type="radio"
+            id={id}
+            onChange={() => {
+              this.onChangeSelectedAddress(address, id);
+            }}
+            checked={selectedAddressId === id}
+          />
+        )}
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
           htmlFor={id}
