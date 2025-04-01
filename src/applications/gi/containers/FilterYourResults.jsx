@@ -488,7 +488,7 @@ export function FilterYourResults({
     'vads-u-padding--0',
   );
   return (
-    <div className="filter-your-results vads-u-margin-bottom--2">
+    <>
       {!smallScreen && (
         <SearchAccordion
           button={title}
@@ -536,7 +536,7 @@ export function FilterYourResults({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
