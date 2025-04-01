@@ -11,6 +11,7 @@ import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import profileContactInfo from '../../_mock-form-ae-design-patterns/patterns/pattern1/TaskPurple/config/profileContactInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,6 +56,18 @@ const formConfig = {
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
+        ...profileContactInfo({
+          contactPath: 'applicant-contact-information',
+          included: ['email', 'mobilePhone'],
+        }),
+        // applicantContactInformation: {
+        //   path: 'applicant-contact-information',
+        //   title: 'Applicant contact information',
+        //   customPage: ContactInfo,
+        //   customReviewPage: ContactInfoReview,
+        //   uiSchema: applicantContactInformation.uiSchema,
+        //   schema: applicantContactInformation.schema,
+        // },
       },
     },
     veteranInformation: {
