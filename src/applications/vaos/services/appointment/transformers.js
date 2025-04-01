@@ -52,19 +52,20 @@ export function getAppointmentType(
     }
   }
 
-  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.request;
-  }
-
-  // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-  // eslint-disable-next-line sonarjs/no-collapsible-if
   if (useFeSourceOfTruthVA) {
     if (appt?.type === 'VA') {
       return APPOINTMENT_TYPES.vaAppointment;
     }
+
+    if (appt?.type === 'REQUEST') return APPOINTMENT_TYPES.request;
+
     // We must return a value for the function, but this is technically only possible when the type is invalid.
     // We can potentially throw an error here but that's rather unusual in our codebase.
     return appt?.type;
+  }
+
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
