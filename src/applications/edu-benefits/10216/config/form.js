@@ -33,7 +33,7 @@ export const subTitle = () => (
 );
 
 export const submitFormLogic = (form, formConfig) => {
-  if (environment.isDev()) {
+  if (environment.isDev() || environment.isLocalhost()) {
     return Promise.resolve(testData);
   }
   return submitForm(form, formConfig);
@@ -61,6 +61,7 @@ const formConfig = {
   },
   customText: {
     reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   version: 0,
   prefillEnabled: true,
