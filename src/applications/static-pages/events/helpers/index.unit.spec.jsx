@@ -18,20 +18,24 @@ import {
 import { createEvent } from './event-generator';
 
 describe('deriveDefaultSelectedOption', () => {
-  const oldLocation = global.window.location;
+  const oldLocation = global.window.location.href;
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    global.window.location.href = oldLocation;
   });
 
   it('should take the queryParams from the window if they exist and return the correct filter', () => {
-    global.window.location = { search: '?selectedOption=specific-date' };
+    global.window.location = new URL(
+      'http://localhost:3001/outreach-and-events/events?selectedOption=specific-date',
+    );
 
     expect(deriveDefaultSelectedOption()).to.deep.eq(filterByOptions[1]);
   });
 
   it('should take the queryParams from the window if they exist and return the correct filter', () => {
-    global.window.location = { search: '' };
+    global.window.location = new URL(
+      'http://localhost:3001/outreach-and-events/events',
+    );
 
     expect(deriveDefaultSelectedOption()).to.deep.eq(filterByOptions[0]);
   });

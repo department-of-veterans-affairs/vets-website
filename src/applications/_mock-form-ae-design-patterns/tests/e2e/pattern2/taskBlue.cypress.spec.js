@@ -164,16 +164,15 @@ describe('Prefill pattern - Blue Task', () => {
     cy.get('@addressInput').clear();
     cy.get('@addressInput').type('345 Mailing Address St.');
 
+    cy.findByLabelText('Yes, also update my profile').click();
+
     cy.findByTestId('save-edit-button').click();
 
     cy.wait('@mockUserUpdated'); // Make sure this intercept matches the actual API call.
 
     // redirect to previous page and show save alert
     cy.url().should('contain', '/veteran-information');
-    cy.findByText('We’ve updated your contact information.').should('exist');
-    cy.findByText(
-      'We’ve made these changes to this form and your VA.gov profile.',
-    ).should('exist');
+    cy.findByText('Mailing address updated').should('exist');
     cy.findByText('Mailing address').should('exist');
     cy.get('div[data-dd-action-name="street"]').should(
       'have.text',
