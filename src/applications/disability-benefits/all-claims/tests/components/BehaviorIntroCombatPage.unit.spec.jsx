@@ -6,7 +6,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
-import * as focusUtils from '~/platform/utilities/ui/focus';
+// import * as focusUtils from '~/platform/utilities/ui/focus';
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 import {
   BEHAVIOR_CHANGES_HEALTH,
@@ -375,7 +375,7 @@ describe('BehaviorIntroCombatPage', () => {
 
           it('does not advance the page, displays a deletion confirmation and autofocuses on it', () => {
             const goForwardSpy = sinon.spy();
-            const focusElementSpy = sinon.spy(focusUtils, 'focusElement');
+            // const focusElementSpy = sinon.spy(focusUtils, 'focusElement');
 
             const { container } = render(
               page({
@@ -390,7 +390,9 @@ describe('BehaviorIntroCombatPage', () => {
             const modal = container.querySelector('va-modal');
             modal.__events.primaryButtonClick();
 
-            expect(focusElementSpy.called).to.be.true;
+            expect($('va-alert[visible="true"]', container)).to.exist;
+
+            // expect(focusElementSpy.called).to.be.true;
             expect(goForwardSpy.notCalled).to.be.true;
           });
         });

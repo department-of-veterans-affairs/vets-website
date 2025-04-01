@@ -1,8 +1,9 @@
 import {
+  VaAlert,
   VaModal,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
@@ -61,7 +62,24 @@ const BehaviorIntroCombatPage = ({
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [
+    showDeletedAnswerConfirmation,
+    setShowDeletedAnswerConfirmation,
+  ] = useState(false);
 
+  const deletedAnswerConfirmationRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (
+        showDeletedAnswerConfirmation &&
+        deletedAnswerConfirmationRef.current
+      ) {
+        deletedAnswerConfirmationRef.current.focus();
+      }
+    },
+    [showDeletedAnswerConfirmation],
+  );
   const missingSelection = (error, _fieldData, formData) => {
     if (!formData?.['view:answerCombatBehaviorQuestions']) {
       error.addError?.(missingSelectionErrorMessage);
@@ -118,15 +136,55 @@ const BehaviorIntroCombatPage = ({
     onConfirmDeleteBehavioralAnswers: () => {
       deleteBehavioralAnswers();
       handlers.onCloseModal();
-      goForward(data);
+      setShowDeletedAnswerConfirmation(true);
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
+    },
+    onCloseDeletedAnswersAlert: () => {
+      setShowDeletedAnswerConfirmation(false);
+    },
+    onClickConfirmationLink: () => {
+      goForward(data);
     },
   };
 
   return (
     <div className="vads-u-margin-y--2">
+      <div className="vads-u-margin-bottom--1">
+        <VaAlert
+          ref={deletedAnswerConfirmationRef}
+          closeBtnAriaLabel="Close notification"
+          closeable
+          onCloseEvent={handlers.onCloseDeletedAnswersAlert}
+          fullWidth="false"
+          slim
+          status="success"
+          visible={showDeletedAnswerConfirmation}
+          uswds
+          tabIndex="-1"
+        >
+          <p className="vads-u-margin-y--0">
+            We’ve removed information about your behavioral changes
+          </p>
+          <p>
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={() => goForward(data)}
+            >
+              Click here
+            </button>{' '}
+            to proceed with your claim.
+          </p>
+
+          <p>
+            If you change your mind, you can opt back in at any time before
+            you submit your claim
+          </p>
+        </VaAlert>
+      </div>
+
       {titleWithTag(behaviorPageTitle, form0781HeadingTag)}
 
       <p>{combatIntroDescription}</p>
