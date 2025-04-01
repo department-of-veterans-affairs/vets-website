@@ -151,41 +151,30 @@ export const ProfileInformationEditViewFc = ({
 
   const contactInfoFormAppConfig = useContactInfoFormAppConfig();
 
-  const isPendingTransactionMemo = useMemo(
-    () => {
-      return isPendingTransaction(transaction);
-    },
-    [transaction],
-  );
+  const isPendingTransactionMemo = useMemo(() => {
+    return isPendingTransaction(transaction);
+  }, [transaction]);
 
-  const focusOnFirstFormElement = useCallback(
-    () => {
-      if (forceEditView) {
-        // Showing the edit view on its own page, so let the app handle focus
-        return;
-      }
+  const focusOnFirstFormElement = useCallback(() => {
+    if (forceEditView) {
+      // Showing the edit view on its own page, so let the app handle focus
+      return;
+    }
 
-      if (editFormRef.current) {
-        setTimeout(() => {
-          const focusableElement = getFocusableElements(
-            editFormRef.current,
-          )?.[0];
+    if (editFormRef.current) {
+      setTimeout(() => {
+        const focusableElement = getFocusableElements(editFormRef.current)?.[0];
 
-          if (focusableElement) {
-            focusElement(focusableElement);
-          }
-        }, 100);
-      }
-    },
-    [forceEditView],
-  );
+        if (focusableElement) {
+          focusElement(focusableElement);
+        }
+      }, 100);
+    }
+  }, [forceEditView]);
 
-  const handleRefreshTransaction = useCallback(
-    () => {
-      refreshTransactionAction(transaction, analyticsSectionName);
-    },
-    [transaction, analyticsSectionName, refreshTransactionAction],
-  );
+  const handleRefreshTransaction = useCallback(() => {
+    refreshTransactionAction(transaction, analyticsSectionName);
+  }, [transaction, analyticsSectionName, refreshTransactionAction]);
 
   // Component mount effects
   useEffect(() => {
@@ -223,54 +212,45 @@ export const ProfileInformationEditViewFc = ({
   }, []);
 
   // ComponentDidUpdate for field changes
-  useEffect(
-    () => {
-      if (field) {
-        focusOnFirstFormElement();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [field, focusOnFirstFormElement],
-  );
+  useEffect(() => {
+    if (field) {
+      focusOnFirstFormElement();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field, focusOnFirstFormElement]);
 
   // ComponentDidUpdate for error handling
-  useEffect(
-    () => {
-      if (transactionRequest?.error || isFailedTransaction(transaction)) {
-        focusElement('button[aria-label="Close notification"]');
-      }
-    },
-    [transactionRequest, transaction],
-  );
+  useEffect(() => {
+    if (transactionRequest?.error || isFailedTransaction(transaction)) {
+      focusElement('button[aria-label="Close notification"]');
+    }
+  }, [transactionRequest, transaction]);
 
   // ComponentDidUpdate for transaction polling
-  useEffect(
-    () => {
-      // If transaction just became pending, start calling refreshTransaction on an interval
-      if (isPendingTransactionMemo && !intervalId) {
-        const newIntervalId = window.setInterval(
-          () => handleRefreshTransaction(),
-          window.VetsGov.pollTimeout || 1000,
-        );
-        setIntervalId(newIntervalId);
-      }
+  useEffect(() => {
+    // If transaction just became pending, start calling refreshTransaction on an interval
+    if (isPendingTransactionMemo && !intervalId) {
+      const newIntervalId = window.setInterval(
+        () => handleRefreshTransaction(),
+        window.VetsGov.pollTimeout || 1000,
+      );
+      setIntervalId(newIntervalId);
+    }
 
-      // If we had an interval but transaction is no longer pending, clean it up
-      if (intervalId && !isPendingTransactionMemo) {
+    // If we had an interval but transaction is no longer pending, clean it up
+    if (intervalId && !isPendingTransactionMemo) {
+      window.clearInterval(intervalId);
+      setIntervalId(null);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (intervalId) {
         window.clearInterval(intervalId);
         setIntervalId(null);
       }
-
-      // Cleanup on unmount
-      return () => {
-        if (intervalId) {
-          window.clearInterval(intervalId);
-          setIntervalId(null);
-        }
-      };
-    },
-    [isPendingTransactionMemo, intervalId, handleRefreshTransaction],
-  );
+    };
+  }, [isPendingTransactionMemo, intervalId, handleRefreshTransaction]);
 
   // ComponentWillUnmount
   useEffect(() => {
@@ -378,64 +358,6 @@ export const ProfileInformationEditViewFc = ({
     }
 
     const method = payload?.id ? 'PUT' : 'POST';
-
-    // if (isAddressField) {
-    //   try {
-    //     const validationResult = await validateAddressAction(
-    //       apiRoute,
-    //       method,
-    //       fieldName,
-    //       payload,
-    //       analyticsSectionName,
-    //       onlyValidate,
-    //     );
-
-    //     // Handle original "no" choice
-    //     if (validationResult?.onlyValidate) {
-    //       contactInfoFormAppConfig.updateContactInfoForFormApp(
-    //         fieldName,
-    //         payload,
-    //         field.value?.updateProfileChoice,
-    //       );
-    //       successCallback();
-    //       clearTransactionRequestAction(fieldName);
-    //       openModal();
-    //       return;
-    //     }
-
-    //     // If we get here, they chose "yes" and validation succeeded
-    //     // The profile update will happen automatically through validateAddressAction
-    //   } catch (error) {
-    //     // If there's a 500 error and they originally chose "yes",
-    //     // fall back to form-only update
-    //     if (error?.status === 500 && !onlyValidate) {
-
-    //       contactInfoFormAppConfig.updateContactInfoForFormApp(
-    //         fieldName,
-    //         payload,
-    //         'no', // Force form-only update
-    //       );
-
-    //       updateFormFieldWithSchemaAction(
-    //         fieldName,
-    //         payload,
-    //         field.formSchema,
-    //         field.uiSchema,
-    //       );
-
-    //       successCallback();
-    //       clearTransactionRequestAction(fieldName);
-    //       openModal();
-
-    //       return;
-
-    //       // Optionally show an alert to user that profile update failed
-    //       // but form was updated
-    //     }
-    //     throw error;
-    //   }
-    //   return;
-    // }
 
     if (isAddressField) {
       const validationResult = await validateAddressAction(

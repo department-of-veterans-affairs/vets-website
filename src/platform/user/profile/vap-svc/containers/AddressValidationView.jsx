@@ -40,7 +40,7 @@ class AddressValidationView extends React.Component {
   // the updateProfileChoice in the vapService.formFields state
   updateProfileChoice =
     this.context?.fieldName &&
-    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
+    this.props.vapServiceFormFields[this.context?.fieldName]?.value
       ?.updateProfileChoice;
 
   componentDidMount() {
@@ -174,25 +174,6 @@ class AddressValidationView extends React.Component {
       this.props.openModal();
     }
   };
-
-  //   if (suggestedAddressSelected) {
-  //     this.props.updateValidationKeyAndSave(
-  //       VAP_SERVICE.API_ROUTES.ADDRESSES,
-  //       method,
-  //       addressValidationType,
-  //       payload,
-  //       analyticsSectionName,
-  //     );
-  //   } else {
-  //     this.props.createTransaction(
-  //       VAP_SERVICE.API_ROUTES.ADDRESSES,
-  //       method,
-  //       addressValidationType,
-  //       payload,
-  //       analyticsSectionName,
-  //     );
-  //   }
-  // };
 
   onEditClick = () => {
     const {
