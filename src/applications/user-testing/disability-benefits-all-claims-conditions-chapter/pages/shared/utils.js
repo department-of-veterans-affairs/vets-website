@@ -47,14 +47,8 @@ const isRatedDisabilityConditionTypeRadio = (formData, index) => {
   return formData?.['view:conditionType'] === 'RATED';
 };
 
-export const NEW_CONDITION_OPTIONS = {
-  ADD: 'Add a new condition',
-  EDIT: 'Edit new condition',
-  CHANGE: 'Change to new condition',
-};
-
 const isNewConditionOption = ratedDisability =>
-  Object.values(NEW_CONDITION_OPTIONS).includes(ratedDisability);
+  ratedDisability === 'New condition';
 
 const isNewConditionRatedOrNewNextPage = (formData, index) => {
   if (formData?.[arrayPath]) {

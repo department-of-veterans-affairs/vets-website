@@ -9,26 +9,9 @@ import {
   arrayBuilderOptions,
   createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
-  isEdit,
-  isNewCondition,
-  isRatedDisability,
-  NEW_CONDITION_OPTIONS,
 } from '../shared/utils';
 
-const createNewConditionOption = (fullData, index) => {
-  let label;
-
-  if (isEdit() && isNewCondition(fullData, index)) {
-    label = NEW_CONDITION_OPTIONS.EDIT;
-  } else if (isEdit() && isRatedDisability(fullData, index)) {
-    label = NEW_CONDITION_OPTIONS.CHANGE;
-  } else {
-    label = NEW_CONDITION_OPTIONS.ADD;
-  }
-  return { [label]: label };
-};
-
-const createRatedDisabilitiesSchema = (fullData, index) => {
+const createRatedDisabilitiesSchema = fullData => {
   const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
     fullData,
   );
@@ -36,7 +19,7 @@ const createRatedDisabilitiesSchema = (fullData, index) => {
   return (
     {
       ...nonSelectedRatedDisabilities,
-      ...createNewConditionOption(fullData, index),
+      'New condition': 'New condition',
     } || {}
   );
 };
@@ -82,7 +65,7 @@ const conditionPage = {
       },
       updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
         return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData, index)),
+          Object.keys(createRatedDisabilitiesSchema(fullData)),
         );
       },
     }),
