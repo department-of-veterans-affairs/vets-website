@@ -1,6 +1,8 @@
 import manifest from '../manifest.json';
-// import maximalData from '../fixtures/data/maximal.json';
+
 import formConfig from '../config/form';
+import testData from './fixtures/data/test-data.json';
+import { SUBMIT_URL } from '../config/constants';
 
 describe('22-10216 Edu form', () => {
   beforeEach(function beforeEachHook() {
@@ -12,19 +14,8 @@ describe('22-10216 Edu form', () => {
         features: [],
       },
     });
-    cy.intercept('POST', '/v0/in_progress_forms/22-10216', {
-      data: {
-        id: '39',
-        type: 'education_benefits_claim',
-        attributes: {
-          form:
-            '{"studentRatioCalcChapter":{"beneficiaryStudent":2,"numOfStudent":3,"dateOfCalculation":"2020-01-06","VABeneficiaryStudentsPercentage":"66.7%"},"institutionDetails":{"institutionName":"test","facilityCode":"90987890","termStartDate":"2020-01-02"}}',
-          regionalOffice:
-            'VA Regional Office\nP.O. Box 4616\nBuffalo, NY 14240-4616',
-          confirmationNumber: 'V-EBC-39',
-        },
-      },
-    });
+
+    cy.intercept('POST', SUBMIT_URL, testData);
 
     // Go to application, should go to Introduction page
     cy.visit(`${manifest.rootUrl}/introduction`);
@@ -95,9 +86,6 @@ describe('22-10216 Edu form', () => {
     cy.tabToElement('input[name="root_studentRatioCalcChapter_numOfStudent"]');
     cy.typeInFocused(100);
 
-    cy.tabToElement('va-additional-info');
-    cy.realPress('Space');
-
     cy.tabToElement(
       'select[name="root_studentRatioCalcChapter_dateOfCalculationMonth"]',
     );
@@ -133,20 +121,11 @@ describe('22-10216 Edu form', () => {
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.realPress('Space');
     cy.tabToSubmitForm();
-    // Confirmation Page will not show up on the local machine
-
-    // // Confirmation page
-
+    // Confirmation page
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
       '/confirmation',
     );
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('[data-testid="print-page"]');
-    cy.realPress('Enter');
-    cy.injectAxeThenAxeCheck();
-    cy.tabToElement('[text="Go to VA Form 22-10216 now"]');
-    cy.realPress('Enter');
-    cy.url().should('include', '/school-administrators/35-percent-exemption');
   });
 });

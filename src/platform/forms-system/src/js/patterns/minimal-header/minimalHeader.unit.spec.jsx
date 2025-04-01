@@ -1,41 +1,43 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { afterEach } from 'mocha';
+import { cleanup } from '@testing-library/react';
 import { isMinimalHeaderApp, isMinimalHeaderPath } from '.';
 
 describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
+  let minimalHeader;
+
   afterEach(() => {
-    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
-    sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
+    }
+    cleanup();
   });
 
-  it('sessionStorage should not be populated with minimal header values - this indicates a test sessionStorage leak', () => {
-    const minimalHeaderValue = sessionStorage.getItem(
-      'MINIMAL_HEADER_APPLICABLE',
-    );
-    const minimalHeaderExcludePathsValue = sessionStorage.getItem(
-      'MINIMAL_HEADER_EXCLUDE_PATHS',
-    );
-
-    expect(minimalHeaderValue).to.eql(null);
-    expect(minimalHeaderExcludePathsValue).to.eql(null);
-  });
-
-  it('should return a boolean if minimal header is applicable', () => {
-    expect(isMinimalHeaderApp()).to.eql(false);
-    expect(isMinimalHeaderPath()).to.eql(false);
-    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+  it('should return a boolean true if minimal header is applicable', () => {
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
     expect(isMinimalHeaderApp()).to.eql(true);
     expect(isMinimalHeaderPath()).to.eql(true);
   });
 
+  it('should return a boolean false by default if no minimal header minimalHeader', () => {
+    expect(isMinimalHeaderApp()).to.eql(false);
+    expect(isMinimalHeaderPath()).to.eql(false);
+  });
+
   it('should not be applicable on excluded paths', () => {
     const locationStub = sinon.stub(window, 'location');
-    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
-    sessionStorage.setItem(
-      'MINIMAL_HEADER_EXCLUDE_PATHS',
+
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
       '["/introduction","/confirmation"]',
     );
+    document.body.appendChild(minimalHeader);
 
     locationStub.value({
       pathname: '/introduction',

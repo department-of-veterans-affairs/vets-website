@@ -200,9 +200,9 @@ export default function LicenseCertificationSearchResults() {
 
   const handleGoToDetails = (e, id, name) => {
     e.preventDefault();
-    history.push(
-      `/licenses-certifications-and-prep-courses/results/${id}/${name}`,
-    );
+
+    const routerPath = `/licenses-certifications-and-prep-courses/results/${id}/${name}`;
+    history.push(routerPath);
   };
 
   const handleGoHome = e => {
@@ -415,9 +415,9 @@ export default function LicenseCertificationSearchResults() {
                                 </p>
                               )}
                               <va-link
-                                href={`/licenses-certifications-and-prep-courses/results/${
+                                href={`/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
                                   result.enrichedId
-                                }`}
+                                }/${result.lacNm}`}
                                 text={`View test amount details for ${
                                   result.lacNm
                                 }`}

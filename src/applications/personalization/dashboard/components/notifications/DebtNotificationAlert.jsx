@@ -33,6 +33,7 @@ export const DebtNotificationAlert = ({
           show-icon
           className="vads-u-margin-top--0"
           onCloseEvent={() => dismissNotification(notification.id)}
+          closeBtnAriaLabel="Close notification"
           closeable
         >
           <div className="vads-u-margin-top--0">

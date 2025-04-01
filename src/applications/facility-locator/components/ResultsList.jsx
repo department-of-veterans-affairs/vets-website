@@ -7,7 +7,7 @@ import { facilityTypes } from '../config';
 import { Error } from '../constants';
 import { recordSearchResultsEvents } from '../utils/analytics';
 import { ResultMapper } from './search-results-items/common/ResultMapper';
-import { updateSearchQuery, searchWithBounds } from '../actions';
+import { updateSearchQuery, searchWithBounds } from '../actions/search';
 import SearchResultMessage from './SearchResultMessage';
 
 export const ResultsList = ({
