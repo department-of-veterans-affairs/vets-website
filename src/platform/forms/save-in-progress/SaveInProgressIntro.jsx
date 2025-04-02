@@ -179,7 +179,7 @@ class SaveInProgressIntro extends React.Component {
       } else {
         alert = (
           <div>
-            <va-alert status="info" uswds visible>
+            <va-alert status="info" uswds visible slim>
               <div className="usa-alert-body">
                 You can save this {appType} in progress, and come back later to
                 finish filling it out.

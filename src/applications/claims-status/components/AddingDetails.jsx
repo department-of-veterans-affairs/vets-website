@@ -9,6 +9,7 @@ function AddingDetails() {
       slim
       status="info"
       visible="true"
+      data-test-id="adding-details"
     >
       <p className="vads-u-margin-y--0">
         We can't show all of the details of your claim. Please check back later.

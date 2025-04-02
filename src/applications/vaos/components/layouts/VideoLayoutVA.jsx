@@ -47,9 +47,9 @@ export default function VideoLayoutVA({ data: appointment }) {
 
   let heading = 'Video appointment at a VA location';
   const facilityId = locationId;
-  if (isPastAppointment) heading = 'Past video appointment at VA location';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment at VA location';
+  else if (isPastAppointment) heading = 'Past video appointment at VA location';
 
   recordAppointmentDetailsNullStates(
     {

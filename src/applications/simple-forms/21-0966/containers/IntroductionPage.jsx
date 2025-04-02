@@ -7,7 +7,7 @@ import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -118,20 +118,7 @@ class IntroductionPage extends React.Component {
         </ul>
         {userLoggedIn &&
         !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-            <div className="id-not-verified-content vads-u-margin-top--4">
-              <VerifyAlert headingLevel={2} />
-              <p className="vads-u-margin-top--3">
-                If you don’t want to verify your identity right now, you can
-                still download and complete the PDF version of this request.
-              </p>
-              <p className="vads-u-margin-y--3">
-                <va-link
-                  download
-                  href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf"
-                  text="Get VA Form 21-0966 to download"
-                />
-              </p>
-            </div>
+            <IdNotVerifiedAlert headingLevel={2} formNumber="21-0966" />
           )}
         {(!userLoggedIn || userIdVerified) && (
           <SaveInProgressIntro
