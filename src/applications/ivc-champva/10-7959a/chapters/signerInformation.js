@@ -13,6 +13,8 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
@@ -38,6 +40,39 @@ export const certifierRoleSchema = {
     properties: {
       titleSchema,
       certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
+    },
+  },
+};
+
+export const certifierReceivedPacketSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA benefit status`;
+    }),
+
+    receivedPacket: {
+      ...yesNoUI({
+        type: 'radio',
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `${
+              formData?.certifierRole === 'applicant'
+                ? 'Do you'
+                : 'Does the beneficiary'
+            } receive CHAMPVA benefits now?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['receivedPacket'],
+    properties: {
+      titleSchema,
+      receivedPacket: yesNoSchema,
     },
   },
 };

@@ -11,6 +11,7 @@ import { nameWording } from '../../shared/utilities';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   certifierRoleSchema,
+  certifierReceivedPacketSchema,
   certifierNameSchema,
   certifierAddressSchema,
   certifierContactSchema,
@@ -116,6 +117,11 @@ const formConfig = {
           // initialData: mockData.data,
           // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           ...certifierRoleSchema,
+        },
+        page1a1: {
+          path: 'enrolled-champva',
+          title: 'Your CHAMPVA benefit status',
+          ...certifierReceivedPacketSchema,
         },
         page1a: {
           path: 'signer-info',
