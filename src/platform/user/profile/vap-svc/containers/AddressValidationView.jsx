@@ -252,52 +252,83 @@ class AddressValidationView extends React.Component {
       (isAddressFromUser && validationKey) || !isAddressFromUser;
 
     const { street, cityStateZip, country } = formatAddress(address);
+    const puralizedAddress =
+      confirmedSuggestions.length > 1
+        ? 'Suggested addresses:'
+        : 'Suggested address:';
 
     return (
       <div key={id} className="address-validation-container">
-        {isFirstOptionOrEnabled &&
-          hasConfirmedSuggestions && (
-            <VaRadio
-              label={
-                id === 'userEntered'
-                  ? 'Address you entered:'
-                  : 'Suggested addresses:'
-              }
-              labelHeaderLevel={5}
-              onVaValueChange={event => {
-                this.onChangeSelectedAddress(address, event.detail.value);
-              }}
-              className={
-                id === 'userEntered'
-                  ? 'vads-u-margin-top--12'
-                  : 'vads-u-margin-top--2'
-              }
-            >
-              {id === 'userEntered' ? (
+        {isFirstOptionOrEnabled && hasConfirmedSuggestions ? (
+          <VaRadio
+            role="label"
+            label={
+              id === 'userEntered' ? 'Address you entered:' : puralizedAddress
+            }
+            labelHeaderLevel={5}
+            onVaValueChange={event => {
+              this.onChangeSelectedAddress(address, event.detail.value);
+            }}
+            className={
+              id === 'userEntered'
+                ? 'vads-u-margin-top--12'
+                : 'vads-u-margin-top--2'
+            }
+          >
+            {id === 'userEntered' ? (
+              <va-radio-option
+                role="userEnteredAddressOption"
+                style={{ whiteSpace: 'pre-line' }}
+                key="userAddress"
+                name="addressGroup"
+                label={formatDisplayAddressInRadio(address)}
+                description={(street, cityStateZip, country)}
+                value="userEntered"
+                checked={selectedAddressId === id}
+              />
+            ) : (
+              confirmedSuggestions.map((suggestedAddress, index) => (
                 <va-radio-option
+                  role="suggestedAddressOption"
                   style={{ whiteSpace: 'pre-line' }}
-                  key="userAddress"
+                  key="suggestedAddress"
                   name="addressGroup"
-                  label={formatDisplayAddressInRadio(address)}
+                  label={formatDisplayAddressInRadio(suggestedAddress)}
                   description={(street, cityStateZip, country)}
-                  value="userEntered"
-                  checked={selectedAddressId === id}
+                  value={index}
+                  checked={selectedAddressId === index.toString()}
                 />
-              ) : (
-                confirmedSuggestions.map((suggestedAddress, index) => (
-                  <va-radio-option
-                    style={{ whiteSpace: 'pre-line' }}
-                    key="userAddress"
-                    name="addressGroup"
-                    label={formatDisplayAddressInRadio(suggestedAddress)}
-                    description={(street, cityStateZip, country)}
-                    value={index}
-                    checked={selectedAddressId === index.toString()}
-                  />
-                ))
-              )}
-            </VaRadio>
-          )}
+              ))
+            )}
+          </VaRadio>
+        ) : (
+          <>
+            <h5 className="vads-u-margin-top--3 vads-u-padding-top--0">
+              Address you entered:
+            </h5>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label
+              htmlFor={id}
+              className="vads-u-margin-top--0 vads-u-display--flex vads-u-align-items--center"
+            >
+              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--1p5">
+                <span
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="street address"
+                >
+                  {street}
+                </span>
+                <span
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="city, state and zip code"
+                >
+                  {cityStateZip}
+                </span>
+                <span>{country}</span>
+              </div>
+            </label>
+          </>
+        )}
       </div>
     );
   };

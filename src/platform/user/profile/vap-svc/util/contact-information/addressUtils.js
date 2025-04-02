@@ -120,6 +120,7 @@ export const formatDisplayAddressInRadio = address => {
     let displayAddress = '';
     const street = address.street || address.addressLine1;
     const street2 = address.street2 || address.addressLine2;
+    const street3 = address.street3 || address.addressLine3;
     const { city } = address;
     const state = address.state || address.stateCode;
     const zip = address.postalCode || address.zipCode;
@@ -127,6 +128,7 @@ export const formatDisplayAddressInRadio = address => {
 
     if (street) displayAddress += street;
     if (street2) displayAddress += `, ${street2}`;
+    if (street3) displayAddress += `, ${street3}`;
     if (city || state || zip)
       displayAddress += `\n${city || ''}${city && state ? ', ' : ''}${state ||
         ''} ${zip || ''}`;
