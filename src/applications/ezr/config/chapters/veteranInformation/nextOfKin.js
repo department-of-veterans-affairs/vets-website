@@ -12,6 +12,7 @@ import {
   nextOfKinAddressPage,
   nextOfKinSummaryPage,
 } from '../../../definitions/nextOfKin';
+import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
 
 /**
  * Declare attributes for array builder pattern
@@ -22,7 +23,7 @@ const arrayBuilderOptions = {
   nounSingular: 'next of kin',
   nounPlural: 'next of kins',
   required: false,
-  maxItems: 2,
+  maxItems: MAX_NEXT_OF_KINS,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
