@@ -1,8 +1,15 @@
-import { FETCH_LOCATIONS, SEARCH_FAILED } from '../actionTypes';
-import { LocationType } from '../../constants';
-import { distBetween } from '../../utils/facilityDistance';
-
-import LocatorApi from '../../api';
+import {
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
+  FETCH_SPECIALTIES,
+  FETCH_SPECIALTIES_DONE,
+  FETCH_SPECIALTIES_FAILED,
+  SEARCH_FAILED,
+  SEARCH_STARTED,
+} from './actionTypes';
+import { LocationType } from '../constants';
+import { distBetween } from '../utils/facilityDistance';
+import LocatorApi from '../api';
 
 /**
  * Handles all care request (mashup) - Urgent care and Emergency care
@@ -142,5 +149,65 @@ export const fetchLocations = async (
     }
   } catch (error) {
     dispatch({ type: SEARCH_FAILED, error: error.message });
+  }
+};
+
+/**
+ * Get the details of a single VA facility.
+ *
+ * @param {string} id Facility or Provider ID as provided by the data source
+ * @param {Object} location The actual location object if we already have it.
+ *                 (This is a kinda hacky way to do a force update of the Redux
+ *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
+ */
+export const fetchVAFacility = (id, location = null) => {
+  if (location) {
+    return {
+      type: FETCH_LOCATION_DETAIL,
+      payload: location,
+    };
+  }
+
+  return async dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
+      },
+    });
+
+    try {
+      const data = await LocatorApi.fetchVAFacility(id);
+
+      if (data.errors) {
+        dispatch({ type: SEARCH_FAILED, error: data.errors });
+      } else {
+        dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
+      }
+    } catch (error) {
+      dispatch({ type: SEARCH_FAILED, error });
+    }
+  };
+};
+
+/**
+ * Preloads all specialties available from CC Providers
+ * for the type-ahead component.
+ */
+export const getProviderSpecialties = () => async dispatch => {
+  dispatch({ type: FETCH_SPECIALTIES });
+
+  try {
+    const data = await LocatorApi.getProviderSpecialties();
+    if (data.errors) {
+      dispatch({ type: FETCH_SPECIALTIES_FAILED, error: data.errors });
+      return [];
+    }
+    // Great Success!
+    dispatch({ type: FETCH_SPECIALTIES_DONE, data });
+    return data;
+  } catch (error) {
+    dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
+    return ['Services Temporarily Unavailable'];
   }
 };

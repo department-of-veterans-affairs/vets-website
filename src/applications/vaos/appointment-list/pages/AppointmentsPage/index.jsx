@@ -17,7 +17,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
+// import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
@@ -159,7 +159,11 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {isInCCPilot && <ReferralTaskCardWithReferral />}
+
+      {/* TODO: Add this back in when VeText adds support for a 
+      referral id in the url sent to the veteran  */}
+      {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
+
       {isInCCPilot && (
         <div
           className={classNames(

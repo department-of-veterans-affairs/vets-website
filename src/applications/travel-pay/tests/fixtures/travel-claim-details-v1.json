@@ -1,41 +1,49 @@
 {
-  "data": {
-    "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
-    "claimNumber": "TC0000000000001",
-    "claimantFirstName": "Nolle",
-    "claimantMiddleName": "Polite",
-    "claimantLastName": "Barakat",
-    "claimStatus": "Pre approved for payment",
+  "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
+  "claimNumber": "TC0000000000001",
+  "claimName": "Claim created for NOLLE BARAKAT",
+  "claimantFirstName": "Nolle",
+  "claimantMiddleName": "Polite",
+  "claimantLastName": "Barakat",
+  "claimStatus": "Pre approved for payment",
+  "appointmentDate": "2024-01-01T16:45:34.465Z",
+  "facilityName": "Cheyenne VA Medical Center",
+  "totalCostRequested": 20.0,
+  "reimbursementAmount": 14.52,
+  "createdOn": "2025-03-12T20:27:14.088Z",
+  "modifiedOn": "2025-03-12T20:27:14.088Z",
+  "appointment": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "appointmentSource": "API",
     "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+    "appointmentType": "EnvironmentalHealth",
+    "facilityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "facilityName": "Cheyenne VA Medical Center",
-    "totalCostRequested": 20.0,
-    "reimbursementAmount": 14.52,
-    "createdOn": "2025-03-12T20:27:14.088Z",
-    "modifiedOn": "2025-03-12T20:27:14.088Z",
-    "appointment": {
+    "serviceConnectedDisability": 30,
+    "appointmentStatus": "Complete",
+    "externalAppointmentId": "12345",
+    "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
+    "associatedClaimNumber": "TC0000000000001",
+    "isCompleted": true
+  },
+  "expenses": [
+    {
       "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "appointmentSource": "API",
-      "appointmentDateTime": "2024-01-01T16:45:34.465Z",
-      "appointmentType": "EnvironmentalHealth",
-      "facilityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "facilityName": "Cheyenne VA Medical Center",
-      "serviceConnectedDisability": 30,
-      "appointmentStatus": "Complete",
-      "externalAppointmentId": "12345",
-      "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
-      "associatedClaimNumber": "TC0000000000001",
-      "isCompleted": true
+      "expenseType": "Mileage",
+      "name": "",
+      "dateIncurred": "2024-01-01T16:45:34.465Z",
+      "description": "mileage-expense",
+      "costRequested": 10.0,
+      "costSubmitted": 10.0
     },
-    "expenses": [
-      {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "expenseType": "Mileage",
-        "name": "",
-        "dateIncurred": "2024-01-01T16:45:34.465Z",
-        "description": "mileage-expense",
-        "costRequested": 20.0,
-        "costSubmitted": 20.0
-      }
-    ]
-  }
+    {
+      "id": "4da85f64-5717-4562-b3fc-2c963f66afa6",
+      "expenseType": "Mileage",
+      "name": "",
+      "dateIncurred": "2024-01-01T16:45:34.465Z",
+      "description": "mileage-expense",
+      "costRequested": 10.0,
+      "costSubmitted": 10.0
+    }
+  ]
 }

@@ -51,6 +51,18 @@ describe('Student Ratio Calculation page', () => {
         dateOfCalculation: '2025-01-01',
       },
     };
+    const errors = {
+      messages: [],
+      addError: message => {
+        errors.messages.push(message);
+      },
+    };
+    const validateDate =
+      formConfig.chapters.studentRatioCalcChapter.pages.studentRatioCalc
+        .uiSchema.studentRatioCalcChapter.dateOfCalculation[
+        'ui:validations'
+      ][0];
+    validateDate(errors, '2025-01-01', data);
 
     const { container } = renderWithStore(data);
     const date = $('va-memorable-date', container);
@@ -59,7 +71,10 @@ describe('Student Ratio Calculation page', () => {
     waitFor(() => {
       expect($$('va-memorable-date[error]', container).length).to.equal(1);
       expect(date.error).to.contain(
-        'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+        'Please enter a date within 30 calendar days of the term start date',
+      );
+      expect(errors.messages).to.contain(
+        'Please enter a date within 30 calendar days of the term start date',
       );
     });
   });
