@@ -133,10 +133,14 @@ export function NameSearchResults({
               environment.isProduction() && (
                 <div className="column small-4 vads-u-padding--0">
                   <VaAccordion>
-                    <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                    <TuitionAndHousingEstimates
+                      smallScreen={smallScreen}
+                      bordered
+                    />
                     <FilterYourResults
                       smallScreen={smallScreen}
                       searchType="name"
+                      bordered
                     />
                   </VaAccordion>
                 </div>
@@ -145,10 +149,14 @@ export function NameSearchResults({
               !environment.isProduction() && (
                 <div className="column small-4 vads-u-padding--0">
                   <VaAccordion>
-                    <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                    <TuitionAndHousingEstimates
+                      smallScreen={smallScreen}
+                      bordered
+                    />
                     <FilterYourResults
                       smallScreen={smallScreen}
                       searchType="name"
+                      bordered
                     />
                   </VaAccordion>
                 </div>

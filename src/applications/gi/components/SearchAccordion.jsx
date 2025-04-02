@@ -17,6 +17,7 @@ export default function SearchAccordion({
   onClick,
   ariaDescribedBy,
   dispatchFocusSearch,
+  bordered,
 }) {
   const [id] = useState(`${createId(button)}-accordion`);
   const [buttonId] = useState(`update-${createId(button)}-button`);
@@ -65,11 +66,9 @@ export default function SearchAccordion({
       header={button}
       id={`${id}-button`}
       open={open}
+      bordered={bordered}
     >
-      <div
-        id={`${id}-content`}
-        className="update-results-form vads-u-padding-y--1"
-      >
+      <div id={`${id}-content`} className="vads-u-padding-y--1">
         {children}
       </div>
 
@@ -109,4 +108,5 @@ SearchAccordion.propTypes = {
   expanded: PropTypes.bool,
   headerClass: PropTypes.string,
   onClick: PropTypes.func,
+  bordered: PropTypes.bool,
 };

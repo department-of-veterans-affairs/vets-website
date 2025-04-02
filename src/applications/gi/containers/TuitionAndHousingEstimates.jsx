@@ -16,6 +16,7 @@ export function TuitionAndHousingEstimates({
   dispatchShowModal,
   modalClose,
   smallScreen,
+  bordered,
 }) {
   const { expanded } = eligibility;
 
@@ -142,6 +143,7 @@ export function TuitionAndHousingEstimates({
       expanded={expanded}
       onClick={onExpand}
       ariaDescribedBy="note"
+      bordered={bordered}
     >
       {controls}
     </SearchAccordion>
@@ -180,6 +182,7 @@ TuitionAndHousingEstimates.propTypes = {
   eligibility: PropTypes.object.isRequired,
   modalClose: PropTypes.func,
   smallScreen: PropTypes.bool,
+  bordered: PropTypes.bool,
 };
 
 export default connect(

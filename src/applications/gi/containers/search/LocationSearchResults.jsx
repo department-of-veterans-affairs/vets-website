@@ -558,12 +558,12 @@ function LocationSearchResults({
         <>
           {!smallScreen && (
             <VaAccordion bordered>
-              <TuitionAndHousingEstimates />
+              <TuitionAndHousingEstimates bordered />
               {environment.isProduction() && (
-                <FilterYourResults searchType="location" />
+                <FilterYourResults searchType="location" bordered />
               )}
               {!environment.isProduction() && (
-                <FilterYourResults searchType="location" />
+                <FilterYourResults searchType="location" bordered />
               )}
               {/* {!environment.isProduction() && <FilterByLocation />} */}
             </VaAccordion>

@@ -63,9 +63,10 @@ export default function LicenseCertificationFilterAccordion({
         header={buttonLabel}
         onClick={handleToggle}
         open={open}
+        bordered
       >
         <div
-          className="update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3"
+          className="vads-u-padding-top--5 vads-u-padding-bottom--3"
           role="region"
         >
           {children}

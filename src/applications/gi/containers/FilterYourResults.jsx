@@ -83,6 +83,7 @@ export function FilterYourResults({
   errorReducer,
   searchType,
   dispatchFocusSearch,
+  bordered,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -497,6 +498,7 @@ export function FilterYourResults({
           expanded={expanded}
           onClick={onAccordionChange}
           dispatchFocusSearch={dispatchFocusSearch}
+          bordered={bordered}
         >
           {search.inProgress && (
             <VaLoadingIndicator
@@ -564,6 +566,7 @@ FilterYourResults.propTypes = {
   searchType: PropTypes.string.isRequired,
   smallScreen: PropTypes.bool.isRequired,
   dispatchFocusSearch: PropTypes.func,
+  bordered: PropTypes.bool,
 };
 export default connect(
   mapStateToProps,
