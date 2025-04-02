@@ -8,15 +8,16 @@ import FacilityList from '../../../../components/FormFields/FacilityList';
 
 describe('CG <FacilityList>', () => {
   const subject = ({
-    reviewMode = false,
-    submitted = false,
+    reviewMode,
+    submitted,
+    context = undefined,
     value = undefined,
     error = undefined,
     onChangeSpy = () => {},
   } = {}) => {
     const props = {
       facilities: mockFetchFacilitiesResponse.facilities,
-      formContext: { reviewMode, submitted },
+      formContext: context === undefined ? { reviewMode, submitted } : context,
       onChange: onChangeSpy,
       query: 'Columbus',
       value,
@@ -31,7 +32,7 @@ describe('CG <FacilityList>', () => {
   };
 
   it('should render `va-radio` component when not in review mode', () => {
-    const { selectors } = subject();
+    const { selectors } = subject({ context: null });
     expect(selectors().vaRadio).to.exist;
   });
 
