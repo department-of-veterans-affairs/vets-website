@@ -355,7 +355,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
   });
 });
 
-describe("Form 10-10EZR Keyboard Only with the 'ezrProvidersAndDependentsPrefillEnabled' toggle enabled", () => {
+describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefillEnabled' toggle enabled", () => {
   const updatedFeatureToggles = {
     data: {
       type: 'feature_toggles',
@@ -398,7 +398,8 @@ describe("Form 10-10EZR Keyboard Only with the 'ezrProvidersAndDependentsPrefill
       },
     }).as('mockSubmit');
   });
-  it('should navigate and input maximal data using only a keyboard', () => {
+
+  it('should navigate and input V2 financial information using only a keyboard', () => {
     cy.wrap(maxTestData.data).as('testData');
     cy.get('@testData').then(data => {
       cy.visit(manifest.rootUrl);
