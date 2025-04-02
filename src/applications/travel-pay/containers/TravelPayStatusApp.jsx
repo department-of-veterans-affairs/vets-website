@@ -21,6 +21,43 @@ import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import ErrorAlert from '../components/alerts/ErrorAlert';
 import { BTSSS_PORTAL_URL } from '../constants';
+import useSetPageTitle from '../hooks/useSetPageTitle';
+
+function SmocEntryContent() {
+  return (
+    <>
+      <p className="vads-u-font-family--serif vads-u-font-size--lg">
+        File new claims for travel reimbursement and review the status of all
+        your travel claims.
+      </p>
+      <h2 className="vads-u-margin-top--2">
+        File a new claim for travel reimbursement online
+      </h2>
+      <p>
+        If you’re claiming mileage only, you can file a travel claim for
+        eligible past appointments here on VA.gov.
+      </p>
+      <va-link-action
+        href="/my-health/appointments/past"
+        text="Go to your past appointments"
+        class="vads-u-margin-y--1"
+      />
+      <p>
+        <strong>
+          If you need to submit receipts for other expenses, like tolls, meals,
+          or lodging
+        </strong>
+        , you can file your travel claim through the{' '}
+        <va-link
+          external
+          href={BTSSS_PORTAL_URL}
+          text="Beneficiary Travel Self-Service System"
+        />
+        .
+      </p>
+    </>
+  );
+}
 
 export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
@@ -168,6 +205,12 @@ export default function TravelPayStatusApp({ children }) {
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
+  const title = smocEnabled
+    ? 'Travel reimbursement claims'
+    : 'Check your travel reimbursement claim status';
+
+  useSetPageTitle(title);
+
   useEffect(
     () => {
       if (data.length === 0 && !hasFetchedClaims) {
@@ -277,13 +320,17 @@ export default function TravelPayStatusApp({ children }) {
         <article className="usa-grid-full vads-u-padding-bottom--0">
           <Breadcrumbs />
           <h1 tabIndex="-1" data-testid="header">
-            Check your travel reimbursement claim status
+            {title}
           </h1>
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
-              You can use this tool to check the status of your VA travel
-              claims.
-            </h2>
+            {smocEnabled ? (
+              <SmocEntryContent />
+            ) : (
+              <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
+                You can use this tool to check the status of your VA travel
+                claims.
+              </h2>
+            )}
             <ErrorAlert errorStatus={error.errors[0].status} />
             <VaBackToTop />
           </div>
@@ -297,43 +344,11 @@ export default function TravelPayStatusApp({ children }) {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="header">
-          {smocEnabled
-            ? 'Travel reimbursement claims'
-            : 'Check your travel reimbursement claim status'}
+          {title}
         </h1>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {smocEnabled ? (
-            <>
-              <p className="vads-u-font-family--serif vads-u-font-size--lg">
-                File new claims for travel reimbursement and review the status
-                of all your travel claims.
-              </p>
-              <h2 className="vads-u-margin-top--2">
-                File a new claim for travel reimbursement online
-              </h2>
-              <p>
-                If you’re claiming mileage only, you can file a travel claim for
-                eligible past appointments here on VA.gov.
-              </p>
-              <va-link-action
-                href="/my-health/appointments/past"
-                text="Go to your past appointments"
-                class="vads-u-margin-y--1"
-              />
-              <p>
-                <strong>
-                  If you need to submit receipts for other expenses, like tolls,
-                  meals, or lodging
-                </strong>
-                , you can file your travel claim through the{' '}
-                <va-link
-                  external
-                  href={BTSSS_PORTAL_URL}
-                  text="Beneficiary Travel Self-Service System"
-                />
-                .
-              </p>
-            </>
+            <SmocEntryContent />
           ) : (
             <>
               <h2 className="vads-u-font-size--h4">
