@@ -8,10 +8,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import manifest from '../../../ivc-champva/10-7959a/manifest.json';
 
-const baseHeader = (
-  <h2>How to file your claim if your provider doesn’t file for you</h2>
-);
-const mailContent = (
+const baseContent = (
   <>
     <p>You can file your claim by mail.</p>
     <p>
@@ -49,7 +46,6 @@ const App = ({ formEnabled }) => {
 
   return formEnabled ? (
     <>
-      {baseHeader}
       <h3>
         <strong>Option 1: Online</strong>
       </h3>
@@ -66,13 +62,10 @@ const App = ({ formEnabled }) => {
       <h3>
         <strong>Option 2: By mail</strong>
       </h3>
-      {mailContent}
+      {baseContent}
     </>
   ) : (
-    <>
-      {baseHeader}
-      {mailContent}
-    </>
+    <>{baseContent}</>
   );
 };
 
