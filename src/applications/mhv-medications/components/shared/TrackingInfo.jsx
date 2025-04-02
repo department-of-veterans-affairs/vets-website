@@ -27,7 +27,10 @@ const TrackingInfo = ({ carrier, trackingNumber, prescriptionName }) => {
         Track your package with {label}
       </a>
       <>
-        <p className="vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <p
+          className="vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0"
+          data-testid="prescription-info"
+        >
           <strong>Prescriptions in this package:</strong>
         </p>
         <ul className="tracking-info-med-list vads-u-margin-top--0">
