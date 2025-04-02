@@ -10,24 +10,12 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    // cy.intercept('GET', '/v0/feature_toggles?*', {
-    //   data: {
-    //     type: 'feature_toggles',
-    //     features: [
-    //       {
-    //         name: 'show_yellow_ribbon_table',
-    //         value: true,
-    //       },
-    //     ],
-    //   },
-    // }).as('featureToggles');
     cy.intercept('GET', '**/v1/gi/institutions/31800132*', {
       statusCode: 200,
       body: yellowRibbonMock,
     }).as('yellowRibbonProgram');
     cy.visit('education/gi-bill-comparison-tool/institution/31800132');
     cy.wait('@yellowRibbonProgram');
-    // cy.wait('@featureToggles');
   });
   it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
     //   cy.injectAxeThenAxeCheck();
