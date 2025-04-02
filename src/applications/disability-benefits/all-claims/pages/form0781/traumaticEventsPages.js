@@ -35,7 +35,6 @@ const summaryDescriptionUI = (
     isReviewAndSubmitPage() ? reviewAndSubmitDescription : description();
 };
 
-export const isMstEvent = formData => Boolean(formData.eventTypes?.mst);
 export const summaryPageTitleWithTag = titleWithTag(
   eventsListPageTitle,
   form0781HeadingTag,
