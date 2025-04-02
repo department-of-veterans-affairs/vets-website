@@ -1,34 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { Provider } from 'react-redux';
 import formConfig from '../../../config/form';
 import { SpouseAnnualIncomePage } from '../../../definitions/spouseAnnualIncome';
 import mockPrefillWithNonPrefillData from '../../e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json';
-import { setMockStoreData } from '../../helpers';
+import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr SpouseAnnualIncomePage config', () => {
   const { schema, uiSchema } = SpouseAnnualIncomePage();
   const definitions = {
     ...formConfig.defaultDefinitions,
   };
-  const { mockStore } = setMockStoreData({
+  const mockStoreData = {
     'view:householdEnabled': true,
     'view:isProvidersAndDependentsPrefillEnabled': true,
     nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
-  });
+  };
 
   it('should render', () => {
-    const { container } = render(
-      <Provider store={mockStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
+    const { container } = renderProviderWrappedComponent(
+      mockStoreData,
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(container.querySelectorAll('input, select').length).to.equal(3);
@@ -36,17 +34,15 @@ describe('ezr SpouseAnnualIncomePage config', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          uiSchema={uiSchema}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
+    const { container } = renderProviderWrappedComponent(
+      mockStoreData,
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
     );
-
     const selectors = {
       errors: container.querySelectorAll('.usa-input-error'),
       submitBtn: container.querySelector('button[type="submit"]'),
@@ -60,15 +56,14 @@ describe('ezr SpouseAnnualIncomePage config', () => {
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          uiSchema={uiSchema}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
+    const { container } = renderProviderWrappedComponent(
+      mockStoreData,
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
     );
 
     // Fill in the form fields
