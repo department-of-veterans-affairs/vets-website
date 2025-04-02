@@ -59,7 +59,7 @@ export const BehaviorIntroCombatPageModalContent = ({ formData }) => {
           </li>
         ))}
 
-        {firstThreeBehaviors.length === 3 && displayRemainingBehaviors()}
+        {behaviorDescriptions.length > 3 && displayRemainingBehaviors()}
       </ul>
       <p>
         <b>Do you want to skip questions about behavioral changes?</b>

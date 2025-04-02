@@ -1,12 +1,11 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
-import * as focusUtils from '~/platform/utilities/ui/focus';
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 import {
   BEHAVIOR_CHANGES_HEALTH,
@@ -137,7 +136,7 @@ describe('BehaviorIntroCombatPage', () => {
             },
           };
 
-          it('lists all three behavior descriptions in the modal content', () => {
+          it('lists all three behavior descriptions in the modal content and does not list additional number of behaviors', () => {
             const { container } = render(
               page({ data: threeSelectedChangesAndOptOut }),
             );
@@ -147,7 +146,7 @@ describe('BehaviorIntroCombatPage', () => {
             const modal = container.querySelector('va-modal');
 
             const descriptionBullets = $$('li', modal);
-            expect(descriptionBullets.length).to.eq(4);
+            expect(descriptionBullets.length).to.eq(3);
 
             expect(descriptionBullets[0].textContent).to.contain(
               BEHAVIOR_CHANGES_WORK.performance,
@@ -157,6 +156,10 @@ describe('BehaviorIntroCombatPage', () => {
             );
             expect(descriptionBullets[2].textContent).to.contain(
               BEHAVIOR_CHANGES_HEALTH.appetite,
+            );
+
+            expect(container.textContent).not.to.contain(
+              'And, 0 other behavioral changes',
             );
           });
         });
@@ -316,6 +319,9 @@ describe('BehaviorIntroCombatPage', () => {
           },
         };
 
+        const confirmationAlertSelector =
+          'va-alert[status="success"][visible="true"][close-btn-aria-label="Deleted answers confirmation"]';
+
         describe('When the close button is clicked', () => {
           it('closes the modal', () => {
             const { container } = render(
@@ -372,7 +378,7 @@ describe('BehaviorIntroCombatPage', () => {
             );
           });
 
-          it('does not advance the page, displays a deletion confirmation and autofocuses on it', async () => {
+          it('does not advance the page and displays a deletion confirmation alert', async () => {
             const goForwardSpy = sinon.spy();
             const { container } = render(
               page({
@@ -386,15 +392,16 @@ describe('BehaviorIntroCombatPage', () => {
             const modal = container.querySelector('va-modal');
             modal.__events.primaryButtonClick();
 
-            expect($('va-alert[status="success"]', container)).to.exist;
+            expect(confirmationAlertSelector, container).to.exist;
+
             expect(
-              $('va-alert[status="success"]', container).innerHTML,
+              $(confirmationAlertSelector, container).innerHTML,
             ).to.contain(
               'We’ve removed information about your behavioral changes',
             );
 
             expect(
-              $('va-alert[status="success"]', container).innerHTML,
+              $(confirmationAlertSelector, container).innerHTML,
             ).to.contain('Continue with your claim');
           });
         });
@@ -454,7 +461,17 @@ describe('BehaviorIntroCombatPage', () => {
           });
 
           it('does not display a deletion confirmation modal', () => {
-            // TODO
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+              }),
+            );
+
+            fireEvent.click($('button[type="submit"]', container));
+
+            const modal = container.querySelector('va-modal');
+            modal.__events.secondaryButtonClick();
+            expect($(confirmationAlertSelector, container)).not.to.exist;
           });
 
           it('does not advance to the next page', () => {
