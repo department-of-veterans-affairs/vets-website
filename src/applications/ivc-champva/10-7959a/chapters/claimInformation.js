@@ -305,7 +305,7 @@ export const pharmacyClaimUploadSchema = {
           <li>Cost of the medication and the copay amount.</li>
           <li>
             National Drug Code (NDC) for each medication. This is an 11-digit
-            number that’s different froom the Rx number.
+            number that’s different from the Rx number.
           </li>
           <li>Date the pharmacy filled the prescription.</li>
           <li>Name of the provider who wrote the prescription.</li>

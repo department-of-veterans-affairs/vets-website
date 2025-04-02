@@ -34,6 +34,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_509_UPLOAD: '21-509-UPLOAD',
   FORM_21_526EZ: '21-526EZ',
   FORM_21_686C: '686C-674',
+  FORM_21_686C_UPLOAD: '21-686C-UPLOAD',
   FORM_21_686CV2: '686C-674-V2',
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
   FORM_21A: '21a',
@@ -43,7 +44,9 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_0969: '21P-0969',
   FORM_21P_527EZ: '21P-527EZ',
   FORM_21P_530: '21P-530',
+  FORM_21P_530A_UPLOAD: '21P-530a-UPLOAD',
   FORM_21P_530EZ: '21P-530EZ',
+  FORM_21P_8049_UPLOAD: '21P-8049-UPLOAD',
   FORM_22_0994: '22-0994',
   FORM_22_10203: '22-10203',
   FORM_22_10215: '22-10215',
@@ -93,6 +96,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
+  '21-686C-UPLOAD': '/accredited_representative_portal/v0/in_progress_forms/',
 });
 
 // Entries previously added to FORM_LINKS go in here:
@@ -146,6 +150,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_530EZ]: `${tryGetAppUrl('burials-ez')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${tryGetAppUrl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_22_10215]: `${tryGetAppUrl('10215-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10282]: `${tryGetAppUrl('10282-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990EZ]: `${tryGetAppUrl('1990ez-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
@@ -166,6 +171,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
+    // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
   };
 };
 
@@ -361,6 +367,13 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-509-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_21_686C_UPLOAD,
+    benefit: `form 21-6868 upload`,
+    title: `form 21-6868 upload`,
+    description: 'uploaded file for form 21-6868',
+    trackingPrefix: 'form-21-6868-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21_526EZ,
     benefit: 'disability compensation',
     title: 'disability compensation (21-526EZ)',
@@ -410,11 +423,25 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pensions-527EZ-',
   },
   {
+    id: VA_FORM_IDS.FORM_21P_530A_UPLOAD,
+    benefit: `form 21P-530a upload`,
+    title: `form 21P-530a upload`,
+    description: 'uploaded file for form 21P-530a',
+    trackingPrefix: 'form-21p-530a-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_530EZ,
     benefit: 'burial benefits',
     title: 'burial benefits (21P-530EZ)',
     description: 'burial benefits application (21P-530EZ)',
     trackingPrefix: 'burials-530-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_8049_UPLOAD,
+    benefit: `form 21P-8049 upload`,
+    title: `form 21P-8049 upload`,
+    description: 'uploaded file for form 21P-8049',
+    trackingPrefix: 'form-21p-8049-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0994,
@@ -429,6 +456,15 @@ export const MY_VA_SIP_FORMS = [
     title: 'Rogers STEM Scholarship (22-10203)',
     description: 'Rogers STEM Scholarship application (22-10203)',
     trackingPrefix: 'edu-10203-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10215,
+    benefit: 'Statement of Assurance of Compliance with 85% Enrollment Ratios',
+    title:
+      'Statement of Assurance of Compliance with 85% Enrollment Ratios (22-10215)',
+    description:
+      'Statement of Assurance of Compliance with 85% Enrollment Ratios (22-10215)',
+    trackingPrefix: 'edu-10215-',
   },
   {
     id: VA_FORM_IDS.FORM_22_10282,
@@ -534,6 +570,13 @@ export const MY_VA_SIP_FORMS = [
       '35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)',
     trackingPrefix: 'edu-10216-',
   },
+  // {
+  //   id: VA_FORM_IDS.FORM_28_1900,
+  //   benefit: 'VR&E Chapter 31 benefits application',
+  //   title: '28-1900 Veteran Readiness',
+  //   description: 'VR&E Chapter 31 benefits application',
+  //   trackingPrefix: 'new-careers-employment-28-1900-',
+  // },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {

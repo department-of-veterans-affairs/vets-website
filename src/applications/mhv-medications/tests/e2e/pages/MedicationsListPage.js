@@ -921,7 +921,7 @@ class MedicationsListPage {
   };
 
   verifyToolTipTextOnListPage = text => {
-    cy.get('[data-testid="rx-ipe-filtering-container"]')
+    cy.get('#rx-ipe-filtering-description')
       .should('contain', text)
       .and('be.visible');
   };
@@ -953,6 +953,35 @@ class MedicationsListPage {
 
   verifyFilterAccordionDropDownIsFocused = () => {
     cy.get('[data-testid="rx-filter"]').should('have.focus');
+  };
+
+  updatedRefillDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newRefillDate = new Date(currentDate);
+        newRefillDate.setDate(currentDate.getDate() + 6);
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            refillDate:
+              item.attributes.refillDate != null
+                ? newRefillDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
+
+  verifyToolTipCounterSetToZero = () => {
+    cy.get('@tooltipsVisible')
+      .its('response')
+      .then(res => {
+        expect(res.body.counter).to.eq(0);
+      });
   };
 }
 

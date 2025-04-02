@@ -21,20 +21,29 @@ import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
 import submitForm from './submitForm';
 import { certifyingOfficial } from '../pages/institutionOfficial';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 const { date, dateRange } = commonDefinitions;
 
-const subTitle = () => (
+export const subTitle = () => (
   <p className="schemaform-subtitle">
     35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
   </p>
 );
 
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm(form, formConfig);
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
-  submit: submitForm,
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
@@ -52,6 +61,7 @@ const formConfig = {
   },
   customText: {
     reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   version: 0,
   prefillEnabled: true,
@@ -81,21 +91,21 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Institution Details',
+      title: 'Identifying details',
       pages: {
         certifyingOfficial: {
-          path: 'institution-details',
-          title: 'Tell us about yourself',
+          path: 'identifying-details',
+          title: 'Your name and title',
           uiSchema: certifyingOfficial.uiSchema,
           schema: certifyingOfficial.schema,
           onNavForward: ({ goPath }) => {
-            goPath('/institution-details-1');
+            goPath('/identifying-details-1');
             localStorage.removeItem('10216claimID');
           },
         },
         institutionDetails: {
-          path: 'institution-details-1',
-          title: 'Institution Details',
+          path: 'identifying-details-1',
+          title: 'Institution details',
           onNavForward: async ({ formData, goPath }) => {
             const isAccredited = await validateFacilityCode(formData);
             localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
@@ -134,7 +144,7 @@ const formConfig = {
             if (isAccredited !== true) {
               goPath('/additional-form');
             } else {
-              goPath('/institution-details');
+              goPath('/identifying-details');
             }
           },
         },
