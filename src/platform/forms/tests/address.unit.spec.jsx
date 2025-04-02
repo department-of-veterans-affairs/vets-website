@@ -71,7 +71,7 @@ describe('formatAddress', () => {
   it('formats domestic addresses with one street line', () => {
     const expectedResult = {
       street: '140 Rock Creek Church Rd NW',
-      cityStateZip: 'Springfield, OR 97477',
+      cityStateZip: 'Springfield, Oregon 97477',
       country: '',
     };
     const address = { ...domestic };
@@ -83,7 +83,7 @@ describe('formatAddress', () => {
   it('formats military addresses', () => {
     const expectedResult = {
       street: '57 Columbus Strassa, Line2, Ben Franklin Village',
-      cityStateZip: 'APO, Armed Forces Europe (AE) 09028',
+      cityStateZip: 'APO, AE - Armed Forces Europe 09028',
       country: '',
     };
 
@@ -107,6 +107,10 @@ describe('getStateName', () => {
   it('gets the full name of a state from its abbreviation', () => {
     expect(addressUtils.getStateName('KY')).to.equal('Kentucky');
     expect(addressUtils.getStateName('ky')).to.equal('Kentucky');
+  });
+
+  it('returns an empty string for invalid abbreviations', () => {
+    expect(addressUtils.getStateName('XX')).to.equal('');
   });
 });
 
