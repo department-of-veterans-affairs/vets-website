@@ -319,7 +319,7 @@ describe('<AddressValidationView/>', () => {
         },
       };
 
-      const { container, getAllByRole } = render(
+      const { container, getAllByRole, getAllByTestId } = render(
         <Provider store={getStore(newData)}>
           <AddressValidationView />
         </Provider>,
@@ -328,7 +328,7 @@ describe('<AddressValidationView/>', () => {
       const labels = getAllByRole('label');
       expect(labels[0]).to.have.attribute('label', 'Suggested addresses:');
 
-      const radios = getAllByRole('suggestedAddressOption');
+      const radios = getAllByTestId('suggestedAddressOption');
 
       expect(radios.length).to.equal(2);
 
@@ -402,14 +402,16 @@ describe('<AddressValidationView/>', () => {
           },
         },
       };
-      const { getAllByRole } = render(
+      const { getAllByTestId } = render(
         <Provider store={getStore(newData)}>
           <AddressValidationView />
         </Provider>,
       );
-      const userEnteredAddressOption = getAllByRole('userEnteredAddressOption');
+      const userEnteredAddressOption = getAllByTestId(
+        'userEnteredAddressOption',
+      );
       expect(userEnteredAddressOption.length).to.equal(1);
-      const suggestedAddressOption = getAllByRole('suggestedAddressOption');
+      const suggestedAddressOption = getAllByTestId('suggestedAddressOption');
       expect(suggestedAddressOption.length).to.equal(2);
     });
 

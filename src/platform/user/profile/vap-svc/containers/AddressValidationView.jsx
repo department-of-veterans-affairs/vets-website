@@ -277,7 +277,7 @@ class AddressValidationView extends React.Component {
           >
             {id === 'userEntered' ? (
               <va-radio-option
-                role="userEnteredAddressOption"
+                data-testid="userEnteredAddressOption"
                 style={{ whiteSpace: 'pre-line' }}
                 key="userAddress"
                 name="addressGroup"
@@ -289,7 +289,7 @@ class AddressValidationView extends React.Component {
             ) : (
               confirmedSuggestions.map((suggestedAddress, index) => (
                 <va-radio-option
-                  role="suggestedAddressOption"
+                  data-testid="suggestedAddressOption"
                   style={{ whiteSpace: 'pre-line' }}
                   key="suggestedAddress"
                   name="addressGroup"
