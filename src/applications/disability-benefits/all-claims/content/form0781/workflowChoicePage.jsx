@@ -4,7 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import {
   VaRadio,
   VaModal,
-  VaAlert
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
@@ -17,9 +17,10 @@ export const workflowChoicePageTitle =
 // The user should not get to this page if these conditions are not present
 const conditionSelections = formData => {
   const conditions = Array.isArray(formData?.newDisabilities)
-    ? formData.newDisabilities.map(disability =>
-        disability.condition.charAt(0).toUpperCase() +
-        disability.condition.slice(1),
+    ? formData.newDisabilities.map(
+        disability =>
+          disability.condition.charAt(0).toUpperCase() +
+          disability.condition.slice(1),
       )
     : [];
 
@@ -38,7 +39,6 @@ const conditionSelections = formData => {
     </div>
   );
 };
-
 
 export const workflowChoicePageDescription = formData => {
   return (
@@ -278,9 +278,9 @@ const alertDescriptionUpload =
   'We’ve removed information about your traumatic events';
 const alertDescriptionOnline = 'We’ve removed your uploaded pdf';
 
-const modalTitleSkip = 'Skip VA Form 21-0781?';
-const modalTitleUpload = 'Change to upload a PDF?';
-const modalTitleOnline = 'Change to answer questions online?';
+export const modalTitleSkip = 'Skip VA Form 21-0781?';
+export const modalTitleUpload = 'Change to upload a PDF?';
+export const modalTitleOnline = 'Change to answer questions online?';
 
 const deleteMentalHealthStatement = (data, setFormData) => {
   const updatedData = { ...data };
@@ -357,7 +357,7 @@ const WorkflowChoicePage = props => {
       formData,
     );
 
-    const result = error?.[0] || null
+    const result = error?.[0] || null;
     setHasError(result);
 
     return result;

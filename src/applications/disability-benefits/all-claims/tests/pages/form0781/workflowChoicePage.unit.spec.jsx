@@ -2,14 +2,15 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import WorkflowChoicePage from '../../../content/form0781/workflowChoicePage';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import {
-  form0781WorkflowChoiceLabels,
+import WorkflowChoicePage, {
   form0781WorkflowChoices,
+  modalTitleUpload,
+  modalTitleOnline,
+  modalTitleSkip,
 } from '../../../content/form0781/workflowChoicePage';
 
 describe('WorkflowChoicePage', () => {
@@ -43,13 +44,13 @@ describe('WorkflowChoicePage', () => {
     const goForwardSpy = sinon.spy();
     const { container } = render(page({ goForward: goForwardSpy }));
     const radio = $('va-radio', container);
-    
+
     fireEvent.click($('button[type="submit"]', container));
-    
+
     expect(radio.getAttribute('error')).to.exist;
     expect(goForwardSpy.called).to.be.false;
   });
-  
+
   it('advances with valid selection and no mental health data', () => {
     const goForwardSpy = sinon.spy();
     const data = {
@@ -94,11 +95,13 @@ describe('WorkflowChoicePage', () => {
       supportingEvidenceReports: { police: true },
     };
 
-    const { container } = render(page({
-      data,
-      goForward: goForwardSpy,
-      setFormData: setFormDataSpy,
-    }));
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
 
     fireEvent.click($('button[type="submit"]', container));
 
@@ -121,11 +124,13 @@ describe('WorkflowChoicePage', () => {
       treatmentReceivedVaProvider: { vaPaid: true },
     };
 
-    const { container } = render(page({
-      data,
-      goForward: goForwardSpy,
-      setFormData: setFormDataSpy,
-    }));
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
 
     fireEvent.click($('button[type="submit"]', container));
 
@@ -149,11 +154,13 @@ describe('WorkflowChoicePage', () => {
       supportingEvidenceReports: { police: true },
     };
 
-    const { container } = render(page({
-      data,
-      goForward: goForwardSpy,
-      setFormData: setFormDataSpy,
-    }));
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
 
     fireEvent.click($('button[type="submit"]', container));
 
@@ -175,11 +182,13 @@ describe('WorkflowChoicePage', () => {
       supportingEvidenceReports: { police: true },
     };
 
-    const { container } = render(page({
-      data,
-      goForward: goForwardSpy,
-      setFormData: setFormDataSpy,
-    }));
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
 
     fireEvent.click($('button[type="submit"]', container));
 
@@ -190,5 +199,83 @@ describe('WorkflowChoicePage', () => {
     alert.__events.closeEvent();
 
     expect($('va-alert[visible="true"]', container)).to.not.exist;
+  });
+
+  it('changes modal data for pdf upload', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.SUBMIT_PAPER_FORM,
+      treatmentReceivedVaProvider: { vaPaid: true },
+    };
+
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    const modal = container.querySelector('va-modal');
+    const modalTitle = modal.getAttribute('modal-title');
+    expect(modalTitle).to.equal(modalTitleUpload);
+  });
+
+  it('changes modal data for online form', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.SUBMIT_PAPER_FORM,
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      treatmentReceivedVaProvider: { vaPaid: true },
+    };
+
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    const modal = container.querySelector('va-modal');
+    const modalTitle = modal.getAttribute('modal-title');
+    expect(modalTitle).to.equal(modalTitleOnline);
+  });
+
+  it('changes modal data for skipping the form', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.SUBMIT_PAPER_FORM,
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      treatmentReceivedVaProvider: { vaPaid: true },
+    };
+
+    const { container } = render(
+      page({
+        data,
+        goForward: goForwardSpy,
+        setFormData: setFormDataSpy,
+      }),
+    );
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    const modal = container.querySelector('va-modal');
+    const modalTitle = modal.getAttribute('modal-title');
+    expect(modalTitle).to.equal(modalTitleSkip);
   });
 });
