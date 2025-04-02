@@ -3,14 +3,14 @@ import {
   textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createNewConditionName } from './utils';
+import { arrayBuilderOptions, createNewConditionName } from './utils';
 
 /** @returns {PageSchema} */
 const causeNewPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Details of injury, event, disease or exposure that caused ${createNewConditionName(
+        `Provide details of the injury, event, disease or exposure that caused ${createNewConditionName(
           formData,
         )}`,
     ),
@@ -19,6 +19,11 @@ const causeNewPage = {
         'Briefly describe the injury, event, disease or exposure that caused your new condition. ',
       hint:
         'For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
+      updateUiSchema: (_formData, fullData, index) => ({
+        'ui:title': `Briefly describe the injury, event, disease or exposure that caused ${createNewConditionName(
+          fullData?.[arrayBuilderOptions.arrayPath]?.[index],
+        )}.`,
+      }),
       charcount: true,
     }),
   },
