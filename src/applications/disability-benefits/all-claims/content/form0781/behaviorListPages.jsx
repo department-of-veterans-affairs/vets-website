@@ -174,6 +174,11 @@ export function validateBehaviorSelections(errors, formData) {
   }
 }
 
+/**
+ * Returns an object containing the selected behavior types from the form data.
+ * @param {object} formData
+ * @returns {object} //example: { reassignment: true, consultations: true }
+ */
 export const allSelectedBehaviorTypes = formData => {
   const allBehaviorTypes = {
     ...formData.workBehaviors,
@@ -189,6 +194,11 @@ export const allSelectedBehaviorTypes = formData => {
     }, {});
 };
 
+/**
+ * Returns an object containing the orphaned behavior type with the provided details.
+ * @param {object} formData
+ * @returns {object} // example: { performance: 'Changes in performance or performance evaluations', socialEconomic: 'Economic or social behavioral changes' }
+ */
 export function orphanedBehaviorDetails(formData) {
   const updatedSelections = allSelectedBehaviorTypes(formData);
 
@@ -222,37 +232,6 @@ export function orphanedBehaviorDetails(formData) {
   }
   return orphanedObject;
 }
-
-export const modalContent = formData => {
-  const orphanedDetails = orphanedBehaviorDetails(formData);
-  const orphanedBehaviorsCount = Object.keys(orphanedDetails).length;
-  const firstFourBehaviors = Object.values(orphanedDetails).slice(0, 4);
-  const remainingBehaviors = orphanedBehaviorsCount - 4;
-
-  return (
-    <>
-      <h4 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
-        Remove behavioral changes?
-      </h4>
-      <p>
-        <b>What to know:</b> If you remove these items, we’ll delete information
-        you provided about:
-      </p>
-      <ul>
-        {firstFourBehaviors.map((behaviorWithDetails, i) => (
-          <li key={i}>
-            <b>{Object.values(behaviorWithDetails)}</b>
-          </li>
-        ))}
-        {remainingBehaviors > 2 && (
-          <li>
-            And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
-          </li>
-        )}
-      </ul>
-    </>
-  );
-};
 
 // behavior description pages
 export const behaviorDescriptionPageDescription =

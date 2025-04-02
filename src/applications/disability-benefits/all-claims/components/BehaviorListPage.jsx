@@ -7,14 +7,13 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
 
 import {
   behaviorListDescription,
   behaviorListNoneLabel,
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
-  modalContent,
   orphanedBehaviorDetails,
   conflictingBehaviorErrorMessage,
   showConflictingAlert,
@@ -64,7 +63,6 @@ const BehaviorListPage = ({
   const [showAlert, setShowAlert] = useState(false);
 
   const alertRef = useRef(null);
-
   useEffect(
     () => {
       if (showAlert && alertRef.current) {
@@ -72,6 +70,16 @@ const BehaviorListPage = ({
       }
     },
     [showAlert],
+  );
+  const modalRef = useRef(null);
+  useEffect(
+    () => {
+      if (showModal && modalRef.current) {
+        const modalHeading = document.querySelector('h4');
+        scrollAndFocus(modalHeading);
+      }
+    },
+    [showModal],
   );
 
   const checkErrors = updatedData => {
@@ -175,7 +183,7 @@ const BehaviorListPage = ({
         };
         handleUpdatedSelection(behaviorSection, updatedData);
         if (checkErrors(updatedData)) {
-          scrollToFirstError({ focusOnAlertRole: true });
+          scrollToFirstError({ focusOnAlertRole: false });
         }
       } else if (!target.checked) {
         const updatedData = {
@@ -184,14 +192,14 @@ const BehaviorListPage = ({
         };
         handleUpdatedSelection(behaviorSection, updatedData);
         if (checkErrors(updatedData)) {
-          scrollToFirstError({ focusOnAlertRole: true });
+          scrollToFirstError({ focusOnAlertRole: false });
         }
       }
     },
     onSubmit: event => {
       event.preventDefault();
       if (checkErrors(data)) {
-        scrollToFirstError({ focusOnAlertRole: true });
+        scrollToFirstError({ focusOnAlertRole: false });
       } else if (
         data?.behaviorsDetails &&
         Object.keys(orphanedBehaviorDetails(data)).length > 0
@@ -203,6 +211,8 @@ const BehaviorListPage = ({
     },
     onCloseModal: () => {
       resetSelections();
+      const continueButton = document.querySelector("button[type='submit']");
+      scrollAndFocus(continueButton);
       setShowModal(false);
       setShowAlert(false);
     },
@@ -217,9 +227,43 @@ const BehaviorListPage = ({
     onCancelAlert: () => {
       setShowAlert(false);
       if (hasError) {
-        scrollToFirstError({ focusOnAlertRole: true });
+        scrollToFirstError({ focusOnAlertRole: false });
       }
     },
+  };
+
+  const modalContent = formData => {
+    const orphanedDetails = orphanedBehaviorDetails(formData);
+    const orphanedBehaviorsCount = Object.keys(orphanedDetails).length;
+    const firstFourBehaviors = Object.values(orphanedDetails).slice(0, 4);
+    const remainingBehaviors = orphanedBehaviorsCount - 4;
+
+    return (
+      <>
+        <h4
+          ref={modalRef}
+          className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0"
+        >
+          Remove behavioral changes?
+        </h4>
+        <p>
+          <b>What to know:</b> If you remove these items, we’ll delete
+          information you provided about:
+        </p>
+        <ul>
+          {firstFourBehaviors.map((behaviorWithDetails, i) => (
+            <li key={i}>
+              <b>{Object.values(behaviorWithDetails)}</b>
+            </li>
+          ))}
+          {remainingBehaviors > 2 && (
+            <li>
+              And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
+            </li>
+          )}
+        </ul>
+      </>
+    );
   };
 
   return (
@@ -278,7 +322,6 @@ const BehaviorListPage = ({
         <VaCheckboxGroup
           label={BEHAVIOR_LIST_SECTION_SUBTITLES.work}
           label-header-level={4}
-          name="workBehaviors"
           hint={BEHAVIOR_LIST_HINTS.work}
           onVaChange={handlers.onSelectionChange}
           uswds
@@ -287,7 +330,6 @@ const BehaviorListPage = ({
             ([behaviorType, description]) => (
               <va-checkbox
                 key={behaviorType}
-                name="workBehaviors"
                 label={description}
                 value={behaviorType}
                 checked={
@@ -304,7 +346,6 @@ const BehaviorListPage = ({
         <VaCheckboxGroup
           label={BEHAVIOR_LIST_SECTION_SUBTITLES.health}
           label-header-level={4}
-          name="healthBehaviors"
           hint={BEHAVIOR_LIST_HINTS.health}
           onVaChange={handlers.onSelectionChange}
           uswds
@@ -313,7 +354,6 @@ const BehaviorListPage = ({
             ([behaviorType, description]) => (
               <va-checkbox
                 key={behaviorType}
-                name="healthBehaviors"
                 label={description}
                 value={behaviorType}
                 checked={
@@ -330,7 +370,6 @@ const BehaviorListPage = ({
         <VaCheckboxGroup
           label={BEHAVIOR_LIST_SECTION_SUBTITLES.other}
           label-header-level={4}
-          name="otherBehaviors"
           form-heading-level={4}
           hint={BEHAVIOR_LIST_HINTS.other}
           onVaChange={handlers.onSelectionChange}
@@ -340,7 +379,6 @@ const BehaviorListPage = ({
             ([behaviorType, description]) => (
               <va-checkbox
                 key={behaviorType}
-                name="otherBehaviors"
                 label={description}
                 value={behaviorType}
                 checked={
@@ -357,7 +395,6 @@ const BehaviorListPage = ({
         <VaCheckboxGroup
           label={BEHAVIOR_LIST_SECTION_SUBTITLES.none}
           label-header-level={4}
-          name="view:noneCheckbox"
           hint={BEHAVIOR_LIST_HINTS.none}
           onVaChange={handlers.onSelectionChange}
           error={hasError}
@@ -365,7 +402,6 @@ const BehaviorListPage = ({
         >
           <va-checkbox
             key="none"
-            name="view:noneCheckbox"
             label={behaviorListNoneLabel}
             value="view:noBehaviorChanges"
             checked={
