@@ -165,7 +165,7 @@ const BehaviorIntroCombatPage = ({
           tabIndex="-1"
         >
           <p className="vads-u-margin-y--0">
-            We’ve removed information about your behavioral changes
+            We’ve removed information about your behavioral changes.
           </p>
           <p>
             <button
@@ -173,14 +173,8 @@ const BehaviorIntroCombatPage = ({
               className="va-button-link"
               onClick={() => goForward(data)}
             >
-              Click here
+              Continue with your claim
             </button>{' '}
-            to proceed with your claim.
-          </p>
-
-          <p>
-            If you change your mind, you can opt back in at any time before
-            you submit your claim
           </p>
         </VaAlert>
       </div>
@@ -195,8 +189,8 @@ const BehaviorIntroCombatPage = ({
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
-        primaryButtonText="Skip questions about behavioral changes"
-        secondaryButtonText="Cancel and return to claim"
+        primaryButtonText="Yes, skip these questions"
+        secondaryButtonText="No, return to claim"
         status="warning"
       >
         <BehaviorIntroCombatPageModalContent formData={data} />

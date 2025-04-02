@@ -374,9 +374,6 @@ describe('BehaviorIntroCombatPage', () => {
 
           it('does not advance the page, displays a deletion confirmation and autofocuses on it', async () => {
             const goForwardSpy = sinon.spy();
-            // Focus isn't working as expected
-            // const focusElementSpy = sinon.spy(focusUtils, 'focusElement');
-
             const { container } = render(
               page({
                 data: filledOutDataWithOptOut,
@@ -396,13 +393,9 @@ describe('BehaviorIntroCombatPage', () => {
               'We’ve removed information about your behavioral changes',
             );
 
-            // waitFor(async () => {
-            //   // This test is unaffected by the use effect so I don't think it's working
-            //   expect(focusElementSpy.called).to.be.true;
-            //   expect(goForwardSpy.notCalled).to.be.true;
-            // });
-
-            // focusElementSpy.restore();
+            expect(
+              $('va-alert[status="success"]', container).innerHTML,
+            ).to.contain('Continue with your claim');
           });
         });
 

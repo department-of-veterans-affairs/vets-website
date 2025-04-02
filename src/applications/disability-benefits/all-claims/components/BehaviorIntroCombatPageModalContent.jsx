@@ -49,8 +49,8 @@ export const BehaviorIntroCombatPageModalContent = ({ formData }) => {
     <>
       <p>
         <b>What to know: </b>
-        If you change to skip questions about behavioral changes, we’ll remove
-        information you provided about behavioral changes, including:
+        If you change to skip questions about behavioral changes, we’ll delete
+        information you provided about:
       </p>
       <ul>
         {firstThreeBehaviors.map((behaviorDescription, i) => (
