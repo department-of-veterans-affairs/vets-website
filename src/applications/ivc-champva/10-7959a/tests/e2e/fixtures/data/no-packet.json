@@ -1,5 +1,5 @@
 {
-  "description": "Military base sponsor address, no OHI, pharmacy claim, work related, NOT auto related",
+  "description": "Has not received CHAMPVA packet, military base sponsor address, no OHI, pharmacy claim, work related, NOT auto related",
   "data": {
     "view:hasPolicies": false,
     "pharmacyUpload": [
@@ -41,7 +41,7 @@
       "suffix": "Sr."
     },
     "certifierRole": "applicant",
-    "certifierReceivedPacket": true,
+    "certifierReceivedPacket": false,
     "missingUploads": [
       {
         "name": "pharmacyUpload",
