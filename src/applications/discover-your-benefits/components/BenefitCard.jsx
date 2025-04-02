@@ -10,9 +10,21 @@ const BenefitCard = ({ benefit }) => {
     learnMoreURL,
     applyNowURL,
   } = benefit;
+
+  const renderLink = (url, text, label, action = false) => {
+    if (url) {
+      return action === true ? (
+        <va-link-action href={url} text={text} label={label} type="secondary" />
+      ) : (
+        <va-link active href={url} text={text} label={label} />
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="benefit-card vads-u-margin-bottom--2">
-      <va-card tabIndex="0">
+      <va-card>
         <>
           {isTimeSensitive && (
             <div className="blue-heading">
@@ -29,27 +41,21 @@ const BenefitCard = ({ benefit }) => {
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
-        <div>
-          <div className="vads-u-display--inline-block vads-u-margin-right--2">
-            {learnMoreURL && (
-              <va-link
-                href={learnMoreURL}
-                external
-                text="Learn more"
-                type="secondary"
-                label={`Learn more about ${name}`}
-              />
+        <div className="link-container">
+          <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
+            {renderLink(
+              learnMoreURL,
+              'Learn more',
+              `Learn more about ${name}`,
+              false,
             )}
           </div>
-          <div className="vads-u-display--inline-block">
-            {applyNowURL && (
-              <va-link
-                href={applyNowURL}
-                external
-                text="Apply now"
-                type="secondary"
-                label={`Apply now for ${name}`}
-              />
+          <div>
+            {renderLink(
+              applyNowURL,
+              'Apply now',
+              `Apply now for ${name}`,
+              true,
             )}
           </div>
         </div>

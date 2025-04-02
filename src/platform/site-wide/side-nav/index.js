@@ -1,7 +1,5 @@
-// Dependencies
 import React from 'react';
-// Relative
-import widgetTypes from 'applications/static-pages/widgetTypes';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import startReactApp from '../../startup/react';
 import { normalizeSideNavData } from './helpers';
 

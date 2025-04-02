@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
-import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/sample-lighthouse.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -12,38 +12,29 @@ describe('Medical Records View Vitals', () => {
       isAcceleratingEnabled: true,
       isAcceleratingVitals: true,
     });
-    cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
 
-  it('Visits View Vitals List', () => {
+  it('Visits View Vital List', () => {
+    site.loadPage();
+
     // check for MY Va Health links
-    cy.get('[data-testid="labs-and-tests-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="summary-and-notes-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vaccines-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="health-conditions-oh-landing-page-link"]').should(
-      'be.visible',
-    );
+    Vitals.checkLandingPageLinks();
 
-    cy.get('[data-testid="allergies-oh-landing-page-link"]').should(
-      'be.visible',
-    );
+    Vitals.goToVitalPage();
 
-    cy.get('[data-testid="vitals-landing-page-link"]')
-      .should('be.visible')
-      .click();
+    const today = new Date();
+    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}`;
+    Vitals.checkUrl({ timeFrame });
+
+    cy.injectAxeThenAxeCheck();
+
+    const CARDS_PER_PAGE = 16; // 8 per page * 2 for printing
+    cy.get('va-card').should('have.length', CARDS_PER_PAGE);
 
     cy.get("[data-testid='current-date-display']").should('be.visible');
     cy.get("[data-testid='current-date-display']").should('not.be.empty');
-
-    // Axe check
-    cy.injectAxe();
-    cy.axeCheck('main');
   });
 });

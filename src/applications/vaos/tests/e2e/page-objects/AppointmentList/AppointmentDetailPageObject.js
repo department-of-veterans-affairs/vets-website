@@ -47,11 +47,6 @@ function assertDescription(type, tokens) {
       '\tSuite 10\\, City 983\\, WY 82001-5356\\n',
     );
     expect(description[4]).to.equal('\t307-778-7550\\n');
-  } else if (type === VIDEO_TYPES.gfe) {
-    expect(description[0]).to.equal(
-      'You can join this meeting up to 30 minutes before the start ti',
-    );
-    expect(description[1]).to.equal('\tme.');
   }
 }
 function assertLocation(type, tokens) {
@@ -65,8 +60,6 @@ function assertLocation(type, tokens) {
     expect(tokens.get('LOCATION')).to.equal(
       '2360 East Pershing Boulevard\\, Suite 10\\, City 983\\, WY 82001-5356',
     );
-  } else if (type === VIDEO_TYPES.gfe) {
-    expect(tokens.get('LOCATION')).to.equal('VA Video Connect at home');
   }
 }
 function assertSummary(type, tokens) {
@@ -76,14 +69,11 @@ function assertSummary(type, tokens) {
       'VA Video Connect appointment at an ATLAS facility',
     );
   } else if (type === VIDEO_TYPES.mobile) {
-    // TODO: Verify this!!!
-    // expect(tokens.get('SUMMARY')).to.contain('VA Video Connect appointment');
+    expect(tokens.get('SUMMARY')).to.contain('VA Video Connect appointment');
   } else if (type === VIDEO_TYPES.clinic) {
     expect(tokens.get('SUMMARY')).to.contain(
       'VA Video Connect appointment at Cheyenne VA Medical Center',
     );
-  } else if (type === VIDEO_TYPES.gfe) {
-    expect(tokens.get('SUMMARY')).to.equal('VA Video Connect appointment');
   }
 }
 

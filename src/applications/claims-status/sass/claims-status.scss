@@ -25,6 +25,15 @@
   max-width: 14.0625rem;
 }
 
+.appeal-help-heading {
+  border-bottom: 3px solid var(--vads-color-primary);
+  margin: 10px 0 10px;
+  padding-bottom: 9px;
+  font-size: 1.35em;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
 .claims-status-content {
   .help-sidebar {
     // Line up the bottom border under "Need help?" with the tab list bottom border
@@ -146,7 +155,7 @@
     display: block;
     width: fit-content;
     font-size: 1rem;
-    font-family: var(--font-source-sans);
+    font-family: $font-family-sans;
     font-weight: normal;
     line-height: 1.5;
   }
@@ -161,7 +170,7 @@
   top: 0;
   right: 1em;
   background: var(--vads-color-link);
-  color: var(--vads-color-white);;
+  color: var(--vads-color-white);
   font-size: 0.8em;
   padding: 0.5em 0.75em;
   border-radius: 0 0 0.5em 0.5em;
@@ -637,7 +646,7 @@ h1:focus {
 
     &::before {
       background: var(--vads-color-success-dark);
-      border: 4px solid var(--vads-color-white);;
+      border: 4px solid var(--vads-color-white);
       border-radius: 50%;
       color: var(--vads-color-success-dark);
       content: "\2022";
@@ -996,7 +1005,7 @@ $marker-text-width: 5.625rem;
     border: 1px solid var(--vads-color-base-light);
     // abuts the .end-of-docket
     border-right: 0px;
-    background-color: var(--vads-color-white);;
+    background-color: var(--vads-color-white);
 
     .completed {
       background-color: var(--vads-color-primary-dark);
@@ -1202,7 +1211,6 @@ va-icon.phase-current {
   display: inline-block;
 }
 
-
 .repeat-phase {
   display: inline-flex;
   flex-direction: row;
@@ -1216,4 +1224,8 @@ va-icon.phase-current {
     display: inline-block;
     margin: 16px;
   }
+}
+
+.bullet-disc {
+  list-style-type: disc;
 }

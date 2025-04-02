@@ -30,14 +30,21 @@
     "applicantNewAddress": "yes",
     "missingUploads": [
       {
-        "name": "primaryInsuranceCard",
-        "path": "insurance-upload",
+        "name": "primaryInsuranceCardFront",
+        "path": "primary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCardBack",
+        "path": "primary-insurance-card-upload",
         "required": true,
         "uploaded": false
       }
     ],
     "consentToMailMissingRequiredFiles": true,
     "certifierRole": "other",
+    "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"
   }
 }

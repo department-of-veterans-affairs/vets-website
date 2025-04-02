@@ -1,14 +1,16 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import profileContactInfo from './profileContactInfo';
 
-import manifest from '../../../../manifest.json';
+// application root imports
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 
+// import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+
+// page level imports
 import IntroductionPage from '../IntroductionPage';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
-import { GetFormHelp } from '../GetFormHelp';
-
-import veteranInfo from '../pages/veteranInfo';
-import { taskCompletePagePattern2 } from '../../../../shared/config/taskCompletePage';
+import personalInfo from './personalInfo';
+import { contactInfo } from './contactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -18,7 +20,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-blue',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {
@@ -31,8 +33,8 @@ const formConfig = {
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
-      veteranSocialSecurityNumber:
-        formData?.veteranSocialSecurityNumber || null,
+      ssn: formData?.veteranSocialSecurityNumber || null,
+      vaFileNumber: formData?.veteranVAFileNumber || null,
     };
     return {
       metadata,
@@ -58,24 +60,8 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-details',
-          uiSchema: veteranInfo.uiSchema,
-          schema: veteranInfo.schema,
-        },
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo3',
-          contactPath: 'veteran-information',
-          contactInfoRequiredKeys: [
-            'mailingAddress',
-            'email',
-            'homePhone',
-            'mobilePhone',
-          ],
-          included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
-        }),
-        taskCompletePagePattern2,
+        ...personalInfo,
+        ...contactInfo,
       },
     },
   },

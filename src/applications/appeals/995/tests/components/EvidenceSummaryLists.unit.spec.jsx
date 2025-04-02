@@ -84,11 +84,11 @@ describe('evidenceSummaryList', () => {
         <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
-      expect($('h4', container).textContent).to.contain(content.vaTitle);
+      expect($('.va-title', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
-      expect($$('h5', container).length).to.eq(2);
+      expect($$('.va-location', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
       // check Datadog classes
       expect(
@@ -112,10 +112,31 @@ describe('evidenceSummaryList', () => {
         <VaContent list={vaEvidence} showScNewForm reviewMode testing />,
       );
 
-      expect($('h5', container).textContent).to.contain(content.vaTitle);
-      expect($$('ul', container).length).to.eq(1);
+      expect($('.va-title', container).textContent).to.contain(content.vaTitle);
+      expect($$('ul[role="list"]', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
-      expect($$('h6', container).length).to.eq(2);
+      expect($$('.va-location', container).length).to.eq(2);
+      expect($$('.edit-item', container).length).to.eq(0);
+      expect($$('.remove-item', container).length).to.eq(0);
+    });
+
+    it('should render list only for confirmation page content', () => {
+      const vaEvidence = records().locations;
+      const { container } = render(
+        <VaContent
+          list={vaEvidence}
+          showScNewForm
+          reviewMode
+          showListOnly
+          testing
+        />,
+      );
+
+      expect($('.va-title', container).textContent).to.contain(content.vaTitle);
+      expect($$('ul[role="list"]', container).length).to.eq(1);
+      expect($$('li', container).length).to.eq(2);
+      expect($$('.va-location', container).length).to.eq(2);
+
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
@@ -221,16 +242,24 @@ describe('evidenceSummaryList', () => {
     it('should render editable private content', () => {
       const privateEvidence = records().providerFacility;
       const { container } = render(
-        <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
+        <PrivateContent
+          list={privateEvidence}
+          limitedConsent="test"
+          privacyAgreementAccepted
+          showScNewForm
+          showLimitedConsentYN
+          testing
+        />,
       );
-
-      expect($('h4', container).textContent).to.contain(content.privateTitle);
-      expect($$('ul', container).length).to.eq(1);
-      expect($$('li', container).length).to.eq(3);
-      // Includes limited consent
-      expect($$('h5', container).length).to.eq(3);
-      expect($$('.edit-item', container).length).to.eq(3);
-      expect($$('.remove-item', container).length).to.eq(3);
+      expect($('.private-title', container).textContent).to.contain(
+        content.privateTitle,
+      );
+      expect($$('ul[role="list"]', container).length).to.eq(1);
+      expect($$('li', container).length).to.eq(5);
+      expect($$('.private-facility', container).length).to.eq(2);
+      expect($$('.private-limitation', container).length).to.eq(1);
+      expect($$('.edit-item', container).length).to.eq(5);
+      expect($$('.remove-item', container).length).to.eq(2);
       // check Datadog classes
       expect(
         $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
@@ -252,8 +281,8 @@ describe('evidenceSummaryList', () => {
       const { container } = render(
         <PrivateContent list={privateEvidence} limitedConsent="" testing />,
       );
-      // Includes limited consent
-      expect($$('h5', container).length).to.eq(3);
+      expect($$('.private-facility', container).length).to.eq(2);
+      expect($$('.private-limitation', container).length).to.eq(1);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -268,11 +297,35 @@ describe('evidenceSummaryList', () => {
         />,
       );
 
-      expect($('h5', container).textContent).to.contain(content.privateTitle);
+      expect($('.private-title', container).textContent).to.contain(
+        content.privateTitle,
+      );
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
-      // Includes limited consent
-      expect($$('h6', container).length).to.eq(3);
+      expect($$('.private-facility', container).length).to.eq(2);
+      expect($$('.private-limitation', container).length).to.eq(1);
+      expect($$('.edit-item', container).length).to.eq(0);
+      expect($$('.remove-item', container).length).to.eq(0);
+    });
+    it('should render list only for confirmation page content', () => {
+      const privateEvidence = records().providerFacility;
+      const { container } = render(
+        <PrivateContent
+          list={privateEvidence}
+          limitedConsent="test"
+          reviewMode
+          showListOnly
+          testing
+        />,
+      );
+
+      expect($('.private-title', container).textContent).to.contain(
+        content.privateTitle,
+      );
+      expect($$('ul', container).length).to.eq(1);
+      expect($$('li', container).length).to.eq(3);
+      expect($$('.private-facility', container).length).to.eq(2);
+      expect($$('.private-limitation', container).length).to.eq(1);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
@@ -365,10 +418,12 @@ describe('evidenceSummaryList', () => {
         <UploadContent list={otherEvidence} testing />,
       );
 
-      expect($('h4', container).textContent).to.contain(content.otherTitle);
-      expect($$('ul', container).length).to.eq(1);
+      expect($('.upload-title', container).textContent).to.contain(
+        content.otherTitle,
+      );
+      expect($$('ul[role="list"]', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
-      expect($$('h5', container).length).to.eq(2);
+      expect($$('.upload-file', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
       // check Datadog classes
@@ -393,13 +448,32 @@ describe('evidenceSummaryList', () => {
         <UploadContent list={otherEvidence} reviewMode testing />,
       );
 
-      expect($('h5', container).textContent).to.contain(content.otherTitle);
+      expect($('.upload-title', container).textContent).to.contain(
+        content.otherTitle,
+      );
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
-      expect($$('h6', container).length).to.eq(2);
+      expect($$('.upload-file', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
+    it('should render list only for confirmation page content', () => {
+      const otherEvidence = records().additionalDocuments;
+      const { container } = render(
+        <UploadContent list={otherEvidence} reviewMode showListOnly testing />,
+      );
+
+      expect($('.upload-title', container).textContent).to.contain(
+        content.otherTitle,
+      );
+      expect($$('ul', container).length).to.eq(1);
+      expect($$('li', container).length).to.eq(2);
+      expect($$('.upload-file', container).length).to.eq(2);
+
+      expect($$('.edit-item', container).length).to.eq(0);
+      expect($$('.remove-item', container).length).to.eq(0);
+    });
+
     it('should have edit links pointing to the upload page', () => {
       const otherEvidence = records().additionalDocuments;
       const { container } = render(

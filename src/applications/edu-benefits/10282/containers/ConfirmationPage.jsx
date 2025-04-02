@@ -56,10 +56,7 @@ export class ConfirmationPage extends React.Component {
           <p>
             <strong>Confirmation for your records </strong>
             <br />
-            <span>
-              You can print this confirmation page for your records. You can
-              also download your completed application as a PDF.
-            </span>
+            <span>You can print this confirmation page for your records.</span>
           </p>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
@@ -69,20 +66,13 @@ export class ConfirmationPage extends React.Component {
           >
             Print this page
           </button>
-          <va-link
-            download
-            class="vads-u-display--block"
-            filetype="PDF"
-            href="/education/apply-for-education-benefits/10282/confirmation"
-            text="Download your completed application"
-          />
         </div>
         <div className="vads-u-margin-top--0">
           <h2>What to expect next</h2>
           <p>
             If you're accepted into the SkillsBuild program, you'll receive an
             email from <a href="mailto:sbuser@us.ibm.com">sbuser@us.ibm.com</a>{' '}
-            with your login informatia. If you don't receive an email, check
+            with your login information. If you don't receive an email, check
             your spam folder.
           </p>
           <p>
@@ -118,7 +108,7 @@ ConfirmationPage.propTypes = {
   name: PropTypes.string,
 };
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     form: state.form,
   };

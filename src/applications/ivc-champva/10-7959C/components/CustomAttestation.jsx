@@ -1,7 +1,7 @@
 import React from 'react';
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 import get from 'platform/utilities/data/get';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 
 /*
 Custom attestation/signature/statement of truth component.
@@ -24,10 +24,11 @@ signature field and NOT check that it matched a previously entered string.
  * @param {object} formData standard formData object
  * @returns Either a string representing an error, or undefined (representing a match)
  */
-function signatureValidator(signatureName, formData) {
+export function signatureValidator(signatureName, formData) {
   const name = Object.values(formData?.applicantName || { empty: '' })
     .filter(el => el)
     .join('')
+    .replaceAll(' ', '')
     .toLowerCase();
   if (signatureName.replaceAll(' ', '').toLowerCase() !== name) {
     return `Please enter your full name exactly as entered on the form: ${nameWording(

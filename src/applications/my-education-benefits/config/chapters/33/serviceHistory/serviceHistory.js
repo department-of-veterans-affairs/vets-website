@@ -14,7 +14,6 @@ const checkBoxValidation = {
   pattern: (errors, values, formData) => {
     if (
       !Object.keys(values).some(key => values[key]) &&
-      formData?.showMebServiceHistoryCategorizeDisagreement &&
       formData['view:serviceHistory']?.serviceHistoryIncorrect
     ) {
       errors.addError('Please check at least one of the options below');
@@ -125,8 +124,7 @@ const serviceHistory33 = {
       },
       incorrectServiceHistoryInputs: {
         'ui:required': formData =>
-          formData['view:serviceHistory']?.serviceHistoryIncorrect === true &&
-          formData?.showMebServiceHistoryCategorizeDisagreement,
+          formData['view:serviceHistory']?.serviceHistoryIncorrect === true,
         'ui:errorMessages': {
           required: 'Please check at least one of the options below',
         },
@@ -144,8 +142,6 @@ const serviceHistory33 = {
         'ui:options': {
           showFieldLabel: true,
           forceDivWrapper: true,
-          hideIf: formData =>
-            !formData?.showMebServiceHistoryCategorizeDisagreement,
         },
         servicePeriodMissingForActiveDuty: {
           'ui:title':

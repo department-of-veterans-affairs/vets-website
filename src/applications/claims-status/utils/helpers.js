@@ -420,7 +420,8 @@ export const DOC_TYPES = [
   },
   {
     value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+    label:
+      'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   },
   {
     value: 'L229',
@@ -513,7 +514,13 @@ export function makeAuthRequest(
 }
 
 export function getClaimType(claim) {
-  return claim?.attributes?.claimType || 'Disability Compensation';
+  if (claim?.attributes?.claimType) {
+    const { claimType } = claim.attributes;
+    return claimType === 'Death'
+      ? 'expenses related to death or burial'
+      : claimType;
+  }
+  return 'Disability Compensation';
 }
 
 export const mockData = {
@@ -1184,10 +1191,11 @@ export const generateClaimTitle = (claim, placement, tab) => {
 };
 
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
+// It is also used to set the Document Request Page breadcrumb text
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
     ? 'Review evidence list (5103 notice)'
-    : `Request for ${displayName}`;
+    : displayName;
 }
 
 // Used to set page title for the CST Tabs
@@ -1209,7 +1217,7 @@ export function setPageFocus(lastPage, loading) {
 }
 // Used to get the oldest document date
 // Logic used in getTrackedItemDateFromStatus()
-const getOldestDocumentDate = item => {
+export const getOldestDocumentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };

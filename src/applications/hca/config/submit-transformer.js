@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import set from 'platform/utilities/data/set';
 import recordEvent from 'platform/monitoring/record-event';
-import { hasLowDisabilityRating } from '../utils/helpers/form-config';
+import { hasLowDisabilityRating } from '../utils/helpers';
 
 /**
  * Map file attachment data to determine if any of the files are the
@@ -82,13 +82,6 @@ export const submitTransformer = (formConfig, form) => {
   if (isDischargeAfterToday) {
     recordEvent({
       event: 'hca-future-discharge-date-submission',
-    });
-  }
-
-  const { sigiGenders } = form.data;
-  if (sigiGenders && sigiGenders !== 'NA') {
-    recordEvent({
-      event: 'hca-submission-with-sigi-value',
     });
   }
 

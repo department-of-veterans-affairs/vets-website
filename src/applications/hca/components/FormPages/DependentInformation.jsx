@@ -1,11 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import {
@@ -13,16 +10,54 @@ import {
   getSearchAction,
   getSearchIndex,
   getDefaultState,
-} from '../../utils/helpers/listloop-pattern';
+  replaceStrValues,
+  canHaveEducationExpenses,
+} from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
-  DEPENDENT_SUBPAGES,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
+  LAST_YEAR,
 } from '../../utils/constants';
+import { REACT_BINDINGS } from '../../utils/imports';
+import content from '../../locales/en/content.json';
+
+// expose React binding for web components
+const { VaModal } = REACT_BINDINGS;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
+
+// declare subpage configs for dependent information page
+const DEPENDENT_SUBPAGES = [
+  {
+    id: 'basic',
+    title: content['household-dependent-info-basic-title'],
+  },
+  {
+    id: 'additional',
+    title: content['household-dependent-info-addtl-title'],
+  },
+  {
+    id: 'support',
+    title: content['household-dependent-info-support-title'],
+    depends: { cohabitedLastYear: false },
+  },
+  {
+    id: 'income',
+    title: replaceStrValues(
+      content['household-dependent-info-income-title'],
+      LAST_YEAR,
+      '%d',
+    ),
+    depends: { 'view:dependentIncome': true },
+  },
+  {
+    id: 'education',
+    title: content['household-dependent-info-education-title'],
+    depends: canHaveEducationExpenses,
+  },
+];
 
 // declare default component
 const DependentInformation = props => {

@@ -3,17 +3,18 @@ import { useSelector } from 'react-redux';
 
 import {
   AlertMhvBasicAccount,
-  AlertMhvRegistration,
   AlertUnregistered,
   AlertVerifyAndRegister,
+  AlertAccountApiAlert,
 } from '../components/alerts';
 
 import {
-  hasMhvAccount,
   hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isLOA3,
   isVAPatient,
+  mhvAccountStatusUserError,
+  mhvAccountStatusErrorsSorted,
   showVerifyAndRegisterAlert,
   signInServiceName,
 } from '../selectors';
@@ -22,14 +23,18 @@ const Alerts = () => {
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
-  const userHasMhvAccount = useSelector(hasMhvAccount);
   const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
 
+  const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
+  const mhvAccountStatusSortedErrors = useSelector(
+    mhvAccountStatusErrorsSorted,
+  );
+
   if (userHasMhvBasicAccount) {
-    return <AlertMhvBasicAccount ssoe={ssoe} />;
+    return <AlertMhvBasicAccount />;
   }
 
   if (renderVerifyAndRegisterAlert) {
@@ -37,11 +42,16 @@ const Alerts = () => {
   }
 
   if (!userRegistered) {
-    return <AlertUnregistered />;
+    return <AlertUnregistered ssoe={ssoe} />;
   }
 
-  if (userRegistered && !userHasMhvAccount) {
-    return <AlertMhvRegistration ssoe={ssoe} />;
+  if (mhvAccountStatusSortedErrors.length > 0) {
+    return (
+      <AlertAccountApiAlert
+        userActionable={mhvAccountStatusUserErrors.length > 0}
+        errorCode={mhvAccountStatusSortedErrors[0].code}
+      />
+    );
   }
 
   return <></>;

@@ -52,7 +52,7 @@ const DebtError = () => {
       </ul>
       <p>
         <strong>Note: </strong>
-        You have <strong>180 days</strong> from the date you received your first
+        You have <strong>1 year</strong> from the date you received your first
         debt letter to submit your dispute statement. After this time, we can’t
         consider the request.
       </p>

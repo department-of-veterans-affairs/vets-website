@@ -2,17 +2,21 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-
+import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
-
+import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 import { medicationsUrls } from '../../../util/constants';
-import { Paths } from '../utils/constants';
+import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
+import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
@@ -44,23 +48,27 @@ class MedicationsListPage {
     );
   };
 
-  clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
-    waitForMeds = false,
-  ) => {
+  visitMedicationsLinkWhenNoAllergiesAPICallFails = (waitForMeds = false) => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
   };
 
-  clickGotoMedicationsLinkForUserWithAllergies = (waitForMeds = false) => {
+  visitMedicationsListForUserWithAllergies = (waitForMeds = false) => {
     // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -72,7 +80,7 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
@@ -174,14 +182,13 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
   };
 
-  clickLearnHowToRenewPrescriptionsLink = () => {
+  verifyLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}"]`)
-      .first()
-      .click({ waitForAnimations: true });
+      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
+      .should('be.visible');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
@@ -326,22 +333,19 @@ class MedicationsListPage {
       .and('be.visible');
   };
 
-  verifyInformationBasedOnStatusActiveRefillInProcess = () => {
+  verifyInformationBasedOnStatusActiveRefillInProcess = text => {
     cy.get('[data-testid="rx-refillinprocess-info"]')
       .should('exist')
       .and('be.visible')
-      .and('contain', 'We expect to fill it on');
+      .and('contain', text);
   };
 
-  verifyInformationBasedOnStatusNonVAPrescription = () => {
+  verifyInformationBasedOnStatusNonVAPrescription = text => {
     cy.get('[data-testid="rx-last-filled-info"]').should('be.visible');
 
     cy.get('[data-testid="non-VA-prescription"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'This isn’t a prescription that you filled through a VA pharmacy. You can’t manage this medication in this online tool.',
-      );
+      .and('contain', text);
   };
 
   verifyInformationBasedOnStatusActiveParked = () => {
@@ -590,7 +594,7 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionExpirationDateforRxOver180Days = expiredPrescription => {
-    cy.get('@medicationsList')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
@@ -602,7 +606,7 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.wait('@medicationsList').then(interception => {
+    cy.wait('@Medications').then(interception => {
       expect(interception.response.body.data[1].attributes).to.include({
         cmopNdcNumber: null,
       });
@@ -610,7 +614,7 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
-    cy.get('@medicationsList')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[4].attributes).to.include({
@@ -645,7 +649,7 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.wait('@medicationsList').then(interception => {
+    cy.wait('@Medications').then(interception => {
       expect(interception.response.body.data[19].attributes).to.include({
         shape,
         color,
@@ -772,6 +776,12 @@ class MedicationsListPage {
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
     cy.contains('All medications').should('be.visible');
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"],[value="ALL Medications"],[aria-checked="true"]', {
+        force: true,
+      })
+      .should('exist');
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
@@ -781,24 +791,25 @@ class MedicationsListPage {
   };
 
   verifyFilterCollapsedOnListPage = () => {
-    cy.get('[data-testid="filter-button"]')
-      .shadow()
-      .find('[type="button"]')
-      .should('not.exist');
-    cy.get('[data-testid="filter-option"]')
-      .shadow()
-      .find('[class="usa-legend"]', { force: true })
-      .should('not.exist');
+    cy.get('[data-testid="filter-button"]').should('not.be.visible');
+    cy.get('[data-testid="filter-option"]').should('not.be.visible');
   };
 
   visitMedicationsListPageURL = medication => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, medication).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
+    cy.intercept('GET', '/my_health/v1/tooltips', tooltip).as('tooltips');
+    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('Medications');
+    cy.intercept('POST', '/my_health/v1/tooltips', tooltipVisible).as(
+      'tooltipsVisible',
+    );
     cy.visit(medicationsUrls.MEDICATIONS_URL);
-    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
   };
 
   verifyEmptyMedicationsListAlertOnListPage = text => {
@@ -809,6 +820,168 @@ class MedicationsListPage {
     cy.get('[data-testid="zero-filter-results"]')
       .should('have.text', text)
       .and('be.focused');
+  };
+
+  clickResetFilterButtonOnFilterAccordionDropDown = () => {
+    cy.get('[data-testid="filter-reset-button"]').should('exist');
+    cy.get('[data-testid="filter-reset-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickBackToTopButtonOnListPage = () => {
+    cy.get('[data-testid="rx-back-to-top"]')
+      .should('exist')
+      .and('be.visible');
+    cy.get('[data-testid="rx-back-to-top"]', { includeShadowDom: true })
+      .find('[class ="text"]')
+      .click({ force: true });
+  };
+
+  verifyMedicationsListPageTitleIsFocused = () => {
+    cy.get('[data-testid="list-page-title"]')
+      .should('be.visible')
+      .and('be.focused');
+  };
+
+  verifyPrecriptionNumberForPendingRxOnMedicationCard = (
+    prescriptionNumber,
+    cardNumber,
+  ) => {
+    cy.get(
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
+    )
+      .first()
+      .should('contain', prescriptionNumber);
+  };
+
+  verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .first()
+      .should('be.visible')
+      .and('have.text', text);
+  };
+
+  verifyPendingRenewalInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .should('be.visible')
+      .and('contain', text);
+  };
+
+  updatedOrderDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newOrderedDate = new Date(currentDate);
+        newOrderedDate.setDate(currentDate.getDate());
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            orderedDate:
+              item.attributes.orderedDate != null
+                ? newOrderedDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
+
+  verifyRefillDelayAlertBannerOnListPage = text => {
+    cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
+  };
+
+  verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
+    cy.get('[data-testid="alert-banner"]').should('contain', rxName);
+  };
+
+  clickMedicationsDetailsLinkOnDelayAlert = (prescriptionId, rx) => {
+    cy.intercept('GET', `/my_health/v1/prescriptions/${prescriptionId}`, rx);
+    cy.get(`[data-testid="refill-alert-link-${prescriptionId}"]`).click({
+      force: true,
+    });
+  };
+
+  verifyNeedHelpSectionOnListPage = text => {
+    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+  };
+
+  verifyGoToUseMedicationLinkOnListPage = () => {
+    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+  };
+
+  verifyStartANewMessageLinkOnListPage = () => {
+    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+  };
+
+  verifyTitleNotesOnListPage = text => {
+    cy.get('[data-testid="Title-Notes"]').should('contain', text);
+  };
+
+  verifyToolTipTextOnListPage = text => {
+    cy.get('#rx-ipe-filtering-description')
+      .should('contain', text)
+      .and('be.visible');
+  };
+
+  clickToolTipCloseButtonOnListPage = () => {
+    cy.intercept(
+      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
+      noToolTip,
+    ).as('noToolTip');
+    cy.get('[data-testid="rx-ipe-filtering-close"]').click({ force: true });
+  };
+
+  verifyToolTipNotVisibleOnListPage = () => {
+    cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').should(
+      'not.exist',
+    );
+  };
+
+  clickStopShowingThisHintLinkOnListPage = () => {
+    cy.intercept(
+      'PATCH',
+      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
+      noToolTip,
+    ).as('noToolTip');
+    cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').click({
+      force: true,
+    });
+  };
+
+  verifyFilterAccordionDropDownIsFocused = () => {
+    cy.get('[data-testid="rx-filter"]').should('have.focus');
+  };
+
+  updatedRefillDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newRefillDate = new Date(currentDate);
+        newRefillDate.setDate(currentDate.getDate() + 6);
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            refillDate:
+              item.attributes.refillDate != null
+                ? newRefillDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
+
+  verifyToolTipCounterSetToZero = () => {
+    cy.get('@tooltipsVisible')
+      .its('response')
+      .then(res => {
+        expect(res.body.counter).to.eq(0);
+      });
   };
 }
 

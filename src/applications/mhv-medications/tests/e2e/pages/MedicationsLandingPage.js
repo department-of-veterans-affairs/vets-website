@@ -3,6 +3,7 @@ import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import prescriptions from '../fixtures/prescriptions.json';
 import { Paths } from '../utils/constants';
 import rxList from '../fixtures/listOfPrescriptions.json';
+import allergies from '../fixtures/allergies.json';
 
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
@@ -26,8 +27,8 @@ class MedicationsLandingPage {
   };
 
   visitLandingPageURL = () => {
-    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.intercept('GET', Paths.LANDING_LIST, rxList);
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
   };
 
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
@@ -112,11 +113,24 @@ class MedicationsLandingPage {
     );
   };
 
-  verifyCernerUserMyVAHealthAlertOnAboutMedicationsPage = () => {
-    cy.get('[data-testid="cerner-facilities-alert"]').should(
+  verifyCernerUserMyVAHealthAlertOnAboutMedicationsPage = text => {
+    cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
+  };
+
+  verifyMultipleCernerAlertTextOnABoutMedicationsPage = text => {
+    cy.get('[data-testid="single-cerner-facility-text"]').should(
       'contain',
-      'Make sure you’re in the right health portal',
+      text,
     );
+  };
+
+  verifyMultipleCernerFacilityNamesAlertOnAboutMedicationsPage = (
+    facilityName1,
+    facilityName2,
+  ) => {
+    cy.get('[data-testid="cerner-facilities-alert"]')
+      .should('contain', facilityName1)
+      .and('contain', facilityName2);
   };
 
   verifyGoToYourAllergiesAndReactionsLinkOnAboutMedicationsPage = () => {
@@ -127,8 +141,24 @@ class MedicationsLandingPage {
   };
 
   visitLandingPageURLforEmptyMedicationsList = () => {
-    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.intercept('GET', Paths.LANDING_LIST, emptyPrescriptionsList);
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
+  };
+
+  visitMedicationsListPage = prescriptionsList => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptionsList).as(
+      'delayAlertRxList',
+    );
+    cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
+    cy.intercept('GET', Paths.MED_LIST, prescriptionsList).as(
+      'medicationsList',
+    );
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 }
 export default MedicationsLandingPage;

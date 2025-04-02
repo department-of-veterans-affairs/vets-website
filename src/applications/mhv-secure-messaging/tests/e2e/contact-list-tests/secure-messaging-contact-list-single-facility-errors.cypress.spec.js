@@ -3,13 +3,15 @@ import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
 describe('SM Single Facility Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-    'mhv_secure_messaging_edit_contact_list',
-    true,
-  );
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_edit_contact_list',
+      value: true,
+    },
+  ]);
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggle);
     PatientInboxPage.loadInboxMessages();

@@ -22,6 +22,7 @@ const maintenanceWindows = require('./secure-messaging/endpoints/maintenance-win
 const drafts = require('./secure-messaging/drafts');
 const messages = require('./secure-messaging/messages');
 
+// medical records
 const session = require('./medical-records/session');
 const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
@@ -32,7 +33,36 @@ const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const vitals = require('./medical-records/vitals');
+const downloads = require('./medical-records/downloads');
+
+// medical records Blue Button
+const appointments = require('./medical-records/blue-button/appointments');
+const demographics = require('./medical-records/blue-button/demographics');
+const militaryService = require('./medical-records/blue-button/military-service');
+const patient = require('./medical-records/blue-button/patient');
 const acceleratedVitals = require('./medical-records/vitals/accelerated');
+
+// medical records self-entered
+const seiActivityJournal = require('./medical-records/self-entered/seiActivityJournal');
+const seiAllergies = require('./medical-records/self-entered/seiAllergies');
+const seiFamilyHealthHistory = require('./medical-records/self-entered/seiFamilyHealthHistory');
+const seiFoodJournal = require('./medical-records/self-entered/seiFoodJournal');
+const seiHealthcareProviders = require('./medical-records/self-entered/seiHealthcareProviders');
+const seiHealthInsurance = require('./medical-records/self-entered/seiHealthInsurance');
+const seiLabs = require('./medical-records/self-entered/seiLabs');
+const seiMedicalEvents = require('./medical-records/self-entered/seiMedicalEvents');
+const seiMedications = require('./medical-records/self-entered/seiMedications');
+const seiMilitaryHealthHistory = require('./medical-records/self-entered/seiMilitaryHealthHistory');
+const seiTreatmentFacilities = require('./medical-records/self-entered/seiTreatmentFacilities');
+const seiVaccines = require('./medical-records/self-entered/seiVaccines');
+const seiVitals = require('./medical-records/self-entered/seiVitals');
+const imaging = require('./medical-records/mhv-radiology/imaging');
+const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
+const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
+const imagingDownload = require('./medical-records/mhv-radiology/imaging-download');
+const {
+  getMockTooltips,
+} = require('../../../../applications/mhv-medications/mocks/api/tooltips/index');
 
 const responses = {
   ...commonResponses,
@@ -140,6 +170,8 @@ const responses = {
   },
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
+  'GET /my_health/v1/medical_records/ccd/generate': downloads.generateCCD,
+  'GET /my_health/v1/medical_records/ccd/download': downloads.downloadCCD,
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
     const { use_oh_data_path, from, to } = req.query;
     if (use_oh_data_path === '1') {
@@ -147,6 +179,45 @@ const responses = {
       return res.json(vitalsData);
     }
     return res.json(vitals.all);
+  },
+
+  // medical records Blue Button
+  'GET /vaos/v2/appointments': appointments.appointments,
+  'GET /my_health/v1/medical_records/patient/demographic':
+    demographics.demographics,
+  'GET /my_health/v1/medical_records/military_service':
+    militaryService.militaryService,
+  'GET /my_health/v1/medical_records/patient': patient.patient,
+
+  // medical records self-entered data
+  'GET /my_health/v1/medical_records/self_entered/activity_journal': seiActivityJournal,
+  'GET /my_health/v1/medical_records/self_entered/allergies': seiAllergies,
+  'GET /my_health/v1/medical_records/self_entered/family_history': seiFamilyHealthHistory,
+  'GET /my_health/v1/medical_records/self_entered/food_journal': seiFoodJournal,
+  'GET /my_health/v1/medical_records/self_entered/providers': seiHealthcareProviders,
+  'GET /my_health/v1/medical_records/self_entered/health_insurance': seiHealthInsurance,
+  'GET /my_health/v1/medical_records/self_entered/test_entries': seiLabs,
+  'GET /my_health/v1/medical_records/self_entered/medical_events': seiMedicalEvents,
+  'GET /my_health/v1/medical_records/self_entered/medications': seiMedications,
+  'GET /my_health/v1/medical_records/self_entered/military_history': seiMilitaryHealthHistory,
+  'GET /my_health/v1/medical_records/self_entered/treatment_facilities': seiTreatmentFacilities,
+  'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
+  'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
+
+  'GET /my_health/v1/medical_records/imaging': imaging,
+  'GET /my_health/v1/medical_records/imaging/status': imagingStatus,
+  'GET /my_health/v1/medical_records/imaging/:studyId/request': imagingRequest,
+  'GET /my_health/v1/medical_records/imaging/:studyId/images': imagingDownload,
+
+  'GET /my_health/v1/medical_records/bbmi_notification/status': { flag: false },
+
+  'GET /my_health/v1/medical_records/imaging/:studyId/images/:month/:date': (
+    req,
+    res,
+  ) => {
+    const filePath =
+      'src/platform/mhv/api/mocks/medical-records/mhv-radiology/01.jpeg';
+    res.download(filePath);
   },
 
   'GET /v0/maintenance_windows': (_req, res) => {
@@ -167,6 +238,10 @@ const responses = {
     // );
 
     return res.json(maintenanceWindows.noDowntime);
+  },
+
+  'GET /my_health/v1/tooltips': (_req, res) => {
+    return res.json(getMockTooltips());
   },
 };
 

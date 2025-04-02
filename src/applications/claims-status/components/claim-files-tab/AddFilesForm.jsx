@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   VaFileInput,
   VaModal,
   VaSelect,
   VaTextInput,
-  VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -50,8 +50,6 @@ class AddFilesForm extends React.Component {
     super(props);
     this.state = {
       errorMessage: null,
-      checked: false,
-      errorMessageCheckbox: null,
       canShowUploadModal: false,
       showRemoveFileModal: false,
       removeFileIndex: null,
@@ -144,21 +142,9 @@ class AddFilesForm extends React.Component {
     );
 
     if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
-      // This nested state prevents VoiceOver from accouncing an
-      // unchecked checkbox if the file is missing.
-      const { checked } = this.state;
-
-      this.setState({
-        errorMessageCheckbox: checked
-          ? null
-          : 'Please confirm these documents apply to this claim only',
-      });
-
       this.setState({ canShowUploadModal: true });
-      if (this.state.checked) {
-        this.props.onSubmit();
-        return;
-      }
+      this.props.onSubmit();
+      return;
     }
 
     this.props.onDirtyFields();
@@ -179,30 +165,43 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
-            Please only submit evidence that supports this claim. To submit
-            supporting documents for a new disability claim, please visit our{' '}
-            <a
-              id="how-to-file-claim"
-              href="/disability/how-to-file-claim"
-              target="_blank"
-            >
-              How to File a Claim page (opens in a new tab)
-            </a>{' '}
-            .
-          </p>
-          <VaFileInput
-            id="file-upload"
-            className="vads-u-margin-bottom--3"
-            error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaChange={e => this.add(e.detail.files)}
-            name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"
-            aria-describedby="file-requirements"
-          />
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
+          >
+            <Toggler.Enabled>
+              <div>
+                <h2>Upload Documents</h2>
+                <p>If you have a document to upload, you can do that here.</p>
+                <VaFileInput
+                  id="file-upload"
+                  className="vads-u-margin-bottom--3"
+                  error={this.getErrorMessage()}
+                  label="Upload document(s)"
+                  hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+                  accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                  onVaChange={e => this.add(e.detail.files)}
+                  name="fileUpload"
+                  additionalErrorClass="claims-upload-input-error-message"
+                  aria-describedby="file-requirements"
+                  uswds
+                />
+              </div>
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <VaFileInput
+                id="file-upload"
+                className="vads-u-margin-bottom--3"
+                error={this.getErrorMessage()}
+                label="Upload additional evidence"
+                hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+                accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                onVaChange={e => this.add(e.detail.files)}
+                name="fileUpload"
+                additionalErrorClass="claims-upload-input-error-message"
+                aria-describedby="file-requirements"
+              />
+            </Toggler.Disabled>
+          </Toggler>
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
@@ -240,6 +239,7 @@ class AddFilesForm extends React.Component {
                       decrypt it.
                     </p>
                     <VaTextInput
+                      id="password-input"
                       required
                       error={
                         validateIfDirty(password, isNotBlank)
@@ -278,16 +278,6 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <VaCheckbox
-          label="The files I uploaded support this claim only."
-          className="vads-u-margin-y--3"
-          required
-          checked={this.state.checked}
-          error={this.state.errorMessageCheckbox}
-          onVaChange={event => {
-            this.setState({ checked: event.detail.checked });
-          }}
-        />
         <VaButton
           id="submit"
           text="Submit files for review"

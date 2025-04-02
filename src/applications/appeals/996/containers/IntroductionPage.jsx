@@ -6,7 +6,6 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import { PageTitle } from '../content/title';
 import {
-  NewIntroText,
   IntroText,
   ProcessList,
   OmbBlock,
@@ -41,12 +40,12 @@ export const IntroductionPage = props => {
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <PageTitle />
-
-      <NewIntroText />
-      <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
       <IntroText />
+
+      <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
+
       <ProcessList />
 
       <ShowAlertOrSip

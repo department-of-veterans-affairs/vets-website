@@ -16,6 +16,7 @@ const initialState = {
   foodJournal: undefined,
   activityJournal: undefined,
   medications: undefined,
+  failedDomains: [],
 };
 
 export const NONE_ENTERED = 'None entered';
@@ -511,6 +512,9 @@ export const convertMilitaryHistory = responseObject => {
     locationOfService:
       mapValue(Const.MILITARY_HISTORY_LOCATION, record.serviceLocation) ||
       NONE_ENTERED,
+    onboardShip:
+      mapValue(Const.MILITARY_HISTORY_ONBOARD_SHIP, record.aboardShip) ||
+      NONE_ENTERED,
     militaryOccupationalSpecialty: record.occupationSpecialty || NONE_ENTERED,
     assignment: record.serviceAssignment || NONE_ENTERED,
     exposures: record.exposures || NONE_ENTERED,
@@ -731,6 +735,68 @@ export const convertMedications = recordList => {
   }));
 };
 
+/**
+ * Maps patient data from the provided JSON structure into a cleaner, structured object.
+ *
+ * @param {Object} patient - The patient object containing raw data.
+ * @returns {Object} A structured object with mapped patient details.
+ */
+export const convertDemographics = patient => {
+  if (!patient) return null;
+  const { userProfile: profile } = patient;
+  return {
+    firstName: profile.name.firstName || NONE_ENTERED,
+    middleName: profile.name.middleName || NONE_ENTERED,
+    lastName: profile.name.lastName || NONE_ENTERED,
+    alias: profile.name.alias || NONE_ENTERED,
+    dateOfBirth: profile.birthDate
+      ? new Date(profile.birthDate).toISOString().split('T')[0]
+      : NONE_ENTERED,
+    gender: profile.gender || NONE_ENTERED,
+    bloodType: profile.bloodType || NONE_ENTERED,
+    organDonor: profile.isOrganDonor || NONE_ENTERED,
+    maritalStatus: profile.maritalStatus || NONE_ENTERED,
+    relationshipToVA: [
+      profile.isPatient && 'Patient',
+      profile.isVeteran && 'Veteran',
+      profile.isCaregiver && 'Caregiver',
+      profile.isPatientAdvocate && 'Advocate',
+      profile.isHealthCareProvider && 'Health care provider',
+      profile.isServiceMember && 'Service member',
+      profile.isOther && 'Other',
+    ].filter(Boolean),
+    occupation: profile.currentOccupation || NONE_ENTERED,
+    contactInfo: {
+      homePhone: profile.contact.homePhone || NONE_ENTERED,
+      workPhone: profile.contact.workPhone || NONE_ENTERED,
+      pager: profile.contact.pager || NONE_ENTERED,
+      mobilePhone: profile.contact.mobilePhone || NONE_ENTERED,
+      fax: profile.contact.fax || NONE_ENTERED,
+      email: profile.contact.email || NONE_ENTERED,
+      preferredMethod: profile.contact.contactMethod || NONE_ENTERED,
+    },
+    address: {
+      street: profile.address.address1 || NONE_ENTERED,
+      city: profile.address.city || NONE_ENTERED,
+      state: profile.address.state || NONE_ENTERED,
+      zip: profile.address.zip || NONE_ENTERED,
+      country: profile.address.country || NONE_ENTERED,
+    },
+    emergencyContacts: [
+      {
+        firstName: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        lastName: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        relationship: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        homePhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        workPhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        mobilePhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        email: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        address: NONE_ENTERED, // Placeholder; replace with actual logic when available
+      },
+    ],
+  };
+};
+
 export const selfEnteredReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.SelfEntered.GET_VITALS: {
@@ -809,6 +875,28 @@ export const selfEnteredReducer = (state = initialState, action) => {
       return {
         ...state,
         medications: convertMedications(action.payload),
+      };
+    }
+    case Actions.SelfEntered.GET_DEMOGRAPHICS: {
+      return {
+        ...state,
+        demographics: convertDemographics(action.payload),
+      };
+    }
+    case Actions.SelfEntered.ADD_FAILED: {
+      const failedDomain = action.payload;
+
+      return {
+        ...state,
+        failedDomains: state.failedDomains.includes(failedDomain)
+          ? state.failedDomains
+          : [...state.failedDomains, failedDomain],
+      };
+    }
+    case Actions.SelfEntered.CLEAR_FAILED: {
+      return {
+        ...state,
+        failedDomains: [],
       };
     }
     default:

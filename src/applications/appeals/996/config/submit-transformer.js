@@ -14,13 +14,13 @@ import {
   getTimeZone,
 } from '../../shared/utils/submit';
 
-import { showNewHlrContent } from '../utils/helpers';
-
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    const informalConference = showNewHlrContent(formData)
-      ? formData.informalConferenceChoice === 'yes'
+    const { informalConferenceChoice } = formData;
+    // v2 value may still be in the save-in-progress form data (informalConference)
+    const informalConference = ['yes', 'no'].includes(informalConferenceChoice)
+      ? informalConferenceChoice === 'yes'
       : ['me', 'rep'].includes(formData.informalConference);
     const attributes = {
       // This value may empty if the user restarts the form; see
@@ -36,9 +36,9 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      // HLR v2.5 gives no choice; default to true (when feature toggle enabled)
+      // HLR v2.5 gives no opt-in choice; default to true
       // Lighthouse v2 & v2.5 has this value as required
-      socOptIn: showNewHlrContent(formData) || formData.socOptIn || false,
+      socOptIn: true,
     };
 
     const included = addAreaOfDisagreement(

@@ -60,7 +60,7 @@ const fetchImage = async url => {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'serviceHistory']; // If there is no serviceHistory, there is also no DOD ID
+  const requiredFields = ['fullName', 'latestService']; // If there is no latestService, there is also no DoD ID
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -120,7 +120,7 @@ const generate = async data => {
         .font(config.paragraph.font)
         .fontSize(config.paragraph.size)
         .text(
-          'You can use your Veteran status card to get discounts for at many stores, businesses, and restaurants. Additionally, you’ll be able to use your Veteran status card to checkout at the commissaries and exchanges on base.',
+          'You can use your Veteran status card to get discounts at stores, businesses, and restaurants.',
           doc.page.margins.left,
           doc.y,
           {
@@ -135,7 +135,7 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
-  doc.moveDown(0.5);
+  doc.moveDown(1);
   const cardSection = doc.struct('Sect');
   wrapper.add(cardSection);
 
@@ -186,19 +186,6 @@ const generate = async data => {
     cardSection.add(seal);
   }
 
-  // Generate content for latest period of service
-  const latestService = data.details.serviceHistory[0];
-  const serviceStartYear = latestService.beginDate
-    ? latestService.beginDate.substring(0, 4)
-    : '';
-  const serviceEndYear = latestService.endDate
-    ? latestService.endDate.substring(0, 4)
-    : '';
-  const dateRange =
-    serviceStartYear.length || serviceEndYear.length
-      ? `${serviceStartYear}–${serviceEndYear}`
-      : '';
-
   // First column of info items
   doc.moveDown(0.25);
   const infoItems = [
@@ -208,7 +195,7 @@ const generate = async data => {
     },
     {
       heading: 'Latest period of service',
-      content: `${latestService.branchOfService} • ${dateRange}`,
+      content: `${data.details.latestService}`,
     },
     {
       heading: 'DoD ID Number',

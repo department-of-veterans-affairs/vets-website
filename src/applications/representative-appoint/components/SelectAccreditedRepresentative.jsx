@@ -1,16 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { SearchResultsHeader } from './SearchResultsHeader';
+import { formIs2122 } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -21,24 +23,25 @@ const SelectAccreditedRepresentative = props => {
     goForward,
     goToPath,
   } = props;
-  const [loadingReps, setLoadingReps] = useState(false);
-  const [loadingPOA, setLoadingPOA] = useState(false);
-  const [error, setError] = useState(null);
+
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const currentSelectedRep = useRef(
-    formData?.['view:representativeSearchResults'],
-  );
-
-  const query = formData['view:representativeQuery'];
-  const invalidQuery = query === undefined || !query.trim();
+  const queryInput = formData['view:representativeQueryInput'];
+  const querySubmission = formData['view:representativeQuerySubmission'];
+  const invalidQuery = queryInput === undefined || !queryInput.trim();
 
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
 
   const noSelectionError =
     'Select the accredited representative or VSO you’d like to appoint below.';
+
+  const [loadingReps, setLoadingReps] = useState(false);
+  const [loadingPOA, setLoadingPOA] = useState(false);
+  const [error, setError] = useState(null);
+
+  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
 
   const isReviewPage = useReviewPage();
 
@@ -66,9 +69,15 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const handleGoForward = ({ selectionMade = false }) => {
+  const handleGoForward = ({ selectionMade = false, newSelection = null }) => {
     const selection = formData['view:selectedRepresentative'];
+
+    const repTypeChanged =
+      formIs2122(currentSelectedRep.current) !== formIs2122(newSelection);
+
     const noSelectionExists = !selection && !selectionMade;
+    const noNewSelection =
+      !newSelection || newSelection === currentSelectedRep.current;
 
     if (noSelectionExists && !invalidQuery) {
       setError(noSelectionError);
@@ -77,8 +86,10 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (selection === currentSelectedRep) {
+      if (noNewSelection) {
         goToPath('/review-and-submit');
+      } else if (repTypeChanged) {
+        goToPath('/representative-contact');
       } else {
         goToPath('/representative-contact?review=true');
       }
@@ -98,9 +109,10 @@ const SelectAccreditedRepresentative = props => {
     setError(null);
 
     try {
-      const res = await fetchRepresentatives({ query });
+      const res = await fetchRepresentatives({ query: queryInput });
       setFormData({
         ...formData,
+        'view:representativeQuerySubmission': queryInput,
         'view:representativeSearchResults': res,
       });
     } catch (err) {
@@ -111,7 +123,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleSelectRepresentative = async selectedRepResult => {
-    if (selectedRepResult === currentSelectedRep) {
+    if (selectedRepResult === currentSelectedRep.current && isReviewPage) {
       goToPath('/review-and-submit');
     } else {
       const repStatus = await getRepStatus();
@@ -126,6 +138,7 @@ const SelectAccreditedRepresentative = props => {
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
         selectedAccreditedOrganizationId: null,
+        representativeSubmissionMethod: null,
       };
 
       setFormData({
@@ -135,23 +148,27 @@ const SelectAccreditedRepresentative = props => {
       // similar to the tempData trick above with async state variables,
       //  we need to trick our routing logic to know that a selection has
       //  been made before that selection is reflected in formData.
-      //  Otherwise, one would have to double click the select
+      //
+      // selectionMade: prevents users from needing to double click the select
       //  representative button to register that a selection was made.
-      handleGoForward({ selectionMade: true });
+      //
+      // newSelection: prevents issue with routing from the review page
+      //   where selecting a new representative is treated as the original
+      //   representative due to formData not updating synchronously.
+      handleGoForward({ selectionMade: true, newSelection: selectedRepResult });
     }
   };
 
-  // const continueError = () => {
-  //   return (
-  //     <span
-  //       className="usa-input-error-message vads-u-margin-bottom--0p5"
-  //       role="alert"
-  //     >
-  //       <span className="sr-only">Error</span>
-  //       {}
-  //     </span>
-  //   );
-  // };
+  useEffect(
+    () => {
+      const searchHeader = document.querySelector('.search-header');
+
+      if (searchHeader) {
+        focusElement('.search-header');
+      }
+    },
+    [loadingReps, representativeResults?.length],
+  );
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
@@ -159,13 +176,8 @@ const SelectAccreditedRepresentative = props => {
 
   return (
     <div>
-      <h3 className="vads-u-margin-y--5 ">
-        Select the accredited representative or VSO you’d like to appoint
-      </h3>
-      <p className="vads-u-margin-bottom--0">
-        Enter the name of the accredited representative or Veterans Service
-        Organization (VSO) you’d like to appoint
-      </p>
+      <h3>Select the accredited representative or VSO you’d like to appoint</h3>
+
       <SearchInput
         error={error}
         formData={formData}
@@ -178,6 +190,11 @@ const SelectAccreditedRepresentative = props => {
           set-focus
         />
       ) : null}
+      <SearchResultsHeader
+        inProgress={loadingReps}
+        query={querySubmission}
+        resultCount={representativeResults?.length}
+      />
       {representativeResults &&
         representativeResults.map((rep, index) => (
           <SearchResult
@@ -188,6 +205,10 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />
         ))}
       <p className="vads-u-margin-y--4">
@@ -197,7 +218,7 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <va-link
         href="/get-help-from-accredited-representative/find-rep"
-        text="Find a VA accredited representative or VSO (opens in new tab)"
+        text="Find a VA accredited representative or VSO"
         external
       />
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
@@ -216,7 +237,7 @@ SelectAccreditedRepresentative.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
   loggedIn: isLoggedIn(state),
 });
 

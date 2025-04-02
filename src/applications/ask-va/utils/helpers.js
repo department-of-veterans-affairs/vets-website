@@ -1,4 +1,3 @@
-import { format, isValid, parse } from 'date-fns';
 import React from 'react';
 import countries from '../config/countries.json';
 
@@ -96,7 +95,7 @@ export const successIcon = (
   </span>
 );
 
-export const newIcon = (
+export const starIcon = (
   <span
     className="vads-u-color--primary vads-u-margin-left--0p5"
     aria-hidden="true"
@@ -105,7 +104,7 @@ export const newIcon = (
   </span>
 );
 
-export const inProgressOrReopenedIcon = (
+export const clockIcon = (
   <span
     className="vads-u-color--grey vads-u-margin-left--0p5"
     aria-hidden="true"
@@ -114,18 +113,11 @@ export const inProgressOrReopenedIcon = (
   </span>
 );
 
-export const formatDate = (dateString, formatType = 'short') => {
-  let parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
-
-  if (!isValid(parsedDate)) {
-    parsedDate = parse(dateString, 'MM/dd/yyyy', new Date());
-  }
-
-  if (!isValid(parsedDate)) {
-    return dateString;
-  }
-
-  const dateFormat = formatType === 'long' ? 'MMMM d, yyyy' : 'MMM d, yyyy';
-
-  return format(parsedDate, dateFormat);
-};
+export const folderIcon = (
+  <span
+    className="vads-u-color--grey vads-u-margin-left--0p5"
+    aria-hidden="true"
+  >
+    <va-icon icon="folder" size={3} aria-hidden="true" />
+  </span>
+);

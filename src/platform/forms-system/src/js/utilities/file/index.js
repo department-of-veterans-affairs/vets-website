@@ -10,6 +10,7 @@ import {
   PasswordSuccess,
 } from './ShowPdfPassword';
 import arrayIncludesArray from './arrayIncludesArray';
+import reMapErrorMessage from './errorMessageMaps';
 
 export {
   readAndCheckFile,
@@ -21,4 +22,5 @@ export {
   ShowPdfPassword,
   PasswordLabel,
   PasswordSuccess,
+  reMapErrorMessage,
 };

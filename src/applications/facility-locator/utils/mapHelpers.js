@@ -1,7 +1,10 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../components/MapboxClient';
-
-import { BOUNDING_RADIUS } from '../constants';
+import {
+  MAPBOX_QUERY_TYPES,
+  CountriesList,
+  mapboxClient,
+  isPostcode,
+} from 'platform/utilities/facilities-and-mapbox';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -39,23 +42,8 @@ export const getBoxCenter = bounds => {
   return {};
 };
 
-/**
- * Performs a reverse lookup of a geographic coordinate to
- * determine what address exists at the given location.
- *
- * @param {Number} lon Longitude coordinate
- * @param {Number} lat Latitude coordinate
- *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
- *   default => `[address,postcode]`
- *
- * @returns {String} The best approximation of the address for the coordinates
- */
-export const reverseGeocode = async (lon, lat, types) => {
-  const response = await mbxClient
-    .reverseGeocode({ query: [lon, lat], types })
-    .send()
-    .catch();
-
+// Separated out for unit testing
+export const getPlaceName = response => {
   if (
     response.body &&
     response.body.features &&
@@ -76,6 +64,26 @@ export const reverseGeocode = async (lon, lat, types) => {
 /**
  * Performs a reverse lookup of a geographic coordinate to
  * determine what address exists at the given location.
+ *
+ * @param {Number} lon Longitude coordinate
+ * @param {Number} lat Latitude coordinate
+ *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
+ *   default => `[address,postcode]`
+ *
+ * @returns {String} The best approximation of the address for the coordinates
+ */
+export const reverseGeocode = async (lon, lat, types) => {
+  const response = await mbxClient
+    .reverseGeocode({ query: [lon, lat], types })
+    .send()
+    .catch();
+
+  return getPlaceName(response);
+};
+
+/**
+ * Performs a reverse lookup of a geographic coordinate to
+ * determine what address exists at the given location.
  * In the case of a bounding box will perform a lookup of the
  * center point of the box.
  *
@@ -86,39 +94,31 @@ export const reverseGeocode = async (lon, lat, types) => {
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
+
+export const reverseGeocodeBox = (
+  bounds,
+  types = MAPBOX_QUERY_TYPES.join(','),
+) => {
   const { lon, lat } = getBoxCenter(bounds);
   return reverseGeocode(lon, lat, types.split(','));
 };
 
-export const staticMapURL = (lat, long, mapboxToken) =>
-  `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+d83933(${long},${lat})/${long},${lat},16/500x300?access_token=${mapboxToken}`;
+export const searchAddresses = async addressTerm => {
+  let types = MAPBOX_QUERY_TYPES;
 
-/**
- * Generates search criteria from lat/long geocoordinates.
- */
-export const searchCriteraFromCoords = async (longitude, latitude) => {
+  if (isPostcode(addressTerm?.trim() || '')) {
+    types = ['postcode'];
+  }
+
   const response = await mbxClient
-    .reverseGeocode({
-      query: [longitude, latitude],
-      types: ['address'],
+    .forwardGeocode({
+      countries: CountriesList,
+      types,
+      autocomplete: true,
+      query: addressTerm,
+      proximity: 'ip',
     })
     .send();
-  // TODO: display error message if geolocation fails?
-  // .catch(error => error);
 
-  const { features } = response.body;
-  const placeName = features[0].place_name;
-  const coordinates = features[0].center;
-
-  return {
-    bounds: features[0].bbox || [
-      coordinates[0] - BOUNDING_RADIUS,
-      coordinates[1] - BOUNDING_RADIUS,
-      coordinates[0] + BOUNDING_RADIUS,
-      coordinates[1] + BOUNDING_RADIUS,
-    ],
-    searchString: placeName,
-    position: { longitude, latitude },
-  };
+  return response?.body?.features ?? [];
 };

@@ -1,7 +1,7 @@
 {
   "appName": "Ask VA",
   "entryFile": "./app-entry.jsx",
-  "entryName": "ask-va-too",
-  "rootUrl": "/contact-us/ask-va-too",
+  "entryName": "ask-va",
+  "rootUrl": "/contact-us/ask-va",
   "productId": "18ce03a0-4cc4-4414-a069-0d753038df29"
 }

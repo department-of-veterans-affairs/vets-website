@@ -2,10 +2,11 @@ import React from 'react';
 
 export default function CopyOfExam() {
   return (
-    <>
-      <h2 className="help-heading vads-u-margin-top--5">
+    <div>
+      <h2 className="appeal-help-heading vads-u-margin-top--5">
         Want a copy of your claim exam?
       </h2>
+
       <p>
         Use{' '}
         <a
@@ -17,6 +18,6 @@ export default function CopyOfExam() {
         to request a copy of your exam. You can submit the form using our online
         tool, or download a pdf of the form and send it by mail.
       </p>
-    </>
+    </div>
   );
 }

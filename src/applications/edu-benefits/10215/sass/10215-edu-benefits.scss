@@ -5,3 +5,35 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: 1.875rem;
+}
+
+@media (max-width: $small-screen) {
+  .form-22-10215-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-10215-container .schemaform-buttons,
+  .form-22-10215-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}
+
+.list-style {
+  list-style-type: disc;
+}
+
+.bottom-border {
+  border-bottom: 1px solid var(--vads-color-base-lighter);
+}

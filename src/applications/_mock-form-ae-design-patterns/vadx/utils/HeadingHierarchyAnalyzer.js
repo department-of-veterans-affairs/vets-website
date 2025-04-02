@@ -123,7 +123,7 @@ class HeadingHierarchyAnalyzer {
     if (h1Count > 1) {
       issues.push({
         type: 'multiple-h1',
-        message: `Page has ${h1Count} h1 headings (should have exactly 1)`,
+        message: `Page has multiple (${h1Count}) top level H1 headings and should have exactly 1`,
       });
     }
 

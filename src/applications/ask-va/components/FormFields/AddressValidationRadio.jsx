@@ -148,43 +148,46 @@ const AddressValidationRadio = props => {
   const shouldShowSuggestions =
     apiData && apiData.length > 0 && deliveryPointValidation === 'CONFIRMED';
 
+  const noRecommendationsAvailable =
+    apiData && apiData.length > 0 && deliveryPointValidation !== 'CONFIRMED';
+
   return (
     <>
       <div role="alert">
-        {shouldShowSuggestions && (
-          <VaAlert
-            className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
-            status="warning"
-            visible
-            uswds
+        <VaAlert
+          className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
+          status="warning"
+          visible={shouldShowSuggestions || noRecommendationsAvailable}
+        >
+          <h4
+            id="address-validation-alert-heading"
+            slot="headline"
+            className="vads-u-font-size--h3"
           >
-            <h4
-              id="address-validation-alert-heading"
-              slot="headline"
-              className="vads-u-font-size--h3"
-            >
-              We can’t confirm the address you entered with the U.S. Postal
-              Service
-            </h4>
-            <p className="vads-u-margin-y--0">
-              Tell us which address you’d like to use.
-            </p>
-          </VaAlert>
-        )}
+            {shouldShowSuggestions
+              ? `We can’t confirm the address you entered with the U.S. Postal
+            Service`
+              : `Confirm your address`}
+          </h4>
+          <p className="vads-u-margin-y--0">
+            {shouldShowSuggestions
+              ? 'Tell us which address you’d like to use.'
+              : "We can't confirm the address you entered with the U.S. Postal Service. Confirm that you want us to use this address as you entered it. Or go back and edit it."}
+          </p>
+        </VaAlert>
       </div>
       <div>
-        <span className="vads-u-font-weight--bold">You entered:</span>
+        <span className="vads-u-font-weight--bold">You entered</span>
         {renderAddressOption(formData.address)}
-        <span className="vads-u-font-weight--bold">
-          Suggested {apiData.length > 1 ? 'addresses' : 'address'}:
-        </span>
-        {shouldShowSuggestions ? (
+        {shouldShowSuggestions && (
+          <span className="vads-u-font-weight--bold">
+            Suggested {apiData.length > 1 ? 'addresses' : 'address'}
+          </span>
+        )}
+        {shouldShowSuggestions &&
           apiData.map((item, index) =>
             renderAddressOption(item.address, String(index)),
-          )
-        ) : (
-          <p>No recommendations available</p>
-        )}
+          )}
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
-
+import sessionStatus from '../fixtures/session-status.json';
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
@@ -11,10 +11,15 @@ class MedicalRecordsSite {
     }
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
+      statusCode: 200,
+      body: sessionStatus, // status response copied from staging
+    }).as('status');
     cy.login(userFixture);
-    // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
-    // window.localStorage.setItem('isLoggedIn', true);
-    // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
   };
 
   mockFeatureToggles = ({
@@ -26,10 +31,6 @@ class MedicalRecordsSite {
       data: {
         type: 'feature_toggles',
         features: [
-          {
-            name: 'mhv_integration_medical_records_to_phase_1',
-            value: true,
-          },
           {
             name: 'mhv_accelerated_delivery_enabled',
             value: isAcceleratingEnabled,

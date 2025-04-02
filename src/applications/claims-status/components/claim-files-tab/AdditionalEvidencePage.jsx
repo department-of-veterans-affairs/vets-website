@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { Element } from 'platform/utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
-import Standard5103Alert from './Standard5103Alert';
 
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
@@ -32,7 +30,6 @@ import {
 import {
   getFilesNeeded,
   getFilesOptional,
-  isAutomated5103Notice,
   isClaimOpen,
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
@@ -79,6 +76,16 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
+  onSubmitFiles(claimId) {
+    // START lighthouse_migration
+    if (this.props.documentsUseLighthouse) {
+      this.props.submitFilesLighthouse(claimId, null, this.props.files);
+    } else {
+      this.props.submitFiles(claimId, null, this.props.files);
+    }
+    // END lighthouse_migration
+  }
+
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
       setPageFocus('h3#add-files');
@@ -92,7 +99,6 @@ class AdditionalEvidencePage extends React.Component {
 
   render() {
     const { claim, lastPage } = this.props;
-    const { claimPhaseDates, evidenceWaiverSubmitted5103 } = claim.attributes;
 
     let content;
 
@@ -110,13 +116,6 @@ class AdditionalEvidencePage extends React.Component {
       );
     } else {
       const { message, filesNeeded } = this.props;
-
-      const standard5103NoticeExists =
-        claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
-        evidenceWaiverSubmitted5103 === false;
-      const automated5103NoticeExists = filesNeeded.some(i =>
-        isAutomated5103Notice(i.displayName),
-      );
 
       content = (
         <div className="additional-evidence-container">
@@ -146,14 +145,6 @@ class AdditionalEvidencePage extends React.Component {
                   previousPage="files"
                 />
               ))}
-              <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-                <Toggler.Enabled>
-                  {standard5103NoticeExists &&
-                    !automated5103NoticeExists && (
-                      <Standard5103Alert previousPage="files" />
-                    )}
-                </Toggler.Enabled>
-              </Toggler>
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
@@ -164,17 +155,7 @@ class AdditionalEvidencePage extends React.Component {
                 files={this.props.files}
                 backUrl={lastPage ? `/${lastPage}` : filesPath}
                 onSubmit={() => {
-                  // START lighthouse_migration
-                  if (this.props.documentsUseLighthouse) {
-                    this.props.submitFilesLighthouse(
-                      claim.id,
-                      null,
-                      this.props.files,
-                    );
-                  } else {
-                    this.props.submitFiles(claim.id, null, this.props.files);
-                  }
-                  // END lighthouse_migration
+                  this.onSubmitFiles(claim.id);
                 }}
                 onAddFile={this.props.addFile}
                 onRemoveFile={this.props.removeFile}

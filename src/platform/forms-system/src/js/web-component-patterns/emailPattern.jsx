@@ -57,7 +57,7 @@ export const emailValidation = (
  * @returns {UISchemaOptions} uiSchema
  */
 const emailUI = options => {
-  const { title, description, errorMessages, ...uiOptions } =
+  const { title, description, errorMessages, required, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
   return {
     'ui:title': title || 'Email address',
@@ -65,6 +65,7 @@ const emailUI = options => {
     'ui:description': description,
     'ui:webComponentField': VaTextInputField,
     'ui:validations': [symbolsValidation, emailValidation],
+    'ui:required': required,
     'ui:errorMessages': {
       required: 'Please enter an email address',
       format:
@@ -81,11 +82,17 @@ const emailUI = options => {
   };
 };
 
-const emailToSendNotificationsUI = () => {
+/**
+ * @param {UIOptions & {
+ *  required?: (formData) => boolean
+ * }} [options]
+ */
+const emailToSendNotificationsUI = (options = {}) => {
   return emailUI({
     title: 'Email',
     hint:
       'We’ll use this email address to send you notifications about your form submission',
+    ...options,
   });
 };
 

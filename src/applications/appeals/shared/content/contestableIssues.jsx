@@ -29,7 +29,10 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
     <>
       <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
-          Select the issues you’d like us to review
+          Select the issues you’d like us to review{' '}
+          <span className="vads-u-color--secondary-dark vads-u-font-weight--normal vads-u-font-size--base">
+            (*Required)
+          </span>
         </Wrap>
       </legend>
       <div className="vads-u-margin-bottom--2">
@@ -171,7 +174,10 @@ NoneSelectedAlert.propTypes = {
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info trigger="Why isn’t my issue listed here?" uswds>
+  <va-additional-info
+    trigger="Why isn’t my issue listed here?"
+    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+  >
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. If you
     have a decision date, you can add a new issue now.

@@ -45,9 +45,7 @@ describe('Vitals list container', () => {
 
   it('displays seven types of records', async () => {
     await waitFor(() => {
-      // count doubled due to print view (7+7)
-      // NOTE: added 1 for OH, need to update when OH gets the print view
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(15);
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(14);
     });
   });
 
@@ -330,7 +328,7 @@ describe('Vitals list container first time loading', () => {
     mr: {
       vitals: { listCurrentAsOf: undefined },
       alerts: { alertList: [] },
-      refresh: { initialFhirLoad: true },
+      refresh: { initialFhirLoad: new Date() },
     },
   };
 

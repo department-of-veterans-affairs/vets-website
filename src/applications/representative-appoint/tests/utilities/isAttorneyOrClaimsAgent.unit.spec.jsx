@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { isAttorneyOrClaimsAgent } from '../../utilities/helpers';
+import { formIs2122A } from '../../utilities/helpers';
 
-describe('isAttorneyOrClaimsAgent', () => {
+describe('formIs2122A', () => {
   it('should return true when the selected rep has an individualType of attorney', () => {
     const mockFormData = {
       'view:selectedRepresentative': {
@@ -10,7 +10,7 @@ describe('isAttorneyOrClaimsAgent', () => {
         },
       },
     };
-    const result = isAttorneyOrClaimsAgent(mockFormData);
+    const result = formIs2122A(mockFormData);
     expect(result).to.be.true;
   });
 
@@ -22,7 +22,7 @@ describe('isAttorneyOrClaimsAgent', () => {
         },
       },
     };
-    const result = isAttorneyOrClaimsAgent(mockFormData);
+    const result = formIs2122A(mockFormData);
     expect(result).to.be.true;
   });
 
@@ -34,7 +34,7 @@ describe('isAttorneyOrClaimsAgent', () => {
         },
       },
     };
-    const result = isAttorneyOrClaimsAgent(mockFormData);
+    const result = formIs2122A(mockFormData);
     expect(result).to.be.true;
   });
 
@@ -46,7 +46,7 @@ describe('isAttorneyOrClaimsAgent', () => {
         },
       },
     };
-    const result = isAttorneyOrClaimsAgent(mockFormData);
+    const result = formIs2122A(mockFormData);
     expect(result).to.be.true;
   });
 
@@ -58,8 +58,8 @@ describe('isAttorneyOrClaimsAgent', () => {
         },
       },
     };
-    const result = isAttorneyOrClaimsAgent(mockFormData);
-    expect(result).to.be.false;
+    const result = formIs2122A(mockFormData);
+    expect(result).to.not.be.ok;
   });
 
   it('should return false when the selected rep has no individualType', () => {
@@ -68,7 +68,7 @@ describe('isAttorneyOrClaimsAgent', () => {
         attributes: {},
       },
     };
-    const result = isAttorneyOrClaimsAgent(mockFormData);
-    expect(result).to.be.false;
+    const result = formIs2122A(mockFormData);
+    expect(result).to.not.be.ok;
   });
 });

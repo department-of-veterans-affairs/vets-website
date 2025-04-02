@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -6,87 +6,70 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ScheduleReferral from './ScheduleReferral';
-import ConfirmApprovedPage from './ConfirmApprovedPage';
+import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { selectFeatureCCDirectScheduling } from '../redux/selectors';
-import { useGetReferralById } from './hooks/useGetReferralById';
-import { FETCH_STATUS } from '../utils/constants';
-import FormLayout from '../new-appointment/components/FormLayout';
+import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import CompleteReferral from './CompleteReferral';
+import ReferralLayout from './components/ReferralLayout';
+import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
-  const { search } = useLocation();
-
+  const { isInCCPilot } = useIsInCCPilot();
+  const { search, pathname } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
-  const {
-    currentReferral,
-    referralNotFound,
-    referralFetchStatus,
-  } = useGetReferralById(id);
-  const [referral, setReferral] = useState(currentReferral);
+  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
+
   useEffect(
     () => {
-      setReferral(currentReferral);
-    },
-    [currentReferral],
-  );
-  useEffect(
-    () => {
-      if (referralFetchStatus === FETCH_STATUS.succeeded) {
+      if (referral) {
         scrollAndFocus('h1');
-      } else if (referralFetchStatus === FETCH_STATUS.failed) {
+      } else if (error) {
         scrollAndFocus('h2');
       }
     },
-    [referralFetchStatus],
+    [error, referral],
   );
-  if (
-    (!referral || referralFetchStatus === FETCH_STATUS.loading) &&
-    !referralNotFound
-  ) {
+
+  if (!isInCCPilot) {
+    return <Redirect from={basePath.url} to="/" />;
+  }
+
+  if (!referral && error) {
+    // Referral Layout shows the error component is apiFailure is true
+    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+  }
+
+  if ((!referral || isLoading) && !appointmentId) {
     return (
-      <FormLayout pageTitle="Review Approved Referral">
-        <va-loading-indicator set-focus message="Loading your data..." />
-      </FormLayout>
+      <ReferralLayout
+        loadingMessage="Loading your data..."
+        heading="Review Approved Referral"
+      />
     );
   }
 
-  if (referralFetchStatus === FETCH_STATUS.failed) {
-    return (
-      <VaAlert status="error" visible>
-        <h2 slot="headline">
-          There was an error trying to get your referral data
-        </h2>
-        <p>Please try again later, or contact your VA facility for help.</p>
-      </VaAlert>
-    );
-  }
-  if (referralNotFound || !featureCCDirectScheduling) {
-    return <Redirect from={basePath.url} to="/" />;
-  }
   return (
     <>
       <Switch>
-        {/* TODO convert component to get referral as a prop */}
         <Route
-          path={`${basePath.url}/review/`}
-          component={ConfirmApprovedPage}
+          path={`${basePath.url}/complete/:appointmentId`}
+          component={CompleteReferral}
         />
-        {/* TODO convert component to get referral as a prop */}
-        <Route
-          path={`${basePath.url}/date-time/`}
-          component={ChooseDateAndTime}
-        />
+        <Route path={`${basePath.url}/review/`} search={id}>
+          <ReviewAndConfirm currentReferral={referral} />
+        </Route>
+        <Route path={`${basePath.url}/date-time/`} search={id}>
+          <ChooseDateAndTime currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />
         </Route>

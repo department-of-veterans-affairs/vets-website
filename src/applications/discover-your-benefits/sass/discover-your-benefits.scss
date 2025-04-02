@@ -8,7 +8,7 @@
 
 .discover-your-benefits .confirmation-page p,
 .discover-your-benefits article p,
-.discover-your-benefits form > div:first-of-type * {
+.discover-your-benefits va-alert p {
   @media (min-width: $medium-screen) {
     width: 75ch !important;
   }
@@ -31,6 +31,10 @@
   margin-right: 0;
 }
 
+.discover-your-benefits .usa-width-two-thirds {
+  width: auto !important;
+}
+
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);
@@ -40,13 +44,6 @@
 
 #filters-section-desktop select {
   margin-bottom: 35px;
-}
-
-#filters-section-mobile-toggle {
-  margin-bottom: 20px;
-  @media (min-width: $small-screen) {
-    display: none;
-  }
 }
 
 #save-your-results {
@@ -93,6 +90,10 @@
   }
 }
 
+.start-over-link-container {
+  margin-bottom: 3rem;
+}
+
 @media (max-width: $small-screen) {
   .vads-l-grid-container {
 
@@ -108,16 +109,6 @@
     .columns {
       width: 100%;
     }
-  }
-  .show-filters-section-mobile {
-    padding-right: 20px;
-    text-align: left;
-  }
-  .show-filters-section-mobile b {
-    display: none;
-  }
-  .hide-filters-section-mobile {
-    display: none;
   }
 
   .benefit-list {
@@ -136,4 +127,12 @@
 
 .category-label {
   font-weight: normal !important;
+}
+
+.link-container {
+  margin-top: 16px;
+}
+
+.link-container a {
+  margin: 16px 0;
 }

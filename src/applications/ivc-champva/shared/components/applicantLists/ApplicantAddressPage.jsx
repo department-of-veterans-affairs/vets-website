@@ -84,9 +84,12 @@ export function ApplicantAddressCopyPage({
         displayText: `${data.certifierAddress.street} ${data.certifierAddress
           ?.state ?? ''}`,
       });
-    if (data.sponsorAddress?.street && data.veteransFullName)
+    if (
+      data.sponsorAddress?.street &&
+      (data.veteransFullName ?? data.sponsorName)
+    )
       allAddresses.push({
-        originatorName: fullName(data.veteransFullName),
+        originatorName: fullName(data.veteransFullName ?? data.sponsorName),
         originatorAddress: data.sponsorAddress,
         displayText: `${data.sponsorAddress.street} ${data.sponsorAddress
           ?.state ?? ''}`,

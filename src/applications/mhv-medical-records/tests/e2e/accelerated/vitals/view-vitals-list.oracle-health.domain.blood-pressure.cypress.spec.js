@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
-import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/blood-pressure.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import vitalsData from '../fixtures/vitals/blood-pressure.json';
 
 describe('Medical Records View Blood Pressure', () => {
   const site = new MedicalRecordsSite();
@@ -12,13 +12,15 @@ describe('Medical Records View Blood Pressure', () => {
       isAcceleratingEnabled: true,
       isAcceleratingVitals: true,
     });
-    cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
 
-  it('Visits View Vitals List', () => {
-    Vitals.checkLandingPageLinks();
+  it('Visits View Vital list', () => {
+    site.loadPage();
+
     // check for MY Va Health links
+    Vitals.checkLandingPageLinks();
+
     Vitals.goToVitalPage();
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });

@@ -2,28 +2,26 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
 import OmbInfo from '../components/OmbInfo';
 
-const IntroductionPage = ({ router }) => {
+const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
 
-  const startForm = event => {
-    event.preventDefault();
-    router.push('/applicant/information');
-  };
-
   return (
     <article className="schemaform-intro vads-u-padding-bottom--3 mobile-lg:vads-u-padding-bottom--6">
       <FormTitle title="Apply for the IBM SkillsBuild program" />
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
-      </p>
+      <div className="schemaform-title vads-u-display--inline">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--4 schemaform-subtitle">
+          IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
+        </p>
+      </div>
       <p>
         The IBM SkillsBuild program is a free online training program that helps
         you develop skills to start or advance your career in technology.
@@ -39,8 +37,7 @@ const IntroductionPage = ({ router }) => {
         </li>
         <li>
           After you submit your form, you can print the confirmation page for
-          your records. You can also download a copy of your completed form as a
-          PDF.
+          your records.
         </li>
         <li>
           After we review your form, we’ll email you a decision. If we need more
@@ -49,10 +46,12 @@ const IntroductionPage = ({ router }) => {
       </ul>
 
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
-        <va-link-action
-          href="#"
-          onClick={startForm}
-          text="Start your application"
+        <SaveInProgressIntro
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          formConfig={route.formConfig}
+          pageList={route.pageList}
+          startText="Start your application"
         />
       </div>
 
@@ -62,9 +61,13 @@ const IntroductionPage = ({ router }) => {
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
 };
 
 export default IntroductionPage;

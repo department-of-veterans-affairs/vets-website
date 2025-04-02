@@ -7,9 +7,8 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import Wizard, {
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import Wizard from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { MaintenanceAlert } from '../components/alerts/Alerts';
 import pages from './pages';
 import GetFormHelp from '../components/shared/GetFormHelp';

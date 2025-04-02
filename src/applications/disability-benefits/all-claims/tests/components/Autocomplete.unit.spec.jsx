@@ -145,12 +145,12 @@ describe('Autocomplete Component', () => {
 
       await waitFor(() => {
         const listResults = getAllByRole('option');
-        fireEvent.mouseEnter(listResults[0]);
+        fireEvent.mouseMove(listResults[0]);
 
         expect(listResults[0]).to.have.class('cc-autocomplete__option--active');
         expect(listResults[0]).to.have.attribute('aria-selected', 'true');
 
-        fireEvent.mouseEnter(listResults[1]);
+        fireEvent.mouseMove(listResults[1]);
 
         expect(listResults[0]).not.to.have.class(
           'cc-autocomplete__option--active',
@@ -350,7 +350,7 @@ describe('Autocomplete Component', () => {
       await waitFor(
         () => {
           const screenReaderMessage = getByText(
-            `${resultCount} results. Enter your condition as "${searchTerm}", (1 of ${resultCount})`,
+            `${resultCount} results. ${searchTerm}, (1 of ${resultCount})`,
           );
 
           expect(screenReaderMessage).to.exist;

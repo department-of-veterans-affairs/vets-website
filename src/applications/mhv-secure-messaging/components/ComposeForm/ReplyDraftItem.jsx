@@ -32,6 +32,7 @@ import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { retrieveMessageThread, sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
+import { useSessionExpiration } from '../../hooks/use-session-expiration';
 
 const ReplyDraftItem = props => {
   const {
@@ -78,6 +79,7 @@ const ReplyDraftItem = props => {
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
   const [savedDraft, setSavedDraft] = useState(false);
+  const [attachFileError, setAttachFileError] = useState(null);
 
   const alertsList = useSelector(state => state.sm.alerts.alertList);
   const attachmentScanError = useMemo(
@@ -137,17 +139,7 @@ const ReplyDraftItem = props => {
     [draft, messageBody, attachments],
   );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   const checkMessageValidity = useCallback(
     () => {
@@ -475,6 +467,16 @@ const ReplyDraftItem = props => {
         cancelButtonText={navigationError?.cancelButtonText}
         saveDraftHandler={saveDraftHandler}
         savedDraft={savedDraft}
+        confirmButtonDDActionName={
+          attachments.length > 0
+            ? "Save draft without attachments button - Can't save with attachments modal"
+            : undefined
+        }
+        cancelButtonDDActionName={
+          attachments.length > 0
+            ? "Edit draft button - Can't save with attachments modal"
+            : undefined
+        }
       />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
@@ -495,7 +497,9 @@ const ReplyDraftItem = props => {
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--2">
             {`Draft ${draftSequence ? `${draftSequence} ` : ''}`}
           </span>
-          {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
+          {`To: ${replyToName}\n(Team: ${draft?.suggestedNameDisplay ||
+            replyMessage?.suggestedNameDisplay ||
+            draft?.triageGroupName ||
             replyMessage.triageGroupName})`}
           <br />
         </span>
@@ -544,6 +548,8 @@ const ReplyDraftItem = props => {
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
+                attachFileError={attachFileError}
+                setAttachFileError={setAttachFileError}
               />
 
               <FileInput
@@ -552,6 +558,8 @@ const ReplyDraftItem = props => {
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
+                attachFileError={attachFileError}
+                setAttachFileError={setAttachFileError}
               />
             </section>
           )}

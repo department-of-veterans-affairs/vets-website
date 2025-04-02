@@ -40,7 +40,6 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
-  sourcesToHide,
   filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
 } from '../util/constants';
@@ -55,14 +54,21 @@ import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectFilterFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
+  selectRemoveLandingPageFlag,
+  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import { pageType } from '../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
+import RefillAlert from '../components/shared/RefillAlert';
+import NeedHelp from '../components/shared/NeedHelp';
+import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -89,6 +95,10 @@ const Prescriptions = () => {
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -141,7 +151,12 @@ const Prescriptions = () => {
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
     dispatch(
-      getPaginatedFilteredList(1, filterOptions[filterBy]?.url, sortBy),
+      getPaginatedFilteredList(
+        1,
+        filterOptions[filterBy]?.url,
+        sortBy,
+        showGroupingContent ? 10 : 20,
+      ),
     ).then(() => {
       updateLoadingStatus(false, '');
       focusElement(document.getElementById('showingRx'));
@@ -240,6 +255,7 @@ const Prescriptions = () => {
           getPrescriptionsPaginatedSortedList(
             page ?? 1,
             rxListSortingOptions[sortOption].API_ENDPOINT,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
         if (!selectedSortOption) updateSortOption(sortOption);
@@ -315,6 +331,7 @@ const Prescriptions = () => {
             storedPageNumber,
             filterOptions[storedFilterOption]?.url,
             sortEndpoint,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
       }
@@ -483,12 +500,7 @@ const Prescriptions = () => {
             false,
           )
             .then(response => {
-              const list = response.data
-                .map(rx => ({ ...rx.attributes }))
-                // temporary plug until those sources are ready at va.gov
-                .filter(rx => {
-                  return !sourcesToHide.includes(rx.prescriptionSource);
-                });
+              const list = response.data.map(rx => ({ ...rx.attributes }));
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })
@@ -614,10 +626,22 @@ const Prescriptions = () => {
           className="vads-u-margin-top--0 vads-u-margin-bottom--4"
           data-testid="Title-Notes"
         >
-          When you share your medications list with providers, make sure you
-          also tell them about your allergies and reactions to medications.{' '}
+          {removeLandingPage ? (
+            <>
+              Bring your medications list to each appointment. And tell your
+              provider about any new allergies or reactions. If you use Meds by
+              Mail, you can also call your servicing center and ask them to
+              update your records.
+            </>
+          ) : (
+            <>
+              When you share your medications list with providers, make sure you
+              also tell them about your allergies and reactions to medications.
+            </>
+          )}
           {!showAllergiesContent && (
             <>
+              {' '}
               If you print or download this list, we’ll include a list of your
               allergies.
             </>
@@ -636,11 +660,18 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert className="vads-u-margin-top--2" />
+            <CernerFacilityAlert />
           </>
         ) : (
           <>
             <CernerFacilityAlert />
+            {showRefillProgressContent && (
+              <RefillAlert
+                dataDogActionName={
+                  dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
+                }
+              />
+            )}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&
@@ -671,6 +702,10 @@ const Prescriptions = () => {
                         className="vads-c-action-link--green vads-u-margin--0"
                         to={medicationsUrls.subdirectories.REFILL}
                         data-testid="prescriptions-nav-link-to-refill"
+                        data-dd-action-name={
+                          dataDogActionNames.medicationsListPage
+                            .START_REFILL_REQUEST
+                        }
                       >
                         Start a refill request
                       </Link>
@@ -715,6 +750,7 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
+                      {showIPEContent && <InProductionEducationFiltering />}
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||
@@ -785,6 +821,7 @@ const Prescriptions = () => {
                             <BeforeYouDownloadDropdown page={pageType.LIST} />
                           </>
                         )}
+                      {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (
                     <>

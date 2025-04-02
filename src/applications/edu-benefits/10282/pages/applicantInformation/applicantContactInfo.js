@@ -6,6 +6,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { PhoneNumberReviewWidget } from '../../../utils/PhoneNumberReviewWidget';
+
 export const uiSchema = {
   contactInfo: {
     ...titleUI('Your contact information'),
@@ -17,8 +19,14 @@ export const uiSchema = {
           'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       },
     }),
-    mobilePhone: phoneUI('Mobile phone number'),
-    homePhone: phoneUI('Home phone number'),
+    mobilePhone: {
+      ...phoneUI('Mobile phone number'),
+      'ui:reviewWidget': PhoneNumberReviewWidget,
+    },
+    homePhone: {
+      ...phoneUI('Home phone number'),
+      'ui:reviewWidget': PhoneNumberReviewWidget,
+    },
   },
 };
 export const schema = {

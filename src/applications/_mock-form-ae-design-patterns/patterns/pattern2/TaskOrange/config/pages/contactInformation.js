@@ -3,7 +3,7 @@ import React from 'react';
 import {
   ContactInformation,
   ContactInformationReview,
-} from '../../pages/ContactInformation';
+} from '../../pages/contact-information/ContactInformation';
 
 export const contactInformation = {
   title: 'Contact information',

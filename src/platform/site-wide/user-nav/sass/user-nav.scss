@@ -80,6 +80,8 @@
 }
 
 /* OCTO Identity */
+// stylelint-disable-next-line color-no-hex
+$idme-background-green: #08833d;
 .login,
 .verify {
   background: var(--vads-color-white);
@@ -112,7 +114,7 @@
     }
 
     &.idme-button {
-      background: var(--vads-color-success-dark);
+      background: $idme-background-green;
 
       &:hover {
         background: var(
@@ -218,15 +220,6 @@
 }
 
 .login.login-modal {
-  // temporary solution until DST can fix va-modal large property
-  margin-left: -1rem;
-  margin-right: 4rem;
-
-  @include media($medium-screen) {
-    margin-left: unset;
-    margin-right: unset;
-  }
-
   .downtime-notification.row {
     margin: 0 0 1em;
   }
@@ -261,13 +254,13 @@
 // Verify buttons
 button.idme-verify-button {
   padding: 0;
-  background: var(--vads-color-success-dark);
+  background: $idme-background-green;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  width: auto;
-  max-width: 300px;
+  width: 100%;
+  max-width: 244px;
   max-height: 42px;
 
   span {
@@ -277,14 +270,15 @@ button.idme-verify-button {
     padding: 0.75rem;
 
     & svg {
-      height: 20px;
+      height: 16px;
       padding: 0;
     }
   }
 
   div {
-    padding: 0.75rem 1.25rem;
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-self: center;
 
     & svg {
@@ -302,17 +296,19 @@ button.idme-verify-button {
 button.logingov-verify-button {
   background: var(--vads-color-secondary);
   width: auto;
-  max-width: 300px;
+  max-width: 244px;
   padding: 0.75rem 1.25rem;
-  max-height: 42px;
+  max-height: fit-content;
 
   div {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-self: center;
   }
 
   svg {
-    height: 18px;
+    height: 15px;
     width: auto;
     margin-left: 5px;
   }

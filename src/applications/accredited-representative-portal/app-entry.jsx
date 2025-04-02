@@ -2,25 +2,24 @@ import '@department-of-veterans-affairs/platform-polyfills';
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom-v5-compat';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import './sass/accredited-representative-portal.scss';
-import './sass/POARequestsTable.scss';
+import './sass/POARequestCard.scss';
+import './sass/POARequestDetails.scss';
+import './sass/Header.scss';
 
-import manifest from './manifest.json';
 import routes from './routes';
-import createReduxStore from './store';
-import rootReducer from './reducers';
+import createReduxStore from './utilities/store';
 
-window.appName = manifest.entryName;
-const store = createReduxStore(rootReducer);
-connectFeatureToggle(store.dispatch);
+const router = createBrowserRouter(routes, {
+  basename: '/representative',
+});
 
 startReactApp(
-  <Provider store={store}>
-    <BrowserRouter basename={manifest.rootUrl}>{routes}</BrowserRouter>
+  <Provider store={createReduxStore()}>
+    <RouterProvider router={router} />
   </Provider>,
 );

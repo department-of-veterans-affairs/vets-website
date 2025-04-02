@@ -6,7 +6,8 @@ import BreadCrumb from '../../components/BreadCrumb';
 
 describe('Avs: BreadCrumb', () => {
   it('correctly renders with past appointment referrer available', async () => {
-    const referrer = 'http://example.com/my-health/appointments/past/1234';
+    const referrer =
+      'http://example.com/my-health/appointments/past/f7e45e478ae348c03689b8c836d686d520d7e21b92c592161b210b369b180019';
     const originalReferrer = document.referrer;
     Object.defineProperty(document, 'referrer', {
       value: referrer,

@@ -53,7 +53,7 @@ export const DowntimeMessage = () => {
         </Link>
         If you need help resolving a debt, or you would like to get information
         about a debt that has been resolved, call the Debt Management Center at{' '}
-        <va-telephone contact="8008270648" />.
+        <va-telephone contact={CONTACTS.DMC} />.
       </p>
     </va-alert>
   );
@@ -91,7 +91,7 @@ export const ErrorAlert = () => (
     <h4>What you can do</h4>
     <p>
       You can check back later or call the Debt Management Center at{' '}
-      <va-telephone contact="8008270648" /> to find out more information about
+      <va-telephone contact={CONTACTS.DMC} /> to find out more information about
       how to resolve your debt.
     </p>
     <va-link
@@ -114,7 +114,7 @@ export const DependentDebt = () => (
     <h4>What you can do</h4>
     <p>
       If you need to access debt letters that were mailed to you, call the Debt
-      Management Center at <va-telephone contact="8008270648" />.
+      Management Center at <va-telephone contact={CONTACTS.DMC} />.
     </p>
     <va-link
       href="/manage-va-debt/summary/debt-balances/"
@@ -132,7 +132,7 @@ export const NoDebtLinks = () => (
     <p>
       Our records show you don’t have any debt letters related to VA benefits.
       If you think this is an error, please contact the Debt Management Center
-      at <va-telephone contact="8008270648" />.
+      at <va-telephone contact={CONTACTS.DMC} />.
     </p>
     <p>
       If you have VA health care copay debt, go to our

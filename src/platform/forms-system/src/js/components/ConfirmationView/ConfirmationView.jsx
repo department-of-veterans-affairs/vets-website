@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
 import environment from 'platform/utilities/environment';
@@ -74,6 +74,15 @@ export const ConfirmationView = props => {
     props.confirmationNumber,
   );
   const [submitDate, setSubmitDate] = useState(props.submitDate || null);
+
+  useEffect(
+    () => {
+      setPdfUrl(props.pdfUrl);
+      setConfirmationNumber(props.confirmationNumber);
+      setSubmitDate(props.submitDate || null);
+    },
+    [props.pdfUrl, props.confirmationNumber, props.submitDate],
+  );
 
   const DevOnlyButtons = useDevOnlyButtons({
     formData: form.data,
@@ -156,7 +165,7 @@ ConfirmationView.propTypes = {
     mockData: PropTypes.object,
   }),
   pdfUrl: PropTypes.string,
-  submitDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.instanceOf(Date)]),
+  submitDate: PropTypes.any,
 };
 
 ConfirmationView.SubmissionAlert = SubmissionAlertWithContext;

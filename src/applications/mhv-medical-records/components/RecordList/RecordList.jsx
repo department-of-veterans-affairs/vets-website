@@ -8,7 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
-import { getParamValue } from '../../util/helpers';
+import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -24,6 +24,7 @@ const RecordList = props => {
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
+    sendDataDogAction(`Pagination - ${type}`);
     const newURL = `${history.location.pathname}?page=${page}`;
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
@@ -70,11 +71,15 @@ const RecordList = props => {
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
-      <h2 className="sr-only">{`List of ${type}`}</h2>
+      <h2 className="sr-only" data-dd-privacy="mask" data-dd-action-name>
+        {`List of ${type}`}
+      </h2>
       <p
         className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
+        data-dd-privacy="mask"
+        data-dd-action-name
       >
         <span>
           {`Showing ${displayNums[0]} to ${

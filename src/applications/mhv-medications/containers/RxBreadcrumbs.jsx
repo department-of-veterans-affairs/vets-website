@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
+import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
@@ -20,15 +21,22 @@ const RxBreadcrumbs = () => {
         FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
       ],
   );
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(
     () => {
       setBreadcrumbs(
-        createBreadcrumbs(location, prescription, pagination?.currentPage),
+        // TODO: remove removeLandingPage part once mhvMedicationsRemoveLandingPage is turned on in prod
+        createBreadcrumbs(
+          location,
+          prescription,
+          pagination?.currentPage,
+          removeLandingPage,
+        ),
       );
     },
-    [location, prescription, pagination?.currentPage],
+    [location, prescription, pagination?.currentPage, removeLandingPage],
   );
 
   let content = null;
@@ -41,8 +49,7 @@ const RxBreadcrumbs = () => {
   }
 
   if (
-    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION) &&
-    prescription?.prescriptionId
+    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
@@ -50,14 +57,13 @@ const RxBreadcrumbs = () => {
           href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${
             prescription?.prescriptionId
           }`}
-          text={`Back to ${prescription?.prescriptionName}`}
+          text="Back"
           data-testid="rx-breadcrumb-link"
         />
       </div>
     );
   } else if (
-    location.pathname.includes(medicationsUrls.subdirectories.DETAILS) &&
-    prescription?.prescriptionId
+    location.pathname.includes(medicationsUrls.subdirectories.DETAILS)
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">

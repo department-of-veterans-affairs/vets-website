@@ -8,13 +8,11 @@ const CspDisplay = ({ csp, email, name }) => {
     <>
       <p>
         We found an existing <strong>{name}</strong> account for your email
-        address: <strong>{maskEmail(email)}</strong>
+        address: {maskEmail(email, `${csp}email`)}
       </p>
-      {/* change line below */}
       <VerifyButton
         csp={csp}
-        data-testid={csp}
-        queryParam={{ operation: 'interstitial_verify' }}
+        queryParams={{ operation: 'interstitial_verify' }}
       />
     </>
   );
@@ -23,29 +21,24 @@ export default function AccountSwitch({ userEmails }) {
   const userHasIdme = userEmails.idme;
   const userHasLogingov = userEmails.logingov;
   const userHasBoth = userHasIdme && userHasLogingov;
-  const headingText = userHasLogingov ? 'Login.gov' : 'ID.me';
+  const cspText = userHasLogingov ? 'Login.gov' : 'ID.me';
+  const headingText = `Start using your ${
+    userHasBoth ? 'Login.gov or ID.me' : cspText
+  } account now`;
   return (
     <div>
       <h2 className="vads-u-margin-y--0" id="accountSwitchH2">
-        Start using your{' '}
-        <strong>{userHasBoth ? 'Login.gov or ID.me' : headingText}</strong>{' '}
-        account now
+        {headingText}
       </h2>
       {userHasLogingov && (
         <CspDisplay
           csp="logingov"
           email={userEmails.logingov}
           name="Login.gov"
-          id="logingovButton"
         />
       )}
       {userHasIdme && (
-        <CspDisplay
-          csp="idme"
-          email={userEmails.idme}
-          name="ID.me"
-          id="idmeButton"
-        />
+        <CspDisplay csp="idme" email={userEmails.idme} name="ID.me" />
       )}
     </div>
   );

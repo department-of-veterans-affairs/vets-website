@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
-import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/breathing-rate.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import vitalsData from '../fixtures/vitals/breathing-rate.json';
 
 describe('Medical Records View Breathing Rate', () => {
   const site = new MedicalRecordsSite();
@@ -13,13 +13,16 @@ describe('Medical Records View Breathing Rate', () => {
       isAcceleratingVitals: true,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
-    cy.visit('my-health/medical-records');
   });
 
-  it('Visits View Vitals List', () => {
-    Vitals.checkLandingPageLinks();
+  it('Visits View Vital List', () => {
+    site.loadPage();
+
     // check for MY Va Health links
+    Vitals.checkLandingPageLinks();
+
     Vitals.goToVitalPage();
+
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });

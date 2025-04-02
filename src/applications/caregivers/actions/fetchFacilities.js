@@ -1,45 +1,24 @@
 import * as Sentry from '@sentry/browser';
-import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { API_ENDPOINTS } from '../utils/constants';
+import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const joinAddressParts = (...parts) => {
-  return parts.filter(part => part != null).join(', ');
-};
-
-const formatQueryParams = ({
-  lat,
-  long,
-  radius,
-  page,
-  perPage,
-  facilityIds,
-}) => {
-  const formatFacilityIdParams = () => {
-    let facilityIdParams = '';
-    if (facilityIds.length > 0) {
-      facilityIdParams = `facilityIds=${facilityIds.join(',')}`;
-    }
-
-    return facilityIdParams;
-  };
-
-  const params = [
-    lat ? `lat=${lat}` : null,
-    long ? `long=${long}` : null,
-    radius ? `radius=${radius}` : null,
-    page ? `page=${page}` : null,
-    perPage ? `per_page=${perPage}` : null,
-    formatFacilityIdParams() || null,
-  ];
-
-  let filteredParams = params.filter(Boolean);
-  if (filteredParams.length > 0) {
-    filteredParams = `&${filteredParams.join('&')}`;
-  }
-
-  return filteredParams;
-};
+// Formats facility address fields
+const formatAddress = ({
+  address1 = '',
+  address2 = '',
+  address3 = '',
+  city = '',
+  state = '',
+  zip = '',
+} = {}) => ({
+  address1,
+  address2: [address2, address3].filter(Boolean).join(', '),
+  address3: [city, state && zip ? `${state} ${zip}` : state || zip]
+    .filter(Boolean)
+    .join(', '),
+});
 
 export const fetchFacilities = async ({
   lat = null,
@@ -48,70 +27,72 @@ export const fetchFacilities = async ({
   page = null,
   perPage = null,
   facilityIds = [],
+  type = 'health',
 }) => {
-  const baseUrl = `${
-    environment.API_URL
-  }/v0/caregivers_assistance_claims/facilities?type=health`;
+  try {
+    await ensureValidCSRFToken('fetchFacilities');
 
-  const queryParams = formatQueryParams({
-    lat,
-    long,
-    radius,
-    page,
-    perPage,
-    facilityIds,
-  });
-
-  const requestUrl = `${baseUrl}${queryParams}`;
-  const fetchRequest = apiRequest(requestUrl);
-
-  return fetchRequest
-    .then(response => {
-      if (!response?.data?.length) {
-        return {
-          type: 'NO_SEARCH_RESULTS',
-          errorMessage: content['error--no-results-found'],
-        };
-      }
-      const facilities = response.data.map(facility => {
-        const attributes = facility?.attributes;
-        const { physical } = attributes?.address;
-
-        // Create a new address object without modifying the original facility
-        const newPhysicalAddress = {
-          address1: physical.address1,
-          address2: joinAddressParts(physical?.address2, physical?.address3),
-          address3: joinAddressParts(
-            physical.city,
-            physical.state,
-            physical.zip,
-          ),
-        };
-
-        // Return a new facility object with the updated address
-        return {
-          ...attributes,
-          id: facility.id,
-          address: {
-            physical: newPhysicalAddress,
-          },
-        };
-      });
-
-      return {
-        facilities,
-        meta: response.meta,
-      };
-    })
-    .catch(error => {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', error);
-        Sentry.captureMessage(content['error--facilities-fetch']);
-      });
-
-      return {
-        type: 'SEARCH_FAILED',
-        errorMessage: 'There was an error fetching the health care facilities.',
-      };
+    Sentry.withScope(scope => {
+      scope.setLevel(Sentry.Severity.Log);
+      scope.setExtra('facilityId(s)', facilityIds.join(','));
+      Sentry.captureMessage('FetchFacilities facilityIds');
     });
+
+    const { data, meta } = await apiRequest(API_ENDPOINTS.facilities, {
+      method: 'POST',
+      body: JSON.stringify({
+        type,
+        lat,
+        long,
+        radius,
+        page,
+        perPage,
+        facilityIds: facilityIds.join(','),
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!data?.length) {
+      return {
+        type: 'NO_SEARCH_RESULTS',
+        errorMessage: content['error--no-results-found'],
+      };
+    }
+
+    return {
+      facilities: data.map(({ id, attributes }) => ({
+        ...attributes,
+        id,
+        address: { physical: formatAddress(attributes?.address?.physical) },
+      })),
+      meta,
+    };
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      scope.setExtra('errors', error.errors);
+      Sentry.captureMessage(content['error--facilities-fetch']);
+    });
+
+    const errorResponse = error?.errors?.[0];
+    if (
+      errorResponse?.status === '403' &&
+      errorResponse?.detail === 'Invalid Authenticity Token'
+    ) {
+      Sentry.withScope(scope => {
+        scope.setLevel(Sentry.Severity.Log);
+        scope.setExtra('status', errorResponse.status);
+        scope.setExtra('detail', errorResponse.detail);
+        Sentry.captureMessage(
+          'Error in fetchFacilities. Clearing csrfToken in localStorage.',
+        );
+      });
+      localStorage.setItem('csrfToken', '');
+    }
+
+    return {
+      type: 'SEARCH_FAILED',
+      errorMessage: 'There was an error fetching the health care facilities.',
+    };
+  }
 };

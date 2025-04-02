@@ -8,6 +8,12 @@ import { parseVaccines } from './vaccines';
 import { parseAllergies } from './allergies';
 import { parseHealthConditions } from './conditions';
 import { parseVitals } from './vitals';
+import { parseMedications } from './medications';
+import { parseAppointments } from './appointments';
+import { parseDemographics } from './demographics';
+import { parseMilitaryService } from './militaryService';
+import { parseAccountSummary } from './accountSummary';
+import { formatUserDob } from '../helpers';
 
 // TODO: figure out a way to reduce complexity of the functions in this file
 /**
@@ -16,13 +22,68 @@ import { parseVitals } from './vitals';
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
-export const getTxtContent = (data, { userFullName, dob }) => {
+export const getTxtContent = (data, { userFullName, dob }, dateRange) => {
+  const sections = [
+    {
+      label: 'Labs and Tests',
+      data: data?.labsAndTests,
+      parse: parseLabsAndTests,
+    },
+    {
+      label: 'Care Summaries and Notes',
+      data: data?.notes,
+      parse: parseCareSummariesAndNotes,
+    },
+    { label: 'Vaccines', data: data?.vaccines, parse: parseVaccines },
+    { label: 'Allergies', data: data?.allergies, parse: parseAllergies },
+    {
+      label: 'Health Conditions',
+      data: data?.conditions,
+      parse: parseHealthConditions,
+    },
+    { label: 'Vitals', data: data?.vitals, parse: parseVitals },
+    { label: 'Medications', data: data?.medications, parse: parseMedications },
+    {
+      label: 'Appointments',
+      data: data?.appointments,
+      parse: parseAppointments,
+    },
+    {
+      label: 'Demographics',
+      data: data?.demographics,
+      parse: parseDemographics,
+    },
+    {
+      label: 'Military Service',
+      data: data?.militaryService,
+      parse: parseMilitaryService,
+    },
+    {
+      label: 'Account Summary',
+      data: data?.accountSummary,
+      parse: parseAccountSummary,
+    },
+  ];
+
+  const recordsSection = sections
+    .filter(section => section.data)
+    .map((section, index) => `  ${index + 1}. ${section.label}`)
+    .join('\n');
+
+  const contentSection = sections
+    .filter(section => section.data)
+    .map(
+      (section, index) =>
+        `${txtLine}\n${section.parse(section.data, index + 1)}`,
+    )
+    .join('\n\n');
+
   return `
-Blue Button report
+VA Blue Button® report
 
 This report includes key information from your VA medical records.
 ${userFullName.last}, ${userFullName.first}\n
-Date of birth: ${dob}\n
+Date of birth: ${formatUserDob({ dob: new Date(dob) })}\n
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.
@@ -36,18 +97,15 @@ Need help?
 ${txtLine}
 The following records have been downloaded:
 ${txtLineDotted}
-  1. Labs and Tests
-  2. Care Summaries and Notes
-  3. Vaccines
-  4. Allergies
-  5. Health Conditions
-  6. Vitals
 
-${parseLabsAndTests(data.labsAndTests)}
-${parseCareSummariesAndNotes(data.notes)}
-${parseVaccines(data.vaccines)}
-${parseAllergies(data.allergies)}
-${parseHealthConditions(data.conditions)}
-${parseVitals(data.vitals)}
+Date range: ${
+    dateRange.fromDate === 'any'
+      ? 'All time'
+      : `${dateRange.fromDate} to ${dateRange.toDate}`
+  }
+
+${recordsSection}
+
+${contentSection}
 `;
 };

@@ -1,0 +1,22 @@
+{
+  "statusCode": 200,
+  "body": {
+    "formData": {
+      "veteranFullName": { "first": "Julio", "middle": "E", "last": "Hunter" },
+      "gender": "M",
+      "veteranDateOfBirth": "1951-11-18",
+      "veteranSocialSecurityNumber": "796378321",
+      "homePhone": "6575107441",
+      "email": "vets.gov.user+71@gmail.com",
+      "lastServiceBranch": "air force",
+      "lastEntryDate": "1977-06-03",
+      "lastDischargeDate": "1998-06-30",
+      "dischargeType": "honorable"
+    },
+    "metadata": {
+      "version": 0,
+      "prefill": true,
+      "returnUrl": "/check-your-personal-information"
+    }
+  }
+}

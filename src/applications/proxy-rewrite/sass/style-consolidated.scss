@@ -49,10 +49,8 @@
 #ts-modal-crisisline {
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
-  $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
-  $formation-font-path: "~@department-of-veterans-affairs/formation/assets/fonts";
-
-  @import "~@department-of-veterans-affairs/formation/sass/core";
+  
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
@@ -221,6 +219,12 @@
     .usa-grid {
       padding-right: 3rem;
       padding-left: 3rem;
+    }
+
+    // overriding utility class because teamsites has a root font-size of 10px and we don't have a utility class 
+    // in rem that computes exactly to that. 
+    .medium-screen\:vads-u-padding--2 {
+      padding: 16px !important;
     }
   }
 
@@ -530,7 +534,8 @@
     background-image: none;
   }
 
-  .usa-banner-button[aria-expanded=false]::after {
+  .usa-banner-button[aria-expanded=false]::after,
+  .usa-banner-button[aria-expanded=false]:hover::after {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAnUlEQVR42u2Ouw2AMAwFaTMAA7AEK8A6rJGOfZiCDbIFXbARpgBBczKVn3RFPtJdE4vFrk1LL6QfPEld98tZqMIqtI7y9nRUddplFqphEc5yI+tD0YNrxFNuFH0chO0twlG+qds+jV8RLnJ12kAEloMILgcRXE4juJxHcDmP4HIeAeU8Asp5BJCjCC7nEVzOI7icRzA5j+gOYrEY2A6rHMz0TIafFgAAAABJRU5ErkJggg==);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 284.929 284.929'%3e%3cpath d='M282.082 76.51L267.808 62.24c-1.902-1.906-4.093-2.856-6.57-2.856-2.47 0-4.66.95-6.563 2.856L142.465 174.44 30.263 62.24c-1.903-1.905-4.093-2.855-6.567-2.855-2.475 0-4.665.95-6.567 2.856L2.856 76.516C.95 78.417 0 80.607 0 83.082c0 2.473.953 4.663 2.856 6.565L135.9 222.693c1.9 1.903 4.092 2.854 6.566 2.854s4.66-.95 6.562-2.854L282.082 89.647c1.902-1.903 2.847-4.093 2.847-6.565 0-2.475-.946-4.665-2.848-6.57z' fill='%230071bc'/%3e%3c/svg%3e");
     background-size: 100%;
@@ -547,7 +552,8 @@
     height: 5.6rem;
   }
 
-  .usa-banner-button[aria-expanded=true]::after {
+  .usa-banner-button[aria-expanded=true]::after,
+  .usa-banner-button[aria-expanded=true]:hover::after {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 284.929 284.929'%3e%3cpath d='M282.082 76.51L267.808 62.24c-1.902-1.906-4.093-2.856-6.57-2.856-2.47 0-4.66.95-6.563 2.856L142.465 174.44 30.263 62.24c-1.903-1.905-4.093-2.855-6.567-2.855-2.475 0-4.665.95-6.567 2.856L2.856 76.516C.95 78.417 0 80.607 0 83.082c0 2.473.953 4.663 2.856 6.565L135.9 222.693c1.9 1.903 4.092 2.854 6.566 2.854s4.66-.95 6.562-2.854L282.082 89.647c1.902-1.903 2.847-4.093 2.847-6.565 0-2.475-.946-4.665-2.848-6.57z' fill='%230071bc'/%3e%3c/svg%3e");
     background-size: 100%;
     content: "";
@@ -564,7 +570,8 @@
       position: relative;
     }
 
-    .usa-banner-button[aria-expanded=true]::after {
+    .usa-banner-button[aria-expanded=true]::after,
+    .usa-banner-button[aria-expanded=true]:hover::after {
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAnElEQVR42u2SsQmAMBBF0zqAA7iEK5hlRASnSJdlBFFbB3ADt7DTnMTGwuYR0tyDD9e9V5xRFAUxTNWzLPSLDTvjbC75JQMRXA4iuBxGcDmP4PJdBiKgvB1LGYiA8giI4HIQweUggstxBJfzCC7nEVzOI7q5AXIWIe5wHEBOIw4JcEBOI9z7A/5HnirCfx5xrU2/FSY14hCXoiiRG6PyzBQ7pWb4AAAAAElFTkSuQmCC);
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 284.929 284.929'%3e%3cpath d='M282.082 195.285L149.028 62.24c-1.9-1.903-4.088-2.856-6.562-2.856s-4.665.953-6.567 2.856L2.855 195.285C.95 197.19 0 199.378 0 201.853c0 2.474.953 4.664 2.856 6.566l14.272 14.27c1.903 1.903 4.093 2.854 6.567 2.854s4.664-.95 6.567-2.854l112.204-112.202 112.208 112.21c1.902 1.902 4.093 2.847 6.563 2.847 2.478 0 4.668-.95 6.57-2.848l14.274-14.277c1.903-1.902 2.848-4.093 2.848-6.566 0-2.476-.944-4.666-2.846-6.57z' fill='%230071bc'/%3e%3c/svg%3e");
       background-size: 100%;
@@ -572,7 +579,7 @@
       display: inline-block;
       height: 1rem;
       width: 1rem;
-      margin-left: 0;
+      margin-left: 4px;
     }
 
     .usa-banner-button[aria-expanded=true]::after {
@@ -817,7 +824,7 @@
 
   @media screen and (min-width: 768px) {
     #va-header-logo-menu {
-      padding: 2em 1.25em 0;
+      padding: 2.4em 1.25em 0 !important;
     }
   }
 
@@ -852,6 +859,14 @@
         display: none;
       }
     }
+  }
+
+  .banner-display--none {
+    display: none !important;
+  }
+
+  .banner-display--flex {
+    display: flex !important;
   }
 
   .va-notice--banner {
@@ -1399,8 +1414,13 @@
     height: 42px;
     width: 45px;
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 312px) {
       margin: 11px 0 0;
+      height: 42px;
+    }
+
+    @media screen and (min-width: 313px) and (max-width: 767px) {
+      margin: 10px 0 0;
       height: 42px;
     }
   }
@@ -1449,7 +1469,7 @@
   }
 
   .login button.idme-button {
-    background: #008817;
+    background: #08833D;
   }
 
   .login button.idme-button:hover {
@@ -2295,6 +2315,7 @@
 
    .usa-banner-button-text {
     font-size: 12px;
+    font-family: $font-stack;
    }
 
   @media (min-width: 1008px) {

@@ -16,6 +16,8 @@ import {
   getCurrentChapterDisplay,
 } from '../helpers';
 
+import { isMinimalHeaderApp } from '../patterns/minimal-header';
+
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
@@ -117,7 +119,7 @@ export default function FormNav(props) {
         window.location.pathname.endsWith('review-and-submit')
       ) {
         scrollTo('topScrollElement');
-        if (hideFormNavProgress) {
+        if (hideFormNavProgress || isMinimalHeaderApp()) {
           focusElement('h1');
         } else {
           // Focus on review & submit page h2 in stepper
@@ -177,7 +179,6 @@ FormNav.propTypes = {
       reviewPageTitle: PropTypes.string,
     }),
     urlPrefix: PropTypes.string,
-    useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
   currentPath: PropTypes.string,
   formData: PropTypes.shape({}),

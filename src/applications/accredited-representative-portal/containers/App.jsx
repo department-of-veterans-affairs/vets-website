@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom-v5-compat';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Footer from '../components/common/Footer/Footer';
-import Header from '../components/common/Header/Header';
-import { fetchUser } from '../actions/user';
-import { selectIsUserLoading } from '../selectors/user';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-const App = () => {
+function App() {
   const {
     TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
     useToggleLoadingValue,
@@ -23,10 +20,6 @@ const App = () => {
   const shouldExitApp = isProduction && !isAppEnabled;
 
   const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
-  const isUserLoading = useSelector(selectIsUserLoading);
-
-  const dispatch = useDispatch();
-  useEffect(() => dispatch(fetchUser()), [dispatch]);
 
   if (isAppToggleLoading) {
     return (
@@ -41,19 +34,13 @@ const App = () => {
     return null;
   }
 
-  const content = isUserLoading ? (
-    <VaLoadingIndicator message="Loading user information..." />
-  ) : (
-    <Outlet />
-  );
-
   return (
     <div className="container">
       <Header />
-      {content}
+      <Outlet />
       <Footer />
     </div>
   );
-};
+}
 
 export default App;

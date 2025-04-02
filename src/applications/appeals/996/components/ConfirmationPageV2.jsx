@@ -11,7 +11,7 @@ import { selectProfile } from 'platform/user/selectors';
 
 import {
   informalConferenceLabel,
-  newInformalConferenceLabels,
+  informalConferenceLabels,
 } from '../content/InformalConference';
 import {
   informalConferenceContactLabel,
@@ -27,6 +27,7 @@ import { CONFERENCE_TIMES_V2_5 } from '../constants';
 import { formTitle } from '../content/title';
 
 import {
+  chapterHeaderClass,
   ConfirmationTitle,
   ConfirmationAlert,
   ConfirmationSummary,
@@ -34,6 +35,8 @@ import {
 } from '../../shared/components/ConfirmationCommon';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
+
+import { getReadableDate } from '../../shared/utils/dates';
 
 export const ConfirmationPageV2 = () => {
   resetStoredSubTask();
@@ -57,7 +60,7 @@ export const ConfirmationPageV2 = () => {
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // HLR_PDF_DOWNLOAD_URL;
 
-  const { data = {} } = form;
+  const { submission, data = {} } = form;
   const hasConference = data.informalConferenceChoice === 'yes';
   const hasRepContact = data.informalConference === 'rep';
   const conferenceTimes =
@@ -68,6 +71,10 @@ export const ConfirmationPageV2 = () => {
     false;
   const { informalConferenceRep = {} } = data;
 
+  const submitDate = getReadableDate(
+    submission?.timestamp || new Date().toISOString(),
+  );
+
   const conferenceMessage = hasConference
     ? `Since you requested an informal conference, we’ll contact ${
         hasRepContact ? 'your accredited representative' : 'you'
@@ -77,15 +84,14 @@ export const ConfirmationPageV2 = () => {
   return (
     <>
       <ConfirmationTitle pageTitle={formTitle} />
-      <ConfirmationAlert alertTitle="We’ve received your request for a Higher-Level Review">
+      <ConfirmationAlert alertTitle="Your Higher Level Review request submission is in progress">
         <>
-          {hasConference && (
-            <p className="vads-u-margin-top--0">{conferenceMessage}</p>
-          )}
-          <p className="vads-u-margin-bottom--0">
-            After we’ve completed our review, we’ll mail you a decision packet
-            with the details of our decision.
+          <p className="vads-u-margin-top--0">
+            You submitted the request on {submitDate}. It can take a few days
+            for us to receive your request. We’ll send you a confirmation letter
+            once we’ve processed your request.
           </p>
+          {hasConference && <p>{conferenceMessage}</p>}
         </>
       </ConfirmationAlert>
 
@@ -97,22 +103,22 @@ export const ConfirmationPageV2 = () => {
       <h2>What to expect next</h2>
       <p className="next-steps">
         You don’t need to do anything unless we send you a letter asking for
-        more information. {conferenceMessage}
+        more information. {conferenceMessage} After we’ve completed our review,
+        we’ll mail you a decision packet with the details of our decision.
       </p>
       <p>
         <a href="/decision-reviews/after-you-request-review/">
           Learn more about what happens after you request a decision review
         </a>
       </p>
-      <p>You can also check the status of your request online.</p>
+      <p>
+        You can check the status of your request in the claims and appeals
+        status tool. It may take <strong>7 to 10 days</strong> to appear there.
+      </p>
       <p>
         <a href="/claim-or-appeal-status/">
           Check the status of your request for a Higher-Level Review online
         </a>
-      </p>
-      <p>
-        <strong>Note:</strong> It may take 7 to 10 days after you submit your
-        request for it to appear online.
       </p>
 
       <h2>How to contact us if you have questions</h2>
@@ -144,7 +150,7 @@ export const ConfirmationPageV2 = () => {
 
       <ConfirmationIssues data={data} />
 
-      <h3 className="vads-u-margin-top--2">Informal conference</h3>
+      <h3 className={chapterHeaderClass}>Informal conference</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -157,7 +163,7 @@ export const ConfirmationPageV2 = () => {
             className="vads-u-margin-bottom--2 dd-privacy-hidden"
             data-dd-action-name="informal conference choice"
           >
-            {newInformalConferenceLabels[data.informalConferenceChoice] || ''}
+            {informalConferenceLabels[data.informalConferenceChoice] || ''}
           </div>
         </li>
         {hasConference && (

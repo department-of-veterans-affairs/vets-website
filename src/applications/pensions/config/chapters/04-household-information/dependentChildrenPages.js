@@ -30,6 +30,7 @@ import {
   SchoolAttendanceAlert,
 } from '../../../components/FormAlerts';
 import { childRelationshipLabels } from '../../../labels';
+import { isBetween18And23 } from './helpers';
 import {
   DependentSeriouslyDisabledDescription,
   formatFullName,
@@ -147,8 +148,12 @@ const socialSecurityNumberPage = {
       false,
     ),
     childSocialSecurityNumber: merge({}, ssnUI(), {
-      'ui:required': (formData, index) =>
-        !get(['dependents', index, 'view:noSsn'], formData),
+      'ui:required': (formData, index) => {
+        return (
+          formData?.['view:noSsn'] !== true &&
+          formData?.dependents?.[index]?.['view:noSsn'] !== true
+        );
+      },
     }),
     'view:noSsn': {
       'ui:title': "Doesn't have a Social Security number",
@@ -204,7 +209,12 @@ const attendingSchoolPage = {
       'ui:options': {
         expandUnder: 'attendingCollege',
       },
-      'ui:required': () => true,
+      'ui:required': (formData, index) => {
+        return (
+          isBetween18And23(formData?.childDateOfBirth) ||
+          isBetween18And23(formData?.dependents?.[index]?.childDateOfBirth)
+        );
+      },
     },
   },
   schema: {
@@ -328,7 +338,12 @@ const addressPage = {
         'ui:options': {
           classNames: 'schemaform-currency-input-v3',
         },
-        'ui:required': () => true,
+        'ui:required': (formData, index) => {
+          return (
+            formData?.childInHousehold === false ||
+            formData.dependents?.[index]?.childInHousehold === false
+          );
+        },
       },
     ),
   },
@@ -344,7 +359,7 @@ const addressPage = {
 
 export const dependentChildrenPages = arrayBuilderPages(
   options,
-  (pageBuilder, helpers) => ({
+  pageBuilder => ({
     dependentChildrenSummary: pageBuilder.summaryPage({
       title: 'Dependent children',
       path: 'household/dependents/summary',
@@ -383,7 +398,9 @@ export const dependentChildrenPages = arrayBuilderPages(
     dependentChildAttendingSchoolPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/school',
-      depends: () => showMultiplePageResponse(),
+      depends: (formData, index) =>
+        showMultiplePageResponse() &&
+        isBetween18And23(formData.dependents?.[index]?.childDateOfBirth),
       uiSchema: attendingSchoolPage.uiSchema,
       schema: attendingSchoolPage.schema,
     }),
@@ -405,18 +422,15 @@ export const dependentChildrenPages = arrayBuilderPages(
       title: 'Dependent children',
       path: 'household/dependents/:index/in-household',
       depends: () => showMultiplePageResponse(),
-      onNavForward: props => {
-        return props.formData.childInHousehold
-          ? helpers.navForwardFinishedItem(props) // return to summary
-          : helpers.navForwardKeepUrlParams(props); // go to next page
-      },
       uiSchema: inHouseholdPage.uiSchema,
       schema: inHouseholdPage.schema,
     }),
     dependentChildAddressPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/address',
-      depends: () => showMultiplePageResponse(),
+      depends: (formData, index) =>
+        showMultiplePageResponse() &&
+        !formData.dependents?.[index]?.childInHousehold,
       uiSchema: addressPage.uiSchema,
       schema: addressPage.schema,
     }),

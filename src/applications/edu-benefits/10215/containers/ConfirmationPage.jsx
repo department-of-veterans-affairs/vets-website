@@ -1,69 +1,77 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import environment from '~/platform/utilities/environment';
+import GetFormHelp from '../components/GetFormHelp';
+import { childContent } from '../helpers';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+const CLAIM_ID = '10215ClaimId';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
+export const setClaimIdInLocalStage = submission => {
+  if (submission?.response?.id) {
+    localStorage.setItem(CLAIM_ID, JSON.stringify(submission?.response?.id));
   }
+};
 
-  render() {
-    const { form } = this.props;
-    const { formId, data, submission } = form;
-    const submitDate = new Date(submission?.timestamp);
+export const getClaimIdFromLocalStage = () => {
+  return JSON.parse(localStorage.getItem(CLAIM_ID));
+};
 
-    const { fullName } = data;
+export const ConfirmationPage = ({ router, route }) => {
+  const [claimId, setClaimId] = React.useState(null);
+  const form = useSelector(state => state?.form);
+  const { submission } = form;
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            22-10215 Statement of Assurance of Compliance with 95 Percent
-            Enrollment Ratios Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
+  const goBack = e => {
+    e.preventDefault();
+    router.push('/review-and-submit');
+  };
+  useEffect(
+    () => {
+      setClaimIdInLocalStage(submission);
+      setClaimId(getClaimIdFromLocalStage());
+    },
 
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <va-button
-            onClick={window.print}
-            text="Print this for your records"
-            uswds
-          />
-        </div>
-      </div>
-    );
-  }
-}
+    [submission],
+  );
+
+  useEffect(() => {
+    const h2Element = document.querySelector('.custom-classname h2');
+    if (h2Element) {
+      const h3 = document.createElement('h3');
+      h3.innerHTML = h2Element.innerHTML;
+      h2Element.parentNode.replaceChild(h3, h2Element);
+    }
+    return () => {
+      const h3Element = document.querySelector('.custom-classname h3');
+      if (h3Element) {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = h3Element.innerHTML;
+        h3Element.parentNode.replaceChild(h2, h3Element);
+      }
+    };
+  }, []);
+
+  return (
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      confirmationNumber={confirmationNumber}
+      submitDate={submitDate}
+      pdfUrl={`${
+        environment.API_URL
+      }/v0/education_benefits_claims/download_pdf/${claimId}`}
+    >
+      {childContent(
+        <ConfirmationView.SavePdfDownload className="custom-classname" />,
+        goBack,
+      )}
+      <ConfirmationView.NeedHelp content={<GetFormHelp />} />
+    </ConfirmationView>
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
@@ -81,12 +89,12 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

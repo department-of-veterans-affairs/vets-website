@@ -68,13 +68,25 @@ const generateReviewEntryKey = (key, label, data) => {
   return keyString;
 };
 
-const reviewEntry = (description, key, uiSchema, label, data) => {
+export const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
   const keyString = generateReviewEntryKey(key, label, data);
 
   const className = nextClass;
   nextClass = '';
+
+  // for multiple lines of data under one label
+  if (Array.isArray(data)) {
+    return (
+      <li key={keyString} className={className}>
+        <div className="vads-u-color--gray">{label}</div>
+        {data.map((item, index) => {
+          return <div key={`${keyString}-${index}`}>{item}</div>;
+        })}
+      </li>
+    );
+  }
 
   return (
     <li key={keyString} className={className}>
@@ -87,7 +99,12 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
 const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   if (data === undefined || data === null) return null;
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
-  if (schema.properties[key] === undefined || !uiSchema) return null;
+
+  let schemaPropertiesKey = schema.properties?.[key];
+  if (schemaPropertiesKey?.$ref) {
+    schemaPropertiesKey = schemaFromState.properties?.[key];
+  }
+  if (schemaPropertiesKey === undefined || !uiSchema) return null;
 
   const {
     'ui:confirmationField': ConfirmationField,
@@ -120,14 +137,17 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     refinedData = refinedData ? 'Selected' : '';
   }
 
-  const dataType = schema.properties[key].type;
+  const dataType = schemaPropertiesKey.type;
 
   if (ConfirmationField) {
     if (typeof ConfirmationField === 'function') {
-      const { data: confirmData = refinedData } = ConfirmationField({
-        formData: refinedData,
+      const {
+        data: confirmData = refinedData,
+        label: confirmLabel = label,
+      } = ConfirmationField({
+        formData: refinedData || data,
       });
-      return reviewEntry(description, key, uiSchema, label, confirmData);
+      return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
     }
 
     if (isReactComponent(ConfirmationField)) {
@@ -172,7 +192,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         objKey,
         objVal,
         data[objKey],
-        schema.properties[key],
+        schemaPropertiesKey,
         schemaFromState?.properties?.[key],
       ),
     );
@@ -193,7 +213,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         arrKey,
         arrVal,
         data[index][arrKey],
-        schema.properties[key].items,
+        schemaPropertiesKey.items,
         schemaFromState?.properties?.[key].items?.[index],
       );
     });
@@ -204,6 +224,19 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
 export const buildFields = (chapter, formData, pagesFromState) => {
   return chapter.expandedPages.flatMap(page => {
+    // page level ui:confirmationField
+    const ConfirmationField = page.uiSchema['ui:confirmationField'];
+
+    if (ConfirmationField) {
+      if (isReactComponent(ConfirmationField)) {
+        return <ConfirmationField formData={formData} />;
+      }
+
+      throw new Error(
+        'Page level ui:confirmationField must be a React component',
+      );
+    }
+
     return Object.entries(page.uiSchema).flatMap(
       ([uiSchemaKey, uiSchemaValue]) => {
         const data = formData[uiSchemaKey];

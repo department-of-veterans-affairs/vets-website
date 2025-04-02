@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
@@ -13,7 +14,6 @@ import DebtCardsList from '../components/DebtCardsList';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
-import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
@@ -26,13 +26,12 @@ const renderAlert = (alertType, statements) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -42,6 +41,7 @@ const renderAlert = (alertType, statements) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
     </va-alert>
   );
 };
@@ -54,12 +54,12 @@ const renderOtherVA = (mcpLength, mcpError) => {
   if (mcpError) {
     return (
       <>
-        <h2>Your other VA bills</h2>
+        <h2>Your VA copay bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
-          <h4 slot="headline" className="vads-u-font-size--h3">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
-          </h4>
-          {alertInfo.body}
+          </h3>
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -147,11 +147,11 @@ const DebtLettersSummary = () => {
               think your debt was created in an error, you can dispute it.
               Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
               or call the Debt Management Center at{' '}
-              <va-telephone contact="8008270648" /> (
+              <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone contact="711" tty="true" />
               ). For international callers, use{' '}
-              <va-telephone contact="6127136415" />. We’re here Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         </va-need-help>
@@ -190,11 +190,15 @@ const DebtLettersSummary = () => {
         >
           {title}
         </h1>
+        <p className="va-introtext">
+          Check the details of debt you might have from VA education, disability
+          compensation, or pension programs. Find out how to pay your debt and
+          what to do if you need financial assistance.
+        </p>
         <p>
           Please note that payments may take up to 4 business days to reflect
           after processing.
         </p>
-        <SpecialHurricaneAlert />
         {renderContent()}
       </div>
     </>

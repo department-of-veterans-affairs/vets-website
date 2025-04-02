@@ -33,7 +33,7 @@ export const IssueCardContent = ({
   approxDecisionDate,
   decisionDate,
 }) => {
-  // May need to throw an error to Sentry if any of these don't exist
+  // May need to throw an error to DataDog if any of these don't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
   const date = parseDateToDateObj(

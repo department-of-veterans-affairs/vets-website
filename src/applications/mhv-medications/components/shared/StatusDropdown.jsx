@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dispStatusObj } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const StatusDropdown = props => {
   const { status } = props;
+
+  const displayStatus = statusTxt => {
+    return (
+      <p data-testid="status" data-dd-privacy="mask">
+        {statusTxt}
+      </p>
+    );
+  };
 
   const content = () => {
     switch (status) {
@@ -27,11 +36,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active</p>
+            {displayStatus('Active')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -70,11 +82,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Non-VA</p>
+            {displayStatus('Active: Non-VA')}
             <va-additional-info
               data-testid="status-dropdown"
               uswds
               trigger="What does this status mean?"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -115,11 +130,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Parked</p>
+            {displayStatus('Active: Parked')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -149,11 +167,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: On hold</p>
+            {displayStatus('Active: On hold')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -172,8 +193,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Refill in process</p>
-            <va-additional-info uswds trigger="What does this status mean?">
+            {displayStatus('Active: Refill in process')}
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
+            >
               {dropdownContent()}
             </va-additional-info>
           </>
@@ -208,11 +235,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Discontinued</p>
+            {displayStatus('Discontinued')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -236,11 +266,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Submitted</p>
+            {displayStatus('Active: Submitted')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -271,11 +304,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Expired</p>
+            {displayStatus('Expired')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -292,11 +328,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Transferred</p>
+            {displayStatus('Transferred')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>
@@ -317,11 +356,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Unknown</p>
+            {displayStatus('Unknown')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               {dropdownContent()}
             </va-additional-info>

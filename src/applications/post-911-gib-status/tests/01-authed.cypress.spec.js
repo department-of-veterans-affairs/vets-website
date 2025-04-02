@@ -27,13 +27,13 @@ describe('Gibs Test', () => {
       },
     ).click();
 
-    // cy.get('#gibs-full-name').should('contain', 'First Last');
+    cy.get('#gibs-full-name').should('contain', 'First Last');
 
-    // cy.get('#print-button').click();
-    // cy.get('.print-status', { timeout: Timeouts.slow }).should('be.visible');
-    // cy.injectAxeThenAxeCheck();
-    // cy.get('.section-header')
-    //   .should('contain', 'Post-9/11 GI Bill')
-    //   .and('contain', 'Statement of Benefits');
+    cy.get('#print-button').click();
+    cy.get('.print-status', { timeout: Timeouts.slow }).should('be.visible');
+    cy.injectAxeThenAxeCheck();
+    cy.get('.section-header')
+      .should('contain', 'Post-9/11 GI Bill')
+      .and('contain', 'Statement of Benefits');
   });
 });

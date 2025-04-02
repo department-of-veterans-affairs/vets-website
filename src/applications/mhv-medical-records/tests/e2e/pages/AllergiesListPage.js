@@ -1,5 +1,4 @@
 import defaultAllergies from '../fixtures/allergies.json';
-import sessionStatus from '../fixtures/session-status.json';
 import BaseListPage from './BaseListPage';
 
 class AllergiesListPage extends BaseListPage {
@@ -7,14 +6,6 @@ class AllergiesListPage extends BaseListPage {
     allergies = defaultAllergies,
     waitForAllergies = false,
   ) => {
-    cy.intercept('POST', '/my_health/v1/medical_records/session', {
-      statusCode: 204,
-      body: {},
-    }).as('session');
-    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
-      statusCode: 200,
-      body: sessionStatus, // status response copied from staging
-    }).as('status');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -47,6 +38,12 @@ class AllergiesListPage extends BaseListPage {
       'have.text',
       `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
     );
+    cy.focused().then($el => {
+      cy.wrap($el).should(
+        'contain',
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+      );
+    });
   };
 
   verifyBreadcrumbs = breadcrumbsText => {

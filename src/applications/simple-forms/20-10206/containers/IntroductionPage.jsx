@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
-import manifest from '../manifest.json';
 import { SUBTITLE, TITLE } from '../config/constants';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 
 const ombInfo = {
   resBurden: '5',
@@ -77,49 +77,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Other benefit record</li>
       </ul>
 
-      <h2 id="start-your-request">Start your request</h2>
-      <p>
-        <strong>Note</strong>: You’ll need to sign in with a verified{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
-        Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
-        account. If you don’t have any of those accounts, you can create a free{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
-      </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-          <div className="id-not-verified-content vads-u-margin-top--4">
-            <va-alert status="continue" uswds visible>
-              <h3 slot="headline">
-                You’ll need to verify your identity to request your records
-              </h3>
-              <p>
-                We need to make sure you’re you — and not someone pretending to
-                be you — before we can give you access to your personal
-                information. This helps to keep your information safe, and to
-                prevent fraud and identity theft.
-              </p>
-              <strong>This one-time process takes about 5-10 minutes.</strong>
-              <p>
-                <a
-                  href={`/verify?next=${manifest.rootUrl}/introduction`}
-                  className="verify-link vads-c-action-link--green"
-                >
-                  Verify your identity
-                </a>
-              </p>
-            </va-alert>
-            <p className="vads-u-margin-top--3">
-              If you don’t want to verify your identity right now, you can still
-              download and complete the PDF version of this request.
-            </p>
-            <p className="vads-u-margin-y--3">
-              <va-link
-                download
-                href="https://www.vba.va.gov/pubs/forms/VBA-20-10206-ARE.pdf"
-                text="Get VA Form 20-10206 to download"
-              />
-            </p>
-          </div>
+          <IdNotVerifiedAlert formNumber="20-10206" />
         )}
     </>
   );

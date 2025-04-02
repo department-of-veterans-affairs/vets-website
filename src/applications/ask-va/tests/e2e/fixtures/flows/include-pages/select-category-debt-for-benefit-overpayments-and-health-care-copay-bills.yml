@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Debt for benefit overpayments and health care copay bills
+  - action: click
+    target: call-to-action

@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   setPageFocus,
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
 } from '../../combined/utils/helpers';
-import { SpecialHurricaneAlert } from '../../combined/components/DisasterAlert';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
@@ -30,13 +31,12 @@ const renderAlert = (alertType, debts) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -46,6 +46,7 @@ const renderAlert = (alertType, debts) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
     </va-alert>
   );
 };
@@ -58,12 +59,12 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h2 className="vads-u-font-size--h3">Your other VA debts</h2>
+        <h2>Your other VA debts</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h3>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -75,6 +76,20 @@ const OverviewPage = () => {
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
+
+  // feature toggle stuff for VHA payment history MVP
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  // boolean value to represent if toggles are still loading or not
+  const togglesLoading = useToggleLoadingValue();
+  // value of specific toggle
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+
   const {
     debts,
     isError: debtError,
@@ -93,7 +108,7 @@ const OverviewPage = () => {
     setPageFocus('h1');
   }, []);
 
-  if (debtLoading || mcpLoading) {
+  if (debtLoading || mcpLoading || togglesLoading) {
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
@@ -118,10 +133,36 @@ const OverviewPage = () => {
     if (statementsEmpty) {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
-    return (
+
+    return showVHAPaymentHistory ? (
+      <article className="vads-u-padding-x--0">
+        <Balances
+          statements={statementsByUniqueFacility}
+          showVHAPaymentHistory={showVHAPaymentHistory}
+        />
+        {renderOtherVA(debts?.length, debtError)}
+        <div className="vads-u-margin-top--4" data-testid="need-help">
+          <va-need-help id="needHelp">
+            <div slot="content">
+              <p>
+                You can contact us online through{' '}
+                <va-link text="Ask VA" href="https://ask.va.gov" /> or call the
+                VA Health Resource Center at{' '}
+                <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
+                <va-telephone contact="711" tty="true" />
+                ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              </p>
+            </div>
+          </va-need-help>
+        </div>
+      </article>
+    ) : (
       <article className="vads-u-padding-x--0">
         <va-on-this-page />
-        <Balances statements={statementsByUniqueFacility} />
+        <Balances
+          statements={statementsByUniqueFacility}
+          showVHAPaymentHistory={showVHAPaymentHistory}
+        />
         {renderOtherVA(debts?.length, debtError)}
         <HowToPay isOverview />
         <FinancialHelp />
@@ -130,6 +171,7 @@ const OverviewPage = () => {
       </article>
     );
   };
+
   return (
     <>
       <VaBreadcrumbs
@@ -157,7 +199,6 @@ const OverviewPage = () => {
           of your facilities. Find out how to make payments or request financial
           help.
         </p>
-        <SpecialHurricaneAlert />
         {renderContent()}
       </div>
     </>

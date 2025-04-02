@@ -1,18 +1,14 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 // platform imports
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
-import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // internal imports
 import { prefillTransformer } from './prefill-transformer';
 import { submitTransformer } from './submit-transformer';
 import {
   isLoggedOut,
-  isSigiEnabled,
-  isRegOnlyEnabled,
   isMissingVeteranDob,
   hasDifferentHomeAddress,
   hasLowDisabilityRating,
@@ -40,8 +36,9 @@ import {
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   collectMedicareInformation,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 import { SHARED_PATHS } from '../utils/constants';
+import { FULL_SCHEMA } from '../utils/imports';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -58,14 +55,12 @@ import AuthBenefitsPackagePage from '../containers/AuthBenefitsPackagePage';
 import AuthRegistrationOnlyPage from '../containers/AuthRegistrationOnlyPage';
 
 // chapter 1 Veteran Information
-import VeteranInformation from '../components/FormPages/VeteranInformation';
 import veteranDateOfBirth from './chapters/veteranInformation/veteranDateOfBirth';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
 import birthSex from './chapters/veteranInformation/birthSex';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
-import veteranGender from './chapters/veteranInformation/veteranGender';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
 
@@ -124,7 +119,7 @@ import InsuranceInformationPage from '../components/FormPages/InsuranceInformati
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
-const { date } = fullSchemaHca.definitions;
+const { date } = FULL_SCHEMA.definitions;
 
 /**
  * NOTE: Prefill message data values can be found in
@@ -171,7 +166,6 @@ const formConfig = {
       path: 'check-your-personal-information',
       component: PersonalInformationPage,
       pageKey: 'verify-personal-information',
-      depends: isRegOnlyEnabled,
     },
     {
       path: 'va-benefits-package',
@@ -198,19 +192,11 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
       pages: {
-        veteranProfileInformation: {
-          path: 'veteran-information/personal-information',
-          title: 'Veteran\u2019s personal information',
-          CustomPage: VeteranInformation,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          depends: formData => !isRegOnlyEnabled(formData),
-        },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
@@ -239,14 +225,6 @@ const formConfig = {
           initialData: {},
           uiSchema: birthSex.uiSchema,
           schema: birthSex.schema,
-        },
-        veteranGender: {
-          path: 'veteran-information/veteran-gender',
-          title: 'Gender',
-          initialData: {},
-          depends: isSigiEnabled,
-          uiSchema: veteranGender.uiSchema,
-          schema: veteranGender.schema,
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',

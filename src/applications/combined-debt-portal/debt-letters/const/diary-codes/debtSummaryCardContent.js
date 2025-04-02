@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { endDate } from '../../utils/helpers';
 
 const WarningIcon = () => (
@@ -34,6 +35,9 @@ DebtSummaryMessage.propTypes = {
 export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
   const endDateText = endDate(dateOfLetter, diaryCode);
 
+  // GH docs source for diaryCode values
+  // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/architecture/static-codes.md
+  // let's try and keep these values updated there so it's easier for stakeholders to monitor
   switch (diaryCode) {
     case '71':
       return (
@@ -164,11 +168,11 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
           Contact the U.S. Department of the Treasury’s Debt Management Services
-          at <va-telephone contact="8008270648" />, 8:30 a.m. to 6:30 p.m. ET.
+          at <va-telephone contact={CONTACTS.DMC} />, 8:30 a.m. to 6:30 p.m. ET.
           to pay this debt.
         </DebtSummaryMessage>
       );
-    case '081': // TODO: No Definition in mockup
+    // case '081': TODO: No Definition in mockup
     case '500':
     case '510':
     case '503':

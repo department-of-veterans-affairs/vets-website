@@ -28,14 +28,7 @@ export default {
               text="Learn more about the discharge upgrade process"
               type="secondary"
               label="Learn more about the discharge upgrade process"
-            />{' '}
-            <br />
-            Not sure about this question? Call us at{' '}
-            <va-telephone contact="8006982411" /> (
-            <va-telephone tty="true" contact="711">
-              TTY:711
-            </va-telephone>
-            ). We're here 24/7.
+            />
           </p>
         </>
       ),

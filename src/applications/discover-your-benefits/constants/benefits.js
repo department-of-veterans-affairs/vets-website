@@ -7,7 +7,6 @@ const categories = {
   HOUSING: 'Housing Assistance',
   DISABILITY: 'Disability',
   LIFE_INSURANCE: 'Life Insurance',
-  LOAN: 'Loan Guaranty',
   PENSION: 'Pension',
 };
 
@@ -28,20 +27,20 @@ export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
   SCHOOL: 'SCHOOL',
   RETIREMENT: 'RETIREMENT',
-  FUTURE: 'FUTURE',
   CAREER: 'CAREER',
   HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
+  PLAN: 'PLAN',
 });
 
 export const goalTypeLabels = Object.freeze({
   FINANCIAL: 'Get financial support for a service-connected condition',
   SCHOOL: 'Go back to school',
   RETIREMENT: 'Plan for my transition or retirement',
-  FUTURE: "Plan for my and my family's future",
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
+  PLAN: "Plan for my and my family's future",
 });
 
 export const militaryServiceTimeServedLabels = Object.freeze({
@@ -60,6 +59,36 @@ export const militaryServiceTimeServedTypes = Object.freeze({
   UP_TO_2_YEARS: 'UP_TO_2_YEARS',
   UP_TO_3_YEARS: 'UP_TO_3_YEARS',
   OVER_3_YEARS: 'OVER_3_YEARS',
+});
+
+export const militaryBranchTypes = Object.freeze({
+  AIR_FORCE: 'AIR_FORCE',
+  ARMY: 'ARMY',
+  COAST_GUARD: 'COAST_GUARD',
+  MARINE_CORPS: 'MARINE_CORPS',
+  NAVY: 'NAVY',
+  SPACE_FORCE: 'SPACE_FORCE',
+});
+
+export const militaryBranchTypeLabels = Object.freeze({
+  AIR_FORCE: 'Air Force',
+  ARMY: 'Army',
+  COAST_GUARD: 'Coast Guard',
+  MARINE_CORPS: 'Marine Corps',
+  NAVY: 'Navy',
+  SPACE_FORCE: 'Space Force',
+});
+
+export const militaryBranchComponentTypes = Object.freeze({
+  ACTIVE_DUTY: 'ACTIVE_DUTY',
+  NATIONAL_GUARD_SERVICE: 'NATIONAL_GUARD_SERVICE',
+  RESERVE_SERVICE: 'RESERVE_SERVICE',
+});
+
+export const militaryBranchComponentTypeLabels = Object.freeze({
+  ACTIVE_DUTY: 'Active Duty',
+  NATIONAL_GUARD_SERVICE: 'National Guard Service',
+  RESERVE_SERVICE: 'Reserve Service',
 });
 
 export const expectedSeparationLabels = Object.freeze({
@@ -95,28 +124,19 @@ export const separationTypeLabels = Object.freeze({
   OVER_3_YEARS: '3+ years',
 });
 
+// TODO: When PTEMSVT-411 passes staging remove logic in favor of the object with a DENIED key
 export const disabilityTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  DENIED: 'DENIED',
   STARTED: 'STARTED',
   NOT_APPLIED: 'NOT_APPLIED',
 });
 
 export const disabilityTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
-  STARTED: "I've started the process but haven't received a rating.",
-  NOT_APPLIED: "I haven't applied for a disability rating.",
-});
-
-export const giBillTypes = Object.freeze({
-  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  STARTED: 'STARTED',
-  NOT_APPLIED: 'NOT_APPLIED',
-});
-
-export const giBillTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
-  STARTED: "I've started the process but haven't received GI Bill benefits.",
-  NOT_APPLIED: "I haven't applied for GI Bill benefits.",
+  APPLIED_AND_RECEIVED: "I've filed a disability claim and received a rating.",
+  DENIED: "I've filed a disability claim, but my claim was denied.",
+  STARTED: "I've filed a disability claim, but haven't received a rating yet.",
+  NOT_APPLIED: "I haven't filed a disability claim.",
 });
 
 export const characterOfDischargeTypes = Object.freeze({
@@ -127,6 +147,7 @@ export const characterOfDischargeTypes = Object.freeze({
   BAD_CONDUCT: 'BAD_CONDUCT',
   DISHONORABLE: 'DISHONORABLE',
   UNCHARACTERIZED: 'UNCHARACTERIZED',
+  STILL_SERVING: 'STILL_SERVING',
   NOT_SURE: 'NOT_SURE',
 });
 
@@ -138,6 +159,7 @@ export const characterOfDischargeTypeLabels = Object.freeze({
   BAD_CONDUCT: 'Bad Conduct',
   DISHONORABLE: 'Dishonorable',
   UNCHARACTERIZED: 'Uncharacterized',
+  STILL_SERVING: "I'm still serving",
   NOT_SURE: "I'm not sure",
 });
 
@@ -150,7 +172,6 @@ export const mappingTypes = {
   SEPARATION: 'separation',
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
-  GI_BILL: 'giBillStatus',
 };
 
 export const BENEFITS_LIST = [
@@ -170,13 +191,13 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'DOD SkillBridge program',
@@ -186,7 +207,11 @@ export const BENEFITS_LIST = [
       "If you're a service member in your last 180 days of service, the DOD Skillbridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.",
     isTimeSensitive: true,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.CAREER,
+        goalTypes.UNDERSTAND,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -195,10 +220,10 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://skillbridge.osd.mil/program-overview.htm',
     applyNowURL: '',
@@ -235,10 +260,10 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     extraConditions: {
       oneIsNotBlank: [
@@ -259,7 +284,11 @@ export const BENEFITS_LIST = [
       "Veterans' Preference gives eligible Veterans preference over other applicants in federal hiring. If you're a Veteran or transitioning service member, learn about the federal hiring process and get resources to help you find a career in the federal government.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.CAREER,
+        goalTypes.UNDERSTAND,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -268,26 +297,10 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
-    },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
     },
     learnMoreURL: 'https://www.opm.gov/fedshirevets/',
     applyNowURL: '',
@@ -308,23 +321,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
-    },
-    extraConditions: {
-      dependsOn: [
-        {
-          field: mappingTypes.CURRENTLY_SERVING,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
-          dependsOnValue: yesNoType.YES,
-        },
-        {
-          field: mappingTypes.PREVIOUS_SERVICE,
-          value: yesNoType.YES,
-          dependsOnField: mappingTypes.CURRENTLY_SERVING,
-          dependsOnValue: yesNoType.YES,
-        },
-      ],
     },
     learnMoreURL:
       'https://www.va.gov/careers-employment/veteran-owned-business-support/',
@@ -346,7 +342,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.dodtap.mil/dodtap/app/home',
     applyNowURL: '',
@@ -370,18 +365,19 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
+        characterOfDischargeTypes.BAD_CONDUCT,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
         disabilityTypes.STARTED,
       ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/careers-employment/vocational-rehabilitation/',
     applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -406,10 +402,10 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
     applyNowURL: '',
@@ -438,12 +434,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.STARTED,
-      ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/housing-assistance/disability-housing-grants/',
@@ -480,9 +473,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/pension/eligibility/',
     applyNowURL: 'https://www.va.gov/pension/how-to-apply/',
@@ -492,7 +485,7 @@ export const BENEFITS_LIST = [
     category: categories.HEALTH_CARE,
     id: 'MHC',
     description:
-      'VA has a variety of mental health resources, information, treatment options and more — all accessible to Veterans, Veterans’ supporters and the general public. Select Learn More below to learn more about a specific mental health topic or to find information specifically tailored to your needs.',
+      'Find out how to access VA mental health services for posttraumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you’re not enrolled in VA health care.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
@@ -507,9 +500,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
@@ -535,43 +528,42 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
         disabilityTypes.STARTED,
       ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/health-care/foreign-medical-program/',
     applyNowURL:
       'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
   },
   {
-    name: 'Veterans Group Life Insurance (VGLI)',
+    name: "Veterans' Group Life Insurance (VGLI)",
     category: categories.LIFE_INSURANCE,
     id: 'VGL',
     description:
       "With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military for as long as you continue to pay the premiums. You can start a new VGLI application or you can convert Servicemembers' Group Life Insurance (SGLI) to VGLI.",
     isTimeSensitive: true,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.UNDERSTAND,
+        goalTypes.PLAN,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [yesNoType.YES],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
         separationTypes.UP_TO_2_YEARS,
       ],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-      ],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/vgli',
     applyNowURL: '',
@@ -581,10 +573,14 @@ export const BENEFITS_LIST = [
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Veterans Affairs Life Insurance (VALife) provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      "Note: You must already have a VA service-connected disability rating to be approved for Veterans Affairs Life Insurance (VALife). VALife provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.UNDERSTAND,
+        goalTypes.PLAN,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -597,16 +593,16 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.STARTED,
         disabilityTypes.APPLIED_AND_RECEIVED,
       ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/life-insurance/options-eligibility/valife',
-    applyNowURL: '',
+    applyNowURL: 'https://insurance.va.gov/VALIFE/Fiduciary/',
   },
   {
     name: 'Disability compensation',
@@ -614,7 +610,7 @@ export const BENEFITS_LIST = [
     id: 'DIS',
     description:
       'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
-    isTimeSensitive: true,
+    isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -634,23 +630,19 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.STARTED,
-        disabilityTypes.NOT_APPLIED,
-      ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/disability/',
-    applyNowURL:
-      'https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction',
+    applyNowURL: 'https://www.va.gov/disability/how-to-file-a-claim',
   },
   {
     name: 'VA-backed home loans',
     category: categories.HOUSING,
     id: 'COE',
     description:
-      'VA housing assistance can help Veterans, service members, and their surviving spouses to buy a home or refinance a loan. We also offer benefits and services to help you build, improve, or keep your current home. Find out how to apply for and manage the Veterans housing assistance benefits you’ve earned.',
+      'VA-backed home loans can help Veterans, service members, and their survivors to buy, build, improve, or refinance a home. In most cases, you’ll still need to find a private lender and have sufficient income and credit for the amount you want to borrow. But a VA-backed home loan may offer better terms than with a traditional loan from a private bank, mortgage company, or credit union.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -672,12 +664,11 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/housing-assistance/home-loans/loan-types/',
+    learnMoreURL: 'https://www.va.gov/housing-assistance/home-loans/',
     applyNowURL:
       'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
   },
@@ -706,22 +697,22 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/health-care/',
     applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
   },
   {
-    name: 'Burial in a VA national cemetery',
+    name: 'VA national cemetery burial',
     category: categories.BURIALS,
     id: 'BUR',
     description:
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.FUTURE, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -734,9 +725,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
     applyNowURL: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
@@ -746,23 +737,23 @@ export const BENEFITS_LIST = [
     category: categories.EDUCATION,
     id: 'TGI',
     description:
-      'If you’re a spouse or dependent child of a Veteran or service member, you may be eligible to use transferred education benefits for your classes and training. Learn more about these benefits and how to apply.',
+      'You may be able to transfer your unused Post-9/11 GI Bill benefits to your spouse or dependent children. Learn more about this process and how to request a transfer of benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/',
+      'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
     applyNowURL: '',
   },
   {
@@ -770,7 +761,7 @@ export const BENEFITS_LIST = [
     category: categories.MORE_SUPPORT,
     id: 'DCU',
     description:
-      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.',
+      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgrade, you may be eligible for additional VA benefits.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
@@ -784,11 +775,32 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.DISHONORABLE,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
+    applyNowURL: '',
+  },
+  {
+    name: "State Veterans' Benefits",
+    category: categories.MORE_SUPPORT,
+    id: 'SVB',
+    description:
+      'Each state has their own list of benefits and resources that they provide at a state level to veterans and their family members. This link contains a listing of VA approved resources outside the Department.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [anyType.ANY],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
     applyNowURL: '',
   },
 ];

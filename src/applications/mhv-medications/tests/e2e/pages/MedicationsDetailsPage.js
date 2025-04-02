@@ -1,6 +1,8 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
+import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
+import rxDetails from '../fixtures/active-submitted-prescription-details.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -177,7 +179,7 @@ class MedicationsDetailsPage {
   clickDownloadMedicationDetailsAsPdfOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]').should('be.enabled');
     cy.get('[data-testid="download-pdf-button"]').click({
-      waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -194,7 +196,7 @@ class MedicationsDetailsPage {
   clickDownloadMedicationsDetailsAsTxtOnDetailsPage = () => {
     cy.get('[data-testid="download-txt-button"]').should('be.enabled');
     cy.get('[data-testid="download-txt-button"]').click({
-      waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -323,7 +325,7 @@ class MedicationsDetailsPage {
   verifyFirstRefillHeaderTextOnDetailsPage = () => {
     cy.get('[data-testid="rx-refill"]')
       .first()
-      .should('contain', 'Refill 1');
+      .should('contain', 'Refill');
   };
 
   verifyFillDateFieldOnDetailsPage = () => {
@@ -411,7 +413,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPage = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation?ndc=00113002239`,
+      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
       medicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
@@ -419,8 +421,25 @@ class MedicationsDetailsPage {
     });
   };
 
+  clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
+    cy.intercept(
+      'GET',
+      `my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      noMedicationInformation,
+    ).as('medicationDescription');
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickLearnMoreAboutMedicationLinkOnDetailsPageError = () => {
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyMedicationInformationTitle = rxName => {
-    cy.get('[data-testid="medication-information"]').should(
+    cy.get('[data-testid="medication-information-title"]').should(
       'contain',
       `Medication information: ${rxName}`,
     );
@@ -453,6 +472,262 @@ class MedicationsDetailsPage {
       'contain',
       'Download a text file',
     );
+  };
+
+  verifyPreviousPrescriptionsPaginationTextOnDetailsPage = text => {
+    cy.get('[data-testid="grouping-showing-info"]').should('have.text', text);
+  };
+
+  clickNextButtonForPreviousPrescriptionPagination = () => {
+    cy.contains('Next').click({ force: true });
+  };
+
+  verifyPaginationTextIsFocusedAfterClickingNext = text => {
+    cy.get('[data-testid="grouping-showing-info"]')
+      .should('have.text', text)
+      .and('have.focus');
+  };
+
+  clickRefillHistoryAccordionOnDetailsPage = () => {
+    cy.get('[data-testid="refill-history-accordion"]')
+      .shadow()
+      .find('[data-testid="expand-all-accordions"]')
+      .click({ force: true });
+  };
+
+  verifyAccordionCollapsedOnDetailsPage = () => {
+    cy.get('[data-testid="refill-history-accordion"]')
+      .shadow()
+      .find('[data-testid="expand-all-accordions"]')
+      .should('have.attr', 'aria-expanded', 'false');
+  };
+
+  verifyAccordionExpandedOnDetailsPage = () => {
+    cy.get('[data-testid="refill-history-accordion"]')
+      .shadow()
+      .find('[data-testid="expand-all-accordions"]')
+      .should('have.attr', 'aria-expanded', 'true');
+  };
+
+  verifyRefillHistoryInformationTextOnDetailsPage = text => {
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
+  };
+
+  verifyFilledDateFieldInAccordionCardInfoOnDetailPage = text => {
+    cy.get(':nth-child(1) > [data-testid="fill-date"]').should(
+      'have.text',
+      text,
+    );
+  };
+
+  verifyImageFieldInAccordionCardInfoOnDetailsPage = text => {
+    cy.get(':nth-child(1) > [data-testid="med-image"]').should(
+      'have.text',
+      text,
+    );
+  };
+
+  verifyMedicationDescriptionFieldInAccordionCardInfo = text => {
+    cy.get(':nth-child(1) > [data-testid="med-description"]').should(
+      'have.text',
+      text,
+    );
+  };
+
+  verifyDescriptionTextOnDetailsPage = text => {
+    cy.get('[data-testid="recent-rx"]')
+      .should('have.text', text)
+      .and('be.visible');
+  };
+
+  verifyPreviousPrescriptionHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="previous-rx"]').should('contain', text);
+  };
+
+  visitMedDetailsPage = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my-health/medications/prescription/${prescriptionDetails}`,
+    );
+    cy.visit(`/my-health/medications/prescription/${prescriptionDetails}`);
+  };
+
+  verifyNoMedicationsErrorAlertWhenUserNavsToDetailsPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('have.text', text);
+  };
+
+  verifyLastFilledDateOnDetailsPage = text => {
+    cy.get('[data-testid="rx-last-filled-date"]').should('have.text', text);
+  };
+
+  verifyRefillLinkTextOnDetailsPage = text => {
+    cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
+  };
+
+  verifyRefillHistoryDescriptionText = text => {
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
+  };
+
+  verifyPendingRxWarningTextOnDetailsPage = alert => {
+    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+  };
+
+  verifyHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="recent-rx"]').should('have.text', text);
+  };
+
+  verifyPendingRenewalStatusDescriptionOnDetailsPage = text => {
+    cy.get('[data-testid="pending-renewal-status"]').should('contain', text);
+  };
+
+  verifyPendingTextAlertForLessThanSevenDays = text => {
+    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+  };
+
+  verifyRefillDelayAlertBannerOnDetailsPage = text => {
+    cy.get('[data-testid="rx-details-refill-alert"]').should('contain', text);
+  };
+
+  verifyCheckStatusHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="check-status-text"]').should('have.text', text);
+  };
+
+  verifyPharmacyPhoneNumberOnDelayAlert = phoneNumber => {
+    cy.get('[data-testid="pharmacy-phone-number"]')
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', phoneNumber);
+  };
+
+  verifyProcessStepOneHeaderOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="submitted-step-one"]')
+      .should('contain', text)
+      .and('contain', date);
+  };
+
+  verifyProcessStepTwoHeaderOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="submitted-step-two"]')
+      .should('contain', text)
+      .and('contain', note);
+  };
+
+  verifyProcessStepThreeHeaderOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="submitted-step-three"]')
+      .should('contain', text)
+      .and('contain', note);
+  };
+
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = (
+    text,
+    data,
+    dateInfo,
+  ) => {
+    cy.get('[header="We received your refill request"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', dateInfo);
+  };
+
+  verifyActiveRxStepTwoProgressTrackerOnDetailsPage = (text, data, note) => {
+    cy.get('[data-testid="active-step-two"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', note);
+  };
+
+  verifyActiveRxStepThreeProgressTrackerOnDetailsPage = (text, data, note) => {
+    cy.get('[data-testid="active-step-three"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', note);
+  };
+
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = (
+    locator,
+    text,
+    note,
+    dateInfo,
+  ) => {
+    cy.get(locator)
+      .should('contain', text)
+      .and('contain', note)
+      .and('contain', dateInfo);
+  };
+
+  verifyActiveRefillInProcessStepThreeOnDetailsPage = (
+    text,
+    note,
+    dateInfo,
+  ) => {
+    cy.get('[data-testid="progress-step-three"]')
+      .should('contain', text)
+      .and('contain', note)
+      .and('contain', dateInfo);
+  };
+
+  verifyTrackingForSubmittedRefillOnDetailsPage = () => {
+    cy.get('[data-testid="rx-name"]').should(
+      'contain',
+      `${rxDetails.data.attributes.prescriptionName}`,
+    );
+  };
+
+  verifyQuantityNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+  };
+
+  verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="order-date"]').should('contain', text);
+  };
+
+  verifyProviderNameNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="provider-name"]').should('contain', text);
+  };
+
+  verifyMedDescriptionFieldInRefillAccordionDetailsPage = text => {
+    cy.get('[data-testid="rx-description"]').should('contain', text);
+  };
+
+  verifyPharmacyPhoneNumberOnDetailsPage = text => {
+    cy.get('[data-testid="pharmacy-phone"]').should('contain', text);
+  };
+
+  verifyReasonForUseOnDetailsPage = text => {
+    cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyInstructionsOnDetailsPage = text => {
+    cy.get('[data-testid="rx-instructions"]').should('contain', text);
+  };
+
+  verifyStepTwoHeaderOnDetailPageForRxInProcess = (process, text) => {
+    cy.get('[data-testid="process-delay-header"]')
+      .should('contain', text)
+      .and('contain', process);
+  };
+
+  verifyRefillAccordionHeaderForPartialFillOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="refill-history-accordion"] > :nth-child(1)')
+      .should('contain', text)
+      .and('contain', date);
+  };
+
+  verifyQuantityForPartialFillOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity-partial"]').should('have.text', text);
+  };
+
+  verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+  };
+
+  verifyMedicationDescriptionInTxtDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const now = new Date();
+    const date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
+    const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain(text);
+    });
   };
 }
 

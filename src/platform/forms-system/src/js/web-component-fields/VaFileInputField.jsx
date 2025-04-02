@@ -1,10 +1,51 @@
-import React, { useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
+import { getFileSize, uploadScannedForm } from './vaFileInputFieldHelpers';
+
+const useFileValidator = options => {
+  const validateFileSize = file => {
+    const { maxFileSize } = options;
+    if (file && maxFileSize && file.size > maxFileSize) {
+      const fileSizeString = getFileSize(maxFileSize);
+      return `File size cannot be greater than ${fileSizeString}`;
+    }
+    return null;
+  };
+
+  return { validateFileSize };
+};
+
+const useFileUpload = (fileUploadUrl, formNumber, dispatch) => {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const uploadFile = (file, onSuccess) => {
+    setIsUploading(true);
+
+    const onFileUploaded = uploadedFile => {
+      setIsUploading(false);
+      if (onSuccess) onSuccess(uploadedFile);
+    };
+
+    const onFileUploading = () => {
+      setIsUploading(true);
+    };
+
+    dispatch(
+      uploadScannedForm(
+        fileUploadUrl,
+        formNumber,
+        file,
+        onFileUploaded,
+        onFileUploading,
+      ),
+    );
+  };
+
+  return { isUploading, uploadFile };
+};
 
 /**
  * Usage uiSchema:
@@ -36,74 +77,95 @@ import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
  * ```
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
+  const { uiOptions = {}, childrenProps } = props;
+  const { formNumber } = uiOptions;
   const mappedProps = vaFileInputFieldMapping(props);
-  const dispatch = useDispatch();
-  const [file, setFile] = useState(null);
-  const formData = useSelector(state => state.form.data);
-  const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
-
-  const onFileUploaded = useCallback(
-    uploadedFile => {
-      if (uploadedFile.confirmationCode) {
-        props.childrenProps.onChange(uploadedFile);
-      }
-    },
-    [props.childrenProps],
+  const dispatch = useDispatch();
+  const [error, setError] = useState(mappedProps.error);
+  const fileValidator = useFileValidator(uiOptions);
+  const { isUploading, uploadFile } = useFileUpload(
+    fileUploadUrl,
+    formNumber,
+    dispatch,
   );
 
-  const handleVaChangeBug = event => {
-    let newFile = event.detail.files[0];
+  const assignFileUploadToStore = uploadedFile => {
+    if (!uploadedFile) return;
 
-    // if the user is deleting the file, the files will be the same
-    if (areFilesEqual(file, newFile) || !newFile) {
-      newFile = null;
-      dispatch(
-        setData({
-          ...formData,
-          uploadedFile: {
-            confirmationCode: null,
-            isEncrypted: null,
-            name: null,
-            size: null,
-            warnings: null,
-          },
-        }),
-      );
-    }
+    const {
+      confirmationCode,
+      isEncrypted,
+      name,
+      size,
+      file,
+      warnings,
+      errorMessage,
+    } = uploadedFile;
 
-    setFile(newFile);
-
-    return newFile;
+    childrenProps.onChange({
+      confirmationCode,
+      isEncrypted,
+      name,
+      size,
+      type: file.type,
+      warnings,
+      errorMessage,
+    });
   };
 
-  const handleVaChange = useCallback(
-    e => {
-      const newFile = handleVaChangeBug(e);
+  const handleFileProcessing = uploadedFile => {
+    if (!uploadedFile || !uploadedFile.file) return;
 
-      if (!newFile) {
-        return;
-      }
+    setError(uploadedFile.errorMessage);
+    assignFileUploadToStore(uploadedFile);
+  };
 
-      if (!props.onVaChange) {
-        dispatch(
-          uploadScannedForm(fileUploadUrl, formNumber, newFile, onFileUploaded),
-        );
-        return;
-      }
+  const handleVaChange = e => {
+    const fileFromEvent = e.detail.files[0];
+    if (!fileFromEvent) {
+      setError(mappedProps.error);
+      childrenProps.onChange({});
+      return;
+    }
 
-      props.onVaChange();
-    },
-    [file, dispatch, onFileUploaded, props.onVaChange],
+    const sizeError = fileValidator.validateFileSize(fileFromEvent);
+    if (sizeError) {
+      setError(sizeError);
+      return;
+    }
+
+    childrenProps.onChange({ name: 'uploading' });
+    uploadFile(fileFromEvent, handleFileProcessing);
+  };
+
+  return (
+    <VaFileInput
+      {...mappedProps}
+      error={error}
+      uploadedFile={mappedProps.uploadedFile}
+      onVaChange={handleVaChange}
+    >
+      {isUploading && (
+        <div>
+          <em>Uploading...</em>
+        </div>
+      )}
+    </VaFileInput>
   );
-
-  return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
 };
 
 VaFileInputField.propTypes = {
   childrenProps: PropTypes.object.isRequired,
-  uiOptions: PropTypes.object.isRequired,
+  uiOptions: PropTypes.shape({
+    maxFileSize: PropTypes.number,
+    formNumber: PropTypes.string,
+  }),
   onVaChange: PropTypes.func,
+};
+
+VaFileInputField.defaultProps = {
+  uiOptions: {},
 };
 
 export default VaFileInputField;

@@ -57,18 +57,6 @@ const serviceConnectedRatingsOnly = ratings.slice(0, 3);
 const nonServiceConnectedRatingsOnly = ratings.slice(3);
 
 describe('<RatingLists>', () => {
-  context('when there are no ratings', () => {
-    it('should display an alert indicating that there are no ratings', () => {
-      const screen = render(<RatingLists ratings={[]} />);
-
-      expect(
-        screen.getByText(
-          'We don’t have any rated disabilities on file for you',
-        ),
-      ).to.exist;
-    });
-  });
-
   context(
     'when there are a mix of service-connected and non-service-connected ratings',
     () => {

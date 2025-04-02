@@ -13,6 +13,16 @@ export default {
         'If you served during multiple periods, please choose the answer that corresponds to your most recent separation.',
       labels: separationTypeLabels,
       required: () => false,
+      updateUiSchema: formData => {
+        const shouldHide =
+          formData.militaryServiceCurrentlyServing === true &&
+          formData.militaryServiceCompleted === false;
+        return {
+          'ui:options': {
+            hideOnReview: shouldHide,
+          },
+        };
+      },
     }),
   },
   schema: {

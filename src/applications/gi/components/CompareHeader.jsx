@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
@@ -20,6 +21,9 @@ export default function CompareHeader({
   smallScreen,
   version,
 }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
+
   useEffect(() => {
     focusElement('.compare-page-description-label');
   }, []);
@@ -30,7 +34,9 @@ export default function CompareHeader({
       <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
         <div className="compare-action">
-          <Link to="/search">Return to search to add</Link>
+          <Link to={giCtCollab ? '/schools-and-employers' : '/search'}>
+            Return to search to add
+          </Link>
         </div>
       </div>,
     );
@@ -106,6 +112,7 @@ export default function CompareHeader({
                   <div className="header-fields vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-height--full">
                     <div className="institution-name">
                       <Link
+                        data-testid="compare-header-link"
                         to={{
                           pathname: profileLink,
                           state: { prevPath: location.pathname },

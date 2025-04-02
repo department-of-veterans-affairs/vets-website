@@ -3,31 +3,34 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
-import FormLayout from '../new-appointment/components/FormLayout';
+import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { setFormCurrentPage } from './redux/actions';
+import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
+import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
   const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
+  const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
+      dispatch(setInitReferralFlow());
+      sessionStorage.removeItem(selectedSlotKey);
     },
-    [location, dispatch],
+    [location, dispatch, selectedSlotKey],
   );
-
-  const appointmentCountString =
-    currentReferral.numberOfAppointments === 1
-      ? '1 appointment'
-      : `${currentReferral.numberOfAppointments} appointments`;
   return (
-    <FormLayout pageTitle="Review Approved Referral">
+    <ReferralLayout
+      hasEyebrow
+      heading={`Referral for ${currentReferral.categoryOfCare}`}
+      categoryOfCare={currentReferral?.categoryOfCare}
+    >
       <div>
-        <h1>Referral for {currentReferral.CategoryOfCare}</h1>
         <p data-testid="subtitle">
-          {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
+          We’ve approved your referral with a community care provider. You can
+          schedule your first appointment now.
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -42,34 +45,28 @@ export default function ScheduleReferral(props) {
         </va-additional-info>
         <ReferralAppLink
           linkText="Schedule your appointment"
-          id={currentReferral.UUID}
+          id={currentReferral.uuid}
         />
         <h2>Details about your referral</h2>
-        <p>
+        <p data-testid="referral-details">
           <strong>Expiration date: </strong>
           {`All appointments for this referral must be scheduled by
-          ${format(
-            new Date(currentReferral.ReferralExpirationDate),
-            'MMMM d, yyyy',
-          )}`}
+          ${format(new Date(currentReferral.expirationDate), 'MMMM d, yyyy')}`}
           <br />
           <strong>Type of care: </strong>
-          {currentReferral.CategoryOfCare}
+          {currentReferral.categoryOfCare}
           <br />
           <strong>Provider: </strong>
-          {currentReferral.providerName}
+          {currentReferral.provider.name}
           <br />
           <strong>Location: </strong>
-          {currentReferral.providerLocation}
-          <br />
-          <strong>Number of appointments: </strong>
-          {currentReferral.numberOfAppointments}
+          {currentReferral.provider.location}
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.ReferralNumber}
+          {currentReferral.referralNumber}
         </p>
         <va-additional-info
-          data-testid="help-text"
+          data-testid="additional-appointment-help-text"
           uswds
           trigger="If you were approved for more than one appointment"
           class="vads-u-margin-bottom--2"
@@ -86,15 +83,15 @@ export default function ScheduleReferral(props) {
           Contact your referring VA facility if you have questions about your
           referral or how to schedule your appointment.
         </p>
-        <p>
+        <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.ReferringFacilityInfo.FacilityName}
+          {currentReferral.referringFacilityInfo.facilityName}
           <br />
           <strong>Phone: </strong>
-          {currentReferral.ReferringFacilityInfo.Phone}
+          {currentReferral.referringFacilityInfo.phone}
         </p>
       </div>
-    </FormLayout>
+    </ReferralLayout>
   );
 }
 

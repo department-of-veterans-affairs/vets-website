@@ -1,0 +1,40 @@
+{
+    "data": [
+        {
+            "id": "c12a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Disability compensation",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Disability compensation",
+                "parentId": "66524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "bf2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Education benefits and work study",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Education benefits and work study",
+                "parentId": "66524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}

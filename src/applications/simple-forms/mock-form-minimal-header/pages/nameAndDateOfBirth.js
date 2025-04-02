@@ -9,11 +9,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI({
-      title: 'Name and date of birth',
-      headerLevel: 1,
-      headerStyleLevel: 2,
-    }),
+    ...titleUI('Name and date of birth'),
     fullName: fullNameUI(),
     dateOfBirth: dateOfBirthUI(),
   },

@@ -6,7 +6,7 @@ export const evidenceWillUploadTitle =
 export const evidenceWillUploadInfo = (
   <va-additional-info
     trigger="Types of supporting evidence"
-    class="vads-u-margin-top--2"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
     uswds
   >
     <div>

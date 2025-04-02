@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-
-import { focusElement } from '~/platform/utilities/ui';
-import scrollToTop from '~/platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {
   useEffect(() => {
@@ -36,7 +37,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
           {name}
         </p>
 
-        {timestamp ? (
+        {timestamp && (
           <>
             <h4>Date you applied</h4>
             <p
@@ -46,7 +47,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
               {format(new Date(timestamp), 'MMM. d, yyyy')}
             </p>
           </>
-        ) : null}
+        )}
 
         <h4>Confirmation for your records</h4>
         <p>You can print this confirmation page for your records.</p>
@@ -59,6 +60,13 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             uswds
           />
         </div>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.hcaDownloadCompletedPdf}>
+          <Toggler.Enabled>
+            <div className="hca-application--download">
+              <ApplicationDownloadLink />
+            </div>
+          </Toggler.Enabled>
+        </Toggler>
       </va-summary-box>
     </>
   );

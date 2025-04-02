@@ -46,28 +46,40 @@ const getUnit = (type, unit) => {
   return ` ${unit}`;
 };
 
-const getMeasurement = (record, type) => {
+export const getMeasurement = (record, type) => {
   if (vitalTypes.BLOOD_PRESSURE.includes(type)) {
-    const systolic = record.component.find(
-      item => item.code.coding[0].code === loincCodes.SYSTOLIC,
+    const systolic = record.component.find(item =>
+      item.code.coding.some(coding => coding.code === loincCodes.SYSTOLIC),
     );
-    const diastolic = record.component.find(
-      item => item.code.coding[0].code === loincCodes.DIASTOLIC,
+    const diastolic = record.component.find(item =>
+      item.code.coding.some(coding => coding.code === loincCodes.DIASTOLIC),
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  const unit = getUnit(type, record.valueQuantity?.code);
-  return `${record.valueQuantity?.value}${unit}`;
+
+  if (record.valueQuantity) {
+    const unit = getUnit(type, record.valueQuantity?.code);
+    return `${record.valueQuantity?.value}${unit}`;
+  }
+
+  return record.valueString || EMPTY_FIELD;
 };
 
 export const extractLocation = vital => {
-  if (
-    isArrayAndHasItems(vital.performer) &&
-    isArrayAndHasItems(vital.performer[0].extension)
-  ) {
-    const refId = vital.performer[0].extension[0].valueReference?.reference;
-    const location = extractContainedResource(vital, refId);
-    return location?.name || EMPTY_FIELD;
+  if (isArrayAndHasItems(vital.performer)) {
+    if (isArrayAndHasItems(vital.performer[0].extension)) {
+      const refId = vital.performer[0].extension[0].valueReference?.reference;
+      const location = extractContainedResource(vital, refId);
+      return location?.name || EMPTY_FIELD;
+    }
+
+    // Look for Organization references (to handle Lighthouse data)
+    const organizations = vital.performer.filter(performer =>
+      performer.reference?.includes('/Organization/'),
+    );
+    if (organizations.length) {
+      return organizations.map(organization => organization.display).join(', ');
+    }
   }
   return EMPTY_FIELD;
 };

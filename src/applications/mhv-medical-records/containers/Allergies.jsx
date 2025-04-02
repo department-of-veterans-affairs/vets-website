@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -19,6 +18,7 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -30,6 +30,7 @@ import {
   makePdf,
   getLastUpdatedText,
   formatNameFirstLast,
+  formatUserDob,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -42,6 +43,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -116,13 +118,14 @@ const Allergies = props => {
 
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-    const { title, value, subject, preface } = generateAllergiesIntro(
+    const { title, subject, subtitles } = generateAllergiesIntro(
       refresh.status,
       lastUpdatedText,
     );
-    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
+    const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = {
       ...scaffold,
+      subtitles,
       ...generateAllergiesContent(allergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
@@ -157,13 +160,11 @@ Provider notes: ${item.notes}\n`;
 ${crisisLineHeader}\n\n
 Allergies and reactions\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Review allergies, reactions, and side effects in your VA medical
-records. This includes medication side effects (also called adverse drug
-reactions).\n
-If you have allergies that are missing from this list, tell your care
-team at your next appointment.\n
+This list includes all allergies, reactions, and side effects in your VA medical records. 
+If you have allergies or reactions that are missing from this list, 
+tell your care team at your next appointment.\n
 Showing ${allergies.length} from newest to oldest
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
@@ -185,6 +186,9 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
+
+      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
+
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -210,12 +214,16 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         )}
 
         <PrintDownload
+          description="Allergies - List"
           list
           downloadPdf={generateAllergiesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateAllergiesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Allergies"
+        />
         <RecordList
           records={allergies?.map(allergy => ({
             ...allergy,

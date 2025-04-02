@@ -31,7 +31,11 @@ const childContent = (
       <li>
         <Link to="/example-radio">Example with radio</Link>
       </li>
-      <li>Example with multiple responses list & loop (TBD)</li>
+      <li>
+        <Link to="/employers-summary">
+          Example with multiple responses list & loop
+        </Link>
+      </li>
     </ul>
     <h2>Reference links</h2>
     <ul>
@@ -45,13 +49,22 @@ const childContent = (
         </a>
       </li>
     </ul>
-    <h2>Minimal header associated code examples</h2>
+    <h2>Code example</h2>
     <ul>
       <li>
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json#L1942-L1959"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/src/js/patterns/minimal-header/README.md"
+        >
+          Minimal header README.md for developers
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json#L1695-L1699"
         >
           Content build
         </a>
@@ -60,36 +73,9 @@ const childContent = (
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/config/form.js#L10-L26"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/config/form.js#L17-L28"
         >
           Form config
-        </a>
-      </li>
-      <li>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/components/breadcrumbs.jsx"
-        >
-          Breadcrumbs
-        </a>
-      </li>
-      <li>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/pages/nameAndDateOfBirth.js"
-        >
-          Page - Name and Date of Birth
-        </a>
-      </li>
-      <li>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/pages/exampleRadio.js"
-        >
-          Page - Example Radio
         </a>
       </li>
     </ul>

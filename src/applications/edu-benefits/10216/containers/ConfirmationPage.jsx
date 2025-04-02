@@ -1,91 +1,111 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import Alert from '../components/Alert';
+import GetFormHelp from '../components/GetFormHelp';
+import ProcessList from '../components/ProcessList';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+const CLAIM_ID = '10216claimID';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
+export const setClaimIdInLocalStage = submission => {
+  if (submission?.response?.id) {
+    localStorage.setItem(CLAIM_ID, JSON.stringify(submission?.response?.id));
   }
-
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = new Date(submission?.timestamp);
-    const { fullName } = data;
-
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            22-10216 5% EXEMPTION REQUEST FROM 85/15 REPORTING REQUIREMENT
-            GENERAL INFORMATION Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <va-button
-            onClick={window.print}
-            text="Print this for your records"
-            uswds
-          />
-        </div>
-      </div>
-    );
-  }
-}
-
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+export const getClaimIdFromLocalStage = () => {
+  return JSON.parse(localStorage.getItem(CLAIM_ID));
+};
 
-export default connect(mapStateToProps)(ConfirmationPage);
+export const ConfirmationPage = ({ router, route }) => {
+  const isAccredited = localStorage.getItem('isAccredited') === 'true';
+  const [claimID, setClaimID] = React.useState(null);
+  const form = useSelector(state => state.form || {});
+  const { submission } = form;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
+
+  useEffect(
+    () => {
+      setClaimIdInLocalStage(submission);
+      setClaimID(getClaimIdFromLocalStage());
+    },
+    [submission],
+  );
+
+  const goBack = e => {
+    e.preventDefault();
+    router.push('/review-and-submit');
+  };
+  const childContent = (
+    <div>
+      <Alert router={router} />
+
+      <h2
+        className="vads-u-font-size--h3 vads-u-margin-bottom--2"
+        data-testid="confirmation-header"
+      >
+        To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
+        below
+      </h2>
+      <ProcessList isAccredited={isAccredited} id={claimID} />
+      <p>
+        <va-button
+          secondary
+          text="Print this page"
+          data-testid="print-page"
+          onClick={() => window.print()}
+        />
+      </p>
+      <va-link
+        onClick={goBack}
+        class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
+        data-testid="back-button"
+        text="Back"
+        href="#"
+      />
+      <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
+        What are my next steps?
+      </h2>
+      <p>
+        After submitting your exemption request, we will review your submission
+        within 7-10 business days. Once we complete the review, we will email
+        your school a letter with the decision. If we accept your request, we
+        will include a copy of WEAMS form 1998 as confirmation in the letter. If
+        we deny your request, we will explain the reason for rejection in the
+        letter and provide further instructions for resubmission or additional
+        steps.
+      </p>
+      <va-link-action
+        href="/school-administrators/85-15-rule-enrollment-ratio"
+        text="Go to VA Form 22-10215 now"
+        class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
+      />
+    </div>
+  );
+
+  return (
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      confirmationNumber={confirmationNumber}
+      submitDate={submitDate}
+      pdfUrl={submission?.response?.pdfUrl}
+    >
+      {childContent}
+      <ConfirmationView.NeedHelp content={<GetFormHelp />} />
+    </ConfirmationView>
+  );
+};
+
+ConfirmationPage.propTypes = {
+  isAccredited: PropTypes.bool,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
+
+export default ConfirmationPage;

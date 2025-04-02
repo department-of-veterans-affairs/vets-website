@@ -39,12 +39,12 @@ const CombinedPortalApp = ({ children }) => {
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (!profileLoading && userLoggedIn) {
         fetchDebtLetters(dispatch, debtLettersActive);
         getStatements(dispatch);
       }
     },
-    [dispatch, userLoggedIn, debtLettersActive],
+    [debtLettersActive, dispatch, profileLoading, userLoggedIn],
   );
 
   // Authentication!

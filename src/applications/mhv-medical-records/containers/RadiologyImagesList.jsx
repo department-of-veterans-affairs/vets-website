@@ -1,138 +1,234 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { chunk } from 'lodash';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { useParams, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
-import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
-import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
+import ImageGallery from '../components/shared/ImageGallery';
 import DateSubheading from '../components/shared/DateSubheading';
+import { fetchImageList, fetchImageRequestStatus } from '../actions/images';
+import useAlerts from '../hooks/use-alerts';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import {
+  accessAlertTypes,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  studyJobStatus,
+} from '../util/constants';
+import { sendDataDogAction } from '../util/helpers';
 
-const RadiologyImagesList = () => {
+const RadiologyImagesList = ({ isTesting }) => {
+  const apiImagingPath = `${
+    environment.API_URL
+  }/my_health/v1/medical_records/imaging`;
+
+  const history = useHistory();
   const dispatch = useDispatch();
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
-  const { labId } = useParams();
-  const [currentImageCount, setCurrentImageCount] = useState(5);
-  // const labAndTestDetails = useSelector(
-  //   state => state.mr.labsAndTests.labsAndTestsDetails,
-  // );
-  const labAndTestDetails = {
-    name: 'ANKLE LEFT 3 VIEWS',
-    category: 'Radiology',
-    orderedBy: 'DOE, JANE A',
-    reason: 'Injury',
-    clinicalHistory: 'Information',
-    imagingProvider: 'John J. Lydon',
-    id: 122,
-    date: 'April 13, 2022, 5:25 a.m. MDT',
-    imagingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    reactions: ['Just this one'],
-    results:
-      'This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************',
-    images: [
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-    ],
-  };
 
-  const downloadPdf = () => {
-    GenerateRadiologyPdf(labAndTestDetails);
-  };
+  const activeAlert = useAlerts(dispatch);
+
+  const { labId } = useParams();
+
+  const radiologyDetails = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsDetails,
+  );
+  const imageList = useSelector(state => state.mr.images.imageList);
+  const studyJobs = useSelector(state => state.mr.images.imageStatus);
+
+  const [isRadiologyDetailsLoaded, setRadiologyDetailsLoaded] = useState(
+    isTesting || false,
+  );
+  const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
+  const [dicomDownloadStarted, setDicomDownloadStarted] = useState(false);
+  const returnToDetailsPage = useCallback(
+    () => history.push(`/labs-and-tests/${labId}`),
+    [history, labId],
+  );
+
+  const studyJob = useMemo(
+    () =>
+      studyJobs?.find(img => img.studyIdUrn === radiologyDetails?.studyId) ||
+      null,
+    [studyJobs, radiologyDetails?.studyId],
+  );
+
+  useEffect(
+    () => {
+      dispatch(fetchImageRequestStatus()).then(() => {
+        setStudyJobsLoaded(true);
+      });
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
+        dispatch(getlabsAndTestsDetails(labId)).then(() => {
+          setRadiologyDetailsLoaded(true);
+        });
       }
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
     },
     [labId, dispatch],
   );
 
-  const content = () => {
-    if (labAndTestDetails) {
-      return (
-        <>
-          <PrintHeader />
-          <h1
-            className="vads-u-margin-bottom--0"
-            aria-describedby="radiology-date"
-          >
-            Images: {labAndTestDetails.name}
-          </h1>
-          <DateSubheading date={labAndTestDetails?.date} id="radiology-date" />
+  useEffect(
+    () => {
+      // Make sure data has been loaded before possibly redirecting users based on missing data
+      if (isRadiologyDetailsLoaded && isStudyJobsLoaded && studyJobs) {
+        if (
+          studyJob?.studyIdUrn &&
+          studyJob?.status === studyJobStatus.COMPLETE
+        ) {
+          // Do not attempt to fetch the image list unless there is a completed study waiting in the backend.
+          dispatch(fetchImageList(studyJob.studyIdUrn));
+        } else {
+          returnToDetailsPage();
+        }
+      }
+    },
+    [
+      studyJobs,
+      studyJob,
+      isRadiologyDetailsLoaded,
+      isStudyJobsLoaded,
+      history,
+      dispatch,
+      returnToDetailsPage,
+    ],
+  );
 
-          <div className="no-print">
-            <PrintDownload
-              downloadPdf={downloadPdf}
-              allowTxtDownloads={allowTxtDownloads}
-            />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          </div>
+  useEffect(
+    () => {
+      if (radiologyDetails?.imageCount === 0) {
+        returnToDetailsPage();
+      } else {
+        focusElement('h1');
+      }
+    },
+    [radiologyDetails, returnToDetailsPage],
+  );
 
-          <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
-            {chunk(labAndTestDetails.images, currentImageCount)[0].map(
-              (image, idx) => (
-                <div
-                  className="image-div vads-l-col--4"
-                  data-testid="image-div"
-                  key={idx}
-                >
-                  <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--h3">
-                    Image {idx + 1} of {labAndTestDetails.images.length}
-                  </h2>
-                  <div
-                    className="vads-u-padding-x--3 vads-u-padding-y--7 vads-u-background-color--black vads-u-margin-y--0p5"
-                    aria-label={image}
-                  >
-                    <br className="vads-u-margin-y--4" />
-                  </div>
-                  <va-link
-                    className="vads-u-margin-top--1"
-                    active
-                    href={`/my-health/medical-records/labs-and-tests/${labId}/images/${idx +
-                      1}`}
-                    text="Review full image"
-                  />
-                </div>
-              ),
-            )}
-          </div>
-          {currentImageCount < labAndTestDetails.images.length && (
-            <button
-              className="load-more-button"
-              type="button"
-              onClick={() => setCurrentImageCount(currentImageCount + 5)}
-            >
-              Load 5 more images
-            </button>
-          )}
-        </>
-      );
-    }
-    return <></>;
+  const handleDicomDownload = () => {
+    setDicomDownloadStarted(true);
+    sendDataDogAction('Download DICOM files');
+    document.querySelector('#download-banner');
   };
+
+  const renderImageContent = () => (
+    <>
+      <PrintHeader />
+      <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
+        {imageList && imageList.length > 0
+          ? `Images: ${radiologyDetails.name}`
+          : radiologyDetails.name}
+      </h1>
+      <DateSubheading
+        label="Date and time performed"
+        date={radiologyDetails?.date}
+        id="radiology-date"
+      />
+      {radiologyDetails && (
+        <ImageGallery
+          imageList={imageList}
+          studyId={radiologyDetails.studyId}
+          imagesPerPage={10}
+        />
+      )}
+      <h2>How to share images with a non-VA provider</h2>
+      <p>
+        The best way to share these images with a non-VA provider is to ask your
+        VA care team to share them directly.
+      </p>
+      <p>
+        If you want to try sharing these images yourself, you can download them
+        as DICOM files in a ZIP folder.
+      </p>
+      <p>Here’s what to know:</p>
+      <ul>
+        <li>
+          Your non-VA provider may not be able to accept these DICOM files from
+          you. They may require your VA care team to share them directly.
+        </li>
+        <li>
+          Providers use special software to view DICOM files, so you may not be
+          able to view them on your device.
+        </li>
+        <li>
+          These are large files that take a lot of storage space on your device.
+          So we recommend downloading on a computer instead of a mobile phone.
+        </li>
+        <li>
+          If you’re using a public or shared computer, remember that downloading
+          saves a copy of your files to the computer you’re using.
+        </li>
+      </ul>
+      {radiologyDetails?.studyId && (
+        <>
+          <va-banner
+            id="download-banner"
+            show-close={false}
+            headline="Download started"
+            type="success"
+            visible={dicomDownloadStarted}
+          >
+            Check your device’s downloads location for your file.
+          </va-banner>
+          <p>
+            <va-link
+              download
+              filetype="ZIP folder"
+              href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
+              text="Download DICOM files"
+              onClick={handleDicomDownload}
+            />
+          </p>
+        </>
+      )}
+    </>
+  );
+
+  if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+    return (
+      <>
+        <h1
+          className="vads-u-margin-bottom--0"
+          aria-describedby="radiology-date"
+        >
+          Images
+          {radiologyDetails?.name && `: ${radiologyDetails.name}`}
+        </h1>
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.IMAGE_STATUS}
+          className="vads-u-margin-bottom--9"
+        />
+      </>
+    );
+  }
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {content()}
+      {radiologyDetails && studyJob?.status === studyJobStatus.COMPLETE ? (
+        renderImageContent()
+      ) : (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            message="Loading..."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 export default RadiologyImagesList;
+
+RadiologyImagesList.propTypes = {
+  isTesting: PropTypes.bool,
+};

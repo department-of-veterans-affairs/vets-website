@@ -7,6 +7,7 @@ import {
   updatePageTitle,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { useHistory, useLocation } from 'react-router-dom';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -20,32 +21,39 @@ import {
 import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import * as Constants from '../util/constants';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import RecordListSection from '../components/shared/RecordListSection';
 
 const Vitals = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+
   const updatedRecordList = useSelector(state => state.mr.vitals.updatedList);
   const listState = useSelector(state => state.mr.vitals.listState);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
+
   const [cards, setCards] = useState(null);
+  const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
-    format(new Date(), 'yyyy-MM'),
+    urlVitalsDate || format(new Date(), 'yyyy-MM'),
   );
   const [displayDate, setDisplayDate] = useState(acceleratedVitalsDate);
+
   const activeAlert = useAlerts(dispatch);
+
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isAcceleratingVitals } = useAcceleratedData();
+  const { isLoading, isAcceleratingVitals } = useAcceleratedData();
   const isLoadingAcceleratedData =
     isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
@@ -90,6 +98,22 @@ const Vitals = () => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      // Only update if there is no time frame. This is only for on initial page load.
+      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+      if (!timeFrame) {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('timeFrame', acceleratedVitalsDate);
+        history.push({
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        });
+      }
+    },
+    [acceleratedVitalsDate, history, location.pathname, location.search],
+  );
+
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
@@ -97,12 +121,32 @@ const Vitals = () => {
     updatePageTitle,
   );
 
+  const VITAL_TYPES = useMemo(
+    () => {
+      if (isAcceleratingVitals) {
+        return { ...vitalTypes };
+      }
+      // remove PAIN_SEVERITY from the list of vital types
+      const vitalTypesCopy = { ...vitalTypes };
+      delete vitalTypesCopy.PAIN_SEVERITY;
+      return vitalTypesCopy;
+    },
+    [isAcceleratingVitals],
+  );
+
+  const PER_PAGE = useMemo(
+    () => {
+      return Object.keys(VITAL_TYPES).length;
+    },
+    [VITAL_TYPES],
+  );
+
   useEffect(
     () => {
       if (vitals?.length) {
         // create vital type cards based on the types of records present
         const firstOfEach = [];
-        for (const [key, types] of Object.entries(vitalTypes)) {
+        for (const [key, types] of Object.entries(VITAL_TYPES)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
           else firstOfEach.push({ type: key, noRecords: true });
@@ -110,102 +154,61 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals],
+    [vitals, VITAL_TYPES],
   );
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
   const content = () => {
-    if (accessAlert) {
-      return (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.VITALS}
-          className="vads-u-margin-bottom--9"
-        />
-      );
-    }
-    if (refresh.initialFhirLoad && !vitalsCurrentAsOf) {
-      return (
-        <div className="vads-u-margin-y--8">
-          <va-loading-indicator
-            class="hydrated initial-fhir-load"
-            message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
-            setFocus
-            data-testid="initial-fhir-loading-indicator"
-          />
-        </div>
-      );
-    }
-    if (vitals?.length === 0) {
-      return (
-        <>
-          <p>Vitals include:</p>
-          <ul>
-            <li>Blood pressure and blood oxygen level</li>
-            <li>Breathing rate and heart rate</li>
-            <li>Height and weight</li>
-            <li>Temperature</li>
-          </ul>
-          <NoRecordsMessage type={recordType.VITALS} />
-        </>
-      );
-    }
-    if (cards?.length) {
-      return (
-        <>
-          {!isAcceleratingVitals && (
-            <NewRecordsIndicator
-              refreshState={refresh}
-              extractType={refreshExtractTypes.VPR}
-              newRecordsFound={
-                Array.isArray(vitals) &&
-                Array.isArray(updatedRecordList) &&
-                vitals.length !== updatedRecordList.length
-              }
-              reloadFunction={() => {
-                dispatch(reloadRecords());
-              }}
-            />
-          )}
-          {isAcceleratingVitals && (
-            <div className="vads-u-margin-top--2 ">
-              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
-              <p className="vads-u-margin--0">
-                Showing most recent vitals from{' '}
-                <span
-                  className="vads-u-font-weight--bold"
-                  data-testid="current-date-display"
-                >
-                  {getMonthFromSelectedDate({ date: displayDate })}
-                </span>
-                .
-              </p>
-              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
-            </div>
-          )}
-
-          <RecordList
-            records={cards}
-            type={recordType.VITALS}
-            perPage={7}
-            hidePagination
-            domainOptions={{
-              isAccelerating: isAcceleratingVitals,
-              timeFrame: acceleratedVitalsDate,
+    return (
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.VITALS}
+        recordCount={vitals?.length}
+        recordType={recordType.VITALS}
+        listCurrentAsOf={vitalsCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        {!isAcceleratingVitals && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitals) &&
+              Array.isArray(updatedRecordList) &&
+              vitals.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
             }}
           />
-        </>
-      );
-    }
+        )}
+        {isAcceleratingVitals && (
+          <div className="vads-u-margin-top--2 ">
+            <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+            <p className="vads-u-margin--0">
+              Showing most recent vitals from{' '}
+              <span
+                className="vads-u-font-weight--bold"
+                data-testid="current-date-display"
+              >
+                {getMonthFromSelectedDate({ date: displayDate })}
+              </span>
+              .
+            </p>
+            <hr className="vads-u-margin-y--1 vads-u-padding-0" />
+          </div>
+        )}
 
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="We’re loading your records. This could take up to a minute."
-          setFocus
-          data-testid="loading-indicator"
+        <RecordList
+          records={cards}
+          type={recordType.VITALS}
+          perPage={PER_PAGE}
+          hidePagination
+          domainOptions={{
+            isAccelerating: isAcceleratingVitals,
+            timeFrame: acceleratedVitalsDate,
+          }}
         />
-      </div>
+      </RecordListSection>
     );
   };
 
@@ -219,6 +222,12 @@ const Vitals = () => {
 
   const triggerApiUpdate = e => {
     e.preventDefault();
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('timeFrame', acceleratedVitalsDate);
+    history.push({
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    });
     setDisplayDate(acceleratedVitalsDate);
     dispatch({
       type: Actions.Vitals.UPDATE_LIST_STATE,
@@ -261,19 +270,35 @@ const Vitals = () => {
         {`Vitals are basic health numbers your providers check at your
         appointments.`}
       </p>
-      {isAcceleratingVitals && datePicker()}
-      {isLoadingAcceleratedData && (
+
+      <CernerFacilityAlert {...Constants.CernerAlertContent.VITALS} />
+
+      {isLoading && (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            message="We’re loading your vitals."
+            setFocus
+            data-testid="loading-indicator"
+          />
+        </div>
+      )}
+      {!isLoading && (
         <>
-          <div className="vads-u-margin-y--8">
-            <va-loading-indicator
-              message="We’re loading your records."
-              setFocus
-              data-testid="loading-indicator"
-            />
-          </div>
+          {isAcceleratingVitals && datePicker()}
+          {isLoadingAcceleratedData && (
+            <>
+              <div className="vads-u-margin-y--8">
+                <va-loading-indicator
+                  message="We’re loading your records."
+                  setFocus
+                  data-testid="loading-indicator"
+                />
+              </div>
+            </>
+          )}
+          {!isLoadingAcceleratedData && content()}
         </>
       )}
-      {!isLoadingAcceleratedData && content()}
     </div>
   );
 };

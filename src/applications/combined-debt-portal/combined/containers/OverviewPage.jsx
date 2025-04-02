@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { isBefore } from 'date-fns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import environment from '~/platform/utilities/environment';
+import {
+  VaButton,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -9,10 +15,7 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
-import {
-  GenericDisasterAlert,
-  SpecialHurricaneAlert,
-} from '../components/DisasterAlert';
+import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
@@ -40,10 +43,39 @@ const OverviewPage = () => {
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
-  const specialHurricaneAlertDisplay = isBefore(
-    new Date(),
-    new Date('2024/12/09'),
+  // feature toggle stuff for One VA Debt Letter flag
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  // boolean value to represent if toggles are still loading or not
+  const togglesLoading = useToggleLoadingValue();
+  // value of specific toggle
+  const showOneVADebtLetterDownload = useToggleValue(
+    TOGGLE_NAMES.showOneVADebtLetter,
   );
+
+  const downloadPDF = async () => {
+    // One VA Debt Letter Download url
+    const pdfDownloadUrl = `${
+      environment.API_URL
+    }/debts_api/v0/download_one_debt_letter_pdf`;
+
+    // let's tryy this for now
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.href = pdfDownloadUrl;
+    downloadAnchor.download = 'CombinedStatement.pdf';
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
+    URL.revokeObjectURL(pdfDownloadUrl);
+  };
+
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
 
   return (
     <>
@@ -70,11 +102,7 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
-        {specialHurricaneAlertDisplay ? (
-          <SpecialHurricaneAlert />
-        ) : (
-          <GenericDisasterAlert />
-        )}
+        <GenericDisasterAlert />
         {bothError || bothZero ? (
           <ComboAlerts
             alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
@@ -83,18 +111,35 @@ const OverviewPage = () => {
           <>
             <h2>Debt and bill overview</h2>
             <Balances />
+            {showOneVADebtLetterDownload ? (
+              <>
+                <VaButton
+                  onClick={downloadPDF}
+                  text="View combined statement"
+                  className="vads-u-margin-bottom--2"
+                  secondary
+                />
+                <va-additional-info trigger="What to know before you download">
+                  <p>
+                    By clicking download, you’ll download a combined PDF
+                    statement view of all your benefit debt and copay bills in
+                    one consolidated place.
+                  </p>
+                </va-additional-info>
+              </>
+            ) : null}
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact="8008270648" /> (
+              <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
             <h3>Questions about medical copayment bills</h3>
             <p>
               Call the VA Health Resource Center at{' '}
-              <va-telephone contact="8664001238" /> (
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>

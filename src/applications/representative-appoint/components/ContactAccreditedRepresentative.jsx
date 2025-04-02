@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { getEntityAddressAsObject } from '../utilities/helpers';
 
+import { pageDepends as submissionPageDepends } from '../pages/representative/representativeSubmissionMethod';
+
 import AddressEmailPhone from './AddressEmailPhone';
 
 const ContactAccreditedRepresentative = props => {
   const { formData, goBack, goForward, goToPath } = props;
-  const rep = props?.formData?.['view:selectedRepresentative'];
+  const rep = formData?.['view:selectedRepresentative'];
   const repAttributes = rep?.attributes;
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
@@ -26,6 +28,8 @@ const ContactAccreditedRepresentative = props => {
     ) &&
     representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
+  const submissionMethodRequired = submissionPageDepends(formData);
+
   const handleGoBack = () => {
     if (isReviewPage) {
       goToPath('/representative-select?review=true');
@@ -36,6 +40,10 @@ const ContactAccreditedRepresentative = props => {
 
   const handleGoForward = () => {
     if (isReviewPage) {
+      if (submissionMethodRequired) {
+        goToPath('/representative-submission-method?review=true');
+        return;
+      }
       if (orgSelectionRequired) {
         goToPath('/representative-organization?review=true');
       } else {
@@ -129,7 +137,7 @@ ContactAccreditedRepresentative.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
 
 export default connect(

@@ -1,3 +1,4 @@
+// import imagingStudies from '../../fixtures/radiologyCvix.json'; // using dev's fixture for now
 // import defaultRadiology from '../fixtures/Radiology.json';
 
 import BaseDetailsPage from './BaseDetailsPage';
@@ -66,6 +67,64 @@ class RadiologyDetailsPage extends BaseDetailsPage {
   verifyRadiologyResults = results => {
     cy.get('[data-testid="radiology-record-results"]').should('be.visible');
     cy.get('[data-testid="radiology-record-results"]').contains(results);
+  };
+
+  interceptImagingEndpoint = imagingStudies => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/imaging',
+      imagingStudies,
+    ).as('imagingStudies');
+  };
+
+  interceptImagingStatus = statusResponse => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/imaging/status',
+      statusResponse,
+    );
+  };
+
+  clickRequestImages = () => {
+    cy.get('[data-testid="request-images-button"]').click();
+  };
+
+  clickViewImages = (studyId, viewImagesResponse) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/medical_records/imaging/${studyId}/images`,
+      viewImagesResponse,
+    );
+    cy.get('[data-testid="radiology-view-all-images"]')
+      .contains('View all')
+      .click();
+  };
+
+  verifyRadiologyImageCount = numImages => {
+    cy.get('div.image-div')
+      .find('img')
+      .should('have.length', numImages);
+  };
+
+  verifyPaginationVisible = () => {
+    cy.get('a:contains("Next")').should('be.visible');
+  };
+
+  verifyFocus = () => {
+    cy.get('h1').should('have.focus');
+  };
+
+  verifyShowingImageRecords = (
+    displayedStartNumber,
+    displayedEndNumber,
+    numRecords,
+  ) => {
+    cy.get('[data-testid="showing-image-records"]')
+      .find('span')
+      .should(
+        'contain',
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} images`,
+      );
   };
 }
 

@@ -4,7 +4,7 @@ import {
   fetchEnrollmentStatus,
   fetchTotalDisabilityRating,
 } from '../utils/actions';
-import { selectAuthStatus } from '../utils/selectors/auth-status';
+import { selectAuthStatus } from '../utils/selectors';
 
 export const useLoa3UserData = () => {
   const { isUserLOA3 } = useSelector(selectAuthStatus);

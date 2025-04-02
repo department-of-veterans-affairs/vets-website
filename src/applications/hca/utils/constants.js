@@ -1,6 +1,4 @@
-import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { canHaveEducationExpenses } from './helpers/household';
-import { replaceStrValues } from './helpers/general';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 import content from '../locales/en/content.json';
 
 // declare previous year for form questions and content
@@ -8,7 +6,10 @@ export const LAST_YEAR = new Date().getFullYear() - 1;
 
 // declare API endpoint routes
 export const API_ENDPOINTS = {
+  downloadPdf: '/health_care_applications/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
+  facilities: '/health_care_applications/facilities',
+  ratingInfo: '/health_care_applications/rating_info',
 };
 
 // declare global app URLs for use with content links
@@ -21,36 +22,10 @@ export const APP_URLS = {
   verify: getAppUrl('verify'),
 };
 
-// declare subpage configs for dependent information page
-export const DEPENDENT_SUBPAGES = [
-  {
-    id: 'basic',
-    title: content['household-dependent-info-basic-title'],
-  },
-  {
-    id: 'additional',
-    title: content['household-dependent-info-addtl-title'],
-  },
-  {
-    id: 'support',
-    title: content['household-dependent-info-support-title'],
-    depends: { cohabitedLastYear: false },
-  },
-  {
-    id: 'income',
-    title: replaceStrValues(
-      content['household-dependent-info-income-title'],
-      LAST_YEAR,
-      '%d',
-    ),
-    depends: { 'view:dependentIncome': true },
-  },
-  {
-    id: 'education',
-    title: content['household-dependent-info-education-title'],
-    depends: canHaveEducationExpenses,
-  },
-];
+export const DOWNLOAD_ERRORS_BY_CODE = {
+  '5': content['alert-download-message--500'],
+  generic: content['alert-download-message--generic'],
+};
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {

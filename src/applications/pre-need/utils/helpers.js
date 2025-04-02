@@ -584,9 +584,7 @@ class SSNWidget extends React.Component {
 }
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = environment.isProduction()
-  ? merge({}, ssnUI, { 'ui:widget': SSNWidget })
-  : ssnUI;
+export const ssnDashesUI = ssnUI;
 
 export const veteranUI = {
   militaryServiceNumber: {

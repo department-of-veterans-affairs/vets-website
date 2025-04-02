@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -14,14 +13,15 @@ import {
   fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer, checkDate } from '../helpers';
+import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
   children,
   claimantInfo,
-  dgiRudisillHideBenefitsSelectionStep,
+  eligibleForActiveDutyKicker,
+  eligibleForReserveKicker,
   exclusionPeriods,
   featureTogglesLoaded,
   firstName,
@@ -33,7 +33,7 @@ export const App = ({
   isLOA3,
   isLoggedIn,
   location,
-  mebExclusionPeriodEnabled,
+  mebDpoAddressOptionEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
@@ -41,12 +41,10 @@ export const App = ({
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
-  showMebServiceHistoryCategorizeDisagreement,
-  mebAutoPopulateRelinquishmentDate,
+  mebKickerNotificationEnabled,
   email,
   duplicateEmail,
   duplicatePhone,
-  benefitEffectiveDate,
   meb160630Automation,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
@@ -57,61 +55,58 @@ export const App = ({
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
-  document.addEventListener(
-    'wheel',
-    event => {
+  useEffect(() => {
+    const handleWheel = event => {
       if (
         event.target.type === 'number' &&
         document.activeElement === event.target
       ) {
         event.preventDefault();
-        document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
-        document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
+        document.body.scrollTop += event.deltaY; // Chrome, Safari, etc.
+        document.documentElement.scrollTop += event.deltaY; // Firefox, IE, etc.
       }
-    },
-    { passive: false },
-  );
+    };
+
+    document.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Cleanup on unmount
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   useEffect(
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
 
-      if (
-        (!fetchedPersonalInfo && !meb160630Automation) ||
-        (!fetchedContactInfo && !meb160630Automation)
-      ) {
-        setFetchedPersonalInfo(true);
-        setFetchedContactInfo(true);
-        getPersonalInfo('Chapter33');
-      } else if (
-        !formData[formFields.claimantId] &&
-        claimantInfo?.claimantId &&
-        !meb160630Automation
-      ) {
-        setFormData({
-          ...formData,
-          ...claimantInfo,
-        });
-      }
+      // Only fetch personal and contact info once a benefit is chosen
+      if (formData?.chosenBenefit) {
+        // Fetch personal and contact info if not already fetched, or if the benefit has changed
+        if (
+          !fetchedPersonalInfo ||
+          !fetchedContactInfo ||
+          formData?.chosenBenefit !== previousChosenBenefit.current
+        ) {
+          setFetchedPersonalInfo(true);
+          setFetchedContactInfo(true);
+          getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
 
-      if (
-        (!fetchedPersonalInfo &&
-          meb160630Automation &&
-          formData?.chosenBenefit) ||
-        (!fetchedContactInfo &&
-          (meb160630Automation && formData?.chosenBenefit)) ||
-        (meb160630Automation &&
-          formData?.chosenBenefit !== previousChosenBenefit.current)
-      ) {
-        setFetchedPersonalInfo(true);
-        setFetchedContactInfo(true);
-        getPersonalInfo(formData?.chosenBenefit);
-      } else if (
-        !formData[formFields.claimantId] &&
-        claimantInfo?.claimantId &&
-        meb160630Automation
-      ) {
+          // Update previousChosenBenefit to the current chosenBenefit
+          previousChosenBenefit.current = formData?.chosenBenefit;
+        }
+
+        // If claimantId is missing in formData, update it with claimantInfo
+        if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+          setFormData({
+            ...formData,
+            ...claimantInfo,
+          });
+        }
+      }
+      // If claimantId is missing and claimantInfo is available, update formData
+      else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
           ...claimantInfo,
@@ -128,7 +123,6 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      meb160630Automation,
       formData?.chosenBenefit,
     ],
   );
@@ -177,44 +171,78 @@ export const App = ({
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
-      // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
-      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (firstName && !fetchedExclusionPeriods && !meb160630Automation) {
-        const chosenBenefit = meb160630Automation
-          ? formData?.chosenBenefit
-          : 'Chapter33';
+
+      // Update eligibleForActiveDutyKicker in formData
+      if (
+        eligibleForActiveDutyKicker !== formData.eligibleForActiveDutyKicker
+      ) {
+        setFormData({
+          ...formData,
+          eligibleForActiveDutyKicker,
+        });
+      }
+
+      // Update eligibleForReserveKicker in formData
+      if (eligibleForReserveKicker !== formData.eligibleForReserveKicker) {
+        setFormData({
+          ...formData,
+          eligibleForReserveKicker,
+        });
+      }
+    },
+    [
+      eligibleForActiveDutyKicker,
+      eligibleForReserveKicker,
+      formData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+      setFormData,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+
+      // Skip fetching exclusion periods if mebKickerNotificationEnabled is true
+      if (mebKickerNotificationEnabled) {
+        return;
+      }
+
+      // The firstName check ensures that exclusion periods only get called after we have obtained claimant info
+      // We need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+      if (firstName && !fetchedExclusionPeriods && formData?.chosenBenefit) {
+        const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
 
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }
 
       if (
-        (firstName &&
-          !fetchedExclusionPeriods &&
-          formData?.chosenBenefit &&
-          meb160630Automation) ||
-        (formData?.chosenBenefit !== previousChosenBenefit.current &&
-          meb160630Automation)
+        firstName &&
+        !fetchedExclusionPeriods &&
+        formData?.chosenBenefit &&
+        formData?.chosenBenefit !== previousChosenBenefit.current
       ) {
-        const chosenBenefit = meb160630Automation
-          ? formData?.chosenBenefit
-          : 'Chapter33';
+        const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
 
         previousChosenBenefit.current = formData?.chosenBenefit;
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }
+
       if (exclusionPeriods && !formData.exclusionPeriods) {
         const updatedFormData = {
           ...formData,
-          mebExclusionPeriodEnabled,
           exclusionPeriods, // Update form data with fetched exclusion periods
         };
         setFormData(updatedFormData);
       }
     },
     [
-      mebExclusionPeriodEnabled,
       fetchedExclusionPeriods,
       firstName,
       getExclusionPeriods,
@@ -224,12 +252,27 @@ export const App = ({
       isLoggedIn,
       featureTogglesLoaded,
       isLOA3,
-      meb160630Automation,
+      mebKickerNotificationEnabled,
     ],
   );
 
   useEffect(
     () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
+      if (
+        mebKickerNotificationEnabled !== formData.mebKickerNotificationEnabled
+      ) {
+        setFormData({
+          ...formData,
+          mebKickerNotificationEnabled,
+        });
+      }
+
       if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
@@ -300,16 +343,6 @@ export const App = ({
         });
       }
 
-      if (
-        mebAutoPopulateRelinquishmentDate !==
-        formData.mebAutoPopulateRelinquishmentDate
-      ) {
-        setFormData({
-          ...formData,
-          mebAutoPopulateRelinquishmentDate,
-        });
-      }
-
       if (meb160630Automation !== formData?.meb160630Automation) {
         setFormData({
           ...formData,
@@ -317,30 +350,10 @@ export const App = ({
         });
       }
 
-      if (
-        dgiRudisillHideBenefitsSelectionStep !==
-        formData.dgiRudisillHideBenefitsSelectionStep
-      ) {
-        setFormData({
-          ...formData,
-          dgiRudisillHideBenefitsSelectionStep,
-        });
-      }
-
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
           showMebEnhancements09,
-        });
-      }
-
-      if (
-        showMebServiceHistoryCategorizeDisagreement !==
-        formData.showMebServiceHistoryCategorizeDisagreement
-      ) {
-        setFormData({
-          ...formData,
-          showMebServiceHistoryCategorizeDisagreement,
         });
       }
 
@@ -359,7 +372,6 @@ export const App = ({
       }
     },
     [
-      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
@@ -369,12 +381,12 @@ export const App = ({
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
-      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
-      mebAutoPopulateRelinquishmentDate,
       meb160630Automation,
+      mebDpoAddressOptionEnabled,
+      mebKickerNotificationEnabled,
     ],
   );
 
@@ -396,43 +408,19 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (
-          showDgiDirectDeposit1990EZ &&
-          isLoggedIn &&
-          isLOA3 &&
-          !fetchedDirectDeposit
-        ) {
+        if (isLoggedIn && isLOA3 && !fetchedDirectDeposit) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }
       };
       fetchAndUpdateDirectDepositInfo();
-
-      const currentDate = moment();
-      const oneYearAgo = currentDate.subtract(1, 'y');
-      if (
-        !benefitEffectiveDate ||
-        (mebAutoPopulateRelinquishmentDate &&
-          moment(benefitEffectiveDate).isBefore(oneYearAgo))
-      ) {
-        setFormData({
-          ...formData,
-          benefitEffectiveDate: checkDate(
-            mebAutoPopulateRelinquishmentDate,
-            benefitEffectiveDate,
-          ),
-        });
-      }
     },
     [
       isLoggedIn,
-      featureTogglesLoaded,
       isLOA3,
-      showDgiDirectDeposit1990EZ,
       fetchedDirectDeposit,
       getDirectDeposit,
       setFetchedDirectDeposit,
-      benefitEffectiveDate,
     ],
   );
 
@@ -453,8 +441,8 @@ export const App = ({
                 label: 'Education and training',
               },
               {
-                href: '/education/apply-for-benefits-form-22-1990',
-                label: 'Apply for education benefits',
+                href: '/education/apply-for-gi-bill-form-22-1990',
+                label: 'Apply for VA education benefits Form 22-1990',
               },
             ]}
           />
@@ -471,9 +459,10 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
-  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
+  eligibleForActiveDutyKicker: PropTypes.bool,
+  eligibleForReserveKicker: PropTypes.bool,
   email: PropTypes.string,
   exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
@@ -487,8 +476,8 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
-  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
-  mebExclusionPeriodEnabled: PropTypes.bool,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
+  mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
@@ -497,7 +486,6 @@ App.propTypes = {
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
-  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

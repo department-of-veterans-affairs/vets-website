@@ -10,8 +10,15 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
+import {
+  wantsToUploadEvidence,
+  canUploadEvidence,
+  needsHearingType,
+  isDirectReview,
+} from '../utils/helpers';
 
 import {
+  chapterHeaderClass,
   ConfirmationTitle,
   ConfirmationAlert,
   ConfirmationSummary,
@@ -48,6 +55,10 @@ export const ConfirmationPageV2 = () => {
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // NOD_PDF_DOWNLOAD_URL;
 
+  const choseEvidence = canUploadEvidence(data);
+  const choseHearing = needsHearingType(data);
+  const choseDirectReview = isDirectReview(data);
+
   return (
     <>
       <ConfirmationTitle pageTitle="Request a Board Appeal" />
@@ -55,7 +66,7 @@ export const ConfirmationPageV2 = () => {
         <p>
           You submitted the request on {submitDate}. It can take a few days for
           the Board to receive your request. We’ll send you a confirmation
-          letter, once we’ve processed your request.
+          letter once we’ve processed your request.
         </p>
       </ConfirmationAlert>
 
@@ -82,54 +93,60 @@ export const ConfirmationPageV2 = () => {
         information you’ll need to submit.
       </p>
 
-      <va-additional-info trigger="What to expect if the Board agrees to review your case">
-        <div>
-          <p className="vads-u-margin-top--0">
-            For <strong>Direct Review</strong>,
-          </p>
+      <h3>What happens after the Board agrees to review your case</h3>
+      <div className="board-review-option-info">
+        {choseDirectReview && (
           <p>
             The board will consider evidence that is already on your record at
             the time of your appeal.
           </p>
-          <p>
-            For <strong>Evidence Submission</strong>,
-          </p>
-          <p>
-            You have 90 days from the date of the Board’s receipt of your VA
-            Form 10182 to submit new evidence.
-          </p>
-          <p>
-            All correspondence, requests, and evidence you send to the Board
-            should include your name and VA file number. Mail or fax documents
-            to:
-          </p>
-          <div>Board of Veterans’ Appeals</div>
-          <div>P.O. Box 27063</div>
-          <div>Washington, DC 20038</div>
-          <p>Fax: 1-844-678-8979</p>
-          <p>
-            For <strong>Hearing</strong>,
-          </p>
-          <p>
-            You will receive a letter from the Board when your hearing is
-            scheduled. While not required, you have the option to submit new
-            evidence during your hearing or within 90 days after the date of
-            your hearing. Any evidence submitted after the date of the decision
-            you are appealing but prior to the date of your hearing cannot be
-            considered by the Board. You can start preparing evidence now, but
-            you can only submit it during your hearing or within 90 days after
-            the date of your hearing. If you do not appear for your scheduled
-            hearing, and the hearing is not rescheduled, you may submit evidence
-            within 90 days following the date of the scheduled hearing.
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            You may also choose to withdraw your hearing request. If you
-            withdraw your hearing request, the Board can only consider evidence
-            submitted within 90 days following the Board’s receipt of your
-            hearing withdrawal.
-          </p>
-        </div>
-      </va-additional-info>
+        )}
+        {choseEvidence && (
+          <>
+            <p>
+              You have 90 days from the date of the Board’s receipt of your VA
+              Form 10182 to submit new evidence.
+            </p>
+            <p>
+              All correspondence, requests, and evidence you send to the Board
+              should include your name and VA file number. Mail or fax documents
+              to:
+            </p>
+            <div className="va-address-block">
+              <div>Board of Veterans’ Appeals</div>
+              <div>PO Box 27063</div>
+              <div>Washington, DC 20038</div>
+            </div>
+            <p>
+              <strong>Fax:</strong>{' '}
+              <va-telephone not-clickable contact="8446788979" />
+            </p>
+          </>
+        )}
+        {choseHearing && (
+          <>
+            <p>
+              You will receive a letter from the Board when your hearing is
+              scheduled. While not required, you have the option to submit new
+              evidence during your hearing or within 90 days after the date of
+              your hearing. Any evidence submitted after the date of the
+              decision you are appealing but prior to the date of your hearing
+              cannot be considered by the Board. You can start preparing
+              evidence now, but you can only submit it during your hearing or
+              within 90 days after the date of your hearing. If you do not
+              appear for your scheduled hearing, and the hearing is not
+              rescheduled, you may submit evidence within 90 days following the
+              date of the scheduled hearing.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              You may also choose to withdraw your hearing request. If you
+              withdraw your hearing request, the Board can only consider
+              evidence submitted within 90 days following the Board’s receipt of
+              your hearing withdrawal.
+            </p>
+          </>
+        )}
+      </div>
 
       <p>
         <a href="/decision-reviews/after-you-request-review/">
@@ -205,7 +222,7 @@ export const ConfirmationPageV2 = () => {
         </>
       </ConfirmationIssues>
 
-      <h3 className="vads-u-margin-top--2">Board review options</h3>
+      <h3 className={chapterHeaderClass}>Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -221,13 +238,13 @@ export const ConfirmationPageV2 = () => {
             {boardReviewConfirmationLabels[data.boardReviewOption] || ''}
           </div>
         </li>
-        {data.boardReviewOption === 'evidence_submission' &&
-          data.evidence.length && (
-            <li>
-              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                Uploaded evidence
-              </div>
-              {data.evidence?.map((file, index) => (
+        {choseEvidence && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Uploaded evidence
+            </div>
+            {wantsToUploadEvidence(data) && data.evidence.length ? (
+              data.evidence?.map((file, index) => (
                 <div
                   key={index}
                   className="vads-u-margin-bottom--2 dd-privacy-hidden"
@@ -235,10 +252,13 @@ export const ConfirmationPageV2 = () => {
                 >
                   {file.name}
                 </div>
-              ))}
-            </li>
-          )}
-        {data.boardReviewOption === 'hearing' && (
+              ))
+            ) : (
+              <span className="evidence-later">I’ll submit it later.</span>
+            )}
+          </li>
+        )}
+        {choseHearing && (
           <>
             <li>
               <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">

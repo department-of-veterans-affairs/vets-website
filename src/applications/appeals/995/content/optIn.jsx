@@ -17,7 +17,7 @@ export const content = {
         appeals process for the issues you have selected. You’re likely to get a
         faster decision on your claim when you switch to the new process.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--4">
         If you want to continue your claim in the old appeals process, don’t
         submit a Supplemental Claim. Check your decision notice for more details
         about the appeals process.

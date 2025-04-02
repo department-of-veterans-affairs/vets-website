@@ -24,15 +24,38 @@ const getFiles = files => {
   });
 };
 
-export default function submitTransformer(formData, uploadFiles, askVAStore) {
+const transformAddress = formData => {
+  const { address } = formData;
+  if (formData.address) {
+    return {
+      onBaseOutsideUS: address?.isMilitary,
+      country: address?.country,
+      address: {
+        ...address,
+        militaryAddress: {
+          militaryPostOffice: address.isMilitary ? address?.city : null,
+          militaryState: address.isMilitary ? address?.state : null,
+        },
+      },
+    };
+  }
+  return {
+    address: null,
+  };
+};
+
+export default function submitTransformer(formData, uploadFiles) {
   return {
     ...formData,
-    ...askVAStore,
+    ...transformAddress(formData),
     files: getFiles(uploadFiles),
     SchoolObj: {
       InstitutionName: getSchoolInfo(formData.school)?.name,
       SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
-      StateAbbreviation: formData.stateOfTheSchool,
+      StateAbbreviation:
+        formData.stateOfTheSchool ||
+        formData.stateOfTheFacility ||
+        formData.stateOrResidency.schoolState,
     },
   };
 }

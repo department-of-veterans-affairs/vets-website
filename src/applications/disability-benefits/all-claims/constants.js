@@ -1,7 +1,7 @@
 import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { pciuStates: PCIU_STATES } = constants;
+const { formProfileStates: FORM_PROFILE_STATES } = constants;
 
 import {
   VA_FORM_IDS,
@@ -23,6 +23,11 @@ export const START_TEXT = {
   BDD: 'Start the Benefits Disability at Discharge Application',
 };
 
+export const ITF_NOTICE_TEXT = `By clicking the button to start the disability application, you’ll declare
+  your intent to file. This will reserve a potential effective date for when
+  you could start getting benefits. You have 1 year from the day you submit
+  your intent to file to complete your application.`;
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -38,10 +43,10 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve',
 };
 
-export { PCIU_STATES };
+export { FORM_PROFILE_STATES };
 
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
+export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
@@ -337,8 +342,6 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
-export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
-  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
@@ -402,4 +405,179 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   radiation: 'Radiation',
   none: 'None of these',
   notsure: 'I’m not sure if I have been exposed to these hazards',
+});
+
+export const TRAUMATIC_EVENT_TYPES = Object.freeze({
+  combat: 'Traumatic events related to combat',
+  mst:
+    'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
+  nonMst: 'Traumatic events related to other personal interactions',
+  other: 'Other traumatic events',
+});
+
+export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
+  military: 'Military incident reports',
+  other: 'Other reporting options',
+  none: 'No reports to include',
+});
+
+export const MILITARY_REPORT_TYPES = Object.freeze({
+  restricted:
+    'Restricted incident report (filed with the military while requesting confidentiality)',
+  unrestricted:
+    'Unrestricted incident report (filed with the military without requesting confidentiality)',
+  pre2005: 'Incident report filed with the military before 2005',
+});
+
+export const OTHER_REPORT_TYPES = Object.freeze({
+  police: 'Police report',
+  unsure: 'An official report was filed, but I’m not sure which type it was.',
+});
+
+export const NO_REPORT_TYPE = Object.freeze({
+  none: 'I don’t have official reports to include.',
+});
+
+export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
+  reassignment: 'workBehaviors',
+  absences: 'workBehaviors',
+  performance: 'workBehaviors',
+  consultations: 'healthBehaviors',
+  episodes: 'healthBehaviors',
+  medications: 'healthBehaviors',
+  selfMedication: 'healthBehaviors',
+  substances: 'healthBehaviors',
+  appetite: 'healthBehaviors',
+  pregnancy: 'healthBehaviors',
+  screenings: 'healthBehaviors',
+  socialEconomic: 'otherBehaviors',
+  relationships: 'otherBehaviors',
+  misconduct: 'otherBehaviors',
+});
+
+export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
+
+export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
+  work: 'Behavioral changes related to work',
+  health: 'Behavioral changes related to health',
+  other: 'Other behavioral changes',
+  unlisted: 'Other behavioral changes not listed here:',
+  none: 'No behavioral changes to include',
+});
+
+export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
+  va: 'VA or military treatment providers',
+  nonVa: 'Non-VA treatment providers or Vet Centers',
+  none: 'No treatment providers to include',
+});
+
+export const TREATMENT_RECEIVED_HINTS = Object.freeze({
+  va:
+    'Select any VA or military medical provider types where you received treatment for traumatic events.',
+  nonVa:
+    'Select any Non-VA provider types where you received treatment for traumatic events.',
+  none:
+    'Select this option if you didn’t seek treatment for traumatic events with any provider, or prefer not to report them.',
+});
+
+export const TREATMENT_RECEIVED_VA = Object.freeze({
+  medicalCenter: 'VA medical centers (also called a VAMC)',
+  communityOutpatient:
+    'Community-based outpatient clinics (also called a CBOC)',
+  vaPaid: 'VA paid community care providers',
+  dod: 'Department of Defense military treatment facilities (also called MTFs)',
+});
+
+export const TREATMENT_RECEIVED_NON_VA = Object.freeze({
+  nonVa: 'Non-VA health care providers',
+  vaCenters: 'VA Vet Centers',
+});
+
+export const BEHAVIOR_CHANGES_WORK = Object.freeze({
+  reassignment:
+    'Request for a change in occupational series or duty assignment',
+  absences: 'Increased or decreased use of leave',
+  performance: 'Changes in performance or performance evaluations',
+});
+
+export const BEHAVIOR_CHANGES_HEALTH = Object.freeze({
+  consultations:
+    'Increased or decreased visits to a healthcare professional, counselor, or treatment facility',
+  episodes: 'Episodes of depression, panic attacks, or anxiety',
+  medications: 'Increased or decreased use of prescription medications',
+  selfMedication: 'Increased or decreased use of over-the-counter medications',
+  substances: 'Increased or decreased use of alcohol or drugs',
+  appetite:
+    'Changes in eating habits, such as overeating or undereating, or significant changes in weight',
+  pregnancy: 'Pregnancy tests around the time of the traumatic experiences',
+  screenings: 'Tests for sexually transmitted infections',
+});
+
+export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
+  socialEconomic: 'Economic or social behavioral changes',
+  relationships: 'Changes in or breakup of a significant relationship',
+  misconduct: 'Disciplinary or legal difficulties',
+  unlisted: 'I experienced other behavioral changes that were not in this list',
+});
+
+export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
+  ...BEHAVIOR_CHANGES_WORK,
+  ...BEHAVIOR_CHANGES_HEALTH,
+  ...BEHAVIOR_CHANGES_OTHER,
+};
+
+export const BEHAVIOR_LIST_HINTS = Object.freeze({
+  work:
+    'Select any work related behavioral changes you experienced after your traumatic events.',
+  health:
+    'Select any health related behavioral changes you experienced after your traumatic events.',
+  other:
+    'Select any other types of behavioral changes you experienced after your traumatic events.',
+  none:
+    'Select this option if you didn’t experience any behavioral changes after your traumatic events, or prefer not to report them.',
+});
+
+export const SUPPORTING_EVIDENCE_SUBTITLES = Object.freeze({
+  reports: 'Official reports about traumatic events',
+  records: 'Records of receiving care after your traumatic events',
+  witness: 'Lay or witness statements (also called buddy statements)',
+  other: 'Other supporting documents',
+  unlisted: 'Other supporting documents not listed here:',
+  none: 'No supporting documents to include',
+});
+
+export const SUPPORTING_EVIDENCE_REPORT = Object.freeze({
+  police: 'Reports from civilian police officers',
+});
+
+export const SUPPORTING_EVIDENCE_RECORD = Object.freeze({
+  physicians:
+    'Records of visits to civilian physicians or caregivers any time after the incident',
+  counseling: 'Records of visits to counseling facilities or health clinics',
+  crisis:
+    'Records of visits to rape crisis centers or centers for domestic abuse',
+});
+
+export const SUPPORTING_EVIDENCE_WITNESS = Object.freeze({
+  family: 'Statements from family members or roommates',
+  faculty: 'Statements from faculty members',
+  service: 'Statements from fellow service members',
+  clergy: 'Statements from chaplains or clergy members',
+});
+
+export const SUPPORTING_EVIDENCE_OTHER = Object.freeze({
+  personal: 'Personal diaries or journals',
+});
+
+export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
+  reports: 'Select to include official reports about your traumatic events.',
+  records:
+    'Select to include records of receiving care for your traumatic events.',
+  witness:
+    'Select to include lay or witness statements about your traumatic events.',
+  other:
+    'Select to include other supporting documents about your traumatic events.',
+  unlisted: 'Other supporting documents not listed here:',
+  none:
+    'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
 });

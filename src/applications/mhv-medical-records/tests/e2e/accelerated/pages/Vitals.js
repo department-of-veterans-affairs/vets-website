@@ -1,44 +1,19 @@
+import sessionStatus from '../fixtures/session/default.json';
+
 class Vitals {
   setIntercepts = ({ vitalData, useOhData = true }) => {
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
     cy.intercept('GET', '/my_health/v1/medical_records/session/status', req => {
-      req.reply({
-        retrievedDate: 1732224967218,
-        lastRefreshDate: null,
-        facilityExtractStatusList: [
-          {
-            extract: 'Allergy',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-          {
-            extract: 'ImagingStudy',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-          {
-            extract: 'VPR',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-          {
-            extract: 'ChemistryHematology',
-            lastRequested: 1732224367218,
-            lastCompleted: 1732224667218,
-            lastSuccessfulCompleted: 1732224667218,
-          },
-        ],
-      });
+      req.reply(sessionStatus);
     });
     cy.intercept('GET', '/my_health/v1/medical_records/vitals*', req => {
       // check the correct param was used
       if (useOhData) {
         expect(req.url).to.contain('use_oh_data_path=1');
+        expect(req.url).to.contain('from=');
+        expect(req.url).to.contain('to=');
       } else {
         expect(req.url).to.not.contain('use_oh_data_path=1');
       }
@@ -69,6 +44,10 @@ class Vitals {
     cy.get('[data-testid="vitals-landing-page-link"]')
       .should('be.visible')
       .click();
+  };
+
+  checkUrl = ({ timeFrame }) => {
+    cy.url().should('include', `?timeFrame=${timeFrame}`);
   };
 
   selectMonthAndYear = ({ month, year, submit = true }) => {

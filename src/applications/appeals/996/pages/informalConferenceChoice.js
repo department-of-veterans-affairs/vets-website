@@ -10,7 +10,6 @@ import {
   informalConferenceContactInfo,
   informalConferenceContactLabel,
 } from '../content/InformalConferenceContact';
-import { showNewHlrContent } from '../utils/helpers';
 
 // This is the yes/no choice for requesting an informal conference
 // A custom page will override these settings
@@ -19,7 +18,7 @@ const informalConferenceChoice = {
     'ui:description': informalConferenceContactInfo,
     informalConferenceChoice: radioUI({
       title: informalConferenceContactTitle,
-      required: showNewHlrContent,
+      required: () => true,
       labels: informalConferenceContactLabel,
       enableAnalytics: true,
       errorMessages: {

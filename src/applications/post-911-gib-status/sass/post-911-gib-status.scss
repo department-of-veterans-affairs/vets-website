@@ -1,5 +1,3 @@
-$formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
-
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
 
@@ -7,8 +5,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   margin-bottom: 5em;
 
   h3 {
-    margin: 1em 0 .5em 0;
-    padding: 0 0 .25em 0;
+    margin-bottom: 8.5px;
+    padding: 0;
   }
 
   hr {
@@ -18,26 +16,24 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     margin-top: 1em;
     margin-bottom: 1em;
   }
+  h2 {
+    margin-top: 0;
+  }
 
   .section {
     margin-bottom: 2em;
   }
 
   .section-line {
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
   }
-
-  /*.usa-alert {
-    margin: 1em 0 1em 0;
-  }*/
+  #benefit-level {
+    margin-top: 2em;
+  }
 
   .not-qualified h5 {
     margin-top: 1em;
     padding-bottom: 0;
-  }
-
-  .usa-accordion {
-    margin-top: 16px;
   }
 
   .facility {

@@ -55,25 +55,25 @@ describe('Search.gov maintenance window message', () => {
     });
   };
 
-  it('should display maintenance message during maintenance window when 0 results on Tuesday at 4 PM EST', () => {
-    mockResultsEmpty();
+  it('should display maintenance message during maintenance window on Tuesday at 4 PM EST', () => {
+    mockResults();
     setClockAndSearch('2021-03-16T20:00:00.000Z');
     verifyBanner();
-    verifyNoResults();
+    checkForResults();
 
     cy.axeCheck();
   });
 
-  it('should display maintenance message during maintenance window when 0 results on Thursday at 4 PM EST', () => {
-    mockResultsEmpty();
+  it('should display maintenance message during maintenance window on Thursday at 4 PM EST', () => {
+    mockResults();
     setClockAndSearch('2021-03-18T20:00:00.000Z');
     verifyBanner();
-    verifyNoResults();
+    checkForResults();
 
     cy.axeCheck();
   });
 
-  it('should display maintenance message during maintenance window when 0 results on Tuesday at 5 PM EST', () => {
+  it('should display maintenance message during maintenance window on Tuesday at 5 PM EST', () => {
     mockResultsEmpty();
     setClockAndSearch('2021-03-16T21:00:00.000Z');
     verifyBanner();
@@ -82,7 +82,7 @@ describe('Search.gov maintenance window message', () => {
     cy.axeCheck();
   });
 
-  it('should display maintenance message during maintenance window when 0 results on Thursday at 5 PM EST', () => {
+  it('should display maintenance message during maintenance window on Thursday at 5 PM EST', () => {
     mockResultsEmpty();
     setClockAndSearch('2021-03-18T21:00:00.000Z');
     verifyBanner();
@@ -91,36 +91,18 @@ describe('Search.gov maintenance window message', () => {
     cy.axeCheck();
   });
 
-  it('should NOT display message if returns with search results at 4 PM EST on a Tuesday', () => {
+  it('should NOT display maintenance message on Monday at 2 PM EST', () => {
     mockResults();
-    setClockAndSearch('2021-03-16T20:00:00.000Z');
+    setClockAndSearch('2021-03-15T18:00:00.000Z');
     verifyNoBanner();
     checkForResults();
 
     cy.axeCheck();
   });
 
-  it('should NOT display maintenance message when 0 results on Monday at 2 PM EST', () => {
-    mockResultsEmpty();
-    setClockAndSearch('2021-03-15T18:00:00.000Z');
-    verifyNoBanner();
-    verifyNoResults();
-
-    cy.axeCheck();
-  });
-
-  it('should NOT display maintenance message when 0 results on Saturday at 6 PM EST', () => {
+  it('should NOT display maintenance message on Saturday at 6 PM EST', () => {
     mockResultsEmpty();
     setClockAndSearch('2021-03-20T22:00:00.000Z');
-    verifyNoBanner();
-    verifyNoResults();
-
-    cy.axeCheck();
-  });
-
-  it('should NOT display maintenance message when 0 results on Sunday at 9 AM EST', () => {
-    mockResultsEmpty();
-    setClockAndSearch('2021-03-21T13:00:00.000Z');
     verifyNoBanner();
     verifyNoResults();
 

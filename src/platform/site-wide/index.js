@@ -1,12 +1,14 @@
-// Node modules.
-import '@department-of-veterans-affairs/formation/dist/formation';
 // Relative imports.
-import '../monitoring/sentry.js';
+import '../monitoring/sentry';
+import '../monitoring/web-vitals';
 import './component-library-analytics-setup';
 import './medallia-feedback-button';
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
+import loadAccordionHandler from './legacy-component-js/accordion';
+import createAdditionalInfoWidget from './legacy-component-js/additional-info';
+import addSidenavListeners from './legacy-component-js/sidenav';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 import startAnnouncementWidget from './announcements';
 import startBanners from './banners';
@@ -28,7 +30,7 @@ import { addOverlayTriggers } from './legacy/menu';
 export default function startSitewideComponents(commonStore) {
   // New navigation menu
   if (document.querySelector('#vetnav')) {
-    require('./legacy/mega-menu.js');
+    require('./legacy/mega-menu');
   }
 
   // Prevent some browsers from changing the value when scrolling while hovering
@@ -42,6 +44,30 @@ export default function startSitewideComponents(commonStore) {
       document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
       document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
     }
+  });
+
+  /**
+   * Below block is needed to load the sitewide footer, since it still relies on
+   * some legacy javascript. There are other instances where old usa-accordions, sidenavs, and
+   * buttons that may rely on these as well.
+   *
+   * Once https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3568 is complete
+   * this block can be removed
+   */
+  const waitForDocumentReady = () => {
+    return new Promise(resolve => {
+      if (document.readyState === 'complete') {
+        resolve();
+      } else {
+        window.addEventListener('load', resolve);
+      }
+    });
+  };
+
+  waitForDocumentReady().then(() => {
+    loadAccordionHandler();
+    createAdditionalInfoWidget();
+    addSidenavListeners();
   });
 
   // Start site-wide widgets.

@@ -23,12 +23,15 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { flattenApplicantSSN } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -49,8 +52,11 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+  sponsorAddressCleanValidation,
+  certifierAddressCleanValidation,
+  applicantAddressCleanValidation,
 } from '../helpers/validations';
-import { ADDITIONAL_FILES_HINT } from './constants';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
@@ -165,7 +171,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form1010d],
   },
   saveInProgress: {
     messages: {
@@ -175,7 +181,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [flattenApplicantSSN],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -223,7 +230,7 @@ const formConfig = {
         page2: {
           // initialData: mockData.data,
           path: 'signer-info',
-          title: 'Certification',
+          title: 'Your name',
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
@@ -240,14 +247,17 @@ const formConfig = {
         },
         page3: {
           path: 'signer-mailing-address',
-          title: 'Certification',
+          title: 'Your mailing address',
           uiSchema: {
             ...titleUI(
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
             certifierAddress: addressUI(),
-            'ui:validations': [certifierAddressValidation],
+            'ui:validations': [
+              certifierAddressValidation,
+              certifierAddressCleanValidation,
+            ],
           },
           schema: {
             type: 'object',
@@ -260,14 +270,14 @@ const formConfig = {
         },
         page4: {
           path: 'signer-contact-info',
-          title: 'Certification',
+          title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
           path: 'signer-relationship',
-          title: 'Certification',
+          title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI('Your relationship to the applicant'),
@@ -422,12 +432,13 @@ const formConfig = {
             sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
-              title: 'Did sponsor die during active military service?',
+              title: 'Did the sponsor die during active military service?',
               hint: ADDITIONAL_FILES_HINT,
               labels: {
-                yes: 'Yes, sponsor passed away during active military service',
+                yes:
+                  'Yes, the sponsor passed away during active military service',
                 no:
-                  'No, sponsor did not pass away during active military service',
+                  'No, the sponsor did not pass away during active military service',
               },
             }),
           },
@@ -496,6 +507,7 @@ const formConfig = {
                 },
               }),
             },
+            'ui:validations': [sponsorAddressCleanValidation],
           },
           schema: {
             type: 'object',
@@ -598,7 +610,7 @@ const formConfig = {
                     undefined,
                     false,
                   )}. This includes social security number, mailing address, 
-                          contact information, relationship to sponsor, and health 
+                          contact information, relationship to the sponsor, and health 
                           insurance information.`,
                 ),
               },
@@ -629,13 +641,13 @@ const formConfig = {
                   ({ formData }) =>
                     `${applicantWording(formData)} identification information`,
                 ),
-                applicantSSN: ssnOrVaFileNumberCustomUI(),
+                applicantSSN: ssnUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantSSN'], {
             titleSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnSchema,
           }),
         },
         page15a: {
@@ -690,6 +702,7 @@ const formConfig = {
                         'Address is on a United States military base outside the country.',
                     },
                   }),
+                  'ui:validations': [applicantAddressCleanValidation],
                 },
               },
             },
@@ -710,7 +723,7 @@ const formConfig = {
               items: {
                 ...titleUI(
                   ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
+                    `${applicantWording(formData)} contact information`,
                   ({ formData, formContext }) => {
                     const txt = `We'll use this information to contact ${applicantWording(
                       formData,
@@ -770,7 +783,8 @@ const formConfig = {
           path: 'applicant-relationship/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
+          title: item =>
+            `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
           schema: applicantListSchema([], {
@@ -1197,7 +1211,8 @@ const formConfig = {
           path: 'applicant-other-insurance-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance status`,
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1219,7 +1234,8 @@ const formConfig = {
           path: 'applicant-other-insurance-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance upload`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (

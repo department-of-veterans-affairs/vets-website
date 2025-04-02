@@ -14,14 +14,26 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled, mrPhase1Enabled } from './featureToggles';
+import { personalizationEnabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
-import {
-  selectGreetingName,
-  selectPersonalInformation,
-} from './personalInformation';
+import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
+
+import {
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusNonUserError,
+  mhvAccountStatusErrorsSorted,
+} from './mhvAccountStatus';
+
+import { profileHasEHRM, profileHasVista } from './facilities';
+import {
+  selectVaPatient,
+  selectProfileLoa,
+  selectProfileLogInProvider,
+} from './accountInformation';
 
 export {
   hasMhvAccount,
@@ -33,12 +45,20 @@ export {
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
-  mrPhase1Enabled,
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusErrorsSorted,
+  mhvAccountStatusNonUserError,
   personalizationEnabled,
+  profileHasEHRM,
+  profileHasVista,
   selectDrupalStaticData,
   selectGreetingName,
-  selectPersonalInformation,
+  selectVaPatient,
   selectProfile,
+  selectProfileLoa,
+  selectProfileLogInProvider,
   signInServiceEnabled,
   signInServiceName,
   showVerifyAndRegisterAlert,

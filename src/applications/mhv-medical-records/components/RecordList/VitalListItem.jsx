@@ -1,14 +1,28 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
+
 import { vitalTypeDisplayNames } from '../../util/constants';
-import { dateFormatWithoutTimezone } from '../../util/helpers';
+import {
+  dateFormatWithoutTime,
+  formatDate,
+  sendDataDogAction,
+} from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
-  const { isAccelerating } = options;
+  const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
+
+  const ddLabelName = useMemo(
+    () => {
+      return displayName.includes('Blood oxygen level')
+        ? 'Blood Oxygen over time Link'
+        : `${displayName} over time Link`;
+    },
+    [displayName],
+  );
 
   const updatedRecordType = useMemo(
     () => {
@@ -26,18 +40,14 @@ const VitalListItem = props => {
     () => {
       if (isAccelerating) {
         return {
-          displayName: `vital-${_.kebabCase(updatedRecordType)}-display-name`,
-          noRecordMessage: `vital-${_.kebabCase(
+          displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
+          noRecordMessage: `vital-${kebabCase(
             updatedRecordType,
           )}-no-record-message`,
-          measurement: `vital-${_.kebabCase(updatedRecordType)}-measurement`,
-          date: `vital-${_.kebabCase(updatedRecordType)}-date`,
-          dateTimestamp: `vital-${_.kebabCase(
-            updatedRecordType,
-          )}-date-timestamp`,
-          reviewLink: `vital-${_.kebabCase(
-            updatedRecordType,
-          )}-review-over-time`,
+          measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
+          date: `vital-${kebabCase(updatedRecordType)}-date`,
+          dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
+          reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
         };
       }
       return {
@@ -51,6 +61,10 @@ const VitalListItem = props => {
     },
     [updatedRecordType, isAccelerating],
   );
+
+  const url = `/vitals/${kebabCase(updatedRecordType)}-history${
+    isAccelerating ? `?timeFrame=${timeFrame}` : ''
+  }`;
 
   return (
     <va-card
@@ -86,6 +100,7 @@ const VitalListItem = props => {
             <span
               className="vads-u-display--inline"
               data-dd-privacy="mask"
+              data-dd-action-name="[vitals list - measurement]"
               data-testid={dataTestIds.measurement}
             >
               {record.measurement}
@@ -94,23 +109,24 @@ const VitalListItem = props => {
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
+            data-dd-action-name="[vitals list - date]"
             data-testid={dataTestIds.date}
           >
             <span className="vads-u-font-weight--bold">Date: </span>
             <span data-testid={dataTestIds.dateTimestamp}>
               {isAccelerating
-                ? dateFormatWithoutTimezone(
-                    record.effectiveDateTime,
-                    'MMMM d, yyyy',
-                  )
-                : record.date}
+                ? formatDate(record.effectiveDateTime)
+                : dateFormatWithoutTime(record.date)}
             </span>
           </div>
 
           <Link
-            to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
+            to={url}
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
+            onClick={() => {
+              sendDataDogAction(ddLabelName);
+            }}
           >
             <strong>
               Review your{' '}

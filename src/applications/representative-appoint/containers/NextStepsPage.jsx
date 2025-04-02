@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import ContactCard from '../components/ContactCard';
 import AddressBlock from '../components/AddressBlock';
-import NeedHelp from '../components/NeedHelp';
+import GetFormHelp from '../components/GetFormHelp';
+
 import {
   addressExists,
   getFormSubtitle,
@@ -21,10 +23,14 @@ export default function NextStepsPage() {
   const repName = entityAttributes?.fullName;
   const orgName = getOrgName(formData);
 
+  useEffect(() => {
+    scrollTo('topScrollElement');
+  }, []);
+
   return (
     <div>
       <FormTitle
-        title="Get help from a VA accredited representative or VSO"
+        title="Request help from a VA accredited representative or VSO"
         subTitle={getFormSubtitle(formData)}
       />
       <h2>Your next steps</h2>
@@ -65,7 +71,10 @@ export default function NextStepsPage() {
       <a className="vads-c-action-link--green vads-u-margin-top--2" href="/">
         Go back to VA.gov
       </a>
-      <NeedHelp />
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </div>
   );
 }

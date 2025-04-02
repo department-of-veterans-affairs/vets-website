@@ -9,7 +9,7 @@ describe('FilterBy', () => {
     const props = {
       filterByOptions,
       onChange: () => {},
-      selectedOption: filterByOptions[3],
+      selectedOption: filterByOptions[2],
     };
 
     const screen = render(<FilterBy {...props} />);
@@ -17,6 +17,5 @@ describe('FilterBy', () => {
     expect(screen.getByTestId('All upcoming')).to.exist;
     expect(screen.getByTestId('Specific date')).to.exist;
     expect(screen.getByTestId('Custom date range')).to.exist;
-    expect(screen.getByTestId('Past events')).to.exist;
   });
 });
