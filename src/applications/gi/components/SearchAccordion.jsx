@@ -40,11 +40,11 @@ export default function SearchAccordion({
     'vads-u-border--0',
     'vads-u-text-align--center',
     'vads-u-margin-top--1p5',
-    'vads-u-margin-x--2p5',
     'vads-u-margin-bottom--1',
+    'search-accordion-button',
   );
   const clearFiltersButton = classNames(
-    'vads-u-margin-x--2p5',
+    'search-accordion-button',
     'vads-u-text-align--center',
   );
 
