@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+
+// VA Platform Components
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { isLOA3, selectProfile } from 'platform/user/selectors';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+// Local Components and Utils
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
@@ -38,7 +38,11 @@ const App = props => {
     identityVerified,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    ezrRouteGuardEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -47,17 +51,12 @@ const App = props => {
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
-
-  // Route Guard selectors
-  const isRouteGuardEnabled = useSelector(
-    state => toggleValues(state)[FEATURE_FLAG_NAMES.ezrRouteGuardEnabled],
-  );
   const profile = useSelector(selectProfile);
 
   // Route Guard checks
   useEffect(
     () => {
-      if (!isRouteGuardEnabled) {
+      if (!ezrRouteGuardEnabled) {
         return;
       }
 
@@ -70,11 +69,11 @@ const App = props => {
         identityVerified &&
         (!hasRequiredServices || !profile?.facilities?.length)
       ) {
-        router.push('/my-health/');
+        window.location.href = '/my-health/';
       }
     },
     [
-      isRouteGuardEnabled,
+      ezrRouteGuardEnabled,
       identityVerified,
       profile,
       router,
@@ -170,6 +169,7 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
+    ezrRouteGuardEnabled: state.featureToggles.ezrRouteGuardEnabled,
   },
   formData: state.form.data,
   user: state.user,
