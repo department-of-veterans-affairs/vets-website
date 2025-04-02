@@ -1,4 +1,5 @@
 import { format, isValid } from 'date-fns';
+import last from 'lodash/last';
 import {
   createAccessibleDoc,
   registerVaGovFonts,
@@ -15,6 +16,40 @@ const defaultConfig = {
     size: 12,
   },
 };
+
+// Dropping this here for now. May try and fudge the debt objects as we pass them in here to include it, but want to turn this around quickly
+// https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/architecture/static-codes.md
+// let's try and keep these values updated there so it's easier for stakeholders to check them
+export const deductionCodes = Object.freeze({
+  '11': 'Post-9/11 GI Bill debt for books and supplies',
+  '12': 'Post-9/11 GI Bill debt for books and supplies',
+  '13': 'Post-9/11 GI Bill debt for books and supplies',
+  '14': 'Post-9/11 GI Bill debt for books and supplies',
+  '15': 'Post-9/11 GI Bill debt for books and supplies',
+  '16': 'Post-9/11 GI Bill debt for housing',
+  '17': 'Post-9/11 GI Bill debt for housing',
+  '18': 'Post-9/11 GI Bill debt for housing',
+  '19': 'Post-9/11 GI Bill debt for housing',
+  '20': 'Post-9/11 GI Bill debt for housing',
+  '27': 'Post-9/11 GI Bill debt for books and supplies',
+  '28': 'Post-9/11 GI Bill debt for books and supplies',
+  '30': 'Disability compensation and pension debt',
+  '41': 'Chapter 34 education debt',
+  '44': 'Chapter 35 education debt',
+  '48': 'Post-9/11 GI Bill debt for housing',
+  '49': 'Post-9/11 GI Bill debt for housing',
+  '50': 'Post-9/11 GI Bill debt for housing',
+  '51': 'Post-9/11 GI Bill debt for housing',
+  '71': 'Post-9/11 GI Bill debt for books and supplies',
+  '72': 'Post-9/11 GI Bill debt for housing',
+  '73': 'Education Ch 33-Ch1606/Ch30 Kickers',
+  '74': 'Post-9/11 GI Bill debt for tuition',
+  '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
+  '76': 'Education Ch 33-Ch1606/Ch30 Kickers',
+  '77': 'Education Ch 33-Ch1606/Ch30 Kickers',
+  '78': 'Education Ch 33-Ch1606/Ch30 Kickers',
+  '79': 'Education Ch 33-Ch1606/Ch30 Kickers',
+});
 
 // Helper to format numbers with commas (e.g., 1350.00 -> "1,350.00")
 const formatCurrency = amount => {
@@ -114,9 +149,11 @@ const generate = async (data = {}, config = defaultConfig) => {
   wrapper.add(
     doc.struct('P', () => {
       doc.text(date, rightSideX, addressY, { align: 'right' });
-      doc.text(`File Number: ${fileNumber}`, rightSideX, addressY + 18, {
-        align: 'right',
-      });
+      if (fileNumber) {
+        doc.text(`File Number: ${fileNumber}`, rightSideX, addressY + 18, {
+          align: 'right',
+        });
+      }
       doc.text('Questions? https://ask.va.gov', rightSideX, addressY + 36, {
         align: 'right',
       });
@@ -131,8 +168,11 @@ const generate = async (data = {}, config = defaultConfig) => {
   const col3Width = 100;
   const tableWidth = col1Width + col2Width + col3Width;
   // TODO
-  // add indent values so we can drop \u00A0
-  // add standardized line height to replace stuff like `heightOfString`
+  // [ ] Add indent values so we can drop \u00A0
+  // [ ] Add standardized line height to replace stuff like `heightOfString`
+  // [ ] We can probably make some helper functions for adding to each column, the spacing is pretty consistent
+  //      trying to get this out the door for now, but it'll be some fun tech debt to address later
+  // [ ]
 
   let currentY = tableTop;
 
@@ -419,8 +459,6 @@ const generate = async (data = {}, config = defaultConfig) => {
   currentY += totalHeight + 5;
 
   // Copay Payment Instructions Row
-  // TODO ... ? Do we want to add Account number? Pretty sure it's necessary to make any of the following payments
-  //  (and it's included on the existing HTML statement page)
   const paymentRow = doc.struct('TR');
   tableStruct.add(paymentRow);
   paymentRow.add(
@@ -528,14 +566,39 @@ const generate = async (data = {}, config = defaultConfig) => {
   });
   currentY += overpaymentDescHeight + 5;
 
+  // Debt update disclaimer
+  const debtUpdateDisclaimerRow = doc.struct('TR');
+  tableStruct.add(debtUpdateDisclaimerRow);
+  const debtUpdateDisclaimerText =
+    'Please note that payments may take up to 4 business days to reflect after processing.';
+  doc.font(config.text.font).fontSize(8);
+  debtUpdateDisclaimerRow.add(
+    doc.struct('TD', () => {
+      doc.text(debtUpdateDisclaimerText, tableLeft + 5, currentY, {
+        width: col1Width,
+      });
+    }),
+  );
+  const debtUpdateDisclaimerHeight = doc.heightOfString(
+    debtUpdateDisclaimerText,
+    {
+      width: col1Width,
+      font: config.text.font,
+      size: 8,
+    },
+  );
+  currentY += debtUpdateDisclaimerHeight + 5;
+
   // Benefits Overpayment Data Rows
   const overpaymentDetails = debts || [];
   let totalOverpayment = 0;
   overpaymentDetails.forEach((debt, index) => {
     const overpaymentRow = doc.struct('TR');
     tableStruct.add(overpaymentRow);
-    const description = debt.deductionCode
-      ? `${index + 1}. ${debt.deductionCode} ${debt.benefitType}`
+    const description = deductionCodes[debt.deductionCode]
+      ? `${index + 1}. ${deductionCodes[debt.deductionCode]} (${
+          debt.benefitType
+        })`
       : `${index + 1}. ${debt.benefitType}`;
     overpaymentRow.add(
       doc.struct('TD', () => {
@@ -545,7 +608,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     overpaymentRow.add(
       doc.struct('TD', () => {
         doc.text(
-          `$${formatCurrency(parseFloat(debt.originalAR || 0))}`,
+          `$${formatCurrency(parseFloat(debt.currentAr || 0))}`,
           tableLeft + col1Width,
           currentY,
           { align: 'right', width: col2Width - 10 },
@@ -560,30 +623,61 @@ const generate = async (data = {}, config = defaultConfig) => {
     });
     currentY += rowHeight + 5;
 
-    // Add payment received row if applicable
-    if (debt.debtHistory?.length > 0) {
-      const paymentReceivedRow = doc.struct('TR');
-      tableStruct.add(paymentReceivedRow);
-      const paymentDesc = `Payment received ${debt.debtHistory[0].date}`;
-      paymentReceivedRow.add(doc.struct('TD'));
-      paymentReceivedRow.add(
+    // Overpayment 'Updated on' line
+    const dateUpdated = last(debt.debtHistory)?.date;
+    const newDate =
+      typeof dateUpdated === 'string'
+        ? new Date(dateUpdated.replace(/-/g, '/'))
+        : dateUpdated;
+    const formattedDateUpdated = isValid(newDate)
+      ? format(new Date(newDate), 'MMMM d, y')
+      : null;
+
+    if (dateUpdated) {
+      const debtUpdatedLine = doc.struct('TR');
+      tableStruct.add(debtUpdatedLine);
+      const debtUpdatedDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0Updated on ${formattedDateUpdated}`;
+      debtUpdatedLine.add(
         doc.struct('TD', () => {
-          doc.text(paymentDesc, tableLeft + col1Width - 105, currentY, {
-            align: 'right',
-            width: 100,
+          doc.text(debtUpdatedDesc, tableLeft + 5, currentY, {
+            width: col1Width,
           });
         }),
       );
-      paymentReceivedRow.add(doc.struct('TD'));
-      const paymentRowHeight = doc.heightOfString(paymentDesc, {
-        width: 100,
+      const debtUpdatedHeight = doc.heightOfString(debtUpdatedDesc, {
+        width: col1Width,
         font: config.text.font,
         size: 8,
       });
-      currentY += paymentRowHeight + 5;
+      currentY += debtUpdatedHeight + 5;
     }
 
-    totalOverpayment += parseFloat(debt.originalAR || 0);
+    // Add payment received row if applicable
+    // Excluding for now, payments received isn't something that's live on production
+
+    // if (debt.debtHistory?.length > 0) {
+    //   const paymentReceivedRow = doc.struct('TR');
+    //   tableStruct.add(paymentReceivedRow);
+    //   const paymentDesc = `Payment received ${debt.debtHistory[0].date}`;
+    //   paymentReceivedRow.add(doc.struct('TD'));
+    //   paymentReceivedRow.add(
+    //     doc.struct('TD', () => {
+    //       doc.text(paymentDesc, tableLeft + col1Width - 105, currentY, {
+    //         align: 'right',
+    //         width: 100,
+    //       });
+    //     }),
+    //   );
+    //   paymentReceivedRow.add(doc.struct('TD'));
+    //   const paymentRowHeight = doc.heightOfString(paymentDesc, {
+    //     width: 100,
+    //     font: config.text.font,
+    //     size: 8,
+    //   });
+    //   currentY += paymentRowHeight + 5;
+    // }
+
+    totalOverpayment += parseFloat(debt.currentAr || 0);
   });
 
   // Benefits Overpayment Total Row

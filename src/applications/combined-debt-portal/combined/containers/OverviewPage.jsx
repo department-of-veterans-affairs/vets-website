@@ -81,9 +81,8 @@ const OverviewPage = () => {
     suffix ? `, ${suffix}` : ''
   }`;
 
-  // So for the FSR we pull this per debt, iirc it's consistent across the veteran profile but
-  //  just want to double check before we pull the trigger on scooping it from any random debt
-  const fileNumber = '796123018';
+  // Pulling fileNumber from first debt
+  const fileNumber = debts[0]?.fileNumber || '';
 
   const veteranContactInformation = {
     veteranFullName,
