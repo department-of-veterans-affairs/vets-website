@@ -84,6 +84,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_XX_123: 'XX-123',
+  FORM_22_2222: '22-2222',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -172,6 +173,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
+    [VA_FORM_IDS.FORM_22_2222]: `${tryGetAppUrl('22-2222')}/`,
   };
 };
 
@@ -577,6 +579,13 @@ export const MY_VA_SIP_FORMS = [
   //   description: 'VR&E Chapter 31 benefits application',
   //   trackingPrefix: 'new-careers-employment-28-1900-',
   // },
+  {
+    id: VA_FORM_IDS.FORM_22_2222,
+    benefit: 'benefits',
+    title: 'A New Form',
+    description: 'benefits',
+    trackingPrefix: 'a-new-form-',
+  },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
