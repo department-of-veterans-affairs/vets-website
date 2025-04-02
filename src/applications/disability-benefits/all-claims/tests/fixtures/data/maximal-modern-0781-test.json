@@ -329,7 +329,6 @@
     "view:ptsdCombatBypassAdditionalInfo": {},
     "view:mentalHealthSupportAlert": {},
     "view:mentalHealthWorkflowChoice": "optForOnlineForm0781",
-    "view:previousHealthWorkflowChoice": "optForOnlineForm0781",
     "eventTypes": {
       "combat": true,
       "mst": true,

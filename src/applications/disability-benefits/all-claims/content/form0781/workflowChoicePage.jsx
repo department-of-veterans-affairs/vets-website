@@ -244,7 +244,9 @@ const modalDescriptionUpload = (
       a PDF to upload, we’ll remove any information you’ve entered online about
       your mental health conditions.
     </p>
-    <p>Do you want to opt out of form 21-0781?</p>
+    <p>
+      <strong>Do you want to opt out of form 21-0781?</strong>
+    </p>
   </>
 );
 
@@ -321,7 +323,14 @@ const checkMentalHealthData = formData => {
 };
 
 const WorkflowChoicePage = props => {
-  const { data, goBack, goForward, setFormData } = props;
+  const {
+    data,
+    goBack,
+    goForward,
+    setFormData,
+    contentBeforeButtons,
+    contentAfterButtons,
+  } = props;
 
   const selectionField = 'view:mentalHealthWorkflowChoice';
   const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
@@ -544,16 +553,20 @@ const WorkflowChoicePage = props => {
           {modalContent}
         </VaModal>
       </fieldset>
+      {contentBeforeButtons}
       <FormNavButtons
         goBack={handlers.onGoBack}
         goForward={handlers.onSubmit}
         submitToContinue
       />
+      {contentAfterButtons}
     </form>
   );
 };
 
 WorkflowChoicePage.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
