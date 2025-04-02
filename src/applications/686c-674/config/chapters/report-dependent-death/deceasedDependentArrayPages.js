@@ -55,7 +55,7 @@ export const deceasedDependentOptions = {
       const dependentType = item?.dependentType;
 
       if (!dependentType) {
-        return 'Unknown';
+        return 'Dependent';
       }
 
       const label = relationshipLabels[dependentType];
@@ -64,7 +64,7 @@ export const deceasedDependentOptions = {
         return label;
       }
 
-      return 'Unknown'; // Default if `dependentType` is undefined for some reason
+      return 'Dependent';
     },
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
