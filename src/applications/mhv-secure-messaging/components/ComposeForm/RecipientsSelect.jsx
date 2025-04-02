@@ -224,7 +224,7 @@ const RecipientsSelect = ({
           label="Select a care team to send your message to"
           name="to"
           value={defaultValue !== undefined ? defaultValue : ''}
-          onVaComboBoxInput={handleRecipientSelect}
+          onVaSelect={handleRecipientSelect}
           class="composeComboBox"
           data-testid="compose-recipient-combobox"
           error={error}
