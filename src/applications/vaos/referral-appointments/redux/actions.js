@@ -145,9 +145,8 @@ export function pollFetchAppointmentInfo(
         },
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
-
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.appointment.state === 'draft') {
+      if (appointmentInfo.appointment.status === 'draft') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {
@@ -209,14 +208,6 @@ export function createReferralAppointment({
       dispatch({
         type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
       });
-
-      dispatch(
-        pollFetchAppointmentInfo(draftApppointmentId, {
-          timeOut: 30000,
-          retryCount: 3,
-          retryDelay: 1000,
-        }),
-      );
 
       return appointmentInfo;
     } catch (error) {

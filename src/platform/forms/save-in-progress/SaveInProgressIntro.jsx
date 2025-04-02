@@ -179,7 +179,7 @@ class SaveInProgressIntro extends React.Component {
       } else {
         alert = (
           <div>
-            <va-alert status="info" uswds visible>
+            <va-alert status="info" uswds visible slim>
               <div className="usa-alert-body">
                 You can save this {appType} in progress, and come back later to
                 finish filling it out.
@@ -190,7 +190,12 @@ class SaveInProgressIntro extends React.Component {
         );
       }
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
+      const {
+        buttonOnly,
+        buttonAriaDescribedby,
+        retentionPeriod,
+        unauthStartText,
+      } = this.props;
       const CustomLink = this.props.customLink;
       const unauthStartButton = CustomLink ? (
         <CustomLink
@@ -207,6 +212,7 @@ class SaveInProgressIntro extends React.Component {
           onClick={this.openLoginModal}
           label={ariaLabel}
           uswds
+          messageAriaDescribedby={buttonAriaDescribedby}
           text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         />
       );
@@ -415,6 +421,7 @@ SaveInProgressIntro.propTypes = {
   alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
+  buttonAriaDescribedby: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
   continueMsg: PropTypes.string,
@@ -469,6 +476,7 @@ SaveInProgressIntro.defaultProps = {
   headingLevel: 2,
   ariaLabel: null,
   ariaDescribedby: null,
+  buttonAriaDescribedby: null,
   customLink: null,
 };
 
@@ -496,6 +504,7 @@ const mapDispatchToProps = {
  *   alertTitle: string,
  *   ariaDescribedby: string,
  *   ariaLabel: string,
+ *   buttonAriaDescribedby: string,
  *   buttonOnly: boolean,
  *   children: any,
  *   customLink: any,
