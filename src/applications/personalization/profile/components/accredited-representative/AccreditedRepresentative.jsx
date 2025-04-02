@@ -67,8 +67,7 @@ const AccreditedRepresentative = ({ powerOfAttorney }) => {
 };
 
 AccreditedRepresentative.propTypes = {
-  dob: PropTypes.string.isRequired,
-  gender: PropTypes.string,
+  powerOfAttorney: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
