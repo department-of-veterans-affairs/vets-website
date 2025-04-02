@@ -7,11 +7,7 @@ import {
   firstNameLastNameNoSuffixUI,
   emailSchema,
   emailToSendNotificationsUI,
-  // titleUI,
   inlineTitleUI,
-  // arrayBuilderItemFirstPageTitleUI,
-  // arrayBuilderItemSubsequentPageTitleUI,
-  // descriptionUI,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
@@ -30,7 +26,6 @@ function veteranFormatTitle(name) {
 }
 
 const claimantSubPageUI = {
-  // ...titleUI("Claimant's information"),
   ...inlineTitleUI("Claimant's information"),
   claimantFullName: firstNameLastNameNoSuffixUI(claimantFormatTitle),
   claimantSsn: ssnUI('Claimant SSN'),
@@ -46,8 +41,6 @@ const claimantSubPageSchema = {
 };
 
 const veteranSubPageUI = {
-  // ...titleUI("Veteran's information", "If the Veteran's name and postal code here don't match the uploaded PDF, it will cause processing delays"),
-  // ...arrayBuilderItemSubsequentPageTitleUI("Veteran's information"),
   ...inlineTitleUI(
     "Veteran's information",
     "If the Veteran's name and postal code here don't match the uploaded PDF, it will cause processing delays",
@@ -94,66 +87,14 @@ const veteranSubPageSchema = {
 /** @type {PageSchema} */
 export const claimantInformationPage = {
   uiSchema: {
-    // need to bold
-    // ...descriptionUI("Claimant's information"),
-    // claimantFullName: firstNameLastNameNoSuffixUI(claimantFormatTitle),
-    // claimantSsn: ssnUI("Claimant SSN"),
-    // claimantDateOfBirth: dateOfBirthUI({
-    //   title: "Claimant Date of Birth"
-    // }),
-    // ...claimantSubPageUI,
     ...claimantSubPageUI,
-    // -----
     ...veteranSubPageUI,
-    // ...descriptionUI( "Veteran's information"),
-    // // "If the Veteran's name and postal code here don't match the uploaded PDF, it will cause processing delays"
-    // veteranFullName: firstNameLastNameNoSuffixUI(veteranFormatTitle),
-    // veteranSsn: ssnUI("Veteran SSN"),
-    // veteranDateOfBirth: dateOfBirthUI({
-    //   title: "Veteran Date of Birth"
-    // }),
-    // address: addressUI({
-    //   labels: {
-    //     postalCode: 'Postal code',
-    //   },
-    //   omit: [
-    //     'country',
-    //     'city',
-    //     'isMilitary',
-    //     'state',
-    //     'street',
-    //     'street2',
-    //     'street3',
-    //   ],
-    //   required: true,
-    // }),
-    // ------
-    // ...titleUI("Representative contact Information"),
-    // "We'll send any important information to this address."
     email: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      // claimantFullName: firstNameLastNameNoSuffixSchema,
-      // claimantSsn: ssnSchema,
-      // claimantDateOfBirth: dateOfBirthSchema,
-      // ...claimantSubPageSchema,
       ...claimantSubPageSchema,
-      // address: addressSchema({
-      //   omit: [
-      //     'country',
-      //     'city',
-      //     'isMilitary',
-      //     'state',
-      //     'street',
-      //     'street2',
-      //     'street3',
-      //   ],
-      // }),
-      // veteranFullName: firstNameLastNameNoSuffixSchema,
-      // veteranSsn: ssnSchema,
-      // veteranDateOfBirth: dateOfBirthSchema,
       ...veteranSubPageSchema,
       email: emailSchema,
     },
@@ -168,8 +109,6 @@ export const claimantInformationPage = {
     ],
   },
 };
-
-// arrayBuilderItemFirstPageTitleUI
 
 /** @type {CustomPageType} */
 export function ClaimantInformationPage(props) {
