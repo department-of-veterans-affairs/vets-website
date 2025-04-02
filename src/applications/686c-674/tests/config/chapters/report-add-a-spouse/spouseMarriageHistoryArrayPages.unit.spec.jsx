@@ -264,35 +264,6 @@ describe('spouseMarriageHistoryOptions', () => {
       ).to.equal(' ');
     });
   });
-
-  // describe('text.cardDescription', () => {
-  //   it('should return formatted start and end dates', () => {
-  //     const item = {
-  //       startDate: '1991-02-19',
-  //       endDate: '2000-02-19',
-  //     };
-  //     expect(spouseMarriageHistoryOptions.text.cardDescription(item)).to.equal(
-  //       '02/19/1991 - 02/19/2000',
-  //     );
-  //   });
-
-  //   it('should return "Unknown" if start or end date is missing', () => {
-  //     const missingStartDate = { endDate: '2000-02-19' };
-  //     expect(
-  //       spouseMarriageHistoryOptions.text.cardDescription(missingStartDate),
-  //     ).to.equal('Unknown - 02/19/2000');
-
-  //     const missingEndDate = { startDate: '1991-02-19' };
-  //     expect(
-  //       spouseMarriageHistoryOptions.text.cardDescription(missingEndDate),
-  //     ).to.equal('02/19/1991 - Unknown');
-
-  //     const missingBoth = {};
-  //     expect(
-  //       spouseMarriageHistoryOptions.text.cardDescription(missingBoth),
-  //     ).to.equal('Unknown - Unknown');
-  //   });
-  // });
 });
 
 // Array pages

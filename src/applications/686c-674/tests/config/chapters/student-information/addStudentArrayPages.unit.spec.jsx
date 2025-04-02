@@ -142,11 +142,6 @@ describe('addStudentsOptions', () => {
         'Review your students',
       );
     });
-
-    // it('should return correct item name', () => {
-    //   const item = { fullName: { first: 'Jane', last: 'Doe' } };
-    //   expect(addStudentsOptions.text.getItemName(item)).to.equal('Jane Doe');
-    // });
   });
   describe('getItemName + cardDescription', () => {
     it('should return a full name when both first and last names are provided', () => {
