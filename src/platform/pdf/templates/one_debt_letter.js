@@ -1,3 +1,4 @@
+// import { format, isValid } from 'date-fns';
 import {
   createAccessibleDoc,
   registerVaGovFonts,
@@ -129,6 +130,9 @@ const generate = async (data = {}, config = defaultConfig) => {
   const col2Width = 100;
   const col3Width = 100;
   const tableWidth = col1Width + col2Width + col3Width;
+  // TODO
+  // add indent values so we can drop \u00A0
+
   let currentY = tableTop;
 
   const tableStruct = doc.struct('Table');
@@ -201,7 +205,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     // Copay Station Row
     const stationRow = doc.struct('TR');
     tableStruct.add(stationRow);
-    const stationDesc = `${index + 1}.   ${copay?.station?.facilitYDesc || ''}`;
+    const stationDesc = `${index + 1}.   ${copay?.station?.facilityName || ''}`;
     stationRow.add(
       doc.struct('TD', () => {
         doc.text(stationDesc, tableLeft + 5, currentY, { width: col1Width });
@@ -216,15 +220,83 @@ const generate = async (data = {}, config = defaultConfig) => {
     });
     currentY += stationHeight + 5;
 
+    // statement date disclaimer bit -- this is likely different for each copay, so
+    //    we can't have it above the table like the example
+
+    // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
+    // const parsedStatementDate = new Date(copay.pSStatementDateOutput);
+    // const statementDate = isValid(parsedStatementDate)
+    //   ? format(parsedStatementDate, 'MMMM d')
+    //   : '';
+
+    // const statementInfoLine = doc.struct('TR');
+    // tableStruct.add(statementInfoLine);
+    // const statementInfoDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Statement reflects payments received by ${statementDate}`;
+    // statementInfoLine.add(
+    //   doc.struct('TD', () => {
+    //     doc.text(statementInfoDesc, tableLeft + 5, currentY, {
+    //       width: col1Width,
+    //     });
+    //   }),
+    // );
+    // statementInfoLine.add(doc.struct('TD'));
+    // statementInfoLine.add(doc.struct('TD'));
+    // const statementInfoHeight = doc.heightOfString(statementInfoDesc, {
+    //   width: col1Width,
+    //   font: config.text.font,
+    //   size: 8,
+    // });
+    // currentY += statementInfoHeight + 5;
+
     // Copay Data Rows
     doc.font(config.text.font).fontSize(8);
     const copayDetails = copay?.details || [];
+
+    // previous balance to help the math make sense
+    const prevBalanceRow = doc.struct('TR');
+    tableStruct.add(prevBalanceRow);
+    const previousBalanceStr = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Previous Balance`;
+    prevBalanceRow.add(
+      doc.struct('TD', () => {
+        doc.text(previousBalanceStr, tableLeft + 5, currentY, {
+          width: col1Width,
+        });
+      }),
+    );
+    prevBalanceRow.add(
+      doc.struct('TD', () => {
+        doc.text(
+          `$${formatCurrency(copay.pHPrevBal)}`,
+          tableLeft + col1Width,
+          currentY,
+          { align: 'right', width: col2Width - 10 },
+        );
+      }),
+    );
+    prevBalanceRow.add(
+      doc.struct('TD', () => {
+        doc.text('', tableLeft + col1Width + col2Width + 35, currentY);
+      }),
+    );
+    const prevBalanceRowHeight = doc.heightOfString(previousBalanceStr, {
+      width: col1Width,
+      font: config.text.font,
+      size: 8,
+    });
+    currentY += prevBalanceRowHeight + 5;
+
+    // TODO ... ?
+    // Do we want to add payments received? We include that on the existing HTML statement page...
+    //  it could also help with the math actually making sense
+
+    // Adding copay detail charges
     copayDetails.forEach(detail => {
       const dataRow = doc.struct('TR');
       tableStruct.add(dataRow);
-      const description = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0${
-        detail.pDTransDescOutput
-      }`;
+      const description = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0${detail.pDTransDescOutput.replace(
+        /&nbsp;/g,
+        '',
+      )}`;
       dataRow.add(
         doc.struct('TD', () => {
           doc.text(description, tableLeft + 5, currentY, { width: col1Width });
@@ -233,7 +305,14 @@ const generate = async (data = {}, config = defaultConfig) => {
       dataRow.add(
         doc.struct('TD', () => {
           doc.text(
-            `$${formatCurrency(parseFloat(detail.pDTransAmt || 0))}`,
+            `$${formatCurrency(
+              parseFloat(
+                detail.pDTransAmtOutput
+                  .replace('&nbsp', '')
+                  .replace('-', '')
+                  .replace(/[^\d.-]/g, '') || 0,
+              ),
+            )}`,
             tableLeft + col1Width,
             currentY,
             { align: 'right', width: col2Width - 10 },
@@ -290,6 +369,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   currentY += totalHeight + 5;
 
   // Copay Payment Instructions Row
+  // TODO ... ? Do we want to add Account number? Pretty sure it's necessary to make any of the following payments
+  //  (and it's included on the existing HTML statement page)
   const paymentRow = doc.struct('TR');
   tableStruct.add(paymentRow);
   paymentRow.add(
