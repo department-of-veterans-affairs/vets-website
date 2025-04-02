@@ -7,7 +7,6 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
-  fetchPowerOfAttorney as fetchPowerOfAttorneyAction,
 } from '@@profile/actions';
 
 import {
@@ -52,6 +51,7 @@ import { PROFILE_PATHS } from '../constants';
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
+import { fetchPowerOfAttorney as fetchPowerOfAttorneyAction } from '../actions/powerOfAttorney';
 
 class Profile extends Component {
   componentDidMount() {
