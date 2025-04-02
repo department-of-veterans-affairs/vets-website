@@ -71,10 +71,10 @@ describe('Student Ratio Calculation page', () => {
     waitFor(() => {
       expect($$('va-memorable-date[error]', container).length).to.equal(1);
       expect(date.error).to.contain(
-        'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+        'Please enter a date within 30 calendar days of the term start date',
       );
       expect(errors.messages).to.contain(
-        'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+        'Please enter a date within 30 calendar days of the term start date',
       );
     });
   });

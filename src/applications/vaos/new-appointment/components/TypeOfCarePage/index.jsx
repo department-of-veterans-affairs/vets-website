@@ -20,6 +20,7 @@ import { selectTypeOfCarePage } from '../../redux/selectors';
 import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
 } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
@@ -38,6 +39,9 @@ export default function TypeOfCarePage() {
   );
   const useFeSourceOfTruthCC = useSelector(state =>
     selectFeatureFeSourceOfTruthCC(state),
+  );
+  const useFeSourceOfTruthVA = useSelector(state =>
+    selectFeatureFeSourceOfTruthVA(state),
   );
 
   const dispatch = useDispatch();
@@ -153,6 +157,7 @@ export default function TypeOfCarePage() {
               getLongTermAppointmentHistoryV2(
                 useFeSourceOfTruth,
                 useFeSourceOfTruthCC,
+                useFeSourceOfTruthVA,
               );
             }
 

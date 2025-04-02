@@ -11,10 +11,10 @@ import {
   createNonSelectedRatedDisabilities,
 } from '../shared/utils';
 
-const createRatedDisabilitiesSchema = fullData =>
+const createRatedDisabilitySchema = fullData =>
   createNonSelectedRatedDisabilities(fullData) || {};
 
-const createRatedDisabilitiesDescriptions = fullData => {
+const createRatedDisabilityDescriptions = fullData => {
   return fullData.ratedDisabilities.reduce((acc, disability) => {
     let text = `Current rating: ${disability.ratingPercentage}%`;
 
@@ -29,7 +29,7 @@ const createRatedDisabilitiesDescriptions = fullData => {
 };
 
 /** @returns {PageSchema} */
-const conditionPage = {
+const ratedDisabilityPage = {
   uiSchema: {
     ...titleUI(
       () =>
@@ -44,25 +44,13 @@ const conditionPage = {
     ratedDisability: radioUI({
       title: 'Select which existing disability has worsened.',
       hint: 'Select one, you will have the opportunity to add more later.',
-      updateUiSchema: (_formData, fullData) => {
-        return {
-          'ui:options': {
-            descriptions: createRatedDisabilitiesDescriptions(fullData),
-          },
-        };
-      },
-      updateSchema: (
-        _formData,
-        _schema,
-        _uiSchema,
-        _index,
-        _path,
-        fullData,
-      ) => {
-        return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData)),
-        );
-      },
+      updateUiSchema: (_formData, fullData) => ({
+        'ui:options': {
+          descriptions: createRatedDisabilityDescriptions(fullData),
+        },
+      }),
+      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
+        radioSchema(Object.keys(createRatedDisabilitySchema(fullData))),
     }),
   },
   schema: {
@@ -78,4 +66,4 @@ const conditionPage = {
   },
 };
 
-export default conditionPage;
+export default ratedDisabilityPage;
