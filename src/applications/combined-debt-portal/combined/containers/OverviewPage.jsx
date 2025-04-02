@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -8,6 +9,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import {
+  selectProfile,
+  selectVAPMailingAddress,
+} from '~/platform/user/selectors';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -29,6 +34,16 @@ const OverviewPage = () => {
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
+
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+  } = useSelector(selectVAPMailingAddress);
+  const { userFullName = {} } = useSelector(selectProfile);
 
   // Get errors
   const billError = mcp.error;
@@ -61,25 +76,37 @@ const OverviewPage = () => {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
-  const getCurrentDate = () => {
-    const today = new Date();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so +1
-    const day = String(today.getDate()).padStart(2, '0');
-    const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+  const { first, middle, last, suffix } = userFullName;
+  const veteranFullName = `${first || ''} ${middle || ''} ${last || ''}${
+    suffix ? `, ${suffix}` : ''
+  }`;
+
+  // So for the FSR we pull this per debt, iirc it's consistent across the veteran profile but
+  //  just want to double check before we pull the trigger on scooping it from any random debt
+  const fileNumber = '796123018';
+
+  const veteranContactInformation = {
+    veteranFullName,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    fileNumber,
   };
 
   // Merge into namespaced pdfData
   const pdfData = {
-    date: getCurrentDate(),
+    date: format(new Date(), 'MM/dd/yyyy'),
     copays: bills,
     debts,
-    vetData: 'vetdata here',
+    veteranContactInformation,
   };
 
   // TODO
   // xx Get redux data in place of mock data
-  // Get vet info dynamic
+  // xx Get vet info dynamic
   // Get legalese data in
   // xx Handle empty debts/copays
   //     leaving the section & showing zeros for now
@@ -87,12 +114,10 @@ const OverviewPage = () => {
 
   const handleGeneratePdf = async () => {
     try {
-      // const result =
       await generatePdf('oneDebtLetter', 'one_debt_letter.pdf', pdfData);
-      alert('PDF generated successfully!');
     } catch (error) {
+      // throw some kind of error
       alert(`PDF failed miserably ${error}`);
-      // console.error('Error generating PDF:', error);
     }
   };
 

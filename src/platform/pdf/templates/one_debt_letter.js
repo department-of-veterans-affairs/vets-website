@@ -21,7 +21,7 @@ const formatCurrency = amount => {
 };
 
 const generate = async (data = {}, config = defaultConfig) => {
-  const { debts, copays } = data;
+  const { date, debts, copays, veteranContactInformation } = data;
 
   const doc = createAccessibleDoc(
     {
@@ -84,14 +84,26 @@ const generate = async (data = {}, config = defaultConfig) => {
     ),
   );
 
-  // Vet info
+  // Veteran Contact Information
   const addressY = 100;
+  const {
+    veteranFullName,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    fileNumber,
+  } = veteranContactInformation;
   doc.font(config.text.font).fontSize(config.text.size);
   wrapper.add(
     doc.struct('P', () => {
-      doc.text('Travis Jones', config.margins.left, addressY);
-      doc.text('123 MAIN', config.margins.left);
-      doc.text('ST LOUIS MO 63049', config.margins.left);
+      doc.text(veteranFullName, config.margins.left, addressY);
+      doc.text(addressLine1, config.margins.left);
+      if (addressLine2) doc.text(addressLine2, config.margins.left);
+      if (addressLine3) doc.text(addressLine3, config.margins.left);
+      doc.text(`${city}, ${stateCode} ${zipCode}`, config.margins.left);
     }),
   );
 
@@ -100,8 +112,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   doc.font(config.text.font).fontSize(config.text.size);
   wrapper.add(
     doc.struct('P', () => {
-      doc.text(data.date, rightSideX, addressY, { align: 'right' });
-      doc.text('File Number: 796123018', rightSideX, addressY + 18, {
+      doc.text(date, rightSideX, addressY, { align: 'right' });
+      doc.text(`File Number: ${fileNumber}`, rightSideX, addressY + 18, {
         align: 'right',
       });
       doc.text('Questions? https://ask.va.gov', rightSideX, addressY + 36, {
