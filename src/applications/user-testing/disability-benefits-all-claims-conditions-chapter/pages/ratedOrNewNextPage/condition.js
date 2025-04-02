@@ -1,4 +1,3 @@
-import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   radioSchema,
   radioUI,
@@ -6,26 +5,12 @@ import {
   withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { NEW_CONDITION_OPTION } from '../../constants';
 import {
   arrayBuilderOptions,
   createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
 } from '../shared/utils';
-
-const createNewConditionOption = () => {
-  const search = getArrayUrlSearchParams();
-  const isEdit = search.get('edit');
-
-  if (isEdit) {
-    return {
-      'Edit new condition': 'Edit new condition',
-    };
-  }
-
-  return {
-    'Add a new condition': 'Add a new condition',
-  };
-};
 
 const createRatedDisabilitiesSchema = fullData => {
   const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
@@ -35,7 +20,7 @@ const createRatedDisabilitiesSchema = fullData => {
   return (
     {
       ...nonSelectedRatedDisabilities,
-      ...createNewConditionOption(),
+      [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
     } || {}
   );
 };
@@ -72,25 +57,13 @@ const conditionPage = {
       title:
         'Select a rated disability that worsened or a new condition to claim',
       hint: 'Select one, you will have the opportunity to add more later.',
-      updateUiSchema: (_formData, fullData) => {
-        return {
-          'ui:options': {
-            descriptions: createRatedDisabilitiesDescriptions(fullData),
-          },
-        };
-      },
-      updateSchema: (
-        _formData,
-        _schema,
-        _uiSchema,
-        _index,
-        _path,
-        fullData,
-      ) => {
-        return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData)),
-        );
-      },
+      updateUiSchema: (_formData, fullData) => ({
+        'ui:options': {
+          descriptions: createRatedDisabilitiesDescriptions(fullData),
+        },
+      }),
+      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
+        radioSchema(Object.keys(createRatedDisabilitiesSchema(fullData))),
     }),
   },
   schema: {
