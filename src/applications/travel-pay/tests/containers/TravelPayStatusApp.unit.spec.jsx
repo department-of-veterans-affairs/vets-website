@@ -656,4 +656,28 @@ describe('TravelPayStatusApp', () => {
     expect(screen.getByText('Travel reimbursement claims')).to.exist;
     expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
   });
+
+  it('renders SMOC entry point for get claims error with flag on', async () => {
+    global.fetch.restore();
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Service unavilable', status: 500 }],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasSmocFeatureFlag: true,
+        hasFeatureFlag: true,
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('Travel reimbursement claims')).to.exist;
+    expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
+  });
 });
