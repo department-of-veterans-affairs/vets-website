@@ -16,6 +16,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -52,7 +53,7 @@ export const certifierReceivedPacketSchema = {
       } CHAMPVA benefit status`;
     }),
 
-    receivedPacket: {
+    certifierReceivedPacket: {
       ...yesNoUI({
         type: 'radio',
         updateUiSchema: formData => {
@@ -69,12 +70,17 @@ export const certifierReceivedPacketSchema = {
   },
   schema: {
     type: 'object',
-    required: ['receivedPacket'],
+    required: ['certifierReceivedPacket'],
     properties: {
       titleSchema,
-      receivedPacket: yesNoSchema,
+      certifierReceivedPacket: yesNoSchema,
     },
   },
+};
+
+export const certifierNotEnrolledChampvaSchema = {
+  uiSchema: {},
+  schema: blankSchema,
 };
 
 export const certifierNameSchema = {

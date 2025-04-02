@@ -12,11 +12,13 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import {
   certifierRoleSchema,
   certifierReceivedPacketSchema,
+  certifierNotEnrolledChampvaSchema,
   certifierNameSchema,
   certifierAddressSchema,
   certifierContactSchema,
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
+import { NotEnrolledChampvaPage } from '../chapters/NotEnrolledChampvaPage';
 import {
   insuranceStatusSchema,
   insurancePages,
@@ -122,6 +124,14 @@ const formConfig = {
           path: 'enrolled-champva',
           title: 'Your CHAMPVA benefit status',
           ...certifierReceivedPacketSchema,
+        },
+        page1a2: {
+          path: 'not-enrolled-champva',
+          title: 'Wait until you receive CHAMPVA packet',
+          depends: formData => !get('certifierReceivedPacket', formData),
+          CustomPage: NotEnrolledChampvaPage,
+          CustomPageReview: null,
+          ...certifierNotEnrolledChampvaSchema,
         },
         page1a: {
           path: 'signer-info',
