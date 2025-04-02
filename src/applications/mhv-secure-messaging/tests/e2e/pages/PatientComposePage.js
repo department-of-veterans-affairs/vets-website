@@ -68,6 +68,12 @@ class PatientComposePage {
       .select(index, { force: true });
   };
 
+  selectComboBoxRecipient = text => {
+    cy.get(`#options`)
+      .clear()
+      .type(text);
+  };
+
   selectCategory = (category = 'OTHER') => {
     cy.get(`#compose-message-categories${category}input`).click({
       force: true,
@@ -447,7 +453,7 @@ class PatientComposePage {
       .should(`have.attr`, `aria-expanded`, value);
   };
 
-  verifyRecipientsDropdownLinks = () => {
+  verifyAdditionalInfoDropdownLinks = () => {
     // verify `find-locations` link
     cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="preferences"]`)
@@ -523,6 +529,20 @@ class PatientComposePage {
     cy.contains(recipientName)
       .parent()
       .should('have.attr', 'label', facilityName);
+  };
+
+  verifyRecipientsDropdownList = text => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO)
+      .find('li')
+      .each(el => {
+        cy.wrap(el).should(`contain.text`, text);
+      });
+  };
+
+  verifyRecipientSelected = value => {
+    cy.get(Locators.COMBO_BOX)
+      .invoke('attr', 'data-default-value')
+      .should('eq', value);
   };
 }
 
