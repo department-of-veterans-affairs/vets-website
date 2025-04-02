@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
-import ErrorMessage from '../../../components/ErrorMessage';
+import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
@@ -24,6 +25,7 @@ import {
   hideEligibilityModal,
 } from '../../redux/actions';
 import { getPageTitle } from '../../newAppointmentFlow';
+import { selectFeatureRecentLocationsFilter } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -38,14 +40,11 @@ const initialSchema = {
 
 const pageKey = 'vaFacilityV2';
 
-const sortOptions = [
-  { value: 'distanceFromResidentialAddress', label: 'By your home address' },
-  { value: 'distanceFromCurrentLocation', label: 'By your current location' },
-  { value: 'alphabetical', label: 'Alphabetically' },
-];
-
 export default function VAFacilityPageV2() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const featureRecentLocationsFilter = useSelector(state =>
+    selectFeatureRecentLocationsFilter(state),
+  );
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -68,7 +67,33 @@ export default function VAFacilityPageV2() {
     singleValidVALocation,
     sortMethod,
     typeOfCare,
+    fetchRecentLocationStatus,
+    recentLocations,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
+
+  const sortOptions = useMemo(
+    () => {
+      const options = [
+        {
+          value: 'distanceFromResidentialAddress',
+          label: 'By your home address',
+        },
+        {
+          value: 'distanceFromCurrentLocation',
+          label: 'By your current location',
+        },
+        { value: 'alphabetical', label: 'Alphabetically' },
+      ];
+      if (featureRecentLocationsFilter && recentLocations?.length) {
+        options.push({
+          value: 'recentLocations',
+          label: 'By recent locations',
+        });
+      }
+      return options;
+    },
+    [featureRecentLocationsFilter, recentLocations],
+  );
 
   const uiSchema = {
     vaFacility: {
@@ -83,7 +108,9 @@ export default function VAFacilityPageV2() {
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
-    childFacilitiesStatus === FETCH_STATUS.notStarted;
+    childFacilitiesStatus === FETCH_STATUS.notStarted ||
+    (featureRecentLocationsFilter &&
+      fetchRecentLocationStatus === FETCH_STATUS.loading);
 
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
@@ -125,13 +152,28 @@ export default function VAFacilityPageV2() {
     [requestingLocation, requestLocationStatus, sortFocusEl],
   );
 
-  const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
+  const pageHeader = (
+    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+  );
 
   if (hasDataFetchingError) {
     return (
       <div>
         {pageHeader}
-        <ErrorMessage level="2" />
+        <InfoAlert
+          status="error"
+          level={2}
+          headline="You can't schedule an appointment online right now"
+        >
+          <p>
+            We're sorry. There's a problem with our system. Try again later.
+          </p>
+          <p>
+            If you need to schedule now, call your VA facility.
+            <br />
+            <a href="/find-locations">Find your VA health facility</a>
+          </p>
+        </InfoAlert>
       </div>
     );
   }
@@ -169,6 +211,7 @@ export default function VAFacilityPageV2() {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>
@@ -193,6 +236,7 @@ export default function VAFacilityPageV2() {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>
@@ -253,7 +297,13 @@ export default function VAFacilityPageV2() {
               hasUserAddress,
               sortOptions,
               updateFacilitySortMethod: value =>
-                dispatch(updateFacilitySortMethod(value, uiSchema)),
+                dispatch(updateFacilitySortMethod(value, uiSchema)).then(
+                  recordEvent({
+                    event: `${GA_PREFIX}-updated-locations-sort--${
+                      sortOptions.find(option => option.value === value).label
+                    }`,
+                  }),
+                ),
             }}
             data={data}
           >

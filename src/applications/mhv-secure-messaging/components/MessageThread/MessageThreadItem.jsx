@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -23,20 +23,18 @@ const MessageThreadItem = props => {
     messageId,
     preloaded,
     readReceipt,
-    recipientName,
     senderName,
     sentDate,
-    triageGroupName,
   } = message;
   const isDraft = folderId === DefaultFolders.DRAFTS.id;
+  const isSent = folderId === DefaultFolders.SENT.id;
 
   const isSentOrReadOrDraft =
-    folderId === DefaultFolders.SENT.id ||
-    isDraft ||
-    readReceipt === MessageReadStatus.READ;
+    isSent || isDraft || readReceipt === MessageReadStatus.READ;
 
-  const fromMe = recipientName === triageGroupName;
-  const from = fromMe ? 'Me' : `${senderName}`;
+  const from = isSent ? 'Me' : `${senderName}`;
+
+  const [isItemExpanded, setIsItemExpanded] = useState(false);
 
   const handleExpand = () => {
     // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
@@ -70,14 +68,14 @@ const MessageThreadItem = props => {
   const accordionAriaLabel = useMemo(
     () => {
       return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
-        fromMe ? 'sent' : 'received'
+        isSent ? 'sent' : 'received'
       } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         hasAttachments || attachment ? 'with attachment' : ''
       } from ${senderName}.`;
     },
     [
       attachment,
-      fromMe,
+      isSent,
       hasAttachments,
       isSentOrReadOrDraft,
       senderName,
@@ -103,6 +101,14 @@ const MessageThreadItem = props => {
           ? `expand-message-button-for-print-${messageId}`
           : `expand-message-button-${messageId}`
       }
+      onClick={e => {
+        setIsItemExpanded(e.target?.getAttribute('open'));
+      }}
+      data-dd-action-name={`${
+        isItemExpanded
+          ? 'Accordion Expanded Message'
+          : 'Accordion Collapsed Message'
+      }`}
     >
       <h3 slot="headline">
         {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
@@ -132,7 +138,7 @@ const MessageThreadItem = props => {
       <div>
         <MessageThreadMeta
           message={message}
-          fromMe={fromMe}
+          isSent={isSent}
           forPrint={forPrint}
         />
         <HorizontalRule />

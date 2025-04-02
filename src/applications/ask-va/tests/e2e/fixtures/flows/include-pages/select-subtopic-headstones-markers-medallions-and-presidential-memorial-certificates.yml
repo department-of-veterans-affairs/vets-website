@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Headstones, markers, medallions, and Presidential Memorial Certificates
+  - action: click
+    target: call-to-action

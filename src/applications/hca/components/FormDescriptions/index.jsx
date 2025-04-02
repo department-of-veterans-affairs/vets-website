@@ -67,38 +67,6 @@ export const DemographicInfoDescription = (
   </legend>
 );
 
-export const SIGIGenderDescription = (
-  <>
-    <va-additional-info
-      trigger="What to know before you decide to share your gender identity"
-      class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-      uswds
-    >
-      <div>
-        <p className="vads-u-margin-top--0">
-          Sharing your gender identity on this application is optional. This
-          information can help your health care team know how you wish to be
-          addressed as a person. It can also help your team better assess your
-          health needs and risks. We also use this information to help make sure
-          we’re serving the needs of all Veterans.
-        </p>
-
-        <p>
-          But you should know that any information you share here goes into your
-          VA-wide records. VA staff outside of the health care system may be
-          able to read this information.
-        </p>
-
-        <p className="vads-u-margin-bottom--0">
-          We follow strict security and privacy practices to keep your personal
-          information secure. But if you want to share your gender identity in
-          your health records only, talk with your health care team.
-        </p>
-      </div>
-    </va-additional-info>
-  </>
-);
-
 /** CHAPTER 2: VA Benefits */
 export const CompensationInfoDescription = (
   <p className="vads-u-margin-bottom-4">
@@ -189,18 +157,6 @@ export const PensionTypeDescription = (
 export const ServiceDateRangeDescription = (
   <div className="vads-u-color--gray-medium">
     If you don’t know the exact date, enter your best guess
-  </div>
-);
-
-export const OtherToxicExposureDescription = (
-  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
-    <a
-      target="_blank"
-      rel="noreferrer"
-      href="https://www.publichealth.va.gov/exposures/index.asp"
-    >
-      Learn more about exposures on our Public Health website (opens in new tab)
-    </a>
   </div>
 );
 
@@ -500,37 +456,22 @@ export const SpouseFinancialSupportDescription = (
 );
 
 /** CHAPTER 5: Insurance Information */
-export const EssentialCoverageDescription = (
-  <va-additional-info
-    trigger="Learn more about minimum essential coverage."
-    class="vads-u-margin-y--2 vads-u-margin-left--4"
-    uswds
-  >
-    To avoid the penalty for not having insurance, you must be enrolled in a
-    health plan that qualifies as minimum essential coverage. Being signed up
-    for VA health care meets the minimum essential coverage requirement under
-    the Affordable Care Act.
-  </va-additional-info>
-);
-
 export const FacilityLocatorDescription = (
   <>
     <p>
-      OR{' '}
       <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
-        Find locations with the VA Facility Locator
+        Find locations with the VA Facility Locator (opens in new tab)
       </a>
     </p>
-
     <p>
       If you’re looking for medical care outside the continental U.S. or Guam,
       you’ll need to sign up for our Foreign Medical Program.{' '}
       <a
-        href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+        href="/health-care/foreign-medical-program/"
         rel="noopener noreferrer"
         target="_blank"
       >
-        Learn more about the Foreign Medical Program
+        Learn more about the Foreign Medical Program (opens in new tab)
       </a>
       .
     </p>
@@ -541,7 +482,7 @@ export const FacilityLocatorDescription = (
         rel="noopener noreferrer"
         target="_blank"
       >
-        Veterans Living Abroad
+        Veterans Living Abroad (opens in new tab)
       </a>
       .
     </p>

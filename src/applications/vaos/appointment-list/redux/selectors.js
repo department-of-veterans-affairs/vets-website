@@ -7,7 +7,6 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
   COMP_AND_PEN,
 } from '../../utils/constants';
 import {
@@ -19,7 +18,6 @@ import {
   sortUpcoming,
   groupAppointmentsByMonth,
   isUpcomingAppointment,
-  sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
@@ -30,6 +28,8 @@ import {
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -100,39 +100,33 @@ export function selectFutureStatus(state) {
 export const selectFutureAppointments = createSelector(
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (pending, confirmed) => {
+  state => selectFeatureFeSourceOfTruth(state),
+  (pending, confirmed, useFeSourceOfTruth) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(isUpcomingAppointmentOrRequest)
+      .filter(item => isUpcomingAppointmentOrRequest(item, useFeSourceOfTruth))
       .sort(sortUpcoming);
   },
 );
 
 export const selectUpcomingAppointments = createSelector(
   state => state.appointments.confirmed,
-  confirmed => {
+  state => selectFeatureFeSourceOfTruth(state),
+  (confirmed, useFeSourceOfTruth) => {
     if (!confirmed) {
       return null;
     }
 
     const sortedAppointments = confirmed
-      .filter(isUpcomingAppointment)
+      .filter(item => isUpcomingAppointment(item, useFeSourceOfTruth))
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
   },
-);
-
-export const selectPendingAppointments = createSelector(
-  state => state.appointments.pending,
-  pending =>
-    pending
-      ?.filter(isPendingOrCancelledRequest)
-      .sort(sortByCreatedDateDescending) || null,
 );
 
 export const selectPastAppointments = createSelector(
@@ -155,7 +149,12 @@ export const selectPastAppointmentsV2 = state => {
       }
 
       const sortedAppointments = past
-        .filter(isValidPastAppointment)
+        .filter(item =>
+          isValidPastAppointment(
+            item,
+            selectFeatureDisplayPastCancelledAppointments(state),
+          ),
+        )
         .sort(sortByDateDescending);
 
       return groupAppointmentsByMonth(sortedAppointments);
@@ -201,54 +200,9 @@ export function selectCanUseVaccineFlow(state) {
   );
 }
 
-export function selectAppointmentDetails(appointment) {
-  if (!appointment) return '';
-
-  if (appointment.version === 2) {
-    return appointment.comment ? appointment.comment : 'none';
-  }
-
-  const { comment } = appointment;
-  if (appointment.vaos.isCommunityCare) {
-    return comment || 'none';
-  }
-  return appointment.reasonForAppointment && comment
-    ? `${appointment.reasonForAppointment}: ${comment}`
-    : comment ||
-        (appointment.reasonForAppointment
-          ? appointment.reasonForAppointment
-          : null);
-}
-
 export function selectProviderAddress(appointment) {
   const practitioners = appointment?.practitioners || [];
   return practitioners.length > 0 ? practitioners[0].address : null;
-}
-
-export function selectComment(appointment) {
-  if (!appointment) return '';
-
-  if (appointment.version === 2) {
-    return appointment.comment ? appointment.comment : 'none';
-  }
-
-  const { comment } = appointment;
-  if (appointment.vaos.isCommunityCare) {
-    return comment || 'none';
-  }
-  return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
-    : comment || (appointment.reason ? appointment.reason : null);
-}
-
-export function getRequestedAppointmentListInfo(state) {
-  return {
-    facilityData: state.appointments.facilityData,
-    pendingStatus: state.appointments.pendingStatus,
-    pendingAppointments: selectPendingAppointments(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
 }
 
 export function getUpcomingAppointmentListInfo(state) {
@@ -335,11 +289,12 @@ export function selectBackendServiceFailuresInfo(state) {
     backendServiceFailures,
   };
 }
-
-export function selectStartDate(appointment) {
+export function selectStartDate(appointment, useFeSourceOfTruth) {
   if (
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
+    useFeSourceOfTruth
+      ? appointment.vaos.isPendingAppointment
+      : appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
+        appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
   ) {
     return moment(appointment.requestedPeriod[0].start);
   }
@@ -483,11 +438,13 @@ export function selectIsClinicVideo(appointment) {
 export function selectVideoData(appointment) {
   return appointment?.videoData || {};
 }
+
 export function selectVideoProviderName(appointment) {
   const videoData = selectVideoData(appointment);
   const [first] = videoData?.providers || [];
   return first?.display;
 }
+
 export function selectVideoProviderAddress(appointment) {
   const videoData = selectVideoData(appointment);
   return videoData?.atlasLocation?.address;
@@ -498,17 +455,11 @@ export function selectIsAtlasVideo(appointment) {
   return isAtlas;
 }
 
-export function selectIsGFEVideo(appointment) {
-  const { kind } = appointment?.videoData || {};
-  return kind === VIDEO_TYPES.gfe;
-}
-
 export function selectIsHomeVideo(appointment) {
   return (
     selectIsVideo(appointment) &&
-    (!selectIsClinicVideo(appointment) &&
-      !selectIsAtlasVideo(appointment) &&
-      !selectIsGFEVideo(appointment))
+    !selectIsClinicVideo(appointment) &&
+    !selectIsAtlasVideo(appointment)
   );
 }
 
@@ -519,7 +470,6 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
   const isVideoHome = selectIsHomeVideo(appointment);
-  const isVideoVADevice = selectIsGFEVideo(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {
     name: '',
   };
@@ -544,7 +494,7 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
       return `At ${line} ${city}, ${state}`;
     }
 
-    if (isVideoHome || isVideoVADevice) return 'Video';
+    if (isVideoHome) return 'Video';
   }
 
   if (isInPerson || isVideoClinic) {
@@ -596,21 +546,19 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
 
   return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
 }
+
 export function selectApptDateAriaText(appointment) {
   const appointmentDate = selectStartDate(appointment);
-  const isCanceled = selectIsCanceled(appointment);
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
-  return `${
-    isCanceled ? 'canceled ' : ''
-  } appointment on ${appointmentDate.format(
-    `dddd, MMMM D h:mm a, [${timezoneName}]`,
-  )}`;
+  return `${appointmentDate.format(`dddd, MMMM D h:mm a, [${timezoneName}]`)}`;
 }
+
 export function selectTypeOfCareAriaText(appointment) {
   const typeOfCareText = selectAppointmentLocality(appointment);
   const isCanceled = selectIsCanceled(appointment);
   return `${isCanceled ? 'canceled ' : ''}${typeOfCareText}`;
 }
+
 export function selectModalityAriaText(appointment) {
   const modalityText = selectModalityText(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -623,12 +571,11 @@ export function selectModalityIcon(appointment) {
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
   const isVideoHome = selectIsHomeVideo(appointment);
-  const isVideoVADevice = selectIsGFEVideo(appointment);
 
   let icon = '';
 
   if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'location_city';
-  if (isVideoHome || isVideoVADevice) icon = 'videocam';
+  if (isVideoHome) icon = 'videocam';
   if (isPhone) icon = 'phone';
 
   return icon;
@@ -642,8 +589,19 @@ export function selectAtlasConfirmationCode(appointment) {
   return appointment?.videoData?.atlasConfirmationCode;
 }
 
+export function selectAppointmentTravelClaim(appointment) {
+  return appointment?.vaos?.apiData?.travelPayClaim;
+}
+
+export function selectIsEligibleForTravelClaim(appointment) {
+  return (
+    selectIsPast(appointment) &&
+    (selectIsInPerson(appointment) || selectIsClinicVideo(appointment)) &&
+    selectAppointmentTravelClaim(appointment)
+  );
+}
+
 export function selectConfirmedAppointmentData(state, appointment) {
-  const comment = selectComment(appointment);
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
@@ -652,7 +610,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
 
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    isBadAppointmentId,
+  } = state.appointments;
   const facility =
     facilityData?.[locationId] || appointment?.vaos?.facilityData;
 
@@ -670,7 +632,6 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   const duration = appointment?.minutesDuration;
-  const bookingNotes = selectAppointmentDetails(appointment);
   const isPhone = selectIsPhone(appointment);
   const timeZoneAbbr = selectTimeZoneAbbr(appointment);
   const providerAddress = selectProviderAddress(appointment);
@@ -688,19 +649,18 @@ export function selectConfirmedAppointmentData(state, appointment) {
     appointmentDetailsStatus,
     appointmentTypePrefix,
     atlasConfirmationCode,
-    bookingNotes,
     cancelInfo: getCancelInfo(state),
     ccProvider,
     clinicName,
     clinicPhone,
     clinicPhoneExtension,
     clinicPhysicalLocation,
-    comment,
     duration,
     facility,
     facilityData,
     facilityPhone,
     isCanceledAppointment,
+    isBadAppointmentId,
     isCommunityCare,
     isAtlasVideo,
     isPastAppointment,
@@ -737,10 +697,8 @@ export function selectRequestedAppointmentData(state, appointment) {
   );
   const { facilityData } = state?.appointments || [];
 
-  const bookingNotes = selectAppointmentDetails(appointment);
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
-  const comment = selectComment(appointment);
   const email = getPatientTelecom(appointment, 'email');
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -769,13 +727,12 @@ export function selectRequestedAppointmentData(state, appointment) {
 
   return {
     appointment,
-    bookingNotes,
     cancelInfo,
     canceled,
-    comment,
     email,
     facility,
     facilityData,
+    facilityId,
     facilityPhone,
     isCC,
     isCCRequest,
@@ -804,10 +761,8 @@ export function selectRequestedAppointmentDetails(state, id) {
     APPOINTMENT_TYPES.ccRequest,
   ]);
 
-  const bookingNotes = selectAppointmentDetails(appointment);
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
-  const comment = selectComment(appointment);
   const email = getPatientTelecom(appointment, 'email');
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -837,13 +792,12 @@ export function selectRequestedAppointmentDetails(state, id) {
   return {
     appointment,
     appointmentDetailsStatus,
-    bookingNotes,
     cancelInfo,
     canceled,
-    comment,
     email,
     facility,
     facilityData,
+    facilityId,
     facilityPhone,
     isCC,
     isCCRequest,

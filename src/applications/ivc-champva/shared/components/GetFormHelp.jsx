@@ -16,7 +16,7 @@ export default function GetFormHelp() {
     <div className="row vads-u-margin-bottom--4" />
   ) : (
     <div className="row vads-u-margin-bottom--4">
-      <div className="form-panel">
+      <div className="form-panel vads-u-padding-left--1 vads-u-padding-right--2">
         <h2 className="vads-u-font-size--h3">Need help?</h2>
         <hr className="vads-u-margin-y--0 vads-u-border-bottom--2px vads-u-border-top--0px vads-u-border-color--primary" />
         <p className="help-talk">

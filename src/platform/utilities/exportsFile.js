@@ -33,7 +33,7 @@ export { titleCase } from './data/titleCase';
 
 /* date */
 export {
-  dateToMoment,
+  dateFieldToDate,
   formatDateLong,
   formatDateParsedZoneLong,
   formatDateShort,
@@ -80,6 +80,7 @@ export {
   SKIP_DUPE_QUERY,
   SKIP_DUPE,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
   eauthEnvironmentPrefixes,
 } from './sso/constants';
 export {

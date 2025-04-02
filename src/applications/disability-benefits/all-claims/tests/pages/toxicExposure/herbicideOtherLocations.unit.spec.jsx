@@ -11,6 +11,20 @@ import {
   notSureDatesDetails,
   startDateApproximate,
 } from '../../../content/toxicExposure';
+import { pageSubmitTest } from '../../unit.helpers.spec';
+
+const formData = {
+  toxicExposure: {
+    herbicide: {
+      cambodia: true,
+      koreandemilitarizedzone: false,
+      laos: true,
+    },
+    otherHerbicideLocations: {
+      description: 'Test Location 1',
+    },
+  },
+};
 
 describe('Herbicide Other Locations', () => {
   const {
@@ -19,19 +33,6 @@ describe('Herbicide Other Locations', () => {
   } = formConfig.chapters.disabilities.pages.herbicideOtherLocations;
 
   it('should render', () => {
-    const formData = {
-      toxicExposure: {
-        herbicide: {
-          cambodia: true,
-          koreandemilitarizedzone: false,
-          laos: true,
-        },
-        otherHerbicideLocations: {
-          description: 'Test Location 1',
-        },
-      },
-    };
-
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
@@ -59,6 +60,26 @@ describe('Herbicide Other Locations', () => {
     expect(addlInfo).to.have.attribute(
       'trigger',
       'What if I have more than one date range?',
+    );
+  });
+
+  it('should submit without dates', () => {
+    pageSubmitTest(
+      formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+      formData,
+      true,
+    );
+  });
+
+  it('should submit with both dates', () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.otherHerbicideLocations.startDate = '2021-12-22';
+    data.toxicExposure.otherHerbicideLocations.endDate = '2023-01-09';
+
+    pageSubmitTest(
+      formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+      data,
+      true,
     );
   });
 });

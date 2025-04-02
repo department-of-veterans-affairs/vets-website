@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -19,42 +19,27 @@ export const IntroductionPage = ({
   return (
     <article className="schemaform-intro">
       <FormTitle
-        title="Apply for VA education benefits"
+        title="Apply for education benefits as an eligible dependent"
         subTitle="Form 22-5490 (Dependent's Application for VA Education Benefits)"
       />
       <p>
-        <strong>Note:</strong> Note: This application is only for these 2
-        education benefits:
+        <strong>Note:</strong> This application is only for these 2 education
+        benefits:
       </p>
       <ul>
-        <li>Fry Scholarship (Chapter 33)</li>
         <li>
-          Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)
+          <strong>Fry Scholarship</strong> (Chapter 33)
+        </li>
+        <li>
+          <strong>Survivors’ and Dependents’ Educational Assistance</strong>{' '}
+          (DEA, Chapter 35)
         </li>
       </ul>
-
-      <IntroductionLogin route={route} />
-      {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb5490EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        isLOA3 && (
-          <SaveInProgressIntro
-            headingLevel={2}
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText="Start the Application"
-          >
-            Please complete the 22-5490 form to apply for DEPENDENTS&#39;
-            APPLICATION FOR VA EDUCATION BENEFITS .
-          </SaveInProgressIntro>
-        )}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
       <va-process-list>
-        <li>
-          <h3>Check your Eligibility</h3>
+        <va-process-list-item header="Check your eligibility">
           <p>
             Make sure you meet our eligibility requirements before you apply.
           </p>
@@ -127,9 +112,8 @@ export const IntroductionPage = ({
               <li>You meet other requirements</li>
             </ul>
           </va-additional-info>
-        </li>
-        <li>
-          <h3>Gather your information</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Gather your information">
           <h4>Here’s what you’ll need to apply:</h4>
           <div>
             <ul>
@@ -138,20 +122,13 @@ export const IntroductionPage = ({
               <li>Bank account direct deposit information</li>
             </ul>
           </div>
-        </li>
-        <li>
-          <h3>Start your application</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Start your application">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.
           </p>
           <va-additional-info trigger="What happens after I apply?">
-            <p>
-              <strong>
-                You may be eligible for Fry Scholarship benefits if you’re the
-                child or surviving spouse of:
-              </strong>
-            </p>
             <ul className="vads-u-margin-bottom--0">
               <li>
                 {' '}
@@ -170,39 +147,49 @@ export const IntroductionPage = ({
               </li>
             </ul>
           </va-additional-info>
-        </li>
+        </va-process-list-item>
       </va-process-list>
-
+      <IntroductionLogin route={route} />
+      {isLoggedIn &&
+      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
+      showMeb5490EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
+        isLOA3 && (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
+            startText="Start the Application"
+          >
+            Please complete the 22-5490 form to apply for DEPENDENTS&#39;
+            APPLICATION FOR VA EDUCATION BENEFITS .
+          </SaveInProgressIntro>
+        )}
       <p />
-      <div className="help-footer-box">
-        <h2 className="help-heading">Need help?</h2>
-        <div className="help-talk">
-          <p className="vads-u-margin-top--0">
-            If you need help with your application or have questions about
-            enrollment or eligibility, submit a request with{' '}
-            <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-              Ask VA.
-            </a>
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            If you have technical difficulties using this online application,
-            call our MyVA411 main information line at{' '}
-            <va-telephone contact={CONTACTS.VA_411} /> (
-            <va-telephone contact={CONTACTS['711']} tty />
-            ). We’re here 24/7.
-          </p>
-        </div>
-      </div>
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.arrayOf(PropTypes.string),
+    }),
+    pageList: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+  isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  isPersonalInfoFetchFailed: PropTypes.bool,
+  showMeb5490EMaintenanceAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
-  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
   showMeb5490EMaintenanceAlert:
-    state.featureToggles.showMeb5490EMaintenanceAlert,
+    state.featureToggles?.showMeb5490EMaintenanceAlert,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

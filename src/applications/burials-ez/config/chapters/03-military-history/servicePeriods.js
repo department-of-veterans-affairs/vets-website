@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import format from 'date-fns-tz/format';
 import parseISO from 'date-fns/parseISO';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
-  VaTextInputField,
-  VaSelectField,
-} from 'platform/forms-system/src/js/web-component-fields';
+  currentOrPastDateUI,
+  textUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
 
 import {
   serviceNumberSchema,
@@ -82,7 +82,6 @@ export default {
       'ui:options': {
         itemName: 'Service period',
         viewField: ServicePeriodView,
-        uswds: true,
         classNames: 'vads-u-margin--0',
         reviewTitle: 'Service periods',
         keepInPageOnReview: true,
@@ -104,31 +103,19 @@ export default {
           'ui:webComponentField': VaSelectField,
           'ui:required': () => true,
         },
-        rank: {
-          'ui:title': 'Grade, rank or rating',
-          'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            width: 'lg',
-          },
-        },
-        placeOfEntry: {
-          'ui:title': 'Place of entry',
-          'ui:description': generateHelpText(
-            'Enter the city and state or name of the military base',
-          ),
-          'ui:webComponentField': VaTextInputField,
-        },
-        placeOfSeparation: {
-          'ui:title': 'Place of separation',
-          'ui:description': generateHelpText(
-            'Enter the city and state or name of the military base',
-          ),
-          'ui:webComponentField': VaTextInputField,
-        },
-        unit: {
-          'ui:title': 'Unit',
-          'ui:webComponentField': VaTextInputField,
-        },
+        rank: textUI({
+          title: 'Grade, rank or rating',
+          width: 'lg',
+        }),
+        placeOfEntry: textUI({
+          title: 'Place of entry',
+          hint: 'Enter the city and state or name of the military base',
+        }),
+        placeOfSeparation: textUI({
+          title: 'Place of separation',
+          hint: 'Enter the city and state or name of the military base',
+        }),
+        unit: textUI('Unit'),
       },
     },
   },

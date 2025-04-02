@@ -1,15 +1,16 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { waitFor } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';
+import * as helpers from '../../utils/helpers';
 
 const getStore = (cst5103UpdateEnabled = false) =>
   createStore(() => ({
@@ -22,22 +23,26 @@ const getStore = (cst5103UpdateEnabled = false) =>
 const props = {
   claim: {},
   clearNotification: () => {},
-  lastPage: '',
+  lastPage: '/overview',
   loading: false,
+  location: { hash: '' },
   message: {},
 };
 
 describe('<FilesPage>', () => {
   let stub;
-  before(() => {
+  let setPageFocusSpy;
+  beforeEach(() => {
     // Stubbing out AdditionalEvidencePage because we're not interested
     // in setting up all of the redux state needed to test it
     stub = sinon.stub(AdditionalEvidencePage, 'default');
     stub.returns(<div data-testid="additional-evidence-page" />);
+    setPageFocusSpy = sinon.spy(helpers, 'setPageFocus');
   });
 
-  after(() => {
+  afterEach(() => {
     stub.restore();
+    setPageFocusSpy.restore();
   });
 
   it('should render loading state', () => {
@@ -72,6 +77,78 @@ describe('<FilesPage>', () => {
 
     expect($('.claim-files', container)).to.not.exist;
     getByText('Claim status is unavailable');
+  });
+
+  describe('pageFocus', () => {
+    const claim = {
+      id: '1',
+      type: 'claim',
+      attributes: {
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [],
+        trackedItems: [],
+      },
+    };
+
+    it('should call setPageFocus when location.hash is empty', async () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} location={{ hash: '' }} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(setPageFocusSpy.calledOnce).to.be.true;
+      });
+    });
+
+    it('should not call setPageFocus when location.hash is not empty', async () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} location={{ hash: '#add-files' }} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(setPageFocusSpy.calledOnce).to.be.false;
+      });
+    });
+
+    it('should focus on the Notification Alert when one exists', async () => {
+      const message = {
+        title: 'Test',
+        body: 'Testing',
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={message}
+            location={{ hash: '' }}
+          />
+        </Provider>,
+      );
+
+      const selector = container.querySelector('va-alert');
+      expect(selector).to.exist;
+      await waitFor(() => {
+        expect(document.activeElement).to.equal(selector);
+      });
+    });
   });
 
   describe('document.title', () => {
@@ -157,92 +234,49 @@ describe('<FilesPage>', () => {
     });
   });
 
-  it('should clear alert', () => {
-    const claim = {
-      id: '1',
-      type: 'claim',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-02-08',
-          latestPhaseType: 'INITIAL_REVIEW',
-          previousPhases: {
-            phase1CompleteDate: '2023-02-08',
+  describe('alert', () => {
+    context('when component unmounts', () => {
+      it('should clear alert when component unmounts', () => {
+        const claim = {
+          id: '1',
+          type: 'claim',
+          attributes: {
+            claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
+            closeDate: null,
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            status: 'INITIAL_REVIEW',
+            supportingDocuments: [],
+            trackedItems: [],
           },
-        },
-        closeDate: null,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        status: 'INITIAL_REVIEW',
-        supportingDocuments: [],
-        trackedItems: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.subTree('ClaimDetailLayout').props.clearNotification();
-    expect(clearNotification.called).to.be.true;
-  });
-
-  it('should clear notification when leaving', () => {
-    const claim = {
-      id: '1',
-      type: 'claim',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-02-08',
-          latestPhaseType: 'INITIAL_REVIEW',
-          previousPhases: {
-            phase1CompleteDate: '2023-02-08',
-          },
-        },
-        closeDate: null,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        status: 'INITIAL_REVIEW',
-        supportingDocuments: [
-          {
-            id: '123456',
-            originalFileName: 'test.pdf',
-            documentTypeLabel: 'Buddy / Lay Statement',
-            uploadDate: '2023-03-04',
-          },
-        ],
-        trackedItems: [],
-      },
-    };
-
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.true;
+        };
+        const message = {
+          title: 'Test',
+          body: 'Test',
+        };
+        const clearNotification = sinon.spy();
+        const { unmount } = renderWithRouter(
+          <Provider store={getStore()}>
+            <FilesPage
+              {...props}
+              clearNotification={clearNotification}
+              message={message}
+              claim={claim}
+            />
+          </Provider>,
+        );
+        unmount();
+        expect(clearNotification.called).to.be.true;
+      });
+    });
   });
 
   context('when claim is open', () => {
@@ -272,6 +306,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
@@ -321,6 +356,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}
@@ -363,6 +399,7 @@ describe('<FilesPage>', () => {
         const { getByText } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
+              {...props}
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
@@ -401,6 +438,7 @@ describe('<FilesPage>', () => {
         const { queryByText } = renderWithRouter(
           <Provider store={getStore(true)}>
             <FilesPage
+              {...props}
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
@@ -440,6 +478,7 @@ describe('<FilesPage>', () => {
       const { container, getByTestId } = renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage
+            {...props}
             claim={claim}
             message={{ title: 'Test', body: 'Body' }}
             clearNotification={() => {}}

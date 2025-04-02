@@ -1,4 +1,5 @@
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import manifest from '../manifest.json';
 
@@ -49,6 +50,7 @@ import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
 import thirdPartyPreparerRole from '../pages/thirdPartyPreparerRole';
 import veteranMailingAddress from '../pages/veteranMailingAddress';
 import veteranPhoneAndEmailAddress from '../pages/veteranPhoneAndEmailAddress';
+import reviewVeteranEmailAddress from '../pages/reviewVeteranEmailAddress';
 import survivingDependentVeteranPersonalInformation from '../pages/survivingDependentVeteranPersonalInformation';
 import thirdPartySurvivingDependentVeteranPersonalInformation from '../pages/thirdPartySurvivingDependentVeteranPersonalInformation';
 import survivingDependentRelationshipToVeteran from '../pages/survivingDependentRelationshipToVeteran';
@@ -80,6 +82,7 @@ const formConfig = {
   formId: '21-0966',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   saveInProgress: {
     // messages: {
@@ -346,8 +349,18 @@ const formConfig = {
           uiSchema: veteranPhoneAndEmailAddress.uiSchema,
           schema: veteranPhoneAndEmailAddress.schema,
         },
+        reviewVeteranEmailAddress: {
+          path: 'review-veteran-email-address',
+          depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
+          title: 'Email address',
+          uiSchema: reviewVeteranEmailAddress.uiSchema,
+          schema: reviewVeteranEmailAddress.schema,
+        },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

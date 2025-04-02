@@ -55,11 +55,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "deathDate": "2023-01-19",
   "burialDate": "2023-02-01",
@@ -87,7 +87,7 @@
   },
   "claimantSocialSecurityNumber": "333445555",
   "claimantDateOfBirth": "1991-07-21",
-  "formV2": true,
+  "claimantEmail": "user@example.com",
   "relationshipToVeteran": "otherFamily",
   "burialAllowanceRequested": {},
   "view:allowanceStatement": {

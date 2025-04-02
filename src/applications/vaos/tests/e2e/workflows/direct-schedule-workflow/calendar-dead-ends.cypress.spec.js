@@ -91,11 +91,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/Clinic 1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -141,11 +141,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/Clinic 1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -189,11 +189,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/Clinic 1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -264,11 +264,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/Clinic 1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -314,11 +314,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/Clinic 1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -362,11 +362,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/Clinic 1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()

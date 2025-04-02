@@ -5,7 +5,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import {
   authenticatedWithSSOePropType,
@@ -117,22 +116,6 @@ export const AuthContent = ({
               <p>
                 <a href="/health-care/how-to-apply/">
                   Find out how to apply for VA health care
-                </a>
-              </p>
-              <p>
-                <strong>And you must have one of these free accounts:</strong>
-              </p>
-              <ServiceProvidersList />
-              <p>
-                <strong>Note:</strong> If you sign in with a Basic account,
-                you’ll find only the results you’ve entered yourself.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn about the 2 different My HealtheVet account types
                 </a>
               </p>
             </div>

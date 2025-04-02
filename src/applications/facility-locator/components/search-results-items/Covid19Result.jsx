@@ -1,16 +1,18 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
-import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
+import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ location, index }) => {
+const Covid19Result = ({ index, isMobile = false, location }) => {
   const {
     name,
     website,
@@ -37,32 +39,35 @@ const Covid19Result = ({ location, index }) => {
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
-        <LocationDistance
-          distance={location.distance}
-          markerText={location.markerText}
-        />
-        <span
-          onClick={clickHandler}
-          onKeyDown={clickHandler}
-          role="link"
-          tabIndex={0}
-        >
-          {isVADomain(website) ? (
-            <h3 className="vads-u-margin-top--0">
-              <va-link href={website} text={name} />
-            </h3>
-          ) : (
-            <h3 className="vads-u-margin-top--0">
-              <Link to={`facility/${location.id}`}>{name}</Link>
-            </h3>
-          )}
-        </span>
+        <LocationMarker markerText={location.markerText} />
+        {isVADomain(website) ? (
+          <h3
+            className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
+            onClick={clickHandler}
+            onKeyDown={clickHandler}
+            tabIndex={0}
+          >
+            <va-link href={website} text={name} />
+          </h3>
+        ) : (
+          <h3
+            className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
+            onClick={clickHandler}
+            onKeyDown={clickHandler}
+            tabIndex={0}
+          >
+            <Link to={`facility/${location.id}`}>{name}</Link>
+          </h3>
+        )}
+        <LocationDistance distance={location.distance} />
         {operatingStatus &&
           operatingStatus.code !== OperatingStatus.NORMAL && (
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink location={location} />
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
@@ -97,8 +102,9 @@ const Covid19Result = ({ location, index }) => {
 
 Covid19Result.propTypes = {
   index: PropTypes.number,
+  isMobile: PropTypes.bool,
   location: PropTypes.object,
-  query: PropTypes.object,
+  setHeaderHasFocus: PropTypes.func,
 };
 
 export default Covid19Result;

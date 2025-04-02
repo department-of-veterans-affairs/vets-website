@@ -1,4 +1,4 @@
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import mockData from './fixtures/data/maximal-test.json';
 
@@ -20,12 +20,7 @@ describe('NOD contact info loop', () => {
 
     cy.intercept(
       'GET',
-      `/v0${CONTESTABLE_ISSUES_API}compensation`,
-      mockContestableIssues,
-    );
-    cy.intercept(
-      'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
+      `${CONTESTABLE_ISSUES_API}/compensation`,
       mockContestableIssues,
     );
 
@@ -74,7 +69,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel phone change
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update phone
@@ -100,7 +95,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel email change
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update email
@@ -126,7 +121,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel address change
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update address
@@ -165,7 +160,7 @@ describe('NOD contact info loop', () => {
 
     cy.get('va-text-input[value="5109224444"]');
 
-    cy.findAllByText(/save/i, { selector: 'button' })
+    cy.findAllByText(/update/i, { selector: 'button' })
       .first()
       .click({ waitForAnimations: true });
 

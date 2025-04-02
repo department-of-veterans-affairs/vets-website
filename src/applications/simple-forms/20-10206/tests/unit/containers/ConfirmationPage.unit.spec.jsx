@@ -7,6 +7,7 @@ import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { cleanup } from '@testing-library/react';
 import { format } from 'date-fns';
+import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
@@ -35,7 +36,7 @@ describe('ConfirmationPage', () => {
     store = mockStore(initialState);
     wrapper = mount(
       <Provider store={store}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
   });
@@ -48,28 +49,10 @@ describe('ConfirmationPage', () => {
   });
 
   it('passes the correct props to ConfirmationPageView', () => {
-    const confirmationPageViewProps = wrapper
-      .find('ConfirmationPageView')
-      .props();
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    expect(confirmationPageViewProps.formType).to.equal('submission');
-    expect(confirmationPageViewProps.submitterHeader).to.equal(
-      'Who submitted this form',
-    );
-    expect(confirmationPageViewProps.submitterName).to.deep.equal({
-      first: 'John',
-      middle: '',
-      last: 'Preparer',
-    });
-    expect(confirmationPageViewProps.submitDate).to.equal(
-      '2022-01-01T00:00:00Z',
-    );
-    expect(confirmationPageViewProps.confirmationNumber).to.equal('1234567890');
-    expect(confirmationPageViewProps.content).to.deep.equal({
-      headlineText: 'You’ve submitted your personal records request',
-      nextStepsText:
-        'After we review your request, we’ll contact you to tell you what happens next in the request process.',
-    });
+    expect(confirmationViewProps.submitDate).to.equal('2022-01-01T00:00:00Z');
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
   });
 
   it('should select form from state when state.form is defined', () => {
@@ -87,11 +70,10 @@ describe('ConfirmationPage', () => {
 
     const definedWrapper = mount(
       <Provider store={mockDefinedState}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
-    expect(definedWrapper.text()).to.include('John Preparer');
     expect(definedWrapper.text()).to.include(
       format(submitDate, 'MMMM d, yyyy'),
     );
@@ -109,7 +91,7 @@ describe('ConfirmationPage', () => {
     expect(() => {
       errorWrapper = mount(
         <Provider store={mockEmptyStore}>
-          <ConfirmationPage />
+          <ConfirmationPage route={{ formConfig }} />
         </Provider>,
       );
     }).to.throw();

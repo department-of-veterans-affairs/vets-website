@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Element } from 'react-scroll';
 
+import { Element } from 'platform/utilities/scroll';
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
+import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import DowntimeNotification, {
   externalServiceStatus,
@@ -61,6 +62,9 @@ class RoutedSavableReviewPage extends React.Component {
       <div>
         <Element name="topContentElement" />
         {CustomReviewTopContent && <CustomReviewTopContent />}
+        {isMinimalHeaderApp() && (
+          <h1 className="vads-u-font-size--h2">Review and submit</h1>
+        )}
         {!hideReviewChapters && (
           <ReviewChapters
             formConfig={formConfig}

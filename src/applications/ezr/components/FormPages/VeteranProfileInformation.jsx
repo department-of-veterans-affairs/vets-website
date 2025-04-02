@@ -68,7 +68,7 @@ const VeteranProfileInformation = ({
             {veteranGender ? (
               <div data-testid="ezr-veteran-gender">
                 <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
-                  Gender:
+                  Sex:
                 </dt>
                 <dd
                   className="vads-u-display--inline-block dd-privacy-mask"

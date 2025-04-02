@@ -41,12 +41,10 @@ export {
 } from './authentication/hooks/index';
 
 export {
-  default as AccountTransitionModal,
-} from './authentication/components/account-transition/TransitionModal';
-export {
-  default as TransitionSuccessModal,
-} from './authentication/components/account-transition/TransitionSuccessModal';
-
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+  VerifyButton,
+} from './authentication/components/VerifyButton';
 export {
   default as CreateAccountLink,
 } from './authentication/components/CreateAccountLink';
@@ -94,7 +92,7 @@ export {
 
 export {
   defaultSignInProviders,
-  defaultSignUpProviders,
+  legacySignInProviders,
   defaultMobileQueryParams,
   defaultMobileOAuthOptions,
   defaultWebOAuthOptions,
@@ -167,6 +165,7 @@ export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
+export { default as VerifyAlert } from './authorization/components/VerifyAlert';
 // TO DO: resolve missing nested import
 // export { MHVApp } from './authorization/containers/MHVApp';
 // export {

@@ -16,6 +16,7 @@
       "country": "USA"
     },
     "homePhone": "1234567890",
+    "emailAddress": "john.preparer@email.com",
     "citizenId": {
       "ssn": "333221111"
     },
@@ -33,6 +34,9 @@
     "disabilityExams": [
       {
         "disabilityExamDate": "2019-01-01"
+      },
+      {
+        "disabilityExamDate": "2021-04-15"
       }
     ],
     "otherCompAndPenDetails": "Other Comp&Pen details",

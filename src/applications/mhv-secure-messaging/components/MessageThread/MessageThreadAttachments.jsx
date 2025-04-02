@@ -11,6 +11,7 @@ const MessageThreadAttachments = props => {
         <AttachmentsList
           attachments={props.attachments}
           forPrint={props.forPrint}
+          attachmentScanError={false}
         />
       </div>
     )

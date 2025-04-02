@@ -2,9 +2,6 @@ import sharedTransformForSubmit from '../../shared/config/submit-transformer';
 import { PREPARER_TYPES } from './constants';
 
 export default function transformForSubmit(formConfig, form) {
-  const hasReceivedMedicalTreatment =
-    form?.data?.['view:hasReceivedMedicalTreatment'];
-
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
@@ -26,10 +23,6 @@ export default function transformForSubmit(formConfig, form) {
     ],
     MEDAL_AWARD: 'medalAwardDocuments',
   };
-
-  if (!hasReceivedMedicalTreatment && transformedData.medicalTreatments) {
-    delete transformedData.medicalTreatments;
-  }
 
   // TODO: Once PDF has been updated to remove OCR-boxes,
   // remove this name-values truncation-block below.
@@ -72,6 +65,7 @@ export default function transformForSubmit(formConfig, form) {
     preparerType === PREPARER_TYPES.NON_VETERAN
   ) {
     delete transformedData.thirdPartyFullName;
+    delete transformedData.thirdPartyEmailAddress;
     delete transformedData.thirdPartyType;
   }
 

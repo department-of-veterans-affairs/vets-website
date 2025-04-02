@@ -6,7 +6,6 @@
     },
     "exports": {
       "." :"./exportsFile.js",
-      "./showVaAlertExpandable": "./alerts/showVaAlertExpandable.js",
       "./MobileAppCallout": "./alerts/MobileAppCallout.jsx",
       "./EbenefitsLink": "./ebenefits/containers/EbenefitsLink.jsx",
       "./selectors": "./feature-toggles/selectors.js",
@@ -62,7 +61,6 @@
       "libxmljs": "*",
       "append-query": "*",
       "reselect": "*",
-      "@department-of-veterans-affairs/formation": "*",
       "core-js": "*"
     },
     "license": "MIT",

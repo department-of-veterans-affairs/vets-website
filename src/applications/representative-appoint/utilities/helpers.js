@@ -1,10 +1,5 @@
 import React from 'react';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import moment from 'moment';
-import { isEmpty } from 'lodash';
-import formConfig from '../config/form';
 import { DATE_FORMAT } from '../definitions/constants';
 
 export const representativeTypeMap = {
@@ -13,73 +8,8 @@ export const representativeTypeMap = {
   'Veterans Service Organization (VSO)': 'Veterans Service Organization (VSO)',
 };
 
-export const checkboxGroupSchemaWithReviewLabels = keys => {
-  const schema = checkboxGroupSchema(keys);
-  keys.forEach(key => {
-    schema.properties[key] = {
-      ...schema.properties[key],
-      enum: [true, false],
-      enumNames: ['Selected', 'Not selected'],
-    };
-  });
-  return schema;
-};
-
-export const deviewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const nonViewKey = /^view:/.test(key) ? key.replace('view:', '') : key;
-    // Recurse if necessary
-    newFormData[nonViewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? deviewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
-export const preparerIsVeteran = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:applicantIsVeteran'] === 'Yes';
-  }
-  return false;
-};
-
-export const isLoggedIn = ({ formData } = {}) => {
-  if (formData) {
-    return formData['view:isLoggedIn'];
-  }
-  return false;
-};
-
-export const hasVeteranPrefill = ({ formData } = {}) => {
-  return (
-    !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.veteranSsnLastFour) &&
-    !isEmpty(
-      formData?.['view:veteranPrefillStore']?.veteranVaFileNumberLastFour,
-    )
-  );
-};
-
-export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
-  if (environment.isLocalhost()) {
-    return true;
-  }
-  return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
-};
-
-export const initializeFormDataWithClaimantInformationAndPrefill = (
-  applicantIsVeteran,
-  veteranPrefillStore,
-) => {
-  return {
-    ...createInitialState(formConfig).data,
-    'view:applicantIsVeteran': applicantIsVeteran,
-    'view:veteranPrefillStore': veteranPrefillStore,
-  };
-};
+export const preparerIsVeteran = ({ formData } = {}) =>
+  formData?.['view:applicantIsVeteran'] === 'Yes';
 
 /**
  * Show one thing, have a screen reader say another.
@@ -101,53 +31,6 @@ export const formatDate = (date, format = DATE_FORMAT) => {
 };
 
 /**
- * @typedef {Object} ParsedPhoneNumber
- * @property {string} contact - the "raw" phone number, used to populate the tel: link
- * @property {string} extension - the extension, can be any number of digits
- */
-
-/**
- * Parses a phone number string for use with the Telephone component.
- * @param phone {String} "raw" phone number. The first 10 digits are treated as the "main" number.
- * Any remaining digits are treated as the extension.
- * Non-digits preceding the extension are ignored.
- * @returns {ParsedPhoneNumber}
- */
-
-export const parsePhoneNumber = phone => {
-  if (!phone) {
-    return { contact: null, extension: null };
-  }
-  let sanitizedNumber = phone
-    .replace(/[()\s]/g, '') // remove parentheses
-    .replace(/(?<=.)([+.*])/g, '-'); // replace .*+ symbols being used as dashes
-
-  // return null for non-US country codes
-  if (sanitizedNumber.match(/\+(\d+)[^\d1]/g)) {
-    return { contact: null, extension: null };
-  }
-
-  // remove US country codes +1 or 1
-  sanitizedNumber = sanitizedNumber.replace(/^(\+1|1)\s*/, '');
-
-  // capture first 10 digits + ext if applicable
-  const parserRegex = /^(\d{10})(\D*?(\d+))?/;
-  const contact = sanitizedNumber.replace(/-/g, '').replace(parserRegex, '$1');
-  const extension =
-    sanitizedNumber
-      .replace(/-/g, '')
-      .replace(parserRegex, '$3')
-      .replace(/\D/g, '') || null;
-
-  const isValidContactNumberRegex = /^(?:[2-9]\d{2})[2-9]\d{2}\d{4}$/;
-
-  if (isValidContactNumberRegex.test(contact)) {
-    return { contact, extension };
-  }
-  return { contact: null, extension: null };
-};
-
-/**
  * Setting subtitle based on rep type
  */
 export const getFormSubtitle = formData => {
@@ -157,12 +40,278 @@ export const getFormSubtitle = formData => {
   if (entityType === 'organization') {
     return 'VA Form 21-22';
   }
-  if (entityType === 'individual') {
+  if (['representative', 'individual'].includes(entityType)) {
     const { individualType } = entity.attributes;
-    if (individualType === 'representative') {
+    if (
+      ['representative', 'veteran_service_officer'].includes(individualType)
+    ) {
       return 'VA Form 21-22';
     }
     return 'VA Form 21-22a';
   }
   return 'VA Forms 21-22 and 21-22a';
+};
+
+export const parseRepType = repType => {
+  const parsedRep = {};
+
+  switch (repType) {
+    case 'Organization':
+      parsedRep.title = 'Veterans Service Organization (VSO)';
+      parsedRep.subTitle = 'Veteran Service Organization';
+      break;
+    case 'Attorney':
+      parsedRep.title = 'accredited attorney';
+      parsedRep.subTitle = 'Accredited attorney';
+      break;
+    case 'Claims Agent':
+      parsedRep.title = 'accredited claims agent';
+      parsedRep.subTitle = 'Accredited claims agent';
+      break;
+    default:
+      parsedRep.title = 'accredited representative';
+      parsedRep.subTitle = 'Accredited representative';
+  }
+
+  return parsedRep;
+};
+
+export const getEntityAddressAsObject = addressData => ({
+  addressLine1: (addressData?.addressLine1 || '').trim(),
+  addressLine2: (addressData?.addressLine2 || '').trim(),
+  addressLine3: (addressData?.addressLine3 || '').trim(),
+  city: (addressData?.city || '').trim(),
+  stateCode: (addressData?.stateCode || '').trim(),
+  zipCode: (addressData?.zipCode || '').trim(),
+});
+
+export const getEntityAddressAsString = addressData =>
+  [
+    (addressData.addressLine1 || '').trim(),
+    (addressData.addressLine2 || '').trim(),
+    (addressData.addressLine3 || '').trim(),
+  ]
+    .filter(Boolean)
+    .join(' ') +
+  (addressData.city ? ` ${addressData.city},` : '') +
+  (addressData.stateCode ? ` ${addressData.stateCode}` : '') +
+  (addressData.zipCode ? ` ${addressData.zipCode}` : '');
+
+export const getRepType = entity => {
+  if (entity?.type === 'organization') {
+    return 'Organization';
+  }
+
+  const repType = entity?.attributes?.individualType;
+
+  if (repType === 'attorney') {
+    return 'Attorney';
+  }
+
+  if (['claimsAgent', 'claims_agent', 'claim_agents'].includes(repType)) {
+    return 'Claims Agent';
+  }
+
+  return 'VSO Representative';
+};
+
+export const getFormNumberFromEntity = entity => {
+  const repType = getRepType(entity);
+
+  return ['Organization', 'VSO Representative'].includes(repType)
+    ? '21-22'
+    : '21-22a';
+};
+
+export const getFormNumber = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (
+    entityType === 'organization' ||
+    (['representative', 'individual'].includes(entityType) &&
+      ['representative', 'veteran_service_officer'].includes(
+        entity?.attributes?.individualType,
+      ))
+  ) {
+    return '21-22';
+  }
+
+  return '21-22a';
+};
+
+export const getFormName = formData => {
+  if (getFormNumber(formData) === '21-22') {
+    return "Appointment of Veterans Service Organization as Claimant's Representative";
+  }
+
+  return "Appointment of Individual As Claimant's Representative";
+};
+
+/**
+ * Takes representative object (rather than formData object)
+ */
+export const isVSORepresentative = rep => {
+  if (rep?.attributes?.accreditedOrganizations?.data?.length > 0) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
+ * If the representative is a claims agent or attorney, user will fill out 21-22A
+ */
+export const formIs2122A = formData =>
+  ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
+    formData?.['view:selectedRepresentative']?.attributes?.individualType,
+  ) || null;
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
+
+export const getOrgName = formData => {
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+
+  if (formIs2122A(formData)) {
+    return null;
+  }
+
+  const orgs =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+
+  if (orgs && orgs.length > 1) {
+    const id = formData?.selectedAccreditedOrganizationId;
+    const selectedOrg = orgs.find(org => org.id === id);
+    return selectedOrg?.attributes?.name;
+  }
+
+  return orgs[0]?.attributes?.name;
+};
+
+/**
+ * Takes representative object (rather than formData object)
+ */
+export const formIs2122 = rep => {
+  const repType = rep?.type;
+
+  if (
+    repType === 'organization' ||
+    (['representative', 'individual'].includes(repType) &&
+      ['representative', 'veteran_service_officer'].includes(
+        rep?.attributes?.individualType,
+      ))
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+// Rep name used in Terms and Conditions agreement
+export const getRepresentativeName = formData => {
+  const rep = formData['view:selectedRepresentative'];
+
+  if (!rep) {
+    return null;
+  }
+
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative']?.attributes?.name;
+  }
+
+  return isVSORepresentative(formData['view:selectedRepresentative'])
+    ? formData.selectedAccreditedOrganizationName
+    : rep.attributes.fullName;
+};
+
+export const getApplicantName = formData => {
+  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+  const applicantFullName = applicantIsVeteran
+    ? formData.veteranFullName
+    : formData.applicantName;
+
+  return [
+    applicantFullName.first,
+    applicantFullName.middle,
+    applicantFullName.last,
+    applicantFullName.suffix,
+  ]
+    .filter(nameSection => nameSection && nameSection.trim())
+    .join(' ');
+};
+
+export const convertRepType = input => {
+  const mapping = {
+    representative: 'VSO',
+    attorney: 'Attorney',
+    /* eslint-disable-next-line camelcase */
+    claims_agent: 'Claims Agent',
+    /* eslint-disable-next-line camelcase */
+    claim_agents: 'Claims Agent',
+    /* eslint-disable-next-line camelcase */
+    veteran_service_officer: 'VSO',
+    /* eslint-disable-next-line camelcase */
+    organization: 'Organization',
+  };
+
+  return mapping[input] || input;
+};
+
+export const addressExists = address =>
+  !!(
+    address?.addressLine1?.trim() &&
+    address?.city?.trim() &&
+    address?.stateCode?.trim() &&
+    address?.zipCode?.trim()
+  );
+
+export const userIsDigitalSubmitEligible = formData => {
+  return (
+    preparerIsVeteran({ formData }) && // only Veteran users are eligible at this time
+    formData?.identityValidation?.hasIcn &&
+    formData?.identityValidation?.hasParticipantId &&
+    formData?.['view:v2IsEnabled']
+  );
+};
+
+export const entityAcceptsDigitalPoaRequests = entity => {
+  const repType = getRepType(entity);
+
+  if (repType === 'Organization') {
+    return !!entity?.attributes?.canAcceptDigitalPoaRequests;
+  }
+  if (repType === 'VSO Representative') {
+    const accreditedOrganizations = entity?.attributes?.accreditedOrganizations;
+
+    if (
+      !accreditedOrganizations ||
+      accreditedOrganizations?.data?.length === 0
+    ) {
+      return false;
+    }
+
+    return accreditedOrganizations.data.some(
+      org => org?.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+  return false;
+};
+
+export const filterOrganizations = formData => {
+  const organizations =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+  const submissionMethod = formData.representativeSubmissionMethod;
+
+  if (submissionMethod === 'digital') {
+    return organizations?.filter(
+      org => org.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+
+  return organizations;
 };

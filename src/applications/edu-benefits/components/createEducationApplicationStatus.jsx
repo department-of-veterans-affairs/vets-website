@@ -7,8 +7,6 @@ const eduForms = new Set([
   VA_FORM_IDS.FORM_22_0994,
   VA_FORM_IDS.FORM_22_1990,
   VA_FORM_IDS.FORM_22_1995,
-  VA_FORM_IDS.FORM_22_5490,
-  VA_FORM_IDS.FORM_22_5495,
 ]);
 
 export default function createEducationApplicationStatus(store, widgetType) {

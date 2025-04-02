@@ -3,6 +3,7 @@ import {
   scrollTo,
   scrollToFirstError,
 } from 'platform/utilities/ui';
+import { focusReview } from 'platform/forms-system/src/js/utilities/ui/focus-review';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 export const focusEvidence = (_index, root) => {
@@ -18,7 +19,15 @@ export const focusEvidence = (_index, root) => {
   });
 };
 
-export const focusH3AfterAlert = () => {
-  scrollTo('topContentElement');
-  focusElement('h3#header');
+export const focusH3AfterAlert = ({ name, onReviewPage } = {}) => {
+  if (name && onReviewPage) {
+    focusReview(
+      name, // name of scroll element
+      true, // review accordion in edit mode
+      true, // reviewEditFocusOnHeaders setting from form/config.js
+    );
+  } else {
+    scrollTo('topContentElement');
+    focusElement('h3#header');
+  }
 };

@@ -101,8 +101,14 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim>
-          An item in the claim needs your attention
+        <va-alert status="info" slim>
+          <span className="vads-u-font-weight--bold">
+            We requested more information from you:
+          </span>{' '}
+          Check the claim details to learn more.
+          <div className="vads-u-margin-top--2">
+            This message will go away when we finish reviewing your response.
+          </div>
         </va-alert>
       )}
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

@@ -52,24 +52,17 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-// Cover alternate path for when certifierRole == 'sponsor'
+// Signer is applicant:
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page6.schema,
   formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
   5,
   'Sponsor - name and date of birth (alternate)',
-  { ...mockData.data, certifierRole: 'sponsor' },
-);
-
-// Cover when certifierRole !== sponsor or applicant
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page6.schema,
-  formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
-  5,
-  'Sponsor - name and date of birth (alternate 2)',
-  { ...mockData.data, certifierRole: 'other' },
+  {
+    ...mockData.data,
+    certifierRelationship: { relationshipToVeteran: { applicant: true } },
+  },
 );
 
 testNumberOfWebComponentFields(
@@ -99,16 +92,6 @@ testNumberOfWebComponentFields(
   { sponsorIsDeceased: false },
 );
 
-// certifierRole: 'sponsor' triggers the 'your' custom wording branch
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page11.schema,
-  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  1,
-  "Sponsor's phone number",
-  { sponsorIsDeceased: false, certifierRole: 'sponsor' },
-);
-
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page13.schema,
@@ -131,8 +114,8 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page14.schema,
   formConfig.chapters.applicantInformation.pages.page14.uiSchema,
-  2,
-  'Applicant - SSN and VA File Num',
+  1,
+  'Applicant - SSN',
   { applicants },
 );
 
@@ -195,7 +178,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page18c.schema,
   formConfig.chapters.applicantInformation.pages.page18c.uiSchema,
   0,
-  'Applicant - relationship to sponsor',
+  'Applicant - relationship to the sponsor',
   { ...mockData.data },
 );
 

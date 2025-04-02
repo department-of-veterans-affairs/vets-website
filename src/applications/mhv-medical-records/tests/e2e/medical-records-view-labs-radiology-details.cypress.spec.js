@@ -34,7 +34,8 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     );
 
     RadiologyDetailsPage.verifyRadiologyOrderedBy(
-      radiologyRecordsMhv[11].requestingProvider,
+      // radiologyRecordsMhv[11].requestingProvider,
+      'JANE DOE',
     );
 
     RadiologyDetailsPage.verifyRadiologyImagingLocation(
@@ -42,7 +43,8 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     );
 
     RadiologyDetailsPage.verifyRadiologyImagingProvider(
-      radiologyRecordsMhv[11].radiologist,
+      // radiologyRecordsMhv[11].radiologist,
+      'JOHN DOE',
     );
 
     // Regex: replace \r\n line terminating characters, with spaces

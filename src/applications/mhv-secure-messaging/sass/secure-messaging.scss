@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
@@ -41,8 +41,7 @@ va-modal va-radio {
   border-radius: 4px;
 }
 
-.send-button-top,
-.reply-button-top {
+.send-button-top {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,6 +76,12 @@ va-modal va-radio {
 .breadcrumb > i {
   margin-right: 6px;
   font-size: 0.6875rem;
+}
+
+.reply-button-container {
+  @media (min-width: $xsmall-screen) {
+    min-width: 15em;
+  }
 }
 
 .save-button {
@@ -280,10 +285,10 @@ va-loading-indicator {
 
 .interstitial-page {
   h1 {
-    color: var(--vads-color-base-darker);
+    color: var(--vads-color-base);
   }
   strong {
-    color: var(--vads-color-base-darker);
+    color: var(--vads-color-base);
   }
   ul {
     padding-left: 15px;
@@ -334,7 +339,7 @@ va-loading-indicator {
 .unread-bubble {
   height: 12px;
   width: 12px;
-  background-color: var(--vads-color-primary);
+  background-color: var(--vads-color-secondary);
   border-radius: 50%;
 }
 

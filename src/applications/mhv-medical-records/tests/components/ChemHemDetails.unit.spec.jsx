@@ -79,7 +79,7 @@ describe('Chem Hem details component', () => {
 
   it('displays who the test was ordered by', () => {
     expect(screen.getByText('Ordered by', { selector: 'h3' })).to.exist;
-    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+    expect(screen.getByText('JANE A DOE', { exact: false })).to.exist;
   });
 
   it('displays the location', () => {
@@ -105,7 +105,7 @@ describe('Chem Hem details component', () => {
 
   it('should display the result and interpretation in parentheses', () => {
     expect(screen.getAllByText('Result', { selector: 'h4' }).length).to.eq(2);
-    expect(screen.getByText('138.0 mEq/L (Low)', { selector: 'p' })).to.exist;
+    expect(screen.getByText('138 mEq/L (Low)', { selector: 'p' })).to.exist;
   });
 
   it('should display the reference range with units', () => {

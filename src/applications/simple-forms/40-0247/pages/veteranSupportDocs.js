@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import { validateFileField } from 'platform/forms-system/src/js/validation';
 import { FileField } from '../components/FileField';
 import SupportingDocsViewField from '../components/SupportingDocsViewField';
 
@@ -44,6 +45,7 @@ export default {
         keepInPageOnReview: true,
         classNames: 'schemaform-file-upload',
       },
+      'ui:validations': [validateFileField],
     },
   },
   schema: {

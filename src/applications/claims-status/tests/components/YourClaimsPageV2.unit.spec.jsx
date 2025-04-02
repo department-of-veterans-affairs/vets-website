@@ -91,6 +91,13 @@ describe('<YourClaimsPageV2>', () => {
     getClaims: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
+    location: {
+      pathname: '/claims',
+      search: '?page=1',
+    },
+    history: {
+      push: sinon.spy(),
+    },
   };
 
   it('should render', () => {
@@ -136,12 +143,6 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('AppealListItem').length).to.equal(1);
     expect(wrapper.find('ClaimsListItem').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render a closed claim message if show30DayNotice is true', () => {
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -221,17 +222,57 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  it('should render 30 day notice', () => {
-    const props = set('show30DayNotice', true, defaultProps);
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
-    wrapper.unmount();
+  it('should return updated state when page changes in getDerivedStateFromProps', () => {
+    const nextProps = {
+      location: {
+        pathname: '/claims',
+        search: '?page=2',
+      },
+    };
+    const prevState = { page: 1 };
+
+    const newState = YourClaimsPageV2.getDerivedStateFromProps(
+      nextProps,
+      prevState,
+    );
+    expect(newState).to.deep.equal({ page: 2 });
   });
 
-  it('should not render 30 day notice', () => {
-    sessionStorage.setItem('show30DayNotice', false);
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClosedClaimMessage').length).to.equal(0);
-    wrapper.unmount();
+  it('should return null when page does not change in getDerivedStateFromProps', () => {
+    const nextProps = {
+      location: {
+        pathname: '/claims',
+        search: '?page=1',
+      },
+    };
+    const prevState = { page: 1 };
+
+    const newState = YourClaimsPageV2.getDerivedStateFromProps(
+      nextProps,
+      prevState,
+    );
+    expect(newState).to.be.null;
+  });
+
+  it('should return the correct page from getPageFromURL', () => {
+    const testProps = {
+      location: {
+        search: '?page=3',
+      },
+    };
+
+    const page = YourClaimsPageV2.getPageFromURL(testProps);
+    expect(page).to.equal(3);
+  });
+
+  it('should return 1 when page is not provided in getPageFromURL', () => {
+    const testProps = {
+      location: {
+        search: '',
+      },
+    };
+
+    const page = YourClaimsPageV2.getPageFromURL(testProps);
+    expect(page).to.equal(1);
   });
 });

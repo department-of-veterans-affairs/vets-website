@@ -14,6 +14,8 @@ describe('vaPrescription details container', () => {
         featureToggles: {
           // eslint-disable-next-line camelcase
           mhv_medications_display_documentation_content: ffEnabled,
+          // eslint-disable-next-line camelcase
+          mhv_medications_display_grouping: ffEnabled,
         },
       },
       reducers: {},
@@ -25,6 +27,7 @@ describe('vaPrescription details container', () => {
     const screen = setup();
     expect(screen);
   });
+
   it('displays the formatted ordered date', () => {
     const screen = setup();
     const formattedDate = screen.getAllByText(
@@ -44,6 +47,7 @@ describe('vaPrescription details container', () => {
     );
     expect(location).to.exist;
   });
+
   it('displays link "Learn more about this medication" if ff is on and rx has an ndc number', () => {
     const rxWithCmop = {
       ...prescription,
@@ -64,7 +68,7 @@ describe('vaPrescription details container', () => {
       ),
       {
         exact: true,
-        selector: 'p',
+        selector: 'span',
       },
     );
     expect(shippedOn).to.exist;
@@ -150,23 +154,27 @@ describe('vaPrescription details container', () => {
       rxDetailsResponse.data.attributes.trackingList[0].trackingNumber,
     );
   });
+
   it('displays none noted if no phone number is provided', () => {
     const screen = setup(prescription);
     const pharmacyPhone = screen.queryByTestId('phone-number');
 
     expect(pharmacyPhone).to.not.exist;
   });
+
   it('does not display documentation if cmopNdcNumber is missing', () => {
     const screen = setup(prescription);
     const docLink = screen.queryByTestId('va-prescription-documentation-link');
 
     expect(docLink).to.not.exist;
   });
+
   it('displays documentation if original fill cmopNdcNumber exists', () => {
     const screen = setup({ ...prescription, cmopNdcNumber: '123456' });
     const docLink = screen.queryByTestId('va-prescription-documentation-link');
     expect(docLink).to.exist;
   });
+
   it('displays documentation if rxRfRecords cmopNdcNumber exists', () => {
     const screen = setup({
       ...prescription,
@@ -177,11 +185,13 @@ describe('vaPrescription details container', () => {
     const docLink = screen.queryByTestId('va-prescription-documentation-link');
     expect(docLink).to.exist;
   });
+
   it('does not display documentation if ff is off', () => {
     const screen = setup({ ...prescription, cmopNdcNumber: '123456' }, false);
     const docLink = screen.queryByTestId('va-prescription-documentation-link');
     expect(docLink).to.not.exist;
   });
+
   it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
@@ -194,5 +204,65 @@ describe('vaPrescription details container', () => {
     );
 
     expect(haventFilledRxNotification).to.exist;
+  });
+
+  it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {
+    const screen = setup({
+      ...prescription,
+      prescriptionSource: 'PD',
+      dispStatus: 'NewOrder',
+    });
+    const status = screen.getByText(
+      'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.',
+    );
+    const aboutSubHeader = screen.getByText('About this prescription');
+    const refillH3 = screen.queryByText(
+      'Request refills by this prescription expiration date',
+    );
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(status).to.exist;
+    expect(aboutSubHeader).to.exist;
+    expect(refillH3).to.not.exist;
+    expect(refillSubHeader).to.not.exist;
+  });
+
+  it('displays pending renewal med content if prescription source is PD and dispStatus is Renew', () => {
+    const screen = setup({
+      ...prescription,
+      prescriptionSource: 'PD',
+      dispStatus: 'Renew',
+    });
+    const status = screen.getByText(
+      'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.',
+    );
+
+    expect(status).to.exist;
+  });
+
+  it('displays partial refill content if prescription source is pf and partial flag is on', () => {
+    const setupWithPartialFill = (rx = newRx, ffEnabled = true) => {
+      return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+        initialState: {
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_display_documentation_content: ffEnabled,
+            // eslint-disable-next-line camelcase
+            mhv_medications_display_grouping: ffEnabled,
+            // eslint-disable-next-line camelcase
+            mhv_medications_partial_fill_content: true,
+          },
+        },
+        reducers: {},
+        path: '/prescriptions/1234567891',
+      });
+    };
+    const screen = setupWithPartialFill({
+      ...prescription,
+      rxRfRecords: [{ prescriptionSource: 'PF' }],
+    });
+    const accordionHeading = screen.getByText('Partial fill');
+
+    expect(accordionHeading).to.exist;
   });
 });

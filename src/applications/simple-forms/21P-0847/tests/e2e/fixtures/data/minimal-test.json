@@ -5,6 +5,7 @@
   },
   "preparerSsn": "222668888",
   "preparerHomePhone": "1234567890",
+  "preparerEmail": "arthur.c.preparer@email.com",
   "preparerAddress": {
     "street": "124 Main St",
     "city": "Anytown",

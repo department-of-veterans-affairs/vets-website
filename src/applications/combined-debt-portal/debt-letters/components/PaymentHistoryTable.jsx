@@ -1,7 +1,9 @@
 import React from 'react';
 import last from 'lodash/last';
+import PropTypes from 'prop-types';
 import { deductionCodes } from '../const/deduction-codes';
 import { currency } from '../utils/page';
+import { formatDate } from '../../combined/utils/helpers';
 
 const PaymentHistoryTable = ({ currentDebt }) => {
   const getFirstPaymentDateFromCurrentDebt = debt => {
@@ -59,7 +61,9 @@ const PaymentHistoryTable = ({ currentDebt }) => {
       </va-table-row>
       {fiscalTransactionData?.map((payment, index) => (
         <va-table-row key={`${payment.transactionDate}-${index}`}>
-          <span className="vads-u-width--fit">{payment.transactionDate}</span>
+          <span className="vads-u-width--fit">
+            {formatDate(payment.transactionDate)}
+          </span>
           <span>
             <div className="vads-u-margin-top--0">
               {renderPaymentHistoryDescription(payment.transactionDescription)}
@@ -74,7 +78,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         {/* This is the default row that will always be displayed for initial
           debt creation */}
         <span className="vads-u-width--fit">
-          {getFirstPaymentDateFromCurrentDebt(currentDebt)}
+          {formatDate(getFirstPaymentDateFromCurrentDebt(currentDebt))}
         </span>
         <span>
           <strong>
@@ -87,6 +91,21 @@ const PaymentHistoryTable = ({ currentDebt }) => {
       </va-table-row>
     </va-table>
   );
+};
+
+PaymentHistoryTable.propTypes = {
+  currentDebt: PropTypes.shape({
+    fiscalTransactionData: PropTypes.arrayOf(
+      PropTypes.shape({
+        transactionDate: PropTypes.string.isRequired,
+        transactionDescription: PropTypes.string.isRequired,
+        transactionTotalAmount: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    deductionCode: PropTypes.string,
+    benefitType: PropTypes.string,
+    originalAr: PropTypes.string,
+  }),
 };
 
 export default PaymentHistoryTable;

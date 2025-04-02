@@ -1,7 +1,7 @@
 /** @module testing/mocks/setup */
 
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -10,7 +10,7 @@ import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
-import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { cleanup } from '@testing-library/react';
 import reducers from '../../redux/reducer';
@@ -21,7 +21,7 @@ import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
-import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
+import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
 
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
@@ -38,6 +38,7 @@ import ClosestCityStatePage from '../../new-appointment/components/ClosestCitySt
 import { createMockFacility } from './data';
 import { mockFacilitiesFetch } from './fetch';
 import { getSchedulingConfigurationMock } from './mock';
+import { vaosApi } from '../../redux/api/vaosApi';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -53,9 +54,10 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       covid19Vaccine: covid19VaccineReducer,
+      [vaosApi.reducerPath]: vaosApi.reducer,
     }),
     initialState,
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, vaosApi.middleware),
   );
 }
 
@@ -101,25 +103,13 @@ export function renderWithStoreAndRouter(
   ui,
   { initialState, store = null, path = '/', history = null },
 ) {
-  const testStore =
-    store ||
-    createStore(
-      combineReducers({ ...commonReducer, ...reducers }),
-      initialState,
-      applyMiddleware(thunk),
-    );
-
-  const historyObject = history || createTestHistory(path);
-  const screen = renderInReduxProvider(
-    <Router history={historyObject}>{ui}</Router>,
-    {
-      store: testStore,
-      initialState,
-      reducers,
-    },
-  );
-
-  return { ...screen, history: historyObject };
+  return platformRenderWithStoreAndRouter(ui, {
+    initialState,
+    reducers,
+    store,
+    path,
+    history,
+  });
 }
 
 /**
@@ -141,23 +131,23 @@ export function getTestDate() {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string|RegExp} label The string or regex to pass to *ByText query to get
- *   a radio button to click on
+ * @param {string} value The string value of the radio button to click on
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setTypeOfFacility(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfFacilityPage />,
-    { store },
-  );
+export async function setTypeOfFacility(store, value) {
+  const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
+  await screen.findByText(/Continue/i);
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
@@ -196,18 +186,19 @@ export async function setTypeOfCare(store, label) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfEyeCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfEyeCarePage />,
-    { store },
-  );
+  const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
+  await screen.findByText(/Continue/i);
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: label },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
@@ -306,19 +297,23 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string|RegExp} label The string or regex to pass to *ByText query to get
- *   a radio button to click on
+ * @param {string} value The string value of the radio button to click on
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setClinic(store, label) {
+export async function setClinic(store, value) {
   const screen = renderWithStoreAndRouter(
     <Route component={ClinicChoicePage} />,
     {
       store,
     },
   );
+  await screen.findByText(/Continue/i);
 
-  fireEvent.click(await screen.findByLabelText(label));
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
   fireEvent.click(await screen.findByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -360,22 +355,17 @@ export async function setVaccineClinic(store, label) {
  */
 export async function setPreferredDate(store, preferredDate) {
   const screen = renderWithStoreAndRouter(
-    <Route component={PreferredDatePage} />,
+    <Route component={PreferredDatePageVaDate} />,
     {
       store,
     },
   );
 
-  await screen.findByText(/earliest day/);
-  fireEvent.change(screen.getByLabelText('Month'), {
-    target: { value: preferredDate.month() + 1 },
+  const vaDate = screen.container.querySelector('va-date');
+  vaDate.__events.dateChange({
+    target: { value: preferredDate.format('YYYY-MM-DD') },
   });
-  fireEvent.change(screen.getByLabelText('Day'), {
-    target: { value: preferredDate.date() },
-  });
-  fireEvent.change(screen.getByLabelText('Year'), {
-    target: { value: preferredDate.year() },
-  });
+
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -442,7 +432,7 @@ export async function setCommunityCareFlow({
   });
 
   await setTypeOfCare(store, new RegExp(typeOfCare.name));
-  await setTypeOfFacility(store, /Community Care/i);
+  await setTypeOfFacility(store, 'communityCare');
 
   return store;
 }

@@ -1,89 +1,73 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+import OmbInfo from '../components/OmbInfo';
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+const IntroductionPage = ({ route }) => {
+  useEffect(() => {
+    focusElement('.schemaform-title > h1');
+    scrollToTop();
+  }, []);
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="22-10282 IBM Skillsbuild Training Program Intake Application"
-          subtitle="Equal to VA Form 22-10282 (22-10282 IBM Skillsbuild Training Program Intake Application)"
-        />
+  return (
+    <article className="schemaform-intro vads-u-padding-bottom--3 mobile-lg:vads-u-padding-bottom--6">
+      <FormTitle title="Apply for the IBM SkillsBuild program" />
+      <div className="schemaform-title vads-u-display--inline">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--4 schemaform-subtitle">
+          IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
+        </p>
+      </div>
+      <p>
+        The IBM SkillsBuild program is a free online training program that helps
+        you develop skills to start or advance your career in technology.
+      </p>
+
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+        What to know before you fill out this form
+      </h2>
+      <ul>
+        <li>
+          You may be eligible for this program if you’re a Veteran; service
+          member; or the spouse, child, or caregiver of a Veteran.
+        </li>
+        <li>
+          After you submit your form, you can print the confirmation page for
+          your records.
+        </li>
+        <li>
+          After we review your form, we’ll email you a decision. If we need more
+          information from you before we make a decision, we’ll email you.
+        </li>
+      </ul>
+
+      <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
         <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the 22-10282 form to apply for education benefits.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for education benefits.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this education benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          formConfig={route.formConfig}
+          pageList={route.pageList}
+          startText="Start your application"
         />
-        <p />
-        <va-omb-info resBurden={10} ombNumber="2900-0922" expDate="9/30/2026" />
-      </article>
-    );
-  }
-}
+      </div>
+
+      <OmbInfo />
+    </article>
+  );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+};
 
 export default IntroductionPage;

@@ -15,6 +15,7 @@ import VARadioButton from '../utils/VaRadioButton';
 import {
   merge1995And5490Feature,
   showMebDgi40Feature,
+  meb160630Automation,
 } from '../selectors/educationWizard';
 
 const levels = [
@@ -70,8 +71,21 @@ class EducationWizard extends React.Component {
         }
         url = `/education/apply-for-education-benefits/application/${form}`;
         break;
+      case '1990':
+        if (this?.props.meb160630Automation) {
+          url = `/education/apply-for-gi-bill-form-22-1990`;
+          break;
+        }
+
+        url = `/education/apply-for-education-benefits/application/1990`;
+        break;
       case '5490':
-        url = `/education/survivor-dependent-education-benefit-22-5490`;
+        if (this?.props.meb160630Automation) {
+          url = `/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490`;
+          break;
+        }
+
+        url = `/family-and-caregiver-benefits/education-and-careers/apply-dea-fry-form-22-5490`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
@@ -485,6 +499,7 @@ class EducationWizard extends React.Component {
 const mapStateToProps = state => ({
   showMebDgi40Feature: showMebDgi40Feature(state),
   merge1995And5490Feature: merge1995And5490Feature(state),
+  meb160630Automation: meb160630Automation(state),
 });
 
 export default connect(mapStateToProps)(EducationWizard);

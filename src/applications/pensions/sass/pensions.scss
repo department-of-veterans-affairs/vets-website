@@ -1,6 +1,6 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -62,4 +62,16 @@ $font-size: 16.96px;
 
 .progress-box {
   padding: 0;
+}
+
+.u-list-no-bullets {
+  list-style-type: none;
+}
+
+// Break long words on modals, see
+// https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3355
+va-modal {
+  @include media-maxwidth($small-screen) {
+    word-break: break-word;
+  }
 }

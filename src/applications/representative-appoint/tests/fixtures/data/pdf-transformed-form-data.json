@@ -1,0 +1,56 @@
+{
+  "representativeSubmissionMethod": "digital",
+  "veteran": {
+    "name": {
+      "first": "John",
+      "middle": "E",
+      "last": "Doe"
+    },
+    "ssn": "333224444",
+    "vaFileNumber": "123456789",
+    "dateOfBirth": "1960-01-01",
+    "serviceNumber": "123456789",
+    "serviceBranch": null,
+    "address": {
+      "addressLine1": "123 8th st",
+      "addressLine2": "",
+      "city": "Hadley",
+      "stateCode": "ME",
+      "country": "USA",
+      "zipCode": "01050",
+      "zipCodeSuffix": ""
+    },
+    "phone": "5551234567",
+    "email": "test@example.com"
+  },
+  "recordConsent": true,
+  "consentAddressChange": true,
+  "consentLimits": ["ALCOHOLISM", "DRUG_ABUSE"],
+  "consentInsideAccess": null,
+  "consentOutsideAccess": null,
+  "consentTeamMembers": null,
+  "representative": {
+    "id": "19731",
+    "organizationId": "074"
+  },
+  "claimant": {
+    "name": {
+      "first": "Bob",
+      "middle": "",
+      "last": "Tester"
+    },
+    "dateOfBirth": "1990-01-01",
+    "relationship": "CHILD",
+    "address": {
+      "addressLine1": "123 Any Street",
+      "addressLine2": "",
+      "city": "Town",
+      "stateCode": "OH",
+      "country": "USA",
+      "zipCode": "43210",
+      "zipCodeSuffix": ""
+    },
+    "phone": "5347687980",
+    "email": ""
+  }
+}

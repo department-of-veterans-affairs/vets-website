@@ -13,23 +13,11 @@ import {
 
 import { utcToZonedTime } from 'date-fns-tz';
 
-export const months = [
-  { label: 'Jan', value: 1, text: 'January' },
-  { label: 'Feb', value: 2, text: 'February' },
-  { label: 'Mar', value: 3, text: 'March' },
-  { label: 'Apr', value: 4, text: 'April' },
-  { label: 'May', value: 5, text: 'May' },
-  { label: 'Jun', value: 6, text: 'June' },
-  { label: 'Jul', value: 7, text: 'July' },
-  { label: 'Aug', value: 8, text: 'August' },
-  { label: 'Sep', value: 9, text: 'September' },
-  { label: 'Oct', value: 10, text: 'October' },
-  { label: 'Nov', value: 11, text: 'November' },
-  { label: 'Dec', value: 12, text: 'December' },
-];
-
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
+export function formatDateTime(datetimeString, stripUTCIndicator = false) {
+  const str = stripUTCIndicator
+    ? (datetimeString ?? '').split('Z')[0]
+    : datetimeString;
+  const dateTime = new Date(str);
   const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
 

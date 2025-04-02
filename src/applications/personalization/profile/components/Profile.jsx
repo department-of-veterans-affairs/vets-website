@@ -211,16 +211,13 @@ class Profile extends Component {
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
         user={this.props.user}
+        showProfileErrorMessage
       >
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
-          dependencies={[
-            externalServices.evss,
-            externalServices.mvi,
-            externalServices.vaProfile,
-          ]}
+          dependencies={[externalServices.VAPRO_PROFILE_PAGE]}
         >
           {this.renderContent()}
         </DowntimeNotification>
@@ -232,9 +229,7 @@ class Profile extends Component {
 Profile.propTypes = {
   connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
-  fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchDirectDeposit: PropTypes.func.isRequired,
-  fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
@@ -245,9 +240,7 @@ Profile.propTypes = {
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
-  shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
-  shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,

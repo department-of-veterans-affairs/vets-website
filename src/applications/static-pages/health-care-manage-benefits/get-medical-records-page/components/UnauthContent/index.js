@@ -53,8 +53,7 @@ const UnauthContent = () => (
       </li>
       <li>
         You have a verified <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
-        account or a Premium <strong>DS Logon</strong> or{' '}
-        <strong>My HealtheVet</strong> account
+        account or a Premium <strong>DS Logon</strong>
       </li>
     </ul>
     <p>
@@ -139,7 +138,7 @@ const UnauthContent = () => (
         </a>
         <br />
         <br />
-        <a href="https://www.tricare.mil/resources/medicalrecords">
+        <a href="https://tricare.mil/PatientResources/MedicalRecords">
           Learn how to get DoD Health Records on the TRICARE website
         </a>
       </va-accordion-item>

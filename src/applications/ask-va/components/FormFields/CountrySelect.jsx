@@ -1,3 +1,4 @@
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { countries } from '@department-of-veterans-affairs/platform-forms/address';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,20 +13,19 @@ const CountrySelect = props => {
   };
 
   return (
-    <select
-      name={id}
+    <VaSelect
       id={id}
+      name={id}
       value={value}
       disabled={formData.onBaseOutsideUS}
-      onChange={handleChange}
+      onVaSelect={handleChange}
     >
-      <option value="">- Select -</option>
       {countries.map(country => (
         <option key={country.value} value={country.value} id={country.value}>
           {country.label}
         </option>
       ))}
-    </select>
+    </VaSelect>
   );
 };
 

@@ -1,4 +1,6 @@
+import React from 'react';
 import { cloneDeep } from 'lodash';
+
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -7,14 +9,18 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-export const blankSchema = { type: 'object', properties: {} };
+import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const uiSchema = {
   ...titleUI('Your personal information'),
+  profileNotUpdatedNote: {
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includePhone isClaimantChapter />
+    ),
+  },
   applicantName: fullNameMiddleInitialUI,
   applicantDOB: dateOfBirthUI({
     required: () => true,
@@ -26,7 +32,25 @@ export const schema = {
   required: ['applicantDOB'],
   properties: {
     titleSchema,
-    applicantName: fullNameSchema,
+    profileNotUpdatedNote: { type: 'object', properties: {} },
+    applicantName: {
+      ...fullNameSchema,
+      properties: {
+        ...fullNameSchema.properties,
+        first: {
+          type: 'string',
+          maxLength: 12,
+        },
+        middle: {
+          type: 'string',
+          maxLength: 1,
+        },
+        last: {
+          type: 'string',
+          maxLength: 18,
+        },
+      },
+    },
     applicantDOB: dateOfBirthSchema,
   },
 };

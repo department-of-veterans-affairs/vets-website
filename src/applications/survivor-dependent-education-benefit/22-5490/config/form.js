@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
@@ -14,11 +16,13 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import {
-  addressSchema,
-  addressUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-// import fullSchema from '../22-5490-schema.json';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import get from 'platform/utilities/data/get';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
+
+import { createSelector } from 'reselect';
+
+import fullSchema from '../22-5490-schema.json';
 
 import manifest from '../manifest.json';
 import PersonalInformation from '../components/PersonalInformation';
@@ -26,10 +30,10 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import FormFooter from '../components/FormFooter';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import EmailReviewField from '../components/EmailReviewField';
+import CustomPreSubmitInfo from '../components/PreSubmitInfo';
+import ObfuscateReviewField from '../components/ObfuscateReviewField';
+import TextNotificationsDisclaimer from '../components/TextNotificationDisclaimer';
 
 // pages
 import directDeposit from '../pages/directDeposit';
@@ -38,10 +42,26 @@ import directDeposit from '../pages/directDeposit';
 
 import { prefillTransformer } from '../helpers';
 import { transform5490Form } from '../utils/form-submit-transform';
+import {
+  validateHomePhone,
+  validateMobilePhone,
+  isValidPhone,
+} from '../utils/validations';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
+import YesNoReviewField from '../components/YesNoReviewField';
+import PhoneViewField from '../components/PhoneViewField';
+import PhoneReviewField from '../components/PhoneReviewField';
+import MailingAddressViewField from '../components/MailingAddressViewField';
+import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
+import DirectDepositCustomReview from '../components/DirectDepositCustomReview';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}
 
 function isValidName(str) {
   return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
@@ -51,12 +71,96 @@ function isValidLastName(str) {
   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
+function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function phoneUISchema(category) {
+  const schema = {
+    'ui:options': {
+      hideLabelText: true,
+      showFieldLabel: false,
+      viewComponent: PhoneViewField,
+    },
+    'ui:objectViewField': PhoneReviewField,
+    phone: {
+      ...phoneUI(`${titleCase(category)} phone number`),
+      'ui:validations': [
+        category === 'mobile' ? validateMobilePhone : validateHomePhone,
+      ],
+    },
+    isInternational: {
+      'ui:title': `This ${category} phone number is international`,
+      'ui:reviewField': YesNoReviewField,
+      'ui:options': {
+        hideIf: formData => {
+          if (category === 'mobile') {
+            if (!formData?.mobilePhone?.phone) {
+              return true;
+            }
+          } else if (!formData?.homePhone?.phone) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+  };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
+}
+
+const stateRequiredCountries = new Set(['USA']);
+function customValidateAddress(errors, addressData, formData, currentSchema) {
+  if (
+    stateRequiredCountries.has(addressData.country) &&
+    addressData.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  let isValidPostalCode = true;
+  if (addressData.country === 'USA') {
+    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
+  }
+  if (addressData.country === 'CAN') {
+    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
+  }
+
+  if (addressData.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
+
+function phoneSchema() {
+  return {
+    type: 'object',
+    properties: {
+      phone: {
+        ...usaPhone,
+        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+      isInternational: {
+        type: 'boolean',
+      },
+    },
+  };
+}
+
+const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/meb_api/v0/forms_submit_claim`,
   transformForSubmit: transform5490Form,
   trackingPrefix: 'edu-22-5490-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
@@ -86,6 +190,11 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
+  preSubmitInfo: {
+    CustomComponent: CustomPreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   chapters: {
     applicantInformationChapter: {
       title: 'Veteran or Service Member Information',
@@ -112,18 +221,14 @@ const formConfig = {
                 ...fullNameUI.first,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your first name');
-                      } else if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -132,16 +237,14 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidName(field)) {
-                      if (field[0] === ' ' || field[0] === "'") {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                        );
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -150,22 +253,16 @@ const formConfig = {
                 ...fullNameUI.last,
                 'ui:validations': [
                   (errors, field) => {
-                    if (!isValidLastName(field)) {
-                      if (field.length === 0) {
-                        errors.addError('Please enter your last name');
-                      } else if (
-                        field[0] === ' ' ||
-                        field[0] === "'" ||
-                        field[0] === '-'
-                      ) {
-                        errors.addError(
-                          'First character must be a letter with no leading space.',
-                        );
-                      } else {
-                        errors.addError(
-                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                        );
+                    if (isValidLastName(field)) {
+                      if (field.length < 2) {
+                        errors.addError('Must be 2 characters or more');
+                      } else if (field.length > 26) {
+                        errors.addError('Must be 26 characters or less');
                       }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
                     }
                   },
                 ],
@@ -174,7 +271,10 @@ const formConfig = {
             dateOfBirth: {
               ...currentOrPastDateUI('Date of birth'),
             },
-            ssn: ssnUI,
+            ssn: {
+              ...ssnUI,
+              'ui:reviewField': ObfuscateReviewField,
+            },
           },
           schema: {
             type: 'object',
@@ -208,7 +308,7 @@ const formConfig = {
               'ui:description': (
                 <>
                   <div>
-                    <h3>Choose the benefit you’d like to apply for</h3>
+                    <h3>Choose the benefit you’d like to apply for:</h3>
                     <p>
                       <strong>Note:</strong> If you are eligible for both the
                       Fry Scholarship and Survivors’ and Dependents’ Educational
@@ -293,11 +393,11 @@ const formConfig = {
                       <li>
                         <va-icon
                           size={4}
-                          icon="null"
+                          icon="attach_money"
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
-                        Monthly stipened
+                        Monthly stipend
                       </li>
                     </ul>
 
@@ -309,27 +409,20 @@ const formConfig = {
                       Learn more about DEA education benefit
                     </a>
                   </div>
-                  <div>
-                    <br />
-                    <va-additional-info trigger="Which benefit should I choose?">
-                      <p>
-                        For each benefit, you should consider the amount you can
-                        receive, how payments are made, and when they expire.
-                      </p>
-                    </va-additional-info>
-                  </div>
                 </>
               ),
             },
-            chosenBenefit: {
-              'ui:title': (
+            'view:benefitInfo': {
+              'ui:description': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
                     Which education benefit would you like to apply for?
                   </span>
+                  <br />
+                  <br />
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <va-icon
-                      size={4}
+                      size={3}
                       icon="info"
                       className="vads-u-margin-right--1"
                       aria-hidden="true"
@@ -341,8 +434,12 @@ const formConfig = {
                     You’ll need to apply separately and use one program at a
                     time.
                   </span>
+                  <br />
                 </>
               ),
+            },
+            chosenBenefit: {
+              'ui:title': 'Select one benefit',
               'ui:errorMessages': {
                 required: 'Please select an education benefit',
               },
@@ -380,6 +477,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              'view:benefitInfo': {
+                type: 'object',
+                properties: {},
+              },
               chosenBenefit: {
                 type: 'string',
                 enum: ['fry', 'dea'],
@@ -395,71 +496,43 @@ const formConfig = {
         reviewPersonalInformation: {
           path: 'review-personal-information',
           title: 'Review your Personal Information',
+          CustomPageReview: PersonalInformationReviewField,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    We have this personal information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
+                    We have this personal information on file for you. Any
+                    updates you make will change the information for your
+                    education benefits only. If you want to update your personal
+                    information for other VA benefits, update your information
+                    on your{' '}
+                    <a target="_blank" href="/profile/personal-information">
+                      profile
+                    </a>
+                    .
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to make changes to your
-                    personal information for other VA benefits, update your
-                    information on your profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
+                    <strong>Note:</strong> If you want to request that we change
+                    your name or date of birth, you will need to send additional
+                    information. Learn more on how to change your legal name{' '}
+                    <a
+                      target="_blank"
+                      href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782"
+                    >
+                      on file with VA.
                     </a>
                   </p>
                 </>
               ),
             },
-            // 'view:personalInformation': {
-            //   'ui:description': (formData) => {
-            //     console.log(formData, 'formData in personal information')
-            //     const fullName = () => {
-            //       const firstName = formData?.fullName?.first;
-            //       const middleName = formData?.fullName?.middle;
-            //       const lastName = formData?.fullName?.last;
-            //       console.log(firstName)
-            //       console.log(lastName)
-            //       console.log(formData?.dateOfBirth, "formData?.dateOfBirth")
-            //       if (firstName && lastName) {
-            //         return `${firstName} ${middleName} ${lastName}`;
-            //       } else {
-            //         return "Not available";
-            //       }
-            //     };
-
-            //     return (
-            //       <div>
-            //         <div className="usa-alert background-color-only personal-info-header">
-            //           <h5>Your Personal Information</h5>
-            //         </div>
-            //         <div className="personal-info-border personal-info-text">
-            //           <div>
-            //             <h6>{fullName()}</h6>
-            //             <p>
-            //               <strong>Date of birth:</strong>{' '}
-            //               {formData?.dateOfBirth ? formatReadableDate(formData?.dateOfBirth) : "Not available"}
-            //             </p>
-            //           </div>
-            //         </div>
-            //       </div>
-            //     );
-            //   }
-            // },
             'view:personalInformation': {
               'ui:description': <PersonalInformation />,
             },
             highSchoolDiploma: {
               'ui:title':
-                'Did you earn a high school or equivalency certificate?',
+                'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -470,7 +543,7 @@ const formConfig = {
             },
             graduationDate: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency?',
+                'When did you earn your high school diploma or equivalency certificate?',
               ),
               'ui:required': formData => {
                 return formData?.highSchoolDiploma === 'yes';
@@ -508,10 +581,19 @@ const formConfig = {
       title: 'Additional considerations',
       pages: {
         marriageInformation: {
-          title: 'Additional considerations',
-          subTitle: 'Marriage Information',
+          title: 'Marriage information',
           path: 'marriage-information',
+          depends: formData => {
+            return formData.relationShipToMember === 'spouse';
+          },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage information</h3>
+                </>
+              ),
+            },
             marriageStatus: {
               'ui:title':
                 "What's the status of your marriage with your chosen Veteran or service member?",
@@ -521,7 +603,7 @@ const formConfig = {
                   married: 'Married',
                   divorced: 'Divorced (or divorce in progress)',
                   anulled:
-                    'Marriage was annulled (or an annullment in progress',
+                    'Marriage was annulled (or an annullment in progress)',
                   widowed: 'Widowed',
                 },
               },
@@ -531,6 +613,10 @@ const formConfig = {
             type: 'object',
             required: ['marriageStatus'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               marriageStatus: {
                 type: 'string',
                 enum: ['married', 'divorced', 'anulled', 'widowed'],
@@ -541,7 +627,17 @@ const formConfig = {
         marriageDate: {
           path: 'marriage-date',
           title: 'Marriage Date',
+          depends: formData => {
+            return formData.relationShipToMember === 'spouse';
+          },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage Date</h3>
+                </>
+              ),
+            },
             marriageDate: {
               ...currentOrPastDateUI(
                 'When did you get married to your chosen Veteran or service member?',
@@ -552,6 +648,10 @@ const formConfig = {
             type: 'object',
             required: ['marriageDate'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               marriageDate: date,
             },
           },
@@ -560,9 +660,19 @@ const formConfig = {
           path: 'remarriage-information',
           title: 'Remarriage Information',
           depends: formData => {
-            return formData.marriageStatus !== 'married';
+            return (
+              formData.marriageStatus === 'divorced' &&
+              formData.relationShipToMember === 'spouse'
+            );
           },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage</h3>
+                </>
+              ),
+            },
             remarriageStatus: {
               'ui:title': 'Have you been remarried since your divorce?',
               'ui:widget': 'radio',
@@ -578,6 +688,10 @@ const formConfig = {
             type: 'object',
             required: ['remarriageStatus'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               remarriageStatus: {
                 type: 'string',
                 enum: ['yes', 'no'],
@@ -589,9 +703,20 @@ const formConfig = {
           path: 'remarriage-date',
           title: 'Remarriage Date',
           depends: formData => {
-            return formData.marriageStatus !== 'married';
+            return (
+              formData.marriageStatus === 'divorced' &&
+              formData.relationShipToMember === 'spouse' &&
+              formData.remarriageStatus === 'yes'
+            );
           },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage Date</h3>
+                </>
+              ),
+            },
             remarriageDate: {
               ...currentOrPastDateUI('When did you get remarried?'),
             },
@@ -600,6 +725,10 @@ const formConfig = {
             type: 'object',
             required: ['remarriageDate'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               remarriageDate: date,
             },
           },
@@ -608,6 +737,13 @@ const formConfig = {
           path: 'outstanding-felony',
           title: 'Outstanding Felony',
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Outstanding felony</h3>
+                </>
+              ),
+            },
             felonyOrWarrant: {
               'ui:title':
                 'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
@@ -624,6 +760,10 @@ const formConfig = {
             type: 'object',
             required: ['felonyOrWarrant'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               felonyOrWarrant: {
                 type: 'string',
                 enum: ['yes', 'no'],
@@ -634,12 +774,19 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         contactInformation: {
           path: 'contact-information',
           title: 'Review your phone numbers and email address',
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Review your phone number and email address</h3>
+                </>
+              ),
+            },
             'view:EmailAndphoneNumbers': {
               'ui:description': (
                 <>
@@ -651,31 +798,53 @@ const formConfig = {
                     <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    We have this contact information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make here will be used for your education benefits only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to make changes to your
-                    contact information for other VA benefits, update your
-                    information on your profile.
+                    <strong>Note:</strong> If you want to update your contact
+                    information for other VA benefits, you can do that from your
+                    profile.
+                  </p>
+                  <p>
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/resources/managing-your-vagov-profile/"
+                      rel="noreferrer"
+                    >
+                      Go to your profile
+                    </a>
                   </p>
                 </>
               ),
             },
-            mobilePhone: {
-              ...phoneUI('Mobile phone number'),
-              'ui:widget': CustomPhoneNumberField,
-            },
-            homePhone: phoneUI('Home phone number'),
+            mobilePhone: phoneUISchema('mobile'),
+            homePhone: phoneUISchema('home'),
             email: {
               ...emailUI('Email address'),
               'ui:widget': CustomEmailField,
+              'ui:reviewField': EmailReviewField,
             },
             confirmEmail: {
               ...emailUI('Confirm email address'),
+              'ui:options': {
+                ...emailUI()['ui:options'],
+                hideOnReview: true,
+              },
             },
+            'ui:validations': [
+              (errors, field) => {
+                if (
+                  field?.email?.toLowerCase() !==
+                  field?.confirmEmail?.toLowerCase()
+                ) {
+                  errors.confirmEmail?.addError(
+                    'Sorry, your emails must match',
+                  );
+                }
+              },
+            ],
             'view:confirmDuplicateData': {
               'ui:description': DuplicateContactInfoModal,
             },
@@ -684,12 +853,16 @@ const formConfig = {
             type: 'object',
             required: ['email', 'confirmEmail'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               'view:EmailAndphoneNumbers': {
                 type: 'object',
                 properties: {},
               },
-              mobilePhone: usaPhone,
-              homePhone: usaPhone,
+              mobilePhone: phoneSchema(),
+              homePhone: phoneSchema(),
               email: {
                 type: 'string',
                 format: 'email',
@@ -729,7 +902,7 @@ const formConfig = {
                     profile.
                   </p>
                   <p>
-                    <a href="/profile/personal-information">
+                    <a target="_blank" href="/profile/personal-information">
                       Go to your profile
                     </a>
                   </p>
@@ -737,24 +910,276 @@ const formConfig = {
               ),
             },
             mailingAddressInput: {
-              ...addressUI({
-                labels: {
-                  militaryCheckbox:
-                    'I live on a United States military base outside of the U.S.',
+              'ui:description': (
+                <>
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                    Mailing address
+                  </h4>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your mailing address, please edit
+                    the form fields below.
+                  </p>
+                </>
+              ),
+              livesOnMilitaryBase: {
+                'ui:title': (
+                  <span id="LiveOnMilitaryBaseTooltip">
+                    I live on a United States military base outside of the
+                    country
+                  </span>
+                ),
+                'ui:reviewField': YesNoReviewField,
+              },
+              livesOnMilitaryBaseInfo: {
+                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
+              },
+              address: {
+                ...address.uiSchema('', false, null, true),
+                'ui:validations': [customValidateAddress],
+                'ui:options': {
+                  updateSchema: (formData, addressSchema) => {
+                    const livesOnMilitaryBase =
+                      formData?.mailingAddressInput?.livesOnMilitaryBase;
+                    const country =
+                      formData?.mailingAddressInput?.address?.country || 'USA';
+
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
+                    if (livesOnMilitaryBase) {
+                      return {
+                        ...addressSchema,
+                        properties: {
+                          ...addressSchema.properties,
+                          state: {
+                            type: 'string',
+                            title: 'AE/AA/AP',
+                            enum: ['AE', 'AA', 'AP'],
+                            enumNames: [
+                              'AE - APO/DPO/FPO',
+                              'AA - APO/DPO/FPO',
+                              'AP - APO/DPO/FPO',
+                            ],
+                          },
+                        },
+                      };
+                    }
+
+                    let stateSchema = {
+                      type: 'string',
+                      title: 'State/County/Province',
+                    };
+
+                    if (country === 'USA') {
+                      stateSchema = {
+                        ...stateSchema,
+                        enum: constants.states.USA.map(state => state.value),
+                        enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
+                      };
+                    }
+                    return {
+                      ...addressSchema,
+                      required,
+                      properties: {
+                        ...addressSchema.properties,
+                        state: stateSchema,
+                      },
+                    };
+                  },
                 },
-                omit: ['street3'],
-              }),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData?.mailingAddressInput?.livesOnMilitaryBase,
+                  'ui:disabled': formData =>
+                    formData?.mailingAddressInput?.livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['mailingAddressInput', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['mailingAddressInput', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (livesOnMilitaryBase) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+
+                      countryUI['ui:disabled'] = false;
+
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
+                street: {
+                  'ui:title': 'Street address',
+                  'ui:errorMessages': {
+                    required: 'Please enter your full street address',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError(
+                          'Please enter your full street address',
+                        );
+                      } else if (field?.length < 3) {
+                        errors.addError('minimum of 3 characters');
+                      } else if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
+                      }
+                    },
+                  ],
+                },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
+                      }
+                    },
+                  ],
+                },
+                city: {
+                  'ui:errorMessages': {
+                    required: 'Please enter a valid city',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a valid city');
+                      } else if (field?.length < 2) {
+                        errors.addError('minimum of 2 characters');
+                      } else if (field?.length > 20) {
+                        errors.addError('maximum of 20 characters');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      const livesOnBase =
+                        formData?.mailingAddressInput?.livesOnMilitaryBase;
+
+                      if (livesOnBase) {
+                        // Start with APO/FPO
+                        const baseEnum = ['APO', 'FPO'];
+
+                        // Conditionally add DPO if feature flag is on
+                        if (formData?.mebDpoAddressOptionEnabled) {
+                          baseEnum.push('DPO');
+                        }
+
+                        return {
+                          type: 'string',
+                          title: formData?.mebDpoAddressOptionEnabled
+                            ? 'APO/FPO/DPO'
+                            : 'APO/FPO',
+                          enum: baseEnum,
+                        };
+                      }
+
+                      // Otherwise, a normal City text field
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
+                  },
+                },
+                state: {
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
+                },
+                postalCode: {
+                  'ui:errorMessages': {
+                    required: 'This field is required.',
+                  },
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        !formData?.mailingAddressInput?.livesOnMilitaryBase &&
+                        formData?.mailingAddressInput?.address?.country !==
+                          'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                          maxLength: 10,
+                          minLength: 3,
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
+                  },
+                },
+              },
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: MailingAddressViewField,
+              },
             },
           },
           schema: {
             type: 'object',
-            required: [],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              mailingAddressInput: addressSchema({ omit: ['street3'] }),
+              mailingAddressInput: {
+                type: 'object',
+                properties: {
+                  livesOnMilitaryBase: {
+                    type: 'boolean',
+                  },
+                  livesOnMilitaryBaseInfo: {
+                    type: 'object',
+                    properties: {},
+                  },
+                  address: {
+                    ...address.schema(fullSchema, true),
+                  },
+                },
+              },
             },
           },
         },
@@ -764,52 +1189,261 @@ const formConfig = {
           uiSchema: {
             contactMethod: {
               'ui:title':
-                'How should we contact you if we have questions on your application?',
+                'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
+              'ui:errorMessages': {
+                required: 'Please select at least one way we can contact you.',
+              },
               'ui:options': {
-                labels: {
-                  email: 'Email',
-                  mobilePhone: 'Mobile phone',
-                  homePhone: 'Home phone',
-                  mail: 'Mail',
-                },
+                updateSchema: (() => {
+                  const filterContactMethods = createSelector(
+                    form => form.mobilePhone?.phone,
+                    form => form?.homePhone?.phone,
+                    (mobilePhoneNumber, homePhoneNumber) => {
+                      const invalidContactMethods = [];
+
+                      if (!mobilePhoneNumber) {
+                        invalidContactMethods.push('Mobile Phone');
+                      }
+                      if (!homePhoneNumber) {
+                        invalidContactMethods.push('Home Phone');
+                      }
+
+                      return {
+                        enum: contactMethods.filter(
+                          method => !invalidContactMethods.includes(method),
+                        ),
+                      };
+                    },
+                  );
+
+                  return form => filterContactMethods(form);
+                })(),
               },
             },
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Choose how you want to get notifications?</h3>
-                  <p>
-                    We recommend that you opt in to text message notifications
-                    about your benefits. These notifications can prompt you to
-                    verify your enrollment so you’ll receive your education
-                    payments. You can verify your monthly enrollment easily this
-                    way.
-                  </p>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <p className="vads-u-margin-y--0">
-                      If you choose to get text message notifications from VA’s
-                      GI Bill program, message and data rates may apply. Two
-                      messages per month. At this time, we can only send text
-                      messages to U.S. mobile phone numbers. Text STOP to opt
-                      out or HELP for help. View Terms and Conditions and
-                      Privacy Policy.
+                  <div className="meb-form-page-only">
+                    <h3>Choose how you want to get notifications</h3>
+                    <p>
+                      We recommend that you opt in to text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
-                  </va-alert>
+
+                    <TextNotificationsDisclaimer />
+                  </div>
                 </>
               ),
             },
             notificationMethod: {
-              'ui:title': 'Choose how you want to get notifications?',
+              'ui:title':
+                'Would you like to receive text message notifications about your education benefits?',
               'ui:widget': 'radio',
+              'ui:validations': [
+                (errors, field, formData) => {
+                  const isYes = field?.startsWith('Yes');
+                  const phoneExist = !!formData?.mobilePhone?.phone;
+                  const { isInternational } = formData?.mobilePhone;
+
+                  if (isYes) {
+                    if (!phoneExist) {
+                      errors.addError(
+                        "You can't select that response because we don't have a mobile phone number on file for you.",
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        "You can't select that response because you have an international mobile phone number",
+                      );
+                    }
+                  }
+                },
+              ],
               'ui:options': {
-                labels: {
-                  yes: 'Yes, send me text message notifications',
-                  no: 'No, just send me email notifications',
+                widgetProps: {
+                  Email: { 'data-info': 'email' },
+                  Text: { 'data-info': 'text' },
+                  None: { 'data-info': 'none' },
+                },
+                selectedProps: {
+                  Email: { 'aria-describedby': 'email' },
+                  Text: { 'aria-describedby': 'text' },
+                  None: { 'aria-describedby': 'none' },
+                },
+              },
+            },
+            'view:noElectronicCommunicationText': {
+              'ui:description': (
+                <>
+                  <div>
+                    <p>
+                      <strong>Note:</strong> If you don’t want electronic
+                      notifications, we’ll only send you information about your
+                      claim through the mail.
+                    </p>
+                  </div>
+                </>
+              ),
+            },
+            'view:noElectronicCommunicationAlert': {
+              'ui:options': {
+                hideIf: formData => {
+                  return (
+                    formData?.notificationMethod !==
+                    "I don't want to receive electronic notifications"
+                  );
+                },
+              },
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    Opting out of receiving electronic notifications will affect
+                    your ability to verify enrollments using email and text
+                    messaging. To verify you will be required to access{' '}
+                    <a
+                      href="https://ask.va.gov/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Ask VA
+                    </a>{' '}
+                    or use our online system.
+                  </>
+                </va-alert>
+              ),
+            },
+            'view:textMessagesAlert': {
+              'ui:description': (
+                <va-alert status="info">
+                  <>
+                    If you choose to get text message notifications from VA’s GI
+                    Bill program, message and data rates may apply. Students
+                    will receive an average of two messages per month. At this
+                    time, we can only send text messages to U.S. mobile phone
+                    numbers. Text STOP to opt out or HELP for help.{' '}
+                    <a
+                      href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      View Terms and Conditions and Privacy Policy.
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const mobilePhone = formData?.mobilePhone?.phone;
+                  const isInternational =
+                    formData?.mobilePhone?.isInternational;
+                  return !isValidPhone(mobilePhone) || isInternational;
+                },
+              },
+            },
+            'view:noMobilePhoneAlert': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    <p>
+                      We can’t send you text message notifications because we
+                      don’t have a mobile phone number on file for you or your
+                      number is an international number.
+                    </p>
+
+                    <Link
+                      aria-label="Go back and add a mobile phone number"
+                      to={{
+                        pathname: 'contact-information',
+                      }}
+                    >
+                      Go back and add or update your mobile phone number
+                    </Link>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const mobilePhoneInfo = formData?.mobilePhone;
+                  const mobilePhone = mobilePhoneInfo?.phone;
+                  const isInternational = mobilePhoneInfo?.isInternational;
+                  const wantsTexts = formData?.notificationMethod?.startsWith(
+                    'Yes',
+                  );
+
+                  return !(
+                    wantsTexts &&
+                    (!isValidPhone(mobilePhone) || isInternational)
+                  );
+                },
+              },
+            },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isNo = formData?.notificationMethod?.startsWith('No');
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  return !isNo || noDuplicates;
+                },
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData?.notificationMethod?.startsWith('Yes');
+                  const mobilePhone = formData?.mobilePhone.phone;
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  return !isYes || noDuplicates || !mobilePhone;
                 },
               },
             },
@@ -828,7 +1462,35 @@ const formConfig = {
               },
               notificationMethod: {
                 type: 'string',
-                enum: ['yes', 'no'],
+                enum: [
+                  'Yes, send me text message notifications',
+                  'No, just send me email notifications',
+                  "I don't want to receive electronic notifications",
+                ],
+              },
+              'view:noElectronicCommunicationText': {
+                type: 'object',
+                properties: {},
+              },
+              'view:noMobilePhoneAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:noElectronicCommunicationAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:textMessagesAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -841,6 +1503,7 @@ const formConfig = {
         directDeposit: {
           path: 'direct-deposit',
           title: 'Enter your direct deposit information',
+          CustomPageReview: DirectDepositCustomReview,
           uiSchema: directDeposit.uiSchema,
           schema: directDeposit.schema,
         },

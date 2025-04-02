@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -31,15 +32,15 @@ import { getMockData } from '../helpers';
 
 const mockData = testData.data;
 
-// export isLocalhost() to facilitate unit-testing
-export function isLocalhost() {
-  return environment.isLocalhost();
+export function isLocalhostOrDev() {
+  return environment.isLocalhost() || environment.isDev();
 }
 
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: !window.Cypress,
+    showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -87,23 +88,18 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   chapters: {
     preparerTypeChapter: {
-      title: 'Requester information',
+      title: 'Your personal information',
       pages: {
         preparerTypePage: {
           path: 'preparer-type',
           title: 'Preparer type',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData: getMockData(mockData, isLocalhost),
+          initialData: getMockData(mockData, isLocalhostOrDev),
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',
         },
-      },
-    },
-    personalInformationChapter: {
-      title: 'Your name and date of birth',
-      pages: {
         personalInfoPage: {
           path: 'personal-information',
           title: 'Name and date of birth',
@@ -111,11 +107,6 @@ const formConfig = {
           schema: persInfoPg.schema,
           pageClass: 'personal-information',
         },
-      },
-    },
-    identificationInformationChapter: {
-      title: 'Your identification information',
-      pages: {
         citizenIdentificationInfoPage: {
           depends: {
             preparerType: PREPARER_TYPES.CITIZEN,
@@ -138,8 +129,8 @@ const formConfig = {
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Your mailing address',
+    contactInformationChapter: {
+      title: 'Your contact information',
       pages: {
         addressPage: {
           path: 'contact-information',
@@ -148,11 +139,6 @@ const formConfig = {
           schema: addressPg.schema,
           pageClass: 'address',
         },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Your contact information',
-      pages: {
         phoneEmailPage: {
           path: 'phone-email',
           title: 'Phone and email address',
@@ -163,7 +149,7 @@ const formConfig = {
       },
     },
     recordsChapter: {
-      title: 'Records',
+      title: 'Records requested',
       pages: {
         recordSelectionsPage: {
           path: 'record-selections',
@@ -172,11 +158,6 @@ const formConfig = {
           schema: recordSelectionsPg.schema,
           pageClass: 'record-selections',
         },
-      },
-    },
-    disabilityExamDetailsChapter: {
-      title: 'Disability exam details',
-      pages: {
         disabilityExamDetailsPage: {
           depends: {
             recordSelections: {
@@ -184,16 +165,11 @@ const formConfig = {
             },
           },
           path: 'disability-exam-details',
-          title: 'Disability exam details',
+          title: 'Claim exam details',
           uiSchema: disExamDetailsPg.uiSchema,
           schema: disExamDetailsPg.schema,
           pageClass: 'disability-exam-details',
         },
-      },
-    },
-    financialRecordDetailsChapter: {
-      title: 'Financial record details',
-      pages: {
         financialRecordDetailsPage: {
           path: 'financial-record-details',
           title: 'Financial record details',
@@ -206,11 +182,6 @@ const formConfig = {
           schema: finRecDetailsPg.schema,
           pageClass: 'financial-record-details',
         },
-      },
-    },
-    lifeInsuranceBenefitDetailsChapter: {
-      title: 'Life insurance benefit details',
-      pages: {
         lifeInsuranceBenefitDetailsPage: {
           depends: {
             recordSelections: {
@@ -223,11 +194,6 @@ const formConfig = {
           schema: lifeInsBenefitDetailsPg.schema,
           pageClass: 'life-insurance-benefit-details',
         },
-      },
-    },
-    otherCompensationAndPensionDetailsChapter: {
-      title: 'Compensation and/or pension details',
-      pages: {
         otherCompensationAndPensionDetailsPage: {
           depends: {
             recordSelections: {
@@ -240,11 +206,6 @@ const formConfig = {
           schema: otherCompPenDetailsPg.schema,
           pageClass: 'other-compensation-and-pension-details',
         },
-      },
-    },
-    otherBenefitDetailsChapter: {
-      title: 'Benefit record details',
-      pages: {
         otherBenefitDetailsPage: {
           depends: {
             // 'view:userIdVerified': true,
@@ -293,6 +254,9 @@ const formConfig = {
     appType: 'request',
     appAction: 'requesting your personal records',
     submitButtonText: 'Submit request',
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

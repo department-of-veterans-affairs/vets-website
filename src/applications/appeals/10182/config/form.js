@@ -9,6 +9,8 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
+import { SUBMIT_URL } from '../constants/apis';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
@@ -64,7 +66,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: 'notice_of_disagreements',
+  submitUrl: SUBMIT_URL,
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
@@ -105,8 +107,13 @@ const formConfig = {
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
   scrollAndFocusTarget: focusH3, // scroll and focus fallback
+  reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
+
+  formOptions: {
+    focusOnAlertRole: true,
+  },
 
   chapters: {
     infoPages: {

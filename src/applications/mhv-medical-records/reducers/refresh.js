@@ -23,6 +23,9 @@ const initialState = {
 
   /** TRUE if status polling times out and the phase is still stale */
   isTimedOut: false,
+
+  /** The date when we first polled the status endpoint when loading the app */
+  statusPollBeginDate: null,
 };
 
 export const safeNewDate = dateStr => {
@@ -113,7 +116,13 @@ export const refreshReducer = (state = initialState, action) => {
     case Actions.Refresh.SET_INITIAL_FHIR_LOAD: {
       return {
         ...state,
-        initialFhirLoad: true,
+        initialFhirLoad: state.initialFhirLoad || action.payload,
+      };
+    }
+    case Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD: {
+      return {
+        ...state,
+        initialFhirLoad: null,
       };
     }
     case Actions.Refresh.GET_STATUS: {
@@ -144,6 +153,18 @@ export const refreshReducer = (state = initialState, action) => {
       return {
         ...state,
         isTimedOut: true,
+      };
+    }
+    case Actions.Refresh.SET_STATUS_POLL_BEGIN: {
+      return {
+        ...state,
+        statusPollBeginDate: action.payload,
+      };
+    }
+    case Actions.Refresh.STATUS_CALL_FAILED: {
+      return {
+        ...state,
+        phase: refreshPhases.CALL_FAILED,
       };
     }
     default:

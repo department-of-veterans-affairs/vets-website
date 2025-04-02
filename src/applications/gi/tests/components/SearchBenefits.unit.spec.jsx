@@ -207,4 +207,57 @@ describe('SearchBenefits', () => {
     expect(setEnlistmentService.calledWith('33b')).to.equal(true);
     wrapper.unmount();
   });
+  it('should render ', async () => {
+    const setEligForPostGiBill = sinon.spy();
+    const wrapper = mount(
+      <Provider store={store}>
+        <SearchBenefits setEligForPostGiBill={setEligForPostGiBill} />
+      </Provider>,
+    );
+
+    const dropdown = wrapper.find('Dropdown[name="eligForPostGiBill"]');
+    dropdown.props().onChange({ target: { value: 'no' } });
+    expect(setEligForPostGiBill.calledWith('no')).to.equal(true);
+    wrapper.unmount();
+  });
+  it('should set giBillChapter to 33a and update isDisabled based on militaryStatus when toggleValue is false', async () => {
+    const setGiBillChapter = sinon.spy();
+    const setMilitaryStatus = sinon.spy();
+    const wrapper = mount(
+      <Provider store={store}>
+        <SearchBenefits
+          setGiBillChapter={setGiBillChapter}
+          setMilitaryStatus={setMilitaryStatus}
+        />
+      </Provider>,
+    );
+
+    const dropdown = wrapper.find('Dropdown[name="militaryStatus"]');
+    dropdown
+      .props()
+      .onChange({ target: { name: 'militaryStatus', value: 'spouse' } });
+
+    await waitFor(() => {
+      expect(setMilitaryStatus.calledWith('spouse')).to.be.true;
+      expect(setGiBillChapter.calledWith('33a')).to.be.true;
+    });
+    dropdown
+      .props()
+      .onChange({ target: { name: 'militaryStatus', value: 'child' } });
+
+    await waitFor(() => {
+      expect(setMilitaryStatus.calledWith('child')).to.be.true;
+      expect(setGiBillChapter.calledWith('33a')).to.be.true;
+    });
+    dropdown
+      .props()
+      .onChange({ target: { name: 'militaryStatus', value: 'veteran' } });
+
+    await waitFor(() => {
+      expect(setMilitaryStatus.calledWith('veteran')).to.be.true;
+      expect(setGiBillChapter.calledWith('33a')).to.be.true;
+    });
+
+    wrapper.unmount();
+  });
 });

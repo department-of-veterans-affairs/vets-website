@@ -1,7 +1,6 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { within } from '@testing-library/react';
+import { within, waitFor } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -10,16 +9,18 @@ import { renderWithRouter } from '../utils';
 
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
-    const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
+    const { container } = renderWithRouter(<ClaimDetailLayout loading />);
 
-    expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
+    expect($('va-loading-indicator', container)).to.exist;
   });
 
   it('should render unavailable warning', () => {
     const claim = null;
 
-    const tree = SkinDeep.shallowRender(<ClaimDetailLayout claim={claim} />);
-    expect(tree.everySubTree('ClaimsUnavailable')).to.have.lengthOf(1);
+    const container = renderWithRouter(<ClaimDetailLayout claim={claim} />);
+    expect(container.getByRole('heading', { level: 2 })).to.contain.text(
+      'Claim status is unavailable',
+    );
   });
 
   it('should render when the claim was submitted', () => {
@@ -31,9 +32,9 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const screen = renderWithRouter(<ClaimDetailLayout claim={claim} />);
+    const container = renderWithRouter(<ClaimDetailLayout claim={claim} />);
 
-    expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
+    expect(container.getByRole('heading', { level: 1 })).to.contain.text(
       'Received on November 23, 2023',
     );
   });
@@ -47,11 +48,14 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
+    const { getByText, container } = renderWithRouter(
       <ClaimDetailLayout currentTab="Status" claim={claim} />,
     );
 
-    expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
+    expect($('va-alert', container)).to.exist;
+    getByText(
+      "We can't show all of the details of your claim. Please check back later.",
+    );
   });
 
   it('should not render adding details info if closed', () => {
@@ -63,11 +67,11 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <ClaimDetailLayout currentTab="Status" claim={claim} />,
     );
 
-    expect(tree.everySubTree('AddingDetails')).to.be.empty;
+    expect($('[data-test-id="adding-details"]', container)).to.not.exist;
   });
 
   it('should render 3 tabs', () => {
@@ -96,14 +100,14 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <ClaimDetailLayout currentTab="Status" claim={claim}>
         <div className="child-content" />
       </ClaimDetailLayout>,
     );
 
-    expect(tree.everySubTree('AddingDetails')).to.be.empty;
-    expect(tree.everySubTree('.child-content')).not.to.be.empty;
+    expect($('[data-test-id="adding-details"]', container)).to.not.exist;
+    expect($('.child-content', container)).to.exist;
   });
 
   it('should render message', () => {
@@ -117,18 +121,40 @@ describe('<ClaimDetailLayout>', () => {
       body: 'Testing',
     };
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <ClaimDetailLayout message={message} claim={claim} />,
     );
 
-    expect(tree.subTree('Notification')).not.to.be.false;
+    expect($('.claims-alert', container)).to.exist;
+  });
+
+  it('should render Notification and set focus on it', async () => {
+    const claim = {
+      attributes: {
+        claimType: 'Compensation',
+        claimDate: '2025-02-01',
+      },
+    };
+    const message = {
+      title: 'Test',
+      body: 'Testing',
+    };
+
+    const { container } = renderWithRouter(
+      <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />,
+    );
+
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    await waitFor(() => {
+      expect(document.activeElement).to.equal(selector);
+    });
   });
 
   describe('<ClaimsBreadcrumbs>', () => {
     it('should render default breadcrumbs for the Your Claims list page while loading', () => {
-      const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
-      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.be.an('array')
-        .that.is.empty;
+      const { container } = renderWithRouter(<ClaimDetailLayout loading />);
+      expect($('va-breadcrumbs', container)).to.exist;
     });
     it('should render breadcrumbs specific to the claim once loaded', () => {
       const claim = {
@@ -138,10 +164,17 @@ describe('<ClaimDetailLayout>', () => {
           claimTypeCode: '130PSA',
         },
       };
-      const tree = SkinDeep.shallowRender(
+      const { container } = renderWithRouter(
         <ClaimDetailLayout claim={claim} currentTab="Status" />,
       );
-      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+
+      expect($('va-breadcrumbs', container).breadcrumbList).to.eql([
+        { href: '/', label: 'VA.gov home' },
+        {
+          href: '/your-claims',
+          label: 'Check your claims and appeals',
+          isRouterLink: true,
+        },
         {
           href: '../status',
           label: 'Status of your request to add or remove a dependent',
@@ -150,10 +183,16 @@ describe('<ClaimDetailLayout>', () => {
       ]);
     });
     it('should render a default breadcrumb if the claim fails to load', () => {
-      const tree = SkinDeep.shallowRender(
+      const { container } = renderWithRouter(
         <ClaimDetailLayout claim={null} currentTab="Status" />,
       );
-      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+      expect($('va-breadcrumbs', container).breadcrumbList).to.eql([
+        { href: '/', label: 'VA.gov home' },
+        {
+          href: '/your-claims',
+          label: 'Check your claims and appeals',
+          isRouterLink: true,
+        },
         {
           href: '../status',
           label: 'Status of your claim',

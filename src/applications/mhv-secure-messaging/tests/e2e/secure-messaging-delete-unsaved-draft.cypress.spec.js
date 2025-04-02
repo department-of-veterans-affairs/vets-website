@@ -38,7 +38,7 @@ describe('Secure Messaging Delete Unsaved Compose Draft', () => {
     cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ force: true });
     cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
     cy.get('h1').should('have.text', Assertions.INBOX);
-    cy.get(Locators.ALERTS.CONFIRM).should(
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
       'contain.text',
       'Draft was successfully deleted.',
     );

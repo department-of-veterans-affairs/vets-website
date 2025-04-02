@@ -100,4 +100,16 @@ export default Object.freeze({
   getRawBuildtype() {
     return __BUILDTYPE__;
   },
+
+  isTest() {
+    return !!(
+      window?.Cypress ||
+      window?.Mocha ||
+      process?.env?.NODE_ENV === 'test'
+    );
+  },
+
+  isUnitTest() {
+    return !!(window?.Mocha || process?.env?.NODE_ENV === 'test');
+  },
 });

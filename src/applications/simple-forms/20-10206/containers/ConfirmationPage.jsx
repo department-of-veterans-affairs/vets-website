@@ -1,29 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-
-const content = {
-  headlineText: 'You’ve submitted your personal records request',
-  nextStepsText:
-    'After we review your request, we’ll contact you to tell you what happens next in the request process.',
-};
-
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
-    <ConfirmationPageView
-      formType="submission"
-      submitterHeader="Who submitted this form"
-      submitterName={form.data.fullName}
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
     />
   );
 };
@@ -49,6 +43,9 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {

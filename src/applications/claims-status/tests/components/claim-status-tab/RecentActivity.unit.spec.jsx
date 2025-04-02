@@ -230,6 +230,7 @@ const openClaimStep3WithAcceptedItem = {
     trackedItems: [
       {
         id: 1,
+        receivedDate: '2024-05-20',
         requestedDate: '2024-05-12',
         status: 'ACCEPTED',
         displayName: 'Accepted Request',
@@ -238,7 +239,7 @@ const openClaimStep3WithAcceptedItem = {
   },
 };
 
-const openClaimStep4WithMultipleItems = {
+const openClaimStep4WithOver10Items = {
   attributes: {
     claimDate: '2024-05-02',
     claimPhaseDates: {
@@ -280,6 +281,7 @@ const openClaimStep4WithMultipleItems = {
       {
         id: 5,
         closedDate: '2024-05-24',
+        requestedDate: '2024-05-20',
         status: 'NO_LONGER_REQUIRED',
         displayName: 'No longer required Request',
       },
@@ -322,6 +324,93 @@ const openClaimStep4WithMultipleItems = {
         requestedDate: '2024-05-28',
         status: 'ACCEPTED',
         displayName: 'Accepted Request',
+      },
+    ],
+  },
+};
+
+const openClaimStep4WithClosedItem = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-06-07',
+      currentPhaseBack: false,
+      latestPhaseType: 'REVIEW_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+        phase3CompleteDate: '2024-06-07',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 3,
+        closedDate: '2024-05-24',
+        requestedDate: '2024-05-20',
+        status: 'NO_LONGER_REQUIRED',
+        displayName: 'No longer required Request',
+      },
+    ],
+  },
+};
+
+const openClaimStep4WithDocumentsSubmittedForTrackedItem = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-06-07',
+      currentPhaseBack: false,
+      latestPhaseType: 'REVIEW_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+        phase3CompleteDate: '2024-06-07',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 5,
+        requestedDate: '2024-05-20',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        displayName: 'Submitted awaiting Request',
+        documents: [
+          {
+            uploadDate: '2024-05-24',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+const openClaimStep4WithDocumentsReceivedForTrackedItem = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-06-07',
+      currentPhaseBack: false,
+      latestPhaseType: 'REVIEW_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+        phase3CompleteDate: '2024-06-07',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 4,
+        requestedDate: '2024-05-20',
+        receivedDate: '2024-05-27',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        displayName: 'Submitted and received Request',
+        documents: [
+          {
+            uploadDate: '2024-05-24',
+          },
+        ],
       },
     ],
   },
@@ -479,7 +568,7 @@ describe('<RecentActivity>', () => {
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
           getByText('Request for you');
-          getByText('We opened a request for "Needed from you Request"');
+          getByText('We opened a request: "Needed from you Request"');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NEEDED_FROM_OTHERS record', () => {
@@ -498,7 +587,7 @@ describe('<RecentActivity>', () => {
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
           getByText('Request for others');
-          getByText('We opened a request for "Needed from others Request"');
+          getByText('We opened a request: "Needed from others Request"');
           expect($('va-alert', container)).to.exist;
           getByLabelText('Add information for Needed from others Request');
           expect($('va-pagination', container)).not.to.exist;
@@ -518,7 +607,7 @@ describe('<RecentActivity>', () => {
           getByText('We received your claim in our system');
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
-          getByText('We closed a request for "No longer required Request"');
+          getByText('We closed a request: "No longer required Request"');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with SUBMITTED_AWAITING_REVIEW', () => {
@@ -539,7 +628,7 @@ describe('<RecentActivity>', () => {
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
           getByText(
-            'We received your document(s) for "Submitted awaiting Request"',
+            'We received your document(s) for the request: "Submitted awaiting Request"',
           );
           expect($('va-pagination', container)).not.to.exist;
         });
@@ -561,7 +650,7 @@ describe('<RecentActivity>', () => {
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
           getByText(
-            'We completed a review for "Initial review complete Request"',
+            'We completed a review for the request: "Initial review complete Request"',
           );
           expect($('va-pagination', container)).not.to.exist;
         });
@@ -576,11 +665,14 @@ describe('<RecentActivity>', () => {
           expect(recentActivityList).to.exist;
           expect(
             within(recentActivityList).getAllByRole('listitem').length,
-          ).to.equal(4);
+          ).to.equal(5);
           getByText('We received your claim in our system');
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
-          getByText('We completed a review for "Accepted Request"');
+          getByText(`We opened a request: "Accepted Request"`);
+          getByText(
+            'We completed a review for the request: "Accepted Request"',
+          );
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should mask activity descriptions from Datadog because they sometimes contain filenames (no PII)', () => {
@@ -598,7 +690,7 @@ describe('<RecentActivity>', () => {
         it('should render list with pagination', () => {
           const { container } = renderWithRouter(
             <Provider store={getStore(true)}>
-              <RecentActivity claim={openClaimStep4WithMultipleItems} />
+              <RecentActivity claim={openClaimStep4WithOver10Items} />
             </Provider>,
           );
 
@@ -610,6 +702,93 @@ describe('<RecentActivity>', () => {
           const pagination = $('va-pagination', container);
           expect(pagination).to.exist;
           expect(pagination.pages).to.equal(2);
+        });
+        it('shows closed tracked item history in recent activity', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <RecentActivity claim={openClaimStep4WithClosedItem} />
+            </Provider>,
+          );
+
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(6);
+          getByText('May 2, 2024');
+          getByText('We received your claim in our system');
+          getByText('May 10, 2024');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('May 20, 2024');
+          getByText(`We opened a request: "No longer required Request"`);
+          getByText('May 22, 2024');
+          getByText('Your claim moved into Step 3: Evidence gathering');
+          getByText('May 24, 2024');
+          getByText(`We closed a request: "No longer required Request"`);
+          getByText('June 7, 2024');
+          getByText(`Your claim moved into Step 4: Evidence review`);
+        });
+        it('shows documents submitted tracked item history in recent activity', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <RecentActivity
+                claim={openClaimStep4WithDocumentsSubmittedForTrackedItem}
+              />
+            </Provider>,
+          );
+
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(6);
+          getByText('May 2, 2024');
+          getByText('We received your claim in our system');
+          getByText('May 10, 2024');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('May 20, 2024');
+          getByText(`We opened a request: "Submitted awaiting Request"`);
+          getByText('May 22, 2024');
+          getByText('Your claim moved into Step 3: Evidence gathering');
+          getByText('May 24, 2024');
+          getByText(
+            `We received your document(s) for the request: "Submitted awaiting Request"`,
+          );
+          getByText('June 7, 2024');
+          getByText(`Your claim moved into Step 4: Evidence review`);
+        });
+        it('shows documents submitted tracked item history in recent activity', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <RecentActivity
+                claim={openClaimStep4WithDocumentsReceivedForTrackedItem}
+              />
+            </Provider>,
+          );
+
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(7);
+          getByText('May 2, 2024');
+          getByText('We received your claim in our system');
+          getByText('May 10, 2024');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('May 20, 2024');
+          getByText(`We opened a request: "Submitted and received Request"`);
+          getByText('May 22, 2024');
+          getByText('Your claim moved into Step 3: Evidence gathering');
+          getByText('May 24, 2024');
+          getByText(
+            `We received your document(s) for the request: "Submitted and received Request"`,
+          );
+          getByText('May 27, 2024');
+          getByText(
+            `We completed a review for the request: "Submitted and received Request"`,
+          );
+          getByText('June 7, 2024');
+          getByText(`Your claim moved into Step 4: Evidence review`);
         });
         context(
           'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
@@ -631,7 +810,9 @@ describe('<RecentActivity>', () => {
               getByText('Your claim moved into Step 3: Evidence gathering');
               getByText('Your claim moved into Step 4: Evidence review');
               getByText('Request for you');
-              getByText('We opened a request for "5103 Evidence Notice"');
+              getByText(
+                'We opened a request: "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
@@ -657,7 +838,7 @@ describe('<RecentActivity>', () => {
               getByText('Your claim moved into Step 4: Evidence review');
               getByText('Request for you');
               getByText(
-                'We opened a request for "Automated 5103 Notice Response"',
+                'We opened a request: "Automated 5103 Notice Response"',
               );
               expect($('va-pagination', container)).not.to.exist;
             });
@@ -677,12 +858,17 @@ describe('<RecentActivity>', () => {
               expect(recentActivityList).to.exist;
               expect(
                 within(recentActivityList).getAllByRole('listitem').length,
-              ).to.equal(5);
+              ).to.equal(6);
               getByText('We received your claim in our system');
               getByText('Your claim moved into Step 2: Initial review');
+              getByText(
+                `We opened a request: "List of evidence we may need (5103 notice)"`,
+              );
               getByText('Your claim moved into Step 3: Evidence gathering');
               getByText('Your claim moved into Step 4: Evidence review');
-              getByText('We closed a request for "5103 Notice Response"');
+              getByText(
+                'We closed a request: "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
@@ -701,12 +887,13 @@ describe('<RecentActivity>', () => {
               expect(recentActivityList).to.exist;
               expect(
                 within(recentActivityList).getAllByRole('listitem').length,
-              ).to.equal(5);
+              ).to.equal(6);
               getByText('We received your claim in our system');
               getByText('Your claim moved into Step 2: Initial review');
+              getByText(`We opened a request: "5103 Notice Response"`);
               getByText('Your claim moved into Step 3: Evidence gathering');
               getByText('Your claim moved into Step 4: Evidence review');
-              getByText('We closed a request for "5103 Notice Response"');
+              getByText('We closed a request: "5103 Notice Response"');
               expect($('va-pagination', container)).not.to.exist;
             });
           },
@@ -818,7 +1005,7 @@ describe('<RecentActivity>', () => {
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
           getByText('Request for you');
-          getByText('We opened a request for "Needed from you Request"');
+          getByText('We opened a request: "Needed from you Request"');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NEEDED_FROM_OTHERS record', () => {
@@ -839,7 +1026,7 @@ describe('<RecentActivity>', () => {
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
           getByText('Request for others');
-          getByText('We opened a request for "Needed from others Request"');
+          getByText('We opened a request: "Needed from others Request"');
           expect($('va-alert', container)).to.exist;
           getByLabelText('Add information for Needed from others Request');
           expect($('va-pagination', container)).not.to.exist;
@@ -861,7 +1048,7 @@ describe('<RecentActivity>', () => {
           getByText(
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
-          getByText('We closed a request for "No longer required Request"');
+          getByText('We closed a request: "No longer required Request"');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with SUBMITTED_AWAITING_REVIEW', () => {
@@ -884,7 +1071,7 @@ describe('<RecentActivity>', () => {
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
           getByText(
-            'We received your document(s) for "Submitted awaiting Request"',
+            'We received your document(s) for the request: "Submitted awaiting Request"',
           );
           expect($('va-pagination', container)).not.to.exist;
         });
@@ -908,7 +1095,7 @@ describe('<RecentActivity>', () => {
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
           getByText(
-            'We completed a review for "Initial review complete Request"',
+            'We completed a review for the request: "Initial review complete Request"',
           );
           expect($('va-pagination', container)).not.to.exist;
         });
@@ -923,13 +1110,16 @@ describe('<RecentActivity>', () => {
           expect(recentActivityList).to.exist;
           expect(
             within(recentActivityList).getAllByRole('listitem').length,
-          ).to.equal(4);
+          ).to.equal(5);
           getByText('Your claim moved into Step 1: Claim received');
           getByText('Your claim moved into Step 2: Initial review');
           getByText(
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
-          getByText('We completed a review for "Accepted Request"');
+          getByText(`We opened a request: "Accepted Request"`);
+          getByText(
+            'We completed a review for the request: "Accepted Request"',
+          );
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should mask activity descriptions from Datadog because they sometimes contain filenames (no PII)', () => {
@@ -944,10 +1134,10 @@ describe('<RecentActivity>', () => {
         });
       });
       context('when claim is in phase 4', () => {
-        it('should render list with pagination and ', () => {
+        it('should render list with pagination', () => {
           const { container } = renderWithRouter(
             <Provider store={getStore()}>
-              <RecentActivity claim={openClaimStep4WithMultipleItems} />
+              <RecentActivity claim={openClaimStep4WithOver10Items} />
             </Provider>,
           );
 
@@ -959,6 +1149,93 @@ describe('<RecentActivity>', () => {
           const pagination = $('va-pagination', container);
           expect(pagination).to.exist;
           expect(pagination.pages).to.equal(2);
+        });
+        it('shows closed tracked item history in recent activity', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore()}>
+              <RecentActivity claim={openClaimStep4WithClosedItem} />
+            </Provider>,
+          );
+
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(5);
+          getByText('May 2, 2024');
+          getByText('Your claim moved into Step 1: Claim received');
+          getByText('May 10, 2024');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('May 20, 2024');
+          getByText(`We opened a request: "No longer required Request"`);
+          getByText('May 22, 2024');
+          getByText(
+            'Your claim moved into Step 3: Evidence gathering, review, and decision',
+          );
+          getByText('May 24, 2024');
+          getByText(`We closed a request: "No longer required Request"`);
+        });
+        it('shows documents submitted tracked item history in recent activity', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore()}>
+              <RecentActivity
+                claim={openClaimStep4WithDocumentsSubmittedForTrackedItem}
+              />
+            </Provider>,
+          );
+
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(5);
+          getByText('May 2, 2024');
+          getByText('Your claim moved into Step 1: Claim received');
+          getByText('May 10, 2024');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('May 20, 2024');
+          getByText(`We opened a request: "Submitted awaiting Request"`);
+          getByText('May 22, 2024');
+          getByText(
+            'Your claim moved into Step 3: Evidence gathering, review, and decision',
+          );
+          getByText('May 24, 2024');
+          getByText(
+            `We received your document(s) for the request: "Submitted awaiting Request"`,
+          );
+        });
+        it('shows documents submitted tracked item history in recent activity', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore()}>
+              <RecentActivity
+                claim={openClaimStep4WithDocumentsReceivedForTrackedItem}
+              />
+            </Provider>,
+          );
+
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(6);
+          getByText('May 2, 2024');
+          getByText('Your claim moved into Step 1: Claim received');
+          getByText('May 10, 2024');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('May 20, 2024');
+          getByText(`We opened a request: "Submitted and received Request"`);
+          getByText('May 22, 2024');
+          getByText(
+            'Your claim moved into Step 3: Evidence gathering, review, and decision',
+          );
+          getByText('May 24, 2024');
+          getByText(
+            `We received your document(s) for the request: "Submitted and received Request"`,
+          );
+          getByText('May 27, 2024');
+          getByText(
+            `We completed a review for the request: "Submitted and received Request"`,
+          );
         });
         context(
           'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
@@ -981,13 +1258,15 @@ describe('<RecentActivity>', () => {
                 'Your claim moved into Step 3: Evidence gathering, review, and decision',
               );
               getByText('Request for you');
-              getByText('We opened a request for "5103 Evidence Notice"');
+              getByText(
+                'We opened a request: "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
         );
         context(
-          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          'when cst5103UpdateEnabled disabled and has an Automated 5103 Notice Response item',
           () => {
             it('should render list', () => {
               const { container, getByText } = renderWithRouter(
@@ -1008,14 +1287,14 @@ describe('<RecentActivity>', () => {
               );
               getByText('Request for you');
               getByText(
-                'We opened a request for "Automated 5103 Notice Response"',
+                'We opened a request: "Automated 5103 Notice Response"',
               );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
         );
         context(
-          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          'when cst5103UpdateEnabled and has a closed Automated 5103 Notice Response item',
           () => {
             it('should render list', () => {
               const { container, getByText } = renderWithRouter(
@@ -1028,19 +1307,24 @@ describe('<RecentActivity>', () => {
               expect(recentActivityList).to.exist;
               expect(
                 within(recentActivityList).getAllByRole('listitem').length,
-              ).to.equal(4);
+              ).to.equal(5);
               getByText('Your claim moved into Step 1: Claim received');
               getByText('Your claim moved into Step 2: Initial review');
               getByText(
+                `We opened a request: "List of evidence we may need (5103 notice)"`,
+              );
+              getByText(
                 'Your claim moved into Step 3: Evidence gathering, review, and decision',
               );
-              getByText('We closed a request for "5103 Notice Response"');
+              getByText(
+                'We closed a request: "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
         );
         context(
-          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          'when cst5103UpdateEnabled disabled and has a closed Automated 5103 Notice Response item',
           () => {
             it('should render list', () => {
               const { container, getByText } = renderWithRouter(
@@ -1053,13 +1337,14 @@ describe('<RecentActivity>', () => {
               expect(recentActivityList).to.exist;
               expect(
                 within(recentActivityList).getAllByRole('listitem').length,
-              ).to.equal(4);
+              ).to.equal(5);
               getByText('Your claim moved into Step 1: Claim received');
               getByText('Your claim moved into Step 2: Initial review');
+              getByText(`We opened a request: "5103 Notice Response"`);
               getByText(
                 'Your claim moved into Step 3: Evidence gathering, review, and decision',
               );
-              getByText('We closed a request for "5103 Notice Response"');
+              getByText('We closed a request: "5103 Notice Response"');
               expect($('va-pagination', container)).not.to.exist;
             });
           },

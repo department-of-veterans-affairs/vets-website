@@ -23,10 +23,11 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import MessageListItem from './MessageListItem';
 import ThreadListSort from '../ThreadList/ThreadListSort';
 import { setSearchPage, setSearchSort } from '../../actions/search';
-import { threadSortingOptions } from '../../util/constants';
+import { Paths, threadSortingOptions } from '../../util/constants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
@@ -44,8 +45,14 @@ const {
 const MessageList = props => {
   const dispatch = useDispatch();
   const { folder, messages, keyword, isSearch, sortOrder, page } = props;
+
+  const location = useLocation();
   const perPage = 10;
   const totalEntries = messages?.length;
+  const multipleThreads = totalEntries > 1 ? 's' : '';
+  const sortedListText =
+    (location.pathname === Paths.DRAFTS ? 'draft' : 'message') +
+    multipleThreads;
 
   const [currentMessages, setCurrentMessages] = useState([]);
   const [displayNums, setDisplayNums] = useState({
@@ -182,7 +189,7 @@ const MessageList = props => {
       >
         {`Showing ${displayNums.from} to ${
           displayNums.to
-        } of ${totalEntries} messages `}
+        } of ${totalEntries} ${sortedListText}`}
 
         <span className="sr-only">
           {` sorted by ${threadSortingOptions[sortOrder].label}`}
@@ -192,15 +199,8 @@ const MessageList = props => {
         currentMessages.map((message, idx) => (
           <MessageListItem
             key={`${message.messageId}+${idx}`}
-            messageId={message.messageId}
-            senderName={message.senderName}
-            sentDate={message.sentDate}
-            subject={message.subject}
-            readReceipt={message.readReceipt}
-            attachment={message.attachment}
-            recipientName={message.recipientName}
+            message={message}
             keyword={keyword}
-            category={message.category}
             activeFolder={folder}
           />
         ))}

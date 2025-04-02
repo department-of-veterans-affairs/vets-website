@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .income-limits-app {
   p.il-review {
@@ -47,6 +47,17 @@
     @media screen and (min-width: 480px) {
       margin-left: 4px;
       margin-right: 4px;
+    }
+  }
+
+  .il-print{
+    display: block;
+  }
+
+  @media print {
+    [data-testid=il-print],
+    [data-testid=il-results-back] {
+      display: none;
     }
   }
 }

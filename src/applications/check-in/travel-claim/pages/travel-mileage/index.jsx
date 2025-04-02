@@ -123,13 +123,13 @@ const TravelMileage = props => {
             class="vads-u-margin-bottom--2"
           >
             <Trans
-              i18nKey="if-you-need-submit-receipts-other-expenses"
+              i18nKey="if-you-need-submit-receipts-other-expenses--v2"
               components={[
                 <span key="bold" className="vads-u-font-weight--bold" />,
               ]}
             />
           </va-additional-info>
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch mobile-lg:vads-u-flex-direction--row">
             <va-button
               uswds
               big

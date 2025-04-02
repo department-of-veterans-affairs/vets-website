@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import { connect, useDispatch } from 'react-redux';
+import {
+  calculateBoundingBox,
+  getFeaturesFromAddress,
+} from 'platform/utilities/facilities-and-mapbox';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
 import {
-  calculateBoundingBox,
   convertMetersToMiles,
   distancesToNearbyVetCenters,
-} from '../../../facility-locator/utils/facilityDistance';
-import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+} from '../facilityUtilities';
 import buildFacility from './buildFacility';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 120;
@@ -145,7 +147,7 @@ const NearByVetCenters = props => {
     return (
       <div
         className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row facility
+        mobile-lg:vads-u-flex-direction--row facility
       vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
         key={vetCenter.id || vetCenter.fieldFacilityLocatorApiId}
       >
@@ -158,7 +160,7 @@ const NearByVetCenters = props => {
 
         {vetCenter.fieldMedia && (
           <section
-            className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial
+            className="region-grid usa-width-one-half vads-u-order--first mobile-lg:vads-u-order--initial
         vads-u-margin-bottom--2"
           >
             <VetCenterImageSection vetCenter={vetCenter} />

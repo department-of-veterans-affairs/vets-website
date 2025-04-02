@@ -10,8 +10,6 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { EduMigrationAlert } from '../direct-deposit/legacy/alerts/EduMigrationAlert';
-import { ContactInfoNeeded } from '../alerts/ContactInfoNeeded';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
@@ -30,10 +28,6 @@ export const Hub = () => {
         <h1>Profile</h1>
       </div>
 
-      <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
-
-      <ContactInfoNeeded className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
-
       {hasBadAddress && (
         <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
       )}
@@ -42,7 +36,7 @@ export const Hub = () => {
       <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
           heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
-          content="Legal name, date of birth, preferred name, gender identity, and disability rating"
+          content="Legal name, date of birth, preferred name, and disability rating"
         >
           <ProfileLink
             text="Manage your personal information"

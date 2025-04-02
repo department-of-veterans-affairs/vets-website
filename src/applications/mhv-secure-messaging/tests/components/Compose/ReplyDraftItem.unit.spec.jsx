@@ -185,6 +185,7 @@ describe('ReplyDraftItem component', () => {
     });
     await waitFor(() => {
       expect(refreshThreadCallbackSpy.calledOnce).to.be.true;
+      refreshThreadCallbackSpy.restore();
     });
   });
 });

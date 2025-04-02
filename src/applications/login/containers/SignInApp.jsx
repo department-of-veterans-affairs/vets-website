@@ -14,7 +14,6 @@ export function UnifiedSigninPage({ router, location }) {
   const isAuthenticated = useSelector(state => isLoggedIn(state));
   const isSiSEnabled = useSelector(state => signInServiceEnabled(state));
   const { query } = location;
-  const loggedOut = query?.auth === 'logged_out';
   const externalApplication = query.application;
 
   const { OAuthEnabled } =
@@ -27,6 +26,8 @@ export function UnifiedSigninPage({ router, location }) {
     if (isAuthenticated) {
       window.location = '/';
     }
+
+    document.title = `Sign in or create an account | Veterans Affairs`;
   }, []);
 
   // Immediately check if OAuthEnabled
@@ -63,7 +64,6 @@ export function UnifiedSigninPage({ router, location }) {
       <LoginContainer
         isUnifiedSignIn
         externalApplication={externalApplication}
-        loggedOut={loggedOut}
       />
     </>
   );

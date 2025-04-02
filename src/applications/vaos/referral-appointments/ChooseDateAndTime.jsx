@@ -1,165 +1,103 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { startOfMonth, format } from 'date-fns';
-import { useHistory } from 'react-router-dom';
-import CalendarWidget from '../components/calendar/CalendarWidget';
-import FormLayout from '../new-appointment/components/FormLayout';
-import { onCalendarChange } from '../new-appointment/redux/actions';
-import FormButtons from '../components/FormButtons';
-import { referral } from './temp-data/referral';
-import { getSelectedDate } from '../new-appointment/redux/selectors';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import ReferralLayout from './components/ReferralLayout';
+// eslint-disable-next-line import/no-restricted-paths
+import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
+import {
+  setFormCurrentPage,
+  createDraftReferralAppointment,
+} from './redux/actions';
+// eslint-disable-next-line import/no-restricted-paths
+import { fetchFutureAppointments } from '../appointment-list/redux/actions';
+import { getDraftAppointmentInfo } from './redux/selectors';
+import { FETCH_STATUS } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
+import DateAndTimeContent from './components/DateAndTimeContent';
 
-export const ChooseDateAndTime = () => {
-  const history = useHistory();
-  const selectedDates = useSelector(state => getSelectedDate(state));
+export const ChooseDateAndTime = props => {
+  const { currentReferral } = props;
   const dispatch = useDispatch();
-  const startMonth = format(startOfMonth(referral.preferredDate), 'yyyy-MM');
-  const [submitted, setSubmitted] = useState(false);
-  const pageTitle = 'Choose a date and time';
-  const latestAvailableSlot = new Date(
-    Math.max.apply(
-      null,
-      referral.slots.map(slot => {
-        return new Date(slot.start);
-      }),
-    ),
+  const location = useLocation();
+
+  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
+    state => getDraftAppointmentInfo(state),
+    shallowEqual,
   );
-  const fullAddress = addressObject => {
-    let addressString = addressObject.street1;
-    if (addressObject.street2) {
-      addressString = `${addressString}, ${addressObject.street2}`;
-    }
-    if (addressObject.street3) {
-      addressString = `${addressString}, ${addressObject.street3}`;
-    }
-    addressString = `${addressString}, ${addressObject.city}, ${
-      addressObject.state
-    }, ${addressObject.zip}`;
-    return addressString;
-  };
-  const onChange = useCallback(
-    value => {
-      dispatch(onCalendarChange(value));
+  const { futureStatus, appointmentsByMonth } = useSelector(
+    state => getUpcomingAppointmentListInfo(state),
+    shallowEqual,
+  );
+
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  useEffect(
+    () => {
+      if (
+        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
+        futureStatus === FETCH_STATUS.notStarted
+      ) {
+        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+          dispatch(createDraftReferralAppointment(currentReferral.uuid));
+        }
+        if (futureStatus === FETCH_STATUS.notStarted) {
+          dispatch(fetchFutureAppointments({ includeRequests: false }));
+        }
+      } else if (
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
+        futureStatus === FETCH_STATUS.succeeded
+      ) {
+        setLoading(false);
+        scrollAndFocus('h1');
+      } else if (
+        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
+        futureStatus === FETCH_STATUS.failed
+      ) {
+        setLoading(false);
+        setFailed(true);
+        scrollAndFocus('h1');
+      }
     },
-    [dispatch],
+    [
+      currentReferral.uuid,
+      dispatch,
+      draftAppointmentCreateStatus,
+      futureStatus,
+    ],
   );
-  const onSubmit = () => {
-    setSubmitted(true);
-    if (selectedDates) {
-      history.push('/confirm-approved');
-    }
-  };
-  const getTzName = name => {
-    return new Intl.DateTimeFormat('default', {
-      timeZone: referral.timezone,
-      timeZoneName: name,
-    })
-      .formatToParts()
-      .find(({ type }) => type === 'timeZoneName').value;
-  };
-  const tzLong = getTzName('longGeneric');
-  const tzShort = getTzName('shortGeneric');
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('scheduleAppointment'));
+    },
+    [location, dispatch],
+  );
+
+  if (loading) {
+    return (
+      <div className="vads-u-margin-y--8" data-testid="loading">
+        <va-loading-indicator message="Loading available appointments times..." />
+      </div>
+    );
+  }
+
   return (
-    <FormLayout pageTitle={pageTitle}>
-      <>
-        <div>
-          <h1>{pageTitle}</h1>
-          <p className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-margin--0">
-            {referral.providerName}
-          </p>
-          <p className="vads-u-margin-top--0">{referral.typeOfCare}</p>
-          <p className="vads-u-margin--0 vads-u-font-weight--bold">
-            {referral.orgName}
-          </p>
-          <address>
-            <p className="vads-u-margin--0">
-              {referral.orgAddress.street1} <br />
-              {referral.orgAddress.street2 && (
-                <>
-                  {referral.orgAddress.street2}
-                  <br />
-                </>
-              )}
-              {referral.orgAddress.street3 && (
-                <>
-                  {referral.orgAddress.street3}
-                  <br />
-                </>
-              )}
-              {referral.orgAddress.city}, {referral.orgAddress.state},{' '}
-              {referral.orgAddress.zip}
-            </p>
-            <div
-              data-testid="directions-link-wrapper"
-              className="vads-u-display--flex vads-u-color--link-default"
-            >
-              <va-icon
-                className="vads-u-margin-right--0p5 vads-u-color--link-default"
-                icon="directions"
-                size={3}
-              />
-              <a
-                data-testid="directions-link"
-                href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
-                  referral.orgAddress,
-                )}`}
-                aria-label={`directions to ${referral.orgName}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Directions
-              </a>
-            </div>
-          </address>
-          <p>Phone: {referral.orgPhone}</p>
-          <p>
-            {referral.driveTime} ({referral.driveDistance})
-          </p>
-          <p>
-            Please select an available date and time from the calendar below.
-            Appointment times are displayed in {`${tzLong} (${tzShort})`}.
-          </p>
-        </div>
-        <div>
-          <CalendarWidget
-            maxSelections={1}
-            availableSlots={referral.slots}
-            value={[selectedDates]}
-            id="dateTime"
-            timezone={referral.timezone}
-            additionalOptions={{
-              required: true,
-            }}
-            // disabled={loadingSlots}
-            disabledMessage={
-              <va-loading-indicator
-                data-testid="loadingIndicator"
-                set-focus
-                message="Finding appointment availability..."
-              />
-            }
-            onChange={onChange}
-            onNextMonth={null}
-            onPreviousMonth={null}
-            minDate={format(new Date(), 'yyyy-MM-dd')}
-            maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
-            required
-            requiredMessage="Please choose your preferred date and time for your appointment"
-            startMonth={startMonth}
-            showValidation={submitted && !selectedDates?.length}
-            showWeekends
-            overrideMaxDays
-          />
-        </div>
-        <FormButtons
-          onBack={() => history.push('/choose-community-care-appointment')}
-          onSubmit={() => onSubmit()}
-          // pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </>
-    </FormLayout>
+    <ReferralLayout
+      hasEyebrow
+      apiFailure={failed}
+      heading="Schedule an appointment with your provider"
+    >
+      <DateAndTimeContent
+        draftAppointmentInfo={draftAppointmentInfo}
+        currentReferral={currentReferral}
+        appointmentsByMonth={appointmentsByMonth}
+      />
+    </ReferralLayout>
   );
+};
+
+ChooseDateAndTime.propTypes = {
+  currentReferral: PropTypes.object.isRequired,
 };
 
 export default ChooseDateAndTime;

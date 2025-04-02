@@ -21,11 +21,14 @@ import {
   VERIFY_ENROLLMENT_FAILURE,
 } from '../actions';
 import { isSameMonth, getDateRangesBetween } from '../helpers';
+import DGIBEnrollmentCard from '../components/DGIBEnrollmentCard';
 
 const VerificationReviewWrapper = ({
   children,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchVerifyEnrollmentAction,
+  enrollmentVerifications,
+  claimantId,
 }) => {
   useScrollToTop();
   const [isChecked, setIsChecked] = useState(false);
@@ -58,8 +61,7 @@ const VerificationReviewWrapper = ({
   // successfully verifying
   const handleVerification = () => {
     const submissionError = new Error('Internal Server Error.');
-
-    if (awardsIds.length > 0) {
+    if (awardsIds?.length > 0 || claimantId !== undefined) {
       dispatchVerifyEnrollmentAction(awardsIds);
       dispatchUpdateToggleEnrollmentSuccess(true);
     } else {
@@ -79,7 +81,9 @@ const VerificationReviewWrapper = ({
       history.push(VERIFICATION_RELATIVE_URL);
     }
   };
-
+  useEffect(() => {
+    document.title = 'Verify your enrollment | Veterans Affairs';
+  }, []);
   useEffect(
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
@@ -114,7 +118,7 @@ const VerificationReviewWrapper = ({
         // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
-    [enrollmentData],
+    [enrollmentData, enrollmentVerifications],
   );
 
   useEffect(
@@ -147,7 +151,7 @@ const VerificationReviewWrapper = ({
   return (
     <>
       <div name="topScrollElement" />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <EnrollmentVerificationBreadcrumbs />
@@ -161,6 +165,12 @@ const VerificationReviewWrapper = ({
             ) : (
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
+                <DGIBEnrollmentCard
+                  enrollmentVerifications={
+                    enrollmentVerifications?.personalInfo?.verificationRecord
+                      ?.enrollmentVerifications
+                  }
+                />
                 <div className="vads-u-margin-top--2">
                   <div
                     className={`${
@@ -193,9 +203,6 @@ const VerificationReviewWrapper = ({
                         label="Yes, this information is correct"
                         checked={isChecked}
                         onVaChange={handleCheckboxChange}
-                        aria-describedby="authorize-text"
-                        enable-analytics
-                        uswds
                       />
                     </label>
                   </div>
@@ -228,7 +235,9 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
+  claimantId: state.personalInfo?.personalInfo?.verificationRecord?.claimantId,
   verifyEnrollment: state.verifyEnrollment,
+  enrollmentVerifications: state.personalInfo,
 });
 
 const mapDispatchToProps = {
@@ -240,10 +249,12 @@ const mapDispatchToProps = {
 
 VerificationReviewWrapper.propTypes = {
   children: PropTypes.any,
+  claimantId: PropTypes.number,
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
+  enrollmentVerifications: PropTypes.object,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,

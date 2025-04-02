@@ -9,7 +9,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
 import useDirectLine from '../hooks/useDirectline';
-import useRecordRxSession from '../hooks/useRecordRxSession';
 import useRxSkillEventListener from '../hooks/useRxSkillEventListener';
 import useSetSendBoxMessage from '../hooks/useSetSendBoxMessage';
 import useWebChatStore from '../hooks/useWebChatStore';
@@ -19,6 +18,7 @@ import clearBotSessionStorageEventListener from '../event-listeners/clearBotSess
 import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
+import { activityMiddleware } from '../middleware/activityMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
@@ -30,6 +30,7 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
 import validateParameters from '../utils/validateParameters';
+import logger from '../utils/logger';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -66,7 +67,11 @@ const WebChat = ({
   apiSession,
   setParamLoadingStatus,
 }) => {
-  const { ReactWebChat, createDirectLine, createStore } = webChatFramework;
+  const {
+    createDirectLine,
+    createStore,
+    Components: { BasicWebChat, Composer },
+  } = webChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
 
   const userFirstName = useSelector(selectUserFirstName);
@@ -87,12 +92,19 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentEnableRootBot,
   );
 
+  const isDatadogLoggingEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
+  );
+
+  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
+
   validateParameters({
     csrfToken,
     apiSession,
     userFirstName,
     userUuid,
     setParamLoadingStatus,
+    isDatadogLoggingEnabled,
   });
 
   const store = useWebChatStore({
@@ -108,19 +120,19 @@ const WebChat = ({
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener();
+  signOutEventListener(isDatadogLoggingEnabled);
 
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);
   useSetSendBoxMessage(isRXSkill);
-  useRecordRxSession(isRXSkill);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-      <ReactWebChat
+      <Composer
         cardActionMiddleware={cardActionMiddleware}
+        activityMiddleware={activityMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
@@ -129,7 +141,9 @@ const WebChat = ({
         {...isRXSkill === 'true' && {
           webSpeechPonyfillFactory: speechPonyfill,
         }}
-      />
+      >
+        <BasicWebChat />
+      </Composer>
     </div>
   );
 };
@@ -141,7 +155,10 @@ WebChat.propTypes = {
   webChatFramework: PropTypes.shape({
     createDirectLine: PropTypes.func.isRequired,
     createStore: PropTypes.func.isRequired,
-    ReactWebChat: PropTypes.func.isRequired,
+    Components: PropTypes.shape({
+      BasicWebChat: PropTypes.func.isRequired,
+      Composer: PropTypes.func.isRequired,
+    }),
   }).isRequired,
 };
 

@@ -7,11 +7,13 @@ import { createStore } from 'redux';
 import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 import { renderWithRouter } from '../../utils';
 
-const getStore = (cst5103UpdateEnabled = true) =>
+const getStore = (cst5103UpdateEnabled = true, cstFriendlyEvidenceRequests) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_5103_update_enabled: cst5103UpdateEnabled,
+      // eslint-disable-next-line camelcase
+      cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
     },
   }));
 
@@ -66,23 +68,6 @@ describe('<FilesNeeded>', () => {
           getByText('Details');
         });
       });
-
-      it('should render va-alert with item data and hide DueDate', () => {
-        const { queryByText, getByText } = renderWithRouter(
-          <Provider store={getStore()}>
-            <FilesNeeded item={item5103} />
-          </Provider>,
-        );
-
-        expect(queryByText('December 1, 2024')).to.not.exist;
-        expect(
-          queryByText(
-            'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
-          ),
-        ).to.exist;
-        getByText('Review evidence list');
-        getByText('Details');
-      });
     });
   });
 
@@ -111,6 +96,34 @@ describe('<FilesNeeded>', () => {
       fireEvent.click(getByRole('link'));
 
       expect(sessionStorage.getItem('previousPage')).to.equal(statusTab);
+    });
+  });
+  context('when cstFriendlyEvidenceRequests is true', () => {
+    it('should dispaly friendly description of 21-4142', () => {
+      const item214142 = {
+        closedDate: null,
+        description: '21-4142 text',
+        displayName: '21-4142/21-4142a',
+        friendlyName: 'Authorization to Disclose Information',
+        friendlyDescription: 'good description',
+        canUploadFile: true,
+        supportAliases: ['VA Form 21-4142'],
+        id: 14268,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: '2024-12-01',
+        uploadsAllowed: true,
+        documents: '[]',
+        date: '2024-03-07',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(true, true)}>
+          <FilesNeeded item={item214142} />
+        </Provider>,
+      );
+      getByText('good description');
     });
   });
 });

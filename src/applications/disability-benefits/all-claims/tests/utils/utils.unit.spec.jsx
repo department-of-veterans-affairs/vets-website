@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   SAVED_SEPARATION_DATE,
@@ -46,6 +47,9 @@ import {
   showPtsdNonCombat,
   skip781,
   formatMonthYearDate,
+  makeConditionsSchema,
+  validateConditions,
+  formatFullName,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -184,10 +188,8 @@ describe('526 helpers', () => {
   describe('hasotherEvidence', () => {
     it('should return false if additional evidence type is not selected', () => {
       const formData = {
-        'view:hasEvidenceFollowUp': {
-          'view:selectableEvidenceTypes': {
-            // 'view:hasOtherEvidence': no data
-          },
+        'view:selectableEvidenceTypes': {
+          // 'view:hasOtherEvidence': no data
         },
       };
       expect(hasOtherEvidence(formData)).to.equal(false);
@@ -195,10 +197,8 @@ describe('526 helpers', () => {
 
     it('should return true if additional evidence type is selected', () => {
       const formData = {
-        'view:hasEvidenceFollowUp': {
-          'view:selectableEvidenceTypes': {
-            'view:hasOtherEvidence': true,
-          },
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
         },
       };
       expect(hasOtherEvidence(formData)).to.equal(true);
@@ -421,6 +421,41 @@ describe('526 helpers', () => {
       const formData = {};
       expect(needsToEnter781a(formData)).to.be.false;
     });
+
+    describe('PTSD flow migration', () => {
+      const ptsdFormData = {
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+        'view:selectablePtsdTypes': {
+          'view:mstPtsdType': true,
+        },
+      };
+
+      describe('when the modern 0781 flow is enabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: true,
+          ...ptsdFormData,
+        };
+
+        it('should return false so the legacy PTSD flow is hidden', () => {
+          expect(needsToEnter781a(ptsdFormDataModernFlowEnabled)).to.be.false;
+        });
+      });
+
+      describe('when the modern 0781 flow is disabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: false,
+          ...ptsdFormData,
+        };
+
+        it('should return true so the legacy PTSD flow is visible', () => {
+          expect(needsToEnter781a(ptsdFormDataModernFlowEnabled)).to.be.true;
+        });
+      });
+    });
   });
 
   describe('isUploading781Form', () => {
@@ -560,6 +595,44 @@ describe('isAnswering781Questions', () => {
     };
     expect(isAnswering781Questions(1)(formData)).to.be.false;
   });
+
+  describe('PTSD flow migration', () => {
+    const ptsdFormData = {
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+
+    describe('when the modern 0781 flow is enabled', () => {
+      const ptsdFormDataModernFlowEnabled = {
+        syncModern0781Flow: true,
+        ...ptsdFormData,
+      };
+
+      it('should return false so the legacy 0781 pages are hidden', () => {
+        expect(isAnswering781Questions(0)(ptsdFormDataModernFlowEnabled)).to.be
+          .false;
+      });
+    });
+
+    describe('when the modern 0781 flow is disabled', () => {
+      const ptsdFormDataModernFlowDisabled = {
+        syncModern0781Flow: false,
+        ...ptsdFormData,
+      };
+
+      it('should return true so the legacy 0781 flow is visible', () => {
+        expect(isAnswering781Questions(0)(ptsdFormDataModernFlowDisabled)).to.be
+          .true;
+      });
+    });
+  });
 });
 
 describe('isAnswering781Questions', () => {
@@ -667,6 +740,47 @@ describe('isAnswering781aQuestions', () => {
         },
       };
       expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
+  });
+
+  describe('PTSD flow migration', () => {
+    const ptsdFormData = {
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+      secondaryIncident0: {
+        'view:uploadSources': true,
+      },
+    };
+
+    describe('when the modern 0781 flow is enabled', () => {
+      const ptsdFormDataModernFlowEnabled = {
+        syncModern0781Flow: true,
+        ...ptsdFormData,
+      };
+
+      it('should return false so the legacy 0781a pages are hidden', () => {
+        expect(isAnswering781aQuestions(0)(ptsdFormDataModernFlowEnabled)).to.be
+          .false;
+      });
+    });
+
+    describe('when the modern 0781 flow is disabled', () => {
+      const ptsdFormDataModernFlowDisabled = {
+        syncModern0781Flow: false,
+        ...ptsdFormData,
+      };
+
+      it('should return true so the legacy 0781a flow is visible', () => {
+        expect(isAnswering781aQuestions(0)(ptsdFormDataModernFlowDisabled)).to
+          .true;
+      });
     });
   });
 
@@ -1195,6 +1309,42 @@ describe('skip PTSD questions', () => {
         .format('YYYY-MM-DD');
       expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
     });
+
+    describe('PTSD flow migration', () => {
+      const ptsdFormData = {
+        'view:isBddData': false,
+        // Set service end to date in the past; Benefits Delivery Discharge claims never go through the PTSD flow
+        serviceInformation: {
+          servicePeriods: [{ dateRange: { to: '2020-01-01' } }],
+        },
+        'view:claimType': { 'view:claimingnew': true },
+        newDisabilities: [{ condition: 'PTSD' }],
+      };
+
+      describe('when the modern 0781 flow is enabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: true,
+          ...ptsdFormData,
+        };
+
+        it('should return false so the legacy PTSD flow is hidden', () => {
+          expect(hasNewPtsdDisability(ptsdFormDataModernFlowEnabled)).to.be
+            .false;
+        });
+      });
+
+      describe('when the modern 0781 flow is disabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: false,
+          ...ptsdFormData,
+        };
+
+        it('should return true so the legacy PTSD flow is visible', () => {
+          expect(hasNewPtsdDisability(ptsdFormDataModernFlowEnabled)).to.be
+            .true;
+        });
+      });
+    });
   });
 
   describe('showPtsdCombat', () => {
@@ -1389,5 +1539,160 @@ describe('formatMonthYearDate', () => {
     expect(formatMonthYearDate('2009-10-01')).to.equal('October 2009');
     expect(formatMonthYearDate('2010-11-01')).to.equal('November 2010');
     expect(formatMonthYearDate('1970-12-01')).to.equal('December 1970');
+  });
+});
+
+describe('makeConditionsSchema', () => {
+  it('should generate the correct schema from formData', () => {
+    const formData = {
+      newDisabilities: [
+        { condition: 'condition1' },
+        { condition: 'condition2' },
+      ],
+    };
+
+    const result = makeConditionsSchema(formData);
+
+    expect(result).to.deep.equal(
+      checkboxGroupSchema(['condition1', 'condition2', 'none']),
+    );
+  });
+
+  it('should handle empty newDisabilities array', () => {
+    const formData = { newDisabilities: [] };
+    const result = makeConditionsSchema(formData);
+
+    expect(result).to.deep.equal(checkboxGroupSchema(['none']));
+  });
+});
+
+describe('validateConditions', () => {
+  const errorKey = 'mentalHealth';
+  const errorMessage = 'None may only be selected by itself';
+  let errors;
+
+  beforeEach(() => {
+    errors = {
+      mentalHealth: {
+        conditions: {
+          addError: msg => {
+            errors.mentalHealth.conditions.errorMessage = msg;
+          },
+        },
+      },
+    };
+  });
+
+  it('should add an error if the "none" checkbox is selected along with another condition', () => {
+    const conditions = { none: true, conditionA: true };
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.equal(errorMessage);
+  });
+
+  it('should NOT add an error if only "none" is selected and no other condition', () => {
+    const conditions = { none: true };
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
+  });
+
+  it('should NOT add an error if no conditions are selected', () => {
+    const conditions = {};
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
+  });
+
+  it('should NOT add an error if one or more condition is selected and "none" is not selected', () => {
+    const conditions = { conditionA: true, conditionB: true };
+    validateConditions(conditions, errors, errorKey, errorMessage);
+    expect(errors.mentalHealth.conditions.errorMessage).to.be.undefined;
+  });
+});
+
+describe('formatFullName', () => {
+  it('formats name with all parts', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Lee Brooks Jr.');
+  });
+
+  it('formats name when missing first name', () => {
+    const fullName = {
+      first: '',
+      middle: 'Lee',
+      last: 'Brooks',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Lee Brooks Jr.');
+  });
+
+  it('formats name when missing middle name', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: '',
+      last: 'Brooks',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Brooks Jr.');
+  });
+
+  it('formats name when missing last name', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: 'Lee',
+      last: '',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Lee Jr.');
+  });
+
+  it('formats name when missing suffix', () => {
+    const fullName = {
+      first: 'Hector',
+      middle: 'Lee',
+      last: 'Brooks',
+      suffix: undefined,
+    };
+
+    expect(formatFullName(fullName)).to.equal('Hector Lee Brooks');
+  });
+
+  it('formats name when missing most things', () => {
+    const fullName = {
+      first: '',
+      middle: '',
+      last: '',
+      suffix: 'Jr.',
+    };
+
+    expect(formatFullName(fullName)).to.equal('Jr.');
+  });
+
+  it('formats name when all empty or missing parts', () => {
+    expect(formatFullName(undefined)).to.equal('');
+    expect(formatFullName({})).to.equal('');
+    expect(
+      formatFullName({
+        first: null,
+        middle: null,
+        last: null,
+        suffix: null,
+      }),
+    ).to.equal('');
+    expect(
+      formatFullName({
+        first: '',
+        middle: '',
+        last: '',
+        suffix: '',
+      }),
+    ).to.equal('');
   });
 });

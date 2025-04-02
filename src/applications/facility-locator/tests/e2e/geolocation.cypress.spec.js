@@ -1,4 +1,12 @@
 import mockLaLocation from '../../constants/mock-la-location.json';
+import {
+  featureCombinationsTogglesToTest,
+  enabledFeatures,
+} from './featureTogglesToTest';
+
+const featureSetsToTest = featureCombinationsTogglesToTest([
+  'facilities_use_fl_progressive_disclosure',
+]);
 
 Cypress.Commands.add(
   'mockGeolocation',
@@ -13,29 +21,48 @@ Cypress.Commands.add(
   },
 );
 
-describe('Facility geolocation', () => {
-  it('geolocates the user(', () => {
-    // Mock the call to Mapbox
-    cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
+for (const featureSet of featureSetsToTest) {
+  describe(`Facility geolocation ${enabledFeatures(featureSet)}`, () => {
+    const useMyLocationLink = '.use-my-location-link';
 
-    cy.visit('/find-locations');
+    const locationInputField =
+      '.street-city-state-zip-autosuggest-label-container';
 
-    cy.mockGeolocation();
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: featureSet,
+        },
+      });
+    });
 
-    cy.get('#street-city-state-zip').should('be.empty');
+    it('geolocates the user', () => {
+      // Mock the call to Mapbox
+      cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
 
-    cy.get('.use-my-location-link').click();
-    cy.get('#location-input-field').contains('Finding your location...');
-    cy.waitUntil(() =>
-      cy
-        .get('#location-input-field')
-        .contains('Use my location')
-        .then(() => {
-          cy.get('#street-city-state-zip').then(elem => {
-            const searchFieldValue = Cypress.$(elem).val();
-            expect(searchFieldValue).to.include('Los Angeles');
-          });
-        }),
-    );
+      cy.visit('/find-locations');
+
+      cy.mockGeolocation();
+
+      cy.get('#street-city-state-zip').should('be.empty');
+
+      cy.get(useMyLocationLink).click();
+      cy.get(locationInputField).contains('Finding your location...');
+      cy.waitUntil(() =>
+        cy
+          .get(locationInputField)
+          .contains('Use my location')
+          .then(() => {
+            // takes a bit of time for the input to update after setting the value
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(300);
+            cy.get('#street-city-state-zip').then(elem => {
+              const searchFieldValue = Cypress.$(elem).val();
+              expect(searchFieldValue).to.include('Los Angeles');
+            });
+          }),
+      );
+    });
   });
-});
+}

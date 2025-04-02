@@ -1,85 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
+import ConfirmationFAQ from '../components/ConfirmationPage/ConfirmationFAQ';
 
-const ConfirmationPage = () => {
-  const { submission, data } = useSelector(state => state.form);
-  const { response, timestamp } = submission;
-  const name = data.veteranFullName;
+const ConfirmationPage = ({ route }) => {
+  const { timestamp, veteranName } = useSelector(state => ({
+    timestamp: state.form.submission?.response?.timestamp,
+    veteranName: state.form.data.veteranFullName,
+  }));
 
   return (
     <div className="caregiver-confirmation vads-u-margin-bottom--2p5">
       <section className="caregiver-confirmation--screen no-print">
         <ConfirmationScreenView
-          name={name}
-          timestamp={response ? timestamp : null}
+          name={veteranName}
+          timestamp={timestamp}
+          route={route}
         />
       </section>
 
       <section className="caregiver-confirmation--print">
-        <ConfirmationPrintView
-          name={name}
-          timestamp={response ? timestamp : null}
-        />
+        <ConfirmationPrintView name={veteranName} timestamp={timestamp} />
       </section>
 
-      <section>
-        <h2>What to expect next</h2>
-        <p>
-          We’ll contact you soon to tell you what happens next in the
-          application process.
-        </p>
-        <ul>
-          <li>
-            If you gave us your email address, we’ll contact you by email within
-            24 hours. Make sure to check your inbox and your spam or junk
-            folder.
-          </li>
-          <li>
-            If you didn’t give us your email address, we’ll contact you by phone
-            or mail.
-          </li>
-        </ul>
-        <p>
-          <strong>Note:</strong> If you’re not eligible for this program, you
-          may still be eligible for other types of caregiver support.
-        </p>
-      </section>
+      <ConfirmationFAQ />
 
-      <section>
-        <h2>What to do if you have questions now</h2>
-        <p>
-          Connect with a Caregiver Support Coordinator. Our coordinators can
-          answer questions about your application. They can also tell you more
-          about programs and services for caregivers.
-        </p>
-        <p className="no-print">
-          <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
-          >
-            Find your local Caregiver Support Coordinator
-          </a>
-        </p>
-        <p>
-          Or call us at <va-telephone contact={CONTACTS.CAREGIVER} />.
-        </p>
-        <p className="no-print">
-          <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://www.caregiver.va.gov"
-          >
-            Learn more about caregiver support
-          </a>
-        </p>
-      </section>
+      <a
+        className="vads-c-action-link--green vads-u-margin-y--4 no-print"
+        href="https://www.va.gov"
+      >
+        Go back to VA.gov
+      </a>
     </div>
   );
+};
+
+ConfirmationPage.propTypes = {
+  route: PropTypes.object,
 };
 
 export default ConfirmationPage;

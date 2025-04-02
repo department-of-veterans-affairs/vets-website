@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
@@ -7,7 +6,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 import ProgressButton from '../../components/ProgressButton';
 import Back from './Back';
-import { timeFromNow } from '../../utilities/date';
+import { timeFromNow } from '../../../../../utilities/date';
 
 export default function ThrottledError(props) {
   const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;
@@ -19,6 +18,7 @@ export default function ThrottledError(props) {
   } else {
     ariaDescribedBy = null;
   }
+  const hideBackButton = formConfig?.useTopBackLink || false;
 
   return (
     <>
@@ -29,27 +29,42 @@ export default function ThrottledError(props) {
             title="We’ve run into a problem"
             message={`We’re sorry. Your submission didn’t go through because we received
               too many requests from you. Please wait
-              ${timeFromNow(moment.unix(when))} and submit your request
+              ${timeFromNow(new Date(when * 1000))} and submit your request
               again.`}
           />
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons vads-u-margin-y--2">
-        <Column classNames="small-6 medium-5">
-          <Back onButtonClick={onBack} />
-        </Column>
-        <Column classNames="small-6 medium-5">
-          <ProgressButton
-            ariaDescribedBy={ariaDescribedBy}
-            onButtonClick={onSubmit}
-            buttonText={buttonText}
-            buttonClass="usa-button-primary"
-          />
-        </Column>
-        <Column classNames="small-1 medium-1 end">
-          <div className="hidden">&nbsp;</div>
-        </Column>
+        {hideBackButton ? (
+          <>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText={buttonText}
+                buttonClass="usa-button-primary"
+              />
+            </Column>
+          </>
+        ) : (
+          <>
+            <Column classNames="small-6 medium-5">
+              <Back onButtonClick={onBack} />
+            </Column>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText={buttonText}
+                buttonClass="usa-button-primary"
+              />
+            </Column>
+            <Column classNames="small-1 medium-1 end">
+              <div className="hidden">&nbsp;</div>
+            </Column>
+          </>
+        )}
       </Row>
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
@@ -25,13 +26,12 @@ const renderAlert = (alertType, statements) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -41,6 +41,7 @@ const renderAlert = (alertType, statements) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
     </va-alert>
   );
 };
@@ -53,12 +54,12 @@ const renderOtherVA = (mcpLength, mcpError) => {
   if (mcpError) {
     return (
       <>
-        <h3>Your other VA bills</h3>
+        <h2>Your VA copay bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
-          <h4 slot="headline" className="vads-u-font-size--h3">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
-          </h4>
-          {alertInfo.body}
+          </h3>
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -85,7 +86,7 @@ const DebtLettersSummary = () => {
   const { statements: mcpStatements, error: mcpError } = mcp;
   const allDebtsEmpty =
     !debtError && debts.length === 0 && debtLinks.length === 0;
-  const title = 'Current VA debt';
+  const title = 'Current debts';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -114,17 +115,17 @@ const DebtLettersSummary = () => {
     }
 
     return (
-      <>
+      <article className="vads-u-padding-x--0">
         <DebtCardsList />
         {renderOtherVA(mcpStatements?.length, mcpError)}
         {showDebtLetterDownload ? (
           <section>
-            <h3
+            <h2
               id="downloadDebtLetters"
               className="vads-u-margin-top--4 vads-u-font-size--h2"
             >
               Download debt letters
-            </h3>
+            </h2>
             <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
               You can download some of your letters for education, compensation
               and pension debt.
@@ -146,15 +147,15 @@ const DebtLettersSummary = () => {
               think your debt was created in an error, you can dispute it.
               Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
               or call the Debt Management Center at{' '}
-              <va-telephone contact="8008270648" /> (
+              <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone contact="711" tty="true" />
               ). For international callers, use{' '}
-              <va-telephone contact="6127136415" />. We’re here Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         </va-need-help>
-      </>
+      </article>
     );
   };
 
@@ -173,7 +174,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current VA debt',
+            label: 'Current debts',
           },
         ]}
         label="Breadcrumb"
@@ -190,9 +191,13 @@ const DebtLettersSummary = () => {
           {title}
         </h1>
         <p className="va-introtext">
-          Check the details of VA debt you might have related to your education,
-          disability compensation, or pension benefits. Find out how to pay your
-          debt and what to do if you need financial assistance.
+          Check the details of debt you might have from VA education, disability
+          compensation, or pension programs. Find out how to pay your debt and
+          what to do if you need financial assistance.
+        </p>
+        <p>
+          Please note that payments may take up to 4 business days to reflect
+          after processing.
         </p>
         {renderContent()}
       </div>

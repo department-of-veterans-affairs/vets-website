@@ -1,7 +1,7 @@
 {
-  "appName": "21-4138 Statement in Support of a Claim",
+  "appName": "Submit a statement to support a claim",
   "entryFile": "./app-entry.jsx",
   "entryName": "4138-ss",
-  "rootUrl": "/supporting-forms-for-claims/statement-to-support-claim-form-21-4138",
+  "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138",
   "productId": "11f151bf-bec3-436c-8779-2a13dc0886d8"
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   phoneUI,
   phoneSchema,
@@ -7,29 +9,34 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { preparerIsVeteran } from '../../utilities/helpers';
-
-export const blankSchema = { type: 'object', properties: {} };
+import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
 
 export const uiSchema = {
-  ...titleUI(
-    ({ formData }) =>
-      `${
-        preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-      } phone number and email address`,
-  ),
-  'Primary phone': phoneUI({
+  ...titleUI(() => 'Your phone number and email address'),
+  profileNotUpdatedNote: {
+    'ui:description': () => <ProfileNotUpdatedNote includePhone />,
+  },
+  primaryPhone: phoneUI({
     required: true,
   }),
-  veteranEmail: emailUI(),
+  veteranEmail: emailUI({
+    required: formData =>
+      formData?.['view:isUserLOA3'] &&
+      formData.representativeSubmissionMethod === 'digital',
+  }),
 };
 
 export const schema = {
   type: 'object',
-  required: ['Primary phone'],
+  required: ['primaryPhone'],
   properties: {
     titleSchema,
-    'Primary phone': phoneSchema,
-    veteranEmail: emailSchema,
+    profileNotUpdatedNote: { type: 'object', properties: {} },
+    primaryPhone: phoneSchema,
+    veteranEmail: {
+      ...emailSchema,
+      type: 'string',
+      maxLength: 61,
+    },
   },
 };

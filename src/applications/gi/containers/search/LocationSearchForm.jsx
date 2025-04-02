@@ -4,10 +4,12 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, createRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-// import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
@@ -27,7 +29,7 @@ import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function LocationSearchForm({
@@ -50,7 +52,6 @@ export function LocationSearchForm({
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const inputRef = createRef();
-  // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
@@ -84,73 +85,59 @@ export function LocationSearchForm({
     [search.loadFromUrl],
   );
 
-  // const validateSearchTerm = searchTerm => {
-  //   const invalidZipCodePattern = /^\d{6,}$/;
-
-  //   if (searchTerm.trim() === '') {
-  //     setError('Please fill in a city, state, or postal code.');
-  //   } else if (invalidZipCodePattern.test(searchTerm)) {
-  //     setError('Please enter a valid postal code.');
-  //   } else if (error !== null) {
-  //     setError(null);
-  //   }
-  // };
-  const onApplyFilterClick = () => {
-    if (location.length === 0) {
-      inputRef.current.focus();
-    }
-  };
   const onResetSearchClick = () => {
     inputRef.current.focus();
   };
   const doSearch = event => {
     if (event) {
-      event.preventDefault();
-      onApplyFilterClick();
-      setShowFiltersBeforeSearch(false);
-    }
-    let paramLocation = location;
-    dispatchMapChanged({ changed: false, distance: null });
-
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': 'locationSearch',
-      'gibct-form-value': location,
-    });
-
-    if (autocompleteSelection?.coords) {
-      setShowFiltersBeforeSearch(false);
-      paramLocation = autocompleteSelection.label;
-      dispatchFetchSearchByLocationCoords(
-        autocompleteSelection.label,
-        autocompleteSelection.coords,
-        distance,
-        filters,
-        version,
-      );
-    } else {
-      if (location.trim() !== '') {
-        setShowFiltersBeforeSearch(false);
-        dispatchFetchSearchByLocationResults(
+      event?.preventDefault();
+      if (
+        validateSearchTermSubmit(
           location,
-          distance,
+          dispatchError,
+          error,
+          filters,
+          'location',
+        )
+      ) {
+        let paramLocation = location;
+        dispatchMapChanged({ changed: false, distance: null });
+
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'locationSearch',
+          'gibct-form-value': location,
+        });
+
+        if (autocompleteSelection?.coords) {
+          setShowFiltersBeforeSearch(false);
+          paramLocation = autocompleteSelection.label;
+          dispatchFetchSearchByLocationCoords(
+            autocompleteSelection.label,
+            autocompleteSelection.coords,
+            distance,
+            filters,
+            version,
+          );
+        } else if (location.trim() !== '') {
+          setShowFiltersBeforeSearch(false);
+          dispatchFetchSearchByLocationResults(
+            location,
+            distance,
+            filters,
+            version,
+          );
+        }
+
+        updateUrlParams(
+          history,
+          search.tab,
+          { ...search.query, location: paramLocation, distance },
           filters,
           version,
         );
-      }
-
-      if (event) {
-        validateSearchTerm(location, dispatchError, error, filters, 'location');
-      }
+      } else inputRef.current.focus();
     }
-
-    updateUrlParams(
-      history,
-      search.tab,
-      { ...search.query, location: paramLocation, distance },
-      filters,
-      version,
-    );
   };
 
   /**
@@ -218,7 +205,6 @@ export function LocationSearchForm({
     },
     [search.query.distance],
   );
-
   return (
     <div className="location-search-form">
       <VaModal
@@ -256,6 +242,7 @@ export function LocationSearchForm({
                       </span>
                     </div>
                   ) : (
+                    /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
                     <button
                       type="button"
                       name="use-my-location"
@@ -279,6 +266,7 @@ export function LocationSearchForm({
                 </span>
               }
               name="locationSearch"
+              filters={filters}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => {
                 setAutocompleteSelection(null);
@@ -287,16 +275,15 @@ export function LocationSearchForm({
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.locationSuggestions]}
-              // validateSearchTerm={validateSearchTerm}
               version={version}
             />
           </div>
 
           <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
-            <div className="bottom-positioner">
+            <div className="bottom-positioner vads-u-margin-bottom--0">
               <Dropdown
                 ariaLabel="Distance"
-                className="vads-u-font-style--italic vads-u-display--inline-block "
+                className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-top--0"
                 selectClassName="vads-u-font-style--italic vads-u-color--gray"
                 name="distance"
                 options={distanceDropdownOptions}
@@ -312,19 +299,12 @@ export function LocationSearchForm({
                   setDistance(e.target.value);
                 }}
               />
-              <button
-                type="submit"
+              <VaButton
+                text="Search"
+                onClick={e => doSearch(e)}
                 data-testid="location-search-button"
-                className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
-              >
-                Search
-                <va-icon
-                  size={2}
-                  icon="search"
-                  aria-hidden="true"
-                  class="vads-u-margin-left--1"
-                />
-              </button>
+                className="loc-search-btn vads-u-margin-top--1"
+              />
             </div>
           </div>
         </div>

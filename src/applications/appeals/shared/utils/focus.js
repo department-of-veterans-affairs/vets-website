@@ -3,38 +3,73 @@ import {
   focusElement,
   focusByOrder,
   scrollTo,
+  scrollToFirstError,
   waitForRenderThenFocus,
   scrollAndFocus,
 } from '~/platform/utilities/ui';
+import { focusReview } from '~/platform/forms-system/src/js/utilities/ui/focus-review';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
-import { LAST_ISSUE } from '../constants';
+import { getStorage, removeStorage } from './addIssue';
 
-export const focusIssue = (_index, root, value) => {
+export const focusFirstError = (_index, root) => {
+  const error = $('[error], .usa-input-error', root);
+  if (error) {
+    scrollToFirstError({ focusOnAlertRole: true });
+    return true;
+  }
+  return false;
+};
+
+export const focusEvidence = (index, root) => {
   setTimeout(() => {
-    const item = value || window.sessionStorage.getItem(LAST_ISSUE);
-    window.sessionStorage.removeItem(LAST_ISSUE);
-    const [id, type] = (item || '').toString().split(',');
-    if (id < 0) {
-      // focus on add new issue after removing or cancelling adding a new issue
-      scrollTo('add-new-issue');
-      focusElement('.add-new-issue', null, root);
-    } else if (id) {
-      const card = $(`#issue-${id}`, root);
-      scrollTo(`issue-${id}`);
-      if (type === 'remove-cancel') {
-        const remove = $('.remove-issue', card)?.shadowRoot;
-        waitForRenderThenFocus('button', remove);
-      } else if (type === 'updated') {
-        waitForRenderThenFocus('input', card);
-      } else {
-        focusElement('.edit-issue-link', null, card);
-      }
-    } else {
-      scrollTo('h3');
-      focusElement('h3');
+    if (!focusFirstError(index, root)) {
+      scrollTo('topContentElement');
+      focusElement('#main h3', null, root);
     }
   });
+};
+
+export const focusH3AfterAlert = (
+  index,
+  { name, onReviewPage, root = document } = {},
+) => {
+  if (name && onReviewPage) {
+    focusReview(
+      name, // name of scroll element
+      true, // review accordion in edit mode
+      true, // reviewEditFocusOnHeaders setting from form/config.js
+    );
+  } else if (!focusFirstError(index, root)) {
+    scrollTo('topContentElement');
+    focusElement('h3#header', null, root);
+  }
+};
+
+export const focusIssue = (_index, root, value) => {
+  const item = value || getStorage();
+  const [id, type] = (item || '').toString().split(',');
+  if (id < 0) {
+    // focus on add new issue after removing or cancelling adding a new issue
+    scrollTo('add-new-issue');
+    focusElement('.add-new-issue', null, root);
+  } else if (id) {
+    const card = $(`#issue-${id}`, root);
+    scrollTo(`issue-${id}`);
+    if (type === 'remove-cancel') {
+      const remove = $('.remove-issue', card)?.shadowRoot;
+      waitForRenderThenFocus('button', remove);
+    } else if (type === 'updated') {
+      waitForRenderThenFocus('input', card);
+    } else {
+      focusElement('.edit-issue-link', null, card);
+    }
+  } else {
+    scrollTo('topContentElement');
+    focusElement('h3');
+  }
+  // Delay removing storage because this function may be called multiple times
+  setTimeout(removeStorage, 250);
 };
 
 // Focus on upload file card instead of delete button
@@ -92,38 +127,50 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio, va-checkbox-group');
+  const radio = $('va-radio, va-checkbox-group, va-textarea');
   if (radio) {
+    const target = radio.getAttribute('error') ? '[role="alert"]' : 'h3';
     // va-radio content doesn't immediately render
-    waitForRenderThenFocus('h3', radio.shadowRoot);
+    waitForRenderThenFocus(target, radio.shadowRoot);
   } else {
     focusByOrder(['#main h3', defaultFocusSelector]);
   }
 };
 
-// Temporary focus function for HLR homlessness question (page header is
-// dynamic); once 100% released, change homeless form config to use
-// `scrollAndFocusTarget: focusH3`
-export const focusToggledHeader = () => {
-  scrollTo('topContentElement');
-  const radio = $('va-radio');
-  if (sessionStorage.getItem('hlrUpdated') === 'false' && radio) {
-    waitForRenderThenFocus('h3', radio.shadowRoot);
+// Focus on alert (without header) if visible, or radio h3
+export const focusAlertOrRadio = () => {
+  const alertSelector = 'va-alert[status="info"]';
+  const alert = $(alertSelector);
+  if (alert) {
+    scrollTo('topContentElement');
+    focusElement(alertSelector);
   } else {
-    waitForRenderThenFocus('#main h3');
+    focusRadioH3();
   }
 };
 
-export const focusH3 = () => {
+// Testing focus on role="alert" inside web components
+export const focusH3OrRadioError = (_index, root) => {
   scrollTo('topContentElement');
-  focusElement('#main h3');
+  const radio = $('va-radio, va-checkbox-group', root);
+  const hasError = radio.getAttribute('error');
+  const target = hasError ? '[role="alert"]' : 'h3';
+  waitForRenderThenFocus(target, hasError ? radio.shadowRoot : root);
 };
 
-export const focusAlertH3 = () => {
+export const focusH3 = (index, root) => {
   scrollTo('topContentElement');
+  if (!focusFirstError(index, root)) {
+    focusElement('#main h3');
+  }
+};
+
+export const focusAlertH3 = (_index, root = document) => {
+  scrollTo('topContentElement');
+  const alert = $('va-alert[visible="true"]', root);
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
-  waitForRenderThenFocus('#main h3');
+  focusElement(`#main ${alert ? 'va-alert ' : ''}h3`);
 };
 
 // Used for onContinue callback on the contestable issues page

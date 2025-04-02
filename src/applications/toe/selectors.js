@@ -16,19 +16,14 @@ export const getAppData = state => ({
 
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
-  // Add the new feature flag: showMebEnhancements06
-  // showMebEnhancements06: !!toggleValues(state)[
-  //   FEATURE_FLAG_NAMES.showMebEnhancements06
-  // ],
   showMeb1990EMaintenanceAlert:
     state.featureToggles.showMeb1990EMaintenanceAlert,
   showMeb1990ER6MaintenanceMessage:
     state.featureToggles.showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements06: state.featureToggles.showMebEnhancements06,
-  showMebEnhancements08: state.featureToggles.showMebEnhancements08,
   toeDupContactInfoCall: state.featureToggles.toeDupContactInfoCall,
   toeLightHouseDgiDirectDeposit:
     state?.featureToggles?.toeLightHouseDGIDirectDeposit,
   toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
+  mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,
 });

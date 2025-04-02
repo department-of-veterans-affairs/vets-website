@@ -8,22 +8,28 @@ export const headingPrefix = 'Sign in with a verified account';
 
 /**
  * Alert to show a user that is not logged in.
+ * @property {number} headerLevel the heading level
  * @property {*} recordEvent the function to record the event
  * @property {string} serviceDescription the description of the service that requires verification
  */
-const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
+const UnauthenticatedAlert = ({
+  headerLevel,
+  recordEvent,
+  serviceDescription,
+}) => {
   const headline = serviceDescription
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
 
   const dispatch = useDispatch();
   const handleSignIn = () => {
-    dispatch(toggleLoginModal(true, 'mhv-signin-cta'));
+    dispatch(toggleLoginModal(true, 'mhv-signin-cta', true));
   };
 
   return (
     <div data-testid="mhv-unauthenticated-alert">
       <CustomAlert
+        headerLevel={headerLevel}
         headline={headline}
         icon="lock"
         status="info"
@@ -31,31 +37,31 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
       >
         <div>
           <p>
-            You’ll need to sign in with a verified account through one of our
-            account providers. Identity verification helps us protect your
-            information and prevent fraud and identity theft.
+            You’ll need to sign in with an identity-verified account through one
+            of our account providers. Identity verification helps us protect all
+            Veterans’ information and prevent scammers from stealing your
+            benefits.
           </p>
           <p>
             <strong>Don’t yet have a verified account?</strong> Create a{' '}
-            <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
-            Then come back here and sign in. We’ll help you verify.
+            <strong>Login.gov</strong> or <strong>ID.me</strong> account. We’ll
+            help you verify your identity for your account now.
           </p>
           <p>
             <strong>Not sure if your account is verified?</strong> Sign in here.
-            We’ll tell you if you need to verify.
+            If you still need to verify your identity, we’ll help you do that
+            now.
           </p>
           <p>
             <va-button
               onClick={handleSignIn}
-              text="Sign in or create account"
+              text="Sign in or create an account"
             />
           </p>
-          <p>
-            <va-link
-              href="/resources/creating-an-account-for-vagov/"
-              text="Learn about creating an account"
-            />
-          </p>
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn about creating an account"
+          />
         </div>
       </CustomAlert>
     </div>
@@ -63,6 +69,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
 };
 
 UnauthenticatedAlert.propTypes = {
+  headerLevel: PropTypes.number,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
 };

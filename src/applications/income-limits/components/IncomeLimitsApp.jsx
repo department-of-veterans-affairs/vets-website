@@ -23,6 +23,10 @@ const IncomeLimitsApp = ({
   const GENERAL_ERROR_BODY =
     'We’re sorry. There’s a problem with our system. Refresh this page or try again later.';
 
+  useEffect(() => {
+    document.title = 'Income limits and your VA health care | Veterans Affairs';
+  });
+
   useEffect(
     () => {
       if (zipValidationError && location !== `/${ROUTES.ZIPCODE}`) {
@@ -44,7 +48,7 @@ const IncomeLimitsApp = ({
 
   const alertBanner = (message = null) => {
     return (
-      <va-alert data-testid="il-service-error" status="error" uswds>
+      <va-alert data-testid="il-service-error" status="error">
         <h2 className="vads-u-margin-bottom--2" slot="headline">
           {message ? `We've run into a problem` : GENERAL_ERROR_HEADING}
         </h2>

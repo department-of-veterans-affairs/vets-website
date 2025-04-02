@@ -40,7 +40,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 28px;
     height: 24px;
     display: flex;
-    font-family: $font-sans;
+    font-family: var(--font-source-sans);
     align-items: center;
     justify-content: center;
     background: var(--vads-color-base);

@@ -1,32 +1,25 @@
 import '@department-of-veterans-affairs/platform-polyfills';
+
 import React from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 
-import { Provider } from 'react-redux';
-import { Router, useRouterHistory } from 'react-router';
-import { createHistory } from 'history';
-
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
-
-import routes from './accreditation/21a/routes';
-import manifest from './manifest.json';
-import createReduxStore from './store';
-
 import './sass/accredited-representative-portal.scss';
+import './sass/POARequestCard.scss';
+import './sass/POARequestDetails.scss';
+import './sass/Header.scss';
 
-const store = createReduxStore();
+import routes from './routes';
+import createReduxStore from './utilities/store';
 
-connectFeatureToggle(store.dispatch);
-
-window.appName = manifest.entryName;
-
-// eslint-disable-next-line react-hooks/rules-of-hooks
-const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl,
+const router = createBrowserRouter(routes, {
+  basename: '/representative',
 });
 
 startReactApp(
-  <Provider store={store}>
-    <Router history={history} routes={routes} />
+  <Provider store={createReduxStore()}>
+    <RouterProvider router={router} />
   </Provider>,
 );

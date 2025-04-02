@@ -1,56 +1,110 @@
-import mockDisabilities from '../mockdata/200-response.json';
-import mockTotalRating from '../mockdata/total-rating-response.json';
-import mockErrorResponse from '../mockdata/error-response.json';
+import notFoundError from '../fixtures/not-found-error.json';
+import featureToggles from '../fixtures/feature-toggles.json';
+import serviceConnectedOnly from '../fixtures/service-connected-only.json';
+import noCombinedRating from '../fixtures/no-combined-rating.json';
+import noRatings from '../fixtures/no-ratings.json';
+import nonServiceConnectedOnly from '../fixtures/non-service-connected-only.json';
 
 const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
-const DISABILITIES_ENDPOINT =
-  'v0/disability_compensation_form/rated_disabilities';
-const TOTAL_RATING_ENDPOINT = 'v0/disability_compensation_form/rating_info';
-
-const testHappyPath = () => {
-  cy.intercept('GET', DISABILITIES_ENDPOINT, mockDisabilities).as(
-    'mockDisabilities',
-  );
-  cy.intercept('GET', TOTAL_RATING_ENDPOINT, mockTotalRating).as(
-    'mockTotalRating',
-  );
-
-  cy.findByText(/90%/).should('exist');
-  cy.findAllByText(/Diabetes mellitus0/).should('have.length', 2);
-};
-
-const testErrorStates = () => {
-  cy.intercept('GET', DISABILITIES_ENDPOINT, {
-    body: mockErrorResponse,
-    statusCode: 404,
-  }).as('clientError');
-  cy.intercept('GET', TOTAL_RATING_ENDPOINT, {
-    body: mockErrorResponse,
-    statusCode: 404,
-  }).as('totalRatingClientError');
-
-  cy.findByText(
-    /We don’t have a combined disability rating on file for you/,
-  ).should('exist');
-  cy.findByText(/We don’t have rated disabilities on file for you/).should(
-    'exist',
-  );
-};
 
 describe('View rated disabilities', () => {
   beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
+      'featureToggles',
+    );
+
     cy.login();
-    cy.visit(RATED_DISABILITIES_PATH);
-    cy.injectAxe();
   });
 
-  it('should display a total rating and a list of ratings', () => {
-    testHappyPath();
-    cy.axeCheck();
+  context('when the server returns an error', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/rated_disabilities', {
+        statusCode: 404,
+        body: notFoundError,
+      });
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display an alert indicating that an error occurred', () => {
+      cy.findByText('We’re sorry. Something went wrong on our end.');
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
-  it('should handle response errors by displaying the correct messaging', () => {
-    testErrorStates();
-    cy.axeCheck();
+  context('when there is no combined rating', () => {
+    beforeEach(() => {
+      cy.intercept('v0/rated_disabilities', noCombinedRating);
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display an alert indicating that there is no combined rating', () => {
+      cy.findByText(
+        'We don’t have a combined disability rating on file for you',
+      ).should('exist');
+      cy.get('va-summary-box').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  context('when there are no ratings', () => {
+    beforeEach(() => {
+      cy.intercept('v0/rated_disabilities', noRatings);
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display an alert indicating that there are no ratings', () => {
+      cy.findByText(
+        'We don’t have any rated disabilities on file for you',
+      ).should('exist');
+      cy.get('.rating-list').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  context('when there are only service-connected ratings', () => {
+    beforeEach(() => {
+      cy.intercept('v0/rated_disabilities', serviceConnectedOnly);
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display a list of service-connected ratings', () => {
+      cy.findByText('Service-connected ratings').should('exist');
+      cy.get('.rating-list > va-card').should('have.length', 3);
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should not display the non-service-connected ratings section', () => {
+      cy.findByText('Conditions VA determined aren’t service-connected').should(
+        'not.exist',
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  context('when there are only non-service-connected ratings', () => {
+    beforeEach(() => {
+      cy.intercept('v0/rated_disabilities', nonServiceConnectedOnly);
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display a list of service-connected ratings', () => {
+      cy.findByText('Conditions VA determined aren’t service-connected').should(
+        'exist',
+      );
+      cy.get('.rating-list > va-card').should('have.length', 2);
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should not display the service-connected ratings section', () => {
+      cy.findByText('Service-connected ratings').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

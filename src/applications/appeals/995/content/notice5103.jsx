@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusH3AfterAlert } from '../utils/focus';
 
@@ -22,7 +23,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
   const hideAlert = () => {
     setVisibleAlert(false);
     recordEvent({ ...analyticsEvent, event: 'int-alert-box-close' });
-    setTimeout(focusH3AfterAlert);
+    setTimeout(() => focusH3AfterAlert({ name: 'notice5103', onReviewPage }));
   };
   if (visibleAlert) {
     recordEvent({ ...analyticsEvent, event: 'visible-alert-box' });
@@ -30,22 +31,26 @@ export const Notice5103Description = ({ onReviewPage }) => {
 
   return (
     <>
-      <VaAlert
-        status="info"
-        closeBtnAriaLabel="Close notification"
-        closeable
-        onCloseEvent={hideAlert}
-        showIcon
-        visible={visibleAlert}
-        uswds
-      >
-        <Header slot="headline">If you have a presumptive condition</Header>
-        <p>
-          If you’re filing a claim for a condition that we now consider
-          presumptive under a new law or regulation (like the PACT Act), you can
-          submit this form for review.
-        </p>
-      </VaAlert>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
+        <Toggler.Disabled>
+          <VaAlert
+            status="info"
+            closeBtnAriaLabel="Close notification"
+            closeable
+            onCloseEvent={hideAlert}
+            showIcon
+            visible={visibleAlert}
+            uswds
+          >
+            <Header slot="headline">If you have a presumptive condition</Header>
+            <p>
+              If you’re filing a claim for a condition that we now consider
+              presumptive under a new law or regulation (like the PACT Act), you
+              can submit this form for review.
+            </p>
+          </VaAlert>
+        </Toggler.Disabled>
+      </Toggler>
       <Header id="header">
         Review and acknowledge the notice of evidence needed.
       </Header>
@@ -57,10 +62,24 @@ Notice5103Description.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
+export const Notice5103Details = () => (
+  <va-additional-info
+    class="vads-u-margin-top--2"
+    trigger="What if I have a presumptive condition?"
+  >
+    <div>
+      If you’re filing a claim for a condition that we now consider presumptive
+      under a new law or regulation (like the PACT Act), it also counts as new
+      and relevant evidence.
+    </div>
+  </va-additional-info>
+);
+
 export const content = {
   error:
     'You need to certify that you have reviewed the notice of evidence needed.',
-  label: 'I certify that I have reviewed the notice of evidence needed.',
+  label:
+    'I certify that I have reviewed the notice of evidence needed or I received my decision less than 1 year ago.',
   update: 'Update page',
   updateLabel: 'Update notice of evidence needed page',
   descriptionInCheckbox: (
@@ -71,13 +90,11 @@ export const content = {
         of evidence needed for your disability claim.
       </p>
       <p>
-        <a
+        <va-link
           href="/disability/how-to-file-claim/evidence-needed/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Review the notice of evidence needed (opens in a new tab)
-        </a>
+          external
+          text="Review the notice of evidence needed"
+        />
       </p>
     </>
   ),

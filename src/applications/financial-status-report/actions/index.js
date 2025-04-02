@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { differenceInMilliseconds } from 'date-fns';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -20,8 +20,12 @@ export const fetchFormStatus = () => async dispatch => {
   dispatch({
     type: FSR_API_CALL_INITIATED,
   });
-  const sessionExpiration = localStorage.getItem('sessionExpiration');
-  const remainingSessionTime = moment(sessionExpiration).diff(moment());
+
+  const sessionExpiration = new Date(localStorage.getItem('sessionExpiration'));
+  const remainingSessionTime = differenceInMilliseconds(
+    sessionExpiration,
+    new Date(),
+  );
 
   if (!remainingSessionTime) {
     // reset errors if user is not logged in or session has expired

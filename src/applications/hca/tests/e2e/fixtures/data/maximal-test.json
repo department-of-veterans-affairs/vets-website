@@ -1,11 +1,9 @@
 {
   "data": {
-    "isEssentialAcaCoverage": true,
     "view:preferredFacility": {
       "view:facilityState": "MA",
       "vaMedicalFacility": "631"
     },
-    "view:locator": {},
     "wantsInitialVaContact": true,
     "isCoveredByHealthInsurance": true,
     "providers": [
@@ -20,12 +18,24 @@
     "isEnrolledMedicarePartA": true,
     "medicarePartAEffectiveDate": "2009-01-02",
     "medicareClaimNumber": "7AD5WC9MW60",
-    "deductibleMedicalExpenses": 234,
-    "deductibleFuneralExpenses": 11,
-    "deductibleEducationExpenses": 0,
-    "veteranGrossIncome": 3242434,
-    "veteranNetIncome": 23424,
-    "veteranOtherIncome": 23424,
+    "view:deductibleMedicalExpenses":{
+      "deductibleMedicalExpenses": 234
+    },
+    "view:deductibleFuneralExpenses":{
+      "deductibleFuneralExpenses": 11
+    },
+    "view:deductibleEducationExpenses":{
+      "deductibleEducationExpenses": 0
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
     "view:spouseIncome": {
       "spouseGrossIncome": 23424,
       "spouseNetIncome": 23424,
@@ -48,8 +58,8 @@
         "dependentEducationExpenses": 453,
         "cohabitedLastYear": false,
         "receivedSupportLastYear": true,
-        "grossIncome": 0,
-        "netIncome": 0,
+        "grossIncome": 22500,
+        "netIncome": 17100,
         "otherIncome": 0
       }
     ],
@@ -144,7 +154,6 @@
       "postalCode": "33771"
     },
     "gender": "M",
-    "sigiGenders": "NB",
     "maritalStatus": "Married",
     "view:demographicCategories": {
       "isSpanishHispanicLatino": true,
@@ -154,7 +163,7 @@
       "isAsian": true,
       "isWhite": true
     },
-    "veteranDateOfBirth": "1970-03-02",
+    "veteranDateOfBirth": "1960-03-02",
     "veteranSocialSecurityNumber": "324234444",
     "view:placeOfBirth": {
       "cityOfBirth": "Boston",

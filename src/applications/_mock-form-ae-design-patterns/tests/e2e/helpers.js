@@ -1,12 +1,12 @@
 import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 import { prefill } from '../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
 import {
-  loa3User72,
+  loa3User,
   loa3UserWithUpdatedHomePhoneTimeStamp,
 } from '../../mocks/endpoints/user';
 
 export const mockInterceptors = () => {
-  cy.login(loa3User72);
+  cy.login(loa3User);
   cy.intercept(
     'GET',
     '/v0/user?now=*',

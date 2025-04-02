@@ -13,11 +13,11 @@ import {
   includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
-  isSigiEnabled,
   hasDifferentHomeAddress,
   teraUploadEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
+  includePostSept11ServiceDates,
   includeAgentOrangeExposureDates,
   includeOtherExposureDates,
   includeOtherExposureDetails,
@@ -27,6 +27,11 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
+  canVeteranProvideRadiationCleanupResponse,
+  canVeteranProvideGulfWarServiceResponse,
+  canVeteranProvidePostSept11ServiceResponse,
+  canVeteranProvideCombatOperationsResponse,
+  canVeteranProvideAgentOrangeResponse,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -42,7 +47,6 @@ import FormFooter from '../components/FormFooter';
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
 import veteranDateOfBirth from './chapters/veteranInformation/dateOfBirth';
 import veteranBirthSex from './chapters/veteranInformation/birthSex';
-import veteranGenderIdentity from './chapters/veteranInformation/genderIdentity';
 import veteranMailingAddress from './chapters/veteranInformation/mailingAddress';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
@@ -83,6 +87,8 @@ import insurancePolicies from './chapters/insuranceInformation/insurancePolicies
 import InsuranceSummaryPage from '../components/FormPages/InsuranceSummary';
 import InsurancePolicyInformationPage from '../components/FormPages/InsurancePolicyInformation';
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
+import postSept11Service from './chapters/militaryService/postSept11Service';
+import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 
 // declare shared paths for custom form page navigation
 const {
@@ -172,14 +178,6 @@ const formConfig = {
           uiSchema: veteranBirthSex.uiSchema,
           schema: veteranBirthSex.schema,
         },
-        genderIdentity: {
-          path: 'veteran-information/gender-identity',
-          title: 'Veteran\u2019s gender identity',
-          initialData: {},
-          depends: isSigiEnabled,
-          uiSchema: veteranGenderIdentity.uiSchema,
-          schema: veteranGenderIdentity.schema,
-        },
         mailingAddress: {
           path: 'veteran-information/mailing-address',
           title: 'Veteran\u2019s mailing address',
@@ -229,14 +227,14 @@ const formConfig = {
         radiationCleanup: {
           path: 'military-service/radiation-cleanup-efforts',
           title: 'Radiation cleanup or response efforts',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideRadiationCleanupResponse,
           uiSchema: radiationCleanup.uiSchema,
           schema: radiationCleanup.schema,
         },
         gulfWarService: {
           path: 'military-service/gulf-war-service',
           title: 'Gulf War service locations',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideGulfWarServiceResponse,
           uiSchema: gulfWarService.uiSchema,
           schema: gulfWarService.schema,
         },
@@ -247,17 +245,31 @@ const formConfig = {
           uiSchema: gulfWarServiceDates.uiSchema,
           schema: gulfWarServiceDates.schema,
         },
+        postSept11Service: {
+          path: 'military-service/post-sept-11-service',
+          title: 'Service post-9/11',
+          depends: canVeteranProvidePostSept11ServiceResponse,
+          uiSchema: postSept11Service.uiSchema,
+          schema: postSept11Service.schema,
+        },
+        postSept11ServiceDates: {
+          path: 'military-service/post-sept-11-service-dates',
+          title: 'Post-9/11 service dates',
+          depends: includePostSept11ServiceDates,
+          uiSchema: postSept11ServiceDates.uiSchema,
+          schema: postSept11ServiceDates.schema,
+        },
         combatOperationService: {
           path: 'military-service/operation-support',
           title: 'Operations',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideCombatOperationsResponse,
           uiSchema: combatOperationService.uiSchema,
           schema: combatOperationService.schema,
         },
         agentOrangeExposure: {
           path: 'military-service/agent-orange-exposure',
           title: 'Agent Orange exposure',
-          depends: includeTeraInformation,
+          depends: canVeteranProvideAgentOrangeResponse,
           uiSchema: agentOrangeExposure.uiSchema,
           schema: agentOrangeExposure.schema,
         },

@@ -20,7 +20,7 @@ const content = {
   },
   copayCompromise: {
     type: 'Compromise',
-    description: `If you can't pay the debt in full, we can consider a smaller, one-time payment to resolve your debt.`,
+    description: `If you are unable to pay your account in full you may be eligible for a compromise which is a smaller payment no less than 50% of your balance. This payment must be made in full within 30 days of approval.`,
     label: 'How much can you afford to pay as a one-time payment?',
   },
 };
@@ -91,20 +91,16 @@ const ResolutionAmount = ({ formContext }) => {
   };
 
   return (
-    <div>
-      <div className="vads-u-margin-y--0">
-        <p className="vads-u-display--block">
-          You selected:{' '}
-          <span className="vads-u-font-weight--bold">
-            {resolutionOption === 'monthly'
-              ? content.debtMonthly.type
-              : content.debtCompromise.type}
-          </span>
-        </p>
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-          {getResolutionText()}
+    <>
+      <p className="vads-u-margin-top--3">
+        You selected:{' '}
+        <span className="vads-u-font-weight--bold">
+          {resolutionOption === 'monthly'
+            ? content.debtMonthly.type
+            : content.debtCompromise.type}
         </span>
-      </div>
+      </p>
+      <p className="vads-u-margin-bottom--0">{getResolutionText()}</p>
       <VaTextInput
         width="md"
         data-testid="resolution-amount"
@@ -129,7 +125,7 @@ const ResolutionAmount = ({ formContext }) => {
         type="decimal"
         value={resolutionAmount || ''}
       />
-    </div>
+    </>
   );
 };
 

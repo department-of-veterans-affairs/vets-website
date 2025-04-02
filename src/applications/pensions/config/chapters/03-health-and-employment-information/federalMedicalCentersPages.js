@@ -19,6 +19,8 @@ const options = {
   text: {
     getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from federal medical facilities',
+    cancelEditTitle: 'Cancel editing this federal medical facility',
+    deleteTitle: 'Delete federal medical facility',
   },
 };
 
@@ -52,6 +54,7 @@ const federalMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Federal medical center',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('Federal medical center'),
   },

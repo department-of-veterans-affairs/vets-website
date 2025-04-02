@@ -9,6 +9,7 @@ import {
   facilityTypeTitle,
   facilityTypeTextLabel,
   facilityTypeChoices,
+  facilityTypeReviewField,
 } from '../content/facilityTypes';
 
 const labels = Object.keys(facilityTypeChoices);
@@ -21,10 +22,10 @@ export default {
         enableAnalytics: true,
         required: false,
         labelHeaderLevel: '3',
-        hideOnReview: true,
         labels: facilityTypeChoices,
       }),
       other: textUI(facilityTypeTextLabel),
+      'ui:objectViewField': facilityTypeReviewField,
     },
   },
   schema: {

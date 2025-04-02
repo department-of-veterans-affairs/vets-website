@@ -1,13 +1,13 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import { taskCompletePagePattern1 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+
 import profileContactInfo from './profileContactInfo';
 import { customText } from '../content/saveInProgress';
-
-import manifest from '../../../../manifest.json';
-
 import IntroductionPage from '../IntroductionPage';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
-import { GetFormHelp } from '../GetFormHelp';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -17,7 +17,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-purple',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {
@@ -65,7 +65,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
         }),
-        taskCompletePage,
+        taskCompletePagePattern1,
       },
     },
   },

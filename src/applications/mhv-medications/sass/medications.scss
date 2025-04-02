@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./prescription-details";
 @import "./print-download";
 
@@ -47,7 +47,7 @@
 }
 .main-content {
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 2rem !important;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
@@ -80,9 +80,6 @@
     .sort-button {
       margin-left: 8px;
       margin-top: 57px;
-    }
-    va-select::part(label) {
-      text-wrap: nowrap;
     }
   }
   .rx-page-total-info {
@@ -153,6 +150,10 @@
 .renew-card-details > p {
   margin: 0px;
 }
+//fixed misaligned icon for filter component
+#filter > span {
+  vertical-align: top;
+}
 
 .pagination {
   max-width: 500px;
@@ -177,10 +178,6 @@
   .rx-page-total-info {
     margin: 0.9375rem 0 !important;
     padding: 0;
-  }
-  .line-break {
-    margin: 0.625rem 0;
-    border-bottom: 1px solid rgb(0, 0, 0);
   }
   .no-print,
   .no-print * {
@@ -216,8 +213,7 @@
       word-wrap: break-word;
     }
     .print-only-rx-details-container {
-      margin: 0 auto 0.625rem auto;
-      width: 95%;
+      margin-bottom: 0.625rem;
     }
     h4 {
       margin: 0.625rem 0 0.3125rem 0;
@@ -256,12 +252,6 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
-  }
-}
-
-.vads-u-width--responsive{
-  @media (max-width: $small-screen) {
-    width: 100% !important;
   }
 }
 
@@ -347,5 +337,38 @@ va-checkbox {
     font-size: 16.96px;
     color: rgb(27, 27, 27);
     background: var(--vads-color-gray-medium);
+  }
+}
+
+#rx-ipe-filtering-container {
+  border: 2px solid var(--vads-color-base);
+  background-color: var(--vads-color-base-lighter);
+  border-radius: 12px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: 20px;
+    z-index: 1;
+    background-color: var(--vads-color-base-lighter);
+    border: 2px solid transparent;
+    border-top-color: var(--vads-color-base);
+    border-left-color: var(--vads-color-base);
+    transform: rotate(45deg);
+  }
+
+  #rx-ipe-filtering-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    margin: 0;
+    padding: 0;
+    background: 0;
+    color: inherit;
+    width: auto;
   }
 }

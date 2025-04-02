@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useLocation } from 'react-router-dom';
 import ThreadListItem from './ThreadListItem';
-import { threadSortingOptions } from '../../util/constants';
+import { Paths, threadSortingOptions } from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
 
 const ThreadsList = props => {
@@ -16,6 +17,8 @@ const ThreadsList = props => {
     sortOrder,
     threadsPerPage,
   } = props;
+
+  const location = useLocation();
 
   const MAX_PAGE_LIST_LENGTH = 7;
 
@@ -36,6 +39,10 @@ const ThreadsList = props => {
     },
     [pageNum, threadsPerPage, totalThreads],
   );
+  const multipleThreads = totalThreads > 1 ? 's' : '';
+  const sortedListText =
+    (location.pathname === Paths.DRAFTS ? 'draft' : 'conversation') +
+    multipleThreads;
 
   useEffect(
     () => {
@@ -43,7 +50,7 @@ const ThreadsList = props => {
       if (fromToNums && totalThreads) {
         const label = `Showing ${fromToNums.from} to ${
           fromToNums.to
-        } of ${totalThreads} conversations`;
+        } of ${totalThreads} ${sortedListText}`;
         setDisplayNums({ ...fromToNums, label });
       }
 
@@ -89,9 +96,9 @@ const ThreadsList = props => {
         )}
 
         {threadList?.length > 0 && (
-          <div className="xsmall-screen:vads-l-grid-container mobile:vads-u-max-width--100">
-            <div className="xsmall-screen:vads-l-row mobile:vads-u-max-width--100">
-              <div className="xsmall-screen:vads-u-margin-left--neg2 xsmall-screen:vads-l-col--12 xsmall-screen:vads-u-padding-left--0 mobile:vads-u-max-width--100">
+          <div className="mobile:vads-l-grid-container mobile:vads-u-max-width--100">
+            <div className="mobile:vads-l-row mobile:vads-u-max-width--100">
+              <div className="mobile:vads-u-margin-left--neg2 mobile:vads-l-col--12 mobile:vads-u-padding-left--0 mobile:vads-u-max-width--100">
                 <VaPagination
                   className="sm-pagination"
                   maxPageListLength={MAX_PAGE_LIST_LENGTH}
@@ -101,6 +108,7 @@ const ThreadsList = props => {
                     threadList[0]?.threadPageSize / threadsPerPage,
                   )}
                   uswds
+                  data-dd-action-name="Pagination"
                 />
               </div>
             </div>

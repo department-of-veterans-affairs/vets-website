@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import {
   VaCheckbox,
   VaPrivacyAgreement,
-  VaTextInput,
+  VaStatementOfTruth,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // platform - forms - selectors
@@ -24,14 +24,30 @@ import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction } from 'platform/forms/save-in-progress/actions';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-
-export function statementOfTruthFullName(formData, fullNamePath) {
-  const fullName = get(
-    formData,
-    typeof fullNamePath === 'function'
-      ? fullNamePath(formData)
-      : fullNamePath || 'veteran.fullName',
-  );
+/**
+ *
+ * @param {*} formData
+ * @param {StatementOfTruth} statementOfTruth
+ * @param {*} profileFullName
+ * @returns
+ */
+export function statementOfTruthFullName(
+  formData,
+  statementOfTruth,
+  profileFullName,
+) {
+  const { fullNamePath, useProfileFullName } = statementOfTruth;
+  let fullName;
+  if (useProfileFullName && profileFullName) {
+    fullName = profileFullName;
+  } else {
+    fullName = get(
+      formData,
+      typeof fullNamePath === 'function'
+        ? fullNamePath(formData)
+        : fullNamePath || 'veteran.fullName',
+    );
+  }
 
   let fullNameString = fullName?.first || '';
 
@@ -129,81 +145,45 @@ export function PreSubmitSection(props) {
   return (
     <>
       {statementOfTruth ? (
-        <>
-          <p className="vads-u-padding-x--3">
-            <strong>Note:</strong> According to federal law, there are criminal
-            penalties, including a fine and/or imprisonment for up to 5 years,
-            for withholding information or for providing incorrect information
-            (Reference: 18 U.S.C. 1001).
-          </p>
-          <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
-            <h3>{statementOfTruth.heading || 'Statement of truth'}</h3>
-            {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
-            <p>
-              I have read and accept the{' '}
-              <a
-                href="/privacy-policy/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                privacy policy
-                <va-icon icon="launch" srtext="opens in a new window" />
-              </a>
-              .
-            </p>
-            <VaTextInput
-              id="veteran-signature"
-              name="veteran-signature"
-              label={statementOfTruth.textInputLabel || 'Your full name'}
-              class="signature-input"
-              value={form?.data.statementOfTruthSignature}
-              onInput={event =>
-                setPreSubmit('statementOfTruthSignature', event.target.value)
-              }
-              onBlur={() => setStatementOfTruthSignatureBlurred(true)}
-              type="text"
-              error={
-                (showPreSubmitError || statementOfTruthSignatureBlurred) &&
-                fullNameReducer(form?.data.statementOfTruthSignature) !==
-                  fullNameReducer(
-                    statementOfTruthFullName(
-                      form?.data,
-                      statementOfTruth?.fullNamePath,
-                    ),
-                  )
-                  ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
-                      form?.data,
-                      statementOfTruth?.fullNamePath,
-                    )}`
-                  : undefined
-              }
-              message-aria-describedby={`${statementOfTruth.heading ||
-                'Statement of truth'}: ${
-                statementOfTruth.messageAriaDescribedby
-              }`}
-              required
-            />
-            <VaCheckbox
-              id="veteran-certify"
-              name="veteran-certify"
-              label={
-                statementOfTruth.checkboxLabel ||
-                'I certify the information above is correct and true to the best of my knowledge and belief.'
-              }
-              checked={form?.data.statementOfTruthCertified}
-              onVaChange={event =>
-                setPreSubmit('statementOfTruthCertified', event.target.checked)
-              }
-              error={
-                showPreSubmitError && !form?.data.statementOfTruthCertified
-                  ? 'You must certify by checking the box'
-                  : undefined
-              }
-              className="statement-of-truth-va-checkbox"
-              required
-            />
-          </article>
-        </>
+        <VaStatementOfTruth
+          heading={statementOfTruth.heading || 'Statement of truth'}
+          inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
+          inputValue={form?.data.statementOfTruthSignature}
+          inputMessageAriaDescribedby={`${statementOfTruth.heading ||
+            'Statement of truth'}: ${statementOfTruth.messageAriaDescribedby}`}
+          inputError={
+            (showPreSubmitError || statementOfTruthSignatureBlurred) &&
+            fullNameReducer(form?.data.statementOfTruthSignature) !==
+              fullNameReducer(
+                statementOfTruthFullName(
+                  form?.data,
+                  statementOfTruth,
+                  user?.profile?.userFullName,
+                ),
+              )
+              ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
+                  form?.data,
+                  statementOfTruth,
+                  user?.profile?.userFullName,
+                )}`
+              : undefined
+          }
+          checked={form?.data.statementOfTruthCertified}
+          onVaInputChange={event =>
+            setPreSubmit('statementOfTruthSignature', event.detail.value)
+          }
+          onVaInputBlur={() => setStatementOfTruthSignatureBlurred(true)}
+          onVaCheckboxChange={event =>
+            setPreSubmit('statementOfTruthCertified', event.detail.checked)
+          }
+          checkboxError={
+            showPreSubmitError && !form?.data.statementOfTruthCertified
+              ? 'You must certify by checking the box'
+              : undefined
+          }
+        >
+          {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
+        </VaStatementOfTruth>
       ) : (
         <div>
           {preSubmit.notice}
@@ -256,23 +236,31 @@ PreSubmitSection.propTypes = {
     submission: PropTypes.shape({
       hasAttemptedSubmit: PropTypes.bool,
     }),
+    data: PropTypes.object,
   }).isRequired,
   formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      finishAppLaterMessage: PropTypes.string,
+    }),
     preSubmitInfo: PropTypes.object,
   }).isRequired,
-  showPreSubmitError: PropTypes.bool,
   setPreSubmit: PropTypes.func.isRequired,
+  // added by withRouter
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  preSubmit: PropTypes.object,
+  saveAndRedirectToReturnUrl: PropTypes.func,
+  showLoginModal: PropTypes.bool,
+  showPreSubmitError: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
     }),
-  }),
-  showLoginModal: PropTypes.bool,
-  saveAndRedirectToReturnUrl: PropTypes.func,
-  toggleLoginModal: PropTypes.func,
-  // added by withRouter
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
+    profile: PropTypes.shape({
+      userFullName: PropTypes.object,
+    }),
   }),
 };
 

@@ -6,17 +6,19 @@ const transformForSubmit = (formConfig, form) => {
     sharedTransformForSubmit(formConfig, form),
   );
 
-  const { formNumber } = getFormContent();
-  const { idNumber = {}, address = {} } = transformedData.veteran;
+  const { formNumber, subTitle } = getFormContent();
+  const { idNumber = {}, address = {}, fullName = {}, email } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
 
   return JSON.stringify({
     confirmationCode,
     formNumber,
-    options: {
-      ssn: idNumber.ssn,
-      vaFileNumber: idNumber.vaFileNumber,
-      zipCode: address.postalCode,
+    formData: {
+      idNumber,
+      postalCode: address.postalCode,
+      fullName,
+      email,
+      formName: subTitle,
     },
   });
 };

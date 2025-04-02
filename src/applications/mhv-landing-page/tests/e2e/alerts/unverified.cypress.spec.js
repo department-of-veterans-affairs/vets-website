@@ -4,10 +4,6 @@ import LandingPage from '../pages/LandingPage';
 
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
-// ID.me is LandingPage.visitPage default for serviceProvider
-const verifyIdentityHeading =
-  'Verify and register your account to access My HealtheVet';
-
 describe(appName, () => {
   describe('Display content based on identity verification', () => {
     viewportSizes.forEach(size => {
@@ -29,9 +25,7 @@ describe(appName, () => {
         cy.injectAxeThenAxeCheck();
 
         // Test that the unverified identity message is present
-        cy.findByRole('heading', {
-          name: verifyIdentityHeading,
-        }).should.exist;
+        cy.findByTestId('mhv-alert--verify-and-register').should('exist');
 
         // Check the cards are not visible
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
@@ -66,9 +60,7 @@ describe(appName, () => {
           .exist;
 
         // Test that the unverified identity message is NOT present
-        cy.findByRole('heading', {
-          name: verifyIdentityHeading,
-        }).should('not.exist');
+        cy.findByTestId('mhv-alert--verify-and-register').should('not.exist');
       });
     });
   });

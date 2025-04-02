@@ -12,9 +12,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123123123"
-        },
+        "applicantSSN": "123123123",
         "applicantName": {
           "first": "Applicant1",
           "last": "Jones"
@@ -64,9 +62,7 @@
           "state": "AL",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123234123"
-        },
+        "applicantSSN": "123234123",
         "applicantName": {
           "first": "Applicant2",
           "last": "Jones"
@@ -122,9 +118,7 @@
           "state": "AL",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "876123876"
-        },
+        "applicantSSN": "876123876",
         "applicantName": {
           "first": "Applicant3",
           "last": "Jones"
@@ -191,6 +185,7 @@
       "last": "Jones"
     },
     "sponsorDob": "1950-01-01",
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": true,
@@ -199,6 +194,7 @@
       }
     },
     "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
     "certifierAddress": {
       "country": "USA",
       "street": "123 Certifier Street",
@@ -210,7 +206,6 @@
       "first": "Certifier",
       "last": "Jones"
     },
-    "certifierRole": "other",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthSignature": "certifier jones",
     "statementOfTruthCertified": true

@@ -8,13 +8,9 @@ import { useHistory } from 'react-router-dom';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
-import { getFlowType, getFormPageInfo } from '../redux/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  PURPOSE_TEXT_V2,
-  FACILITY_TYPES,
-  FLOW_TYPES,
-} from '../../utils/constants';
+import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -29,6 +25,7 @@ import {
   selectFeatureVAOSServiceRequests,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
+import { getPageTitle } from '../newAppointmentFlow';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -78,7 +75,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const flowType = useSelector(getFlowType);
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -90,10 +87,6 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
-  const pageTitle =
-    FLOW_TYPES.DIRECT === flowType
-      ? 'Tell us the reason for this appointment'
-      : 'What’s the reason for this appointment?';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
   const uiSchema = {
     default: {
@@ -147,9 +140,13 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
 
   return (
     <div
-      className={classNames({ 'vads-u-margin-top--neg3': !isCommunityCare })}
+      className={classNames('vaos-form__radio-field', {
+        'vads-u-margin-top--neg3': !isCommunityCare,
+      })}
     >
-      {isCommunityCare && <h1 className="vads-u-font-size--h2">{pageTitle}</h1>}
+      {isCommunityCare && (
+        <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+      )}
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"

@@ -8,6 +8,7 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import user from './fixtures/mocks/user.json';
 import {
   getPagePaths,
   fillAddressWebComponentPattern,
@@ -26,8 +27,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-button[text*="start"]');
-          cy.findByText(/without signing in/i).click({ force: true });
+          cy.get('a.vads-c-action-link--green').click();
         });
       },
       'witness-personal-information-a': ({ afterHook }) => {
@@ -118,7 +118,9 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('GET', '/v0/user', user);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.login(user);
     },
   },
   manifest,

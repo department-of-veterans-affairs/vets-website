@@ -1,6 +1,5 @@
 {
   "data": {
-    "view:enhancedFinancialStatusReport": true,
     "otherExpenses": [
       {
         "name": "Clothing",
@@ -1319,5 +1318,4 @@
       }
     ]
   }
-  
 }

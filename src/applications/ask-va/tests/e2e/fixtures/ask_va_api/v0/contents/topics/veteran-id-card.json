@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "id": "ea7b38c8-1617-ec11-b6e5-001dd804ce09",
+            "type": "contents",
+            "attributes": {
+                "name": "Veteran Health Identification Card (VHIC) for health appointments",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veteran Health Identification Card (VHIC) for health appointments",
+                "parentId": "e77b38c8-1617-ec11-b6e5-001dd804ce09",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "ec7b38c8-1617-ec11-b6e5-001dd804ce09",
+            "type": "contents",
+            "attributes": {
+                "name": "Veteran ID Card (VIC) for discounts",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veteran ID Card (VIC) for discounts",
+                "parentId": "e77b38c8-1617-ec11-b6e5-001dd804ce09",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}

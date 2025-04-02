@@ -1,11 +1,11 @@
 import React from 'react';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -25,13 +25,9 @@ function IntroductionLogin({
   const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
 
   const openLoginModal = () => {
-    showHideLoginModal(true, 'cta-form');
+    showHideLoginModal(true, 'cta-form', true);
   };
 
-  const nextQuery = { next: window.location.pathname };
-  const verifyUrl = appendQuery('/verify', nextQuery);
-  const headlineText =
-    'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.';
   const shouldShowLoadingIndicator =
     ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete) &&
     !isPersonalInfoFetchFailed &&
@@ -71,48 +67,26 @@ function IntroductionLogin({
       {!isLoggedIn &&
         user?.login?.hasCheckedKeepAlive && (
           <>
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="continue"
+            <va-alert-sign-in
+              variant="signInOptional"
+              time-limit="60 days"
+              heading-level={2}
               visible
             >
-              <h2 slot="headline">{headlineText}</h2>
-              <div>
-                <p className="vads-u-margin-top--0">
-                  When you’ve signed in to your verified VA.gov account:
-                </p>
-                <ul>
-                  <li>
-                    We can prefill part of your application based on your
-                    account details.
-                  </li>
-                  <li>We may be able to give you an instant decision.</li>
-                  <li>
-                    You can save your application in progress, and come back
-                    later to finish filling it out. You’ll have 60 days from the
-                    date you start or update your application to submit it.
-                    After 60 days we’ll delete the application and you’ll have
-                    to start over.
-                  </li>
-                </ul>
-                <p>
-                  <strong>Note:</strong> If you sign in after you’ve started
-                  your application, you won’t be able to save the information
-                  you’ve already filled in.
-                </p>
-
-                <button
-                  className="usa-button-primary"
+              <span slot="SignInButton">
+                <va-button
                   onClick={openLoginModal}
-                  type="button"
-                >
-                  {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                </button>
-              </div>
-            </va-alert>
+                  text={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+                />
+              </span>
+            </va-alert-sign-in>
             <p className="vads-u-margin-top--4">
               If you don't want to sign in, you can{' '}
-              <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+              <a
+                target="_blank"
+                href="https://www.vba.va.gov/pubs/forms/VBA-22-5490-ARE.pdf"
+                rel="noreferrer"
+              >
                 apply using the paper form
               </a>
               . Please expect longer processing time for decisions when opting
@@ -137,39 +111,7 @@ function IntroductionLogin({
 
       {apiCallsComplete &&
         isLoggedIn &&
-        isLOA3 === false && (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="continue"
-            visible
-          >
-            <h2 slot="headline">
-              Verify your identity before starting your application
-            </h2>
-            <div>
-              <p className="vads-u-margin-top--0">
-                When you verify your VA.gov account:
-              </p>
-              <ul>
-                <li>
-                  We can prefill part of your application based on your account
-                  details.
-                </li>
-                <li>We may be able to give you an instant decision.</li>
-              </ul>
-              <p>
-                Verifying your VA.gov account is a one-time process that will
-                take <strong>5-10 minutes</strong> to complete. Once your
-                account is verified, you can continue to this application.
-              </p>
-              <p className="vads-u-margin-bottom--2p5">
-                <a className="vads-c-action-link--green" href={verifyUrl}>
-                  Verify your identity before starting your application
-                </a>
-              </p>
-            </div>
-          </va-alert>
-        )}
+        isLOA3 === false && <VerifyAlert headingLevel={2} />}
     </>
   );
 }

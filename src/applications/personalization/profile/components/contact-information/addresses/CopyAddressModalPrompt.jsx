@@ -95,7 +95,7 @@ const CopyAddressModalPrompt = ({
           <button
             data-testid="cancel-edit-button"
             type="button"
-            className="usa-button-secondary small-screen:vads-u-margin-top--0"
+            className="usa-button-secondary mobile-lg:vads-u-margin-top--0"
             onClick={handleClick('no')}
           >
             No

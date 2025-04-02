@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from '../../../utils/facilityAddress';
+import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
 
 const LocationAddress = ({ location }) => {
   const addressArray = buildAddressArray(location);
@@ -15,7 +15,9 @@ const LocationAddress = ({ location }) => {
   }
 
   return (
-    <p>{[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}</p>
+    <p data-testid="facility-result-address">
+      {[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}
+    </p>
   );
 };
 

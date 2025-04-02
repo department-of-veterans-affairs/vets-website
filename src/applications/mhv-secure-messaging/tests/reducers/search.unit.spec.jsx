@@ -10,7 +10,7 @@ import {
   setSearchSort,
   setSearchPage,
 } from '../../actions/search';
-import searchResponse from '../e2e/fixtures/search-COVID-results.json';
+import searchResponse from '../fixtures/searchResponses/search-COVID-results.json';
 import inbox from '../fixtures/folder-inbox-metadata.json';
 
 describe('search reducer', () => {

@@ -1,10 +1,11 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
+// import mockDraftsResponse from '../fixtures/draftPageResponses/draft-threads-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
@@ -46,13 +47,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     PatientInboxPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
@@ -112,13 +107,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     PatientInboxPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
@@ -160,38 +149,45 @@ describe('Verify drafts - No association with particular Triage Group', () => {
   });
 
   it('single new draft', () => {
-    const mockSingleDraftThread = {
-      ...mockMessages,
+    const mockDraftNew = {
       data: [
         {
-          ...mockMessages.data[0],
+          id: '4016875',
+          type: 'message_details',
           attributes: {
-            ...mockMessages.data[0].attributes,
-            recipientName: mockRecipients.data[0].attributes.name,
-            triageGroupName: mockRecipients.data[0].attributes.name,
-            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+            messageId: 4016875,
+            category: 'COVID',
+            subject: 'dustyTest',
+            body: '\n\n\nJohn Dow\nVeteran',
+            attachment: null,
+            sentDate: null,
+            senderId: 251391,
+            senderName: 'MHVDAYMARK, MARK',
+            recipientId: 2416527,
+            recipientName: '###ABC_XYZ_TRIAGE_TEAM###',
+            readReceipt: null,
+            triageGroupName: '###ABC_XYZ_TRIAGE_TEAM###',
+            proxySenderName: null,
+            threadId: 4016874,
+            folderId: -2,
+            messageBody: '\n\n\nJohn Dow\nVeteran',
+            draftDate: newDate,
+            toDate: null,
+            hasAttachments: false,
+            attachments: [],
+          },
+          links: {
+            self:
+              'https://staging-api.va.gov/my_health/v1/messaging/messages/4016875',
           },
         },
       ],
     };
 
-    const mockSingeDraft = { data: mockSingleDraftThread.data[0] };
-    mockSingeDraft.data.attributes.draftDate = newDate;
-    mockSingeDraft.data.attributes.sentDate = null;
-
-    PatientMessageDraftsPage.loadSingleDraft(
-      mockSingleDraftThread,
-      mockSingeDraft,
-    );
+    PatientMessageDraftsPage.loadSingleDraft(mockMessages, mockDraftNew);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')

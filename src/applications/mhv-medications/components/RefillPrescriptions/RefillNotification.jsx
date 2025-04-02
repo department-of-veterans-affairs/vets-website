@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { selectFilterFlag } from '../../util/selectors';
+import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
 
 const RefillNotification = ({ refillStatus }) => {
   // Selectors
@@ -13,6 +15,9 @@ const RefillNotification = ({ refillStatus }) => {
   const failedMeds = useSelector(
     state => state.rx.prescriptions?.refillNotification?.failedMeds,
   );
+
+  // Feature flags
+  const showFilterContent = useSelector(selectFilterFlag);
 
   useEffect(
     () => {
@@ -33,6 +38,13 @@ const RefillNotification = ({ refillStatus }) => {
     },
     [refillStatus, successfulMeds, failedMeds],
   );
+
+  const handleGoToMedicationsListOnSuccess = () => {
+    if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
+      sessionStorage.setItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT, true);
+    }
+  };
+
   const isNotSubmitted =
     refillStatus === 'finished' &&
     successfulMeds?.length === 0 &&
@@ -118,6 +130,7 @@ const RefillNotification = ({ refillStatus }) => {
               className="vads-u-padding-y--0"
               data-testid="medication-requested-successful"
               key={idx}
+              data-dd-privacy="mask"
             >
               {id?.prescriptionName}
             </li>
@@ -128,7 +141,9 @@ const RefillNotification = ({ refillStatus }) => {
           data-testid="success-message-description"
         >
           <p>
-            For updates on your refill requests, go to your medications list.
+            {showFilterContent
+              ? 'To check the status of your refill requests, go to your medications list and filter by “recently requested.”'
+              : 'For updates on your refill requests, go to your medications list.'}
           </p>
           <Link
             data-testid="back-to-medications-page-link"
@@ -138,6 +153,7 @@ const RefillNotification = ({ refillStatus }) => {
               dataDogActionNames.refillPage
                 .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
             }
+            onClick={handleGoToMedicationsListOnSuccess}
           >
             Go to your medications list
           </Link>

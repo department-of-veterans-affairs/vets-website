@@ -43,9 +43,7 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: HouseholdExpensesExplainerWidget,
         CustomPageReview: ExpenseExplainerReview,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       householdExpensesChecklist: {
         path: 'household-expenses-checklist',

@@ -1,7 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import configureStore from 'redux-mock-store';
 import { waitFor } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import ThreadsList from '../../../components/ThreadList/ThreadsList';
 import inbox from '../../fixtures/folder-inbox-response.json';
 import listOfThreads from '../../fixtures/thread-list-response.json';
@@ -9,6 +11,19 @@ import reducers from '../../../reducers';
 import { Paths, threadSortingOptions } from '../../../util/constants';
 
 describe('Thread List component', () => {
+  const mockStore = configureStore();
+  let store;
+
+  // REMOVE FEATURE FLAG WHEN RemoveLandingPage WORK IS IMPLEMENTED
+  beforeEach(() => {
+    store = mockStore({
+      sm: { folders: { folder: { folderId: 0 } } },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: false,
+      },
+    });
+  });
+  //
   const initialState = {
     sm: {
       folders: {},
@@ -28,6 +43,7 @@ describe('Thread List component', () => {
     threads,
     pageNumber = pageNum,
     threadsOnPage = threadsPerPage,
+    path = Paths.INBOX,
   ) => {
     return renderWithStoreAndRouter(
       <ThreadsList
@@ -39,9 +55,10 @@ describe('Thread List component', () => {
         threadsPerPage={threadsOnPage}
       />,
       {
-        path: Paths.INBOX,
+        path,
         state: initialState,
         reducers,
+        store,
       },
     );
   };
@@ -96,6 +113,14 @@ describe('Thread List component', () => {
       expect(document.querySelector('va-pagination[page="2"]')).to.exist;
       expect(document.querySelector('va-pagination[pages="2"]')).to.exist;
       expect(document.querySelector('va-pagination[uswds="true"]')).to.exist;
+    });
+  });
+
+  it('changes text on drafts page to say "drafts", not "conversations"', async () => {
+    const screen = setup(listOfThreads, 2, 10, Paths.DRAFTS);
+
+    await waitFor(() => {
+      expect(screen.getByText('Showing 11 to 11 of 11 drafts')).to.exist;
     });
   });
 });

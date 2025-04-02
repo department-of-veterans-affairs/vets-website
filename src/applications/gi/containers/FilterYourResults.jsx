@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-
 import {
-  isProductionOrTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
   createId,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
+  isEmptyCheckboxFilters,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
 } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
-// import { useFilterBtn } from '../hooks/useFilterbtn';
-// import Loader from '../components/Loader';
+import AboutYellowRibbonProgram from '../components/AboutYellowRibbonProgram';
 
 const vetTecCheckbox = (
   vettec,
@@ -83,6 +88,7 @@ export function FilterYourResults({
   const { version } = preview;
   const { error } = errorReducer;
   const {
+    schools,
     expanded,
     excludedSchoolTypes,
     excludeCautionFlags,
@@ -105,6 +111,33 @@ export function FilterYourResults({
     specialMissionPBI,
     specialMissionTRIBAL,
   } = filters;
+
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
@@ -150,12 +183,23 @@ export function FilterYourResults({
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
+
     updateInstitutionFilters(
       'excludedSchoolTypes',
       checked
         ? newExcluded.concat(name)
         : newExcluded.filter(type => type !== name),
     );
+
+    dispatchFilterChange({
+      ...filters,
+      excludedSchoolTypes: checked
+        ? newExcluded.concat(name)
+        : newExcluded.filter(type => type !== name),
+      schools: checked
+        ? true
+        : newExcluded.filter(type => type !== name).length !== 0,
+    });
   };
 
   const handleVetTecChange = e => {
@@ -197,12 +241,18 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (isProductionOrTestProdEnv()) {
-      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    if (
+      validateSearchTermSubmit(
+        nameValue,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
+    ) {
+      updateInstitutionFilters('search', true);
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
-    updateInstitutionFilters('search', true);
-
-    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const closeAndUpdate = () => {
@@ -263,11 +313,14 @@ export function FilterYourResults({
     ];
 
     return (
-      <CheckboxGroup
-        label={<h3>About the school</h3>}
-        onChange={onChangeCheckbox}
-        options={options}
-      />
+      <>
+        <CheckboxGroup
+          label={<h3>About the school</h3>}
+          onChange={onChangeCheckbox}
+          options={options}
+        />
+        <AboutYellowRibbonProgram />
+      </>
     );
   };
 
@@ -353,7 +406,7 @@ export function FilterYourResults({
           name="employers"
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--2"
           inputAriaLabelledBy={legendId}
         />
         {vetTecCheckbox(
@@ -426,7 +479,14 @@ export function FilterYourResults({
   );
 
   const title = 'Filter your results';
-
+  const updateResultButton = classNames(
+    'vads-u-width--full',
+    'vads-u-margin-top--0',
+    'vads-u-margin-top--0',
+    'vads-u-margin-bottom--2',
+    'vads-u-margin-right--1p5',
+    'vads-u-padding--0',
+  );
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
@@ -460,22 +520,18 @@ export function FilterYourResults({
             {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <VaButton
               id={`update-${createId(title)}-button`}
-              className="update-results-button"
+              className={`${updateResultButton}`}
               onClick={closeAndUpdate}
-            >
-              Update results
-            </button>
+              text="Update results"
+              data-testid="Update-results"
+            />
             {!environment.isProduction() && (
               <ClearFiltersBtn
+                className="reset-search-small-screen"
                 smallScreen={smallScreen}
-                // isCleared={isCleared}
-                // setIsCleared={setIsCleared}
-              >
-                Reset search
-              </ClearFiltersBtn>
+              />
             )}
           </div>
         </div>
@@ -497,7 +553,18 @@ const mapDispatchToProps = {
   dispatchError: setError,
   dispatchFocusSearch: focusSearch,
 };
-
+FilterYourResults.propTypes = {
+  dispatchError: PropTypes.func.isRequired,
+  dispatchFilterChange: PropTypes.func.isRequired,
+  errorReducer: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  modalClose: PropTypes.func.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  searchType: PropTypes.string.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+  dispatchFocusSearch: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -14,7 +14,6 @@ import { selectVeteranStatus } from '~/platform/user/selectors';
 import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import LoadFail from '../alerts/LoadFail';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
@@ -214,9 +213,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     <div>
       <Headline>Military information</Headline>
       <DowntimeNotification
-        appTitle="Military Information"
-        render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.vaProfile]}
+        appTitle="military information page"
+        dependencies={[externalServices.VAPRO_MILITARY_INFO]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
@@ -224,9 +222,9 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </DowntimeNotification>
 
-      <h3 className="vads-u-margin--0 vads-u-font-size--h2">
+      <h2 className="vads-u-margin--0">
         Request your military service records
-      </h3>
+      </h2>
 
       <p className="vads-u-margin-y--1">
         You can request a copy of your DD214 and other military service records

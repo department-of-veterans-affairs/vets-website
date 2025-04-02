@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useSelector } from 'react-redux';
+import { selectProfile } from '~/platform/user/selectors';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
@@ -30,46 +31,24 @@ const BenefitsProfileWrapper = ({ children }) => {
     indicator: applicantChapter,
     pendingDocuments,
     latestAddress,
-    indicator,
+    claimantId,
+    fullName,
   } = useData();
+
+  const profile = useSelector(selectProfile);
   const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.toggleVyeAddressDirectDepositForms,
   );
-  const [userData, setUserData] = useState({});
+  const signIn = profile?.signIn;
   useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const {
-          data: {
-            attributes: { profile },
-          },
-        } = await apiRequest('/user', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        setUserData(profile);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-    getUserData();
+    focusElement('h1');
   }, []);
-  const { signIn } = userData;
-  useEffect(
-    () => {
-      focusElement('h1');
-    },
-    [userData],
-  );
   return (
     <>
       <div />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <EnrollmentVerificationBreadcrumbs />
@@ -85,15 +64,15 @@ const BenefitsProfileWrapper = ({ children }) => {
                 updated={updated}
                 remainingBenefits={`${month} Months, ${day} Days`}
                 expirationDate={expirationDate}
-                indicator={indicator}
+                indicator={applicantChapter}
               />
             )}
             <PayeeInformationWrapper
               loading={loading}
               applicantChapter={applicantChapter}
-              applicantName={applicantName}
+              applicantName={applicantName || fullName}
             />
-            {toggleValue || window.isProduction ? (
+            {(toggleValue || window.isProduction) && !claimantId ? (
               <>
                 <ChangeOfAddressWrapper
                   loading={loading}
@@ -117,10 +96,12 @@ const BenefitsProfileWrapper = ({ children }) => {
                 )}
               </>
             ) : null}
-            <PendingDocuments
-              loading={loading}
-              pendingDocuments={pendingDocuments}
-            />
+            {!claimantId && (
+              <PendingDocuments
+                loading={loading}
+                pendingDocuments={pendingDocuments}
+              />
+            )}
             {children}
             <MoreInfoCard
               marginTop="7"

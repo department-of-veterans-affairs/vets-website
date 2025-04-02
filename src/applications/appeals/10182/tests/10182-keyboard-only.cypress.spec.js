@@ -2,7 +2,7 @@ import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
 import mockData from './fixtures/data/maximal-test.json';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';
@@ -15,14 +15,13 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
     cy.wrap(mockData.data).as('testData');
 
-    cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
-    cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
-    cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
+    cy.intercept('PUT', '/v0/in_progress_forms/10182', mockInProgress);
+    cy.intercept('POST', SUBMIT_URL, mockSubmit);
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
-      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}`, {
+      cy.intercept('GET', CONTESTABLE_ISSUES_API, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.visit(
@@ -147,7 +146,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('va-button.screen-only').should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

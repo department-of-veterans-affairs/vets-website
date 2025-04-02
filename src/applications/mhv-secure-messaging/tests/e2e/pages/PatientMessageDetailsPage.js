@@ -1,281 +1,73 @@
-import mockMessage from '../fixtures/message-response.json';
-import mockFolders from '../fixtures/folder-response.json';
-import defaultMockThread from '../fixtures/thread-response.json';
+import threadResponse from '../fixtures/thread-response-new-api.json';
+import inboxMessages from '../fixtures/threads-response.json';
 import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientMessageDetailsPage {
-  currentThread = defaultMockThread;
-  // currentDetailedMessage = mockMessage;
-
-  loadMessageDetails = (
-    mockParentMessageDetails,
-    mockThread = defaultMockThread,
-    previousMessageIndex = 1,
-    mockPreviousMessageDetails = mockMessage,
-    getFoldersStatus = 200,
+  loadSingleThread = (
+    singleThreadResponse = threadResponse,
+    multiThreadsResponse = inboxMessages,
   ) => {
-    this.currentThread = mockThread;
-
-    this.currentThread.data.at(0).attributes.sentDate =
-      mockParentMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(0).id =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.messageId =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.subject =
-      mockParentMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(0).attributes.body =
-      mockParentMessageDetails.data.attributes.body;
-    this.currentThread.data.at(0).attributes.category =
-      mockParentMessageDetails.data.attributes.category;
-    this.currentThread.data.at(0).attributes.recipientId =
-      mockParentMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(0).attributes.senderName =
-      mockParentMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(0).attributes.recipientName =
-      mockParentMessageDetails.data.attributes.recipientName;
-
-    cy.log(
-      `loading parent message details.${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-    );
-    this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
-      mockPreviousMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(previousMessageIndex).id =
-      mockPreviousMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(previousMessageIndex).attributes.messageId =
-      mockPreviousMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(previousMessageIndex).attributes.subject =
-      mockPreviousMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(previousMessageIndex).attributes.body =
-      mockPreviousMessageDetails.data.attributes.body;
-    this.currentThread.data.at(previousMessageIndex).attributes.category =
-      mockPreviousMessageDetails.data.attributes.category;
-    this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
-      mockPreviousMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(previousMessageIndex).attributes.senderName =
-      mockPreviousMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(previousMessageIndex).attributes.recipientName =
-      mockPreviousMessageDetails.data.attributes.recipientName;
-    this.currentThread.data.at(
-      previousMessageIndex,
-    ).attributes.triageGroupName =
-      mockPreviousMessageDetails.data.attributes.triageGroupName;
-    cy.log(
-      `message thread  = ${JSON.stringify(
-        mockParentMessageDetails.data.attributes.messageId,
-      )}`,
-    );
-    if (getFoldersStatus === 200) {
-      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
-        'folders',
-      );
-    } else {
-      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, {
-        statusCode: 400,
-        body: {
-          alertType: 'error',
-          header: 'err.title',
-          content: 'err.detail',
-          response: {
-            header: 'err.title',
-            content: 'err.detail',
-          },
-        },
-      }).as('folders');
-    }
+    const singleMessageResponse = { data: singleThreadResponse.data[0] };
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
 
     cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        this.currentThread.data.at(0).attributes.messageId
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
       }`,
-      mockParentMessageDetails,
-    ).as(`message1`);
+      singleMessageResponse,
+    ).as(`threadFirstMessageResponse`);
 
-    cy.log(` thread size = ${this.currentThread.data.length}`);
-    //  mockParentMessageDetails.data.attributes.messageId= this.currentThread.data.at(this.currentThread.data.length-1).attributes.messageId;
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        this.currentThread.data.at(this.currentThread.data.length - 1)
-          .attributes.messageId
-      }`,
-      mockParentMessageDetails,
-    ).as('last_message');
-
-    /*
-    for (let i = 0; i < this.currentThread.length; i++) {
-      cy.log("intercepting thread "+ i);
-      cy.intercept(
-        'GET',
-        `${Paths.INTERCEPT.MESSAGES}/${
-          this.currentThread.data.at(i).attributes.messageId
-        }`,
-        mockParentMessageDetails,
-      ).as(`message${i}`);
-    }
-*/
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
-      this.currentThread,
-    ).as('full-thread');
-
-    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`)
-      .should('be.visible')
-      .click({ force: true });
-
-    cy.location('pathname', { timeout: 5000 }).should('include', Paths.THREAD);
-    cy.wait('@full-thread');
+    cy.get(
+      `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
+    ).click();
+    cy.wait(`@threadResponse`);
   };
 
-  getCurrentThread() {
-    return this.currentThread;
-  }
+  loadReplyMessageThread = (singleThreadResponse = threadResponse) => {
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
 
-  loadReplyPageDetails = (
-    mockMessageDetails,
-    mockThread = defaultMockThread,
-    index = 0,
-  ) => {
-    cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
-    this.currentThread = mockThread;
-    cy.log('loading reply message details.');
-    this.currentThread.data.at(index).attributes.sentDate =
-      mockMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(index).id =
-      mockMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(index).attributes.messageId =
-      mockMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(index).attributes.subject =
-      mockMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(index).attributes.body =
-      mockMessageDetails.data.attributes.body;
-    this.currentThread.data.at(index).attributes.category =
-      mockMessageDetails.data.attributes.category;
-    this.currentThread.data.at(index).attributes.recipientId =
-      mockMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(index).attributes.triageGroupName =
-      mockMessageDetails.data.attributes.triageGroupName;
     cy.get(Locators.BUTTONS.REPLY)
       .should('be.visible')
       .click({ force: true });
-
-    // cy.get('[data-testid="reply-button-top"]').click({
-    //   waitforanimations: true,
-    // });
-    cy.log('loading message reply details.');
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageDetails.data.attributes.messageId
-      }`,
-      mockMessage,
-    ).as('message2');
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
-      mockThread,
-    ).as('full-thread');
-    cy.wait('@full-thread');
-    cy.intercept(
-      'POST',
-      `/my_health/v1/messaging/message_drafts/${
-        mockMessageDetails.data.attributes.messageId
-      }/replydraft`,
-    ).as('replyDraftSave');
-
-    // cy.wait('@message2');
   };
 
   expandAllThreadMessages = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGES}/**`, '{}').as(
-      'allMessageDetails',
-    );
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
-      .contains('Expand all +')
-      .click();
+      .find('button')
+      .click({ force: true });
   };
 
-  expandThreadMessageDetails = (mockThread, index = 1) => {
-    const threadMessageDetails = mockMessage;
-    cy.log('loading expanded thread message details.');
-    threadMessageDetails.data.attributes.sentDate = mockThread.data.at(
-      index,
-    ).attributes.sentDate;
-    threadMessageDetails.data.id = mockThread.data.at(index).id;
-    threadMessageDetails.data.attributes.messageId = mockThread.data.at(
-      index,
-    ).attributes.messageId;
-    threadMessageDetails.data.attributes.subject = mockThread.data.at(
-      index,
-    ).attributes.subject;
-    threadMessageDetails.data.attributes.body = mockThread.data.at(
-      index,
-    ).attributes.body;
-    threadMessageDetails.data.attributes.category = mockThread.data.at(
-      index,
-    ).attributes.category;
-    threadMessageDetails.data.attributes.readReceipt = mockThread.data.at(
-      index,
-    ).attributes.readReceipt;
-    threadMessageDetails.data.attributes.recipientId = mockThread.data.at(
-      index,
-    ).attributes.recipientId;
-    threadMessageDetails.data.attributes.triageGroupName = mockThread.data.at(
-      index,
-    ).attributes.triageGroupName;
-    cy.log(
-      `thread message detail id expanding = ${
-        threadMessageDetails.data.attributes.messageId
-      }`,
-    );
-
-    cy.log(`expanded message content${JSON.stringify(threadMessageDetails)}`);
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        threadMessageDetails.data.attributes.messageId
-      }`,
-      threadMessageDetails,
-    ).as('messageDetails');
-    cy.get('.older-messages')
-      .find(
-        `[data-testid="expand-message-button-${
-          threadMessageDetails.data.attributes.messageId
-        }"]`,
-      )
-      .eq(index - 1)
-      .click({ waitforanimations: true });
-  };
-
-  verifyMessageDetails = (messageDetails = mockMessage) => {
+  verifyMessageDetails = messageDetails => {
     cy.get(Locators.MSG_ID).should(
       'contain',
-      messageDetails.data.attributes.messageId,
+      messageDetails.data[0].attributes.messageId,
     );
+
     cy.get(Locators.FROM).should(
       'contain',
-      messageDetails.data.attributes.triageGroupName,
+      messageDetails.data[0].attributes.senderName,
     );
-    cy.get(Locators.FROM).should(
-      'contain',
-      messageDetails.data.attributes.senderName,
-    );
+
     cy.get(Locators.TO).should(
       'contain',
-      messageDetails.data.attributes.recipientName,
+      messageDetails.data[0].attributes.recipientName,
     );
   };
 
@@ -400,9 +192,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data[messageIndex].attributes.senderName} `,
       );
   };
 
@@ -411,7 +201,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `To: ${messageDetails.data.attributes.recipientName}`,
+        `To: ${messageDetails.data[messageIndex].attributes.recipientName}`,
       );
   };
 
@@ -420,7 +210,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `Message ID: ${messageDetails.data.attributes.messageId}`,
+        `Message ID: ${messageDetails.data[messageIndex].attributes.messageId}`,
       );
   };
 
@@ -430,7 +220,7 @@ class PatientMessageDetailsPage {
       .should(
         'have.text',
         `Date: ${dateFormat(
-          messageDetails.data.attributes.sentDate,
+          messageDetails.data[messageIndex].attributes.sentDate,
           'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
@@ -468,9 +258,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName} `,
       );
   };
 
@@ -500,6 +288,25 @@ class PatientMessageDetailsPage {
     );
   };
 
+  verifySingleButton = text => {
+    cy.get(`[data-testid*=${text}]`).should(`be.visible`);
+  };
+
+  verifyReplyButtonByKeyboard = text => {
+    cy.tabToElement(`[data-testid*=${text}]`);
+    cy.get(`[data-testid*=${text}]`).should('be.focused');
+  };
+
+  verifySingleButtonByKeyboard = text => {
+    cy.tabToElement(`#${text}-button`);
+    cy.get(`#${text}-button`).then(el => {
+      cy.wrap(el)
+        .invoke('text')
+        .should('match', new RegExp(text, 'i'));
+      cy.wrap(el).should('be.focused');
+    });
+  };
+
   verifyButtonsKeyboardNavigation = () => {
     cy.get('.message-detail-block')
       .find('button')
@@ -521,6 +328,8 @@ class PatientMessageDetailsPage {
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
         .should('be.visible');
+      // line below was added because focus jump out to header from fist message after pressing the Enter btn
+      cy.tabToElement(el);
       cy.realPress(`Enter`);
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
@@ -544,6 +353,31 @@ class PatientMessageDetailsPage {
 
     cy.get(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
+  };
+
+  verifyMessageAttachment = (messageDetails, messageIndex = 0) => {
+    if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
+      cy.log('message has attachment... checking for image');
+      cy.get(
+        `[data-testid="expand-message-button-${
+          messageDetails.data[messageIndex].attributes.messageId
+        }"]`,
+      )
+        .find(Locators.ICONS.ATTCH_ICON)
+        .should('be.visible');
+    } else {
+      cy.log('message does not have attachment');
+    }
+  };
+
+  verifyAccordionStatus = value => {
+    cy.get(Locators.BUTTONS.THREAD_EXPAND)
+      .find(`va-accordion-item`)
+      .each(el => {
+        cy.wrap(el)
+          .invoke(`prop`, 'open')
+          .should(`eq`, value);
+      });
   };
 }
 

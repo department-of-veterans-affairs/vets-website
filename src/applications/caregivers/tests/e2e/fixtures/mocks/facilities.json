@@ -1,0 +1,611 @@
+{
+  "currentPage": 1,
+  "data": [
+    {
+      "id": "vha_757QC",
+      "type": "va_facilities",
+      "attributes": {
+        "name": "Columbus VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Other Outpatient Services (OOS)",
+        "parent": {
+          "id": "vha_757",
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757"
+        },
+        "website": "https://www.va.gov/central-ohio-health-care/locations/columbus-va-clinic/",
+        "lat": 39.996592,
+        "long": -82.93310921,
+        "timeZone": "America/New_York",
+        "address": {
+          "physical": {
+            "zip": "43219-2219",
+            "city": "Columbus",
+            "state": "OH",
+            "address1": "2720 Airport Drive",
+            "address3": "Suite 100"
+          }
+        },
+        "phone": {
+          "fax": "614-388-7565",
+          "main": "614-388-7650",
+          "pharmacy": "614-257-5230",
+          "afterHours": "888-838-6446",
+          "patientAdvocate": "614-257-5449",
+          "mentalHealthClinic": "614-257-5631",
+          "enrollmentCoordinator": "614-257-5628"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "services": {
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757QC/services",
+          "lastUpdated": "2024-09-18"
+        },
+        "mobile": false,
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "visn": "10"
+      }
+    },
+    {
+      "id": "vha_757",
+      "type": "va_facilities",
+      "attributes": {
+        "name": "Chalmers P. Wylie Veterans Outpatient Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Health Care Center (HCC)",
+        "parent": {
+          "id": "vha_757",
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757"
+        },
+        "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+        "lat": 39.98048191,
+        "long": -82.91230307,
+        "timeZone": "America/New_York",
+        "address": {
+          "physical": {
+            "zip": "43219-1834",
+            "city": "Columbus",
+            "state": "OH",
+            "address1": "420 North James Road"
+          }
+        },
+        "phone": {
+          "fax": "614-257-5460",
+          "main": "614-257-5200",
+          "pharmacy": "614-257-5230",
+          "afterHours": "614-257-5512",
+          "patientAdvocate": "614-257-5290",
+          "mentalHealthClinic": "614-257-5631",
+          "enrollmentCoordinator": "614-257-5628"
+        },
+        "hours": {
+          "monday": "730AM-600PM",
+          "tuesday": "730AM-600PM",
+          "wednesday": "730AM-600PM",
+          "thursday": "730AM-600PM",
+          "friday": "730AM-600PM",
+          "saturday": "800AM-400PM",
+          "sunday": "800AM-400PM"
+        },
+        "operationalHoursSpecialInstructions": [
+          "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m."
+        ],
+        "services": {
+          "health": [
+            {
+              "name": "Allergy, asthma and immunology",
+              "serviceId": "allergy",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/allergy"
+            },
+            {
+              "name": "Audiology and speech",
+              "serviceId": "audiology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/audiology"
+            },
+            {
+              "name": "Cardiology",
+              "serviceId": "cardiology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/cardiology"
+            },
+            {
+              "name": "CaregiverSupport",
+              "serviceId": "caregiverSupport",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/caregiverSupport"
+            },
+            {
+              "name": "COVID-19 vaccines",
+              "serviceId": "covid19Vaccine",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/covid19Vaccine"
+            },
+            {
+              "name": "Dental/oral surgery",
+              "serviceId": "dental",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/dental"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/dermatology"
+            },
+            {
+              "name": "Diabetic care",
+              "serviceId": "diabetic",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/diabetic"
+            },
+            {
+              "name": "Endocrinology",
+              "serviceId": "endocrinology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/endocrinology"
+            },
+            {
+              "name": "Gastroenterology",
+              "serviceId": "gastroenterology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/gastroenterology"
+            },
+            {
+              "name": "Geriatrics",
+              "serviceId": "geriatrics",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/geriatrics"
+            },
+            {
+              "name": "Gynecology",
+              "serviceId": "gynecology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/gynecology"
+            },
+            {
+              "name": "Hematology/oncology",
+              "serviceId": "hematology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/hematology"
+            },
+            {
+              "name": "Homeless Veteran care",
+              "serviceId": "homeless",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/homeless"
+            },
+            {
+              "name": "Palliative and hospice care",
+              "serviceId": "hospice",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/hospice"
+            },
+            {
+              "name": "Laboratory and pathology",
+              "serviceId": "laboratory",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/laboratory"
+            },
+            {
+              "name": "LGBTQ+ Veteran care",
+              "serviceId": "lgbtq",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/lgbtq"
+            },
+            {
+              "name": "Minority Veteran care",
+              "serviceId": "minorityCare",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/minorityCare"
+            },
+            {
+              "name": "Nephrology",
+              "serviceId": "nephrology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/nephrology"
+            },
+            {
+              "name": "Neurology",
+              "serviceId": "neurology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/neurology"
+            },
+            {
+              "name": "Nutrition, food, and dietary care",
+              "serviceId": "nutrition",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/nutrition"
+            },
+            {
+              "name": "Ophthalmology",
+              "serviceId": "ophthalmology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/ophthalmology"
+            },
+            {
+              "name": "Optometry",
+              "serviceId": "optometry",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/optometry"
+            },
+            {
+              "name": "Orthopedics",
+              "serviceId": "orthopedics",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/orthopedics"
+            },
+            {
+              "name": "Otolaryngology",
+              "serviceId": "otolaryngology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/otolaryngology"
+            },
+            {
+              "name": "Pain management",
+              "serviceId": "painManagement",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/painManagement"
+            },
+            {
+              "name": "Patient advocates",
+              "serviceId": "patientAdvocates",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/patientAdvocates"
+            },
+            {
+              "name": "Pharmacy",
+              "serviceId": "pharmacy",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/pharmacy"
+            },
+            {
+              "name": "Physical medicine and rehabilitation",
+              "serviceId": "physicalMedicine",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/physicalMedicine"
+            },
+            {
+              "name": "Plastic and reconstructive surgery",
+              "serviceId": "plasticSurgery",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/plasticSurgery"
+            },
+            {
+              "name": "Podiatry",
+              "serviceId": "podiatry",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/podiatry"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/primaryCare"
+            },
+            {
+              "name": "Prosthetics and rehabilitation",
+              "serviceId": "prosthetics",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/prosthetics"
+            },
+            {
+              "name": "PTSD care",
+              "serviceId": "ptsd",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/ptsd"
+            },
+            {
+              "name": "Pulmonary medicine",
+              "serviceId": "pulmonaryMedicine",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/pulmonaryMedicine"
+            },
+            {
+              "name": "Radiology",
+              "serviceId": "radiology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/radiology"
+            },
+            {
+              "name": "Rheumatology",
+              "serviceId": "rheumatology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/rheumatology"
+            },
+            {
+              "name": "Smoking and tobacco cessation",
+              "serviceId": "smoking",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/smoking"
+            },
+            {
+              "name": "Social work",
+              "serviceId": "socialWork",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/socialWork"
+            },
+            {
+              "name": "Spinal cord injuries and disorders",
+              "serviceId": "spinalInjury",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/spinalInjury"
+            },
+            {
+              "name": "Suicide prevention",
+              "serviceId": "suicidePrevention",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/suicidePrevention"
+            },
+            {
+              "name": "Surgery",
+              "serviceId": "surgery",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/surgery"
+            },
+            {
+              "name": "Returning service member care",
+              "serviceId": "transitionCounseling",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/transitionCounseling"
+            },
+            {
+              "name": "Urgent care",
+              "serviceId": "urgentCare",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/urgentCare"
+            },
+            {
+              "name": "Urology",
+              "serviceId": "urology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/urology"
+            },
+            {
+              "name": "Vascular surgery",
+              "serviceId": "vascularSurgery",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/vascularSurgery"
+            },
+            {
+              "name": "Blind and low vision rehabilitation",
+              "serviceId": "vision",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/vision"
+            },
+            {
+              "name": "MOVE! weight management",
+              "serviceId": "weightManagement",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/weightManagement"
+            },
+            {
+              "name": "Women Veteran care",
+              "serviceId": "womensHealth",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/womensHealth"
+            },
+            {
+              "name": "Wound care and ostomy",
+              "serviceId": "wound",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services/wound"
+            }
+          ],
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757/services",
+          "lastUpdated": "2024-09-18"
+        },
+        "satisfaction": {
+          "health": {
+            "primaryCareUrgent": 0.800000011920929,
+            "primaryCareRoutine": 0.8700000047683716,
+            "specialtyCareUrgent": 0.7599999904632568,
+            "specialtyCareRoutine": 0.8399999737739563
+          },
+          "effectiveDate": "2024-02-08"
+        },
+        "mobile": false,
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "visn": "10"
+      }
+    },
+    {
+      "id": "vha_757QA",
+      "type": "va_facilities",
+      "attributes": {
+        "name": "Columbus 1 VA Mobile Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Other Outpatient Services (OOS)",
+        "parent": {
+          "id": "vha_757",
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757"
+        },
+        "lat": 39.98048191,
+        "long": -82.91230307,
+        "timeZone": "America/New_York",
+        "address": {
+          "physical": {
+            "zip": "43219-1834",
+            "city": "Columbus",
+            "state": "OH",
+            "address1": "420 North James Road"
+          }
+        },
+        "phone": {
+          "fax": "614-257-5460",
+          "main": "614-257-5200",
+          "pharmacy": "614-257-5230",
+          "afterHours": "614-257-5298",
+          "patientAdvocate": "614-257-5290",
+          "enrollmentCoordinator": "614-257-5628"
+        },
+        "hours": {
+          "monday": "Closed",
+          "tuesday": "900AM-300PM",
+          "wednesday": "900AM-300PM",
+          "thursday": "Closed",
+          "friday": "Closed",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "mobile": true,
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "visn": "10"
+      }
+    },
+    {
+      "id": "vha_757QB",
+      "type": "va_facilities",
+      "attributes": {
+        "name": "North James Road 2 VA Mobile Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Other Outpatient Services (OOS)",
+        "parent": {
+          "id": "vha_757",
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757"
+        },
+        "lat": 39.98048191,
+        "long": -82.91230307,
+        "timeZone": "America/New_York",
+        "address": {
+          "physical": {
+            "zip": "43219-1834",
+            "city": "Columbus",
+            "state": "OH",
+            "address1": "420 North James Road"
+          }
+        },
+        "phone": {
+          "fax": "614-257-5200",
+          "main": "614-257-5689",
+          "pharmacy": "614-257-5230",
+          "afterHours": "614-257-5298",
+          "patientAdvocate": "614-257-5290",
+          "enrollmentCoordinator": "614-257-5628"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "Closed",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "mobile": true,
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "visn": "10"
+      }
+    },
+    {
+      "id": "vha_757GB",
+      "type": "va_facilities",
+      "attributes": {
+        "name": "Grove City VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Multi-Specialty CBOC",
+        "parent": {
+          "id": "vha_757",
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757"
+        },
+        "website": "https://www.va.gov/central-ohio-health-care/locations/grove-city-va-clinic/",
+        "lat": 39.84366105,
+        "long": -83.08458138,
+        "timeZone": "America/New_York",
+        "address": {
+          "physical": {
+            "zip": "43123-4835",
+            "city": "Grove City",
+            "state": "OH",
+            "address1": "5775 North Meadows Drive"
+          }
+        },
+        "phone": {
+          "fax": "614-257-5801",
+          "main": "614-257-5800",
+          "pharmacy": "614-257-5230",
+          "afterHours": "614-257-5512",
+          "patientAdvocate": "614-388-7880",
+          "mentalHealthClinic": "614-257-5808",
+          "enrollmentCoordinator": "614-257-5628"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Audiology and speech",
+              "serviceId": "audiology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/audiology"
+            },
+            {
+              "name": "Cardiology",
+              "serviceId": "cardiology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/cardiology"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/dermatology"
+            },
+            {
+              "name": "Laboratory and pathology",
+              "serviceId": "laboratory",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/laboratory"
+            },
+            {
+              "name": "Nutrition, food, and dietary care",
+              "serviceId": "nutrition",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/nutrition"
+            },
+            {
+              "name": "Optometry",
+              "serviceId": "optometry",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/optometry"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/primaryCare"
+            },
+            {
+              "name": "Social work",
+              "serviceId": "socialWork",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/socialWork"
+            },
+            {
+              "name": "Suicide prevention",
+              "serviceId": "suicidePrevention",
+              "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services/suicidePrevention"
+            }
+          ],
+          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_757GB/services",
+          "lastUpdated": "2024-09-18"
+        },
+        "satisfaction": {
+          "health": {
+            "primaryCareUrgent": 0.0,
+            "primaryCareRoutine": 0.9100000262260437
+          },
+          "effectiveDate": "2024-02-08"
+        },
+        "mobile": false,
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "visn": "10"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=1&per_page=5",
+    "first": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=1&per_page=5",
+    "next": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=2&per_page=5",
+    "last": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=108&per_page=5"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 5,
+      "totalPages": 108,
+      "totalEntries": 540
+    },
+    "distances": [
+      {
+        "id": "vha_757QC",
+        "distance": 7.14
+      },
+      {
+        "id": "vha_757",
+        "distance": 8.44
+      },
+      {
+        "id": "vha_757QA",
+        "distance": 8.44
+      },
+      {
+        "id": "vha_757QB",
+        "distance": 8.44
+      },
+      {
+        "id": "vha_757GB",
+        "distance": 19.04
+      }
+    ]
+  },
+  "perPage": 5,
+  "status": 200,
+  "totalEntries": 540
+}

@@ -5,14 +5,16 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
-
 import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
+import {
+  checkboxGroupUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import {
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
@@ -388,7 +390,11 @@ export const hasNewPtsdDisability = formData =>
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
-  );
+  ) &&
+  // hasNewPtsdDisability gates the existing Form 0781 flow
+  // When the syncModern0781Flow flipper is set to true, we will display a new version of the flow.
+  // When the new version is visible, hasNewPtsdDisability should always return false so the legacy flow is hidden.
+  formData?.syncModern0781Flow !== true;
 
 export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&
@@ -675,9 +681,6 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
-export const show526MaxRating = state =>
-  toggleValues(state).disability526MaximumRating;
-
 export const wrapWithBreadcrumb = (title, component) => (
   <>
     <div className="row vads-u-padding-x--1p5">
@@ -773,4 +776,80 @@ export const formatMonthYearDate = (rawDate = '') => {
   );
 
   return date === 'Invalid Date' ? '' : date;
+};
+
+/**
+ * Creates a consistent checkbox group UI configuration for conditions
+ */
+export function makeConditionsUI({
+  title,
+  description,
+  hint,
+  replaceSchema,
+  updateUiSchema,
+}) {
+  return checkboxGroupUI({
+    title,
+    description,
+    hint,
+    labels: {},
+    required: false,
+    replaceSchema,
+    updateUiSchema,
+  });
+}
+
+/**
+ * Adds an error if the 'none' checkbox is selected along with a new condition
+ * @param {object} conditions - Conditions object containing the state of various checkboxes
+ * @param {object} errors - Errors object from rjsf
+ * @param {string} errorKey - Identifies the section to which the error belongs
+ * @param {string} errorMessage - Specific message for 'none' checkbox conflict
+ */
+export function validateConditions(conditions, errors, errorKey, errorMessage) {
+  if (
+    conditions?.none === true &&
+    Object.values(conditions).filter(value => value === true).length > 1
+  ) {
+    errors[errorKey].conditions.addError(errorMessage);
+  }
+}
+
+/**
+ * Builds the Schema based on user entered condition names
+ * @param {object} formData - Full formData for the form
+ * @returns {object} - Object with ids for each condition
+ */
+export function makeConditionsSchema(formData) {
+  const options = (formData?.newDisabilities || []).map(disability =>
+    sippableId(disability.condition),
+  );
+
+  options.push('none');
+
+  return checkboxGroupSchema(options);
+}
+
+/**
+ * Formats the parts of a fullName object into a single string, e.g. "Hector Lee Brooks Jr."
+ *
+ * @param {object} fullName - Object holding name parts
+ * @returns {string} Name formatted into a single string. Empty string if all parts are missing.
+ */
+export const formatFullName = (fullName = {}) => {
+  let res = '';
+  if (fullName?.first) {
+    res += fullName.first;
+  }
+  if (fullName?.middle) {
+    res += ` ${fullName.middle}`;
+  }
+  if (fullName?.last) {
+    res += ` ${fullName.last}`;
+  }
+  if (fullName?.suffix) {
+    res += ` ${fullName.suffix}`;
+  }
+
+  return res.trim();
 };

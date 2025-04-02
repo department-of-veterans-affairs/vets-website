@@ -44,10 +44,10 @@ describe('<VetTecAdditionalInformation/>', () => {
       <VetTecAdditionalInformation institution={{}} showModal={() => {}} />,
     );
 
-    expect(wrapper.find('#facilityCode-button')).to.have.lengthOf(1);
-    expect(wrapper.find('#facilityCode-button').text()).to.equal(
-      'VA facility code:',
-    );
+    const facilityCodeButton = wrapper.find('#facilityCode-button');
+
+    expect(facilityCodeButton).to.have.lengthOf(1);
+    expect(facilityCodeButton.prop('children')).to.equal('VA facility code:');
     expect(wrapper.text()).to.include('N/A');
     wrapper.unmount();
   });

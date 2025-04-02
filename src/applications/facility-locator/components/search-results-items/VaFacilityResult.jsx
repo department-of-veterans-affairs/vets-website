@@ -1,20 +1,24 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import LocationPhoneLink from './common/LocationPhoneLink';
-import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
-import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
+import LocationMarker from './common/LocationMarker';
+import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationPhoneLink from './common/LocationPhoneLink';
 
 const VaFacilityResult = ({
+  index,
+  isMobile = false,
   location,
   query,
-  index,
   showHealthConnectNumber,
+  isCemetery = false,
 }) => {
   const { name, website, operatingStatus } = location.attributes;
 
@@ -32,34 +36,44 @@ const VaFacilityResult = ({
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
-        <LocationDistance
-          distance={location.distance}
-          markerText={location.markerText}
-        />
-        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions */}
-        <span onClick={clickHandler} onKeyDown={clickHandler}>
-          {isVADomain(website) ? (
-            <h3 className="vads-u-margin-top--0">
-              <va-link href={website} text={name} />
-            </h3>
-          ) : (
-            <h3 className="vads-u-margin-top--0">
-              <Link to={`facility/${location.id}`}>{name}</Link>
-            </h3>
-          )}
-        </span>
+        <LocationMarker markerText={location.markerText} />
+        {isVADomain(website) ? (
+          <h3
+            className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
+            onClick={clickHandler}
+            onKeyDown={clickHandler}
+          >
+            <va-link href={website} text={name} />
+          </h3>
+        ) : (
+          <h3
+            className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
+            onClick={clickHandler}
+            onKeyDown={clickHandler}
+          >
+            <Link to={`facility/${location.id}`}>{name}</Link>
+          </h3>
+        )}
+        <LocationDistance distance={location.distance} />
         {operatingStatus &&
           operatingStatus.code !== OperatingStatus.NORMAL && (
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink location={location} />
         <LocationPhoneLink
           location={location}
           from="SearchResult"
           query={query}
           showHealthConnectNumber={showHealthConnectNumber}
         />
+        {isCemetery && (
+          <Link to={`facility/${location.id}`}>
+            Learn more about burial status
+          </Link>
+        )}
       </>
     </div>
   );
@@ -67,6 +81,8 @@ const VaFacilityResult = ({
 
 VaFacilityResult.propTypes = {
   index: PropTypes.number,
+  isCemetery: PropTypes.bool,
+  isMobile: PropTypes.bool,
   location: PropTypes.object,
   query: PropTypes.object,
   showHealthConnectNumber: PropTypes.oneOfType([

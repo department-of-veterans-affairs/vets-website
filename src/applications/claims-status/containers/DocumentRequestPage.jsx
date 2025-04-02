@@ -1,5 +1,4 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +6,7 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Element } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -45,7 +45,6 @@ const scrollToError = () => {
   const options = merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
 };
-const { Element } = Scroll;
 
 const filesPath = '../files';
 const statusPath = '../status';
@@ -212,7 +211,7 @@ class DocumentRequestPage extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <ClaimsBreadcrumbs crumbs={crumbs} />
             <div>{content}</div>
-            <NeedHelp />
+            <NeedHelp item={trackedItem} />
           </div>
         </div>
       </div>

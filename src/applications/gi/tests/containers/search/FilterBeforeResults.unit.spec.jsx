@@ -43,7 +43,7 @@ describe('<FilterBeforeResults />', () => {
       props.version,
     );
     expect(historyMock.push.calledOnce).to.be.true;
-    wrapper.find('[testId="clear-button"]').simulate('click');
+    wrapper.find('[className="vads-u-margin-left--2"]').simulate('click');
     expect(props.dispatchFilterChange.calledOnce).to.be.false;
     wrapper.unmount();
   });
@@ -293,66 +293,5 @@ describe('<FilterBeforeResults />', () => {
       ).to.be.false;
       wrapper.unmount();
     });
-    /* // Have Call with Fatma to verify
-    it('calls dispatchFilterChange with the correct parameters on clearAllFilters', async () => {
-      const mockDispatchFilterChange = sinon.spy();
-      props = {
-        smallScreen: false,
-        dispatchFilterChange: mockDispatchFilterChange,
-        dispatchShowModal: sinon.spy(),
-        recordCheckboxEvent: sinon.spy(),
-        filters: {
-          excludedSchoolTypes: [],
-          vettec: false,
-          preferredProvider: false,
-        },
-        modalClose: sinon.spy(),
-        preview: {},
-        search: {
-          inProgres: true,
-          location: { facets: {} },
-          name: { facets: {} },
-          tab: '',
-          query: '',
-        },
-        history: [],
-        version: 'v1.0.0',
-        errorReducer: { error: null },
-      };
-      wrapper = mount(<FilterBeforeResults {...props} />);
-      wrapper.find('button.clear-filters-button').simulate('click');
-      const expectedDispatchArgument = {
-        accredited: false,
-        country: 'ALL',
-        employers: false,
-        excludeCautionFlags: false,
-        excludedSchoolTypes: [],
-        preferredProvider: false,
-        schools: false,
-        specialMissionAANAPII: false,
-        specialMissionANNHI: false,
-        specialMissionHSI: false,
-        specialMissionHbcu: false,
-        specialMissionMenonly: false,
-        specialMissionNANTI: false,
-        specialMissionPBI: false,
-        specialMissionRelaffil: false,
-        specialMissionTRIBAL: false,
-        specialMissionWomenonly: false,
-        state: 'ALL',
-        studentVeteran: false,
-        vettec: false,
-        yellowRibbonScholarship: false,
-      };
-      await waitFor(() => {
-        sinon.assert.calledOnce(mockDispatchFilterChange);
-        sinon.assert.calledWith(
-          mockDispatchFilterChange,
-          expectedDispatchArgument,
-        );
-      });
-
-      wrapper.unmount();
-    }); */
   });
 });

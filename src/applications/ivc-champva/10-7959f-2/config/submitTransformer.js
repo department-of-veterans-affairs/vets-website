@@ -1,5 +1,19 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { formatDateShort } from 'platform/utilities/date';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+} from '../../shared/utilities';
+
+// Take an address object and turn it into a string with line breaks
+function stringifyAddress(addr) {
+  return addr
+    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${
+        addr.state
+      }\n${addr.postalCode}`
+    : '';
+}
 
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
@@ -8,15 +22,17 @@ export default function transformForSubmit(formConfig, form) {
 
   const dataPostTransform = {
     veteran: {
-      date_of_birth: transformedData.veteranDateOfBirth,
+      date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
       full_name: transformedData?.veteranFullName,
-      physical_address: transformedData.physicalAddress || {
-        country: 'NA',
-        street: 'NA',
-        city: 'NA',
-        state: 'NA',
-        postalCode: 'NA',
-      },
+      physical_address: transformedData.sameMailingAddress
+        ? transformedData.veteranAddress
+        : transformedData.physicalAddress || {
+            country: 'NA',
+            street: 'NA',
+            city: 'NA',
+            state: 'NA',
+            postalCode: 'NA',
+          },
       mailing_address: transformedData.veteranAddress || {
         country: 'NA',
         street: 'NA',
@@ -32,7 +48,7 @@ export default function transformForSubmit(formConfig, form) {
       send_payment: transformedData.sendPayment,
     },
     statementOfTruthSignature: transformedData.statementOfTruthSignature,
-    current_date: new Date().toJSON().slice(0, 10),
+    current_date: formatDateShort(new Date()),
     primaryContactInfo: {
       name: {
         first: transformedData.veteranFullName?.first,
@@ -41,8 +57,16 @@ export default function transformForSubmit(formConfig, form) {
       phone: transformedData.veteranPhoneNumber,
       email: transformedData.veteranEmailAddress,
     },
-    supportingDocs: [transformedData.uploadSection],
+    supportingDocs: getObjectsWithAttachmentId(transformedData),
   };
+
+  // Stringify and format the addresses so they fit in the PDF fields properly
+  dataPostTransform.veteran.physicalAddressString = stringifyAddress(
+    dataPostTransform.veteran.physical_address,
+  );
+  dataPostTransform.veteran.mailingAddressString = stringifyAddress(
+    dataPostTransform.veteran.mailing_address,
+  );
 
   return JSON.stringify({
     ...dataPostTransform,

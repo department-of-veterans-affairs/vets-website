@@ -3,13 +3,15 @@ import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
 describe('SM Single Facility Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-    'mhv_secure_messaging_edit_contact_list',
-    true,
-  );
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_edit_contact_list',
+      value: true,
+    },
+  ]);
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggle);
     PatientInboxPage.loadInboxMessages();
@@ -38,8 +40,13 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`user won't see the alert after saving changes`, () => {
-    ContactListPage.selectCheckBox(`ABC`);
-    ContactListPage.clickSaveContactListButton();
+    const selectedTeam = [`ABC`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockRecipients,
+      selectedTeam,
+    );
+    ContactListPage.selectCheckBox(selectedTeam[0]);
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);

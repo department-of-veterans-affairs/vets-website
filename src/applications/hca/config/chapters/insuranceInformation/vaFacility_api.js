@@ -1,29 +1,18 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  EssentialCoverageDescription,
-  FacilityLocatorDescription,
-} from '../../../components/FormDescriptions';
+import { FacilityLocatorDescription } from '../../../components/FormDescriptions';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 import { emptyObjectSchema } from '../../../definitions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-// define default schema properties
-const {
-  isEssentialAcaCoverage,
-  wantsInitialVaContact,
-} = fullSchemaHca.properties;
+const { wantsInitialVaContact } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    ...titleUI(content['insurance-info--facility-title']),
-    isEssentialAcaCoverage: {
-      'ui:title':
-        'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
-    },
-    'view:isEssentialCoverageDesc': {
-      'ui:description': EssentialCoverageDescription,
-    },
+    ...titleUI(
+      content['insurance-info--facility-title'],
+      content['insurance-info--facility-description'],
+    ),
     'view:preferredFacility': {
       'ui:field': VaMedicalCenter,
     },
@@ -31,16 +20,13 @@ export default {
       'ui:description': FacilityLocatorDescription,
     },
     wantsInitialVaContact: {
-      'ui:title':
-        'Do you want VA to contact you to schedule your first appointment?',
+      'ui:title': content['insurance-info--appointment-label'],
       'ui:widget': 'yesNo',
     },
   },
   schema: {
     type: 'object',
     properties: {
-      isEssentialAcaCoverage,
-      'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {
         type: 'object',
         required: ['view:facilityState', 'vaMedicalFacility'],

@@ -5,8 +5,15 @@ import {
   VaRadio,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import {
+  PAGE_PATH,
+  SEARCH_APP_USED,
+  SEARCH_LOCATION,
+  SEARCH_SELECTION,
+  SEARCH_TYPEAHEAD_ENABLED,
+  addSearchGADataToStorage,
+} from 'platform/site-wide/search-analytics';
 import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
@@ -55,8 +62,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
       : `${resourcesSettings.rootUrl}/`;
     const newUrl = `${URL}?${queryParams}`;
 
-    history.replaceState({}, '', newUrl);
-    window.location.href = newUrl;
+    window.location.assign(newUrl);
   };
 
   const handleSubmit = event => {
@@ -87,20 +93,12 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
     }
 
     if (isGlobalSearch) {
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': userInput,
-        'search-results-total-count': undefined,
-        'search-results-total-pages': undefined,
-        'search-selection': GLOBAL,
-        'search-typeahead-enabled': false,
-        'search-location': RESOURCES,
-        'sitewide-search-app-used': false, // this is not the sitewide search app
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
+      addSearchGADataToStorage({
+        [PAGE_PATH]: document.location.pathname,
+        [SEARCH_LOCATION]: RESOURCES,
+        [SEARCH_APP_USED]: false,
+        [SEARCH_SELECTION]: 'All VA.gov',
+        [SEARCH_TYPEAHEAD_ENABLED]: false,
       });
     }
 
@@ -122,6 +120,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
             'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
             { 'va-border-bottom-radius--0': expanded },
           )}
+          data-testid="rs-mobile-expand-collapse"
           onClick={() => setExpanded(!expanded)}
           type="button"
         >
@@ -168,7 +167,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               onVaValueChange={onValueChange}
               uswds
             >
-              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block vads-u-margin-right--2 small-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 mobile-lg:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
                 <va-radio-option
                   onChange={event => {
                     setGlobalSearch(!event.target.checked);
@@ -182,7 +181,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
                   uswds
                 />
               </div>
-              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block">
                 <va-radio-option
                   onChange={event => setGlobalSearch(event.target.checked)}
                   checked={isGlobalSearch}
@@ -196,7 +195,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               </div>
             </VaRadio>
           </div>
-          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
+          <p className="mobile-lg:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
             Enter a keyword, phrase, or question
             {inputError && (
               <span
@@ -219,6 +218,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           )}
           <VaSearchInput
             buttonText="Search"
+            disableAnalytics
             label="Enter a keyword, phrase, or question"
             onInput={handleInputChange}
             onSubmit={e => handleSubmit(e)}

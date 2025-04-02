@@ -10,7 +10,6 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
-import { customizeTitle } from '../utilities/customize-title';
 
 const DependentsPage = ({
   dependents,
@@ -30,10 +29,6 @@ const DependentsPage = ({
       ? `How many dependents did you have in ${year - 1}?`
       : `How many dependents did you have last year?`;
   };
-
-  useEffect(() => {
-    document.title = customizeTitle(determineH1());
-  });
 
   const dependentsValid = deps => {
     return deps?.match(/^[0-9]+$/) && deps >= 0 && deps <= 100;
@@ -119,15 +114,13 @@ const DependentsPage = ({
           id="numberOfDependents"
           inputmode="numeric"
           label="Number of dependents"
-          max={99}
-          min={0}
           name="numberOfDependents"
           onBlur={onBlurInput}
           onInput={onDependentsInput}
-          uswds
+          required
           value={dependents || ''}
         />
-        <va-additional-info trigger="Who qualifies as a dependent" uswds>
+        <va-additional-info trigger="Who qualifies as a dependent">
           <div>
             <p className="vads-u-margin-top--0">
               Here&#8217;s who we consider dependents for health care
@@ -147,7 +140,6 @@ const DependentsPage = ({
           onPrimaryClick={onContinueClick}
           onSecondaryClick={onBackClick}
           continue
-          uswds
         />
       </form>
     </>

@@ -35,6 +35,8 @@ export const getValidationMessageKey = ({
   suggestedAddresses,
   addressValidationError,
   confirmedSuggestions = [],
+  validationKey,
+  isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
 }) => {
   const singleSuggestion = suggestedAddresses?.length === 1;
   const multipleSuggestions = suggestedAddresses?.length > 1;
@@ -61,6 +63,22 @@ export const getValidationMessageKey = ({
 
   if (singleSuggestion && containsMissingUnitNumber) {
     return ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE;
+  }
+
+  if (
+    !confirmedSuggestions.length &&
+    !validationKey &&
+    isNoValidationKeyAlertEnabled
+  ) {
+    return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
+  }
+
+  if (
+    confirmedSuggestions.length &&
+    !validationKey &&
+    isNoValidationKeyAlertEnabled
+  ) {
+    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
   }
 
   if (
@@ -164,8 +182,13 @@ export const validateAsciiCharacters = (errors, field) => {
 // checks for basic field data or data for nested object like gender identity
 export const isFieldEmpty = (data, fieldName) => {
   // checks whether data is available and in the case of gender identity if there is a code present
+  const signatureEmpty =
+    fieldName === FIELD_NAMES.MESSAGING_SIGNATURE &&
+    (!data?.[fieldName]?.signatureName || !data?.[fieldName]?.signatureTitle);
+
   return (
     !data ||
+    signatureEmpty ||
     (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
   );
 };

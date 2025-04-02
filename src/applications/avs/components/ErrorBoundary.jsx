@@ -34,7 +34,7 @@ class ErrorBoundary extends React.Component {
       </div>
     );
 
-    return hasError ? <ErrorMessage /> : <>{children}</>;
+    return hasError || !children ? <ErrorMessage /> : <>{children}</>;
   }
 }
 

@@ -5,25 +5,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
-function vaosFHIRRequest(url, ...options) {
-  return apiRequest(`${environment.API_URL}/vaos/v1/${url}`, ...options);
-}
-
-/**
- * Fetches a searchset from a FHIR endpoint in VAOS and returns an array of
- * resources
- *
- * @export
- * @param {Object} params
- * @param {String} params.query The FHIR resource and query string to fetch
- * @returns {Array} An array of FHIR resources (not necessarily all the same type as the resource in the query)
- */
-export function fhirSearch({ query }) {
-  return vaosFHIRRequest(query).then(
-    resp => resp.entry?.map(item => item.resource) || [],
-  );
-}
-
 /**
  * Maps the JSON API error format to the FHIR OperationOutcome format
  *
@@ -101,6 +82,9 @@ export function parseApiListWithErrors(resp) {
  * @returns {Object} The data.attributes object from resp, but with the id included
  */
 export function parseApiObject(resp) {
+  if (!resp.data && resp?.errors[0]?.code === 'VAOS_404') {
+    throw resp;
+  }
   return {
     ...resp.data.attributes,
     id: resp.data.id,

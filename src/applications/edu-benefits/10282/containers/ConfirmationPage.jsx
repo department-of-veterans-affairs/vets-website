@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import FormHelp from '../components/FormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -14,35 +15,35 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { form } = this.props;
-    const { submission, formId, data } = form;
+    const { submission, data } = form;
     const submitDate = submission.timestamp;
-    const { fullName } = data;
-
+    const { veteranFullName: fullName } = data;
     return (
       <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <h2 slot="headline">
+            You've submitted your application for the IBM SkillsBuild Program
+          </h2>
+          <p className="vads-u-margin-y--0">
+            After we've reviewed your application, we'll email you a decision.
+          </p>
+        </va-alert>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            22-10282 IBM Skillsbuild Training Program Intake Application Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
+            Your application information
           </h3>
           {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
+            <p>
+              <strong>Who submitted this form </strong>
+              <br />
+              <span>
+                {fullName.first} {fullName.middle} {fullName.last}
+              </span>
+            </p>
           ) : null}
 
           {isValid(submitDate) ? (
@@ -52,13 +53,37 @@ export class ConfirmationPage extends React.Component {
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
             </p>
           ) : null}
+          <p>
+            <strong>Confirmation for your records </strong>
+            <br />
+            <span>You can print this confirmation page for your records.</span>
+          </p>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="usa-button screen-only"
             onClick={window.print}
           >
-            Print this for your records
+            Print this page
           </button>
+        </div>
+        <div className="vads-u-margin-top--0">
+          <h2>What to expect next</h2>
+          <p>
+            If you're accepted into the SkillsBuild program, you'll receive an
+            email from <a href="mailto:sbuser@us.ibm.com">sbuser@us.ibm.com</a>{' '}
+            with your login information. If you don't receive an email, check
+            your spam folder.
+          </p>
+          <p>
+            You'll also receive an email from SkillUp Online, SkillsBuild's
+            training provider, with more resources and support for your
+            training. SkillUp Online will help you choose a learning format for
+            your training. You can choose between independent learning (also
+            known as self-paced learning), or cohort learning (which includes
+            scheduled online classes).
+          </p>
+          <FormHelp tag="va-need-help" />
         </div>
       </div>
     );
@@ -68,7 +93,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      veteranFullName: {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
@@ -83,7 +108,7 @@ ConfirmationPage.propTypes = {
   name: PropTypes.string,
 };
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     form: state.form,
   };

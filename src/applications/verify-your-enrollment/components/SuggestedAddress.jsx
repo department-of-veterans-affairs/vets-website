@@ -45,14 +45,11 @@ const SuggestedAddress = ({
     handleAddNewClick(event);
     setGoBackToEdit(true);
   };
-  const isUSA = chooseAddress
-    ? formData.countryCodeIso3 === 'USA'
-    : address.countryCodeIso3 === 'USA';
   const source = chooseAddress ? formData : address;
 
   const stateAndZip = {
-    stateCode: isUSA ? source.stateCode : source.province,
-    zipCode: isUSA ? source.zipCode : source.internationalPostalCode,
+    stateCode: source.stateCode,
+    zipCode: source.zipCode,
   };
   const handleChange = event => {
     setChooseAddress(event.target.value);

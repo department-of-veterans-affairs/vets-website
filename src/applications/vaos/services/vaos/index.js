@@ -32,7 +32,14 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = [], avs = false) {
+export function getAppointments({
+  startDate,
+  endDate,
+  statuses = [],
+  avs = false,
+  fetchClaimStatus = false,
+  includeEPS = false,
+}) {
   const options = {
     method: 'GET',
   };
@@ -40,23 +47,32 @@ export function getAppointments(start, end, statuses = [], avs = false) {
   if (avs) {
     includeParams.push('avs');
   }
+  if (fetchClaimStatus) {
+    includeParams.push('travel_pay_claims');
+  }
+  if (includeEPS) {
+    includeParams.push('eps');
+  }
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
-      .join(',')}&start=${start}&end=${end}&${statuses
+      .join(',')}&start=${startDate}&end=${endDate}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id, avs = false) {
+export function getAppointment(id, avs = false, fetchClaimStatus = false) {
   const options = {
     method: 'GET',
   };
   const includeParams = ['facilities', 'clinics'];
   if (avs) {
     includeParams.push('avs');
+  }
+  if (fetchClaimStatus) {
+    includeParams.push('travel_pay_claims');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments/${id}?_include=${includeParams
@@ -66,12 +82,20 @@ export function getAppointment(id, avs = false) {
   ).then(parseApiObject);
 }
 
-export function getFacilities(ids, children = false) {
-  return apiRequestWithUrl(
-    `/vaos/v2/facilities?children=${children}&${ids
-      .map(id => `ids[]=${getTestFacilityId(id)}`)
-      .join('&')}`,
-  ).then(parseApiList);
+export function getFacilities(
+  ids,
+  children = false,
+  sortByRecentLocations = false,
+) {
+  const baseUrl = `/vaos/v2/facilities?children=${children}&${ids
+    .map(id => `ids[]=${getTestFacilityId(id)}`)
+    .join('&')}`;
+
+  const url = sortByRecentLocations
+    ? `${baseUrl}&sort_by=recentLocations`
+    : baseUrl;
+
+  return apiRequestWithUrl(url).then(parseApiList);
 }
 
 export function getClinics({ locationId, clinicIds, typeOfCareId }) {
@@ -94,6 +118,12 @@ export function getPatientEligibility(
   return apiRequestWithUrl(
     `/vaos/v2/eligibility?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
   ).then(parseApiObject);
+}
+
+export function getPatientRelationships({ locationId, typeOfCareId }) {
+  return apiRequestWithUrl(
+    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
+  );
 }
 
 export function getFacilityById(id) {
@@ -126,4 +156,21 @@ export function getCommunityCareV2(typeOfCare) {
   return apiRequestWithUrl(
     `/vaos/v2/community_care/eligibility/${typeOfCare}`,
   ).then(parseApiObject);
+}
+
+export async function getCommunityCareFacilities({
+  latitude,
+  longitude,
+  radius,
+  bbox,
+  specialties,
+  page = 1,
+  perPage = 10,
+}) {
+  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
+  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
+
+  return apiRequestWithUrl(
+    `/facilities_api/v2/ccp/provider?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&trim=true`,
+  ).then(parseApiList);
 }

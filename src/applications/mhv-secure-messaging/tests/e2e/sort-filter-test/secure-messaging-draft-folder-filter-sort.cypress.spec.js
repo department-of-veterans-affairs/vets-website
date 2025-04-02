@@ -4,23 +4,24 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('Secure Messaging Draft Folder filter-sort checks', () => {
+describe('SM DRAFT FOLDER FILTER-SORT', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(mockDraftMessages);
+    PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadDraftMessages();
   });
 
-  it('Verify filter works correctly', () => {
+  it('verify filter works correctly', () => {
     PatientMessageDraftsPage.inputFilterDataText('test');
     PatientMessageDraftsPage.clickFilterMessagesButton();
-    PatientMessageDraftsPage.verifyFilterResultsText('test');
+    PatientMessageDraftsPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
+  it('verify clear filter btn works correctly', () => {
     PatientMessageDraftsPage.inputFilterDataText('any');
     PatientMessageDraftsPage.clickFilterMessagesButton();
     PatientMessageDraftsPage.clickClearFilterButton();
@@ -29,9 +30,35 @@ describe('Secure Messaging Draft Folder filter-sort checks', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Check sorting works properly', () => {
+  it('verify sorting works properly', () => {
     PatientMessageDraftsPage.verifySorting();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('SM DRAFT FOLDER PLAIN TG NAME FILTERING', () => {
+  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
+    mockDraftMessages,
+    'TG | Type | Name',
+  );
+
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadDraftMessages(updatedThreadResponse);
+  });
+
+  it('verify filter works correctly', () => {
+    PatientMessageDraftsPage.inputFilterDataText(
+      updatedThreadResponse.data[0].attributes.subject,
+    );
+    PatientMessageDraftsPage.clickFilterMessagesButton(updatedThreadResponse);
+
+    PatientMessageDraftsPage.verifyDraftToField(
+      updatedThreadResponse.data[0].attributes.subject,
+    );
+
+    cy.injectAxeThenAxeCheck();
   });
 });

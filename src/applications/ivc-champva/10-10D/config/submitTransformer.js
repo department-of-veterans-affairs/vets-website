@@ -1,5 +1,5 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
+import { FILE_UPLOAD_ORDER } from './constants';
 import {
   adjustYearString,
   concatStreets,
@@ -11,6 +11,12 @@ function fmtDate(date) {
   return date?.length && date.length === 10
     ? `${date.slice(5)}-${date.slice(0, 4)}`
     : date;
+}
+
+// Returns list of object keys where obj[key] === true. Used
+// to get the list of relationships a certifier has w/ the applicants:
+function trueKeysOnly(obj) {
+  return Object.keys(obj ?? {}).filter(k => obj[k] === true);
 }
 
 // Simplify a relationship object from (potentially) multiple nested objects to a single string
@@ -41,19 +47,15 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     let transformedApp = {
       ...app,
-      ssnOrTin: app.applicantSSN?.ssn ?? '',
+      ssnOrTin: app.applicantSSN ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
       // Grab any file upload properties from this applicant and combine into a
       // supporting documents array:
-      applicantSupportingDocuments: Object.keys({
-        ...REQUIRED_FILES,
-        ...OPTIONAL_FILES,
-      })
-        .filter(k => k.includes('applicant')) // Ignore sponsor files
-        .map(f => app?.[f]) // Grab the upload obj from top-level in applicant
-        .filter(el => el), // Drop any undefineds/nulls
+      applicantSupportingDocuments: FILE_UPLOAD_ORDER.map(
+        property => app?.[property],
+      ).filter(el => el), // Drop any undefineds/nulls
     };
     transformedApp = adjustYearString(transformedApp);
     transformedApp.applicantAddress = concatStreets(
@@ -62,57 +64,6 @@ function transformApplicants(applicants) {
     applicantsPostTransform.push(transformedApp);
   });
   return applicantsPostTransform;
-}
-
-// Since the certifier data may be the sponsor's or a third party, this maps
-// the sponsor's info into the certifier property names for simplicity on BE
-function parseCertifier(transformedData) {
-  return {
-    date: new Date().toJSON().slice(0, 10),
-    firstName: transformedData.veteransFullName.first || '',
-    lastName: transformedData.veteransFullName.last || '',
-    middleInitial: transformedData?.veteransFullName?.middle || '',
-    phoneNumber: transformedData?.sponsorPhone || '',
-    relationship: 'sponsor',
-    streetAddress: transformedData?.sponsorAddress?.streetCombined || '',
-    city: transformedData?.sponsorAddress?.city || '',
-    state: transformedData?.sponsorAddress?.state || '',
-    postalCode: transformedData?.sponsorAddress?.postalCode || '',
-  };
-}
-
-// Set up the `primaryContactInfo` for the backend notification API service.
-function getPrimaryContact(data) {
-  // If a certification name is present, third party signer is the certifier
-  const useCert =
-    data?.certification?.firstName && data?.certification?.firstName !== '';
-
-  // Either the first applicant with an email address, or the first applicant
-  const primaryApp =
-    data?.applicants?.filter(
-      app => app.applicantEmailAddress && app.applicantEmailAddress.length > 0,
-    )[0] ?? data?.applicants?.[0];
-
-  return {
-    name: {
-      first:
-        (useCert
-          ? data?.certification?.firstName
-          : primaryApp?.applicantName?.first) ?? false,
-      last:
-        (useCert
-          ? data?.certification?.lastName
-          : primaryApp?.applicantName?.last) ?? false,
-    },
-    email:
-      (useCert
-        ? data?.certification?.email
-        : primaryApp?.applicantEmailAddress) ?? false,
-    phone:
-      (useCert
-        ? data?.certification?.phoneNumber
-        : primaryApp?.applicantPhone) ?? false,
-  };
 }
 
 export default function transformForSubmit(formConfig, form) {
@@ -129,6 +80,9 @@ export default function transformForSubmit(formConfig, form) {
     transformedData.certifierAddress = concatStreets(
       transformedData.certifierAddress,
     );
+
+  const currentDate =
+    fmtDate(new Date().toISOString().replace(/T.*/, '')) || '';
 
   const dataPostTransform = {
     veteran: {
@@ -152,28 +106,31 @@ export default function transformForSubmit(formConfig, form) {
       isActiveServiceDeath: transformedData?.sponsorDeathConditions,
     },
     applicants: transformApplicants(transformedData.applicants ?? []),
-    certification: {
-      date: fmtDate(new Date().toISOString().replace(/T.*/, '')) || '',
-      lastName: transformedData?.certifierName?.last || '',
-      middleInitial: transformedData?.certifierName?.middle || '',
-      firstName: transformedData?.certifierName?.first || '',
-      phoneNumber: transformedData?.certifierPhone || '',
-      relationship: transformRelationship(
-        transformedData?.certifierRelationship,
-      ),
-      streetAddress: transformedData?.certifierAddress?.streetCombined || '',
-      city: transformedData?.certifierAddress?.city || '',
-      state: transformedData?.certifierAddress?.state || '',
-      postalCode: transformedData?.certifierAddress?.postalCode || '',
-    },
+    // If certifier is also applicant, we don't need to fill out the
+    // bottom "Certification" section of the PDF:
+    certification:
+      transformedData?.certifierRole === 'applicant'
+        ? { date: currentDate }
+        : {
+            date: currentDate,
+            lastName: transformedData?.certifierName?.last || '',
+            middleInitial: transformedData?.certifierName?.middle || '',
+            firstName: transformedData?.certifierName?.first || '',
+            phoneNumber: transformedData?.certifierPhone || '',
+            // will produce string list of checkboxgroup keys (e.g., "spouse; child")
+            relationship: trueKeysOnly(
+              transformedData?.certifierRelationship?.relationshipToVeteran,
+            ).join('; '),
+            streetAddress:
+              transformedData?.certifierAddress?.streetCombined || '',
+            city: transformedData?.certifierAddress?.city || '',
+            state: transformedData?.certifierAddress?.state || '',
+            postalCode: transformedData?.certifierAddress?.postalCode || '',
+          },
     supportingDocs: [],
     // Include everything we originally received
     rawData: transformedData,
   };
-
-  // Fill in certification data with sponsor info as needed
-  if (form.data.certifierRole === 'sponsor')
-    dataPostTransform.certification = { ...parseCertifier(transformedData) };
 
   // Flatten supporting docs for all applicants to a single array
   const supDocs = [];
@@ -205,7 +162,11 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;
   // `primaryContactInfo` is who BE callback API emails if there's a notification event
-  dataPostTransform.primaryContactInfo = getPrimaryContact(dataPostTransform);
+  dataPostTransform.primaryContactInfo = {
+    name: transformedData.certifierName,
+    email: transformedData.certifierEmail,
+    phone: transformedData.certifierPhone,
+  };
   return JSON.stringify({
     ...dataPostTransform,
     formNumber: formConfig.formId,

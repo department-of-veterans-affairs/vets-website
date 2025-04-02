@@ -17,10 +17,11 @@ import {
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
-import { parseDate } from '../../../shared/utils/dates';
+import maximalData from '../fixtures/data/maximal-test-v2.json';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+import { SELECTED } from '../../../shared/constants';
+
+const getData = ({ renderName = true, suffix = 'Esq.', data } = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -33,7 +34,7 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
     submission: {
       response: Date.now(),
     },
-    data: {
+    data: data || {
       contestedIssues: [
         {
           [SELECTED]: true,
@@ -56,15 +57,6 @@ describe('Confirmation page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
 
-  it('should render the confirmation page', () => {
-    const { container } = render(
-      <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect($('va-alert[status="success"]', container)).to.exist;
-    expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.eq(2);
-  });
   it('should render with no data', () => {
     const { container } = render(
       <Provider store={mockStore({})}>
@@ -84,6 +76,7 @@ describe('Confirmation page', () => {
       'Foo Man Choo, Esq.',
     );
   });
+
   it('should render the user name without suffix', () => {
     const { container } = render(
       <Provider store={mockStore(getData({ suffix: '' }))}>
@@ -94,6 +87,7 @@ describe('Confirmation page', () => {
       'Foo Man Choo',
     );
   });
+
   it('should not render the user name', () => {
     const { container } = render(
       <Provider store={mockStore(getData({ renderName: false }))}>
@@ -104,30 +98,6 @@ describe('Confirmation page', () => {
       .exist;
   });
 
-  it('should render the submit date', () => {
-    const data = getData();
-    const date = parseDate(
-      data.form.submission.response,
-      FORMAT_READABLE_DATE_FNS,
-    );
-    const { container } = render(
-      <Provider store={mockStore(data)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect($('va-summary-box', container).textContent).to.contain(date);
-  });
-  it('should render the selected contested issue', () => {
-    const { container } = render(
-      <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    const list = $('ul', container);
-    expect(list.textContent).to.contain('test 543');
-    expect(list.textContent).not.to.contain('test 987');
-    expect($$('span.dd-privacy-hidden', container).length).to.eq(1);
-  });
   it('should focus on H2 inside va-alert', async () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
@@ -141,6 +111,7 @@ describe('Confirmation page', () => {
       expect(document.activeElement).to.eq(h2);
     });
   });
+
   it('should reset the subtask value in sessionStorage', async () => {
     setStoredSubTask('{ "benefitType": "compensation" }');
     render(
@@ -153,24 +124,18 @@ describe('Confirmation page', () => {
     });
   });
 
-  it('should render with no data', () => {
-    const getEmptyData = () => ({
-      user: {
-        profile: {},
-      },
-      form: {
-        formId: formConfig.formId,
-        submission: {
-          response: Date.now(),
-        },
-        data: {},
-      },
+  it('should render confirmation page v2', () => {
+    const data = getData({
+      data: maximalData.data,
     });
     const { container } = render(
-      <Provider store={mockStore(getEmptyData())}>
+      <Provider store={mockStore(data)}>
         <ConfirmationPage />
       </Provider>,
     );
-    expect(container.textContent).to.contain('We’ve received your');
+    expect($$('ul', container).length).to.eq(3);
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(17);
   });
 });

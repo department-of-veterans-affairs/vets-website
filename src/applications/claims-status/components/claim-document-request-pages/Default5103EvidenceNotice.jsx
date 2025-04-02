@@ -6,16 +6,17 @@ import {
   VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { buildDateFormatter, isAutomated5103Notice } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  is5103Notice,
+  isStandard5103Notice,
+  isAutomated5103Notice,
+} from '../../utils/helpers';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
-  submitRequest as submitRequestAction,
   // END lighthouse_migration
 } from '../../actions';
-// START lighthouse_migration
-import { cstUseLighthouse } from '../../selectors';
-// END lighthouse_migration
 import { setUpPage } from '../../utils/page';
 
 import withRouter from '../../utils/withRouter';
@@ -28,8 +29,6 @@ function Default5103EvidenceNotice({
   navigate,
   params,
   submit5103,
-  submitRequest,
-  useLighthouse5103,
 }) {
   const [addedEvidence, setAddedEvidence] = useState(false);
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(undefined);
@@ -53,23 +52,16 @@ function Default5103EvidenceNotice({
 
   const submit = () => {
     if (addedEvidence) {
-      if (useLighthouse5103) {
-        submit5103(params.id, params.trackedItemId, true);
-      } else {
-        submitRequest(params.id, true);
-      }
+      submit5103(params.id, params.trackedItemId, true);
     } else {
       setCheckboxErrorMessage(
         `You must confirm you’re done adding evidence before submitting the evidence waiver`,
       );
     }
   };
-  const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  const formattedRequestedDate = buildDateFormatter()(item.requestedDate);
-  const isStandard5103Notice =
-    item.displayName === 'Review evidence list (5103 notice)';
+  const dateFormatter = buildDateFormatter();
 
-  if (!isAutomated5103Notice(item.displayName) && !isStandard5103Notice) {
+  if (!is5103Notice(item.displayName)) {
     return null;
   }
 
@@ -87,7 +79,7 @@ function Default5103EvidenceNotice({
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Review evidence list (5103 notice)
       </h1>
-      {isStandard5103Notice ? (
+      {isStandard5103Notice(item.displayName) ? (
         <p>
           We sent you a “List of evidence we may need (5103 notice)” letter.
           This letter lets you know about different types of additional evidence
@@ -95,10 +87,10 @@ function Default5103EvidenceNotice({
         </p>
       ) : (
         <p>
-          On <strong>{formattedRequestedDate}</strong>, we sent you a “List of
-          evidence we may need (5103 notice)” letter. This letter lets you know
-          about different types of additional evidence that could help your
-          claim.
+          On <strong>{dateFormatter(item.requestedDate)}</strong>, we sent you a
+          “List of evidence we may need (5103 notice)” letter. This letter lets
+          you know about different types of additional evidence that could help
+          your claim.
         </p>
       )}
       <h2>Read your 5103 notice letter</h2>
@@ -121,7 +113,7 @@ function Default5103EvidenceNotice({
       <Link
         className="active-va-link"
         data-testid="upload-evidence-link"
-        to="../files"
+        to="../files#add-files"
       >
         Upload additional evidence
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
@@ -135,6 +127,7 @@ function Default5103EvidenceNotice({
         review stage as quickly as possible.
       </p>
       <p>
+        {' '}
         <strong>Note:</strong> You can add evidence to support your claim at any
         time. However, if you add evidence later, your claim will move back to
         this step, so we encourage you to add all your evidence now.
@@ -159,8 +152,9 @@ function Default5103EvidenceNotice({
       {isAutomated5103Notice(item.displayName) && (
         <p data-testid="due-date-information">
           <strong>Note:</strong> If you don’t submit the evidence waiver, we'll
-          wait for you to add evidence until <strong>{formattedDueDate}</strong>
-          . Then we'll continue processing your claim.
+          wait for you to add evidence until{' '}
+          <strong>{dateFormatter(item.suspenseDate)}</strong>. Then we'll
+          continue processing your claim.
         </p>
       )}
     </div>
@@ -174,17 +168,11 @@ function mapStateToProps(state) {
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
-    // START lighthouse_migration
-    useLighthouse5103: cstUseLighthouse(state, '5103'),
-    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
-  // START lighthouse_migration
   submit5103: submit5103Action,
-  submitRequest: submitRequestAction,
-  // END lighthouse_migration
 };
 
 export default withRouter(
@@ -201,11 +189,7 @@ Default5103EvidenceNotice.propTypes = {
   loadingDecisionRequest: PropTypes.bool,
   navigate: PropTypes.func,
   params: PropTypes.object,
-  // START lighthouse_migration
   submit5103: PropTypes.func,
-  submitRequest: PropTypes.func,
-  useLighthouse5103: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export { Default5103EvidenceNotice };

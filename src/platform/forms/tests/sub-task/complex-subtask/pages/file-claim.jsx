@@ -32,7 +32,6 @@ const FileClaimPage = () => (
             'button-click-label': 'File a disability claim online',
           });
         }}
-        aria-describedby="other_ways_to_file_526"
       >
         File a disability claim online
       </Link> */}

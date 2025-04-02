@@ -6,7 +6,6 @@
  * a FHIR resource request
  */
 
-import { getCommunityCareFacilities } from '../var';
 import { mapToFHIRErrors } from '../utils';
 
 import { VHA_FHIR_ID } from '../../utils/constants';
@@ -15,6 +14,7 @@ import {
   getSchedulingConfigurations,
   getFacilities,
   getFacilityById,
+  getCommunityCareFacilities,
 } from '../vaos';
 import {
   transformParentFacilitiesV2,
@@ -36,9 +36,17 @@ import { getRealFacilityId } from '../../utils/appointment';
  * @param {boolean} params.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Array<Location>} A FHIR searchset of Location resources
  */
-export async function getLocations({ facilityIds, children = false }) {
+export async function getLocations({
+  facilityIds,
+  children = false,
+  sortByRecentLocations = false,
+}) {
   try {
-    const facilities = await getFacilities(facilityIds, children);
+    const facilities = await getFacilities(
+      facilityIds,
+      children,
+      sortByRecentLocations,
+    );
 
     return transformFacilitiesV2(facilities);
   } catch (e) {
@@ -106,7 +114,10 @@ export async function getLocationSettings({ siteIds }) {
  * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
  * @returns {Array<Location>} An array of Locations with settings included
  */
-export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
+export async function getLocationsByTypeOfCareAndSiteIds({
+  siteIds,
+  sortByRecentLocations = false,
+}) {
   try {
     let locations = [];
     let settings = [];
@@ -114,6 +125,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
     locations = await getLocations({
       facilityIds: siteIds,
       children: true,
+      sortByRecentLocations,
     });
 
     const uniqueIds = locations.map(location => location.id);
@@ -127,7 +139,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
         settings,
       }),
     );
-
+    if (sortByRecentLocations) {
+      return locations;
+    }
     return locations.sort((a, b) => (a.name < b.name ? -1 : 1));
   } catch (e) {
     if (e.errors) {

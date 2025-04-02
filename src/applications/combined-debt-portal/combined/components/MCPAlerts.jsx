@@ -7,11 +7,7 @@ import { currency, calcDueDate, formatDate } from '../utils/helpers';
 const Alert = ({ children }) => children;
 
 Alert.Error = () => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="error"
-    data-testid="error-alert"
-  >
+  <va-alert status="error" data-testid="error-alert">
     <h2 slot="headline">
       We can’t access your current copay balances right now
     </h2>
@@ -26,7 +22,7 @@ Alert.Error = () => (
       </strong>
       contact us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>{' '}
       (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -47,11 +43,7 @@ Alert.PastDue = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
-    <va-alert
-      class="row vads-u-margin-bottom--5"
-      status="info"
-      data-testid="past-due-balance-alert"
-    >
+    <va-alert status="warning" data-testid="past-due-balance-alert">
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
         Your balance on
@@ -68,7 +60,7 @@ Alert.PastDue = ({ copay }) => {
         </strong>
         contact us at{' '}
         <span className="no-wrap">
-          <va-telephone contact="8664001238" />
+          <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
         </span>{' '}
         (TTY: <va-telephone contact={CONTACTS[711]} />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -88,11 +80,7 @@ Alert.ZeroBalance = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
-    <va-alert
-      class="row vads-u-margin-bottom--5"
-      status="info"
-      data-testid="zero-balance-alert"
-    >
+    <va-alert status="info" data-testid="zero-balance-alert">
       <h2 slot="headline">You don’t need to make a payment at this time</h2>
       <p>
         Your balance is $0 and was updated on
@@ -124,11 +112,7 @@ Alert.ZeroBalance.propTypes = {
 };
 
 Alert.NoHealthcare = () => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="warning"
-    data-testid="no-healthcare-alert"
-  >
+  <va-alert status="warning" data-testid="no-healthcare-alert">
     <h2 slot="headline">You’re not enrolled in VA health care</h2>
     <p>
       You can’t check copay balances at this time because our records show that
@@ -144,7 +128,7 @@ Alert.NoHealthcare = () => (
     <p>
       If you think this is incorrect, call our toll-free hotline at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8772228387" />
+        <va-telephone contact={CONTACTS['222_VETS']} />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -152,11 +136,7 @@ Alert.NoHealthcare = () => (
 );
 
 Alert.NoHistory = () => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="info"
-    data-testid="no-history-alert"
-  >
+  <va-alert status="info" data-testid="no-history-alert">
     <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
     </h2>
@@ -167,7 +147,7 @@ Alert.NoHistory = () => (
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>
       . (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -176,7 +156,7 @@ Alert.NoHistory = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info" data-testid="status-alert">
+  <va-alert background-only status="warning" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
@@ -218,7 +198,7 @@ Alert.Status = ({ copay }) => (
       You may need to continue making payments while we review your request.
       Call us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>

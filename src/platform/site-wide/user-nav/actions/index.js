@@ -9,7 +9,11 @@ export function toggleFormSignInModal(isOpen) {
   return { type: TOGGLE_FORM_SIGN_IN_MODAL, isOpen };
 }
 
-export function toggleLoginModal(isOpen, trigger = 'header', derivedUrl) {
+export function toggleLoginModal(
+  isOpen,
+  trigger = 'header',
+  forceVerification = false,
+) {
   return async (dispatch, getState) => {
     const { signInServiceEnabled } = getState()?.featureToggles;
 
@@ -19,6 +23,7 @@ export function toggleLoginModal(isOpen, trigger = 'header', derivedUrl) {
     const nextQuery = {
       next: nextParam ?? 'loginModal',
       ...(signInServiceEnabled && { oauth: true }),
+      ...(forceVerification && { verification: 'required' }),
     };
 
     const url = isOpen
@@ -30,8 +35,6 @@ export function toggleLoginModal(isOpen, trigger = 'header', derivedUrl) {
       type: TOGGLE_LOGIN_MODAL,
       isOpen,
       trigger,
-      startingLocation: window.location.pathname,
-      redirectLocation: derivedUrl ?? window.location.pathname,
     });
   };
 }

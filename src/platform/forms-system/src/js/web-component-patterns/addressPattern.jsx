@@ -228,6 +228,7 @@ export const updateFormDataAddress = (
 export function addressUI(options) {
   let cachedPath;
   let cityMaxLength = 100;
+  let stateMaxLength = 100;
 
   const omit = key => options?.omit?.includes(key);
   let customRequired = key => options?.required?.[key];
@@ -316,6 +317,9 @@ export function addressUI(options) {
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
+          /* Set isMilitary to either `true` or `undefined` (not `false`) so that
+          `hideEmptyValueInReview` works as expected. See docs: https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-about-schema-and-uischema#VAFormsLibrary-AboutschemaanduiSchema-ui:options */
+          addressFormData.isMilitary = addressFormData.isMilitary || undefined;
           const { isMilitary } = addressFormData;
           // 'inert' is the preferred solution for now
           // instead of disabled via DST guidance
@@ -440,6 +444,7 @@ export function addressUI(options) {
         if (customRequired('state')) {
           return customRequired('state')(formData, index);
         }
+
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
           return country && country === USA.value;
@@ -470,7 +475,11 @@ export function addressUI(options) {
          *
          * If the country value is anything other than USA, Canada, or Mexico, change the title and default to string.
          */
-        replaceSchema: (formData, _schema, _uiSchema, index, path) => {
+        replaceSchema: (formData, schema, _uiSchema, index, path) => {
+          if (schema.maxLength) {
+            stateMaxLength = schema.maxLength;
+          }
+
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
@@ -517,6 +526,7 @@ export function addressUI(options) {
           return {
             type: 'string',
             title: 'State/Province/Region',
+            maxLength: stateMaxLength,
           };
         },
       },

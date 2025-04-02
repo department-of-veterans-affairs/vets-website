@@ -1,11 +1,11 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { LAST_YEAR } from '../../../utils/constants';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   SpouseAdditionalInformationDescription,
   SpouseAdditionalInformationTitle,
 } from '../../../components/FormDescriptions';
 
-const { cohabitedLastYear, sameAddress } = fullSchemaHca.properties;
+const { cohabitedLastYear, sameAddress } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

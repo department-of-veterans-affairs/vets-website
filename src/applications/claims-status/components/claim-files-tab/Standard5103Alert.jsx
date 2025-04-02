@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import { standard5103Item } from '../../constants';
-
+// Not currently being used. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+// Waiting to see if we still need this component or not
 function Standard5103Alert({ previousPage = null }) {
   return (
     <va-alert

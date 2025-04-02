@@ -1,6 +1,6 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { APP_URLS } from '../../utils/constants';
+import { CONTACTS } from '../../utils/imports';
 
 const confirmationFAQ = () => {
   return (
@@ -29,16 +29,10 @@ const confirmationFAQ = () => {
 
       <section className="hca-confirmation-faq">
         <h2>How can I check the status of my application?</h2>
-        <p>Sign in with one of these verified accounts:</p>
-        <ul>
-          <li>Login.gov</li>
-          <li>ID.me</li>
-          <li>Premium My HealtheVet</li>
-          <li>Premium DS Logon</li>
-        </ul>
         <p>
-          Then go back to the health care application introduction page. You’ll
-          find your application status at the top of the page.
+          Sign in with your verified account and return to the health care
+          application introduction page. You’ll find your application status at
+          the top of the page.
         </p>
         <p className="no-print">
           <a href={APP_URLS.hca} className="vads-c-action-link--green">

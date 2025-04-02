@@ -1,20 +1,20 @@
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
+import { handleDataDogAction, removeTrailingSlash } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -25,9 +25,19 @@ const MrBreadcrumbs = () => {
     [location],
   );
 
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
+  );
+
   const textContent = document.querySelector('h1')?.textContent;
-  const searchIndex = new URLSearchParams(window.location.search);
+  const searchIndex = new URLSearchParams(location.search);
   const page = searchIndex.get('page');
+  const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
+
+  const urlVitalsDate = searchIndex.get('timeFrame');
 
   useEffect(
     () => {
@@ -54,42 +64,107 @@ const MrBreadcrumbs = () => {
         if (pageNumber) {
           backToPageNumCrumb = {
             ...Breadcrumbs[feature],
-            href: `${Breadcrumbs[feature].href.slice(
-              0,
-              -1,
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+        } else if (urlVitalsDate) {
+          const backToVitalsDateCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
+            )}?timeFrame=${urlVitalsDate}`,
+          };
+          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
+      } else if (feature === 'SETTINGS' && !allowMarchUpdates) {
+        dispatch(
+          setBreadcrumbs([
+            { ...Breadcrumbs[feature], label: 'Medical records settings' },
+          ]),
+        );
       } else {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
     },
-    [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
+    [
+      dispatch,
+      locationBasePath,
+      locationChildPath,
+      textContent,
+      pageNumber,
+      urlVitalsDate,
+    ],
   );
 
-  const handleRoutechange = ({ detail }) => {
+  const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
+    handleDataDogAction({ locationBasePath, locationChildPath });
   };
 
-  if (!phase0p5Flag) {
-    if (location.pathname === '/' || !crumbsList) {
-      return <div className="vads-u-padding-bottom--5" />;
-    }
+  const backToImagesBreadcrumb = location.pathname.includes('/images')
+    ? crumbsList[crumbsList.length - 1].href
+    : `/${locationBasePath}`;
+
+  const backToAllergiesBreadcrumb = () =>
+    location.pathname.includes(`/allergies/${allergyId}`)
+      ? history.goBack()
+      : `/${locationBasePath}`;
+
+  if (
+    location.pathname.includes(
+      `/${locationBasePath}/${labId ||
+        vaccineId ||
+        summaryId ||
+        allergyId ||
+        conditionId}`,
+    )
+  ) {
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
         label="Breadcrumb"
-        data-testid="breadcrumbs"
+        data-testid="mr-breadcrumbs"
       >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
-        <Link to={crumbsList[crumbsList.length - 2].href}>
-          {`Back to ${crumbsList[crumbsList.length - 2].label.toLowerCase()}`}
+        <Link
+          to={backToImagesBreadcrumb}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
+        >
+          Back
+        </Link>
+      </div>
+    );
+  }
+  if (location.pathname.includes('/vitals/')) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="mr-breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link
+          to={`${backToImagesBreadcrumb}${
+            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+          }`}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
+        >
+          Back
         </Link>
       </div>
     );
@@ -100,8 +175,8 @@ const MrBreadcrumbs = () => {
       breadcrumbList={crumbsList}
       label="Breadcrumb"
       home-veterans-affairs
-      onRouteChange={handleRoutechange}
-      className="small-screen:vads-u-margin-y--2"
+      onRouteChange={handleRouteChange}
+      className="mobile-lg:vads-u-margin-y--2 no-print"
       dataTestid="breadcrumbs"
       uswds
     />

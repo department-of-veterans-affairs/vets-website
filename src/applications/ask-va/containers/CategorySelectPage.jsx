@@ -1,37 +1,37 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { setCategoryID } from '../actions';
-import RequireSignInModal from '../components/RequireSignInModal';
+import { clearFormData, removeAskVaForm, setCategoryID } from '../actions';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
+import { URL, getApiUrl, hasPrefillInformation } from '../constants';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const CategorySelectPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData } = props;
+  const {
+    onChange,
+    isLoggedIn,
+    formData,
+    goBack,
+    goForward,
+    router,
+    formId,
+  } = props;
   const dispatch = useDispatch();
-
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
-  const onModalNo = () => {
-    isLoading(true);
-    onChange({ ...formData, selectCategory: undefined });
-    setShowModal({ show: false, selected: '' });
-    setTimeout(() => isLoading(false), 200);
-  };
-
-  const showError = data => {
-    if (data.selectCategory) {
-      goToPath('/category-topic-2');
+  const showError = () => {
+    if (formData.selectCategory) {
+      goForward(formData);
     }
     focusElement('va-select');
     return setValidationError('Please select a category');
@@ -39,14 +39,64 @@ const CategorySelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
-    localStorage.removeItem('askVAFiles');
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn) {
-      setShowModal({ show: true, selected: `${selectedValue}` });
-    } else {
-      dispatch(setCategoryID(selected.id));
-      onChange({ ...formData, selectCategory: selectedValue });
+
+    if (!selectedValue || selectedValue === '') {
+      // Clear form data when no category is selected
+      dispatch(setCategoryID(null));
+      onChange({
+        ...formData,
+        categoryId: null,
+        selectCategory: '',
+        allowAttachments: false,
+        categoryRequiresSignIn: false,
+        contactPreferences: null,
+      });
+      return;
     }
+
+    const selected = apiData.find(
+      category => category.attributes.name === selectedValue,
+    );
+
+    if (!selected) return;
+
+    dispatch(setCategoryID(selected.id));
+
+    (async () => {
+      await askVAAttachmentStorage.clear();
+    })();
+
+    const initialData =
+      formData.initialFormData === undefined
+        ? { ...formData }
+        : { ...formData.initialFormData };
+
+    onChange({
+      ...formData,
+      hasPrefillInformation: hasPrefillInformation(formData),
+      // FOR TESTING PREFILL LOCALLY
+      // hasPrefillInformation: true,
+      // aboutYourself: {
+      //   first: 'Wallace',
+      //   middle: 'R',
+      //   last: 'Webb',
+      //   socialOrServiceNum: {
+      //     ssn: '796128064',
+      //   },
+      //   dateOfBirth: '1950-09-13',
+      // },
+      // schoolInfo: {
+      //   schoolFacilityCode: '31002144',
+      //   schoolName: 'WESTERN GOVERNORS UNIVERSITY',
+      // },
+      initialFormData: initialData,
+      categoryId: selected.id,
+      selectCategory: selectedValue,
+      allowAttachments: selected.attributes.allowAttachments,
+      contactPreferences: selected.attributes.contactPreferences,
+      categoryRequiresSignIn:
+        selected.attributes.requiresAuthentication && !isLOA3,
+    });
   };
 
   const getApiData = url => {
@@ -64,9 +114,9 @@ const CategorySelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
+      getApiData(getApiUrl(URL.GET_CATEGORIES));
     },
-    [loggedIn],
+    [isLoggedIn],
   );
 
   useEffect(
@@ -75,6 +125,16 @@ const CategorySelectPage = props => {
     },
     [loading],
   );
+
+  const handleGoBack = () => {
+    if (!hasPrefillInformation(formData)) {
+      dispatch(clearFormData());
+      dispatch(removeAskVaForm(formId));
+      router.push('/');
+    } else {
+      goBack();
+    }
+  };
 
   if (loading) {
     return (
@@ -91,7 +151,6 @@ const CategorySelectPage = props => {
           id="root_selectCategory"
           label="Select the category that best describes your question"
           name="Select category"
-          messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
           value={formData.selectCategory}
           onVaSelect={handleChange}
           required
@@ -109,14 +168,8 @@ const CategorySelectPage = props => {
           ))}
         </VaSelect>
 
-        <FormNavButtons goBack={goBack} goForward={() => showError(formData)} />
+        <FormNavButtons goBack={handleGoBack} goForward={() => showError()} />
       </form>
-
-      <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
-        restrictedItem={showModal.selected}
-      />
     </>
   ) : (
     <ServerErrorAlert />
@@ -124,17 +177,24 @@ const CategorySelectPage = props => {
 };
 
 CategorySelectPage.propTypes = {
+  formData: PropTypes.object,
+  formId: PropTypes.string,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
-  loggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  router: PropTypes.object,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    loggedIn: isLoggedIn(state),
+    isLoggedIn: state.user.login.currentlyLoggedIn,
     formData: state.form.data,
+    formId: state.form.formId,
   };
 }
 
-export default connect(mapStateToProps)(CategorySelectPage);
+export default connect(mapStateToProps)(withRouter(CategorySelectPage));

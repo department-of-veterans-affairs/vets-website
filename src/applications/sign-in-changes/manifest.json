@@ -1,6 +1,6 @@
 {
   "appName": "Sign-in changes reminder",
-  "entryFile": "./app-entry.jsx",
+  "entryFile": "./interstitial-changes-entry.jsx",
   "entryName": "sign-in-changes",
   "rootUrl": "/sign-in-changes-reminder",
   "productId": "01924557-c71b-4d5a-81e6-73d48fef0b3f"

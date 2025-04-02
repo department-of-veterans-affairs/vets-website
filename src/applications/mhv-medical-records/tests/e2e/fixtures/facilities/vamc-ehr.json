@@ -1,0 +1,20 @@
+{
+  "data": {
+      "nodeQuery": {
+          "count": 171,
+          "entities": [
+              {
+                  "title": "Captain James A. Lovell Federal Health Care Center",
+                  "fieldFacilityLocatorApiId": "vha_556",
+                  "fieldRegionPage": {
+                      "entity": {
+                          "entityId": "49451",
+                          "title": "Lovell Federal health care - VA",
+                          "fieldVamcEhrSystem": "cerner"
+                      }
+                  }
+              }        
+        ]
+      }
+  }
+}

@@ -1,10 +1,31 @@
-import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../constants';
+import {
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_LIMIT,
+  EVIDENCE_OTHER,
+} from '../constants';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { showScNewForm, checkRedirect } from './toggle';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasPrivateLimitation = formData =>
+  showScNewForm(formData) &&
+  hasPrivateEvidence(formData) &&
+  !!formData?.[EVIDENCE_LIMIT];
+export const hasNewPrivateLimitation = formData =>
+  showScNewForm(formData) && hasPrivateEvidence(formData);
+export const hasOriginalPrivateLimitation = formData =>
+  !showScNewForm(formData) && hasPrivateEvidence(formData);
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+
+export const getVAEvidence = formData =>
+  (hasVAEvidence(formData) && formData?.locations) || [];
+export const getPrivateEvidence = formData =>
+  (hasPrivateEvidence(formData) && formData?.providerFacility) || [];
+export const getOtherEvidence = formData =>
+  (hasOtherEvidence(formData) && formData?.additionalDocuments) || [];
 
 export const hasErrors = errors =>
   Object.values(errors).filter(err => (Array.isArray(err) ? err.length : err))
@@ -29,13 +50,13 @@ export const evidenceNeedsUpdating = formData => {
   const iterator = ({ issues }) =>
     (issues || []).every(issue => selectedIssues.includes(issue));
 
-  if (hasVAEvidence(formData)) {
-    const locations = formData.locations || [];
-    needsUpdate = locations.length > 0 && !locations.every(iterator);
+  const locations = getVAEvidence(formData);
+  const facility = getPrivateEvidence(formData);
+  if (locations.length > 0) {
+    needsUpdate = !locations.every(iterator);
   }
-  if (!needsUpdate && hasPrivateEvidence(formData)) {
-    const facility = formData.providerFacility || [];
-    needsUpdate = facility.length > 0 && !facility?.every(iterator);
+  if (!needsUpdate && facility.length > 0) {
+    needsUpdate = !facility.every(iterator);
   }
   return needsUpdate;
 };
@@ -56,7 +77,52 @@ export const removeNonSelectedIssuesFromEvidence = data => {
   });
   return {
     ...formData,
-    locations: formData.locations?.map(mapper) || [],
-    providerFacility: formData.providerFacility?.map(mapper) || [],
+    locations: getVAEvidence(formData).map(mapper),
+    providerFacility: getPrivateEvidence(formData).map(mapper),
   };
+};
+
+/**
+ * Update the evidence location, if:
+ * - New SC form toggle is enabled
+ * - location evidenceDates "from" (YYYY-MM-DD) has a value
+ * - location treatmentDate (YYYY-MM) is not defined
+ * If all the above are true, then get the "from" evidenceDate, strip off the
+ * day value and set the "treatmentDate" to that new value. The `noDate` value
+ * is set to true if "from" date is undefined
+ * @param {Object} formData - Form data from save-in-progress
+ * @param {String} returnUrl - URL of last saved page
+ * @param {Object} router - React router
+ */
+export const onFormLoaded = props => {
+  let { returnUrl } = props;
+  const { formData, router } = props;
+  const { locations = [] } = formData;
+
+  // New SC form data flow
+  if (showScNewForm(formData)) {
+    // Redirect Veteran to housing-risk page (second page in the flow), if
+    // needed
+    returnUrl = checkRedirect(formData, returnUrl);
+
+    // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
+    // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
+    // "from" date is undefined
+    if (locations.length) {
+      formData.locations = locations.map(location => {
+        if (!location.treatmentDate) {
+          const from = location.evidenceDates?.from || '';
+          const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
+          const noDate = treatmentDate === '';
+          return {
+            ...location,
+            treatmentDate,
+            noDate,
+          };
+        }
+        return location;
+      });
+    }
+  }
+  router?.push(returnUrl);
 };

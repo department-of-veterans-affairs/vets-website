@@ -34,13 +34,13 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('VA health');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have.attr', 'disabled');
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
-    cy.get('.service-type-dropdown-container')
+    cy.get('.service-type-dropdown-tablet')
       .find('select')
       .children()
       .eq(i)
@@ -54,7 +54,7 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Urgent care');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have.attr', 'disabled');
 
@@ -63,21 +63,21 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Vet Centers');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.facility-type-dropdown')
     .find('select')
     .should('not.have', 'disabled');
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA cemeteries');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have', 'disabled');
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA benefits');
-  cy.get('.service-type-dropdown-container') // remember to remove when we allow selection again for VA Benefits
+  cy.get('.service-type-dropdown-tablet') // remember to remove when we allow selection again for VA Benefits
     .find('select')
     .should('have.attr', 'disabled');
 
@@ -139,71 +139,12 @@ describe('Facility VA search', () => {
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
-    cy.get('.i-pin-card-map').contains('A');
-    cy.get('.i-pin-card-map').contains('B');
-    cy.get('.i-pin-card-map').contains('C');
-    cy.get('.i-pin-card-map').contains('D');
+    cy.get('.i-pin-card-map').contains('1');
+    cy.get('.i-pin-card-map').contains('2');
+    cy.get('.i-pin-card-map').contains('3');
+    cy.get('.i-pin-card-map').contains('4');
 
     cy.get('#other-tools').should('exist');
-  });
-
-  it.skip('should render breadcrumbs ', () => {
-    cy.visit('/find-locations');
-
-    cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('VA health');
-    cy.get('#facility-search')
-      .click({ waitForAnimations: true })
-      .then(() => {
-        cy.injectAxe();
-        cy.axeCheck();
-
-        cy.get('.facility-result va-link').should('exist');
-        cy.intercept(
-          'GET',
-          '/facilities_api/v2/va/vha_674BY',
-          mockFacilitiesSearchResultsV1,
-        ).as('fetchFacility');
-
-        cy.findByText(/austin va clinic/i, { selector: 'va-link' })
-          .first()
-          .click({ waitForAnimations: true })
-          .then(() => {
-            cy.axeCheck();
-
-            cy.get('.all-details', { timeout: 10000 }).should('exist');
-
-            cy.get('a[aria-current="page"').should('exist');
-
-            cy.get(
-              '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-            ).should('exist');
-
-            cy.get(
-              '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-            ).contains('Facility Details');
-
-            cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click({
-              waitForAnimations: true,
-            });
-
-            // Mobile View
-            cy.viewport(375, 667);
-
-            cy.get('.va-nav-breadcrumbs-list').should('exist');
-
-            cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
-              .should('have.css', 'display')
-              .and('match', /none/);
-
-            cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
-              'Home',
-            );
-          });
-      });
   });
 
   it('shows search result header even when no results are found', () => {
@@ -317,5 +258,51 @@ describe('Facility VA search', () => {
 
     cy.injectAxe();
     cy.axeCheck();
+  });
+
+  it('does not trigger repeat API requests when submit is clicked multiple times', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+
+    cy.visit('/find-locations');
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.verifyOptions();
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
+
+    // Click the search button multiple times
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    // Reset facility dropdown values to ensure redux state is not changing in a way that
+    // triggers multiple API requests
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click({ waitForAnimations: true });
+
+    // Only 2 requests should be made, Initial page load and 1st user submitted search
+    cy.wait('@searchFacilitiesVA');
+    cy.get('@searchFacilitiesVA.all').should('have.length', 2);
+
+    cy.get('#search-results-subheader').contains(
+      'Results for "VA health", "Primary care" near "Austin, Texas"',
+    );
+    cy.get('.facility-result a').should('exist');
+    cy.get('.i-pin-card-map').contains('1');
+    cy.get('.i-pin-card-map').contains('2');
+    cy.get('.i-pin-card-map').contains('3');
+    cy.get('.i-pin-card-map').contains('4');
+
+    cy.get('#other-tools').should('exist');
   });
 });

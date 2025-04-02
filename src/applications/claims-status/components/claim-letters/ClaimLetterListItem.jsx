@@ -11,25 +11,19 @@ const getDownloadUrl = (id, docType) =>
 
 const formatDate = buildDateFormatter();
 
-const docTypeToDescription = {
-  27: 'Board decision',
-  704: 'List of evidence we may need (5103 notice)',
-  706: 'List of evidence we may need (5103 notice)',
-  858: 'List of evidence we may need (5103 notice)',
-  184: 'Notification letter',
-  34: 'Request for specific evidence or information',
-  700: 'Request for specific evidence or information',
-  859: 'Request for specific evidence or information',
-  408: 'Notification: Exam with VHA has been scheduled',
-  942: 'Final notification: Request for specific evidence or information',
-  864: 'Copy of request for medical records sent to a non-VA provider',
-  1605: 'Copy of request for medical records sent to a non-VA provider',
-};
-
-const getDescription = docType => {
-  const defaultDescription = 'Notification letter';
-
-  return docTypeToDescription[docType] || defaultDescription;
+const docTypeToGAEventName = {
+  27: 'Appeal decision',
+  704: '5103',
+  706: '5103',
+  858: '5103',
+  184: 'Claim decision or other notification',
+  34: 'Specific evidence request',
+  700: 'Specific evidence request',
+  859: 'Specific evidence request',
+  408: 'Exam scheduled',
+  942: 'Evidence final notification',
+  864: '3rd party records request',
+  1605: '3rd party records request',
 };
 
 const filename = 'ClaimLetter.pdf';
@@ -45,6 +39,7 @@ const downloadHandler = docType => {
     'gtm.elementUrl': `${
       environment.API_URL
     }/v0/claim_letters/[${docType}]:id.pdf`,
+    'letter-type': docTypeToGAEventName[docType],
   });
 };
 
@@ -60,9 +55,9 @@ const ClaimLetterListItem = ({ letter }) => {
           for accessibility.
         */}
         <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--3 vads-u-margin-bottom--1">
-          {getDescription(letter.docType)}
+          {letter.typeDescription ?? 'Notification letter'}
         </span>{' '}
-        <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-warm-dark vads-u-line-height--4 vads-u-margin-bottom--0p5">
+        <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-warm-dark vads-u-line-height--4 vads-u-margin-bottom--0p5 vads-u-font-family--sans">
           {formattedDate}
         </span>
       </h2>

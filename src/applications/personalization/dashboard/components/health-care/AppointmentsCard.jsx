@@ -57,7 +57,7 @@ export const AppointmentsCard = ({ appointments }) => {
     <div className="vads-u-margin-bottom--2p5">
       <va-card>
         <div
-          className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-padding--1"
+          className="vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1 vads-u-padding--1"
           data-testid="health-care-appointments-card"
         >
           {content}

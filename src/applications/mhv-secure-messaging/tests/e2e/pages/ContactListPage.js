@@ -1,5 +1,5 @@
 import { Locators, Paths, Alerts, Data } from '../utils/constants';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
 class ContactListPage {
   loadContactList = (recipients = mockRecipients) => {
@@ -101,10 +101,6 @@ class ContactListPage {
 
   // mock response could be amended in further updates
   clickSaveContactListButton = () => {
-    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, {
-      status: '200',
-    }).as('savedList');
-
     cy.get(Locators.BUTTONS.CL_SAVE)
       .shadow()
       .find(`button`)
@@ -129,7 +125,7 @@ class ContactListPage {
   };
 
   verifyContactListSavedAlert = () => {
-    cy.get(Locators.ALERTS.CONFIRM).should(
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
@@ -155,16 +151,15 @@ class ContactListPage {
   };
 
   verifyContactListLink = () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="contact"]`)
       .should(`be.visible`)
       .and('have.text', Data.CL_LINK_TEXT);
 
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="contact"]`)
       .click({ force: true });
 
-    cy.contains(`Delete draft`).click({ force: true });
     cy.url().should(`include`, `${Paths.UI_MAIN}/contact-list`);
   };
 
@@ -181,6 +176,23 @@ class ContactListPage {
         },
       })),
     };
+  };
+
+  verifyLoadAPIAlerts = () => {
+    cy.get(`va-alert`)
+      .find(`h2`)
+      .should(`be.visible`)
+      .and(`have.text`, Alerts.CONTACT_LIST.LOAD_API_ERROR);
+  };
+
+  verifySaveAPIAlert = () => {
+    cy.get(Locators.ALERTS.ALERT_TEXT)
+      .should(`be.visible`)
+      .and('contain.text', Alerts.CONTACT_LIST.SAVE_API_ERROR)
+      .parents(`va-alert`)
+      .shadow()
+      .find(`button`)
+      .should(`have.focus`);
   };
 }
 

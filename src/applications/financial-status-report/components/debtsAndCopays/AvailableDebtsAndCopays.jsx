@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
 import { uniqBy, head } from 'lodash';
-import { format, isValid } from 'date-fns';
+import { isValid } from 'date-fns';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formatDateShort } from 'platform/utilities/date';
 import { setFocus } from '../../utils/fileValidation';
 
 import { getStatements } from '../../actions/copays';
@@ -156,7 +158,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
     const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
     const mostRecentDate = isValid(head(sortedHistory))
-      ? format(head(sortedHistory), 'MM/dd/yyyy')
+      ? formatDateShort(head(sortedHistory))
       : '';
     const dateby = endDate(mostRecentDate, 30);
     return dateby ? `Pay or request help by ${dateby}` : '';
@@ -211,9 +213,9 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       )}
       <va-additional-info trigger="What if my debt isn’t listed here?">
         If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <va-telephone contact="8008270648" /> (or{' '}
-        <va-telephone contact="6127136415" international /> from overseas).
-        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        call us at <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+        overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
     </div>
   );

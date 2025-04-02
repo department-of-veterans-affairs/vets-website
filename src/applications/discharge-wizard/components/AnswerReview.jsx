@@ -1,15 +1,14 @@
 // Dependencies.
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import Scroll from 'react-scroll';
+
+import { Element } from 'platform/utilities/scroll';
 
 // Relative Imports
 import { answerReview, shouldShowQuestion } from '../helpers';
+import { ROUTES } from '../constants';
 
-const { Element } = Scroll;
-
-const AnswerReview = ({ formValues, handleScrollTo }) => {
+const AnswerReview = ({ formValues, handleScrollTo, router }) => {
   if (!formValues) {
     return null;
   }
@@ -17,6 +16,11 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
   if (formValues?.questions.slice(-1)[0] !== 'END') {
     return null;
   }
+
+  const getResults = event => {
+    event.preventDefault();
+    router.push(ROUTES.GUIDANCE);
+  };
 
   return (
     <div>
@@ -54,9 +58,12 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
           );
         })}
       </div>
-      <Link to="/guidance" className="vads-c-action-link--green">
-        Get my results
-      </Link>
+      <va-link-action
+        onClick={getResults}
+        data-testid="duw-guidance"
+        href="#"
+        text="Get my results"
+      />
     </div>
   );
 };

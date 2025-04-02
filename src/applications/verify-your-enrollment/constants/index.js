@@ -32,7 +32,6 @@ export const howToChangeLegalNameInfoLink =
 
 // add field title to make it a required field for the change of address form
 export const addressFormRequiredData = [
-  'countryCodeIso3',
   'addressLine1',
   'city',
   'stateCode',

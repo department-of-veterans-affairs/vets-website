@@ -59,7 +59,7 @@ const resolveLandingPageLinks = (
       text: 'Update health benefits info (10-10EZR)',
     },
     {
-      href: mhvUrl(authdWithSSOe, 'health-information-card'),
+      href: '/health-care/get-health-id-card/',
       text: 'Veteran health information card',
     },
     // {
@@ -105,18 +105,36 @@ const resolveLandingPageLinks = (
 
   const spotlightLinks = [
     {
-      text: 'Make the Most of Your VA Appointment',
-      href: mhvUrl(authdWithSSOe, 'ss20240415-make-most-your-va-appointment'),
+      text: 'Tips for Creating Your Login.gov or ID.me Account',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20241209-tips-creating-login-gov-id-me-account',
+      ),
     },
     {
-      text: 'VA Health Care Expands to Millions of Veterans',
-      href: mhvUrl(authdWithSSOe, 'ss20240315-va-health-care-expands-millions'),
+      text: 'Try the New Medical Records Tool on VA.gov',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20250102-try-new-medical-records-tool-on-va-gov',
+      ),
     },
     {
-      text: 'Hearing Aids Connect with Telehealth',
-      href: mhvUrl(authdWithSSOe, 'ss20211015-fix-your-hearing-aid-over-video'),
+      text: '6 Healthy Eating Habits to Start This Year',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20210423-healthy-eating-habits-to-start-now',
+      ),
     },
   ];
+
+  const paymentsLinks = [
+    HEALTH_TOOL_LINKS.PAYMENTS[0],
+    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+      href: '/my-health/travel-pay/claims',
+      text: 'Check travel reimbursement claim status',
+    },
+    HEALTH_TOOL_LINKS.PAYMENTS[1],
+  ].filter(isLinkData);
 
   const cards = [
     {
@@ -145,7 +163,7 @@ const resolveLandingPageLinks = (
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
       iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
-      links: HEALTH_TOOL_LINKS.PAYMENTS,
+      links: paymentsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,

@@ -1,6 +1,7 @@
 // libs
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 
 /**
  * A column layout component
@@ -11,9 +12,20 @@ import PropTypes from 'prop-types';
  */
 function ErrorMessage(props) {
   const { active, children, message, testId, title } = props;
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (active && alertRef?.current) {
+        waitForRenderThenFocus('.schemaform-failure-alert');
+      }
+    },
+    [active, alertRef],
+  );
 
   return !active ? null : (
     <va-alert
+      ref={alertRef}
       status="error"
       class="schemaform-failure-alert vads-u-margin-top--4"
       data-testid={testId}

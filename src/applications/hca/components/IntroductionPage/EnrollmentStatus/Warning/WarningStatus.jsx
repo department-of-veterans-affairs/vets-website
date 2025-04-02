@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-
-import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
-import { isValidDateString } from '~/platform/utilities/date';
-import { formatDate } from '../../../../utils/helpers/general';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { formatDate } from '../../../../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import content from '../../../../locales/en/content.json';
+
+const NULL_STATUSES = new Set([
+  HCA_ENROLLMENT_STATUSES.deceased,
+  HCA_ENROLLMENT_STATUSES.nonMilitary,
+]);
 
 const WarningStatus = () => {
   const {
@@ -16,39 +19,50 @@ const WarningStatus = () => {
     preferredFacility,
   } = useSelector(selectEnrollmentStatus);
 
-  // Derive medical facility name from facility ID
-  const facilityName = getMedicalCenterNameByID(preferredFacility);
+  const facilityName = useMemo(
+    () => getMedicalCenterNameByID(preferredFacility),
+    [preferredFacility],
+  );
 
-  // Declare conditions for content render
-  const hasNullStatus = new Set([
-    HCA_ENROLLMENT_STATUSES.deceased,
-    HCA_ENROLLMENT_STATUSES.nonMilitary,
-  ]).has(statusCode);
+  const formattedDates = useMemo(
+    () => ({
+      applicationDate: formatDate(applicationDate, 'MMMM d, yyyy'),
+      enrollmentDate: formatDate(enrollmentDate, 'MMMM d, yyyy'),
+    }),
+    [applicationDate, enrollmentDate],
+  );
 
-  const hasValueToRender = [
-    isValidDateString(applicationDate),
-    isValidDateString(enrollmentDate),
-    facilityName,
-  ].some(v => !!v);
+  const hasNullStatus = useMemo(() => NULL_STATUSES.has(statusCode), [
+    statusCode,
+  ]);
 
   const showEnrolledDetails = statusCode === HCA_ENROLLMENT_STATUSES.enrolled;
 
-  // Render based on enrollment status
-  return hasValueToRender && !hasNullStatus ? (
+  const hasValueToRender = useMemo(
+    () =>
+      formattedDates.applicationDate ||
+      formattedDates.enrollmentDate ||
+      facilityName,
+    [facilityName, formattedDates],
+  );
+
+  if (!hasValueToRender || hasNullStatus) return null;
+
+  return (
     <ul className="hca-list-style-none">
-      {isValidDateString(applicationDate) && (
+      {formattedDates.applicationDate && (
         <li>
           <strong>{content['enrollment-alert-application-date-label']}</strong>{' '}
-          {formatDate(applicationDate, 'MMMM d, yyyy')}
+          {formattedDates.applicationDate}
         </li>
       )}
 
       {showEnrolledDetails && (
         <>
-          {isValidDateString(enrollmentDate) && (
+          {formattedDates.enrollmentDate && (
             <li>
               <strong>{content['enrollment-alert-enrolled-date-label']}</strong>{' '}
-              {formatDate(enrollmentDate, 'MMMM d, yyyy')}
+              {formattedDates.enrollmentDate}
             </li>
           )}
 
@@ -61,7 +75,7 @@ const WarningStatus = () => {
         </>
       )}
     </ul>
-  ) : null;
+  );
 };
 
 export default WarningStatus;

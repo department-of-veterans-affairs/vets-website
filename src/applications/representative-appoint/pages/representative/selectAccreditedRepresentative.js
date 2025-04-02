@@ -1,6 +1,4 @@
-import SelectAccreditedRepresentative, {
-  AdditionalNote,
-} from '../../components/SelectAccreditedRepresentative';
+import SelectAccreditedRepresentative from '../../components/SelectAccreditedRepresentative';
 
 export const uiSchema = {
   selectAccreditedRepresentative: {
@@ -9,16 +7,10 @@ export const uiSchema = {
     'ui:options': {
       hideLabelText: true,
     },
-    'ui:required': () => true,
+    // 'ui:required': () => true,
     'ui:errorMessages': {
       required:
         'Select the accredited representative or VSO you’d like to appoint below',
-    },
-  },
-  additionalNote: {
-    'ui:widget': AdditionalNote,
-    'ui:options': {
-      hideLabelText: true,
     },
   },
 };
@@ -29,9 +21,6 @@ export const schema = {
     selectAccreditedRepresentative: {
       type: 'string',
     },
-    additionalNote: {
-      type: 'string',
-    },
   },
-  required: ['view:selectedAccreditedRep'],
+  required: ['view:selectedRepresentative'],
 };

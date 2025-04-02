@@ -112,7 +112,7 @@ export default function V1V3Page() {
 
   return (
     <>
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row">
           <h1>V1 and V3 Side-by-Side Demo</h1>
         </div>

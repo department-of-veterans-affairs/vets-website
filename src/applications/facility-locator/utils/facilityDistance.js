@@ -1,13 +1,11 @@
-import { MIN_RADIUS, MIN_RADIUS_CCP } from '../constants';
-import { mapboxToken } from './mapboxToken';
-
-function toRadians(value) {
-  return (value * Math.PI) / 180;
-}
-
-function toDegrees(value) {
-  return (value * 180) / Math.PI;
-}
+import { toRadians } from 'platform/utilities/facilities-and-mapbox';
+import {
+  LocationType,
+  MIN_RADIUS,
+  MIN_RADIUS_CCP,
+  MIN_RADIUS_EXP,
+  MIN_RADIUS_NCA,
+} from '../constants';
 
 export function distBetween(lat1, lng1, lat2, lng2) {
   const R = 3959; // radius in miles
@@ -25,66 +23,33 @@ export function distBetween(lat1, lng1, lat2, lng2) {
   return R * c;
 }
 
-export const radiusFromBoundingBox = (fbox, ccp = false) => {
-  let radius = distBetween(
+export const radiusFromBoundingBox = (
+  fbox,
+  facilityType = LocationType.HEALTH,
+  useProgressiveDisclosure = false,
+) => {
+  // not a radius but a diagonal
+  const radius = distBetween(
     fbox[0].bbox[1],
     fbox[0].bbox[0],
     fbox[0].bbox[3],
     fbox[0].bbox[2],
   );
-  if (ccp && radius < MIN_RADIUS_CCP) {
-    radius = MIN_RADIUS_CCP;
-  } else if (!ccp && radius < MIN_RADIUS) {
-    radius = MIN_RADIUS;
-  }
-  if (ccp) {
-    return Math.max(radius, MIN_RADIUS_CCP);
-  }
-  return Math.max(radius, MIN_RADIUS);
-};
 
-// Copied from src/applications/vaos/utils/address.js
-export function calculateBoundingBox(lat, long, radius) {
-  const earthRadius = 3959;
-  const radDist = radius / earthRadius;
-  const radLat = toRadians(lat);
-  const radLong = toRadians(long);
-  // The space between lines of longitude differs depending on where you are
-  // on Earth, this takes that into account
-  const deltaLongitude = Math.asin(Math.sin(radDist) / Math.cos(radLat));
-  const minLongitude = radLong - deltaLongitude;
-  const maxLongitude = radLong + deltaLongitude;
-  const minLatitude = radLat - radDist;
-  const maxLatitude = radLat + radDist;
+  let radiusToUse = radius;
 
-  // facilities API wants minLong, minLat, maxLong, maxLat
-
-  return [
-    toDegrees(minLongitude).toFixed(3),
-    toDegrees(minLatitude).toFixed(3),
-    toDegrees(maxLongitude).toFixed(3),
-    toDegrees(maxLatitude).toFixed(3),
-  ];
-}
-
-export const convertMetersToMiles = meters =>
-  Math.round(meters * 0.000621371192);
-
-export const distancesToNearbyVetCenters = (
-  originalVetCenterCoordinates,
-  nearbyVetCentersCoordinates,
-) => {
-  const originalVetCenterCoordinatesParam = originalVetCenterCoordinates.join(
-    ',',
-  );
-  const startingCoordinatesParam = nearbyVetCentersCoordinates
-    .map(loc => loc.join(','))
-    .join(';');
-  let sourcesParam = '';
-
-  for (let i = 1; i <= nearbyVetCentersCoordinates.length; i += 1) {
-    sourcesParam = `${sourcesParam}${i !== 1 ? ';' : ''}${i}`;
+  if (facilityType === LocationType.CEMETERY) {
+    radiusToUse = MIN_RADIUS_NCA;
+  } else if (useProgressiveDisclosure && radius < MIN_RADIUS_EXP) {
+    radiusToUse = MIN_RADIUS_EXP;
+  } else if (
+    facilityType === LocationType.CC_PROVIDER &&
+    radiusToUse < MIN_RADIUS_CCP
+  ) {
+    radiusToUse = MIN_RADIUS_CCP;
+  } else if (radiusToUse < MIN_RADIUS) {
+    radiusToUse = MIN_RADIUS;
   }
 
-  return `https://api.mapbox.com/directions-matrix/v1/mapbox/driving/${originalVetCenterCoordinatesParam};${startingCoordinatesParam}?sources=${sourcesParam}&destinations=0&annotations=distance,duration&access_token=${mapboxToken}`;
+  return [radius, radiusToUse];
 };

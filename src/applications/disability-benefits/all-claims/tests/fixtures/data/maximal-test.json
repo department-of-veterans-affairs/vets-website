@@ -122,14 +122,12 @@
       }
     ],
     "view:hasEvidence": true,
-    "view:hasEvidenceFollowUp": {
-      "view:selectableEvidenceTypes": {
-        "view:hasVaMedicalRecords": true,
-        "view:hasPrivateMedicalRecords": true,
-        "view:hasOtherEvidence": true
-      },
-      "view:evidenceTypeHelp": {}
+    "view:selectableEvidenceTypes": {
+      "view:hasVaMedicalRecords": true,
+      "view:hasPrivateMedicalRecords": true,
+      "view:hasOtherEvidence": true
     },
+    "view:evidenceTypeHelp": {},
     "view:unemployable": false,
     "view:aidAndAttendance": true,
     "view:modifyingHome": true,

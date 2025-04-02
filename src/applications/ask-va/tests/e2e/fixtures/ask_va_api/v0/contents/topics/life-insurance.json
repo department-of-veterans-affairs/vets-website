@@ -1,0 +1,220 @@
+{
+    "data": [
+        {
+            "id": "e72a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Accessing policy online",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Accessing policy online",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "f12a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Family Servicemembers’ Group Life Insurance (FSGLI)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Family Servicemembers’ Group Life Insurance (FSGLI)",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "e12a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Insurance claims",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Insurance claims",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "e32a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Insurance premiums",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Insurance premiums",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "e52a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Insurance website issues",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Insurance website issues",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "e92a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Other",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Other",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 999,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "eb2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Policy loans",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Policy loans",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "ed2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Service-Disabled Veterans Life Insurance (S-DVI)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Service-Disabled Veterans Life Insurance (S-DVI)",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "ef2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Servicemembers’ Group Life Insurance (SGLI)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Servicemembers’ Group Life Insurance (SGLI)",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "5d402b2a-806b-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Veterans Affairs Life Insurance (VALife)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veterans Affairs Life Insurance (VALife)",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "f32a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Veterans’ Group Life Insurance (VGLI)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veterans’ Group Life Insurance (VGLI)",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "f52a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Veterans’ Mortgage Life Insurance (VMLI)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Veterans’ Mortgage Life Insurance (VMLI)",
+                "parentId": "6f524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        }
+    ]
+}

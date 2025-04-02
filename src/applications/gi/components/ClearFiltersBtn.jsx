@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isProductionOrTestProdEnv } from '../utils/helpers';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { filterChange } from '../actions';
 
 function ClearFiltersBtn({
   filters,
   dispatchFilterChange,
-  smallScreen,
-  children,
-  testId,
   onKeyDown,
   onClick,
+  className,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
@@ -31,7 +29,7 @@ function ClearFiltersBtn({
       studentVeteran: false,
       yellowRibbonScholarship: false,
       employers: true,
-      vettec: true,
+      vettec: false,
       preferredProvider: false,
       country: 'ALL',
       state: 'ALL',
@@ -46,33 +44,20 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
   return (
     <>
-      {isProductionOrTestProdEnv() ? (
-        <button
-          className="clear-filters-btn"
-          onClick={clearAllFilters}
-          data-testid={testId}
-          onKeyDown={onKeyDown}
-        >
-          {' '}
-          {children}
-        </button>
-      ) : (
-        <button
-          onClick={clearAllFilters}
-          className={
-            smallScreen
-              ? 'clear-filters-button mobile-clear-filter-button'
-              : 'clear-filters-button'
-          }
-          data-testid={testId}
-        >
-          {children}
-        </button>
-      )}
+      <VaButton
+        secondary
+        text="Reset search"
+        className={className}
+        onClick={clearAllFilters}
+        onKeyDown={onKeyDown}
+        data-testid="clear-button"
+      />
     </>
   );
 }
@@ -85,12 +70,14 @@ const mapDispatchToProps = {
 };
 ClearFiltersBtn.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
   closeAndUpdate: PropTypes.func,
   dispatchFilterChange: PropTypes.func,
   filters: PropTypes.object,
   smallScreen: PropTypes.bool,
-  testId: PropTypes.string,
   title: PropTypes.string,
+  onClick: PropTypes.func,
+  onKeyDown: PropTypes.func,
 };
 export default connect(
   mapStateToProps,

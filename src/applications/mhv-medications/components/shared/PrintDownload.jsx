@@ -4,12 +4,13 @@ import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { onDownload, isSuccess, list, onPrint, onText } = props;
+  const { onDownload, isSuccess, list, onPrint, onText, isLoading } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
-  const menu = useRef(null);
+  const containerEl = useRef(null);
+  const toggleButton = useRef(null);
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
@@ -20,8 +21,14 @@ const PrintDownload = props => {
   }
 
   const handleDownload = async format => {
+    setMenuOpen(!menuOpen);
+    toggleButton.current.focus();
+    if (!navigator.onLine) {
+      setIsError(true);
+      return;
+    }
+
     try {
-      setMenuOpen(!menuOpen);
       setIsError(false);
       if (format === DOWNLOAD_FORMAT.TXT && onText) {
         onText();
@@ -43,7 +50,11 @@ const PrintDownload = props => {
   };
 
   const closeMenu = e => {
-    if (menu.current && menuOpen && !menu.current.contains(e.target)) {
+    if (
+      containerEl.current &&
+      menuOpen &&
+      !containerEl.current.contains(e.target)
+    ) {
       setMenuOpen(false);
     }
   };
@@ -51,16 +62,16 @@ const PrintDownload = props => {
   document.addEventListener('mousedown', closeMenu);
 
   const handleUserKeyPress = e => {
-    const NUM_OF_DROPDOWN_OPTIONS = 4;
+    const NUM_OF_DROPDOWN_OPTIONS = list ? 4 : 3;
     if (printIndex > 0 && e.keyCode === 38) {
       // If user pressed up arrow
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex - 2}`).focus();
+      document.getElementById(`printButton-${printIndex - 1}`)?.focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < NUM_OF_DROPDOWN_OPTIONS && e.keyCode === 40) {
+    } else if (printIndex < NUM_OF_DROPDOWN_OPTIONS - 1 && e.keyCode === 40) {
       // If user pressed down arrow
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex}`).focus();
+      document.getElementById(`printButton-${printIndex + 1}`)?.focus();
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       // If user pressed escape
@@ -69,24 +80,35 @@ const PrintDownload = props => {
   };
   const handleFocus = () => {
     // Reset printIndex to 0 every time the element receives focus
-    setPrintIndex(0);
+    setPrintIndex(-1);
   };
 
   return (
     <>
-      {isSuccess && (
-        <div
-          className="vads-u-margin-bottom--3"
-          data-testid="download-success-banner"
-        >
-          <va-alert role="alert" status="success" background-only uswds>
-            <h2 slot="headline">Download started</h2>
-            <p className="vads-u-margin--0">
-              Check your device’s downloads location for your file.
-            </p>
-          </va-alert>
-        </div>
+      {isLoading && (
+        <va-loading-indicator
+          message="Loading..."
+          data-testid="print-download-loading-indicator"
+        />
       )}
+      {isSuccess &&
+        !isError && (
+          <div
+            className="vads-u-margin-bottom--3"
+            data-testid="download-success-banner"
+          >
+            <va-alert role="alert" status="success" background-only uswds>
+              <h2 slot="headline">Download started</h2>
+              <p className="vads-u-margin--0">
+                Check your device’s downloads location for your file.
+              </p>
+            </va-alert>
+          </div>
+        )}
+      {/* hack to generate va-alert and va-telephone web components in case there is no network at the time of download */}
+      <va-alert visible="false" uswds>
+        <va-telephone />
+      </va-alert>
       {isError && (
         <div className="vads-u-margin-bottom--3">
           <va-alert role="alert" status="error" uswds>
@@ -112,8 +134,7 @@ const PrintDownload = props => {
         className="print-download vads-u-margin-y--2 no-print"
         role="none"
         onKeyDown={handleUserKeyPress}
-        ref={menu}
-        onFocus={handleFocus}
+        ref={containerEl}
       >
         <button
           data-dd-action-name={`${
@@ -124,6 +145,8 @@ const PrintDownload = props => {
           onClick={() => setMenuOpen(!menuOpen)}
           data-testid="print-records-button"
           aria-expanded={menuOpen}
+          ref={toggleButton}
+          onFocus={handleFocus}
         >
           <span>Print or download</span>
           <va-icon
@@ -172,7 +195,7 @@ const PrintDownload = props => {
                 list ? pageType.LIST : pageType.DETAILS
               }`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
-              id="printButton-2"
+              id={`printButton-${list ? '2' : '1'}`}
               type="button"
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
@@ -189,7 +212,7 @@ const PrintDownload = props => {
                 list ? pageType.LIST : pageType.DETAILS
               }`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
-              id="printButton-3"
+              id={`printButton-${list ? '3' : '2'}`}
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
@@ -210,4 +233,5 @@ PrintDownload.propTypes = {
   onDownload: PropTypes.any,
   onPrint: PropTypes.func,
   onText: PropTypes.func,
+  isLoading: PropTypes.bool,
 };

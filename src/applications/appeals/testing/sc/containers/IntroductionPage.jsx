@@ -8,6 +8,7 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 
 // import ShowAlertOrSip from '../../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
+import { OtherBenefits } from '../../../shared/content/intro';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -188,6 +189,7 @@ const IntroductionPage = props => {
 
       <OmbInfo />
       <p />
+      <OtherBenefits />
     </div>
   );
 };

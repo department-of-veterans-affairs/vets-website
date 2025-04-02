@@ -79,6 +79,7 @@ const previousEmploymentHistoryPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Previous employment',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     jobDate: currentOrPastDateUI('When did you last work?'),
     jobType: textUI('What kind of work did you do?'),

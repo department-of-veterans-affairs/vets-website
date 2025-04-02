@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from 'platform/monitoring/record-event';
 import { APP_URLS } from '../../utils/constants';
+import { CONTACTS } from '../../utils/imports';
 
 const RegistrationOnlyAlert = ({ headingLevel = 3 }) => {
   const { currentlyLoggedIn } = useSelector(state => state.user.login);
@@ -32,17 +32,18 @@ const RegistrationOnlyAlert = ({ headingLevel = 3 }) => {
         You selected that you want to register for health care for your
         service-connected conditions only.
       </p>
-      <p>
-        We recommend calling our Health Eligibility Center to register. Or you
-        can register by mail or in person.
-      </p>
+      <p>You can register by mail or in person.</p>
 
-      <SH className="vads-u-font-size--h4">By phone</SH>
       <p>
-        Call our Health Eligibility Center at{' '}
+        <strong>Note:</strong> If you need help or have any questions call our
+        Health Eligibility Center at{' '}
         <va-telephone contact={CONTACTS['222_VETS']} /> (
-        <va-telephone contact={CONTACTS['711']} tty />) to register for care for
-        your service-connected condition.
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        .
       </p>
 
       <SH className="vads-u-font-size--h4">By mail</SH>

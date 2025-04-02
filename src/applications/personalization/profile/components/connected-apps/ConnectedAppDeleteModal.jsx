@@ -35,7 +35,7 @@ export function ConnectedAppDeleteModal({
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
             text="Disconnect"
-            class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0"
+            class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-bottom--2 mobile-lg:vads-u-margin-bottom--0"
           />
           <va-button
             secondary

@@ -1,33 +1,34 @@
-import mockMessages from '../fixtures/messages-response.json';
-import mockCategories from '../fixtures/categories-response.json';
+import mockMessages from '../fixtures/threads-response.json';
+// import mockCategories from '../fixtures/categories-response.json';
+// import mockToggles from '../fixtures/toggles-response.json';
 import mockFolders from '../fixtures/folder-response.json';
-import mockToggles from '../fixtures/toggles-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import { Data, Assertions, Locators, Paths, Alerts } from '../utils/constants';
 
 class FolderLoadPage {
-  foldersSetup = () => {
-    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
-      'featureToggle',
-    );
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
-      'categories',
-    );
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
-      'folders',
-    );
-    // cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
-    //   'inboxMessages',
-    // );
-    cy.visit('my-health/secure-messages/inbox/', {
-      onBeforeLoad: win => {
-        cy.stub(win, 'print');
-      },
-    });
-  };
+  // update to make this.loadFolderMessages method independent of 'PatientInboxPage.loadInboxMessages();'
+  // foldersSetup = () => {
+  //   cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
+  //     'featureToggle',
+  //   );
+  //   cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
+  //     'categories',
+  //   );
+  //   cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
+  //     'folders',
+  //   );
+  //   // cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
+  //   //   'inboxMessages',
+  //   // );
+  //   cy.visit('my-health/secure-messages/inbox/', {
+  //     onBeforeLoad: win => {
+  //       cy.stub(win, 'print');
+  //     },
+  //   });
+  // };
 
   loadFolders = (foldersResponse = mockFolders) => {
     cy.intercept(
@@ -44,7 +45,7 @@ class FolderLoadPage {
     folderResponseIndex,
     messagesList,
   ) => {
-    this.foldersSetup();
+    // this.foldersSetup();
     this.loadFolders();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
@@ -101,11 +102,11 @@ class FolderLoadPage {
     });
   };
 
-  backToInbox = () => {
-    cy.get('.sm-breadcrumb-list-item > a').click({ force: true });
+  backToParentFolder = () => {
+    cy.get(Locators.BACK_TO).click({ force: true });
   };
 
-  backToFolder = name => {
+  backToInbox = name => {
     cy.get(Locators.LINKS.CRUMB)
       .contains(name)
       .click({ force: true });
@@ -128,13 +129,17 @@ class FolderLoadPage {
     cy.get('[data-testid="secure-messaging"]')
       .find('h1')
       .should('have.text', Alerts.PAGE_NOT_FOUND);
-    cy.get('[data-testid="secure-messaging"]')
-      .find('p')
-      .should('have.text', Alerts.TRY_SEARCH);
-    cy.get('#mobile-query').should('be.visible');
-    cy.get('input[type="submit"]').should('be.visible');
-    cy.get('#common-questions').should('be.visible');
-    cy.get('#popular-on-vagov').should('be.visible');
+    // // Testing for more than the testId or heading of the PageNotFound
+    // //   component is "diving into the details" of the implementation of the
+    // //   PageNotFound component. Lean on the component unit specs to handle
+    // //   testing these specifics.
+    // cy.get('[data-testid="secure-messaging"]')
+    //   .find('p')
+    //   .should('have.text', Alerts.TRY_SEARCH);
+    // cy.get('#mobile-query').should('be.visible');
+    // cy.get('input[type="submit"]').should('be.visible');
+    // cy.get('#common-questions').should('be.visible');
+    // cy.get('#popular-on-vagov').should('be.visible');
   };
 }
 

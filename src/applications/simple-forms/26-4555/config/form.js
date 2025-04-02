@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import footerContent from 'platform/forms/components/FormFooter';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
@@ -182,6 +182,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.sahsha],
   },
   footerContent,
   getHelp,

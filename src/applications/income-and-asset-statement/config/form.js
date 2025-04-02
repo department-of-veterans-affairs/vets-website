@@ -1,4 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
@@ -12,6 +13,12 @@ import unassociatedIncomes from './chapters/03-unassociated-incomes';
 import associatedIncomes from './chapters/04-associated-incomes';
 import ownedAssets from './chapters/05-owned-assets';
 import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
+import assetTransfers from './chapters/07-asset-transfers';
+import trusts from './chapters/08-trusts';
+import annuities from './chapters/09-annuities';
+import unreportedAssets from './chapters/10-unreported-assets';
+import discontinuedIncomes from './chapters/11-discontinued-incomes';
+import incomeReceiptWaivers from './chapters/12-income-receipt-waivers';
 
 // const { } = fullSchema.properties;
 
@@ -26,6 +33,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
   saveInProgress: {
     // messages: {
@@ -52,7 +60,8 @@ const formConfig = {
       fullNamePath: 'veteranFullName',
     },
   },
-  title: '21P-0969 Income and Asset Statement Form',
+  title: 'Income and Asset Statement Form',
+  subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
     veteranInformation,
@@ -61,6 +70,12 @@ const formConfig = {
     associatedIncomes,
     ownedAssets,
     royaltiesAndOtherProperties,
+    assetTransfers,
+    trusts,
+    annuities,
+    unreportedAssets,
+    discontinuedIncomes,
+    incomeReceiptWaivers,
   },
 };
 

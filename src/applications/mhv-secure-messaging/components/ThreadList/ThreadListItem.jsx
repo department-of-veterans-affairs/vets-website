@@ -17,6 +17,7 @@ const ThreadListItem = props => {
     draftDate,
     subject,
     recipientName,
+    suggestedNameDisplay,
     hasAttachment,
     messageId,
     category,
@@ -70,6 +71,15 @@ const ThreadListItem = props => {
   };
 
   const categoryLabel = Categories[category];
+  const addressText =
+    location.pathname === Paths.DRAFTS
+      ? suggestedNameDisplay || recipientName
+      : senderName;
+
+  const ddTitle =
+    location.pathname === Paths.DRAFTS || location.pathname === Paths.SENT
+      ? 'Triage Group Name'
+      : 'Clinician Name';
 
   return (
     <div
@@ -83,7 +93,7 @@ const ThreadListItem = props => {
               <span
                 aria-hidden="true"
                 role="img"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-dark unread-bubble"
+                className="unread-icon vads-u-margin-right--1 unread-bubble"
                 data-testid="thread-list-unread-icon"
               />
             </span>
@@ -95,6 +105,7 @@ const ThreadListItem = props => {
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
+          data-dd-action-name="Link to Message Subject Details"
         >
           <span
             id={`message-link${
@@ -111,9 +122,16 @@ const ThreadListItem = props => {
         </Link>
         <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
-            <span>{getHighlightedText(senderName)}</span>
+            <span data-dd-privacy="mask" data-dd-action-name={ddTitle}>
+              {getHighlightedText(addressText)}
+            </span>
           ) : (
-            <span>To: {recipientName}</span>
+            <span
+              data-dd-privacy="mask"
+              data-dd-action-name="Triage Group Name"
+            >
+              To: {suggestedNameDisplay || recipientName}
+            </span>
           )}
         </div>
         <div

@@ -2,15 +2,15 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
+import { uniqueId } from 'lodash';
 import { ITEMS_PER_PAGE } from '../../constants';
 import {
   buildDateFormatter,
+  getOldestDocumentDate,
   getPhaseItemText,
-  getTrackedItemDateFromStatus,
-  isAutomated5103Notice,
+  is5103Notice,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
@@ -26,34 +26,6 @@ export default function RecentActivity({ claim }) {
   const showEightPhases =
     cstClaimPhasesEnabled &&
     isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
-
-  const is5103Notice = item => {
-    return (
-      isAutomated5103Notice(item.displayName) ||
-      item.displayName === 'Review evidence list'
-    );
-  };
-
-  const getTrackedItemDescription = item => {
-    const displayName =
-      is5103Notice(item) && cst5103UpdateEnabled
-        ? '5103 Evidence Notice'
-        : item.displayName;
-    switch (item.status) {
-      case 'NEEDED_FROM_YOU':
-      case 'NEEDED_FROM_OTHERS':
-        return `We opened a request for "${displayName}"`;
-      case 'NO_LONGER_REQUIRED':
-        return `We closed a request for "${displayName}"`;
-      case 'SUBMITTED_AWAITING_REVIEW':
-        return `We received your document(s) for "${displayName}"`;
-      case 'INITIAL_REVIEW_COMPLETE':
-      case 'ACCEPTED':
-        return `We completed a review for "${displayName}"`;
-      default:
-        return 'There was an update to this item';
-    }
-  };
 
   const getPhaseItemDescription = (currentPhaseBack, phase) => {
     const phaseItemText = getPhaseItemText(phase, showEightPhases);
@@ -80,15 +52,58 @@ export default function RecentActivity({ claim }) {
 
   const generateTrackedItems = () => {
     const { trackedItems } = claim.attributes;
+    const items = [];
+    const addItems = (date, description, item) => {
+      items.push({
+        id: `${item.id}-${uniqueId()}`,
+        date,
+        description,
+        displayName: item.displayName,
+        status: item.status,
+        type: 'tracked_item',
+      });
+    };
 
-    return trackedItems.map(item => ({
-      id: item.id,
-      date: getTrackedItemDateFromStatus(item),
-      description: getTrackedItemDescription(item),
-      displayName: item.displayName,
-      status: item.status,
-      type: 'tracked_item',
-    }));
+    trackedItems.forEach(item => {
+      const displayName =
+        cst5103UpdateEnabled && is5103Notice(item.displayName)
+          ? 'List of evidence we may need (5103 notice)'
+          : item.displayName;
+
+      if (item.closedDate) {
+        addItems(
+          item.closedDate,
+          `We closed a request: "${displayName}"`,
+          item,
+        );
+      }
+
+      if (item.receivedDate) {
+        addItems(
+          item.receivedDate,
+          `We completed a review for the request: "${displayName}"`,
+          item,
+        );
+      }
+
+      if (item.documents?.length > 0) {
+        addItems(
+          getOldestDocumentDate(item),
+          `We received your document(s) for the request: "${displayName}"`,
+          item,
+        );
+      }
+
+      if (item.requestedDate) {
+        addItems(
+          item.requestedDate,
+          `We opened a request: "${displayName}"`,
+          item,
+        );
+      }
+    });
+
+    return items;
   };
 
   const generatePhaseItems = () => {
@@ -143,7 +158,7 @@ export default function RecentActivity({ claim }) {
     const items = [...trackedItems, ...phaseItems];
 
     return items.sort((item1, item2) => {
-      return moment(item2.date) - moment(item1.date);
+      return new Date(item2.date) - new Date(item1.date);
     });
   };
 

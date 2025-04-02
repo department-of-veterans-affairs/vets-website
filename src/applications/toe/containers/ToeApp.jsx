@@ -28,14 +28,13 @@ function ToeApp({
   isLOA3,
   isLoggedIn,
   location,
+  mebDpoAddressOptionEnabled,
   setFormData,
   sponsors,
   sponsorsInitial,
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements06,
-  showMebEnhancements08,
   toeDupContactInfoCall,
   toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
@@ -89,18 +88,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
-  );
-
-  useEffect(
-    () => {
       if (
         showMeb1990ER6MaintenanceMessage !==
         formData.showMeb1990ER6MaintenanceMessage
@@ -116,13 +103,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
-
       if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
         setFormData({
           ...formData,
@@ -171,7 +151,6 @@ function ToeApp({
     [
       formData,
       setFormData,
-      showMebEnhancements08,
       toeDupContactInfoCall,
       duplicateEmail,
       duplicatePhone,
@@ -226,7 +205,19 @@ function ToeApp({
         });
       }
     },
-    [toeHighSchoolInfoChange],
+    [formData, setFormData, toeHighSchoolInfoChange],
+  );
+
+  useEffect(
+    () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
+    },
+    [formData, setFormData, mebDpoAddressOptionEnabled],
   );
 
   useEffect(
@@ -238,7 +229,7 @@ function ToeApp({
         });
       }
     },
-    [dob],
+    [dob, formData, setFormData],
   );
   return (
     <>
@@ -262,7 +253,7 @@ function ToeApp({
               },
               {
                 href:
-                  '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e',
+                  '/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e',
                 label: 'Apply to use transferred education benefits',
               },
             ]}
@@ -278,6 +269,7 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  dob: PropTypes.string,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
@@ -287,15 +279,15 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
-  showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
   toeDupContactInfoCall: PropTypes.bool,
+  toeHighSchoolInfoChange: PropTypes.bool,
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };

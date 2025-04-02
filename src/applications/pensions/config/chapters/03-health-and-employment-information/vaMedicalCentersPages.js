@@ -19,6 +19,8 @@ const options = {
   text: {
     getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from VA medical facilities',
+    cancelEditTitle: 'Cancel editing this VA medical facility',
+    deleteTitle: 'Delete VA medical facility',
   },
 };
 
@@ -29,7 +31,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingVAMedicalCenters': arrayBuilderYesNoUI(options, {
+    'view:isAddingVaMedicalCenters': arrayBuilderYesNoUI(options, {
       title: 'Have you received treatment from a VA medical center?',
       labelHeaderLevel: ' ',
       hint: null,
@@ -38,9 +40,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:isAddingVAMedicalCenters': arrayBuilderYesNoSchema,
+      'view:isAddingVaMedicalCenters': arrayBuilderYesNoSchema,
     },
-    required: ['view:isAddingVAMedicalCenters'],
+    required: ['view:isAddingVaMedicalCenters'],
   },
 };
 
@@ -50,6 +52,8 @@ const vaMedicalCenterPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'VA medical center',
       nounSingular: options.nounSingular,
+      lowerCase: false,
+      hasMultipleItemPages: false,
     }),
     medicalCenter: textUI('VA medical center'),
   },

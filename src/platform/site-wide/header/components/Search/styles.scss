@@ -1,8 +1,5 @@
-.header-search {
-  input {
-    max-width: unset;
-  }
-}
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .search-input-container {
   max-width: unset !important;
@@ -17,4 +14,45 @@
   border-bottom-left-radius: 0;
   height: 42px;
   width: 45px;
+  padding: 0;
+}
+
+.search-dropdown-component {
+  flex-direction: row;
+
+  &.full-width-suggestions {
+    position: relative;
+  }
+
+  &.shrink-to-column {
+    @media (max-width: $medium-screen) {
+      flex-direction: column;
+    }
+  }
+}
+
+.search-dropdown-container {
+  position: relative;
+
+  &.full-width-suggestions {
+    position: static;
+    max-width: 80%;
+  }
+}
+
+.suggestion {
+  line-height: 24px;
+  cursor: pointer;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.search-dropdown-input-field {
+  height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
 }

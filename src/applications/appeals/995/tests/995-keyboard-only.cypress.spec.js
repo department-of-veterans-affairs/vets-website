@@ -1,34 +1,31 @@
-import path from 'path';
-
 import formConfig from '../config/form';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import { fetchItf } from './995.cypress.helpers';
+import mockData from './fixtures/data/keyboard-test.json';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Supplemental Claim keyboard only navigation', () => {
-  before(() => {
+  it('navigates through a maximal form', () => {
     cypressSetup();
 
-    cy.fixture(path.join(__dirname, 'fixtures/data/keyboard-test.json')).as(
-      'testData',
-    );
+    cy.wrap(mockData.data).as('testData');
 
-    cy.intercept('PUT', 'v0/in_progress_forms/995', mockInProgress);
+    cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-    cy.intercept('GET', '/v0/intent_to_file', fetchItf());
-  });
+    cy.intercept('GET', ITF_API, fetchItf());
 
-  it('navigates through a maximal form', () => {
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
-      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       });
       cy.visit(
@@ -75,7 +72,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
-      cy.realPress('Space');
+      cy.chooseRadio('home'); // make sure we're choosing home (either is fine)
       cy.tabToContinueForm();
 
       // *** Issues for review (sorted by random decision date) - only selecting
@@ -136,7 +133,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
-      cy.realPress('Space');
+      cy.chooseRadio('Y'); // make sure we're choosing yes
       cy.tabToSubmitForm();
 
       // *** VA evidence location
@@ -184,7 +181,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
         chapters.evidence.pages.evidencePrivateRecordsRequest.path,
       );
       cy.tabToElement('[name="private"]'); // Yes radio
-      cy.realPress('Space');
+      cy.chooseRadio('y'); // make sure we're choosing yes
       cy.tabToSubmitForm();
 
       // *** Private evidence authorization
@@ -250,8 +247,18 @@ describe('Supplemental Claim keyboard only navigation', () => {
         'include',
         chapters.evidence.pages.evidencePrivateLimitation.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.tabToElement('textarea');
-      cy.realType(data.limitedConsent);
+      // Without this waitUntil, only the first letter is entered into the
+      // textarea
+      cy.waitUntil(() =>
+        cy
+          .realType(data.limitedConsent)
+          .then(() =>
+            cy.get(':focus').then($el => $el[0].value === data.limitedConsent),
+          ),
+      );
       cy.tabToSubmitForm();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads
@@ -260,7 +267,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
         chapters.evidence.pages.evidenceWillUpload.path,
       );
       cy.tabToElement('[name="root_view:hasOtherEvidence"]'); // No radio
-      cy.realPress('ArrowDown');
+      cy.chooseRadio('N'); // make sure we're choosing no
       cy.tabToSubmitForm();
 
       // *** Evidence summary
@@ -282,7 +289,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('va-button.screen-only').should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

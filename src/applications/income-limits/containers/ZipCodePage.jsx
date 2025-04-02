@@ -14,7 +14,6 @@ import {
   updateZipValidationServiceError,
 } from '../actions';
 import { validateZip } from '../api';
-import { customizeTitle } from '../utilities/customize-title';
 
 const ZipCodePage = ({
   editMode,
@@ -35,10 +34,6 @@ const ZipCodePage = ({
       ? `What was your zip code in ${year - 1}?`
       : `What was your zip code last year?`;
   };
-
-  useEffect(() => {
-    document.title = customizeTitle(determineH1());
-  });
 
   // Checks that a zip was entered and is numbers only and has length of 5
   const inputValid = zip => {
@@ -149,12 +144,10 @@ const ZipCodePage = ({
           id="zipCode"
           inputmode="numeric"
           label="Zip code"
-          max={99999}
-          min={0}
           name="zipCode"
           onBlur={onBlurInput}
           onInput={onZipInput}
-          uswds
+          required
           value={zipCode || ''}
         />
         {!submitting && (
@@ -164,7 +157,6 @@ const ZipCodePage = ({
             onPrimaryClick={onContinueClick}
             onSecondaryClick={onBackClick}
             continue
-            uswds
           />
         )}
         {submitting && (

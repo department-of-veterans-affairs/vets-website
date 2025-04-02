@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import {
+  currency as currencyFormatter,
+  monthYearFormatter,
+} from '../../utils/helpers';
 
 const renderGrossMonthlyIncome = (job, index, isSpouse) => {
   if (!job.isCurrent) return null;
@@ -47,16 +49,9 @@ const renderDeductions = (job, isSpouse) => {
   );
 };
 
-const formatDate = date => {
-  // dates are currently formatted as YYYY-MM-DD
-  //  however, we only want to display the month and year and
-  //  day is populated with XX which does not play well with formatters
-  return moment(new Date(date?.substring(0, 8))).format('MMMM YYYY');
-};
-
 const renderWorkDates = (job, index, isSpouse) => {
-  const startDate = formatDate(job.from);
-  const endDate = job.isCurrent ? 'Present' : formatDate(job.to);
+  const startDate = monthYearFormatter(job.from);
+  const endDate = job.isCurrent ? 'Present' : monthYearFormatter(job.to);
 
   return (
     <div

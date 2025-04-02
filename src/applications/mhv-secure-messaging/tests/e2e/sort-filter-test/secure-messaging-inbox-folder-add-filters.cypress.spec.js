@@ -1,36 +1,92 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import mockMessages from '../fixtures/messages-response.json';
-import mockCategories from '../fixtures/categories-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import mockMessages from '../fixtures/threads-response.json';
+import { AXE_CONTEXT, Arrays } from '../utils/constants';
+import FolderLoadPage from '../pages/FolderLoadPage';
+import PatentMessageSentPage from '../pages/PatientMessageSentPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
+import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 
-describe('Secure Messaging Inbox Folder add filter checks', () => {
-  const dateRange = [
-    'ANY',
-    'LAST 3 MONTHS',
-    'LAST 6 MONTHS',
-    'LAST 12 MONTHS',
-    'CUSTOM',
-  ];
-
+describe('SM ADDITIONAL FILTER CHECKS', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages);
   });
 
-  it('verify filter buttons and dropdowns', () => {
+  it('verify Inbox folder buttons and dropdowns', () => {
     PatientInboxPage.verifyFilterButtons();
 
-    // verify additional fields not visible
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    PatientInboxPage.clickAdditionalFilterButton();
+    PatientFilterPage.clickAdditionalFilterButton();
 
-    PatientInboxPage.verifyFilterCategoryDropdown(
-      mockCategories.data.attributes.messageCategoryType,
-    );
+    PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
-    PatientInboxPage.verifyFilterdateRangeDropdown(dateRange);
+    PatientFilterPage.verifyFilterDateRangeDropdown(Arrays.FilterDateRange);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify Sent folder buttons and dropdowns', () => {
+    FolderLoadPage.loadFolders();
+    PatentMessageSentPage.loadMessages();
+
+    cy.get(`#content`).should('have.attr', 'hidden');
+
+    PatientFilterPage.clickAdditionalFilterButton();
+
+    PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
+
+    PatientFilterPage.verifyFilterDateRangeDropdown(Arrays.FilterDateRange);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify Drafts folder buttons and dropdowns', () => {
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDraftMessages();
+
+    cy.get(`#content`).should('have.attr', 'hidden');
+
+    PatientFilterPage.clickAdditionalFilterButton();
+
+    PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
+
+    PatientFilterPage.verifyFilterDateRangeDropdown(Arrays.FilterDateRange);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify Trash folder buttons and dropdowns', () => {
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDeletedMessages();
+
+    cy.get(`#content`).should('have.attr', 'hidden');
+
+    PatientFilterPage.clickAdditionalFilterButton();
+
+    PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
+
+    PatientFilterPage.verifyFilterDateRangeDropdown(Arrays.FilterDateRange);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify Custom folder buttons and dropdowns', () => {
+    FolderLoadPage.loadFolders();
+    PatientMessageCustomFolderPage.loadMessages();
+
+    cy.get(`#content`).should('have.attr', 'hidden');
+
+    PatientFilterPage.clickAdditionalFilterButton();
+
+    PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
+
+    PatientFilterPage.verifyFilterDateRangeDropdown(Arrays.FilterDateRange);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

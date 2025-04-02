@@ -21,6 +21,31 @@ class PatientMessageSentPage {
     cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
   };
 
+  loadSingleThread = (
+    singleThreadResponse = mockThreadResponse,
+    multiThreadsResponse = mockSentMessages,
+  ) => {
+    const singleMessageResponse = { data: singleThreadResponse.data[0] };
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
+      singleMessageResponse,
+    ).as(`threadFirstMessageResponse`);
+    cy.get(
+      `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
+    ).click();
+  };
+
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
@@ -50,11 +75,11 @@ class PatientMessageSentPage {
       .type(`${text}`, { force: true });
   };
 
-  clickFilterMessagesButton = () => {
+  clickFilterMessagesButton = (filteredResponse = sentSearchResponse) => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/search`,
-      sentSearchResponse,
+      filteredResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
@@ -103,10 +128,6 @@ class PatientMessageSentPage {
       });
   };
 
-  verifyFolderHeaderText = text => {
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
-  };
-
   verifyResponseBodyLength = (responseData = mockSentMessages) => {
     cy.get(Locators.THREADS).should(
       'have.length',
@@ -132,8 +153,8 @@ class PatientMessageSentPage {
 
   clearFilterByKeyboard = () => {
     // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
       cy.tabToElement(el)
         .first()
         .click();
@@ -198,6 +219,10 @@ class PatientMessageSentPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
+  };
+
+  verifySentToField = value => {
+    cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }
 

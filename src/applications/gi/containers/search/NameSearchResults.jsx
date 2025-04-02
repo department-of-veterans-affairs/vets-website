@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -122,7 +123,7 @@ export function NameSearchResults({
           <div className="row vads-u-padding--0 vads-u-margin--0">
             {smallScreen && <MobileFilterControls />}
             <p
-              className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0"
+              className="vads-u-padding-x--1p5 mobile-lg:vads-u-padding-x--0"
               id="name-search-results-count"
             >
               Showing {count} search results for "<strong>{name}</strong>"
@@ -213,6 +214,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+};
+
+NameSearchResults.propTypes = {
+  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
+  filters: PropTypes.object.isRequired,
+  filtersChanged: PropTypes.bool.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  smallScreen: PropTypes.bool,
 };
 
 export default connect(

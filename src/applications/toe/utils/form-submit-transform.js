@@ -309,46 +309,27 @@ const getNotificationMethod = notificationMethod => {
 
 const getSponsorInformation = form => {
   let firstSponsor;
+
+  // If only one selected sponsor, set it as the first sponsor
   if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
     firstSponsor = form?.data?.selectedSponsors[0];
   } else {
     firstSponsor = form?.data?.firstSponsor;
   }
 
-  if (firstSponsor === 'IM_NOT_SURE') {
-    return {
-      notSureAboutSponsor: true,
-      firstSponsorVaId: null,
-      manualSponsor: null,
-    };
-  }
-  if (firstSponsor && firstSponsor !== 'SPONSOR_NOT_LISTED') {
+  if (firstSponsor) {
     return {
       notSureAboutSponsor: false,
       firstSponsorVaId: firstSponsor,
-      manualSponsor: null,
-    };
-  }
-  // check if august feature flag is on and if so ensure manual entry is disabled
-  if (form.data.showMebEnhancements08) {
-    return {
-      notSureAboutSponsor: true,
-      firstSponsorVaId: null,
-      manualSponsor: null, // return null for manualSponsor when the feature is disabled
+      manualSponsor: null, // No manual sponsor handling is needed
     };
   }
 
+  // If no sponsor is selected, return a default case where sponsor information is missing
   return {
-    notSureAboutSponsor: false,
+    notSureAboutSponsor: true, // Treat as not sure when no sponsor is selected
     firstSponsorVaId: null,
-    manualSponsor: {
-      firstName: form?.data?.sponsorFullName?.first,
-      middleName: form?.data?.sponsorFullName?.middle,
-      lastName: form?.data?.sponsorFullName?.last,
-      suffix: form?.data?.sponsorFullName?.suffix,
-      dateOfBirth: form?.data?.sponsorDateOfBirth,
-      relationship: form?.data?.relationshipToServiceMember,
-    },
+    manualSponsor: null,
   };
 };
 

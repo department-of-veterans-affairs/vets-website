@@ -78,6 +78,7 @@ export const errorMessages = {
   },
 
   missingPrimaryPhone: 'You must choose a primary phone number',
+  missingPrimaryPhoneReview: 'Missing primary phone',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
@@ -131,7 +132,7 @@ export const CLAIMANT_TYPES = [
 export const ITF_STATUSES = {
   active: 'active',
   expired: 'expired',
-  claimRecieved: 'claim_recieved',
+  claimRecieved: 'claim_recieved', // intentional typo to match API
   duplicate: 'duplicate',
   incomplete: 'incomplete',
   canceled: 'canceled',
@@ -151,7 +152,8 @@ export const ATTACHMENTS_OTHER = {
   L070: 'Photographs',
   L222:
     'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
-  L228: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+  L228:
+    'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   L229:
     'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
   L102:

@@ -14,9 +14,7 @@
           "state": "CO",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123123123"
-        },
+        "applicantSSN": "123123123",
         "applicantName": {
           "first": "Applicant",
           "last": "Jones"
@@ -47,6 +45,7 @@
       "last": "Jones"
     },
     "sponsorDob": "1950-01-01",
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": false,
@@ -54,6 +53,7 @@
       }
     },
     "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
     "certifierAddress": {
       "country": "USA",
       "street": "123 Certifier Street",
@@ -66,7 +66,6 @@
       "last": "Jones",
       "suffix": "Jr."
     },
-    "certifierRole": "other",
     "statementOfTruthSignature": "certifier jones",
     "statementOfTruthCertified": true
   }

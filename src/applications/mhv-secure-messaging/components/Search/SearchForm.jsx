@@ -14,7 +14,7 @@ import {
   filterDescription,
 } from '../../util/constants';
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, isCustomFolder } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
@@ -214,13 +214,28 @@ const SearchForm = props => {
     );
   };
 
+  const isCustom = useMemo(() => isCustomFolder(folder.folderId), [
+    folder.folderId,
+  ]);
+
+  const ddTitle = useMemo(
+    () => {
+      return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
+    },
+    [folder.name, isCustom],
+  );
+  const ddPrivacy = useMemo(() => `${isCustom ? 'mask' : 'allow'}`, [isCustom]);
+
   const filterLabelHeading = useMemo(
     () => {
+      if (isCustom) {
+        return `Filter messages in ${folder.name}`;
+      }
       return `Filter messages in ${
-        folder.name === 'Deleted' ? 'Trash' : folder.name
-      } `;
+        folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
+      }`;
     },
-    [folder.name],
+    [folder.name, isCustom],
   );
 
   const filterLabelBody = useMemo(
@@ -249,6 +264,8 @@ const SearchForm = props => {
               setFiltersCleared(false);
             }
           }}
+          data-dd-privacy={ddPrivacy}
+          data-dd-action-name={`Filter Messages in ${ddTitle}`}
         >
           {filterLabelHeading}
         </h2>
@@ -263,6 +280,7 @@ const SearchForm = props => {
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 data-testid="keyword-search-input"
+                data-dd-action-name="Input Field - Filter"
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
@@ -276,6 +294,7 @@ const SearchForm = props => {
           <va-additional-info
             trigger="What's a message ID?"
             class="message-id-info"
+            data-dd-action-name="What's a message ID? Expandable Info"
           >
             A message ID is a number we assign to each message. If you sign up
             for email notifications, we’ll send you an email each time you get a
@@ -298,12 +317,13 @@ const SearchForm = props => {
             />
           </div>
         )}
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
-            text="Filter"
+            text="Apply filters"
             primary
             class="filter-button"
             data-testid="filter-messages-button"
+            data-dd-action-name="Filter Button"
             onClick={e => {
               e.preventDefault();
               handleSearch();
@@ -312,18 +332,20 @@ const SearchForm = props => {
           {/* using toggle to hide this btn temporarily until filter accordion redesign is completed */}
           {mhvSecureMessagingFilterAccordion ? (
             <va-button
-              text="Clear Filters"
+              text="Clear filters"
               secondary
-              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
+              dd-action-name="Clear filters Button"
             />
           ) : (
             resultsCount !== undefined && (
               <va-button
-                text="Clear Filters"
+                text="Clear filters"
                 secondary
-                class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+                class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
+                dd-action-name="Clear filters Button"
               />
             )
           )}

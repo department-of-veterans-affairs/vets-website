@@ -16,6 +16,7 @@ describe('Medicaitons Print/Download button component', () => {
     list = false,
     onText = undefined,
     onPrint = undefined,
+    isLoading = undefined,
   ) => {
     return renderWithStoreAndRouter(
       <PrintDownload
@@ -24,6 +25,7 @@ describe('Medicaitons Print/Download button component', () => {
         onPrint={onPrint}
         isSuccess={success}
         list={list}
+        isLoading={isLoading}
       />,
       {
         path: '/',
@@ -72,6 +74,19 @@ describe('Medicaitons Print/Download button component', () => {
     expect(sucessMessage).to.exist;
   });
 
+  it('displays spinner when loading ', () => {
+    const screen = setup(
+      handleFullListDownload,
+      false,
+      false,
+      undefined,
+      undefined,
+      true,
+    );
+
+    expect(screen.getByTestId('print-download-loading-indicator')).to.exist;
+  });
+
   it('button displays different text for list', () => {
     const screen = setup(handleFullListDownload, true, true);
 
@@ -80,6 +95,9 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('should start downloading PDF on PDF button click', () => {
+    global.navigator = {
+      onLine: true,
+    };
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText('Download a PDF of this list');
     fireEvent.click(downloadButton);
@@ -89,6 +107,9 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('should start downloading TXT on TXT button click', () => {
+    global.navigator = {
+      onLine: true,
+    };
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText(
       'Download a text file (.txt) of this list',
@@ -107,6 +128,9 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('should start txt download using custom fn on txt button click', () => {
+    global.navigator = {
+      onLine: true,
+    };
     const screen = setup(
       undefined,
       false,

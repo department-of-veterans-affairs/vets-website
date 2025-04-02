@@ -385,7 +385,7 @@ class ProfileInformationFieldController extends React.Component {
                 <button
                   aria-label={`Remove ${title}`}
                   type="button"
-                  className="small-screen:vads-u-margin--0 usa-button-secondary"
+                  className="mobile-lg:vads-u-margin--0 usa-button-secondary"
                   onClick={this.handleDeleteInitiated}
                 >
                   Remove

@@ -5,7 +5,9 @@ import React, {
   useCallback,
   useLayoutEffect,
 } from 'react';
-import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -24,10 +26,7 @@ import {
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import {
-  getCompareCalculatorState,
-  updateUrlParams,
-} from '../selectors/compare';
+import { getCompareCalculatorState } from '../selectors/compare';
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import CompareHeader from '../components/CompareHeader';
@@ -58,9 +57,11 @@ export function ComparePage({
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
-  const history = useHistory();
+  const navigate = useNavigate();
   const hasScrollTo = scrollTo !== null;
   const placeholderRef = useRef(null);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
 
   useEffect(
     () => {
@@ -221,7 +222,11 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            history.replace(updateUrlParams(newSelected, version));
+            navigate(
+              `${
+                giCtCollab ? '/schools-and-employers' : ''
+              }/compare/?facilities=${newSelected.join(',')}`,
+            );
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}
@@ -322,6 +327,18 @@ const mapDispatchToProps = {
   setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
+};
+
+ComparePage.propTypes = {
+  allLoaded: PropTypes.bool.isRequired,
+  calculated: PropTypes.object.isRequired,
+  compare: PropTypes.object.isRequired,
+  dispatchFetchCompareDetails: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  estimated: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  preview: PropTypes.object.isRequired,
+  gibctSchoolRatings: PropTypes.bool,
 };
 
 export default connect(

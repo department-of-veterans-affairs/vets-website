@@ -11,9 +11,14 @@ describe('Medical Records View Conditions', () => {
     // cy.visit('my-health/medical-records/conditions');
     ConditionsListPage.gotoConditionsListPage();
     ConditionsListPage.clickConditionsDetailsLink(1);
+    ConditionDetailsPage.verifyTitle(conditions.entry[0].resource.code.text);
 
     ConditionDetailsPage.verifyProvider(
-      conditions.entry[0].resource.contained[0].name[0].text, // 'JOHN,SMITH'
+      // conditions.entry[0].resource.contained[0].name[0].text, // 'JOHN,SMITH'
+      // 'SMITH JOHN',
+      `${conditions.entry[0].resource.contained[0].name[0].given[0]} ${
+        conditions.entry[0].resource.contained[0].name[0].family
+      }`,
     );
     ConditionDetailsPage.verifyLocation(
       conditions.entry[0].resource.contained[1].name, // 'DAYTON'

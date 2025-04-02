@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import React from 'react';
 
 import {
   ssnOrVaFileNumberNoHintSchema,
@@ -34,7 +35,12 @@ import PaymentSelectionUI, {
   PaymentReviewScreen,
 } from '../components/PaymentSelection';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import { UploadDocuments } from '../components/UploadDocuments';
+import {
+  UploadDocumentsVeteran,
+  UploadDocumentsProvider,
+} from '../components/UploadDocuments';
+
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -46,8 +52,8 @@ const formConfig = {
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'fmp-cover-sheet-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -79,7 +85,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959f2],
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for health care benefits.',
@@ -94,6 +100,7 @@ const formConfig = {
       title: 'Personal information',
       pages: {
         page1: {
+          // initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
@@ -144,7 +151,7 @@ const formConfig = {
       pages: {
         page3: {
           path: 'mailing-address',
-          title: 'Mail to',
+          title: 'Mailing address ',
           uiSchema: {
             ...titleUI(
               'Mailing address',
@@ -196,7 +203,7 @@ const formConfig = {
         },
         page4a: {
           path: 'home-address',
-          title: 'Current address ',
+          title: 'Home address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
@@ -237,7 +244,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranPhoneNumber'],
+            required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
@@ -252,9 +259,25 @@ const formConfig = {
       pages: {
         page6: {
           path: 'payment-selection',
-          title: 'Payment options',
+          title: 'Where to send the payment',
           uiSchema: {
-            ...titleUI('Where to send the payment'),
+            ...titleUI(
+              'Where to send the payment',
+              <>
+                <ul>
+                  <li>
+                    Select <strong>Veteran</strong> if you’ve already paid this
+                    provider. We’ll send a check to your mailing address to pay
+                    you back (also called reimbursement).
+                  </li>
+                  <li>
+                    Select <strong>Provider</strong> if you haven’t paid the
+                    provider. We’ll send a check to the provider’s mailing
+                    address to pay them directly.
+                  </li>
+                </ul>
+              </>,
+            ),
             sendPayment: PaymentSelectionUI(),
           },
           schema: {
@@ -275,29 +298,71 @@ const formConfig = {
         page7: {
           path: 'upload-supporting-documents',
           title: 'Included files',
+          depends: formData => formData.sendPayment === 'Veteran',
           uiSchema: {
             ...titleUI({
               title: 'Upload billing statements and supporting documents',
               headerLevel: 2,
             }),
             'view:UploadDocuments': {
-              'ui:description': UploadDocuments,
+              'ui:description': UploadDocumentsVeteran,
             },
-            uploadSection: fileUploadUI({
+            uploadSectionVeteran: fileUploadUI({
               label: 'Upload file',
               attachmentName: false,
             }),
           },
           schema: {
             type: 'object',
-            required: ['uploadSection'],
+            required: ['uploadSectionVeteran'],
             properties: {
               titleSchema,
               'view:UploadDocuments': {
                 type: 'object',
                 properties: {},
               },
-              uploadSection: {
+              uploadSectionVeteran: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        page8: {
+          path: 'upload-supporting-documents-provider',
+          title: 'Included files',
+          depends: formData => formData.sendPayment === 'Provider',
+          uiSchema: {
+            ...titleUI({
+              title: 'Upload billing statements and supporting documents',
+              headerLevel: 2,
+            }),
+            'view:UploadDocuments': {
+              'ui:description': UploadDocumentsProvider,
+            },
+            uploadSectionProvider: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: false,
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['uploadSectionProvider'],
+            properties: {
+              titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
+              uploadSectionProvider: {
                 type: 'array',
                 minItems: 1,
                 items: {

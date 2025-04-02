@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -127,7 +127,7 @@ const testConfig = createTestConfig(
       // ==============================================================
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('va-radio-option[value="monthly"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -143,7 +143,7 @@ const testConfig = createTestConfig(
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('va-radio-option[value="waiver"]').click();
           cy.get('.usa-button-primary').click();
         });
       },

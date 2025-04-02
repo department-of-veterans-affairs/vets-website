@@ -1,9 +1,8 @@
 import React from 'react';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
-import Scroll from 'react-scroll';
-import formConfig from '../config/form';
+import { Element } from 'platform/utilities/scroll';
 
-const { Element } = Scroll;
+import formConfig from '../config/form';
 
 export default function App({ location, children }) {
   return (

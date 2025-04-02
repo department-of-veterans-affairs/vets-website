@@ -20,6 +20,9 @@ import TabNav from './TabNav';
 const focusHeader = () => {
   setFocus('.claim-contentions-header');
 };
+const focusNotificationAlert = () => {
+  setFocus('.claims-alert');
+};
 
 export default function ClaimDetailLayout(props) {
   const { claim, clearNotification, currentTab, loading, message } = props;
@@ -32,6 +35,7 @@ export default function ClaimDetailLayout(props) {
   let breadcrumbs = [];
   let bodyContent;
   let headingContent;
+
   if (loading) {
     bodyContent = (
       <va-loading-indicator
@@ -63,6 +67,7 @@ export default function ClaimDetailLayout(props) {
             body={message.body}
             type={message.type}
             onClose={clearNotification}
+            onSetFocus={focusNotificationAlert}
           />
         )}
         <h1 className="claim-title">
@@ -79,6 +84,9 @@ export default function ClaimDetailLayout(props) {
             contentions={contentions}
             onClick={focusHeader}
           />
+          {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
+            <AddingDetails />
+          )}
         </div>
       </>
     );
@@ -90,9 +98,6 @@ export default function ClaimDetailLayout(props) {
           <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
               <div className="tab-content claim-tab-content">
-                {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
-                  <AddingDetails />
-                )}
                 {props.children}
               </div>
             )}

@@ -1,32 +1,46 @@
+import { parseISO } from 'date-fns';
 import format from 'date-fns/format';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { clearFormData, removeAskVaForm } from '../actions';
+import { hasPrefillInformation } from '../constants';
 
 const PersonalAuthenticatedInformation = ({
-  goBack,
   goForward,
   formData,
   isLoggedIn,
+  router,
+  formId,
 }) => {
-  if (!isLoggedIn) {
-    goForward(formData);
-  }
+  const dispatch = useDispatch();
 
-  const {
-    first,
-    last,
-    dateOfBirth,
-    socialOrServiceNum,
-  } = formData.aboutYourself;
+  useEffect(
+    () => {
+      if (!hasPrefillInformation(formData)) {
+        goForward(formData);
+      }
+    },
+    [isLoggedIn, formData, goForward],
+  );
 
-  const { ssn, serviceNumber } = socialOrServiceNum;
+  const handleGoBack = () => {
+    dispatch(clearFormData());
+    dispatch(removeAskVaForm(formId));
+    router.push('/');
+  };
+
+  const { first, last, dateOfBirth, socialOrServiceNum } =
+    formData.aboutYourself || {};
+
+  const { ssn, serviceNumber } = socialOrServiceNum || {};
 
   const dateOfBirthFormatted = !dateOfBirth
     ? '-'
-    : format(new Date(dateOfBirth), 'MMMM d, yyyy');
+    : format(parseISO(dateOfBirth.split('T')[0]), 'MMMM d, yyyy');
 
   let ssnLastFour = '-';
   if (ssn) {
@@ -71,7 +85,7 @@ const PersonalAuthenticatedInformation = ({
             Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </div>
-        <FormNavButtons goBack={goBack} goForward={goForward} />
+        <FormNavButtons goBack={handleGoBack} goForward={goForward} />
       </div>
     </>
   );
@@ -79,9 +93,11 @@ const PersonalAuthenticatedInformation = ({
 
 PersonalAuthenticatedInformation.propTypes = {
   formData: PropTypes.object,
+  formId: PropTypes.string,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
+  router: PropTypes.object,
   user: PropTypes.object,
 };
 
@@ -90,7 +106,10 @@ const mapStateToProps = state => {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     user: state.user.profile,
     formData: state.form.data,
+    formId: state.form.formId,
   };
 };
 
-export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(
+  withRouter(PersonalAuthenticatedInformation),
+);

@@ -19,43 +19,44 @@
 
 # Platform Design System
 
-src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
-src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
-src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms
-src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms
-src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
-script/component-migration @department-of-veterans-affairs/platform-design-system-fe
-src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe
-src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe
-src/applications/sah @department-of-veterans-affairs/platform-va-product-forms
-src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms
+src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+script/component-migration @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/sah @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Platform Design System - Header/footer (VA.gov and TeamSites)
-src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/legacy @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/mega-menu @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/mobile-menu-button @department-of-veterans-affairs/platform-design-system-fe
-src/platform/site-wide/va-footer @department-of-veterans-affairs/platform-design-system-fe
-src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/vfs-public-websites-frontend
+src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/legacy @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/mega-menu @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/mobile-menu-button @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/va-footer @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # octo-identity authentication
 
-src/applications/auth @department-of-veterans-affairs/octo-identity
-src/applications/login @department-of-veterans-affairs/octo-identity
-src/applications/sign-in-changes @department-of-veterans-affairs/octo-identity
-src/applications/terms-of-use @department-of-veterans-affairs/octo-identity
-src/applications/verify @department-of-veterans-affairs/octo-identity
-src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity
-src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity
-src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity # unit tests
-src/platform/user/authentication @department-of-veterans-affairs/octo-identity
-src/platform/user/tests/authentication @department-of-veterans-affairs/octo-identity # unit tests
-src/platform/user/authorization/components/IdentityNotVerified.jsx @department-of-veterans-affairs/octo-identity
-src/platform/user/tests/authorization/components/IdentityNotVerified.unit.spec.jsx @department-of-veterans-affairs/octo-identity # unit tests
-src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity
-src/platform/utilities/tests/oauth @department-of-veterans-affairs/octo-identity # unit tests
-src/platform/utilities/sso @department-of-veterans-affairs/octo-identity
-src/platform/utilities/tests/sso @department-of-veterans-affairs/octo-identity # unit tests
+src/applications/auth @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/login @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/sign-in-changes @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/cta-widget @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/terms-of-use @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/verify @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
+src/platform/user/authentication @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/user/tests/authentication @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
+src/platform/user/authorization/components/IdentityNotVerified.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/user/tests/authorization/components/IdentityNotVerified.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
+src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/utilities/tests/oauth @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
+src/platform/utilities/sso @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/utilities/tests/sso @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 
 # VSP QA Standards
 
@@ -92,19 +93,20 @@ src/applications/appeals @department-of-veterans-affairs/benefits-decision-revie
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burials-ez @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burial-poc-v6 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/new-28-1900 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
-# Pensions
-src/applications/pensions @department-of-veterans-affairs/pensions @department-of-veterans-affairs/va-platform-cop-frontend
+# Pensions and Burials
+src/applications/burials-ez @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/pensions @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
 
 
 # Dependent Benefits Experience
 src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
+src/applications/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
 
 # VSA Debt
 
@@ -114,9 +116,10 @@ src/applications/static-pages/manage-va-debt @department-of-veterans-affairs/vsa
 src/applications/static-pages/medical-copays-cta @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/burial-how-do-i-apply-widget @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/dispute-debt @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Form Engine
-src/applications/form-renderer @department-of-veterans-affairs/form-engine
+src/applications/simple-forms-form-engine @department-of-veterans-affairs/form-engine @department-of-veterans-affairs/va-platform-cop-frontend
 
 
 # VFS --
@@ -129,18 +132,18 @@ src/platform/site-wide/drupal-static-data @department-of-veterans-affairs/vfs-pu
 src/platform/site-wide/helpers/team-sites @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/site-wide/side-nav @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/landing-pages @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/find-forms @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/discharge-wizard @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/income-limits @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/public-outreach-materials @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/search @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/search @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/BTSSS-login @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/cta-widget @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/find-forms @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/homepage-email-signup @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage-veteran-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Public Websites - unauthed experience only
@@ -154,6 +157,7 @@ src/applications/static-pages/health-care-manage-benefits/view-test-and-lab-resu
 src/applications/facility-locator @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/situation-updates-banner @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Caregiver
 
@@ -176,13 +180,14 @@ src/applications/check-in @department-of-veterans-affairs/patient-check-in @depa
 
 # GOVCIO Team
 
-src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/post-911-gib-status @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # CTO Health Products
 
@@ -199,23 +204,23 @@ src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits @
 src/applications/toe @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-enrollment-verification-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-education-letters-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/survivor-dependent-education-benefit @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My HealtheVet on VA.gov
 
 src/applications/mhv @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv-medical-records @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/mhv-medications @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv-secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv-landing-page @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/avs @department-of-veterans-affairs/after-visit-summary @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/mhv-signin-cta @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/mhv @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/mhv/api/mocks/medical-records @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/mhv/api/mocks @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile
 
-src/applications/personalization/profile @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # va.gov/profile/contacts - Personal health care contacts
 
@@ -240,28 +245,45 @@ src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of
 src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appointments-page  @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Accredited Representative Facing (ARF)
-src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers
+src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/accreditation @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Accredited Representation Management (ARM)
+src/applications/representative-appoint @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/representative-search @department-of-veterans-affairs/accredited-representation-management @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Income and Asset Statement
-src/applications/income-and-asset-statement @department-of-veterans-affairs/pensions
+src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Ask VA
+src/applications/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Virtual Agent Chatbot
+src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent-chatbot @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Other
-
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/virtual-agent @department-of-veterans-affairs/orchid @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/user-testing/disability-benefits-all-claims-conditions-chapter @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
+
+# NCA Forms Preneed PMC Medallions
+src/applications/medallions @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/medallions2 @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/40-0247 @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Need more specific owners
-
 src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/e-folders @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/messages @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/post-911-gib-status @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/accreditation @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/benefit-eligibility-questionnaire @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ivc-champv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/office-directory @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/travel-pay @department-of-veterans-affairs/va-platform-cop-frontend

@@ -189,6 +189,116 @@ describe('Edu 1995 applicantInformation', () => {
     submitForm(form);
     expect(onSubmit.called).to.be.true;
   });
+  it('should submit with no errors applicant under 18', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+    const find = formDOM.querySelector.bind(formDOM);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+      .empty;
+
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
+      target: {
+        value: 'Test',
+      },
+    });
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
+      target: {
+        value: 'Test',
+      },
+    });
+    const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).find(input => input.id === 'root_veteranSocialSecurityNumber');
+    ReactTestUtils.Simulate.change(ssn, {
+      target: {
+        value: '123456788',
+      },
+    });
+
+    const birthMonth = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'select',
+    ).find(select => select.id === 'root_dateOfBirthMonth');
+
+    ReactTestUtils.Simulate.change(birthMonth, {
+      target: {
+        value: '1',
+      },
+    });
+
+    const birthDay = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'select',
+    ).find(input => input.id === 'root_dateOfBirthDay');
+    ReactTestUtils.Simulate.change(birthDay, {
+      target: {
+        value: '1',
+      },
+    });
+    const birthYear = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).find(input => input.id === 'root_dateOfBirthYear');
+    ReactTestUtils.Simulate.change(birthYear, {
+      target: {
+        value: '2018',
+      },
+    });
+
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+      .empty;
+
+    const graduatedOrGED = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).find(
+      input =>
+        input.id === 'root_minorHighSchoolQuestions_minorHighSchoolQuestionYes',
+    );
+    ReactTestUtils.Simulate.change(graduatedOrGED, {
+      target: {
+        value: true,
+      },
+    });
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+      .empty;
+
+    ReactTestUtils.Simulate.change(graduatedOrGED, {
+      target: {
+        value: false,
+      },
+    });
+
+    const noGraduatedOrGED = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).find(
+      input =>
+        input.id === 'root_minorHighSchoolQuestions_minorHighSchoolQuestionNo',
+    );
+    ReactTestUtils.Simulate.change(noGraduatedOrGED, {
+      target: {
+        value: true,
+      },
+    });
+
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+      .empty;
+
+    submitForm(form);
+    expect(onSubmit.called).to.be.true;
+  });
 });
 
 describe('Edu 1995 Fields for production', () => {

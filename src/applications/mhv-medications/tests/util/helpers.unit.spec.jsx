@@ -12,6 +12,7 @@ import {
   getReactions,
   processList,
   validateField,
+  validateIfAvailable,
   createNoDescriptionText,
   createVAPharmacyText,
   fromToNumbs,
@@ -49,6 +50,22 @@ describe('Validate Field function', () => {
 
   it('should return 0', () => {
     expect(validateField(0)).to.equal(0);
+  });
+});
+
+describe('Validate if Available function', () => {
+  it('should return the value', () => {
+    expect(validateIfAvailable('Test field name', 'Test')).to.equal('Test');
+  });
+
+  it("should return 'Test field not available' when no value is passed", () => {
+    expect(validateIfAvailable('Test field')).to.equal(
+      'Test field not available',
+    );
+  });
+
+  it('should return 0', () => {
+    expect(validateIfAvailable('Test field name', 0)).to.equal(0);
   });
 });
 
@@ -335,14 +352,16 @@ describe('sanitizeKramesHtmlStr function', () => {
   it('should convert h1 tags to h2 tags', () => {
     const inputHtml = '<h1>Heading 1</h1>';
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
-    expect(outputHtml).to.include('<h2 id="Heading 1">Heading 1</h2>');
+    expect(outputHtml).to.include(
+      '<h2 id="Heading 1" tabindex="-1">Heading 1</h2>',
+    );
   });
 
   it('should convert h3 tags to paragraphs if followed by h2 tags', () => {
     const inputHtml = '<h3>Subheading</h3><h2>Heading 2</h2>';
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
     expect(outputHtml).to.include(
-      '<p>Subheading</p><h2 id="Heading 2">Heading 2</h2>',
+      '<p>Subheading</p><h2 id="Heading 2" tabindex="-1">Heading 2</h2>',
     );
   });
 
@@ -362,7 +381,7 @@ describe('sanitizeKramesHtmlStr function', () => {
     const inputHtml = '<h2>THIS IS A HEADING</h2>';
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
     expect(outputHtml).to.include(
-      '<h2 id="This is a heading">This is a heading</h2>',
+      '<h2 id="This is a heading" tabindex="-1">This is a heading</h2>',
     );
   });
 
@@ -370,7 +389,7 @@ describe('sanitizeKramesHtmlStr function', () => {
     const inputHtml = '<h2>What SPECIAL PRECAUTIONS should I follow?</h2>';
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
     expect(outputHtml).to.include(
-      '<h2 id="What special precautions should I follow?">What special precautions should I follow?</h2>',
+      '<h2 id="What special precautions should I follow?" tabindex="-1">What special precautions should I follow?</h2>',
     );
   });
 

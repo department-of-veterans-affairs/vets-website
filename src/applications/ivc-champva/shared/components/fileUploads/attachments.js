@@ -3,7 +3,7 @@ import React from 'react';
 // Schema for use with fileUploadUI
 
 // Images + pdf
-export const fileTypes = ['jpeg', 'jpg', 'png', 'pdf'];
+export const fileTypes = ['jpg', 'png', 'pdf'];
 export const maxSize = '20MB'; // This appears to be the current limit
 export const minSize = '1.0KB';
 

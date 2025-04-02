@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import MhvSecondaryNavItem from './MhvSecondaryNavItem';
 
@@ -12,7 +13,7 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  * @property {Object[]} items the list of items to display in the navigation bar
  * @returns the navigation bar
  */
-const MhvSecondaryNavMenu = ({ items }) => {
+const MhvSecondaryNavMenu = ({ items, loading }) => {
   /**
    * Strip the trailing slash in a path if it exists.
    * @param {String} path the path
@@ -58,7 +59,11 @@ const MhvSecondaryNavMenu = ({ items }) => {
 
   return (
     <nav
-      className="vads-u-background-color--primary vads-u-color--white"
+      className={classNames(
+        'vads-u-background-color--primary',
+        'vads-u-color--white',
+        { 'vads-u-visibility--hidden': loading },
+      )}
       aria-label="My HealtheVet"
     >
       <div className="vads-u-font-family--sans vads-font-weight-regular usa-grid usa-grid-full row">
@@ -82,6 +87,7 @@ MhvSecondaryNavMenu.propTypes = {
       appRootUrl: PropTypes.string,
     }),
   ),
+  loading: PropTypes.bool,
 };
 
 export default MhvSecondaryNavMenu;

@@ -4,8 +4,7 @@ import FolderManagementPage from './pages/FolderManagementPage';
 import mockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import mockCustomMessagesResponse from './fixtures/message-custom-response.json';
 import mockFoldersResponse from './fixtures/folder-response.json';
-import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import mockMessages from './fixtures/messages-response.json';
+import mockMessages from './fixtures/threads-response.json';
 import mockMessagewithAttachment from './fixtures/message-response-withattachments.json';
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
@@ -28,7 +27,7 @@ describe('Secure Messaging Move Message tests', () => {
     PatientInboxPage.loadSingleThread(mockCustomMessagesResponse);
 
     FolderManagementPage.selectFolderFromModal();
-    FolderManagementPage.moveCustomFolderMessageToDifferentFolder();
+    FolderManagementPage.confirmMovingMessageToFolder();
 
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
@@ -39,9 +38,10 @@ describe('Secure Messaging Move Message tests', () => {
   it('move message from inbox to deleted', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
-    PatientMessageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
+    PatientInboxPage.loadSingleThread(mockCustomMessagesResponse);
 
-    FolderManagementPage.moveInboxFolderMessageToDifferentFolder();
+    FolderManagementPage.selectFolderFromModal();
+    FolderManagementPage.confirmMovingMessageToFolder();
 
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();

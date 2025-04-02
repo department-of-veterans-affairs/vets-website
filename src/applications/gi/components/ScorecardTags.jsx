@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
 const ScorecardTags = ({ styling, menOnly, womenOnly, relAffil, hbcu }) => {
@@ -14,6 +15,14 @@ const ScorecardTags = ({ styling, menOnly, womenOnly, relAffil, hbcu }) => {
       )}
     </div>
   );
+};
+
+ScorecardTags.propTypes = {
+  styling: PropTypes.string.isRequired,
+  hbcu: PropTypes.number,
+  menOnly: PropTypes.number,
+  relAffil: PropTypes.string,
+  womenOnly: PropTypes.number,
 };
 
 export default ScorecardTags;

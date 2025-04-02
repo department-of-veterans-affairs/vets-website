@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement, scrollTo, scrollAndFocus } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 
 import {
   getFormattedPhone,

@@ -161,6 +161,5 @@ describe('Education Application Wizard', () => {
   it.skip('flow for Updating Program of Study, Using Fry Scholarship', () => {
     selectUpdateProgramOfStudy();
     selectFryScholarshipOrDEABenefit();
-    assertApplyButtonShowsForForm('5495');
   });
 });

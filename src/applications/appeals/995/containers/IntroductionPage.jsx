@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
+import { OtherBenefits } from '../../shared/content/intro';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -28,12 +30,12 @@ const IntroductionPage = props => {
     pageList,
     pathname: '/introduction',
     prefillEnabled,
-    startText: 'Start your Claim',
+    startText: 'Start your claim',
     useActionLinks: true,
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle()} />
       <p className="va-introtext">
         If you disagree with our decision on your claim, a Supplemental Claim
@@ -83,10 +85,8 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
           <p>
-            You can file a Supplemental Claim if you have new and relevant
-            evidence that we didn’t have when we reviewed your case before. You
-            can file your claim anytime, but we recommend you file within 1 year
-            from the date on your decision letter.
+            You can file your claim anytime, but we recommend you file within 1
+            year from the date on your decision letter.
           </p>
           <p>
             <strong>Note:</strong> You can’t file a Supplemental Claim if you
@@ -116,22 +116,22 @@ const IntroductionPage = props => {
             <li>
               New evidence. You can either submit new evidence (supporting
               documents) or identify new evidence you want us to gather for you.
-              <strong> Note:</strong> If you have a condition that we consider
-              presumptive under a new law or regulation (such as the PACT Act),
-              you don’t need to submit evidence to prove that your service
-              caused the condition.
+              <p>
+                <strong> Note:</strong> If you have a condition that we consider
+                presumptive under a new law or regulation (such as the PACT
+                Act), you don’t need to submit evidence to prove that your
+                service caused the condition.
+              </p>
             </li>
             <li>
               The decision date of any issue you want us to review. You can ask
               us to review more than 1 issue.
             </li>
             <li>
-              The name and address of any private medical facility you’d like us
+              The name and address of any non-VA medical facility you’d like us
               to request your records from.
             </li>
-            <li>
-              The dates you were treated at that private medical facility.
-            </li>
+            <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
           <va-additional-info trigger="Types of Evidence" uswds>
             <div>
@@ -141,10 +141,10 @@ const IntroductionPage = props => {
                 has gotten worse
               </p>
               <p>
-                Private medical records and hospital reports that relate to your
+                Non-VA medical records and hospital reports that relate to your
                 claimed condition or show that your disability has gotten worse
               </p>
-              <p className="vads-u-margin-bottom--0">
+              <p>
                 Supporting statements from family, friends, coworkers, clergy,
                 or law enforcement personnel with knowledge about how and when
                 your disability happened or how it has gotten worse
@@ -152,10 +152,7 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
         </va-process-list-item>
-        <va-process-list-item
-          class="vads-u-padding-bottom--0"
-          header="Start your Supplemental Claim"
-        >
+        <va-process-list-item header="Start your Supplemental Claim">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.
@@ -176,6 +173,11 @@ const IntroductionPage = props => {
 
       <OmbInfo />
       <p />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
+        <Toggler.Enabled>
+          <OtherBenefits />
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };

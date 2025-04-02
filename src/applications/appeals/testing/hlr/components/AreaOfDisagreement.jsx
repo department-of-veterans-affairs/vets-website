@@ -7,7 +7,10 @@ import {
 
 import cloneDeep from '~/platform/utilities/data/cloneDeep';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { waitForRenderThenFocus } from '~/platform/utilities/ui';
+import {
+  scrollToFirstError,
+  waitForRenderThenFocus,
+} from '~/platform/utilities/ui';
 import { focusOnChange } from '~/platform/forms-system/src/js/utilities//ui';
 import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
 
@@ -33,10 +36,12 @@ const AreaOfDisagreement = ({
   contentAfterButtons,
   onReviewPage,
   updatePage,
+  uiSchema,
 }) => {
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(null);
   const [inputErrorMessage, setInputErrorMessage] = useState(null);
   const [maxLength, setMaxLength] = useState(MAX_LENGTH.DISAGREEMENT_REASON);
+  const focusOnAlertRole = uiSchema?.['ui:options'] || false;
 
   useEffect(
     () => {
@@ -93,15 +98,17 @@ const AreaOfDisagreement = ({
       setMaxError(disagreement);
       setCheckboxError(disagreement);
     },
-    onSubmit: () => {
+    onSubmit: event => {
+      event.preventDefault();
       const disagreement = data.areaOfDisagreement?.[pagePerItemIndex];
       if (setMaxError(disagreement)) {
         // clear no reason error
         setCheckboxErrorMessage(null);
-      } else if (!setCheckboxError(disagreement)) {
-        return goForward(data);
+      } else if (setCheckboxError(disagreement)) {
+        scrollToFirstError({ focusOnAlertRole });
+        return false;
       }
-      return false;
+      return goForward(data);
     },
     updatePage: () => {
       const disagreement = data.areaOfDisagreement[pagePerItemIndex] || {};
@@ -166,7 +173,11 @@ const AreaOfDisagreement = ({
       ) : (
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={handlers.onSubmit}
+            submitToContinue
+          />
           {contentAfterButtons}
         </div>
       )}

@@ -10,12 +10,7 @@ export class TypeOfFacilityPageObject extends PageObject {
   }
 
   selectTypeOfFacility(label) {
-    cy.findByLabelText(label)
-      .as('radio')
-      .focus();
-    cy.get('@radio').check();
-
-    return this;
+    return super.selectRadioButtonShadow(label);
   }
 }
 

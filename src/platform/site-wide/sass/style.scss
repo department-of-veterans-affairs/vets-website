@@ -1,12 +1,15 @@
-$formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "modules/m-overrides";
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/core";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/override-function";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
+@import "v1-grid";
+@import "fonts";
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
+
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
@@ -25,7 +28,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-linklist";
-@import "~@department-of-veterans-affairs/formation/sass/shame";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/shame";
 
 @import "modules/m-button";
 @import "modules/m-footer";

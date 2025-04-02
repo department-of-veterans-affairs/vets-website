@@ -17,10 +17,14 @@ describe('MessageActionButtons component', () => {
       },
     },
   };
+  const initialProps = {
+    threadId,
+    hideReplyButton: true,
+  };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, props = initialProps) => {
     return renderWithStoreAndRouter(
-      <MessageActionButtons threadId={threadId} />,
+      <MessageActionButtons threadId={threadId} {...props} />,
       {
         initialState: state,
         reducers: reducer,
@@ -53,5 +57,28 @@ describe('MessageActionButtons component', () => {
     expect(screen.getByText('Print')).to.exist;
     expect(screen.queryByText('Move')).to.not.exist;
     expect(screen.queryByText('Trash')).to.not.exist;
+  });
+
+  it('renders the reply button', () => {
+    const mockState = {
+      sm: {
+        folders: {
+          folderList,
+          folder: folders.inbox,
+        },
+        threadDetails: {
+          messages: [{ messageId: 123456 }],
+        },
+      },
+    };
+
+    const mockProps = {
+      threadId,
+      hideReplyButton: false,
+      showEditDraftButton: false,
+    };
+
+    const screen = setup(mockState, mockProps);
+    expect(screen.getByText('Reply')).to.exist;
   });
 });

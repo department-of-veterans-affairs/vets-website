@@ -1,4 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
@@ -365,7 +366,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     &::before {
       content: "";
       -webkit-mask-image: url("/img/navigate_far_before.svg#icon");
-      mask-image: url("/img/navigate_far_before.svg#icon")t;
+      mask-image: url("/img/navigate_far_before.svg#icon");
     }
   }
 }
@@ -376,7 +377,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     &::after {
       content: "";
       -webkit-mask-image: url("/img/navigate_far_next.svg#icon");
-      mask-image: url("/img/navigate_far_next.svg#icon")t;
+      mask-image: url("/img/navigate_far_next.svg#icon");
     }
   }
 }
@@ -401,5 +402,14 @@ va-checkbox {
       color: var(--vads-color-gray);
       font-weight: normal;
     }
+  }
+}
+
+.resolution-option-radio {
+  .usa-radio__label {
+    font-weight: bold;
+  }
+  .usa-radio__label-description {
+    font-weight: normal;
   }
 }

@@ -58,26 +58,27 @@ const NavCard = ({
         'vads-u-background-color--gray-lightest',
       )}
     >
-      <div className="vads-u-display--flex vads-u-align-items--center">
-        {icon && (
-          <div className={`vads-u-flex--auto ${iconClasses}`}>
-            <va-icon icon={icon} size={4} />
+      <div className="vads-l-row vads-u-margin-right--neg1">
+        <div className="vads-u-display--flex vads-u-align-items--center">
+          {icon && (
+            <div className={`vads-u-flex--auto ${iconClasses}`}>
+              <va-icon icon={icon} size={4} />
+            </div>
+          )}
+          <div className="vads-u-flex--fill vads-u-margin-right--1p5">
+            <h2 className="vads-u-margin--0" id={slug}>
+              {title}
+            </h2>
           </div>
-        )}
-        <h2
-          className="vads-u-margin--0 small-desktop-screen:vads-u-margin-right--2"
-          id={slug}
-        >
-          {title}
-        </h2>
+        </div>
         {tag && (
-          <div className="vads-u-flex--auto">
+          <div className="vads-u-margin-top--1">
             <span
               className={classnames(
                 'usa-label',
                 'vads-u-background-color--primary',
                 'vads-u-display--none',
-                'small-desktop-screen:vads-u-display--block',
+                'medium-screen:vads-u-display--block',
               )}
             >
               {tag}
@@ -92,7 +93,7 @@ const NavCard = ({
               'usa-label',
               'vads-u-background-color--primary',
               'vads-u-display--inline-block',
-              'small-desktop-screen:vads-u-display--none',
+              'medium-screen:vads-u-display--none',
             )}
           >
             {tag}

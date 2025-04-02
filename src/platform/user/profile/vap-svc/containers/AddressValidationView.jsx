@@ -7,29 +7,40 @@ import {
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 import {
-  selectAddressValidation,
   hasBadAddress,
+  selectAddressValidation,
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { setData } from 'platform/forms-system/exportsFile';
+import { ContactInfoFormAppConfigContext } from '../components/ContactInfoFormAppConfigContext';
 import * as VAP_SERVICE from '../constants';
 import {
-  openModal,
+  closeModal,
   createTransaction,
+  openModal,
+  resetAddressValidation as resetAddressValidationAction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal,
-  resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
+  // using the context so we can get the right fieldName to access
+  // the updateProfileChoice in the vapService.formFields state
+  updateProfileChoice =
+    this.context?.fieldName &&
+    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
+      ?.updateProfileChoice;
+
   componentDidMount() {
-    // scroll on the alert since the web component doesn't have a focus/suto-scroll method built in like the React component
+    // scroll on the alert since the web component doesn't have a focus/auto-scroll method built in like the React component
     waitForRenderThenFocus('#address-validation-alert-heading');
   }
 
@@ -79,6 +90,28 @@ class AddressValidationView extends React.Component {
       ...selectedAddress,
       validationKey,
     };
+
+    if (this.context?.prefillPatternEnabled) {
+      const shouldOnlyUpdateForm = this.updateProfileChoice === 'no';
+
+      if (shouldOnlyUpdateForm) {
+        // using this context allows us to get the initial formKey and keys that may
+        // potentially be customized when the main profileContactInfo factory function is used
+        const { updateContactInfoForFormApp, fieldName } = this.context;
+
+        updateContactInfoForFormApp(
+          fieldName,
+          payload,
+          this.updateProfileChoice,
+        );
+
+        // this should cause navigation back to the ContactInfo page
+        this.props.successCallback();
+
+        this.props.openModal();
+        return;
+      }
+    }
 
     const suggestedAddressSelected = selectedAddressId !== 'userEntered';
 
@@ -134,7 +167,13 @@ class AddressValidationView extends React.Component {
       'profile-action': 'edit-link',
       'profile-section': analyticsSectionName,
     });
-    this.props.openModal(addressValidationType, addressFromUser);
+
+    // adding the updateProfileChoice to the addressFromUser object so that
+    // the radio button on address form can be set correctly for new edits
+    this.props.openModal(addressValidationType, {
+      ...addressFromUser,
+      updateProfileChoice: this.updateProfileChoice,
+    });
   };
 
   renderPrimaryButton = () => {
@@ -143,15 +182,19 @@ class AddressValidationView extends React.Component {
       validationKey,
       isLoading,
       confirmedSuggestions,
+      selectedAddressId,
     } = this.props;
 
-    let buttonText = 'Use this address';
+    let buttonText = 'Use address you entered';
 
     if (confirmedSuggestions.length === 0 && validationKey) {
-      buttonText = 'Use this address';
+      buttonText = 'Use address you entered';
     }
 
-    if (confirmedSuggestions.length === 1 && !validationKey) {
+    if (
+      confirmedSuggestions.length === 1 &&
+      selectedAddressId !== 'userEntered'
+    ) {
       buttonText = 'Use suggested address';
     }
 
@@ -160,14 +203,28 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <va-button primary onClick={this.onEditClick} text="Edit Address" />
+        <Toggler.Hoc
+          toggleName={TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert}
+        >
+          {toggleValue =>
+            !toggleValue ? (
+              <button
+                onClick={this.onEditClick}
+                type="submit"
+                className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+              >
+                Edit Address
+              </button>
+            ) : null
+          }
+        </Toggler.Hoc>
       );
     }
 
     return (
       <LoadingButton
         isLoading={isLoading}
-        className="usa-button-secondary"
+        type="submit"
         data-testid="confirm-address-button"
         aria-label={isLoading ? 'Loading' : buttonText}
       >
@@ -193,10 +250,7 @@ class AddressValidationView extends React.Component {
     const { street, cityStateZip, country } = formatAddress(address);
 
     return (
-      <div
-        key={id}
-        className="vads-u-margin-bottom--1p5 address-validation-container"
-      >
+      <div key={id} className="address-validation-container">
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
@@ -242,18 +296,23 @@ class AddressValidationView extends React.Component {
       transaction,
       transactionRequest,
       isLoading,
+      validationKey,
+      isNoValidationKeyAlertEnabled,
     } = this.props;
 
     const validationMessageKey = getValidationMessageKey({
       suggestedAddresses,
       addressValidationError,
       confirmedSuggestions,
+      validationKey,
+      isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
     });
 
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
-    const shouldShowSuggestions = confirmedSuggestions.length > 0;
+    const shouldShowSuggestions =
+      confirmedSuggestions && confirmedSuggestions.length > 0;
 
     const error =
       transactionRequest?.error ||
@@ -295,15 +354,17 @@ class AddressValidationView extends React.Component {
             </div>
           )}
 
-          <div className="vads-u-display--flex small-screen:vads-u-display--block vads-u-flex-direction--column">
-            {!isLoading && (
-              <va-button
-                primary
-                onClick={this.onEditClick}
-                text="Go back to edit"
-              />
-            )}
+          <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
             {this.renderPrimaryButton()}
+            {!isLoading && (
+              <button
+                type="button"
+                className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                onClick={this.onEditClick}
+              >
+                Go back to edit
+              </button>
+            )}
           </div>
         </form>
       </>
@@ -311,8 +372,13 @@ class AddressValidationView extends React.Component {
   }
 }
 
+AddressValidationView.contextType = ContactInfoFormAppConfigContext;
+
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
+  const vapServiceFormFields = state.vapService?.formFields;
+  const formAppData = state?.form?.data;
+
   const {
     addressFromUser,
     addressValidationError,
@@ -324,7 +390,11 @@ const mapStateToProps = (state, ownProps) => {
     validationKey,
   } = selectAddressValidation(state);
   const userHasBadAddress = hasBadAddress(state);
+  const isNoValidationKeyAlertEnabled =
+    state.featureToggles?.profileShowNoValidationKeyAddressAlert; // remove when profileShowNoValidationKeyAddressAlert flag is retired
   return {
+    vapServiceFormFields,
+    formAppData,
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
@@ -339,6 +409,7 @@ const mapStateToProps = (state, ownProps) => {
     suggestedAddresses,
     userHasBadAddress,
     validationKey,
+    isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
   };
 };
 
@@ -349,6 +420,7 @@ const mapDispatchToProps = {
   updateValidationKeyAndSave,
   createTransaction,
   resetAddressValidation: resetAddressValidationAction,
+  setDataAction: setData,
 };
 
 AddressValidationView.propTypes = {
@@ -358,6 +430,7 @@ AddressValidationView.propTypes = {
   closeModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
+  setDataAction: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
@@ -377,14 +450,18 @@ AddressValidationView.propTypes = {
       addressPou: PropTypes.string.isRequired,
     }),
   ),
+  formAppData: PropTypes.object,
   isLoading: PropTypes.bool,
+  isNoValidationKeyAlertEnabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
-  transaction: PropTypes.string,
+  successCallback: PropTypes.func,
+  transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
   validationKey: PropTypes.number,
+  vapServiceFormFields: PropTypes.object,
 };
 
 export default connect(

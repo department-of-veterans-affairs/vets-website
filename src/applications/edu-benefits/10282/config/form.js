@@ -1,136 +1,187 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-10282-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-10282-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/22-10282-schema.json';
-
+import React from 'react';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import {
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
-
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// pages
-import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+import {
+  applicantInformationCountry,
+  veteranDesc,
+  applicantContactInfo,
+  applicantState,
+  genderRaceQuestion,
+  applicantRaceAndEthnicity,
+  applicantGender,
+  highestLevelOfEducation,
+  currentAnnualSalary,
+  techIndustryFocusArea,
+} from '../pages';
+import StatementOfTruth from '../components/StatementOfTruth';
+import submitForm from './submitForm';
+import { transform } from './submit-transformer';
+import FormHelp from '../components/FormHelp';
+import IntroductionPage from '../containers/IntroductionPage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10282`,
+  submit: submitForm,
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-10282',
+  formId: VA_FORM_IDS.FORM_22_10282,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your 	education benefits application (22-10282) is in progress.',
-    //   expired: 'Your saved 	education benefits application (22-10282) has expired. If you want to apply for 	education benefits, please start a new application.',
-    //   saved: 'Your 	education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your education benefits application (22-10282) is in progress.',
+      expired:
+        'Your saved education benefits application (22-10282) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    required: true,
+    CustomComponent: StatementOfTruth,
+  },
   savedFormMessages: {
-    notFound: 'Please start over to apply for 	education benefits.',
+    notFound: 'Please start over to apply for education benefits.',
     noAuth:
-      'Please sign in again to continue your application for 	education benefits.',
+      'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-  },
+  title: 'Apply for the IBM SkillsBuild program',
+  subTitle:
+    'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
+  footerContent: FormFooter,
+  getHelp: () => <FormHelp tag={React.Fragment} />,
+  defaultDefinitions: {},
+  transformForSubmit: transform,
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    personalInformation: {
+      title: 'Your personal information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        applicantName: {
+          title: 'Your name',
+          path: 'applicant/information',
           uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
-          },
-        },
-      },
-    },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
+            veteranFullName: fullNameNoSuffixUI(false),
+            ...titleUI('Your name'),
           },
           schema: {
             type: 'object',
             properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
+              veteranFullName: fullNameNoSuffixSchema,
             },
           },
         },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
+        veteranDesc: {
+          title: 'Your relationship to Veteran',
+          path: 'applicant-information-1',
+          uiSchema: veteranDesc.uiSchema,
+          schema: veteranDesc.schema,
+        },
+        contactInfo: {
+          title: 'Your contact information',
+          path: 'applicant-information-2',
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
+        },
+        applicantCountry: {
+          title: 'Your country of residence',
+          path: 'applicant-information-3',
+          uiSchema: applicantInformationCountry.uiSchema,
+          schema: applicantInformationCountry.schema,
+        },
+        applicantState: {
+          title: 'Your state of residence',
+          path: 'applicant-information-4',
+          uiSchema: applicantState.uiSchema,
+          schema: applicantState.schema,
+          depends: formData => {
+            return formData.country === 'United States';
+          },
+        },
+        genderRaceQuestion: {
+          title: 'Optional demographic information',
+          path: 'applicant-information-5',
+          uiSchema: genderRaceQuestion.uiSchema,
+          schema: genderRaceQuestion.schema,
+        },
+        applicantRaceAndEthnicity: {
+          title: 'Your ethnicity and race',
+          path: 'applicant-information-6',
+          uiSchema: applicantRaceAndEthnicity.uiSchema,
+          schema: applicantRaceAndEthnicity.schema,
+          depends: formData => formData.raceAndGender === true,
+        },
+        applicantGender: {
+          title: 'Your gender identity',
+          path: 'applicant-information-7',
+          uiSchema: applicantGender.uiSchema,
+          schema: applicantGender.schema,
+          depends: formData => formData.raceAndGender === true,
+        },
+      },
+    },
+    educationAndEmploymentHistory: {
+      title: 'Your education and employment history',
+      pages: {
+        highestLevelOfEducation: {
+          title: 'Your education',
+          path: 'education-employment-history-1',
+          uiSchema: highestLevelOfEducation.uiSchema,
+          schema: highestLevelOfEducation.schema,
+        },
+        currentlyEmployed: {
+          title: 'Your employment',
+          path: 'education-employment-history-2',
+          uiSchema: {
+            ...titleUI('Your employment'),
+            currentlyEmployed: yesNoUI('Are you currently employed?'),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              currentlyEmployed: yesNoSchema,
+            },
+          },
+        },
+        currentAnnualSalary: {
+          title: 'Your current annual salary',
+          path: 'education-employment-history-3',
+          uiSchema: currentAnnualSalary.uiSchema,
+          schema: currentAnnualSalary.schema,
+        },
+        isWorkingInTechIndustry: {
+          title: 'Your technology industry involvement',
+          path: 'education-employment-history-4',
+          uiSchema: {
+            ...titleUI('Your technology industry involvement'),
+            isWorkingInTechIndustry: yesNoUI(
+              'Do you currently work in the technology industry?',
+            ),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              isWorkingInTechIndustry: yesNoSchema,
+            },
+          },
+        },
+        techIndustryFocusArea: {
+          title: 'Your main area of focus',
+          path: 'education-employment-history-5',
+          uiSchema: techIndustryFocusArea.uiSchema,
+          schema: techIndustryFocusArea.schema,
         },
       },
     },

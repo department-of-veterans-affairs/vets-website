@@ -9,10 +9,12 @@ import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM Multi Facility Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-    'mhv_secure_messaging_edit_contact_list',
-    true,
-  );
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_edit_contact_list',
+      value: true,
+    },
+  ]);
   beforeEach(() => {
     SecureMessagingSite.login(
       updatedFeatureToggle,
@@ -48,9 +50,14 @@ describe('SM Multi Facility Contact list', () => {
   });
 
   it(`user won't see the alert after saving changes`, () => {
-    ContactListPage.selectCheckBox(`ABC`);
-    ContactListPage.selectCheckBox(`100`);
-    ContactListPage.clickSaveContactListButton();
+    const selectedTeam = [`100`, `ABC`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockMixRecipients,
+      selectedTeam,
+    );
+    ContactListPage.selectCheckBox(selectedTeam[0]);
+    ContactListPage.selectCheckBox(selectedTeam[1]);
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);

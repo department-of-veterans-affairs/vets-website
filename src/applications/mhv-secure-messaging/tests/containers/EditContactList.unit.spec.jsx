@@ -7,6 +7,8 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
+import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
+import oneAssociatedFacility from '../fixtures/json-triage-mocks/triage-teams-one-facility-mock.json';
 import drupalStaticData from '../fixtures/json-triage-mocks/drupal-data-mock.json';
 import reducer from '../../reducers';
 import EditContactList from '../../containers/EditContactList';
@@ -51,6 +53,48 @@ describe('Edit Contact List container', async () => {
     screen.unmount();
   });
 
+  it('renders just one facility with all triage groups if only one facility is associated', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allowedRecipients: [...oneAssociatedFacility.mockAllowedRecipients],
+          blockedRecipients: [...oneAssociatedFacility.mockBlockedRecipients],
+          associatedTriageGroupsQty:
+            oneAssociatedFacility.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            oneAssociatedFacility.associatedBlockedTriageGroupsQty,
+          noAssociations: oneAssociatedFacility.noAssociations,
+          allTriageGroupsBlocked: oneAssociatedFacility.allTriageGroupsBlocked,
+          allFacilities: [...oneAssociatedFacility.mockAllFacilities],
+          blockedFacilities: [...oneAssociatedFacility.mockBlockedFacilities],
+          allRecipients: [...oneAssociatedFacility.mockAllRecipients],
+        },
+      },
+    };
+    const screen = setup(customState);
+
+    const facilityGroups = await screen.findAllByTestId(/-facility-group$/);
+    expect(facilityGroups.length).to.equal(1);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'Select the teams you want to show in your contact list. You must select at least one team.',
+        ),
+      ).to.exist;
+
+      const selectAllTeams = screen.getAllByTestId(/select-all-/);
+      expect(selectAllTeams[0]).to.have.attribute(
+        'label',
+        'Select all 6 teams',
+      );
+    });
+
+    screen.unmount();
+  });
+
   it('renders multiple groups if multiple facilities are connected', async () => {
     const screen = setup();
 
@@ -60,14 +104,19 @@ describe('Edit Contact List container', async () => {
     expect(facilityGroups[1]).to.have.attribute('label', 'Test Facility 1');
 
     await waitFor(() => {
+      expect(
+        screen.getByText(
+          'Select the teams you want to show in your contact list. You must select at least one team from one of your facilities.',
+        ),
+      ).to.exist;
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
         'label',
-        'Select all 4 Test Facility 2 teams',
+        'Select all 4 teams',
       );
       expect(selectAllTeams[1]).to.have.attribute(
         'label',
-        'Select all 2 Test Facility 1 teams',
+        'Select all 2 teams',
       );
 
       const allTriageTeams = screen.getAllByTestId(/contact-list-select-team-/);
@@ -312,5 +361,104 @@ describe('Edit Contact List container', async () => {
     await waitFor(() => {
       expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
     });
+  });
+
+  it('error alert displayed if "save" clicked and an error is returned', async () => {
+    const errorResponse = {
+      errors: [
+        {
+          title: 'Service unavailable',
+          detail: 'Backend Service Outage',
+          code: '403',
+          status: '403',
+        },
+      ],
+    };
+
+    const screen = setup();
+
+    const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
+    expect(guardModal).to.have.attribute('visible', 'false');
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    expect(checkbox).to.have.attribute('checked', 'false');
+
+    const saveButton = screen.getByTestId('contact-list-save');
+    mockApiRequest({ ...errorResponse, status: 403 }, false);
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert.getAttribute('status')).to.equal('error');
+      expect(
+        screen.getByText(
+          "We're sorry. We couldn't save your changes. Try saving again.",
+        ),
+      ).to.exist;
+    });
+
+    screen.unmount();
+  });
+
+  it('"No teams" alert displayed if there are no triage teams loaded', async () => {
+    const customState = {
+      drupalStaticData,
+      sm: {
+        recipients: {
+          allowedRecipients: [...noAssociationsAtAll.mockAllowedRecipients],
+          blockedRecipients: [...noAssociationsAtAll.mockBlockedRecipients],
+          associatedTriageGroupsQty:
+            noAssociationsAtAll.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+          allFacilities: [...noAssociationsAtAll.mockAllFacilities],
+          blockedFacilities: [...noAssociationsAtAll.mockBlockedFacilities],
+          allRecipients: [...noAssociationsAtAll.mockAllRecipients],
+          error: true,
+        },
+      },
+    };
+    const screen = setup(customState);
+
+    const noTeamsAlert = screen.getByTestId('contact-list-empty-alert');
+    expect(noTeamsAlert).to.have.attribute('status', 'error');
+
+    expect(screen.getByText('We can’t load your contact list right now')).to
+      .exist;
+
+    screen.unmount();
+  });
+
+  it('should redirect to draft message on go back button click if an active draft is present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        breadcrumbs: {
+          previousUrl: Paths.COMPOSE,
+        },
+        threadDetails: {
+          drafts: [{ messageId: '123123' }],
+        },
+      },
+    };
+
+    const screen = setup(customState);
+
+    const cancelButton = await screen.findByTestId('contact-list-go-back');
+    fireEvent.click(cancelButton);
+
+    expect(screen.history.location.pathname).to.equal(
+      `${Paths.MESSAGE_THREAD}123123/`,
+    );
+
+    screen.unmount();
   });
 });

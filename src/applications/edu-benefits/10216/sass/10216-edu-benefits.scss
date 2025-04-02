@@ -1,7 +1,45 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-field-template {
+  &:has(label[id="root_studentRatioCalcChapter_studentPercentageCalc_calculatedPercentage-label"]) {
+    display: none;
+  }
+}
+
+va-accordion-item[data-chapter="submissionInstructionsChapter"] {
+  display: none;
+}
+
+@media (max-width: $small-screen) {
+  body[data-location="confirmation"] .form-22-10216-container {
+    padding-inline: 1rem;
+  }
+
+  .form-22-10216-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-10216-container .schemaform-buttons,
+  .form-22-10216-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+
+  va-need-help {
+    margin: 0 0.5rem;
+  }
+}

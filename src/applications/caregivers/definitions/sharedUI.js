@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
+  textUI,
   radioUI,
   selectUI,
   dateOfBirthUI,
@@ -11,9 +11,12 @@ import {
   ssnUI as platformSsnUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
-import { validateSsnIsUnique, requireAddressFields } from '../utils/validation';
-import { setAddressCountry } from '../utils/helpers/schema';
-import { replaceStrValues } from '../utils/helpers';
+import {
+  validateSsnIsUnique,
+  validateAddressFields,
+  validateCountyInput,
+} from '../utils/validation';
+import { setAddressCountry, replaceStrValues } from '../utils/helpers';
 import AddressWithAutofill from '../components/FormFields/AddressWithAutofill';
 import CustomReviewField from '../components/FormReview/CustomReviewField';
 import content from '../locales/en/content.json';
@@ -36,19 +39,23 @@ export const addressUI = props => {
       'ui:title': replaceStrValues(content['vet-address-street-label'], label),
       'ui:options': { hint },
     },
-    county: {
-      'ui:title': content['vet-address-county-label'],
-      'ui:description': countyDescription,
-      'ui:webComponentField': VaTextInputField,
-      'ui:reviewField': CustomReviewField,
-      'ui:required': () => requireCounty,
-    },
+    county: textUI({
+      title: content['vet-address-county-label'],
+      hint: content['form-address-county-hint'],
+      description: countyDescription,
+      reviewField: CustomReviewField,
+      required: () => requireCounty,
+      validations: [validateCountyInput],
+      errorMessages: {
+        required: content['validation-address--county-required'],
+      },
+    }),
   });
 };
 
 export const addressWithAutofillUI = () => ({
   'ui:field': AddressWithAutofill,
-  'ui:validations': [requireAddressFields],
+  'ui:validations': [validateAddressFields],
   'ui:options': {
     hideTextLabel: true,
   },

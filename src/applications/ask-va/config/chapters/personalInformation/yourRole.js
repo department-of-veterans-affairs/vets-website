@@ -1,15 +1,20 @@
-import FormElementTitle from '../../../components/FormElementTitle';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_3, yourRoleOptions } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const yourRolePage = {
   uiSchema: {
-    'ui:description': FormElementTitle({ title: CHAPTER_3.YOUR_ROLE.TITLE }),
     'ui:objectViewField': PageFieldSummary,
     yourRole: radioUI({
-      title: CHAPTER_3.YOUR_ROLE.QUESTION_1,
+      title: CHAPTER_3.YOUR_ROLE.TITLE,
+      labelHeaderLevel: '3',
       labels: yourRoleOptions,
+      errorMessages: {
+        required: 'Please select your role',
+      },
     }),
   },
   schema: {

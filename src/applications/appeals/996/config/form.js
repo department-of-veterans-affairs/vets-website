@@ -24,7 +24,6 @@ import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
-import optIn from '../pages/optIn';
 import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConferenceChoice';
@@ -36,30 +35,23 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import {
-  mayHaveLegacyAppeals,
-  showNewHlrContent,
-  hideNewHlrContent,
   onFormLoaded,
   showConferenceContact,
   showConferenceVeteranPage,
   showConferenceRepPages,
 } from '../utils/helpers';
 import { homelessPageTitle } from '../content/homeless';
-import NeedHelp from '../content/NeedHelp';
 import { formTitle, subTitle } from '../content/title';
 
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import {
-  focusH3,
-  focusToggledHeader,
-  focusOnAlert,
-  focusIssue,
-} from '../../shared/utils/focus';
+import { focusH3, focusOnAlert, focusIssue } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -68,7 +60,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: 'higher_level_reviews',
+  submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {
@@ -125,8 +117,13 @@ const formConfig = {
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
   scrollAndFocusTarget: focusH3, // scroll and focus fallback
+  reviewEditFocusOnHeaders: true,
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
+
+  formOptions: {
+    focusOnAlertRole: true,
+  },
 
   additionalRoutes: [
     {
@@ -153,7 +150,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusToggledHeader, // focusH3,
+          scrollAndFocusTarget: focusH3,
         },
         ...contactInfo,
       },
@@ -193,23 +190,11 @@ const formConfig = {
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
         },
-        optIn: {
-          title: 'Opt in',
-          path: 'opt-in',
-          uiSchema: optIn.uiSchema,
-          schema: optIn.schema,
-          depends: formData =>
-            hideNewHlrContent(formData) && mayHaveLegacyAppeals(formData),
-          initialData: {
-            socOptIn: false,
-          },
-        },
         authorization: {
           title: 'Authorization',
           path: 'authorization',
           uiSchema: authorization.uiSchema,
           schema: authorization.schema,
-          depends: showNewHlrContent,
         },
         issueSummary: {
           title: 'Issue summary',
@@ -231,7 +216,7 @@ const formConfig = {
           // new page choices: 'yes' or 'no'
           CustomPage: InformalConference,
           CustomPageReview: InformalConferenceReview,
-          scrollAndFocusTarget: focusToggledHeader,
+          scrollAndFocusTarget: focusH3,
         },
         conferenceContact: {
           path: 'informal-conference/contact',
@@ -270,7 +255,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: NeedHelp,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;

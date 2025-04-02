@@ -9,12 +9,11 @@ import {
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('va-breadcrumbs');
   }
 
   navigateToPrint = () => {
@@ -30,16 +29,26 @@ class StatusPage extends React.Component {
       introText = (
         <div className="va-introtext">
           <p>
-            The information on this page is the same information that’s in your
-            Certificate of Eligibility (COE) letter for Post-9/11 GI Bill
-            (Chapter 33) benefits. You can print this page and use it instead of
-            your COE to show that you qualify for benefits.
+            You can print your statement and use it as a replacement for a
+            Certificate of Eligibility (COE) to show that you qualify for
+            benefits. This statement only includes entitlement earned through
+            your own military service. If you recently transferred entitlement,
+            it may not be reflected here.
           </p>
+          <p>
+            The Supreme Court’s Rudisill decision may increase your months of
+            entitlement if you have two or more qualifying periods of active
+            duty.
+          </p>
+          <va-link
+            href="https://benefits.va.gov/gibill/rudisill.asp"
+            text="Learn more about requesting a Rudisill review"
+          />
         </div>
       );
 
       printButton = (
-        <div className="section">
+        <div className="section vads-u-margin-top--4">
           <VaButton
             text="Get printable statement of benefits"
             onClick={this.navigateToPrint}
@@ -50,15 +59,15 @@ class StatusPage extends React.Component {
     }
 
     return (
-      <div className="gib-info vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="gib-info vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--9">
-            <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>
+            <h1>Check your remaining Post-9/11 GI Bill benefits</h1>
             {introText}
             {printButton}
             <UserInfoSection enrollmentData={enrollmentData} />
             <h3>How can I see my Post-9/11 GI Bill benefit payments?</h3>
-            <div>
+            <div className="vads-u-margin-bottom--4">
               If you've received education benefit payments through this
               program,{' '}
               <a href="/va-payment-history/payments/">
@@ -66,13 +75,13 @@ class StatusPage extends React.Component {
               </a>
               .
             </div>
-            <EnrollmentHistory enrollmentData={enrollmentData} />
             <VaNeedHelp>
               <div slot="content">
-                <p>
-                  Call us at <VaTelephone contact="8008271000" />. We're here
-                  Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-                  hearing loss, call <VaTelephone contact="711" tty="true" />.
+                <p className="vads-u-margin-top--0">
+                  Call 888-GI-BILL-1 (<VaTelephone contact="8884424551" />
+                  ). We're here from Monday through Friday, 8:00 a.m to 7:00 p.m
+                  ET. If you have hearing loss, call{' '}
+                  <VaTelephone contact="711" tty="true" />.
                 </p>
               </div>
             </VaNeedHelp>

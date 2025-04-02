@@ -1,11 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import moment from 'moment';
 
-import {
-  VaAlert,
-  VaSummaryBox,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { formatDateParsedZoneLong } from '@department-of-veterans-affairs/platform-utilities/date';
 
@@ -30,55 +26,18 @@ export function formatVAFileNumber(n) {
 }
 
 export function formatMonthDayFields(field) {
-  let displayValue;
-  if (field) {
-    if (field.days === 1) {
-      displayValue = `${field.months} months, ${field.days} day`;
-    } else {
-      displayValue = `${field.months} months, ${field.days} days`;
-    }
-  } else {
-    displayValue = 'unavailable';
+  if (!field || field.months == null || field.days == null) {
+    return 'unavailable';
   }
-  return displayValue;
-}
 
-export const enrollmentHistoryExplanation = {
-  standard: (
-    <VaSummaryBox className="feature-box">
-      <h4 slot="headline">
-        Does something look wrong in your enrollment history?
-      </h4>
-      <p>Certain enrollments may not be displayed in this history if:</p>
-      <ul>
-        <li>
-          Your school made a request to us that’s still in process,{' '}
-          <strong>or</strong>
-        </li>
-        <li>
-          You made a request to us that’s still in process, <strong>or</strong>
-        </li>
-        <li>
-          You used or are using your benefit for flight, on-the-job,
-          apprenticeship, or correspondence training
-        </li>
-      </ul>
-    </VaSummaryBox>
-  ),
-  noEnrollmentHistory: (
-    <VaSummaryBox className="feature-box">
-      <h4 slot="headline">You don’t have any enrollment history</h4>
-      <p>Your enrollment history may not be available if:</p>
-      <ul>
-        <li>
-          You or your school did not yet make a request to us,{' '}
-          <strong>or</strong>
-        </li>
-        <li>You or your school made a request that’s still in process</li>
-      </ul>
-    </VaSummaryBox>
-  ),
-};
+  const { months, days } = field;
+
+  const monthString = `${months} ${months === 1 ? 'month' : 'months'}`;
+
+  const dayString = `${days} ${days === 1 ? 'day' : 'days'}`;
+
+  return `${monthString}, ${dayString}`;
+}
 
 export function benefitEndDateExplanation(condition, delimitingDate) {
   switch (condition) {
@@ -146,16 +105,17 @@ export function notQualifiedWarning() {
             </a>
           </li>
           <li>
-            If you’re enrolled in education benefits through another chapter
-            (Montgomery GI Bill (MGIB) or Reservists Educational Assistance
-            Program (REAP)), check our{' '}
+            If you’re enrolled in education benefits through MGIB-Active Duty or
+            MGIB-Selected Reserve benefits, confirm your school enrollment by
+            using the{' '}
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.gibill.va.gov/wave/index.do"
+              href="https://www.va.gov/education/verify-school-enrollment"
             >
-              Web Automated Verification of Enrollment (W.A.V.E)
+              Verify Your Enrollment (VYE)
             </a>
+            &nbsp;tool.
           </li>
         </ul>
       </div>
@@ -213,11 +173,31 @@ export const serviceDowntimeErrorMessage = (
 );
 
 export const genericErrorMessage = (
-  <div>
-    <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
-    <Link className="usa-button usa-button-primary" to="/">
-      Back to Post-9/11 GI Bill
-    </Link>
+  <div
+    id="genericErrorMessage"
+    className="vads-u-margin-bottom--2 grid-col usa-width-two-thirds"
+  >
+    <va-alert
+      class="vads-u-margin-bottom--3"
+      close-btn-aria-label="Close notification"
+      disable-analytics="false"
+      full-width="false"
+      slim
+      status="warning"
+      visible
+    >
+      <p className="vads-u-margin-y--0">
+        We’re sorry. Something went wrong on our end. Please try again later.
+      </p>
+    </va-alert>
+    <va-button
+      className="usa-button usa-button-primary"
+      onClick={e => {
+        e.preventDefault();
+        window.history.back();
+      }}
+      text=" Back to Post-9/11 GI Bill"
+    />
   </div>
 );
 
@@ -227,13 +207,23 @@ export const authenticationErrorMessage = (
     className="vads-u-margin-bottom--2 grid-col usa-width-two-thirds"
   >
     <div className="vads-u-margin-bottom--2">
-      <VaAlert status="info" visible>
-        Your Post-9/11 GI Bill Statement of Benefits isn’t available in this
-        tool.
-      </VaAlert>
-
-      <h2>Why can’t I access my Statement of Benefits?</h2>
-
+      <h1 className="vads-u-font-size--h2">
+        Why can’t I access my Statement of Benefits?
+      </h1>
+      <va-alert
+        class="vads-u-margin-bottom--3"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        slim
+        status="info"
+        visible
+      >
+        <p className="vads-u-margin-y--0">
+          Your Post-9/11 GI Bill Statement of Benefits isn’t available in this
+          tool.
+        </p>
+      </va-alert>
       <p>
         Here are some reasons your Post-9/11 GI Bill Statement of Benefits might
         not be available:
@@ -251,9 +241,10 @@ export const authenticationErrorMessage = (
           <li>
             You haven’t applied yet for Post-9/11 GI Bill education benefits.
             <br />
-            <Link to="/education/apply-for-benefits-form-22-1990/introduction">
-              Apply for education benefits
-            </Link>
+            <va-link
+              href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
+              text="Apply for education benefits"
+            />
           </li>
           <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
           <li>

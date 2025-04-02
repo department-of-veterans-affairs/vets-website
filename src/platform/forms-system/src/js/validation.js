@@ -116,7 +116,7 @@ export function transformErrors(errors, uiSchema) {
  *        currentData:                  Data for the field
  *        formData:                     Current form data
  *        schema:                       Current JSON Schema for the field
- *        uiSchema['ui:errorMessages']: Error messsage object (if available) for the field
+ *        uiSchema['ui:errorMessages']: Error message object (if available) for the field
  *        currentIndex:                 Used to select the correct field data to validate against
  *    - Objects should have two properties, 'options' and 'validator'
  *        options:   Object (or anything, really) that will be passed to your validation function.
@@ -133,6 +133,8 @@ export function transformErrors(errors, uiSchema) {
  * @param {Object} formData The (flattened) data for the entire form
  * @param {string} [path] The path to the current field relative to the root of the page.
  * @param {number} [currentIndex] Used to select the correct field data to validate against
+ * @param {Object} [appStateData] Data from the app state
+ * @param {({ all }) => any} [getFormData] Function to get the form data. Useful if you need all form data
  */
 
 export function uiSchemaValidate(
@@ -143,6 +145,7 @@ export function uiSchemaValidate(
   path = '',
   currentIndex = null,
   appStateData,
+  getFormData,
 ) {
   if (uiSchema && schema) {
     const currentData = path !== '' ? get(path, formData) : formData;
@@ -170,6 +173,7 @@ export function uiSchemaValidate(
           newPath,
           index,
           appStateData,
+          getFormData,
         );
       });
     } else if (!uiSchema.items) {
@@ -195,11 +199,15 @@ export function uiSchemaValidate(
             nextPath,
             currentIndex,
             appStateData,
+            getFormData,
           );
         });
     }
 
     const validations = uiSchema['ui:validations'];
+    const useAllFormData = uiSchema?.['ui:options']?.useAllFormData;
+    const data =
+      useAllFormData && getFormData ? getFormData({ all: true }) : formData;
     if (validations && currentData !== undefined) {
       validations.forEach(validation => {
         const pathErrors = path ? get(path, errors) : errors;
@@ -207,7 +215,7 @@ export function uiSchemaValidate(
           validation(
             pathErrors,
             currentData,
-            formData,
+            data,
             schema,
             uiSchema['ui:errorMessages'],
             currentIndex,
@@ -217,7 +225,7 @@ export function uiSchemaValidate(
           validation.validator(
             pathErrors,
             currentData,
-            formData,
+            data,
             schema,
             uiSchema['ui:errorMessages'],
             validation.options,
@@ -251,7 +259,7 @@ export function errorSchemaIsValid(errorSchema) {
  * Use third-party jsonschema validator to validate the formData against the
  * schema
  * @param {Object} form - the entire form object from Redux state
- * @param {Obect[]} pageList - Page list array from the router
+ * @param {Object[]} pageList - Page list array from the router
  * @param {Boolean} isTesting - Testing flag used to return the modified form
  *  data to verify the correct changes were made
  * @returns {IsValidForm~results}
@@ -264,6 +272,7 @@ export function isValidForm(form, pageList, isTesting = false) {
   );
 
   const v = new Validator();
+  let getFormData;
 
   return validPages.reduce(
     ({ isValid, errors }, page) => {
@@ -309,6 +318,9 @@ export function isValidForm(form, pageList, isTesting = false) {
 
       const result = v.validate(formData, schema);
 
+      // mimics FormPage formData() function
+      getFormData = ({ all }) => (all ? form.data : formData);
+
       if (result.valid) {
         const customErrors = {};
         uiSchemaValidate(
@@ -319,6 +331,7 @@ export function isValidForm(form, pageList, isTesting = false) {
           '',
           null,
           appStateData,
+          getFormData,
         );
 
         return {

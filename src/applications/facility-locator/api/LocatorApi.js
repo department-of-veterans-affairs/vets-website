@@ -24,9 +24,7 @@ class LocatorApi {
     page,
     center,
     radius,
-    allUrgentCare,
   ) {
-    const reduxStore = require('../facility-locator-entry');
     const { params, url, postParams } = resolveParamsWithUrl({
       address,
       locationType,
@@ -35,8 +33,6 @@ class LocatorApi {
       bounds,
       center,
       radius,
-      allUrgentCare,
-      reduxStore,
     });
 
     const api = getAPI();
@@ -108,22 +104,6 @@ class LocatorApi {
   }
 
   /**
-   * Get one CC Provider's details.
-   *
-   * @param {string} id The ID of the CC Provider
-   */
-  static fetchProviderDetail(id) {
-    const api = getAPI();
-    const url = `${api.baseUrl}/ccp/${id}`;
-
-    return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
-        .then(res => res.json())
-        .then(data => resolve(data), error => reject(error));
-    });
-  }
-
-  /**
    * Get all known specialties available from all CC Providers.
    */
   static getProviderSpecialties() {
@@ -133,7 +113,12 @@ class LocatorApi {
       fetch(url, api.settings)
         .then(res => res.json())
         .then(
-          data => resolve(data.data.map(specialty => specialty.attributes)),
+          data => {
+            if (data.errors?.length) {
+              return reject(data.errors[0]);
+            }
+            return resolve(data.data.map(specialty => specialty.attributes));
+          },
           error => reject(error),
         );
     });

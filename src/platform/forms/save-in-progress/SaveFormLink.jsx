@@ -1,15 +1,13 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
+import { Element } from 'platform/utilities/scroll';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import SipsDevModal from './SaveInProgressDevModal';
-
-const { Element } = Scroll;
 
 class SaveFormLink extends React.Component {
   componentDidMount() {

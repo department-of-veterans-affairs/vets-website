@@ -1,30 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import LogoutAlert from './LogoutAlert';
 import DowntimeBanners from './DowntimeBanner';
+import SessionTimeoutAlert from './SessionTimeoutAlert';
 
-export default function LoginHeader({ loggedOut }) {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isSignInV2 = useToggleValue(TOGGLE_NAMES.signInModalV2);
+export default function LoginHeader() {
   return (
-    <>
-      <div className="row">
-        {loggedOut && <LogoutAlert />}
-        <div className="columns small-12">
-          <h1
-            id="signin-signup-modal-title"
-            className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
-          >
-            {isSignInV2 ? 'Sign in or create an account' : 'Sign in'}
-          </h1>
-        </div>
-      </div>
+    <div className="row">
       <DowntimeBanners />
-    </>
+      <SessionTimeoutAlert />
+      <div className="columns small-12">
+        <h1 id="signin-signup-modal-title" className="vads-u-margin-top--1">
+          Sign in or create an account
+        </h1>
+      </div>
+    </div>
   );
 }
-
-LoginHeader.propTypes = {
-  loggedOut: PropTypes.bool,
-};

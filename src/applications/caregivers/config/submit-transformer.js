@@ -1,13 +1,18 @@
 import { camelCase, isEmpty, omit } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import {
+  hasPrimaryCaregiver,
+  hasSecondaryCaregiverOne,
+  hasSecondaryCaregiverTwo,
+} from '../utils/helpers';
 
 const submitTransformer = (formConfig, form) => {
   const { data: formData } = form;
-  const primaryKey = formData['view:hasPrimaryCaregiver'] ? 'primary' : null;
-  const SecondaryOneKey = formData['view:hasSecondaryCaregiverOne']
+  const primaryKey = hasPrimaryCaregiver(formData) ? 'primary' : null;
+  const SecondaryOneKey = hasSecondaryCaregiverOne(formData)
     ? 'secondaryOne'
     : null;
-  const SecondaryTwoKey = formData['view:hasSecondaryCaregiverTwo']
+  const SecondaryTwoKey = hasSecondaryCaregiverTwo(formData)
     ? 'secondaryTwo'
     : null;
 

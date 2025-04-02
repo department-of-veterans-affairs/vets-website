@@ -85,7 +85,7 @@ describe('Vaccines list container first time loading', () => {
     mr: {
       vaccines: { listCurrentAsOf: undefined },
       alerts: { alertList: [] },
-      refresh: { initialFhirLoad: true },
+      refresh: { initialFhirLoad: new Date() },
     },
   };
 

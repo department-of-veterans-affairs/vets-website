@@ -1,5 +1,6 @@
 import React from 'react';
 import footerContent from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
@@ -97,6 +98,7 @@ const formConfig = {
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -309,6 +311,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

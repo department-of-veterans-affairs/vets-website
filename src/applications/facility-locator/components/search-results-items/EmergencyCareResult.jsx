@@ -1,36 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
-import LocationPhoneLink from './common/LocationPhoneLink';
-
 import LocationDistance from './common/LocationDistance';
+import LocationMarker from './common/LocationMarker';
+import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderTraining from './common/ProviderTraining';
 
-const EmergencyCareResult = ({ provider, query }) => {
+const EmergencyCareResult = ({ isMobile = false, provider, query }) => {
   const { name } = provider.attributes;
 
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
-        <LocationDistance
-          distance={provider.distance}
-          markerText={provider.markerText}
-        />
-        <span>
-          <h3 className="vads-u-margin-top--0">{name}</h3>
-          {provider.attributes.orgName && (
-            <h6>{provider.attributes.orgName}</h6>
-          )}
-        </span>
+        <LocationMarker markerText={provider.markerText} />
+        <h3
+          className="vads-u-margin-y--0"
+          id={isMobile ? 'fl-provider-name' : undefined}
+        >
+          {name}
+        </h3>
+        {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
+        <LocationDistance distance={provider.distance} />
         <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink
-          location={provider}
-          from="SearchResult"
-          query={query}
-        />
+        <LocationDirectionsLink location={provider} />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"
@@ -58,7 +52,9 @@ const EmergencyCareResult = ({ provider, query }) => {
     </div>
   );
 };
+
 EmergencyCareResult.propTypes = {
+  isMobile: PropTypes.bool,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

@@ -3,18 +3,19 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import manifest from '../../../../manifest.json';
-import content from '../../../../shared/locales/en/content.json';
 
-import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
-import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import IntroductionPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/IntroductionPage1010ezr';
+import { taskCompletePagePattern1 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+import content from 'applications/_mock-form-ae-design-patterns/shared/locales/en/content.json';
+import { VIEW_FIELD_SCHEMA } from 'applications/_mock-form-ae-design-patterns/utils/constants';
+import { prefillTransformer } from 'applications/_mock-form-ae-design-patterns/utils/helpers/prefill-transformer';
 
 import VeteranProfileInformationTaskYellow from '../VeteranProfileInformationTaskYellow';
 import { MailingAddressInfoPageTaskYellow } from '../MailingAddressInfoPageTaskYellow';
 import { EditMailingAddressTaskYellow } from '../EditMailingAddressTaskYellow';
-import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -24,7 +25,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'task-yellow',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
   saveInProgress: {
@@ -35,17 +36,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillTransformer(pages, formData, metadata) {
-    const transformedData = {
-      veteranSocialSecurityNumber:
-        formData?.data?.attributes?.veteran?.ssn || null,
-    };
-    return {
-      metadata,
-      formData: transformedData,
-      pages,
-    };
-  },
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound:
@@ -108,7 +99,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        taskCompletePage,
+        taskCompletePagePattern1,
       },
     },
   },

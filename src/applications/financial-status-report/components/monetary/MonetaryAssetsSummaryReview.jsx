@@ -9,7 +9,6 @@ const MonetaryAssetsSummaryReview = ({ data, goToPath }) => {
   const dispatch = useDispatch();
   const {
     assets,
-    gmtData,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { monetaryAssets = [] } = assets;
@@ -22,20 +21,7 @@ const MonetaryAssetsSummaryReview = ({ data, goToPath }) => {
         reviewNavigation: true,
       }),
     );
-
-    // if the user saw cash on hand/in bank, they should be routed to
-    //  cash on hand page since it's the head of the chapter
-
-    const gmtDepends =
-      (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-      (gmtData?.isEligibleForStreamlined &&
-        gmtData?.incomeBelowOneFiftyGmt &&
-        data['view:streamlinedWaiverAssetUpdate']);
-
-    if (gmtDepends || showReviewNavigation) {
-      return goToPath('/cash-on-hand');
-    }
-    return goToPath('/monetary-asset-checklist');
+    return goToPath('/cash-on-hand');
   };
 
   return (
@@ -72,12 +58,6 @@ MonetaryAssetsSummaryReview.propTypes = {
     assets: PropTypes.shape({
       monetaryAssets: PropTypes.array,
     }),
-    gmtData: PropTypes.shape({
-      incomeBelowGmt: PropTypes.bool,
-      isEligibleForStreamlined: PropTypes.bool,
-      incomeBelowOneFiftyGmt: PropTypes.bool,
-    }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goToPath: PropTypes.func,

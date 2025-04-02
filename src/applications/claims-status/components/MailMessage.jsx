@@ -16,7 +16,7 @@ const mailMessage = (
           rel="noopener noreferrer"
           href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
         >
-          Mail them to the VA Claims Intake Center.
+          Mail them to the VA Claims Intake Center (opens in a new tab).
         </a>
       </li>
     </ol>

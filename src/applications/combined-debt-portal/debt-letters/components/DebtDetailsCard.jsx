@@ -9,7 +9,17 @@ import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardC
 import { currency } from '../utils/page';
 
 // Define the Chapter 33 debt codes
-const CHAPTER_33_DEBT_CODES = ['70', '71', '72', '73', '74', '75'];
+const CHAPTER_33_DEBT_CODES = [
+  '71',
+  '72',
+  '73',
+  '74',
+  '75',
+  '76',
+  '77',
+  '78',
+  '79',
+];
 
 const DebtDetailsCard = ({ debt }) => {
   const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
@@ -28,16 +38,9 @@ const DebtDetailsCard = ({ debt }) => {
   // Check if the debt is a Chapter 33 debt based on the deduction code
   const isChapter33Debt = CHAPTER_33_DEBT_CODES.includes(debt.deductionCode);
 
-  // Get the current date
-  const currentDate = new Date();
-  const endDate = new Date('2024-07-19');
-
-  // Check if the current date is before the end date
-  const showChapter33Alert = isChapter33Debt && currentDate <= endDate;
-
   return (
     <>
-      {showChapter33Alert && (
+      {isChapter33Debt && (
         <va-alert
           class="vads-u-margin-bottom--2"
           close-btn-aria-label="Close notification"
@@ -51,9 +54,10 @@ const DebtDetailsCard = ({ debt }) => {
             VA is transitioning to a new system for processing Post 9-11 Chapter
             33 financial transactions. Due to this transition, Chapter 33 debt
             balance information may not reflect recent payments you have made by
-            check, credit card, or ACH. Your payment will not be considered late
-            and will reflect the date received once system updates are
-            completed. This message only applies to Post 9-11, Chapter 33 debts.
+            benefit offset, check, credit card, or ACH. Your payment will not be
+            considered late and will reflect the date received once system
+            updates are completed. This message only applies to Post 9-11,
+            Chapter 33 debts.
           </p>
         </va-alert>
       )}

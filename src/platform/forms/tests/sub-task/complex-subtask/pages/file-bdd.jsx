@@ -73,7 +73,6 @@ const FileBDDClaim = ({ data = {} }) => {
                   'button-click-label': content.startText,
                 });
               }}
-              aria-describedby="learn_about_bdd"
             >
               {content.startText}
             </a> */}

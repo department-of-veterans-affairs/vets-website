@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
+import { parse } from 'date-fns';
+import { formatDate } from '../../combined/utils/helpers';
 
 const handleDownloadClick = date => {
   return recordEvent({
@@ -13,9 +13,8 @@ const handleDownloadClick = date => {
 };
 
 const DownloadStatement = ({ statementId, statementDate, fullName }) => {
-  const formattedStatementDate = moment(statementDate, 'MM-DD-YYYY').format(
-    'MMMM D, YYYY',
-  );
+  const parsedStatementDate = parse(statementDate, 'MMddyyyy', new Date());
+  const formattedStatementDate = formatDate(parsedStatementDate);
 
   const downloadFileName = `${fullName} Veterans Medical copay statement dated ${formattedStatementDate}.pdf`;
 

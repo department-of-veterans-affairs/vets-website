@@ -1435,5 +1435,283 @@
     "src": "/ROTOGUS",
     "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/anchorage",
+    "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROANCHORAGE",
+    "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/honolulu",
+    "dest": "/honolulu-va-regional-benefit-office-at-spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHONOLULU",
+    "dest": "/honolulu-va-regional-benefit-office-at-spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/huntington",
+    "dest": "/huntington-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHUNTINGTON",
+    "dest": "/huntington-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/losangeles",
+    "dest": "/los-angeles-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLOSANGELES",
+    "dest": "/los-angeles-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/oakland",
+    "dest": "/oakland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROOAKLAND",
+    "dest": "/oakland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/houston",
+    "dest": "/houston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHOUSTON",
+    "dest": "/houston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/washington",
+    "dest": "/national-capital-region-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROWASHINGTON",
+    "dest": "/national-capital-region-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/denver",
+    "dest": "/denver-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODENVER",
+    "dest": "/denver-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/cheyenne",
+    "dest": "/cheyenne-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROCHEYENNE",
+    "dest": "/cheyenne-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/detroit",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODETROIT",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/littlerock",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLITTLEROCK",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOSTON",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boston",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+    {
+    "domain": "www.benefits.va.gov",
+    "src": "/manchester",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROMANCHESTER",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/reno",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RORENO",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/rates-index.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/resources_comp",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBenefits"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/sb",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBirthDefects"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/special_Benefit_Allowances_",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationSpecialBenefits"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/glossary.asp",
+    "dest": "/health-care"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/caregiver_eligibility_check.asp",
+    "dest": "/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/",
+    "dest": "/resources/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROFORTHARRISON",
+    "dest": "/fort-harrison-va-regional-benefit-office-at-fort-harrison-va-medical-center",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fortharrison",
+    "dest": "/fort-harrison-va-regional-benefit-office-at-fort-harrison-va-medical-center",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROCOLUMBIA",
+    "dest": "/columbia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/columbia",
+    "dest": "/columbia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOISE",
+    "dest": "/boise-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boise",
+    "dest": "/boise-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPHILADELPHIA",
+    "dest": "/philadelphia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/philadelphia",
+    "dest": "/philadelphia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROWILMINGTON",
+    "dest": "/wilmington-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/wilmington",
+    "dest": "/wilmington-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROSTPAUL",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/stpaul",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

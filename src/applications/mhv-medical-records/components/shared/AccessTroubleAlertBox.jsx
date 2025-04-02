@@ -10,15 +10,11 @@ import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { useSelector } from 'react-redux';
 import { ALERT_TYPE_ERROR, accessAlertTypes } from '../../util/constants';
-import FeedbackEmail from './FeedbackEmail';
 
 const AccessTroubleAlertBox = props => {
-  const { className, alertType } = props;
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
+  const { className, alertType, documentType } = props;
+
   return (
     <VaAlert
       status={ALERT_TYPE_ERROR}
@@ -27,23 +23,17 @@ const AccessTroubleAlertBox = props => {
       aria-live="polite"
     >
       <h2 slot="headline" data-testid="expired-alert-message">
-        {alertType === accessAlertTypes.BLUE_BUTTON_REPORT
-          ? "We can't download your records right now"
+        {alertType === accessAlertTypes.DOCUMENT
+          ? `We can't download your ${documentType} right now`
           : `We can’t access your ${alertType} records right now`}
       </h2>
-      <p>We’re sorry. There’s a problem with our system. Check back later.</p>
-      {phase0p5Flag ? (
-        <p>
-          If it still doesn’t work, call us at call us at{' '}
-          <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
-          <va-telephone tty contact={CONTACTS['711']} />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-      ) : (
-        <p>
-          If it still doesn’t work, email us at <FeedbackEmail />.
-        </p>
-      )}
+      <p>We’re sorry. There’s a problem with our system. Check again later.</p>
+      <p>
+        If it still doesn’t work, call us at call us at{' '}
+        <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+        <va-telephone tty contact={CONTACTS['711']} />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
     </VaAlert>
   );
 };
@@ -53,4 +43,5 @@ export default AccessTroubleAlertBox;
 AccessTroubleAlertBox.propTypes = {
   alertType: PropTypes.string.isRequired,
   className: PropTypes.any,
+  documentType: PropTypes.string,
 };

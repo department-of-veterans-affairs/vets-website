@@ -1,19 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Element } from 'react-scroll';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from 'platform/utilities/ui';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
 
 import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
@@ -24,8 +20,9 @@ import {
   UploadContent,
 } from './EvidenceSummaryLists';
 
-import { LIMITATION_KEY } from '../constants';
+import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
 import { customPageProps995 } from '../../shared/props';
+import { focusFirstError } from '../../shared/utils/focus';
 
 const EvidenceSummary = ({
   data,
@@ -43,14 +40,12 @@ const EvidenceSummary = ({
   const [hasErrors, setHasErrors] = useState(false);
   const containerRef = useRef(null);
 
-  const { limitedConsent = '' } = data;
-  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
-  const privateEvidence = hasPrivateEvidence(data)
-    ? data?.providerFacility || []
-    : [];
-  const otherEvidence = hasOtherEvidence(data)
-    ? data?.additionalDocuments || []
-    : [];
+  const { limitedConsent = '', privacyAgreementAccepted } = data;
+  const showScNewForm = data[SC_NEW_FORM_DATA];
+  const vaEvidence = getVAEvidence(data);
+  const privateEvidence = getPrivateEvidence(data);
+  const otherEvidence = getOtherEvidence(data);
+  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -134,14 +129,14 @@ const EvidenceSummary = ({
 
     onGoForward: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        focusFirstError();
       } else {
         goForward(data);
       }
     },
     onUpdate: () => {
       if (hasErrors) {
-        scrollToFirstError();
+        focusFirstError();
       } else {
         updatePage();
       }
@@ -166,7 +161,8 @@ const EvidenceSummary = ({
 
   const props = {
     handlers,
-    onReviewPage,
+    isOnReviewPage: onReviewPage,
+    showScNewForm,
     testing: contentBeforeButtons === 'testing',
   };
 
@@ -195,7 +191,6 @@ const EvidenceSummary = ({
           status="warning"
           visible={visibleError}
           class="vads-u-margin-top--4"
-          uswds
         >
           {visibleError && (
             <>
@@ -220,7 +215,6 @@ const EvidenceSummary = ({
                 : 'modalNotRemove'
             ]
           }
-          uswds
         >
           <p>
             {content.removeEvidence[(removeData?.type)] || ''}
@@ -230,12 +224,14 @@ const EvidenceSummary = ({
         <VaContent list={vaEvidence} {...props} />
         <PrivateContent
           list={privateEvidence}
+          showLimitedConsentYN={showLimitedConsentYN}
           limitedConsent={limitedConsent}
+          privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
         />
         <UploadContent list={otherEvidence} {...props} />
 
-        {content.addMoreLink}
+        {content.addMoreLink()}
 
         <div className="form-nav-buttons vads-u-margin-top--4">
           {onReviewPage && (
@@ -243,7 +239,6 @@ const EvidenceSummary = ({
               onClick={handlers.onUpdate}
               label="Update evidence page"
               text={content.update}
-              uswds
             />
           )}
           {!onReviewPage && (

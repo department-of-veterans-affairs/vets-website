@@ -1,14 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-/* Customized copy of Platform's FileField component
-  * - Adds new optional prop `ariaLabelAdditionalText` to append additional
-  *   text to the upload button's aria-label attribute.
-*/
 import PropTypes from 'prop-types';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
@@ -21,10 +16,9 @@ import {
 } from 'platform/utilities/ui';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { ERROR_ELEMENTS } from 'platform/utilities/constants';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  ShowPdfPassword,
-  PasswordLabel,
   PasswordSuccess,
   readAndCheckFile,
   checkTypeAndExtensionMatches,
@@ -32,6 +26,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 import { usePreviousValue } from 'platform/forms-system/src/js/helpers';
+import { MISSING_PASSWORD_ERROR } from 'platform/forms-system/src/js/validation';
 
 /**
  * Modal content callback
@@ -48,7 +43,7 @@ import { usePreviousValue } from 'platform/forms-system/src/js/helpers';
  * @property {string} buttonText='Upload' - upload button text
  * @property {string} addAnotherLabel='Upload another' - upload another text,
  *  replaces upload button text when greater than one upload is showing
- * @property {string} ariaLabelAdditionalText='' - additional screen-reader text to be appended to upload button's aria-label attribute.
+ * @property {string} ariaLabelAdditionalText additional screen-reader text to be appended to upload button's aria-label attribute.
  * @property {string} tryAgain='Try again' - button in enableShortWorkflow
  * @property {string} newFile='Upload a new file' - button in enableShortWorkflow
  * @property {string} cancel='Cancel' - button visible while uploading & in enableShortWorkflow
@@ -88,7 +83,9 @@ const FileField = props => {
     uiSchema,
   } = props;
 
-  const files = formData || [];
+  // This useMemo() hook ensures that files only updates when formData changes.
+  const files = useMemo(() => formData || [], [formData]);
+
   const [progress, setProgress] = useState(0);
   const [uploadRequest, setUploadRequest] = useState(null);
   const [isUploading, setIsUploading] = useState(
@@ -109,7 +106,6 @@ const FileField = props => {
   const attachmentIdRequired = schema.additionalItems.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
-  const uswds = uiOptions.uswds || null;
 
   const content = {
     upload: uiOptions.buttonText || 'Upload',
@@ -139,28 +135,29 @@ const FileField = props => {
 
   const Tag = formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
 
-  // hide upload & delete buttons on review & submit page when reviewing
-  const showButtons = !formContext.reviewMode && !isUploading;
-
   const titleString =
     typeof uiSchema['ui:title'] === 'string'
       ? uiSchema['ui:title']
       : schema.title;
 
   const getFileListId = index => `${idSchema.$id}_file_${index}`;
+  const checkForErrors = () =>
+    !files.some((file, index) => {
+      const errors =
+        errorSchema?.[index]?.__errors ||
+        [file.errorMessage].filter(error => error);
+
+      return errors.length > 0;
+    });
 
   // This is always true if enableShortWorkflow is not enabled
   // If enabled, do not allow upload if any error exist
   const checkUploadVisibility = () =>
-    !enableShortWorkflow ||
-    (enableShortWorkflow &&
-      !files.some((file, index) => {
-        const errors =
-          errorSchema?.[index]?.__errors ||
-          [file.errorMessage].filter(error => error);
+    !enableShortWorkflow || (enableShortWorkflow && checkForErrors());
 
-        return errors.length > 0;
-      }));
+  // hide upload & delete buttons on review & submit page when reviewing
+  const showButtons =
+    !formContext.reviewMode && !isUploading && checkForErrors();
 
   const focusAddAnotherButton = () => {
     // Add a timeout to allow for the upload button to reappear in the DOM
@@ -274,6 +271,17 @@ const FileField = props => {
         return;
       }
 
+      if (checkResults.checkIsEncryptedPdf) {
+        allFiles[idx] = {
+          file: currentFile,
+          name: 'Upload additional evidence',
+          errorMessage:
+            'We weren’t able to upload your file. Make sure the file is not encrypted and is in an accepted format.',
+        };
+        props.onChange(allFiles);
+        return;
+      }
+
       if (!checkResults.checkTypeAndExtensionMatches) {
         allFiles[idx] = {
           file: currentFile,
@@ -329,12 +337,6 @@ const FileField = props => {
           props.enableShortWorkflow,
         ),
       );
-    }
-  };
-
-  const onSubmitPassword = (file, index, password) => {
-    if (file && password) {
-      onAddFile({ target: { files: [file] } }, index, password);
     }
   };
 
@@ -436,7 +438,7 @@ const FileField = props => {
         onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
         onSecondaryButtonClick={closeRemoveModal}
         visible={showRemoveModal}
-        uswds={uswds}
+        uswds
       >
         <p>
           {removeIndex !== null
@@ -450,10 +452,16 @@ const FileField = props => {
             const errors =
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
-            const hasErrors = errors.length > 0;
+
+            // Don't show missing password error in the card (above the input
+            // label), but we are adding an error for missing password to
+            // prevent page submission without adding an error; see #71406
+            const hasVisibleError =
+              errors.length > 0 && errors[0] !== MISSING_PASSWORD_ERROR;
+
             const itemClasses = classNames('va-growable-background', {
               'schemaform-file-error usa-input-error':
-                hasErrors && !file.uploading,
+                hasVisibleError && !file.uploading,
             });
             const itemSchema = schema.items[index];
             const attachmentIdSchema = {
@@ -477,7 +485,7 @@ const FileField = props => {
             const fileListId = getFileListId(index);
             const fileNameId = `${idSchema.$id}_file_name_${index}`;
 
-            if (hasErrors) {
+            if (hasVisibleError) {
               setTimeout(() => {
                 scrollToFirstError();
                 if (enableShortWorkflow) {
@@ -488,7 +496,7 @@ const FileField = props => {
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
-                  focusElement('.usa-input-error, .input-error-date, [error]');
+                  focusElement(ERROR_ELEMENTS.join(','));
                 }
               }, 250);
             } else if (showPasswordInput) {
@@ -506,11 +514,15 @@ const FileField = props => {
             const retryButtonText =
               content[allowRetry ? 'tryAgain' : 'newFile'];
             const deleteButtonText =
-              content[enableShortWorkflow && hasErrors ? 'cancel' : 'delete'];
+              content[hasVisibleError ? 'cancel' : 'delete'];
 
             const getUiSchema = innerUiSchema =>
               typeof innerUiSchema === 'function'
-                ? innerUiSchema({ fileId: fileNameId, index })
+                ? innerUiSchema({
+                    fileId: fileNameId,
+                    index,
+                    fileName: file.name,
+                  })
                 : innerUiSchema;
 
             // make index available to widgets in attachment ui schema
@@ -544,7 +556,7 @@ const FileField = props => {
                       }}
                       label={content.cancelLabel(file.name)}
                       text={content.cancel}
-                      uswds={uswds}
+                      uswds
                     />
                   </div>
                 )}
@@ -561,11 +573,8 @@ const FileField = props => {
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
                   </>
                 )}
-                {(showPasswordInput || showPasswordSuccess) && (
-                  <PasswordLabel />
-                )}
                 {showPasswordSuccess && <PasswordSuccess />}
-                {!hasErrors &&
+                {!hasVisibleError &&
                   !showPasswordInput &&
                   get('properties.attachmentId', itemSchema) && (
                     <Tag className="schemaform-file-attachment review">
@@ -585,7 +594,7 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
-                {!hasErrors &&
+                {!hasVisibleError &&
                   !showPasswordInput &&
                   uiOptions.attachmentName && (
                     <Tag className="schemaform-file-attachment review">
@@ -606,52 +615,52 @@ const FileField = props => {
                     </Tag>
                   )}
                 {!file.uploading &&
-                  hasErrors && (
+                  hasVisibleError && (
                     <span className="usa-input-error-message" role="alert">
                       <span className="sr-only">Error</span> {errors[0]}
                     </span>
                   )}
-                {showPasswordInput && (
-                  <ShowPdfPassword
-                    file={file.file}
-                    index={index}
-                    onSubmitPassword={onSubmitPassword}
-                    passwordLabel={content.passwordLabel(file.name)}
-                    uswds={uswds}
-                  />
-                )}
                 {!formContext.reviewMode &&
                   !isUploading && (
                     <div className="vads-u-margin-top--2">
-                      {hasErrors &&
-                        enableShortWorkflow && (
-                          <va-button
-                            name={`retry_upload_${index}`}
-                            class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                            onClick={getRetryFunction(
-                              allowRetry,
-                              index,
-                              file.file,
-                            )}
-                            label={
-                              allowRetry
-                                ? content.tryAgainLabel(file.name)
-                                : content.newFile
+                      {hasVisibleError && (
+                        <va-button
+                          name={`retry_upload_${index}`}
+                          class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                          onClick={getRetryFunction(
+                            allowRetry,
+                            index,
+                            file.file,
+                          )}
+                          label={
+                            allowRetry
+                              ? content.tryAgainLabel(file.name)
+                              : content.newFile
+                          }
+                          text={retryButtonText}
+                          uswds
+                        />
+                      )}
+                      {!showPasswordInput && (
+                        <va-button
+                          secondary
+                          class="delete-upload vads-u-width--auto"
+                          onClick={() => {
+                            if (hasVisibleError) {
+                              // Cancelling with error should not show the remove
+                              // file modal
+                              removeFile(index);
+                            } else {
+                              openRemoveModal(index);
                             }
-                            text={retryButtonText}
-                            uswds={uswds}
-                          />
-                        )}
-                      <va-button
-                        secondary
-                        class="delete-upload vads-u-width--auto"
-                        onClick={() => {
-                          openRemoveModal(index);
-                        }}
-                        label={content.deleteLabel(file.name)}
-                        text={deleteButtonText}
-                        uswds={uswds}
-                      />
+                          }}
+                          label={content[
+                            hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                          ](file.name)}
+                          text={deleteButtonText}
+                          uswds
+                        />
+                      )}
                     </div>
                   )}
               </li>
@@ -666,6 +675,7 @@ const FileField = props => {
           {(maxItems === null || files.length < maxItems) &&
             // Prevent additional upload if any upload has error state
             checkUploadVisibility() && (
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               <label
                 id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
@@ -677,11 +687,12 @@ const FileField = props => {
                   secondary
                   class="vads-u-padding-x--0 vads-u-padding-y--1"
                   onClick={() => fileInputRef?.current?.click()}
-                  label={`${uploadText}. ${titleString || ''}. ${
+                  // label is the aria-label
+                  label={`${uploadText} ${titleString || ''}. ${
                     content.ariaLabelAdditionalText
                   }`}
                   text={uploadText}
-                  uswds={uswds}
+                  uswds
                 />
               </label>
             )}
@@ -693,6 +704,9 @@ const FileField = props => {
             id={idSchema.$id}
             name={idSchema.$id}
             onChange={onAddFile}
+            onClick={() => {
+              fileInputRef.current.value = '';
+            }}
           />
         </>
       )}

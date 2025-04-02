@@ -56,7 +56,7 @@ const formConfig = {
     submitButtonText: 'Submit',
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959f1],
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -229,7 +229,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
@@ -238,7 +238,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranPhoneNumber'],
+            required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,

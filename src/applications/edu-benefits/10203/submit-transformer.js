@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { applicantInformationTransform } from '../utils/helpers';
 
 export function transform(formConfig, form) {
   const benefitsTransform = formData => {
@@ -38,6 +39,7 @@ export function transform(formConfig, form) {
   });
 
   const transformedData = [
+    applicantInformationTransform,
     benefitsTransform,
     entitlementTransform,
     contactInfoTransform,

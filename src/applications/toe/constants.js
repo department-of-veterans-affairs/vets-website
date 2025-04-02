@@ -9,14 +9,6 @@ export const LETTER_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/forms_claim_letter`;
 
-export const SPONSOR_RELATIONSHIP = {
-  CHILD: 'Child',
-  SPOUSE: 'Spouse',
-};
-export const SPONSOR_NOT_LISTED_LABEL = 'Someone not listed here';
-export const SPONSOR_NOT_LISTED_VALUE = 'SPONSOR_NOT_LISTED';
-export const IM_NOT_SURE_LABEL = 'I’m not sure';
-export const IM_NOT_SURE_VALUE = 'IM_NOT_SURE';
 export const SPONSORS_TYPE = PropTypes.shape({
   sponsors: PropTypes.arrayOf(
     PropTypes.shape({

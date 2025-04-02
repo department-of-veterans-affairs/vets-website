@@ -1,4 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 // TODO: Look at moving the .process-step css into this file
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 // TODO: Determine if we are actually using any of these
@@ -22,6 +23,15 @@
   line-height: 1.2;
   font-weight: bold;
   max-width: 14.0625rem;
+}
+
+.appeal-help-heading {
+  border-bottom: 3px solid var(--vads-color-primary);
+  margin: 10px 0 10px;
+  padding-bottom: 9px;
+  font-size: 1.35em;
+  line-height: 1.2;
+  font-weight: bold;
 }
 
 .claims-status-content {
@@ -145,7 +155,7 @@
     display: block;
     width: fit-content;
     font-size: 1rem;
-    font-family: var(--font-source-sans);
+    font-family: $font-family-sans;
     font-weight: normal;
     line-height: 1.5;
   }
@@ -160,7 +170,7 @@
   top: 0;
   right: 1em;
   background: var(--vads-color-link);
-  color: var(--vads-color-white);;
+  color: var(--vads-color-white);
   font-size: 0.8em;
   padding: 0.5em 0.75em;
   border-radius: 0 0 0.5em 0.5em;
@@ -636,7 +646,7 @@ h1:focus {
 
     &::before {
       background: var(--vads-color-success-dark);
-      border: 4px solid var(--vads-color-white);;
+      border: 4px solid var(--vads-color-white);
       border-radius: 50%;
       color: var(--vads-color-success-dark);
       content: "\2022";
@@ -872,7 +882,7 @@ ol.va-list-horizontal {
 
     .sidelines {
       // line up the horizontal divider with the li::before 'bullets'
-      font-family: $font-serif;
+      font-family: var(--font-serif);
       font-size: 1.875rem; // match h2 size
       margin-left: -0.6em;
       width: 102%;
@@ -995,7 +1005,7 @@ $marker-text-width: 5.625rem;
     border: 1px solid var(--vads-color-base-light);
     // abuts the .end-of-docket
     border-right: 0px;
-    background-color: var(--vads-color-white);;
+    background-color: var(--vads-color-white);
 
     .completed {
       background-color: var(--vads-color-primary-dark);
@@ -1036,7 +1046,7 @@ $marker-text-width: 5.625rem;
       padding-top: 1.25em;
 
       h5 {
-        font-family: $font-sans;
+        font-family: var(--font-source-sans);
         margin-top: 0;
       }
     }
@@ -1058,7 +1068,7 @@ $marker-text-width: 5.625rem;
 .closed-appeal-notice {
   line-height: 40px;
   text-align: center;
-  font-family: $font-sans;
+  font-family: var(--font-source-sans);
   font-weight: 700;
   font-size: 1.25rem;
   background-color: var(--vads-color-base-lightest);
@@ -1189,18 +1199,17 @@ $marker-text-width: 5.625rem;
 }
 
 va-icon.phase-complete {
-  color: $color-green; //vads-color-green
+  color: var(--vads-color-success-dark); //vads-color-green
 }
 
 va-icon.phase-current {
-  color: $color-primary; //vads-color-primary
+  color: var(--vads-color-primary); //vads-color-primary
 }
 
 .current-phase {
   padding-bottom: 16px;
   display: inline-block;
 }
-
 
 .repeat-phase {
   display: inline-flex;
@@ -1217,4 +1226,6 @@ va-icon.phase-current {
   }
 }
 
-
+.bullet-disc {
+  list-style-type: disc;
+}

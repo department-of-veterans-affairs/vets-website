@@ -158,9 +158,9 @@ function getNowDate() {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
-export function fetchClaimStatus() {
+export function fetchClaimStatus(selectedChapter) {
   return async dispatch => {
-    dispatch({ type: FETCH_CLAIM_STATUS });
+    dispatch({ type: CLAIM_STATUS_ENDPOINT });
     const timeoutResponse = {
       attributes: {
         claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
@@ -169,7 +169,7 @@ export function fetchClaimStatus() {
     };
 
     poll({
-      endpoint: CLAIM_STATUS_ENDPOINT,
+      endpoint: `${CLAIM_STATUS_ENDPOINT}?type=${selectedChapter}`,
       validate: response => {
         return (
           response?.data?.attributes?.claimStatus &&
