@@ -1,14 +1,9 @@
 import React from 'react';
-import { obfuscate, titleCase } from '../helpers';
+import { obfuscate, obfuscateAriaLabel, titleCase } from '../helpers';
 
 export default function DirectDepositViewField({ formData }) {
   const bankAccount = formData?.bankAccount || {};
-  const {
-    accountType,
-    accountNumber,
-    // financialInstitutionName,
-    routingNumber,
-  } = bankAccount;
+  const { accountType, accountNumber, routingNumber } = bankAccount;
 
   return (
     <>
@@ -19,20 +14,23 @@ export default function DirectDepositViewField({ formData }) {
       <div className="va-address-block vads-u-margin-left--0">
         <h5>{`${titleCase(accountType)} account`}</h5>
         <dl className="toe-definition-list">
-          {/* <dt>Bank name:</dt>
-          <dd>{financialInstitutionName}</dd> */}
-
           <dt className="toe-definition-list_term toe-definition-list_term--normal">
             Bank routing number:
           </dt>
-          <dd className="toe-definition-list_definition">
+          <dd
+            aria-label={obfuscateAriaLabel(routingNumber)}
+            className="toe-definition-list_definition"
+          >
             {obfuscate(routingNumber)}
           </dd>
 
           <dt className="toe-definition-list_term toe-definition-list_term--normal">
             Bank account number:
           </dt>
-          <dd className="toe-definition-list_definition">
+          <dd
+            aria-label={obfuscateAriaLabel(accountNumber)}
+            className="toe-definition-list_definition"
+          >
             {obfuscate(accountNumber)}
           </dd>
         </dl>

@@ -35,6 +35,22 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
   );
 }
 
+export function obfuscateAriaLabel(str, numVisibleChars = 4) {
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  const charsAria = obfuscate(str, numVisibleChars, '')
+    .split('')
+    .join(',');
+
+  return `Ending in ${charsAria}`;
+}
+
 /**
  * Formats a date in human-readable form. For example:
  * January 1, 2000.

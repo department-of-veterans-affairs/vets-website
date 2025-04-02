@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { obfuscate, obfuscateAriaLabel, titleCase } from '../helpers';
 
 export default function DirectDepositViewField({ formData }) {
-  const bankAccount = formData?.bankAccount || {};
+  const bankAccount = formData?.bankAccount ?? {};
   const { accountNumber, accountType, routingNumber } = bankAccount;
 
   const accountTypeDisplay = accountType
@@ -17,7 +17,7 @@ export default function DirectDepositViewField({ formData }) {
         currently have on file for you. Please ensure it is correct.
       </p>
       <div className="va-address-block vads-u-margin-left--0">
-        <h5>{`${accountTypeDisplay}`}</h5>
+        <h5>{accountTypeDisplay}</h5>
         <dl className="meb-definition-list">
           <dt className="meb-definition-list_term toe-definition-list_term--normal">
             Bank routing number:
