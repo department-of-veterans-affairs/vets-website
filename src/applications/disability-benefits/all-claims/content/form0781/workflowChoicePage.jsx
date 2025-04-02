@@ -4,6 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import {
   VaRadio,
   VaModal,
+  VaAlert
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
@@ -15,12 +16,14 @@ export const workflowChoicePageTitle =
 // Lists new conditions the veteran has claimed
 // The user should not get to this page if these conditions are not present
 const conditionSelections = formData => {
-  const conditions = formData.newDisabilities.map(
-    disability =>
-      // Capitalize condition
-      disability.condition.charAt(0).toUpperCase() +
-      disability.condition.slice(1),
-  );
+  const conditions = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities.map(disability =>
+        disability.condition.charAt(0).toUpperCase() +
+        disability.condition.slice(1),
+      )
+    : [];
+
+  if (conditions.length === 0) return null;
 
   return (
     <div>
@@ -35,6 +38,7 @@ const conditionSelections = formData => {
     </div>
   );
 };
+
 
 export const workflowChoicePageDescription = formData => {
   return (
@@ -285,10 +289,7 @@ const deleteMentalHealthStatement = (data, setFormData) => {
     delete updatedData[key];
   });
 
-  setFormData({
-    ...updatedData,
-    showDestructiveActionAlert: true,
-  });
+  setFormData(updatedData);
 };
 
 const deepCheck = value => {
@@ -327,6 +328,7 @@ const WorkflowChoicePage = props => {
     data?.['view:previousMentalHealthWorkflowChoice'] ?? null,
   );
 
+  const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -354,10 +356,14 @@ const WorkflowChoicePage = props => {
       data?.['view:mentalHealthWorkflowChoice'],
       formData,
     );
-    return error?.[0] || null;
+
+    const result = error?.[0] || null
+    setHasError(result);
+
+    return result;
   };
 
-  const selectedChoice = data?.['view:mentalHealthWorkflowChoice'];
+  const selectedChoice = data?.['view:mentalHealthWorkflowChoice'] ?? null;
 
   const {
     primaryText,
@@ -449,16 +455,17 @@ const WorkflowChoicePage = props => {
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <va-alert
+      <VaAlert
         id="success-alert"
         status="success"
         closeable
         visible={showAlert}
         onCloseEvent={handlers.onCloseAlert}
         class="vads-u-margin-bottom--4"
+        uswds
       >
         {alertContent}
-      </va-alert>
+      </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
           <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
@@ -476,6 +483,7 @@ const WorkflowChoicePage = props => {
               class="rjsf-web-component-field hydrated"
               aria-invalid="false"
               onVaValueChange={handlers.onSelection}
+              error={hasError}
             >
               <va-radio-option
                 label={
@@ -486,7 +494,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.COMPLETE_ONLINE_FORM}
                 checked={
-                  data['view:mentalHealthWorkflowChoice'] ===
+                  data?.['view:mentalHealthWorkflowChoice'] ===
                   form0781WorkflowChoices.COMPLETE_ONLINE_FORM
                 }
               />
@@ -499,7 +507,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.SUBMIT_PAPER_FORM}
                 checked={
-                  data['view:mentalHealthWorkflowChoice'] ===
+                  data?.['view:mentalHealthWorkflowChoice'] ===
                   form0781WorkflowChoices.SUBMIT_PAPER_FORM
                 }
               />
@@ -512,7 +520,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.OPT_OUT_OF_FORM0781}
                 checked={
-                  data['view:mentalHealthWorkflowChoice'] ===
+                  data?.['view:mentalHealthWorkflowChoice'] ===
                   form0781WorkflowChoices.OPT_OUT_OF_FORM0781
                 }
               />
@@ -539,21 +547,17 @@ const WorkflowChoicePage = props => {
       <FormNavButtons
         goBack={handlers.onGoBack}
         goForward={handlers.onSubmit}
+        submitToContinue
       />
     </form>
   );
 };
 
 WorkflowChoicePage.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default WorkflowChoicePage;

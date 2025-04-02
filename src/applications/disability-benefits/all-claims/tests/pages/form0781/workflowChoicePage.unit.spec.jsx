@@ -1,214 +1,194 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import { fireEvent, render, within } from '@testing-library/react';
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import Sinon from 'sinon';
+import sinon from 'sinon';
+import WorkflowChoicePage from '../../../content/form0781/workflowChoicePage';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import workflowChoicePage from '../../../pages/form0781/workflowChoicePage';
 import {
   form0781WorkflowChoiceLabels,
   form0781WorkflowChoices,
 } from '../../../content/form0781/workflowChoicePage';
 
-describe('Form 0781 workflow choice page', () => {
-  const { schema, uiSchema } = workflowChoicePage;
+describe('WorkflowChoicePage', () => {
+  const page = ({
+    data = {},
+    goBack = () => {},
+    goForward = () => {},
+    setFormData = () => {},
+  } = {}) => {
+    return (
+      <div>
+        <WorkflowChoicePage
+          setFormData={setFormData}
+          data={data}
+          goBack={goBack}
+          goForward={goForward}
+        />
+      </div>
+    );
+  };
 
-  it('should define a uiSchema object', () => {
-    expect(uiSchema).to.be.an('object');
+  it('renders all 3 workflow options', () => {
+    const data = {
+      'view:mentalHealthWorkflowChoice': null,
+    };
+    const { container } = render(page(data));
+    expect($$('va-radio-option', container).length).to.eq(3);
   });
 
-  it('should define a schema object', () => {
-    expect(schema).to.be.an('object');
+  it('shows error if no selection is made', () => {
+    const goForwardSpy = sinon.spy();
+    const { container } = render(page({ goForward: goForwardSpy }));
+    const radio = $('va-radio', container);
+    
+    fireEvent.click($('button[type="submit"]', container));
+    
+    expect(radio.getAttribute('error')).to.exist;
+    expect(goForwardSpy.called).to.be.false;
+  });
+  
+  it('advances with valid selection and no mental health data', () => {
+    const goForwardSpy = sinon.spy();
+    const data = {
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+    };
+
+    const { container } = render(page({ data, goForward: goForwardSpy }));
+
+    fireEvent.click($('button[type="submit"]', container));
+    expect(goForwardSpy.called).to.be.true;
   });
 
-  describe('Page Content', () => {
-    // These conditions are selected by the user on the src/applications/disability-benefits/all-claims/pages/addDisabilities.js page
-    // The user must have claimed new conditions to begin the Form 0781 workflow
-    it('lists a single new condition claimed by the user', () => {
-      const { getByText } = render(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={{}}
-          data={{
-            newDisabilities: [
-              {
-                condition: 'ankle replacement (ankle arthroplasty), bilateral',
-              },
-            ],
-          }}
-        />,
-      );
+  it('opens modal when mental health data is present and choice changes', () => {
+    const goForwardSpy = sinon.spy();
+    const data = {
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      treatmentReceivedVaProvider: {
+        vaPaid: true,
+      },
+    };
 
-      const conditionsParagraph = getByText(
-        /Your claim includes these new conditions:/,
-      );
+    const { container } = render(page({ data, goForward: goForwardSpy }));
+    fireEvent.click($('button[type="submit"]', container));
 
-      const listElement = within(conditionsParagraph.parentElement).getByRole(
-        'list',
-      );
-      within(listElement).getByText(
-        'Ankle replacement (ankle arthroplasty), bilateral',
-      );
-    });
+    const modal = $('va-modal[visible="true"]', container);
+
+    expect(modal).to.exist;
+    expect(goForwardSpy.called).to.be.false;
   });
 
-  it('lists multiple new conditions claimed by the user', () => {
-    const { getByText } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={{}}
-        data={{
-          newDisabilities: [
-            {
-              condition: 'ankle replacement (ankle arthroplasty), bilateral',
-            },
-            {
-              condition: 'somatic symptom disorder (SSD)',
-            },
-            {
-              condition: 'varicocele, left',
-            },
-          ],
-        }}
-      />,
-    );
+  it('clicking confirm deletes data and proceeds', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      treatmentReceivedVaProvider: { vaPaid: true },
+      supportingEvidenceReports: { police: true },
+    };
 
-    const conditionsParagraph = getByText(
-      /Your claim includes these new conditions:/,
-    );
+    const { container } = render(page({
+      data,
+      goForward: goForwardSpy,
+      setFormData: setFormDataSpy,
+    }));
 
-    const listElement = within(conditionsParagraph.parentElement).getByRole(
-      'list',
-    );
+    fireEvent.click($('button[type="submit"]', container));
 
-    within(listElement).getByText(
-      'Ankle replacement (ankle arthroplasty), bilateral',
-    );
+    const modal = container.querySelector('va-modal');
+    modal.__events.primaryButtonClick();
 
-    within(listElement).getByText('Somatic symptom disorder (SSD)');
+    expect(setFormDataSpy.called).to.be.true;
 
-    within(listElement).getByText('Varicocele, left');
+    const cleanedData = setFormDataSpy.lastCall.args[0];
+    expect(cleanedData.treatmentReceivedVaProvider).to.be.undefined;
+    expect(cleanedData.supportingEvidenceReports).to.be.undefined;
   });
 
-  it('Displays a selection of choices on filling out 0781 and includes examples', () => {
-    const onSubmit = Sinon.spy();
-    const { container, getByText } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          newDisabilities: [
-            {
-              condition: 'ankle replacement (ankle arthroplasty), bilateral',
-            },
-          ],
-        }}
-        definitions={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
+  it('clicking cancel in modal closes it without progressing', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      treatmentReceivedVaProvider: { vaPaid: true },
+    };
 
-    getByText('Adding VA Form 21-0781 to support new mental health conditions');
+    const { container } = render(page({
+      data,
+      goForward: goForwardSpy,
+      setFormData: setFormDataSpy,
+    }));
 
-    const radioButtons = $$('va-radio');
-    expect(radioButtons.length).to.equal(1);
+    fireEvent.click($('button[type="submit"]', container));
 
-    expect(
-      container.querySelector(
-        `va-radio-option[label="${
-          form0781WorkflowChoiceLabels[
-            form0781WorkflowChoices.COMPLETE_ONLINE_FORM
-          ]
-        }"]`,
-        container,
-      ),
-    ).to.exist;
+    const modal = container.querySelector('va-modal');
+    modal.__events.secondaryButtonClick();
 
-    expect(
-      container.querySelector(
-        `va-radio-option[label="${
-          form0781WorkflowChoiceLabels[
-            form0781WorkflowChoices.SUBMIT_PAPER_FORM
-          ]
-        }"]`,
-        container,
-      ),
-    ).to.exist;
-
-    expect(
-      container.querySelector(
-        `va-radio-option[label="${
-          form0781WorkflowChoiceLabels[
-            form0781WorkflowChoices.OPT_OUT_OF_FORM0781
-          ]
-        }"]`,
-        container,
-      ),
-    ).to.exist;
-
-    const addlInfo = container.querySelector('va-accordion-item');
-    const headline = addlInfo.querySelector('h3[slot="headline"]');
-    expect(headline).to.have.text(
-      'Examples of mental health conditions and traumatic events',
-    );
+    expect($('va-modal[visible="true"]', container)).to.not.exist;
+    expect(goForwardSpy.called).to.be.false;
+    expect(setFormDataSpy.called).to.be.false;
   });
 
-  it('should prevent continuing if a selection is not made', () => {
-    const onSubmit = Sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          newDisabilities: [
-            {
-              condition: 'ankle replacement (ankle arthroplasty), bilateral',
-            },
-          ],
-        }}
-        definitions={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
+  it('shows alert after data deletion', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      treatmentReceivedVaProvider: { vaPaid: true },
+      supportingEvidenceReports: { police: true },
+    };
 
-    fireEvent.submit($('form', container));
-    expect(
-      $$('va-radio[error="You must provide a response"]', container).length,
-    ).to.equal(1);
+    const { container } = render(page({
+      data,
+      goForward: goForwardSpy,
+      setFormData: setFormDataSpy,
+    }));
+
+    fireEvent.click($('button[type="submit"]', container));
+
+    const modal = container.querySelector('va-modal');
+    modal.__events.primaryButtonClick();
+
+    expect($('va-alert[visible="true"]', container)).to.exist;
   });
 
-  it('should allow continuing to the next page when a selection is made', () => {
-    const onSubmit = Sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          newDisabilities: [
-            {
-              condition: 'ankle replacement (ankle arthroplasty), bilateral',
-            },
-          ],
-        }}
-        definitions={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
+  it('removes alert on close', () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = {
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      'view:mentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      treatmentReceivedVaProvider: { vaPaid: true },
+      supportingEvidenceReports: { police: true },
+    };
 
-    $('va-radio', container).__events.vaValueChange({
-      detail: { value: 'optForOnlineForm0781' },
-    });
+    const { container } = render(page({
+      data,
+      goForward: goForwardSpy,
+      setFormData: setFormDataSpy,
+    }));
 
-    fireEvent.submit($('form', container));
-    expect($$('[error]').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    fireEvent.click($('button[type="submit"]', container));
+
+    const modal = container.querySelector('va-modal');
+    modal.__events.primaryButtonClick();
+
+    const alert = $('va-alert[visible="true"]', container);
+    alert.__events.closeEvent();
+
+    expect($('va-alert[visible="true"]', container)).to.not.exist;
   });
 });
