@@ -58,7 +58,6 @@ import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 
-const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
 
@@ -76,7 +75,7 @@ const VitalDetails = props => {
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
-  const perPage = 7;
+  const perPage = 10;
   const [currentVitals, setCurrentVitals] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
@@ -375,9 +374,8 @@ Provider notes: ${vital.notes}\n\n`,
               sendDataDogAction(`Pagination - ${vitalDisplayName}`);
             }}
             page={currentPage}
-            pages={paginatedVitals.current.total}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            unbounded
+            pages={paginatedVitals.current.length}
+            showLastPage
             uswds
           />
         </div>

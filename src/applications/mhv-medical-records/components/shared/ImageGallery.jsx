@@ -62,9 +62,8 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
             <VaPagination
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
-              pages={imageList.length}
-              maxPageListLength={5}
-              unbounded
+              pages={pageCount}
+              showLastPage
               uswds
             />
           </div>
