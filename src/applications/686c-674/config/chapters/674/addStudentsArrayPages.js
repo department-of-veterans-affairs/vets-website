@@ -440,7 +440,6 @@ export const schoolAccreditationPage = {
     schoolInformation: {
       isSchoolAccredited: yesNoUI({
         title: 'Is the student’s school accredited?',
-        // required: () => true,
       }),
       'view:accredited': {
         'ui:description': AccreditedSchool,
