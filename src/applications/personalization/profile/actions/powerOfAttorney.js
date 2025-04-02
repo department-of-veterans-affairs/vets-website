@@ -20,7 +20,7 @@ export const fetchPowerOfAttorneyFailed = payload => ({
   payload,
 });
 
-const POA_PATH = '/representation_management/v0/power_of_attorney';
+export const POA_PATH = '/representation_management/v0/power_of_attorney';
 
 export const fetchPowerOfAttorney = () => dispatch => {
   dispatch(fetchPowerOfAttorneyStarted());
