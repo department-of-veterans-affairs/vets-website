@@ -1075,10 +1075,8 @@ function CalculateYourBenefitsForm({
       <VaAccordionItem
         id="military-details-item"
         header="Your military details"
-        open={expanded.yourBenefits ? 'true' : 'false'}
-        onAccordionItemToggled={isExpanded =>
-          toggleExpanded('yourBenefits', isExpanded)
-        }
+        open={expanded.yourBenefits}
+        onClick={isExpanded => toggleExpanded('yourBenefits', isExpanded)}
       >
         <BenefitsForm
           eligibilityChange={updateEligibility}
@@ -1128,9 +1126,7 @@ function CalculateYourBenefitsForm({
         id="school-costs-and-calendar-item"
         header={name}
         open={expanded.aboutYourSchool}
-        onAccordionItemToggled={isExpanded =>
-          toggleExpanded('aboutYourSchool', isExpanded)
-        }
+        onClick={isExpanded => toggleExpanded('aboutYourSchool', isExpanded)}
       >
         {renderInState()}
         {renderTuition()}
@@ -1152,7 +1148,8 @@ function CalculateYourBenefitsForm({
       <VaAccordionItem
         id="learning-format-item"
         header={name}
-        onAccordionItemToggled={isExpanded =>
+        open={expanded.learningFormatAndSchedule}
+        onClick={isExpanded =>
           toggleExpanded('learningFormatAndSchedule', isExpanded)
         }
       >
@@ -1183,7 +1180,7 @@ function CalculateYourBenefitsForm({
         id="scholarships-and-other-funding-item"
         header={name}
         open={expanded.scholarshipsAndOtherFunding}
-        onAccordionItemToggled={isExpanded =>
+        onClick={isExpanded =>
           toggleExpanded('scholarshipsAndOtherFunding', isExpanded)
         }
       >

@@ -30,13 +30,10 @@ export default function SearchAccordion({
     'vads-u-flex-direction--column',
     'vads-u-align-items--center',
     'vads-u-justify-content--center',
-    'vads-u-width--full',
-    'vads-u-padding-x--2p5',
     'vads-u-padding-bottom--1p5',
     'vads-u-background-color--gray-lightest',
   );
   const updateResultsButton = classNames(
-    'vads-u-width--full',
     'vads-u-margin-bottom--1',
     'vads-u-background-color--primary',
     'vads-u-color--white',
@@ -47,7 +44,6 @@ export default function SearchAccordion({
     'vads-u-margin-bottom--1',
   );
   const clearFiltersButton = classNames(
-    'vads-u-width--full',
     'vads-u-margin-x--2p5',
     'vads-u-text-align--center',
   );
