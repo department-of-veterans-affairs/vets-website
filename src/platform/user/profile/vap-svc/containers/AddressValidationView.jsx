@@ -261,7 +261,7 @@ class AddressValidationView extends React.Component {
       <div key={id} className="address-validation-container">
         {isFirstOptionOrEnabled && hasConfirmedSuggestions ? (
           <VaRadio
-            role="label"
+            data-testid="va-radio-label"
             label={
               id === 'userEntered' ? 'Address you entered:' : puralizedAddress
             }
