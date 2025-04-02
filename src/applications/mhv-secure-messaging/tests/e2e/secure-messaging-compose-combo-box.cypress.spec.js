@@ -44,6 +44,7 @@ describe('SM MESSAGING COMPOSE', () => {
     PatientComposePage.verifyRecipientSelected(mockRecipients.data[1].id);
 
     cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
