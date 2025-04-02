@@ -326,7 +326,7 @@ describe('<AddressValidationView/>', () => {
       );
 
       const labels = getAllByRole('label');
-      expect(labels[0]).to.have.attribute('label', 'Suggested addreses:');
+      expect(labels[0]).to.have.attribute('label', 'Suggested addresses:');
 
       const radios = getAllByRole('suggestedAddressOption');
 
