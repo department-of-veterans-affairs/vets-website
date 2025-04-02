@@ -5,7 +5,14 @@ import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 
-describe('SM MESSAGING COMPOSE', () => {
+describe('SM MESSAGING COMBO BOX', () => {
+  const mockRequestBody = {
+    category: 'COVID',
+    body: 'testBody',
+    // eslint-disable-next-line camelcase
+    recipient_id: '6832726',
+    subject: 'testSubject',
+  };
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
       name: 'mhv_secure_messaging_recipient_combobox',
@@ -18,7 +25,7 @@ describe('SM MESSAGING COMPOSE', () => {
     PatientInboxPage.navigateToComposePage();
   });
 
-  it('verify drop down list visible', () => {
+  it('verify drop down list behavior', () => {
     PatientComposePage.verifyHeader(Data.START_NEW_MSG);
     cy.get(Locators.FIELDS.RECIPIENTS_COMBO).click();
     cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO).should('be.visible');
@@ -34,7 +41,7 @@ describe('SM MESSAGING COMPOSE', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('verify combo box behavior', () => {
+  it('verify combo box auto select', () => {
     PatientComposePage.selectComboBoxRecipient('TG');
     cy.realPress('Enter');
     PatientComposePage.verifyRecipientSelected('0');
@@ -49,13 +56,15 @@ describe('SM MESSAGING COMPOSE', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  // it('verify user can send a message with autoselect', () => {
-  //   PatientComposePage.selectComboBoxRecipient('TG-7410');
-  //   PatientComposePage.selectCategory('COVID');
-  //   PatientComposePage.enterDataToMessageSubject('testSubject');
-  //   PatientComposePage.enterDataToMessageBody('{moveToStart}testBody');
-  //   PatientComposePage.clickSendMessageButton();
-  //
-  //   cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-  // });
+  it('verify user can send a message', () => {
+    PatientComposePage.selectComboBoxRecipient('TG-7410');
+    cy.realPress('Enter');
+    PatientComposePage.selectCategory('COVID');
+    PatientComposePage.enterDataToMessageSubject('testSubject');
+    PatientComposePage.enterDataToMessageBody('{moveToStart}testBody');
+    PatientComposePage.sendMessage(mockRequestBody);
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 });
