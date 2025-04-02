@@ -26,6 +26,20 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   return defaultTitle;
 };
 
+export const createRatedDisabilityDescriptions = fullData => {
+  return fullData.ratedDisabilities.reduce((acc, disability) => {
+    let text = `Current rating: ${disability.ratingPercentage}%`;
+
+    if (disability.ratingPercentage === disability.maximumRatingPercentage) {
+      text += ` (You’re already at the maximum for this rated disability.)`;
+    }
+
+    acc[disability.name] = text;
+
+    return acc;
+  }, {});
+};
+
 const isNewConditionConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];

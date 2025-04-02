@@ -19,7 +19,8 @@ export const causeOptions = {
 const causePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Cause of ${createNewConditionName(formData)}`,
+      ({ formData }) =>
+        `Indicate the cause of ${createNewConditionName(formData)}`,
     ),
     cause: radioUI({
       title: 'What caused your condition?',

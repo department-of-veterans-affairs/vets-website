@@ -1,11 +1,11 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { ConditionsIntro } from '../../content/conditions';
+import { ConditionsIntroDescription } from '../../content/conditions';
 
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Add condition', ConditionsIntro),
+    ...titleUI('Add your conditions', ConditionsIntroDescription),
   },
   schema: {
     type: 'object',

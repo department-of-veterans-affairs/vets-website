@@ -1,14 +1,15 @@
 import {
+  arrayBuilderItemFirstPageTitleUI,
   radioSchema,
   radioUI,
-  arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { arrayBuilderOptions } from '../shared/utils';
 
 const conditionTypeOptions = {
-  RATED: 'Already rated, it has worsened',
-  NEW: 'A condition I haven’t applied for',
+  RATED:
+    'A service-connected disability I have already received a rating for, but has gotten worse since the rating  decision.',
+  NEW: 'A condition I have not applied for before.',
 };
 
 /** @returns {PageSchema} */
@@ -19,7 +20,9 @@ const conditionTypePage = {
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     'view:conditionType': radioUI({
-      title: 'Select condition type',
+      title: 'What type of condition are you applying for?',
+      hint:
+        'Choose one, you will return to this screen if you need to add more.',
       labels: conditionTypeOptions,
     }),
   },

@@ -10,7 +10,10 @@ import { createNewConditionName } from './utils';
 const newConditionDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Start date of ${createNewConditionName(formData)}`,
+      ({ formData }) =>
+        `Tell us the approximate start date of ${createNewConditionName(
+          formData,
+        )}`,
     ),
     // TODO: Can we make just year required?
     // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
