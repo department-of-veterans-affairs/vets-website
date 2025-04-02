@@ -2,6 +2,9 @@ import {
   FETCH_TRAVEL_CLAIMS_STARTED,
   FETCH_TRAVEL_CLAIMS_SUCCESS,
   FETCH_TRAVEL_CLAIMS_FAILURE,
+  FETCH_CLAIM_DETAILS_STARTED,
+  FETCH_CLAIM_DETAILS_SUCCESS,
+  FETCH_CLAIM_DETAILS_FAILURE,
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
   FETCH_APPOINTMENT_FAILURE,
@@ -15,6 +18,11 @@ const initialState = {
     isLoading: false,
     error: null,
     data: [],
+  },
+  claimDetails: {
+    isLoading: false,
+    error: null,
+    data: {},
   },
   appointment: {
     isLoading: false,
@@ -56,6 +64,36 @@ function travelPayReducer(state = initialState, action) {
           error: action.error,
         },
       };
+    case FETCH_CLAIM_DETAILS_STARTED:
+      return {
+        ...state,
+        claimDetails: {
+          ...state.claimDetails,
+          isLoading: true,
+        },
+      };
+    case FETCH_CLAIM_DETAILS_SUCCESS:
+      return {
+        ...state,
+        claimDetails: {
+          error: null,
+          isLoading: false,
+          data: {
+            ...state.claimDetails.data,
+            [action.id]: action.payload,
+          },
+        },
+      };
+    case FETCH_CLAIM_DETAILS_FAILURE:
+      return {
+        ...state,
+        claimDetails: {
+          ...state.claimDetails,
+          isLoading: false,
+          error: action.error,
+        },
+      };
+
     case FETCH_APPOINTMENT_STARTED:
       return {
         ...state,

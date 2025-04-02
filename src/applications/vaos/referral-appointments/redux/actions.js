@@ -209,14 +209,6 @@ export function createReferralAppointment({
         type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
       });
 
-      dispatch(
-        pollFetchAppointmentInfo(draftApppointmentId, {
-          timeOut: 30000,
-          retryCount: 3,
-          retryDelay: 1000,
-        }),
-      );
-
       return appointmentInfo;
     } catch (error) {
       dispatch({
