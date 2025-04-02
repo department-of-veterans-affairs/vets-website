@@ -6,20 +6,14 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useIsInCCPilot } from './hooks/useIsInCCPilot';
-import { FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
-import {
-  getAppointmentCreateStatus,
-  getReferralAppointmentInfo,
-} from './redux/selectors';
 import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
 
 export default function ReferralAppointments() {
@@ -30,8 +24,6 @@ export default function ReferralAppointments() {
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const [, appointmentId] = pathname.split('/schedule-referral/complete/');
-  const { appointmentInfoLoading } = useSelector(getReferralAppointmentInfo);
-  const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
@@ -56,16 +48,6 @@ export default function ReferralAppointments() {
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
-  if (
-    appointmentId &&
-    appointmentInfoLoading &&
-    appointmentCreateStatus === FETCH_STATUS.succeeded
-  ) {
-    return (
-      <ReferralLayout loadingMessage="Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page." />
-    );
-  }
-
   if ((!referral || isLoading) && !appointmentId) {
     return (
       <ReferralLayout
@@ -75,20 +57,13 @@ export default function ReferralAppointments() {
     );
   }
 
-  if (appointmentId) {
-    return (
+  return (
+    <>
       <Switch>
         <Route
           path={`${basePath.url}/complete/:appointmentId`}
           component={CompleteReferral}
         />
-      </Switch>
-    );
-  }
-
-  return (
-    <>
-      <Switch>
         <Route path={`${basePath.url}/review/`} search={id}>
           <ReviewAndConfirm currentReferral={referral} />
         </Route>
