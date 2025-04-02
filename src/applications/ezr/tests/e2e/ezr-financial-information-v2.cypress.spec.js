@@ -44,7 +44,6 @@ function advanceToFinancialIntroductionPage(hasSpouse) {
 }
 
 function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
-  cy.task('log', featureToggles.data.features);
   cy.login(user);
   cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
     'mockFeatures',
