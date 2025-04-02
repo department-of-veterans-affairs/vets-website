@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
@@ -23,6 +24,9 @@ function App({ location, children, formData }) {
   const { isLoadingFeatureFlags } = useSelector(selectFeatureToggles);
   const { isLoadingProfile } = useSelector(selectAuthStatus);
   const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
+
+  // Use Datadog Real User Monitoring (RUM)
+  useBrowserMonitoring();
 
   // Set default view fields within the form data
   useDefaultFormData();
