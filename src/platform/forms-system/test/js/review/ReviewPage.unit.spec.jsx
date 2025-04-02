@@ -2,9 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
+import { cleanup } from '@testing-library/react';
 import { ReviewPage } from '../../../src/js/review/ReviewPage';
 
 describe('Schemaform review: ReviewPage', () => {
+  let minimalHeader;
+
   const location = {
     pathname: '/testing/0',
   };
@@ -44,6 +47,14 @@ describe('Schemaform review: ReviewPage', () => {
     data: {},
   };
 
+  afterEach(() => {
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
+    }
+    cleanup();
+  });
+
   it('should render chapters', () => {
     const tree = shallow(
       <ReviewPage
@@ -60,6 +71,42 @@ describe('Schemaform review: ReviewPage', () => {
       1,
     );
     tree.unmount();
+  });
+
+  it('should render h1 header if minimal header is present', () => {
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
+
+    const treeWithMinimalHeader = shallow(
+      <ReviewPage
+        form={form}
+        openChapters={{}}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPreSubmit={f => f}
+        location={location}
+      />,
+    );
+
+    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+    treeWithMinimalHeader.unmount();
+  });
+
+  it('should not contain the h1 if header-minimal is not present', () => {
+    const treeWithoutMinimalHeader = shallow(
+      <ReviewPage
+        form={form}
+        openChapters={{}}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPreSubmit={f => f}
+        location={location}
+      />,
+    );
+
+    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
+    treeWithoutMinimalHeader.unmount();
   });
 
   it('should appropriately render a downtime notification', () => {

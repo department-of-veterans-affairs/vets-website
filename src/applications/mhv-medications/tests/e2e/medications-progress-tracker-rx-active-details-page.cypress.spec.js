@@ -16,12 +16,18 @@ describe('Medications Details Page Active Rx Progress Tracker', () => {
     detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails, cardNumber);
     detailsPage.verifyActiveRxStepOneProgressTrackerOnDetailsPage(
       Data.STEP_ONE_SUBMITTED,
+      Data.STEP_ONE_NOTE_ABOVE,
+      Data.STEP_ONE_NO_DATE,
     );
     detailsPage.verifyActiveRxStepTwoProgressTrackerOnDetailsPage(
       Data.STEP_TWO_ACTIVE,
+      Data.STEP_TWO_PROCESS_ABOVE_TEXT,
+      Data.STEP_ONE_NO_DATE,
     );
     detailsPage.verifyActiveRxStepThreeProgressTrackerOnDetailsPage(
+      Data.STEP_THREE_NOT_STARTED,
       Data.STEP_THREE_SUBMITTED,
+      Data.STEP_THREE_NO_TRACKING,
     );
     cy.injectAxe();
     cy.axeCheck('main');

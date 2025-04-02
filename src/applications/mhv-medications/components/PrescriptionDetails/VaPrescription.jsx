@@ -10,6 +10,7 @@ import {
 import { datadogRum } from '@datadog/browser-rum';
 import {
   validateField,
+  validateIfAvailable,
   getImageUri,
   dateFormat,
   createOriginalFillRecord,
@@ -22,6 +23,7 @@ import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
+  selectPartialFillContentFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
@@ -36,6 +38,7 @@ const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -83,7 +86,7 @@ const VaPrescription = prescription => {
 
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
-      datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_ACCORDIAN);
+      datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_ACCORDIAN);
     }
   };
 
@@ -131,6 +134,23 @@ const VaPrescription = prescription => {
     return latestTrackingStatus
       ? 'Check the status of your next refill'
       : 'Refill request status';
+  };
+
+  const determineRefillLabel = (
+    isPartialFill,
+    rxHistory,
+    refillPosition,
+    i,
+  ) => {
+    if (showPartialFillContent && isPartialFill) {
+      return 'Partial fill';
+    }
+    if (showPartialFillContent) {
+      return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
+    }
+    return i + 1 === rxHistory.length
+      ? 'Original fill'
+      : `Refill ${refillPosition}`;
   };
 
   const content = () => {
@@ -219,14 +239,17 @@ const VaPrescription = prescription => {
                             cmopDivisionPhone={pharmacyPhone}
                             page={pageType.DETAILS}
                           />
-                        )}
+                        )}{' '}
                         to check on your refill, if you haven’t received it in
                         the mail yet.
                       </p>
                     </VaAlert>
                   )}
                 {showRefillProgressContent && (
-                  <ProcessList stepGuideProps={stepGuideProps} />
+                  <>
+                    <ProcessList stepGuideProps={stepGuideProps} />
+                    <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+                  </>
                 )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
@@ -284,7 +307,10 @@ const VaPrescription = prescription => {
               Refills left
             </h3>
             <p data-testid="refills-left">
-              {validateField(prescription.refillRemaining)}
+              {validateIfAvailable(
+                'Number of refills left',
+                prescription.refillRemaining,
+              )}
             </p>
             {!pendingMed && (
               <>
@@ -292,7 +318,11 @@ const VaPrescription = prescription => {
                   Request refills by this prescription expiration date
                 </h3>
                 <p data-testid="expiration-date">
-                  {dateFormat(prescription.expirationDate)}
+                  {dateFormat(
+                    prescription.expirationDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
               </>
             )}
@@ -312,7 +342,11 @@ const VaPrescription = prescription => {
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
-                  {dateFormat(prescription.orderedDate)}
+                  {dateFormat(
+                    prescription.orderedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed by
@@ -332,7 +366,9 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p data-testid="facility-name">{prescription.facilityName}</p>
+            <p data-testid="facility-name">
+              {validateIfAvailable('Facility', prescription.facilityName)}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Pharmacy phone number
             </h3>
@@ -346,7 +382,7 @@ const VaPrescription = prescription => {
                   (<va-telephone tty contact="711" />)
                 </>
               ) : (
-                EMPTY_FIELD
+                validateIfAvailable('Pharmacy phone number')
               )}
             </div>
             {/* TODO: clean after grouping flag is gone */}
@@ -355,20 +391,31 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Instructions
                 </h3>
-                <p>{validateField(prescription?.sig)}</p>
+                <p data-testid="rx-instructions">
+                  {validateIfAvailable('Instructions', prescription?.sig)}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Reason for use
                 </h3>
-                <p>{validateField(prescription?.indicationForUse)}</p>
+                <p data-testid="rx-reason-for-use">
+                  {validateIfAvailable(
+                    'Reason for use',
+                    prescription?.indicationForUse,
+                  )}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Quantity
                 </h3>
-                <p>{validateField(prescription.quantity)}</p>
+                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
-                  {dateFormat(prescription.orderedDate)}
+                  {dateFormat(
+                    prescription.orderedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed by
@@ -376,12 +423,10 @@ const VaPrescription = prescription => {
                 <p>
                   {prescription?.providerFirstName &&
                   prescription?.providerLastName
-                    ? validateField(
-                        `${prescription.providerLastName}, ${
-                          prescription.providerFirstName
-                        }`,
-                      )
-                    : EMPTY_FIELD}
+                    ? `${prescription.providerLastName}, ${
+                        prescription.providerFirstName
+                      }`
+                    : validateIfAvailable('Provider name')}
                 </p>
               </>
             )}
@@ -401,10 +446,13 @@ const VaPrescription = prescription => {
                   Reason for use
                 </h3>
                 <p>{validateField(prescription?.indicationForUse)}</p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  data-testid="rx-quantity"
+                >
                   Quantity
                 </h3>
-                <p>{validateField(prescription.quantity)}</p>
+                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 {isDisplayingDocumentation &&
                   // Any of the Rx's NDC's will work here. They should all show the same information
                   refillHistory.some(p => p.cmopNdcNumber) && (
@@ -523,7 +571,11 @@ const VaPrescription = prescription => {
                               className="vads-u-margin--0 vads-u-margin-bottom--1"
                               data-testid="dispensedDate"
                             >
-                              {dateFormat(entry.dispensedDate)}
+                              {dateFormat(
+                                entry.dispensedDate,
+                                'MMMM D, YYYY',
+                                'Date not available',
+                              )}
                             </p>
                             <h4
                               className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
@@ -536,7 +588,11 @@ const VaPrescription = prescription => {
                               data-testid="shipped-on"
                             >
                               {dateFormat(
-                                latestTrackingStatus?.completeDateTime,
+                                entry?.trackingList
+                                  ? entry.trackingList[0]?.completeDateTime
+                                  : null,
+                                'MMMM D, YYYY',
+                                'Date not available',
                               )}
                             </p>
                             <h4
@@ -643,7 +699,7 @@ const VaPrescription = prescription => {
                               : ''
                           }`}
                         </p>
-                        <VaAccordion
+                        <VaAccordion //
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
@@ -658,13 +714,24 @@ const VaPrescription = prescription => {
                             } = entry;
                             const refillPosition = refillHistory.length - i - 1;
                             const refillLabelId = `rx-refill-${refillPosition}`;
+                            const isPartialFill =
+                              entry.prescriptionSource === 'PF';
+                            const refillLabel = determineRefillLabel(
+                              isPartialFill,
+                              refillHistory,
+                              refillPosition,
+                              i,
+                            );
                             return (
                               <va-accordion-item
                                 bordered="true"
                                 key={i}
-                                subHeader={`Filled on ${dateFormat(
+                                subHeader={dateFormat(
                                   entry.dispensedDate,
-                                )}`}
+                                  'MMMM D, YYYY',
+                                  'Date not available',
+                                  'Filled on ',
+                                )}
                               >
                                 <h4
                                   className="vads-u-font-size--h6"
@@ -672,10 +739,29 @@ const VaPrescription = prescription => {
                                   id={refillLabelId}
                                   slot="headline"
                                 >
-                                  {i + 1 === refillHistory.length
-                                    ? 'Original fill'
-                                    : `Refill`}
+                                  {refillLabel}
                                 </h4>
+                                {showPartialFillContent &&
+                                  isPartialFill && (
+                                    <>
+                                      <p data-testid="partial-fill-text">
+                                        This fill has a smaller quantity on
+                                        purpose. This is temporary.
+                                      </p>
+                                      <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                                        Quantity
+                                      </h4>
+                                      <p
+                                        data-testid="rx-quantity-partial"
+                                        className="vads-u-margin--0 vads-u-margin-bottom--1"
+                                      >
+                                        {validateIfAvailable(
+                                          'Quantity',
+                                          entry.quantity,
+                                        )}
+                                      </p>
+                                    </>
+                                  )}
                                 {i === 0 && (
                                   <>
                                     <h4
@@ -689,7 +775,12 @@ const VaPrescription = prescription => {
                                       data-testid="shipped-on"
                                     >
                                       {dateFormat(
-                                        latestTrackingStatus?.completeDateTime,
+                                        entry?.trackingList
+                                          ? entry.trackingList[0]
+                                              ?.completeDateTime
+                                          : null,
+                                        'MMMM D, YYYY',
+                                        'Date not available',
                                       )}
                                     </p>
                                   </>
@@ -781,10 +872,9 @@ const VaPrescription = prescription => {
                                     </>
                                   ) : (
                                     <>
-                                      No description available. Call{' '}
-                                      <VaPharmacyText phone={pharmacyPhone} />{' '}
-                                      if you need help identifying this
-                                      medication.
+                                      No description available. If you need help
+                                      identifying this medication, call{' '}
+                                      <VaPharmacyText phone={pharmacyPhone} />.
                                     </>
                                   )}
                                 </div>

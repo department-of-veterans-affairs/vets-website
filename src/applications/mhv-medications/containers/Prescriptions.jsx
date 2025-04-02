@@ -58,6 +58,7 @@ import {
   selectRefillContentFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
+  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
@@ -67,6 +68,7 @@ import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
+import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -96,6 +98,7 @@ const Prescriptions = () => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -662,7 +665,13 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {showRefillProgressContent && <RefillAlert />}
+            {showRefillProgressContent && (
+              <RefillAlert
+                dataDogActionName={
+                  dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
+                }
+              />
+            )}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&
@@ -741,6 +750,7 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
+                      {showIPEContent && <InProductionEducationFiltering />}
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||

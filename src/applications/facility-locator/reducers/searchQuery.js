@@ -19,6 +19,7 @@ import {
 export const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
+  vamcServiceDisplay: null,
   facilityType: null,
   position: {
     latitude: 40.17887331434698,
@@ -43,6 +44,7 @@ export const validateForm = (oldState, payload) => {
     ...oldState,
     ...payload,
   };
+
   const needServiceType = newState.facilityType === 'provider';
 
   return {

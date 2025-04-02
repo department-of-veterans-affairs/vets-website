@@ -24,29 +24,29 @@ import SearchForm from '../components/search-form';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
+// Actions
 import {
-  clearGeocodeError,
-  clearSearchText,
   clearSearchResults,
-  fetchVAFacility,
   searchWithBounds,
+  updateSearchQuery,
+} from '../actions/search';
+import { fetchVAFacility } from '../actions/locations';
+import {
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  getProviderSpecialties,
-  geolocateUser,
   mapMoved,
   selectMobileMapPin,
-  updateSearchQuery,
-} from '../actions';
+} from '../actions/mapbox';
+
+// Utils
 import {
-  facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
+  facilityLocatorAutosuggestVAMCServices,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
 import { FacilitiesMapTypes } from '../types';
-
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
   EMERGENCY_CARE_SERVICES,
@@ -64,7 +64,11 @@ const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
-  const { mobileMapPinSelected, mobileMapUpdateEnabled } = props;
+  const {
+    mobileMapPinSelected,
+    mobileMapUpdateEnabled,
+    vamcAutoSuggestEnabled,
+  } = props;
   const [map, setMap] = useState(null);
   const [verticalSize, setVerticalSize] = useState(0);
   const [horizontalSize, setHorizontalSize] = useState(0);
@@ -72,11 +76,13 @@ const FacilitiesMap = props => {
   const [isSmallDesktop, setIsSmallDesktop] = useState(
     window.innerWidth >= 1024,
   );
+  const [mapboxTokenValid, setMapboxTokenValid] = useState(true);
   const [isTablet, setIsTablet] = useState(
     window.innerWidth > 481 && window.innerWidth <= 1023,
   );
   const [isSearching, setIsSearching] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [searchInitiated, setSearchInitiated] = useState(false);
 
   // refs
   const mapboxContainerRef = useRef(null);
@@ -231,11 +237,14 @@ const FacilitiesMap = props => {
 
   const handleSearchArea = () => {
     if (!map) return;
+
     resetMapElements();
-    const { currentQuery } = props;
     lastZoom = null;
+
+    const { currentQuery } = props;
     const center = map.getCenter().wrap();
     const bounds = map.getBounds();
+
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
@@ -244,6 +253,7 @@ const FacilitiesMap = props => {
 
     const currentMapBoundsDistance = calculateSearchArea();
 
+    setSearchInitiated(true);
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
@@ -386,7 +396,44 @@ const FacilitiesMap = props => {
       ? !!props.currentQuery.serviceType
       : true);
 
+  const mapboxTokenHealth = async () => {
+    const response = await fetch(
+      `https://api.mapbox.com/v4/mapbox.mapbox-streets-v8,mapbox.mapbox-terrain-v2.json?secure&access_token=${mapboxToken}`,
+      { method: 'HEAD' },
+    );
+
+    return response.ok;
+  };
+
+  useEffect(() => {
+    (async () => {
+      let tokenHealth = false;
+      try {
+        tokenHealth = await mapboxTokenHealth();
+      } catch {
+        // do nothing - prevent from escalating error
+      }
+      if (!tokenHealth) {
+        setMapboxTokenValid(false);
+      }
+    })();
+  }, []);
+
   const renderView = () => {
+    if (!mapboxTokenValid) {
+      return (
+        <div className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2 vads-u-margin-bottom--4">
+          <p>
+            <strong>Facility Locator is down for maintenance</strong>
+          </p>
+          <p>
+            We’re making some updates to Facility Locator. We’re sorry it’s not
+            working right now. Please check back soon.
+          </p>
+        </div>
+      );
+    }
+
     // This block renders the desktop and mobile view. It ensures that the desktop map
     // gets re-loaded when resizing from mobile to desktop.
     const {
@@ -460,23 +507,19 @@ const FacilitiesMap = props => {
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
             <SearchForm
-              clearGeocodeError={props.clearGeocodeError}
-              clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
-              facilitiesUseAddressTypeahead={
-                props.facilitiesUseAddressTypeahead
-              }
-              geolocateUser={props.geolocateUser}
-              getProviderSpecialties={props.getProviderSpecialties}
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
               mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
+              searchInitiated={searchInitiated}
               selectMobileMapPin={props.selectMobileMapPin}
+              setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
               shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
@@ -533,6 +576,7 @@ const FacilitiesMap = props => {
                         mobile={false}
                         mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
+                        selectMobileMapPin={props.selectMobileMapPin}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
@@ -563,6 +607,7 @@ const FacilitiesMap = props => {
                   mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                   smallDesktop
                   zoomMessageDivID={zoomMessageDivID}
@@ -605,6 +650,7 @@ const FacilitiesMap = props => {
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
+                        selectMobileMapPin={props.selectMobileMapPin}
                         shouldRenderSearchArea={
                           !!map && shouldRenderSearchArea()
                         }
@@ -652,6 +698,7 @@ const FacilitiesMap = props => {
                     mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                     smallDesktop={false}
                     zoomMessageDivID={zoomMessageDivID}
@@ -804,11 +851,17 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      if (searchResultTitleRef.current && props.resultTime) {
+      const { inProgress, searchStarted } = props.currentQuery;
+
+      if (searchResultTitleRef.current && !inProgress && searchStarted) {
         setFocus(searchResultTitleRef.current);
       }
     },
-    [props.resultTime],
+    [
+      searchResultTitleRef.current,
+      props.currentQuery.inProgress,
+      props.currentQuery.searchStarted,
+    ],
   );
 
   useEffect(
@@ -866,20 +919,21 @@ const FacilitiesMap = props => {
       <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">
         Find VA locations
       </h1>
-      <p className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2 vads-u-margin-bottom--4">
-        Find a VA location or in-network community care provider. For same-day
-        care for minor illnesses or injuries, select Urgent care for facility
-        type.
-      </p>
+      {mapboxTokenValid && (
+        <p className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2 vads-u-margin-bottom--4">
+          Find a VA location or in-network community care provider. For same-day
+          care for minor illnesses or injuries, select Urgent care for facility
+          type.
+        </p>
+      )}
       {renderView()}
-      {otherToolsLink()}
+      {mapboxTokenValid && otherToolsLink()}
     </>
   );
 };
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
-  facilitiesUseAddressTypeahead: facilitiesUseAddressTypeahead(state),
   mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
   mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
   pagination: state.searchResult.pagination,
@@ -890,17 +944,14 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
-  clearGeocodeError,
   clearSearchResults,
-  clearSearchText,
   fetchVAFacility,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  getProviderSpecialties,
   mapMoved,
   searchWithBounds,
   selectMobileMapPin,

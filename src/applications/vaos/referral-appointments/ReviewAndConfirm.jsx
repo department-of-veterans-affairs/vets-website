@@ -48,10 +48,10 @@ const ReviewAndConfirm = props => {
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.ReferringFacilityInfo.FacilityCode,
+    currentReferral.referringFacilityInfo.facilityCode,
   );
   const savedSelectedSlot = sessionStorage.getItem(
-    getReferralSlotKey(currentReferral.UUID),
+    getReferralSlotKey(currentReferral.uuid),
   );
 
   useEffect(
@@ -63,16 +63,16 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (!selectedSlot && !savedSelectedSlot) {
-        routeToCCPage(history, 'scheduleReferral', currentReferral.UUID);
+        routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
       }
     },
-    [currentReferral.UUID, history, savedSelectedSlot, selectedSlot],
+    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
   );
 
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.UUID));
+        dispatch(createDraftReferralAppointment(currentReferral.uuid));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
@@ -82,7 +82,7 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.UUID, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.uuid, dispatch, draftAppointmentCreateStatus],
   );
 
   useEffect(
@@ -117,10 +117,12 @@ const ReviewAndConfirm = props => {
     routeToPreviousReferralPage(
       history,
       'reviewAndConfirm',
-      currentReferral.UUID,
+      currentReferral.uuid,
     );
   };
 
+  // handle routing to the next page once the appointment is created
+  // and the appointment id is available
   useEffect(
     () => {
       if (
@@ -153,7 +155,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${currentReferral.CategoryOfCare} Provider`}
+                {`${currentReferral.categoryOfCare} Provider`}
               </h2>
             </div>
           </div>
@@ -163,8 +165,8 @@ const ReviewAndConfirm = props => {
           {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={currentReferral.ReferringFacilityInfo.Address}
-          phone={currentReferral.ReferringFacilityInfo.Phone}
+          address={currentReferral.referringFacilityInfo.address}
+          phone={currentReferral.referringFacilityInfo.phone}
         />
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
@@ -175,7 +177,7 @@ const ReviewAndConfirm = props => {
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
                 href={`/my-health/appointments/schedule-referral/date-time?id=${
-                  currentReferral.UUID
+                  currentReferral.uuid
                 }`}
                 label="Edit date and time"
                 text="Edit"
@@ -204,7 +206,7 @@ const ReviewAndConfirm = props => {
                 'h:mm aaaa',
               )}{' '}
               {`${getTimezoneDescByFacilityId(
-                currentReferral.ReferringFacilityInfo.FacilityCode,
+                currentReferral.referringFacilityInfo.facilityCode,
               )}`}
             </>
           </p>
@@ -230,7 +232,7 @@ const ReviewAndConfirm = props => {
               e.preventDefault();
               dispatch(
                 createReferralAppointment({
-                  referralId: currentReferral.UUID,
+                  referralId: currentReferral.uuid,
                   slotId: selectedSlot,
                   draftApppointmentId: draftAppointmentInfo.appointment.id,
                 }),

@@ -7,7 +7,7 @@ import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-// import submitForm from './submitForm';
+import submitForm from './submitForm';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
 
@@ -18,6 +18,8 @@ import SubmissionInstructions from '../components/SubmissionInstructions';
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 import {
   institutionDetails,
@@ -26,6 +28,10 @@ import {
   programInfo,
   ProgramSummary,
 } from '../pages';
+
+export const convertPercentageToText = percent => {
+  return percent ? `${percent} supported student FTE` : null;
+};
 
 export const arrayBuilderOptions = {
   arrayPath: 'programs',
@@ -36,7 +42,7 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-      return percent ? `${percent} supported student FTE` : null;
+      return convertPercentageToText(percent);
     },
     summaryTitle: props =>
       location?.pathname.includes('review-and-submit')
@@ -49,20 +55,39 @@ export const arrayBuilderOptions = {
 
 const { date } = commonDefinitions;
 
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm(form, formConfig);
+};
+
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
+
+export const onNavForwardLogic = ({ goPath }) => {
+  goPath('/identifying-details-1');
+  localStorage.removeItem('10215ClaimId');
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
-  // submit: submitForm,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  confirmation: ({ router, route }) => (
-    <ConfirmationPage router={router} route={route} />
-  ),
+  confirmation: confirmFormLogic,
   formId: '22-10215',
-  saveInProgress: {},
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your form (22-10215) is in progress.',
+      expired:
+        'Your saved form (22-10215) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
@@ -76,13 +101,17 @@ const formConfig = {
     },
   },
   customText: {
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
     reviewPageTitle: 'Review',
+    startNewAppButtonText: 'Start a new form',
     submitButtonText: 'Continue',
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for new form benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: 'Report 85/15 Rule enrollment ratios',
   subTitle: () => (
@@ -99,17 +128,18 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Institution details',
+      title: 'Identifying details',
       pages: {
         institutionOfficial: {
-          path: 'institution-details-1',
-          title: 'Tell us about yourself',
+          path: 'identifying-details',
+          title: 'Your name and title',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
+          onNavForward: onNavForwardLogic,
         },
         institutionDetails: {
-          path: 'institution-details-2',
-          title: 'Institution details',
+          path: 'identifying-details-1',
+          title: 'Identifying details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
         },

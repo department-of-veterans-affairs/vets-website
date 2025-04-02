@@ -1,13 +1,16 @@
 /* eslint-disable no-prototype-builtins */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -90,16 +93,16 @@ export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
 
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-      getState(),
-    );
+    const state = getState();
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+      state,
     );
-    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
-      getState(),
-    );
-    const patientFacilities = selectPatientFacilities(getState());
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
@@ -125,28 +128,41 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
        * and requests lists, but needs confirmed to go back 30 days. Appointments
        * will be filtered out by date accordingly in our selectors
        */
+      const now = new Date();
+      const startDate = new Date(now);
+      startDate.setDate(startDate.getDate() - 30); // Subtract 30 days
+
+      const endDate = new Date(now);
+      endDate.setDate(endDate.getDate() + 395); // Add 395 days
+
       const promises = [
         fetchAppointments({
-          startDate: moment()
-            .subtract(30, 'days')
-            .format('YYYY-MM-DD'),
-          endDate: moment()
-            .add(395, 'days')
-            .format('YYYY-MM-DD'),
+          startDate: format(startDate, 'yyyy-MM-dd'), // Start 30 days in the past for canceled appointments
+          endDate: format(endDate, 'yyyy-MM-dd'),
           includeEPS,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         }),
       ];
       if (includeRequests) {
+        const requestStartDate = new Date(now);
+        requestStartDate.setDate(requestStartDate.getDate() - 120); // Subtract 120 days
+
+        const requestEndDate = new Date(now);
+        if (featureVAOSServiceRequests) {
+          requestEndDate.setDate(requestEndDate.getDate() + 1); // Add 1 day
+        }
+
         promises.push(
           getAppointmentRequests({
-            startDate: moment()
-              .subtract(120, 'days')
-              .format('YYYY-MM-DD'),
-            endDate: moment()
-              .add(featureVAOSServiceRequests ? 1 : 0, 'days')
-              .format('YYYY-MM-DD'),
+            startDate: format(requestStartDate, 'yyyy-MM-dd'), // Start 120 days in the past for requests
+            endDate: format(requestEndDate, 'yyyy-MM-dd'), // End 1 day in the future for requests
             useV2: featureVAOSServiceRequests,
             includeEPS,
+            useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
           })
             .then(requests => {
               dispatch({
@@ -250,15 +266,15 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const state = getState();
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+      state,
     );
-
-    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
-      getState(),
-    );
-    const patientFacilities = selectPatientFacilities(getState());
-
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const patientFacilities = selectPatientFacilities(state);
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
       patientFacilities || [],
@@ -280,8 +296,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         avs: true,
         fetchClaimStatus: true,
         includeEPS,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
-
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
         results.find(appt => appt.hasOwnProperty('meta')) || null;
@@ -336,6 +354,10 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -352,6 +374,9 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -395,6 +420,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         type === 'cc'
           ? featureVAOSServiceCCAppointments
           : featureVAOSServiceVAAppointments;
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -416,6 +444,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           id,
           type,
           useV2,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
       }
 
@@ -479,7 +510,11 @@ export function startAppointmentCancel(appointment) {
 
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
-    const appointment = getState().appointments.appointmentToCancel;
+    const state = getState();
+    const appointment = state.appointments.appointmentToCancel;
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
     try {
       dispatch({
@@ -488,6 +523,9 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
 
       dispatch({

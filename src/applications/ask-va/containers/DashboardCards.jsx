@@ -1,4 +1,5 @@
 import {
+  VaButtonPair,
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -22,12 +23,13 @@ const DashboardCards = () => {
   const [inquiries, setInquiries] = useState([]);
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
+  const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
+  const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentTab, setCurrentTab] = useState(0); // 0 for Business, 1 for Personal
   const itemsPerPage = 4;
-  const showingStart = (currentPage - 1) * itemsPerPage + 1;
-  const showingEnd = Math.min(currentPage * itemsPerPage, inquiries.length);
 
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
@@ -96,6 +98,14 @@ const DashboardCards = () => {
     [getApiData],
   );
 
+  useEffect(
+    () => {
+      setPendingStatusFilter(statusFilter);
+      setPendingCategoryFilter(categoryFilter);
+    },
+    [statusFilter, categoryFilter],
+  );
+
   const filterAndSortInquiries = loa => {
     return inquiries
       .filter(
@@ -127,10 +137,22 @@ const DashboardCards = () => {
 
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
+    setTimeout(() => {
+      focusElement(filterSummaryRef?.current);
+    }, 0);
   };
 
-  const handleTabChange = () => {
+  const handleTabChange = tabIndex => {
+    setCurrentTab(tabIndex);
     setCurrentPage(1);
+    setTimeout(() => {
+      focusElement(filterSummaryRef?.current);
+    }, 0);
+  };
+
+  const getCurrentTabType = () => {
+    if (!hasBusinessLevelAuth) return 'Personal';
+    return currentTab === 0 ? 'Business' : 'Personal';
   };
 
   const inquiriesGridView = loa => {
@@ -226,25 +248,33 @@ const DashboardCards = () => {
   };
 
   const renderFilteredResultsInfo = () => {
-    const filteredInquiries = filterAndSortInquiries(
-      hasBusinessLevelAuth ? 'All' : 'Personal',
-    );
+    const currentTabType = getCurrentTabType();
+    const filteredInquiries = filterAndSortInquiries(currentTabType);
     const totalFilteredCount = filteredInquiries.length;
+    const currentShowingStart = (currentPage - 1) * itemsPerPage + 1;
+    const currentShowingEnd = Math.min(
+      currentPage * itemsPerPage,
+      totalFilteredCount,
+    );
 
     return (
       <>
         Showing{' '}
         {totalFilteredCount === 0
           ? 'no'
-          : `${showingStart}-${Math.min(
-              showingEnd,
-              totalFilteredCount,
-            )} of ${totalFilteredCount}`}{' '}
+          : `${currentShowingStart}-${currentShowingEnd} of ${totalFilteredCount}`}{' '}
         results for
         <span className="vads-u-font-weight--bold"> "{statusFilter}" </span>
         {statusFilter !== 'All' ? 'status' : 'statuses'} and{' '}
         <span className="vads-u-font-weight--bold">"{categoryFilter}" </span>
         {categoryFilter !== 'All' ? 'category' : 'categories'}
+        {hasBusinessLevelAuth && (
+          <>
+            {' '}
+            in{' '}
+            <span className="vads-u-font-weight--bold">{currentTabType}</span>
+          </>
+        )}
       </>
     );
   };
@@ -273,57 +303,71 @@ const DashboardCards = () => {
       </h2>
       {inquiries.length > 0 ? (
         <>
-          <div className="vacardSelectFilters">
-            <div className="vads-u-flex--1 vads-u-width--full">
-              <VaSelect
-                hint={null}
-                label="Filter by status"
-                name="status"
-                value={statusFilter}
-                onVaSelect={event => {
-                  setStatusFilter(
-                    event.target.value ? event.target.value : 'All',
-                  );
-                  setCurrentPage(1);
-                  focusElement(filterSummaryRef?.current);
-                }}
-              >
-                <option value="All">All</option>
-                <option value="In progress">In progress</option>
-                <option value="Replied">Replied</option>
-                <option value="Reopened">Reopened</option>
-              </VaSelect>
+          <div className="filter-container">
+            <div className="vacardSelectFilters">
+              <div>
+                <VaSelect
+                  hint={null}
+                  label="Filter by status"
+                  name="status"
+                  value={pendingStatusFilter}
+                  onVaSelect={event => {
+                    setPendingStatusFilter(
+                      event.target.value ? event.target.value : 'All',
+                    );
+                  }}
+                >
+                  <option value="All">All</option>
+                  <option value="In progress">In progress</option>
+                  <option value="Replied">Replied</option>
+                  <option value="Reopened">Reopened</option>
+                </VaSelect>
+              </div>
+              <div>
+                <VaSelect
+                  hint={null}
+                  label="Filter by category"
+                  name="category"
+                  value={pendingCategoryFilter}
+                  onVaSelect={event => {
+                    setPendingCategoryFilter(
+                      event.target.value ? event.target.value : 'All',
+                    );
+                  }}
+                >
+                  <option value="All">All</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </VaSelect>
+              </div>
             </div>
-            <div className="vads-u-flex--2 vads-u-margin-left--2 vads-u-width--full">
-              <VaSelect
-                hint={null}
-                label="Filter by category"
-                name="category"
-                value={categoryFilter}
-                onVaSelect={event => {
-                  setCategoryFilter(
-                    event.target.value ? event.target.value : 'All',
-                  );
+
+            <div className="filter-actions">
+              <VaButtonPair
+                primaryLabel="Apply filters"
+                secondaryLabel="Clear all filters"
+                onPrimaryClick={() => {
+                  setStatusFilter(pendingStatusFilter);
+                  setCategoryFilter(pendingCategoryFilter);
                   setCurrentPage(1);
                   focusElement(filterSummaryRef?.current);
                 }}
-              >
-                <option value="All">All</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </VaSelect>
+                onSecondaryClick={() => {
+                  setStatusFilter('All');
+                  setCategoryFilter('All');
+                  setPendingStatusFilter('All');
+                  setPendingCategoryFilter('All');
+                  setCurrentPage(1);
+                  focusElement(filterSummaryRef?.current);
+                }}
+                leftButtonText="Apply filters"
+                rightButtonText="Clear all filters"
+              />
             </div>
           </div>
-
-          <p
-            ref={filterSummaryRef}
-            className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light"
-          >
-            {renderFilteredResultsInfo()}
-          </p>
 
           {hasBusinessLevelAuth ? (
             <div className="columns small-12 tabs">
@@ -332,12 +376,36 @@ const DashboardCards = () => {
                   <Tab className="small-6 tab">Business</Tab>
                   <Tab className="small-6 tab">Personal</Tab>
                 </TabList>
-                <TabPanel>{inquiriesGridView('Business')}</TabPanel>
-                <TabPanel>{inquiriesGridView('Personal')}</TabPanel>
+                <TabPanel>
+                  <p
+                    ref={filterSummaryRef}
+                    className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-x--2p5"
+                  >
+                    {renderFilteredResultsInfo()}
+                  </p>
+                  {inquiriesGridView('Business')}
+                </TabPanel>
+                <TabPanel>
+                  <p
+                    ref={filterSummaryRef}
+                    className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-x--2p5"
+                  >
+                    {renderFilteredResultsInfo()}
+                  </p>
+                  {inquiriesGridView('Personal')}
+                </TabPanel>
               </Tabs>
             </div>
           ) : (
-            inquiriesGridView('Personal')
+            <>
+              <p
+                ref={filterSummaryRef}
+                className="vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-x--0"
+              >
+                {renderFilteredResultsInfo()}
+              </p>
+              {inquiriesGridView('Personal')}
+            </>
           )}
         </>
       ) : (
@@ -347,6 +415,7 @@ const DashboardCards = () => {
             full-width="false"
             status="info"
             visible="true"
+            slim
           >
             <p className="vads-u-margin-y--0">
               You haven’t submitted a question yet.

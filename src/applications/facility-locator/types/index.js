@@ -198,15 +198,12 @@ export const RouterTypes = PropTypes.shape({
 });
 
 export const FacilitiesMapTypes = {
-  clearGeocodeError: PropTypes.func,
   clearSearchResults: PropTypes.func,
-  clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
   facilityLocatorMobileMapUpdate: PropTypes.bool,
   fetchVaFacility: PropTypes.func,
   genBBoxFromAddress: PropTypes.func,
   genSearchAreaFromCenter: PropTypes.func,
-  geolocateUser: PropTypes.func,
   location: LocationTypes,
   mapMoved: PropTypes.func,
   pagination: PaginationTypes,
@@ -232,8 +229,27 @@ export const SearchFormTypes = {
   geolocateUser: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  searchInitiated: PropTypes.bool,
   selectMobileMapPin: PropTypes.func,
+  setSearchInitiated: PropTypes.func,
   suppressPPMS: PropTypes.bool,
+  vamcServiceDisplay: PropTypes.string,
+};
+
+export const ServiceTypeInputTypes = {
+  currentQuery: CurrentQueryTypes,
+  getProviderSpecialties: PropTypes.func,
+  handleServiceTypeChange: PropTypes.func,
+  isMobile: PropTypes.bool,
+  isSmallDesktop: PropTypes.bool,
+  isTablet: PropTypes.bool,
+  results: ResultsTypes,
+  searchInitiated: PropTypes.bool,
+  selectedServiceType: PropTypes.string,
+  setSearchInitiated: PropTypes.func,
+  useProgressiveDisclosure: PropTypes.bool,
+  vamcAutoSuggestEnabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 /**
@@ -246,7 +262,6 @@ export const SearchFormTypes = {
  * inputRef: not required, use only if you programmatically need to focus the input or get something from it
  * isLoading: data is loading - to be shown in place of no results if no results is to be shown
  * labelSibling: optional element to render next to the label
- * minCharacters: optional minimum number of characters to start an action
  * noItemsMessage: message to show when no items are found (an error)
  * showDownCaret: optional flag to show the down caret/arrow
  * showError: optional flag to show the error state
@@ -256,9 +271,9 @@ export const SearchFormTypes = {
 export const AutosuggestProps = {
   AutosuggestOptionComponent: PropTypes.elementType,
   clearOnEscape: PropTypes.bool,
-  defaultSelectedItem: PropTypes.object,
   downshiftInputProps: PropTypes.object,
   handleOnSelect: PropTypes.func.isRequired,
+  initialSelectedItem: PropTypes.object,
   inputContainerClassName: PropTypes.string,
   inputError: PropTypes.element,
   inputId: PropTypes.string,
@@ -271,7 +286,6 @@ export const AutosuggestProps = {
   label: PropTypes.element.isRequired,
   labelSibling: PropTypes.element,
   loadingMessage: PropTypes.string,
-  minCharacters: PropTypes.number,
   noItemsMessage: PropTypes.string,
   onClearClick: PropTypes.func.isRequired,
   onInputValueChange: PropTypes.func.isRequired,

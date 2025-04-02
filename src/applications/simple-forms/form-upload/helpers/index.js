@@ -16,6 +16,16 @@ const formMappings = {
     subTitle: 'Statement of Dependency of Parent(s)',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
   },
+  '21-4192': {
+    subTitle:
+      'Request for Employment Information in Connection with Claim for Disability Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf',
+  },
+  '21-8940': {
+    subTitle:
+      'Application for Increased Compensation Based on Un-employability',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf',
+  },
   '21P-0518-1': {
     subTitle:
       'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
@@ -26,15 +36,33 @@ const formMappings = {
       'Improved Pension Eligibility Verification Report (Veteran with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
   },
+  '21P-530a': {
+    subTitle:
+      'State Application for Interment Allowance (Under 38 U.S.C. Chapter 23)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-530a-ARE.pdf',
+  },
+  '21P-8049': {
+    subTitle: 'Request for Details of Expenses',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-8049-ARE.pdf',
+  },
 };
 
-export const getFormNumber = (pathname = null) => {
-  const path = pathname || window?.location?.pathname;
+const extractFormSlug = path => {
   const regex = /upload\/([^/]+)/;
-  const match = path.match(regex)?.[1];
+  return path.match(regex)?.[1] ?? '';
+};
+
+const findMatchingFormNumber = slug => {
+  const lowerSlug = slug.toLowerCase();
   return (
-    Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
+    Object.keys(formMappings).find(key => key.toLowerCase() === lowerSlug) ?? ''
   );
+};
+
+export const getFormNumber = pathname => {
+  const path = pathname ?? window?.location?.pathname;
+  const match = extractFormSlug(path);
+  return findMatchingFormNumber(match);
 };
 
 export const getFormContent = (pathname = null) => {
