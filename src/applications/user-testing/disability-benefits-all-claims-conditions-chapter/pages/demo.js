@@ -4,17 +4,17 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import capitalize from 'lodash/capitalize';
 
-import { RATED_OR_NEW_NEXT_PAGE, RATED_OR_NEW_RADIOS } from '../constants';
+import { CONDITION_TYPE_RADIO, RATED_OR_NEW_NEXT_PAGE } from '../constants';
 
 const demoOptions = {
   [RATED_OR_NEW_NEXT_PAGE.name]: capitalize(RATED_OR_NEW_NEXT_PAGE.label),
-  [RATED_OR_NEW_RADIOS.name]: capitalize(RATED_OR_NEW_RADIOS.label),
+  [CONDITION_TYPE_RADIO.name]: capitalize(CONDITION_TYPE_RADIO.label),
 };
 
 /** @type {PageSchema} */
 export default {
   title: 'Choose a demo',
-  path: 'choose-demo',
+  path: 'demo',
   initialData: {
     ratedDisabilities: [
       {
