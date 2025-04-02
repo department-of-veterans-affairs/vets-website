@@ -157,6 +157,8 @@ const DownloadRecordType = () => {
   );
 
   const handleBack = () => {
+    dispatch(updateReportRecordType(selectedRecords));
+
     history.push('/download/date-range');
     sendDataDogAction('Record type - Back - Record type');
   };
