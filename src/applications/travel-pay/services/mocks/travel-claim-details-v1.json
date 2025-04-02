@@ -1,76 +1,75 @@
 {
-  "data": {
-    "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
-    "claimNumber": "TC0000000000001",
-    "claimantFirstName": "Nolle",
-    "claimantMiddleName": "Polite",
-    "claimantLastName": "Barakat",
-    "claimStatus": "Pre approved for payment",
+  "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
+  "claimNumber": "TC0000000000001",
+  "claimName": "Claim created for NOLLE BARAKAT",
+  "claimantFirstName": "Nolle",
+  "claimantMiddleName": "Polite",
+  "claimantLastName": "Barakat",
+  "claimStatus": "Pre approved for payment",
+  "appointmentDate": "2024-01-01T16:45:34.465Z",
+  "facilityName": "Cheyenne VA Medical Center",
+  "totalCostRequested": 20.0,
+  "reimbursementAmount": 14.52,
+  "createdOn": "2025-03-12T20:27:14.088Z",
+  "modifiedOn": "2025-03-12T20:27:14.088Z",
+  "appointment": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "appointmentSource": "API",
     "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+    "appointmentType": "EnvironmentalHealth",
+    "facilityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "facilityName": "Cheyenne VA Medical Center",
-    "totalCostRequested": 20.0,
-    "reimbursementAmount": 14.52,
-    "createdOn": "2025-03-12T20:27:14.088Z",
-    "modifiedOn": "2025-03-12T20:27:14.088Z",
-    "appointment": {
+    "serviceConnectedDisability": 30,
+    "appointmentStatus": "Complete",
+    "externalAppointmentId": "12345",
+    "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
+    "associatedClaimNumber": "TC0000000000001",
+    "isCompleted": true
+  },
+  "expenses": [
+    {
       "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "appointmentSource": "API",
-      "appointmentDateTime": "2024-01-01T16:45:34.465Z",
-      "appointmentType": "EnvironmentalHealth",
-      "facilityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "facilityName": "Cheyenne VA Medical Center",
-      "serviceConnectedDisability": 30,
-      "appointmentStatus": "Complete",
-      "externalAppointmentId": "12345",
-      "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
-      "associatedClaimNumber": "TC0000000000001",
-      "isCompleted": true
+      "expenseType": "Mileage",
+      "name": "",
+      "dateIncurred": "2024-01-01T16:45:34.465Z",
+      "description": "mileage-expense",
+      "costRequested": 10.0,
+      "costSubmitted": 10.0
     },
-    "expenses": [
-      {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "expenseType": "Mileage",
-        "name": "",
-        "dateIncurred": "2024-01-01T16:45:34.465Z",
-        "description": "mileage-expense",
-        "costRequested": 10.0,
-        "costSubmitted": 10.0
-      },
-      {
-        "id": "4da85f64-5717-4562-b3fc-2c963f66afa6",
-        "expenseType": "Mileage",
-        "name": "",
-        "dateIncurred": "2024-01-01T16:45:34.465Z",
-        "description": "mileage-expense",
-        "costRequested": 10.0,
-        "costSubmitted": 10.0
-      }
-    ],
-    "documents": [
-      {
-        "documentId": "8993d98f-40de-4a96-b64b-9a217341a804",
-        "filename": "DecisionLetter.pdf",
-        "mimetype": "application/pdf",
-        "createdon": "2025-03-24T14:00:52.893Z"
-      },
-      {
-        "documentId": "cc832f7d-2217-48fb-a11c-5c3212dd0f8a",
-        "filename": "screenshot.jpg",
-        "mimetype": "image/jpeg",
-        "createdon": "2025-03-24T14:02:52.893Z"
-      },
-      {
-        "documentId": "12fcfecc-5132-4c16-8a9a-7af07b714cd4",
-        "filename": "screenshot-2.jpg",
-        "mimetype": "image/jpeg",
-        "createdon": "2025-03-24T14:04:00.893Z"
-      },
-      {
-        "documentId": "887ead10-d849-428c-b83b-50a054fd968b",
-        "filename": "note.txt",
-        "mimetype": "",
-        "createdon": "2025-03-24T14:06:52.893Z"
-      }
-    ]
-  }
+    {
+      "id": "4da85f64-5717-4562-b3fc-2c963f66afa6",
+      "expenseType": "Mileage",
+      "name": "",
+      "dateIncurred": "2024-01-01T16:45:34.465Z",
+      "description": "mileage-expense",
+      "costRequested": 10.0,
+      "costSubmitted": 10.0
+    }
+  ],
+  "documents": [
+    {
+      "documentId": "8993d98f-40de-4a96-b64b-9a217341a804",
+      "filename": "DecisionLetter.pdf",
+      "mimetype": "application/pdf",
+      "createdon": "2025-03-24T14:00:52.893Z"
+    },
+    {
+      "documentId": "cc832f7d-2217-48fb-a11c-5c3212dd0f8a",
+      "filename": "screenshot.jpg",
+      "mimetype": "image/jpeg",
+      "createdon": "2025-03-24T14:02:52.893Z"
+    },
+    {
+      "documentId": "12fcfecc-5132-4c16-8a9a-7af07b714cd4",
+      "filename": "screenshot-2.jpg",
+      "mimetype": "image/jpeg",
+      "createdon": "2025-03-24T14:04:00.893Z"
+    },
+    {
+      "documentId": "887ead10-d849-428c-b83b-50a054fd968b",
+      "filename": "note.txt",
+      "mimetype": "",
+      "createdon": "2025-03-24T14:06:52.893Z"
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import {
@@ -106,6 +107,7 @@ const formConfig = {
   },
   // getHelp,
   footerContent,
+  ...minimalHeaderFormConfigOptions(),
 };
 
 export default formConfig;

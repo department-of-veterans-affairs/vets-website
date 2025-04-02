@@ -9,16 +9,17 @@ import { STATUSES, FORM_100998_LINK } from '../constants';
 
 const title = 'Your travel reimbursement claim';
 
-export default function ClaimDetailsContent({
-  createdOn,
-  claimStatus,
-  claimNumber,
-  appointmentDateTime,
-  facilityName,
-  modifiedOn,
-  reimbursementAmount,
-  documents,
-}) {
+export default function ClaimDetailsContent(props) {
+  const {
+    createdOn,
+    claimStatus,
+    claimNumber,
+    appointmentDate: appointmentDateTime,
+    facilityName,
+    modifiedOn,
+    reimbursementAmount,
+    documents,
+  } = props;
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
@@ -73,7 +74,7 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
-  appointmentDateTime: PropTypes.string.isRequired,
+  appointmentDate: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,
   claimStatus: PropTypes.string.isRequired,
   createdOn: PropTypes.string.isRequired,
