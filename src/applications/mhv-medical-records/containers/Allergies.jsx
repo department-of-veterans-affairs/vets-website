@@ -82,8 +82,8 @@ const Allergies = props => {
   const [selectedSort, setSelectedSort] = useState(
     allowFilterSort ? SortTypes.ALPHABETICAL.value : '',
   );
-  const [sortString, setSortString] = useState();
-  const [sortedAllergies, setSortedAllergies] = useState([]);
+  const [sortString, setSortString] = useState(SortTypes.ALPHABETICAL.label);
+  const [sortedAllergies, setSortedAllergies] = useState(allergies);
 
   useEffect(
     () => {

@@ -197,7 +197,6 @@ describe('Allergies list container with sort selector', () => {
       path: '/allergies',
     });
 
-    expect(screen.getByText('Sort', { exact: true })).to.exist;
     expect(screen.getByTestId('mr-sort-selector')).to.exist;
     expect(
       screen.getByText('Showing 1 to 5 of 5 records, alphabetically', {

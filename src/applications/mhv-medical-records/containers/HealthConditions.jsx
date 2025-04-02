@@ -40,8 +40,10 @@ const HealthConditions = () => {
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort],
   );
-  const [sortString, setSortString] = useState();
-  const [sortedConditions, setSortedConditions] = useState([]);
+  const [sortString, setSortString] = useState(
+    SortTypes.ASC_DATE.labelWithDateEntered,
+  );
+  const [sortedConditions, setSortedConditions] = useState(conditions);
 
   useListRefresh({
     listState,
