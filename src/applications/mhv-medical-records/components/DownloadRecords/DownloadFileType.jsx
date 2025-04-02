@@ -12,7 +12,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaLoadingIndicator,
@@ -31,6 +30,7 @@ import {
   getLastUpdatedText,
   formatUserDob,
   sendDataDogAction,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -53,7 +53,7 @@ const DownloadFileType = props => {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
+  const name = formatNameFirstLast(user.userFullName);
   const dob = formatUserDob(user);
 
   const labsAndTests = useSelector(
