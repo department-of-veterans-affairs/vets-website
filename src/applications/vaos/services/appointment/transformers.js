@@ -18,22 +18,14 @@ export function getAppointmentType(
   // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
 
-  // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-  // eslint-disable-next-line sonarjs/no-collapsible-if
   if (useFeSourceOfTruthVA) {
-    if (isCerner && appt?.type === 'VA') {
+    if (appt?.type === 'VA') {
       return APPOINTMENT_TYPES.vaAppointment;
     }
-  } else {
-    // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-    // eslint-disable-next-line no-lonely-if
-    if (isCerner && !isEmpty(appt?.end)) {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
-  }
 
-  if (isCerner && isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.request;
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
+    }
   }
 
   if (useFeSourceOfTruthCC) {
@@ -43,27 +35,20 @@ export function getAppointmentType(
     if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
       return APPOINTMENT_TYPES.ccRequest;
     }
-  } else {
-    if (appt?.kind === 'cc' && appt?.start) {
-      return APPOINTMENT_TYPES.ccAppointment;
-    }
-    if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-      return APPOINTMENT_TYPES.ccRequest;
-    }
   }
 
-  if (useFeSourceOfTruthVA) {
-    if (appt?.type === 'VA') {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
-
-    if (appt?.type === 'REQUEST') return APPOINTMENT_TYPES.request;
-
-    // We must return a value for the function, but this is technically only possible when the type is invalid.
-    // We can potentially throw an error here but that's rather unusual in our codebase.
-    return appt?.type;
+  if (isCerner && isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.request;
   }
-
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
