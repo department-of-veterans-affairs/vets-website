@@ -41,7 +41,7 @@ describe('EZR TERA flow', () => {
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact',
     );
 
-    let contact = testData.veteranContacts[0];
+    const contact = testData.veteranContacts[0];
     // ec 1 basic info
     cy.get(`[name="root_fullName_first"]`)
       .first()
@@ -71,32 +71,9 @@ describe('EZR TERA flow', () => {
     );
     cy.findByText(contact.primaryPhone).should('exist');
 
-    selectYesNoWebComponent('view:isNextOfKinEnabled', true);
-    cy.tabToElementAndPressSpace('.usa-button-primary');
-
-    [, contact] = testData.veteranContacts;
-    // NoK 2 basic info
-    cy.get(`[name="root_fullName_first"]`)
-      .first()
-      .type(contact.fullName.first);
-    cy.get(`[name="root_fullName_last"]`)
-      .first()
-      .type(contact.fullName.last);
-    fillTextWebComponent('primaryPhone', contact.primaryPhone);
-    selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasNextOfKinAddress', true);
-
-    // NoK 2 address
-    goToNextPage(
-      '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/1/contact-address',
-    );
-    selectDropdownWebComponent('address_country', contact.address.country);
-    fillTextWebComponent('address_street', contact.address.street);
-    fillTextWebComponent('address_city', contact.address.city);
-    selectDropdownWebComponent('address_state', contact.address.state);
-    fillTextWebComponent('address_postalCode', contact.address.postalCode);
-
-    cy.tabToElementAndPressSpace('.usa-button-primary');
+    cy.findByText(
+      /You have added the maximum number of allowed next of kins/i,
+    ).should('exist');
     cy.injectAxeThenAxeCheck();
   });
 });
