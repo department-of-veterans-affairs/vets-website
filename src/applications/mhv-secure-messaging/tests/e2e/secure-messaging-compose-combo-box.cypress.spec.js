@@ -6,13 +6,6 @@ import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 
 describe('SM MESSAGING COMBO BOX', () => {
-  const mockRequestBody = {
-    category: 'COVID',
-    body: 'testBody',
-    // eslint-disable-next-line camelcase
-    recipient_id: '6832726',
-    subject: 'testSubject',
-  };
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
       name: 'mhv_secure_messaging_recipient_combobox',
@@ -62,7 +55,7 @@ describe('SM MESSAGING COMBO BOX', () => {
     PatientComposePage.selectCategory('COVID');
     PatientComposePage.enterDataToMessageSubject('testSubject');
     PatientComposePage.enterDataToMessageBody('{moveToStart}testBody');
-    PatientComposePage.sendMessage(mockRequestBody);
+    PatientComposePage.sendMessageWithoutVerification();
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);

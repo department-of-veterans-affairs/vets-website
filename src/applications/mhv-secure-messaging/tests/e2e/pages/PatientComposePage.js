@@ -29,6 +29,13 @@ class PatientComposePage {
       });
   };
 
+  sendMessageWithoutVerification = (mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    cy.get(Locators.BUTTONS.SEND)
+      .contains('Send')
+      .click({ force: true });
+  };
+
   sendMessageByKeyboard = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.FIELDS.MESSAGE_BODY).click();
