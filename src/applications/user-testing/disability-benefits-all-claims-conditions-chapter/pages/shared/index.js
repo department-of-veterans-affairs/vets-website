@@ -11,11 +11,26 @@ import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
   arrayBuilderOptions,
+  clearSideOfBody,
+  clearNewConditionData,
+  clearRatedDisabilityData,
   hasRatedDisabilitiesAndIsRatedDisability,
   hasSideOfBody,
   isActiveDemo,
   isNewCondition,
 } from './utils';
+
+const onNavForwardLastPage = (helpers, props) => {
+  const { formData, index, setFormData } = props;
+
+  if (isNewCondition(formData, index)) {
+    clearRatedDisabilityData(formData, Number(index), setFormData);
+  } else {
+    clearNewConditionData(formData, Number(index), setFormData);
+  }
+
+  return helpers.navForwardFinishedItem(props);
+};
 
 export const introAndSummaryPages = (demo, pageBuilder) => ({
   [`${demo.name}Intro`]: pageBuilder.introPage({
@@ -46,6 +61,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasRatedDisabilitiesAndIsRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
+    onNavForward: props => onNavForwardLastPage(helpers, props),
   }),
   [`${demo.name}NewCondition`]: pageBuilder.itemPage({
     title: 'Add a new condition',
@@ -55,10 +71,11 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     uiSchema: newConditionPage.uiSchema,
     schema: newConditionPage.schema,
     onNavForward: props => {
-      const { formData, index } = props;
-      const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
+      const { formData, index, setFormData } = props;
 
-      if (item) item.sideOfBody = undefined;
+      if (!hasSideOfBody(formData, index)) {
+        clearSideOfBody(formData, Number(index), setFormData);
+      }
 
       return helpers.navForwardKeepUrlParams(props);
     },
@@ -98,6 +115,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasCause(formData, index, 'NEW'),
     uiSchema: causeNewPage.uiSchema,
     schema: causeNewPage.schema,
+    onNavForward: props => onNavForwardLastPage(helpers, props),
   }),
   [`${demo.name}CauseSecondary`]: pageBuilder.itemPage({
     title: 'Follow-up of cause secondary condition',
@@ -108,6 +126,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasCause(formData, index, 'SECONDARY'),
     uiSchema: causeSecondaryPage.uiSchema,
     schema: causeSecondaryPage.schema,
+    onNavForward: props => onNavForwardLastPage(helpers, props),
   }),
   [`${demo.name}CauseWorsened`]: pageBuilder.itemPage({
     title: 'Follow-up of cause worsened because of my service',
@@ -118,6 +137,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasCause(formData, index, 'WORSENED'),
     uiSchema: causeWorsenedPage.uiSchema,
     schema: causeWorsenedPage.schema,
+    onNavForward: props => onNavForwardLastPage(helpers, props),
   }),
   [`${demo.name}CauseVA`]: pageBuilder.itemPage({
     title: 'Follow-up of cause VA care',
@@ -128,5 +148,6 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasCause(formData, index, 'VA'),
     uiSchema: causeVAPage.uiSchema,
     schema: causeVAPage.schema,
+    onNavForward: props => onNavForwardLastPage(helpers, props),
   }),
 });
