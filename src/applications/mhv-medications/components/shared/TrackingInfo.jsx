@@ -14,7 +14,7 @@ const TrackingInfo = ({ carrier, trackingNumber, prescriptionName }) => {
   return (
     <VaAlert status="info">
       <h2 className="vads-u-margin-y--0" data-testid="track-package">
-        <span>Track your package</span>
+        <span>Track your shipment</span>
       </h2>
 
       <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
@@ -27,9 +27,9 @@ const TrackingInfo = ({ carrier, trackingNumber, prescriptionName }) => {
         Track your package with {label}
       </a>
       <>
-        <h4 className="vads-u-font-size--source-sans-normalized vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
-          Prescriptions in this package:
-        </h4>
+        <p className="vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
+          <strong>Prescriptions in this package:</strong>
+        </p>
         <ul className="tracking-info-med-list vads-u-margin-top--0">
           <li>
             <span
