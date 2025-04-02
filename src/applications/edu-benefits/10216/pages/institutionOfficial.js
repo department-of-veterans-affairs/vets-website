@@ -6,7 +6,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/tit
 
 const uiSchema = {
   certifyingOfficial: {
-    ...titleUI('Tell us about yourself'),
+    ...titleUI('Your name and title'),
     first: {
       ...textUI({
         title: 'First name',
