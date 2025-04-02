@@ -3,18 +3,28 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import PropTypes from 'prop-types';
 import { SERVICE_PROVIDERS } from '../constants';
-import { sessionTypeUrl } from '../utilities';
+import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 
 export function loginHandler(loginType, isOAuth, queryParams) {
   const isOAuthAttempt = isOAuth && '-oauth';
+  const {
+    application,
+    clientId,
+    codeChallenge,
+    codeChallengeMethod,
+  } = queryParams;
   recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
-  authUtilities.login({ policy: loginType });
-  if (queryParams.clientId === 'okta_test') {
-    sessionTypeUrl({
-      type: 'okta_test',
-      useOauth: false,
-      queryParams,
+  if (clientId === 'okta_test') {
+    createOktaOAuthRequest({
+      application,
+      clientId,
+      passedQueryParams: {
+        codeChallenge,
+        codeChallengeMethod,
+        ...(queryParams.operation && { operation: queryParams.operation }),
+      },
     });
+    authUtilities.login({ policy: loginType });
   }
 }
 

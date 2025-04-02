@@ -340,8 +340,6 @@ export async function createOktaOAuthRequest({
   clientId,
   config,
   passedQueryParams = {},
-  passedOptions = {},
-  type = '',
 }) {
   const isDefaultOAuth =
     APPROVED_OAUTH_APPS.includes(application) ||
@@ -351,16 +349,17 @@ export async function createOktaOAuthRequest({
     config ??
     (externalApplicationsConfig[application] ||
       externalApplicationsConfig.default);
-  const useType = passedOptions.isSignup
-    ? type.slice(0, type.indexOf('_'))
-    : type;
-  const { codeVerifier } = isDefaultOAuth && saveStateAndVerifier(type);
+
+  const { state, codeVerifier } =
+    isDefaultOAuth && saveStateAndVerifier('okta');
   const { codeChallenge } =
     passedQueryParams || (await pkceChallengeFromVerifier(codeVerifier));
 
   const usedClientId = clientId || oAuthOptions.clientId;
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
+    [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
+    ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
     ...(passedQueryParams.operation && {
@@ -368,13 +367,13 @@ export async function createOktaOAuthRequest({
     }),
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: 'okta' }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
   );
 
   sessionStorage.setItem('ci', usedClientId);
-  recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+  recordEvent({ event: `login-attempted-okta-oauth-${clientId}` });
   return url.toString();
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { hasSession } from 'platform/user/profile/utilities';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
@@ -14,9 +15,12 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const [oktaParams, setOktaParams] = useState({});
   const {
     OAuth,
+    application,
     clientId,
     codeChallenge,
     codeChallengeMethod,
+    operation,
+    type,
   } = getQueryParams();
   const {
     OAuthEnabled,
@@ -29,8 +33,15 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   useEffect(
     () => {
       setOAuth(OAuthEnabled && OAuth === 'true');
-      if (clientId === 'okta_test') {
-        setOktaParams({ clientId, codeChallenge, codeChallengeMethod });
+      if (clientId === 'okta_test' && isUnifiedSignIn && !hasSession()) {
+        setOktaParams({
+          application,
+          clientId,
+          codeChallenge,
+          codeChallengeMethod,
+          operation,
+          type,
+        });
       }
     },
     [OAuth, OAuthEnabled, clientId, codeChallenge, codeChallengeMethod],
