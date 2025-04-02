@@ -331,7 +331,7 @@ const SearchPage = props => {
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
-        label: 'Find a VA accredited representative or VSO',
+        label: 'Find an Awesome VA accredited representative or VSO',
       },
     ];
     return (
@@ -345,7 +345,7 @@ const SearchPage = props => {
     return (
       <div className="row search-section">
         <div className="title-section">
-          <h1>Find a VA accredited representative or VSO</h1>
+          <h1>Find an Awesome VA accredited representative or VSO</h1>
           <p>
             An accredited attorney, claims agent, or Veterans Service
             Organization (VSO) representative can help you file a claim or
