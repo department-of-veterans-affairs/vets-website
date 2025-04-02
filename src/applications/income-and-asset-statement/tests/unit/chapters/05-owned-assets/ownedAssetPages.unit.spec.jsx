@@ -1,6 +1,15 @@
 import formConfig from '../../../../config/form';
-import { ownedAssetPages } from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+import {
+  ownedAssetPages,
+  options,
+} from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+import { ownedAssetTypeLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextGetItemName,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +19,23 @@ import {
 
 describe('owned asset list and loop pages', () => {
   const { ownedAssetPagesSummary } = ownedAssetPages;
+
+  describe('isItemIncomplete function', () => {
+    // eslint-disable-next-line no-unused-vars
+    const { recipientName, ...baseItem } = testData.data.ownedAssets[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    testOptionsTextGetItemName(options);
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { recipientRelationship, recipientName, ...baseItem } = testData.data.ownedAssets[0];
+    testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = ownedAssetPagesSummary;

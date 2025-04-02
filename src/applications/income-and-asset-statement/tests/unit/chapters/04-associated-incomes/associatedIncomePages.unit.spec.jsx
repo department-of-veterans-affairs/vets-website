@@ -1,6 +1,16 @@
 import formConfig from '../../../../config/form';
-import { associatedIncomePages } from '../../../../config/chapters/04-associated-incomes/associatedIncomePages';
+import {
+  associatedIncomePages,
+  options,
+} from '../../../../config/chapters/04-associated-incomes/associatedIncomePages';
+import { incomeTypeEarnedLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextGetItemName,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +20,22 @@ import {
 
 describe('associated income list and loop pages', () => {
   const { associatedIncomePagesSummary } = associatedIncomePages;
+
+  describe('isItemIncomplete function', () => {
+    const baseItem = testData.data.associatedIncomes[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    testOptionsTextGetItemName(options);
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { accountValue, recipientRelationship, ...baseItem } = testData.data.associatedIncomes[0];
+    testOptionsTextCardDescription(options, baseItem, incomeTypeEarnedLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = associatedIncomePagesSummary;

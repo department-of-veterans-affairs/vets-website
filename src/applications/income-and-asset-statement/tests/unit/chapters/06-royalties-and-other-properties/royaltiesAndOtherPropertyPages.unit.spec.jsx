@@ -1,6 +1,16 @@
 import formConfig from '../../../../config/form';
-import { royaltiesAndOtherPropertyPages } from '../../../../config/chapters/06-royalties-and-other-properties/royaltiesAndOtherPropertyPages';
+import {
+  royaltiesAndOtherPropertyPages,
+  options,
+} from '../../../../config/chapters/06-royalties-and-other-properties/royaltiesAndOtherPropertyPages';
+import { generatedIncomeTypeLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextGetItemName,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +20,26 @@ import {
 
 describe('royalties list and loop pages', () => {
   const { royaltyPagesSummary } = royaltiesAndOtherPropertyPages;
+
+  describe('isItemIncomplete function', () => {
+    const baseItem = testData.data.royaltiesAndOtherProperties[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    testOptionsTextGetItemName(options);
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { recipientRelationship, canBeSold, ...baseItem} = testData.data.royaltiesAndOtherProperties[0];
+    testOptionsTextCardDescription(
+      options,
+      baseItem,
+      generatedIncomeTypeLabels,
+    );
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = royaltyPagesSummary;

@@ -1,6 +1,16 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
-import { assetTransferPages } from '../../../../config/chapters/07-asset-transfers/assetTransferPages';
+import {
+  assetTransferPages,
+  options,
+} from '../../../../config/chapters/07-asset-transfers/assetTransferPages';
+import { transferMethodLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +20,26 @@ import {
 
 describe('asset transfer list and loop pages', () => {
   const { assetTransferPagesSummary } = assetTransferPages;
+
+  describe('isItemIncomplete function', () => {
+    // eslint-disable-next-line no-unused-vars
+    const { saleValue, ...baseItem } = testData.data.assetTransfers[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    it('should return asset type text', () => {
+      const item = { assetType: 'Real Estate Property' };
+      expect(options.text.getItemName(item)).to.equal('Real Estate Property');
+    });
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { originalOwnerRelationship, assetType, newOwnerName, newOwnerRelationship, saleReportedToIrs, assetTransferredUnderFairMarketValue, saleValue, ...baseItem } = testData.data.assetTransfers[0];
+    testOptionsTextCardDescription(options, baseItem, transferMethodLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = assetTransferPagesSummary;

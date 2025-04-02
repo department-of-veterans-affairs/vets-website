@@ -1,6 +1,16 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
-import { discontinuedIncomePages } from '../../../../config/chapters/11-discontinued-incomes/discontinuedIncomePages';
+import {
+  discontinuedIncomePages,
+  options,
+} from '../../../../config/chapters/11-discontinued-incomes/discontinuedIncomePages';
+import { relationshipLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +20,24 @@ import {
 
 describe('discontinued income list and loop pages', () => {
   const { discontinuedIncomePagesSummary } = discontinuedIncomePages;
+
+  describe('isItemIncomplete function', () => {
+    const baseItem = testData.data.discontinuedIncomes[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    it('should return text', () => {
+      expect(options.text.getItemName()).to.equal('Discontinued income');
+    });
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { payer, incomeFrequency, incomeLastReceivedDate, ...baseItem } = testData.data.discontinuedIncomes[0];
+    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = discontinuedIncomePagesSummary;

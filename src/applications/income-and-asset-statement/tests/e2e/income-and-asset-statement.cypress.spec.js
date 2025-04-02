@@ -40,7 +40,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.get('a.vads-c-action-link--green')
-            .contains('Start the Application')
+            .contains('Start the Income and Asset Statement application')
             .click({ force: true });
         });
       },

@@ -1,6 +1,16 @@
 import formConfig from '../../../../config/form';
-import { unassociatedIncomePages } from '../../../../config/chapters/03-unassociated-incomes/unassociatedIncomePages';
+import {
+  unassociatedIncomePages,
+  options,
+} from '../../../../config/chapters/03-unassociated-incomes/unassociatedIncomePages';
+import { incomeTypeLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextGetItemName,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +20,24 @@ import {
 
 describe('unassociated income list and loop pages', () => {
   const { unassociatedIncomePagesSummary } = unassociatedIncomePages;
+
+  describe('isItemIncomplete function', () => {
+    const baseItem = testData.data.unassociatedIncomes[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    testOptionsTextGetItemName(options);
+  });
+
+  describe('text cardDescription function', () => {
+    const {
+      // eslint-disable-next-line no-unused-vars
+      recipientRelationship,
+      ...baseItem
+    } = testData.data.unassociatedIncomes[0];
+    testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = unassociatedIncomePagesSummary;

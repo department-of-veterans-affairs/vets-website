@@ -1,6 +1,14 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
-import { unreportedAssetPages } from '../../../../config/chapters/10-unreported-assets/unreportedAssetPages';
+import {
+  unreportedAssetPages,
+  options,
+} from '../../../../config/chapters/10-unreported-assets/unreportedAssetPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +18,26 @@ import {
 
 describe('unreported asset list and loop pages', () => {
   const { unreportedAssetPagesSummary } = unreportedAssetPages;
+
+  describe('isItemIncomplete function', () => {
+    const baseItem = testData.data.unreportedAssets[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    it('should return text', () => {
+      expect(options.text.getItemName()).to.equal('Unreported Asset');
+    });
+  });
+
+  describe('text cardDescription function', () => {
+    const {
+      // eslint-disable-next-line no-unused-vars
+      assetOwnerRelationship,
+      ...baseItem
+    } = testData.data.unreportedAssets[0];
+    testOptionsTextCardDescription(options, baseItem);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = unreportedAssetPagesSummary;

@@ -1,6 +1,14 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
-import { annuityPages } from '../../../../config/chapters/09-annuities/annuityPages';
+import {
+  annuityPages,
+  options,
+} from '../../../../config/chapters/09-annuities/annuityPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +18,26 @@ import {
 
 describe('annuity list and loop pages', () => {
   const { annuityPagesSummary } = annuityPages;
+
+  describe('isItemIncomplete function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { addedFundsDate, addedFundsAmount, annualReceivedIncome, surrenderValue, ...baseItem } = testData.data.annuities[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    it('should return text', () => {
+      expect(options.text.getItemName()).to.equal('Annuity');
+    });
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { addedFundsAfterEstablishment, addedFundsDate, addedFundsAmount, revocable, receivingIncomeFromAnnuity, annualReceivedIncome, canBeLiquidated, surrenderValue, ...baseItem } = testData.data.annuities[0];
+    testOptionsTextCardDescription(options, baseItem);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = annuityPagesSummary;

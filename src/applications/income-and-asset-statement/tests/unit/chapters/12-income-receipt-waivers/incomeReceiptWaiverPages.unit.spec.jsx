@@ -1,6 +1,15 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
-import { incomeReceiptWaiverPages } from '../../../../config/chapters/12-income-receipt-waivers/incomeReceiptWaiverPages';
+import {
+  incomeReceiptWaiverPages,
+  options,
+} from '../../../../config/chapters/12-income-receipt-waivers/incomeReceiptWaiverPages';
+import { relationshipLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -10,6 +19,26 @@ import {
 
 describe('income receipt waiver list and loop pages', () => {
   const { incomeReceiptWaiverPagesSummary } = incomeReceiptWaiverPages;
+
+  describe('isItemIncomplete function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { expectedIncome, 'view:paymentsWillResume': _, paymentResumeDate, ...baseItem } = testData.data.incomeReceiptWaivers[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    it('should return text', () => {
+      expect(options.text.getItemName()).to.equal('Income receipt waiver');
+    });
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { expectedIncome, 'view:paymentsWillResume': _, paymentResumeDate, ...baseItem } = testData.data.incomeReceiptWaivers[0];
+    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = incomeReceiptWaiverPagesSummary;
