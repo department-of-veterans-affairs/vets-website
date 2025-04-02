@@ -1,4 +1,4 @@
-// import { format, isValid } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import {
   createAccessibleDoc,
   registerVaGovFonts,
@@ -132,6 +132,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   const tableWidth = col1Width + col2Width + col3Width;
   // TODO
   // add indent values so we can drop \u00A0
+  // add standardized line height to replace stuff like `heightOfString`
 
   let currentY = tableTop;
 
@@ -220,39 +221,69 @@ const generate = async (data = {}, config = defaultConfig) => {
     });
     currentY += stationHeight + 5;
 
-    // statement date disclaimer bit -- this is likely different for each copay, so
-    //    we can't have it above the table like the example
+    // Account Number Row
+    const accountNumberRow = doc.struct('TR');
+    tableStruct.add(accountNumberRow);
+    const accountNumberDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Account Number: `;
+    doc.font(config.text.boldFont);
+    accountNumberRow.add(
+      doc.struct('TD', () => {
+        doc.text(accountNumberDesc, tableLeft + 5, currentY, {
+          width: col1Width,
+        });
+        doc.font(config.text.font);
+        doc.text(
+          `${copay?.accountNumber || copay?.pHAccountNumber}`,
+          tableLeft +
+            5 +
+            doc.widthOfString(accountNumberDesc, {
+              font: config.text.font,
+              size: 8,
+            }) +
+            10,
+          currentY,
+          {
+            width: col1Width,
+          },
+        );
+      }),
+    );
+    doc.font(config.text.font);
+    const accountNumberHeight = doc.heightOfString(accountNumberDesc, {
+      width: col1Width,
+      size: 8,
+    });
+    currentY += accountNumberHeight + 5;
 
-    // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
-    // const parsedStatementDate = new Date(copay.pSStatementDateOutput);
-    // const statementDate = isValid(parsedStatementDate)
-    //   ? format(parsedStatementDate, 'MMMM d')
-    //   : '';
+    // Statement Date Disclaimer bit
+    const parsedStatementDate = new Date(copay.pSStatementDateOutput);
+    //  using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
+    const statementDate = isValid(parsedStatementDate)
+      ? format(parsedStatementDate, 'MMMM d')
+      : '';
 
-    // const statementInfoLine = doc.struct('TR');
-    // tableStruct.add(statementInfoLine);
-    // const statementInfoDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Statement reflects payments received by ${statementDate}`;
-    // statementInfoLine.add(
-    //   doc.struct('TD', () => {
-    //     doc.text(statementInfoDesc, tableLeft + 5, currentY, {
-    //       width: col1Width,
-    //     });
-    //   }),
-    // );
-    // statementInfoLine.add(doc.struct('TD'));
-    // statementInfoLine.add(doc.struct('TD'));
-    // const statementInfoHeight = doc.heightOfString(statementInfoDesc, {
-    //   width: col1Width,
-    //   font: config.text.font,
-    //   size: 8,
-    // });
-    // currentY += statementInfoHeight + 5;
+    const statementInfoLine = doc.struct('TR');
+    tableStruct.add(statementInfoLine);
+    const statementInfoDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Statement reflects payments received by ${statementDate}`;
+    statementInfoLine.add(
+      doc.struct('TD', () => {
+        doc.text(statementInfoDesc, tableLeft + 5, currentY, {
+          width: col1Width,
+        });
+      }),
+    );
+    const statementInfoHeight = doc.heightOfString(statementInfoDesc, {
+      width: col1Width,
+      font: config.text.font,
+      size: 8,
+    });
+    currentY += statementInfoHeight + 5;
 
     // Copay Data Rows
     doc.font(config.text.font).fontSize(8);
     const copayDetails = copay?.details || [];
 
-    // previous balance to help the math make sense
+    // Previous Balance to help the math make sense
     const prevBalanceRow = doc.struct('TR');
     tableStruct.add(prevBalanceRow);
     const previousBalanceStr = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Previous Balance`;
@@ -266,16 +297,11 @@ const generate = async (data = {}, config = defaultConfig) => {
     prevBalanceRow.add(
       doc.struct('TD', () => {
         doc.text(
-          `$${formatCurrency(copay.pHPrevBal)}`,
+          `$${formatCurrency(copay.pHPrevBal || 0)}`,
           tableLeft + col1Width,
           currentY,
           { align: 'right', width: col2Width - 10 },
         );
-      }),
-    );
-    prevBalanceRow.add(
-      doc.struct('TD', () => {
-        doc.text('', tableLeft + col1Width + col2Width + 35, currentY);
       }),
     );
     const prevBalanceRowHeight = doc.heightOfString(previousBalanceStr, {
@@ -285,9 +311,33 @@ const generate = async (data = {}, config = defaultConfig) => {
     });
     currentY += prevBalanceRowHeight + 5;
 
-    // TODO ... ?
-    // Do we want to add payments received? We include that on the existing HTML statement page...
-    //  it could also help with the math actually making sense
+    // Payments Received Row to help with maths
+    const paymentsReceivedRow = doc.struct('TR');
+    tableStruct.add(paymentsReceivedRow);
+    const paymentsReceivedDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Payments Received`;
+    paymentsReceivedRow.add(
+      doc.struct('TD', () => {
+        doc.text(paymentsReceivedDesc, tableLeft + 5, currentY, {
+          width: col1Width,
+        });
+      }),
+    );
+    paymentsReceivedRow.add(
+      doc.struct('TD', () => {
+        doc.text(
+          `$${formatCurrency(copay.pHTotCredits || 0)}`,
+          tableLeft + col1Width,
+          currentY,
+          { align: 'right', width: col2Width - 10 },
+        );
+      }),
+    );
+    const paymentsReceivedRowHeight = doc.heightOfString(paymentsReceivedDesc, {
+      width: col1Width,
+      font: config.text.font,
+      size: 8,
+    });
+    currentY += paymentsReceivedRowHeight + 5;
 
     // Adding copay detail charges
     copayDetails.forEach(detail => {
