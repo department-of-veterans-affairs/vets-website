@@ -5,27 +5,24 @@ import PropTypes from 'prop-types';
 import { SERVICE_PROVIDERS } from '../constants';
 import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 
-export function loginHandler(loginType, isOAuth, queryParams) {
+export function loginHandler(loginType, isOAuth, oktaParams) {
   const isOAuthAttempt = isOAuth && '-oauth';
-  const {
-    application,
-    clientId,
-    codeChallenge,
-    codeChallengeMethod,
-  } = queryParams;
+  const { codeChallenge, codeChallengeMethod, clientId } = oktaParams;
+
   recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
   if (clientId === 'okta_test') {
-    createOktaOAuthRequest({
-      application,
+    const URL = createOktaOAuthRequest({
       clientId,
       passedQueryParams: {
         codeChallenge,
         codeChallengeMethod,
-        ...(queryParams.operation && { operation: queryParams.operation }),
       },
+      loginType,
     });
-    authUtilities.login({ policy: loginType });
+    window.location = URL;
+    return;
   }
+  authUtilities.login({ policy: loginType });
 }
 
 export default function LoginButton({

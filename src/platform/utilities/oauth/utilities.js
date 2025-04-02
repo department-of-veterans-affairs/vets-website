@@ -335,45 +335,28 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   }
 };
 
-export async function createOktaOAuthRequest({
-  application = '',
+export function createOktaOAuthRequest({
   clientId,
-  config,
   passedQueryParams = {},
+  loginType,
 }) {
-  const isDefaultOAuth =
-    APPROVED_OAUTH_APPS.includes(application) ||
-    !application ||
-    [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
-  const { oAuthOptions } =
-    config ??
-    (externalApplicationsConfig[application] ||
-      externalApplicationsConfig.default);
+  const { codeChallenge } = passedQueryParams;
 
-  const { state, codeVerifier } =
-    isDefaultOAuth && saveStateAndVerifier('okta');
-  const { codeChallenge } =
-    passedQueryParams || (await pkceChallengeFromVerifier(codeVerifier));
-
-  const usedClientId = clientId || oAuthOptions.clientId;
+  const usedClientId = clientId;
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
-    ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
-    ...(passedQueryParams.operation && {
-      [OAUTH_ALLOWED_PARAMS.OPERATION]: passedQueryParams.operation,
-    }),
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: 'okta' }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: loginType }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
   );
 
   sessionStorage.setItem('ci', usedClientId);
-  recordEvent({ event: `login-attempted-okta-oauth-${clientId}` });
+  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
   return url.toString();
 }
