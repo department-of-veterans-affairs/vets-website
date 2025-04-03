@@ -6,7 +6,7 @@ const USER = {
   SSN_LAST_FOUR: '6789',
   BIRTH_DATE: '1956-07-10',
   GENDER: 'M',
-  EMAIL: 'Mitchell.Jenkins.Test@gmail.com',
+  EMAIL: 'Mitchell.Jenkins.TestReallyLongEmailAddressHere@gmail.com',
   RESIDENTIAL_ADDRESS: {
     ADDRESS_LINE1: '345 Home Address St',
     ADDRESS_LINE2: null,

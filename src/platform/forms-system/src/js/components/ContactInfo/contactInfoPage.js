@@ -60,7 +60,7 @@ import ContactInfoReview from './ContactInfoReview';
  * @param {ContactInfoSettings} - Contact info settings
  * @returns {Object} - form config pages for a chapter
  */
-const profileContactInfo = ({
+const contactInfo = ({
   content = getContent('application'),
 
   contactPath = CONTACT_INFO_PATH,
@@ -280,4 +280,4 @@ export const profileReviewErrorOverride = ({
   return null;
 };
 
-export default profileContactInfo;
+export default contactInfo;

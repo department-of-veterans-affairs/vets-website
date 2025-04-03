@@ -367,7 +367,11 @@ export const ContactInfoBase = ({
             {!requiredKeys.includes(FIELD_NAMES.EMAIL) && ' (optional)'}
           </Headers>
           {showSuccessAlertInField('email', content.email)}
-          <span className="dd-privacy-hidden" data-dd-action-name="email">
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="email"
+            style={{ wordBreak: 'break-word' }}
+          >
             {dataWrap[keys.email] || ''}
           </span>
           {loggedIn && (

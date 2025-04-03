@@ -1,4 +1,4 @@
-import profileContactInfo from 'platform/forms-system/src/js/components/ContactInfo/profileContactInfo';
+import contactInfoPage from 'platform/forms-system/src/js/components/ContactInfo/contactInfoPage';
 
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
@@ -8,7 +8,7 @@ const content = {
   title: 'Confirm the contact information we have on file for you',
 };
 
-export const contactInfo = profileContactInfo({
+export const contactInfo = contactInfoPage({
   content,
   contactInfoPageKey: 'confirmContactInfo3',
   contactPath: 'veteran-information',
