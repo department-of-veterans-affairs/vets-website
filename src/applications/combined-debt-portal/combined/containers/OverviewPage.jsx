@@ -8,11 +8,12 @@ import {
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { getPdfBlob } from '@department-of-veterans-affairs/platform-pdf/exports';
 import {
   selectProfile,
   selectVAPMailingAddress,
 } from '~/platform/user/selectors';
+import environment from 'platform/utilities/environment';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -106,17 +107,60 @@ const OverviewPage = () => {
   // TODO
   // xx Get redux data in place of mock data
   // xx Get vet info dynamic
-  // Get legalese data in
+  // xx Get legalese data in
   // xx Handle empty debts/copays
   //     leaving the section & showing zeros for now
   // Handle errors
 
+  const getOneDebtLetterBlob = data => getPdfBlob('oneDebtLetter', data);
+
   const handleGeneratePdf = async () => {
     try {
-      await generatePdf('oneDebtLetter', 'one_debt_letter.pdf', pdfData);
-    } catch (error) {
-      // throw some kind of error
-      alert(`PDF failed miserably ${error}`);
+      const blob = await getOneDebtLetterBlob(pdfData);
+
+      const file = new File([blob], 'one_debt_letter.pdf', {
+        type: 'application/pdf',
+      });
+
+      const formData = new FormData();
+      formData.append('document', file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        'POST',
+        `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
+      );
+      xhr.responseType = 'blob';
+
+      xhr.setRequestHeader('X-Key-Inflection', 'camel');
+      xhr.setRequestHeader('X-CSRF-Token', localStorage.getItem('csrfToken'));
+      xhr.setRequestHeader('Source-App-Name', window.appName);
+      xhr.withCredentials = true;
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          const filename = `one_debt_letter_${
+            new Date().toISOString().split('T')[0]
+          }.pdf`;
+
+          const url = URL.createObjectURL(xhr.response);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          link.click();
+          URL.revokeObjectURL(url);
+        } else {
+          alert(`PDF request failed: ${xhr.status}`);
+        }
+      };
+
+      xhr.onerror = () => {
+        alert('Network error during PDF request');
+      };
+
+      xhr.send(formData);
+    } catch (err) {
+      alert(`PDF generation failed: ${err.message}`);
     }
   };
 
