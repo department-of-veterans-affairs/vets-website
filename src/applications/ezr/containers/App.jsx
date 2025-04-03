@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 // VA Platform Components
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import { isLOA3, selectProfile } from 'platform/user/selectors';
+import { isLOA3 } from 'platform/user/selectors';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
@@ -51,11 +51,11 @@ const App = props => {
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
-  const profile = useSelector(selectProfile);
+  const { profile } = user;
 
   // Check if user has required services and facilities
   const hasRequiredServices = REQUIRED_BACKEND_SERVICES.every(service =>
-    user.profile.services?.includes(service),
+    profile.services?.includes(service),
   );
 
   // Check if user has any facilities
@@ -65,7 +65,7 @@ const App = props => {
   const isDataLoaded =
     !isAppLoading && // Wait for app to load
     ezrRouteGuardEnabled !== undefined && // Wait for feature flag
-    user.profile.loading === false && // Wait for profile
+    profile.loading === false && // Wait for profile
     profile !== undefined; // Wait for profile data
 
   // Route guard effect
