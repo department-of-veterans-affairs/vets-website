@@ -3,6 +3,7 @@
   "data": {
     "view:hasPolicies": true,
     "certifierRole": "applicant",
+    "certifierReceivedPacket": true,
     "sponsorName": {
       "first": "Sponsor",
       "middle": "Quincy",
