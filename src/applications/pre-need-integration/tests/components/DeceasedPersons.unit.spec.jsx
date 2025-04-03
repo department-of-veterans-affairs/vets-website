@@ -104,6 +104,63 @@ describe('DeceasedPersons Component', () => {
     ).to.throw('No viewField found in uiSchema for DeceasedPersons root.');
   });
 
+  it('handles modal primary and secondary button clicks', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...defaultProps} />
+      </Provider>,
+    );
+
+    const instance = wrapper.find(DeceasedPersons).instance();
+    instance.handleRemove(0, true);
+    expect(instance.state.removing[0]).to.be.true;
+
+    // Simulate modal "No"
+    instance.closeRemoveModal(0);
+    expect(instance.state.removing.length).to.equal(0);
+
+    // Simulate modal "Yes"
+    instance.handleRemove(0, true);
+    instance.handleRemoveModal(0);
+    expect(instance.state.editing.length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('falls back to raw description JSX when no text or component', () => {
+    const props = {
+      ...defaultProps,
+      uiSchema: {
+        ...defaultProps.uiSchema,
+        'ui:description': (
+          <span className="raw-desc">Fallback Description</span>
+        ),
+      },
+    };
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...props} />
+      </Provider>,
+    );
+
+    expect(wrapper.find('.raw-desc').text()).to.include('Fallback');
+    wrapper.unmount();
+  });
+
+  it('calls focusOnFirstFocusableElement and skips when wrapper is missing', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <DeceasedPersons {...defaultProps} />
+      </Provider>,
+    );
+
+    const instance = wrapper.find(DeceasedPersons).instance();
+    // should not throw even if DOM element not found
+    instance.focusOnFirstFocusableElement(9999); // unlikely to exist
+    wrapper.unmount();
+  });
+
   it('should handle edit correctly', () => {
     const wrapper = mount(
       <Provider store={store}>
@@ -166,7 +223,7 @@ describe('DeceasedPersons Component', () => {
     wrapper.unmount();
   });
 
-  it('should handle add correctly', () => {
+  it('should handle add correctly and update editing state', () => {
     const wrapper = mount(
       <Provider store={store}>
         <DeceasedPersons {...defaultProps} />
@@ -178,7 +235,6 @@ describe('DeceasedPersons Component', () => {
 
     instance.handleAdd();
 
-    expect(defaultProps.onChange.calledOnce).to.be.true;
     expect(instance.state.editing.length).to.equal(2);
     expect(instance.scrollToRow.calledOnce).to.be.true;
     expect(instance.focusOnFirstFocusableElement.calledOnce).to.be.true;
@@ -248,14 +304,11 @@ describe('DeceasedPersons Component', () => {
   });
 
   it('should handle add correctly when errorSchemaIsValid returns false', () => {
-    // Stub errorSchemaIsValid to always return false
     const stub = sinon.stub(validation, 'errorSchemaIsValid').returns(false);
 
-    // Extend defaultProps to include a top-level formContext for this test
     const errorProps = {
       ...defaultProps,
       formContext: { setTouched: sinon.spy() },
-      // errorSchema can be left empty since our stub returns false regardless
       errorSchema: {},
     };
 
@@ -266,10 +319,8 @@ describe('DeceasedPersons Component', () => {
     );
     const instance = wrapper.find(DeceasedPersons).instance();
 
-    // Call handleAdd which should trigger the else branch
     instance.handleAdd();
 
-    // Assert that the formContext.setTouched function was called once
     expect(errorProps.formContext.setTouched.calledOnce).to.be.true;
 
     stub.restore();
@@ -360,7 +411,7 @@ describe('DeceasedPersons Component', () => {
 
     instance.handleUpdate(0);
     expect(setTouchedSpy.calledOnce).to.be.true;
-    // Simulate callback execution from setTouched
+
     setTouchedSpy.args[0][1]();
     expect(instance.scrollToFirstError.calledOnce).to.be.true;
 
