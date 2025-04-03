@@ -10,35 +10,49 @@ import {
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(appt, useFeSourceOfTruthCC) {
-  // Cerner appointments have a different structure than VAOS appointments
-  // TODO: refactor this once logic is moved to vets-api
+export function getAppointmentType(
+  appt,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+) {
+  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
-  if (isCerner && isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.request;
-  }
-  if (isCerner && !isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.vaAppointment;
+
+  if (useFeSourceOfTruthVA) {
+    if (appt?.type === 'VA') {
+      return APPOINTMENT_TYPES.vaAppointment;
+    }
+
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
+    }
   }
 
   if (useFeSourceOfTruthCC) {
     if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
       return APPOINTMENT_TYPES.ccAppointment;
     }
-  } else {
-    // This will be used for CC requests in a followup PR
-    // eslint-disable-next-line no-lonely-if
-    if (appt?.kind === 'cc' && appt?.start) {
-      return APPOINTMENT_TYPES.ccAppointment;
+    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+      return APPOINTMENT_TYPES.ccRequest;
     }
   }
 
+  if (isCerner && isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.request;
+  }
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
   if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
+
   return APPOINTMENT_TYPES.vaAppointment;
 }
 /**
@@ -121,8 +135,13 @@ export function transformVAOSAppointment(
   appt,
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
 ) {
-  const appointmentType = getAppointmentType(appt, useFeSourceOfTruthCC);
+  const appointmentType = getAppointmentType(
+    appt,
+    useFeSourceOfTruthCC,
+    useFeSourceOfTruthVA,
+  );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
@@ -135,6 +154,9 @@ export function transformVAOSAppointment(
   const isUpcoming = useFeSourceOfTruth
     ? appt.future
     : isFutureAppointment(appt, isRequest);
+  const isCCRequest = useFeSourceOfTruthCC
+    ? appointmentType === APPOINTMENT_TYPES.ccRequest
+    : isCC && isRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -284,7 +306,7 @@ export function transformVAOSAppointment(
           }
         : null,
     preferredProviderName:
-      isCC && isRequest && appt.preferredProviderName
+      isCCRequest && appt.preferredProviderName
         ? { providerName: appt.preferredProviderName }
         : null,
     practitioners:
@@ -317,8 +339,14 @@ export function transformVAOSAppointments(
   appts,
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
 ) {
   return appts.map(appt =>
-    transformVAOSAppointment(appt, useFeSourceOfTruth, useFeSourceOfTruthCC),
+    transformVAOSAppointment(
+      appt,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+      useFeSourceOfTruthVA,
+    ),
   );
 }
