@@ -12,14 +12,6 @@ const institutionDetails = () => ({
   uiSchema: {
     institutionDetails: {
       ...titleUI('Institution details'),
-      // institutionName: {
-      //   ...textUI({
-      //     title: 'Institution name',
-      //     errorMessages: {
-      //       required: 'Please enter the name of your institution',
-      //     },
-      //   }),
-      // },
 
       facilityCode: {
         ...textUI({
@@ -59,7 +51,6 @@ const institutionDetails = () => ({
             required: 'Please enter a start date',
           },
         }),
-        // here
         'ui:validations': [
           (errors, fieldData) => {
             if (isInvalidTermStartDate(fieldData)) {

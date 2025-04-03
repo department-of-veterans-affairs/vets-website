@@ -1,12 +1,12 @@
-
+import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-// import { mount } from 'enzyme';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 import * as utilities from '../../utilities';
 
-// const definitions = formConfig.defaultDefinitions;
+const definitions = formConfig.defaultDefinitions;
 
 describe('Form Configuration', () => {
   const {
@@ -109,21 +109,24 @@ describe('Form Configuration', () => {
       'Please provide a valid current or past date',
     );
   });
-  // it('should show errors when required field is empty', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       onSubmit={onSubmit}
-  //       data={{}}
-  //       uiSchema={uiSchema}
-  //       definitions={definitions}
-  //     />,
-  //   );
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('va-text-input[error]').length).to.equal(2);
-  //   expect(form.find('va-memorable-date[error]').length).to.equal(1);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+
+  it('should show errors when required field is empty', () => {
+    const onSubmit = sinon.spy();
+    delete uiSchema.institutionDetails.institutionName;
+    delete schema.properties.institutionDetails.properties.institutionName;
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('va-text-input[error]').length).to.equal(1);
+    expect(form.find('va-memorable-date[error]').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });
