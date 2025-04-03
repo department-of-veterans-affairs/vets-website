@@ -6,7 +6,6 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import { API_ENDPOINTS, STATES_WITHOUT_MEDICAL } from '../../utils/constants';
-import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
 import content from '../../locales/en/content.json';
 
@@ -115,6 +114,11 @@ const VaMedicalCenter = props => {
           setFacilities(facilityList);
         } catch (err) {
           setError(true);
+          // Clear out selected state on error
+          setLocalData(prevState => ({
+            ...prevState,
+            'view:facilityState': undefined,
+          }));
           Sentry.withScope(scope => {
             scope.setExtra('state', facilityState);
             scope.setExtra('error', err);
@@ -184,7 +188,13 @@ const VaMedicalCenter = props => {
     <>
       {error && (
         <div className="server-error-message vads-u-margin-top--4">
-          <ServerErrorAlert />
+          <va-alert status="error" uswds>
+            <h2 slot="headline">Something went wrong on our end</h2>
+            <p>
+              We’re sorry. Something went wrong on our end. Please try selecting
+              your state again.
+            </p>
+          </va-alert>
         </div>
       )}
       <VaSelect
