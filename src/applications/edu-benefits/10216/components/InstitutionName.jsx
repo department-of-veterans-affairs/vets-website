@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 const InstitutionName = () => {
   const formData = useSelector(state => state.form?.data);
-  const [loader, setLoader] = React.useState(false);
-  const [institutionName, setInstitutionName] = React.useState('');
+  const [loader, setLoader] = useState(false);
+  const [institutionName, setInstitutionName] = useState('');
   const dispatch = useDispatch();
 
   useEffect(
@@ -57,7 +57,7 @@ const InstitutionName = () => {
   );
   return (
     <div>
-      <p>Insitution Name</p>
+      <p>Institution Name</p>
       <div>
         {loader ? (
           <va-loading-indicator
