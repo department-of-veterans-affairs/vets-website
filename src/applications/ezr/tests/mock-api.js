@@ -16,12 +16,14 @@ const mockEnrollmentStatus = require('./e2e/fixtures/mocks/mock-enrollment-statu
 
 const responses = {
   'GET /v0/user': mockUser,
+  //   'GET /v0/user': mockUserWithLOA1,
+  //   'GET /v0/user': mockUserRedirectToMHV,
   'GET /v0/feature_toggles': {
     data: {
       features: [
         { name: 'loading', value: false },
         { name: 'ezrProdEnabled', value: true },
-        { name: 'ezrRouteGuardEnabled', value: true },
+        { name: 'ezrRouteGuardEnabled', value: false },
       ],
     },
   },

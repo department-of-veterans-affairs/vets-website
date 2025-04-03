@@ -54,35 +54,33 @@ const App = props => {
   const profile = useSelector(selectProfile);
 
   // Check if user has required services and facilities
-  const hasRequiredServices =
-    !isAppLoading &&
-    ezrRouteGuardEnabled &&
-    REQUIRED_BACKEND_SERVICES.every(service =>
-      user.profile.services?.includes(service),
-    );
+  const hasRequiredServices = REQUIRED_BACKEND_SERVICES.every(service =>
+    user.profile.services?.includes(service),
+  );
 
   // Check if user has any facilities
   const hasFacilities = profile?.facilities?.length > 0;
+
+  // Check if all required data is loaded
+  const isDataLoaded =
+    !isAppLoading && // Wait for app to load
+    ezrRouteGuardEnabled !== undefined && // Wait for feature flag
+    user.profile.loading === false && // Wait for profile
+    profile !== undefined; // Wait for profile data
 
   // Route guard effect
   useEffect(
     () => {
       if (
-        !isAppLoading &&
-        ezrRouteGuardEnabled &&
-        (!identityVerified ||
-          (identityVerified && (!hasRequiredServices || !hasFacilities)))
+        isDataLoaded &&
+        (!identityVerified || // LOA1 users
+          (identityVerified && (!hasRequiredServices || !hasFacilities))) // LOA3 users without required access
       ) {
         window.location.href = '/my-health/';
       }
     },
-    [
-      isAppLoading,
-      ezrRouteGuardEnabled,
-      identityVerified,
-      hasRequiredServices,
-      hasFacilities,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isDataLoaded, identityVerified, hasRequiredServices, hasFacilities],
   );
 
   useEffect(
