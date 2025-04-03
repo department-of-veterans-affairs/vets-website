@@ -24,7 +24,6 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
-  selectPendingMedsFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
@@ -40,7 +39,6 @@ const VaPrescription = prescription => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
-  const showPendingMedContent = useSelector(selectPendingMedsFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -315,7 +313,7 @@ const VaPrescription = prescription => {
               )}
             </p>
             {!pendingMed &&
-              !showPendingMedContent && (
+              !pendingRenewal && (
                 <>
                   <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                     Request refills by this prescription expiration date
