@@ -1,16 +1,19 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 
+import personalInformation from '../pages/personalInformation';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import { isUserSignedIn } from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,6 +52,26 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
+        ...personalInformationPage({
+          key: 'applicantName',
+          title: 'Personal information',
+          path: 'applicant-name',
+          personalInfoConfig: {
+            ssn: { show: false, required: false },
+            vaFileNumber: { show: false, required: false },
+            dateOfBirth: { show: false, required: false },
+            gender: { show: false, required: false },
+            name: { show: true, required: false },
+          },
+          depends: formData => isUserSignedIn(formData),
+        }),
+        editApplicantName: {
+          title: 'Personal information',
+          path: 'edit-applicant-name',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
+          depends: formData => !isUserSignedIn(formData),
+        },
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
