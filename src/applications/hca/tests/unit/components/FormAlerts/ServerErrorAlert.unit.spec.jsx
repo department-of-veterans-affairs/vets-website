@@ -7,21 +7,21 @@ import ServerErrorAlert from '../../../../components/FormAlerts/ServerErrorAlert
 describe('hca <ServerErrorAlert>', () => {
   context('when the component renders', () => {
     it('should render `va-alert` with status of `error` and default text', () => {
-      const { container, getByText } = render(<ServerErrorAlert />);
+      const { container, queryByText } = render(<ServerErrorAlert />);
       const selector = container.querySelector('va-alert');
       expect(selector).to.exist;
       expect(selector).to.have.attr('status', 'error');
 
-      expect(getByText('Something went wrong on our end')).to.exist;
+      expect(queryByText('Something went wrong on our end')).to.exist;
       expect(
-        getByText(
+        queryByText(
           'We’re sorry. Something went wrong on our end. Please try again.',
         ),
       ).to.exist;
     });
 
     it('should render custom description and headline text when provided', () => {
-      const { container, getByText } = render(
+      const { container, queryByText } = render(
         <ServerErrorAlert
           headline="My Headline"
           description="My description"
@@ -31,8 +31,8 @@ describe('hca <ServerErrorAlert>', () => {
       expect(selector).to.exist;
       expect(selector).to.have.attr('status', 'error');
 
-      expect(getByText('My Headline')).to.exist;
-      expect(getByText('My description')).to.exist;
+      expect(queryByText('My Headline')).to.exist;
+      expect(queryByText('My description')).to.exist;
     });
   });
 });
