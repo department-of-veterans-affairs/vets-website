@@ -43,39 +43,37 @@ const childContent = (
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/VA.gov-team-forms/tree/main/Product/Minimal%20header"
-        >
-          Minimal Header README.md - Designs, decisions, etc...
-        </a>
-      </li>
-    </ul>
-    <h2>Code example</h2>
-    <ul>
-      <li>
-        <a
-          target="_blank"
-          rel="noreferrer"
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/src/js/patterns/minimal-header/README.md"
         >
-          Minimal header README.md for developers
+          For developers - README.md and how to implement
         </a>
       </li>
       <li>
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json#L1695-L1699"
+          href="https://github.com/department-of-veterans-affairs/VA.gov-team-forms/blob/main/Design/patterns/Minimal%20Header%20for%20Forms/form-step-WIP.md"
         >
-          Content build
+          Design guidance for new forms
         </a>
       </li>
       <li>
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-form-minimal-header/config/form.js#L17-L28"
+          href="https://github.com/department-of-veterans-affairs/VA.gov-team-forms/blob/main/Design/patterns/Minimal%20Header%20for%20Forms/form-step-WIP.md#migrating-existing-forms-to-use-the-new-form-page-template"
         >
-          Form config
+          Design guidance for migrating existing forms to use the new minimal
+          form flow
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/VA.gov-team-forms/tree/main/Product/Minimal%20header"
+        >
+          Design decisions - About the Minimal Header
         </a>
       </li>
     </ul>
@@ -90,6 +88,15 @@ const childContent = (
           Mock form patterns
         </a>
       </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://staging.va.gov/mock-simple-forms-patterns"
+        >
+          Mock form patterns sandbox
+        </a>
+      </li>
     </ul>
   </>
 );
@@ -99,7 +106,7 @@ export const IntroductionPage = () => {
     <article className="schemaform-intro">
       <FormTitle
         title="Explore pattern demonstrations in our sample form"
-        subTitle="Mock Form Minimal Header"
+        subTitle="Mock Form Minimal Form Flow"
       />
       {childContent}
     </article>
