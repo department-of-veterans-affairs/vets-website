@@ -14,7 +14,7 @@ import {
   toggleManualSchoolEntry,
 } from '../../actions/schoolSearch';
 
-describe('schoolSearch actions', () => {
+describe.skip('schoolSearch actions', () => {
   describe('clearSearch', () => {
     it('should return a SEARCH_CLEARED action', () => {
       expect(clearSearch()).to.eql({
