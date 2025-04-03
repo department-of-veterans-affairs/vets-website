@@ -194,16 +194,6 @@
     }
   }
 
-  button.usa-accordion-button {
-    text-align: left;
-  }
-
-  button.usa-accordion-button-ratings {
-    text-align: left;
-    margin-bottom: 1px;
-    margin-top: 1px;
-  }
-
   .category-ratings-accordion-headings {
     margin-bottom: 9px;
     padding-top: 1.25rem;
@@ -214,10 +204,6 @@
       padding-left: 0.625rem;
       padding-right: 0.625rem;
     }
-  }
-
-  button.usa-accordion-button-ratings:hover {
-    background-color: var(--vads-color-base-lightest);
   }
 
   .calculate-your-benefits {
@@ -234,10 +220,6 @@
       h5 {
         padding: 0;
       }
-    }
-
-    li.section-item button.usa-accordion-button {
-      padding-right: 2.5rem;
     }
 
     .calculate-button:disabled {
@@ -542,17 +524,6 @@
 
   .checked-program {
     max-width: fit-content;
-  }
-
-  .eyb-button {
-    &.usa-accordion-button[aria-expanded="false"] {
-      background-image: url("/img/arrow-up.png");
-      background-image: url("/img/arrow-up.svg");
-    }
-    &.usa-accordion-button[aria-expanded="true"] {
-      background-image: url("/img/arrow-down.png");
-      background-image: url("/img/arrow-down.svg");
-    }
   }
 
   $shadow: rgba(0, 0, 0, 0.15);

@@ -43,7 +43,9 @@ describe('<GiBillApp>', () => {
         },
       },
     );
-    const VaLoadingIndicator = screen.getByTestId('loading-indicator');
+    const VaLoadingIndicator = screen.container.querySelector(
+      'va-loading-indicator',
+    );
     expect(VaLoadingIndicator).to.exist;
   });
 
