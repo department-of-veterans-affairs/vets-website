@@ -165,7 +165,7 @@ const POARequestIndividualSearchPage = () => {
           name="ssn"
           className="ssn-input"
           required="required"
-          uiOptions={{ width: '2xl', inputType: 'number' }}
+          uiOptions={{ width: '2xl' }}
           error={
             validationPerformed && (searchData.ssn || '').length < 9
               ? 'Enter a Social Security number'
