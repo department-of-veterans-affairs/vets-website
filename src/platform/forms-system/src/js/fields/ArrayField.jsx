@@ -24,6 +24,7 @@ import {
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
+import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -344,6 +345,8 @@ export default class ArrayField extends React.Component {
     const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
     const { generateIndividualItemHeaders, useVaCards } = uiOptions;
+    const isMinimalHeader = isMinimalHeaderPath();
+    const Heading = isMinimalHeader ? 'h2' : 'h3';
 
     const modalPrimaryButtonText =
       uiOptions.modalPrimaryButtonText || `Yes, remove this ${uiItemName}`;
@@ -425,16 +428,16 @@ export default class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
-                        <h3 className="vads-u-font-size--h5">
+                        <Heading className="vads-u-font-size--h5">
                           New {uiItemName}
-                        </h3>
+                        </Heading>
                       ) : null}
                       {!isLast &&
                       multipleRows &&
                       generateIndividualItemHeaders ? (
-                        <h3 className="vads-u-font-size--h5">
+                        <Heading className="vads-u-font-size--h5">
                           {uiItemNameOriginal}
-                        </h3>
+                        </Heading>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
