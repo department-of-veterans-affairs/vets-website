@@ -6,7 +6,7 @@ import {
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
-import { useSearchParams, useNavigation, Form } from 'react-router-dom';
+import { useSearchParams, useNavigation } from 'react-router-dom';
 import api from '../utilities/api';
 import POARequestSearchCard from '../components/POARequestSearchCard';
 
@@ -60,7 +60,7 @@ const POARequestIndividualSearchPage = () => {
     searchData.first_name &&
     searchData.last_name &&
     searchData.dob &&
-    searchData.ssn;
+    searchData.ssn?.length === 9;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -114,7 +114,7 @@ const POARequestIndividualSearchPage = () => {
       >
         Search people
       </h1>
-      <Form
+      <form
         role="search"
         method="post"
         id="poa-request__search-form"
@@ -165,9 +165,9 @@ const POARequestIndividualSearchPage = () => {
           name="ssn"
           className="ssn-input"
           required="required"
-          uiOptions={{ width: '2xl' }}
+          uiOptions={{ width: '2xl', inputType: 'number' }}
           error={
-            validationPerformed && !searchData.ssn
+            validationPerformed && (searchData.ssn || '').length < 9
               ? 'Enter a Social Security number'
               : ''
           }
@@ -193,7 +193,7 @@ const POARequestIndividualSearchPage = () => {
             secondary
           />
         </div>
-      </Form>
+      </form>
       {searchPerformed ? (
         <div className="poa-requests-page-table-container">
           <h2
