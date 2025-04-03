@@ -19,6 +19,7 @@ describe('hca <ServerErrorAlert>', () => {
         ),
       ).to.exist;
     });
+
     it('should render custom description and headline text when provided', () => {
       const { container, getByText } = render(
         <ServerErrorAlert

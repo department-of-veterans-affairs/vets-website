@@ -6,8 +6,8 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import { API_ENDPOINTS, STATES_WITHOUT_MEDICAL } from '../../utils/constants';
-import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
+import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
 import content from '../../locales/en/content.json';
 
 // expose React binding for web components
