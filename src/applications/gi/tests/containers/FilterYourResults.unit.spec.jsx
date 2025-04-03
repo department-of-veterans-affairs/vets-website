@@ -47,7 +47,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('update-tuition-housing');
+    const filterButton = screen.container.querySelector('va-accordion-item');
     fireEvent.click(filterButton);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
@@ -66,7 +66,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('update-tuition-housing');
+    const filterButton = screen.container.querySelector('va-accordion-item');
     fireEvent.click(filterButton);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
@@ -88,7 +88,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('update-tuition-housing');
+    const filterButton = screen.container.querySelector('va-accordion-item');
     fireEvent.click(filterButton);
 
     const VETTECCheckBox = screen.getByRole('checkbox', {
@@ -128,11 +128,11 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('update-tuition-housing');
+    const filterButton = screen.container.querySelector('va-accordion-item');
     fireEvent.click(filterButton);
 
-    const updateFilterResultsButton = screen.getByTestId(
-      'update-tuition-housing',
+    const updateFilterResultsButton = screen.container.querySelector(
+      'va-accordion-item',
     );
     fireEvent.click(updateFilterResultsButton);
 
@@ -164,7 +164,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    const filterButton = screen.getByTestId('update-tuition-housing');
+    const filterButton = screen.container.querySelector('va-accordion-item');
     fireEvent.click(filterButton);
 
     const aboutTheSchoolCheckBox = screen.getByRole('checkbox', {
@@ -183,7 +183,7 @@ describe('<FilterYourResults>', () => {
         constants: mockConstants(),
       },
     });
-    fireEvent.click(screen.getByTestId('update-tuition-housing'));
+    fireEvent.click(screen.container.querySelector('va-accordion-item'));
     expect(
       screen.queryByRole('label', {
         name: 'Native American-serving institutions',
