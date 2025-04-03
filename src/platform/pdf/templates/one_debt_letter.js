@@ -15,6 +15,11 @@ const defaultConfig = {
     boldFont: 'SourceSansPro-Bold',
     size: 12,
   },
+  table: {
+    col1Width: 350,
+    col2Width: 100,
+    col3Width: 100,
+  },
 };
 
 // Dropping this here for now. May try and fudge the debt objects as we pass them in here to include it, but want to turn this around quickly
@@ -54,6 +59,61 @@ export const deductionCodes = Object.freeze({
 // Helper to format numbers with commas (e.g., 1350.00 -> "1,350.00")
 const formatCurrency = amount => {
   return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+};
+
+// Draw borders
+// const tableBottom = currentY;
+const drawBorders = (config, doc, tableTop, tableLeft, tableWidth) => {
+  const {
+    table: { col1Width, col2Width },
+  } = config;
+  const tableBottom = doc.page.height - config.margins.bottom;
+  doc
+    .moveTo(tableLeft, tableTop)
+    .lineTo(tableLeft + tableWidth, tableTop)
+    .stroke(); // Top line
+  doc
+    .moveTo(tableLeft + tableWidth, tableTop)
+    .lineTo(tableLeft + tableWidth, tableBottom)
+    .stroke(); // Right line
+  doc
+    .moveTo(tableLeft + tableWidth, tableBottom)
+    .lineTo(tableLeft, tableBottom)
+    .stroke(); // Bottom line
+  doc
+    .moveTo(tableLeft, tableBottom)
+    .lineTo(tableLeft, tableTop)
+    .stroke(); // Left line
+  doc
+    .moveTo(tableLeft + col1Width, tableTop)
+    .lineTo(tableLeft + col1Width, tableBottom)
+    .stroke(); // First vertical line
+  doc
+    .moveTo(tableLeft + col1Width + col2Width, tableTop)
+    .lineTo(tableLeft + col1Width + col2Width, tableBottom)
+    .stroke(); // Second vertical line
+};
+
+// Helper function to handle page breaks and draw borders on new page(s)
+const handlePageBreakWithBorders = (
+  doc,
+  currentY,
+  config,
+  tableLeft,
+  tableWidth,
+) => {
+  if (currentY + 25 > doc.page.height - config.margins.bottom) {
+    // Add a new page
+    doc.addPage({ margins: config.margins });
+
+    // Drawing borders on new page, so table top will be the top margin (for now)
+    drawBorders(config, doc, config.margins.top, tableLeft, tableWidth);
+
+    // Reset Y-coordinate for the new page
+    //   padding with 5 for some breathing room after the border
+    return config.margins.top + 5;
+  }
+  return currentY;
 };
 
 const generate = async (data = {}, config = defaultConfig) => {
@@ -108,6 +168,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   );
 
   // Logo
+  // TODO: fix alt text? - not announcing for some reason
   const logoWidth = 275;
   const logoX = (doc.page.width - logoWidth) / 2;
   wrapper.add(
@@ -163,10 +224,10 @@ const generate = async (data = {}, config = defaultConfig) => {
   // Table: VA Medical Center Copay Charges and Benefits Overpayment
   const tableTop = 175;
   const tableLeft = config.margins.left;
-  const col1Width = 350;
-  const col2Width = 100;
-  const col3Width = 100;
+  const { table } = config;
+  const { col1Width, col2Width, col3Width } = table;
   const tableWidth = col1Width + col2Width + col3Width;
+
   // TODO
   // [ ] Add indent values so we can drop \u00A0
   // [ ] Add standardized line height to replace stuff like `heightOfString`
@@ -174,6 +235,10 @@ const generate = async (data = {}, config = defaultConfig) => {
   //      trying to get this out the door for now, but it'll be some fun tech debt to address later
   // [ ]
 
+  // draw borders after header stuffs
+  drawBorders(config, doc, tableTop, tableLeft, tableWidth);
+
+  // resetting position after table is drawn
   let currentY = tableTop;
 
   const tableStruct = doc.struct('Table');
@@ -216,7 +281,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     .moveTo(tableLeft, headerBottomY)
     .lineTo(tableLeft + tableWidth, headerBottomY)
     .stroke();
-  currentY = headerBottomY;
+  currentY = headerBottomY + 5;
 
   // Copay Description Row
   const descRow = doc.struct('TR');
@@ -542,7 +607,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     .moveTo(tableLeft, overpaymentHeaderBottomY)
     .lineTo(tableLeft + tableWidth, overpaymentHeaderBottomY)
     .stroke();
-  currentY = overpaymentHeaderBottomY;
+  currentY = overpaymentHeaderBottomY + 5;
 
   // Benefits Overpayment Description Row
   const overpaymentDescRow = doc.struct('TR');
@@ -593,6 +658,16 @@ const generate = async (data = {}, config = defaultConfig) => {
   const overpaymentDetails = debts || [];
   let totalOverpayment = 0;
   overpaymentDetails.forEach((debt, index) => {
+    // checking currentY so we can group the overpaymentRow with the
+    //   corresponding Updated on line
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY,
+      config,
+      tableLeft,
+      tableWidth,
+    );
+
     const overpaymentRow = doc.struct('TR');
     tableStruct.add(overpaymentRow);
     const description = deductionCodes[debt.deductionCode]
@@ -649,33 +724,9 @@ const generate = async (data = {}, config = defaultConfig) => {
         font: config.text.font,
         size: 8,
       });
+
       currentY += debtUpdatedHeight + 5;
     }
-
-    // Add payment received row if applicable
-    // Excluding for now, payments received isn't something that's live on production
-
-    // if (debt.debtHistory?.length > 0) {
-    //   const paymentReceivedRow = doc.struct('TR');
-    //   tableStruct.add(paymentReceivedRow);
-    //   const paymentDesc = `Payment received ${debt.debtHistory[0].date}`;
-    //   paymentReceivedRow.add(doc.struct('TD'));
-    //   paymentReceivedRow.add(
-    //     doc.struct('TD', () => {
-    //       doc.text(paymentDesc, tableLeft + col1Width - 105, currentY, {
-    //         align: 'right',
-    //         width: 100,
-    //       });
-    //     }),
-    //   );
-    //   paymentReceivedRow.add(doc.struct('TD'));
-    //   const paymentRowHeight = doc.heightOfString(paymentDesc, {
-    //     width: 100,
-    //     font: config.text.font,
-    //     size: 8,
-    //   });
-    //   currentY += paymentRowHeight + 5;
-    // }
 
     totalOverpayment += parseFloat(debt.currentAr || 0);
   });
@@ -754,48 +805,6 @@ const generate = async (data = {}, config = defaultConfig) => {
     { width: col1Width, font: config.text.font, size: 8 },
   );
   currentY += overpaymentPaymentHeight + 5;
-
-  // Draw borders
-  const tableBottom = currentY;
-  doc
-    .moveTo(tableLeft, tableTop)
-    .lineTo(tableLeft + tableWidth, tableTop)
-    .stroke(); // Top line
-  doc
-    .moveTo(tableLeft + tableWidth, tableTop)
-    .lineTo(tableLeft + tableWidth, tableBottom)
-    .stroke(); // Right line
-  doc
-    .moveTo(tableLeft + tableWidth, tableBottom)
-    .lineTo(tableLeft, tableBottom)
-    .stroke(); // Bottom line
-  doc
-    .moveTo(tableLeft, tableBottom)
-    .lineTo(tableLeft, tableTop)
-    .stroke(); // Left line
-  doc
-    .moveTo(tableLeft + col1Width, tableTop)
-    .lineTo(tableLeft + col1Width, tableBottom)
-    .stroke(); // First vertical line
-  doc
-    .moveTo(tableLeft + col1Width + col2Width, tableTop)
-    .lineTo(tableLeft + col1Width + col2Width, tableBottom)
-    .stroke(); // Second vertical line
-
-  // Intro text below table
-  const introY = tableBottom + 20;
-  doc.font(config.text.font).fontSize(config.text.size);
-  const introSection = doc.struct('Sect', { title: 'Introduction' });
-  wrapper.add(introSection);
-  introSection.add(
-    doc.struct('P', () => {
-      doc.text(
-        'You are receiving this billing statement because you are currently enrolled in a priority group requiring copayments for treatment of nonservice-connected conditions.',
-        config.margins.left,
-        introY,
-      );
-    }),
-  );
 
   await generateFooterContent(doc, wrapper, headerData, config);
   wrapper.end();
