@@ -50,7 +50,7 @@ describe('22-10216 Edu form', () => {
 
     // Tab to and press 'Start your 35% exemption request' to start form
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('va-accordion-item[header="VA education service help"]');
+    cy.tabToElement('va-accordion-item[header="VA Education Service help"]');
     cy.realPress('Space');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
@@ -74,7 +74,6 @@ describe('22-10216 Edu form', () => {
     cy.typeInFocused('Director');
     cy.tabToContinueForm();
 
-    cy.tabToElement('input[name="root_institutionDetails_institutionName"]');
     cy.typeInFocused(
       'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
     );

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { subMonths, format } from 'date-fns';
 import {
   VaButtonPair,
@@ -17,6 +17,9 @@ import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadDateRange = () => {
   const history = useHistory();
+
+  const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+
   const [selectedDate, setSelectedDate] = useState('');
   const [selectionError, setSelectionError] = useState(null);
   const [customFromDate, setCustomFromDate] = useState('');
@@ -38,18 +41,6 @@ const DownloadDateRange = () => {
       const { value } = e.detail;
       setSelectionError(null);
       setSelectedDate(value);
-      if (value === 'any') {
-        dispatch(updateReportDateRange('any', 'any', 'any'));
-      } else if (value !== 'custom') {
-        const currentDate = new Date();
-        dispatch(
-          updateReportDateRange(
-            value,
-            format(subMonths(currentDate, value), 'yyyy-MM-dd'),
-            format(currentDate, 'yyyy-MM-dd'),
-          ),
-        );
-      }
       const valMap = {
         any: 'All time',
         '3': 'Last 3 months',
@@ -59,7 +50,7 @@ const DownloadDateRange = () => {
       };
       sendDataDogAction(`Date range option - ${valMap[value]}`);
     },
-    [setSelectedDate, dispatch],
+    [setSelectedDate],
   );
 
   const dateInputRef = useRef(null);
@@ -68,6 +59,19 @@ const DownloadDateRange = () => {
   const progressBarRef = useRef(null);
 
   useFocusOutline(progressBarRef);
+
+  useEffect(
+    () => {
+      if (dateFilter && dateFilter.option) {
+        setSelectedDate(dateFilter.option);
+        if (dateFilter.option === 'custom') {
+          setCustomFromDate(dateFilter.fromDate);
+          setCustomToDate(dateFilter.toDate);
+        }
+      }
+    },
+    [dateFilter],
+  );
 
   useEffect(
     () => {
@@ -80,15 +84,6 @@ const DownloadDateRange = () => {
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
     [progressBarRef],
-  );
-
-  useEffect(
-    () => {
-      if (customFromDate !== '' && customToDate !== '') {
-        dispatch(updateReportDateRange('custom', customFromDate, customToDate));
-      }
-    },
-    [customFromDate, customToDate, dispatch],
   );
 
   const handleBack = () => {
@@ -105,6 +100,9 @@ const DownloadDateRange = () => {
       focusElement('#input-error-message', {}, dateInputRef.current.shadowRoot);
       return;
     }
+    let fromDate;
+    let toDate;
+    const currentDate = new Date();
     if (selectedDate === 'custom') {
       if (customFromDate === '' && customToDate === '') {
         setCustomFromError(ERROR_PLEASE_ENTER_COMPLETE_DATE);
@@ -126,7 +124,21 @@ const DownloadDateRange = () => {
         focusElement('#error-message', {}, endDateRef.current.shadowRoot);
         return;
       }
+      fromDate = customFromDate;
+      toDate = customToDate;
+    } else if (selectedDate === 'any') {
+      fromDate = 'any';
+      toDate = 'any';
+    } else {
+      // For preset date ranges like 3, 6, or 12 months
+      fromDate = format(
+        subMonths(currentDate, parseInt(selectedDate, 10)),
+        'yyyy-MM-dd',
+      );
+      toDate = format(currentDate, 'yyyy-MM-dd');
     }
+    // Dispatch the update once the user clicks Continue
+    dispatch(updateReportDateRange(selectedDate, fromDate, toDate));
     history.push('/download/record-type');
     sendDataDogAction('Date range  - Continue');
   };
@@ -153,7 +165,7 @@ const DownloadDateRange = () => {
           <VaSelect
             label="Date range"
             onVaSelect={handleDateSelect}
-            value=""
+            value={selectedDate}
             data-testid="va-select-date-range"
             error={selectionError}
             ref={dateInputRef}
@@ -172,6 +184,7 @@ const DownloadDateRange = () => {
               required="true"
               error={customFromError}
               data-testid="va-date-start-date"
+              value={customFromDate}
               onDateChange={e => {
                 if (e.target.value) {
                   const [year, month, day] = e.target.value?.split('-');
@@ -188,6 +201,7 @@ const DownloadDateRange = () => {
               required="true"
               error={customToError}
               data-testid="va-date-end-date"
+              value={customToDate}
               onDateChange={e => {
                 const [year, month, day] = e.target.value.split('-');
                 if (parseInt(year, 10) >= 1900 && month && day) {
