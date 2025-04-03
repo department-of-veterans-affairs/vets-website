@@ -1,10 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ServerErrorAlert = () => (
+const ServerErrorAlert = ({
+  headline = 'Something went wrong on our end',
+  description = 'We’re sorry. Something went wrong on our end. Please try again.',
+}) => (
   <va-alert status="error" data-testid="hca-server-error-alert" uswds>
-    <h2 slot="headline">Something went wrong on our end</h2>
-    <p>We’re sorry. Something went wrong on our end. Please try again.</p>
+    <h2 slot="headline">{headline}</h2>
+    <p>{description}</p>
   </va-alert>
 );
 
-export default ServerErrorAlert;
+ServerErrorAlert.propTypes = {
+  headline: PropTypes.string,
+  description: PropTypes.string,
+};
+
+export default React.memo(ServerErrorAlert);
