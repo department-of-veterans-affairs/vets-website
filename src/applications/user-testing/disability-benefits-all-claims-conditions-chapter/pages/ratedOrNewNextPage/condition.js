@@ -11,18 +11,11 @@ import {
   createRatedDisabilityDescriptions,
 } from '../shared/utils';
 
-const createRatedDisabilitiesSchema = fullData => {
-  const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
-    fullData,
-  );
-
-  return (
-    {
-      ...nonSelectedRatedDisabilities,
-      [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
-    } || {}
-  );
-};
+const createRatedDisabilitiesSchema = fullData =>
+  ({
+    ...createNonSelectedRatedDisabilities(fullData),
+    [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
+  } || {});
 
 /** @returns {PageSchema} */
 const conditionPage = {
@@ -33,7 +26,7 @@ const conditionPage = {
     }),
     ratedDisability: radioUI({
       title:
-        'Select if you are adding a new condition or select which of your service-connected disabilities have gotten worse.',
+        'Select which of your service-connected disabilities have gotten worse or select if you are adding a new condition.',
       hint:
         'Choose one, you will return to this screen if you need to add more.',
       updateUiSchema: (_formData, fullData) => ({
@@ -48,11 +41,7 @@ const conditionPage = {
   schema: {
     type: 'object',
     properties: {
-      ratedDisability: radioSchema(
-        Object.keys({
-          Error: 'Error',
-        }),
-      ),
+      ratedDisability: radioSchema(['Error']),
     },
     required: ['ratedDisability'],
   },
