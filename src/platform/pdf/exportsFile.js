@@ -1,1 +1,1 @@
-export { generatePdf } from './index';
+export { generatePdf, getPdfBlob } from './index';
