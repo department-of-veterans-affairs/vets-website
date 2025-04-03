@@ -190,7 +190,6 @@ const formConfig = {
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
-  useCustomScrollAndFocus: true,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
