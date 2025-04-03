@@ -119,6 +119,8 @@ const VaMedicalCenter = props => {
             ...prevState,
             'view:facilityState': undefined,
           }));
+          // Clear dirty fields to not display state selector error
+          setDirtyFields([]);
           Sentry.withScope(scope => {
             scope.setExtra('state', facilityState);
             scope.setExtra('error', err);

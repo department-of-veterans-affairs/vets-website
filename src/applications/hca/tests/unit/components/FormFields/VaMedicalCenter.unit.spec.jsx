@@ -149,6 +149,7 @@ describe('hca <VaMedicalCenter>', () => {
     await waitFor(() => {
       const { stateField, facilityField, vaAlert } = selectors();
       expect(stateField).to.exist;
+      expect(stateField).to.not.have.attr('error');
       // Clears out the state value
       expect(stateField.getAttribute('value')).to.be.null;
       expect(facilityField).to.exist;
