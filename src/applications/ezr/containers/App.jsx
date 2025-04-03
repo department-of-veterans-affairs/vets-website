@@ -34,9 +34,9 @@ const App = props => {
     location,
     setFormData,
     user,
-    router,
     identityVerified,
   } = props;
+
   const { veteranFullName } = formData;
   const {
     loading: isLoadingFeatures,
@@ -53,31 +53,35 @@ const App = props => {
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
   const profile = useSelector(selectProfile);
 
-  // Route Guard checks
+  // Check if user has required services and facilities
+  const hasRequiredServices =
+    !isAppLoading &&
+    ezrRouteGuardEnabled &&
+    REQUIRED_BACKEND_SERVICES.every(service =>
+      user.profile.services?.includes(service),
+    );
+
+  // Check if user has any facilities
+  const hasFacilities = profile?.facilities?.length > 0;
+
+  // Route guard effect
   useEffect(
     () => {
-      if (!ezrRouteGuardEnabled) {
-        return;
-      }
-
-      // Check if user has required services and facilities
-      const hasRequiredServices = REQUIRED_BACKEND_SERVICES.every(service =>
-        user.profile.services?.includes(service),
-      );
-
       if (
-        identityVerified &&
-        (!hasRequiredServices || !profile?.facilities?.length)
+        !isAppLoading &&
+        ezrRouteGuardEnabled &&
+        (!identityVerified ||
+          (identityVerified && (!hasRequiredServices || !hasFacilities)))
       ) {
         window.location.href = '/my-health/';
       }
     },
     [
+      isAppLoading,
       ezrRouteGuardEnabled,
       identityVerified,
-      profile,
-      router,
-      user.profile.services,
+      hasRequiredServices,
+      hasFacilities,
     ],
   );
 
@@ -158,11 +162,10 @@ App.propTypes = {
   features: PropTypes.object,
   fetchEnrollmentStatus: PropTypes.func,
   formData: PropTypes.object,
+  identityVerified: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   user: PropTypes.object,
-  router: PropTypes.object,
-  identityVerified: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
