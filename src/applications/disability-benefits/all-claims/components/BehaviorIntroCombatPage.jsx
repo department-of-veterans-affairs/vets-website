@@ -60,8 +60,8 @@ const BehaviorIntroCombatPage = ({
     null,
   );
 
-  const [hasError, setHasError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [hasValidationError, setHasValidationError] = useState(null);
+  const [showDeleteAnswersModal, setShowDeleteAnswersModal] = useState(false);
   const [
     showDeletedAnswerConfirmation,
     setShowDeletedAnswerConfirmation,
@@ -90,7 +90,7 @@ const BehaviorIntroCombatPage = ({
     const error = checkValidations([missingSelection], optIn, formData);
     const result = error?.[0] || null;
 
-    setHasError(result);
+    setHasValidationError(result);
     return result;
   };
 
@@ -125,13 +125,13 @@ const BehaviorIntroCombatPage = ({
         scrollToFirstError({ focusOnAlertRole: true });
         // hasSelectedBehaviors returns true if user selected behaviors already on the succeeding page, BehaviorListPage
       } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
-        setShowModal(true);
+        setShowDeleteAnswersModal(true);
       } else if (optIn) {
         goForward(data);
       }
     },
     onCloseModal: () => {
-      setShowModal(false);
+      setShowDeleteAnswersModal(false);
     },
     onConfirmDeleteBehavioralAnswers: () => {
       deleteBehavioralAnswers();
@@ -185,7 +185,7 @@ const BehaviorIntroCombatPage = ({
 
       <VaModal
         modalTitle={deleteCombatAnswersModalTitle}
-        visible={showModal}
+        visible={showDeleteAnswersModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
@@ -202,7 +202,7 @@ const BehaviorIntroCombatPage = ({
           class="vads-u-margin-y--2"
           label={combatIntroTitle}
           label-header-level={4}
-          error={hasError}
+          error={hasValidationError}
           onVaValueChange={handlers.onSelection}
           required
           uswds
