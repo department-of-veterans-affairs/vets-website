@@ -128,7 +128,7 @@ const OverviewPage = () => {
       const xhr = new XMLHttpRequest();
       xhr.open(
         'POST',
-        `${environment.API_URL}/debts_api/v0/download_one_debt_letter_pdf`,
+        `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
       );
       xhr.responseType = 'blob';
 
