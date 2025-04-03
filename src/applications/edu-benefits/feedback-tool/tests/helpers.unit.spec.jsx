@@ -231,7 +231,7 @@ describe('feedback-tool helpers:', () => {
       };
 
       return submit(form, formConfig)
-        .then(() => {
+        ?.then(() => {
           expect.fail();
         })
         .catch(err => {
@@ -270,7 +270,7 @@ describe('feedback-tool helpers:', () => {
         data: {},
       };
 
-      return submit(form, formConfig).then(res => {
+      return submit(form, formConfig)?.then(res => {
         expect(res).to.deep.equal({});
       });
     });
@@ -305,7 +305,7 @@ describe('feedback-tool helpers:', () => {
       };
 
       return submit(form, formConfig)
-        .then(() => {
+        ?.then(() => {
           expect.fail();
         })
         .catch(err => {

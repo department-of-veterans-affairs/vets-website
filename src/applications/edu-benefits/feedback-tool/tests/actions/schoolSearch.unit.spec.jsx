@@ -55,7 +55,7 @@ describe('schoolSearch actions', () => {
       ).to.be.true;
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall?.args[0]).to.eql({
           type: 'RESTORE_FROM_PREFILL_SUCCEEDED',
           payload,
           institutionQuery: 'testQuery',
@@ -137,7 +137,7 @@ describe('schoolSearch actions', () => {
       ).to.be.true;
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall?.args[0]).to.eql({
           type: 'LOAD_SCHOOLS_SUCCEEDED',
           payload,
           institutionQuery: 'testQuery',
