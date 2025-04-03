@@ -41,7 +41,7 @@ const conditionPage = {
   schema: {
     type: 'object',
     properties: {
-      ratedDisability: radioSchema(['Error']),
+      ratedDisability: radioSchema(['error']),
     },
     required: ['ratedDisability'],
   },

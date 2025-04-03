@@ -16,7 +16,8 @@ export const isActiveDemo = (formData, currentDemo) =>
 
 export const isEdit = () => {
   const search = getArrayUrlSearchParams();
-  return search.get('edit');
+  const hasEdit = search.get('edit');
+  return !!hasEdit;
 };
 
 export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
@@ -31,7 +32,7 @@ export const createRatedDisabilityDescriptions = fullData => {
     let text = `Current rating: ${disability.ratingPercentage}%`;
 
     if (disability.ratingPercentage === disability.maximumRatingPercentage) {
-      text += ` (You’re already at the maximum for this rated disability.)`;
+      text += ` (You're already at the maximum for this rated disability.)`;
     }
 
     acc[disability.name] = text;
@@ -212,12 +213,33 @@ const getItemName = item => {
   return item?.ratedDisability;
 };
 
+const createConditionsString = item => {
+  const conditions = Object.keys(item?.causedByCondition || {}).filter(
+    key => item.causedByCondition[key],
+  );
+
+  let conditionsString = '';
+
+  if (conditions.length === 1) {
+    const [condition] = conditions;
+    conditionsString = condition;
+  } else if (conditions.length === 2) {
+    conditionsString = conditions.join(' and ');
+  } else if (conditions.length > 2) {
+    conditionsString = `${conditions.slice(0, -1).join(', ')}, and ${
+      conditions[conditions.length - 1]
+    }`;
+  }
+
+  return conditionsString;
+};
+
 const createCauseDescriptions = item => {
   const cause = item?.cause;
 
   const causeDescriptions = {
     NEW: 'Caused by an injury or exposure during my service.',
-    SECONDARY: `Caused by ${item?.causedByCondition ||
+    SECONDARY: `Caused by ${createConditionsString(item) ||
       'an unspecified condition'}.`,
     WORSENED:
       'Existed before I served in the military, but got worse because of my military service.',
