@@ -4,6 +4,8 @@
       "first": "Hector",
       "last": "Allen"
     },
+    "veteranSsn": "796126859",
+    "veteranDateOfBirth": "1932-02-05",
     "address": {
       "country": "USA",
       "street": "123 Any St",
@@ -11,8 +13,6 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "phoneNumber": "1231231234",
-    "email": "john@veteran.com",
-    "veteranSsn": "796126859"
+    "email": "john@veteran.com"
   }
 }
