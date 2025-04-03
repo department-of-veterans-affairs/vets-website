@@ -7,8 +7,7 @@ import { uploadPage, UploadPage } from '../pages/upload';
 import * as claimantInformationModule from '../pages/claimantInformation';
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
-import { SAVE_IN_PROGRESS_CONFIG } from './constants';
-import prefillTransformer from './prefill-transformer';
+// import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
@@ -52,10 +51,9 @@ const formConfig = {
   hideReviewChapters: true,
   introduction: IntroductionPage,
   formId,
-  saveInProgress: SAVE_IN_PROGRESS_CONFIG,
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
+  prefillEnabled: false,
+  // prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound: 'Please start over to upload your form.',
