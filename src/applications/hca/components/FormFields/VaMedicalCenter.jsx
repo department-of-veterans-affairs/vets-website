@@ -7,6 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import { API_ENDPOINTS, STATES_WITHOUT_MEDICAL } from '../../utils/constants';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
+import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import content from '../../locales/en/content.json';
 
 // expose React binding for web components
@@ -190,13 +191,7 @@ const VaMedicalCenter = props => {
     <>
       {error && (
         <div className="server-error-message vads-u-margin-top--4">
-          <va-alert status="error" uswds>
-            <h2 slot="headline">Something went wrong on our end</h2>
-            <p>
-              We’re sorry. Something went wrong on our end. Please try selecting
-              your state again.
-            </p>
-          </va-alert>
+          <ServerErrorAlert description="We’re sorry. Something went wrong on our end. Please try selecting your state again." />
         </div>
       )}
       <VaSelect
