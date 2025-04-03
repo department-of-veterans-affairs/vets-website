@@ -65,7 +65,7 @@ const formConfig = {
       },
       {
         href:
-          '/supporting-forms-for-claims/statement-to-support-claim-form-21-4138',
+          '/supporting-forms-for-claims/submit-statement-form-21-4138',
         label: 'Submit a statement to support a claim',
       },
     ],

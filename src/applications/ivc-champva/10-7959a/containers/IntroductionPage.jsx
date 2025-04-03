@@ -70,7 +70,7 @@ export default function IntroductionPage(props) {
       <va-omb-info
         res-burden={10}
         omb-number="2900-0219"
-        exp-date="10/31/2024"
+        exp-date="12/31/2027"
       />
     </article>
   );

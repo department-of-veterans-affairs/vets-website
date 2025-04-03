@@ -24,6 +24,12 @@ class DownloadAllPage {
       .click();
   };
 
+  clickBackOnDownloadAllPage = () => {
+    cy.get('va-button')
+      .contains('Back')
+      .click();
+  };
+
   verifyError = error => {
     cy.get('va-select')
       .contains(error)
@@ -64,6 +70,12 @@ class DownloadAllPage {
       .should('be.visible');
   };
 
+  verifyDateRangeOnPageTwo = dateRange => {
+    cy.get('legend')
+      .first()
+      .should('contain', dateRange); // .should('contain', `Date range: Custom (${dateRange})`);
+  };
+
   selectDateRangeDropdown = option => {
     cy.get('[data-testid="va-select-date-range"]')
       .find('select')
@@ -92,6 +104,12 @@ class DownloadAllPage {
 
   clearCustomStartYear = () => {
     cy.get('[data-testid="va-date-start-date"]')
+      .find('input')
+      .clear();
+  };
+
+  clearCustomEndYear = () => {
+    cy.get('[data-testid="va-date-end-date"]')
       .find('input')
       .clear();
   };
