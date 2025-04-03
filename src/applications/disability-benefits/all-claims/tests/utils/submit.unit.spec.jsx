@@ -393,6 +393,51 @@ describe('addForm0781', () => {
     expect(addForm0781({})).to.deep.equal({});
   });
 
+  it('should delete 0781 form data if user opted out', () => {
+    const formData = {
+      syncModern0781Flow: true,
+      eventTypes: ['eventType1'],
+      events: ['event1'],
+      workBehaviors: ['workBehavior1'],
+      healthBehaviors: ['healthBehavior1'],
+      otherBehaviors: ['otherBehavior1'],
+      behaviorsDetails: 'details',
+      supportingEvidenceReports: ['report1'],
+      supportingEvidenceRecords: ['record1'],
+      supportingEvidenceWitness: ['witness1'],
+      supportingEvidenceOther: 'otherEvidence',
+      supportingEvidenceUnlisted: 'unlistedEvidence',
+      supportingEvidenceNoneCheckbox: true,
+      treatmentNoneCheckbox: true,
+      vaTreatmentFacilities: [
+        {
+          treatmentCenterName: 'Treatment Center the First',
+          treatmentLocation0781Related: true,
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Second',
+          treatmentLocation0781Related: false,
+        },
+      ],
+      optionIndicator: 'option1',
+      additionalInformation: 'info',
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+    };
+
+    const expectedResult = {
+      vaTreatmentFacilities: [
+        {
+          treatmentCenterName: 'Treatment Center the Second',
+          treatmentLocation0781Related: false,
+        },
+      ],
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+    };
+
+    const result = addForm0781(formData);
+    expect(result).to.deep.equal(expectedResult);
+  });
+
   it('should return the same object if syncModern0781Flow is true', () => {
     const formDataSyncModern0781True = {
       syncModern0781Flow: true,
