@@ -17,6 +17,8 @@ export default {
         required: 'Enter an email address',
         format:
           'Enter a valid email address using the format email@domain.com.',
+        symbols:
+          'You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.',
       },
     },
     yourContactInfoPhone: {
@@ -44,3 +46,5 @@ export default {
     required: ['yourContactInfoEmail', 'yourContactInfoPhone'],
   },
 };
+
+// PHONE NUMBER THING NOT DONE
