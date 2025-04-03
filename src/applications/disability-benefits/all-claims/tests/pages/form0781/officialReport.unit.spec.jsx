@@ -13,6 +13,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
+  officialReportCustom,
   officialReport,
   officialReportMst,
 } from '../../../pages/form0781/officialReport';
@@ -31,6 +32,18 @@ import {
   OTHER_REPORT_TYPES,
   NO_REPORT_TYPE,
 } from '../../../constants';
+
+describe('Official report custom schemas', () => {
+  const { schema, uiSchema } = officialReportCustom;
+
+  it('should define a uiSchema object', () => {
+    expect(uiSchema).to.be.a('object');
+  });
+
+  it('should define a schema object', () => {
+    expect(schema).to.be.a('object');
+  });
+});
 
 describe('Official report without MST event type', () => {
   const { schema, uiSchema } = officialReport;

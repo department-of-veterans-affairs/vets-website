@@ -61,8 +61,8 @@ export const otherReportTypesExamples = (
 export const removePoliceReportModalContent = (
   <>
     <p>
-      If you change your selection you’ll lose the information you provided
-      about this report.
+      If you change your selection, we’ll delete information you provided about
+      this report.
     </p>
   </>
 );

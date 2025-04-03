@@ -1,20 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { SchemaForm } from 'platform/forms-system/exportsFile';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { SchemaForm } from 'platform/forms-system/exportsFile';
 import {
   VaModal,
   VaButton,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   officialReport,
   officialReportMst,
 } from '../pages/form0781/officialReport';
-import { isMstEvent } from '../pages/form0781/traumaticEventsPages';
 import { removePoliceReportModalContent } from '../content/officialReport';
+import { isRelatedToMST } from '../utils/form0781';
 import { POLICE_REPORT_LOCATION_FIELDS } from '../constants';
 
 const OfficialReport = props => {
@@ -24,63 +26,71 @@ const OfficialReport = props => {
   const isAdd = !!searchParams.get('add');
   const index = parseInt(props.pagePerItemIndex, 10);
 
+  const [tempData, setTempData] = useState(props.data || {});
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const shouldShowPoliceDataModal = event =>
-    event &&
-    !event?.otherReports?.police &&
-    POLICE_REPORT_LOCATION_FIELDS.some(
-      field => typeof event[field] === 'string' && event[field].trim() !== '',
-    );
+  const handlers = {
+    shouldShowPoliceDataModal: event =>
+      event &&
+      !event?.otherReports?.police &&
+      POLICE_REPORT_LOCATION_FIELDS.some(
+        field => typeof event[field] === 'string' && event[field].trim() !== '',
+      ),
+    onModalOrContinue: ({ formData }) => {
+      if (handlers.shouldShowPoliceDataModal(formData)) {
+        setShowModal(true);
+        setTempData(formData);
+        return;
+      }
+      const committedData = { ...tempData };
+      props.onChange(committedData);
+      props.onSubmit({ formData: committedData });
+    },
+    onCancelModal: () => {
+      setShowModal(false);
+      if (!props.data) return;
+      const restoredData = {
+        ...tempData,
+        otherReports: { ...tempData.otherReports, police: true },
+      };
 
-  const onModalOrContinue = ({ formData }) => {
-    if (shouldShowPoliceDataModal(formData)) {
-      setShowModal(true);
-      return;
-    }
-    props.onSubmit({ formData });
+      setTempData(restoredData);
+      props.onChange(restoredData);
+    },
+    onCancelAlert: () => {
+      setShowAlert(false);
+    },
+    removePoliceReport: () => {
+      setShowModal(false);
+
+      const updatedData = { ...tempData };
+      POLICE_REPORT_LOCATION_FIELDS.forEach(field => {
+        updatedData[field] = '';
+      });
+      updatedData.otherReports = { ...updatedData.otherReports, police: false };
+
+      setTempData(updatedData);
+      props.onChange(updatedData);
+      setShowAlert(true);
+    },
+    handleChange: newData => {
+      setTempData(newData);
+    },
   };
 
-  const onCancelModal = () => {
-    setShowModal(false);
-    if (!props.data) return;
-    props.onChange({
-      ...props.data,
-      otherReports: { ...props.data.otherReports, police: true },
-    });
-  };
-
-  const onCancelAlert = () => {
-    setShowAlert(false);
-  };
-
-  const removePoliceReport = () => {
-    setShowModal(false);
-
-    const event = { ...props.data };
-
-    POLICE_REPORT_LOCATION_FIELDS.forEach(field => {
-      event[field] = '';
-    });
-    event.otherReports = { ...event.otherReports, police: false };
-
-    props.onChange(event);
-    setShowAlert(true);
-  };
-
-  const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
+  const { data, schema, uiSchema, onSubmit } = useEditOrAddForm({
     isEdit,
-    schema: isMstEvent(props.fullData)
+    schema: isRelatedToMST(props.fullData)
       ? officialReportMst.schema
       : officialReport.schema,
-    uiSchema: isMstEvent(props.fullData)
+    uiSchema: isRelatedToMST(props.fullData)
       ? officialReportMst.uiSchema
       : officialReport.uiSchema,
-    data: props.data,
+    data: tempData,
     fullData: props.fullData,
-    onChange: props.onChange,
-    onSubmit: onModalOrContinue,
+    onChange: handlers.handleChange,
+    onSubmit: handlers.onModalOrContinue,
     index: props.pagePerItemIndex ? index : null,
     arrayPath: props.arrayBuilder.arrayPath,
   });
@@ -95,10 +105,8 @@ const OfficialReport = props => {
   );
 
   if (!props.onReviewPage && !isEdit && !isAdd) {
-    // we should only arrive at this page with
-    // ?add=true or ?edit=true, so if we somehow
-    // get here without those, redirect to the
-    // summary/intro
+    // we should only arrive at this page with ?add=true or ?edit=true,
+    // so if we somehow get here without those, redirect to the summary/intro
     const path =
       props.arrayBuilder.required(props.data) &&
       props.arrayBuilder.introRoute &&
@@ -111,8 +119,8 @@ const OfficialReport = props => {
 
   if (props.onReviewPage || (isEdit && !schema)) {
     // 1. Don't show for review page.
-    // 2. If we're editing, the schema will initially be null
-    //    so just return null until schema is loaded by useState
+    // 2. If we're editing, the schema will initially be null,
+    //    so return null until schema is loaded by useState
     return null;
   }
 
@@ -125,7 +133,7 @@ const OfficialReport = props => {
           ref={alertRef}
           closeBtnAriaLabel="Close notification"
           closeable
-          onCloseEvent={onCancelAlert}
+          onCloseEvent={handlers.onCancelAlert}
           fullWidth="false"
           slim
           status="success"
@@ -137,17 +145,14 @@ const OfficialReport = props => {
             We’ve removed police report information about Event #{index + 1}.
           </p>
           <p>
-            <button type="button" className="va-button-link" onClick={onSubmit}>
-              Click here
-            </button>{' '}
-            to continue with your claim.
+            <va-link text="Continue with your claim" onClick={onSubmit} />
           </p>
         </VaAlert>
       </div>
       <SchemaForm
         name={props.name}
         title={props.title}
-        data={data}
+        data={tempData}
         appStateData={props.appStateData}
         schema={schema}
         uiSchema={uiSchema}
@@ -155,7 +160,7 @@ const OfficialReport = props => {
         formContext={props.formContext}
         getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
-        onChange={onChange}
+        onChange={handlers.handleChange}
         onSubmit={onSubmit}
       >
         <>
@@ -205,17 +210,49 @@ const OfficialReport = props => {
         visible={showModal}
         status="warning"
         modalTitle="Remove police report?"
-        onCloseEvent={onCancelModal}
-        onPrimaryButtonClick={removePoliceReport}
-        onSecondaryButtonClick={onCancelModal}
-        primaryButtonText="Remove police report"
-        secondaryButtonText="Cancel and return to claim"
+        onCloseEvent={handlers.onCancelModal}
+        onPrimaryButtonClick={handlers.removePoliceReport}
+        onSecondaryButtonClick={handlers.onCancelModal}
+        primaryButtonText="Yes, remove police report"
+        secondaryButtonText="No, return to claim"
         uswds
       >
         {removePoliceReportModalContent}
       </VaModal>
     </div>
   );
+};
+
+OfficialReport.propTypes = {
+  arrayBuilder: PropTypes.shape({
+    introRoute: PropTypes.string.isRequired,
+    summaryRoute: PropTypes.string.isRequired,
+    reviewRoute: PropTypes.string.isRequired,
+    arrayPath: PropTypes.string.isRequired,
+    required: PropTypes.func.isRequired,
+    getText: PropTypes.func.isRequired,
+  }).isRequired,
+  name: PropTypes.string.isRequired,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  appStateData: PropTypes.object,
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.object,
+  formContext: PropTypes.object,
+  fullData: PropTypes.object,
+  getFormData: PropTypes.func,
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  onChange: PropTypes.func,
+  onContinue: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  pageContentBeforeButtons: PropTypes.element,
+  pagePerItemIndex: PropTypes.string,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+  NavButtons: PropTypes.func,
 };
 
 export default OfficialReport;
