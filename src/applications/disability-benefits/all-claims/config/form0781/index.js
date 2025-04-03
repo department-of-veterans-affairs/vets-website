@@ -9,6 +9,7 @@ import * as additionalInformationPage from '../../pages/form0781/additionalInfor
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
+import BehaviorListPage from '../../components/BehaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
 import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
 import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
@@ -107,8 +108,10 @@ export const form0781PagesConfig = {
     title: behaviorListPageTitle,
     path: 'mental-health-form-0781/behavior-changes-list',
     depends: formData => showBehaviorListPage(formData),
-    uiSchema: behaviorListPage.uiSchema,
+    CustomPage: BehaviorListPage,
+    CustomPageReview: null,
     schema: behaviorListPage.schema,
+    uiSchema: behaviorListPage.uiSchema,
   },
   ...behaviorDescriptions.makePages(),
   unlistedBehaviorDescriptionPage: {

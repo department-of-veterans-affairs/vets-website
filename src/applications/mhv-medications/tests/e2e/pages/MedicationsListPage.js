@@ -921,7 +921,7 @@ class MedicationsListPage {
   };
 
   verifyToolTipTextOnListPage = text => {
-    cy.get('[data-testid="rx-ipe-filtering-container"]')
+    cy.get('#rx-ipe-filtering-description')
       .should('contain', text)
       .and('be.visible');
   };
@@ -974,6 +974,14 @@ class MedicationsListPage {
         };
       }),
     };
+  };
+
+  verifyToolTipCounterSetToZero = () => {
+    cy.get('@tooltipsVisible')
+      .its('response')
+      .then(res => {
+        expect(res.body.counter).to.eq(0);
+      });
   };
 }
 
