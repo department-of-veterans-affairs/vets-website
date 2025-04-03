@@ -12,8 +12,8 @@ const ServerErrorAlert = ({
 );
 
 ServerErrorAlert.propTypes = {
-  headline: PropTypes.string,
   description: PropTypes.string,
+  headline: PropTypes.string,
 };
 
 export default React.memo(ServerErrorAlert);
