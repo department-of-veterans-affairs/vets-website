@@ -1,5 +1,5 @@
-import createCommonStore from '../store';
 import { expect } from 'chai';
+import createCommonStore from '../store';
 
 describe('Common Redux store', () => {
   it('should support injecting reducer', () => {
