@@ -7,7 +7,6 @@ import { uploadPage, UploadPage } from '../pages/upload';
 import * as claimantInformationModule from '../pages/claimantInformation';
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
-// import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
@@ -53,7 +52,6 @@ const formConfig = {
   formId,
   version: 0,
   prefillEnabled: false,
-  // prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound: 'Please start over to upload your form.',
