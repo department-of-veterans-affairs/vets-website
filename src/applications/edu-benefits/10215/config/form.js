@@ -139,7 +139,7 @@ const formConfig = {
         },
         institutionDetails: {
           path: 'identifying-details-1',
-          title: 'Identifying details',
+          title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
         },
