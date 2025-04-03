@@ -1,4 +1,4 @@
-import profileContactInfo from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/profileContactInfo';
+import profileContactInfo from 'platform/forms-system/src/js/components/ContactInfo/profileContactInfo';
 
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
