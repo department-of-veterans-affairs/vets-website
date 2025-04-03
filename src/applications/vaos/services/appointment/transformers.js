@@ -277,7 +277,9 @@ export function transformVAOSAppointment(
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start.format() : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
