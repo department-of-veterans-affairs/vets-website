@@ -92,7 +92,10 @@ export const EXTERNAL_APPS = {
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
   SMHD: 'smhdweb',
-  OKTA: 'okta',
+};
+
+export const TEST_APPS = {
+  OKTA: 'okta_test',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -111,7 +114,6 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
   [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
-  [EXTERNAL_APPS.OKTA]: '',
 };
 
 export const EXTERNAL_REDIRECTS_ALT = {

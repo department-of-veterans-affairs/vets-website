@@ -335,16 +335,9 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   }
 };
 
-export function createOktaOAuthRequest({
-  clientId,
-  passedQueryParams = {},
-  loginType,
-}) {
-  const { codeChallenge } = passedQueryParams;
-
-  const usedClientId = clientId;
+export function createOktaOAuthRequest({ clientId, codeChallenge, loginType }) {
   const oAuthParams = {
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
@@ -356,7 +349,7 @@ export function createOktaOAuthRequest({
     url.searchParams.append(param, oAuthParams[param]),
   );
 
-  sessionStorage.setItem('ci', usedClientId);
+  sessionStorage.setItem('ci', clientId);
   recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
   return url.toString();
 }

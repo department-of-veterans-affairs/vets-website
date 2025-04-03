@@ -157,9 +157,6 @@ export const createExternalApplicationUrl = () => {
     case EXTERNAL_APPS.SMHD:
       URL = `${sanitizeUrl(`${externalRedirectUrl}`)}/`;
       break;
-    case EXTERNAL_APPS.OKTA:
-      URL = `${sanitizeUrl(`${externalRedirectUrl}`)}/`;
-      break;
     default:
       break;
   }

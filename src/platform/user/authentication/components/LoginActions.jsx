@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { hasSession } from 'platform/user/profile/utilities';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
@@ -12,16 +11,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     state => state?.featureToggles?.mhvCredentialButtonDisabled,
   );
   const [useOAuth, setOAuth] = useState();
-  const [oktaParams, setOktaParams] = useState({});
-  const {
-    OAuth,
-    application,
-    clientId,
-    codeChallenge,
-    codeChallengeMethod,
-    operation,
-    type,
-  } = getQueryParams();
+  const { OAuth, clientId, codeChallenge } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -33,18 +23,8 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   useEffect(
     () => {
       setOAuth(OAuthEnabled && OAuth === 'true');
-      if (clientId === 'okta_test' && isUnifiedSignIn && !hasSession()) {
-        setOktaParams({
-          application,
-          clientId,
-          codeChallenge,
-          codeChallengeMethod,
-          operation,
-          type,
-        });
-      }
     },
-    [OAuth, OAuthEnabled, clientId, codeChallenge, codeChallengeMethod],
+    [OAuth, OAuthEnabled],
   );
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
@@ -60,7 +40,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
-            queryParams={oktaParams}
+            queryParams={{ clientId, codeChallenge }}
           />
         ))}
         <LoginNote />
