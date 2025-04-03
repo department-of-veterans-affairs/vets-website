@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+
 import IntroductionPage from '../../containers/IntroductionPage';
 import OmbInfo from '../../components/OmbInfo';
 

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import IntroductionPage from '../../containers/IntroductionPage';
+import OmbInfo from '../../components/OmbInfo';
 
 describe('22-10215 <IntroductionPage>', () => {
   const fakeStore = {
@@ -86,7 +87,7 @@ describe('22-10215 <IntroductionPage>', () => {
   it('should render omb info', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
-    expect(wrapper.find('va-omb-info').length).to.equal(1);
+    expect(wrapper.find(OmbInfo).length).to.equal(1);
 
     wrapper.unmount();
   });
