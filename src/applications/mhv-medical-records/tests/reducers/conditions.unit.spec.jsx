@@ -8,7 +8,7 @@ import {
 import { Actions } from '../../util/actionTypes';
 
 describe('Condition Extraction Functions', () => {
-  const EMPTY_FIELD = 'None noted'; // Define EMPTY_FIELD as per your implementation
+  const EMPTY_FIELD = 'None recorded'; // Define EMPTY_FIELD as per your implementation
 
   describe('extractLocation', () => {
     it('should return the location name if present', () => {

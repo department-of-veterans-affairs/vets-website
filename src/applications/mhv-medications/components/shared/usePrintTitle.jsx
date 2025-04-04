@@ -13,7 +13,7 @@ const usePrintTitle = (
       const name = first
         ? `${first} ${last} ${suffix}`.replace(/undefined/g, '').trim()
         : 'John Doe Jr.';
-      const formattedDob = dob ? dateFormat(new Date(dob)) : 'None noted';
+      const formattedDob = dob ? dateFormat(new Date(dob)) : 'None recorded';
 
       const beforePrintHandler = () => {
         updatePageTitle(

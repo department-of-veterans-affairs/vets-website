@@ -41,7 +41,7 @@ const AllergiesPrintOnly = props => {
                               ),
                           )
                         ) : (
-                          <span>None noted</span>
+                          <span>None recorded</span>
                         )}
                         <br />
                         <strong>Type of allergy:</strong>{' '}
