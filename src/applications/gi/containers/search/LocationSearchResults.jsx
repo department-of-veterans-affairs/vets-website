@@ -13,10 +13,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  VaPagination,
-  VaAccordion,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ResultCard from './ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
@@ -557,16 +554,16 @@ function LocationSearchResults({
       return (
         <>
           {!smallScreen && (
-            <VaAccordion bordered>
-              <TuitionAndHousingEstimates bordered />
+            <>
+              <TuitionAndHousingEstimates />
               {environment.isProduction() && (
-                <FilterYourResults searchType="location" bordered />
+                <FilterYourResults searchType="location" />
               )}
               {!environment.isProduction() && (
-                <FilterYourResults searchType="location" bordered />
+                <FilterYourResults searchType="location" />
               )}
               {/* {!environment.isProduction() && <FilterByLocation />} */}
-            </VaAccordion>
+            </>
           )}
           {environment.isProduction()
             ? (smallScreen || landscape) && (
