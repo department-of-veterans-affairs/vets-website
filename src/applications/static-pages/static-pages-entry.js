@@ -15,7 +15,6 @@ import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 // Health Care | Manage Benefits widgets.
-import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createModernGetMedicalRecordsPage from './health-care-manage-benefits/modern-get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
@@ -197,7 +196,6 @@ createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
 createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
-createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createModernGetMedicalRecordsPage(
   store,
   widgetTypes.MODERN_GET_MEDICAL_RECORDS_PAGE,

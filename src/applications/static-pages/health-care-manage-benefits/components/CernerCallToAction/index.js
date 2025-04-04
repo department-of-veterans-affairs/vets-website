@@ -120,13 +120,6 @@ export class CernerCallToAction extends Component {
         featureLocation: 'My HealtheVet',
       };
     }
-    if (widgetTypes.GET_MEDICAL_RECORDS_PAGE === widgetType) {
-      return {
-        cta1: 'get your medical records from',
-        cta2: 'health records',
-        featureLocation: 'HealtheVet',
-      };
-    }
     if (widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE === widgetType) {
       return {
         cta1: 'view lab and test results from',

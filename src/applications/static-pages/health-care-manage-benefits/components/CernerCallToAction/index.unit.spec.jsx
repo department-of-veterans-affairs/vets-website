@@ -145,29 +145,6 @@ describe('<CernerCallToAction>', () => {
     wrapper.unmount();
   });
 
-  it('should not render new layout when feature flag is true and widget type is get_medical_records_page', () => {
-    const wrapper = shallow(
-      <CernerCallToAction
-        featureStaticLandingPage
-        widgetType={widgetTypes.GET_MEDICAL_RECORDS_PAGE}
-      />,
-    );
-    wrapper.setState({
-      fetching: false,
-      facilities: [
-        { attributes: { name: 'Example Facility 1' } },
-        { attributes: { name: 'Example Facility 2' } },
-      ],
-    });
-
-    const text = wrapper.text();
-    expect(text).to.include(
-      'Your VA health care team may be using our My VA Health portal',
-    );
-
-    wrapper.unmount();
-  });
-
   it('should not render new layout when feature flag is true and widget type is view_test_and_lab_results_page', () => {
     const wrapper = shallow(
       <CernerCallToAction
