@@ -264,3 +264,17 @@
     display: none !important;
   }
 }
+
+#poa-request__search-form {
+  .poa-request-search__form-buttons-container {
+    display: inline-block;
+    margin-top: 30px;
+  }
+  .poa-request-search__form-submit {
+    height: 40px;
+  }
+  .poa-request-search__form-reset {
+    padding-top: 7px;
+    height: 40px;
+  }
+}
