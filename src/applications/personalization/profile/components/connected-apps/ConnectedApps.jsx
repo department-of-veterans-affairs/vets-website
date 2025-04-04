@@ -138,7 +138,7 @@ export class ConnectedApps extends Component {
 
         {loading && (
           <va-loading-indicator
-            setFocus
+            set-focus
             message="Loading your connected apps..."
             data-testid="connected-apps-loading-indicator"
           />
