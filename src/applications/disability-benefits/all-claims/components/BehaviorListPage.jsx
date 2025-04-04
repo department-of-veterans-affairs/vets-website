@@ -220,9 +220,16 @@ const BehaviorListPage = ({
       setShowAlert(false);
     },
     onConfirmDeleteBehaviorDetails: () => {
-      deleteBehaviorDetails();
-      setShowModal(false);
-      setShowAlert(true);
+      if (onReviewPage) {
+        deleteBehaviorDetails();
+        setShowModal(false);
+        // setShowAlert(true); //TODO - this isn't working yet. Need an alert to show in non-edit mode
+        updatePage();
+      } else {
+        deleteBehaviorDetails();
+        setShowModal(false);
+        setShowAlert(true);
+      }
     },
     onCancelDeleteBehaviorDetails: () => {
       handlers.onCloseModal();
@@ -288,6 +295,7 @@ const BehaviorListPage = ({
       text="Update page"
       onClick={handlers.onUpdatePage}
       label="Update page"
+      class="usa-button-primary"
       // className= TODO - check styling, button isn't full width
     />
   ) : (
