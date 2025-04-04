@@ -114,6 +114,7 @@
   "loopPages": "loop_pages",
   "manageDependents": "dependents_management",
   "meb160630Automation": "meb_1606_30_automation",
+  "mebAddressValidationApi": "meb_address_validation_api",
   "mebAutoPopulateRelinquishmentDate": "meb_auto_populate_relinquishment_date",
   "mebExclusionPeriodEnabled": "meb_exclusion_period_enabled",
   "mebDpoAddressOptionEnabled": "meb_dpo_address_option_enabled",

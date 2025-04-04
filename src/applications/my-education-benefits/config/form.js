@@ -11,6 +11,7 @@ import manifest from '../manifest.json';
 import applicantInformation33 from './chapters/33/applicantInfo/applicantInfo';
 import contactInfo33 from './chapters/33/contactInfo/contactInfo';
 import mailingAddress33 from './chapters/33/contactInfo/mailingAddress';
+import newMailingAddress33 from './chapters/33/contactInfo/newMailingAddress';
 import contactMethod33 from './chapters/33/contactInfo/contactMethod';
 import newContactMethod33 from './chapters/33/contactInfo/newContactMethod';
 import serviceHistory33 from './chapters/33/serviceHistory/serviceHistory';
@@ -125,10 +126,18 @@ const formConfig = {
           schema: contactInfo33.schema,
         },
         [formPages.contactInformation.mailingAddress]: {
+          depends: formData => !formData?.mebAddressValidationApi,
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
           uiSchema: mailingAddress33.uiSchema,
           schema: mailingAddress33.schema,
+        },
+        [formPages.contactInformation.newMailingAddress]: {
+          depends: formData => formData?.mebAddressValidationApi,
+          title: 'Mailing address',
+          path: 'contact-information/mailing-address-validation',
+          uiSchema: newMailingAddress33.uiSchema,
+          schema: newMailingAddress33.schema,
         },
         [formPages.contactInformation.preferredContactMethod]: {
           depends: formData => !formData?.meb160630Automation,

@@ -24,6 +24,13 @@ import {
   UPDATE_GLOBAL_PHONE_NUMBER,
   ACKNOWLEDGE_DUPLICATE,
   TOGGLE_MODAL,
+  ADDRESS_VALIDATION_START,
+  ADDRESS_VALIDATION_SUCCESS,
+  ADDRESS_VALIDATION_FAILURE,
+  ADDRESS_VALIDATION_MODAL_TOGGLE,
+  ADDRESS_VALIDATION_ACCEPT,
+  ADDRESS_VALIDATION_RESET,
+  ADDRESS_VALIDATION_VALIDATED,
 } from '../actions';
 import { formFields } from '../constants';
 
@@ -39,6 +46,15 @@ const initialState = {
   exclusionPeriods: null,
   exclusionPeriodsLoading: false,
   exclusionPeriodsError: null,
+  addressValidation: {
+    isValidating: false,
+    suggestedAddresses: [],
+    validationError: null,
+    modalOpen: true,
+    originalAddress: null,
+    selectedAddress: null,
+    validated: false,
+  },
 };
 const handleDirectDepositApi = action => {
   if (!action?.response?.data?.attributes) {
@@ -204,6 +220,67 @@ export default {
           ...state,
           duplicateEmail: action?.contactInfo?.email,
           duplicatePhone: action?.contactInfo?.phone,
+        };
+      case ADDRESS_VALIDATION_START:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            isValidating: true,
+            validationError: null,
+          },
+        };
+      case ADDRESS_VALIDATION_SUCCESS:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            isValidating: false,
+            suggestedAddresses: action.response.addresses || [],
+            originalAddress: action.address,
+          },
+        };
+      case ADDRESS_VALIDATION_FAILURE:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            isValidating: false,
+            validationError: action.error,
+          },
+        };
+      case ADDRESS_VALIDATION_MODAL_TOGGLE:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            modalOpen: action.isOpen,
+          },
+        };
+      case ADDRESS_VALIDATION_ACCEPT:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            selectedAddress: action.address,
+            modalOpen: false,
+            validated: true,
+          },
+        };
+      case ADDRESS_VALIDATION_VALIDATED:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            validated: action.value,
+          },
+        };
+      case ADDRESS_VALIDATION_RESET:
+        return {
+          ...state,
+          addressValidation: {
+            ...initialState.addressValidation,
+          },
         };
       case TOGGLE_MODAL:
         return {
