@@ -36,4 +36,4 @@ export const officeAddress = (
     United States of America
   </>
 );
-export const officeFaxNum = { CHAMPVA_OHI_FAX_NUMBER };
+export const officeFaxNum = CHAMPVA_OHI_FAX_NUMBER;
