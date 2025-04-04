@@ -41,7 +41,7 @@ const mailInfo = (address, officeName, faxNum, preamble, appType) => {
   const faxNumMarkup = (
     <VaTelephone
       contact={JSON.stringify({
-        phoneNumber: faxNum ?? '3033317809',
+        phoneNumber: faxNum ?? '3033317807',
         description: 'fax number',
       })}
     />
@@ -140,11 +140,10 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
 
     // Update with any conditionally shown uploads that weren't in last list
     const fm = personUpdated.missingUploads.flatMap(el => el.name);
-    newListOfMissingFiles.forEach(
-      el =>
-        !fm.includes(el.name)
-          ? missingUploads.push({ ...el, uploaded: false })
-          : null,
+    newListOfMissingFiles.forEach(el =>
+      !fm.includes(el.name)
+        ? missingUploads.push({ ...el, uploaded: false })
+        : null,
     );
     personUpdated.missingUploads = missingUploads; // Shallow
   }

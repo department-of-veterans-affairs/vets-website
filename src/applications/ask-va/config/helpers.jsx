@@ -296,8 +296,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 1.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN
   ) {
     return true;
   }
@@ -305,8 +305,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 1.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER
   ) {
     return true;
   }
@@ -315,8 +315,8 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN
   ) {
     return true;
   }
@@ -324,10 +324,10 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
   ) {
     return true;
   }
@@ -335,10 +335,10 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.2.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE
   ) {
     return true;
   }
@@ -346,10 +346,10 @@ export const isLocationOfResidenceRequired = data => {
   // Flow 2.3
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
   ) {
     return true;
   }
@@ -405,8 +405,8 @@ export const isPostalCodeRequired = data => {
   // Flow 1.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN &&
     statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
@@ -423,8 +423,8 @@ export const isPostalCodeRequired = data => {
   // Flow 1.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.MYSELF &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
     statesRequiringPostalCode.includes(yourLocationOfResidence)
   ) {
     return true;
@@ -442,8 +442,8 @@ export const isPostalCodeRequired = data => {
   // Flow 2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.VETERAN &&
     statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
   ) {
     return true;
@@ -460,10 +460,10 @@ export const isPostalCodeRequired = data => {
   // Flow 2.2.1
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
@@ -482,10 +482,10 @@ export const isPostalCodeRequired = data => {
   // Flow 2.2.2
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.FAMILY_MEMBER &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.SOMEONE_ELSE &&
     statesRequiringPostalCode.includes(familyMembersLocationOfResidence)
   ) {
     return true;
@@ -504,10 +504,10 @@ export const isPostalCodeRequired = data => {
   // Flow 2.3
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
-    (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+    whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
+    isQuestionAboutVeteranOrSomeoneElse ===
+      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
@@ -916,3 +916,6 @@ export const generalQuestionCondition = formData => {
     formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
   );
 };
+
+export const formatDateTimeForAnnouncements = date =>
+  format(date, "EEEE, MMMM d, yyyy 'at' h:mm a 'ET'");

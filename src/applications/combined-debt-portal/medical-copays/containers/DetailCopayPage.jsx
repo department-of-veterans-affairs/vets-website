@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
@@ -65,14 +66,11 @@ const DetailCopayPage = ({ match }) => {
     setPageFocus('h1');
   }, []);
 
-  useEffect(
-    () => {
-      if (!isCurrentBalance) {
-        setAlert('past-due-balance');
-      }
-    },
-    [isCurrentBalance],
-  );
+  useEffect(() => {
+    if (!isCurrentBalance) {
+      setAlert('past-due-balance');
+    }
+  }, [isCurrentBalance]);
 
   return (
     <>
@@ -189,9 +187,7 @@ const DetailCopayPage = ({ match }) => {
             <br />
             {selectedCopay?.station.staTAddress1}
             <br />
-            {`${selectedCopay?.station.city}, ${selectedCopay?.station.state} ${
-              selectedCopay?.station.ziPCdeOutput
-            }`}
+            {`${selectedCopay?.station.city}, ${selectedCopay?.station.state} ${selectedCopay?.station.ziPCdeOutput}`}
           </p>
 
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
@@ -217,8 +213,9 @@ const DetailCopayPage = ({ match }) => {
             <p>
               You can contact us online through{' '}
               <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
-              Health Resource Center at <va-telephone contact="8664001238" />.
-              We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              Health Resource Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />. We’re
+              here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </div>
         </va-need-help>

@@ -55,9 +55,9 @@ export const statementOfTruthBody =
 
 /** @returns {FormConfig} */
 export const createFormConfig = (form, options) => {
-  const { chapters, formId, ombInfo, title } = form;
+  const { chapters, formId, ombInfo, title, plainLanguageHeader } = form;
   const { rootUrl, trackingPrefix } = options;
-  const subTitle = `VA Form ${formId}`;
+  const subTitle = `${title} (VA Form ${formId})`;
 
   return {
     preSubmitInfo: {
@@ -81,9 +81,9 @@ export const createFormConfig = (form, options) => {
       notFound: `${subTitle} NOT FOUND`,
       noAuth: `Please sign in again to continue ${subTitle}.`,
     },
-    title,
-    defaultDefinitions: {},
+    title: plainLanguageHeader,
     subTitle,
+    defaultDefinitions: {},
     chapters: formatChapters(chapters),
   };
 };

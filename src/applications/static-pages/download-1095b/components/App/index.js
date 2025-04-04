@@ -25,6 +25,7 @@ import {
   downloadErrorComponent,
   errorTypes,
   notFoundComponent,
+  pdfHelp,
   systemErrorComponent,
   unavailableComponent,
 } from './utils';
@@ -36,52 +37,43 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
   const [hasLoadedMostRecentYear, setHasLoadedMostRecentYear] = useState(false);
-  const isAppLoading = useMemo(
-    () => {
-      return (
-        profile.isLoadingProfile ||
-        (displayToggle &&
-          profile.isUserLOA3 &&
-          hasLoadedMostRecentYear === false) ||
-        displayToggle === undefined
-      );
-    },
-    [displayToggle, hasLoadedMostRecentYear, profile],
-  );
-  useEffect(
-    () => {
-      if (profile.isUserLOA3 !== true || displayToggle !== true) {
-        return;
-      }
+  const isAppLoading = useMemo(() => {
+    return (
+      profile.isLoadingProfile ||
+      (displayToggle &&
+        profile.isUserLOA3 &&
+        hasLoadedMostRecentYear === false) ||
+      displayToggle === undefined
+    );
+  }, [displayToggle, hasLoadedMostRecentYear, profile]);
+  useEffect(() => {
+    if (profile.isUserLOA3 !== true || displayToggle !== true) {
+      return;
+    }
 
-      apiRequest('/form1095_bs/available_forms')
-        .then(response => {
-          if (response.errors || response.availableForms.length === 0) {
-            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-          }
-          const mostRecentYearData = response.availableForms[0];
-          if (mostRecentYearData?.year) {
-            updateYear(mostRecentYearData.year);
-          }
-        })
-        .catch(() => {
-          updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
-        })
-        .finally(() => {
-          setHasLoadedMostRecentYear(true);
-        });
-    },
-    [profile.isUserLOA3, displayToggle],
-  );
+    apiRequest('/form1095_bs/available_forms')
+      .then(response => {
+        if (response.errors || response.availableForms.length === 0) {
+          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+        }
+        const mostRecentYearData = response.availableForms[0];
+        if (mostRecentYearData?.year) {
+          updateYear(mostRecentYearData.year);
+        }
+      })
+      .catch(() => {
+        updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+      })
+      .finally(() => {
+        setHasLoadedMostRecentYear(true);
+      });
+  }, [profile.isUserLOA3, displayToggle]);
 
-  useEffect(
-    () => {
-      if (formError.type === errorTypes.DOWNLOAD_ERROR) {
-        focusElement('#downloadError');
-      }
-    },
-    [formError],
-  );
+  useEffect(() => {
+    if (formError.type === errorTypes.DOWNLOAD_ERROR) {
+      focusElement('#downloadError');
+    }
+  }, [formError]);
 
   const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
@@ -95,42 +87,39 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
       });
   };
 
-  useEffect(
-    () => {
-      const getverifyAlertVariant = () => {
-        if (cspId === CSP_IDS.LOGIN_GOV) {
-          return (
-            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
-              <span slot="LoginGovVerifyButton">
-                <VerifyLogingovButton />
-              </span>
-            </VaAlertSignIn>
-          );
-        }
-        if (cspId === CSP_IDS.ID_ME) {
-          return (
-            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
-              <span slot="IdMeVerifyButton">
-                <VerifyIdmeButton />
-              </span>
-            </VaAlertSignIn>
-          );
-        }
+  useEffect(() => {
+    const getverifyAlertVariant = () => {
+      if (cspId === CSP_IDS.LOGIN_GOV) {
         return (
-          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
-            <span slot="LoginGovSignInButton">
+          <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+            <span slot="LoginGovVerifyButton">
               <VerifyLogingovButton />
             </span>
-            <span slot="IdMeSignInButton">
+          </VaAlertSignIn>
+        );
+      }
+      if (cspId === CSP_IDS.ID_ME) {
+        return (
+          <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+            <span slot="IdMeVerifyButton">
               <VerifyIdmeButton />
             </span>
           </VaAlertSignIn>
         );
-      };
-      setverifyAlertVariant(getverifyAlertVariant());
-    },
-    [cspId, profile.isUserLOA1],
-  );
+      }
+      return (
+        <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+          <span slot="LoginGovSignInButton">
+            <VerifyLogingovButton />
+          </span>
+          <span slot="IdMeSignInButton">
+            <VerifyIdmeButton />
+          </span>
+        </VaAlertSignIn>
+      );
+    };
+    setverifyAlertVariant(getverifyAlertVariant());
+  }, [cspId, profile.isUserLOA1]);
 
   const showSignInModal = () => {
     toggleLoginModal(true, 'ask-va', true);
@@ -200,14 +189,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           </div>
         </div>
       </va-card>
-      <p className="vads-u-margin-y--4">
-        If you’re having trouble viewing your IRS 1095-B tax form you may need
-        the latest version of Adobe Acrobat Reader. It’s free to download.{' '}
-        <va-link
-          href="https://get.adobe.com/reader"
-          text="Get Acrobat Reader for free from Adobe."
-        />
-      </p>
+      {pdfHelp}
     </>
   );
 
@@ -267,7 +249,4 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

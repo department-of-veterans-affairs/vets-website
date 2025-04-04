@@ -5,12 +5,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Utils
-import {
-  clearGeocodeError,
-  clearSearchText,
-  geolocateUser,
-  getProviderSpecialties,
-} from '../../actions';
+import { clearSearchText } from '../../actions/search';
+import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
+import { getProviderSpecialties } from '../../actions/locations';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
@@ -155,47 +152,41 @@ export const SearchForm = props => {
   };
 
   // Set focus in the location field when manual geocoding completes
-  useEffect(
-    () => {
-      if (
-        currentQuery.geolocationInProgress === false &&
-        locationInputFieldRef.current
-      ) {
-        setFocus(locationInputFieldRef.current, false);
-      }
-    },
-    [currentQuery.geolocationInProgress],
-  );
+  useEffect(() => {
+    if (
+      currentQuery.geolocationInProgress === false &&
+      locationInputFieldRef.current
+    ) {
+      setFocus(locationInputFieldRef.current, false);
+    }
+  }, [currentQuery.geolocationInProgress]);
 
   // Track geocode errors
-  useEffect(
-    () => {
-      if (currentQuery?.geocodeError) {
-        switch (currentQuery.geocodeError) {
-          case 0:
-            break;
-          case 1:
-            recordEvent({
-              event: 'fl-get-geolocation-permission-error',
-              'error-key': '1_PERMISSION_DENIED',
-            });
-            break;
-          case 2:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '2_POSITION_UNAVAILABLE',
-            });
-            break;
-          default:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '3_TIMEOUT',
-            });
-        }
+  useEffect(() => {
+    if (currentQuery?.geocodeError) {
+      switch (currentQuery.geocodeError) {
+        case 0:
+          break;
+        case 1:
+          recordEvent({
+            event: 'fl-get-geolocation-permission-error',
+            'error-key': '1_PERMISSION_DENIED',
+          });
+          break;
+        case 2:
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key': '2_POSITION_UNAVAILABLE',
+          });
+          break;
+        default:
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key': '3_TIMEOUT',
+          });
       }
-    },
-    [currentQuery.geocodeError],
-  );
+    }
+  }, [currentQuery.geocodeError]);
 
   const facilityAndServiceTypeInputs = (
     <>
@@ -293,7 +284,4 @@ const mapDispatchToProps = {
 
 SearchForm.propTypes = SearchFormTypes;
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SearchForm);
+export default connect(null, mapDispatchToProps)(SearchForm);

@@ -105,9 +105,9 @@ export const validateEmail = (errors, email) => {
 export const validateResolutionOption = (errors, fieldData) => {
   if (
     fieldData &&
-    (fieldData.resolutionOption !== 'waiver' &&
-      fieldData.resolutionOption !== 'compromise' &&
-      fieldData.resolutionOption !== 'monthly')
+    fieldData.resolutionOption !== 'waiver' &&
+    fieldData.resolutionOption !== 'compromise' &&
+    fieldData.resolutionOption !== 'monthly'
   ) {
     errors.addError(
       `Please select a resolution option for the selected ${
@@ -149,8 +149,8 @@ export const validateResolutionAmount = (errors, fieldData) => {
 export const validateWaiverCheckbox = (errors, fieldData) => {
   if (
     fieldData &&
-    (fieldData.resolutionOption === 'waiver' &&
-      !fieldData.resolutionWaiverCheck)
+    fieldData.resolutionOption === 'waiver' &&
+    !fieldData.resolutionWaiverCheck
   ) {
     errors.addError('You must agree by checking the box.');
   }
@@ -185,13 +185,17 @@ export const validateMonetaryAssetCurrencyArrayLimits = (errors, fieldData) => {
   // Temporary filter as the monetary asset limit does not apply to the
   //  cash on hand or cash in bank properties. These values will move to
   //  their own property soon (tm)
+  // NOTE: Retirement accounts (401k, IRAs, 403b, TSP) value is not capped at the limit
+  //   per department-of-veterans-affairs/va.gov-team/issues/104975
   if (fieldData) {
     fieldData
       .filter(
         income =>
           income?.name?.toLowerCase() !== 'cash on hand (not in bank)' &&
           income?.name?.toLowerCase() !==
-            'cash in a bank (savings and checkings)',
+            'cash in a bank (savings and checkings)' &&
+          income?.name?.toLowerCase() !==
+            'retirement accounts (401k, iras, 403b, tsp)',
       )
       .map(income => {
         if (

@@ -67,7 +67,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]').should(
+    cy.get('[data-testid="ordered-date"]').should(
       'have.text',
       'April 14, 2023',
     );
@@ -87,9 +87,7 @@ class MedicationsDetailsPage {
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${
-        prescriptionDetails.data.attributes.prescriptionId
-      }`,
+      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
       prescriptionDetails,
     ).as('prescription_details');
     cy.get('a[data-testid ="medications-history-details-link"]')
@@ -100,9 +98,7 @@ class MedicationsDetailsPage {
   clickMedicationDetailsLink = (prescriptionDetails, cardNumber) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${
-        prescriptionDetails.data.attributes.prescriptionId
-      }`,
+      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
@@ -718,6 +714,16 @@ class MedicationsDetailsPage {
 
   verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
     cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+  };
+
+  verifyMedicationDescriptionInTxtDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const now = new Date();
+    const date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
+    const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain(text);
+    });
   };
 }
 

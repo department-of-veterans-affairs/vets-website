@@ -21,9 +21,7 @@ const ProcessList = ({ isAccredited, id }) => {
                   <VaLink
                     download
                     filetype="PDF"
-                    href={`${
-                      environment.API_URL
-                    }/v0/education_benefits_claims/download_pdf/${id}`}
+                    href={`${environment.API_URL}/v0/education_benefits_claims/download_pdf/${id}`}
                     fileName="Name"
                     text="Download VA Form 22-10216"
                   />
@@ -39,12 +37,12 @@ const ProcessList = ({ isAccredited, id }) => {
                 to fill it out. Once completed, save it as a PDF on your device.
               </p>
             </VaProcessListItem>
-            <VaProcessListItem header="Upload the forms to the VA education portal">
+            <VaProcessListItem header="Upload the forms to the Education File Upload Portal">
               <p>
                 Visit the{' '}
                 <va-link
                   external
-                  text="VA Education File Upload Portal"
+                  text="Education File Upload Portal"
                   href="https://www.my.va.gov/EducationFileUploads/s/"
                 />
                 , and upload both your saved VA Form 22-10216 and VA Form
@@ -67,21 +65,19 @@ const ProcessList = ({ isAccredited, id }) => {
                   <va-link
                     download
                     filetype="PDF"
-                    href={`${
-                      environment.API_URL
-                    }/v0/education_benefits_claims/download_pdf/${id}`}
+                    href={`${environment.API_URL}/v0/education_benefits_claims/download_pdf/${id}`}
                     // fileName={''}
                     text="Download VA Form 22-10216"
                   />
                 </span>
               </p>
             </VaProcessListItem>
-            <VaProcessListItem header="Upload the form to the VA education portal">
+            <VaProcessListItem header="Upload the form to the Education File Upload Portal">
               <p>
                 Visit the{' '}
                 <va-link
                   external
-                  text="VA Education File Upload Portal"
+                  text="Education File Upload Portal"
                   href="https://www.my.va.gov/EducationFileUploads/s/"
                 />
                 , and upload your saved VA Form 22-10216.

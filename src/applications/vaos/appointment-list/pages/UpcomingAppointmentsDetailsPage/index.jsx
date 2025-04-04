@@ -54,77 +54,67 @@ export default function UpcomingAppointmentsDetailsPage() {
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
-  useEffect(
-    () => {
-      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+  useEffect(() => {
+    dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+    scrollAndFocus();
+    return () => {
+      dispatch(closeCancelAppointment());
+    };
+  }, [id, dispatch, appointmentTypePrefix]);
+
+  useEffect(() => {
+    let pageTitle = 'VA appointment on';
+    let prefix = 'Upcoming';
+
+    if (isCanceled) prefix = 'Canceled';
+    else if (isPast) prefix = 'Past';
+
+    if (isCommunityCare) pageTitle = `${prefix} Community Care Appointment On`;
+    if (isInPerson) {
+      if (appointment?.vaos?.isCompAndPenAppointment)
+        pageTitle = `${prefix} Claim Exam Appointment On`;
+      else pageTitle = `${prefix} In-person Appointment On`;
+    }
+    if (isVideo) {
+      pageTitle = `${prefix} Video Appointment On`;
+      if (isClinicVideoAppointment(appointment)) {
+        pageTitle = `${prefix} Video Appointment At A VA Location On`;
+      }
+      if (isAtlasVideoAppointment(appointment)) {
+        pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
+      }
+    } else if (isVAPhoneAppointment(appointment)) {
+      pageTitle = `${prefix} Phone Appointment On`;
+    }
+    const pageTitleSuffix = featureBreadcrumbUrlUpdate
+      ? ' | Veterans Affairs'
+      : '';
+
+    if (appointment && appointmentDate) {
+      document.title = `${pageTitle} ${appointmentDate.format(
+        'dddd, MMMM D, YYYY',
+      )}${pageTitleSuffix}`;
       scrollAndFocus();
-      return () => {
-        dispatch(closeCancelAppointment());
-      };
-    },
-    [id, dispatch, appointmentTypePrefix],
-  );
+    }
+  }, [
+    appointment,
+    appointmentDate,
+    isCommunityCare,
+    isCanceled,
+    isInPerson,
+    isPast,
+    isVideo,
+    featureBreadcrumbUrlUpdate,
+  ]);
 
-  useEffect(
-    () => {
-      let pageTitle = 'VA appointment on';
-      let prefix = 'Upcoming';
-
-      if (isPast) prefix = 'Past';
-      else if (selectIsCanceled(appointment)) prefix = 'Canceled';
-
-      if (isCommunityCare)
-        pageTitle = `${prefix} Community Care Appointment On`;
-      if (isInPerson) {
-        if (appointment?.vaos?.isCompAndPenAppointment)
-          pageTitle = `${prefix} Claim Exam Appointment On`;
-        else pageTitle = `${prefix} In-person Appointment On`;
-      }
-      if (isVideo) {
-        pageTitle = `${prefix} Video Appointment On`;
-        if (isClinicVideoAppointment(appointment)) {
-          pageTitle = `${prefix} Video Appointment At A VA Location On`;
-        }
-        if (isAtlasVideoAppointment(appointment)) {
-          pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
-        }
-      } else if (isVAPhoneAppointment(appointment)) {
-        pageTitle = `${prefix} Phone Appointment On`;
-      }
-      const pageTitleSuffix = featureBreadcrumbUrlUpdate
-        ? ' | Veterans Affairs'
-        : '';
-
-      if (appointment && appointmentDate) {
-        document.title = `${pageTitle} ${appointmentDate.format(
-          'dddd, MMMM D, YYYY',
-        )}${pageTitleSuffix}`;
-        scrollAndFocus();
-      }
-    },
-    [
-      appointment,
-      appointmentDate,
-      isCommunityCare,
-      isCanceled,
-      isInPerson,
-      isPast,
-      isVideo,
-      featureBreadcrumbUrlUpdate,
-    ],
-  );
-
-  useEffect(
-    () => {
-      if (
-        appointmentDetailsStatus === FETCH_STATUS.failed ||
-        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [appointmentDetailsStatus, appointment],
-  );
+  useEffect(() => {
+    if (
+      appointmentDetailsStatus === FETCH_STATUS.failed ||
+      (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+    ) {
+      scrollAndFocus();
+    }
+  }, [appointmentDetailsStatus, appointment]);
   if (appointmentDetailsStatus === FETCH_STATUS.failed && isBadAppointmentId) {
     return (
       <PageLayout showNeedHelp>

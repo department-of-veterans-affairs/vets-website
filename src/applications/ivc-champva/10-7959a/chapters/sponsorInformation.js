@@ -1,5 +1,6 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   fullNameUI,
   fullNameSchema,
@@ -31,11 +32,7 @@ const sponsorHint = (
 );
 
 const otherHint = addressee =>
-  `Enter the information for the sponsor (this is the Veteran or service member ${
-    addressee[0]
-  } connected to). We’ll use the sponsor’s information to confirm ${
-    addressee[1]
-  } eligibility.`;
+  `Enter the information for the sponsor (this is the Veteran or service member ${addressee[0]} connected to). We’ll use the sponsor’s information to confirm ${addressee[1]} eligibility.`;
 
 export const sponsorNameSchema = {
   uiSchema: {
@@ -71,9 +68,13 @@ export const sponsorAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address.',
     ),
-    sponsorAddress: {
-      ...addressUI(),
-    },
+    sponsorAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Regions',
+        },
+      },
+    }),
   },
   schema: {
     type: 'object',

@@ -27,9 +27,7 @@ describe('Grouped medications component', () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          `Showing 1 to 2 of ${
-            groupedMedicationsList.length
-          } prescriptions, from newest to oldest`,
+          `Showing 1 to 10 of ${groupedMedicationsList.length} prescriptions, from newest to oldest`,
         ),
       ).to.exist;
     });
@@ -41,9 +39,7 @@ describe('Grouped medications component', () => {
       expect(screen);
       expect(
         screen.getByText(
-          `Prescription number: ${
-            groupedMedicationsList[0].prescriptionNumber
-          }`,
+          `Prescription number: ${groupedMedicationsList[0].prescriptionNumber}`,
         ),
       ).to.exist;
     });

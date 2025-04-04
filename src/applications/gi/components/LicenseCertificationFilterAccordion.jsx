@@ -37,7 +37,6 @@ export default function LicenseCertificationFilterAccordion({
         <button
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
-          aria-expanded={isExpanded}
           aria-label={`${buttonLabel} ${isExpanded ? 'expanded' : 'collapsed'}`}
           data-testid="update-lc-search"
         >
@@ -113,10 +112,10 @@ LicenseCertificationFilterAccordion.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   buttonOnClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  resetSearch: PropTypes.func.isRequired,
   expanded: PropTypes.bool,
   headerClass: PropTypes.string,
   onClick: PropTypes.func,
-  resetSearch: PropTypes.func.isRequired,
 };
 
 LicenseCertificationFilterAccordion.defaultProps = {

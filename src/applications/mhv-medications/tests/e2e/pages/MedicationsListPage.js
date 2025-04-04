@@ -293,15 +293,9 @@ class MedicationsListPage {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime1sec
-      }.txt`;
-      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime2sec
-      }.txt`;
-      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime3sec
-      }.txt`;
+      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${this.downloadTime1sec}.txt`;
+      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${this.downloadTime2sec}.txt`;
+      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${this.downloadTime3sec}.txt`;
       this.internalReadFileMaybe(txtPath1, searchText);
       this.internalReadFileMaybe(txtPath2, searchText);
       this.internalReadFileMaybe(txtPath3, searchText);
@@ -423,9 +417,7 @@ class MedicationsListPage {
   clickRefillButton = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/${
-        prescription.data.attributes.prescriptionId
-      }/refill`,
+      `/my_health/v1/prescriptions/${prescription.data.attributes.prescriptionId}/refill`,
       prescription,
     );
     cy.get(
@@ -598,9 +590,7 @@ class MedicationsListPage {
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
-          expirationDate: `${
-            expiredPrescription.data.attributes.expirationDate
-          }`,
+          expirationDate: `${expiredPrescription.data.attributes.expirationDate}`,
         });
       });
   };
@@ -921,7 +911,7 @@ class MedicationsListPage {
   };
 
   verifyToolTipTextOnListPage = text => {
-    cy.get('[data-testid="rx-ipe-filtering-container"]')
+    cy.get('#rx-ipe-filtering-description')
       .should('contain', text)
       .and('be.visible');
   };
@@ -974,6 +964,14 @@ class MedicationsListPage {
         };
       }),
     };
+  };
+
+  verifyToolTipCounterSetToZero = () => {
+    cy.get('@tooltipsVisible')
+      .its('response')
+      .then(res => {
+        expect(res.body.counter).to.eq(0);
+      });
   };
 }
 

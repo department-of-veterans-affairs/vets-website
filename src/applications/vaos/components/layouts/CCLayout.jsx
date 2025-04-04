@@ -43,10 +43,9 @@ export default function CCLayout({ data: appointment }) {
   const { patientComments } = appointment || {};
 
   let heading = 'Community care appointment';
-  if (isPastAppointment) heading = 'Past community care appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled community care appointment';
-  else heading = 'Community care appointment';
+  else if (isPastAppointment) heading = 'Past community care appointment';
 
   recordAppointmentDetailsNullStates(
     {
@@ -68,15 +67,14 @@ export default function CCLayout({ data: appointment }) {
           <br />
           <AppointmentTime appointment={appointment} />
           <br />
-          {APPOINTMENT_STATUS.cancelled !== status &&
-            !isPastAppointment && (
-              <div className="vads-u-margin-top--2 vaos-hide-for-print">
-                <AddToCalendarButton
-                  appointment={appointment}
-                  facility={facility}
-                />
-              </div>
-            )}
+          {APPOINTMENT_STATUS.cancelled !== status && !isPastAppointment && (
+            <div className="vads-u-margin-top--2 vaos-hide-for-print">
+              <AddToCalendarButton
+                appointment={appointment}
+                facility={facility}
+              />
+            </div>
+          )}
         </When>
         <What>{typeOfCareName}</What>
         <Section heading="Provider">
@@ -121,15 +119,14 @@ export default function CCLayout({ data: appointment }) {
               </p>
             </Prepare>
           )}
-        {APPOINTMENT_STATUS.booked === status &&
-          !isPastAppointment && (
-            <Section heading="Need to make changes?">
-              <span>
-                Contact this provider if you need to reschedule or cancel your
-                appointment.
-              </span>
-            </Section>
-          )}
+        {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+          <Section heading="Need to make changes?">
+            <span>
+              Contact this provider if you need to reschedule or cancel your
+              appointment.
+            </span>
+          </Section>
+        )}
       </DetailPageLayout>
     </>
   );

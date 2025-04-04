@@ -30,9 +30,7 @@ export const AccountSecurityLoa1CredAlert = () => {
           </p>
           <p>
             {`If you don’t have one of these accounts, you can create one and
-            verify your identity now. Starting ${
-              CREDENTIAL_DEADLINES[label]
-            }, you’ll no
+            verify your identity now. Starting ${CREDENTIAL_DEADLINES[label]}, you’ll no
             longer be able to sign in with your ${label} username and password.`}
           </p>
 
@@ -74,13 +72,12 @@ export const SignInEmailAlert = () => {
       visible={dismissed !== 'true'}
       uswds
       class={!dismissed && 'vads-u-margin-bottom--3'}
+      closeBtnAriaLabel="Close notification"
       closeable
     >
       <div>
         <p className="vads-u-margin-top--0">
-          {`Starting ${
-            CREDENTIAL_DEADLINES[label]
-          }, you’ll no longer be able to sign in with
+          {`Starting ${CREDENTIAL_DEADLINES[label]}, you’ll no longer be able to sign in with
           your ${label} username and password. You’ll need to use a verified
           Login.gov or ID.me account to access your profile.`}
         </p>

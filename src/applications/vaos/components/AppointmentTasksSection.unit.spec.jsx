@@ -48,6 +48,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         'href',
         `/my-health/travel-pay/file-new-claim/${appointmentId}`,
       );
+      expect(screen.getByText(/Days left to file: 1/i)).to.exist;
     });
   });
   it('should display Appointment tasks section with file claim link', async () => {
@@ -79,6 +80,7 @@ describe('VAOS Component: AppointmentTasks', () => {
       'href',
       `/my-health/travel-pay/file-new-claim/${appointmentId}`,
     );
+    expect(screen.getByText(/Days left to file: 1/i)).to.exist;
   });
   it('should not display Appointment tasks section if not a past appointment', async () => {
     const appointment = {
@@ -190,6 +192,31 @@ describe('VAOS Component: AppointmentTasks', () => {
       start: '2021-09-01T10:00:00Z',
       vaos: {
         apiData: {},
+        isPastAppointment: true,
+        isCommunityCare: false,
+        isPhoneAppointment: false,
+        isVideo: false,
+      },
+    };
+    const screen = render(
+      <AppointmentTasksSection appointment={appointment} />,
+    );
+
+    expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
+  });
+  it('should not display file claim link if days remaining are less than 1', async () => {
+    const appointment = {
+      start: '2021-08-31T10:00:00Z',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'No claims found.',
+              success: true,
+            },
+          },
+        },
         isPastAppointment: true,
         isCommunityCare: false,
         isPhoneAppointment: false,

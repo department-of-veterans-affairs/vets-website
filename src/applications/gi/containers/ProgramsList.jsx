@@ -45,24 +45,18 @@ const ProgramsList = ({ match }) => {
       .includes(submittedQuery.toLowerCase()),
   );
 
-  useEffect(
-    () => {
-      window.scrollTo(0, 0);
-      dispatch(fetchInstitutionPrograms(facilityCode, abbreviatedProgramTypes));
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchInstitutionPrograms(facilityCode, abbreviatedProgramTypes));
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (submittedQuery && !filteredPrograms.length) {
-        setTimeout(() => {
-          noResultsMessageRef.current?.focus();
-        }, 0);
-      }
-    },
-    [submittedQuery],
-  );
+  useEffect(() => {
+    if (submittedQuery && !filteredPrograms.length) {
+      setTimeout(() => {
+        noResultsMessageRef.current?.focus();
+      }, 0);
+    }
+  }, [submittedQuery]);
 
   const handleSearchInput = e => {
     setSearchQuery(e.target.value);
@@ -164,9 +158,12 @@ const ProgramsList = ({ match }) => {
         className={`${institutionPrograms.length < 21 &&
           'vads-u-margin-bottom--4'}`}
       >
-        <h4 className="abbreviations" data-testid="abbreviations-container">
+        <h3
+          className="vads-u-font-size--h4 abbreviations"
+          data-testid="abbreviations-container"
+        >
           Abbreviation(s)
-        </h4>
+        </h3>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="list-style" role="list">
           {abbreviatedList.map(abb => (
@@ -209,9 +206,7 @@ const ProgramsList = ({ match }) => {
         <p ref={resultsSummaryRef} tabIndex="-1" id="results-summary">
           {submittedQuery ? (
             <>
-              {`Showing ${startIndex} - ${endIndex} of ${
-                filteredPrograms.length
-              } results for `}
+              {`Showing ${startIndex} - ${endIndex} of ${filteredPrograms.length} results for `}
               "<strong>{submittedQuery}</strong>"
             </>
           ) : (
@@ -238,9 +233,7 @@ const ProgramsList = ({ match }) => {
             key={program.id}
           >
             {program.attributes.programType === 'OJT'
-              ? `${program.attributes.ojtAppType} ${
-                  program.attributes.description
-                }`
+              ? `${program.attributes.ojtAppType} ${program.attributes.description}`
               : program.attributes.description}
           </li>
         ))}

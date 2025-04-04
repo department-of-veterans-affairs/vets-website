@@ -16,13 +16,10 @@ const NationalExamDetails = () => {
   const { examDetails, loadingDetails, error } = useSelector(
     state => state.nationalExams,
   );
-  useEffect(
-    () => {
-      window.scrollTo(0, 0);
-      dispatch(fetchNationalExamDetails(examId));
-    },
-    [examId, dispatch],
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchNationalExamDetails(examId));
+  }, [examId, dispatch]);
 
   useEffect(() => {
     function handleResize() {
@@ -90,7 +87,7 @@ const NationalExamDetails = () => {
       const test = validTests[0];
       return (
         <div className="exam-single-test usa-width-two-thirds">
-          <h3 className="vads-u-margin-y--0">Test Info</h3>
+          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">Test Info</h2>
           <p className="vads-u-margin-bottom--0">Showing 1 of 1 test</p>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul className="remove-bullets" role="list">
@@ -118,7 +115,7 @@ const NationalExamDetails = () => {
     if (totalTests > 1) {
       return (
         <div className="exams-table">
-          <h3 className="vads-u-margin-y--0">Test Info</h3>
+          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">Test Info</h2>
           <p className="vads-u-margin-bottom--0">
             Showing 1 - {totalTests} of {totalTests} tests
           </p>
@@ -159,9 +156,9 @@ const NationalExamDetails = () => {
         <h1 className="vads-u-margin-bottom--3">
           {formatNationalExamName(name)}
         </h1>
-        <h3 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2 vads-u-margin-top--0">
           Admin Info
-        </h3>
+        </h2>
         <div className="provider-info-container vads-u-margin-top--0p5 vads-u-margin-bottom--3">
           <span className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--1">
             <va-icon icon="location_city" size={3} />
@@ -203,6 +200,7 @@ const NationalExamDetails = () => {
 };
 
 NationalExamDetails.propTypes = {
+  error: PropTypes.string,
   examDetails: PropTypes.shape({
     name: PropTypes.string,
     tests: PropTypes.arrayOf(
@@ -226,7 +224,6 @@ NationalExamDetails.propTypes = {
     }),
   }),
   loadingDetails: PropTypes.bool,
-  error: PropTypes.string,
 };
 
 export default NationalExamDetails;

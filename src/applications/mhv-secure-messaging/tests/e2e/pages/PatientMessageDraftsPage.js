@@ -34,9 +34,7 @@ class PatientMessageDraftsPage {
   ) => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockThread.data[0].attributes.messageId
-      }/thread*`,
+      `${Paths.SM_API_EXTENDED}/${mockThread.data[0].attributes.messageId}/thread*`,
       singleDraftThread,
     ).as('full-thread');
 
@@ -46,9 +44,7 @@ class PatientMessageDraftsPage {
   loadSingleReplyDraft = (singleReplyDraftThread = mockReplyDraftResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockDraftsRespone.data[0].attributes.messageId
-      }/thread*`,
+      `${Paths.SM_API_EXTENDED}/${mockDraftsRespone.data[0].attributes.messageId}/thread*`,
       singleReplyDraftThread,
     ).as('full-thread');
 
@@ -69,24 +65,18 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[0].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[0].attributes.messageId}`,
       { data: mockResponse.data[0] },
     ).as('firstDraft');
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[1].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[1].attributes.messageId}`,
       { data: mockResponse.data[1] },
     ).as('secondDraft');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[2].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[2].attributes.messageId}`,
       { data: mockResponse.data[2] },
     ).as('firstSentMessage');
 
@@ -106,9 +96,7 @@ class PatientMessageDraftsPage {
   confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        draftMessage.data[0].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data[0].attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
 
@@ -160,9 +148,7 @@ class PatientMessageDraftsPage {
     )[0].attributes.messageId;
     cy.intercept(
       'PUT',
-      `${
-        Paths.SM_API_BASE
-      }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
+      `${Paths.SM_API_BASE}/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
       { ok: true },
     ).as('saveDraft');
     cy.get(`#save-draft-button-${btnNum}`).click();
@@ -172,17 +158,13 @@ class PatientMessageDraftsPage {
   deleteMultipleDraft = (mockResponse, reducedMockResponse, index = 0) => {
     cy.intercept(
       'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[index].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[index].attributes.messageId}`,
       mockResponse.data[index],
     ).as('deletedDraftResponse');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[2].attributes.messageId
-      }/thread?*`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[2].attributes.messageId}/thread?*`,
       reducedMockResponse,
     ).as('updatedThreadResponse');
 
@@ -207,9 +189,7 @@ class PatientMessageDraftsPage {
   confirmDeleteDraftWithEnterKey = (draftMessage = mockSavedDraftResponse) => {
     cy.intercept(
       'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        draftMessage.data[0].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data[0].attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
@@ -255,9 +235,7 @@ class PatientMessageDraftsPage {
   saveNewDraftMessage = (singleThreadData, singleMessageData) => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE}/message_drafts/${
-        singleThreadData.data[0].id
-      }/replydraft`,
+      `${Paths.SM_API_BASE}/message_drafts/${singleThreadData.data[0].id}/replydraft`,
       singleMessageData,
     ).as('replyThread');
 
@@ -271,9 +249,7 @@ class PatientMessageDraftsPage {
   ) => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        requestData.data[0].attributes.messageId
-      }`,
+      `/my_health/v1/messaging/message_drafts/${requestData.data[0].attributes.messageId}`,
       {},
     ).as('draft_message');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
@@ -347,8 +323,8 @@ class PatientMessageDraftsPage {
 
   clearFilterByKeyboard = () => {
     // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
       cy.tabToElement(el)
         .first()
         .click();

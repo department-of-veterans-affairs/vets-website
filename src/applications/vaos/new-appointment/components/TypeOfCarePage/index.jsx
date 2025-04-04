@@ -17,7 +17,11 @@ import {
   startDirectScheduleFlow,
 } from '../../redux/actions';
 import { selectTypeOfCarePage } from '../../redux/selectors';
-import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
+import {
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
+} from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
@@ -33,6 +37,12 @@ export default function TypeOfCarePage() {
   const useFeSourceOfTruth = useSelector(state =>
     selectFeatureFeSourceOfTruth(state),
   );
+  const useFeSourceOfTruthCC = useSelector(state =>
+    selectFeatureFeSourceOfTruthCC(state),
+  );
+  const useFeSourceOfTruthVA = useSelector(state =>
+    selectFeatureFeSourceOfTruthVA(state),
+  );
 
   const dispatch = useDispatch();
   const {
@@ -47,31 +57,25 @@ export default function TypeOfCarePage() {
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
-  const showUpdateAddressAlert = useMemo(
-    () => {
-      return (
-        !hideUpdateAddressAlert &&
-        (!addressLine1 || addressLine1.match(/^PO Box/))
-      );
-    },
-    [addressLine1, hideUpdateAddressAlert],
-  );
+  const showUpdateAddressAlert = useMemo(() => {
+    return (
+      !hideUpdateAddressAlert &&
+      (!addressLine1 || addressLine1.match(/^PO Box/))
+    );
+  }, [addressLine1, hideUpdateAddressAlert]);
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
 
-      if (showUpdateAddressAlert) {
-        recordEvent({
-          event: 'vaos-update-address-alert-displayed',
-        });
-      }
+    if (showUpdateAddressAlert) {
+      recordEvent({
+        event: 'vaos-update-address-alert-displayed',
+      });
+    }
 
-      dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
-    },
-    [showUpdateAddressAlert, dispatch],
-  );
+    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
+  }, [showUpdateAddressAlert, dispatch]);
 
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
@@ -79,9 +83,8 @@ export default function TypeOfCarePage() {
         typeOfCare =>
           typeOfCare.id !== PODIATRY_ID ||
           (showCommunityCare && !removePodiatry),
-      ).sort(
-        (careA, careB) =>
-          careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
+      ).sort((careA, careB) =>
+        careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
       );
 
       return {
@@ -144,7 +147,11 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(useFeSourceOfTruth);
+              getLongTermAppointmentHistoryV2(
+                useFeSourceOfTruth,
+                useFeSourceOfTruthCC,
+                useFeSourceOfTruthVA,
+              );
             }
 
             setData(newData);

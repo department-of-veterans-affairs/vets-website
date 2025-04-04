@@ -52,9 +52,9 @@ export default function InPersonLayout({ data: appointment }) {
   const facilityId = locationId;
 
   let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled in-person appointment';
+  else if (isPastAppointment) heading = 'Past in-person appointment';
 
   recordAppointmentDetailsNullStates(
     {
@@ -79,15 +79,14 @@ export default function InPersonLayout({ data: appointment }) {
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        {APPOINTMENT_STATUS.cancelled !== status &&
-          !isPastAppointment && (
-            <div className="vads-u-margin-top--2 vaos-hide-for-print">
-              <AddToCalendarButton
-                appointment={appointment}
-                facility={facility}
-              />
-            </div>
-          )}
+        {APPOINTMENT_STATUS.cancelled !== status && !isPastAppointment && (
+          <div className="vads-u-margin-top--2 vaos-hide-for-print">
+            <AddToCalendarButton
+              appointment={appointment}
+              facility={facility}
+            />
+          </div>
+        )}
       </When>
       <What>{typeOfCareName}</What>
       <Who>{practitionerName}</Who>
@@ -97,35 +96,33 @@ export default function InPersonLayout({ data: appointment }) {
         }
       >
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!facility &&
-          !facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor href="/find-locations">
-                Find facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
+        {!facility && !facilityId && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!facility &&
-          !!facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor
-                href={`/find-locations/facility/vha_${getRealFacilityId(
-                  facilityId,
-                )}`}
-              >
-                View facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
+        {!facility && !!facilityId && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor
+              href={`/find-locations/facility/vha_${getRealFacilityId(
+                facilityId,
+              )}`}
+            >
+              View facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {!!facility && (
           <>
             <a href={facility.website}>{facility.name}</a>

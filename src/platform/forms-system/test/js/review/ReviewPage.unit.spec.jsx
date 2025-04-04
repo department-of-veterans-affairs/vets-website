@@ -2,9 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
+import { cleanup } from '@testing-library/react';
 import { ReviewPage } from '../../../src/js/review/ReviewPage';
 
 describe('Schemaform review: ReviewPage', () => {
+  let minimalHeader;
+
   const location = {
     pathname: '/testing/0',
   };
@@ -43,6 +46,14 @@ describe('Schemaform review: ReviewPage', () => {
     },
     data: {},
   };
+
+  afterEach(() => {
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
+    }
+    cleanup();
+  });
 
   it('should render chapters', () => {
     const tree = shallow(

@@ -58,9 +58,9 @@ export default function VideoLayout({ data: appointment }) {
 
   const address = facility?.address;
   let heading = 'Video appointment';
-  if (isPastAppointment) heading = 'Past video appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment';
+  else if (isPastAppointment) heading = 'Past video appointment';
 
   recordAppointmentDetailsNullStates(
     {
@@ -79,26 +79,24 @@ export default function VideoLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="How to join">
-            <VideoLink appointment={appointment} />
-          </Section>
-        )}
+      {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+        <Section heading="How to join">
+          <VideoLink appointment={appointment} />
+        </Section>
+      )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        {APPOINTMENT_STATUS.cancelled !== status &&
-          !isPastAppointment && (
-            <div className="vads-u-margin-top--2 vaos-hide-for-print">
-              <AddToCalendarButton
-                appointment={appointment}
-                facility={facility}
-              />
-            </div>
-          )}
+        {APPOINTMENT_STATUS.cancelled !== status && !isPastAppointment && (
+          <div className="vads-u-margin-top--2 vaos-hide-for-print">
+            <AddToCalendarButton
+              appointment={appointment}
+              facility={facility}
+            />
+          </div>
+        )}
       </When>
 
       <What>{typeOfCareName}</What>
@@ -150,34 +148,33 @@ export default function VideoLayout({ data: appointment }) {
           </Prepare>
         )}
 
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="Need to make changes?">
-            Contact this facility if you need to reschedule or cancel your
-            appointment.
-            <br />
-            <br />
-            {facility ? (
-              <>
-                <a href={facility.website}>{facility.name}</a>
-                <br />
-                <span>
-                  {address.city}, <State state={address.state} />
-                </span>
-              </>
-            ) : (
-              'Facility not available'
-            )}
-            <br />
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-            <br />
-            <ClinicOrFacilityPhone
-              clinicPhone={clinicPhone}
-              clinicPhoneExtension={clinicPhoneExtension}
-              facilityPhone={facilityPhone}
-            />
-          </Section>
-        )}
+      {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+        <Section heading="Need to make changes?">
+          Contact this facility if you need to reschedule or cancel your
+          appointment.
+          <br />
+          <br />
+          {facility ? (
+            <>
+              <a href={facility.website}>{facility.name}</a>
+              <br />
+              <span>
+                {address.city}, <State state={address.state} />
+              </span>
+            </>
+          ) : (
+            'Facility not available'
+          )}
+          <br />
+          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <br />
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
+          />
+        </Section>
+      )}
     </DetailPageLayout>
   );
 }

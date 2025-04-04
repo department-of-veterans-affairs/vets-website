@@ -51,9 +51,8 @@ export default function ClaimExamLayout({ data: appointment }) {
 
   let heading = 'Claim exam';
   const facilityId = locationId;
-  if (isPastAppointment) heading = 'Past claim exam';
-  else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled claim exam';
+  if (APPOINTMENT_STATUS.cancelled === status) heading = 'Canceled claim exam';
+  else if (isPastAppointment) heading = 'Past claim exam';
 
   recordAppointmentDetailsNullStates(
     {
@@ -77,15 +76,14 @@ export default function ClaimExamLayout({ data: appointment }) {
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        {APPOINTMENT_STATUS.booked === status &&
-          !isPastAppointment && (
-            <div className="vads-u-margin-top--2 vaos-hide-for-print">
-              <AddToCalendarButton
-                appointment={appointment}
-                facility={facility}
-              />
-            </div>
-          )}
+        {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+          <div className="vads-u-margin-top--2 vaos-hide-for-print">
+            <AddToCalendarButton
+              appointment={appointment}
+              facility={facility}
+            />
+          </div>
+        )}
       </When>
       <What>{typeOfCareName}</What>
       <Who>{practitionerName}</Who>
@@ -97,35 +95,33 @@ export default function ClaimExamLayout({ data: appointment }) {
         }
       >
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!facility &&
-          !facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor href="/find-locations">
-                Find facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
+        {!facility && !facilityId && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!facility &&
-          !!facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor
-                href={`/find-locations/facility/vha_${getRealFacilityId(
-                  facilityId,
-                )}`}
-              >
-                View facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
+        {!facility && !!facilityId && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor
+              href={`/find-locations/facility/vha_${getRealFacilityId(
+                facilityId,
+              )}`}
+            >
+              View facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {!!facility && (
           <>
             <a href={facility.website}>{facility.name}</a>
@@ -191,20 +187,19 @@ export default function ClaimExamLayout({ data: appointment }) {
             </a>
           </Prepare>
         )}
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="Need to make changes?">
-            Contact this facility compensation and pension office if you need to
-            reschedule or cancel your appointment.
-            <br />
-            <br />
-            <ClinicOrFacilityPhone
-              clinicPhone={clinicPhone}
-              clinicPhoneExtension={clinicPhoneExtension}
-              facilityPhone={facilityPhone}
-            />
-          </Section>
-        )}
+      {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+        <Section heading="Need to make changes?">
+          Contact this facility compensation and pension office if you need to
+          reschedule or cancel your appointment.
+          <br />
+          <br />
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
+          />
+        </Section>
+      )}
     </DetailPageLayout>
   );
 }

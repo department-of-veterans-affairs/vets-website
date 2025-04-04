@@ -67,9 +67,7 @@ export function mockEligibilityFetches({
 
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
+      `${environment.API_URL}/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
     ),
     {
       data: {
@@ -83,9 +81,7 @@ export function mockEligibilityFetches({
   );
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
+      `${environment.API_URL}/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
     ),
     {
       data: {
@@ -99,9 +95,7 @@ export function mockEligibilityFetches({
   );
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v2/locations/${facilityId}/clinics?clinical_service=${typeOfCareId}`,
+      `${environment.API_URL}/vaos/v2/locations/${facilityId}/clinics?clinical_service=${typeOfCareId}`,
     ),
     {
       data: clinics,
@@ -114,6 +108,7 @@ export function mockEligibilityFetches({
       ...appt,
       attributes: {
         ...appt.attributes,
+        type: 'VA',
         clinic: clinic.id,
         locationId: facilityId.substr(0, 3),
       },
@@ -144,9 +139,7 @@ export function mockEligibilityFetches({
 export function mockSingleClinicFetch({ locationId, clinicId, clinicName }) {
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`,
+      `${environment.API_URL}/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`,
     ),
     {
       data: [

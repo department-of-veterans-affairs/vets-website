@@ -197,6 +197,8 @@ export default function DetailPageLayout({
   if (!appointment) return null;
 
   const isPastAppointment = selectIsPast(appointment);
+  const isNotCanceledAppointment =
+    APPOINTMENT_STATUS.cancelled !== appointment.status;
 
   return (
     <>
@@ -208,7 +210,8 @@ export default function DetailPageLayout({
         )}
         <StatusAlert appointment={appointment} facility={facility} />
         {featureTravelPaySubmitMileageExpense &&
-          featureTravelPayViewClaimDetails && (
+          featureTravelPayViewClaimDetails &&
+          isNotCanceledAppointment && (
             <AppointmentTasksSection appointment={appointment} />
           )}
         {isPastAppointment &&
@@ -216,7 +219,7 @@ export default function DetailPageLayout({
             <AfterVisitSummary data={appointment} />
           )}
         {children}
-        {featureTravelPayViewClaimDetails && (
+        {featureTravelPayViewClaimDetails && isNotCanceledAppointment && (
           <TravelReimbursementSection appointment={appointment} />
         )}
         <div

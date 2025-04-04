@@ -67,6 +67,7 @@ describe('Validate crossDomainRedirects.json except for `isToSubdomain` and `bat
     (grouped, redirect) => {
       const fullPath = `https://${redirect.domain}${redirect.src}`;
       const items = grouped[fullPath] || [];
+
       return {
         ...grouped,
         [fullPath]: items.concat(redirect.dest),
@@ -74,6 +75,7 @@ describe('Validate crossDomainRedirects.json except for `isToSubdomain` and `bat
     },
     {},
   );
+
   Object.entries(redirectsBySource).forEach(([fullSource, destinations]) => {
     it(`${fullSource} is a valid URL`, () => {
       const url = new URL(fullSource);

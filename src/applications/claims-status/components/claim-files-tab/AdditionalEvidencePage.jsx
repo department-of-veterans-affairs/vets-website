@@ -76,6 +76,16 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
+  onSubmitFiles(claimId) {
+    // START lighthouse_migration
+    if (this.props.documentsUseLighthouse) {
+      this.props.submitFilesLighthouse(claimId, null, this.props.files);
+    } else {
+      this.props.submitFiles(claimId, null, this.props.files);
+    }
+    // END lighthouse_migration
+  }
+
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
       setPageFocus('h3#add-files');
@@ -145,17 +155,7 @@ class AdditionalEvidencePage extends React.Component {
                 files={this.props.files}
                 backUrl={lastPage ? `/${lastPage}` : filesPath}
                 onSubmit={() => {
-                  // START lighthouse_migration
-                  if (this.props.documentsUseLighthouse) {
-                    this.props.submitFilesLighthouse(
-                      claim.id,
-                      null,
-                      this.props.files,
-                    );
-                  } else {
-                    this.props.submitFiles(claim.id, null, this.props.files);
-                  }
-                  // END lighthouse_migration
+                  this.onSubmitFiles(claim.id);
                 }}
                 onAddFile={this.props.addFile}
                 onRemoveFile={this.props.removeFile}
@@ -253,10 +253,7 @@ AdditionalEvidencePage.propTypes = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AdditionalEvidencePage),
+  connect(mapStateToProps, mapDispatchToProps)(AdditionalEvidencePage),
 );
 
 export { AdditionalEvidencePage };

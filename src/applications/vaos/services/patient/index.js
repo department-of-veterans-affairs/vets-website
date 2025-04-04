@@ -207,26 +207,28 @@ function logEligibilityExplanation(
     /* eslint-disable no-console */
     console.log('----');
     console.log(
-      `%cEligibility checks for location ${location.id} and type of care ${
-        typeOfCare.id
-      }`,
+      `%cEligibility checks for location ${location.id} and type of care ${typeOfCare.id}`,
       'font-weight: bold',
     );
 
     if (!direct) {
       console.log('%cUser not eligible for direct scheduling:', 'color: red');
-      directReasons.map(reason => reasonMapping[reason]).forEach(message => {
-        console.log(`  ${message}`);
-      });
+      directReasons
+        .map(reason => reasonMapping[reason])
+        .forEach(message => {
+          console.log(`  ${message}`);
+        });
     } else {
       console.log('%cUser passed checks for direct scheduling', 'color: green');
     }
 
     if (!request) {
       console.log('%cUser not eligible for requests:', 'color: red');
-      requestReasons.map(reason => reasonMapping[reason]).forEach(message => {
-        console.log(`  ${message}`);
-      });
+      requestReasons
+        .map(reason => reasonMapping[reason])
+        .forEach(message => {
+          console.log(`  ${message}`);
+        });
     } else {
       console.log('%cUser passed checks for requests', 'color: green');
     }
@@ -249,6 +251,8 @@ function logEligibilityExplanation(
  * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @param {boolean} [params.featureClinicFilter=false] feature flag to filter clinics based on VATS
  * @param {boolean} [params.useFeSourceOfTruth=false] whether to use vets-api payload as the FE source of truth
+ * @param {boolean} [params.useFeSourceOfTruthCC=false] whether to use vets-api payload as the FE source of truth for CC appointments and requests
+ * @param {boolean} [params.useFeSourceOfTruthVA=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -259,6 +263,8 @@ export async function fetchFlowEligibilityAndClinics({
   useV2 = false,
   featureClinicFilter = false,
   useFeSourceOfTruth = false,
+  useFeSourceOfTruthCC = false,
+  useFeSourceOfTruthVA = false,
   isCerner = false,
 }) {
   const directSchedulingAvailable =
@@ -293,6 +299,8 @@ export async function fetchFlowEligibilityAndClinics({
     if (isDirectAppointmentHistoryRequired) {
       apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
         useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
   }

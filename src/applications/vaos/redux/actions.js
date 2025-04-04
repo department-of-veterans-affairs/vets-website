@@ -13,6 +13,8 @@ import {
   selectFeatureCCDirectScheduling,
   selectFeatureVAOSServiceRequests,
   selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
 } from './selectors';
 import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 
@@ -26,12 +28,12 @@ export const FETCH_PENDING_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_PENDING_APPOINTMENTS_SUCCEEDED';
 
 /*
-   * The facility data we get back from the various endpoints for
-   * requests and appointments does not have basics like address or phone.
-   *
-   * We want to show that basic info on the list page, so this goes and fetches
-   * it separately, but doesn't block the list page from displaying
-   */
+ * The facility data we get back from the various endpoints for
+ * requests and appointments does not have basics like address or phone.
+ *
+ * We want to show that basic info on the list page, so this goes and fetches
+ * it separately, but doesn't block the list page from displaying
+ */
 export async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const nonVaFacilityAppointmentIds = futureAppointments
@@ -86,6 +88,8 @@ export function fetchPendingAppointments() {
       );
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
       const patientFacilities = selectPatientFacilities(state);
       const includeEPS = getIsInCCPilot(
         featureCCDirectScheduling,
@@ -101,6 +105,8 @@ export function fetchPendingAppointments() {
           .format('YYYY-MM-DD'),
         includeEPS,
         useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
 
       const data = pendingAppointments?.filter(

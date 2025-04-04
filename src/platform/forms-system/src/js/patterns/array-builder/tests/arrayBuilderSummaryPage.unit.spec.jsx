@@ -74,6 +74,7 @@ const mockRedux = ({
 describe('ArrayBuilderSummaryPage', () => {
   let getArrayUrlSearchParamsStub;
   let getIndexStub;
+  let minimalHeader;
 
   function stubUrlParams(str) {
     getArrayUrlSearchParamsStub = sinon
@@ -95,6 +96,10 @@ describe('ArrayBuilderSummaryPage', () => {
     if (getIndexStub) {
       getIndexStub.restore();
       getIndexStub = null;
+    }
+    if (minimalHeader) {
+      document.body.removeChild(minimalHeader);
+      minimalHeader = null;
     }
     cleanup();
   });
@@ -508,6 +513,13 @@ describe('ArrayBuilderSummaryPage', () => {
       'MINIMAL_HEADER_EXCLUDE_PATHS',
       '["/introduction","/confirmation"]',
     );
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
+      '["/introduction","/confirmation"]',
+    );
+    document.body.appendChild(minimalHeader);
 
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [],
@@ -539,6 +551,13 @@ describe('ArrayBuilderSummaryPage', () => {
       'MINIMAL_HEADER_EXCLUDE_PATHS',
       '["/introduction","/confirmation"]',
     );
+    minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    minimalHeader.setAttribute(
+      'data-exclude-paths',
+      '["/introduction","/confirmation"]',
+    );
+    document.body.appendChild(minimalHeader);
 
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],

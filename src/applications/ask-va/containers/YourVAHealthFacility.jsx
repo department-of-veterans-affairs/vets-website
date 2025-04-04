@@ -64,20 +64,24 @@ const YourVAHealthFacilityPage = props => {
   };
 
   const getFacilitiesFromLocation = async input => {
-    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
-      input[1]
-    }&long=${input[0]}&radius=50`;
+    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${input[1]}&long=${input[0]}&radius=50`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilities = async input => {
+    setIsSearching(true);
     const latLong = await convertToLatLng(input);
-    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${
-      latLong[0]
-    }&radius=50&type=health`;
-    await getApiData(url);
-    setPageURL(url);
+
+    if (!latLong.length) {
+      setIsSearching(false);
+      setPageURL('/error');
+      setApiData(facilities);
+    } else {
+      const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${latLong[0]}&radius=50&type=health`;
+      await getApiData(url);
+      setPageURL(url);
+    }
   };
 
   const updateForm = selection => {
@@ -101,16 +105,14 @@ const YourVAHealthFacilityPage = props => {
     });
   };
 
-  useEffect(
-    () => {
-      if (pageURL === '' && data.yourHealthFacility) {
-        setPreviousSelection(facilityName);
-      } else {
-        setPreviousSelection(null);
-      }
-    },
-    [pageURL],
-  );
+  useEffect(() => {
+    if (pageURL === '' && data.yourHealthFacility) {
+      setPreviousSelection(facilityName);
+    } else {
+      setPreviousSelection(null);
+      setFormData({ ...data, yourHealthFacility: null });
+    }
+  }, [pageURL]);
 
   return (
     <>

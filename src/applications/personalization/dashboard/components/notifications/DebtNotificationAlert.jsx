@@ -9,7 +9,7 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { dismissNotificationById } from '../../../common/actions/notifications';
 
 /*
- * This component uses the va-alert web component 
+ * This component uses the va-alert web component
  * and can be deleted once we remove the feature toggle
  */
 
@@ -33,6 +33,7 @@ export const DebtNotificationAlert = ({
           show-icon
           className="vads-u-margin-top--0"
           onCloseEvent={() => dismissNotification(notification.id)}
+          closeBtnAriaLabel="Close notification"
           closeable
         >
           <div className="vads-u-margin-top--0">
@@ -77,7 +78,4 @@ const mapDispatchToProps = {
   dismissNotification: dismissNotificationById,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(DebtNotificationAlert);
+export default connect(null, mapDispatchToProps)(DebtNotificationAlert);

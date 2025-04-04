@@ -4,16 +4,11 @@ import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
+import { API_ENDPOINTS } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
-
-const apiURL = `${
-  environment.API_URL
-}/v0/caregivers_assistance_claims/download_pdf`;
 
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
@@ -28,14 +23,13 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   const { veteranFullName: name } = form.data;
 
   // fetch a custom error message based on status code
-  const errorMessage = useMemo(
-    () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
-      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
-    },
-    [errors],
-  );
+  const errorMessage = useMemo(() => {
+    if (!errors.length) return null;
+    const code = errors[0].status[0];
+    return code === '5'
+      ? content['alert-download-message--500']
+      : content['alert-download-message--generic'];
+  }, [errors]);
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -61,7 +55,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
 
       try {
         await ensureValidCSRFToken('fetchPdf');
-        const response = await apiRequest(apiURL, {
+        const response = await apiRequest(API_ENDPOINTS.downloadPdf, {
           method: 'POST',
           body: formData,
           headers: { 'Content-Type': 'application/json' },
@@ -70,7 +64,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
+        setErrors(error.errors);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--failure' });
         Sentry.withScope(scope => scope.setExtra('error', error));
       } finally {
@@ -81,12 +75,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   );
 
   // apply focus to the error alert if we have errors set
-  useEffect(
-    () => {
-      if (errorMessage) focusElement('.caregiver-download-error');
-    },
-    [errorMessage],
-  );
+  useEffect(() => {
+    if (errorMessage) focusElement('.caregiver-download-error');
+  }, [errorMessage]);
 
   // render loading indicator while application download is processing
   if (loading) {

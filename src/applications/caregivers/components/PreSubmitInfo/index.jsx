@@ -7,12 +7,55 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
+  replaceStrValues,
 } from '../../utils/helpers';
-import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../utils/constants';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import content from '../../locales/en/content.json';
+
+// organize text content for statement of truth components
+export const SIGNATURE_CERTIFICATION_STATEMENTS = {
+  veteran: [content['certification-statement--vet']],
+  primary: [
+    content['certification-statement--caregiver-1'],
+    replaceStrValues(
+      content['certification-statement--caregiver-2'],
+      'Primary',
+    ),
+    content['certification-statement--caregiver-3'],
+    replaceStrValues(
+      content['certification-statement--caregiver-4'],
+      'Primary',
+    ),
+    replaceStrValues(
+      content['certification-statement--caregiver-5'],
+      'Primary',
+    ),
+    content['certification-statement--caregiver-6'],
+  ],
+  secondary: [
+    content['certification-statement--caregiver-1'],
+    replaceStrValues(
+      content['certification-statement--caregiver-2'],
+      'Secondary',
+    ),
+    content['certification-statement--caregiver-3'],
+    replaceStrValues(
+      content['certification-statement--caregiver-4'],
+      'Secondary',
+    ),
+    replaceStrValues(
+      content['certification-statement--caregiver-5'],
+      'Secondary',
+    ),
+    content['certification-statement--caregiver-6'],
+  ],
+  representative: [
+    content['certification-statement--rep-1'],
+    content['certification-statement--rep-2'],
+  ],
+};
 
 const PreSubmitCheckboxGroup = props => {
   const {
@@ -115,33 +158,30 @@ const PreSubmitCheckboxGroup = props => {
   );
 
   // remove party signature box if yes/no question is answered falsy
-  useEffect(
-    () => {
-      removePartyIfFalsy(hasPrimary, content['primary-signature-label']);
-      removePartyIfFalsy(
-        hasSecondaryOne,
-        content['secondary-one-signature-label'],
-      );
-      removePartyIfFalsy(
-        hasSecondaryTwo,
-        content['secondary-two-signature-label'],
-      );
-      removePartyIfFalsy(
-        showRepresentativeSignatureBox,
-        content['representative-signature-label'],
-      );
-      removePartyIfFalsy(
-        !showRepresentativeSignatureBox,
-        content['vet-input-label'],
-      );
-    },
-    [
-      hasPrimary,
+  useEffect(() => {
+    removePartyIfFalsy(hasPrimary, content['primary-signature-label']);
+    removePartyIfFalsy(
       hasSecondaryOne,
+      content['secondary-one-signature-label'],
+    );
+    removePartyIfFalsy(
       hasSecondaryTwo,
+      content['secondary-two-signature-label'],
+    );
+    removePartyIfFalsy(
       showRepresentativeSignatureBox,
-    ],
-  );
+      content['representative-signature-label'],
+    );
+    removePartyIfFalsy(
+      !showRepresentativeSignatureBox,
+      content['vet-input-label'],
+    );
+  }, [
+    hasPrimary,
+    hasSecondaryOne,
+    hasSecondaryTwo,
+    showRepresentativeSignatureBox,
+  ]);
 
   /*
     - Vet first && last name must match, and be checked

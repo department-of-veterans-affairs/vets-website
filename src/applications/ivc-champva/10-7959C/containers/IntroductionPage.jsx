@@ -9,12 +9,9 @@ const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
 
-  useEffect(
-    () => {
-      focusElement('.va-nav-breadcrumbs-list');
-    },
-    [props],
-  );
+  useEffect(() => {
+    focusElement('.va-nav-breadcrumbs-list');
+  }, [props]);
 
   return (
     <article className="schemaform-intro">
@@ -75,7 +72,7 @@ const IntroductionPage = props => {
       <va-omb-info
         res-burden={10}
         omb-number="2900-0219"
-        exp-date="10/31/2024"
+        exp-date="12/31/2027"
       />
     </article>
   );

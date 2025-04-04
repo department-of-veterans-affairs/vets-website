@@ -120,6 +120,44 @@ function UpdatePhoneNumberError({ phoneNumberType }) {
   );
 }
 
+function PaymentRestrictionError() {
+  return (
+    <>
+      <p
+        className="vads-u-margin-top--0"
+        data-testid="payment-restriction-error"
+      >
+        We’re sorry. We couldn’t process your direct deposit update.
+      </p>
+      <p>
+        <strong>What you can do now:</strong>
+      </p>
+      <p>
+        Call us at{' '}
+        <span className="no-wrap">
+          <va-telephone contact="8008271000" />
+        </span>{' '}
+        (<va-telephone contact={CONTACTS['711']} tty />
+        ). Tell the representative you received this message that we couldn’t
+        process your direct deposit update. They’ll help you verify your account
+        details and fix the problem. We’re here Monday through Friday, 8:00 a.m.
+        to 9:00 p.m. ET.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        Or you can contact a regional office near you to come in for help in
+        person.
+        <br />
+        <a
+          href="/find-locations/?page=&facilityType=benefits&serviceType"
+          target="_blank"
+        >
+          Find a VA regional office near you (opens in a new tab)
+        </a>
+      </p>
+    </>
+  );
+}
+
 UpdatePhoneNumberError.propTypes = {
   phoneNumberType: PropTypes.oneOf(['home', 'work']),
 };
@@ -127,16 +165,13 @@ UpdatePhoneNumberError.propTypes = {
 export const UpdateErrorAlert = ({ className, saveError }) => {
   const alertRef = React.useRef();
 
-  useEffect(
-    () => {
-      if (saveError) {
-        alertRef?.current?.scrollIntoView?.();
-        alertRef?.current?.setAttribute?.('tabindex', '-1');
-        alertRef?.current?.focus?.();
-      }
-    },
-    [saveError],
-  );
+  useEffect(() => {
+    if (saveError) {
+      alertRef?.current?.scrollIntoView?.();
+      alertRef?.current?.setAttribute?.('tabindex', '-1');
+      alertRef?.current?.focus?.();
+    }
+  }, [saveError]);
 
   if (!saveError) {
     return null;
@@ -146,11 +181,11 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
   let title = 'We couldn’t update your bank information';
 
   if (Array.isArray(saveError) && saveError?.length > 0) {
-    if (
-      hasAccountFlaggedError(saveError) ||
-      hasPaymentRestrictionIndicatorsError(saveError)
-    ) {
+    if (hasAccountFlaggedError(saveError)) {
       content = <FlaggedAccount />;
+    } else if (hasPaymentRestrictionIndicatorsError(saveError)) {
+      title = "We couldn't update your direct deposit information";
+      content = <PaymentRestrictionError />;
     } else if (hasRoutingNumberFlaggedError(saveError)) {
       content = <FlaggedRoutingNumber />;
     } else if (hasInvalidRoutingNumberError(saveError)) {

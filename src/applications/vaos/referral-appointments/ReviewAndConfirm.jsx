@@ -54,63 +54,51 @@ const ReviewAndConfirm = props => {
     getReferralSlotKey(currentReferral.uuid),
   );
 
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('reviewAndConfirm'));
-    },
-    [dispatch],
-  );
-  useEffect(
-    () => {
-      if (!selectedSlot && !savedSelectedSlot) {
-        routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
-      }
-    },
-    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('reviewAndConfirm'));
+  }, [dispatch]);
+  useEffect(() => {
+    if (!selectedSlot && !savedSelectedSlot) {
+      routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
+    }
+  }, [currentReferral.uuid, history, savedSelectedSlot, selectedSlot]);
 
-  useEffect(
-    () => {
-      if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.uuid));
-      } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
-        setLoading(false);
-        scrollAndFocus('h1');
-      } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
-        setLoading(false);
-        setFailed(true);
-        scrollAndFocus('h2');
-      }
-    },
-    [currentReferral.uuid, dispatch, draftAppointmentCreateStatus],
-  );
+  useEffect(() => {
+    if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+      dispatch(createDraftReferralAppointment(currentReferral.uuid));
+    } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
+      setLoading(false);
+      scrollAndFocus('h1');
+    } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
+      setLoading(false);
+      setFailed(true);
+      scrollAndFocus('h2');
+    }
+  }, [currentReferral.uuid, dispatch, draftAppointmentCreateStatus]);
 
-  useEffect(
-    () => {
-      if (
-        !selectedSlot &&
-        savedSelectedSlot &&
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
-      ) {
-        const savedSlot = getSlotById(
-          draftAppointmentInfo.slots.slots,
-          savedSelectedSlot,
-        );
-        if (!savedSlot) {
-          routeToCCPage(history, 'scheduleReferral');
-        }
-        dispatch(setSelectedSlot(savedSlot.id));
+  useEffect(() => {
+    if (
+      !selectedSlot &&
+      savedSelectedSlot &&
+      draftAppointmentCreateStatus === FETCH_STATUS.succeeded
+    ) {
+      const savedSlot = getSlotById(
+        draftAppointmentInfo.slots.slots,
+        savedSelectedSlot,
+      );
+      if (!savedSlot) {
+        routeToCCPage(history, 'scheduleReferral');
       }
-    },
-    [
-      dispatch,
-      savedSelectedSlot,
-      draftAppointmentInfo.slots,
-      history,
-      draftAppointmentCreateStatus,
-      selectedSlot,
-    ],
-  );
+      dispatch(setSelectedSlot(savedSlot.id));
+    }
+  }, [
+    dispatch,
+    savedSelectedSlot,
+    draftAppointmentInfo.slots,
+    history,
+    draftAppointmentCreateStatus,
+    selectedSlot,
+  ]);
 
   const handleGoBack = e => {
     e.preventDefault();
@@ -121,22 +109,21 @@ const ReviewAndConfirm = props => {
     );
   };
 
-  useEffect(
-    () => {
-      if (
-        appointmentCreateStatus === FETCH_STATUS.succeeded &&
-        draftAppointmentInfo?.appointment?.id
-      ) {
-        routeToNextReferralPage(
-          history,
-          'reviewAndConfirm',
-          null,
-          draftAppointmentInfo.appointment.id,
-        );
-      }
-    },
-    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
-  );
+  // handle routing to the next page once the appointment is created
+  // and the appointment id is available
+  useEffect(() => {
+    if (
+      appointmentCreateStatus === FETCH_STATUS.succeeded &&
+      draftAppointmentInfo?.appointment?.id
+    ) {
+      routeToNextReferralPage(
+        history,
+        'reviewAndConfirm',
+        null,
+        draftAppointmentInfo.appointment.id,
+      );
+    }
+  }, [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history]);
 
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
@@ -174,9 +161,7 @@ const ReviewAndConfirm = props => {
             </div>
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
-                href={`/my-health/appointments/schedule-referral/date-time?id=${
-                  currentReferral.uuid
-                }`}
+                href={`/my-health/appointments/schedule-referral/date-time?id=${currentReferral.uuid}`}
                 label="Edit date and time"
                 text="Edit"
                 data-testid="edit-when-information-link"

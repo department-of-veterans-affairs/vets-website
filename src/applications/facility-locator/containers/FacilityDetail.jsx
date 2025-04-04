@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { fetchVAFacility } from '../actions';
+import { fetchVAFacility } from '../actions/locations';
 import AccessToCare from '../components/AccessToCare';
 import FacilityInfo from '../components/facility-details/FacilityInfo';
 import LocationHours from '../components/LocationHours';
@@ -27,9 +27,7 @@ class FacilityDetail extends Component {
 
     if (justLoaded) {
       this.__previousDocTitle = document.title;
-      document.title = `${
-        this.props.facility.attributes.name
-      } | Veterans Affairs`;
+      document.title = `${this.props.facility.attributes.name} | Veterans Affairs`;
 
       // Need to wait until the data is loaded to focus
       this.headerRef.current.focus();
@@ -108,10 +106,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FacilityDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
 
 FacilityDetail.propTypes = {
   currentQuery: PropTypes.object,

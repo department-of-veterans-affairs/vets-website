@@ -75,6 +75,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
+        ccdDownloadSuccess,
         error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
@@ -103,115 +104,100 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const activeAlert = useAlerts(dispatch);
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
-  const CCDRetryTimestamp = useMemo(
-    () => {
-      const errorTimestamp = localStorage.getItem('lastCCDError');
-      if (errorTimestamp !== null) {
-        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
-        if (compareAsc(retryDate, new Date()) >= 0) {
-          const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-            timeZoneName: 'short', // Include the time zone abbreviation
-          };
-          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
-        }
+  const CCDRetryTimestamp = useMemo(() => {
+    const errorTimestamp = localStorage.getItem('lastCCDError');
+    if (errorTimestamp !== null) {
+      const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+      if (compareAsc(retryDate, new Date()) >= 0) {
+        const options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+          timeZoneName: 'short', // Include the time zone abbreviation
+        };
+        return new Intl.DateTimeFormat('en-US', options).format(retryDate);
       }
-      return null;
-    },
-    [ccdError],
-  );
+    }
+    return null;
+  }, [ccdError]);
 
   // Initial page setup effect
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
-      return () => {
-        dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    return () => {
+      dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+    };
+  }, [dispatch]);
 
-  const isDataFetched = useMemo(
-    () => {
-      if (failedSeiDomains.length === SEI_DOMAINS.length) return false;
-      return SEI_DOMAINS.every(item => {
-        const isFetched = !!seiRecords[item] || seiRecords[item] === null;
-        const hasFailed = failedSeiDomains.includes(item);
-        return isFetched || hasFailed;
-      });
-    },
-    [seiRecords, failedSeiDomains],
-  );
+  const isDataFetched = useMemo(() => {
+    if (failedSeiDomains.length === SEI_DOMAINS.length) return false;
+    return SEI_DOMAINS.every(item => {
+      const isFetched = !!seiRecords[item] || seiRecords[item] === null;
+      const hasFailed = failedSeiDomains.includes(item);
+      return isFetched || hasFailed;
+    });
+  }, [seiRecords, failedSeiDomains]);
 
-  const generateSEIPdf = useCallback(
-    async () => {
-      try {
-        setSelfEnteredPdfRequested(true);
-        setSeiPdfGenerationError(false);
+  const generateSEIPdf = useCallback(async () => {
+    try {
+      setSelfEnteredPdfRequested(true);
+      setSeiPdfGenerationError(false);
 
-        if (!isDataFetched) {
-          // Fetch data if not all defined
-          dispatch(clearFailedList());
-          dispatch(getSelfEnteredData());
-        } else {
-          // If already defined, generate the PDF directly
-          setSelfEnteredPdfRequested(false);
-          const title = 'Self-entered information report';
-          const subject = 'VA Medical Record';
-          const scaffold = generatePdfScaffold(userProfile, title, subject);
-          const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
-            userProfile,
-          )}`;
+      if (!isDataFetched) {
+        // Fetch data if not all defined
+        dispatch(clearFailedList());
+        dispatch(getSelfEnteredData());
+      } else {
+        // If already defined, generate the PDF directly
+        setSelfEnteredPdfRequested(false);
+        const title = 'Self-entered information report';
+        const subject = 'VA Medical Record';
+        const scaffold = generatePdfScaffold(userProfile, title, subject);
+        const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
+          userProfile,
+        )}`;
 
-          Object.keys(seiRecords).forEach(key => {
-            const item = seiRecords[key];
-            if (item && Array.isArray(item) && !item.length) {
-              seiRecords[key] = null;
-            }
-          });
+        Object.keys(seiRecords).forEach(key => {
+          const item = seiRecords[key];
+          if (item && Array.isArray(item) && !item.length) {
+            seiRecords[key] = null;
+          }
+        });
 
-          const pdfData = {
-            recordSets: generateSelfEnteredData(seiRecords),
-            ...scaffold,
-            name,
-            dob,
-            lastUpdated: UNKNOWN,
-          };
-          makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
-            .then(() => setSuccessfulSeiDownload(true))
-            .catch(() => setSeiPdfGenerationError(true));
-        }
-      } catch (error) {
-        dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
+        const pdfData = {
+          recordSets: generateSelfEnteredData(seiRecords),
+          ...scaffold,
+          name,
+          dob,
+          lastUpdated: UNKNOWN,
+        };
+        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+          .then(() => setSuccessfulSeiDownload(true))
+          .catch(() => setSeiPdfGenerationError(true));
       }
-    },
-    [
-      dispatch,
-      isDataFetched,
-      userProfile,
-      seiRecords,
-      name,
-      dob,
-      runningUnitTest,
-    ],
-  );
+    } catch (error) {
+      dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
+    }
+  }, [
+    dispatch,
+    isDataFetched,
+    userProfile,
+    seiRecords,
+    name,
+    dob,
+    runningUnitTest,
+  ]);
 
   // Trigger PDF generation if data arrives after being requested
-  useEffect(
-    () => {
-      if (selfEnteredPdfRequested && isDataFetched) {
-        generateSEIPdf();
-      }
-    },
-    [selfEnteredPdfRequested, seiRecords, generateSEIPdf, isDataFetched],
-  );
+  useEffect(() => {
+    if (selfEnteredPdfRequested && isDataFetched) {
+      generateSEIPdf();
+    }
+  }, [selfEnteredPdfRequested, seiRecords, generateSEIPdf, isDataFetched]);
 
   const accessErrors = () => {
     // CCD generation Error
@@ -240,16 +226,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     return null;
   };
 
-  const lastSuccessfulUpdate = useMemo(
-    () => {
-      return getLastSuccessfulUpdate(refreshStatus, [
-        refreshExtractTypes.ALLERGY,
-        refreshExtractTypes.CHEM_HEM,
-        refreshExtractTypes.VPR,
-      ]);
-    },
-    [refreshStatus],
-  );
+  const lastSuccessfulUpdate = useMemo(() => {
+    return getLastSuccessfulUpdate(refreshStatus, [
+      refreshExtractTypes.ALLERGY,
+      refreshExtractTypes.CHEM_HEM,
+      refreshExtractTypes.VPR,
+    ]);
+  }, [refreshStatus]);
 
   const handleDownloadCCD = e => {
     e.preventDefault();
@@ -286,6 +269,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
+      <h2>Download your VA Blue Button report</h2>
       {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -302,11 +286,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               BB_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Your VA Blue Button report download has"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
-      <h2>Download your VA Blue Button report</h2>
-      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
         download.
       </p>
@@ -320,13 +306,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       />
 
       <h2>Other reports you can download</h2>
-      <div id="generating-ccd-downloading-indicator">
+
+      {(generatingCCD || ccdDownloadSuccess) && !ccdError && (
         <DownloadSuccessAlert
-          ccd
+          type="Continuity of Care Document download"
           className="vads-u-margin-bottom--1"
-          visibility={generatingCCD}
         />
-      </div>
+      )}
 
       {accessErrors()}
 
@@ -355,7 +341,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               SEI_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Self-entered health information report download"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
       <va-accordion bordered>

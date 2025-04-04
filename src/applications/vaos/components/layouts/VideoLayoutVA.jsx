@@ -47,9 +47,9 @@ export default function VideoLayoutVA({ data: appointment }) {
 
   let heading = 'Video appointment at a VA location';
   const facilityId = locationId;
-  if (isPastAppointment) heading = 'Past video appointment at VA location';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment at VA location';
+  else if (isPastAppointment) heading = 'Past video appointment at VA location';
 
   recordAppointmentDetailsNullStates(
     {
@@ -69,61 +69,57 @@ export default function VideoLayoutVA({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="How to join">
-            Join this video appointment at a VA facility.
-            <br />
-          </Section>
-        )}
+      {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+        <Section heading="How to join">
+          Join this video appointment at a VA facility.
+          <br />
+        </Section>
+      )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        {APPOINTMENT_STATUS.cancelled !== status &&
-          !isPastAppointment && (
-            <div className="vads-u-margin-top--2 vaos-hide-for-print">
-              <AddToCalendarButton
-                appointment={appointment}
-                facility={facility}
-              />
-            </div>
-          )}
+        {APPOINTMENT_STATUS.cancelled !== status && !isPastAppointment && (
+          <div className="vads-u-margin-top--2 vaos-hide-for-print">
+            <AddToCalendarButton
+              appointment={appointment}
+              facility={facility}
+            />
+          </div>
+        )}
       </When>
 
       <What>{typeOfCareName}</What>
       <Who>{videoProviderName}</Who>
       <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!facility &&
-          !facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor href="/find-locations">
-                Find facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
+        {!facility && !facilityId && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!facility &&
-          !!facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor
-                href={`/find-locations/facility/vha_${getRealFacilityId(
-                  facilityId,
-                )}`}
-              >
-                View facility information
-              </NewTabAnchor>
-              <br />
-            </>
-          )}
+        {!facility && !!facilityId && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor
+              href={`/find-locations/facility/vha_${getRealFacilityId(
+                facilityId,
+              )}`}
+            >
+              View facility information
+            </NewTabAnchor>
+            <br />
+          </>
+        )}
         {!!facility && (
           <>
             <a href={facility.website}>{facility.name}</a>
@@ -160,13 +156,12 @@ export default function VideoLayoutVA({ data: appointment }) {
             </p>
           </Prepare>
         )}
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="Need to make changes?">
-            Contact this facility if you need to reschedule or cancel your
-            appointment.
-          </Section>
-        )}
+      {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
+        <Section heading="Need to make changes?">
+          Contact this facility if you need to reschedule or cancel your
+          appointment.
+        </Section>
+      )}
     </DetailPageLayout>
   );
 }

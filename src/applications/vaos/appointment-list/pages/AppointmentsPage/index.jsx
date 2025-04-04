@@ -17,7 +17,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
+// import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
@@ -60,12 +60,9 @@ export default function AppointmentsPage() {
   //   selectFeatureBookingExclusion(state),
   // );
 
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('appointments'));
-    },
-    [location, dispatch],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('appointments'));
+  }, [location, dispatch]);
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
@@ -96,34 +93,27 @@ export default function AppointmentsPage() {
   //     ? !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite
   //     : false;
 
-  useEffect(
-    () => {
-      if (featureBreadcrumbUrlUpdate) {
-        document.title = `${pageTitle} | Veterans Affairs`;
-        scrollAndFocus('h1');
-      } else {
-        document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
-        scrollAndFocus('h1');
-      }
-    },
-    [location.pathname, prefix, pageTitle, featureBreadcrumbUrlUpdate],
-  );
+  useEffect(() => {
+    if (featureBreadcrumbUrlUpdate) {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus('h1');
+    } else {
+      document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
+      scrollAndFocus('h1');
+    }
+  }, [location.pathname, prefix, pageTitle, featureBreadcrumbUrlUpdate]);
 
   const [count, setCount] = useState(0);
-  useEffect(
-    () => {
-      // Get non cancelled appointment requests from store
-      setCount(
-        pendingAppointments
-          ? pendingAppointments.filter(
-              appointment =>
-                appointment.status !== APPOINTMENT_STATUS.cancelled,
-            ).length
-          : 0,
-      );
-    },
-    [pendingAppointments],
-  );
+  useEffect(() => {
+    // Get non cancelled appointment requests from store
+    setCount(
+      pendingAppointments
+        ? pendingAppointments.filter(
+            appointment => appointment.status !== APPOINTMENT_STATUS.cancelled,
+          ).length
+        : 0,
+    );
+  }, [pendingAppointments]);
 
   const handleCCLinkClick = e => {
     e.preventDefault();
@@ -159,7 +149,11 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {isInCCPilot && <ReferralTaskCardWithReferral />}
+
+      {/* TODO: Add this back in when VeText adds support for a 
+      referral id in the url sent to the veteran  */}
+      {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
+
       {isInCCPilot && (
         <div
           className={classNames(

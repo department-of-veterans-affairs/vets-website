@@ -44,16 +44,13 @@ const AddressWithAutofill = props => {
   const parseFieldName = useCallback(field => field.split('_').pop(), []);
 
   // ensure formData has all field values if/when browser autocomplete fires
-  const updateFormDataForAutocomplete = useCallback(
-    () => {
-      [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
-        const fieldName = `root_${name}_${field}`;
-        const inputElement = document.getElementById(fieldName);
-        if (inputElement) formData[field] = inputElement.value;
-      });
-    },
-    [formData, name],
-  );
+  const updateFormDataForAutocomplete = useCallback(() => {
+    [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
+      const fieldName = `root_${name}_${field}`;
+      const inputElement = document.getElementById(fieldName);
+      formData[field] = inputElement?.value;
+    });
+  }, [formData, name]);
 
   const addDirtyField = useCallback(
     field => setDirtyFields(prevState => new Set(prevState).add(field)),

@@ -9,15 +9,16 @@ import { STATUSES } from '../constants';
 
 const title = 'Your travel reimbursement claim';
 
-export default function ClaimDetailsContent({
-  createdOn,
-  claimStatus,
-  claimNumber,
-  appointmentDateTime,
-  facilityName,
-  modifiedOn,
-  reimbursementAmount,
-}) {
+export default function ClaimDetailsContent(props) {
+  const {
+    createdOn,
+    claimStatus,
+    claimNumber,
+    appointmentDate: appointmentDateTime,
+    facilityName,
+    modifiedOn,
+    reimbursementAmount,
+  } = props;
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
@@ -43,20 +44,20 @@ export default function ClaimDetailsContent({
         Claim number: {claimNumber}
       </span>
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
-      {claimsMgmtToggle &&
-        claimStatus === STATUSES.Denied.name && <AppealContent />}
+      {claimsMgmtToggle && claimStatus === STATUSES.Denied.name && (
+        <AppealContent />
+      )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">Where</p>
       <p className="vads-u-margin-y--0">
         {appointmentDate} at {appointmentTime} appointment
       </p>
       <p className="vads-u-margin-top--0">{facilityName}</p>
-      {claimsMgmtToggle &&
-        reimbursementAmount > 0 && (
-          <p className="vads-u-margin-bottom--0">
-            Reimbursement amount of ${reimbursementAmount}
-          </p>
-        )}
+      {claimsMgmtToggle && reimbursementAmount > 0 && (
+        <p className="vads-u-margin-bottom--0">
+          Reimbursement amount of ${reimbursementAmount}
+        </p>
+      )}
       <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
       </p>
@@ -68,7 +69,7 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
-  appointmentDateTime: PropTypes.string.isRequired,
+  appointmentDate: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,
   claimStatus: PropTypes.string.isRequired,
   createdOn: PropTypes.string.isRequired,

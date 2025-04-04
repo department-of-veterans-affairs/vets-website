@@ -39,23 +39,17 @@ const SearchForm = props => {
   const filterInputRef = useRef();
   const filterFormTitleRef = useRef();
 
-  useEffect(
-    () => {
-      if (dateRange !== 'any' || category) {
-        setCustomFilter(true);
-      } else {
-        setCustomFilter(false);
-      }
-    },
-    [dateRange, category, customFilter],
-  );
+  useEffect(() => {
+    if (dateRange !== 'any' || category) {
+      setCustomFilter(true);
+    } else {
+      setCustomFilter(false);
+    }
+  }, [dateRange, category, customFilter]);
 
-  useEffect(
-    () => {
-      if (resultsCount > 0) focusElement(resultsCountRef.current);
-    },
-    [resultsCount],
-  );
+  useEffect(() => {
+    if (resultsCount > 0) focusElement(resultsCountRef.current);
+  }, [resultsCount]);
 
   const getRelativeDate = range => {
     const today = new Date();
@@ -218,34 +212,25 @@ const SearchForm = props => {
     folder.folderId,
   ]);
 
-  const ddTitle = useMemo(
-    () => {
-      return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
-    },
-    [folder.name, isCustom],
-  );
+  const ddTitle = useMemo(() => {
+    return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
+  }, [folder.name, isCustom]);
   const ddPrivacy = useMemo(() => `${isCustom ? 'mask' : 'allow'}`, [isCustom]);
 
-  const filterLabelHeading = useMemo(
-    () => {
-      if (isCustom) {
-        return `Filter messages in ${folder.name}`;
-      }
-      return `Filter messages in ${
-        folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
-      }`;
-    },
-    [folder.name, isCustom],
-  );
+  const filterLabelHeading = useMemo(() => {
+    if (isCustom) {
+      return `Filter messages in ${folder.name}`;
+    }
+    return `Filter messages in ${
+      folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
+    }`;
+  }, [folder.name, isCustom]);
 
-  const filterLabelBody = useMemo(
-    () => {
-      return folder.folderId === DefaultFolders.DRAFTS.id
-        ? filterDescription.noMsgId
-        : filterDescription.withMsgId;
-    },
-    [folder.folderId],
-  );
+  const filterLabelBody = useMemo(() => {
+    return folder.folderId === DefaultFolders.DRAFTS.id
+      ? filterDescription.noMsgId
+      : filterDescription.withMsgId;
+  }, [folder.folderId]);
 
   return (
     <>
@@ -319,7 +304,7 @@ const SearchForm = props => {
         )}
         <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
-            text="Filter"
+            text="Apply filters"
             primary
             class="filter-button"
             data-testid="filter-messages-button"
@@ -332,20 +317,20 @@ const SearchForm = props => {
           {/* using toggle to hide this btn temporarily until filter accordion redesign is completed */}
           {mhvSecureMessagingFilterAccordion ? (
             <va-button
-              text="Clear Filters"
+              text="Clear filters"
               secondary
               class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
-              dd-action-name="Clear Filters Button"
+              dd-action-name="Clear filters Button"
             />
           ) : (
             resultsCount !== undefined && (
               <va-button
-                text="Clear Filters"
+                text="Clear filters"
                 secondary
                 class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
-                dd-action-name="Clear Filters Button"
+                dd-action-name="Clear filters Button"
               />
             )
           )}

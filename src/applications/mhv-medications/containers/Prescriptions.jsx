@@ -127,13 +127,10 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const page = useMemo(
-    () => {
-      const query = new URLSearchParams(search);
-      return Number(query.get('page'));
-    },
-    [search],
-  );
+  const page = useMemo(() => {
+    const query = new URLSearchParams(search);
+    return Number(query.get('page'));
+  }, [search]);
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     setLoading(newIsLoading);
@@ -214,29 +211,23 @@ const Prescriptions = () => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (
-        !isLoading &&
-        filteredList?.length === 0 &&
-        filterCount &&
-        Object.values(filterCount).some(value => value !== 0)
-      ) {
-        focusElement(document.getElementById('no-matches-msg'));
-      }
-    },
-    [filteredList, isLoading, filterCount],
-  );
+  useEffect(() => {
+    if (
+      !isLoading &&
+      filteredList?.length === 0 &&
+      filterCount &&
+      Object.values(filterCount).some(value => value !== 0)
+    ) {
+      focusElement(document.getElementById('no-matches-msg'));
+    }
+  }, [filteredList, isLoading, filterCount]);
 
-  useEffect(
-    () => {
-      if (sortingInProgress && !isLoading) {
-        focusElement(document.getElementById('showingRx'));
-        setSortingInProgress(false);
-      }
-    },
-    [sortingInProgress, isLoading],
-  );
+  useEffect(() => {
+    if (sortingInProgress && !isLoading) {
+      focusElement(document.getElementById('showingRx'));
+      setSortingInProgress(false);
+    }
+  }, [sortingInProgress, isLoading]);
 
   useEffect(
     () => {
@@ -270,40 +261,33 @@ const Prescriptions = () => {
     [dispatch, page, selectedSortOption],
   );
 
-  useEffect(
-    () => {
-      if (
-        showFilterContent
-          ? filteredList?.length
-          : paginatedPrescriptionsList?.length
-      ) {
-        setPrintedList(
-          showFilterContent ? filteredList : paginatedPrescriptionsList,
-        );
-      }
-    },
-    [paginatedPrescriptionsList, filteredList, showFilterContent],
-  );
+  useEffect(() => {
+    if (
+      showFilterContent
+        ? filteredList?.length
+        : paginatedPrescriptionsList?.length
+    ) {
+      setPrintedList(
+        showFilterContent ? filteredList : paginatedPrescriptionsList,
+      );
+    }
+  }, [paginatedPrescriptionsList, filteredList, showFilterContent]);
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
-  useEffect(
-    () => {
-      if (!showFilterContent) {
-        if (
-          !isLoading &&
-          (!paginatedPrescriptionsList ||
-            paginatedPrescriptionsList?.length <= 0)
-        ) {
-          setAlertVisible(true);
-        } else if (isAlertVisible) {
-          setAlertVisible(false);
-        }
+  useEffect(() => {
+    if (!showFilterContent) {
+      if (
+        !isLoading &&
+        (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
+      ) {
+        setAlertVisible(true);
+      } else if (isAlertVisible) {
+        setAlertVisible(false);
       }
-    },
-    [isLoading, paginatedPrescriptionsList, isAlertVisible],
-  );
+    }
+  }, [isLoading, paginatedPrescriptionsList, isAlertVisible]);
 
   useEffect(() => {
     if (!filterOption) {
@@ -314,30 +298,27 @@ const Prescriptions = () => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (showFilterContent && page) {
-        const storedPageNumber = sessionStorage.getItem(
-          SESSION_SELECTED_PAGE_NUMBER,
-        );
-        const storedFilterOption =
-          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-          ALL_MEDICATIONS_FILTER_KEY;
-        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
-        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
-        updateLoadingStatus(true, 'Loading your medications...');
-        dispatch(
-          getPaginatedFilteredList(
-            storedPageNumber,
-            filterOptions[storedFilterOption]?.url,
-            sortEndpoint,
-            showGroupingContent ? 10 : 20,
-          ),
-        ).then(() => updateLoadingStatus(false, ''));
-      }
-    },
-    [dispatch, page, showFilterContent],
-  );
+  useEffect(() => {
+    if (showFilterContent && page) {
+      const storedPageNumber = sessionStorage.getItem(
+        SESSION_SELECTED_PAGE_NUMBER,
+      );
+      const storedFilterOption =
+        sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+        ALL_MEDICATIONS_FILTER_KEY;
+      const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+      const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
+      updateLoadingStatus(true, 'Loading your medications...');
+      dispatch(
+        getPaginatedFilteredList(
+          storedPageNumber,
+          filterOptions[storedFilterOption]?.url,
+          sortEndpoint,
+          showGroupingContent ? 10 : 20,
+        ),
+      ).then(() => updateLoadingStatus(false, ''));
+    }
+  }, [dispatch, page, showFilterContent]);
 
   const selectedFilterOption =
     filterOptions[
@@ -394,9 +375,7 @@ const Prescriptions = () => {
                       'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
                   },
                   {
-                    value: `Showing ${
-                      allergiesList.length
-                    } records from newest to oldest`,
+                    value: `Showing ${allergiesList.length} records from newest to oldest`,
                   },
                 ],
               }),
@@ -485,101 +464,98 @@ const Prescriptions = () => {
     [userName, txtData, setPdfTxtGenerateStatus],
   );
 
-  useEffect(
-    () => {
-      if (
-        !prescriptionsFullList?.length &&
-        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-        isRetrievingFullList
-      ) {
-        const getFullList = async () => {
-          setIsRetrievingFullList(false);
-          await getPrescriptionSortedList(
-            rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            false,
-          )
-            .then(response => {
-              const list = response.data.map(rx => ({ ...rx.attributes }));
-              setPrescriptionsFullList(list);
-              setHasFullListDownloadError(false);
-            })
-            .catch(() => {
-              setHasFullListDownloadError(true);
-              updateLoadingStatus(false, '');
-            });
-          if (!allergies) dispatch(getAllergiesList());
-        };
-        getFullList();
-      }
-      if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            (showFilterContent
-              ? filteredList?.length
-              : paginatedPrescriptionsList?.length))) &&
-        allergies &&
-        !allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
-        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-          generatePDF(
-            buildPrescriptionsPDFList(prescriptionsFullList),
-            buildAllergiesPDFList(allergies),
-          );
-        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-          generateTXT(
-            buildPrescriptionsTXT(prescriptionsFullList),
-            buildAllergiesTXT(allergies),
-          );
-        } else if (
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
-        ) {
-          if (!isLoading && loadingMessage === '') {
-            let listForPrint;
-            if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
-              if (showFilterContent) {
-                listForPrint = filteredList;
-              } else {
-                listForPrint = paginatedPrescriptionsList;
-              }
-            } else {
-              listForPrint = prescriptionsFullList;
-            }
-            setPrintedList(listForPrint);
-            setPdfTxtGenerateStatus({
-              status: PDF_TXT_GENERATE_STATUS.NotStarted,
-            });
-            printRxList();
-          }
-          updateLoadingStatus(false, '');
-        }
+  useEffect(() => {
+    if (
+      !prescriptionsFullList?.length &&
+      pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+      isRetrievingFullList
+    ) {
+      const getFullList = async () => {
+        setIsRetrievingFullList(false);
+        await getPrescriptionSortedList(
+          rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+          false,
+        )
+          .then(response => {
+            const list = response.data.map(rx => ({ ...rx.attributes }));
+            setPrescriptionsFullList(list);
+            setHasFullListDownloadError(false);
+          })
+          .catch(() => {
+            setHasFullListDownloadError(true);
+            updateLoadingStatus(false, '');
+          });
+        if (!allergies) dispatch(getAllergiesList());
+      };
+      getFullList();
+    }
+    if (
+      ((prescriptionsFullList?.length &&
+        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+        (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
+          (showFilterContent
+            ? filteredList?.length
+            : paginatedPrescriptionsList?.length))) &&
+      allergies &&
+      !allergiesError &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+    ) {
+      if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
+        generatePDF(
+          buildPrescriptionsPDFList(prescriptionsFullList),
+          buildAllergiesPDFList(allergies),
+        );
+      } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
+        generateTXT(
+          buildPrescriptionsTXT(prescriptionsFullList),
+          buildAllergiesTXT(allergies),
+        );
       } else if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (paginatedPrescriptionsList?.length &&
-            pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
-        allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+        pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
+        pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
       ) {
+        if (!isLoading && loadingMessage === '') {
+          let listForPrint;
+          if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
+            if (showFilterContent) {
+              listForPrint = filteredList;
+            } else {
+              listForPrint = paginatedPrescriptionsList;
+            }
+          } else {
+            listForPrint = prescriptionsFullList;
+          }
+          setPrintedList(listForPrint);
+          setPdfTxtGenerateStatus({
+            status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          });
+          printRxList();
+        }
         updateLoadingStatus(false, '');
       }
-    },
-    [
-      allergies,
-      allergiesError,
-      prescriptionsFullList,
-      pdfTxtGenerateStatus.status,
-      pdfTxtGenerateStatus.format,
-      isLoading,
-      loadingMessage,
-      generatePDF,
-      generateTXT,
-      isRetrievingFullList,
-    ],
-  );
+    } else if (
+      ((prescriptionsFullList?.length &&
+        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+        (paginatedPrescriptionsList?.length &&
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
+      allergiesError &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+    ) {
+      updateLoadingStatus(false, '');
+    }
+  }, [
+    allergies,
+    allergiesError,
+    prescriptionsFullList,
+    pdfTxtGenerateStatus.status,
+    pdfTxtGenerateStatus.format,
+    isLoading,
+    loadingMessage,
+    generatePDF,
+    generateTXT,
+    isRetrievingFullList,
+  ]);
 
   const handleFullListDownload = async format => {
     setHasFullListDownloadError(false);
@@ -665,7 +641,13 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {showRefillProgressContent && <RefillAlert />}
+            {showRefillProgressContent && (
+              <RefillAlert
+                dataDogActionName={
+                  dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
+                }
+              />
+            )}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&
@@ -796,25 +778,24 @@ const Prescriptions = () => {
                           updateLoadingStatus={updateLoadingStatus}
                         />
                       )}
-                      {showFilterContent &&
-                        !isLoading && (
-                          <>
-                            <PrintDownload
-                              onDownload={handleFullListDownload}
-                              isSuccess={
-                                pdfTxtGenerateStatus.status ===
-                                PDF_TXT_GENERATE_STATUS.Success
-                              }
-                              isLoading={
-                                !allergiesError &&
-                                pdfTxtGenerateStatus.status ===
-                                  PDF_TXT_GENERATE_STATUS.InProgress
-                              }
-                              list
-                            />
-                            <BeforeYouDownloadDropdown page={pageType.LIST} />
-                          </>
-                        )}
+                      {showFilterContent && !isLoading && (
+                        <>
+                          <PrintDownload
+                            onDownload={handleFullListDownload}
+                            isSuccess={
+                              pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.Success
+                            }
+                            isLoading={
+                              !allergiesError &&
+                              pdfTxtGenerateStatus.status ===
+                                PDF_TXT_GENERATE_STATUS.InProgress
+                            }
+                            list
+                          />
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
+                        </>
+                      )}
                       {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (

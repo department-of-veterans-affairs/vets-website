@@ -138,9 +138,7 @@ class PatientInboxPage {
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
-      `a[href*="/my-health/secure-messages/message/${
-        inputMockMessage.attributes.messageId
-      }"]`,
+      `a[href*="/my-health/secure-messages/message/${inputMockMessage.attributes.messageId}"]`,
     );
     cy.realPress(['Enter']);
     cy.wait(Locators.INFO.MESSAGE);
@@ -162,25 +160,19 @@ class PatientInboxPage {
     );
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockMessages.data[0].attributes.messageId
-      }/thread?full_body=true`,
+      `${Paths.SM_API_EXTENDED}/${mockMessages.data[0].attributes.messageId}/thread?full_body=true`,
       this.singleThread,
     ).as('full-thread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        this.singleThread.data[0].attributes.messageId
-      }`,
+      `${Paths.SM_API_EXTENDED}/${this.singleThread.data[0].attributes.messageId}`,
       { data: this.singleThread.data[0] },
     ).as('fist-message-in-thread');
 
     if (this.singleThread.data.length > 1) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_EXTENDED}/${
-          this.singleThread.data[1].attributes.messageId
-        }`,
+        `${Paths.SM_API_EXTENDED}/${this.singleThread.data[1].attributes.messageId}`,
         { data: this.singleThread.data[1] },
       ).as('second-message-in-thread');
     }
@@ -402,7 +394,7 @@ class PatientInboxPage {
   openAdvancedSearch = () => {
     cy.get(Locators.ADDITIONAL_FILTER)
       .shadow()
-      .contains('Add filters')
+      .contains('Show filters')
       .click({
         waitForAnimations: true,
         force: true,
@@ -498,8 +490,8 @@ class PatientInboxPage {
 
   clearFilterByKeyboard = () => {
     // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
       cy.tabToElement(el)
         .first()
         .click();
@@ -677,7 +669,7 @@ class PatientInboxPage {
       .and('contain.text', `${text}`);
   };
 
-  verifyAddFilterButton = (text = 'Add filters') => {
+  verifyAddFilterButton = (text = 'Show filters') => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
       'contain.text',
       `${text}`,

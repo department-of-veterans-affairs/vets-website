@@ -21,12 +21,9 @@ const NationalExamsList = () => {
   const { loading, error, nationalExams } = useSelector(
     state => state.nationalExams,
   );
-  useEffect(
-    () => {
-      dispatch(fetchNationalExams());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchNationalExams());
+  }, [dispatch]);
 
   // Calculate total pages and slice programs for pagination
   const totalPages = Math.ceil(nationalExams.length / itemsPerPage);
@@ -139,9 +136,7 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex} - ${endIndex} of ${
-            nationalExams.length
-          } national exams`}
+          {`Showing ${startIndex} - ${endIndex} of ${nationalExams.length} national exams`}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="remove-bullets" role="list">
@@ -150,9 +145,9 @@ const NationalExamsList = () => {
             return (
               <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
                 <va-card background>
-                  <h3 className="vads-u-margin--0 vads-u-margin-bottom--1">
+                  <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1">
                     {examName}
-                  </h3>
+                  </h2>
                   <VaLink
                     href={`/education/gi-bill-comparison-tool/national-exams/${
                       exam.enrichedId
@@ -181,8 +176,8 @@ const NationalExamsList = () => {
 };
 
 NationalExamsList.propTypes = {
-  loading: PropTypes.bool,
   error: PropTypes.string,
+  loading: PropTypes.bool,
   nationalExams: PropTypes.arrayOf(
     PropTypes.shape({
       enrichedId: PropTypes.string.isRequired,

@@ -150,13 +150,19 @@ const POARequestDetailsPage = title => {
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
-  useEffect(
-    () => {
-      focusElement('h1');
-      document.title = title.title;
-    },
-    [title],
-  );
+  useEffect(() => {
+    focusElement('h1');
+    document.title = title.title;
+  }, [title]);
+
+  setTimeout(() => {
+    if (document.querySelector('va-radio')) {
+      document
+        .querySelector('va-radio')
+        .shadowRoot?.querySelector('h2')
+        .setAttribute('style', 'font-size:1.0625rem;');
+    }
+  }, '1000');
 
   return (
     <>
@@ -415,7 +421,7 @@ const POARequestDetailsPage = title => {
                 <VaRadio
                   header-aria-describedby={null}
                   label="Do you accept or decline this POA request?"
-                  label-header-level={4}
+                  label-header-level={2}
                   class="poa-request-details__form-label"
                   onVaValueChange={handleChange}
                   required
