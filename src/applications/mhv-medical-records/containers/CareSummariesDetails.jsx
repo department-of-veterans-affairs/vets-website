@@ -70,7 +70,7 @@ const CareSummariesDetails = () => {
     <div className="vads-u-margin-y--8">
       <va-loading-indicator
         message="Loading..."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     </div>

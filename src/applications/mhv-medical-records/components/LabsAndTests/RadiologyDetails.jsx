@@ -399,7 +399,7 @@ ${record.results}`;
         return (
           <va-loading-indicator
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         );

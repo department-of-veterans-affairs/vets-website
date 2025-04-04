@@ -118,7 +118,7 @@ const App = ({ children }) => {
         <div className="vads-l-grid-container">
           <va-loading-indicator
             message="Loading your medical records..."
-            setFocus
+            set-focus
             data-testid="mr-feature-flag-loading-indicator"
           />
         </div>
