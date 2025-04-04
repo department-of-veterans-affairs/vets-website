@@ -206,7 +206,9 @@ function allTests() {
 
 function selectTests(graph, pathsOfChangedFiles) {
   const workflowsFilteredOut = pathsOfChangedFiles.filter(
-    filePath => !filePath.startsWith('.github/workflows'),
+    filePath =>
+      !filePath.startsWith('.github/workflows') &&
+      !filePath.startsWith('script/github-actions'),
   );
   if (workflowsFilteredOut.length === 0) {
     return [];
