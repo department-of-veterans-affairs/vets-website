@@ -463,8 +463,7 @@ export default class ArrayField extends React.Component {
                             {(!isLast || showSave) && (
                               <VaButton
                                 className="float-left"
-                                label={`${updateText} ${ariaItemName} ${index +
-                                  1}`}
+                                label={`${updateText} ${ariaItemName}`}
                                 onClick={() => this.handleUpdate(index)}
                                 text={updateText}
                               />
