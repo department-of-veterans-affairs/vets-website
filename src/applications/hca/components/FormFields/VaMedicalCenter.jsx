@@ -115,6 +115,13 @@ const VaMedicalCenter = props => {
           setFacilities(facilityList);
         } catch (err) {
           setError(true);
+          // Clear out selected state on error
+          setLocalData(prevState => ({
+            ...prevState,
+            'view:facilityState': undefined,
+          }));
+          // Clear dirty fields to not display state selector error
+          setDirtyFields([]);
           Sentry.withScope(scope => {
             scope.setExtra('state', facilityState);
             scope.setExtra('error', err);
@@ -184,7 +191,7 @@ const VaMedicalCenter = props => {
     <>
       {error && (
         <div className="server-error-message vads-u-margin-top--4">
-          <ServerErrorAlert />
+          <ServerErrorAlert description="We’re sorry. Something went wrong on our end. Please try selecting your state again." />
         </div>
       )}
       <VaSelect
