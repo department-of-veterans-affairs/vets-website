@@ -18,8 +18,6 @@ import {
   behaviorPageTitle,
   hasSelectedBehaviors,
 } from '../content/form0781/behaviorListPages';
-import { checkValidations } from '../../../appeals/shared/validations';
-
 import { BehaviorIntroCombatPageModalContent } from './BehaviorIntroCombatPageModalContent';
 import {
   answerCombatQuestionsChoice,
@@ -29,6 +27,7 @@ import {
   missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
+import { checkValidations } from '../utils/submit';
 
 const DELETABLE_FORM_DATA_KEYS = [
   'workBehaviors',
