@@ -18,6 +18,8 @@ import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
+
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
@@ -362,7 +364,46 @@ export const addForm4142 = formData => {
   return clonedData;
 };
 
+export const delete0781FormData = formData => {
+  // Workaround to avoid eslint rule around mutating params/args
+  const data = formData;
+  delete data.events;
+  delete data.eventTypes;
+  delete data.workBehaviors;
+  delete data.otherBehaviors;
+  delete data.healthBehaviors;
+  delete data.workBehaviorChanges;
+  delete data.socialBehaviorChanges;
+  delete data.behaviorsDetails;
+  delete data.supportingEvidenceRecords;
+  delete data.supportingEvidenceReports;
+  delete data.supportingEvidenceUnlisted;
+  delete data.supportingEvidenceWitness;
+  delete data.supportingEvidenceOther;
+  delete data.supportingEvidenceNoneCheckbox;
+  delete data.optionIndicator;
+  delete data.additionalRemarks781;
+  delete data.treatmentNoneCheckbox;
+  delete data.additionalInformation;
+  data.vaTreatmentFacilities.forEach((facility, index, object) => {
+    if (facility.treatmentLocation0781Related) {
+      object.splice(index, 1);
+    }
+  });
+  if (data.vaTreatmentFacilities.length === 0) {
+    delete data.vaTreatmentFacilities;
+  }
+};
+
 export const addForm0781 = formData => {
+  // In case of opt-out, we want to delete any 0781-related data
+  if (
+    formData.mentalHealthWorkflowChoice ===
+    form0781WorkflowChoices.OPT_OUT_OF_FORM0781
+  ) {
+    delete0781FormData(formData);
+  }
+
   if (formData.syncModern0781Flow === true) {
     return formData;
   }
@@ -498,6 +539,14 @@ export function transformTreatmentFacilities(
 }
 
 export const addForm0781V2 = formData => {
+  // In case of opt-out, we want to delete any 0781-related data
+  if (
+    formData.mentalHealthWorkflowChoice ===
+    form0781WorkflowChoices.OPT_OUT_OF_FORM0781
+  ) {
+    delete0781FormData(formData);
+  }
+
   if (!formData.syncModern0781Flow) {
     return formData;
   }
