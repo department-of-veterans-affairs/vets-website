@@ -4,6 +4,7 @@ import {
   VaRadio,
   VaRadioOption,
   VaLoadingIndicator,
+  VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -11,6 +12,8 @@ import {
   formatStatus,
   resolutionDate,
   BANNER_TYPES,
+  DETAILS_BC_LABEL,
+  poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
@@ -158,8 +161,22 @@ const POARequestDetailsPage = title => {
     [title],
   );
 
+  setTimeout(() => {
+    if (document.querySelector('va-radio')) {
+      document
+        .querySelector('va-radio')
+        .shadowRoot?.querySelector('h2')
+        .setAttribute('style', 'font-size:1.0625rem;');
+    }
+  }, '1000');
+
   return (
     <>
+      <VaBreadcrumbs
+        breadcrumbList={poaDetailsBreadcrumbs}
+        label={DETAILS_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       {navigation.state === 'loading' ? (
         <VaLoadingIndicator message="Loading..." />
       ) : (
@@ -415,7 +432,7 @@ const POARequestDetailsPage = title => {
                 <VaRadio
                   header-aria-describedby={null}
                   label="Do you accept or decline this POA request?"
-                  label-header-level={4}
+                  label-header-level={2}
                   class="poa-request-details__form-label"
                   onVaValueChange={handleChange}
                   required
