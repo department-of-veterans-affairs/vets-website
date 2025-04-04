@@ -11,6 +11,9 @@ import {
   initGetText,
   defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
+  arrayBuilderDependsContextWrapper,
+  arrayBuilderContextObject,
+  getArrayUrlSearchParams,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -63,6 +66,23 @@ function throwMissingYesNoValidation() {
   throw new Error(
     "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern instead of `yesNoUI` pattern, or a similar pattern including `yesNoUI` with `'ui:validations'`",
   );
+}
+
+function safeDependsItem(depends) {
+  if (typeof depends !== 'function') {
+    return depends;
+  }
+  return (formData, index, context = null) => {
+    try {
+      return depends(
+        formData,
+        index,
+        arrayBuilderDependsContextWrapper(context),
+      );
+    } catch (e) {
+      return false;
+    }
+  };
 }
 
 function validateNoSchemaAssociatedWithLinkOrButton(
@@ -347,15 +367,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
-  const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
 
-  const getActiveItemPages = (formData, index) => {
+  const getActiveItemPages = (formData, index, context = null) => {
     return itemPages.filter(page => {
       try {
         if (page.depends) {
-          return typeof page.depends === 'function'
-            ? page.depends(formData, index)
-            : page.depends;
+          return safeDependsItem(page.depends)(formData, index, context);
         }
         return true;
       } catch (e) {
@@ -364,12 +381,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     });
   };
 
-  const getFirstItemPagePath = (formData, index) => {
-    return getActiveItemPages(formData, index)?.[0]?.path;
+  const getFirstItemPagePath = (formData, index, context = null) => {
+    return getActiveItemPages(formData, index, context)?.[0]?.path;
   };
 
-  const getLastItemPagePath = (formData, index) => {
-    const activeItemPages = getActiveItemPages(formData, index);
+  const getLastItemPagePath = (formData, index, context = null) => {
+    const activeItemPages = getActiveItemPages(formData, index, context);
     return activeItemPages?.[activeItemPages.length - 1]?.path;
   };
 
@@ -395,7 +412,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     const nextIndex = formData[arrayPath]?.length || 0;
 
     const path = createArrayBuilderItemAddPath({
-      path: getFirstItemPagePath(formData, nextIndex),
+      path: getFirstItemPagePath(
+        formData,
+        nextIndex,
+        arrayBuilderContextObject({
+          add: true,
+          review: getArrayUrlSearchParams()?.get('review') === 'true',
+        }),
+      ),
       index: nextIndex,
     });
     goPath(path);
@@ -443,7 +467,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
       path = createArrayBuilderItemAddPath({
-        path: getFirstItemPagePath(formData, 0),
+        path: getFirstItemPagePath(
+          formData,
+          0,
+          arrayBuilderContextObject({
+            add: true,
+            review: getArrayUrlSearchParams()?.get('review') === 'true',
+          }),
+        ),
         index: 0,
         isReview: urlParams?.review,
       });
@@ -480,19 +511,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       ...pageConfig,
     };
   };
-
-  function safeDepends(depends) {
-    if (typeof depends !== 'function') {
-      return depends;
-    }
-    return (formData, index) => {
-      try {
-        return depends(formData, index);
-      } catch (e) {
-        return false;
-      }
-    };
-  }
 
   pageBuilder.summaryPage = pageConfig => {
     let requiredOpts = ['title', 'path'];
@@ -602,7 +620,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       onNavForward,
       ...pageConfig,
       ...(pageConfig.depends
-        ? { depends: safeDepends(pageConfig.depends) }
+        ? { depends: safeDependsItem(pageConfig.depends) }
         : {}),
       CustomPage,
       uiSchema: {
