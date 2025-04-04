@@ -16,7 +16,6 @@ const mockStore = {
         currentlyLoggedIn: false,
       },
       profile: {
-        savedForms: [],
         prefillsAvailable: ['FORM-UPLOAD-FLOW'],
         dob: '2000-01-01',
         loa: {

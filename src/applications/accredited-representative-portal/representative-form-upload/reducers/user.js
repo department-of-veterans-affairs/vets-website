@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 
-import { REMOVING_SAVED_FORM_SUCCESS } from 'platform/user/profile/actions';
 import { LOG_OUT } from 'platform/user/authentication/actions';
 import {
   FETCH_USER,
@@ -15,7 +14,6 @@ function getNullProfileState() {
     lastName: null,
     verified: false,
     prefillsAvailable: [],
-    savedForms: [],
     loading: false,
   };
 }
@@ -29,7 +27,6 @@ function transformProfilePayload(payload) {
     lastName: profile.lastName,
     verified: profile.verified,
     prefillsAvailable: payload.prefillsAvailable,
-    savedForms: payload.inProgressForms,
   };
 }
 
@@ -58,15 +55,6 @@ function profileReducer(state = getNullProfileState(), action) {
         ...getNullProfileState(),
         loading: false,
       };
-    case REMOVING_SAVED_FORM_SUCCESS: {
-      const savedForms = state.savedForms.filter(el => {
-        return el.form !== action.formId;
-      });
-      return {
-        ...state,
-        savedForms,
-      };
-    }
     default:
       return state;
   }

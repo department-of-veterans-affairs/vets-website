@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
   VaAlert,
@@ -12,11 +11,10 @@ import {
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import recordEvent from 'platform/monitoring/record-event';
 import { getFormContent, getFormNumber } from '../helpers';
-import { PrimaryActionLink } from '../config/constants';
 
-const IntroductionPage = ({ route }) => {
-  const { formConfig, pageList } = route;
+const IntroductionPage = ({ route, router }) => {
   const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
@@ -25,6 +23,25 @@ const IntroductionPage = ({ route }) => {
   const openLoginModal = () => {
     dispatch(toggleLoginModal(true, 'cta-form'));
   };
+
+  const startBtn = useMemo(
+    () => {
+      const startForm = () => {
+        recordEvent({ event: `${formNumber}-start-form` });
+        return router.push(route.pageList[1].path);
+      };
+      return (
+        <a
+          href="#start"
+          className="vads-c-action-link--green"
+          onClick={startForm}
+        >
+          Start application
+        </a>
+      );
+    },
+    [route.pageList, router],
+  );
 
   return (
     <article className="schemaform-intro">
@@ -75,15 +92,7 @@ const IntroductionPage = ({ route }) => {
         </VaProcessListItem>
       </VaProcessList>
       {userLoggedIn ? (
-        <SaveInProgressIntro
-          formConfig={formConfig}
-          hideUnauthedStartLink
-          pageList={pageList}
-          prefillEnabled={formConfig.prefillEnabled}
-          startText="Start uploading your form"
-          verifiedPrefillAlert={<></>}
-          customLink={PrimaryActionLink}
-        />
+        startBtn
       ) : (
         <VaAlert status="info" visible>
           <h2 slot="headline">Sign in now to upload your form</h2>
