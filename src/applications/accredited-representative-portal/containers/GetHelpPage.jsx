@@ -49,6 +49,7 @@ const GetHelpPage = title => {
         request online.
       </p>
       <a
+        data-testid="download-instructions-pdf-link"
         href="/files/How to submit VA Form 21-22 online_updated March 2025.pdf"
         download
       >
