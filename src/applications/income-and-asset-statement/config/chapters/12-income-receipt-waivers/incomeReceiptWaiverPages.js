@@ -26,7 +26,7 @@ import {
 import { relationshipLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'incomeReceiptWaivers',
   nounSingular: 'income receipt waiver',
   nounPlural: 'income receipt waivers',

@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import {
+  VaAccordion,
+  VaAccordionItem,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
@@ -19,7 +23,6 @@ import {
 } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
-import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 import { changeSearchTab, setError } from '../actions';
@@ -168,27 +171,27 @@ export function SearchPage({
             {!error && !smallScreen && tabbedResults[tab]}
             {!error &&
               smallScreen && (
-                <div>
-                  <AccordionItem
-                    button="Search by name"
-                    expanded={accordions[TABS.name]}
-                    onClick={expanded => {
+                <VaAccordion>
+                  <VaAccordionItem
+                    header="Search by name"
+                    open={accordions[TABS.name]}
+                    onAccordionItemToggled={expanded => {
                       accordionChange(TABS.name, expanded);
                     }}
                   >
                     <NameSearchForm smallScreen />
-                  </AccordionItem>
-                  <AccordionItem
-                    button="Search by location"
-                    expanded={accordions[TABS.location]}
-                    onClick={expanded => {
+                  </VaAccordionItem>
+                  <VaAccordionItem
+                    header="Search by location"
+                    open={accordions[TABS.location]}
+                    onAccordionItemToggled={expanded => {
                       accordionChange(TABS.location, expanded);
                     }}
                   >
                     <LocationSearchForm smallScreen />
-                  </AccordionItem>
+                  </VaAccordionItem>
                   {!error && smallScreen && tabbedResults[tab]}
-                </div>
+                </VaAccordion>
               )}
           </div>
         </div>

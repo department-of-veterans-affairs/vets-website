@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -46,6 +47,19 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'pa-10206-',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/records',
+        label: 'Records',
+      },
+      {
+        href: '/request-personal-records-form-20-10206',
+        label: 'Request personal records',
+      },
+    ],
+  }),
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
@@ -85,7 +99,6 @@ const formConfig = {
       enum: [true],
     },
   },
-  v3SegmentedProgressBar: true,
   chapters: {
     preparerTypeChapter: {
       title: 'Your personal information',

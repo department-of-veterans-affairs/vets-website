@@ -21,7 +21,7 @@ class IntroductionPage extends React.Component {
           subTitle="Web component v3 patterns for testing and development"
         />
         <div>
-          <h3>Pages</h3>
+          <h2 className="vads-u-font-size--h3">Pages</h2>
           <ul>
             <li>
               <Link to="/chapter-select">Chapter select</Link>

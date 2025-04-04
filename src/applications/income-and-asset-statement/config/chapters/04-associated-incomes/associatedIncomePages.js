@@ -22,7 +22,7 @@ import {
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'associatedIncomes',
   nounSingular: 'income and net worth associated with financial accounts',
   nounPlural: 'incomes and net worth associated with financial accounts',

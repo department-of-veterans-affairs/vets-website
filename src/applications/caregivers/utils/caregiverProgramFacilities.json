@@ -1,0 +1,670 @@
+{
+  "AK": [
+    {
+      "code": "463",
+      "label": "Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System"
+    }
+  ],
+  "AL": [
+    {
+      "code": "521",
+      "label": "Birmingham VA Medical Center"
+    },
+    {
+      "code": "619",
+      "label": "Central Alabama VA Medical Center-Montgomery"
+    },
+    {
+      "code": "679",
+      "label": "Tuscaloosa VA Medical Center"
+    }
+  ],
+  "AR": [
+    {
+      "code": "564",
+      "label": "Fayetteville VA Medical Center"
+    },
+    {
+      "code": "598",
+      "label": "John L. McClellan Memorial Veterans' Hospital"
+    }
+  ],
+  "AZ": [
+    {
+      "code": "644",
+      "label": "Carl T. Hayden Veterans' Administration Medical Center"
+    },
+    {
+      "code": "649",
+      "label": "Bob Stump Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "678",
+      "label": "Tucson VA Medical Center"
+    }
+  ],
+  "CA": [
+    {
+      "code": "570",
+      "label": "Fresno VA Medical Center"
+    },
+    {
+      "code": "600",
+      "label": "Tibor Rubin VA Medical Center"
+    },
+    {
+      "code": "605",
+      "label": "Jerry L. Pettis Memorial Veterans' Hospital"
+    },
+    {
+      "code": "612A4",
+      "label": "Sacramento VA Medical Center"
+    },
+    {
+      "code": "640",
+      "label": "Palo Alto VA Medical Center"
+    },
+    {
+      "code": "662",
+      "label": "San Francisco VA Medical Center"
+    },
+    {
+      "code": "664",
+      "label": "Jennifer Moreno Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "691",
+      "label": "West Los Angeles VA Medical Center"
+    }
+  ],
+  "CO": [
+    {
+      "code": "554",
+      "label": "Rocky Mountain Regional VA Medical Center"
+    },
+    {
+      "code": "575",
+      "label": "Grand Junction VA Medical Center"
+    }
+  ],
+  "CT": [
+    {
+      "code": "689",
+      "label": "West Haven VA Medical Center"
+    }
+  ],
+  "DC": [
+    {
+      "code": "688",
+      "label": "Washington VA Medical Center"
+    }
+  ],
+  "DE": [
+    {
+      "code": "460",
+      "label": "Wilmington VA Medical Center"
+    }
+  ],
+  "FL": [
+    {
+      "code": "516",
+      "label": "C.W. Bill Young Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "546",
+      "label": "Bruce W. Carter Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "548",
+      "label": "Thomas H. Corey VA Medical Center"
+    },
+    {
+      "code": "573",
+      "label": "Malcom Randall Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "673",
+      "label": "James A. Haley Veterans' Hospital"
+    },
+    {
+      "code": "675",
+      "label": "Orlando VA Medical Center"
+    }
+  ],
+  "GA": [
+    {
+      "code": "508",
+      "label": "Joseph Maxwell Cleland Atlanta VA Medical Center"
+    },
+    {
+      "code": "509",
+      "label": "Charlie Norwood Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "557",
+      "label": "Carl Vinson Veterans' Administration Medical Center"
+    }
+  ],
+  "HI": [
+    {
+      "code": "459",
+      "label": "Spark M. Matsunaga Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "IA": [
+    {
+      "code": "636A6",
+      "label": "Des Moines VA Medical Center"
+    },
+    {
+      "code": "636A8",
+      "label": "Iowa City VA Medical Center"
+    }
+  ],
+  "ID": [
+    {
+      "code": "531",
+      "label": "Boise VA Medical Center"
+    }
+  ],
+  "IL": [
+    {
+      "code": "537",
+      "label": "Jesse Brown Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "550",
+      "label": "Danville VA Medical Center"
+    },
+    {
+      "code": "556",
+      "label": "Captain James A. Lovell Federal Health Care Center"
+    },
+    {
+      "code": "578",
+      "label": "Edward Hines Junior Hospital"
+    },
+    {
+      "code": "657A5",
+      "label": "Marion VA Medical Center"
+    }
+  ],
+  "IN": [
+    {
+      "code": "583",
+      "label": "Richard L. Roudebush Veterans' Administration Medical Center"
+    },
+    {
+      "code": "610",
+      "label": "Marion VA Medical Center"
+    }
+  ],
+  "KS": [
+    {
+      "code": "589A5",
+      "label": "Colmery-O'Neil Veterans' Administration Medical Center"
+    },
+    {
+      "code": "589A6",
+      "label": "Dwight D. Eisenhower Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "589A7",
+      "label": "Robert J. Dole Department of Veterans Affairs Medical and Regional Office Center"
+    }
+  ],
+  "KY": [
+    {
+      "code": "596",
+      "label": "Franklin R. Sousley Campus"
+    },
+    {
+      "code": "603",
+      "label": "Robley Rex Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "LA": [
+    {
+      "code": "502",
+      "label": "Alexandria VA Medical Center"
+    },
+    {
+      "code": "629",
+      "label": "New Orleans VA Medical Center"
+    },
+    {
+      "code": "667",
+      "label": "Overton Brooks Veterans' Administration Medical Center"
+    }
+  ],
+  "MA": [
+    {
+      "code": "518",
+      "label": "Edith Nourse Rogers Memorial Veterans' Hospital"
+    },
+    {
+      "code": "523",
+      "label": "Jamaica Plain VA Medical Center"
+    },
+    {
+      "code": "631",
+      "label": "Edward P. Boland Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "MD": [
+    {
+      "code": "512",
+      "label": "Baltimore VA Medical Center"
+    }
+  ],
+  "ME": [
+    {
+      "code": "402",
+      "label": "Togus VA Medical Center"
+    }
+  ],
+  "MI": [
+    {
+      "code": "506",
+      "label": "Lieutenant Colonel Charles S. Kettles VA Medical Center"
+    },
+    {
+      "code": "515",
+      "label": "Battle Creek VA Medical Center"
+    },
+    {
+      "code": "553",
+      "label": "John D. Dingell Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "585",
+      "label": "Oscar G. Johnson Department of Veterans Affairs Medical Facility"
+    },
+    {
+      "code": "655",
+      "label": "Aleda E. Lutz Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "MN": [
+    {
+      "code": "618",
+      "label": "Minneapolis VA Medical Center"
+    },
+    {
+      "code": "656",
+      "label": "St. Cloud VA Medical Center"
+    }
+  ],
+  "MO": [
+    {
+      "code": "589",
+      "label": "Kansas City VA Medical Center"
+    },
+    {
+      "code": "589A4",
+      "label": "Harry S. Truman Memorial Veterans' Hospital"
+    },
+    {
+      "code": "657",
+      "label": "John J. Cochran Veterans Hospital"
+    },
+    {
+      "code": "657A4",
+      "label": "John J. Pershing Veterans' Administration Medical Center"
+    }
+  ],
+  "MS": [
+    {
+      "code": "520",
+      "label": "Biloxi VA Medical Center"
+    },
+    {
+      "code": "586",
+      "label": "G.V. (Sonny) Montgomery Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "MT": [
+    {
+      "code": "436",
+      "label": "Fort Harrison VA Medical Center"
+    }
+  ],
+  "NC": [
+    {
+      "code": "558",
+      "label": "Durham VA Medical Center"
+    },
+    {
+      "code": "565",
+      "label": "Fayetteville VA Medical Center"
+    },
+    {
+      "code": "637",
+      "label": "Charles George Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "659",
+      "label": "W.G. (Bill) Hefner Salisbury Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "ND": [
+    {
+      "code": "437",
+      "label": "Fargo VA Medical Center"
+    }
+  ],
+  "NE": [
+    {
+      "code": "636",
+      "label": "Omaha VA Medical Center"
+    }
+  ],
+  "NH": [
+    {
+      "code": "608",
+      "label": "Manchester VA Medical Center"
+    }
+  ],
+  "NJ": [
+    {
+      "code": "561",
+      "label": "East Orange VA Medical Center"
+    }
+  ],
+  "NM": [
+    {
+      "code": "501",
+      "label": "Raymond G. Murphy Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "NV": [
+    {
+      "code": "593",
+      "label": "North Las Vegas VA Medical Center"
+    },
+    {
+      "code": "654",
+      "label": "Ioannis A. Lougaris Veterans' Administration Medical Center"
+    }
+  ],
+  "NY": [
+    {
+      "code": "526",
+      "label": "James J. Peters Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "528",
+      "label": "Buffalo VA Medical Center"
+    },
+    {
+      "code": "528A5",
+      "label": "Canandaigua VA Medical Center"
+    },
+    {
+      "code": "528A6",
+      "label": "Bath VA Medical Center"
+    },
+    {
+      "code": "528A7",
+      "label": "Syracuse VA Medical Center"
+    },
+    {
+      "code": "528A8",
+      "label": "Samuel S. Stratton Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "620",
+      "label": "Franklin Delano Roosevelt Hospital"
+    },
+    {
+      "code": "630",
+      "label": "Margaret Cochran Corbin VA Campus"
+    },
+    {
+      "code": "632",
+      "label": "Northport VA Medical Center"
+    }
+  ],
+  "OH": [
+    {
+      "code": "538",
+      "label": "Chillicothe VA Medical Center"
+    },
+    {
+      "code": "539",
+      "label": "Cincinnati VA Medical Center"
+    },
+    {
+      "code": "541",
+      "label": "Louis Stokes Cleveland Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "552",
+      "label": "Dayton VA Medical Center"
+    },
+    {
+      "code": "757",
+      "label": "Chalmers P. Wylie Veterans Outpatient Clinic"
+    }
+  ],
+  "OK": [
+    {
+      "code": "623",
+      "label": "Jack C. Montgomery Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "635",
+      "label": "Oklahoma City VA Medical Center"
+    }
+  ],
+  "OR": [
+    {
+      "code": "648",
+      "label": "Portland VA Medical Center"
+    },
+    {
+      "code": "653",
+      "label": "Roseburg VA Medical Center"
+    },
+    {
+      "code": "692",
+      "label": "White City VA Medical Center"
+    }
+  ],
+  "PA": [
+    {
+      "code": "503",
+      "label": "James E. Van Zandt Veterans' Administration Medical Center"
+    },
+    {
+      "code": "529",
+      "label": "Abie Abraham VA Clinic"
+    },
+    {
+      "code": "542",
+      "label": "Coatesville VA Medical Center"
+    },
+    {
+      "code": "562",
+      "label": "Erie VA Medical Center"
+    },
+    {
+      "code": "595",
+      "label": "Lebanon VA Medical Center"
+    },
+    {
+      "code": "642",
+      "label": "Corporal Michael J. Crescenz Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "646",
+      "label": "Pittsburgh VA Medical Center-University Drive"
+    },
+    {
+      "code": "693",
+      "label": "Wilkes-Barre VA Medical Center"
+    }
+  ],
+  "PR": [
+    {
+      "code": "672",
+      "label": "San Juan VA Medical Center"
+    }
+  ],
+  "RI": [
+    {
+      "code": "650",
+      "label": "Providence VA Medical Center"
+    }
+  ],
+  "SC": [
+    {
+      "code": "534",
+      "label": "Ralph H. Johnson Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "544",
+      "label": "Wm. Jennings Bryan Dorn Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "SD": [
+    {
+      "code": "438",
+      "label": "Royal C. Johnson Veterans' Memorial Hospital"
+    },
+    {
+      "code": "568",
+      "label": "Fort Meade VA Medical Center"
+    }
+  ],
+  "TN": [
+    {
+      "code": "614",
+      "label": "Lt. Col. Luke Weathers, Jr. VA Medical Center"
+    },
+    {
+      "code": "621",
+      "label": "James H. Quillen Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "626",
+      "label": "Nashville VA Medical Center"
+    }
+  ],
+  "TX": [
+    {
+      "code": "504",
+      "label": "Thomas E. Creek Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "519",
+      "label": "George H. O'Brien, Jr., Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "549",
+      "label": "Dallas VA Medical Center"
+    },
+    {
+      "code": "580",
+      "label": "Michael E. DeBakey Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "671",
+      "label": "Audie L. Murphy Memorial Veterans' Hospital"
+    },
+    {
+      "code": "674",
+      "label": "Olin E. Teague Veterans' Center"
+    },
+    {
+      "code": "740",
+      "label": "Harlingen VA Clinic"
+    },
+    {
+      "code": "756",
+      "label": "El Paso VA Clinic"
+    }
+  ],
+  "UT": [
+    {
+      "code": "660",
+      "label": "George E. Wahlen Department of Veterans Affairs Medical Center"
+    }
+  ],
+  "VA": [
+    {
+      "code": "590",
+      "label": "Hampton VA Medical Center"
+    },
+    {
+      "code": "652",
+      "label": "Richmond VA Medical Center"
+    },
+    {
+      "code": "658",
+      "label": "Salem VA Medical Center"
+    }
+  ],
+  "VT": [
+    {
+      "code": "405",
+      "label": "White River Junction VA Medical Center"
+    }
+  ],
+  "WA": [
+    {
+      "code": "663",
+      "label": "Seattle VA Medical Center"
+    },
+    {
+      "code": "668",
+      "label": "Mann-Grandstaff Department of Veterans Affairs Medical Center"
+    },
+    {
+      "code": "687",
+      "label": "Jonathan M. Wainwright Memorial VA Medical Center"
+    }
+  ],
+  "WI": [
+    {
+      "code": "607",
+      "label": "William S. Middleton Memorial Veterans' Hospital"
+    },
+    {
+      "code": "676",
+      "label": "Tomah VA Medical Center"
+    },
+    {
+      "code": "695",
+      "label": "Clement J. Zablocki Veterans' Administration Medical Center"
+    }
+  ],
+  "WV": [
+    {
+      "code": "517",
+      "label": "Beckley VA Medical Center"
+    },
+    {
+      "code": "540",
+      "label": "Louis A. Johnson Veterans' Administration Medical Center"
+    },
+    {
+      "code": "581",
+      "label": "Hershel \"Woody\" Williams VA Medical Center"
+    },
+    {
+      "code": "613",
+      "label": "Martinsburg VA Medical Center"
+    }
+  ],
+  "WY": [
+    {
+      "code": "442",
+      "label": "Cheyenne VA Medical Center"
+    },
+    {
+      "code": "666",
+      "label": "Sheridan VA Medical Center"
+    }
+  ]
+}

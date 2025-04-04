@@ -295,6 +295,7 @@
   "vaOnlineSchedulingMhvRouteGuards": "va_online_scheduling_mhv_route_guards",
   "vaOnlineSchedulingDirectScheduleAppointmentConflict": "va_online_scheduling_direct_schedule_appointment_conflict",
   "vaOnlineSchedulingDisplayPastCancelledAppointments": "va_online_scheduling_display_past_cancelled_appointments",
+  "vaOnlineSchedulingPatientHistoryFutureAppts": "va_online_scheduling_patient_history_future_appts",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",

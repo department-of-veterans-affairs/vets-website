@@ -101,6 +101,7 @@ export const ch3Pages = {
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRoleEducationPage.uiSchema,
     schema: yourRoleEducationPage.schema,
+    CustomPageReview: CustomPageReviewField,
   },
   moreAboutYourRelationshipToVeteran: {
     editModeOnReviewPage: false,

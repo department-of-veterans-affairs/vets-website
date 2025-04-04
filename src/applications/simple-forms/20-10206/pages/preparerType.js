@@ -19,6 +19,9 @@ export default {
         required: 'Select your identity',
       },
       labelHeaderLevel: '3',
+      ifMinimalHeader: {
+        labelHeaderLevel: '1',
+      },
     }),
     'view:additionalInfoPreparerType': {
       'ui:description': ADDITIONAL_INFO_THIRD_PARTY,

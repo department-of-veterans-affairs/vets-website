@@ -157,11 +157,13 @@ export const pagesToMoveConfig = {
   relationshipToTheVeteran: [
     'relationshipToVeteran',
     'moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember',
+    'moreAboutYourRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
     'isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember',
     'theirRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
     'yourRole_aboutsomeoneelserelationshipconnectedthroughwork',
     'yourRole_aboutsomeoneelserelationshipconnectedthroughworkeducation',
+    'yourRoleEducation_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'theirVREInformation_aboutsomeoneelserelationshipveteran',
     'theirVRECounselor_aboutsomeoneelserelationshipveteran',
   ],

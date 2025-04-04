@@ -12,29 +12,44 @@ const formMappings = {
       'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
   },
-  '21-509': {
-    subTitle: 'Statement of Dependency of Parent(s)',
-    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
-  },
   '21-4192': {
     subTitle:
       'Request for Employment Information in Connection with Claim for Disability Benefits',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf',
+  },
+  '21-509': {
+    subTitle: 'Statement of Dependency of Parent(s)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
   },
   '21-8940': {
     subTitle:
       'Application for Increased Compensation Based on Un-employability',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf',
   },
+  '21P-0516-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Veteran with No Children)',
+    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
+  },
+  '21P-0517-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Veteran with Children)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-0517-1-ARE.pdf',
+  },
   '21P-0518-1': {
     subTitle:
       'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0518-1-ARE.pdf',
   },
-  '21P-0516-1': {
+  '21P-0519C-1': {
     subTitle:
-      'Improved Pension Eligibility Verification Report (Veteran with No Children)',
-    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
+      'Improved Pension Eligibility Verification Report (Child or Children)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-0519C-1-ARE.pdf',
+  },
+  '21P-0519S-1': {
+    subTitle:
+      'Improved Pension Eligibility Verification Report (Surviving Spouse with Children)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-0519S-1-ARE.pdf',
   },
   '21P-530a': {
     subTitle:

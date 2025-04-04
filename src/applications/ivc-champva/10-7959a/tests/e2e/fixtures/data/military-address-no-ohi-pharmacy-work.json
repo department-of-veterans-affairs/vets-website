@@ -41,6 +41,7 @@
       "suffix": "Sr."
     },
     "certifierRole": "applicant",
+    "certifierReceivedPacket": true,
     "missingUploads": [
       {
         "name": "pharmacyUpload",

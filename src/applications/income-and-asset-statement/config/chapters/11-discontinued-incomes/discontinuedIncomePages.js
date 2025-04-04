@@ -23,7 +23,7 @@ import {
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'discontinuedIncomes',
   nounSingular: 'discontinued income',
   nounPlural: 'discontinued incomes',

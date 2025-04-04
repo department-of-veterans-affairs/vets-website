@@ -10,7 +10,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
-  const { ombInfo, route } = props;
+  const { introParagraph, ombInfo, route, whatToKnow = [] } = props;
   const { formConfig, pageList } = route;
 
   useEffect(() => {
@@ -19,62 +19,19 @@ const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title={formConfig.title} />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the Application"
-        hideUnauthedStartLink
-      >
-        Please complete the form to apply for benefits.
-      </SaveInProgressIntro>
+      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+      <p>{introParagraph}</p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
+        What to know before you fill out this form
       </h2>
-      <va-process-list>
-        <li>
-          <h3>Prepare</h3>
-          <h4>To fill out this application, you’ll need your:</h4>
-          <ul>
-            <li>Social Security number (required)</li>
-          </ul>
-          <p>
-            <strong>What if I need help filling out my application?</strong> An
-            accredited representative, like a Veterans Service Officer (VSO),
-            can help you fill out your claim.{' '}
-            <a href="/disability-benefits/apply/help/index.html">
-              Get help filing your claim
-            </a>
-          </p>
-        </li>
-        <li>
-          <h3>Apply</h3>
-          <p>Complete this benefits form.</p>
-          <p>
-            After submitting the form, you’ll get a confirmation message. You
-            can print this for your records.
-          </p>
-        </li>
-        <li>
-          <h3>VA Review</h3>
-          <p>
-            We process claims within a week. If more than a week has passed
-            since you submitted your application and you haven’t heard back,
-            please don’t apply again. Call us at.
-          </p>
-        </li>
-        <li>
-          <h3>Decision</h3>
-          <p>
-            Once we’ve processed your claim, you’ll get a notice in the mail
-            with our decision.
-          </p>
-        </li>
-      </va-process-list>
+      <div className="process schemaform-process">
+        <ul>
+          {whatToKnow.map((bullet, index) => (
+            <li key={index}>{bullet}</li>
+          ))}
+        </ul>
+      </div>
       <SaveInProgressIntro
-        buttonOnly
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
@@ -105,6 +62,7 @@ const IntroductionPage = props => {
 };
 
 IntroductionPage.propTypes = {
+  introParagraph: PropTypes.string,
   ombInfo: PropTypes.shape({
     expDate: PropTypes.string,
     ombNumber: PropTypes.string,
@@ -114,10 +72,12 @@ IntroductionPage.propTypes = {
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
       savedFormMessages: PropTypes.shape({}),
+      subTitle: PropTypes.string,
       title: PropTypes.string,
     }),
     pageList: PropTypes.array,
   }),
+  whatToKnow: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default IntroductionPage;

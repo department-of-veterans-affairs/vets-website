@@ -32,10 +32,10 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Use this form to submit a formal statement to support your VA claim—or the
-      claim of another Veteran or eligible family member. People also sometimes
-      call this statement a “buddy statement.”
+    <p className="va-introtext">
+      Use this form to submit a formal statement to support your VA claim or the
+      claim of another Veteran or eligible family member. People sometimes refer
+      to this statement as a "buddy statement."
     </p>
     <h2>What to know before you complete this form</h2>
     <ul>

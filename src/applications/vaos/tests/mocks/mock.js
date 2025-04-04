@@ -42,6 +42,7 @@ export function getVAOSRequestMock() {
       start: null,
       status: 'proposed',
       telehealth: null,
+      type: 'REQUEST',
     },
   };
 }

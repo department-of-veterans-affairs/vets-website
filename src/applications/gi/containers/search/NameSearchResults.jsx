@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
+  VaAccordion,
   VaLoadingIndicator,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -128,25 +129,36 @@ export function NameSearchResults({
             >
               Showing {count} search results for "<strong>{name}</strong>"
             </p>
-
             {!smallScreen &&
               environment.isProduction() && (
                 <div className="column small-4 vads-u-padding--0">
-                  <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                  <FilterYourResults
-                    smallScreen={smallScreen}
-                    searchType="name"
-                  />
+                  <VaAccordion>
+                    <TuitionAndHousingEstimates
+                      smallScreen={smallScreen}
+                      bordered
+                    />
+                    <FilterYourResults
+                      smallScreen={smallScreen}
+                      searchType="name"
+                      bordered
+                    />
+                  </VaAccordion>
                 </div>
               )}
             {!smallScreen &&
               !environment.isProduction() && (
                 <div className="column small-4 vads-u-padding--0">
-                  <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                  <FilterYourResults
-                    smallScreen={smallScreen}
-                    searchType="name"
-                  />
+                  <VaAccordion>
+                    <TuitionAndHousingEstimates
+                      smallScreen={smallScreen}
+                      bordered
+                    />
+                    <FilterYourResults
+                      smallScreen={smallScreen}
+                      searchType="name"
+                      bordered
+                    />
+                  </VaAccordion>
                 </div>
               )}
             {/* {!smallScreen &&

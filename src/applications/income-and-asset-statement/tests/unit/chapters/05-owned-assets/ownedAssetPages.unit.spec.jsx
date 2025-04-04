@@ -1,14 +1,41 @@
 import formConfig from '../../../../config/form';
-import { ownedAssetPages } from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+import {
+  ownedAssetPages,
+  options,
+} from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+import { ownedAssetTypeLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import {
+  testOptionsIsItemIncomplete,
+  testOptionsTextGetItemName,
+  testOptionsTextCardDescription,
+} from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
 describe('owned asset list and loop pages', () => {
   const { ownedAssetPagesSummary } = ownedAssetPages;
+
+  describe('isItemIncomplete function', () => {
+    // eslint-disable-next-line no-unused-vars
+    const { recipientName, ...baseItem } = testData.data.ownedAssets[0];
+    testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('text getItemName function', () => {
+    testOptionsTextGetItemName(options);
+  });
+
+  describe('text cardDescription function', () => {
+    // prettier-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { recipientRelationship, recipientName, ...baseItem } = testData.data.ownedAssets[0];
+    testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+  });
 
   describe('summary page', () => {
     const { schema, uiSchema } = ownedAssetPagesSummary;
@@ -17,30 +44,121 @@ describe('owned asset list and loop pages', () => {
       schema,
       uiSchema,
       { 'va-radio': 1 },
-      'owned asset summary page',
+      'summary page',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
       1,
-      'owned asset summary page',
+      'summary page',
     );
     testSubmitsWithoutErrors(
       formConfig,
       schema,
       uiSchema,
-      'owned asset summary page',
+      'summary page',
       testData.data,
       { loggedIn: true },
     );
   });
 
-  describe('income recipient page', () => {
-    //  Add unit tests for this page
+  describe('asset recipient page', () => {
+    const schema =
+      ownedAssetPages.ownedAssetRecipientPage.schema.properties.ownedAssets
+        .items;
+    const uiSchema =
+      ownedAssetPages.ownedAssetRecipientPage.uiSchema.ownedAssets.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-radio': 1 },
+      'recipient',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      testData.data.ownedAssets[0],
+      { loggedIn: true },
+    );
+    testSelectAndValidateField(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      'root_otherRecipientRelationshipType',
+    );
   });
 
-  describe('income type page', () => {
-    //  Add unit tests for this page
+  describe('recipient name page', () => {
+    const schema =
+      ownedAssetPages.ownedAssetRecipientNamePage.schema.properties.ownedAssets
+        .items;
+    const uiSchema =
+      ownedAssetPages.ownedAssetRecipientNamePage.uiSchema.ownedAssets.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-text-input': 1 },
+      'recipient',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'recipient',
+      testData.data.ownedAssets[0],
+      { loggedIn: true },
+    );
+  });
+
+  describe('asset type page', () => {
+    const schema =
+      ownedAssetPages.ownedAssetTypePage.schema.properties.ownedAssets.items;
+    const uiSchema =
+      ownedAssetPages.ownedAssetTypePage.uiSchema.ownedAssets.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-radio': 1, 'va-text-input': 0, input: 2 },
+      'asset type',
+    );
+    testNumberOfErrorsOnSubmitForWebComponents(
+      formConfig,
+      schema,
+      uiSchema,
+      1,
+      'asset type',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'asset type',
+      testData.data.ownedAssets[0],
+      { loggedIn: true },
+    );
   });
 });

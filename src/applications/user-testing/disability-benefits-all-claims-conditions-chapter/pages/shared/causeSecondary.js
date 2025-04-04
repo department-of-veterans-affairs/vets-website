@@ -37,9 +37,8 @@ const causeSecondaryPage = {
     causedByCondition: selectUI({
       title:
         'Choose the service-connected disability or condition that caused your new condition.',
-      updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
-        return selectSchema(getOtherConditions(fullData, index));
-      },
+      updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) =>
+        selectSchema(getOtherConditions(fullData, index)),
     }),
     causedByConditionDescription: textareaUI({
       title:

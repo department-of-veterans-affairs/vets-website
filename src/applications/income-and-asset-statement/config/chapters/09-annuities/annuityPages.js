@@ -20,7 +20,7 @@ import {
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'annuities',
   nounSingular: 'Annuity',
   nounPlural: 'Annuities',

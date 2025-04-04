@@ -4,10 +4,12 @@
   "formData": {
     "veteranSsn": "234232345",
     "postalCode": "12345",
+    "veteranDateOfBirth": "1932-02-05",
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
+    "claimantFullName": {},
     "formNumber": "21-686c",
     "email": "john@veteran.com"
   }

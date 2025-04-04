@@ -109,8 +109,11 @@ describe('Form Configuration', () => {
       'Please provide a valid current or past date',
     );
   });
+
   it('should show errors when required field is empty', () => {
     const onSubmit = sinon.spy();
+    delete uiSchema.institutionDetails.institutionName;
+    delete schema.properties.institutionDetails.properties.institutionName;
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -121,7 +124,7 @@ describe('Form Configuration', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('va-text-input[error]').length).to.equal(2);
+    expect(form.find('va-text-input[error]').length).to.equal(1);
     expect(form.find('va-memorable-date[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();

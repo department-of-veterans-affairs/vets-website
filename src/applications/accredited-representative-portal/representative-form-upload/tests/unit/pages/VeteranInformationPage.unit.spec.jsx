@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { NameAndZipCodePage } from '../../../pages/nameAndZipCode';
+import { VeteranInformationPage } from '../../../pages/veteranInformation';
 
-describe('NameAndZipCodePage', () => {
-  const subject = () => render(<NameAndZipCodePage />);
+describe('VeteranInformationPage', () => {
+  const subject = () => render(<VeteranInformationPage />);
 
   it('renders successfully', () => {
     const { container } = subject();

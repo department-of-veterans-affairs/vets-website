@@ -4,6 +4,7 @@ import {
   VaRadio,
   VaRadioOption,
   VaLoadingIndicator,
+  VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -11,6 +12,8 @@ import {
   formatStatus,
   resolutionDate,
   BANNER_TYPES,
+  DETAILS_BC_LABEL,
+  poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
@@ -169,6 +172,11 @@ const POARequestDetailsPage = title => {
 
   return (
     <>
+      <VaBreadcrumbs
+        breadcrumbList={poaDetailsBreadcrumbs}
+        label={DETAILS_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       {navigation.state === 'loading' ? (
         <VaLoadingIndicator message="Loading..." />
       ) : (

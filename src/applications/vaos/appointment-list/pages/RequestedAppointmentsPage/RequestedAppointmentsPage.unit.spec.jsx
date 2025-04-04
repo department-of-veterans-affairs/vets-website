@@ -18,6 +18,7 @@ const initialStateVAOSService = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
     vaOnlineSchedulingFeSourceOfTruth: true,
+    vaOnlineSchedulingFeSourceOfTruthVA: true,
   },
 };
 
@@ -38,6 +39,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      ...appointment.attributes,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -78,6 +80,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       status: 'proposed',
       pending: true,
     };
+
     // And developer is using the v2 API
     mockVAOSAppointmentsFetch({
       start: format(subDays(now, 120), 'yyyy-MM-dd'),
@@ -99,6 +102,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       'Appointments that you request will show here until staff review and schedule them.',
     );
   });
+
   it('should show cc request', async () => {
     // Given a veteran has CC appointment request
     // practitioners.id is same as practitioners.identifier
@@ -160,6 +164,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      ...appointment.attributes,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -247,6 +252,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      ...appointment.attributes,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -341,6 +347,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      ...appointment.attributes,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -456,6 +463,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      ...appointment.attributes,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -558,6 +566,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       featureToggles: {
         ...initialStateVAOSService.featureToggles,
         vaOnlineSchedulingFeSourceOfTruth: false,
+        vaOnlineSchedulingFeSourceOfTruthVA: true,
       },
     };
 
@@ -566,6 +575,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       const appointment = getVAOSRequestMock();
       appointment.id = '1234';
       appointment.attributes = {
+        ...appointment.attributes,
         comment: 'A message from the patient',
         contact: {
           telecom: [

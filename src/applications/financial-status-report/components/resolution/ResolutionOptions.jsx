@@ -6,14 +6,13 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { RESOLUTION_OPTION_TYPES, DEBT_TYPES } from '../../constants';
+import { DEBT_TYPES } from '../../constants';
 import { setFocus, isNullOrUndefinedOrEmpty } from '../../utils/fileValidation';
 
 const ResolutionOptions = ({ formContext }) => {
   const dispatch = useDispatch();
   const [selectionError, setSelectionError] = useState(null);
   const formData = useSelector(state => state.form.data);
-  const isEditing = formContext.onReviewPage ? !formContext.reviewMode : true;
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
@@ -58,20 +57,8 @@ const ResolutionOptions = ({ formContext }) => {
 
   const waiverText = `If we approve your request, we’ll stop collection and waive the debt.`;
   const monthlyText = `If we approve your request, you can make smaller monthly payments for up to 5 years with either monthly offsets or a monthly payment plan.`;
-  const compromiseText = `If you can’t pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`;
-
-  const renderResolutionSelectionText = () => {
-    switch (currentDebt.resolutionOption) {
-      case RESOLUTION_OPTION_TYPES.WAIVER:
-        return waiverText;
-      case RESOLUTION_OPTION_TYPES.MONTHLY:
-        return monthlyText;
-      case RESOLUTION_OPTION_TYPES.COMPROMISE:
-        return compromiseText;
-      default:
-        return <></>;
-    }
-  };
+  const debtCompromiseText = `If you can’t pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`;
+  const copayCompromiseText = `If you are unable to pay your account in full you may be eligible for a compromise which is a smaller payment no less than 50% of your balance. This payment must be made in full within 30 days of approval.`;
 
   const label = 'Select relief option: ';
   const debtOptions = [
@@ -88,7 +75,7 @@ const ResolutionOptions = ({ formContext }) => {
     {
       value: 'compromise',
       label: 'Compromise',
-      description: compromiseText,
+      description: debtCompromiseText,
     },
   ];
 
@@ -101,67 +88,64 @@ const ResolutionOptions = ({ formContext }) => {
     {
       value: 'compromise',
       label: 'Compromise',
-      description: compromiseText,
+      description: copayCompromiseText,
     },
   ];
 
   return (
     <div>
-      {!isEditing && <>{renderResolutionSelectionText()}</>}
-      {isEditing && (
-        <VaRadio
-          className="vads-u-margin-y-top--2 resolution-option-radio"
-          label={label}
-          onVaValueChange={onResolutionChange}
-          error={selectionError}
-          required
-        >
-          {currentDebt.debtType !== DEBT_TYPES.COPAY &&
-            debtOptions.map((option, index) => (
-              <VaRadioOption
-                key={`${option.value}-${index}`}
-                id={`resolution-option-${index}`}
-                description={option.description}
-                name="resolution-option"
-                label={option.label}
-                value={option.value}
-                checked={currentDebt.resolutionOption === option.value}
-                ariaDescribedby={
-                  currentDebt.resolutionOption === option.value
-                    ? option.value
-                    : null
-                }
-              />
-            ))}
-          {currentDebt.debtType === DEBT_TYPES.COPAY &&
-            copayOptions.map((option, index) => (
-              <VaRadioOption
-                key={`${option.value}-${index}`}
-                id={`resolution-option-${index}`}
-                description={option.description}
-                name="resolution-option"
-                label={option.label}
-                value={option.value}
-                checked={currentDebt.resolutionOption === option.value}
-                ariaDescribedby={
-                  currentDebt.resolutionOption === option.value
-                    ? option.value
-                    : null
-                }
-              />
-            ))}
-        </VaRadio>
-      )}
+      <VaRadio
+        className="vads-u-margin-y-top--2 resolution-option-radio"
+        label={label}
+        onVaValueChange={onResolutionChange}
+        error={selectionError}
+        required
+      >
+        {currentDebt.debtType !== DEBT_TYPES.COPAY &&
+          debtOptions.map((option, index) => (
+            <VaRadioOption
+              key={`${option.value}-${index}`}
+              id={`resolution-option-${index}`}
+              description={option.description}
+              name="resolution-option"
+              label={option.label}
+              value={option.value}
+              checked={currentDebt.resolutionOption === option.value}
+              ariaDescribedby={
+                currentDebt.resolutionOption === option.value
+                  ? option.value
+                  : null
+              }
+            />
+          ))}
+        {currentDebt.debtType === DEBT_TYPES.COPAY &&
+          copayOptions.map((option, index) => (
+            <VaRadioOption
+              key={`${option.value}-${index}`}
+              id={`resolution-option-${index}`}
+              description={option.description}
+              name="resolution-option"
+              label={option.label}
+              value={option.value}
+              checked={currentDebt.resolutionOption === option.value}
+              ariaDescribedby={
+                currentDebt.resolutionOption === option.value
+                  ? option.value
+                  : null
+              }
+            />
+          ))}
+      </VaRadio>
     </div>
   );
 };
 
 ResolutionOptions.propTypes = {
-  formContext: PropTypes.object,
-  option: PropTypes.object,
-  label: PropTypes.string,
-  formData: PropTypes.object,
   currentDebt: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  label: PropTypes.string,
+  option: PropTypes.object,
 };
 
 export default ResolutionOptions;
