@@ -432,6 +432,7 @@ describe('addForm0781', () => {
         },
       ],
       mentalHealthWorkflowChoice: 'optOutOfForm0781',
+      syncModern0781Flow: true,
     };
 
     const result = addForm0781(formData);
@@ -769,6 +770,25 @@ describe('addForm0781V2', () => {
     optionIndicator: 'option1',
     additionalInformation: 'info',
   };
+
+  it('should delete 0781 form data if user opted out', () => {
+    const data = {
+      ...formData,
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+    };
+    const expectedResult = {
+      form0781: {
+        treatmentProvidersDetails: [],
+        treatmentReceivedNonVaProvider: true,
+        treatmentReceivedVaProvider: true,
+      },
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+      syncModern0781Flow: true,
+    };
+
+    const result = addForm0781V2(data);
+    expect(result).to.deep.equal(expectedResult);
+  });
 
   it('should return the same object if syncModern0781Flow is false', () => {
     const formDataSyncModern0781False = {

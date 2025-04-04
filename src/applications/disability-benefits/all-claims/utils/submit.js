@@ -368,11 +368,13 @@ export const delete0781FormData = formData => {
   // Workaround to avoid eslint rule around mutating params/args
   const data = formData;
   delete data.events;
+  delete data.eventTypes;
   delete data.workBehaviors;
   delete data.otherBehaviors;
   delete data.healthBehaviors;
   delete data.workBehaviorChanges;
   delete data.socialBehaviorChanges;
+  delete data.behaviorsDetails;
   delete data.supportingEvidenceRecords;
   delete data.supportingEvidenceReports;
   delete data.supportingEvidenceUnlisted;
@@ -381,11 +383,16 @@ export const delete0781FormData = formData => {
   delete data.supportingEvidenceNoneCheckbox;
   delete data.optionIndicator;
   delete data.additionalRemarks781;
+  delete data.treatmentNoneCheckbox;
+  delete data.additionalInformation;
   data.vaTreatmentFacilities.forEach((facility, index, object) => {
     if (facility.treatmentLocation0781Related) {
       object.splice(index, 1);
     }
   });
+  if (data.vaTreatmentFacilities.length === 0) {
+    delete data.vaTreatmentFacilities;
+  }
 };
 
 export const addForm0781 = formData => {
