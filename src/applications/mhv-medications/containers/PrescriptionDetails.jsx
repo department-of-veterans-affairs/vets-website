@@ -332,7 +332,7 @@ const PrescriptionDetails = () => {
           visible={pendingMed}
           id="pending-med"
           status={`${orderedMoreThanSevenDaysAgo() ? 'warning' : 'info'}`}
-          setFocus
+          set-focus
           uswds
           class={
             pendingMed
@@ -496,7 +496,7 @@ const PrescriptionDetails = () => {
     return (
       <va-loading-indicator
         message="Loading your medication record..."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     );

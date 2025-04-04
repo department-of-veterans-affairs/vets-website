@@ -57,7 +57,7 @@ const RefillNotification = ({ refillStatus }) => {
         visible={isNotSubmitted}
         id="failed-refill"
         status="error"
-        setFocus
+        set-focus
         uswds
         class={isNotSubmitted ? 'vads-u-margin-y--1' : ''}
       >
@@ -77,7 +77,7 @@ const RefillNotification = ({ refillStatus }) => {
         visible={isPartiallySubmitted}
         id="partial-refill"
         status="error"
-        setFocus
+        set-focus
         uswds
         class={isPartiallySubmitted ? 'vads-u-margin-y--2' : ''}
       >
@@ -114,7 +114,7 @@ const RefillNotification = ({ refillStatus }) => {
         visible={isSuccess}
         id="success-refill"
         status="success"
-        setFocus
+        set-focus
         uswds
         class={isSuccess ? 'vads-u-margin-y--2' : ''}
       >

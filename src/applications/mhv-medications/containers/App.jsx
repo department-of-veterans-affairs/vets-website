@@ -61,7 +61,7 @@ const App = ({ children }) => {
         <MhvSecondaryNav />
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="rx-feature-flag-loading-indicator"
         />
       </div>

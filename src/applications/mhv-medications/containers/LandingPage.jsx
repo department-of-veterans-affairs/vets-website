@@ -676,7 +676,7 @@ const LandingPage = () => {
       <div className="vads-l-grid-container">
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="rx-feature-flag-loading-indicator"
         />
       </div>
