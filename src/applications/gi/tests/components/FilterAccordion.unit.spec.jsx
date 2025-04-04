@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
 import { cleanup } from '@testing-library/react';
-import LicenseCertificationFilterAccordion from '../../components/LicenseCertificationFilterAccordion';
+import FilterAccordion from '../../components/FilterAccordion';
 
-describe('<LicenseCertificationFilterAccordion>', () => {
+describe('<FilterAccordion>', () => {
   let store;
 
   beforeEach(() => {
@@ -33,7 +33,7 @@ describe('<LicenseCertificationFilterAccordion>', () => {
     return mount(
       <Provider store={store}>
         <MemoryRouter>
-          <LicenseCertificationFilterAccordion {...props} />
+          <FilterAccordion {...props} />
         </MemoryRouter>
       </Provider>,
     );
