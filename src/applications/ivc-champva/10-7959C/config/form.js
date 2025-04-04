@@ -57,7 +57,7 @@ import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview'
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any files have not been uploaded. Defaults to false (hide the page)
@@ -135,7 +135,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         formSignature: {
-          // initialData: mockdata.data,
+          initialData: mockdata.data,
           path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,

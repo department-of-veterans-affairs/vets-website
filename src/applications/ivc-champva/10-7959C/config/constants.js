@@ -35,4 +35,4 @@ export const officeAddress = (
     United States of America
   </>
 );
-export const officeFaxNum = '3033317807';
+export const officeFaxNum = '3033317808';
