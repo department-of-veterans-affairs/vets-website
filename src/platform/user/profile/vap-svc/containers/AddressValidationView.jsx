@@ -306,27 +306,21 @@ class AddressValidationView extends React.Component {
             <h5 className="vads-u-margin-top--3 vads-u-padding-top--0">
               Address you entered:
             </h5>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label
-              htmlFor={id}
-              className="vads-u-margin-top--0 vads-u-display--flex vads-u-align-items--center"
-            >
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--1p5">
-                <span
-                  className="dd-privacy-hidden"
-                  data-dd-action-name="street address"
-                >
-                  {street}
-                </span>
-                <span
-                  className="dd-privacy-hidden"
-                  data-dd-action-name="city, state and zip code"
-                >
-                  {cityStateZip}
-                </span>
-                <span>{country}</span>
-              </div>
-            </label>
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--1p5">
+              <span
+                className="dd-privacy-hidden"
+                data-dd-action-name="street address"
+              >
+                {street}
+              </span>
+              <span
+                className="dd-privacy-hidden"
+                data-dd-action-name="city, state and zip code"
+              >
+                {cityStateZip}
+              </span>
+              <span>{country}</span>
+            </div>
           </>
         )}
       </div>
