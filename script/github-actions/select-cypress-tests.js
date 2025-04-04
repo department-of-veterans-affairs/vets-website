@@ -148,7 +148,10 @@ function selectedTests(graph, pathsOfChangedFiles) {
   const tests = [];
   const applications = [];
   const applicationNames = pathsOfChangedFiles
-    .filter(filePath => !filePath.endsWith('.md'))
+    .filter(
+      filePath =>
+        !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
+    )
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
