@@ -25,7 +25,8 @@ describe('<FilterAccordion>', () => {
     buttonOnClick: sinon.spy(),
     onClick: sinon.spy(),
     resetSearch: sinon.spy(),
-    expanded: false,
+    updateResults: sinon.spy(),
+    open: false,
     children: <div className="test-content">Filter content</div>,
   };
 
@@ -40,66 +41,41 @@ describe('<FilterAccordion>', () => {
   };
 
   it('should show update and clear buttons when expanded', () => {
-    const wrapper = mountComponent({ ...defaultProps, expanded: true });
+    const wrapper = mountComponent({ ...defaultProps, open: true });
     expect(wrapper.find('VaButton[text="Update Results"]')).to.have.lengthOf(1);
     expect(wrapper.find('ClearFiltersBtn')).to.have.lengthOf(1);
   });
 
-  it('should call buttonOnClick when update button is clicked', () => {
-    const wrapper = mountComponent({ ...defaultProps, expanded: true });
+  it('should call updateResults when update button is clicked', () => {
+    const updateResultsSpy = sinon.spy();
+    const wrapper = mountComponent({
+      ...defaultProps,
+      open: true,
+      updateResults: updateResultsSpy,
+    });
     wrapper.find('VaButton[text="Update Results"]').simulate('click');
-    expect(defaultProps.buttonOnClick.called).to.be.true;
+    expect(updateResultsSpy.called).to.be.true;
   });
 
   it('should call resetSearch when clear button is clicked', () => {
-    const wrapper = mountComponent({ ...defaultProps, expanded: true });
+    const resetSearchSpy = sinon.spy();
+    const wrapper = mountComponent({
+      ...defaultProps,
+      open: true,
+      resetSearch: resetSearchSpy,
+    });
     wrapper.find('ClearFiltersBtn').simulate('click');
-    expect(defaultProps.resetSearch.called).to.be.true;
-  });
-
-  it('should toggle expanded state on button click', () => {
-    const wrapper = mountComponent({ ...defaultProps, expanded: false });
-
-    const button = wrapper.find('button[data-testid="update-lc-search"]');
-    button.simulate('click');
-
-    expect(defaultProps.onClick.calledOnce).to.be.true;
-    expect(defaultProps.onClick.calledWith(true)).to.be.true;
-
-    button.simulate('click');
-
-    expect(defaultProps.onClick.calledTwice).to.be.true;
-    expect(defaultProps.onClick.calledWith(false)).to.be.true;
+    expect(resetSearchSpy.called).to.be.true;
   });
 
   it('should set initial expanded state correctly', () => {
-    const wrapper = mountComponent({ ...defaultProps, expanded: true });
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
+    const wrapper = mountComponent({ ...defaultProps, open: true });
+    expect(wrapper.find('VaAccordionItem').props().open).to.be.true;
 
     const collapsedWrapper = mountComponent({
       ...defaultProps,
-      expanded: false,
+      open: false,
     });
-    expect(collapsedWrapper.find('.usa-accordion-content').props().hidden).to.be
-      .true;
-  });
-
-  it('should correctly update isExpanded state when toggled', () => {
-    const wrapper = mountComponent({ ...defaultProps, expanded: false });
-
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
-
-    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
-
-    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
-    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
-  });
-  it('should not throw an error if onClick is undefined', () => {
-    const wrapper = mountComponent({ ...defaultProps, onClick: undefined });
-
-    expect(() => {
-      wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
-    }).to.not.throw();
+    expect(collapsedWrapper.find('VaAccordionItem').props().open).to.be.false;
   });
 });

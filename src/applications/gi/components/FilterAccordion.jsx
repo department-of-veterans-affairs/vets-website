@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -15,7 +15,14 @@ export default function FilterAccordion({
   updateResults,
   button,
   resetSearch,
+  open,
 }) {
+  const [isOpen, setIsOpen] = useState(open);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   const buttonWrapper = classNames(
     'vads-u-height--auto',
     'vads-u-display--flex',
@@ -42,9 +49,11 @@ export default function FilterAccordion({
 
   return (
     <div className="filter-accordion-wrapper">
-      <VaAccordion openSingle>
-        <VaAccordionItem header={buttonLabel} bordered>
-          <div role="region">{children}</div>
+      <VaAccordion openSingle onClick={handleToggle}>
+        <VaAccordionItem header={buttonLabel} bordered open={isOpen}>
+          <div role="region" data-testid="filter-accordion-content">
+            {children}
+          </div>
           <div className={buttonWrapper}>
             <VaButton
               className={`update-results-button-after ${updateResultsButton}`}
@@ -66,13 +75,15 @@ FilterAccordion.propTypes = {
   button: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  expanded: PropTypes.bool,
+  open: PropTypes.bool,
   resetSearch: PropTypes.func.isRequired,
+  updateResults: PropTypes.func,
 };
 
 FilterAccordion.defaultProps = {
-  expanded: false,
+  open: false,
   onClick: () => {},
   headerClass: '',
   ariaDescribedBy: '',
+  updateResults: () => {},
 };
