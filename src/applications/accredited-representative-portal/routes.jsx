@@ -7,7 +7,7 @@ import POARequestSearchPage from './containers/POARequestSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
-
+import GetHelpPage from './containers/GetHelpPage';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
@@ -83,6 +83,12 @@ const routes = [
                 action: POARequestDetailsPage.createDecisionAction,
               },
             ],
+          },
+          {
+            path: 'get-help',
+            element: (
+              <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+            ),
           },
         ],
       }),

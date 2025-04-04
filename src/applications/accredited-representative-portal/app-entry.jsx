@@ -10,6 +10,7 @@ import './sass/accredited-representative-portal.scss';
 import './sass/POARequestCard.scss';
 import './sass/POARequestDetails.scss';
 import './sass/Header.scss';
+import './sass/GetHelp.scss';
 
 import routes from './routes';
 import createReduxStore from './utilities/store';
