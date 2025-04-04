@@ -218,7 +218,8 @@ function selectTests(graph, pathsOfChangedFiles) {
 
     if (
       !pathsOfChangedFiles[i].endsWith('.md') &&
-      !pathsOfChangedFiles[i].startsWith('src/applications')
+      !pathsOfChangedFiles[i].startsWith('src/applications') &&
+      !pathsOfChangedFiles[i].startsWith('.github/workflows')
     ) {
       allMdAndOrSrcApplicationsFiles = false;
     }
