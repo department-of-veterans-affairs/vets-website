@@ -89,6 +89,7 @@ export const Locators = {
   BACK_TO: '.sm-breadcrumb-list-item > a',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
+  COMBO_BOX: '.usa-combo-box',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -238,6 +239,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -263,6 +265,7 @@ export const Locators = {
     RECIPIENTS: `select#options`,
     ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
+    RECIPIENTS_COMBO: `#options--list`,
   },
   ICONS: {
     ATTCH_ICON: '[data-testid="attachment-icon"]',
