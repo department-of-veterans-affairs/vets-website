@@ -49,8 +49,6 @@ describe('NewFeatureProgramsYRTAlert', () => {
     const { getByText } = render(
       <NewFeatureProgramsYRTAlert
         institution={{ yr: true }}
-        toggleValue
-        toggleGiProgramsFlag
         programTypes={[{ id: 1 }]}
         visible
         onClose={onCloseSpy}
@@ -65,8 +63,6 @@ describe('NewFeatureProgramsYRTAlert', () => {
     const { queryByText } = render(
       <NewFeatureProgramsYRTAlert
         institution={{ yr: false }}
-        toggleValue
-        toggleGiProgramsFlag
         programTypes={[{ id: 1 }]}
         visible
         onClose={onCloseSpy}
@@ -79,8 +75,6 @@ describe('NewFeatureProgramsYRTAlert', () => {
     const { container } = render(
       <NewFeatureProgramsYRTAlert
         institution={{ yr: true }}
-        toggleValue
-        toggleGiProgramsFlag
         programTypes={[{ id: 1 }]}
         visible
         onClose={onCloseSpy}

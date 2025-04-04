@@ -40,10 +40,6 @@ export default function InstitutionProfile({
   smallScreen,
 }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.showYellowRibbonTable);
-  const toggleGiProgramsFlag = useToggleValue(
-    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
-  );
   const [visibleAlert, setVisibleAlert] = useState(true);
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -134,13 +130,12 @@ export default function InstitutionProfile({
                 jumpToId="calculate-your-benefits"
               />
             )}
-          {institution.yr === true &&
-            toggleValue && (
-              <JumpLink
-                label="Yellow Ribbon Program information"
-                jumpToId="yellow-ribbon-program-information"
-              />
-            )}
+          {institution.yr === true && (
+            <JumpLink
+              label="Yellow Ribbon Program information"
+              jumpToId="yellow-ribbon-program-information"
+            />
+          )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
@@ -157,10 +152,9 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
-          {programTypes?.length > 0 &&
-            toggleGiProgramsFlag && (
-              <JumpLink label="Programs" jumpToId="programs" />
-            )}
+          {programTypes?.length > 0 && (
+            <JumpLink label="Programs" jumpToId="programs" />
+          )}
           {!isOJT && (
             <JumpLink
               label="Veteran programs and support"
@@ -173,12 +167,10 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
-      {((institution.yr === true && toggleValue && programTypes?.length > 0) ||
-        (programTypes?.length > 0 && toggleGiProgramsFlag)) && (
+      {((institution.yr === true && programTypes?.length > 0) ||
+        programTypes?.length > 0) && (
         <NewFeatureProgramsYRTAlert
           institution={institution}
-          toggleValue={toggleValue}
-          toggleGiProgramsFlag={toggleGiProgramsFlag}
           programTypes={programTypes}
           visible={visibleAlert}
           onClose={() => setVisibleAlert(false)}
@@ -210,44 +202,41 @@ export default function InstitutionProfile({
           location.
         </p>
       )}
-      {institution.yr === true &&
-        toggleValue && (
-          <ProfileSection
-            label="Yellow Ribbon Program information"
-            id="yellow-ribbon-program-information"
-          >
-            <p data-testid="yellow-ribbon-section">
-              The Yellow Ribbon Program can help reduce your out-of-pocket
-              tuition and fee costs at participating colleges and universities.
-              By enrolling, you'll benefit from a contribution made by the
-              school. VA will match this contribution
-              {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`},
-              covering up to the full cost of tuition and fees.
-            </p>
-            <p>
-              <strong>
-                If applicable, contact the individual school to confirm the
-                number of students eligible for funding.
-              </strong>
-            </p>
+      {institution.yr === true && (
+        <ProfileSection
+          label="Yellow Ribbon Program information"
+          id="yellow-ribbon-program-information"
+        >
+          <p data-testid="yellow-ribbon-section">
+            The Yellow Ribbon Program can help reduce your out-of-pocket tuition
+            and fee costs at participating colleges and universities. By
+            enrolling, you'll benefit from a contribution made by the school. VA
+            will match this contribution
+            {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`},
+            covering up to the full cost of tuition and fees.
+          </p>
+          <p>
+            <strong>
+              If applicable, contact the individual school to confirm the number
+              of students eligible for funding.
+            </strong>
+          </p>
 
-            <va-link
-              href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
-              text="Find out if you qualify for the Yellow Ribbon Program"
-              className="vads-u-margin-bottom--2"
-              data-testid="yellow-ribbon-program-link"
-            />
-            {institution.yellowRibbonPrograms.length > 0 ? (
-              <YellowRibbonSelector
-                programs={institution.yellowRibbonPrograms}
-              />
-            ) : (
-              <p className="vads-u-font-weight--bold vads-u-padding-top--3">
-                No programs to display
-              </p>
-            )}
-          </ProfileSection>
-        )}
+          <va-link
+            href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+            text="Find out if you qualify for the Yellow Ribbon Program"
+            className="vads-u-margin-bottom--2"
+            data-testid="yellow-ribbon-program-link"
+          />
+          {institution.yellowRibbonPrograms.length > 0 ? (
+            <YellowRibbonSelector programs={institution.yellowRibbonPrograms} />
+          ) : (
+            <p className="vads-u-font-weight--bold vads-u-padding-top--3">
+              No programs to display
+            </p>
+          )}
+        </ProfileSection>
+      )}
       <ProfileSection
         label="Getting started with benefits"
         id="getting-started-with-benefits"
@@ -292,12 +281,11 @@ export default function InstitutionProfile({
           />
         </ProfileSection>
       )}
-      {toggleGiProgramsFlag &&
-        programTypes.length > 0 && (
-          <ProfileSection label="Programs" id="programs">
-            <Programs programTypes={programTypes} facilityCode={facilityCode} />
-          </ProfileSection>
-        )}
+      {programTypes.length > 0 && (
+        <ProfileSection label="Programs" id="programs">
+          <Programs programTypes={programTypes} facilityCode={facilityCode} />
+        </ProfileSection>
+      )}
       {!isOJT && (
         <ProfileSection label="Academics" id="academics">
           <Academics institution={institution} onShowModal={showModal} />
