@@ -4,6 +4,7 @@ import { redirect } from 'react-router-dom';
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
+import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -70,6 +71,10 @@ const routes = [
               <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
             ),
             loader: POARequestSearchPage.loader,
+          },
+          {
+            path: 'poa-search',
+            element: <POARequestIndividualSearchPage />,
           },
           {
             path: 'poa-requests/:id',

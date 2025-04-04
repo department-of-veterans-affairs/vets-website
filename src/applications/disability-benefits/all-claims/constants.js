@@ -455,6 +455,12 @@ export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   misconduct: 'otherBehaviors',
 });
 
+export const ALL_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
+  ...LISTED_BEHAVIOR_TYPES_WITH_SECTION,
+  unlisted: 'otherBehaviors',
+  'view:noBehaviorChanges': 'view:noneCheckbox',
+});
+
 export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
 
 export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
