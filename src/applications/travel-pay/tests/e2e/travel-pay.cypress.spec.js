@@ -82,7 +82,7 @@ describe(`${appName} -- Status Page`, () => {
     //   .click();
 
     // Instead just find the text for the link and click it
-    cy.contains('Check your travel reimbursement claim status').click();
+    cy.contains('Travel reimbursement claims').click();
 
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
