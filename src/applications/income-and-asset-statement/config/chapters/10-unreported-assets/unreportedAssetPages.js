@@ -20,7 +20,7 @@ import {
 import { relationshipLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'unreportedAssets',
   nounSingular: 'asset previously not reported',
   nounPlural: 'assets previously not reported',

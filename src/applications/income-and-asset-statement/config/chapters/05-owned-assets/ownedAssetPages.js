@@ -25,7 +25,7 @@ import {
 } from '../../../components/FormAlerts';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'ownedAssets',
   nounSingular: 'income and net worth associated with owned assets',
   nounPlural: 'incomes and net worth associated with owned assets',
