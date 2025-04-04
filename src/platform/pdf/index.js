@@ -9,7 +9,7 @@ import { UnknownTemplateException } from './utils/exceptions/UnknownTemplateExce
 const blobStream = require('blob-stream');
 const fileSaver = require('file-saver');
 
-const generatePdf = async (templateId, fileName, data, openInTab = false) => {
+export const generatePdf = async (templateId, fileName, data, openInTab = false) => {
   let template;
 
   try {
@@ -35,4 +35,20 @@ const generatePdf = async (templateId, fileName, data, openInTab = false) => {
   });
 };
 
-export { generatePdf };
+export const getPdfBlob = async (templateId, data) => {
+  const template = templates[templateId]();
+  const doc = await template.generate(data);
+
+  const chunks = [];
+  return new Promise((resolve, reject) => {
+    doc.on('data', chunk => chunks.push(chunk));
+    doc.on('end', () => {
+      const blob = new Blob([Buffer.concat(chunks)], {
+        type: 'application/pdf',
+      });
+      resolve(blob);
+    });
+    doc.on('error', reject);
+    doc.end();
+  });
+};

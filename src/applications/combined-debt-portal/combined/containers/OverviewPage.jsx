@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
+import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import environment from '~/platform/utilities/environment';
 import {
   VaButton,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { getPdfBlob } from '@department-of-veterans-affairs/platform-pdf/exports';
+import {
+  selectProfile,
+  selectVAPMailingAddress,
+} from '~/platform/user/selectors';
+import environment from 'platform/utilities/environment';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -29,6 +35,16 @@ const OverviewPage = () => {
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
+
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+  } = useSelector(selectVAPMailingAddress);
+  const { userFullName = {} } = useSelector(selectProfile);
 
   // Get errors
   const billError = mcp.error;
@@ -56,26 +72,97 @@ const OverviewPage = () => {
     TOGGLE_NAMES.showOneVADebtLetter,
   );
 
-  const downloadPDF = async () => {
-    // One VA Debt Letter Download url
-    const pdfDownloadUrl = `${
-      environment.API_URL
-    }/debts_api/v0/download_one_debt_letter_pdf`;
-
-    // let's tryy this for now
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.href = pdfDownloadUrl;
-    downloadAnchor.download = 'CombinedStatement.pdf';
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    document.body.removeChild(downloadAnchor);
-    URL.revokeObjectURL(pdfDownloadUrl);
-  };
-
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
+
+  const { first, middle, last, suffix } = userFullName;
+  const veteranFullName = `${first || ''} ${middle || ''} ${last || ''}${
+    suffix ? `, ${suffix}` : ''
+  }`;
+
+  // Pulling fileNumber from first debt
+  const fileNumber = debts[0]?.fileNumber || '';
+
+  const veteranContactInformation = {
+    veteranFullName,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    fileNumber,
+  };
+
+  // Merge into namespaced pdfData
+  const pdfData = {
+    date: format(new Date(), 'MM/dd/yyyy'),
+    copays: bills,
+    debts,
+    veteranContactInformation,
+  };
+
+  // TODO
+  // xx Get redux data in place of mock data
+  // xx Get vet info dynamic
+  // xx Get legalese data in
+  // xx Handle empty debts/copays
+  //     leaving the section & showing zeros for now
+  // Handle errors
+
+  const getOneDebtLetterBlob = data => getPdfBlob('oneDebtLetter', data);
+
+  const handleGeneratePdf = async () => {
+    try {
+      const blob = await getOneDebtLetterBlob(pdfData);
+
+      const file = new File([blob], 'one_debt_letter.pdf', {
+        type: 'application/pdf',
+      });
+
+      const formData = new FormData();
+      formData.append('document', file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        'POST',
+        `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
+      );
+      xhr.responseType = 'blob';
+
+      xhr.setRequestHeader('X-Key-Inflection', 'camel');
+      xhr.setRequestHeader('X-CSRF-Token', localStorage.getItem('csrfToken'));
+      xhr.setRequestHeader('Source-App-Name', window.appName);
+      xhr.withCredentials = true;
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          const filename = `one_debt_letter_${
+            new Date().toISOString().split('T')[0]
+          }.pdf`;
+
+          const url = URL.createObjectURL(xhr.response);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          link.click();
+          URL.revokeObjectURL(url);
+        } else {
+          alert(`PDF request failed: ${xhr.status}`);
+        }
+      };
+
+      xhr.onerror = () => {
+        alert('Network error during PDF request');
+      };
+
+      xhr.send(formData);
+    } catch (err) {
+      alert(`PDF generation failed: ${err.message}`);
+    }
+  };
 
   return (
     <>
@@ -114,7 +201,7 @@ const OverviewPage = () => {
             {showOneVADebtLetterDownload ? (
               <>
                 <VaButton
-                  onClick={downloadPDF}
+                  onClick={handleGeneratePdf}
                   text="View combined statement"
                   className="vads-u-margin-bottom--2"
                   secondary
