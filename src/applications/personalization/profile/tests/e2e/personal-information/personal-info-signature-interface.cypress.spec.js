@@ -24,6 +24,8 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
     PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
 
     PersonalInformationPage.verifyNoSignatureInterface();
+
+    cy.injectAxeThenAxeCheck();
   });
 
   it('verify existing signature content', () => {

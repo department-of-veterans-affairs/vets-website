@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -9,6 +10,12 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+import { uiSchema } from '../../config/pages/applicantDemographics';
+import {
+  applicantDemographicsSubHeader,
+  applicantDemographicsGenderTitle,
+  applicantDemographicsMaritalStatusTitle,
+} from '../../utils/helpers';
 
 describe('Pre-need applicant demographics', () => {
   const {
@@ -64,5 +71,58 @@ describe('Pre-need applicant demographics', () => {
 
     expect(onSubmit.called).to.be.true;
     form.unmount();
+  });
+});
+
+describe('Applicant Demographics uiSchema', () => {
+  it('should use custom subHeader when provided', () => {
+    const customSubheader = 'Custom Subheader';
+    const result = uiSchema(customSubheader);
+    expect(result.application['ui:title']).to.equal(customSubheader);
+  });
+
+  it('should use custom title when genderTitle provided', () => {
+    const customGenderTitle = 'Custom Gender Title';
+    const result = uiSchema(undefined, customGenderTitle);
+    expect(result.application.veteran.gender['ui:title']).to.equal(
+      customGenderTitle,
+    );
+  });
+
+  it('should use custom maritalStatusTitle when provided', () => {
+    const customMaritalStatusTitle = 'Custom Marital Status Title';
+    const result = uiSchema(undefined, undefined, customMaritalStatusTitle);
+    expect(result.application.veteran.maritalStatus['ui:title']).to.equal(
+      customMaritalStatusTitle,
+    );
+  });
+
+  it('should have displayEmptyObjectOnReview option for applicantDemographicsDescription', () => {
+    const result = uiSchema();
+    expect(
+      result.application['view:applicantDemographicsDescription']['ui:options']
+        .displayEmptyObjectOnReview,
+    ).to.be.true;
+  });
+
+  it('should use default subHeader when not provided', () => {
+    const result = uiSchema();
+    expect(result.application['ui:title']).to.equal(
+      applicantDemographicsSubHeader,
+    );
+  });
+
+  it('should use default genderTitle when not provided', () => {
+    const result = uiSchema();
+    expect(result.application.veteran.gender['ui:title']).to.equal(
+      applicantDemographicsGenderTitle,
+    );
+  });
+
+  it('should use default maritalStatusTitle when not provided', () => {
+    const result = uiSchema();
+    expect(result.application.veteran.maritalStatus['ui:title']).to.equal(
+      applicantDemographicsMaritalStatusTitle,
+    );
   });
 });

@@ -93,6 +93,16 @@ const api = {
     return [`/power_of_attorney_requests?${urlQuery}`];
   }),
 
+  claimantSearch: wrapApiRequest(data => {
+    return [
+      `/claimant/power_of_attorney_requests`,
+      {
+        body: JSON.stringify({ ...data }),
+        method: 'POST',
+      },
+    ];
+  }),
+
   getPOARequest: wrapApiRequest(id => {
     return [`/power_of_attorney_requests/${id}`];
   }),
