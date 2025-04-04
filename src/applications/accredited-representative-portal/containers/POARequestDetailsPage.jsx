@@ -121,15 +121,17 @@ const checkLimitations = (limitations, limit) => {
 
 const POARequestDetailsPage = title => {
   const poaRequest = useLoaderData();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
+  const [decisionValue, setDecisionValue] = useState();
   const handleChange = e => {
     e.preventDefault();
     const radioValue = e.detail?.value;
     if (radioValue) {
-      setError(false);
+      setError();
     } else {
       setError(true);
     }
+    setDecisionValue(radioValue);
   };
 
   const poaStatus =
@@ -160,6 +162,14 @@ const POARequestDetailsPage = title => {
     },
     [title],
   );
+
+  const handleSubmit = e => {
+    if (!decisionValue) {
+      setError('Please select an option.');
+      e.preventDefault();
+    }
+    return true;
+  };
 
   setTimeout(() => {
     if (document.querySelector('va-radio')) {
@@ -423,6 +433,7 @@ const POARequestDetailsPage = title => {
               <Form
                 method="post"
                 action="decision"
+                onSubmit={handleSubmit}
                 className={
                   error
                     ? `poa-request-details__form poa-request-details__form--error`
@@ -436,6 +447,7 @@ const POARequestDetailsPage = title => {
                   class="poa-request-details__form-label"
                   onVaValueChange={handleChange}
                   required
+                  error={error}
                 >
                   <p>
                     We’ll send the claimant an email letting them know your
