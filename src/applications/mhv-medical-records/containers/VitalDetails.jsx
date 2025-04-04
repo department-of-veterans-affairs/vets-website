@@ -320,8 +320,8 @@ Provider notes: ${vital.notes}\n\n`,
             header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
               records.length
             } records from newest to oldest`}
-            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
-          vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1
+          vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print
           vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
             id="showingRecords"
           >
@@ -455,7 +455,7 @@ Provider notes: ${vital.notes}\n\n`,
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         </div>
@@ -483,7 +483,7 @@ Provider notes: ${vital.notes}\n\n`,
     <div className="vads-u-margin-y--8">
       <va-loading-indicator
         message="Loading..."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     </div>
