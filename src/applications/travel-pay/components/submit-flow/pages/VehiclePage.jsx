@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
@@ -7,21 +6,23 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import { SmocContext } from '../../../context/SmocContext';
 
 const title = 'Did you travel in your own vehicle?';
 
-const VehiclePage = ({
-  pageIndex,
-  setPageIndex,
-  yesNo,
-  setYesNo,
-  setIsUnsupportedClaimType,
-}) => {
+const VehiclePage = () => {
   useEffect(() => {
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
 
+  const {
+    pageIndex,
+    setPageIndex,
+    setIsUnsupportedClaimType,
+    yesNo,
+    setYesNo,
+  } = useContext(SmocContext);
   useSetPageTitle(title);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
@@ -63,14 +64,6 @@ const VehiclePage = ({
       />
     </div>
   );
-};
-
-VehiclePage.propTypes = {
-  pageIndex: PropTypes.number,
-  setIsUnsupportedClaimType: PropTypes.func,
-  setPageIndex: PropTypes.func,
-  setYesNo: PropTypes.func,
-  yesNo: PropTypes.object,
 };
 
 export default VehiclePage;

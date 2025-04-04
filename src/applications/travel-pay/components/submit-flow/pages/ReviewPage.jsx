@@ -1,35 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, connect, useSelector } from 'react-redux';
 
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import {
+  focusElement,
+  scrollToTop,
+  scrollToFirstError,
+} from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
+import { submitMileageOnlyClaim } from '../../../redux/actions';
+import { SmocContext } from '../../../context/SmocContext';
 
 const title = 'Review your travel claim';
 
-const ReviewPage = ({
-  address,
-  isError,
-  onSubmit,
-  setPageIndex,
-  setYesNo,
-  isAgreementChecked,
-  setIsAgreementChecked,
-}) => {
+const ReviewPage = ({ address }) => {
   useEffect(() => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 
+  const {
+    pageIndex,
+    setPageIndex,
+    setYesNo,
+    isAgreementError,
+    setIsAgreementError,
+    isAgreementChecked,
+    setIsAgreementChecked,
+  } = useContext(SmocContext);
+
+  const dispatch = useDispatch();
   useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
@@ -43,6 +52,16 @@ const ReviewPage = ({
       address: '',
     });
     setPageIndex(1);
+  };
+
+  const onSubmit = () => {
+    if (!isAgreementChecked) {
+      setIsAgreementError(true);
+      scrollToFirstError();
+      return;
+    }
+    dispatch(submitMileageOnlyClaim(data.localStartTime));
+    setPageIndex(pageIndex + 1);
   };
 
   return (
@@ -115,7 +134,7 @@ const ReviewPage = ({
           name="accept-agreement"
           description={null}
           error={
-            isError
+            isAgreementError
               ? 'You must accept the beneficiary travel agreement before continuing.'
               : null
           }
@@ -140,12 +159,6 @@ const ReviewPage = ({
 
 ReviewPage.propTypes = {
   address: PropTypes.object,
-  isAgreementChecked: PropTypes.bool,
-  isError: PropTypes.bool,
-  setIsAgreementChecked: PropTypes.func,
-  setPageIndex: PropTypes.func,
-  setYesNo: PropTypes.func,
-  onSubmit: PropTypes.func,
 };
 
 function mapStateToProps(state) {
