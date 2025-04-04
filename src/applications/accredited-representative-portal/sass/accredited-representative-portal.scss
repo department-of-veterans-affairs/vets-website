@@ -3,7 +3,7 @@
 .arp-container {
   max-width: 1000px;
   width: 100%;
-  margin: $units-5 auto;
+  margin: 0 auto;
   padding: 0 16px;
 }
 
@@ -74,12 +74,6 @@
 
 .home {
   -webkit-font-smoothing: antialiased;
-
-  &__banner {
-    a {
-      word-break: break-all;
-    }
-  }
 
   &__container {
     max-width: 1000px;
@@ -173,6 +167,10 @@
     .vads-u-background-color--primary & {
       color: $vads-color-base-lightest;
     }
+
+    &--email {
+      word-break: break-all;
+    }
   }
 
   &__overlay {
@@ -208,6 +206,12 @@
     @media (min-width: $small-desktop-screen) {
       width: 464px;
       height: 340px;
+    }
+  }
+
+  &__banner {
+    &-email {
+      margin-bottom: 0;
     }
   }
 }

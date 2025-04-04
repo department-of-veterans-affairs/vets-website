@@ -3,9 +3,12 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
 import { SmocContext } from '../../../context/SmocContext';
+
+const title = 'Did you travel in your own vehicle?';
 
 const VehiclePage = () => {
   useEffect(() => {
@@ -20,6 +23,7 @@ const VehiclePage = () => {
     yesNo,
     setYesNo,
   } = useContext(SmocContext);
+  useSetPageTitle(title);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -44,7 +48,7 @@ const VehiclePage = () => {
       <SmocRadio
         name="vehicle"
         value={yesNo.vehicle}
-        label="Did you travel in your own vehicle?"
+        label={title}
         error={requiredAlert}
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />

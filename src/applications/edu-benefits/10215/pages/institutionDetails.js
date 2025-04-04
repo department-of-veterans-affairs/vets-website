@@ -11,7 +11,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/tit
 
 const uiSchema = {
   institutionDetails: {
-    ...titleUI('Tell us about your institution'),
+    ...titleUI('Institution details'),
     institutionName: {
       ...textUI({
         title: 'Institution name',
@@ -51,6 +51,27 @@ const uiSchema = {
           required: 'Please enter the date these calculations were performed',
         },
       }),
+      'ui:validations': [
+        {
+          validator: (errors, _field, formData) => {
+            const {
+              termStartDate,
+              dateOfCalculations,
+            } = formData.institutionDetails;
+
+            if (!termStartDate || !dateOfCalculations) return;
+
+            const startDate = new Date(termStartDate);
+            const calculationDate = new Date(dateOfCalculations);
+
+            if (calculationDate < startDate) {
+              errors.addError(
+                `Calculations can't occur before the term start date. Enter the term start date or a later date`,
+              );
+            }
+          },
+        },
+      ],
     },
   },
 };

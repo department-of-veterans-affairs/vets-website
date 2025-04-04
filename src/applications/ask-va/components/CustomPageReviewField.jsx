@@ -3,7 +3,11 @@ import React from 'react';
 const CustomPageReviewField = ({ name, data }) => {
   const getNameKey = str => {
     if (str.includes('_')) {
-      return str.split('_')[0];
+      const key = str.split('_')[0];
+      if (key === 'yourRoleEducation') {
+        return 'yourRole';
+      }
+      return key;
     }
     return str;
   };
@@ -26,6 +30,10 @@ const CustomPageReviewField = ({ name, data }) => {
     isQuestionAboutVeteranOrSomeoneElse:
       'Is your question about the Veteran or someone else?',
     theirRelationshipToVeteran: 'Their relationship to the Veteran',
+    yourRole: 'What is your role?',
+    yourRoleEducation: 'What is your role?',
+    aboutYourRelationshipToFamilyMember:
+      'Your relationship to the family member',
   };
 
   const header = customReviewHeaderTitles[nameKey];

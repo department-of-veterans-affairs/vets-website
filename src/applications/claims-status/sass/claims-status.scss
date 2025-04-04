@@ -1037,32 +1037,6 @@ $marker-text-width: 5.625rem;
   & > h2 {
     margin-top: 0;
   }
-  .usa-accordion-bordered {
-    .usa-accordion-button {
-      font-size: 1.25rem; // match standard h3
-    }
-
-    .usa-accordion-content {
-      padding-top: 1.25em;
-
-      h5 {
-        font-family: var(--font-source-sans);
-        margin-top: 0;
-      }
-    }
-
-    .granted-section {
-      h5 {
-        color: var(--vads-color-success-dark);
-      }
-    }
-
-    .denied-section {
-      h5 {
-        color: var(--vads-color-secondary);
-      }
-    }
-  }
 }
 
 .closed-appeal-notice {
@@ -1224,4 +1198,8 @@ va-icon.phase-current {
     display: inline-block;
     margin: 16px;
   }
+}
+
+.bullet-disc {
+  list-style-type: disc;
 }

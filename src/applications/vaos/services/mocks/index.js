@@ -31,7 +31,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
-const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
+const epsAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -74,6 +74,7 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
+      kind,
     } = req.body;
     const selectedClinic = clinicsV2.data.filter(
       clinic => clinic.id === req.body.clinic,
@@ -86,10 +87,14 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const pending = req.body.status === 'proposed';
+    const future = req.body.status === 'booked';
     let reasonForAppointment;
     let patientComments;
+    let type;
     if (req.body.kind === 'cc') {
       patientComments = req.body.reasonCode?.text;
+      type = pending ? 'COMMUNITY_CARE_REQUEST' : 'COMMUNITY_CARE_APPOINTMENT';
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
@@ -100,12 +105,16 @@ const responses = {
           patientComments = token.substring('comments:'.length);
         }
       }
+      type = pending ? 'REQUEST' : 'VA';
     }
 
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
+        created: new Date().toISOString(),
+        kind,
+        type,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
@@ -124,6 +133,8 @@ const responses = {
           selectedClinic[0]?.attributes.physicalLocation || null,
         reasonForAppointment,
         patientComments,
+        future,
+        pending,
       },
     };
     currentMockId += 1;
@@ -456,6 +467,9 @@ const responses = {
 
     if (appointmentId === 'timeout-appointment-id') {
       // Set a very high poll count to simulate a timeout
+      draftAppointments[
+        appointmentId
+      ] = providerUtils.createDraftAppointmentInfo(5);
       successPollCount = 1000;
     }
 
@@ -465,21 +479,21 @@ const responses = {
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { state } = draftAppointment.appointment;
+    let { status } = draftAppointment.appointment;
 
     // Mock polling for appointment state change
     if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      state = 'confirmed';
+      status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
-      data: ccDirectAppointmentUtils.createReferralAppointment(
+      data: epsAppointmentUtils.createMockEpsAppointment(
         appointmentId,
-        state,
-        draftAppointment,
+        status,
+        epsAppointmentUtils.appointmentData,
       ),
     });
   },

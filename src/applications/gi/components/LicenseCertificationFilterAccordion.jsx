@@ -1,63 +1,25 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaAccordion,
+  VaAccordionItem,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
-// Consider using redux actions, as in SearchAccordion -- ok to use local state, since state is limited to this page?
-// Examine use of/need for 'id', 'buttonId', and 'isProductionOrTestProdEnv' in SearchAccordion-- for testing or anyalytics? Necessary here?
-// Upon answering these questions, assess the reusability of the original SearchAccordion component to avoid repetion.
-
+// TODO: Assess reusability of SearchAccordion component to avoid repetition.
 export default function LicenseCertificationFilterAccordion({
   children,
   buttonLabel,
   button,
   buttonOnClick, // update results
   onClick,
-  headerClass,
-  ariaDescribedBy,
   expanded,
   resetSearch,
 }) {
-  const [isExpanded, setExpanded] = useState(expanded);
-
-  const toggle = () => {
-    setExpanded(!isExpanded);
-    if (onClick) {
-      onClick(!isExpanded);
-    }
-  };
-
-  const renderHeader = () => {
-    const headerClasses = classNames(
-      'accordion-button-wrapper update-results-header ',
-      {
-        [headerClass]: headerClass,
-      },
-    );
-
-    return (
-      <h2 className={headerClasses}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-        <button
-          // id={`${id}-button`}
-          onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
-          // aria-isExpanded={isExpanded}
-          // aria-controls={id}
-          data-testid="update-lc-search"
-        >
-          <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
-            <span className="vads-u-font-family--serif accordion-button-text">
-              {buttonLabel}
-            </span>
-
-            <va-icon icon={isExpanded ? 'remove' : 'add'} size={3} />
-          </div>
-        </button>
-      </h2>
-    );
-  };
+  const accordionRef = useRef(null);
+  const [open, setOpen] = useState(expanded);
 
   const updateResultsButtonsWrapper = classNames(
     'vads-u-height--auto',
@@ -87,22 +49,32 @@ export default function LicenseCertificationFilterAccordion({
     'vads-u-text-align--center',
   );
 
+  function handleToggle() {
+    setOpen(!open);
+    if (onClick) {
+      onClick(!open);
+    }
+  }
+
   return (
-    <div className="usa-accordion-item">
-      {renderHeader()}
-      <div
-        className="usa-accordion-content update-results-form vads-u-padding-top--5 vads-u-padding-bottom--3 "
-        aria-hidden={!isExpanded}
-        hidden={!isExpanded}
+    <VaAccordion>
+      <VaAccordionItem
+        ref={accordionRef}
+        header={buttonLabel}
+        onClick={handleToggle}
+        open={open}
+        bordered
       >
-        {isExpanded ? children : null}
-      </div>
-      {isExpanded && (
+        <div
+          className="vads-u-padding-top--5 vads-u-padding-bottom--3"
+          role="region"
+        >
+          {children}
+        </div>
         <div className={updateResultsButtonsWrapper}>
           <VaButton
             className={`update-results-button-after ${updateResultsButton}`}
             onClick={buttonOnClick}
-            aria-describedby={ariaDescribedBy}
             text={button}
           />
           <ClearFiltersBtn
@@ -110,13 +82,12 @@ export default function LicenseCertificationFilterAccordion({
             className={`clear-filters-button-after ${clearFiltersButton}`}
           />
         </div>
-      )}
-    </div>
+      </VaAccordionItem>
+    </VaAccordion>
   );
 }
 
 LicenseCertificationFilterAccordion.propTypes = {
-  ariaDescribedBy: PropTypes.string,
   button: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   buttonOnClick: PropTypes.func.isRequired,

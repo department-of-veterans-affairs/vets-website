@@ -20,36 +20,38 @@ const CustomReviewTopContent = () => {
 
   const renderPersonalInfo = () => (
     <div>
-      <div>
-        <p className="usa-hint">Name</p>
-        <p>
-          {fullName.first} {fullName.last}
-        </p>
-      </div>
-      <div>
-        <p className="usa-hint">Zip code</p>
-        <p>{address.postalCode}</p>
-      </div>
-      <div>
-        <p className="usa-hint">Social security number</p>
-        <p>{mask(idNumber?.ssn)}</p>
-      </div>
+      <ul className="vads-u-padding--0 schemaform-file-list">
+        <li>
+          <div className="usa-hint">Name</div>
+          <div>
+            {fullName.first} {fullName.last}
+          </div>
+        </li>
+        <li>
+          <div className="usa-hint">Zip code</div>
+          <div>{address.postalCode}</div>
+        </li>
+        <li>
+          <div className="usa-hint">Social security number</div>
+          <div>{mask(idNumber?.ssn)}</div>
+        </li>
+      </ul>
     </div>
   );
 
   const renderContactInfo = () => (
-    <div>
+    <ul className="vads-u-padding--0 schemaform-file-list">
       {phoneNumber ? (
-        <div>
-          <p className="usa-hint">Phone number</p>
-          <p>{formattedPhoneNumber(phoneNumber)}</p>
-        </div>
+        <li>
+          <div className="usa-hint">Phone number</div>
+          <div>{formattedPhoneNumber(phoneNumber)}</div>
+        </li>
       ) : null}
-      <div>
-        <p className="usa-hint">Email</p>
-        <p>{email}</p>
-      </div>
-    </div>
+      <li>
+        <div className="usa-hint">Email</div>
+        <div>{email}</div>
+      </li>
+    </ul>
   );
 
   const formNumber = getFormNumber().toLowerCase();

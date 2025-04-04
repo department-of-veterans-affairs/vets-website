@@ -157,40 +157,45 @@ export const pagesToMoveConfig = {
   relationshipToTheVeteran: [
     'relationshipToVeteran',
     'moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember',
+    'moreAboutYourRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
     'isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember',
     'theirRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
     'yourRole_aboutsomeoneelserelationshipconnectedthroughwork',
     'yourRole_aboutsomeoneelserelationshipconnectedthroughworkeducation',
+    'yourRoleEducation_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'theirVREInformation_aboutsomeoneelserelationshipveteran',
     'theirVRECounselor_aboutsomeoneelserelationshipveteran',
   ],
-  veteransInformation: [
+  veteransPersonalInformation: [
     'aboutTheVeteran_aboutmyselfrelationshipfamilymember',
-    'dateOfDeath_aboutmyselfrelationshipfamilymember',
     'aboutTheVeteran_aboutsomeoneelserelationshipconnectedthroughwork',
+    'aboutTheVeteran_aboutsomeoneelserelationshipfamilymember',
+    'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+    'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+  ],
+  veteransInformation: [
+    'dateOfDeath_aboutmyselfrelationshipfamilymember',
     'dateOfDeath_aboutsomeoneelserelationshipconnectedthroughwork',
     'veteransLocationOfResidence_aboutsomeoneelserelationshipconnectedthroughwork',
     'veteransPostalCode_aboutsomeoneelserelationshipconnectedthroughwork',
-    'aboutTheVeteran_aboutsomeoneelserelationshipfamilymember',
-    'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
     'dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-    'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'veteransLocationOfResidence_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'veteransPostalCode_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-    'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
     'theirVREInformation_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'theirVRECounselor_aboutsomeoneelserelationshipfamilymemberaboutveteran',
     'theirVREInformation_aboutsomeoneelserelationshipconnectedthroughwork',
     'theirVRECounselor_aboutsomeoneelserelationshipconnectedthroughwork',
   ],
+  familyMembersPersonalInformation: [
+    'aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+    'aboutYourFamilyMember_aboutsomeoneelserelationshipveteran',
+  ],
   familyMembersInformation: [
     // 'aboutYourselfRelationshipFamilyMember_aboutmyselfrelationshipfamilymember',
-    'aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
     'familyMembersLocationOfResidence_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
     'familyMembersPostalCode_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-    'aboutYourFamilyMember_aboutsomeoneelserelationshipveteran',
     'familyMembersLocationOfResidence_aboutsomeoneelserelationshipveteran',
     'familyMembersPostalCode_aboutsomeoneelserelationshipveteran',
     'theirVREInformation_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
@@ -247,6 +252,12 @@ export const pagesToMoveConfig = {
     'yourVRECounselor_generalquestion',
   ],
   schoolInformation: [
+    'searchSchools_aboutmyselfrelationshipveteran',
+    'useThisSchool_aboutmyselfrelationshipveteran',
+    'schoolInYourProfile_aboutmyselfrelationshipveteran',
+    'searchSchools_aboutmyselfrelationshipfamilymember',
+    'useThisSchool_aboutmyselfrelationshipfamilymember',
+    'schoolInYourProfile_aboutmyselfrelationshipfamilymember',
     'searchSchools_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'schoolInYourProfile_aboutsomeoneelserelationshipconnectedthroughworkeducation',
     'stateOfFacility_aboutsomeoneelserelationshipconnectedthroughworkeducation',
@@ -280,7 +291,9 @@ export const pagesToMoveConfig = {
 export const chapterTitles = {
   categoryTopics: '',
   relationshipToTheVeteran: '',
+  veteransPersonalInformation: "Veteran's personal information",
   veteransInformation: '',
+  familyMembersPersonalInformation: "Family member's personal information",
   familyMembersInformation: '',
   yourInformation: 'Your information',
   yourLocationOfResidence: '',
@@ -292,5 +305,17 @@ export const chapterTitles = {
   schoolInformation: 'Your school information',
   yourContactInformation: 'Your contact information',
   yourMailingAddress: 'Your mailing address',
-  yourQuestion: '',
+  yourQuestion: 'Your question',
+};
+
+// Checking aboutTheFamilyMember and aboutTheVeteran objects for valid values
+export const hasValidValues = obj => {
+  if (typeof obj !== 'object' || obj === null) return false;
+
+  return Object.values(obj).some(value => {
+    if (value !== undefined && value !== null) {
+      return typeof value === 'object' ? hasValidValues(value) : true;
+    }
+    return false;
+  });
 };

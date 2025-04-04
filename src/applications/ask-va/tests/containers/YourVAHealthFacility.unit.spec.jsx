@@ -1,20 +1,20 @@
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
+import { waitFor } from '@testing-library/dom';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { combineReducers, createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import { waitFor } from '@testing-library/dom';
-import configureStore from 'redux-mock-store';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore } from 'redux';
+import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
-import userEvent from '@testing-library/user-event';
-import askVaReducer from '../../reducers';
-import YourVAHealthFacilityPage from '../../containers/YourVAHealthFacility';
-import { mockHealthFacilityResponse } from '../../utils/mockData';
-import * as constants from '../../constants';
 import * as geoLocateUser from '../../actions/geoLocateUser';
+import * as constants from '../../constants';
+import YourVAHealthFacilityPage from '../../containers/YourVAHealthFacility';
+import askVaReducer from '../../reducers';
 import * as mapboxModule from '../../utils/mapbox';
+import { mockHealthFacilityResponse } from '../../utils/mockData';
 
 const mockLocationResponse = {
   zipCode: [{ text: '90210' }],
@@ -289,5 +289,87 @@ describe('YourVAHealthFacilityPage', () => {
       );
       expect(radioWithError).to.exist;
     });
+  });
+
+  it('should display validation error if no city or postal code provided and focus on input', async () => {
+    apiRequestStub.resolves(mockHealthFacilityResponse);
+    convertLocationStub.resolves(mockLocationResponse);
+    convertToLatLngStub.resolves([0, 0]);
+    const focusElementSpy = sinon.spy(document, 'querySelector');
+
+    const { getByRole } = renderWithStoreRTL({
+      searchLocationInput: '', // Empty search query
+    });
+
+    userEvent.click(getByRole('button', { name: /continue/i }));
+
+    await waitFor(() => {
+      expect(focusElementSpy.calledWith('#street-city-state-zip')).to.be.true;
+    });
+
+    focusElementSpy.restore();
+  });
+
+  it('should proceed forward when facility is selected', async () => {
+    apiRequestStub.resolves(mockHealthFacilityResponse);
+    convertLocationStub.resolves(mockLocationResponse);
+    convertToLatLngStub.resolves([0, 0]);
+
+    const goForwardSpy = sinon.spy();
+    const { getByRole } = render(
+      <Provider store={store}>
+        <YourVAHealthFacilityPage
+          {...props}
+          data={{
+            yourHealthFacility:
+              'vba_349b - VA Regional Benefit Satellite Office at Austin VA Clinic, Austin, TX 78744',
+          }}
+          goForward={goForwardSpy}
+        />
+      </Provider>,
+    );
+
+    // Click continue button
+    const continueButton = getByRole('button', { name: /continue/i });
+    userEvent.click(continueButton);
+
+    await waitFor(() => {
+      expect(goForwardSpy.calledOnce).to.be.true;
+      expect(goForwardSpy.firstCall.args[0]).to.deep.equal({
+        yourHealthFacility:
+          'vba_349b - VA Regional Benefit Satellite Office at Austin VA Clinic, Austin, TX 78744',
+      });
+    });
+  });
+
+  it('should handle API error and set isSearching to false', async () => {
+    apiRequestStub.rejects(new Error('API Error'));
+    convertLocationStub.resolves(mockLocationResponse);
+    convertToLatLngStub.resolves([0, 0]);
+
+    const { container, getByRole } = renderWithStoreRTL();
+
+    // First verify loading is not shown
+    expect(container.querySelector('va-loading-indicator')).to.not.exist;
+
+    // Trigger a search which should show loading
+    userEvent.type(getByRole('searchbox'), '78750');
+    userEvent.click(getByRole('button', { name: /search/i }));
+
+    // Loading indicator should appear
+    await waitFor(() => {
+      expect(container.querySelector('va-loading-indicator')).to.exist;
+    });
+
+    // Wait for the error to be handled and loading to disappear
+    await waitFor(
+      () => {
+        expect(container.querySelector('va-loading-indicator')).to.not.exist;
+      },
+      { timeout: 2000 },
+    );
+
+    // Verify API was called
+    expect(apiRequestStub.called).to.be.true;
   });
 });

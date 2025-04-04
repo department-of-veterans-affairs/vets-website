@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -6,8 +6,12 @@ import {
   Link,
   useNavigation,
 } from 'react-router-dom';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaBreadcrumbs,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
+import { SEARCH_BC_LABEL, poaSearchBC } from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 
@@ -78,12 +82,24 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   );
 };
 
-const POARequestSearchPage = () => {
-  const poaRequests = useLoaderData();
+const POARequestSearchPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
+  const poaRequests = useLoaderData().data;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
+
   return (
     <section className="poa-request">
+      <VaBreadcrumbs
+        breadcrumbList={poaSearchBC}
+        label={SEARCH_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       <h1
         data-testid="poa-requests-heading"
         className="poa-request__search-header"
@@ -96,12 +112,15 @@ const POARequestSearchPage = () => {
         from the portal after 60 days.
       </p>
       <p className="poa-request__copy">
-        <strong>Note:</strong> requests need to be submitted using the digital
-        VA Form 21-22 on VA.gov.
+        <strong>Note:</strong> POA requests need to be submitted using the
+        online{' '}
+        <va-link
+          href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+          text="VA Form 21-22 (on VA.gov)"
+        />
+        .
       </p>
-      <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
-        VA Form 21-22 (on VA.gov)
-      </a>
+
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink

@@ -2,8 +2,8 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
-import mockMessages from '../fixtures/messages-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockMessages from '../fixtures/threads-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
@@ -402,7 +402,7 @@ class PatientInboxPage {
   openAdvancedSearch = () => {
     cy.get(Locators.ADDITIONAL_FILTER)
       .shadow()
-      .contains('Add filters')
+      .contains('Show filters')
       .click({
         waitForAnimations: true,
         force: true,
@@ -498,8 +498,8 @@ class PatientInboxPage {
 
   clearFilterByKeyboard = () => {
     // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
       cy.tabToElement(el)
         .first()
         .click();
@@ -671,13 +671,13 @@ class PatientInboxPage {
       .select(dropDownValue);
   };
 
-  verifyFilterMessageHeadingText = (text = 'Filter messages in Inbox') => {
+  verifyFilterMessageHeadingText = (text = 'Filter messages in inbox') => {
     cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)
       .should('be.visible')
       .and('contain.text', `${text}`);
   };
 
-  verifyAddFilterButton = (text = 'Add filters') => {
+  verifyAddFilterButton = (text = 'Show filters') => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
       'contain.text',
       `${text}`,

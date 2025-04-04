@@ -14,6 +14,11 @@ const user = {
   noAddress: require('./user-no-address.json'),
 };
 
+const claimDetails = {
+  v1: require('./travel-claim-details-v1.json'),
+  v2: require('./travel-claim-details-v2.json'),
+};
+
 const responses = {
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
@@ -23,6 +28,7 @@ const responses = {
         { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
+        { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },
       ],
     },
   },
@@ -63,17 +69,19 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /travel_pay/v0/claims/:id': (req, res) => {
-    return res.json({
-      id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
-      claimNumber: 'TC0928098230498',
-      claimStatus: 'Claim submitted',
-      appointmentDateTime: '2024-05-26T16:40:45.781Z',
-      facilityName: 'Tomah VA Medical Center',
-      createdOn: '2024-05-27T16:40:45.781Z',
-      modifiedOn: '2024-05-31T16:40:45.781Z',
-    });
-  },
+  'GET /travel_pay/v0/claims/:id': claimDetails.v1,
+  // 'GET /travel_pay/v0/claims/:id': (req, res) => {
+  //   return res.status(403).json({
+  //     errors: [
+  //       {
+  //         title: 'Forbidden',
+  //         status: 403,
+  //         detail: 'Forbidden.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
 
   // Submitting a new claim
   'POST /travel_pay/v0/claims': { claimId: '12345' },

@@ -29,6 +29,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureFeSourceOfTruth,
+  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -148,7 +149,12 @@ export const selectPastAppointmentsV2 = state => {
       }
 
       const sortedAppointments = past
-        .filter(isValidPastAppointment)
+        .filter(item =>
+          isValidPastAppointment(
+            item,
+            selectFeatureDisplayPastCancelledAppointments(state),
+          ),
+        )
         .sort(sortByDateDescending);
 
       return groupAppointmentsByMonth(sortedAppointments);
@@ -283,11 +289,12 @@ export function selectBackendServiceFailuresInfo(state) {
     backendServiceFailures,
   };
 }
-
-export function selectStartDate(appointment) {
+export function selectStartDate(appointment, useFeSourceOfTruth) {
   if (
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
+    useFeSourceOfTruth
+      ? appointment.vaos.isPendingAppointment
+      : appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
+        appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
   ) {
     return moment(appointment.requestedPeriod[0].start);
   }

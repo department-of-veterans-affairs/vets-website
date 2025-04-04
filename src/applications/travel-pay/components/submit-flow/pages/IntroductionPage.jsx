@@ -6,8 +6,12 @@ import { selectAppointment } from '../../../redux/selectors';
 import { SmocContext } from '../../../context/SmocContext';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+
+const title = 'File a travel reimbursement claim';
 
 const IntroductionPage = () => {
+  useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
   const { pageIndex, setPageIndex } = useContext(SmocContext);
   const onStart = e => {
@@ -17,7 +21,7 @@ const IntroductionPage = () => {
 
   return (
     <div>
-      <h1 tabIndex="-1">File a travel reimbursement claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       {isLoading && (
         <va-loading-indicator
           label="Loading"

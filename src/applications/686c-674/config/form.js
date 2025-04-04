@@ -1090,7 +1090,8 @@ export const formConfig = {
             );
 
             return (
-              isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+              (isChapterFieldRequired(formData, TASK_KEYS.addChild) ||
+                isChapterFieldRequired(formData, TASK_KEYS.addDisabledChild)) &&
               formData?.['view:addOrRemoveDependents']?.add &&
               pageCondition
             );

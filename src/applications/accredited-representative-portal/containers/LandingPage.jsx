@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const LandingPage = () => {
+const LandingPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
   return (
     <section className="home">
       <div className="home__hero">
@@ -38,14 +44,11 @@ const LandingPage = () => {
             </p>
             <p>
               <strong>Note</strong>: POA requests need to be submitted using the
-              digital{' '}
-              <a
+              online{' '}
+              <va-link
                 href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                VA Form 21-22 (opens in a new tab)
-              </a>
+                text="VA Form 21-22 (on VA.gov)"
+              />
               .
             </p>
           </div>
@@ -58,14 +61,11 @@ const LandingPage = () => {
               (VSO) representatives who accept POA requests on behalf of their
               organizations. In the future, the portal will support accredited
               VSOs, attorneys, and claims agents.
-              <a
-                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Learn more about accredited representatives (opens in a new tab)
-              </a>
             </p>
+            <va-link
+              href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+              text="Learn more about accredited representatives"
+            />
           </div>
 
           <va-banner
@@ -81,14 +81,16 @@ const LandingPage = () => {
               joining our test program. Once you start using the portal, we’ll
               ask you to give us feedback on your experience.
             </p>
-            <p>
+            <p className="home__banner-email">
               If you’re interested in having your organization join our test
               program, email us at{' '}
-              <a href="mailto:RepresentativePortalHelp@va.gov">
-                RepresentativePortalHelp@va.gov
-              </a>
-              .
             </p>
+            <va-link
+              class="home__link--email"
+              href="mailto:RepresentativePortalHelp@va.gov"
+              text="RepresentativePortalHelp@va.gov"
+            />
+            .
           </va-banner>
         </div>
       </div>
@@ -103,14 +105,11 @@ const LandingPage = () => {
               Organization (VSO) representative can help you file a claim or
               request a decision review.
             </p>
-            <a
-              href="https://www.va.gov/get-help-from-accredited-representative/"
-              className="home__link"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Get help from an accredited representative (opens in a new tab)
-            </a>
+            <va-link
+              class="home__link"
+              href="https://www.va.gov/get-help-from-accredited-representative"
+              text="Get help from an accredited representative"
+            />
           </div>
         </div>
       </div>
@@ -136,14 +135,12 @@ const LandingPage = () => {
               the portal. If you’d like to give us feedback, you can sign up to
               be invited to future feedback sessions with our VA research team.
             </p>
-            <a
+            <va-link
+              class="home__link"
+              reverse
               href="https://docs.google.com/forms/d/1VvExHYQWsNgSho5zu9nCgF_l7AYFyun-B6-2EHOr8MA/edit?ts=6759c5e9"
-              className="home__link"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Sign up to participate in feedback sessions (opens in a new tab)
-            </a>
+              text="Sign up to participate in feedback sessions"
+            />
           </div>
         </div>
       </div>
