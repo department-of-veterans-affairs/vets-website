@@ -136,7 +136,7 @@ const Compose = () => {
       {!draftType && (
         <va-loading-indicator
           message="Loading your secure message..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       )}

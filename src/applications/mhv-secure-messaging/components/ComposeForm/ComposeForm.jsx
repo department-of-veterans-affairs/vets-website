@@ -733,7 +733,7 @@ const ComposeForm = props => {
     return (
       <va-loading-indicator
         message="Sending message..."
-        setFocus
+        set-focus
         data-testid="sending-indicator"
       />
     );
