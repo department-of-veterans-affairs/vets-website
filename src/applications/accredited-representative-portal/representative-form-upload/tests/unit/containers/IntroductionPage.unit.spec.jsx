@@ -55,7 +55,6 @@ const mockStore = (loggedIn, dispatchSpy) => ({
     user: {
       login: loggedIn ? loggedInUser : { currentlyLoggedIn: false },
       profile: {
-        savedForms: [],
         prefillsAvailable: ['FORM-UPLOAD-FLOW'],
         dob: '2000-01-01',
         loa: {

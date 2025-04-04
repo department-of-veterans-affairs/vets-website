@@ -46,11 +46,7 @@ describe('<EstimateYourBenefitsSummarySheet>', () => {
         }}
       />,
     );
-    expect(
-      wrapper
-        .find('[data-testid="your-estimated-benefits-acc"]')
-        .prop('header'),
-    ).to.equal('Your estimated benefits');
+    expect(wrapper.find('h4').text()).to.equal('Your estimated benefits');
     expect(wrapper.find('div.out-of-pocket-tuition')).to.have.length(1);
     wrapper.unmount();
   });
@@ -80,9 +76,12 @@ describe('<EstimateYourBenefitsSummarySheet>', () => {
         }}
       />,
     );
-    wrapper
-      .find('[data-testid="your-estimated-benefits-acc"]')
-      .simulate('click');
+    const btn = wrapper.find(
+      'button.eyb-button.usa-accordion-button.vads-u-padding-bottom--0',
+    );
+    expect(btn.props()['aria-expanded']).to.equal(true);
+    expect(btn.props()['aria-controls']).to.equal('eyb-summary-sheet');
+    btn.simulate('click');
     expect(mocktoggleEybExpansion.calledOnce).to.be.true;
 
     wrapper.unmount();
