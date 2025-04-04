@@ -1,0 +1,29 @@
+{
+
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1932-02-05",
+    "isVeteran": false,
+    "address": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "email": "john@veteran.com",
+    "veteranSsn": "234232345",
+    "claimantFullName": {
+      "first": "John",
+      "last": "Claimant"
+    },
+    "claimantDateOfBirth": "1932-02-05",
+    "claimantSsn": "234232345",
+    "uploadedFile": {
+      "confirmationCode": "123456"
+    }
+  }
+}

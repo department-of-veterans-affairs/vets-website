@@ -11,7 +11,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/tit
 
 const uiSchema = {
   institutionDetails: {
-    ...titleUI('Tell us about your institution'),
+    ...titleUI('Institution details'),
     institutionName: {
       ...textUI({
         title: 'Institution name',
