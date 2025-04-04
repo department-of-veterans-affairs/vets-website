@@ -30,7 +30,7 @@ const causeSecondaryPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Provide details of the service-connected disability or condition that caused ${createNewConditionName(
+        `Details of the service-connected disability or condition that caused ${createNewConditionName(
           formData,
         )}`,
     ),

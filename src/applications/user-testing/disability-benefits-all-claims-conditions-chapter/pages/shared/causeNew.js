@@ -10,7 +10,7 @@ const causeNewPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Provide details of the injury, event, disease or exposure that caused ${createNewConditionName(
+        `Details of the injury, event, disease or exposure that caused ${createNewConditionName(
           formData,
         )}`,
     ),

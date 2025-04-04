@@ -10,6 +10,10 @@ import {
   NEW_CONDITION_OPTION,
 } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
+import {
+  NewConditionCardDescription,
+  RatedDisabilityCardDescription,
+} from '../../content/conditions';
 
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
@@ -20,28 +24,28 @@ export const isEdit = () => {
   return !!hasEdit;
 };
 
-export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
+export const createAddAndEditTitles = (addTitle, editTitle) => {
   if (isEdit()) {
     return editTitle;
   }
-  return defaultTitle;
+  return addTitle;
 };
 
 export const createRatedDisabilityDescriptions = fullData => {
   return fullData.ratedDisabilities.reduce((acc, disability) => {
-    let text = `Current rating: ${disability.ratingPercentage}%`;
+    let description = `Current rating: ${disability.ratingPercentage}%`;
 
     if (disability.ratingPercentage === disability.maximumRatingPercentage) {
-      text += ` (You're already at the maximum for this rated disability.)`;
+      description += ` (You're already at the maximum for this rated disability.)`;
     }
 
-    acc[disability.name] = text;
+    acc[disability.name] = description;
 
     return acc;
   }, {});
 };
 
-const isNewConditionConditionTypeRadio = (formData, index) => {
+const isNewConditionForConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
 
@@ -54,7 +58,7 @@ const isNewConditionConditionTypeRadio = (formData, index) => {
   );
 };
 
-const isRatedDisabilityConditionTypeRadio = (formData, index) => {
+const isRatedDisabilityForConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
 
@@ -67,7 +71,7 @@ const isRatedDisabilityConditionTypeRadio = (formData, index) => {
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
-const isNewConditionRatedOrNewNextPage = (formData, index) => {
+const isNewConditionForRatedOrNewNextPage = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
 
@@ -80,7 +84,7 @@ const isNewConditionRatedOrNewNextPage = (formData, index) => {
   );
 };
 
-const isRatedDisabilityRatedOrNewNextPage = (formData, index) => {
+const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
 
@@ -95,18 +99,18 @@ const isRatedDisabilityRatedOrNewNextPage = (formData, index) => {
 
 export const isNewCondition = (formData, index) => {
   if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isNewConditionConditionTypeRadio(formData, index);
+    return isNewConditionForConditionTypeRadio(formData, index);
   }
 
-  return isNewConditionRatedOrNewNextPage(formData, index);
+  return isNewConditionForRatedOrNewNextPage(formData, index);
 };
 
 export const isRatedDisability = (formData, index) => {
   if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isRatedDisabilityConditionTypeRadio(formData, index);
+    return isRatedDisabilityForConditionTypeRadio(formData, index);
   }
 
-  return isRatedDisabilityRatedOrNewNextPage(formData, index);
+  return isRatedDisabilityForRatedOrNewNextPage(formData, index);
 };
 
 export const clearSideOfBody = (formData, index, setFormData) => {
@@ -213,43 +217,6 @@ const getItemName = item => {
   return item?.ratedDisability;
 };
 
-const createConditionsString = item => {
-  const conditions = Object.keys(item?.causedByCondition || {}).filter(
-    key => item.causedByCondition[key],
-  );
-
-  let conditionsString = '';
-
-  if (conditions.length === 1) {
-    const [condition] = conditions;
-    conditionsString = condition;
-  } else if (conditions.length === 2) {
-    conditionsString = conditions.join(' and ');
-  } else if (conditions.length > 2) {
-    conditionsString = `${conditions.slice(0, -1).join(', ')}, and ${
-      conditions[conditions.length - 1]
-    }`;
-  }
-
-  return conditionsString;
-};
-
-const createCauseDescriptions = item => {
-  const cause = item?.cause;
-
-  const causeDescriptions = {
-    NEW: 'Caused by an injury or exposure during my service.',
-    SECONDARY: `Caused by ${createConditionsString(item) ||
-      'an unspecified condition'}.`,
-    WORSENED:
-      'Existed before I served in the military, but got worse because of my military service.',
-    VA:
-      'Caused by an injury or event that happened when I was receiving VA care.',
-  };
-
-  return causeDescriptions[cause];
-};
-
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
   SECONDARY: item =>
@@ -270,43 +237,26 @@ const isItemIncomplete = item => {
   return !item?.ratedDisability;
 };
 
-const formatYearMonth = dateString => {
+const formatDateString = dateString => {
   if (!dateString) {
     return '';
   }
 
-  const [year, month] = dateString.split('-').map(Number);
+  const [year, month, day] = dateString.split('-').map(Number);
+  if (day) {
+    return format(new Date(year, month - 1, day), 'MMMM d, yyyy');
+  }
   return format(new Date(year, month - 1), 'MMMM yyyy');
 };
 
-const createRatedDisabilityCardDescription = item => {
-  const baseDescription = 'Claim for increase';
+const cardDescription = (item, _index, formData) => {
+  const date = formatDateString(item?.conditionDate);
 
-  const dateDescription = item?.conditionDate
-    ? `; worsened ${formatYearMonth(item.conditionDate)}`
-    : '';
-
-  return `${baseDescription}${dateDescription}`;
-};
-
-const createNewConditionCardDescription = item => {
-  const baseDescription = 'New condition';
-
-  const dateDescription = item?.conditionDate
-    ? `; started ${formatYearMonth(item.conditionDate)}`
-    : '';
-
-  const causeDescription = `; ${createCauseDescriptions(item)}`;
-
-  return `${baseDescription}${dateDescription}${causeDescription}`;
-};
-
-const cardDescription = item => {
   if (isNewCondition(item)) {
-    return createNewConditionCardDescription(item);
+    return NewConditionCardDescription(item, date);
   }
 
-  return createRatedDisabilityCardDescription(item);
+  return RatedDisabilityCardDescription(item, formData, date);
 };
 
 /** @type {ArrayBuilderOptions} */

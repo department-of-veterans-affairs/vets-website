@@ -1,7 +1,7 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @returns {PageSchema} */
@@ -9,20 +9,18 @@ const ratedDisabilityDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Tell us the approximate date of ${
-          formData?.ratedDisability
-        } getting worse`,
+        `Approximate date of ${formData?.ratedDisability} getting worse`,
     ),
-    conditionDate: currentOrPastMonthYearDateUI({
+    conditionDate: currentOrPastDateUI({
       title: 'Around what date did your disability get worse?',
       hint:
-        'You may share an exact date or an approximate date. For example, if you noticed your back pain getting worse in the winter of 2020, you would enter December 2020.',
+        'You may share an exact date or an approximate date. For example, if you noticed your back pain getting worse in the winter of 2020, you would enter December 1, 2020.',
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      conditionDate: currentOrPastMonthYearDateSchema,
+      conditionDate: currentOrPastDateSchema,
     },
   },
 };

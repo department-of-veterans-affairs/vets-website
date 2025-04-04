@@ -15,12 +15,10 @@ const createRatedDisabilitySchema = fullData =>
 /** @returns {PageSchema} */
 const ratedDisabilityPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Tell us which service-connected disability has worsened',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Service-connected disabilities'),
     ratedDisability: radioUI({
       title:
-        'Select which of your service-connected disabilities has worsened.',
+        'Select which of your service-connected disabilities have gotten worse.',
       hint:
         'Choose one, you will return to this screen if you need to add more.',
       updateUiSchema: (_formData, fullData) => ({

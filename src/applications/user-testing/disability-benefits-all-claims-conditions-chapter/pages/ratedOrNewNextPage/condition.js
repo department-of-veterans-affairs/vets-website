@@ -11,22 +11,22 @@ import {
   createRatedDisabilityDescriptions,
 } from '../shared/utils';
 
-const createRatedDisabilitiesSchema = fullData =>
+const createRatedDisabilitySchema = fullData =>
   ({
-    ...createNonSelectedRatedDisabilities(fullData),
     [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
+    ...createNonSelectedRatedDisabilities(fullData),
   } || {});
 
 /** @returns {PageSchema} */
 const conditionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Tell us which condition you want to claim',
+      title: 'Type of condition',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     ratedDisability: radioUI({
       title:
-        'Select which of your service-connected disabilities have gotten worse or select if you are adding a new condition.',
+        'Select if you’d like to add a new condition or select which of your service-connected disabilities have gotten worse.',
       hint:
         'Choose one, you will return to this screen if you need to add more.',
       updateUiSchema: (_formData, fullData) => ({
@@ -35,7 +35,7 @@ const conditionPage = {
         },
       }),
       updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
-        radioSchema(Object.keys(createRatedDisabilitiesSchema(fullData))),
+        radioSchema(Object.keys(createRatedDisabilitySchema(fullData))),
     }),
   },
   schema: {

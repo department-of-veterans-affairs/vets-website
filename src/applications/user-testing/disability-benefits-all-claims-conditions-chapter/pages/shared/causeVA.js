@@ -11,7 +11,7 @@ const causeVAPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Provide details of the injury or event in VA care that caused ${createNewConditionName(
+        `Details of the injury or event in VA care that caused ${createNewConditionName(
           formData,
         )}`,
     ),

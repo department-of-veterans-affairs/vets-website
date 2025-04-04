@@ -1,7 +1,7 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { createNewConditionName } from './utils';
@@ -11,19 +11,17 @@ const newConditionDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Tell us the approximate start date of ${createNewConditionName(
-          formData,
-        )}`,
+        `Approximate start date of ${createNewConditionName(formData)}`,
     ),
-    conditionDate: currentOrPastMonthYearDateUI({
+    conditionDate: currentOrPastDateUI({
       title: 'What’s the approximate date your condition started?',
-      hint: 'For example, summer of 1988 can be entered as June 1988.',
+      hint: 'For example, summer of 1988 can be entered as June 1, 1988.',
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      conditionDate: currentOrPastMonthYearDateSchema,
+      conditionDate: currentOrPastDateSchema,
     },
   },
 };

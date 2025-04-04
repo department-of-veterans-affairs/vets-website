@@ -16,7 +16,7 @@ const conditionTypeOptions = {
 const conditionTypePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Tell us what type of condition you are applying for',
+      title: 'Type of condition',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     'view:conditionType': radioUI({

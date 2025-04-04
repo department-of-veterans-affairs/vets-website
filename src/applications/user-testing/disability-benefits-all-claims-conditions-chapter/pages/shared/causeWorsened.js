@@ -11,7 +11,7 @@ const causeWorsenedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Provide details of the injury, event or exposure that worsened ${createNewConditionName(
+        `Details of the injury, event or exposure that worsened ${createNewConditionName(
           formData,
         )}`,
     ),

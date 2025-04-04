@@ -5,7 +5,10 @@ import { ConditionsIntroDescription } from '../../content/conditions';
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Add your conditions', ConditionsIntroDescription),
+    ...titleUI(
+      'Add your disabilities and conditions',
+      ConditionsIntroDescription,
+    ),
   },
   schema: {
     type: 'object',
