@@ -11,6 +11,7 @@ describe('Medical Records View Allergies Multiple Page', () => {
     cy.visit('my-health/medical-records');
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
+    AllergiesListPage.selectSort('Newest to oldest (date entered)');
     AllergiesListPage.loadVAPaginationNextAllergies();
     AllergyDetailsPage.clickAllergyDetailsLink(
       allergyDetail.code.text,

@@ -11,6 +11,7 @@ describe('Medical Records validate breadcrumbs', () => {
     cy.visit('my-health/medical-records');
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergiesListPage.verifyBreadcrumbs('Medical records');
+    AllergiesListPage.selectSort('Newest to oldest (date entered)');
     AllergiesListPage.loadVAPaginationNextAllergies();
     // navigate to allergies details page
     AllergyDetailsPage.clickAllergyDetailsLink(
