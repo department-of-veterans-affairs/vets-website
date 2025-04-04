@@ -22,7 +22,7 @@ import {
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'unassociatedIncomes',
   nounSingular: 'recurring income not associated with accounts or assets',
   nounPlural: 'recurring incomes not associated with accounts or assets',
