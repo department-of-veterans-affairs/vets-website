@@ -29,7 +29,7 @@ import { downtimeNotificationParams } from '../util/constants';
 const App = ({ children }) => {
   const user = useSelector(selectUser);
 
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const { featureTogglesLoading } = useSelector(
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
@@ -124,11 +124,6 @@ const App = ({ children }) => {
         </div>
       </>
     );
-  }
-
-  if (appEnabled !== true) {
-    // If the user is not whitelisted or feature flag is disabled, return nothing.
-    return <></>;
   }
 
   return (

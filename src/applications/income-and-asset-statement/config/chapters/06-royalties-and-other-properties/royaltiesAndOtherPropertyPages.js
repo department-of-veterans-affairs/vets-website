@@ -26,7 +26,7 @@ import {
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'royaltiesAndOtherProperties',
   nounSingular: 'royalty and other property',
   nounPlural: 'royalties and other properties',

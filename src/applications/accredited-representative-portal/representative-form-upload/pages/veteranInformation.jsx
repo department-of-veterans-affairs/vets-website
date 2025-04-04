@@ -5,17 +5,27 @@ import {
   addressUI,
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
+  emailSchema,
+  emailToSendNotificationsUI,
   titleUI,
+  ssnSchema,
+  ssnUI,
+  dateOfBirthUI,
+  dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
+function veteranFormatTitle(name) {
+  return `Veteran ${name}`;
+}
+
 /** @type {PageSchema} */
-export const nameAndZipCodePage = {
+export const veteranInformationPage = {
   uiSchema: {
-    ...titleUI('Veteran’s name and postal code'),
-    veteranFullName: firstNameLastNameNoSuffixUI(),
+    ...titleUI('Veteran’s information'),
+    veteranFullName: firstNameLastNameNoSuffixUI(veteranFormatTitle),
     address: addressUI({
       labels: {
         postalCode: 'Postal code',
@@ -31,6 +41,9 @@ export const nameAndZipCodePage = {
       ],
       required: true,
     }),
+    veteranSsn: ssnUI(),
+    email: emailToSendNotificationsUI(),
+    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
@@ -47,17 +60,31 @@ export const nameAndZipCodePage = {
           'street3',
         ],
       }),
+      veteranSsn: ssnSchema,
+      veteranDateOfBirth: dateOfBirthSchema,
+      email: emailSchema,
     },
+    required: [
+      'veteranSsn',
+      'veteranDateOfBirth',
+      'email',
+      'address',
+      'veteranFullName',
+    ],
   },
 };
 
 /** @type {CustomPageType} */
-export function NameAndZipCodePage(props) {
-  const alert = MUST_MATCH_ALERT('name-and-zip-code', onCloseAlert, props.data);
+export function VeteranInformationPage(props) {
+  const alert = MUST_MATCH_ALERT(
+    'veteran-information',
+    onCloseAlert,
+    props.data,
+  );
   return <CustomAlertPage {...props} alert={alert} />;
 }
 
-NameAndZipCodePage.propTypes = {
+veteranInformationPage.propTypes = {
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,
