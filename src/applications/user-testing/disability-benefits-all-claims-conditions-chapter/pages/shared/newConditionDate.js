@@ -1,7 +1,7 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { createNewConditionName } from './utils';
@@ -10,12 +10,10 @@ import { createNewConditionName } from './utils';
 const newConditionDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Start date of ${createNewConditionName(formData)}`,
+      ({ formData }) =>
+        `Approximate start date of ${createNewConditionName(formData)}`,
     ),
-    // TODO: Can we make just year required?
-    // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
-    // TODO: Why is there the empty option when both are required?
-    conditionDate: currentOrPastMonthYearDateUI({
+    conditionDate: currentOrPastDateUI({
       title: 'What’s the approximate date your condition started?',
       hint: 'For example, summer of 1988 can be entered as June 1, 1988.',
     }),
@@ -23,7 +21,7 @@ const newConditionDatePage = {
   schema: {
     type: 'object',
     properties: {
-      conditionDate: currentOrPastMonthYearDateSchema,
+      conditionDate: currentOrPastDateSchema,
     },
   },
 };
