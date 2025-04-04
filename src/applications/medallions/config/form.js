@@ -97,7 +97,7 @@ const formConfig = {
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
-          title: 'Your organizations contact information',
+          title: 'Your organization’s contact information',
           uiSchema: applicantContactInfo2.uiSchema,
           schema: applicantContactInfo2.schema,
           depends: formData =>
