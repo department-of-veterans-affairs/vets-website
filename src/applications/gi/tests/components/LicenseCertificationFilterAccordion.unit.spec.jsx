@@ -57,11 +57,10 @@ describe('<LicenseCertificationFilterAccordion>', () => {
     expect(defaultProps.resetSearch.called).to.be.true;
   });
 
-  // this test passes in isolation but fails when run alongside all other specs in app
-  it.skip('should toggle expanded state on button click', () => {
+  it('should toggle expanded state on button click', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: false });
 
-    const button = wrapper.find('va-accordion-item');
+    const button = wrapper.find('button[data-testid="update-lc-search"]');
     button.simulate('click');
 
     expect(defaultProps.onClick.calledOnce).to.be.true;
@@ -75,33 +74,32 @@ describe('<LicenseCertificationFilterAccordion>', () => {
 
   it('should set initial expanded state correctly', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: true });
-    let openState = wrapper.find('va-accordion-item').prop('open');
-    expect(openState).to.be.true;
+    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
 
     const collapsedWrapper = mountComponent({
       ...defaultProps,
       expanded: false,
     });
-    openState = collapsedWrapper.find('va-accordion-item').prop('open');
-    expect(openState).to.be.false;
+    expect(collapsedWrapper.find('.usa-accordion-content').props().hidden).to.be
+      .true;
   });
 
   it('should correctly update isExpanded state when toggled', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: false });
 
-    expect(wrapper.find('va-accordion-item').props().open).to.be.false;
+    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
 
-    wrapper.find('va-accordion-item').simulate('click');
-    expect(wrapper.find('va-accordion-item').props().open).to.be.true;
+    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
+    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
 
-    wrapper.find('va-accordion-item').simulate('click');
-    expect(wrapper.find('va-accordion-item').props().open).to.be.false;
+    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
+    expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
   });
   it('should not throw an error if onClick is undefined', () => {
     const wrapper = mountComponent({ ...defaultProps, onClick: undefined });
 
     expect(() => {
-      wrapper.find('va-accordion-item').simulate('click');
+      wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
     }).to.not.throw();
   });
 });

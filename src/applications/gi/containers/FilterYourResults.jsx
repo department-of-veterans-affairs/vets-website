@@ -83,7 +83,6 @@ export function FilterYourResults({
   errorReducer,
   searchType,
   dispatchFocusSearch,
-  bordered,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -489,7 +488,7 @@ export function FilterYourResults({
     'vads-u-padding--0',
   );
   return (
-    <>
+    <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
         <SearchAccordion
           button={title}
@@ -498,7 +497,6 @@ export function FilterYourResults({
           expanded={expanded}
           onClick={onAccordionChange}
           dispatchFocusSearch={dispatchFocusSearch}
-          bordered={bordered}
         >
           {search.inProgress && (
             <VaLoadingIndicator
@@ -538,7 +536,7 @@ export function FilterYourResults({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -566,7 +564,6 @@ FilterYourResults.propTypes = {
   searchType: PropTypes.string.isRequired,
   smallScreen: PropTypes.bool.isRequired,
   dispatchFocusSearch: PropTypes.func,
-  bordered: PropTypes.bool,
 };
 export default connect(
   mapStateToProps,

@@ -3,10 +3,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import {
-  VaTextInput,
-  VaAccordionItem,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -23,6 +20,7 @@ import {
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import { ariaLabels } from '../../constants';
+import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
 import VARadioButton from '../VARadioButton';
@@ -374,20 +372,22 @@ function CalculateYourBenefitsForm({
 
     return (
       <>
-        <LearnMoreLabel
-          text={radioButtonsLabelText}
-          onClick={() => showModal(modal)}
-          ariaLabel={ariaLabels.learnMore.inState}
-        />
-        <VARadioButton
-          radioLabel=""
-          name="inState"
-          initialValue={inputs.inState}
-          options={options}
-          onVaValueChange={(target, name) =>
-            handleInputChange(null, target, name)
-          }
-        />
+        <div className="vads-u-margin-top--3">
+          <LearnMoreLabel
+            text={radioButtonsLabelText}
+            onClick={() => showModal(modal)}
+            ariaLabel={ariaLabels.learnMore.inState}
+          />
+          <VARadioButton
+            radioLabel=""
+            name="inState"
+            initialValue={inputs.inState}
+            options={options}
+            onVaValueChange={(target, name) =>
+              handleInputChange(null, target, name)
+            }
+          />
+        </div>
         {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
       </>
     );
@@ -1071,29 +1071,33 @@ function CalculateYourBenefitsForm({
   };
 
   const renderMilitaryDetails = () => {
+    const name = 'Your military details';
+
     return (
-      <VaAccordionItem
-        id="military-details-item"
-        header="Your military details"
-        open={expanded.yourBenefits}
+      <AccordionItem
+        button={name}
+        section
+        expanded={expanded.yourBenefits}
         onClick={isExpanded => toggleExpanded('yourBenefits', isExpanded)}
       >
-        <BenefitsForm
-          eligibilityChange={updateEligibility}
-          eligibilityChangeRedux={eligibilityChange}
-          {...eligibility}
-          hideModal={hideModal}
-          showModal={showModal}
-          inputs={inputs}
-          displayedInputs={displayedInputs}
-          handleInputFocus={handleEYBInputFocus}
-          giBillChapterOpen={[displayedInputs?.giBillBenefit]}
-        >
-          {renderGbBenefit()}
-          {renderOnlineClasses()}
-        </BenefitsForm>
+        <div>
+          <BenefitsForm
+            eligibilityChange={updateEligibility}
+            eligibilityChangeRedux={eligibilityChange}
+            {...eligibility}
+            hideModal={hideModal}
+            showModal={showModal}
+            inputs={inputs}
+            displayedInputs={displayedInputs}
+            handleInputFocus={handleEYBInputFocus}
+            giBillChapterOpen={[displayedInputs?.giBillBenefit]}
+          >
+            {renderGbBenefit()}
+            {renderOnlineClasses()}
+          </BenefitsForm>
+        </div>
         {renderEYBSkipLink()}
-      </VaAccordionItem>
+      </AccordionItem>
     );
   };
 
@@ -1122,19 +1126,21 @@ function CalculateYourBenefitsForm({
 
     const name = 'School costs and calendar';
     return (
-      <VaAccordionItem
-        id="school-costs-and-calendar-item"
-        header={name}
-        open={expanded.aboutYourSchool}
+      <AccordionItem
+        button={name}
+        expanded={expanded.aboutYourSchool}
+        section
         onClick={isExpanded => toggleExpanded('aboutYourSchool', isExpanded)}
       >
-        {renderInState()}
-        {renderTuition()}
-        {renderBooks()}
-        {renderCalendar()}
-        {renderEnrolled()}
+        <div className="calculator-form">
+          {renderInState()}
+          {renderTuition()}
+          {renderBooks()}
+          {renderCalendar()}
+          {renderEnrolled()}
+        </div>
         {renderEYBSkipLink()}
-      </VaAccordionItem>
+      </AccordionItem>
     );
   };
 
@@ -1145,18 +1151,20 @@ function CalculateYourBenefitsForm({
       : 'Learning format and location';
 
     return (
-      <VaAccordionItem
-        id="learning-format-item"
-        header={name}
-        open={expanded.learningFormatAndSchedule}
+      <AccordionItem
+        button={name}
+        expanded={expanded.learningFormatAndSchedule}
+        section
         onClick={isExpanded =>
           toggleExpanded('learningFormatAndSchedule', isExpanded)
         }
       >
-        {renderExtensionBeneficiaryZIP()}
-        {renderWorking()}
+        <div className="calculator-form vads-u-margin-top--3">
+          {renderExtensionBeneficiaryZIP()}
+          {renderWorking()}
+        </div>
         {renderEYBSkipLink()}
-      </VaAccordionItem>
+      </AccordionItem>
     );
   };
 
@@ -1176,21 +1184,23 @@ function CalculateYourBenefitsForm({
     const name = 'Scholarships and other VA funding';
 
     return (
-      <VaAccordionItem
-        id="scholarships-and-other-funding-item"
-        header={name}
-        open={expanded.scholarshipsAndOtherFunding}
+      <AccordionItem
+        button={name}
+        expanded={expanded.scholarshipsAndOtherFunding}
+        section
         onClick={isExpanded =>
           toggleExpanded('scholarshipsAndOtherFunding', isExpanded)
         }
       >
-        {renderYellowRibbon()}
-        {renderTuitionAssist()}
-        {renderKicker()}
-        {renderBuyUp()}
-        {renderScholarships()}
+        <div className="calculator-form vads-u-margin-top--3">
+          {renderYellowRibbon()}
+          {renderTuitionAssist()}
+          {renderKicker()}
+          {renderBuyUp()}
+          {renderScholarships()}
+        </div>
         {renderEYBSkipLink()}
-      </VaAccordionItem>
+      </AccordionItem>
     );
   };
 
@@ -1215,12 +1225,12 @@ function CalculateYourBenefitsForm({
           updates.
         </p>
       </div>
-      <va-accordion>
+      <ul className="vads-u-padding--0">
         {renderMilitaryDetails()}
         {renderSchoolCostsAndCalendar()}
         {renderLearningFormat()}
         {renderScholarshipsAndOtherVAFunding()}
-      </va-accordion>
+      </ul>
     </div>
   );
 }
