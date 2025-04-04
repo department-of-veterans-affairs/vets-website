@@ -6,7 +6,7 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import PropTypes from 'prop-types';
 import {
@@ -25,7 +25,7 @@ import {
   answerCombatQuestionsChoice,
   combatIntroDescription,
   combatIntroTitle,
-  deleteCombatAnswersModalTitle,
+  // deleteCombatAnswersModalTitle,
   missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
@@ -80,6 +80,18 @@ const BehaviorIntroCombatPage = ({
     },
     [showDeletedAnswerConfirmation],
   );
+
+  const modalRef = useRef(null);
+  useEffect(
+    () => {
+      if (showDeleteAnswersModal && modalRef.current) {
+        const modalHeading = document.querySelector('h4');
+        scrollAndFocus(modalHeading);
+      }
+    },
+    [showDeleteAnswersModal],
+  );
+
   const missingSelection = (error, _fieldData, formData) => {
     if (!formData?.['view:answerCombatBehaviorQuestions']) {
       error.addError?.(missingSelectionErrorMessage);
@@ -184,7 +196,6 @@ const BehaviorIntroCombatPage = ({
       <p>{combatIntroDescription}</p>
 
       <VaModal
-        modalTitle={deleteCombatAnswersModalTitle}
         visible={showDeleteAnswersModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
@@ -193,7 +204,7 @@ const BehaviorIntroCombatPage = ({
         secondaryButtonText="No, return to claim"
         status="warning"
       >
-        <BehaviorIntroCombatPageModalContent formData={data} />
+        <BehaviorIntroCombatPageModalContent formData={data} ref={modalRef} />
       </VaModal>
 
       <form onSubmit={handlers.onSubmit}>
