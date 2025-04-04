@@ -2,9 +2,6 @@ import React from 'react';
 
 export const officialReportPageTitle = 'Official report';
 
-export const reportTypesQuestion =
-  'Were any of these types of official reports filed for the event you described?';
-
 export const officialReportsDescription = (type = 'default') => {
   return (
     <>
@@ -30,7 +27,6 @@ export const officialReportsDescription = (type = 'default') => {
         that traumatic events often go unreported. You can skip this question if
         you don’t feel comfortable answering.
       </p>
-      {type === 'mst' && <p>{reportTypesQuestion}</p>}
     </>
   );
 };
@@ -39,7 +35,7 @@ export const militaryReportsHint =
   'Select any military incident reports filed for this event.';
 
 export const noReportHint =
-  'Select this option if you didn’t have any official reports filed, don’t know about any official reports, or prefer not to include them.';
+  'Select this option if you didn’t have any reports filed, don’t know about any official reports, or prefer not to include them.';
 
 export const otherReportTypesTitle =
   'Other official report type not listed here:';
@@ -60,6 +56,15 @@ export const otherReportTypesExamples = (
       </ul>
     </div>
   </va-additional-info>
+);
+
+export const removePoliceReportModalContent = (
+  <>
+    <p>
+      If you change your selection, we’ll delete information you provided about
+      this report.
+    </p>
+  </>
 );
 
 export function selectedReportTypes(formData) {
