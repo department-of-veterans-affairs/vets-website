@@ -38,13 +38,13 @@ export default {
       },
       yourContactInfoPhone: {
         type: 'string',
-        minLength: 10,
+        // minLength: 10,
         maxLength: 15,
-        pattern: '^(\\d{3}|\\(\\d{3}\\))-?\\d{3}-?\\d{4}$',
+        pattern: '1?-?(\\d{3}|\\(\\d{3}\\))[- ]?\\d{3}[- ]?\\d{4}',
       },
     },
     required: ['yourContactInfoEmail', 'yourContactInfoPhone'],
   },
 };
 
-// PHONE NUMBER THING NOT DONE
+// PHONE NUMBER THING IS FIXED? CHECK WITH PORS
