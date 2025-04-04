@@ -27,7 +27,9 @@ import {
   showUnlistedDescriptionPage,
   showBehaviorSummaryPage,
 } from '../../utils/form0781';
-import { workflowChoicePageTitle } from '../../content/form0781/workflowChoicePage';
+import WorkflowChoicePage, {
+  workflowChoicePageTitle,
+} from '../../content/form0781/workflowChoicePage';
 import { manualUploadPageTitle } from '../../content/form0781/manualUploadPage';
 import { mentalHealthSupportPageTitle } from '../../content/mentalHealthSupport';
 import { eventsPageTitle } from '../../content/traumaticEventsIntro';
@@ -55,6 +57,8 @@ export const form0781PagesConfig = {
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
+    CustomPage: WorkflowChoicePage,
+    CustomPageReview: null,
   },
   manualUploadPage: {
     title: manualUploadPageTitle,
