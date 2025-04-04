@@ -455,7 +455,14 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
  * @param {Number} index -  The index of the current item in an array
  * @returns {UISchemaOptions} The new uiSchema object
  */
-export function updateUiSchema(schema, uiSchema, formData, fullData, index) {
+export function updateUiSchema(
+  schema,
+  uiSchema,
+  formData,
+  fullData,
+  index,
+  propKey,
+) {
   if (!uiSchema) {
     return uiSchema;
   }
@@ -473,6 +480,7 @@ export function updateUiSchema(schema, uiSchema, formData, fullData, index) {
           formData,
           fullData || formData,
           index,
+          key,
         );
 
         if (modifiedUiSchema[key] !== nextProp) {
@@ -489,11 +497,32 @@ export function updateUiSchema(schema, uiSchema, formData, fullData, index) {
     }
   }
 
-  // if (schema.type === 'array') {
-  // array path is not supported for updateUiSchema because there is only one
-  // uiSchema per array, so we can't guarantee it's correct. A workaround for
-  // the consumer is to use updateSchema (there are multiple schemas per array)
-  // which has access to updating 'title' which affects 'ui:title'
+  if (schema.type === 'array') {
+    const activeContext = getActiveFormPageContext();
+
+    // About updateUiSchema for arrays:
+    // - generally not supported for arrays (because there is only 1 uiSchema per array)
+    // - "ArrayBuilder" is an exception because we don't show multiple
+    //   uiSchemas at once (for example in review or confirmation pages)
+    // - title can be set on schema instead to achieve an update title
+    if (
+      schema.arrayType === 'ArrayBuilderV1' &&
+      activeContext.arrayPath === propKey &&
+      activeContext.index != null
+    ) {
+      const newItem = updateUiSchema(
+        schema.items[activeContext.index],
+        uiSchema.items,
+        formData,
+        fullData || formData,
+        activeContext.index,
+      );
+
+      if (newItem !== uiSchema.items) {
+        currentUiSchema = set('items', newItem, currentUiSchema);
+      }
+    }
+  }
 
   const uiSchemaUpdater = uiSchema['ui:options']?.updateUiSchema;
 
