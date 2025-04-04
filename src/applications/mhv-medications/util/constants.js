@@ -272,7 +272,6 @@ export const tooltipNames = {
 
 export const tooltipHintContent = {
   filterAccordion: {
-    HINT:
-      'Filter the medications list to easily find what you are looking for.',
+    HINT: 'Filter your list to find a specific medication.',
   },
 };
