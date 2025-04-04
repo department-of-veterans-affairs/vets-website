@@ -415,12 +415,8 @@ const formConfig = {
             'view:benefitInfo': {
               'ui:description': (
                 <>
-                  <span className="fry-dea-labels_label--main vads-u-padding-left--1">
-                    Which education benefit would you like to apply for?
-                  </span>
-                  <br />
-                  <br />
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                  <p>Which education benefit would you like to apply for?</p>
+                  <p className="fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1">
                     <va-icon
                       size={3}
                       icon="info"
@@ -433,8 +429,7 @@ const formConfig = {
                     Scholarship and DEA and get up to 81 months of benefits.
                     You’ll need to apply separately and use one program at a
                     time.
-                  </span>
-                  <br />
+                  </p>
                 </>
               ),
             },
