@@ -169,6 +169,16 @@ describe('form submit transform', () => {
             .highSchoolDiplomaOrCertificateDate,
         ).to.deep.equal('2000-01-02');
       });
+      it('should not set highSchoolDiplomaOrCertificate when not presented with the high school question', () => {
+        mockSubmissionForm.data = {
+          ...mockSubmissionForm.data,
+          ...mockSubmissionForm.data.noHighSchoolQuestions,
+        };
+        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
+        expect(
+          submissionObject.highSchoolDiplomaInfo.highSchoolDiplomaOrCertificate,
+        ).to.be.undefined;
+      });
       it('should set high school diploma certificate to false if No selected and change flag is true', () => {
         mockSubmissionForm.data = {
           ...mockSubmissionForm.data,
