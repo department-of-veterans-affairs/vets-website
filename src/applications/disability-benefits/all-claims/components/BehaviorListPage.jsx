@@ -40,6 +40,9 @@ const BehaviorListPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  // for review and submit page
+  onReviewPage,
+  updatePage,
 }) => {
   const [selectedWorkBehaviors, setSelectedWorkBehaviors] = useState(
     data?.workBehaviors,
@@ -230,6 +233,20 @@ const BehaviorListPage = ({
         scrollToFirstError({ focusOnAlertRole: false });
       }
     },
+    // everything before 'else' has same logic as custom page onSubmit handler (could be cleaned up later), updatePage shows the different button
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors(data)) {
+        scrollToFirstError({ focusOnAlertRole: false });
+      } else if (
+        data?.behaviorsDetails &&
+        Object.keys(orphanedBehaviorDetails(data)).length > 0
+      ) {
+        setShowModal(true);
+      } else {
+        updatePage(event);
+      }
+    },
   };
 
   const modalContent = formData => {
@@ -265,6 +282,27 @@ const BehaviorListPage = ({
       </>
     );
   };
+
+  const accordionsAndNavButtons = onReviewPage ? (
+    <va-button
+      text="Update page"
+      onClick={handlers.onUpdatePage}
+      label="Update page"
+      // className= TODO - check styling, button isn't full width
+    />
+  ) : (
+    <>
+      {behaviorListAdditionalInformation}
+      <>{mentalHealthSupportAlert()}</>
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue
+      />
+      {contentAfterButtons}
+    </>
+  );
 
   return (
     <div className="vads-u-margin-y--2">
@@ -413,16 +451,7 @@ const BehaviorListPage = ({
             uswds
           />
         </VaCheckboxGroup>
-
-        {behaviorListAdditionalInformation}
-        <>{mentalHealthSupportAlert()}</>
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handlers.onSubmit}
-          submitToContinue
-        />
-        {contentAfterButtons}
+        {accordionsAndNavButtons}
       </form>
     </div>
   );
@@ -443,5 +472,6 @@ BehaviorListPage.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 export default BehaviorListPage;
