@@ -81,9 +81,10 @@ const formConfig = {
   },
   preSubmitInfo: {
     statementOfTruth: {
-      heading: 'Certification statement',
       body: PrivacyPolicy,
+      heading: 'Certification statement',
       fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
     },
   },
   transformForSubmit: transform,

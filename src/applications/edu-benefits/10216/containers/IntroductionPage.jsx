@@ -4,6 +4,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import ResBurdenPrivacyPolicy from '../components/ResBurdenPrivacyAct';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
@@ -229,11 +230,9 @@ const IntroductionPage = ({ route }) => {
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={30}
-        omb-number="2900-0896"
-        exp-date="1/31/2028"
-      />
+      <va-omb-info res-burden={30} omb-number="2900-0896" exp-date="1/31/2028">
+        <ResBurdenPrivacyPolicy />
+      </va-omb-info>
     </article>
   );
 };

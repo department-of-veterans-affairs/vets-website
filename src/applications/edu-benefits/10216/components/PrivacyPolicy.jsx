@@ -7,6 +7,7 @@ const PrivacyPolicy = () => {
   const [showModal, toggleShowModal] = useState(false);
 
   useEffect(() => {
+    // Hide platform line for privacy policy, use custom
     (async () => {
       const privacyPolicyText = await querySelectorWithShadowRoot(
         'p.short-line',
@@ -26,6 +27,7 @@ const PrivacyPolicy = () => {
         modalTitle="Privacy Act Statement"
         onCloseEvent={() => toggleShowModal(!showModal)}
         visible={showModal}
+        large
       >
         <ResBurdenPrivacyPolicy />
       </VaModal>
