@@ -106,13 +106,6 @@ export class CernerCallToAction extends Component {
         featureLocation: 'VA.gov',
       };
     }
-    if (widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE === widgetType) {
-      return {
-        cta1: 'refill prescriptions from',
-        cta2: 'medications',
-        featureLocation: 'My HealtheVet',
-      };
-    }
     if (widgetTypes.SECURE_MESSAGING_PAGE === widgetType) {
       return {
         cta1: 'send a secure message to a provider at',

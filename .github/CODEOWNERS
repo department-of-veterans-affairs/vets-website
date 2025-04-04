@@ -147,7 +147,6 @@ src/applications/resources-and-support @department-of-veterans-affairs/vfs-publi
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Public Websites - unauthed experience only
-src/applications/static-pages/health-care-manage-benefits/refill-track-prescriptions-page @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/health-care-manage-benefits/secure-messaging-page @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/health-care-manage-benefits/view-test-and-lab-results-page @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 

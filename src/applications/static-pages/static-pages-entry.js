@@ -16,7 +16,6 @@ import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 // Health Care | Manage Benefits widgets.
 import createModernGetMedicalRecordsPage from './health-care-manage-benefits/modern-get-medical-records-page';
-import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
 import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
 import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
@@ -199,10 +198,6 @@ createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createModernGetMedicalRecordsPage(
   store,
   widgetTypes.MODERN_GET_MEDICAL_RECORDS_PAGE,
-);
-createRefillTrackPrescriptionsPage(
-  store,
-  widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
 );
 createScheduleViewVAAppointmentsPage(
   store,

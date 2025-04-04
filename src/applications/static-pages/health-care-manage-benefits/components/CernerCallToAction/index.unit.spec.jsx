@@ -99,29 +99,6 @@ describe('<CernerCallToAction>', () => {
     wrapper.unmount();
   });
 
-  it('should not render new layout when feature flag is true and widget type is refill_track_prescriptions_page', () => {
-    const wrapper = shallow(
-      <CernerCallToAction
-        featureStaticLandingPage
-        widgetType={widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE}
-      />,
-    );
-    wrapper.setState({
-      fetching: false,
-      facilities: [
-        { attributes: { name: 'Example Facility 1' } },
-        { attributes: { name: 'Example Facility 2' } },
-      ],
-    });
-
-    const text = wrapper.text();
-    expect(text).to.include(
-      'Your VA health care team may be using our My VA Health portal',
-    );
-
-    wrapper.unmount();
-  });
-
   it('should not render new layout when feature flag is true and widget type is secure_messaging_page', () => {
     const wrapper = shallow(
       <CernerCallToAction
