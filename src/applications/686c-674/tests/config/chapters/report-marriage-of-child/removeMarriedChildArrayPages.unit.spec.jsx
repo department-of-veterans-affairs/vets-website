@@ -47,14 +47,15 @@ describe('removeMarriedChildOptions', () => {
     });
   });
 
-  describe('getItemName', () => {
+  describe('getItemName + cardDescription', () => {
     it('should return a correctly formatted name for a child', () => {
       const item = {
         fullName: { first: 'Jane', last: 'Doe' },
       };
 
       const expectedName = 'Jane Doe';
-      expect(removeMarriedChildOptions.text.getItemName(item)).to.equal(
+      expect(removeMarriedChildOptions.text.getItemName()).to.equal('Child');
+      expect(removeMarriedChildOptions.text.cardDescription(item)).to.equal(
         expectedName,
       );
     });
@@ -65,7 +66,8 @@ describe('removeMarriedChildOptions', () => {
       };
 
       const expectedName = ' Smith';
-      expect(removeMarriedChildOptions.text.getItemName(item)).to.equal(
+      expect(removeMarriedChildOptions.text.getItemName()).to.equal('Child');
+      expect(removeMarriedChildOptions.text.cardDescription(item)).to.equal(
         expectedName,
       );
     });
@@ -76,7 +78,8 @@ describe('removeMarriedChildOptions', () => {
       };
 
       const expectedName = 'John ';
-      expect(removeMarriedChildOptions.text.getItemName(item)).to.equal(
+      expect(removeMarriedChildOptions.text.getItemName()).to.equal('Child');
+      expect(removeMarriedChildOptions.text.cardDescription(item)).to.equal(
         expectedName,
       );
     });

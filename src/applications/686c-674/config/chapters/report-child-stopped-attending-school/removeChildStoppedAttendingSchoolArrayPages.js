@@ -30,9 +30,10 @@ export const removeChildStoppedAttendingSchoolOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children between ages 18 and 23 who left school',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Child',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };

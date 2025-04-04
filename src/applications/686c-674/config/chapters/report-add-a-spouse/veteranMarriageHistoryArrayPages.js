@@ -1,4 +1,3 @@
-import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
   textUI,
@@ -55,20 +54,12 @@ export const veteranMarriageHistoryOptions = {
       !item?.endLocation?.location?.country),
   maxItems: 20,
   text: {
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    summaryTitle: 'Review your marital history',
+    getItemName: () => 'Your former marriage',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
-    cardDescription: item => {
-      const start = item?.startDate
-        ? format(parseISO(item.startDate), 'MM/dd/yyyy')
-        : 'Unknown';
-      const end = item?.endDate
-        ? format(parseISO(item.endDate), 'MM/dd/yyyy')
-        : 'Unknown';
-
-      return `${start} - ${end}`;
-    },
   },
 };
 
@@ -137,7 +128,6 @@ export const vetFormerMarriageEndReasonPage = {
     reasonMarriageEndedOther: {
       ...textUI('Briefly describe how your marriage ended'),
       'ui:required': (formData, index) => {
-        // See above comment
         const isEditMode = formData?.reasonMarriageEnded === 'Other';
         const isAddMode =
           formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===

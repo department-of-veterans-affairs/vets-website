@@ -30,9 +30,10 @@ export const removeMarriedChildOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children under 18 who got married',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Child',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };
