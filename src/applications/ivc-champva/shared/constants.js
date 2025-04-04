@@ -46,7 +46,7 @@ export const CHAMPVA_ADDRESS = (
 // TODO: Audit all IVC forms and make sure they're referencing
 // these values so we can control them all in one place.
 export const CHAMPVA_PHONE_NUMBER = '18007338387';
-export const CHAMPVA_FAX_NUMBER = '3033317807';
+export const CHAMPVA_FAX_NUMBER = '3033317809';
 export const CHAMPVA_CLAIMS_PHONE_NUMBER = CHAMPVA_PHONE_NUMBER;
 export const CHAMPVA_CLAIMS_FAX_NUMBER = '3033317804';
 export const CHAMPVA_OHI_PHONE_NUMBER = CHAMPVA_PHONE_NUMBER;
