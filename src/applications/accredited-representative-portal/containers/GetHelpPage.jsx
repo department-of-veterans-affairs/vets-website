@@ -19,22 +19,25 @@ const GetHelpPage = title => {
         label={HELP_BC_LABEL}
         homeVeteransAffairs={false}
       />
-      <h1>Get help using the portal</h1>
+      <h1 data-testid="get-help-page-heading">Get help using the portal</h1>
       <h2>Email the portal team</h2>
-      <p>
+      <p data-testid="get-help-page-content">
         You can email the portal team for help at
         RepresentativePortalHelp@va.gov. We monitor the email Monday through
         Friday from 8am to 4pm ET. Someone from the team will respond to your
         email within 1-2 business days.
       </p>
       <va-link
+        data-testid="get-help-page-link"
         href="mailto:RepresentativePortalHelp@va.gov"
         text="Email the portal team at RepresentativePortalHelp@va.gov"
       />
 
-      <h2>Download instructions for submitting VA Form 21-22 online</h2>
+      <h2 data-testid="download-instructions-heading">
+        Download instructions for submitting VA Form 21-22 online
+      </h2>
 
-      <p>
+      <p data-testid="download-instructions-content">
         You can accept power of attorney (POA) requests in the portal as long as
         the claimant submits the request using the online{' '}
         <va-link
@@ -46,6 +49,7 @@ const GetHelpPage = title => {
         request online.
       </p>
       <va-link
+        data-testid="download-instructions-pdf-link"
         download
         filetype="PDF"
         href="/img/How to submit VA Form 21-22 online_updated March 2025.pdf"
