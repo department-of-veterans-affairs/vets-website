@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const ApiErrorNotification = ({ errorType, content, children }) => {
   return (
-    <va-alert status="error" setFocus aria-live="polite" role="alert" uswds>
+    <va-alert status="error" set-focus aria-live="polite" role="alert" uswds>
       <h2
         className="vads-u-margin--0 vads-u-font-size--h3"
         data-testid="no-medications-list"
