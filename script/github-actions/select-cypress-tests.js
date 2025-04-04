@@ -205,6 +205,13 @@ function allTests() {
 }
 
 function selectTests(graph, pathsOfChangedFiles) {
+  const workflowsFilteredOut = pathsOfChangedFiles.filter(
+    filePath => !filePath.startsWith('.github/workflows'),
+  );
+  if (workflowsFilteredOut.length === 0) {
+    return [];
+  }
+
   if (RUN_FULL_SUITE) {
     return allTests();
   }
@@ -218,8 +225,7 @@ function selectTests(graph, pathsOfChangedFiles) {
 
     if (
       !pathsOfChangedFiles[i].endsWith('.md') &&
-      !pathsOfChangedFiles[i].startsWith('src/applications') &&
-      !pathsOfChangedFiles[i].startsWith('.github/workflows')
+      !pathsOfChangedFiles[i].startsWith('src/applications')
     ) {
       allMdAndOrSrcApplicationsFiles = false;
     }
