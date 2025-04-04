@@ -2,7 +2,6 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
 import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
@@ -45,13 +44,6 @@ export const routesForNav = [
     component: DirectDeposit,
     name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
     path: PROFILE_PATHS.DIRECT_DEPOSIT,
-    requiresLOA3: true,
-    requiresMVI: true,
-  },
-  {
-    component: AccreditedRepresentative,
-    name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
-    path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
     requiresLOA3: true,
     requiresMVI: true,
   },
