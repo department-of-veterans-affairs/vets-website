@@ -214,7 +214,7 @@ const FolderThreadListView = props => {
     return (
       <va-loading-indicator
         message="Loading your secure messages..."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     );

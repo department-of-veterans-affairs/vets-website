@@ -98,7 +98,7 @@ const Folders = () => {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
-          setFocus
+          set-focus
         />
       );
     }

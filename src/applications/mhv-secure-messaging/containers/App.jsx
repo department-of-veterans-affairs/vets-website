@@ -132,7 +132,7 @@ const App = ({ isPilot }) => {
         <div className="vads-l-grid-container">
           <va-loading-indicator
             message="Loading your secure messages..."
-            setFocus
+            set-focus
             data-testid="feature-flag-loading-indicator"
           />
         </div>
