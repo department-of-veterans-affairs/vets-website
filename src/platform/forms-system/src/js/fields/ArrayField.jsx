@@ -475,7 +475,7 @@ export default class ArrayField extends React.Component {
                               <VaButton
                                 secondary
                                 className="float-right"
-                                label={`Remove ${ariaItemName} ${index + 1}`}
+                                label={`Remove ${ariaItemName}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -541,7 +541,7 @@ export default class ArrayField extends React.Component {
                   </div>
                   <VaButton
                     secondary
-                    label={`Edit ${ariaItemName} ${index + 1}`}
+                    label={`Edit ${ariaItemName}`}
                     onClick={() => this.handleEdit(index)}
                     text="Edit"
                   />
