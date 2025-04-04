@@ -70,14 +70,12 @@ export default {
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   REPRESENTATIVE_STATUS: 'representative-status',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',
-  SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
   MODERN_SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE:
     'modern-schedule-view-va-appointments-page',
   MODERN_REFILL_TRACK_PRESCRIPTIONS_PAGE:
     'modern-refill-track-prescriptions-page',
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
-  SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   SIDE_NAV: 'side-nav',
   SITUATION_UPDATES_BANNER: 'situation-updates-banner',
   SUPPLEMENTAL_CLAIM: 'supplemental_claim',
@@ -88,7 +86,6 @@ export default {
   VA_LOCATION_NEARBY: 'va-location-nearby',
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
-  VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_ENROLLMENT_VERIFICATION_LOGIN: 'view-enrollment-verification-login',
   VIEW_EDUCATION_LETTERS_LOGIN: 'view-education-letters-login',
   VYE_ENROLLMENT_LOGIN_WIDGET: 'vye-enrollment-login-widget',

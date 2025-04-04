@@ -146,10 +146,6 @@ src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-publ
 src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
-# Public Websites - unauthed experience only
-src/applications/static-pages/health-care-manage-benefits/secure-messaging-page @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/health-care-manage-benefits/view-test-and-lab-results-page @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-
 # Facility Locator and VAMC pages
 
 src/applications/facility-locator @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
@@ -240,7 +236,6 @@ src/applications/static-pages/subscription-creators @department-of-veterans-affa
 # VAOS
 
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appointments-page  @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Accredited Representative Facing (ARF)
 src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers @department-of-veterans-affairs/va-platform-cop-frontend
