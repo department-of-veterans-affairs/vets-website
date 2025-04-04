@@ -4,7 +4,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
 
 const PrivacyPolicy = () => {
-  const [showModal, toggleShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Hide platform line for privacy policy, use custom
@@ -13,19 +13,19 @@ const PrivacyPolicy = () => {
         'p.short-line',
         document.querySelector('va-statement-of-truth'),
       );
-      privacyPolicyText.setAttribute('style', 'display:none;');
+      privacyPolicyText?.setAttribute('style', 'display:none;');
     })();
   }, []);
 
   return (
     <div>
-      <span>
+      <span data-testid="privacy-policy-text">
         I have read and accept the{' '}
-        <va-link onClick={() => toggleShowModal(true)} text="privacy policy" />
+        <va-link onClick={() => setShowModal(true)} text="privacy policy" />
       </span>
       <VaModal
         modalTitle="Privacy Act Statement"
-        onCloseEvent={() => toggleShowModal(!showModal)}
+        onCloseEvent={() => setShowModal(!showModal)}
         visible={showModal}
         large
       >
