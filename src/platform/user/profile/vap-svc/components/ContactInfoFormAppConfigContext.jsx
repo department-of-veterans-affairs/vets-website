@@ -26,11 +26,10 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
   const dispatch = useDispatch();
 
   const updateContactInfoForFormApp = useCallback(
-    (fieldName, payload, updateProfileChoice) => {
+    async (fieldName, payload, updateProfileChoice) => {
       // using the existing timestamp to make sure the conditional logic on the
       // ContactInfo page doesn't override the 'form only' update
-      const existingUpdatedAt =
-        formData?.[wrapperKey][value.formKey]?.updatedAt;
+      const existingUpdatedAt = formData?.[wrapperKey][fieldName]?.updatedAt;
 
       let updatedFormAppData;
 
@@ -53,32 +52,19 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
           },
         };
       } else if (
-        [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(fieldName)
+        [
+          FIELD_NAMES.HOME_PHONE,
+          FIELD_NAMES.MOBILE_PHONE,
+          FIELD_NAMES.EMAIL,
+        ].includes(fieldName)
       ) {
-        // Handle phone number updates
+        // Handle phone and email updates
         updatedFormAppData = {
           ...formData,
           [wrapperKey]: {
             ...formData[wrapperKey],
-            [value.formKey]: {
-              ...formData[wrapperKey][value.formKey],
-              [fieldName]: {
-                ...payload,
-                updateProfileChoice,
-                updatedAt: existingUpdatedAt,
-              },
-            },
-          },
-        };
-      } else if (fieldName === FIELD_NAMES.EMAIL) {
-        // Handle email updates
-        updatedFormAppData = {
-          ...formData,
-          [wrapperKey]: {
-            ...formData[wrapperKey],
-            [value.formKey]: {
-              ...formData[wrapperKey][value.formKey],
-              emailAddress: payload.emailAddress,
+            [fieldName]: {
+              ...payload,
               updateProfileChoice,
               updatedAt: existingUpdatedAt,
             },
@@ -86,21 +72,17 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
         };
       }
 
-      // Save to in_progress_forms endpoint using autoSaveForm
       const returnUrl = value?.returnPath;
 
-      // Save the form data first
+      // First update the Redux store with the new data
       dispatch(setData(updatedFormAppData));
 
-      // Then save to in-progress forms endpoint
+      // Then save to in-progress forms endpoint with the same data
       dispatch(autoSaveForm(formId, updatedFormAppData, version, returnUrl));
 
-      return {
-        ...formFieldData,
-        [fieldName]: payload,
-      };
+      return payload;
     },
-    [value, formData, wrapperKey, dispatch, formId, version, formFieldData],
+    [value, formData, wrapperKey, dispatch, formId, version],
   );
 
   const contextValue = {

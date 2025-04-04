@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -101,7 +102,7 @@ export const ContactInfoBase = ({
       : profile.vapContactInfo || {};
 
   const dataWrap = data[keys.wrapper] || {};
-  const email = dataWrap[keys.email] || '';
+  const email = dataWrap[keys.email] || {};
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
   const address = dataWrap[keys.address] || {};
@@ -168,42 +169,69 @@ export const ContactInfoBase = ({
     },
   };
 
-  useEffect(
-    () => {
-      if (
-        (keys.email && (contactInfo.email?.emailAddress || '') !== email) ||
-        (keys.homePhone &&
-          contactInfo.homePhone?.updatedAt !== homePhone?.updatedAt) ||
-        (keys.mobilePhone &&
-          contactInfo.mobilePhone?.updatedAt !== mobilePhone?.updatedAt) ||
-        (keys.address &&
-          contactInfo.mailingAddress?.updatedAt !== address?.updatedAt)
-      ) {
-        const wrapper = { ...data[keys.wrapper] };
-        if (keys.address) {
-          wrapper[keys.address] = convertNullishObjectValuesToEmptyString(
-            contactInfo.mailingAddress,
-          );
-        }
-        if (keys.homePhone) {
-          wrapper[keys.homePhone] = convertNullishObjectValuesToEmptyString(
-            contactInfo.homePhone,
-          );
-        }
-        if (keys.mobilePhone) {
-          wrapper[keys.mobilePhone] = convertNullishObjectValuesToEmptyString(
-            contactInfo.mobilePhone,
-          );
-        }
-        if (keys.email) {
-          wrapper[keys.email] = contactInfo.email?.emailAddress;
-        }
-        setFormData({ ...data, [keys.wrapper]: wrapper });
+  useEffect(() => {
+    const wrapper = { ...data[keys.wrapper] };
+    const updatedWrapper = { ...wrapper };
+    let needsUpdate = false;
+
+    if (keys.email) {
+      const newEmailUpdatedAt = contactInfo.email?.updatedAt || '';
+      const currentEmailUpdatedAt = email?.updatedAt || '';
+      if (newEmailUpdatedAt !== currentEmailUpdatedAt) {
+        updatedWrapper[keys.email] = {
+          ...contactInfo.email,
+          emailAddress: contactInfo.email?.emailAddress || '',
+        };
+        needsUpdate = true;
       }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [contactInfo, setFormData, data, keys],
-  );
+    }
+
+    if (keys.homePhone) {
+      const newHomePhone = contactInfo.homePhone?.updatedAt || '';
+      const currentHomePhone = homePhone?.updatedAt || '';
+      if (newHomePhone !== currentHomePhone) {
+        updatedWrapper[
+          keys.homePhone
+        ] = convertNullishObjectValuesToEmptyString(contactInfo.homePhone);
+        needsUpdate = true;
+      }
+    }
+
+    if (keys.mobilePhone) {
+      const newMobilePhone = contactInfo.mobilePhone?.updatedAt || '';
+      const currentMobilePhone = mobilePhone?.updatedAt || '';
+      if (newMobilePhone !== currentMobilePhone) {
+        updatedWrapper[
+          keys.mobilePhone
+        ] = convertNullishObjectValuesToEmptyString(contactInfo.mobilePhone);
+        needsUpdate = true;
+      }
+    }
+
+    if (keys.address) {
+      const newAddress = contactInfo.mailingAddress?.updatedAt || '';
+      const currentAddress = address?.updatedAt || '';
+      if (newAddress !== currentAddress) {
+        updatedWrapper[keys.address] = convertNullishObjectValuesToEmptyString(
+          contactInfo.mailingAddress,
+        );
+        needsUpdate = true;
+      }
+    }
+
+    if (needsUpdate) {
+      setFormData({ ...data, [keys.wrapper]: updatedWrapper });
+    }
+  }, [
+    contactInfo,
+    email,
+    homePhone,
+    mobilePhone,
+    address,
+    setFormData,
+    data,
+    keys,
+  ]);
 
   useEffect(() => {
     if (editState) {
@@ -261,10 +289,14 @@ export const ContactInfoBase = ({
   };
 
   // Add alert for form-only updates
-  const showFormOnlyAlert = () => (
+  const showFormOnlyAlert = id => (
     <va-alert
       id="form-only-update-alert"
-      visible={hasFormOnlyUpdate && editState?.includes('updated')}
+      visible={
+        hasFormOnlyUpdate &&
+        editState?.includes(`${id}`) &&
+        editState?.includes('updated')
+      }
       class="vads-u-margin-y--1"
       status="error"
       uswds
@@ -294,7 +326,7 @@ export const ContactInfoBase = ({
               ' (optional)'}
           </Headers>
           {hasFormOnlyUpdate
-            ? showFormOnlyAlert()
+            ? showFormOnlyAlert('address')
             : showSuccessAlertInField('address', content.mailingAddress)}
           <AddressView data={dataWrap[keys.address]} />
           {loggedIn && (
@@ -332,7 +364,9 @@ export const ContactInfoBase = ({
             {content.homePhone}
             {!requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('home-phone', content.homePhone)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('home-phone')
+            : showSuccessAlertInField('home-phone', content.homePhone)}
           <span className="dd-privacy-hidden" data-dd-action-name="home phone">
             {renderTelephone(dataWrap[keys.homePhone])}
           </span>
@@ -365,7 +399,9 @@ export const ContactInfoBase = ({
             {content.mobilePhone}
             {!requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('mobile-phone', content.mobilePhone)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('mobile-phone')
+            : showSuccessAlertInField('mobile-phone', content.mobilePhone)}
           <span
             className="dd-privacy-hidden"
             data-dd-action-name="mobile phone"
@@ -401,9 +437,14 @@ export const ContactInfoBase = ({
             {content.email}
             {!requiredKeys.includes(FIELD_NAMES.EMAIL) && ' (optional)'}
           </Headers>
-          {showSuccessAlertInField('email', content.email)}
+          {hasFormOnlyUpdate
+            ? showFormOnlyAlert('email')
+            : showSuccessAlertInField('email', content.email)}
           <span className="dd-privacy-hidden" data-dd-action-name="email">
-            {dataWrap[keys.email] || ''}
+            {/* {dataWrap[keys.email] || ''} */}
+            {typeof dataWrap[keys.email] === 'object'
+              ? dataWrap[keys.email].emailAddress || ''
+              : dataWrap[keys.email] || ''}
           </span>
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
