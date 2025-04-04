@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { useSelector } from 'react-redux';
 
 import Modals from '../../medical-copays/components/Modals';
 import { setPageFocus } from '../utils/helpers';
@@ -7,6 +8,8 @@ import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const CombinedStatements = () => {
   useHeaderPageTitle('Combined statement');
+
+  const { mcp } = useSelector(({ combinedPortal }) => combinedPortal);
 
   useEffect(() => {
     setPageFocus('h1');
@@ -29,26 +32,6 @@ const CombinedStatements = () => {
     statementDate: 'September 30, 2024',
   };
 
-  // Mock copay charges data
-  const copayCharges = [
-    {
-      description:
-        'COPAY RX# 5460327 FILL DATE 03/08/2024\nDRUG: SERTRALINE HCL 100MG TAB (DAYS:30\nQTY:30)\nDRUG CLASS: SERTRALINE HCL CHG=$5.00',
-      reference: 'K78-K9GJR25',
-      amount: 5,
-    },
-    {
-      description: 'OUTPATIENT CARE DATE: 03/08/2024',
-      reference: 'K78-K9GJR25',
-      amount: 20,
-    },
-    {
-      description: 'OUTPATIENT CARE DATE: 03/10/2024',
-      reference: 'K78-K9GJR25',
-      amount: 20,
-    },
-  ];
-
   // Mock overpayment charges data
   const overpaymentCharges = [
     {
@@ -69,6 +52,27 @@ const CombinedStatements = () => {
       amount: 500,
     },
   ];
+
+  const copayTotalRow = copay => {
+    return (
+      <va-table-row>
+        <span> </span>
+        <span className="vads-u-text-align--right vads-u-font-weight--bold">
+          Total Due:
+        </span>
+        <span className="vads-u-font-weight--bold">
+          {formatCurrency(
+            copay.details.reduce(
+              (total, charge) =>
+                total +
+                parseFloat(charge.pDTransAmtOutput.replace(/[^0-9.-]+/g, '')),
+              0,
+            ),
+          )}
+        </span>
+      </va-table-row>
+    );
+  };
 
   return (
     <>
@@ -132,75 +136,31 @@ const CombinedStatements = () => {
             Statements do not reflect payments received by September 1, 2024.
           </p>
 
-          <va-table
-            table-type="bordered"
-            table-title="CLEVELAND VAMC - Cleveland"
-            className="vads-u-width--full"
-          >
-            <va-table-row slot="headers">
-              <span>Description</span>
-              <span>Billing reference</span>
-              <span>Amount</span>
-            </va-table-row>
-
-            {copayCharges.map((charge, idx) => (
-              <va-table-row key={idx}>
-                <span>
-                  {charge.description.split('\n').map((line, i) => (
-                    <React.Fragment key={i}>
-                      {line}
-                      {i < charge.description.split('\n').length - 1 && <br />}
-                    </React.Fragment>
-                  ))}
-                </span>
-                <span>{charge.reference}</span>
-                <span>{formatCurrency(charge.amount)}</span>
+          {/* Copay charges tables */}
+          {mcp.statements.map(statement => (
+            <va-table
+              key={statement.station.facilityName}
+              table-type="bordered"
+              table-title={statement.station.facilityName}
+              className="vads-u-width--full"
+            >
+              <va-table-row slot="headers">
+                <span>Description</span>
+                <span>Billing reference</span>
+                <span>Amount</span>
               </va-table-row>
-            ))}
 
-            <va-table-row>
-              <span />
-              <span className="vads-u-text-align--right vads-u-font-weight--bold">
-                Total Due:
-              </span>
-              <span className="vads-u-font-weight--bold">
-                {formatCurrency(
-                  copayCharges.reduce(
-                    (total, charge) => total + charge.amount,
-                    0,
-                  ),
-                )}
-              </span>
-            </va-table-row>
-          </va-table>
+              {statement.details.map((charge, idx) => (
+                <va-table-row key={idx}>
+                  <span>{charge.pDTransDescOutput}</span>
+                  <span>{charge.pDRefNo}</span>
+                  <span>{formatCurrency(charge.pDTransAmt)}</span>
+                </va-table-row>
+              ))}
 
-          <va-table
-            table-type="bordered"
-            table-title="James A. Haley Veterans' Hospital"
-            className="vads-u-margin-top--4 vads-u-width--full"
-          >
-            <va-table-row slot="headers">
-              <span>Description</span>
-              <span>Billing reference</span>
-              <span>Amount</span>
-            </va-table-row>
-
-            <va-table-row>
-              <span>OUTPATIENT CARE DATE: 09/20/2024</span>
-              <span>K78-K9GJR25</span>
-              <span>{formatCurrency(20)}</span>
-            </va-table-row>
-
-            <va-table-row>
-              <span />
-              <span className="vads-u-text-align--right vads-u-font-weight--bold">
-                Total Due:
-              </span>
-              <span className="vads-u-font-weight--bold">
-                {formatCurrency(20)}
-              </span>
-            </va-table-row>
-          </va-table>
+              {copayTotalRow(statement)}
+            </va-table>
+          ))}
 
           <div className="vads-u-margin-top--3">
             <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
