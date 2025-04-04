@@ -1,4 +1,5 @@
 import React from 'react';
+import { CHAMPVA_OHI_FAX_NUMBER } from '../../shared/constants';
 
 /* List of required files - not enforced by the form because we want
 users to be able to opt into mailing these documents. This object 
@@ -35,4 +36,4 @@ export const officeAddress = (
     United States of America
   </>
 );
-export const officeFaxNum = '3033317808';
+export const officeFaxNum = { CHAMPVA_OHI_FAX_NUMBER };
