@@ -46,16 +46,19 @@ import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthC
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
-import { PROFILE_PATHS } from '../constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
+import { fetchPowerOfAttorney as fetchPowerOfAttorneyAction } from '../actions/powerOfAttorney';
+import AccreditedRepresentative from './accredited-representative/AccreditedRepresentative';
 
 class Profile extends Component {
   componentDidMount() {
     const {
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -72,6 +75,7 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      fetchPowerOfAttorney();
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -86,6 +90,7 @@ class Profile extends Component {
   componentDidUpdate(prevProps) {
     const {
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -100,6 +105,7 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      fetchPowerOfAttorney();
     }
 
     if (
@@ -145,6 +151,16 @@ class Profile extends Component {
   // content to show after data has loaded
   mainContent = () => {
     const routes = getRoutes();
+
+    if (this.props.shouldShowAccreditedRepTab) {
+      routes.push({
+        component: AccreditedRepresentative,
+        name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
+        path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
+        requiresLOA3: true,
+        requiresMVI: true,
+      });
+    }
 
     return (
       <BrowserRouter>
@@ -232,6 +248,7 @@ Profile.propTypes = {
   fetchDirectDeposit: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
+  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
@@ -241,6 +258,7 @@ Profile.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
@@ -266,6 +284,8 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const shouldShowAccreditedRepTab =
+    profileToggles?.representativeStatusEnableV2Features;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -321,6 +341,7 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchDirectDeposit,
+    shouldShowAccreditedRepTab,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -334,6 +355,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
+  fetchPowerOfAttorney: fetchPowerOfAttorneyAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
