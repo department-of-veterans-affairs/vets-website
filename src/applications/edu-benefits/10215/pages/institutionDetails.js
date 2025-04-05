@@ -8,18 +8,19 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import InstitutionName from '../components/InstitutionName';
 
 const uiSchema = {
   institutionDetails: {
     ...titleUI('Institution details'),
-    institutionName: {
-      ...textUI({
-        title: 'Institution name',
-        errorMessages: {
-          required: "Please enter your institution's name",
-        },
-      }),
-    },
+    // institutionName: {
+    //   ...textUI({
+    //     title: 'Institution name',
+    //     errorMessages: {
+    //       required: "Please enter your institution's name",
+    //     },
+    //   }),
+    // },
     facilityCode: {
       ...textUI({
         title: 'Facility code',
@@ -35,6 +36,10 @@ const uiSchema = {
           }
         },
       ],
+    },
+    institutionName: {
+      'ui:title': 'Institution name',
+      'ui:webComponentField': InstitutionName,
     },
     termStartDate: {
       ...currentOrPastDateUI({
@@ -82,13 +87,14 @@ const schema = {
     institutionDetails: {
       type: 'object',
       properties: {
-        institutionName: textSchema,
+        // institutionName: textSchema,
         facilityCode: textSchema,
+        institutionName: textSchema,
         termStartDate: currentOrPastDateSchema,
         dateOfCalculations: currentOrPastDateSchema,
       },
       required: [
-        'institutionName',
+        // 'institutionName',
         'facilityCode',
         'termStartDate',
         'dateOfCalculations',
