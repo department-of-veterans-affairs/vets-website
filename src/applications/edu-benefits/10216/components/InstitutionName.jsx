@@ -1,60 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { apiRequest } from 'platform/utilities/api';
-import { setData } from 'platform/forms-system/src/js/actions';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useValidateFacilityCode } from '../../hooks/useValidateFacilityCode';
 
 const InstitutionName = () => {
   const formData = useSelector(state => state.form?.data);
-  const [loader, setLoader] = useState(false);
-  const [institutionName, setInstitutionName] = useState('');
-  const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      const fetchInstitutionName = async () => {
-        setLoader(true);
-        try {
-          const response = await apiRequest(
-            `/gi/institutions/${formData?.institutionDetails.facilityCode}`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
-          setInstitutionName(response?.data?.attributes?.name || 'not found');
-          setLoader(false);
-          dispatch(
-            setData({
-              ...formData,
-              institutionDetails: {
-                ...formData.institutionDetails,
-                institutionName:
-                  response?.data?.attributes?.name || 'not found',
-              },
-            }),
-          );
-        } catch (error) {
-          setInstitutionName('not found');
-          setLoader(false);
-          dispatch(
-            setData({
-              ...formData,
-              institutionDetails: {
-                ...formData.institutionDetails,
-                institutionName: 'not found',
-              },
-            }),
-          );
-        }
-      };
-      if (formData?.institutionDetails?.facilityCode?.length === 8) {
-        fetchInstitutionName();
-      }
-    },
-    [formData?.institutionDetails?.facilityCode],
-  );
+  const { loader, institutionName } = useValidateFacilityCode(formData);
   return (
     <div>
       <p>Institution Name</p>

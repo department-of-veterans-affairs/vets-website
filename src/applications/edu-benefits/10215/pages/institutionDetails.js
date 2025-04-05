@@ -13,26 +13,24 @@ import InstitutionName from '../components/InstitutionName';
 const uiSchema = {
   institutionDetails: {
     ...titleUI('Institution details'),
-    // institutionName: {
-    //   ...textUI({
-    //     title: 'Institution name',
-    //     errorMessages: {
-    //       required: "Please enter your institution's name",
-    //     },
-    //   }),
-    // },
     facilityCode: {
       ...textUI({
         title: 'Facility code',
         hint: '',
         errorMessages: {
-          required: "Please enter your institution's facility code",
+          required:
+            'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
         },
       }),
       'ui:validations': [
-        (errors, fieldData) => {
+        (errors, fieldData, formData) => {
+          const institutionName = formData?.institutionDetails?.institutionName;
           if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
             errors.addError('Please enter a valid 8-digit facility code');
+          } else if (institutionName === 'not found') {
+            errors.addError(
+              'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+            );
           }
         },
       ],
@@ -87,18 +85,14 @@ const schema = {
     institutionDetails: {
       type: 'object',
       properties: {
-        // institutionName: textSchema,
         facilityCode: textSchema,
-        institutionName: textSchema,
+        institutionName: {
+          type: 'string',
+        },
         termStartDate: currentOrPastDateSchema,
         dateOfCalculations: currentOrPastDateSchema,
       },
-      required: [
-        // 'institutionName',
-        'facilityCode',
-        'termStartDate',
-        'dateOfCalculations',
-      ],
+      required: ['facilityCode', 'termStartDate', 'dateOfCalculations'],
     },
   },
 };
