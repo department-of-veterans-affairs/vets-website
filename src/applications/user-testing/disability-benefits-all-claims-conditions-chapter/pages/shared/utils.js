@@ -145,16 +145,6 @@ export const clearNewConditionData = (formData, index, setFormData) => {
   });
 };
 
-export const clearRatedDisabilityData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index ? { ...item, ratedDisability: undefined } : item,
-    ),
-  });
-};
-
 const getSelectedRatedDisabilities = fullData => {
   const currentIndex = getArrayIndexFromPathName();
 

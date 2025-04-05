@@ -13,19 +13,17 @@ import {
   arrayBuilderOptions,
   clearSideOfBody,
   clearNewConditionData,
-  clearRatedDisabilityData,
   hasRatedDisabilitiesAndIsRatedDisability,
   hasSideOfBody,
   isActiveDemo,
   isNewCondition,
+  isRatedDisability,
 } from './utils';
 
 const onNavForwardLastPage = (helpers, props) => {
   const { formData, index, setFormData } = props;
 
-  if (isNewCondition(formData, index)) {
-    clearRatedDisabilityData(formData, Number(index), setFormData);
-  } else {
+  if (isRatedDisability(formData, index)) {
     clearNewConditionData(formData, Number(index), setFormData);
   }
 
