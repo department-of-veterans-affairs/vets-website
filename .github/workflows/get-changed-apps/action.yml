@@ -51,52 +51,51 @@ runs:
         fi
 
     - name: Get entry names
-        id: get-entry-names
-        if: contains(inputs.output-type, 'entry_name')
-        shell: bash
-        run: |
-          val=$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}")
-          echo "entry_names=$val" >> $GITHUB_OUTPUT
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-      
-      - name: Get folders
-        id: get-folders
-        if: contains(inputs.output-type, 'folder')
-        shell: bash
-        run: |
-          val=$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}")
-          echo "folders=$val" >> $GITHUB_OUTPUT
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-      
-      - name: Get Slack user groups
-        id: get-slack-groups
-        if: contains(inputs.output-type, 'slack_group')
-        shell: bash
-        run: |
-          val=$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}")
-          echo "slack_groups=$val" >> $GITHUB_OUTPUT
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-      
-      - name: Get URLs
-        id: get-urls
-        if: contains(inputs.output-type, 'url')
-        shell: bash
-        run: |
-          val=$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}")
-          echo "urls=$val" >> $GITHUB_OUTPUT
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-      
-      - name: Check if continuous deployment is enabled
-        id: check-continuous-deployment
-        if: contains(inputs.output-type, 'continuous_deployment')
-        shell: bash
-        run: |
-          val=$(node script/github-actions/get-changed-apps.js --continuous-deployment)
-          echo "is_enabled=$val" >> $GITHUB_OUTPUT
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-      
+      id: get-entry-names
+      if: contains(inputs.output-type, 'entry_name')
+      shell: bash
+      run: |
+        val=$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}")
+        echo "entry_names=$val" >> $GITHUB_OUTPUT
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Get folders
+      id: get-folders
+      if: contains(inputs.output-type, 'folder')
+      shell: bash
+      run: |
+        val=$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}")
+        echo "folders=$val" >> $GITHUB_OUTPUT
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Get Slack user groups
+      id: get-slack-groups
+      if: contains(inputs.output-type, 'slack_group')
+      shell: bash
+      run: |
+        val=$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}")
+        echo "slack_groups=$val" >> $GITHUB_OUTPUT
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Get URLs
+      id: get-urls
+      if: contains(inputs.output-type, 'url')
+      shell: bash
+      run: |
+        val=$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}")
+        echo "urls=$val" >> $GITHUB_OUTPUT
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Check if continuous deployment is enabled
+      id: check-continuous-deployment
+      if: contains(inputs.output-type, 'continuous_deployment')
+      shell: bash
+      run: |
+        val=$(node script/github-actions/get-changed-apps.js --continuous-deployment)
+        echo "is_enabled=$val" >> $GITHUB_OUTPUT
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
