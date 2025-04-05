@@ -11,7 +11,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     state => state?.featureToggles?.mhvCredentialButtonDisabled,
   );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth } = getQueryParams();
+  const { OAuth, clientId, codeChallenge } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -40,6 +40,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
+            queryParams={{ clientId, codeChallenge }}
           />
         ))}
         <LoginNote />

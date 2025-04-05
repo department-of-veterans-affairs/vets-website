@@ -842,4 +842,19 @@ describe('OAuth - Utilities', () => {
       teardownSpy.restore();
     });
   });
+
+  describe('createOktaOAuthRequest', () => {
+    it(`should create the proper URL for Okta client_id`, () => {
+      const expected = {
+        clientId: 'okta_test',
+        codeChallenge: 'samplecode',
+        loginType: 'idme',
+      };
+      const url = oAuthUtils.createOktaOAuthRequest({ ...expected });
+      expect(url).to.include(`type=${expected.loginType}`);
+      expect(url).to.include(`client_id=${expected.clientId}`);
+      expect(url).to.include(`code_challenge=${expected.codeChallenge}`);
+      expect(url).to.include('response_type=code');
+    });
+  });
 });
