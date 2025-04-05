@@ -469,7 +469,7 @@ export function updateUiSchema(
 
   let currentUiSchema = uiSchema;
 
-  if (schema.type === 'object') {
+  if (schema?.type === 'object') {
     // looping through the schema rather than the uiSchema
     // because we just care about object traversal of 'properties'
     const newUiSchema = Object.keys(schema.properties).reduce(
@@ -497,7 +497,7 @@ export function updateUiSchema(
     }
   }
 
-  if (schema.type === 'array') {
+  if (schema?.type === 'array') {
     const activeContext = getActiveFormPageContext();
 
     // About updateUiSchema for arrays:
