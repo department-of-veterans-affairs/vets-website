@@ -50,7 +50,7 @@ runs:
           echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
         fi
 
-        - name: Get entry names
+    - name: Get entry names
         id: get-entry-names
         if: contains(inputs.output-type, 'entry_name')
         shell: bash
