@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const chalk = require('chalk');
+const _ = require('lodash');
 const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 const glob = require('glob');
@@ -13,10 +14,11 @@ const optionDefinitions = [
 ];
 const options = commandLineArgs(optionDefinitions);
 
+const safeComponent = _.escapeRegExp(options.component);
 const legacyImport = `import ${
-  options.component
+  safeComponent
 } from '@department-of-veterans-affairs/component-library/${
-  options.component
+  safeComponent
 }'`;
 
 function handleError(error) {
@@ -61,8 +63,8 @@ function translateProps(componentString, propMap) {
 function replaceTags(fileContents, newTag) {
   const unnamedClosingTags = fileContents.matchAll(
     new RegExp(
-      `(<${options.component}(?!.*<\\/${
-        options.component
+      `(<${safeComponent}(?!.*<\\/${
+        safeComponent
       }>).*?(^\\s+)?\\/>;?$)`,
       'gsm',
     ),
@@ -77,8 +79,8 @@ function replaceTags(fileContents, newTag) {
   );
 
   return namedClosingTags
-    .replace(new RegExp(`<${options.component}`, 'g'), `<${newTag}`)
-    .replace(new RegExp(`</${options.component}`, 'g'), `</${newTag}`);
+    .replace(new RegExp(`<${safeComponent}`, 'g'), `<${newTag}`)
+    .replace(new RegExp(`</${safeComponent}`, 'g'), `</${newTag}`);
 }
 
 /**
