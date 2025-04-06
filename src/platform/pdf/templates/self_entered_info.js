@@ -338,7 +338,7 @@ const generateDetailsContentSets = async (doc, parent, data) => {
         details.add(struct);
       }
     }
-    doc.moveDown(0.5);
+    doc.moveDown(data.moveDown || 0.5);
   }
 
   doc.moveDown();
