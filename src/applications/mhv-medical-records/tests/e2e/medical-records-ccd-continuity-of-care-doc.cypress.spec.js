@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import ccdGenerateResponse from './fixtures/ccd-generate-response.json';
-import ccdDownloadResponse from './fixtures/ccd-download-response.xml';
+// import ccdDownloadResponse from './fixtures/ccd-download-response.xml';
 
 describe('Medical Records download page', () => {
   it('Verifies CCD download', () => {
@@ -13,12 +13,12 @@ describe('Medical Records download page', () => {
 
     DownloadReportsPage.clickCcdAccordionItem();
 
-    DownloadReportsPage.verifyCcdDownloadXmlFileButton();
+    const pathToCcdDownloadResponse =
+      './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response.xml';
 
-    // click the download button
     DownloadReportsPage.clickCcdDownloadXmlFileButton(
       ccdGenerateResponse,
-      ccdDownloadResponse,
+      pathToCcdDownloadResponse,
     );
 
     // Axe check
