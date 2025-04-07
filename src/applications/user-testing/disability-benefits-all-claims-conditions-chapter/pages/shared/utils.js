@@ -113,38 +113,6 @@ export const isRatedDisability = (formData, index) => {
   return isRatedDisabilityForRatedOrNewNextPage(formData, index);
 };
 
-export const clearSideOfBody = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
-    ),
-  });
-};
-
-export const clearNewConditionData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index
-          ? {
-              ...item,
-              newCondition: undefined,
-              cause: undefined,
-              primaryDescription: undefined,
-              causedByCondition: undefined,
-              causedByConditionDescription: undefined,
-              vaMistreatmentDescription: undefined,
-              vaMistreatmentLocation: undefined,
-              worsenedDescription: undefined,
-              worsenedEffects: undefined,
-            }
-          : item,
-    ),
-  });
-};
-
 const getSelectedRatedDisabilities = fullData => {
   const currentIndex = getArrayIndexFromPathName();
 
@@ -210,7 +178,9 @@ const getItemName = item => {
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
   SECONDARY: item =>
-    !item?.causedByCondition || !item?.causedByConditionDescription,
+    !item?.causedByCondition ||
+    !Object.keys(item?.causedByCondition).length ||
+    !item?.causedByConditionDescription,
   WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
