@@ -100,3 +100,11 @@ Cypress.on('test:after:run', test => {
     );
   }
 });
+
+// Add a catch-all interceptor that will detect any requests that weren't explicitly stubbed
+cy.intercept('**', req => {
+  // Log the request that wasn't stubbed
+  cy.log(`⚠️ Detected non-stubbed request: ${req.method} ${req.url}`);
+  // Optionally fail the test
+  // throw new Error(`Non-stubbed request detected: ${req.method} ${req.url}`);
+});
