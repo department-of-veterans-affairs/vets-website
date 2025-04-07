@@ -9,15 +9,15 @@ const delay = require('mocker-api/lib/delay');
 
 const mockSipGet = require('./e2e/fixtures/mocks/mock-prefill-with-non-prefill-data.json');
 const mockSipPut = require('./e2e/fixtures/mocks/mock-put-progress-forms.json');
-const mockUser = require('./e2e/fixtures/mocks/mock-user.json');
+const mockUserRouteGuard = require('./e2e/fixtures/mocks/mock-user-route-guard.json');
 // const mockUserWithLOA1 = require('./e2e/fixtures/mocks/mock-user-with-LOA1.json');
 // const mockUserRedirectToMHV = require('./e2e/fixtures/mocks/mock-user-redirect-to-mhv.json');
 const mockEnrollmentStatus = require('./e2e/fixtures/mocks/mock-enrollment-status.json');
 
 const responses = {
-  'GET /v0/user': mockUser,
-  //   'GET /v0/user': mockUserWithLOA1,
-  //   'GET /v0/user': mockUserRedirectToMHV,
+  'GET /v0/user': mockUserRouteGuard,
+  // 'GET /v0/user': mockUserWithLOA1,
+  // 'GET /v0/user': mockUserRedirectToMHV,
   'GET /v0/feature_toggles': {
     data: {
       features: [

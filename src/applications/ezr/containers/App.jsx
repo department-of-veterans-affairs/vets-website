@@ -54,8 +54,9 @@ const App = props => {
   const { profile } = user;
 
   // Check if user has required services and facilities
-  const hasRequiredServices = REQUIRED_BACKEND_SERVICES.every(service =>
-    profile.services?.includes(service),
+  const hasRequiredServices = REQUIRED_BACKEND_SERVICES.every(
+    service =>
+      profile?.services?.includes(service) || user?.services?.includes(service),
   );
 
   // Check if user has any facilities

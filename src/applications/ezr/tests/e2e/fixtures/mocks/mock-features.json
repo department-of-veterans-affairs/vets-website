@@ -5,6 +5,10 @@
       {
         "name": "ezrProdEnabled",
         "value": true
+      },
+      {
+        "name": "ezrRouteGuardEnabled",
+        "value": true
       }
     ]
   }
