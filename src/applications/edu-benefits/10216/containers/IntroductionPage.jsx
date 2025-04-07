@@ -84,7 +84,7 @@ const IntroductionPage = ({ route }) => {
             you will download a PDF, which you will need to submit later by
             uploading it to the Education File Upload Portal. Ensure you have
             all the necessary details, such as your enrollment information,
-            institution, and any required documentaion, before continuing.
+            institution, and any required documentation, before continuing.
           </p>
           <p>
             <strong>Note for nonaccredited schools: </strong>
