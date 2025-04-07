@@ -187,10 +187,11 @@ const DownloadDateRange = () => {
               value={customFromDate}
               onDateChange={e => {
                 if (e.target.value) {
+                  const val = e.target.value;
                   const [year, month, day] = e.target.value?.split('-');
                   if (parseInt(year, 10) >= 1900 && month && day) {
                     setCustomFromError(null);
-                    setCustomFromDate(e.target.value);
+                    setCustomFromDate(val);
                   }
                 }
               }}
@@ -203,10 +204,11 @@ const DownloadDateRange = () => {
               data-testid="va-date-end-date"
               value={customToDate}
               onDateChange={e => {
+                const val = e.target.value;
                 const [year, month, day] = e.target.value.split('-');
                 if (parseInt(year, 10) >= 1900 && month && day) {
                   setCustomToError(null);
-                  setCustomToDate(e.target.value);
+                  setCustomToDate(val);
                 }
               }}
               invalidDay={() => {
