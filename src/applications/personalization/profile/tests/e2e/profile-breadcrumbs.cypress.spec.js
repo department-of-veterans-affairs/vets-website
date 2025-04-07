@@ -10,6 +10,13 @@ import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 describe('Profile Breadcrumbs', () => {
   beforeEach(() => {
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          { name: 'representative_status_enable_v2_features', value: true },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/profile/personal_information', error500);
