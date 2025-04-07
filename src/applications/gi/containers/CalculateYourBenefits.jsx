@@ -149,6 +149,7 @@ export function CalculateYourBenefits({
               <EstimateYourBenefitsSummarySheet
                 outputs={calculated.outputs}
                 expandEybSheet={expandEybSheet}
+                showEybSheet={showEybSheet}
                 toggleEybExpansion={toggleEybExpansion}
                 type={calculator.type}
                 yellowRibbon={calculator.yellowRibbonRecipient === 'yes'}
