@@ -23,7 +23,13 @@ const PrivacyPolicy = () => {
     <div>
       <span data-testid="privacy-policy-text">
         I have read and accept the{' '}
-        <va-link onClick={() => setShowModal(true)} text="privacy policy" />
+        <va-link
+          onClick={() => setShowModal(true)}
+          text="privacy policy"
+          aria-label="View the privacy policy"
+          role="button"
+          tabIndex="0"
+        />
       </span>
       <VaModal
         modalTitle="Privacy Act Statement"
