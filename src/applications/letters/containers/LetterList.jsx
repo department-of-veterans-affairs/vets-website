@@ -94,8 +94,6 @@ export class LetterList extends React.Component {
           <DownloadLetterNativeLink
             letterTitle={letterTitle}
             letterType={letter.letterType}
-            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
-            downloadStatus={downloadStatus[letter.letterType]}
           />
         );
       }
