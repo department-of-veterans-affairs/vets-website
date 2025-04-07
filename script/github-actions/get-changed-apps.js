@@ -132,8 +132,22 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
   return true;
 };
 
-if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+const readStdin = async () => {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', chunk => {
+      data += chunk;
+      return data;
+    });
+    process.stdin.on('end', () => resolve(data.trim()));
+    process.stdin.on('error', reject);
+  });
+};
+
+(async () => {
+  const changedFilesString = await readStdin();
+  const changedFilePaths = changedFilesString.split(/\s+/); // handles spaces or newlines
 
   const options = commandLineArgs([
     // Use the --output-type option to specify one of the following outputs:
@@ -163,7 +177,7 @@ if (process.env.CHANGED_FILE_PATHS) {
 
     console.log(changedAppsString);
   }
-}
+})();
 
 module.exports = {
   getChangedAppsString,
