@@ -226,6 +226,7 @@ const IntroductionPage = ({ route }) => {
         pageList={route.pageList}
         startText="Start your 35% exemption request"
         headingLevel={2}
+        unauthStartText="Sign in to start your form"
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
