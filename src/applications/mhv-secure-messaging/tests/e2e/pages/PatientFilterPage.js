@@ -1,16 +1,15 @@
 import mockMessageResponse from '../fixtures/drafts-search-results.json';
-import folderResponse from '../fixtures/folder-response.json';
 import { Locators, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/threads-response.json';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 
-class PatientFilterPage {
+class PatientFilterSortPage {
   // This method clicks the Search messages on the side navigation bar.
   clickFilterMessageButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
   };
 
-  clickAdditionalFilterButton = () => {
+  openAdditionalFilter = () => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
   };
 
@@ -22,41 +21,24 @@ class PatientFilterPage {
       .type(text, { force: true });
   };
 
-  // This method clicks the Filter button on the Inbox page.
-  clickInboxFilterButton = () => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
-        folderResponse.data.at(0).attributes.folderId
-      }/search`,
-      mockMessageResponse,
-    ).as('inboxSearchResults');
-    this.clickFilterMessageButton();
+  // This method select date range
+  selectDateRange = dropDownValue => {
+    cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
+      .find('select')
+      .select(dropDownValue);
   };
 
-  clickDraftFilterButton = () => {
+  // This method clicks the Filter button and load filtered data.
+
+  clickApplyFilterButton = mockFilterResponse => {
     cy.intercept(
       'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
-        folderResponse.data.at(1).attributes.folderId
-      }/search`,
-      mockMessageResponse,
-    ).as('DraftSearchResults');
-    this.clickFilterMessageButton();
+      Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
+      mockFilterResponse,
+    ).as('filterResult');
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.wait('@filterResult');
   };
-
-  clickCustomFolderFilterButton = () => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
-        folderResponse.data.at(4).attributes.folderId
-      }/search`,
-      mockMessageResponse,
-    ).as('CustomSearchResults');
-    this.clickSearchMessageButton();
-  };
-
-  // This method verifies the highlighted text in the messages returned after clicking the search button.
 
   verifyFilterCategoryDropdown = data => {
     cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
@@ -89,7 +71,13 @@ class PatientFilterPage {
       mockMessageResponse,
     ).as('inboxSearchResults');
   };
-  // This method selects the folder from the drop down menu.
+
+  selectAdvancedSearchCategory = text => {
+    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
+      .find('select')
+      .select(text, { force: true });
+  };
+  // This method selects the folder from the dropdown menu.
 
   selectMessagesFolder = name => {
     cy.get(Locators.FOLDERS.FOLDER_DROPDOWN)
@@ -277,4 +265,4 @@ class PatientFilterPage {
   // }
 }
 
-export default new PatientFilterPage();
+export default new PatientFilterSortPage();

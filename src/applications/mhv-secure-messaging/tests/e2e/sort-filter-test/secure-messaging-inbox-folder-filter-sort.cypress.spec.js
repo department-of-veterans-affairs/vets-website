@@ -2,6 +2,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/threads-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
+import PatientFilterPage from '../pages/PatientFilterPage';
 
 describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   const {
@@ -18,7 +19,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
 
   it('verify filter works correctly', () => {
     PatientInboxPage.inputFilterData('test');
-    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
+    PatientFilterPage.clickApplyFilterButton(mockFilterResults);
     PatientInboxPage.verifyFilterResults('test', mockFilterResults);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -26,7 +27,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
 
   it('verify clear filter btn works correctly', () => {
     PatientInboxPage.inputFilterData('test');
-    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
+    PatientFilterPage.clickApplyFilterButton(mockFilterResults);
     PatientInboxPage.clickClearFilterButton();
     PatientInboxPage.verifyFilterFieldCleared();
     cy.injectAxe();
@@ -60,7 +61,7 @@ describe('verify sorting feature with only one filter result', () => {
     PatientInboxPage.loadInboxMessages();
 
     PatientInboxPage.inputFilterData('draft');
-    PatientInboxPage.clickFilterMessagesButton(mockSingleFilterResult);
+    PatientFilterPage.clickApplyFilterButton(mockSingleFilterResult);
     PatientInboxPage.verifyFilterResults('draft', mockSingleFilterResult);
 
     cy.get(Locators.DROPDOWN.SORT).should('not.exist');

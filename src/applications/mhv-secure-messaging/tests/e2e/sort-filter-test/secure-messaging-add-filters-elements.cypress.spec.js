@@ -18,7 +18,7 @@ describe('SM ADDITIONAL FILTER ELEMENTS', () => {
 
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    PatientFilterPage.clickAdditionalFilterButton();
+    PatientFilterPage.openAdditionalFilter();
 
     PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
@@ -34,7 +34,7 @@ describe('SM ADDITIONAL FILTER ELEMENTS', () => {
 
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    PatientFilterPage.clickAdditionalFilterButton();
+    PatientFilterPage.openAdditionalFilter();
 
     PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
@@ -50,7 +50,7 @@ describe('SM ADDITIONAL FILTER ELEMENTS', () => {
 
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    PatientFilterPage.clickAdditionalFilterButton();
+    PatientFilterPage.openAdditionalFilter();
 
     PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
@@ -66,7 +66,7 @@ describe('SM ADDITIONAL FILTER ELEMENTS', () => {
 
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    PatientFilterPage.clickAdditionalFilterButton();
+    PatientFilterPage.openAdditionalFilter();
 
     PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
 
@@ -82,7 +82,7 @@ describe('SM ADDITIONAL FILTER ELEMENTS', () => {
 
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    PatientFilterPage.clickAdditionalFilterButton();
+    PatientFilterPage.openAdditionalFilter();
 
     PatientFilterPage.verifyFilterCategoryDropdown(Arrays.Categories);
 

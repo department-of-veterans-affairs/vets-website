@@ -399,21 +399,21 @@ class PatientInboxPage {
     ).as('folders');
   };
 
-  openAdvancedSearch = () => {
-    cy.get(Locators.ADDITIONAL_FILTER)
-      .shadow()
-      .contains('Show filters')
-      .click({
-        waitForAnimations: true,
-        force: true,
-      });
-  };
+  // openAdvancedSearch = () => {
+  //   cy.get(Locators.ADDITIONAL_FILTER)
+  //     .shadow()
+  //     .contains('Show filters')
+  //     .click({
+  //       waitForAnimations: true,
+  //       force: true,
+  //     });
+  // };
 
-  selectAdvancedSearchCategory = text => {
-    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('select')
-      .select(text, { force: true });
-  };
+  // selectAdvancedSearchCategory = text => {
+  //   cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
+  //     .find('select')
+  //     .select(text, { force: true });
+  // };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
@@ -450,15 +450,15 @@ class PatientInboxPage {
       .type(`${text}`, { force: true });
   };
 
-  clickFilterMessagesButton = mockFilterResponse => {
-    cy.intercept(
-      'POST',
-      Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
-      mockFilterResponse,
-    ).as('filterResult');
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-    cy.wait('@filterResult');
-  };
+  // clickFilterMessagesButton = mockFilterResponse => {
+  //   cy.intercept(
+  //     'POST',
+  //     Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
+  //     mockFilterResponse,
+  //   ).as('filterResult');
+  //   cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+  //   cy.wait('@filterResult');
+  // };
 
   verifyFilterResults = (filterValue, responseData) => {
     cy.get(Locators.MESSAGES).should(
@@ -665,11 +665,11 @@ class PatientInboxPage {
     );
   };
 
-  selectDateRange = dropDownValue => {
-    cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
-      .find('select')
-      .select(dropDownValue);
-  };
+  // selectDateRange = dropDownValue => {
+  //   cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
+  //     .find('select')
+  //     .select(dropDownValue);
+  // };
 
   verifyFilterMessageHeadingText = (text = 'Filter messages in inbox') => {
     cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)
