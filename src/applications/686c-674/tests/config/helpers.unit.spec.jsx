@@ -1,6 +1,13 @@
-import { render } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
-import { generateTransition, generateTitle } from '../../config/helpers';
+import sinon from 'sinon';
+import {
+  generateTransition,
+  generateTitle,
+  CancelButton,
+} from '../../config/helpers';
 
 describe('generateTransition and generateTitle', () => {
   it('renders a transition element with the correct class and text', () => {
@@ -33,5 +40,57 @@ describe('generateTransition and generateTitle', () => {
     expect(h3Element.textContent).to.equal(text);
     expect(h3Element.classList.contains('vads-u-margin-top--0')).to.be.true;
     expect(h3Element.classList.contains('vads-u-color--base')).to.be.true;
+  });
+});
+
+describe('CancelButton Component (Web Components)', () => {
+  const setup = (props = {}) => {
+    const mockRouter = { push: sinon.spy() };
+
+    const utils = render(
+      <MemoryRouter>
+        <CancelButton router={mockRouter} {...props} />
+      </MemoryRouter>,
+    );
+
+    return { ...utils, mockRouter };
+  };
+
+  it('should render the cancel button', () => {
+    const { getByTestId } = setup();
+    const cancelBtn = getByTestId('cancel-btn');
+    expect(cancelBtn).to.not.be.null;
+  });
+
+  it('should show the correct modal title for add flow', async () => {
+    const { getByTestId } = setup({
+      isAddChapter: true,
+      dependentType: 'spouse',
+    });
+
+    fireEvent.click(getByTestId('cancel-btn'));
+
+    await waitFor(() => {
+      const modal = getByTestId('cancel-modal');
+      expect(modal.getAttribute('modal-title')).to.include(
+        'Would you like to cancel adding your spouse?',
+      );
+    });
+  });
+
+  it('should show the correct modal title for remove flow', async () => {
+    const { getByTestId } = setup({
+      isAddChapter: false,
+      dependentType: 'spouse',
+    });
+
+    fireEvent.click(getByTestId('cancel-btn'));
+
+    await waitFor(() => {
+      const modal = getByTestId('cancel-modal');
+      expect(modal.getAttribute('modal-title')).to.include(
+        'Would you like to cancel removing your spouse?',
+      );
+    });
   });
 });

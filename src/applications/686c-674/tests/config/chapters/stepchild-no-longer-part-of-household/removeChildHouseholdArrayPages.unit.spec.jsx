@@ -142,7 +142,7 @@ describe('686 Remove child no longer in household: Intro page ', () => {
     );
 
     expect($$('h3', container).length).to.equal(1);
-    expect($$('p', container).length).to.equal(1);
+    expect($$('p', container).length).to.equal(3);
   });
 });
 

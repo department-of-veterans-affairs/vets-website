@@ -84,25 +84,27 @@ export const CancelButton = withRouter(
     return (
       <>
         <va-button
+          data-testid="cancel-btn"
           onClick={() => setIsVisible(true)}
           secondary
           text={buttonText}
         />
 
         <VaModal
-          visible={isVisible}
-          status="warning"
+          data-testid="cancel-modal"
           modalTitle={`Would you like to cancel ${
             isAddChapter ? 'adding' : 'removing'
           } your ${dependentType}?`}
           primaryButtonText="Yes"
-          onPrimaryButtonClick={() => {
-            if (isAddChapter) {
-              return router?.push('/options-selection/add-dependents');
-            }
-            return router?.push('/options-selection/remove-dependents');
-          }}
           secondaryButtonText="No"
+          visible={isVisible}
+          status="warning"
+          onPrimaryButtonClick={() => {
+            const route = isAddChapter
+              ? '/options-selection/add-dependents'
+              : '/options-selection/remove-dependents';
+            router?.push(route);
+          }}
           onSecondaryButtonClick={closeModal}
           onCloseEvent={closeModal}
           clickToClose

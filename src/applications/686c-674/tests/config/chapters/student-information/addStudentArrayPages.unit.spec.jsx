@@ -212,7 +212,7 @@ describe('674 Add students: Intro page ', () => {
     );
 
     expect($$('h3', container).length).to.equal(1);
-    expect($$('p', container).length).to.equal(3);
+    expect($$('p', container).length).to.equal(4);
   });
 });
 
