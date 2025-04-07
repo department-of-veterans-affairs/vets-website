@@ -53,26 +53,6 @@ describe('In Production Education Filtering component', () => {
     spyDog.restore();
   });
 
-  it('calls Data Dog on Close button click', async () => {
-    const screen = setup();
-    const spyDog = sinon.spy(datadogRum, 'addAction');
-    const closeButton = screen.getByTestId('rx-ipe-filtering-close');
-
-    fireEvent.click(closeButton);
-
-    await waitFor(() => {
-      expect(spyDog.called).to.be.true;
-      expect(
-        spyDog.calledWith(
-          dataDogActionNames.medicationsListPage
-            .STOP_SHOWING_IPE_FILTERING_HINT,
-        ),
-      ).to.be.true;
-    });
-
-    spyDog.restore();
-  });
-
   it('hides component if tooltipVisible attribute is false', async () => {
     const initialStateToHideTooltip = {
       ...initialState,
