@@ -66,10 +66,7 @@ export default function ConfirmationPage() {
       <section>
         <h2>What to expect</h2>
         <va-process-list>
-          <va-process-list-item
-            active
-            header="We’ll confirm that we’ve received your form"
-          >
+          <va-process-list-item header="We’ll confirm that we’ve received your form">
             <p>
               This can take up to 10 days. When we receive your form, we'll
               update the status on My VA.
@@ -80,7 +77,7 @@ export default function ConfirmationPage() {
               label="Check the status of your form on My VA"
             />
           </va-process-list-item>
-          <va-process-list-item pending header="Next, we’ll review your form">
+          <va-process-list-item header="Next, we’ll review your form">
             <p>
               If we need more information after reviewing your form, we’ll
               contact you.
