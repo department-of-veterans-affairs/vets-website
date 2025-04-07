@@ -101,10 +101,21 @@ Cypress.on('test:after:run', test => {
   }
 });
 
-// Add a catch-all interceptor that will detect any requests that weren't explicitly stubbed
-cy.intercept('**', req => {
-  // Log the request that wasn't stubbed
-  cy.log(`⚠️ Detected non-stubbed request: ${req.method} ${req.url}`);
-  // Optionally fail the test
-  // throw new Error(`Non-stubbed request detected: ${req.method} ${req.url}`);
+// Add an interceptor that detects API requests that weren't explicitly stubbed.
+beforeEach(() => {
+  cy.intercept({ resourceType: /xhr|fetch/ }, req => {
+    // Ignore requests to the webserver itself.
+    const baseUrl = Cypress.config('baseUrl');
+    if (req.url.startsWith(baseUrl)) {
+      return;
+    }
+
+    // Log the API request that wasn't stubbed
+    console.log(
+      `⚠️ Detected non-stubbed API request: ${req.method} ${req.url}`,
+    );
+
+    // Optionally fail the test
+    // throw new Error(`Non-stubbed API request detected: ${req.method} ${req.url}`);
+  });
 });
