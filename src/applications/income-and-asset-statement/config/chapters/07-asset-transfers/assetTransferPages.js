@@ -29,7 +29,7 @@ import {
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'assetTransfers',
   nounSingular: 'asset transfer',
   nounPlural: 'asset transfers',

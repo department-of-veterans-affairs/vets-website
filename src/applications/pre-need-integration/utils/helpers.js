@@ -1444,3 +1444,13 @@ export const fetchSuggestedAddress = async userAddress => {
 
   return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
 };
+
+// Helper function to conditionally return a line with a break
+export const addressConfirmationRenderLine = content => {
+  return content ? (
+    <>
+      {content}
+      <br />
+    </>
+  ) : null;
+};
