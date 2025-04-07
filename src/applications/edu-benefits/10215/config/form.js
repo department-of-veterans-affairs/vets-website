@@ -91,14 +91,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
-    label: (
-      <span>
-        I have read and accept the{' '}
-        <a aria-label="Privacy policy" target="_blank" href="/privacy-policy/">
-          privacy policy
-        </a>
-      </span>
-    ),
     statementOfTruth: {
       heading: 'Certification statement',
       body:
