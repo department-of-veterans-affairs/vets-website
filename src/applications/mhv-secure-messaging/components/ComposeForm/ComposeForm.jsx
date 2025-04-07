@@ -115,6 +115,11 @@ const ComposeForm = props => {
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
 
+  const validMessageType = {
+    SAVE: 'save',
+    SEND: 'send',
+  };
+
   const attachmentScanError = useMemo(
     () =>
       alertsList.filter(
@@ -332,7 +337,7 @@ const ComposeForm = props => {
   if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
-    () => {
+    checkValidType => {
       let messageValid = true;
       let signatureValid = true;
       let checkboxValid = true;
@@ -357,11 +362,19 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (isSignatureRequired && !electronicSignature) {
+      if (
+        checkValidType === validMessageType.SEND &&
+        isSignatureRequired &&
+        !electronicSignature
+      ) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         signatureValid = false;
       }
-      if (isSignatureRequired && !checkboxMarked) {
+      if (
+        checkValidType === validMessageType.SEND &&
+        isSignatureRequired &&
+        !checkboxMarked
+      ) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         checkboxValid = false;
       }
@@ -387,7 +400,7 @@ const ComposeForm = props => {
         messageValid,
         signatureValid,
         checkboxValid,
-      } = checkMessageValidity();
+      } = checkMessageValidity(validMessageType.SAVE);
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
 
       if (type === 'manual') {
@@ -500,7 +513,7 @@ const ComposeForm = props => {
         messageValid,
         signatureValid,
         checkboxValid,
-      } = checkMessageValidity();
+      } = checkMessageValidity(validMessageType.SEND);
 
       // TODO add GA event
       await setMessageInvalid(false);
