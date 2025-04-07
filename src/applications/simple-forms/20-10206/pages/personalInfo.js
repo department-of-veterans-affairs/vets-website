@@ -1,16 +1,14 @@
 import { cloneDeep } from 'lodash';
 
-import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern.js';
-
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  inlineTitleSchema,
-  inlineTitleUI,
+  fullNameNoSuffixUI,
+  textSchema,
+  textUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
 const fullNameUI = cloneDeep(fullNameNoSuffixUI());
@@ -20,20 +18,16 @@ fullNameUI.middle['ui:title'] = 'Middle initial';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your name'),
+    ...titleUI('Your personal information'),
     fullName: fullNameUI,
-    'view:birthTitle': inlineTitleUI('Your date and place of birth'),
     dateOfBirth: dateOfBirthUI(),
-    placeOfBirth: {
-      'ui:title': 'Place of birth',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'City and state or foreign country',
-      },
-      'ui:errorMessages': {
+    placeOfBirth: textUI({
+      title: 'Place of birth',
+      hint: 'City and state or foreign country',
+      errorMessages: {
         required: 'Enter your place of birth',
       },
-    },
+    }),
   },
   schema: {
     type: 'object',
@@ -41,11 +35,8 @@ export default {
       fullName: pdfFullNameNoSuffixSchema({
         pdfMaxLengths: { first: 12, middle: 1, last: 18 },
       }),
-      'view:birthTitle': inlineTitleSchema,
       dateOfBirth: dateOfBirthSchema,
-      placeOfBirth: {
-        type: 'string',
-      },
+      placeOfBirth: textSchema,
     },
     required: ['fullName', 'dateOfBirth', 'placeOfBirth'],
   },

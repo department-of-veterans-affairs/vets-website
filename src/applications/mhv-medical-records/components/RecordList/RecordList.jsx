@@ -13,7 +13,6 @@ import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
   const {
     records,
@@ -132,7 +131,6 @@ const RecordList = props => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
               uswds
             />
