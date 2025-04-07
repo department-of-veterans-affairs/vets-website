@@ -615,7 +615,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         properties: {
           [arrayPath]: {
             type: 'array',
-            arrayType: 'ArrayBuilderV1',
             minItems,
             maxItems,
             items: pageConfig.schema,
