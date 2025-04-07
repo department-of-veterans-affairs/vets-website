@@ -275,6 +275,14 @@ export const pageHooks = (cy, testOptions) => ({
     });
   },
 
+  'mental-health-form-0781/workflow': () => {
+    cy.get('va-radio-option[value="optForOnlineForm0781"]')
+      .find('input[type="radio"]')
+      .check({ force: true });
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
   'review-veteran-details/separation-location': () => {
     cy.get('@testData').then(data => {
       cy.get('input[name="root_serviceInformation_separationLocation"]').type(
