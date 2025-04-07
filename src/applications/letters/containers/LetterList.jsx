@@ -17,6 +17,9 @@ import {
   LH_MIGRATION__getOptions,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
+
+import { getLetterPdfLinkWrapper } from '../actions/letters';
+
 import { lettersUseLighthouse } from '../selectors';
 
 export class LetterList extends React.Component {
@@ -27,12 +30,22 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
+    const { letters, shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
-    this.setState({
-      // eslint-disable-next-line -- LH_MIGRATION
-      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
-    });
+    this.setState(
+      {
+        // eslint-disable-next-line -- LH_MIGRATION
+        LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+      },
+      () => {
+        // Need updated LH_MIGRATION__options for correct download URL
+        this.props.getLetterPdfLinkWrapper(
+          // eslint-disable-next-line -- LH_MIGRATION
+          this.state.LH_MIGRATION__options,
+          letters,
+        );
+      },
+    );
   }
 
   render() {
@@ -78,7 +91,12 @@ export class LetterList extends React.Component {
         conditionalDownloadLink = <div>Hello world. Needs a button.</div>;
       } else {
         conditionalDownloadLink = (
-          <DownloadLetterNativeLink letterTitle={letterTitle} />
+          <DownloadLetterNativeLink
+            letterTitle={letterTitle}
+            letterType={letter.letterType}
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            downloadStatus={downloadStatus[letter.letterType]}
+          />
         );
       }
 
@@ -246,6 +264,10 @@ function mapStateToProps(state) {
   };
 }
 
+const mapDispatchToProps = {
+  getLetterPdfLinkWrapper,
+};
+
 LetterList.propTypes = {
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
@@ -259,4 +281,7 @@ LetterList.propTypes = {
   shouldUseLighthouse: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(LetterList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LetterList);
