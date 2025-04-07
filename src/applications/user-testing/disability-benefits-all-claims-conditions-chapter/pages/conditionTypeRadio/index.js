@@ -4,8 +4,8 @@ import { CONDITION_TYPE_RADIO as demo } from '../../constants';
 import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
   arrayBuilderOptions,
-  hasRatedDisabilitiesAndIsRatedDisability,
-  hasRatedDisabilitiesOrIsRatedDisability,
+  hasRatedDisabilities,
+  isRatedDisability,
   isActiveDemo,
 } from '../shared/utils';
 import ratedDisabilityPage from './ratedDisability';
@@ -18,18 +18,21 @@ const conditionTypeRadioPages = arrayBuilderPages(
     [`${demo.name}conditionType`]: pageBuilder.itemPage({
       title: 'Select condition type',
       path: `conditions-${demo.label}/:index/condition-type`,
-      depends: (formData, index) =>
+      depends: (formData, index, context) =>
         isActiveDemo(formData, demo.name) &&
-        hasRatedDisabilitiesOrIsRatedDisability(formData, index),
+        context.add &&
+        hasRatedDisabilities(formData, index),
       uiSchema: conditionTypePage.uiSchema,
       schema: conditionTypePage.schema,
     }),
     [`${demo.name}RatedDisability`]: pageBuilder.itemPage({
       title: 'Select which existing disability has worsened.',
       path: `conditions-${demo.label}/:index/rated-disability`,
-      depends: (formData, index) =>
+      depends: (formData, index, context) =>
         isActiveDemo(formData, demo.name) &&
-        hasRatedDisabilitiesAndIsRatedDisability(formData, index),
+        context.add &&
+        hasRatedDisabilities(formData) &&
+        isRatedDisability(formData, index),
       uiSchema: ratedDisabilityPage.uiSchema,
       schema: ratedDisabilityPage.schema,
     }),

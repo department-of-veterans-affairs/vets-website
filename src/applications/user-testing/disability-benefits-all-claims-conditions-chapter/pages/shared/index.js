@@ -12,10 +12,10 @@ import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
   arrayBuilderOptions,
-  hasRatedDisabilitiesAndIsRatedDisability,
   hasSideOfBody,
   isActiveDemo,
   isNewCondition,
+  isRatedDisability,
 } from './utils';
 
 export const clearSideOfBody = (formData, index, setFormData) => {
@@ -75,8 +75,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     title: 'Start date of rated disability worsening',
     path: `conditions-${demo.label}/:index/rated-disability-date`,
     depends: (formData, index) =>
-      isActiveDemo(formData, demo.name) &&
-      hasRatedDisabilitiesAndIsRatedDisability(formData, index),
+      isActiveDemo(formData, demo.name) && isRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
     onNavForward: props => {
