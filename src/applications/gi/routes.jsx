@@ -22,9 +22,6 @@ const BuildRoutes = () => {
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
-  const toggleGiProgramsFlag = useToggleValue(
-    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
-  );
 
   return (
     <>
@@ -57,12 +54,10 @@ const BuildRoutes = () => {
                 from="/institution/:facilityCode"
                 to="/schools-and-employers/institution/:facilityCode"
               />
-              {toggleGiProgramsFlag && (
-                <Route
-                  path="/schools-and-employers/institution/:facilityCode/:programType"
-                  render={({ match }) => <ProgramsList match={match} />}
-                />
-              )}
+              <Route
+                path="/schools-and-employers/institution/:facilityCode/:programType"
+                render={({ match }) => <ProgramsList match={match} />}
+              />
               <Route
                 path="/schools-and-employers/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}
@@ -112,12 +107,10 @@ const BuildRoutes = () => {
                 from="/profile/:facilityCode"
                 to="/institution/:facilityCode"
               />
-              {toggleGiProgramsFlag && (
-                <Route
-                  path="/institution/:facilityCode/:programType"
-                  render={({ match }) => <ProgramsList match={match} />}
-                />
-              )}
+              <Route
+                path="/institution/:facilityCode/:programType"
+                render={({ match }) => <ProgramsList match={match} />}
+              />
               <Route
                 path="/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}
