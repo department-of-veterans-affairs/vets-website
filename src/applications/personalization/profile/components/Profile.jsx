@@ -46,13 +46,12 @@ import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthC
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
-import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../constants';
+import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
 import { fetchPowerOfAttorney as fetchPowerOfAttorneyAction } from '../actions/powerOfAttorney';
-import AccreditedRepresentative from './accredited-representative/AccreditedRepresentative';
 
 class Profile extends Component {
   componentDidMount() {
@@ -150,16 +149,12 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes();
+    let routes = getRoutes();
 
-    if (this.props.shouldShowAccreditedRepTab) {
-      routes.push({
-        component: AccreditedRepresentative,
-        name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
-        path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
-        requiresLOA3: true,
-        requiresMVI: true,
-      });
+    if (!this.props.shouldShowAccreditedRepTab) {
+      routes = routes.filter(
+        item => item.name !== 'Accredited representative or VSO',
+      );
     }
 
     return (
