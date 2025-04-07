@@ -19,6 +19,16 @@ import { removePoliceReportModalContent } from '../content/officialReport';
 import { isRelatedToMST } from '../utils/form0781';
 import { POLICE_REPORT_LOCATION_FIELDS } from '../constants';
 
+export function shouldShowPoliceDataModal(event) {
+  return (
+    event &&
+    !event?.otherReports?.police &&
+    POLICE_REPORT_LOCATION_FIELDS.some(
+      field => typeof event[field] === 'string' && event[field].trim() !== '',
+    )
+  );
+}
+
 const OfficialReport = props => {
   const alertRef = useRef(null);
   const searchParams = getArrayUrlSearchParams();
@@ -31,12 +41,7 @@ const OfficialReport = props => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handlers = {
-    shouldShowPoliceDataModal: event =>
-      event &&
-      !event?.otherReports?.police &&
-      POLICE_REPORT_LOCATION_FIELDS.some(
-        field => typeof event[field] === 'string' && event[field].trim() !== '',
-      ),
+    shouldShowPoliceDataModal,
     onModalOrContinue: ({ formData }) => {
       if (handlers.shouldShowPoliceDataModal(formData)) {
         setShowModal(true);
@@ -79,7 +84,7 @@ const OfficialReport = props => {
     },
   };
 
-  const { data, schema, uiSchema, onSubmit } = useEditOrAddForm({
+  const { schema, uiSchema, onSubmit } = useEditOrAddForm({
     isEdit,
     schema: isRelatedToMST(props.fullData)
       ? officialReportMst.schema
@@ -106,13 +111,8 @@ const OfficialReport = props => {
 
   if (!props.onReviewPage && !isEdit && !isAdd) {
     // we should only arrive at this page with ?add=true or ?edit=true,
-    // so if we somehow get here without those, redirect to the summary/intro
-    const path =
-      props.arrayBuilder.required(props.data) &&
-      props.arrayBuilder.introRoute &&
-      !data?.length
-        ? props.arrayBuilder.introRoute
-        : props.arrayBuilder.summaryRoute;
+    // so if we somehow get here without those, redirect to the summary
+    const path = props.arrayBuilder.summaryRoute;
     props.goToPath(path);
     return null;
   }
@@ -131,6 +131,7 @@ const OfficialReport = props => {
       <div className="vads-u-margin-bottom--1">
         <VaAlert
           ref={alertRef}
+          data-testid="remove-police-alert"
           closeBtnAriaLabel="Close notification"
           closeable
           onCloseEvent={handlers.onCancelAlert}
@@ -198,7 +199,14 @@ const OfficialReport = props => {
                 />
               </div>
               <div>
-                <VaButton continue submit="prevent" text="Save and continue" />
+                <VaButton
+                  continue
+                  submit="prevent"
+                  text="Save and continue"
+                  onClick={() =>
+                    handlers.onModalOrContinue({ formData: tempData })
+                  }
+                />
               </div>
             </div>
           )}
@@ -208,6 +216,7 @@ const OfficialReport = props => {
       </SchemaForm>
       <VaModal
         visible={showModal}
+        data-testid="remove-police-modal"
         status="warning"
         modalTitle="Remove police report?"
         onCloseEvent={handlers.onCancelModal}
@@ -225,7 +234,6 @@ const OfficialReport = props => {
 
 OfficialReport.propTypes = {
   arrayBuilder: PropTypes.shape({
-    introRoute: PropTypes.string.isRequired,
     summaryRoute: PropTypes.string.isRequired,
     reviewRoute: PropTypes.string.isRequired,
     arrayPath: PropTypes.string.isRequired,
