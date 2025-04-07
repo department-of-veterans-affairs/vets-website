@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const PrivacyActStatement = ({ ombNumber = '2900-0897' }) => {
   return (
     <>
-      <p>
+      <p data-testid="respondent-burden">
         <strong>Respondent Burden:</strong> An agency may not conduct or
         sponsor, and a person is not required to respond to, a collection of
         information unless it displays a currently valid OMB control number. The
@@ -28,7 +28,7 @@ const PrivacyActStatement = ({ ombNumber = '2900-0897' }) => {
         not send your completed VA Form 22-10215 to this email address.
       </p>
 
-      <p>
+      <p data-testid="privacy-act-notice">
         <strong>Privacy Act Notice:</strong> VA will not disclose information
         collected on this form to any source other than what has been authorized
         under the Privacy Act of 1974 or Title 38, Code of Federal Regulations
