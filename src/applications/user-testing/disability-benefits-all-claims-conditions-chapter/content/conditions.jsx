@@ -32,6 +32,9 @@ export const NewConditionDescription = () => (
 
 export const SecondaryNotListedAlert = () => {
   const formData = useSelector(state => state.form.data);
+  const demoLabel = window.location.pathname
+    .split('conditions-')[1]
+    ?.split('/')[0];
   const targetIndex = formData?.[ARRAY_PATH]?.length;
 
   return (
@@ -41,7 +44,9 @@ export const SecondaryNotListedAlert = () => {
         hypertension. You may add it now and your progress will be saved.
         Hypertension will be marked as incomplete until that condition is added.
       </p>
-      <Link to={`conditions-mango/${targetIndex}/new-condition?add=true`}>
+      <Link
+        to={`conditions-${demoLabel}/${targetIndex}/new-condition?add=true`}
+      >
         Add new condition now
       </Link>
     </va-alert>
