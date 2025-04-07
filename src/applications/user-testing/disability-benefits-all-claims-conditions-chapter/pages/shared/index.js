@@ -1,3 +1,4 @@
+import { ARRAY_PATH } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
 import causeSecondaryPage from './causeSecondary';
@@ -16,14 +17,20 @@ import {
   isActiveDemo,
   isNewCondition,
 } from './utils';
-import { CONDITION_NOT_LISTED_OPTION } from '../../constants';
+
+export const clearSideOfBody = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
+      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
+    ),
+  });
+};
 
 export const clearNewConditionData = (formData, index, setFormData) => {
   setFormData({
     ...formData,
-    [arrayBuilderOptions.arrayPath]: formData[
-      arrayBuilderOptions.arrayPath
-    ].map(
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
       (item, i) =>
         i === index
           ? {
@@ -39,17 +46,6 @@ export const clearNewConditionData = (formData, index, setFormData) => {
               worsenedEffects: undefined,
             }
           : item,
-    ),
-  });
-};
-
-const clearSideOfBody = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [arrayBuilderOptions.arrayPath]: formData[
-      arrayBuilderOptions.arrayPath
-    ].map(
-      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
     ),
   });
 };
@@ -117,7 +113,7 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     schema: newConditionPage.schema,
     onNavForward: props => {
       const { formData, index, setFormData } = props;
-
+      
       clearConditionNotListed(formData, setFormData);
 
       if (!hasSideOfBody(formData, index)) {

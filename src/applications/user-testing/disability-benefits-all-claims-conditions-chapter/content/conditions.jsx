@@ -91,7 +91,7 @@ const createCauseFollowUpDescriptions = item => {
   const cause = item?.cause;
 
   const causeFollowUpDescriptions = {
-    NEW: 'caused by an injury or exposure during my service',
+    NEW: 'caused by an injury, event, disease or exposure during my service',
     SECONDARY: createSecondaryDescriptionString(item),
     WORSENED:
       'existed before I served in the military, but got worse because of my military service',
