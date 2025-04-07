@@ -11,7 +11,7 @@ export default {
       'Your organization’s contact information',
       'We’ll contact your organization at the email address and phone number you provide here.',
     ),
-    yourContactInfoEmail: {
+    yourOrganizationContactInfoEmail: {
       ...emailUI(),
       'ui:errorMessages': {
         required: 'Enter an email address',
@@ -21,7 +21,7 @@ export default {
           'You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.',
       },
     },
-    yourContactInfoPhone: {
+    yourOrganizationContactInfoPhone: {
       ...phoneUI(),
       'ui:errorMessages': {
         required: 'Enter a phone number',
@@ -32,17 +32,19 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      yourContactInfoEmail: {
+      yourOrganizationContactInfoEmail: {
         type: 'string',
         maxLength: 50,
       },
-      yourContactInfoPhone: {
+      yourOrganizationContactInfoPhone: {
         type: 'string',
-        // minLength: 10,
         maxLength: 15,
         pattern: '1?-?(\\d{3}|\\(\\d{3}\\))[- ]?\\d{3}[- ]?\\d{4}',
       },
     },
-    required: ['yourContactInfoEmail', 'yourContactInfoPhone'],
+    required: [
+      'yourOrganizationContactInfoEmail',
+      'yourOrganizationContactInfoPhone',
+    ],
   },
 };

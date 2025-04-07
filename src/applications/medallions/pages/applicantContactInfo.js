@@ -38,7 +38,6 @@ export default {
       },
       yourContactInfoPhone: {
         type: 'string',
-        // minLength: 10,
         maxLength: 15,
         pattern: '1?-?(\\d{3}|\\(\\d{3}\\))[- ]?\\d{3}[- ]?\\d{4}',
       },
@@ -46,5 +45,3 @@ export default {
     required: ['yourContactInfoEmail', 'yourContactInfoPhone'],
   },
 };
-
-// PHONE NUMBER THING IS FIXED? CHECK WITH PORS
