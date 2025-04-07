@@ -1,19 +1,34 @@
 import React, { useEffect } from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useSelector } from 'react-redux';
-
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import Modals from '../../medical-copays/components/Modals';
 import { setPageFocus } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const CombinedStatements = () => {
-  useHeaderPageTitle('Combined statement');
-
-  const { mcp } = useSelector(({ combinedPortal }) => combinedPortal);
-
+  useHeaderPageTitle('Combined statements');
   useEffect(() => {
     setPageFocus('h1');
   }, []);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const redirectCombinedStatements = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+  const { mcp } = useSelector(({ combinedPortal }) => combinedPortal);
+
+  // If the feature flag is not enabled, redirect to the summary page
+  if (!redirectCombinedStatements) {
+    window.location.replace('/manage-va-debt/summary');
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+        />
+      </div>
+    );
+  }
 
   const formatCurrency = amount => {
     if (!amount) return '$0.00';
