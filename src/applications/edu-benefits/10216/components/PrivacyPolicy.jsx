@@ -6,15 +6,17 @@ import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const removeOldPrivacyPolicy = async () => {
+    const privacyPolicyText = await querySelectorWithShadowRoot(
+      'p.short-line',
+      document.querySelector('va-statement-of-truth'),
+    );
+    privacyPolicyText?.setAttribute('style', 'display:none;');
+  };
+
   useEffect(() => {
     // Hide platform line for privacy policy, use custom
-    (async () => {
-      const privacyPolicyText = await querySelectorWithShadowRoot(
-        'p.short-line',
-        document.querySelector('va-statement-of-truth'),
-      );
-      privacyPolicyText?.setAttribute('style', 'display:none;');
-    })();
+    removeOldPrivacyPolicy();
   }, []);
 
   return (
