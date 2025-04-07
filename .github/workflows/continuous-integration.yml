@@ -667,7 +667,8 @@ jobs:
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success'
+      needs.tests-prep.result == 'success' &&
+      needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
       credentials:
