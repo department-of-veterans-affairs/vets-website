@@ -29,10 +29,14 @@ describe('<FilterByLocation>', () => {
         },
       },
     );
-    const FilterByLocationButton = screen.getByTestId('update-tuition-housing');
+    const FilterByLocationButton = screen.container.querySelector(
+      'va-accordion-item',
+    );
     fireEvent.click(FilterByLocationButton); // opens Filter by Location
 
-    const UpdateResultsButton = screen.getByTestId('update-tuition-housing');
+    const UpdateResultsButton = screen.container.querySelector(
+      'va-accordion-item',
+    );
     fireEvent.click(UpdateResultsButton); // clicks on Update Results
 
     await waitFor(() => {
