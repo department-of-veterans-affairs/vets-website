@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -29,7 +30,11 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema, generateHelpText } from '../../helpers';
+import {
+  customLocationSchema,
+  generateHelpText,
+  CancelButton,
+} from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -80,8 +85,21 @@ export const deceasedDependentIntroPage = {
   uiSchema: {
     ...titleUI({
       title: 'Your dependents who have died',
-      description:
-        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent who has died.',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your dependents who
+              have died. You must add at least one dependent who has died.
+            </p>
+            <CancelButton
+              buttonText="Cancel removing dependent"
+              dependentType="dependents"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
     }),
   },
   schema: {

@@ -2,9 +2,9 @@ import React from 'react';
 import {
   radioSchema,
   radioUI,
-  textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { addSpouse } from '../../../utilities';
 import {
   marriageTypeLabels,
@@ -41,17 +41,22 @@ export const uiSchema = {
       },
       classNames: 'vads-u-margin-bottom--2 vads-u-margin-top--5',
     }),
-    typeOther: textUI({
-      title: 'Other type of marriage',
-      required: formData =>
+    typeOther: {
+      'ui:title': 'Other type of marriage',
+      'ui:webComponentField': VaTextInputField,
+      'ui:required': formData =>
         formData?.currentMarriageInformation?.type === 'OTHER',
-      expandUnder: 'type',
-      expandUnderCondition: 'OTHER',
-      showFieldLabel: true,
-      keepInPageOnReview: true,
-      hideIf: formData =>
-        formData?.currentMarriageInformation?.type !== 'OTHER',
-    }),
+      'ui:options': {
+        expandUnder: 'type',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+        showFieldLabel: true,
+        keepInPageOnReview: true,
+        classNames: 'vads-u-margin-top--2',
+        hideIf: formData =>
+          formData?.currentMarriageInformation?.type !== 'OTHER',
+      },
+    },
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
     },

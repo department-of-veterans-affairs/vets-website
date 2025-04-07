@@ -1,6 +1,5 @@
 import {
   titleUI,
-  textUI,
   textSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -86,13 +85,17 @@ export const uiSchema = {
       },
     }),
     explanationOfOther: {
-      ...textUI('Briefly describe how the marriage ended'),
+      'ui:title': 'Briefly describe how the marriage ended',
+      'ui:webComponentField': VaTextInputField,
       'ui:required': formData =>
         formData?.reportDivorce?.reasonMarriageEnded === 'Other',
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        expandedContentFocus: true,
+        showFieldLabel: true,
         keepInPageOnReview: true,
+        classNames: 'vads-u-margin-top--2',
         hideIf: formData =>
           formData?.reportDivorce?.reasonMarriageEnded !== 'Other',
       },

@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -14,6 +15,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const removeChildStoppedAttendingSchoolOptions = {
@@ -40,10 +42,25 @@ export const removeChildStoppedAttendingSchoolOptions = {
 
 export const removeChildStoppedAttendingSchoolIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your children between ages 18 and 23 who left school',
-      'In the next few questions, we’ll ask you about your children between ages 18 and 23 who left school. You must add at least one child.',
-    ),
+    ...titleUI({
+      title: 'Your children',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your children
+              between ages 18 and 23 who left school. You must add at least one
+              child.
+            </p>
+            <CancelButton
+              buttonText="Cancel removing children"
+              dependentType="children"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',

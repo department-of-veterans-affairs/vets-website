@@ -1,6 +1,5 @@
 import { capitalize } from 'lodash';
 import {
-  textUI,
   textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -126,7 +125,7 @@ export const vetFormerMarriageEndReasonPage = {
       }),
     },
     reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how your marriage ended'),
+      'ui:title': 'Briefly describe how your marriage ended',
       'ui:required': (formData, index) => {
         const isEditMode = formData?.reasonMarriageEnded === 'Other';
         const isAddMode =
@@ -138,12 +137,15 @@ export const vetFormerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        expandedContentFocus: true,
+        showFieldLabel: true,
+        keepInPageOnReview: true,
+        classNames: 'vads-u-margin-top--2',
         hideIf: (formData, index) =>
           !(
             formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
               'Other' || formData?.reasonMarriageEnded === 'Other'
           ),
-        keepInPageOnReview: true,
       },
     },
   },
