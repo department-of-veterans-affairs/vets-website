@@ -30,7 +30,7 @@ const createCauseFollowUpDescriptions = item => {
   const cause = item?.cause;
 
   const causeFollowUpDescriptions = {
-    NEW: 'caused by an injury, event, disease or exposure during my service. ',
+    NEW: 'caused by an injury, event, disease or exposure during my service',
     SECONDARY: `caused by ${item?.causedByCondition ||
       'an unspecified condition'}`,
     WORSENED:
