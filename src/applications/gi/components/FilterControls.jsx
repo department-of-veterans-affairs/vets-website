@@ -11,16 +11,18 @@ function FilterControls({
   filterLocation,
 }) {
   return (
-    <div>
-      <fieldset role="group" aria-labelledby="category-type-heading">
-        <h3
-          className="vads-u-margin-bottom--3 vads-u-margin-top--0p5"
+    <div className="vads-u-padding-bottom--4 vads-u-padding-top--2">
+      <fieldset
+        className="vads-u-padding-bottom--2 "
+        role="group"
+        aria-labelledby="category-type-heading"
+      >
+        <legend
+          className="vads-u-margin-bottom--1 vads-u-margin-top--0p5 filter-header"
           id="category-type-heading"
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex="0"
         >
           Category type
-        </h3>
+        </legend>
         {categoryCheckboxes.map((option, index) => {
           return (
             <VaCheckbox
@@ -36,14 +38,12 @@ function FilterControls({
       </fieldset>
 
       <fieldset role="group" aria-labelledby="state-heading">
-        <h3
-          className="vads-u-margin-bottom--2"
+        <legend
+          className="vads-u-margin-bottom--1 filter-header"
           id="state-heading"
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex="0"
         >
           State
-        </h3>
+        </legend>
         <Dropdown
           label="Applies to only license and prep course category type. Certifications are available nationwide."
           name={dropdown.label}

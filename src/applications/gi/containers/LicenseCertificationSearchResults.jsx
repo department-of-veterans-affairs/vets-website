@@ -20,7 +20,7 @@ import {
 import { lacpCategoryList } from '../constants';
 
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
-import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
+import FilterAccordion from '../components/FilterAccordion';
 import FilterControls from '../components/FilterControls';
 import LicenseCertificationSearchInfo from '../components/LicenseCertificationSearchInfo';
 
@@ -174,6 +174,15 @@ export default function LicenseCertificationSearchResults() {
     );
     focusElement(searchInfoWrapperRef.current, 0);
   };
+
+  const updateResults = () =>
+    handleSearch(
+      categoryCheckboxes
+        .filter(checkbox => checkbox.checked === true)
+        .map(option => option.name),
+      nameParam,
+      dropdown.current.optionValue,
+    );
 
   const handleStateChange = e => {
     setFilterLocation(e.target.value);
@@ -365,19 +374,11 @@ export default function LicenseCertificationSearchResults() {
                     }
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
-                      <LicenseCertificationFilterAccordion
+                      <FilterAccordion
                         button="Update search"
                         buttonLabel="Filter your results"
-                        expanded={!smallScreen}
-                        buttonOnClick={() =>
-                          handleSearch(
-                            categoryCheckboxes
-                              .filter(checkbox => checkbox.checked === true)
-                              .map(option => option.name),
-                            nameParam,
-                            dropdown.current.optionValue,
-                          )
-                        }
+                        open={!smallScreen}
+                        updateResults={updateResults}
                         resetSearch={handleResetSearch}
                       >
                         <FilterControls
@@ -387,7 +388,7 @@ export default function LicenseCertificationSearchResults() {
                           handleDropdownChange={handleStateChange}
                           filterLocation={filterLocation}
                         />
-                      </LicenseCertificationFilterAccordion>
+                      </FilterAccordion>
                     </div>
                   </div>
 
