@@ -8,9 +8,14 @@ import {
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import personalInformationPage from '../pages/personalInformation';
+
 import educationPage from '../pages/education';
 import getHelp from '../components/GetFormHelp';
+import mainMailingAddressPage from '../pages/mainMailingAddress';
+import movingYesNoPage from '../pages/movingYesNo';
+import newMailingAddressPage from '../pages/newMailingAddress';
+import personalInformationPage from '../pages/personalInformation';
+import phoneAndEmailPage from '../pages/phoneAndEmail';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -64,6 +69,35 @@ const formConfig = {
           title: YOUR_INFORMATION_PAGES_CONSTANTS.educationPageTitle,
           uiSchema: educationPage.uiSchema,
           schema: educationPage.schema,
+        },
+      },
+    },
+    contactInformationChapter: {
+      title: 'Contact information',
+      pages: {
+        mainMailingAddressPage: {
+          path: 'main-mailing-address',
+          title: 'Mailing address',
+          uiSchema: mainMailingAddressPage.uiSchema,
+          schema: mainMailingAddressPage.schema,
+        },
+        movingYesNoPage: {
+          path: 'moving-yes-no',
+          title: 'Moving',
+          uiSchema: movingYesNoPage.uiSchema,
+          schema: movingYesNoPage.schema,
+        },
+        newMailingAddressPage: {
+          path: 'new-mailing-address',
+          title: 'New mailing address',
+          uiSchema: newMailingAddressPage.uiSchema,
+          schema: newMailingAddressPage.schema,
+        },
+        phoneAndEmailPage: {
+          path: 'phone-and-email',
+          title: 'Contact information',
+          uiSchema: phoneAndEmailPage.uiSchema,
+          schema: phoneAndEmailPage.schema,
         },
       },
     },
