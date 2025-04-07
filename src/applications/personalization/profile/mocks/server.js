@@ -212,6 +212,10 @@ const responses = {
       // () => res.status(500).json(error500),
       // () => res.status(200).json(mockDisabilityCompensations.updates.success),
       () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      // () =>
+      //   res
+      //     .status(422)
+      //     .json(directDeposits.updates.errors.paymentRestrictionsPresent),
       secondsOfDelay,
     );
   },
