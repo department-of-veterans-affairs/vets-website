@@ -143,6 +143,10 @@ const DownloadDateRange = () => {
     sendDataDogAction('Date range  - Continue');
   };
 
+  const checkForStartEndError = () => {
+    return customToError === ERROR_END_AFTER_START_DATE;
+  };
+
   return (
     <div>
       <h1>Select records and download report</h1>
@@ -211,15 +215,9 @@ const DownloadDateRange = () => {
                   setCustomToDate(val);
                 }
               }}
-              invalidDay={() => {
-                return customToError === ERROR_END_AFTER_START_DATE;
-              }}
-              invalidMonth={() => {
-                return customToError === ERROR_END_AFTER_START_DATE;
-              }}
-              invalidYear={() => {
-                return customToError === ERROR_END_AFTER_START_DATE;
-              }}
+              invalidDay={checkForStartEndError}
+              invalidMonth={checkForStartEndError}
+              invalidYear={checkForStartEndError}
               ref={endDateRef}
             />
           </div>
