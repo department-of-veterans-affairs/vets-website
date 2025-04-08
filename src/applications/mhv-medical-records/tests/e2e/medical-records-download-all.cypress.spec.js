@@ -3,7 +3,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
 
-describe.skip('Test download all page', () => {
+describe('Test download all page', () => {
   it('test download all feature', () => {
     const site = new MedicalRecordsSite();
     site.login();
@@ -19,38 +19,45 @@ describe.skip('Test download all page', () => {
 
     DownloadAllPage.selectDateRangeDropdown('Custom');
     DownloadAllPage.clickContinueOnDownloadAllPage();
-    DownloadAllPage.verifyValidStartDateError(
-      'Please enter a valid start date.',
-    );
+    DownloadAllPage.verifyValidStartDateError('Please enter a complete date');
     DownloadAllPage.selectCustomStartMonth('January');
     DownloadAllPage.selectCustomStartDay('12');
     DownloadAllPage.selectCustomStartYear('2024');
 
     DownloadAllPage.clickContinueOnDownloadAllPage();
-    DownloadAllPage.verifyValidEndDateError('Please enter a valid end date.');
+    DownloadAllPage.verifyValidEndDateError('Please enter a complete date');
 
     // Verify "start date greater than end date" error
     DownloadAllPage.selectCustomEndMonth('January');
     DownloadAllPage.selectCustomEndDay('1');
     DownloadAllPage.selectCustomEndYear('2016');
-    // // QUESTION - Do I need to click continue for the error to show up?
-    // // ...OR should the error appear before clicking continue?
-    // DownloadAllPage.clickContinueOnDateSelectionPage();
-    // // THIS ERROR DOES NOT APPEAR
-    // DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
-    //   'Start date cannot be greater than end date',
-    // );
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
+      'End date must be on or after start date.',
+    );
 
     // Verify "valid year" error
     DownloadAllPage.clearCustomStartYear();
     DownloadAllPage.selectCustomStartYear('1895');
     DownloadAllPage.blurCustomStartYear();
-    // This error is flaky; most of the time it appears, but occasionally it does not
+    // // Previously this error was flaky
     // DownloadAllPage.verifyErrorValidYear(
-    //   'Please enter a year between 1900 and 2124',
+    //   'Please enter a year between 1900 and 2125',
     // );
 
-    DownloadAllPage.selectDateRangeDropdown('Any');
+    // THIS SECTION IS FLAKY... COMMENTING OUT FOR NOW
+    // // Verify dates are selected correctly on the next page
+    // DownloadAllPage.clearCustomStartYear();
+    // DownloadAllPage.clearCustomEndYear();
+    // DownloadAllPage.selectCustomStartYear('2015');
+    // DownloadAllPage.selectCustomEndYear('2024');
+    // DownloadAllPage.clickContinueOnDownloadAllPage();
+    // DownloadAllPage.verifyDateRangeOnPageTwo(
+    //   'January 12, 2015 to January 1, 2024',
+    // );
+    // DownloadAllPage.clickBackOnDownloadAllPage();
+
+    DownloadAllPage.selectDateRangeDropdown('All time');
     DownloadAllPage.clickContinueOnDownloadAllPage();
 
     DownloadAllPage.selectVaccinesCheckbox();
