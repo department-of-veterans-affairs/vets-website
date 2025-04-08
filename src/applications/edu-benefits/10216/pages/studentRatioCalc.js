@@ -24,6 +24,13 @@ export default {
               'Please enter the number of beneficiary students at your institution',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            if (!isValidStudentRatio(formData)) {
+              errors.addError('Calculation percentage exceeds 35%');
+            }
+          },
+        ],
       },
       numOfStudent: {
         ...numberUI({
