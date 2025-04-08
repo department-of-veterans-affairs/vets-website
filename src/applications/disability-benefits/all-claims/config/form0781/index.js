@@ -7,6 +7,7 @@ import { traumaticEventsPages } from '../../pages/form0781/traumaticEventsPages'
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
+import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 import BehaviorListPage from '../../components/BehaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
@@ -90,7 +91,8 @@ export const form0781PagesConfig = {
     title: behaviorPageTitle,
     path: 'mental-health-form-0781/behavior-changes',
     depends: formData => showBehaviorIntroPage(formData),
-    uiSchema: behaviorIntroPage.uiSchema,
+    // uiSchema: behaviorIntroPage.uiSchema,
+    uiSchema: {},
     schema: behaviorIntroPage.schema,
   },
   behaviorIntroCombatPage: {
@@ -99,11 +101,13 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorIntroCombatPage(formData),
     CustomPage: BehaviorIntroCombatPage,
     CustomPageReview: null,
-    schema: {
-      type: 'object',
-      properties: {},
-    },
-    uiSchema: {},
+    schema: behaviorIntroCombatPage.schema,
+    uiSchema: behaviorIntroCombatPage.uiSchema,
+    // uiSchema: {
+    //   type: 'object',
+    //   properties: {},
+    // },
+    // uiSchema: {},
   },
   behaviorListPage: {
     title: behaviorListPageTitle,

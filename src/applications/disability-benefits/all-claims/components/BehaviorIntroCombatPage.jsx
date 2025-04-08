@@ -23,7 +23,6 @@ import {
   answerCombatQuestionsChoice,
   combatIntroDescription,
   combatIntroTitle,
-  // deleteCombatAnswersModalTitle,
   missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
@@ -53,6 +52,8 @@ const BehaviorIntroCombatPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onReviewPage,
+  updatePage,
 }) => {
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
@@ -158,6 +159,23 @@ const BehaviorIntroCombatPage = ({
     onClickConfirmationLink: () => {
       goForward(data);
     },
+    onUpdatePage: event => {
+      event.preventDefault();
+
+      // This is in case the alert is set to true already in the other page state? Does this help with the focus useeffect?
+      setShowDeleteAnswersModal(false);
+
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+        // hasSelectedBehaviors returns true if user selected behaviors already on the succeeding page, BehaviorListPage
+      } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
+        setShowDeleteAnswersModal(true);
+      } else if (optIn) {
+        // Will this actually update or do we need to set form data manually?
+        updatePage();
+        // goForward(data);
+      }
+    },
   };
 
   return (
@@ -178,15 +196,17 @@ const BehaviorIntroCombatPage = ({
           <p className="vads-u-margin-y--0">
             We’ve removed information about your behavioral changes.
           </p>
-          <p>
-            <button
-              type="button"
-              className="va-button-link"
-              onClick={() => goForward(data)}
-            >
-              Continue with your claim
-            </button>{' '}
-          </p>
+          {!onReviewPage && (
+            <p>
+              <button
+                type="button"
+                className="va-button-link"
+                onClick={() => goForward(data)}
+              >
+                Continue with your claim
+              </button>{' '}
+            </p>
+          )}
         </VaAlert>
       </div>
 
@@ -233,14 +253,26 @@ const BehaviorIntroCombatPage = ({
             uswds
           />
         </VaRadio>
-        <>{mentalHealthSupportAlert()}</>
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handlers.onSubmit}
-          submitToContinue
-        />
-        {contentAfterButtons}
+        <>{!onReviewPage && mentalHealthSupportAlert()}</>
+        {onReviewPage && (
+          <va-button
+            onClick={handlers.onUpdatePage}
+            label="Update evidence page"
+            text="Update page"
+          />
+        )}
+
+        {!onReviewPage && (
+          <>
+            {contentBeforeButtons}
+            <FormNavButtons
+              goBack={goBack}
+              goForward={handlers.onSubmit}
+              submitToContinue
+            />
+            {contentAfterButtons}
+          </>
+        )}
       </form>
     </div>
   );
@@ -254,6 +286,7 @@ BehaviorIntroCombatPage.propTypes = {
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default BehaviorIntroCombatPage;

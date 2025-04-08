@@ -19,6 +19,7 @@ describe('BehaviorIntroCombatPage', () => {
     goBack = () => {},
     goForward = () => {},
     setFormData = () => {},
+    onReviewPage = false,
   } = {}) => {
     return (
       <div>
@@ -27,6 +28,7 @@ describe('BehaviorIntroCombatPage', () => {
           data={data}
           goBack={goBack}
           goForward={goForward}
+          onReviewPage={onReviewPage}
         />
       </div>
     );
@@ -424,6 +426,26 @@ describe('BehaviorIntroCombatPage', () => {
             fireEvent.click($('button.va-button-link', container));
             expect(goForwardSpy.called).to.be.true;
           });
+
+          describe('On the review and submit page', () => {
+            it('Displays the confirmation message but does not include a link to the next page', () => {
+              const goForwardSpy = sinon.spy();
+              const { container } = render(
+                page({
+                  data: filledOutDataWithOptOut,
+                  goForward: goForwardSpy,
+                  onReviewPage: true,
+                }),
+              );
+
+              fireEvent.click($('button[type="submit"]', container));
+
+              const modal = container.querySelector('va-modal');
+              modal.__events.primaryButtonClick();
+              // fireEvent.click($('button.va-button-link', container));
+              // expect(goForwardSpy.called).to.be.false;
+            });
+          });
         });
 
         describe('When the cancel button is clicked', () => {
@@ -495,4 +517,49 @@ describe('BehaviorIntroCombatPage', () => {
       });
     });
   });
+
+  describe('Page content', () => {
+    describe('When rendered on the Behavior Intro Combat Page', () => {
+      it('Displays a Mental Health Alert Dropdown', () => {
+
+      })
+
+      it('Displays a Mental Health Alert Dropdown', () => {
+        
+      })
+
+
+
+
+    });
+
+    describe('When rendered on the Review and Submit Page', () => {
+
+
+
+      describe('Mental health support alert', () => {
+        it('appears on the Behavior Intro Combat Page', () => {
+          
+        });
+
+        it('does not appear on the ', () => {
+          
+        })
+      })
+    })
+
+
+
+  })
+
+  
+
+
+
+
+
+
+
+
+
 });
