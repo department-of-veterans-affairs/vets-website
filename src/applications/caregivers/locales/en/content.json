@@ -40,7 +40,6 @@
   "dfn--pdf-abbr": "PDF",
   "dfn--pdf-title": "Portable Document Format",
   "error--facilities-parent-facility": "You selected a medical center that we can\u2019t accept. Try selecting a different medical center.",
-  "error--facilities-fetch": "Error fetching Lighthouse VA facilities",
   "error--facility-search-cancelled": "Empty search string. Search cancelled.",
   "error--facility-search-failed": "Something went wrong. %s",
   "error--fetching-coordinates": "Error fetching MapBox coordinates",

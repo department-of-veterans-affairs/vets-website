@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 import {
   mockApiRequest,
   setFetchJSONResponse,
@@ -107,7 +106,6 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
 
     it('should record `error` event when the request fails', async () => {
-      const sentrySpy = sinon.spy(Sentry, 'withScope');
       const { selectors } = subject();
       const { vaLink: link } = selectors();
       triggerError({ link, status: '503' });
@@ -122,13 +120,9 @@ describe('CG <ApplicationDownloadLink>', () => {
         const event = 'caregivers-10-10cg-pdf-download--failure';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
-        expect(sentrySpy.called).to.be.true;
-
         expect(vaLoadingIndicator).to.not.exist;
         expect(vaLink).to.not.exist;
       });
-
-      sentrySpy.restore();
     });
 
     it('should display `downtime` error message when error has status of `5xx`', async () => {
