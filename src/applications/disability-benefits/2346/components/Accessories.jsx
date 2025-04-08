@@ -258,3 +258,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Accessories);
+// This is a dummy comment to trigger e2e tests for disability-benefits
