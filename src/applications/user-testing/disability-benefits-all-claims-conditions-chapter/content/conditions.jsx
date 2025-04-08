@@ -1,4 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router';
+
+import { ARRAY_PATH } from '../constants';
 
 export const ConditionsIntroDescription = () => (
   <p>
@@ -26,13 +30,69 @@ export const NewConditionDescription = () => (
   </>
 );
 
+export const SecondaryNotListedAlert = () => {
+  const formData = useSelector(state => state.form.data);
+  const demoLabel = window.location.pathname
+    .split('conditions-')[1]
+    ?.split('/')[0];
+  const targetIndex = formData?.[ARRAY_PATH]?.length;
+
+  return (
+    <va-alert status="warning">
+      <p>
+        Tell us the service-connected disability or condition that caused
+        hypertension. You may add it now and your progress will be saved.
+        Hypertension will be marked as incomplete until that condition is added.
+      </p>
+      <Link
+        to={`conditions-${demoLabel}/${targetIndex}/new-condition?add=true`}
+      >
+        Add new condition now
+      </Link>
+    </va-alert>
+  );
+};
+
+export const SecondaryOptionsConflictingAlert = () => (
+  <va-alert status="error">
+    <p>
+      You selected "My condition is not listed" along with one or more
+      conditions. Revise your selection so they don’t conflict to continue.
+    </p>
+  </va-alert>
+);
+
+const createSecondaryDescriptionString = item => {
+  const conditions = Object.keys(item?.causedByCondition || {}).filter(
+    key => item.causedByCondition[key],
+  );
+
+  if (conditions.length === 0) {
+    return '';
+  }
+
+  let conditionsString = '';
+
+  if (conditions.length === 1) {
+    const [condition] = conditions;
+    conditionsString = condition;
+  } else if (conditions.length === 2) {
+    conditionsString = conditions.join(' and ');
+  } else if (conditions.length > 2) {
+    conditionsString = `${conditions.slice(0, -1).join(', ')}, and ${
+      conditions[conditions.length - 1]
+    }`;
+  }
+
+  return `caused by ${conditionsString}`;
+};
+
 const createCauseFollowUpDescriptions = item => {
   const cause = item?.cause;
 
   const causeFollowUpDescriptions = {
     NEW: 'caused by an injury, event, disease or exposure during my service',
-    SECONDARY: `caused by ${item?.causedByCondition ||
-      'an unspecified condition'}`,
+    SECONDARY: createSecondaryDescriptionString(item),
     WORSENED:
       'existed before I served in the military, but got worse because of my military service',
     VA:
@@ -47,8 +107,10 @@ export const NewConditionCardDescription = (item, date) => {
 
   return (
     <p>
-      New condition;
-      {date && ` started ${date};`} {causeFollowUpDescription}.
+      New condition
+      {date && `; started ${date}`}
+      {causeFollowUpDescription && `; ${causeFollowUpDescription}`}
+      {(date || causeFollowUpDescription) && '.'}
     </p>
   );
 };

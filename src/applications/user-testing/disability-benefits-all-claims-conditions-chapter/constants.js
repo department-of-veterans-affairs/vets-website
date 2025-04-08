@@ -11,3 +11,4 @@ export const CONDITION_TYPE_RADIO = {
 export const ARRAY_PATH = 'conditions';
 export const NEW_CONDITION_OPTION = 'New condition';
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const CONDITION_NOT_LISTED_OPTION = 'My condition is not listed';

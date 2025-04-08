@@ -1,4 +1,4 @@
-import { ARRAY_PATH } from '../../constants';
+import { ARRAY_PATH, CONDITION_NOT_LISTED_OPTION } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
 import causeSecondaryPage from './causeSecondary';
@@ -18,7 +18,7 @@ import {
   isNewCondition,
 } from './utils';
 
-export const clearSideOfBody = (formData, index, setFormData) => {
+const clearSideOfBody = (formData, index, setFormData) => {
   setFormData({
     ...formData,
     [ARRAY_PATH]: formData[ARRAY_PATH].map(
@@ -27,7 +27,7 @@ export const clearSideOfBody = (formData, index, setFormData) => {
   });
 };
 
-export const clearNewConditionData = (formData, index, setFormData) => {
+const clearNewConditionData = (formData, index, setFormData) => {
   setFormData({
     ...formData,
     [ARRAY_PATH]: formData[ARRAY_PATH].map(
@@ -44,6 +44,23 @@ export const clearNewConditionData = (formData, index, setFormData) => {
               vaMistreatmentLocation: undefined,
               worsenedDescription: undefined,
               worsenedEffects: undefined,
+            }
+          : item,
+    ),
+  });
+};
+
+const clearConditionNotListed = (formData, setFormData) => {
+  setFormData({
+    ...formData,
+    [arrayBuilderOptions.arrayPath]: formData[
+      arrayBuilderOptions.arrayPath
+    ].map(
+      item =>
+        item.causedByCondition?.[CONDITION_NOT_LISTED_OPTION] === true
+          ? {
+              ...item,
+              causedByCondition: {},
             }
           : item,
     ),
@@ -97,6 +114,8 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     onNavForward: props => {
       const { formData, index, setFormData } = props;
 
+      clearConditionNotListed(formData, setFormData);
+
       if (!hasSideOfBody(formData, index)) {
         clearSideOfBody(formData, Number(index), setFormData);
       }
@@ -149,6 +168,20 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasCause(formData, index, 'SECONDARY'),
     uiSchema: causeSecondaryPage.uiSchema,
     schema: causeSecondaryPage.schema,
+    onNavForward: props => {
+      const { formData, index, setFormData } = props;
+
+      const hasConditionNotListedSelected =
+        formData?.[arrayBuilderOptions.arrayPath]?.[index]?.causedByCondition?.[
+          CONDITION_NOT_LISTED_OPTION
+        ];
+
+      if (hasConditionNotListedSelected) {
+        clearConditionNotListed(formData, setFormData);
+      }
+
+      return helpers.navForwardFinishedItem(props);
+    },
   }),
   [`${demo.name}CauseWorsened`]: pageBuilder.itemPage({
     title: 'Follow-up of cause worsened because of my service',
