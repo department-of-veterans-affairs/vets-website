@@ -7,7 +7,6 @@ import {
   firstNameLastNameNoSuffixUI,
   emailSchema,
   emailToSendNotificationsUI,
-  inlineTitleUI,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
@@ -15,22 +14,19 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
-import { CustomAlertPage } from './helpers';
-
-function claimantFormatTitle(name) {
-  return `Claimant ${name}`;
-}
-
-function veteranFormatTitle(name) {
-  return `Veteran ${name}`;
-}
+import {
+  CustomAlertPage,
+  emptyObjectSchema,
+  claimantTitleAndDescription,
+  representativeTitleAndDescription,
+  veteranTitleAndDescription,
+} from './helpers';
 
 const claimantSubPageUI = {
-  ...inlineTitleUI("Claimant's information"),
-  claimantFullName: firstNameLastNameNoSuffixUI(claimantFormatTitle),
-  claimantSsn: ssnUI('Claimant SSN'),
+  claimantFullName: firstNameLastNameNoSuffixUI(),
+  claimantSsn: ssnUI('Social Security Number'),
   claimantDateOfBirth: dateOfBirthUI({
-    title: 'Claimant Date of Birth',
+    title: 'Date of Birth',
   }),
 };
 
@@ -41,14 +37,10 @@ const claimantSubPageSchema = {
 };
 
 const veteranSubPageUI = {
-  ...inlineTitleUI(
-    "Veteran's information",
-    "If the Veteran's name and postal code here don't match the uploaded PDF, it will cause processing delays",
-  ),
-  veteranFullName: firstNameLastNameNoSuffixUI(veteranFormatTitle),
-  veteranSsn: ssnUI('Veteran SSN'),
+  veteranFullName: firstNameLastNameNoSuffixUI(),
+  veteranSsn: ssnUI('Social Security Number'),
   veteranDateOfBirth: dateOfBirthUI({
-    title: 'Veteran Date of Birth',
+    title: 'Date of Birth',
   }),
   address: addressUI({
     labels: {
@@ -87,15 +79,24 @@ const veteranSubPageSchema = {
 /** @type {PageSchema} */
 export const claimantInformationPage = {
   uiSchema: {
+    ...claimantTitleAndDescription,
     ...claimantSubPageUI,
+    ...veteranTitleAndDescription,
     ...veteranSubPageUI,
+    ...representativeTitleAndDescription,
     email: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
     properties: {
+      'view:claimantTitle': emptyObjectSchema,
+      'view:claimantDescription': emptyObjectSchema,
       ...claimantSubPageSchema,
+      'view:veteranTitle': emptyObjectSchema,
+      'view:veteranDescription': emptyObjectSchema,
       ...veteranSubPageSchema,
+      'view:representativeTitle': emptyObjectSchema,
+      'view:representativeDescription': emptyObjectSchema,
       email: emailSchema,
     },
     required: [
