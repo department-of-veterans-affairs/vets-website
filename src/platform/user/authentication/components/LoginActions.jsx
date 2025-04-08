@@ -10,7 +10,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     state => state?.featureToggles?.mhvCredentialButtonDisabled,
   );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth, clientId, codeChallenge, acr } = getQueryParams();
+  const { OAuth, clientId, codeChallenge } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -39,7 +39,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
-            queryParams={{ clientId, codeChallenge, acr }}
+            queryParams={{ clientId, codeChallenge }}
           />
         ))}
         <a href="https://www.va.gov/resources/creating-an-account-for-vagov">

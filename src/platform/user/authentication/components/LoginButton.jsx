@@ -8,14 +8,13 @@ import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 
 export function loginHandler(loginType, isOAuth, oktaParams = {}) {
   const isOAuthAttempt = isOAuth && '-oauth';
-  const { codeChallenge = '', clientId = '', acr = '' } = oktaParams;
+  const { codeChallenge = '', clientId = '' } = oktaParams;
 
   if (clientId === TEST_APPS.OKTA && !environment.isProduction()) {
     const url = createOktaOAuthRequest({
       clientId,
       codeChallenge,
       loginType,
-      acr,
     });
     recordEvent({
       event: `login-attempted-${loginType}${isOAuthAttempt}__okta_test`,
