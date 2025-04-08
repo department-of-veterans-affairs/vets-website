@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { scrollTo, focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const SubmissionError = ({ form }) => {
   const alertRef = useRef(null);
@@ -44,7 +45,7 @@ const SubmissionError = ({ form }) => {
       </p>
       <p>
         If it still doesn’t work, call us at{' '}
-        <va-telephone contact="8006982411" /> (
+        <va-telephone contact={CONTACTS.HELP_DESK} /> (
         <va-telephone contact="711" tty />
         ). We’re here 24/7.
       </p>

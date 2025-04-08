@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
+// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
+import { FMP_FAX_NUMBER } from '../../../ivc-champva/shared/constants';
+
 const App = ({ formEnabled }) => {
   if (formEnabled === undefined) {
     return <va-loading-indicator message="Loading..." />;
@@ -54,7 +57,7 @@ const App = ({ formEnabled }) => {
           Get VA Form 10-7959f-2 to download
         </a>
         <p>
-          Fax your completed form to <va-telephone contact="3033317803" />.
+          Fax your completed form to <va-telephone contact={FMP_FAX_NUMBER} />.
         </p>
       </>
     );
@@ -101,7 +104,7 @@ const App = ({ formEnabled }) => {
         <strong>Option 3: By fax</strong>
       </h3>
       <p>
-        Fax your completed form to <va-telephone contact="3033317803" />.
+        Fax your completed form to <va-telephone contact={FMP_FAX_NUMBER} />.
       </p>
     </>
   );

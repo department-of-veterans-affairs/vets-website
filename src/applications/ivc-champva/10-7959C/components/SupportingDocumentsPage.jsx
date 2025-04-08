@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { requiredFiles } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { prefixFileNames } from './MissingFileConsentPage';
+import { CHAMPVA_OHI_FAX_NUMBER } from '../../shared/constants';
 
 export default function SupportingDocumentsPage({
   contentAfterButtons,
@@ -21,6 +22,7 @@ export default function SupportingDocumentsPage({
     showConsent: false,
     fileNameMap: prefixFileNames(data, requiredFiles),
     requiredFiles,
+    faxNum: CHAMPVA_OHI_FAX_NUMBER,
     nonListNameKey: 'applicantName',
     showNameHeader: false,
     showFileBullets: true,

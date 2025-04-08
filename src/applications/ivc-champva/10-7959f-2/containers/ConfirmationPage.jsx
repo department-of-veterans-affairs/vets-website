@@ -7,6 +7,8 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
+import { IVC_APPEALS_ADDRESS } from '../../shared/constants';
+
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('h2');
@@ -84,15 +86,7 @@ export class ConfirmationPage extends React.Component {
           <b>1 year</b> of the original decision.
         </p>
         <p>Mail a letter requesting an appeal to this address:</p>
-        <p className="va-address-block">
-          VHA Office of Integrated Veteran Care
-          <br />
-          Appeals
-          <br />
-          PO Box 600
-          <br />
-          Spring City, PA 19475
-        </p>
+        {IVC_APPEALS_ADDRESS}
         <p>Include any new information or documents that support your claim.</p>
         <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-">
           Learn more about what to expect after you file your claim
