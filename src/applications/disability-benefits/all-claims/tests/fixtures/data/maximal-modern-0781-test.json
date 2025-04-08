@@ -8,6 +8,7 @@
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
+    "none": false,
     "view:isHomeless": {
       "homelessHousingSituation": "other",
       "otherHomelessHousing": "Under a bridge",
@@ -391,7 +392,7 @@
       "vaPaid": true,
       "dod": true
     },
-    "view:treatmentNoneCheckbox": {
+    "treatmentNoneCheckbox": {
       "none": false
     },
     "optionIndicator": "yes",
