@@ -220,16 +220,9 @@ const BehaviorListPage = ({
       setShowAlert(false);
     },
     onConfirmDeleteBehaviorDetails: () => {
-      if (onReviewPage) {
-        deleteBehaviorDetails();
-        setShowModal(false);
-        // setShowAlert(true); //TODO - this isn't working yet. Need an alert to show in non-edit mode
-        updatePage();
-      } else {
-        deleteBehaviorDetails();
-        setShowModal(false);
-        setShowAlert(true);
-      }
+      deleteBehaviorDetails();
+      setShowModal(false);
+      setShowAlert(true);
     },
     onCancelDeleteBehaviorDetails: () => {
       handlers.onCloseModal();
@@ -296,7 +289,6 @@ const BehaviorListPage = ({
       onClick={handlers.onUpdatePage}
       label="Update page"
       class="usa-button-primary"
-      // className= TODO - check styling, button isn't full width
     />
   ) : (
     <>
@@ -352,15 +344,33 @@ const BehaviorListPage = ({
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">
-            We’ve removed optional descriptions about your behavioral changes.
-          </p>
-          <p>
-            <va-link
-              text="Continue with your claim"
-              onClick={handlers.onSubmit}
-            />
-          </p>
+          {!onReviewPage ? (
+            <>
+              <p className="vads-u-margin-y--0">
+                We’ve removed optional descriptions about your behavioral
+                changes.
+              </p>
+              <p>
+                <va-link
+                  text="Continue with your claim"
+                  onClick={handlers.onSubmit}
+                />
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="vads-u-margin-y--0">
+                We’ve removed optional descriptions about your behavioral
+                changes.
+              </p>
+              <p>
+                <va-link
+                  text="Continue with review"
+                  onClick={handlers.onUpdatePage}
+                />
+              </p>
+            </>
+          )}
         </VaAlert>
       </div>
 
