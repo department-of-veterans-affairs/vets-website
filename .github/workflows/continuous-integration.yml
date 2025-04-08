@@ -274,6 +274,11 @@ jobs:
     env:
       DISALLOWED_TESTS: ${{ needs.tests-prep.outputs.disallowed-tests }}
 
+    strategy:
+      fail-fast: false
+      max-parallel: 72
+      matrix:
+        ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -338,26 +343,29 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
+          NUM_CONTAINERS: 10
       
       - name: Archive unit test results
         if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-report-all
+          name: unit-test-report-${{ matrix.ci_node_index }}
           path: mocha/results
 
       - name: Rename Coverage Summary file
         if: ${{ env.NO_APPS_TO_RUN == 'false' }}
         run: |
           cd coverage
-          mv coverage-summary.json coverage-summary-all.json
+          mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
         
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         with:
-          name: unit-test-coverage-all
+          name: unit-test-coverage-${{ matrix.ci_node_index }}
+          # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
           path: coverage
 
   unit-tests-stress-test:
@@ -1363,7 +1371,7 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
-    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
