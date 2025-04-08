@@ -401,19 +401,8 @@ const ComposeForm = props => {
         signatureValid,
         checkboxValid,
       } = checkMessageValidity(validMessageType.SAVE);
-      const validSignatureNotRequired = messageValid && !isSignatureRequired;
 
       if (type === 'manual') {
-        setSavedDraft(true);
-
-        if (validSignatureNotRequired) {
-          setNavigationError(null);
-          setLastFocusableElement(e?.target);
-        } else focusOnErrorField();
-        setUnsavedNavigationError(
-          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-        );
-
         const getErrorType = () => {
           const hasAttachments = attachments.length > 0;
           const hasValidSignature =
@@ -423,39 +412,60 @@ const ComposeForm = props => {
               signatureValid &&
               checkboxValid &&
               isSignatureRequired) ||
-            (!isSignatureRequired && messageValid && validSignatureNotRequired);
+            (!isSignatureRequired && messageValid);
 
-          let errorType = null;
           if (hasAttachments && hasValidSignature && verifyAllFieldsAreValid) {
-            errorType =
-              ErrorMessages.ComposeForm
-                .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
-          } else if (hasAttachments && verifyAllFieldsAreValid) {
-            errorType =
-              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-          } else if (!validSignatureNotRequired && verifyAllFieldsAreValid) {
-            errorType =
-              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
+            return ErrorMessages.ComposeForm
+              .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
           }
 
-          if (errorType) {
-            setSaveError(errorType);
-            if (
-              errorType.title !==
-              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
-            ) {
-              setNavigationError({
-                ...errorType,
-                confirmButtonText: 'Continue editing',
-                cancelButtonText: 'Delete draft',
-              });
-            }
+          if (hasAttachments && verifyAllFieldsAreValid) {
+            return ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
           }
+
+          if (verifyAllFieldsAreValid && hasValidSignature) {
+            return ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
+          }
+
+          return null;
         };
-        getErrorType();
+
+        const errorType = getErrorType();
+
+        // Update saveError for UI purposes
+        setSaveError(errorType);
+        setSavedDraft(true);
+
+        if (errorType) {
+          if (
+            errorType.title !==
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
+          ) {
+            setNavigationError({
+              ...errorType,
+              confirmButtonText: 'Continue editing',
+              cancelButtonText: 'Delete draft',
+            });
+          }
+          if (!messageValid) {
+            focusOnErrorField(); // Only focus on error fields if the message is invalid
+          }
+          return; // Exit early if there is an error
+        }
+
+        // No errors, proceed with saving
+        setNavigationError(null);
+        setLastFocusableElement(e?.target);
       }
 
-      const draftId = draft && draft.messageId;
+      const draftId = draft?.messageId;
+      const formData = {
+        recipientId: selectedRecipientId,
+        category,
+        subject,
+        body: messageBody,
+      };
+
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || selectedRecipientId, 10),
         cat: debouncedCategory || category,
@@ -463,47 +473,44 @@ const ComposeForm = props => {
         bod: debouncedMessageBody || messageBody,
       });
 
-      if (type === 'auto' && newFieldsString === fieldsString) {
+      if (type === 'auto') {
+        if (!messageValid || newFieldsString === fieldsString) {
+          return; // Skip saving if invalid or no changes
+        }
+        setFieldsString(newFieldsString);
+        setSavedDraft(false);
+        setSaveError(null);
+        dispatch(saveDraft(formData, type, draftId));
         return;
       }
-      setFieldsString(newFieldsString);
 
-      const formData = {
-        recipientId: selectedRecipientId,
-        category,
-        subject,
-        body: messageBody,
-      };
-      if (
-        (messageValid && !isSignatureRequired) ||
-        (isSignatureRequired &&
-          messageValid &&
-          saveError !== null &&
-          savedDraft)
-      ) {
+      // Save draft if no errors
+      if (messageValid) {
+        setSavedDraft(false);
+        setSaveError(null);
         dispatch(saveDraft(formData, type, draftId));
-        setSavedDraft(true);
       }
     },
     [
       checkMessageValidity,
+      attachments,
       isSignatureRequired,
-      savedDraft,
-      saveError,
-      draft,
+      electronicSignature,
       debouncedRecipient,
-      selectedRecipientId,
       debouncedCategory,
-      category,
       debouncedSubject,
-      subject,
       debouncedMessageBody,
+      selectedRecipientId,
+      category,
+      subject,
       messageBody,
       fieldsString,
-      setUnsavedNavigationError,
-      attachments.length,
-      electronicSignature,
+      saveError,
+      draft,
       dispatch,
+      setUnsavedNavigationError,
+      setNavigationError,
+      setSavedDraft,
     ],
   );
 
