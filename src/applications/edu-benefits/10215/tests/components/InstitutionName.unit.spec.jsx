@@ -1,6 +1,6 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
@@ -12,7 +12,6 @@ const mockStore = configureStore([]);
 
 describe('InstitutionName Component', () => {
   let store;
-  let wrapper;
   let apiRequestStub;
 
   const initialState = {
@@ -29,6 +28,9 @@ describe('InstitutionName Component', () => {
     store = mockStore(initialState);
     apiRequestStub = sinon.stub(api, 'apiRequest');
   });
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
 
   it('should fetch institution name and update state on success', async () => {
     const mockResponse = {
@@ -41,19 +43,16 @@ describe('InstitutionName Component', () => {
 
     apiRequestStub.resolves(mockResponse);
 
-    wrapper = mount(
+    const { getByText } = render(
       <Provider store={store}>
         <InstitutionName />
       </Provider>,
     );
     await new Promise(resolve => setImmediate(resolve));
-    wrapper.update();
 
     expect(apiRequestStub.calledOnce).to.be.true;
     expect(apiRequestStub.args[0][0]).to.equal('/gi/institutions/12345678');
-    expect(wrapper.find('p.vads-u-font-weight--bold').text()).to.equal(
-      'Test Institution',
-    );
+    expect(getByText('Test Institution')).to.exist;
 
     const actions = store.getActions();
     expect(actions).to.deep.include(
@@ -65,23 +64,21 @@ describe('InstitutionName Component', () => {
         },
       }),
     );
-    wrapper.unmount();
     apiRequestStub.restore();
   });
 
   it('should handle API error and set institution name to "not found"', async () => {
     apiRequestStub.rejects(new Error('API Error'));
 
-    wrapper = mount(
+    const { getByText } = render(
       <Provider store={store}>
         <InstitutionName />
       </Provider>,
     );
     await new Promise(resolve => setImmediate(resolve));
-    wrapper.update();
 
     expect(apiRequestStub.calledOnce).to.be.true;
-    expect(wrapper.find('p.vads-u-font-weight--bold').text()).to.equal('--');
+    expect(getByText('--')).to.to.exist;
 
     const actions = store.getActions();
     expect(actions).to.deep.include(
@@ -93,8 +90,6 @@ describe('InstitutionName Component', () => {
         },
       }),
     );
-    wrapper.unmount();
-    apiRequestStub.restore();
   });
 
   it('should not fetch institution name if facilityCode is invalid', () => {
@@ -109,14 +104,13 @@ describe('InstitutionName Component', () => {
     };
 
     store = mockStore(invalidState);
-    wrapper = mount(
+    const { getByText } = render(
       <Provider store={store}>
         <InstitutionName />
       </Provider>,
     );
 
     expect(apiRequestStub.notCalled).to.be.true;
-    expect(wrapper.find('p.vads-u-font-weight--bold').text()).to.equal('--');
-    wrapper.unmount();
+    expect(getByText('--')).to.exist;
   });
 });

@@ -5,7 +5,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 export const useValidateFacilityCode = formData => {
   const [loader, setLoader] = useState(false);
-  const [institutionName, setInstitutionName] = useState('');
+  const [institutionData, setInstitutionData] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(
@@ -22,20 +22,19 @@ export const useValidateFacilityCode = formData => {
               },
             },
           );
-          setInstitutionName(response?.data?.attributes?.name || 'not found');
+          setInstitutionData(response?.data);
           setLoader(false);
           dispatch(
             setData({
               ...formData,
               institutionDetails: {
                 ...formData.institutionDetails,
-                institutionName:
-                  response?.data?.attributes?.name || 'not found',
+                institutionName: response?.data?.attributes?.name,
               },
             }),
           );
         } catch (error) {
-          setInstitutionName('not found');
+          setInstitutionData({});
           setLoader(false);
           dispatch(
             setData({
@@ -56,6 +55,7 @@ export const useValidateFacilityCode = formData => {
   );
   return {
     loader,
-    institutionName,
+    institutionName: institutionData?.attributes?.name || 'not found',
+    ...institutionData,
   };
 };
