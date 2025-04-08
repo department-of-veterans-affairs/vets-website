@@ -38,9 +38,7 @@ export const PreviousNetIncome = incomeReceiver => {
   const incomeType = 'netIncome';
 
   return (
-    <>
-      <PreviousIncome incomeType={incomeType} incomeReceiver={incomeReceiver} />
-    </>
+    <PreviousIncome incomeType={incomeType} incomeReceiver={incomeReceiver} />
   );
 };
 

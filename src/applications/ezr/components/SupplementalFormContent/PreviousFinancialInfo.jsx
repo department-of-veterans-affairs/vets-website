@@ -17,25 +17,28 @@ export const PreviousIncome = props => {
   const incomeYear = financialInfo?.incomeYear;
   const income = financialInfo?.[`${incomeType}`];
 
-  return incomeYear && income ? (
-    <>
-      <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
-        <va-card background>
-          <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Your {incomeReceiver !== 'veteran' ? `${incomeReceiver}'s ` : ''}
-            {incomeType
-              .split('Income')
-              .join(' ')
-              .toLowerCase()}
-            income from {incomeYear}
-          </h4>
-          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-            {formatCurrency(income)}
-          </p>
-        </va-card>
-      </div>
-    </>
-  ) : null;
+  return (
+    incomeYear &&
+    income && (
+      <>
+        <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
+          <va-card background>
+            <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
+              Your {incomeReceiver !== 'veteran' ? `${incomeReceiver}'s ` : ''}
+              {incomeType
+                .split('Income')
+                .join(' ')
+                .toLowerCase()}
+              income from {incomeYear}
+            </h4>
+            <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+              {formatCurrency(income)}
+            </p>
+          </va-card>
+        </div>
+      </>
+    )
+  );
 };
 
 PreviousIncome.propTypes = {
@@ -61,20 +64,23 @@ export const PreviousExpenses = props => {
     deductibleFuneralExpenses: 'funeral and burial',
   };
 
-  return expense && incomeYear ? (
-    <>
-      <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
-        <va-card background>
-          <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Your {expensesText[`${expensesType}`]} expenses from {incomeYear}
-          </h4>
-          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-            {formatCurrency(expense)}
-          </p>
-        </va-card>
-      </div>
-    </>
-  ) : null;
+  return (
+    expense &&
+    incomeYear && (
+      <>
+        <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
+          <va-card background>
+            <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
+              Your {expensesText[`${expensesType}`]} expenses from {incomeYear}
+            </h4>
+            <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+              {formatCurrency(expense)}
+            </p>
+          </va-card>
+        </div>
+      </>
+    )
+  );
 };
 
 PreviousExpenses.propTypes = {
