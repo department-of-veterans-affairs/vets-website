@@ -7,7 +7,6 @@ import { ensureValidCSRFToken } from '../../../actions/ensureValidCSRFToken';
 import { API_ENDPOINTS } from '../../../utils/constants';
 
 describe('CG ensureValidCSRFToken action', () => {
-  const errorResponse = { bad: 'some error' };
   const url = API_ENDPOINTS.csrfCheck;
   let apiRequestStub;
   let sentrySpy;
@@ -24,7 +23,17 @@ describe('CG ensureValidCSRFToken action', () => {
     sentrySpy.restore();
   });
 
-  it('should successfully make HEAD request to refresh csrfToken', async () => {
+  it('should not make request to refresh csrfToken when token exists', async () => {
+    localStorage.setItem('csrfToken', 'my-token');
+
+    await ensureValidCSRFToken('myMethod');
+    await waitFor(() => {
+      expect(apiRequestStub.called).to.be.false;
+      expect(sentrySpy.called).to.be.false;
+    });
+  });
+
+  it('should successfully make `HEAD` request to refresh csrfToken when no token exists', async () => {
     apiRequestStub.onFirstCall().resolves({ meta: {} });
 
     await ensureValidCSRFToken('myMethod');
@@ -38,8 +47,8 @@ describe('CG ensureValidCSRFToken action', () => {
     });
   });
 
-  it('should return error making extra HEAD request to refresh csrfToken', async () => {
-    apiRequestStub.onFirstCall().rejects(errorResponse);
+  it('should return error when request to refresh csrfToken fails', async () => {
+    apiRequestStub.onFirstCall().rejects({ bad: 'some error' });
 
     await ensureValidCSRFToken('myMethod');
     await waitFor(() => {
