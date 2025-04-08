@@ -335,9 +335,15 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   }
 };
 
-export function createOktaOAuthRequest({ clientId, codeChallenge, loginType }) {
+export function createOktaOAuthRequest({
+  clientId,
+  codeChallenge,
+  loginType,
+  acr,
+}) {
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
+    [OAUTH_KEYS.ACR]: acr,
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
