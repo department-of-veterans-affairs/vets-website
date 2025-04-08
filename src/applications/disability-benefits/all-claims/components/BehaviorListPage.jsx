@@ -363,12 +363,6 @@ const BehaviorListPage = ({
                 We’ve removed optional descriptions about your behavioral
                 changes.
               </p>
-              <p>
-                <va-link
-                  text="Continue with review"
-                  onClick={handlers.onUpdatePage}
-                />
-              </p>
             </>
           )}
         </VaAlert>
