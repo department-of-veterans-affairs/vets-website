@@ -821,7 +821,6 @@ const Prescriptions = () => {
                             <BeforeYouDownloadDropdown page={pageType.LIST} />
                           </>
                         )}
-                      {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (
                     <>
@@ -874,6 +873,7 @@ const Prescriptions = () => {
             )}
           </>
         )}
+        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };
