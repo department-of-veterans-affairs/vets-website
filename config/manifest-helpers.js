@@ -1,26 +1,26 @@
 /* eslint-disable no-console */
+const find = require('find');
 const path = require('path');
-const glob = require('glob');
 
 const root = path.join(__dirname, '..');
 
 function getAppManifests() {
-  const pattern = path.join(root, 'src/applications/**/manifest.@(json|js)');
-  const files = glob.sync(pattern, { ignore: '**/node_modules/**' });
+  return find
+    .fileSync(/manifest\.(json|js)$/, path.join(root, './src/applications'))
+    .filter(p => !p.includes('node_modules'))
+    .map(file => {
+      // eslint-disable-next-line import/no-dynamic-require
+      const manifest = require(file);
 
-  return files.map(file => {
-    // eslint-disable-next-line import/no-dynamic-require
-    const manifest = require(file);
-
-    return {
-      ...manifest,
-      filePath: file,
-      entryFile: path.resolve(
-        root,
-        path.join(path.dirname(file), manifest.entryFile),
-      ),
-    };
-  });
+      return {
+        ...manifest,
+        filePath: file,
+        entryFile: path.resolve(
+          root,
+          path.join(path.dirname(file), manifest.entryFile),
+        ),
+      };
+    });
 }
 
 function getAppRoutes() {
