@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
@@ -115,11 +114,13 @@ const VaMedicalCenter = props => {
           setFacilities(facilityList);
         } catch (err) {
           setError(true);
-          Sentry.withScope(scope => {
-            scope.setExtra('state', facilityState);
-            scope.setExtra('error', err);
-            Sentry.captureMessage('Health care facilities failed to load');
-          });
+          // Clear out selected state on error
+          setLocalData(prevState => ({
+            ...prevState,
+            'view:facilityState': undefined,
+          }));
+          // Clear dirty fields to not display state selector error
+          setDirtyFields([]);
           focusElement('.server-error-message');
         } finally {
           setLoading(false);
@@ -184,7 +185,7 @@ const VaMedicalCenter = props => {
     <>
       {error && (
         <div className="server-error-message vads-u-margin-top--4">
-          <ServerErrorAlert />
+          <ServerErrorAlert description="We’re sorry. Something went wrong on our end. Please try selecting your state again." />
         </div>
       )}
       <VaSelect

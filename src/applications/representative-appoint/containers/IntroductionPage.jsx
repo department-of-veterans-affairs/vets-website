@@ -18,7 +18,7 @@ const IntroductionPage = props => {
 
   // search from query params on page load
   useEffect(() => {
-    repStatusLoader(store, 'representative-status', 3, false);
+    repStatusLoader(store, 'representative-status', 2, false);
   }, []);
 
   return (

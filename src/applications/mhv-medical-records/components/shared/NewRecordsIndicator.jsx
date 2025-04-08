@@ -86,7 +86,7 @@ const NewRecordsIndicator = ({
         <h2>We couldn’t update your records</h2>
         <p>Check back later for updates.</p>
         <p>
-          If it still doesn’t work, call us at call us at{' '}
+          If it still doesn’t work, call us at{' '}
           <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
           <va-telephone tty contact={CONTACTS['711']} />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -120,7 +120,7 @@ const NewRecordsIndicator = ({
             <p> Please check back later for updates.</p>
 
             <p>
-              If it still doesn’t work, call us at call us at{' '}
+              If it still doesn’t work, call us at{' '}
               <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
               <va-telephone tty contact={CONTACTS['711']} />
               ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
