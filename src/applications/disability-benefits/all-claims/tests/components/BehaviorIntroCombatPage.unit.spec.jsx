@@ -19,6 +19,7 @@ describe('BehaviorIntroCombatPage', () => {
     goBack = () => {},
     goForward = () => {},
     setFormData = () => {},
+    onReviewPage = false,
   } = {}) => {
     return (
       <div>
@@ -27,6 +28,7 @@ describe('BehaviorIntroCombatPage', () => {
           data={data}
           goBack={goBack}
           goForward={goForward}
+          onReviewPage={onReviewPage}
         />
       </div>
     );
@@ -392,7 +394,7 @@ describe('BehaviorIntroCombatPage', () => {
             const modal = container.querySelector('va-modal');
             modal.__events.primaryButtonClick();
 
-            expect(confirmationAlertSelector, container).to.exist;
+            expect($(confirmationAlertSelector), container).to.exist;
 
             expect(
               $(confirmationAlertSelector, container).innerHTML,
@@ -423,6 +425,24 @@ describe('BehaviorIntroCombatPage', () => {
 
             fireEvent.click($('button.va-button-link', container));
             expect(goForwardSpy.called).to.be.true;
+          });
+
+          describe('On the review and submit page', () => {
+            it('Does not display the confirmation message', () => {
+              const { container } = render(
+                page({
+                  data: filledOutDataWithOptOut,
+                  onReviewPage: true,
+                }),
+              );
+
+              fireEvent.click($('button[type="submit"]', container));
+
+              const modal = container.querySelector('va-modal');
+              modal.__events.primaryButtonClick();
+
+              expect($(confirmationAlertSelector, container)).not.to.exist;
+            });
           });
         });
 

@@ -53,6 +53,7 @@ const BehaviorIntroCombatPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onReviewPage,
 }) => {
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
@@ -147,7 +148,11 @@ const BehaviorIntroCombatPage = ({
     onConfirmDeleteBehavioralAnswers: () => {
       deleteBehavioralAnswers();
       handlers.onCloseModal();
-      setShowDeletedAnswerConfirmation(true);
+
+      // When opting out and deleting data on the Review and Submit page, this Custom Page won't be re-rendered; therefore we shouldn't attempt to show this deletion confirmation
+      if (!onReviewPage) {
+        setShowDeletedAnswerConfirmation(true);
+      }
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
@@ -254,6 +259,7 @@ BehaviorIntroCombatPage.propTypes = {
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default BehaviorIntroCombatPage;
