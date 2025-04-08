@@ -5,6 +5,7 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import {
   VaModal,
   VaButton,
@@ -30,6 +31,7 @@ export function shouldShowPoliceDataModal(event) {
 }
 
 const OfficialReport = props => {
+  const modalRef = useRef(null);
   const alertRef = useRef(null);
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
@@ -100,6 +102,21 @@ const OfficialReport = props => {
     arrayPath: props.arrayBuilder.arrayPath,
   });
 
+  useEffect(
+    () => {
+      if (showModal && modalRef.current) {
+        setTimeout(() => {
+          const modalHeading = modalRef.current.shadowRoot?.querySelector(
+            '#heading',
+          );
+          if (modalHeading) {
+            scrollAndFocus(modalHeading);
+          }
+        }, 0);
+      }
+    },
+    [showModal],
+  );
   useEffect(
     () => {
       if (showAlert && alertRef.current) {
@@ -215,6 +232,7 @@ const OfficialReport = props => {
         </>
       </SchemaForm>
       <VaModal
+        ref={modalRef}
         visible={showModal}
         data-testid="remove-police-modal"
         status="warning"
