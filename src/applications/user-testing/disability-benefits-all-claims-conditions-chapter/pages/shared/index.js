@@ -114,8 +114,6 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     onNavForward: props => {
       const { formData, index, setFormData } = props;
 
-      clearConditionNotListed(formData, setFormData);
-
       if (!hasSideOfBody(formData, index)) {
         clearSideOfBody(formData, Number(index), setFormData);
       }
@@ -140,6 +138,13 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
     uiSchema: newConditionDatePage.uiSchema,
     schema: newConditionDatePage.schema,
+    onNavForward: props => {
+      const { formData, setFormData } = props;
+
+      clearConditionNotListed(formData, setFormData);
+
+      return helpers.navForwardKeepUrlParams(props);
+    },
   }),
   [`${demo.name}Cause`]: pageBuilder.itemPage({
     title: 'Cause of new condition',
