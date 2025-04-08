@@ -334,3 +334,22 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
     teardownProfileSession();
   }
 };
+
+export function createOktaOAuthRequest({ clientId, codeChallenge, loginType }) {
+  const oAuthParams = {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
+    [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
+    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+  };
+
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: loginType }));
+
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
+  );
+
+  sessionStorage.setItem('ci', clientId);
+  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  return url.toString();
+}
