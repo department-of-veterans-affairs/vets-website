@@ -18,38 +18,6 @@ import {
   isRatedDisability,
 } from './utils';
 
-export const clearSideOfBody = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
-    ),
-  });
-};
-
-export const clearNewConditionData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index
-          ? {
-              ...item,
-              newCondition: undefined,
-              cause: undefined,
-              primaryDescription: undefined,
-              causedByCondition: undefined,
-              causedByConditionDescription: undefined,
-              vaMistreatmentDescription: undefined,
-              vaMistreatmentLocation: undefined,
-              worsenedDescription: undefined,
-              worsenedEffects: undefined,
-            }
-          : item,
-    ),
-  });
-};
-
 export const introAndSummaryPages = (demo, pageBuilder) => ({
   [`${demo.name}Intro`]: pageBuilder.introPage({
     title: 'Conditions intro',
@@ -67,6 +35,15 @@ export const introAndSummaryPages = (demo, pageBuilder) => ({
   }),
 });
 
+const clearSideOfBody = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
+      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
+    ),
+  });
+};
+
 const hasCause = (formData, index, cause) =>
   formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause === cause;
 
@@ -78,13 +55,6 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       isActiveDemo(formData, demo.name) && isRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
-    onNavForward: props => {
-      const { formData, index, setFormData } = props;
-
-      clearNewConditionData(formData, Number(index), setFormData);
-
-      return helpers.navForwardFinishedItem(props);
-    },
   }),
   [`${demo.name}NewCondition`]: pageBuilder.itemPage({
     title: 'Add a new condition',

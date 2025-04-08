@@ -9,5 +9,5 @@ export const CONDITION_TYPE_RADIO = {
   label: 'kiwi',
 };
 export const ARRAY_PATH = 'conditions';
-export const NEW_CONDITION_OPTION = 'New condition';
+export const NEW_CONDITION_OPTION = 'Add a new condition';
 export const NULL_CONDITION_STRING = 'Unknown Condition';
