@@ -22,7 +22,7 @@ const arrayBuilderOptions = {
   nounSingular: 'emergency contact',
   nounPlural: 'emergency contacts',
   required: false,
-  maxItems: 2,
+  maxItems: 1,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
