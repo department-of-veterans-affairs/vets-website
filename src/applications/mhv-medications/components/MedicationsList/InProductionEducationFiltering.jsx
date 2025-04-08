@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
-import {
-  VaButton,
-  VaIcon,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { tooltipHintContent } from '../../util/constants';
@@ -78,21 +75,6 @@ const InProductionEducationFiltering = () => {
           >
             {tooltipHintContent.filterAccordion.HINT}
           </p>
-          <button
-            aria-label="Dismiss filtering hint"
-            id="rx-ipe-filtering-close"
-            data-testid="rx-ipe-filtering-close"
-            onClick={handleStopShowing}
-          >
-            <VaIcon
-              size={3}
-              icon="cancel"
-              aria-label="dismiss icon"
-              alt="dismiss icon"
-              onClick={handleStopShowing}
-              role="img"
-            />
-          </button>
           <VaButton
             className="vads-u-margin-top--3"
             secondary
