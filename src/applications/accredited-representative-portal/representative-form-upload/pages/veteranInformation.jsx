@@ -7,7 +7,6 @@ import {
   firstNameLastNameNoSuffixUI,
   emailSchema,
   emailToSendNotificationsUI,
-  titleUI,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
@@ -15,17 +14,18 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
-import { CustomAlertPage } from './helpers';
-
-function veteranFormatTitle(name) {
-  return `Veteran ${name}`;
-}
+import {
+  CustomAlertPage,
+  emptyObjectSchema,
+  claimantTitleAndDescription,
+  representativeTitleAndDescription,
+} from './helpers';
 
 /** @type {PageSchema} */
 export const veteranInformationPage = {
   uiSchema: {
-    ...titleUI('Veteran’s information'),
-    veteranFullName: firstNameLastNameNoSuffixUI(veteranFormatTitle),
+    ...claimantTitleAndDescription,
+    veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
         postalCode: 'Postal code',
@@ -42,12 +42,15 @@ export const veteranInformationPage = {
       required: true,
     }),
     veteranSsn: ssnUI(),
-    email: emailToSendNotificationsUI(),
     veteranDateOfBirth: dateOfBirthUI(),
+    ...representativeTitleAndDescription,
+    email: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
     properties: {
+      'view:claimantTitle': emptyObjectSchema,
+      'view:claimantDescription': emptyObjectSchema,
       veteranFullName: firstNameLastNameNoSuffixSchema,
       address: addressSchema({
         omit: [
@@ -62,6 +65,8 @@ export const veteranInformationPage = {
       }),
       veteranSsn: ssnSchema,
       veteranDateOfBirth: dateOfBirthSchema,
+      'view:representativeTitle': emptyObjectSchema,
+      'view:representativeDescription': emptyObjectSchema,
       email: emailSchema,
     },
     required: [
