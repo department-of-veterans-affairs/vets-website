@@ -73,7 +73,7 @@ describe('EZR TERA flow', () => {
 
     cy.findByText(
       /You have added the maximum number of allowed next of kins/i,
-    ).should('exist');
+    ).should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 });
