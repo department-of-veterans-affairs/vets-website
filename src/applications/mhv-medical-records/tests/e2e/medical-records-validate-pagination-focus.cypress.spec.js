@@ -20,7 +20,7 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.loadVAPaginationPrevious();
 
     VitalsListPage.verifyFocusDisplayingRecords(
-      'Displaying 1 to 10 of 31 records, newest to oldest',
+      'Displaying 1 to 10 of 31 records from newest to oldest',
     );
 
     // Axe check
