@@ -7,7 +7,6 @@ import { traumaticEventsPages } from '../../pages/form0781/traumaticEventsPages'
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
-import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 import BehaviorListPage from '../../components/BehaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
@@ -44,6 +43,7 @@ import {
 import { supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
+import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -101,8 +101,13 @@ export const form0781PagesConfig = {
     title: behaviorPageTitle,
     path: 'mental-health-form-0781/behavior-changes-combat',
     depends: formData => showBehaviorIntroCombatPage(formData),
-    uiSchema: behaviorIntroCombatPage.uiSchema,
-    schema: behaviorIntroCombatPage.schema,
+    CustomPage: BehaviorIntroCombatPage,
+    CustomPageReview: null,
+    schema: {
+      type: 'object',
+      properties: {},
+    },
+    uiSchema: {},
   },
   behaviorListPage: {
     title: behaviorListPageTitle,
