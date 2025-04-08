@@ -40,7 +40,6 @@ const BehaviorListPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
-  // for review and submit page
   onReviewPage,
   updatePage,
 }) => {
@@ -233,7 +232,6 @@ const BehaviorListPage = ({
         scrollToFirstError({ focusOnAlertRole: false });
       }
     },
-    // everything before 'else' has same logic as custom page onSubmit handler (could be cleaned up later), updatePage shows the different button
     onUpdatePage: event => {
       event.preventDefault();
       if (checkErrors(data)) {
@@ -283,14 +281,7 @@ const BehaviorListPage = ({
     );
   };
 
-  const accordionsAndNavButtons = onReviewPage ? (
-    <va-button
-      text="Update page"
-      onClick={handlers.onUpdatePage}
-      label="Update page"
-      class="usa-button-primary"
-    />
-  ) : (
+  const accordionsAndNavButtons = !onReviewPage ? (
     <>
       {behaviorListAdditionalInformation}
       <>{mentalHealthSupportAlert()}</>
@@ -302,6 +293,13 @@ const BehaviorListPage = ({
       />
       {contentAfterButtons}
     </>
+  ) : (
+    <va-button
+      text="Update page"
+      onClick={handlers.onUpdatePage}
+      label="Update page"
+      class="usa-button-primary"
+    />
   );
 
   return (

@@ -105,7 +105,6 @@ export const form0781PagesConfig = {
     path: 'mental-health-form-0781/behavior-changes-list',
     depends: formData => showBehaviorListPage(formData),
     CustomPage: BehaviorListPage,
-    // for review and submit page: use the schema and uiSchema from the old form library behaviorListPage
     CustomPageReview: null,
     schema: behaviorListPage.schema,
     uiSchema: behaviorListPage.uiSchema,
