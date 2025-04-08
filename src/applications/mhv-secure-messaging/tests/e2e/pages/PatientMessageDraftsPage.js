@@ -1,7 +1,6 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import { Data, Locators, Paths } from '../utils/constants';
-import draftSearchResponse from '../fixtures/draftsResponse/drafts-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
@@ -232,20 +231,6 @@ class PatientMessageDraftsPage {
       .should('include', `${draftMessage.data.attributes.messageId}`);
   };
 
-  openAdvancedSearch = () => {
-    cy.get(Locators.ADDITIONAL_FILTER).click();
-  };
-
-  selectAdvancedSearchCategory = () => {
-    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('select')
-      .select('COVID');
-  };
-
-  clickSubmitSearchButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click();
-  };
-
   selectCategory = (category = 'COVID') => {
     cy.get(Locators.BUTTONS.CATEG_RADIO_BUTT)
       .contains(category)
@@ -295,71 +280,6 @@ class PatientMessageDraftsPage {
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
-  };
-
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  clickFilterMessagesButton = (filteredResponse = draftSearchResponse) => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
-      filteredResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  clickClearFilterButton = () => {
-    this.inputFilterDataText('any');
-    this.clickFilterMessagesButton();
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
-  verifyFilterResults = (filterValue, responseData = draftSearchResponse) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
-    cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
-    });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
@@ -437,11 +357,11 @@ class PatientMessageDraftsPage {
       });
   };
 
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
+  // inputFilterDataByKeyboard = text => {
+  //   cy.tabToElement('#inputField')
+  //     .first()
+  //     .type(`${text}`, { force: true });
+  // };
 
   verifyDraftMessageBannerTextHasFocus = () => {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
@@ -591,7 +511,7 @@ class PatientMessageDraftsPage {
       .click();
   };
 
-  verifyDraftToField = value => {
+  verifyDraftToFieldContainsPlainTGName = value => {
     cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }

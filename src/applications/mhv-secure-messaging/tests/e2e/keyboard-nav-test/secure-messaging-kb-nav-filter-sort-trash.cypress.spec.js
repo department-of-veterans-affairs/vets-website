@@ -6,6 +6,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 
 describe('SM TRASH FILTER & SORT KB NAVIGATION', () => {
   const filteredData = {
@@ -22,19 +23,19 @@ describe('SM TRASH FILTER & SORT KB NAVIGATION', () => {
 
   it('verify filter works correctly', () => {
     GeneralFunctionsPage.verifyHeaderFocused();
-    PatientMessageTrashPage.inputFilterDataByKeyboard('test');
-    PatientMessageTrashPage.submitFilterByKeyboard(filteredData, -3);
-    PatientMessageTrashPage.verifyFilterResults('test', filteredData);
+    PatientFilterPage.inputFilterDataByKeyboard('test');
+    PatientFilterPage.submitFilterByKeyboard(filteredData, -3);
+    PatientFilterPage.verifyFilterResults('test', filteredData);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
-    PatientMessageTrashPage.inputFilterDataByKeyboard('test');
-    PatientMessageTrashPage.submitFilterByKeyboard(filteredData, -3);
-    PatientMessageTrashPage.clearFilterByKeyboard();
-    PatientMessageTrashPage.verifyFilterFieldCleared();
+    PatientFilterPage.inputFilterDataByKeyboard('test');
+    PatientFilterPage.submitFilterByKeyboard(filteredData, -3);
+    PatientFilterPage.clearFilterByKeyboard();
+    PatientFilterPage.verifyFilterFieldCleared();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

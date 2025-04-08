@@ -18,20 +18,20 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientInboxPage.inputFilterData('test');
+    PatientFilterPage.inputFilterData('test');
     PatientFilterPage.clickApplyFilterButton(mockFilterResults);
-    PatientInboxPage.verifyFilterResults('test', mockFilterResults);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.verifyFilterResults('test', mockFilterResults);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
-    PatientInboxPage.inputFilterData('test');
+    PatientFilterPage.inputFilterData('test');
     PatientFilterPage.clickApplyFilterButton(mockFilterResults);
-    PatientInboxPage.clickClearFilterButton();
-    PatientInboxPage.verifyFilterFieldCleared();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.clickClearFilterButton();
+    PatientFilterPage.verifyFilterFieldCleared();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works correctly', () => {
@@ -43,8 +43,8 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
       ),
     };
     PatientInboxPage.verifySorting('Oldest to newest', sortedResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
 
@@ -60,13 +60,12 @@ describe('verify sorting feature with only one filter result', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
-    PatientInboxPage.inputFilterData('draft');
+    PatientFilterPage.inputFilterData('draft');
     PatientFilterPage.clickApplyFilterButton(mockSingleFilterResult);
-    PatientInboxPage.verifyFilterResults('draft', mockSingleFilterResult);
+    PatientFilterPage.verifyFilterResults('draft', mockSingleFilterResult);
 
     cy.get(Locators.DROPDOWN.SORT).should('not.exist');
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

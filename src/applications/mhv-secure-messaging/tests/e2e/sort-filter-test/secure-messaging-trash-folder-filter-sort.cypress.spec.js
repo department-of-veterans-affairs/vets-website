@@ -2,7 +2,9 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageTrashPage from '../pages/PatientMessageTrashPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 import { AXE_CONTEXT } from '../utils/constants';
+import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 
 describe('Secure Messaging Trash Folder filter-sort checks', () => {
@@ -13,20 +15,20 @@ describe('Secure Messaging Trash Folder filter-sort checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    PatientMessageTrashPage.inputFilterDataText('test');
-    PatientMessageTrashPage.clickFilterMessagesButton();
-    PatientMessageTrashPage.verifyFilterResultsText('test');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.inputFilterData('test');
+    PatientFilterPage.clickApplyFilterButton(trashSearchResponse);
+    PatientFilterPage.verifyFilterResults('test', trashSearchResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    PatientMessageTrashPage.inputFilterDataText('any');
-    PatientMessageTrashPage.clickFilterMessagesButton();
-    PatientMessageTrashPage.clickClearFilterButton();
-    PatientMessageTrashPage.verifyFilterFieldCleared();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.inputFilterData('any');
+    PatientFilterPage.clickApplyFilterButton(trashSearchResponse);
+    PatientFilterPage.clickClearFilterButton();
+    PatientFilterPage.verifyFilterFieldCleared();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('Check sorting works properly', () => {
@@ -40,7 +42,6 @@ describe('Secure Messaging Trash Folder filter-sort checks', () => {
 
     PatientMessageTrashPage.verifySorting('Oldest to newest', sortedResponse);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

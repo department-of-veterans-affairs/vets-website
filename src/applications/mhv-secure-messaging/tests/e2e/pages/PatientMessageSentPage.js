@@ -2,7 +2,6 @@ import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.js
 import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
 import mockThreadResponse from '../fixtures/sentResponse/sent-thread-response.json';
 import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-message-response.json';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 import { Locators, Paths } from '../utils/constants';
 
@@ -68,28 +67,6 @@ class PatientMessageSentPage {
       .click();
   };
 
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  clickFilterMessagesButton = (filteredResponse = sentSearchResponse) => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/search`,
-      filteredResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  clickClearFilterButton = () => {
-    this.inputFilterDataText('any');
-    this.clickFilterMessagesButton();
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
   clickSortMessagesByDateButton = (
     text,
     sortedResponse = mockSortedMessages,
@@ -135,55 +112,6 @@ class PatientMessageSentPage {
     );
   };
 
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
-    cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
-    });
-  };
-
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
-  };
-
   sortMessagesByKeyboard = (text, data, folderId) => {
     cy.get(Locators.DROPDOWN.SORT)
       .shadow()
@@ -221,7 +149,7 @@ class PatientMessageSentPage {
       });
   };
 
-  verifySentToField = value => {
+  verifySentToFieldContainsPalinTGName = value => {
     cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }

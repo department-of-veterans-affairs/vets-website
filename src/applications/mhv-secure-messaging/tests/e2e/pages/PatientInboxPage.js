@@ -8,7 +8,7 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Assertions, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
@@ -443,69 +443,6 @@ class PatientInboxPage {
       .and('not.be.empty');
   };
 
-  inputFilterData = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  // clickFilterMessagesButton = mockFilterResponse => {
-  //   cy.intercept(
-  //     'POST',
-  //     Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
-  //     mockFilterResponse,
-  //   ).as('filterResult');
-  //   cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  //   cy.wait('@filterResult');
-  // };
-
-  verifyFilterResults = (filterValue, responseData) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clickClearFilterButton = () => {
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
-    cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
-    });
-  };
-
   sortMessagesByKeyboard = (text, data, folderId) => {
     cy.get(Locators.DROPDOWN.SORT)
       .shadow()
@@ -563,13 +500,6 @@ class PatientInboxPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
   };
 
   clickSortMessagesByDateButton = (
@@ -648,28 +578,6 @@ class PatientInboxPage {
       }
     }
   }
-
-  verifyNoMatchFilterFocusAndText = () => {
-    cy.get(Locators.FIELDS.SEARCH_MESSAGE)
-      .last()
-      .should('be.focus');
-    cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
-      .should('be.visible')
-      .and('have.text', Assertions.NO_MATCHES_SEARCH);
-  };
-
-  verifyFilterTextHighLightedInSearch = () => {
-    cy.get(Locators.ALERTS.HIGHLIGHTED).should(
-      'have.class',
-      'keyword-highlight',
-    );
-  };
-
-  // selectDateRange = dropDownValue => {
-  //   cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
-  //     .find('select')
-  //     .select(dropDownValue);
-  // };
 
   verifyFilterMessageHeadingText = (text = 'Filter messages in inbox') => {
     cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)

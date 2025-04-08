@@ -47,28 +47,6 @@ class PatientMessageTrashPage {
       .click();
   };
 
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  clickFilterMessagesButton = () => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/search`,
-      trashSearchResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  clickClearFilterButton = () => {
-    this.inputFilterDataText('any');
-    this.clickFilterMessagesButton();
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
   clickSortMessagesByDateButton = (
     option = 'Oldest to newest',
     sortedResponse,
@@ -151,39 +129,6 @@ class PatientMessageTrashPage {
           const lowerCaseText = text.toLowerCase();
           expect(lowerCaseText).to.contain(`${filterValue}`);
         });
-    });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
-  };
-
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
-    cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
     });
   };
 

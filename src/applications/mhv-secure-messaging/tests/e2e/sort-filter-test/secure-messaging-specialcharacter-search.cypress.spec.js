@@ -14,7 +14,7 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Highlight Inbox Check', () => {
-    PatientFilterPage.typeFilterInputFieldText(searchText);
+    PatientFilterPage.inputFilterData(searchText);
     PatientFilterPage.clickApplyFilterButton(mockMessageResponse);
     PatientFilterPage.verifyHighlightedText(searchText);
 
@@ -25,7 +25,7 @@ describe('Secure Messaging Basic Search Tests', () => {
   it('Basic Search Highlight Drafts Check', () => {
     PatientMessageDraftsPage.loadDrafts();
 
-    PatientFilterPage.typeFilterInputFieldText(searchText);
+    PatientFilterPage.inputFilterData(searchText);
     PatientFilterPage.clickApplyFilterButton(mockMessageResponse);
     PatientFilterPage.verifyHighlightedText(searchText);
 

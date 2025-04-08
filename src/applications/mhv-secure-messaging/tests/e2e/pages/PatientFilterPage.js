@@ -1,20 +1,20 @@
 import mockMessageResponse from '../fixtures/drafts-search-results.json';
-import { Locators, Paths } from '../utils/constants';
+import { Assertions, Locators, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/threads-response.json';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 
 class PatientFilterSortPage {
-  // This method clicks the Search messages on the side navigation bar.
-  clickFilterMessageButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click();
-  };
+  // // This method clicks the Search messages on the side navigation bar.
+  // clickFilterMessageButton = () => {
+  //   cy.get(Locators.BUTTONS.FILTER).click();
+  // };
 
   openAdditionalFilter = () => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
   };
 
   // This method will access the input field and enters the text that will be used for search.
-  typeFilterInputFieldText = text => {
+  inputFilterData = text => {
     cy.get(Locators.KEYWORD_SEARCH)
       .shadow()
       .find('[id="inputField"]')
@@ -61,7 +61,45 @@ class PatientFilterSortPage {
   };
 
   verifyHighlightedText = text => {
-    cy.get(Locators.ALERTS.HIGHLIGHTED).should('contain', text);
+    cy.get(Locators.ALERTS.HIGHLIGHTED)
+      .should('have.class', 'keyword-highlight')
+      .and('contain', text);
+  };
+
+  verifyFilterResults = (filterValue, responseData) => {
+    cy.get(Locators.MESSAGES).should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
+  };
+
+  verifyNoMatchFilterFocusAndText = () => {
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE)
+      .last()
+      .should('be.focus');
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
+      .should('be.visible')
+      .and('have.text', Assertions.NO_MATCHES_SEARCH);
+  };
+
+  clickClearFilterButton = () => {
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
+  };
+
+  verifyFilterFieldCleared = () => {
+    cy.get(Locators.FILTER_INPUT)
+      .shadow()
+      .find('#inputField')
+      .should('be.empty');
   };
 
   loadInboxSearchResults = () => {
@@ -263,6 +301,32 @@ class PatientFilterSortPage {
   //     mockMessages,
   //   ).as('basicSearchInboxRequest');
   // }
+
+  inputFilterDataByKeyboard = text => {
+    cy.tabToElement('#inputField')
+      .first()
+      .type(`${text}`, { force: true });
+  };
+
+  submitFilterByKeyboard = mockFilterResponse => {
+    cy.intercept(
+      'POST',
+      Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
+      mockFilterResponse,
+    ).as('filterResult');
+
+    cy.realPress('Enter');
+  };
+
+  clearFilterByKeyboard = () => {
+    // next line required to start tab navigation from the header of the page
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
+    cy.contains('Clear filters').then(el => {
+      cy.tabToElement(el)
+        .first()
+        .click();
+    });
+  };
 }
 
 export default new PatientFilterSortPage();

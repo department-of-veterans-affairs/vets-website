@@ -5,7 +5,6 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
-import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
 import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageCustomFolderPage {
@@ -194,52 +193,6 @@ class PatientMessageCustomFolderPage {
       .should('be.visible')
       .and('contain.text', `Sort`);
     cy.get(Locators.BUTTONS.FILTER).contains('filter');
-  };
-
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  clickFilterMessagesButton = (folderId = this.folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/search`,
-      customSearchResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  verifyFilterResultsText = (
-    filterValue,
-    responseData = customSearchResponse,
-  ) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`test`);
-        });
-    });
-  };
-
-  clickClearFilterButton = () => {
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
   };
 
   createCustomFolder = (
