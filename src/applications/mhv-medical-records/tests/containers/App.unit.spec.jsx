@@ -46,10 +46,6 @@ describe('App', () => {
         mhvAccountState: 'MULTIPLE',
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_to_va_gov_release: true,
-    },
     mr: {
       breadcrumbs: {
         crumbsList: [
@@ -105,11 +101,7 @@ describe('App', () => {
         {
           initialState: {
             ...initialState,
-            featureToggles: {
-              loading: true,
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_to_va_gov_release: undefined,
-            },
+            featureToggles: { loading: true },
           },
           path: `/`,
           reducers: reducer,
@@ -118,41 +110,7 @@ describe('App', () => {
       expect(screen.getByTestId('mr-feature-flag-loading-indicator'));
     });
 
-    it('feature flag set to false', () => {
-      const screen = renderWithStoreAndRouter(
-        <App>
-          <LandingPage />
-        </App>,
-        {
-          initialState: {
-            ...initialState,
-            featureToggles: {
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_to_va_gov_release: false,
-            },
-          },
-          path: `/`,
-          reducers: reducer,
-        },
-      );
-      expect(
-        screen.queryByText('Medical records', {
-          selector: 'h1',
-          exact: true,
-        }),
-      ).to.be.null;
-      expect(
-        screen.queryByText(
-          'Review, print, and download your VA medical records.',
-          {
-            selector: 'p',
-            exact: false,
-          },
-        ),
-      ).to.be.null;
-    });
-
-    it('feature flag set to true', () => {
+    it('feature flags are done loading', () => {
       const screen = renderWithStoreAndRouter(
         <App>
           <LandingPage />

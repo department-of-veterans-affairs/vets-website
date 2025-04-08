@@ -1,3 +1,4 @@
+import { ARRAY_PATH } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
 import causeSecondaryPage from './causeSecondary';
@@ -11,11 +12,43 @@ import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
   arrayBuilderOptions,
-  hasRemainingRatedDisabilities,
+  hasRatedDisabilitiesAndIsRatedDisability,
   hasSideOfBody,
   isActiveDemo,
   isNewCondition,
 } from './utils';
+
+export const clearSideOfBody = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
+      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
+    ),
+  });
+};
+
+export const clearNewConditionData = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
+      (item, i) =>
+        i === index
+          ? {
+              ...item,
+              newCondition: undefined,
+              cause: undefined,
+              primaryDescription: undefined,
+              causedByCondition: undefined,
+              causedByConditionDescription: undefined,
+              vaMistreatmentDescription: undefined,
+              vaMistreatmentLocation: undefined,
+              worsenedDescription: undefined,
+              worsenedEffects: undefined,
+            }
+          : item,
+    ),
+  });
+};
 
 export const introAndSummaryPages = (demo, pageBuilder) => ({
   [`${demo.name}Intro`]: pageBuilder.introPage({
@@ -43,10 +76,16 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     path: `conditions-${demo.label}/:index/rated-disability-date`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
-      !isNewCondition(formData, index) &&
-      hasRemainingRatedDisabilities(formData),
+      hasRatedDisabilitiesAndIsRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
+    onNavForward: props => {
+      const { formData, index, setFormData } = props;
+
+      clearNewConditionData(formData, Number(index), setFormData);
+
+      return helpers.navForwardFinishedItem(props);
+    },
   }),
   [`${demo.name}NewCondition`]: pageBuilder.itemPage({
     title: 'Add a new condition',
@@ -56,10 +95,11 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
     uiSchema: newConditionPage.uiSchema,
     schema: newConditionPage.schema,
     onNavForward: props => {
-      const { formData, index } = props;
-      const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
+      const { formData, index, setFormData } = props;
 
-      if (item) item.sideOfBody = undefined;
+      if (!hasSideOfBody(formData, index)) {
+        clearSideOfBody(formData, Number(index), setFormData);
+      }
 
       return helpers.navForwardKeepUrlParams(props);
     },

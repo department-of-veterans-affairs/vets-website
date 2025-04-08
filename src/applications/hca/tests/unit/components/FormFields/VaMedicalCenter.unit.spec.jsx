@@ -2,7 +2,6 @@ import React from 'react';
 import * as api from 'platform/utilities/api';
 import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import * as Sentry from '@sentry/browser';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import VaMedicalCenter from '../../../../components/FormFields/VaMedicalCenter';
@@ -141,7 +140,6 @@ describe('hca <VaMedicalCenter>', () => {
     apiRequestStub.onFirstCall().rejects(errorResponse);
     apiRequestStub.onSecondCall().resolves(REQ_DATA);
 
-    const spy = sinon.spy(Sentry, 'withScope');
     const { selectors } = subject({
       formData: { 'view:facilityState': 'NY' },
     });
@@ -149,13 +147,11 @@ describe('hca <VaMedicalCenter>', () => {
     await waitFor(() => {
       const { stateField, facilityField, vaAlert } = selectors();
       expect(stateField).to.exist;
+      expect(stateField).to.not.have.attr('error');
+      // Clears out the state value
+      expect(stateField.getAttribute('value')).to.be.null;
       expect(facilityField).to.exist;
       expect(vaAlert).to.exist;
-    });
-
-    await waitFor(() => {
-      expect(spy.called).to.be.true;
-      spy.restore();
     });
 
     await waitFor(() => {

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
@@ -67,9 +66,8 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
+        setErrors(error.errors);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--failure' });
-        Sentry.withScope(scope => scope.setExtra('error', error));
       } finally {
         setLoading(false);
       }
