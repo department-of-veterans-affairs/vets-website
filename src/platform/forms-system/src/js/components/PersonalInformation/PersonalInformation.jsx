@@ -34,27 +34,29 @@ import { DefaultCardHeader } from './DefaultCardHeader';
  * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
  * @property {FieldConfig} [name] - Name field configuration
  * @property {FieldConfig} [ssn] - SSN field configuration
- * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
  * @property {FieldConfig} [dateOfBirth] - Date of birth field configuration
+ * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
  * @property {FieldConfig} [sex] - Sex field configuration
  */
 
 /**
- * @type {FieldConfig}
- */
-const defaultFieldConfig = {
-  show: true,
-  required: false,
-};
-
-/**
  * @type {PersonalInformationConfig}
+ * @description Default configuration for the PersonalInformation component, shows the name field as non-required field
  */
-const defaultConfig = {
-  name: { ...defaultFieldConfig },
-  ssn: { ...defaultFieldConfig },
+export const defaultConfig = {
+  name: {
+    show: true,
+    required: false,
+  },
+  ssn: {
+    show: false,
+    required: false,
+  },
+  dateOfBirth: {
+    show: false,
+    required: false,
+  },
   vaFileNumber: { show: false, required: false },
-  dateOfBirth: { ...defaultFieldConfig },
   sex: { show: false, required: false },
 };
 

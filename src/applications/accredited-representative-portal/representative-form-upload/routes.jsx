@@ -1,4 +1,4 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes.js';
 import formConfig from './config/form';
 import App from './containers/App';
 
@@ -16,7 +16,7 @@ const routes = formUploadForms.map(formId => {
       onEnter: (nextState, replace) =>
         replace(`/${lowerCaseFormId}/introduction`),
     },
-    childRoutes: createRoutesWithSaveInProgress(config),
+    childRoutes: createRoutes(config),
   };
 });
 
