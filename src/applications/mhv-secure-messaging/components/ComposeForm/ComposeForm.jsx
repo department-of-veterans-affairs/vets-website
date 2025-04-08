@@ -432,7 +432,6 @@ const ComposeForm = props => {
 
         const errorType = getErrorType();
 
-        // Update saveError for UI purposes
         setSaveError(errorType);
         setSavedDraft(true);
 
@@ -448,12 +447,11 @@ const ComposeForm = props => {
             });
           }
           if (!messageValid) {
-            focusOnErrorField(); // Only focus on error fields if the message is invalid
+            focusOnErrorField();
           }
-          return; // Exit early if there is an error
+          return;
         }
 
-        // No errors, proceed with saving
         setNavigationError(null);
         setLastFocusableElement(e?.target);
       }
@@ -475,7 +473,7 @@ const ComposeForm = props => {
 
       if (type === 'auto') {
         if (!messageValid || newFieldsString === fieldsString) {
-          return; // Skip saving if invalid or no changes
+          return;
         }
         setFieldsString(newFieldsString);
         setSavedDraft(false);
@@ -484,7 +482,6 @@ const ComposeForm = props => {
         return;
       }
 
-      // Save draft if no errors
       if (messageValid) {
         setSavedDraft(false);
         setSaveError(null);
