@@ -238,7 +238,8 @@ const BehaviorIntroCombatPage = ({
             uswds
           />
         </VaRadio>
-        <>{mentalHealthSupportAlert()}</>
+        {/* Mental Health dropdown is not displayed when content is rendered on the Review and Submit page */}
+        <>{!onReviewPage && mentalHealthSupportAlert()}</>
         {contentBeforeButtons}
         <FormNavButtons
           goBack={goBack}

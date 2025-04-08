@@ -515,4 +515,23 @@ describe('BehaviorIntroCombatPage', () => {
       });
     });
   });
+
+  describe('Page content', () => {
+    const mentalHealthDropdownSelector =
+      'va-alert-expandable[status="info"][trigger="Learn how to get mental health help now"]';
+
+    describe('When rendered on the Behavior Intro Combat Page', () => {
+      it('Displays a Mental Health Alert Dropdown', () => {
+        const { container } = render(page());
+        expect($(mentalHealthDropdownSelector, container)).to.exist;
+      });
+    });
+
+    describe('When rendered on the Review and Submit Page', () => {
+      it('Does not display a Mental Health Alert Dropdown', () => {
+        const { container } = render(page({ onReviewPage: true }));
+        expect($(mentalHealthDropdownSelector, container)).not.to.exist;
+      });
+    });
+  });
 });
