@@ -1,4 +1,3 @@
-import { datadogLogs } from '@datadog/browser-logs';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../utils/mapbox/mapboxClient';
 import { replaceStrValues } from '../utils/helpers';
@@ -53,7 +52,8 @@ export const fetchMapBoxGeocoding = async (
         ? error.body.message
         : error;
 
-    datadogLogs.logger.error('Error fetching Mapbox coordinates', {}, error);
+    const message = 'Error fetching Mapbox coordinates';
+    window.DD_LOGS?.logger.error(message, {}, error);
 
     return {
       type: 'SEARCH_FAILED',
