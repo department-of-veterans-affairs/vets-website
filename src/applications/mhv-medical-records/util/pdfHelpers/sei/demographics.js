@@ -119,40 +119,42 @@ export const generateDemographicsContent = record => {
     details: record.emergencyContacts.map(contact => ({
       items: [
         {
-          title: 'Contact first name',
-          value: contact.firstName,
-          inline: true,
-        },
-        {
-          title: 'Contact last name',
-          value: contact.lastName,
-          inline: true,
-        },
-        {
-          title: 'Relationship',
-          value: contact.relationship,
-          inline: true,
-        },
-        {
-          title: 'Home phone number',
-          value: contact.homePhone,
-          inline: true,
-        },
-        {
-          title: 'Work phone number',
-          value: contact.workPhone,
-          inline: true,
-        },
-        {
-          title: 'Cell phone number',
-          value: contact.mobilePhone,
-          inline: true,
-        },
-        { title: 'Email', value: contact.email, inline: true },
-        {
-          title: 'Mailing address',
-          value: formatAddressSingleLine(contact.address),
-          inline: true,
+          value: [
+            {
+              value: [
+                {
+                  label: 'Contact first name',
+                  value: contact.firstName,
+                },
+                {
+                  label: 'Contact last name',
+                  value: contact.lastName,
+                },
+                {
+                  label: 'Relationship',
+                  value: contact.relationship,
+                },
+                {
+                  label: 'Home phone number',
+                  value: contact.homePhone,
+                },
+                {
+                  label: 'Work phone number',
+                  value: contact.workPhone,
+                },
+                {
+                  label: 'Cell phone number',
+                  value: contact.mobilePhone,
+                },
+                { label: 'Email', value: contact.email, inline: true },
+                {
+                  label: 'Mailing address',
+                  value: formatAddressSingleLine(contact.address),
+                },
+              ],
+            },
+          ],
+          isRich: true,
         },
       ],
     })),
