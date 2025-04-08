@@ -10,12 +10,24 @@ function FilterControls({
   handleDropdownChange,
   filterLocation,
 }) {
+  const stopPropagation = e => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className="vads-u-padding-bottom--4 vads-u-padding-top--2">
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
+    <div
+      className="vads-u-padding-bottom--4 vads-u-padding-top--2"
+      onClick={stopPropagation}
+      onKeyDown={stopPropagation}
+    >
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
       <fieldset
-        className="vads-u-padding-bottom--2 "
+        className="vads-u-padding-bottom--2"
         role="group"
         aria-labelledby="category-type-heading"
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
       >
         <legend
           className="vads-u-margin-bottom--1 vads-u-margin-top--0p5 filter-header"
@@ -31,13 +43,21 @@ function FilterControls({
               name={option.name}
               checked={option.checked}
               className="category-checkbox"
-              onVaChange={e => handleCheckboxGroupChange(e)}
+              onVaChange={e => {
+                handleCheckboxGroupChange(e);
+              }}
             />
           );
         })}
       </fieldset>
 
-      <fieldset role="group" aria-labelledby="state-heading">
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+      <fieldset
+        role="group"
+        aria-labelledby="state-heading"
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
+      >
         <legend
           className="vads-u-margin-bottom--1 filter-header"
           id="state-heading"
@@ -50,7 +70,9 @@ function FilterControls({
           alt="Filter results by state"
           options={dropdown.options}
           value={filterLocation}
-          onChange={handleDropdownChange}
+          onChange={e => {
+            handleDropdownChange(e);
+          }}
           className="state-dropdown"
           visible
           boldLabel
