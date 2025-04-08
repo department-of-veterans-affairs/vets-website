@@ -43,14 +43,6 @@ function IntroductionLogin({
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
 
-      {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
-          Begin your application for education benefits
-        </h2>
-      )}
-
-      {shouldShowLoadingIndicator && <LoadingIndicator />}
-
       {shouldShowMaintenanceAlert && (
         <va-alert
           close-btn-aria-label="Close notification"

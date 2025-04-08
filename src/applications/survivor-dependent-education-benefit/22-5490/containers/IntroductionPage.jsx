@@ -10,6 +10,7 @@ import { getAppData } from '../selectors';
 import IntroductionLogin from '../components/IntroductionLogin';
 
 export const IntroductionPage = ({
+  isFormSaved,
   isLOA3,
   isLoggedIn,
   isPersonalInfoFetchFailed,
@@ -38,6 +39,9 @@ export const IntroductionPage = ({
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
+
+      {isFormSaved && <IntroductionLogin route={route} />}
+
       <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p>
@@ -149,7 +153,9 @@ export const IntroductionPage = ({
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>
-      <IntroductionLogin route={route} />
+
+      {!isFormSaved && <IntroductionLogin route={route} />}
+
       {isLoggedIn &&
       isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
       showMeb5490EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
@@ -178,6 +184,7 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
+  isFormSaved: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
@@ -188,6 +195,9 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
+  isFormSaved: state.user?.profile?.savedForms?.some(
+    savedForm => savedForm.form === '22-5490',
+  ),
   showMeb5490EMaintenanceAlert:
     state.featureToggles?.showMeb5490EMaintenanceAlert,
 });
