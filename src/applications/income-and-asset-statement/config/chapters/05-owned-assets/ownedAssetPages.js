@@ -17,6 +17,7 @@ import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
@@ -31,16 +32,16 @@ export const options = {
   nounPlural: 'incomes and net worth associated with owned assets',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.grossMonthlyIncome ||
-    !item.ownedPortionValue ||
-    !item.assetType, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.ownedPortionValue) ||
+    !isDefined(item.assetType), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome &&
-      item?.ownedPortionValue && (
+      isDefined(item?.grossMonthlyIncome) &&
+      isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Asset type:{' '}

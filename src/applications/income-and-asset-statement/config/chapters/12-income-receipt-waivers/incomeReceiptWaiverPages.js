@@ -22,6 +22,7 @@ import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -32,14 +33,14 @@ export const options = {
   nounPlural: 'income receipt waivers',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.payer ||
-    !item.waivedGrossMonthlyIncome, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.payer) ||
+    !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: () => 'Income receipt waiver',
     cardDescription: item =>
-      item?.waivedGrossMonthlyIncome && (
+      isDefined(item?.waivedGrossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Recipient relationship:{' '}
