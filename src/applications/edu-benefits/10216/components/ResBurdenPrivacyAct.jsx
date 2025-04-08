@@ -7,7 +7,7 @@ const ResBurdenPrivacyPolicy = () => {
         <strong>Respondent Burden:</strong> An agency may not conduct or
         sponsor, and a person is not required to respond to, a collection unless
         it displays a currently valid OMB control number. The OMB control number
-        for this project is 2900-0896, and it expires 1/31/2028. Public
+        for this project is 2900-0896, and it expires 01/31/2028. Public
         reporting burden for this collection of information is estimated to
         average 1 hour per respondent, per year, including the time for
         reviewing instructions, searching existing data sources, gathering and
