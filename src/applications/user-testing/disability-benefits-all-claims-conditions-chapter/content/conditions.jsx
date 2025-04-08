@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import { ARRAY_PATH } from '../constants';
 
@@ -32,6 +33,10 @@ export const NewConditionDescription = () => (
 
 export const SecondaryNotListedAlert = () => {
   const formData = useSelector(state => state.form.data);
+  const currentIndex = getArrayIndexFromPathName();
+  const newCondition = formData?.[ARRAY_PATH]?.[currentIndex]?.newCondition;
+  const capitalNewCondition =
+    newCondition.charAt(0).toUpperCase() + newCondition.slice(1);
   const demoLabel = window.location.pathname
     .split('conditions-')[1]
     ?.split('/')[0];
@@ -40,9 +45,10 @@ export const SecondaryNotListedAlert = () => {
   return (
     <va-alert status="warning">
       <p>
-        Tell us the service-connected disability or condition that caused
-        hypertension. You may add it now and your progress will be saved.
-        Hypertension will be marked as incomplete until that condition is added.
+        Tell us the service-connected disability or condition that caused{' '}
+        {newCondition}. You may add it now and your progress will be saved.{' '}
+        {capitalNewCondition} will be marked as incomplete until that condition
+        is added.
       </p>
       <Link
         to={`conditions-${demoLabel}/${targetIndex}/new-condition?add=true`}
