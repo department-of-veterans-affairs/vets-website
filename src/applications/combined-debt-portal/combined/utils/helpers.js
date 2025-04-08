@@ -3,6 +3,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import React from 'react';
+import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -120,4 +121,25 @@ export const setPageFocus = selector => {
     document.querySelector('#main h1').setAttribute('tabIndex', -1);
     document.querySelector('#main h1').focus();
   }
+};
+
+// 'Manually' generating PDF instead of using generatePdf so we can
+//  get the blob and send it to the API to combine with the Notice of Rights PDF
+//  may just be a temporary solution until we can get all the content displaying in a reasonable way
+export const getPdfBlob = async (templateId, data) => {
+  const template = templates[templateId]();
+  const doc = await template.generate(data);
+
+  const chunks = [];
+  return new Promise((resolve, reject) => {
+    doc.on('data', chunk => chunks.push(chunk));
+    doc.on('end', () => {
+      const blob = new Blob([Buffer.concat(chunks)], {
+        type: 'application/pdf',
+      });
+      resolve(blob);
+    });
+    doc.on('error', reject);
+    doc.end();
+  });
 };

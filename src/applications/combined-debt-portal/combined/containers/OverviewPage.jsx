@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import { format } from 'date-fns';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import * as Sentry from '@sentry/browser';
 import {
   VaButton,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { getPdfBlob } from '@department-of-veterans-affairs/platform-pdf/exports';
 import {
   selectProfile,
   selectVAPMailingAddress,
@@ -16,7 +15,7 @@ import {
 import environment from 'platform/utilities/environment';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
+import { ALERT_TYPES, getPdfBlob, setPageFocus } from '../utils/helpers';
 import {
   calculateTotalDebts,
   calculateTotalBills,
@@ -72,51 +71,42 @@ const OverviewPage = () => {
     TOGGLE_NAMES.showOneVADebtLetter,
   );
 
+  const showOneVADebtLetter = useMemo(
+    () => {
+      // 403 error is not enrolled, so bills aren't proper borked
+      const billsBorked = billError?.code !== '403' ?? false;
+      return showOneVADebtLetterDownload && !debtError && !billsBorked;
+    },
+    [billError, debtError, showOneVADebtLetterDownload],
+  );
+
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
-  const { first, middle, last, suffix } = userFullName;
-  const veteranFullName = `${first || ''} ${middle || ''} ${last || ''}${
-    suffix ? `, ${suffix}` : ''
-  }`;
-
-  // Pulling fileNumber from first debt
-  const fileNumber = debts[0]?.fileNumber || '';
-
   const veteranContactInformation = {
-    veteranFullName,
+    veteranFullName: userFullName,
     addressLine1,
     addressLine2,
     addressLine3,
     city,
     zipCode,
     stateCode,
-    fileNumber,
+    fileNumber: debts[0]?.fileNumber || '',
   };
 
   // Merge into namespaced pdfData
   const pdfData = {
-    date: format(new Date(), 'MM/dd/yyyy'),
     copays: bills,
     debts,
     veteranContactInformation,
   };
 
-  // TODO
-  // xx Get redux data in place of mock data
-  // xx Get vet info dynamic
-  // xx Get legalese data in
-  // xx Handle empty debts/copays
-  //     leaving the section & showing zeros for now
-  // Handle errors
-
-  const getOneDebtLetterBlob = data => getPdfBlob('oneDebtLetter', data);
-
+  // some fancy PDF generation
   const handleGeneratePdf = async () => {
     try {
-      const blob = await getOneDebtLetterBlob(pdfData);
+      const blob = await getPdfBlob('oneDebtLetter', pdfData);
 
       const file = new File([blob], 'one_debt_letter.pdf', {
         type: 'application/pdf',
@@ -150,17 +140,24 @@ const OverviewPage = () => {
           link.click();
           URL.revokeObjectURL(url);
         } else {
-          alert(`PDF request failed: ${xhr.status}`);
+          Sentry.captureMessage(
+            `OneDebtLetter - PDF request failed: ${xhr.status}`,
+          );
         }
       };
 
       xhr.onerror = () => {
-        alert('Network error during PDF request');
+        Sentry.captureMessage(
+          `OneDebtLetter - Network error during PDF request`,
+        );
       };
 
       xhr.send(formData);
     } catch (err) {
-      alert(`PDF generation failed: ${err.message}`);
+      Sentry.setExtra('error: ', err);
+      Sentry.captureMessage(
+        `OneDebtLetter - PDF generation failed: ${err.message}`,
+      );
     }
   };
 
@@ -198,7 +195,8 @@ const OverviewPage = () => {
           <>
             <h2>Debt and bill overview</h2>
             <Balances />
-            {showOneVADebtLetterDownload ? (
+            {/* For now, if any errors occur we're going to hide the download option */}
+            {showOneVADebtLetter ? (
               <>
                 <VaButton
                   onClick={handleGeneratePdf}

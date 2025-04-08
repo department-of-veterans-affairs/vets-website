@@ -117,7 +117,8 @@ const handlePageBreakWithBorders = (
 };
 
 const generate = async (data = {}, config = defaultConfig) => {
-  const { date, debts, copays, veteranContactInformation } = data;
+  const { debts, copays, veteranContactInformation } = data;
+  const downloadDate = format(new Date(), 'MM/dd/yyyy');
 
   const doc = createAccessibleDoc(
     {
@@ -193,10 +194,16 @@ const generate = async (data = {}, config = defaultConfig) => {
     stateCode,
     fileNumber,
   } = veteranContactInformation;
+
+  const veteranDisplayName = `${veteranFullName?.first ||
+    ''} ${veteranFullName?.middle || ''} ${veteranFullName?.last || ''}${
+    veteranFullName?.suffix ? `, ${veteranFullName?.suffix}` : ''
+  }`;
+
   doc.font(config.text.font).fontSize(config.text.size);
   wrapper.add(
     doc.struct('P', () => {
-      doc.text(veteranFullName, config.margins.left, addressY);
+      doc.text(veteranDisplayName, config.margins.left, addressY);
       doc.text(addressLine1, config.margins.left);
       if (addressLine2) doc.text(addressLine2, config.margins.left);
       if (addressLine3) doc.text(addressLine3, config.margins.left);
@@ -209,7 +216,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   doc.font(config.text.font).fontSize(config.text.size);
   wrapper.add(
     doc.struct('P', () => {
-      doc.text(date, rightSideX, addressY, { align: 'right' });
+      doc.text(downloadDate, rightSideX, addressY, { align: 'right' });
       if (fileNumber) {
         doc.text(`File Number: ${fileNumber}`, rightSideX, addressY + 18, {
           align: 'right',

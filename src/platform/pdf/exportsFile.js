@@ -1,1 +1,2 @@
-export { generatePdf, getPdfBlob } from './index';
+export { generatePdf } from './index';
+export { templates } from './templates/index';
