@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -40,6 +41,11 @@ const App = ({ location, children }) => {
       </MhvRegisteredUserGuard>
     </RequiredLoginView>
   );
+};
+
+App.propTypes = {
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
 };
 
 export default App;
