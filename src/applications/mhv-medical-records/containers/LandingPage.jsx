@@ -31,7 +31,7 @@ import {
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
@@ -121,7 +121,7 @@ const LandingPage = () => {
         </p>
       </section>
 
-      <CernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
 
       {isLoading && (
         <section>

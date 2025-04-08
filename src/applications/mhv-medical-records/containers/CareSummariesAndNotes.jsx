@@ -19,7 +19,7 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -79,7 +79,9 @@ const CareSummariesAndNotes = () => {
         before 2013.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
+      <AcceleratedCernerFacilityAlert
+        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
+      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
