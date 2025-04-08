@@ -63,12 +63,12 @@ const formConfig = {
           included: ['email', 'mobilePhone'],
           depends: formData => isUserSignedIn(formData),
         }),
-        ...profileContactInfo({
-          contactInfoPageKey: 'applicantMailingAddress',
-          contactPath: 'applicant-mailing-address',
-          included: ['mailingAddress'],
-          depends: formData => isUserSignedIn(formData),
-        }),
+        // ...profileContactInfo({
+        //   contactInfoPageKey: 'applicantMailingAddress',
+        //   contactPath: 'applicant-mailing-address',
+        //   included: ['mailingAddress'],
+        //   depends: formData => isUserSignedIn(formData),
+        // }),
       },
     },
     veteranInformation: {
