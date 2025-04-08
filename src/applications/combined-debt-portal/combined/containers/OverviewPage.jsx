@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import * as Sentry from '@sentry/browser';
 import {
   VaButton,
   VaLoadingIndicator,
@@ -15,7 +14,11 @@ import {
 import environment from 'platform/utilities/environment';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES, getPdfBlob, setPageFocus } from '../utils/helpers';
+import {
+  ALERT_TYPES,
+  handlePdfGeneration,
+  setPageFocus,
+} from '../utils/helpers';
 import {
   calculateTotalDebts,
   calculateTotalBills,
@@ -74,17 +77,13 @@ const OverviewPage = () => {
   const showOneVADebtLetter = useMemo(
     () => {
       // 403 error is not enrolled, so bills aren't proper borked
-      const billsBorked = billError?.code !== '403' ?? false;
+      const billsBorked = billError ? billError?.code !== '403' : false;
       return showOneVADebtLetterDownload && !debtError && !billsBorked;
     },
     [billError, debtError, showOneVADebtLetterDownload],
   );
 
-  // give features a chance to fully load before we conditionally render
-  if (togglesLoading) {
-    return <VaLoadingIndicator message="Loading features..." />;
-  }
-
+  // Data for One VA Debt Letter PDF
   const veteranContactInformation = {
     veteranFullName: userFullName,
     addressLine1,
@@ -96,70 +95,17 @@ const OverviewPage = () => {
     fileNumber: debts[0]?.fileNumber || '',
   };
 
-  // Merge into namespaced pdfData
+  // Merge into namespaced pdfData for One VA Debt Letter PDF
   const pdfData = {
     copays: bills,
     debts,
     veteranContactInformation,
   };
 
-  // some fancy PDF generation
-  const handleGeneratePdf = async () => {
-    try {
-      const blob = await getPdfBlob('oneDebtLetter', pdfData);
-
-      const file = new File([blob], 'one_debt_letter.pdf', {
-        type: 'application/pdf',
-      });
-
-      const formData = new FormData();
-      formData.append('document', file);
-
-      const xhr = new XMLHttpRequest();
-      xhr.open(
-        'POST',
-        `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
-      );
-      xhr.responseType = 'blob';
-
-      xhr.setRequestHeader('X-Key-Inflection', 'camel');
-      xhr.setRequestHeader('X-CSRF-Token', localStorage.getItem('csrfToken'));
-      xhr.setRequestHeader('Source-App-Name', window.appName);
-      xhr.withCredentials = true;
-
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          const filename = `one_debt_letter_${
-            new Date().toISOString().split('T')[0]
-          }.pdf`;
-
-          const url = URL.createObjectURL(xhr.response);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = filename;
-          link.click();
-          URL.revokeObjectURL(url);
-        } else {
-          Sentry.captureMessage(
-            `OneDebtLetter - PDF request failed: ${xhr.status}`,
-          );
-        }
-      };
-
-      xhr.onerror = () => {
-        Sentry.captureMessage(
-          `OneDebtLetter - Network error during PDF request`,
-        );
-      };
-
-      xhr.send(formData);
-    } catch (err) {
-      Sentry.setExtra('error: ', err);
-      Sentry.captureMessage(
-        `OneDebtLetter - PDF generation failed: ${err.message}`,
-      );
-    }
-  };
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
 
   return (
     <>
@@ -199,7 +145,7 @@ const OverviewPage = () => {
             {showOneVADebtLetter ? (
               <>
                 <VaButton
-                  onClick={handleGeneratePdf}
+                  onClick={() => handlePdfGeneration(environment, pdfData)}
                   text="View combined statement"
                   className="vads-u-margin-bottom--2"
                   secondary

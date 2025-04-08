@@ -4,6 +4,7 @@ import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import React from 'react';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+import * as Sentry from '@sentry/browser';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -126,7 +127,7 @@ export const setPageFocus = selector => {
 // 'Manually' generating PDF instead of using generatePdf so we can
 //  get the blob and send it to the API to combine with the Notice of Rights PDF
 //  may just be a temporary solution until we can get all the content displaying in a reasonable way
-export const getPdfBlob = async (templateId, data) => {
+const getPdfBlob = async (templateId, data) => {
   const template = templates[templateId]();
   const doc = await template.generate(data);
 
@@ -142,4 +143,60 @@ export const getPdfBlob = async (templateId, data) => {
     doc.on('error', reject);
     doc.end();
   });
+};
+
+// some fancy PDF generation
+export const handlePdfGeneration = async (environment, pdfData) => {
+  try {
+    const blob = await getPdfBlob('oneDebtLetter', pdfData);
+
+    const file = new File([blob], 'one_debt_letter.pdf', {
+      type: 'application/pdf',
+    });
+
+    const formData = new FormData();
+    formData.append('document', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'POST',
+      `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
+    );
+    xhr.responseType = 'blob';
+
+    xhr.setRequestHeader('X-Key-Inflection', 'camel');
+    xhr.setRequestHeader('X-CSRF-Token', localStorage.getItem('csrfToken'));
+    xhr.setRequestHeader('Source-App-Name', window.appName);
+    xhr.withCredentials = true;
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const filename = `one_debt_letter_${
+          new Date().toISOString().split('T')[0]
+        }.pdf`;
+
+        const url = URL.createObjectURL(xhr.response);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        Sentry.captureMessage(
+          `OneDebtLetter - PDF request failed: ${xhr.status}`,
+        );
+      }
+    };
+
+    xhr.onerror = () => {
+      Sentry.captureMessage(`OneDebtLetter - Network error during PDF request`);
+    };
+
+    xhr.send(formData);
+  } catch (err) {
+    Sentry.setExtra('error: ', err);
+    Sentry.captureMessage(
+      `OneDebtLetter - PDF generation failed: ${err.message}`,
+    );
+  }
 };
