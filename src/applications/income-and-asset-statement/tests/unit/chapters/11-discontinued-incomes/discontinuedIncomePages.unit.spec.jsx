@@ -7,8 +7,11 @@ import {
 import { relationshipLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -26,6 +29,11 @@ describe('discontinued income list and loop pages', () => {
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    const baseItem = testDataZeroes.data.discontinuedIncomes[0];
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
     it('should return text', () => {
       expect(options.text.getItemName()).to.equal('Discontinued income');
@@ -33,9 +41,26 @@ describe('discontinued income list and loop pages', () => {
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { payer, incomeFrequency, incomeLastReceivedDate, ...baseItem } = testData.data.discontinuedIncomes[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      payer,
+      incomeFrequency,
+      incomeLastReceivedDate,
+      ...baseItem
+    } = testData.data.discontinuedIncomes[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      payer,
+      incomeFrequency,
+      incomeLastReceivedDate,
+      ...baseItem
+    } = testDataZeroes.data.discontinuedIncomes[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, relationshipLabels);
   });
 
