@@ -307,22 +307,23 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           sortedBy={sortString}
         />
       </RecordListSection>
-      {allowFilterSort && (
-        <>
-          <DownloadingRecordsInfo
-            allowTxtDownloads={allowTxtDownloads}
-            description="Allergies"
-          />
-          <PrintDownload
-            description="Allergies - List"
-            list
-            downloadPdf={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateAllergiesTxt}
-          />
-          <div className="vads-u-margin-bottom--5 no-print" />
-        </>
-      )}
+      {allowFilterSort &&
+        sortedAllergies?.length > 0 && (
+          <>
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <div className="vads-u-margin-bottom--5 no-print" />
+          </>
+        )}
     </div>
   );
 };

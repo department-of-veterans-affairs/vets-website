@@ -36,12 +36,12 @@ class AllergiesListPage extends BaseListPage {
   ) => {
     cy.get('#showingRecords').should(
       'have.text',
-      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records, alphabetically`,
     );
     cy.focused().then($el => {
       cy.wrap($el).should(
         'contain',
-        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records, alphabetically`,
       );
     });
   };
