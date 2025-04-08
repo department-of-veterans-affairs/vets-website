@@ -71,11 +71,57 @@ const useAcceleratedData = () => {
     [isAcceleratingAllergies, isAcceleratingVitals],
   );
 
+  const user = useSelector(state => state.user);
+
+  const userFacilities = useMemo(
+    () => {
+      const userCernerFacilities =
+        user?.profile.facilities.filter(item => item.isCerner) || [];
+      const userVistaFacilities =
+        user?.profile.facilities.filter(item => !item.isCerner) || [];
+      const cernerDisplayHash = drupalStaticData.vamcEhrData?.data?.cernerFacilities?.reduce(
+        (acc, facility) => {
+          acc[facility.vhaId] = facility;
+          return acc;
+        },
+        {},
+      );
+      const cernerFacilities = userCernerFacilities.map(facility => {
+        const cernerFacility = cernerDisplayHash?.[facility.facilityId];
+        return {
+          ...facility,
+          ...cernerFacility,
+        };
+      });
+
+      const vistaDisplayHash = drupalStaticData.vamcEhrData?.data?.vistaFacilities?.reduce(
+        (acc, facility) => {
+          acc[facility.vhaId] = facility;
+          return acc;
+        },
+        {},
+      );
+      const vistaFacilities = userVistaFacilities.map(facility => {
+        const vistaFacility = vistaDisplayHash?.[facility.facilityId];
+        return {
+          ...facility,
+          ...vistaFacility,
+        };
+      });
+      return {
+        cernerFacilities,
+        vistaFacilities,
+      };
+    },
+    [user, drupalStaticData],
+  );
+
   return {
     isLoading,
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
+    userFacilities,
   };
 };
 
