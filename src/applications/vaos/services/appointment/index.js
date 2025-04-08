@@ -82,6 +82,7 @@ export async function fetchAppointments({
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
+  useFeSourceOfTruthModaility = false,
 }) {
   try {
     const appointments = [];
@@ -110,6 +111,7 @@ export async function fetchAppointments({
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
+        useFeSourceOfTruthModaility,
       ),
       {
         meta: allAppointments.backendSystemFailures,
@@ -210,6 +212,7 @@ export async function fetchRequestById({
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
+  useFeSourceOfTruthModaility = false,
 }) {
   try {
     const appointment = await getAppointment(id);
@@ -219,6 +222,7 @@ export async function fetchRequestById({
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModaility,
     );
   } catch (e) {
     if (e.errors) {
@@ -248,6 +252,7 @@ export async function fetchBookedAppointment({
   useFeSourceOfTruth = true,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
+  useFeSourceOfTruthModaility = false,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
@@ -256,6 +261,7 @@ export async function fetchBookedAppointment({
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModaility,
     );
   } catch (e) {
     if (e.errors) {
