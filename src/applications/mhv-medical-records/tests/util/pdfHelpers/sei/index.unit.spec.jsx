@@ -83,9 +83,10 @@ describe('generateSelfEnteredData', () => {
     expect(demographicsSection.records)
       .to.be.an('array')
       .with.length(2);
-    expect(demographicsSection.records[1].details[0].items[0].value).to.equal(
-      'Jane',
-    );
+    expect(
+      demographicsSection.records[1].details[0].items[0].value[0].value[0]
+        .value,
+    ).to.equal('Jane');
   });
 
   it('should generate data for family history', () => {
