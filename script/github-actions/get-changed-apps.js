@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const find = require('find');
+const glob = require('glob');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
@@ -19,9 +19,8 @@ const getManifests = filePath => {
 
   if (!fs.existsSync(fullAppPath)) return [];
 
-  return find
-    .fileSync(/manifest\.(json|js)$/, fullAppPath)
-    .map(file => JSON.parse(fs.readFileSync(file)));
+  const files = glob.sync(`${fullAppPath}/**/manifest.@(js|json)`);
+  return files.map(file => JSON.parse(fs.readFileSync(file)));
 };
 
 /**
