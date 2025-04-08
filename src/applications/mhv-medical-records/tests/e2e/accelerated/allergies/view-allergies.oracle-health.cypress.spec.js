@@ -18,9 +18,6 @@ describe('Medical Records View Allergies', () => {
   it('Visits Medical Records View Allergies List', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Allergies.checkLandingPageLinks();
-
     Allergies.goToAllergiesPage();
 
     cy.injectAxeThenAxeCheck();

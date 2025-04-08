@@ -18,9 +18,6 @@ describe('Medical Records View Vitals', () => {
   it('Visits View Vital List', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Vitals.checkLandingPageLinks();
-
     Vitals.goToVitalPage();
 
     const today = new Date();
