@@ -1,6 +1,5 @@
 import mockCustomFolderMessages from '../fixtures/customResponse/custom-folder-messages-response.json';
 import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-message-response.json';
-import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
@@ -139,45 +138,6 @@ class PatientMessageCustomFolderPage {
       'have.length',
       `${responseData.data.length}`,
     );
-  };
-
-  clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
-    folderId = this.folderId,
-  ) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${text}`);
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads**`,
-      sortedResponse,
-    );
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
-  };
-
-  verifySorting = () => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting: ${listBefore.join(',')}`);
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting: ${listAfter.join(',')}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
   };
 
   verifyMainButtons = () => {
@@ -333,48 +293,6 @@ class PatientMessageCustomFolderPage {
       .then(() => {
         cy.get(Locators.BUTTONS.REMOVE_FOLDER).should('have.focus');
       });
-  };
-
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId = this.folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  verifyFilterResults = (filterValue, responseData) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
-    cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
-    });
   };
 
   sortMessagesByKeyboard = (text, data, folderId = this.folderId) => {

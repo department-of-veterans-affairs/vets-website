@@ -7,45 +7,39 @@ import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.js
 import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('Secure Messaging Trash Folder filter-sort checks', () => {
+describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientMessageSentPage.loadMessages();
   });
 
-  it('Verify filter works correctly', () => {
+  it('verify filter works correctly', () => {
     PatientFilterPage.inputFilterData('test');
     PatientFilterPage.clickApplyFilterButton(sentSearchResponse);
     PatientFilterPage.verifyFilterResults('test', sentSearchResponse);
     cy.get(`.unread-icon`).should(`not.exist`);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
+  it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterData('any');
     PatientFilterPage.clickApplyFilterButton(sentSearchResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Check sorting works properly', () => {
-    PatientMessageSentPage.loadMessages();
-    const sortedResponse = {
-      ...mockSentMessages,
-      data: [...mockSentMessages.data].sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
+  it('check sorting works properly', () => {
+    const sortedResponse = PatientFilterPage.sortMessagesThread(
+      mockSentMessages,
+    );
 
-    PatientMessageSentPage.verifySorting('Oldest to newest', sortedResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
 
@@ -69,6 +63,7 @@ describe('SM SENT FOLDER PLAIN TG NAME FILTERING', () => {
     PatientMessageSentPage.verifySentToFieldContainsPalinTGName(
       updatedThreadResponse.data[0].attributes.subject,
     );
+
     cy.injectAxeThenAxeCheck();
   });
 });

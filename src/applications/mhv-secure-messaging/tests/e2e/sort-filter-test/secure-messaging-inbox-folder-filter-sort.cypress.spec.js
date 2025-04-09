@@ -4,7 +4,7 @@ import mockMessages from '../fixtures/threads-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
 import PatientFilterPage from '../pages/PatientFilterPage';
 
-describe('Secure Messaging Inbox Folder filter-sort checks', () => {
+describe('SM INBOX FOLDER FILTER-SORT CHECKS', () => {
   const {
     data: [, secondElement, thirdElement],
     ...rest
@@ -35,20 +35,15 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   });
 
   it('verify sorting works correctly', () => {
-    const sortedResponse = {
-      ...mockMessages,
-      data: [...mockMessages.data].sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
-    PatientInboxPage.verifySorting('Oldest to newest', sortedResponse);
+    const sortedResponse = PatientFilterPage.sortMessagesThread(mockMessages);
+
+    PatientFilterPage.verifySorting(sortedResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
 
-describe('verify sorting feature with only one filter result', () => {
+describe('SM SORTING WITH ONLY ONE MESSAGE', () => {
   const {
     data: [, secondElement],
     ...rest

@@ -8,7 +8,7 @@ import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-respon
 import draftSearchResponse from '../fixtures/draftsResponse/drafts-search-response.json';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('SM DRAFT FOLDER FILTER-SORT', () => {
+describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -33,7 +33,12 @@ describe('SM DRAFT FOLDER FILTER-SORT', () => {
   });
 
   it('verify sorting works properly', () => {
-    PatientMessageDraftsPage.verifySorting();
+    const sortedResponse = PatientFilterPage.sortMessagesThread(
+      mockDraftMessages,
+      'draftDate',
+    );
+
+    PatientFilterPage.verifySorting(sortedResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

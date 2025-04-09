@@ -327,6 +327,51 @@ class PatientFilterSortPage {
         .click();
     });
   };
+
+  sortMessagesThread = (threadResponse, sortBy = 'sentDate') => {
+    return {
+      ...threadResponse,
+      data: [...threadResponse.data].sort(
+        (a, b) =>
+          new Date(a.attributes[sortBy]) - new Date(b.attributes[sortBy]),
+      ),
+    };
+  };
+
+  clickSortMessagesByDateButton = (text, sortedResponse) => {
+    cy.get(Locators.DROPDOWN.SORT)
+      .shadow()
+      .find('select')
+      .select(`${text}`);
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/*/threads**`,
+      sortedResponse,
+    ).as('sortedResult');
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
+  };
+
+  verifySorting = sortedResponse => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting: ${listBefore.join(',')}`);
+      })
+      .then(() => {
+        this.clickSortMessagesByDateButton('Oldest to newest', sortedResponse);
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting: ${listAfter.join(',')}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
+  };
 }
 
 export default new PatientFilterSortPage();

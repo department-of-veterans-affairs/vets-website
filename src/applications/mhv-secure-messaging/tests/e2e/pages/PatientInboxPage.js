@@ -399,22 +399,6 @@ class PatientInboxPage {
     ).as('folders');
   };
 
-  // openAdvancedSearch = () => {
-  //   cy.get(Locators.ADDITIONAL_FILTER)
-  //     .shadow()
-  //     .contains('Show filters')
-  //     .click({
-  //       waitForAnimations: true,
-  //       force: true,
-  //     });
-  // };
-
-  // selectAdvancedSearchCategory = text => {
-  //   cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-  //     .find('select')
-  //     .select(text, { force: true });
-  // };
-
   selectAdvancedSearchCategoryCustomFolder = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
       .find('select')
@@ -458,28 +442,6 @@ class PatientInboxPage {
     cy.realPress('Enter');
   };
 
-  verifySorting = (option, data) => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton(option, data);
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
-  };
-
   verifySortingByKeyboard = (text, data, folderId) => {
     let listBefore;
     let listAfter;
@@ -500,22 +462,6 @@ class PatientInboxPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
-  };
-
-  clickSortMessagesByDateButton = (
-    option = 'Oldest to newest',
-    sortedResponse,
-  ) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${option}`, { force: true });
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
-      sortedResponse,
-    );
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   getInboxHeader = text => {

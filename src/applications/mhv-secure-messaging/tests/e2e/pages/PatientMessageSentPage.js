@@ -2,7 +2,6 @@ import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.js
 import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
 import mockThreadResponse from '../fixtures/sentResponse/sent-thread-response.json';
 import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-message-response.json';
-import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 import { Locators, Paths } from '../utils/constants';
 
 class PatientMessageSentPage {
@@ -65,44 +64,6 @@ class PatientMessageSentPage {
     cy.get(Locators.THREADS)
       .first()
       .click();
-  };
-
-  clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
-  ) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${text}`, { force: true });
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`,
-      sortedResponse,
-    );
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
-  };
-
-  verifySorting = (option, data) => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(JSON.stringify(listBefore));
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton(option, data);
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(JSON.stringify(listAfter));
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
   };
 
   verifyResponseBodyLength = (responseData = mockSentMessages) => {
