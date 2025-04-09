@@ -76,7 +76,6 @@ const defaultUser = {
         familyName: 'Maveteran',
         gender: 'M',
         givenNames: ['Veteran'],
-        isCernerPatient: false,
         cernerId: null,
         cernerFacilityIds: [],
         facilities: [
@@ -300,7 +299,6 @@ const acceleratedCernerUser = {
         familyName: 'Morkel',
         gender: 'M',
         givenNames: ['Andrew', 'J'],
-        isCernerPatient: true,
         cernerId: '2116564958',
         cernerFacilityIds: ['556'],
         facilities: [

@@ -76,7 +76,6 @@
         "familyName": "Soto",
         "gender": "M",
         "givenNames": ["Timothy", "Hoo"],
-        "isCernerPatient": false,
         "cernerId": null,
         "cernerFacilityIds": [],
         "facilities": [],

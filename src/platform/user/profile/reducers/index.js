@@ -28,7 +28,6 @@ const initialState = {
   gender: null,
   accountType: null,
   accountUuid: null,
-  isCernerPatient: false,
   loa: {
     current: null,
     highest: null,

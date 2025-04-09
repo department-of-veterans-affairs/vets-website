@@ -64,7 +64,6 @@ export const mockUser = {
         familyName: 'Ford',
         gender: 'M',
         givenNames: ['Wesley', 'Watson'],
-        isCernerPatient: false,
         facilities: [
           {
             facilityId: '983',

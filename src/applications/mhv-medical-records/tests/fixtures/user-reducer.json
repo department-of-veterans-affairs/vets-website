@@ -15,7 +15,6 @@
       "gender": "M",
       "accountType": 3,
       "accountUuid": "fd5d0dcd-54b9-43d4-8520-a60b3b42de90",
-      "isCernerPatient": false,
       "loa": {
         "current": 3,
         "highest": 3

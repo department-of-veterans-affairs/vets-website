@@ -48,7 +48,6 @@ export const generateMockUser = ({ authBroker }) => ({
         familyName: 'Jenkins',
         gender: 'M',
         givenNames: ['Mitchell', 'G'],
-        isCernerPatient: false,
         facilities: [
           {
             facilityId: '989',

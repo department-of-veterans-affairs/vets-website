@@ -41,7 +41,6 @@
         "familyName": "Allen",
         "gender": "M",
         "givenNames": ["Hector"],
-        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "500",

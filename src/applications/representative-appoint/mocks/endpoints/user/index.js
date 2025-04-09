@@ -75,7 +75,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -298,7 +297,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -510,7 +508,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -722,7 +719,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -934,7 +930,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1142,7 +1137,6 @@ const baseUserResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',
@@ -1357,7 +1351,6 @@ const mockErrorResponses = {
           familyName: 'Jenkins',
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
-          isCernerPatient: false,
           facilities: [
             {
               facilityId: '989',

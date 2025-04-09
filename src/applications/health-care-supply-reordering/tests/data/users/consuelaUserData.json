@@ -45,7 +45,6 @@
         "familyName": "Alvarez",
         "gender": "F",
         "givenNames": ["Consuela"],
-        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "553",

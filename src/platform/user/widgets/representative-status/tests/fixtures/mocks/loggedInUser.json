@@ -53,7 +53,6 @@
         "familyName": "Wazowski",
         "gender": "M",
         "givenNames": ["Michael", ""],
-        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "983",

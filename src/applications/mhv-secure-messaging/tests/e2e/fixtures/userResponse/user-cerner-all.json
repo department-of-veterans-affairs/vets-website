@@ -64,7 +64,6 @@
                   "Mark",
                   "Tux"
               ],
-              "isCernerPatient": true,
               "facilities": [
                 {
                     "facilityId": "463",

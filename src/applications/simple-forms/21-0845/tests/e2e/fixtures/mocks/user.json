@@ -50,7 +50,6 @@
         "familyName": "Veteran",
         "gender": "M",
         "givenNames": ["John", ""],
-        "isCernerPatient": false,
         "facilities": [],
         "vaPatient": true,
         "mhvAccountState": "NONE"
