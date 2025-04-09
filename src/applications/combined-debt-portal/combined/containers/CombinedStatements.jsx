@@ -69,38 +69,38 @@ const CombinedStatements = () => {
     });
   };
 
-  // Format the veteran's full name
-  const formattedFullName =
-    userFullName.first && userFullName.last
-      ? `${userFullName.first} ${
-          userFullName.middle ? `${userFullName.middle} ` : ''
-        }${userFullName.last}${
-          userFullName.suffix ? `, ${userFullName.suffix}` : ''
-        }`
-      : 'Veteran';
-
-  // Format city, state, and zip
-  const formattedCityStateZip =
-    city && stateCode ? `${city}, ${stateCode} ${zipCode}` : '';
-
   // Today's date formatted
   const todaysDate = formatStatementDate(new Date());
 
   // Data for One VA Debt Letter PDF
   const veteranContactInformation = {
     veteranFullName: userFullName,
-    formattedFullName,
     addressLine1,
     addressLine2,
     addressLine3,
     city,
     zipCode,
     stateCode,
-    formattedCityStateZip,
     fileNumber,
     payeeNumber,
     personEntitled,
-    todaysDate,
+  };
+
+  // Get the veteran's formatted name
+  const getFormattedName = () => {
+    if (userFullName.first && userFullName.last) {
+      return `${userFullName.first} ${
+        userFullName.middle ? `${userFullName.middle} ` : ''
+      }${userFullName.last}${
+        userFullName.suffix ? `, ${userFullName.suffix}` : ''
+      }`;
+    }
+    return 'Veteran';
+  };
+
+  // Get formatted city, state, and zip
+  const getFormattedCityStateZip = () => {
+    return city && stateCode ? `${city}, ${stateCode} ${zipCode}` : '';
   };
 
   // Merge into namespaced pdfData for One VA Debt Letter PDF
@@ -236,7 +236,7 @@ const CombinedStatements = () => {
               Recipient address
             </strong>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              {veteranContactInformation.formattedFullName}
+              {getFormattedName()}
               <br />
               {veteranContactInformation.addressLine1}
               {veteranContactInformation.addressLine2 ? (
@@ -252,12 +252,12 @@ const CombinedStatements = () => {
                 </>
               ) : null}
               <br />
-              {veteranContactInformation.formattedCityStateZip}
+              {getFormattedCityStateZip()}
             </p>
             <p className="vads-u-margin-top--2  vads-u-margin-bottom--2">
               File number: {veteranContactInformation.fileNumber}
               <br />
-              Today’s date: {veteranContactInformation.todaysDate}
+              Today’s date: {todaysDate}
             </p>
             {showOneVADebtLetterDownloadButton ? (
               <VaButton
