@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
@@ -53,13 +54,12 @@ const RefillNotification = ({ refillStatus }) => {
   const isSuccess = successfulMeds?.length > 0;
   return (
     <>
-      <va-alert
+      <VaAlert
         visible={isNotSubmitted}
         id="failed-refill"
         status="error"
-        set-focus
-        uswds
-        class={isNotSubmitted ? 'vads-u-margin-y--1' : ''}
+        setFocus
+        className={isNotSubmitted ? 'vads-u-margin-y--1' : ''}
       >
         <h2
           className="vads-u-margin-y--0 vads-u-font-size--h3"
@@ -72,14 +72,13 @@ const RefillNotification = ({ refillStatus }) => {
           To request refills, call the pharmacy number on your prescription
           label.
         </p>
-      </va-alert>
-      <va-alert
+      </VaAlert>
+      <VaAlert
         visible={isPartiallySubmitted}
         id="partial-refill"
         status="error"
-        set-focus
-        uswds
-        class={isPartiallySubmitted ? 'vads-u-margin-y--2' : ''}
+        setFocus
+        className={isPartiallySubmitted ? 'vads-u-margin-y--2' : ''}
       >
         <h2
           className="vads-u-margin-y--0 vads-u-font-size--h3"
@@ -109,14 +108,13 @@ const RefillNotification = ({ refillStatus }) => {
           Try requesting these refills again. If it still doesn’t work, call
           your VA pharmacy.
         </p>
-      </va-alert>
-      <va-alert
+      </VaAlert>
+      <VaAlert
         visible={isSuccess}
         id="success-refill"
         status="success"
-        set-focus
-        uswds
-        class={isSuccess ? 'vads-u-margin-y--2' : ''}
+        setFocus
+        className={isSuccess ? 'vads-u-margin-y--2' : ''}
       >
         <h2
           className="vads-u-margin-y--0 vads-u-font-size--h3"
@@ -158,7 +156,7 @@ const RefillNotification = ({ refillStatus }) => {
             Go to your medications list
           </Link>
         </div>
-      </va-alert>
+      </VaAlert>
     </>
   );
 };

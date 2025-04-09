@@ -78,7 +78,7 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView user={user}>
+    <RequiredLoginView serviceRequired={[]} user={user}>
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.RX]}

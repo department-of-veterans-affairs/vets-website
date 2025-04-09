@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FeedbackEmail from './FeedbackEmail';
 
 const Alert = props => {
@@ -8,11 +9,10 @@ const Alert = props => {
   return (
     <div className={`${isAlertVisible ? 'vads-u-margin-top--5' : ''}`}>
       {!paginatedPrescriptionsList && (
-        <va-alert
-          close-btn-aria-label="Close notification"
+        <VaAlert
+          closeBtnAriaLabel="Close notification"
           status="warning"
           visible={isAlertVisible}
-          uswds
         >
           <h2 slot="headline">We can’t access your medications right now</h2>
           <div>
@@ -32,10 +32,10 @@ const Alert = props => {
               </p>
             </section>
           </div>
-        </va-alert>
+        </VaAlert>
       )}
       {paginatedPrescriptionsList?.length <= 0 && (
-        <va-alert status="info" uswds>
+        <VaAlert status="info">
           <div>
             <h4 className="vads-u-margin-top--0" data-testid="alert-message">
               You don’t have any medications in your medications list
@@ -43,7 +43,7 @@ const Alert = props => {
             <strong>Note</strong>: If you’re taking any medications or
             supplements, tell your care team at your next appointment.
           </div>
-        </va-alert>
+        </VaAlert>
       )}
       <div className={`${isAlertVisible ? 'vads-u-margin-top--4' : ''}`} />
     </div>

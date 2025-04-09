@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ApiErrorNotification = ({ errorType, content, children }) => {
   return (
-    <va-alert status="error" set-focus aria-live="polite" role="alert" uswds>
+    <VaAlert status="error" setFocus ariaLive="polite" role="alert">
       <h2
         className="vads-u-margin--0 vads-u-font-size--h3"
         data-testid="no-medications-list"
@@ -25,7 +26,7 @@ const ApiErrorNotification = ({ errorType, content, children }) => {
       ) : (
         children
       )}
-    </va-alert>
+    </VaAlert>
   );
 };
 

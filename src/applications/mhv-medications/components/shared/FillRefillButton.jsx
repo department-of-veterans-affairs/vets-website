@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaAlert,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fillPrescription } from '../../actions/prescriptions';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { pharmacyPhoneNumber } from '../../util/helpers';
@@ -30,28 +33,27 @@ const FillRefillButton = rx => {
     return (
       <div className="rx-fill-refill-button" data-testid="fill-refill">
         {success && (
-          <va-alert status="success" set-focus aria-live="polite" uswds>
-            <p className="vads-u-margin-y--0" data-testid="success-message">
+          <VaAlert status="success" setFocus ariaLive="polite">
+            <p className="vads-u-margin-y--0" dataTestid="success-message">
               We got your request to {`${dispensedDate ? 'refill' : 'fill'}`}{' '}
               this prescription.
             </p>
-          </va-alert>
+          </VaAlert>
         )}
         {error &&
           !isLoading && (
             <>
-              <va-alert
+              <VaAlert
                 status="error"
-                set-focus
+                setFocus
                 id="fill-error-alert"
-                data-testid="error-alert"
-                aria-live="polite"
-                uswds
+                dataTestid="error-alert"
+                ariaLive="polite"
               >
                 <p className="vads-u-margin-y--0" data-testid="error-message">
                   We didn’t get your request. Try again.
                 </p>
-              </va-alert>
+              </VaAlert>
               <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
                 If it still doesn’t work, call your VA pharmacy
                 <CallPharmacyPhone
