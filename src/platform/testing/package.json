@@ -35,7 +35,7 @@
     "morgan": "^1.10.0",
     "node-resemble-js": "^0.2.0",
     "process": "^0.11.10",
-    "puppeteer": "^3.3.0",
+    "puppeteer": "^24.6.1",
     "request": "^2.88.2",
     "sentry-testkit": "^2.2.1",
     "table": "^6.7.1",
