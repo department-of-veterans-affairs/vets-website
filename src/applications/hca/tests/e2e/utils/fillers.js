@@ -44,12 +44,15 @@ export const fillDependentBasicInformation = testData => {
 export const fillDependentIncome = testData => {
   cy.fill(
     '[name="root_view:grossIncome_grossIncome"]',
-    testData['view:grossIncome'],
+    testData['view:grossIncome'].grossIncome,
   );
-  cy.fill('[name="root_view:netIncome_netIncome"]', testData['view:netIncome']);
+  cy.fill(
+    '[name="root_view:netIncome_netIncome"]',
+    testData['view:netIncome'].netIncome,
+  );
   cy.fill(
     '[name="root_view:otherIncome_otherIncome"]',
-    testData['view:otherIncome'],
+    testData['view:otherIncome'].otherIncome,
   );
 };
 
