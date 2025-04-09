@@ -163,49 +163,6 @@ describe('BehaviorIntroCombatPage', () => {
         });
       });
 
-      describe('On the review and submit page', () => {
-        describe('When the user has already declared behavioral changes, changes the selection to opt out and clicks update', () => {
-          const data = {
-            'view:answerCombatBehaviorQuestions': 'false',
-            healthBehaviors: {
-              appetite: true,
-            },
-          };
-
-          it('displays a prompt to delete the answers and prevents the page from updating', () => {
-            const updateSpy = sinon.spy();
-            const { container } = render(
-              page({ data, onReviewPage: true, updatePage: updateSpy }),
-            );
-
-            fireEvent.click($('va-button[text="Update page"]', container));
-
-            expect($('va-modal[visible="true"]', container)).to.exist;
-            expect(updateSpy.notCalled).to.be.true;
-          });
-        });
-
-        describe('When the user has already declared behavioral changes, is opted in and clicks update', () => {
-          const data = {
-            'view:answerCombatBehaviorQuestions': 'true',
-            healthBehaviors: {
-              appetite: true,
-            },
-          };
-
-          it('does not display a prompt to delete the answers and does not prevent the update from submitting', () => {
-            const updateSpy = sinon.spy();
-            const { container } = render(
-              page({ data, onReviewPage: true, updatePage: updateSpy }),
-            );
-
-            fireEvent.click($('va-button[text="Update page"]', container));
-
-            expect(updateSpy.called).to.be.true;
-          });
-        });
-      });
-
       // Tests list of previously-selected behaviors in modal, we truncate this list in certain situations because listing all the behaviors a user could have selected would make the modal too big.
       describe('Modal Content', () => {
         describe('When the user has previously claimed less than four behavioral changes on the Behavioral List page', () => {
@@ -487,6 +444,88 @@ describe('BehaviorIntroCombatPage', () => {
             expect(
               $(confirmationAlertSelector, container).innerHTML,
             ).to.contain('Continue with your claim');
+          });
+
+          describe('On the review and submit page', () => {
+            describe('When the user has already declared behavioral changes, changes the selection to opt out and clicks update', () => {
+              it('displays a modal prompt to delete the answers, and prevents the page from updating if the prompt is cancelled', () => {
+                const updateSpy = sinon.spy();
+                const setFormDataSpy = sinon.spy();
+
+                const { container } = render(
+                  page({
+                    data: filledOutDataWithOptOut,
+                    onReviewPage: true,
+                    updatePage: updateSpy,
+                    setFormData: setFormDataSpy,
+                  }),
+                );
+
+                fireEvent.click($('va-button[text="Update page"]', container));
+
+                const modal = $('va-modal[visible="true"]', container);
+
+                expect(modal).to.exist;
+                modal.__events.secondaryButtonClick();
+
+                expect($('va-modal[visible="true"]', container)).not.to.exist;
+                expect(updateSpy.notCalled).to.be.true;
+              });
+
+              it('displays a modal prompt to delete the answers, updates the page if the deletion is confirmed, and deletes the data', () => {
+                const updateSpy = sinon.spy();
+                const setFormDataSpy = sinon.spy();
+
+                const { container } = render(
+                  page({
+                    data: filledOutDataWithOptOut,
+                    onReviewPage: true,
+                    updatePage: updateSpy,
+                    setFormData: setFormDataSpy,
+                  }),
+                );
+
+                fireEvent.click($('va-button[text="Update page"]', container));
+
+                const modal = $('va-modal[visible="true"]', container);
+
+                expect(modal).to.exist;
+                modal.__events.primaryButtonClick();
+
+                expect($('va-modal[visible="true"]', container)).not.to.exist;
+
+                expect(
+                  setFormDataSpy.calledWith({
+                    'view:answerCombatBehaviorQuestions': 'false',
+                    healthBehaviors: {},
+                    workBehaviors: {},
+                    otherBehaviors: {},
+                    behaviorsDetails: {},
+                  }),
+                );
+                expect(updateSpy.called).to.be.true;
+              });
+            });
+
+            describe('When the user has already declared behavioral changes, is opted in and clicks update', () => {
+              const data = {
+                'view:answerCombatBehaviorQuestions': 'true',
+                healthBehaviors: {
+                  appetite: true,
+                },
+              };
+
+              it('does not display a prompt to delete the answers and does not prevent the update from submitting', () => {
+                const updateSpy = sinon.spy();
+                const { container } = render(
+                  page({ data, onReviewPage: true, updatePage: updateSpy }),
+                );
+
+                fireEvent.click($('va-button[text="Update page"]', container));
+
+                expect(updateSpy.called).to.be.true;
+              });
+            });
           });
         });
 

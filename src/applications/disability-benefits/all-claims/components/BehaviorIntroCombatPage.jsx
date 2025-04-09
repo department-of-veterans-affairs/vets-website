@@ -149,8 +149,9 @@ const BehaviorIntroCombatPage = ({
       deleteBehavioralAnswers();
       handlers.onCloseModal();
 
-      // When opting out and deleting data on the Review and Submit page, this Custom Page won't be re-rendered; therefore we shouldn't attempt to show this deletion confirmation
-      if (!onReviewPage) {
+      if (onReviewPage) {
+        updatePage();
+      } else {
         setShowDeletedAnswerConfirmation(true);
       }
     },
