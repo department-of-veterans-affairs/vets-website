@@ -11,17 +11,14 @@ import {
   FETCH_POWER_OF_ATTORNEY_STARTED,
   FETCH_POWER_OF_ATTORNEY_SUCCEEDED,
   FETCH_POWER_OF_ATTORNEY_FAILED,
-  POA_PATH,
+  POA_URL,
 } from '@@profile/actions/powerOfAttorney';
-import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 
 import mockResponse from '../fixtures/power-of-attorney-success.json';
 import error500 from '../fixtures/500.json';
 
 describe('powerOfAttorney actions', () => {
-  const endpointUrl = `${environment.API_URL}/v0${POA_PATH}`;
-
   let server = null;
   let apiRequestStub = null;
 
@@ -42,7 +39,7 @@ describe('powerOfAttorney actions', () => {
 
   it('should dispatch FETCH_POWER_OF_ATTORNEY_STARTED on fetch start', async () => {
     server = setupServer(
-      rest.get(`${endpointUrl}`, (_, res, ctx) => {
+      rest.get(POA_URL, (_, res, ctx) => {
         return res(ctx.json(mockResponse), ctx.status(200));
       }),
     );
@@ -61,7 +58,7 @@ describe('powerOfAttorney actions', () => {
 
   it('should dispatch FETCH_POWER_OF_ATTORNEY_SUCCEEDED with response on success', async () => {
     server = setupServer(
-      rest.get(`${endpointUrl}`, (_, res, ctx) => {
+      rest.get(POA_URL, (_, res, ctx) => {
         return res(ctx.json(mockResponse), ctx.status(200));
       }),
     );
@@ -83,7 +80,7 @@ describe('powerOfAttorney actions', () => {
 
   it('should dispatch FETCH_POWER_OF_ATTORNEY_FAILED with error on failure', async () => {
     server = setupServer(
-      rest.get(endpointUrl, (_, res, ctx) => {
+      rest.get(POA_URL, (_, res, ctx) => {
         return res(ctx.json(error500), ctx.status(500));
       }),
     );

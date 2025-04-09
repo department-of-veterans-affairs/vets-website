@@ -65,6 +65,7 @@ class Profile extends Component {
       isLOA3,
       isInMVI,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
@@ -74,7 +75,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-      fetchPowerOfAttorney();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -96,6 +99,7 @@ class Profile extends Component {
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -104,7 +108,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-      fetchPowerOfAttorney();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (
