@@ -5,8 +5,11 @@ import {
 } from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
 import { ownedAssetTypeLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextGetItemName,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
@@ -26,14 +29,35 @@ describe('owned asset list and loop pages', () => {
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    // eslint-disable-next-line no-unused-vars
+    const { recipientName, ...baseItem } = testDataZeroes.data.ownedAssets[0];
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
     testOptionsTextGetItemName(options);
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { recipientRelationship, recipientName, ...baseItem } = testData.data.ownedAssets[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      recipientRelationship,
+      recipientName,
+      ...baseItem
+    } = testData.data.ownedAssets[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      recipientRelationship,
+      recipientName,
+      ...baseItem
+    } = testDataZeroes.data.ownedAssets[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
   });
 

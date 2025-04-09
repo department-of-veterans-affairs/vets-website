@@ -21,6 +21,7 @@ import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
   monthlyMedicalReimbursementAmountRequired,
+  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -30,9 +31,9 @@ export const options = {
   nounPlural: 'trusts',
   required: false,
   isItemIncomplete: item =>
-    !item?.establishedDate ||
-    !item.marketValueAtEstablishment ||
-    !item.trustType ||
+    !isDefined(item?.establishedDate) ||
+    !isDefined(item.marketValueAtEstablishment) ||
+    !isDefined(item.trustType) ||
     typeof item.addedFundsAfterEstablishment !== 'boolean' ||
     typeof item.trustUsedForMedicalExpenses !== 'boolean' ||
     typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
@@ -41,7 +42,7 @@ export const options = {
   text: {
     getItemName: () => 'Trust',
     cardDescription: item =>
-      item?.marketValueAtEstablishment && (
+      isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Established date:{' '}
