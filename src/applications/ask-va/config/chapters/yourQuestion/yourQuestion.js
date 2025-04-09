@@ -54,6 +54,7 @@ const yourQuestionPage = {
       },
       'ui:options': {
         required: true,
+        charcount: true,
         useFormsPattern: 'single',
       },
     },
@@ -75,7 +76,7 @@ const yourQuestionPage = {
       },
       question: {
         type: 'string',
-        maxLength: 9900,
+        maxLength: 10000,
       },
       fileUpload: fileSchema,
     },
