@@ -171,7 +171,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   // Logo
   // TODO: fix alt text? - not announcing for some reason
   const logoWidth = 275;
-  const logoX = (doc.page.width - logoWidth) / 2;
+  // right align based on feedback
+  const logoX = doc.page.width - config.margins.right - logoWidth;
   wrapper.add(
     doc.struct(
       'Figure',
@@ -234,9 +235,13 @@ const generate = async (data = {}, config = defaultConfig) => {
   const { table } = config;
   const { col1Width, col2Width, col3Width } = table;
   const tableWidth = col1Width + col2Width + col3Width;
+  const col1Indent = {
+    first: tableLeft + 5,
+    second: tableLeft + 5 + 15,
+  };
 
   // TODO
-  // [ ] Add indent values so we can drop \u00A0
+  // [x] Add indent values so we can drop \u00A0
   // [ ] Add standardized line height to replace stuff like `heightOfString`
   // [ ] We can probably make some helper functions for adding to each column, the spacing is pretty consistent
   //      trying to get this out the door for now, but it'll be some fun tech debt to address later
@@ -263,7 +268,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   const headerY = tableTop + (headerHeight - textHeight) / 2;
   headerRow.add(
     doc.struct('TH', () => {
-      doc.text('VA Medical Center Copay Charges', tableLeft + 5, headerY);
+      doc.text('VA Medical Center Copay Charges', col1Indent.first, headerY);
     }),
   );
   headerRow.add(
@@ -298,7 +303,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   doc.font(config.text.font).fontSize(8);
   descRow.add(
     doc.struct('TD', () => {
-      doc.text(descriptionText, tableLeft + 5, currentY, {
+      doc.text(descriptionText, col1Indent.first, currentY, {
         width: col1Width,
       });
     }),
@@ -318,10 +323,10 @@ const generate = async (data = {}, config = defaultConfig) => {
     // Copay Station Row
     const stationRow = doc.struct('TR');
     tableStruct.add(stationRow);
-    const stationDesc = `${index + 1}.   ${copay?.station?.facilityName || ''}`;
+    const stationDesc = `${index + 1}.  ${copay?.station?.facilityName || ''}`;
     stationRow.add(
       doc.struct('TD', () => {
-        doc.text(stationDesc, tableLeft + 5, currentY, { width: col1Width });
+        doc.text(stationDesc, col1Indent.first, currentY, { width: col1Width });
       }),
     );
     stationRow.add(doc.struct('TD'));
@@ -336,28 +341,19 @@ const generate = async (data = {}, config = defaultConfig) => {
     // Account Number Row
     const accountNumberRow = doc.struct('TR');
     tableStruct.add(accountNumberRow);
-    const accountNumberDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Account Number: `;
+    const accountNumberDesc = `Account Number: `;
     doc.font(config.text.boldFont);
     accountNumberRow.add(
       doc.struct('TD', () => {
-        doc.text(accountNumberDesc, tableLeft + 5, currentY, {
+        doc.text(accountNumberDesc, col1Indent.second, currentY, {
           width: col1Width,
+          continued: true,
         });
         doc.font(config.text.font);
-        doc.text(
-          `${copay?.accountNumber || copay?.pHAccountNumber}`,
-          tableLeft +
-            5 +
-            doc.widthOfString(accountNumberDesc, {
-              font: config.text.font,
-              size: 8,
-            }) +
-            10,
-          currentY,
-          {
-            width: col1Width,
-          },
-        );
+        doc.text(`${copay?.accountNumber || copay?.pHAccountNumber}`, {
+          width: col1Width,
+          continued: false,
+        });
       }),
     );
     doc.font(config.text.font);
@@ -376,10 +372,10 @@ const generate = async (data = {}, config = defaultConfig) => {
 
     const statementInfoLine = doc.struct('TR');
     tableStruct.add(statementInfoLine);
-    const statementInfoDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Statement reflects payments received by ${statementDate}`;
+    const statementInfoDesc = `Statement reflects payments received by ${statementDate}`;
     statementInfoLine.add(
       doc.struct('TD', () => {
-        doc.text(statementInfoDesc, tableLeft + 5, currentY, {
+        doc.text(statementInfoDesc, col1Indent.second, currentY, {
           width: col1Width,
         });
       }),
@@ -398,10 +394,10 @@ const generate = async (data = {}, config = defaultConfig) => {
     // Previous Balance to help the math make sense
     const prevBalanceRow = doc.struct('TR');
     tableStruct.add(prevBalanceRow);
-    const previousBalanceStr = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Previous Balance`;
+    const previousBalanceStr = `Previous Balance`;
     prevBalanceRow.add(
       doc.struct('TD', () => {
-        doc.text(previousBalanceStr, tableLeft + 5, currentY, {
+        doc.text(previousBalanceStr, col1Indent.second, currentY, {
           width: col1Width,
         });
       }),
@@ -426,10 +422,10 @@ const generate = async (data = {}, config = defaultConfig) => {
     // Payments Received Row to help with maths
     const paymentsReceivedRow = doc.struct('TR');
     tableStruct.add(paymentsReceivedRow);
-    const paymentsReceivedDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Payments Received`;
+    const paymentsReceivedDesc = `Payments Received`;
     paymentsReceivedRow.add(
       doc.struct('TD', () => {
-        doc.text(paymentsReceivedDesc, tableLeft + 5, currentY, {
+        doc.text(paymentsReceivedDesc, col1Indent.second, currentY, {
           width: col1Width,
         });
       }),
@@ -455,13 +451,12 @@ const generate = async (data = {}, config = defaultConfig) => {
     copayDetails.forEach(detail => {
       const dataRow = doc.struct('TR');
       tableStruct.add(dataRow);
-      const description = `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0${detail.pDTransDescOutput.replace(
-        /&nbsp;/g,
-        '',
-      )}`;
+      const description = `${detail.pDTransDescOutput.replace(/&nbsp;/g, '')}`;
       dataRow.add(
         doc.struct('TD', () => {
-          doc.text(description, tableLeft + 5, currentY, { width: col1Width });
+          doc.text(description, col1Indent.second, currentY, {
+            width: col1Width,
+          });
         }),
       );
       dataRow.add(
@@ -539,13 +534,13 @@ const generate = async (data = {}, config = defaultConfig) => {
       let yPos = currentY;
 
       doc.font(config.text.font).fontSize(8);
-      doc.text('To Pay Your Copay Bills:', tableLeft + 5, yPos, {
+      doc.text('To Pay Your Copay Bills:', col1Indent.first, yPos, {
         width: col1Width,
       });
       yPos += lineHeight;
 
       doc.font(config.text.boldFont);
-      doc.text('In Person:', tableLeft + 5, yPos, {
+      doc.text('In Person:', col1Indent.first, yPos, {
         width: col1Width,
         continued: true,
       });
@@ -557,7 +552,7 @@ const generate = async (data = {}, config = defaultConfig) => {
       yPos += lineHeight;
 
       doc.font(config.text.boldFont);
-      doc.text('By Phone:', tableLeft + 5, yPos, {
+      doc.text('By Phone:', col1Indent.first, yPos, {
         width: col1Width,
         continued: true,
       });
@@ -566,7 +561,7 @@ const generate = async (data = {}, config = defaultConfig) => {
       yPos += lineHeight;
 
       doc.font(config.text.boldFont);
-      doc.text('Online:', tableLeft + 5, yPos, {
+      doc.text('Online:', col1Indent.first, yPos, {
         width: col1Width,
         continued: true,
       });
@@ -597,7 +592,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   const overpaymentHeaderY = currentY + (headerHeight - textHeight) / 2;
   overpaymentHeaderRow.add(
     doc.struct('TH', () => {
-      doc.text('Benefits Overpayment', tableLeft + 5, overpaymentHeaderY);
+      doc.text('Benefits Overpayment', col1Indent.first, overpaymentHeaderY);
     }),
   );
   overpaymentHeaderRow.add(
@@ -624,7 +619,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   doc.font(config.text.font).fontSize(8);
   overpaymentDescRow.add(
     doc.struct('TD', () => {
-      doc.text(overpaymentDescText, tableLeft + 5, currentY, {
+      doc.text(overpaymentDescText, col1Indent.first, currentY, {
         width: col1Width,
       });
     }),
@@ -646,7 +641,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   doc.font(config.text.font).fontSize(8);
   debtUpdateDisclaimerRow.add(
     doc.struct('TD', () => {
-      doc.text(debtUpdateDisclaimerText, tableLeft + 5, currentY, {
+      doc.text(debtUpdateDisclaimerText, col1Indent.first, currentY, {
         width: col1Width,
       });
     }),
@@ -678,13 +673,13 @@ const generate = async (data = {}, config = defaultConfig) => {
     const overpaymentRow = doc.struct('TR');
     tableStruct.add(overpaymentRow);
     const description = deductionCodes[debt.deductionCode]
-      ? `${index + 1}. ${deductionCodes[debt.deductionCode]} (${
+      ? `${index + 1}.  ${deductionCodes[debt.deductionCode]} (${
           debt.benefitType
         })`
-      : `${index + 1}. ${debt.benefitType}`;
+      : `${index + 1}.  ${debt.benefitType}`;
     overpaymentRow.add(
       doc.struct('TD', () => {
-        doc.text(description, tableLeft + 5, currentY, { width: col1Width });
+        doc.text(description, col1Indent.first, currentY, { width: col1Width });
       }),
     );
     overpaymentRow.add(
@@ -718,10 +713,10 @@ const generate = async (data = {}, config = defaultConfig) => {
     if (dateUpdated) {
       const debtUpdatedLine = doc.struct('TR');
       tableStruct.add(debtUpdatedLine);
-      const debtUpdatedDesc = `\u00A0\u00A0\u00A0\u00A0\u00A0Updated on ${formattedDateUpdated}`;
+      const debtUpdatedDesc = `Updated on ${formattedDateUpdated}`;
       debtUpdatedLine.add(
         doc.struct('TD', () => {
-          doc.text(debtUpdatedDesc, tableLeft + 5, currentY, {
+          doc.text(debtUpdatedDesc, col1Indent.second, currentY, {
             width: col1Width,
           });
         }),
@@ -777,13 +772,13 @@ const generate = async (data = {}, config = defaultConfig) => {
       let yPos = currentY;
 
       doc.font(config.text.font).fontSize(8);
-      doc.text('To Pay Your VA Benefit Debt:', tableLeft + 5, yPos, {
+      doc.text('To Pay Your VA Benefit Debt:', col1Indent.first, yPos, {
         width: col1Width,
       });
       yPos += lineHeight;
 
       doc.font(config.text.boldFont);
-      doc.text('By Phone:', tableLeft + 5, yPos, {
+      doc.text('By Phone:', col1Indent.first, yPos, {
         width: col1Width,
         continued: true,
       });
@@ -794,7 +789,7 @@ const generate = async (data = {}, config = defaultConfig) => {
       yPos += lineHeight;
 
       doc.font(config.text.boldFont);
-      doc.text('Online:', tableLeft + 5, yPos, {
+      doc.text('Online:', col1Indent.first, yPos, {
         width: col1Width,
         continued: true,
       });
