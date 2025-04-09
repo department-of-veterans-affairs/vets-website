@@ -128,7 +128,6 @@
           "@department-of-veterans-affairs/platform-user/LoginGovSVG": "./src/platform/user/authentication/components/LoginGovSVG.jsx",
           "@department-of-veterans-affairs/platform-user/LoginHeader": "./src/platform/user/authentication/components/LoginHeader.jsx",
           "@department-of-veterans-affairs/platform-user/LoginInfo": "./src/platform/user/authentication/components/LoginInfo.jsx",
-          "@department-of-veterans-affairs/platform-user/LogoutAlert": "./src/platform/user/authentication/components/LogoutAlert.jsx",
           "@department-of-veterans-affairs/platform-user/ServiceProvidersList": "./src/platform/user/authentication/components/ServiceProvidersList.jsx",
           "@department-of-veterans-affairs/platform-user/ServiceProvidersText": "./src/platform/user/authentication/components/ServiceProvidersText.jsx",
           "@department-of-veterans-affairs/platform-user/SessionTimeoutModal": "./src/platform/user/authentication/components/SessionTimeoutModal.jsx",
