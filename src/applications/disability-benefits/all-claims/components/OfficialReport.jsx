@@ -33,6 +33,8 @@ const OfficialReport = props => {
   const formDomRef = useRef(null);
   const modalRef = useRef(null);
   const alertRef = useRef(null);
+  const submitButtonRef = useRef(null);
+
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
@@ -171,7 +173,7 @@ const OfficialReport = props => {
           <p>
             <va-link
               text="Continue with your claim"
-              onClick={() => handlers.onSubmit({ formData: tempData })}
+              onClick={() => submitButtonRef.current?.click()}
             />
           </p>
         </VaAlert>
@@ -197,6 +199,11 @@ const OfficialReport = props => {
         }}
       >
         <>
+          <button
+            type="submit"
+            ref={submitButtonRef}
+            style={{ display: 'none' }}
+          />
           {isAdd && (
             <>
               <ArrayBuilderCancelButton
