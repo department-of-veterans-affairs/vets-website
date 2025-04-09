@@ -12,11 +12,11 @@ const InstitutionName = () => {
         {loader ? (
           <va-loading-indicator set-focus message="Finding your institution" />
         ) : (
-          <p className="vads-u-font-weight--bold">
+          <h3>
             {institutionName === 'not found' || !institutionName
               ? '--'
               : institutionName}
-          </p>
+          </h3>
         )}
       </div>
     </div>
