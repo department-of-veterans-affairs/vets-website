@@ -1,6 +1,5 @@
 import moment from 'moment-timezone';
 import cheerio from 'cheerio';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
   EMPTY_FIELD,
@@ -21,7 +20,7 @@ const convertToISO = dateString => {
   }
   // Return false if the date is invalid
   const date = new Date(dateString);
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return false;
   }
 
@@ -69,6 +68,10 @@ export const generateMedicationsPDF = async (
   pdfData,
 ) => {
   try {
+    // Dynamically import the platform-pdf package when needed.
+    const {
+      generatePdf,
+    } = await import('@department-of-veterans-affairs/platform-pdf/exports');
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
     Sentry.captureException(error);
