@@ -22,6 +22,8 @@ export const App = ({
   isUserLOA1,
   isUserLOA3,
 }) => {
+  // Based on user.icn.present? && user.participant_id.present? in vets-api policy
+  // From src/applications/personalization/profile/hooks/useDirectDeposit.js
   const isUserLOA3WithParticipantId = useSelector(
     createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
   );
