@@ -75,6 +75,7 @@ const yourQuestionPage = {
       },
       question: {
         type: 'string',
+        maxLength: 9900,
       },
       fileUpload: fileSchema,
     },
