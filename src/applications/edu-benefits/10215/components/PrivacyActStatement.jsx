@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ResBurdenPrivacyPolicy = () => {
+const PrivacyActStatement = ({ ombNumber = '2900-0897' }) => {
   return (
-    <div>
-      <p>
+    <>
+      <p data-testid="respondent-burden">
         <strong>Respondent Burden:</strong> An agency may not conduct or
         sponsor, and a person is not required to respond to, a collection of
         information unless it displays a currently valid OMB control number. The
-        OMB control number for this project is 2900-0896, and it expires
+        OMB control number for this project is {ombNumber}, and it expires
         01/31/2028. Public reporting burden for this collection of information
         is estimated to average 1 hour per respondent, per year, including the
         time for reviewing instructions, searching existing data sources,
@@ -23,10 +24,11 @@ const ResBurdenPrivacyPolicy = () => {
         >
           VACOPaperworkReduAct@va.gov
         </a>
-        . Please refer to OMB Control No. 2900-0896 in any correspondence. Do
-        not send your completed VA Form 22-10216 to this email address.
+        . Please refer to OMB Control No. {ombNumber} in any correspondence. Do
+        not send your completed VA Form 22-10215 to this email address.
       </p>
-      <p>
+
+      <p data-testid="privacy-act-notice">
         <strong>Privacy Act Notice:</strong> VA will not disclose information
         collected on this form to any source other than what has been authorized
         under the Privacy Act of 1974 or Title 38, Code of Federal Regulations
@@ -44,8 +46,12 @@ const ResBurdenPrivacyPolicy = () => {
         information provided by applicants, recipients, and others is subject to
         verification through computer matching programs with other agencies.
       </p>
-    </div>
+    </>
   );
 };
 
-export default ResBurdenPrivacyPolicy;
+PrivacyActStatement.propTypes = {
+  ombNumber: PropTypes.string,
+};
+
+export default PrivacyActStatement;

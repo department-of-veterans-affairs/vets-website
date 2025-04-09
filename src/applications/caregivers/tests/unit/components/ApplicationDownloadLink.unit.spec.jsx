@@ -94,7 +94,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf-download--success';
+        const event = 'caregivers-pdf-download--success';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
@@ -117,7 +117,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf-download--failure';
+        const event = 'caregivers-pdf-download--failure';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;

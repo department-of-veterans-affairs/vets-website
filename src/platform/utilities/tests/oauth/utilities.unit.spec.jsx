@@ -855,6 +855,7 @@ describe('OAuth - Utilities', () => {
       expect(url).to.include(`client_id=${expected.clientId}`);
       expect(url).to.include(`code_challenge=${expected.codeChallenge}`);
       expect(url).to.include('response_type=code');
+      expect(url).to.include('acr=loa3');
     });
   });
 });

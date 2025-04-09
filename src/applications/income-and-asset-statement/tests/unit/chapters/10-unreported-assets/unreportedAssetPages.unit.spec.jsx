@@ -5,8 +5,11 @@ import {
   options,
 } from '../../../../config/chapters/10-unreported-assets/unreportedAssetPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -24,6 +27,11 @@ describe('unreported asset list and loop pages', () => {
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    const baseItem = testDataZeroes.data.unreportedAssets[0];
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
     it('should return text', () => {
       expect(options.text.getItemName()).to.equal('Unreported Asset');
@@ -36,6 +44,15 @@ describe('unreported asset list and loop pages', () => {
       assetOwnerRelationship,
       ...baseItem
     } = testData.data.unreportedAssets[0];
+    testOptionsTextCardDescription(options, baseItem);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    const {
+      // eslint-disable-next-line no-unused-vars
+      assetOwnerRelationship,
+      ...baseItem
+    } = testDataZeroes.data.unreportedAssets[0];
     testOptionsTextCardDescription(options, baseItem);
   });
 

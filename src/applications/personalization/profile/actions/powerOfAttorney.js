@@ -1,3 +1,4 @@
+import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 
 export const FETCH_POWER_OF_ATTORNEY_STARTED =
@@ -20,11 +21,13 @@ export const fetchPowerOfAttorneyFailed = payload => ({
   payload,
 });
 
-export const POA_PATH = '/representation_management/v0/power_of_attorney';
+export const POA_URL = `${
+  environment.API_URL
+}/representation_management/v0/power_of_attorney`;
 
 export const fetchPowerOfAttorney = () => dispatch => {
   dispatch(fetchPowerOfAttorneyStarted());
-  return apiRequest(POA_PATH)
+  return apiRequest(POA_URL)
     .then(payload => dispatch(fetchPowerOfAttorneySucceeded(payload)))
     .catch(err => {
       dispatch(fetchPowerOfAttorneyFailed(err));
