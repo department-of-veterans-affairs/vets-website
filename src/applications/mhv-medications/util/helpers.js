@@ -10,6 +10,10 @@ import {
   dispStatusObj,
 } from './constants';
 
+// Cache the dynamic import promise to avoid redundant network requests
+// and improve performance when generateMedicationsPDF is called multiple times
+let pdfModulePromise = null;
+
 // this function is needed to account for the prescription.trackingList dates coming in this format "Mon, 24 Feb 2025 03:39:11 EST" which is not recognized by momentjs
 const convertToISO = dateString => {
   // Regular expression to match the expected date format
@@ -68,10 +72,13 @@ export const generateMedicationsPDF = async (
   pdfData,
 ) => {
   try {
-    // Dynamically import the platform-pdf package when needed.
-    const {
-      generatePdf,
-    } = await import('@department-of-veterans-affairs/platform-pdf/exports');
+    // Use cached module promise if available, otherwise create a new one
+    if (!pdfModulePromise) {
+      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+    }
+
+    // Wait for the module to load and extract the generatePdf function
+    const { generatePdf } = await pdfModulePromise;
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
     Sentry.captureException(error);
