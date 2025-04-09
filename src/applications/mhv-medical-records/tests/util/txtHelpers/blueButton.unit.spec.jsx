@@ -156,12 +156,14 @@ const data = {
 };
 
 describe('getTxtContent', () => {
-  const userFullName = { first: 'John', last: 'Doe' };
-  const dob = '01/01/1970';
+  const user = {
+    userFullName: { first: 'John', last: 'Doe' },
+    dob: '1974-04-06',
+  };
   const dateRange = { fromDate: 'any', toDate: 'any' };
 
   it('should handle data with all fields populated', () => {
-    const result = getTxtContent(data, { userFullName, dob }, dateRange);
+    const result = getTxtContent(data, user, dateRange);
     expect(result).to.include('Date range: All time');
     expect(result).to.include('Lab and test results');
     expect(result).to.include('Test 1 on');

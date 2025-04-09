@@ -89,7 +89,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   // Extract user info
   const name = formatNameFirstLast(userProfile.userFullName);
-  const dob = formatUserDob(userProfile); // Example DOB
+  const dob = formatUserDob(userProfile);
 
   // Extract all SEI domain data
   const seiRecords = SEI_DOMAINS.reduce((acc, domain) => {
