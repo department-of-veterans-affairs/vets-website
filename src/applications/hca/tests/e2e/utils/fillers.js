@@ -42,9 +42,15 @@ export const fillDependentBasicInformation = testData => {
 };
 
 export const fillDependentIncome = testData => {
-  cy.fill('[name="root_view:grossIncome_grossIncome"]', testData.grossIncome);
-  cy.fill('[name="root_view:netIncome_netIncome"]', testData.netIncome);
-  cy.fill('[name="root_view:otherIncome_otherIncome"]', testData.otherIncome);
+  cy.fill(
+    '[name="root_view:grossIncome_grossIncome"]',
+    testData['view:grossIncome'],
+  );
+  cy.fill('[name="root_view:netIncome_netIncome"]', testData['view:netIncome']);
+  cy.fill(
+    '[name="root_view:otherIncome_otherIncome"]',
+    testData['view:otherIncome'],
+  );
 };
 
 export const fillSpousalBasicInformation = testData => {
