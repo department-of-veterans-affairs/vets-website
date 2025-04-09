@@ -3,23 +3,51 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 const parseProblemDateTime = dateString => {
-  // Parse dates in the format "Thu Apr 07 00:00:00 PDT 2005"
+  try {
+    // Parse dates in the format "Thu Apr 07 00:00:00 PDT 2005"
+    // Extract the month, day, and year
+    const parts = dateString.split(' ');
+    if (parts.length >= 6) {
+      const month = parts[1];
+      const day = parseInt(parts[2], 10);
+      const year = parseInt(parts[5], 10);
 
-  // Extract the month, day, and year
-  const parts = dateString.split(' ');
-  const month = parts[1];
-  const day = parseInt(parts[2], 10);
-  const year = parseInt(parts[5], 10);
+      const date = new Date(`${month} ${day}, ${year}`);
+      if (date.toString() !== 'Invalid Date') {
+        return date;
+      }
+    }
+  } catch (error) {
+    // Fall back to default value.
+  }
 
-  return new Date(`${month} ${day}, ${year}`);
+  return 'N/A';
 };
 
 const parseVistaDateTime = date => {
-  return parse(date, 'MM/dd/yyyy@HH:mm', new Date());
+  try {
+    const parsedDate = parse(date, 'MM/dd/yyyy@HH:mm', new Date());
+    if (!Number.isNaN(parsedDate.getTime())) {
+      return parsedDate;
+    }
+  } catch (error) {
+    // Fall back to default value.
+  }
+
+  return 'N/A';
 };
 
 const parseVistaDate = date => {
-  return parse(date, 'MM/dd/yyyy', new Date());
+  try {
+    const parsedDate = parse(date, 'MM/dd/yyyy', new Date());
+    if (!Number.isNaN(parsedDate.getTime())) {
+      return parsedDate;
+    }
+  } catch (error) {
+    // Fall back to default value.
+  }
+
+  return 'N/A';
 };
 
 const formatImmunizationDate = date => {
@@ -32,51 +60,85 @@ const formatImmunizationDate = date => {
 };
 
 const stripDst = (timeZone, shortTimezone) => {
-  if (/^(America|US\/)/.test(timeZone) && /^[PMCE][DS]T$/.test(shortTimezone)) {
-    return shortTimezone.replace('ST', 'T').replace('DT', 'T');
+  let result = '';
+
+  if (timeZone && shortTimezone) {
+    result =
+      /^(America|US\/)/.test(timeZone) && /^[PMCE][DS]T$/.test(shortTimezone)
+        ? shortTimezone.replace('ST', 'T').replace('DT', 'T')
+        : shortTimezone;
   }
 
-  return shortTimezone;
+  return result;
 };
 
 const getShortTimezone = avs => {
-  const { timeZone } = avs.meta;
+  try {
+    const { timeZone } = avs.meta;
 
-  const options = { timeZone, timeZoneName: 'short' };
-  const shortTimezone = new Intl.DateTimeFormat('en-US', options)
-    .format(utcToZonedTime(new Date(), timeZone))
-    .split(' ')[1];
+    const options = { timeZone, timeZoneName: 'short' };
+    const shortTimezone = new Intl.DateTimeFormat('en-US', options)
+      .format(utcToZonedTime(new Date(), timeZone))
+      .split(' ')[1];
 
-  // Strip out middle char in short timezone.
-  return stripDst(timeZone, shortTimezone);
+    // Strip out middle char in short timezone.
+    return stripDst(timeZone, shortTimezone);
+  } catch (error) {
+    // Fall back to default value.
+  }
+
+  return '';
 };
 
 const getFormattedAppointmentTime = twentyFourHourTime => {
-  const time = parse(twentyFourHourTime, 'HH:mm', new Date());
-  return format(time, 'h:mm aaaa');
+  try {
+    const time = parse(twentyFourHourTime, 'HH:mm', new Date());
+    if (!Number.isNaN(time.getTime())) {
+      return format(time, 'h:mm aaaa');
+    }
+  } catch (error) {
+    // Fall back to default value.
+  }
+
+  return '';
 };
 
 const getFormattedAppointmentDate = avs => {
-  if (!avs.clinicsVisited?.[0]?.date) return '';
-  return formatDateLong(
-    parseVistaDateTime(
-      `${avs.clinicsVisited?.[0]?.date}@${avs.clinicsVisited?.[0]?.time}`,
-    ),
-  );
+  try {
+    const formattedDate = formatDateLong(
+      parseVistaDateTime(
+        `${avs.clinicsVisited[0].date}@${avs.clinicsVisited[0].time}`,
+      ),
+    );
+
+    if (formattedDate !== 'Invalid Date') {
+      return formattedDate;
+    }
+  } catch (error) {
+    // Fall back to default value.
+  }
+
+  return '';
 };
 
 const getFormattedGenerationDate = avs => {
-  if (!avs.meta) return '';
+  try {
+    const { generatedDate, timeZone } = avs.meta;
+    const zonedDate = utcToZonedTime(generatedDate, timeZone);
 
-  const { generatedDate, timeZone } = avs.meta;
-  const zonedDate = utcToZonedTime(generatedDate, timeZone);
-  const shortTimeZone = getShortTimezone(avs);
+    if (!Number.isNaN(zonedDate.getTime())) {
+      const shortTimeZone = getShortTimezone(avs);
+      return `${format(
+        zonedDate,
+        "MMMM d, yyyy' at 'h:mm aaaa'",
+        timeZone,
+      )} ${shortTimeZone}`;
+    }
+  } catch (error) {
+    // Fall back to default value.
+  }
 
-  return `${format(
-    zonedDate,
-    "MMMM d, yyyy' at 'h:mm aaaa'",
-    timeZone,
-  )} ${shortTimeZone}`;
+  return 'N/A';
 };
 
 const fieldHasValue = value => {
