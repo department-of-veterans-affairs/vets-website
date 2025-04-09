@@ -65,7 +65,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         handlePdfDownload(blob);
         recordEvent({ event: 'hca-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
+        setErrors(error.errors);
         recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
