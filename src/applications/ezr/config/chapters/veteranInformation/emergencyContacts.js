@@ -35,6 +35,7 @@ const arrayBuilderOptions = {
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
   },
+  hideMaxItemsAlert: true,
 };
 
 // build schemas based on declared options
@@ -63,7 +64,9 @@ const emergencyContactPages = arrayBuilderPages(
       uiSchema: emergencyContactsPageSchemas.uiSchema,
       schema: emergencyContactsPageSchemas.schema,
       onNavForward: props => {
-        return props.formData['view:hasEmergencyContactAddress']
+        return props.formData.veteranContacts[props.index][
+          'view:hasEmergencyContactAddress'
+        ]
           ? helpers.navForwardKeepUrlParams(props) // go to next page
           : helpers.navForwardFinishedItem(props); // return to summary
       },
