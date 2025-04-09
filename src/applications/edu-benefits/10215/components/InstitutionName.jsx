@@ -5,7 +5,6 @@ import { useValidateFacilityCode } from '../../hooks/useValidateFacilityCode';
 const InstitutionName = () => {
   const formData = useSelector(state => state.form?.data);
   const { loader, institutionName } = useValidateFacilityCode(formData);
-
   return (
     <div>
       <p>Institution Name</p>
