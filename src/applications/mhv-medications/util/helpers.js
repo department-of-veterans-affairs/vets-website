@@ -81,6 +81,8 @@ export const generateMedicationsPDF = async (
     const { generatePdf } = await pdfModulePromise;
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
     Sentry.captureException(error);
     Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
     throw error;
