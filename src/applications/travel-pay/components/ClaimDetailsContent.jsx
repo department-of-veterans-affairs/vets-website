@@ -56,11 +56,13 @@ export default function ClaimDetailsContent(props) {
                 {STATUSES[toPascalCase(claimStatus)].definition}
               </p>
             ) : (
-              <va-link
-                data-testid="status-explainer-link"
-                href="/my-health/travel-pay/help"
-                text="Learn more about claim statuses"
-              />
+              <p className="vads-u-margin-top--2">
+                If you need help understanding your claim, call the BTSSS call
+                center at <va-telephone contact="8555747292" /> (
+                <va-telephone tty contact="711" />) Monday through Friday, 8:00
+                a.m. to 8:00 p.m. ET. Have your claim number ready to share when
+                you call.
+              </p>
             )}
           </va-additional-info>
           {claimStatus === STATUSES.Denied.name && <AppealContent />}

@@ -82,7 +82,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText(/You submitted this claim for review/i)).to.exist;
   });
 
-  it('renders a link to the definitions page if the status is not in the list', () => {
+  it('renders help information if the status is not in the list', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent
         {...claimDetailsProps}
@@ -98,11 +98,8 @@ describe('ClaimDetailsContent', () => {
     fireEvent.click(
       $(`va-additional-info[trigger="What does this status mean?"]`),
     );
-    expect(
-      $(
-        'va-link[text="Learn more about claim statuses"][href="/my-health/travel-pay/help"]',
-      ),
-    ).to.exist;
+    expect(screen.getByText(/If you need help understanding your claim/i)).to
+      .exist;
   });
 
   it('renders reimbursement amount if one is provided', () => {
