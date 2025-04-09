@@ -47,7 +47,7 @@
                 "value": true
             },
             {
-                "name": "mhv_medications_ipe_show_hide_criteria",
+                "name": "mhv_medications_dont_increment_ipe_count",
                 "value": true
             }
         ]

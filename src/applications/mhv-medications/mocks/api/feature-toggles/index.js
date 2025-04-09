@@ -11,7 +11,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsRemoveLandingPage = true,
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent = true,
-    mhvMedicationsIpeShowHideCriteria = true,
+    mhvMedicationsDontIncrementIpeCount = true,
   } = toggles;
 
   return {
@@ -63,8 +63,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsPartialFillContent,
         },
         {
-          name: 'mhv_medications_ipe_show_hide_criteria',
-          value: mhvMedicationsIpeShowHideCriteria,
+          name: 'mhv_medications_dont_increment_ipe_count',
+          value: mhvMedicationsDontIncrementIpeCount,
         },
       ],
     },
