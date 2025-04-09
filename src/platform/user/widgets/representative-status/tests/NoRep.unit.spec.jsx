@@ -19,7 +19,6 @@ describe('NoRep component', () => {
     const headerElement = wrapper.find('.auth-no-rep-header');
     expect(headerElement.exists()).to.be.true;
 
-    // Use a more flexible check to avoid apostrophe encoding issues
     const headerText = headerElement.text();
     expect(headerText.indexOf('have an accredited representative') > -1).to.be
       .true;
