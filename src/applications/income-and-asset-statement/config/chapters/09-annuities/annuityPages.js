@@ -17,6 +17,7 @@ import {
   formatCurrency,
   annualReceivedIncomeFromAnnuityRequired,
   surrenderValueRequired,
+  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -26,8 +27,8 @@ export const options = {
   nounPlural: 'Annuities',
   required: false,
   isItemIncomplete: item =>
-    !item?.establishedDate ||
-    !item.marketValueAtEstablishment ||
+    !isDefined(item?.establishedDate) ||
+    !isDefined(item.marketValueAtEstablishment) ||
     typeof item.addedFundsAfterEstablishment !== 'boolean' ||
     typeof item.revocable !== 'boolean' ||
     typeof item.receivingIncomeFromAnnuity !== 'boolean' ||
@@ -36,7 +37,7 @@ export const options = {
   text: {
     getItemName: () => 'Annuity',
     cardDescription: item =>
-      item?.marketValueAtEstablishment && (
+      isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Established date:{' '}

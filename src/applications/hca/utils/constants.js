@@ -6,6 +6,7 @@ export const LAST_YEAR = new Date().getFullYear() - 1;
 
 // declare API endpoint routes
 export const API_ENDPOINTS = {
+  csrfCheck: '/maintenance_windows',
   downloadPdf: '/health_care_applications/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
   facilities: '/health_care_applications/facilities',
@@ -32,9 +33,6 @@ export const DEPENDENT_VIEW_FIELDS = {
   report: 'view:reportDependents',
   skip: 'view:skipDependentInfo',
 };
-
-// declare prefix for use in GA events related to disability rating
-export const DISABILITY_PREFIX = 'disability-ratings';
 
 // declare action statuses for fetching disability rating
 export const DISABILITY_RATING_ACTIONS = {
