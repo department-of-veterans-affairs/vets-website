@@ -19,6 +19,7 @@ describe('BehaviorIntroCombatPage', () => {
     goBack = () => {},
     goForward = () => {},
     setFormData = () => {},
+    updatePage = () => {},
     onReviewPage = false,
   } = {}) => {
     return (
@@ -29,6 +30,7 @@ describe('BehaviorIntroCombatPage', () => {
           goBack={goBack}
           goForward={goForward}
           onReviewPage={onReviewPage}
+          updatePage={updatePage}
         />
       </div>
     );
@@ -67,6 +69,43 @@ describe('BehaviorIntroCombatPage', () => {
 
         fireEvent.click($('button[type="submit"]', container));
         expect(goForwardSpy.called).to.be.true;
+      });
+    });
+
+    describe('When updating the selection on the Review and Submit page', () => {
+      describe('Opting in to answering behavioral questions', () => {
+        it('should update the choice', () => {
+          const updateSpy = sinon.spy();
+          const { container } = render(
+            page({
+              onReviewPage: true,
+              updatePage: updateSpy,
+              data: {
+                'view:answerCombatBehaviorQuestions': 'true',
+              },
+            }),
+          );
+          fireEvent.click($('va-button[text="Update page"]', container));
+          expect(updateSpy.called).to.be.true;
+        });
+      });
+
+      describe('Opting out of answering behavioral questions', () => {
+        it('should update the choice', () => {
+          const updateSpy = sinon.spy();
+          const { container } = render(
+            page({
+              onReviewPage: true,
+              updatePage: updateSpy,
+              data: {
+                'view:answerCombatBehaviorQuestions': 'false',
+              },
+            }),
+          );
+
+          fireEvent.click($('va-button[text="Update page"]', container));
+          expect(updateSpy.called).to.be.true;
+        });
       });
     });
 
@@ -121,6 +160,49 @@ describe('BehaviorIntroCombatPage', () => {
           fireEvent.click($('button[type="submit"]', container));
           expect($('va-modal[visible="true"]', container)).not.to.exist;
           expect(goForwardSpy.called).to.be.true;
+        });
+      });
+
+      describe('On the review and submit page', () => {
+        describe('When the user has already declared behavioral changes, changes the selection to opt out and clicks update', () => {
+          const data = {
+            'view:answerCombatBehaviorQuestions': 'false',
+            healthBehaviors: {
+              appetite: true,
+            },
+          };
+
+          it('displays a prompt to delete the answers and prevents the page from updating', () => {
+            const updateSpy = sinon.spy();
+            const { container } = render(
+              page({ data, onReviewPage: true, updatePage: updateSpy }),
+            );
+
+            fireEvent.click($('va-button[text="Update page"]', container));
+
+            expect($('va-modal[visible="true"]', container)).to.exist;
+            expect(updateSpy.notCalled).to.be.true;
+          });
+        });
+
+        describe('When the user has already declared behavioral changes, is opted in and clicks update', () => {
+          const data = {
+            'view:answerCombatBehaviorQuestions': 'true',
+            healthBehaviors: {
+              appetite: true,
+            },
+          };
+
+          it('does not display a prompt to delete the answers and does not prevent the update from submitting', () => {
+            const updateSpy = sinon.spy();
+            const { container } = render(
+              page({ data, onReviewPage: true, updatePage: updateSpy }),
+            );
+
+            fireEvent.click($('va-button[text="Update page"]', container));
+
+            expect(updateSpy.called).to.be.true;
+          });
         });
       });
 
@@ -426,24 +508,6 @@ describe('BehaviorIntroCombatPage', () => {
             fireEvent.click($('button.va-button-link', container));
             expect(goForwardSpy.called).to.be.true;
           });
-
-          describe('On the review and submit page', () => {
-            it('Does not display the confirmation message', () => {
-              const { container } = render(
-                page({
-                  data: filledOutDataWithOptOut,
-                  onReviewPage: true,
-                }),
-              );
-
-              fireEvent.click($('button[type="submit"]', container));
-
-              const modal = container.querySelector('va-modal');
-              modal.__events.primaryButtonClick();
-
-              expect($(confirmationAlertSelector, container)).not.to.exist;
-            });
-          });
         });
 
         describe('When the cancel button is clicked', () => {
@@ -525,12 +589,41 @@ describe('BehaviorIntroCombatPage', () => {
         const { container } = render(page());
         expect($(mentalHealthDropdownSelector, container)).to.exist;
       });
+
+      it('Displays forward and back buttons', () => {
+        const { container } = render(page());
+
+        const continueButton = $(
+          '.usa-button-primary[type="submit"]',
+          container,
+        );
+
+        expect(continueButton).to.exist;
+        expect(continueButton.textContent).to.contain('Continue');
+
+        const backButton = $('.usa-button-secondary', container);
+
+        expect(backButton).to.exist;
+        expect(backButton.textContent).to.contain('Back');
+      });
     });
 
     describe('When rendered on the Review and Submit Page', () => {
+      const { container } = render(page({ onReviewPage: true }));
+
       it('Does not display a Mental Health Alert Dropdown', () => {
-        const { container } = render(page({ onReviewPage: true }));
         expect($(mentalHealthDropdownSelector, container)).not.to.exist;
+      });
+
+      it('Does not display forward and back buttons', () => {
+        const continueButton = $(
+          '.usa-button-primary[type="submit"][text="Continue"]',
+          container,
+        );
+        expect(continueButton).not.to.exist;
+
+        const backButton = $('.usa-button-secondary', container);
+        expect(backButton).not.to.exist;
       });
     });
   });

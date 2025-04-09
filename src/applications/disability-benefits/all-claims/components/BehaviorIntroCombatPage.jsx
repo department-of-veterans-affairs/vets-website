@@ -23,7 +23,6 @@ import {
   answerCombatQuestionsChoice,
   combatIntroDescription,
   combatIntroTitle,
-  // deleteCombatAnswersModalTitle,
   missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
@@ -54,6 +53,7 @@ const BehaviorIntroCombatPage = ({
   contentBeforeButtons,
   contentAfterButtons,
   onReviewPage,
+  updatePage,
 }) => {
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
@@ -163,6 +163,18 @@ const BehaviorIntroCombatPage = ({
     onClickConfirmationLink: () => {
       goForward(data);
     },
+    onUpdatePage: event => {
+      event.preventDefault();
+
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+        // hasSelectedBehaviors returns true if user selected behaviors already on the succeeding page, BehaviorListPage
+      } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
+        setShowDeleteAnswersModal(true);
+      } else {
+        updatePage(event);
+      }
+    },
   };
 
   return (
@@ -240,13 +252,25 @@ const BehaviorIntroCombatPage = ({
         </VaRadio>
         {/* Mental Health dropdown is not displayed when content is rendered on the Review and Submit page */}
         <>{!onReviewPage && mentalHealthSupportAlert()}</>
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handlers.onSubmit}
-          submitToContinue
-        />
-        {contentAfterButtons}
+        {onReviewPage && (
+          <va-button
+            onClick={handlers.onUpdatePage}
+            label="Update behavior questions choice"
+            text="Update page"
+          />
+        )}
+
+        {!onReviewPage && (
+          <>
+            {contentBeforeButtons}
+            <FormNavButtons
+              goBack={goBack}
+              goForward={handlers.onSubmit}
+              submitToContinue
+            />
+            {contentAfterButtons}
+          </>
+        )}
       </form>
     </div>
   );
@@ -260,6 +284,7 @@ BehaviorIntroCombatPage.propTypes = {
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
 
