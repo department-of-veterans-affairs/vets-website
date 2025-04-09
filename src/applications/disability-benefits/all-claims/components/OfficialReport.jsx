@@ -5,7 +5,6 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { scrollAndFocus } from 'platform/utilities/ui';
 import {
   VaModal,
   VaButton,
@@ -31,6 +30,7 @@ export function shouldShowPoliceDataModal(event) {
 }
 
 const OfficialReport = props => {
+  const formDomRef = useRef(null);
   const modalRef = useRef(null);
   const alertRef = useRef(null);
   const searchParams = getArrayUrlSearchParams();
@@ -45,14 +45,21 @@ const OfficialReport = props => {
   const handlers = {
     shouldShowPoliceDataModal,
     onModalOrContinue: ({ formData }) => {
+      if (!formDomRef.current) return;
+
+      setTempData(formData);
+
+      formDomRef.current.submitForm();
+    },
+    onSubmit: ({ formData }) => {
       if (handlers.shouldShowPoliceDataModal(formData)) {
         setShowModal(true);
         setTempData(formData);
         return;
       }
-      const committedData = { ...tempData };
-      props.onChange(committedData);
-      props.onSubmit({ formData: committedData });
+
+      props.onChange(formData);
+      props.onSubmit({ formData });
     },
     onCancelModal: () => {
       setShowModal(false);
@@ -63,7 +70,6 @@ const OfficialReport = props => {
       };
 
       setTempData(restoredData);
-      props.onChange(restoredData);
     },
     onCancelAlert: () => {
       setShowAlert(false);
@@ -86,7 +92,7 @@ const OfficialReport = props => {
     },
   };
 
-  const { schema, uiSchema, onSubmit } = useEditOrAddForm({
+  const { schema, uiSchema } = useEditOrAddForm({
     isEdit,
     schema: isRelatedToMST(props.fullData)
       ? officialReportMst.schema
@@ -110,7 +116,7 @@ const OfficialReport = props => {
             '#heading',
           );
           if (modalHeading) {
-            scrollAndFocus(modalHeading);
+            modalHeading.focus({ preventScroll: true });
           }
         }, 0);
       }
@@ -163,7 +169,10 @@ const OfficialReport = props => {
             We’ve removed police report information about Event #{index + 1}.
           </p>
           <p>
-            <va-link text="Continue with your claim" onClick={onSubmit} />
+            <va-link
+              text="Continue with your claim"
+              onClick={() => handlers.onSubmit({ formData: tempData })}
+            />
           </p>
         </VaAlert>
       </div>
@@ -179,7 +188,13 @@ const OfficialReport = props => {
         getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
         onChange={handlers.handleChange}
-        onSubmit={onSubmit}
+        onSubmit={handlers.onSubmit}
+        ref={formRef => {
+          if (formRef) {
+            formDomRef.current =
+              formRef?.formElement || formRef?.formRef?.current;
+          }
+        }}
       >
         <>
           {isAdd && (
