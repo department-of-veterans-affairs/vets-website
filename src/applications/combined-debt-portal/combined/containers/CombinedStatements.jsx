@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import React, { useEffect, useMemo } from 'react';
+import {
+  VaBreadcrumbs,
+  VaButton,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  selectProfile,
+  selectVAPMailingAddress,
+} from '~/platform/user/selectors';
+import environment from 'platform/utilities/environment';
 import Modals from '../../medical-copays/components/Modals';
-import { setPageFocus } from '../utils/helpers';
+import { currency, setPageFocus, handlePdfGeneration } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const CombinedStatements = () => {
@@ -11,14 +20,69 @@ const CombinedStatements = () => {
   useEffect(() => {
     setPageFocus('h1');
   }, []);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const redirectCombinedStatements = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const {
+    useToggleLoadingValue,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  // boolean value to represent if toggles are still loading or not
+  const togglesLoading = useToggleLoadingValue();
+  const showOneVADebtLetterDownload = useToggleValue(
+    TOGGLE_NAMES.showOneVADebtLetter,
   );
-  const { mcp } = useSelector(({ combinedPortal }) => combinedPortal);
+
+  const { debtLetters, mcp } = useSelector(
+    ({ combinedPortal }) => combinedPortal,
+  );
+
+  // Get errors
+  const billError = mcp.error;
+  const debtError = debtLetters.errors?.length > 0;
+
+  const { debts } = debtLetters;
+  const bills = mcp.statements;
+
+  // Pulling veteran contact information from the Redux store
+  const {
+    addressLine1 = '',
+    addressLine2 = '',
+    addressLine3 = '',
+    city = '',
+    zipCode = '',
+    stateCode = '',
+  } = useSelector(selectVAPMailingAddress);
+  const { userFullName = {} } = useSelector(selectProfile);
+
+  // Data for One VA Debt Letter PDF
+  const veteranContactInformation = {
+    veteranFullName: userFullName,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    fileNumber: debts[0]?.fileNumber || '',
+  };
+
+  // Merge into namespaced pdfData for One VA Debt Letter PDF
+  const pdfData = {
+    copays: bills,
+    debts,
+    veteranContactInformation,
+  };
+
+  const showOneVADebtLetterDownloadButton = useMemo(
+    () => {
+      // 403 error is not enrolled, so bills aren't proper borked
+      const billsBorked = billError ? billError?.code !== '403' : false;
+      return showOneVADebtLetterDownload && !debtError && !billsBorked;
+    },
+    [billError, debtError, showOneVADebtLetterDownload],
+  );
 
   // If the feature flag is not enabled, redirect to the summary page
-  if (!redirectCombinedStatements) {
+  if (!showOneVADebtLetterDownload) {
     window.location.replace('/manage-va-debt/summary');
     return (
       <div className="vads-u-margin--5">
@@ -30,13 +94,10 @@ const CombinedStatements = () => {
     );
   }
 
-  const formatCurrency = amount => {
-    if (!amount) return '$0.00';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
 
   // Mock data to match the mockup
   const recipientInfo = {
@@ -76,7 +137,7 @@ const CombinedStatements = () => {
           Total Due:
         </span>
         <span className="vads-u-font-weight--bold">
-          {formatCurrency(
+          {currency(
             copay.details.reduce(
               (total, charge) =>
                 total +
@@ -134,7 +195,13 @@ const CombinedStatements = () => {
               <br />
               Today’s date: {recipientInfo.statementDate}
             </p>
-            <va-button text="Download combined statement" />
+            {showOneVADebtLetterDownloadButton ? (
+              <VaButton
+                onClick={() => handlePdfGeneration(environment, pdfData)}
+                text="Download combined statement"
+                className="vads-u-margin-bottom--2"
+              />
+            ) : null}
           </div>
         </div>
 
@@ -169,7 +236,7 @@ const CombinedStatements = () => {
                 <va-table-row key={idx}>
                   <span>{charge.pDTransDescOutput}</span>
                   <span>{charge.pDRefNo}</span>
-                  <span>{formatCurrency(charge.pDTransAmt)}</span>
+                  <span>{currency(charge.pDTransAmt)}</span>
                 </va-table-row>
               ))}
 
@@ -228,7 +295,7 @@ const CombinedStatements = () => {
                     </React.Fragment>
                   ))}
                 </span>
-                <span>{formatCurrency(charge.amount)}</span>
+                <span>{currency(charge.amount)}</span>
               </va-table-row>
             ))}
 
@@ -238,7 +305,7 @@ const CombinedStatements = () => {
                 Total Due:
               </span>
               <span className="vads-u-font-weight--bold">
-                {formatCurrency(
+                {currency(
                   overpaymentCharges.reduce(
                     (total, charge) => total + charge.amount,
                     0,
