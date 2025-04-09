@@ -207,6 +207,13 @@ export const mstAlert = () => {
   );
 };
 
+export const sectionsOfMentalHealthStatement = [
+  'Traumatic events from your military service',
+  'Behavioral changes',
+  'Types of providers who treated  your traumatic events',
+  'Types of documents about your mental health conditions',
+];
+
 export const mentalHealthKeys = [
   'treatmentReceivedVaProvider',
   'treatmentReceivedNonVaProvider',
@@ -229,24 +236,29 @@ export const mentalHealthKeys = [
 ];
 
 const confirmationDataUpload = {
-  yes: 'Change my response',
+  yes: 'Yes, answer online instead',
   no: 'No, return to claim',
 };
 
 const confirmationDataOptOut = {
-  yes: 'Yes, skip VA Form 21-0781',
+  yes: 'Yes, delete my statement',
   no: 'No, return to claim',
 };
 
 const modalDescriptionUpload = (
   <>
     <p>
-      <strong>What to know:</strong> If you change your response to filling out
-      a PDF to upload, we’ll remove any information you’ve entered online about
-      your mental health conditions.
+      <strong>What to know:</strong> If you choose to upload a PDF statement,
+      we’ll delete this information from your claim:
     </p>
     <p>
-      <strong>Do you want to opt out of form 21-0781?</strong>
+      <ul>
+        {sectionsOfMentalHealthStatement.map((section, i) => (
+          <li key={i}>
+            <b>{section}</b>
+          </li>
+        ))}
+      </ul>
     </p>
   </>
 );
@@ -254,36 +266,50 @@ const modalDescriptionUpload = (
 const modalDescriptionSkip = (
   <>
     <p>
-      <strong>What to know:</strong> If you skip VA Form 21-0781, you won’t be
-      able to share any information about any mental health conditions. You
-      won’t be able to share descriptions about any related traumatic events and
-      resulting behavioral changes, or any details about supporting documents
-      related to mental health.
+      <strong>What to know:</strong> If you choose to delete this statement,
+      we’ll delete this information from your claim:
     </p>
+    <ul>
+      {sectionsOfMentalHealthStatement.map((section, i) => (
+        <li key={i}>
+          <b>{section}</b>
+        </li>
+      ))}
+    </ul>
   </>
 );
 
-const modalDescriptionOnline = (
-  <>
-    <p>
-      <strong>What to know:</strong> If you change your response to answer
-      questions online, we’ll remove PDF file you’ve uploaded.
-    </p>
-    <p>
-      <strong>Do you want to change your response to upload a PDF?</strong>
-    </p>
-  </>
-);
+const modalDescriptionOnline = formData => {
+  return (
+    <>
+      <p>
+        <strong>What to know:</strong> If you choose to answer questions online,
+        we’ll delete this PDF you uploaded:
+      </p>
+      <p>
+        <ul>
+          {formData.form781Upload.map((file, index) => (
+            <li key={index}>
+              <strong>{file.name}</strong>
+            </li>
+          ))}
+        </ul>
+      </p>
+    </>
+  );
+};
 
 const alertDescriptionSkip =
-  'We’ve removed information you’ve entered online about traumatic events';
-const alertDescriptionUpload =
-  'We’ve removed information about your traumatic events';
-const alertDescriptionOnline = 'We’ve removed your uploaded pdf';
+  'We deleted your statement about mental health conditions. You can still add a statement anytime before you submit your claim by choosing to answer questions online or uploading a PDF statement.';
 
-export const modalTitleSkip = 'Skip VA Form 21-0781?';
-export const modalTitleUpload = 'Change to upload a PDF?';
-export const modalTitleOnline = 'Change to answer questions online?';
+const alertDescriptionUpload =
+  'We’ve deleted information you entered online about mental health conditions.';
+const alertDescriptionOnline = 'We’ve deleted your uploaded PDF.';
+
+export const modalTitleSkip =
+  'Delete your statement about mental health conditions?';
+export const modalTitleUpload = 'Upload a PDF statement instead?';
+export const modalTitleOnline = 'Answer questions online instead?';
 
 const deleteMentalHealthStatement = (data, setFormData) => {
   const updatedData = { ...data };
@@ -403,7 +429,7 @@ const WorkflowChoicePage = props => {
         return {
           primaryText: confirmationDataUpload.yes,
           secondaryText: confirmationDataUpload.no,
-          modalContent: modalDescriptionOnline,
+          modalContent: data.form781Upload && modalDescriptionOnline(data),
           alertContent: alertDescriptionOnline,
           modalTitle: modalTitleOnline,
         };
@@ -475,6 +501,12 @@ const WorkflowChoicePage = props => {
         uswds
       >
         {alertContent}
+        <p>
+          <va-link
+            text="Continue with your claim"
+            onClick={() => goForward(data)}
+          />
+        </p>
       </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
