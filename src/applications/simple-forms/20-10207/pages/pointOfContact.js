@@ -18,6 +18,11 @@ const pageSchema = {
     pointOfContactName: {
       'ui:title': 'Name of your point of contact',
       'ui:webComponentField': VaTextInputField,
+      'ui:required': formData =>
+        (formData.preparerType === PREPARER_TYPES.VETERAN &&
+          !formData.veteranEmailAddress) ||
+        (formData.preparerType === PREPARER_TYPES.NON_VETERAN &&
+          !formData.nonVeteranEmailAddress),
     },
     pointOfContactPhone: phoneUI('Telephone number of your point of contact'),
     pointOfContactEmail: emailToSendNotificationsUI({
