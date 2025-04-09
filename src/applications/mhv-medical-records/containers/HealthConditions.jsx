@@ -66,11 +66,6 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after your
-        providers enter them.
-      </p>
 
       <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
 
