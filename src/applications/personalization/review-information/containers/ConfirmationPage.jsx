@@ -26,7 +26,6 @@ export const ConfirmationPage = () => {
           </p>
           <va-link-action
             href="/profile/notifications/"
-            label="Notification settings link"
             text="Go to your notification settings in your VA.gov profile"
           />
         </va-alert>

@@ -16,25 +16,26 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   otherAssetOwnerRelationshipExplanationRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'unreportedAssets',
   nounSingular: 'asset previously not reported',
   nounPlural: 'assets previously not reported',
   required: false,
   isItemIncomplete: item =>
-    !item?.assetOwnerRelationship ||
-    !item.ownedPortionValue ||
-    !item.assetType ||
-    !item.assetLocation, // include all required fields here
+    !isDefined(item?.assetOwnerRelationship) ||
+    !isDefined(item.ownedPortionValue) ||
+    !isDefined(item.assetType) ||
+    !isDefined(item.assetLocation), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: () => 'Unreported Asset',
     cardDescription: item =>
-      item?.ownedPortionValue && (
+      isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Asset type:{' '}
