@@ -1,5 +1,7 @@
-import React from 'react';
-import { CHAMPVA_OHI_FAX_NUMBER } from '../../shared/constants';
+import {
+  CHAMPVA_OHI_FAX_NUMBER,
+  CHAMPVA_ELIGIBILITY_ADDRESS,
+} from '../../shared/constants';
 
 /* List of required files - not enforced by the form because we want
 users to be able to opt into mailing these documents. This object 
@@ -23,17 +25,5 @@ export const requiredFiles = {
 };
 
 export const office = 'VHA Office of Integrated Veteran Care';
-export const officeAddress = (
-  <>
-    {office}
-    <br />
-    ChampVA Eligibility
-    <br />
-    P.O. Box 137
-    <br />
-    Spring City, PA 19475
-    <br />
-    United States of America
-  </>
-);
+export const officeAddress = CHAMPVA_ELIGIBILITY_ADDRESS;
 export const officeFaxNum = CHAMPVA_OHI_FAX_NUMBER;

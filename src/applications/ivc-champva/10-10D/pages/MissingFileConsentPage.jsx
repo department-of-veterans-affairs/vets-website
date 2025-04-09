@@ -3,6 +3,7 @@ import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview, {
   MissingFileConsentPagePropTypes,
 } from '../../shared/components/fileUploads/MissingFileOverview';
+import { CHAMPVA_FAX_NUMBER, CHAMPVA_ADDRESS } from '../../shared/constants';
 
 export function MissingFileConsentPage(props) {
   const OverviewComp = MissingFileOverview({
@@ -14,6 +15,8 @@ export function MissingFileConsentPage(props) {
     disableLinks: true,
     heading: <></>,
     showMail: true,
+    mailingAddress: CHAMPVA_ADDRESS,
+    faxNum: CHAMPVA_FAX_NUMBER,
     showConsent: true,
     fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
     requiredFiles: REQUIRED_FILES,

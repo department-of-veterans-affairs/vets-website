@@ -26,21 +26,52 @@ export const ConfirmationPagePropTypes = {
 export const ADDITIONAL_FILES_HINT =
   'Depending on your response, you may need to submit additional documents with this application.';
 
+const addressFormat = markup => (
+  <>
+    <address className="va-address-block">{markup}</address>
+  </>
+);
+
 // TODO: Audit 10-10d and 10-7959a to make sure they're referencing
 // this address here so we can control from one place.
-export const CHAMPVA_ADDRESS = (
+export const CHAMPVA_ADDRESS = addressFormat(
   <>
-    <address className="va-address-block">
-      VHA Office of Integrated Veteran Care
-      <br />
-      ATTN: CHAMPVA Claims
-      <br />
-      PO Box 500
-      <br />
-      Spring City, PA 19475
-      <br />
-    </address>
-  </>
+    VHA Office of Integrated Veteran Care
+    <br />
+    ATTN: CHAMPVA Claims
+    <br />
+    PO Box 500
+    <br />
+    Spring City, PA 19475
+    <br />
+  </>,
+);
+
+export const CHAMPVA_ELIGIBILITY_ADDRESS = addressFormat(
+  <>
+    VHA Office of Integrated Veteran Care
+    <br />
+    ChampVA Eligibility
+    <br />
+    P.O. Box 137
+    <br />
+    Spring City, PA 19475
+    <br />
+    United States of America
+  </>,
+);
+
+export const IVC_APPEALS_ADDRESS = addressFormat(
+  <>
+    VHA Office of Integrated Veteran Care
+    <br />
+    ATTN: APPEALS
+    <br />
+    PO Box 600
+    <br />
+    Spring City, PA 19475
+    <br />
+  </>,
 );
 
 // TODO: Audit all IVC forms and make sure they're referencing

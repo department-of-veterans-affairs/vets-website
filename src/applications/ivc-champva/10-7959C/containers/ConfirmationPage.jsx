@@ -18,7 +18,10 @@ import {
 import { applicantWording } from '../../shared/utilities';
 import { prefixFileNames } from '../components/MissingFileConsentPage';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
-import { ConfirmationPagePropTypes } from '../../shared/constants';
+import {
+  ConfirmationPagePropTypes,
+  CHAMPVA_PHONE_NUMBER,
+} from '../../shared/constants';
 
 const heading = (
   <>
@@ -169,8 +172,8 @@ export function ConfirmationPage(props) {
       </h2>
       <p>
         If you have any questions about your form, you can call us at{' '}
-        <VaTelephone contact="800-733-8387" /> (TTY: 711). We’re here Monday
-        through Friday, 8:05 a.m. to 7:30 p.m. ET.
+        <VaTelephone contact={CHAMPVA_PHONE_NUMBER} /> (TTY: 711). We’re here
+        Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
       </p>
       <p>You can also contact us online through our Ask VA tool.</p>
       <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
