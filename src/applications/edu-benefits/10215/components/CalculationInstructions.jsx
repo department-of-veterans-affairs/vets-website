@@ -86,16 +86,19 @@ export const CalculationInstructions = () => {
             fees, or other charges.
           </li>
           <li>
-            Any student who receives an institutionally funded scholarship or
-            grant.
+            Any student who receives an <strong>institutionally</strong> funded
+            scholarship or grant.
           </li>
           <li>
-            Any student where the full amount of tuition and fees HAS NOT been
-            paid to the school prior to the reporting date (i.e., within 30 days
-            of the beginning of the term if the school is term-based or within
-            30 days of the end of the quarter if the school is non-term-based),
-            <strong>UNLESS </strong>
-            the student is participating in a <strong>compliant</strong>{' '}
+            Any student where the full amount of tuition and fees{' '}
+            <strong>HAS NOT</strong> been paid to the school prior to the
+            reporting date (i.e., within 30 days of the beginning of the term if
+            the school is term-based or within 30 days of the end of the quarter
+            if the school is non-term-based), <strong>UNLESS</strong>
+            the student is participating in a{' '}
+            <strong>
+              <em>compliant</em>
+            </strong>{' '}
             institutionally funded payment plan. See the compliance requirements
             for an institutionally funded payment plan in the instructions for
             Block 5E.
@@ -183,8 +186,7 @@ export const CalculationInstructions = () => {
             the beginning of the term or other enrollment period{' '}
             <strong>UNLESS</strong> the balance is covered by a compliant
             institutionally funded tuition and fee payment plan that meets{' '}
-            <strong>ALL</strong>
-            of the following criteria:
+            <strong>ALL</strong> of the following criteria:
             <ul className="list-style">
               <li>
                 The payment plan policy is published on the school’s website and
@@ -213,7 +215,7 @@ export const CalculationInstructions = () => {
           <strong>Note:</strong> The following types of aid are not
           institutional aid:
         </p>
-        <ul className="list-style">
+        <ul className="list-style margin-left">
           <li>Any student receiving Title IV Department of Education aid.</li>
           <li>
             Any student receiving Tuition Assistance through the Department of
