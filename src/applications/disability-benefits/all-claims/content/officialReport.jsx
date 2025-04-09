@@ -67,23 +67,23 @@ export const removePoliceReportModalContent = (
   </>
 );
 
-export function selectedReportTypes(formData) {
+export function selectedReportTypes(formData = {}) {
   const militaryReportsSelected = Object.values(
-    formData?.militaryReports || {},
-  ).some(Boolean);
+    formData.militaryReports || {},
+  ).some(value => value === true);
 
-  const otherReportsSelected = Object.entries(formData?.otherReports || {})
+  const otherReportsSelected = Object.entries(formData.otherReports || {})
     .filter(([key]) => key !== 'none')
-    .some(([, selected]) => Boolean(selected));
+    .some(([, selected]) => selected === true);
 
   const unlistedReportEntered =
-    typeof formData?.unlistedReport === 'string' &&
-    formData.unlistedReport.trim();
+    typeof formData.unlistedReport === 'string' &&
+    formData.unlistedReport.trim().length > 0;
 
   return {
     militaryReports: militaryReportsSelected,
     otherReports: otherReportsSelected,
-    unlistedReport: Boolean(unlistedReportEntered),
+    unlistedReport: unlistedReportEntered,
   };
 }
 
@@ -92,12 +92,12 @@ export function selectedReportTypes(formData) {
  * @param {object} formData
  * @returns {boolean}
  */
-export function showConflictingAlert(formData) {
+export function showConflictingAlert(formData = {}) {
   const { militaryReports, otherReports, unlistedReport } = selectedReportTypes(
     formData,
   );
 
-  const noneSelected = Boolean(formData?.noReport?.none);
+  const noneSelected = formData?.noReport?.none === true;
   const reportTypeSelected = militaryReports || otherReports || unlistedReport;
 
   return noneSelected && reportTypeSelected;
