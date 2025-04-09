@@ -148,7 +148,7 @@ export const CalculationInstructions = () => {
             based on the total number of hours in which the student is enrolled
             for the term and add it to the number of full-time students. A
             student’s overall rate of pursuit or overall training time
-            determines whether they are counted as a full-time or parttime
+            determines whether they are counted as a full-time or part time
             student under each approved program, concentration, or track.{' '}
             <strong>Example:</strong> Take the total number of one-half time
             students, divide by two, and add the quotient to the number of
