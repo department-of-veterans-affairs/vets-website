@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -44,53 +43,64 @@ describe('generateTransition and generateTitle', () => {
 });
 
 describe('CancelButton Component (Web Components)', () => {
-  const setup = (props = {}) => {
-    const mockRouter = { push: sinon.spy() };
-
-    const utils = render(
-      <MemoryRouter>
-        <CancelButton router={mockRouter} {...props} />
-      </MemoryRouter>,
-    );
-
-    return { ...utils, mockRouter };
-  };
-
   it('should render the cancel button', () => {
-    const { getByTestId } = setup();
+    const { getByTestId } = render(<CancelButton />);
     const cancelBtn = getByTestId('cancel-btn');
     expect(cancelBtn).to.not.be.null;
   });
 
-  it('should show the correct modal title for add flow', async () => {
-    const { getByTestId } = setup({
-      isAddChapter: true,
-      dependentType: 'spouse',
-    });
+  it('should close the modal', async () => {
+    const pushSpy = sinon.spy();
+    const props = { router: { push: pushSpy } };
+    const { getByTestId } = render(<CancelButton {...props} />);
 
     fireEvent.click(getByTestId('cancel-btn'));
+    const modal = getByTestId('cancel-modal');
+    expect(modal.getAttribute('visible')).to.eql('true');
+    modal.__events.closeEvent();
 
     await waitFor(() => {
-      const modal = getByTestId('cancel-modal');
-      expect(modal.getAttribute('modal-title')).to.include(
-        'Would you like to cancel adding your spouse?',
-      );
+      expect(modal.getAttribute('visible')).to.eql('false');
     });
   });
 
-  it('should show the correct modal title for remove flow', async () => {
-    const { getByTestId } = setup({
-      isAddChapter: false,
-      dependentType: 'spouse',
+  [false, true].forEach(isAddChapter => {
+    it(`should show the correct modal title when add flow is: ${isAddChapter}`, async () => {
+      const addOrRemove = isAddChapter === false ? `removing` : `adding`;
+      const expectedString = `Would you like to cancel ${addOrRemove} your spouse?`;
+      const props = {
+        isAddChapter,
+        dependentType: 'spouse',
+      };
+      const { getByTestId } = render(<CancelButton {...props} />);
+
+      fireEvent.click(getByTestId('cancel-btn'));
+      await waitFor(() => {
+        const modal = getByTestId('cancel-modal');
+        expect(modal.getAttribute('modal-title')).to.include(expectedString);
+      });
     });
 
-    fireEvent.click(getByTestId('cancel-btn'));
+    it(`should navigate away to the proper location in the form when clicking cancel`, async () => {
+      const pushSpy = sinon.spy();
+      const expectedRoute = isAddChapter
+        ? '/options-selection/add-dependents'
+        : '/options-selection/remove-dependents';
+      const props = {
+        isAddChapter,
+        dependentType: 'spouse',
+        router: { push: pushSpy },
+      };
+      const { getByTestId } = render(<CancelButton {...props} />);
 
-    await waitFor(() => {
+      fireEvent.click(getByTestId('cancel-btn'));
       const modal = getByTestId('cancel-modal');
-      expect(modal.getAttribute('modal-title')).to.include(
-        'Would you like to cancel removing your spouse?',
-      );
+      modal.__events.primaryButtonClick();
+
+      await waitFor(() => {
+        expect(pushSpy.called).to.be.true;
+        expect(pushSpy.calledWith(expectedRoute));
+      });
     });
   });
 });
