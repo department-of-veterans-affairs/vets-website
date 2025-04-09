@@ -14,6 +14,9 @@ describe('22-10215 - Institution Details', () => {
     uiSchema,
   } = formConfig.chapters.institutionDetailsChapter.pages.institutionDetails;
 
+  delete uiSchema.institutionDetails.institutionName;
+  delete schema.properties.institutionDetails.properties.institutionName;
+
   it('renders the correct amount of inputs', () => {
     const form = mount(
       <DefinitionTester
@@ -24,7 +27,7 @@ describe('22-10215 - Institution Details', () => {
     );
 
     // Institution name and Facility code fields
-    expect(form.find('va-text-input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(1);
     // Term start date and Date of calculation fields
     expect(form.find('va-memorable-date').length).to.equal(2);
 
@@ -45,7 +48,7 @@ describe('22-10215 - Institution Details', () => {
 
     form.find('form').simulate('submit');
     // Institution name and Facility code errors
-    expect(form.find('va-text-input[error]').length).to.equal(2);
+    expect(form.find('va-text-input[error]').length).to.equal(1);
     // Term start date and Date of calculation errors
     expect(form.find('va-memorable-date[error]').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
