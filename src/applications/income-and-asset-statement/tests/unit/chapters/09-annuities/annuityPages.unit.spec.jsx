@@ -5,8 +5,11 @@ import {
   options,
 } from '../../../../config/chapters/09-annuities/annuityPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -20,10 +23,29 @@ describe('annuity list and loop pages', () => {
   const { annuityPagesSummary } = annuityPages;
 
   describe('isItemIncomplete function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { addedFundsDate, addedFundsAmount, annualReceivedIncome, surrenderValue, ...baseItem } = testData.data.annuities[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsDate,
+      addedFundsAmount,
+      annualReceivedIncome,
+      surrenderValue,
+      ...baseItem
+    } = testData.data.annuities[0];
+    /* eslint-enable no-unused-vars */
     testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('isItemIncomplete function tested with zeroes', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsDate,
+      addedFundsAmount,
+      annualReceivedIncome,
+      surrenderValue,
+      ...baseItem
+    } = testDataZeroes.data.annuities[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
   });
 
   describe('text getItemName function', () => {
@@ -33,9 +55,36 @@ describe('annuity list and loop pages', () => {
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { addedFundsAfterEstablishment, addedFundsDate, addedFundsAmount, revocable, receivingIncomeFromAnnuity, annualReceivedIncome, canBeLiquidated, surrenderValue, ...baseItem } = testData.data.annuities[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsAfterEstablishment,
+      addedFundsDate,
+      addedFundsAmount,
+      revocable,
+      receivingIncomeFromAnnuity,
+      annualReceivedIncome,
+      canBeLiquidated,
+      surrenderValue,
+      ...baseItem
+    } = testData.data.annuities[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsAfterEstablishment,
+      addedFundsDate,
+      addedFundsAmount,
+      revocable,
+      receivingIncomeFromAnnuity,
+      annualReceivedIncome,
+      canBeLiquidated,
+      surrenderValue,
+      ...baseItem
+    } = testDataZeroes.data.annuities[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem);
   });
 
