@@ -6,19 +6,18 @@ import { datadogRum } from '@datadog/browser-rum';
 const parseProblemDateTime = dateString => {
   try {
     // Parse dates in the format "Thu Apr 07 00:00:00 PDT 2005"
-    // Extract the month, day, and year
-    const parts = dateString.split(' ');
-    if (parts.length >= 6) {
-      const month = parts[1];
-      const day = parseInt(parts[2], 10);
-      const year = parseInt(parts[5], 10);
+    const dateRegex = /\w{3} (\w{3}) (\d{2}) \d{2}:\d{2}:\d{2} \w+ (\d{4})/;
+    const match = dateString.match(dateRegex);
+    if (!match) throw new Error(`Could not parse date "${dateString}"`);
 
-      const date = new Date(`${month} ${day}, ${year}`);
-      if (date.toString() === 'Invalid Date') {
-        throw new Error(`Could not parse date "${dateString}"`);
-      }
-      return date;
+    const [, month, day, year] = match;
+    const dateToFormat = `${month} ${day} ${year}`;
+    const parsedDate = parse(dateToFormat, 'MMM dd yyyy', new Date());
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      throw new Error(`Could not parse date "${dateString}"`);
     }
+    return parsedDate;
   } catch (error) {
     datadogRum.addError(error);
   }
