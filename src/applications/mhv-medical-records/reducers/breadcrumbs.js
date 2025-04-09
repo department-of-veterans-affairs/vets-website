@@ -1,5 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import { Breadcrumbs } from '../util/constants';
+import { isArrayAndHasItems } from '../util/helpers';
 
 const defaultCrumbsList = [
   {
@@ -23,13 +24,14 @@ const initialState = {
 
 export const breadcrumbsReducer = (state = initialState, action) => {
   if (action.type === Actions.Breadcrumbs.SET_BREAD_CRUMBS) {
-    if (action.payload.crumbs[0] === undefined) {
+    const crumbs = action.payload?.crumbs;
+    if (isArrayAndHasItems(crumbs) || crumbs[0] === undefined) {
       return {
         crumbsList: defaultCrumbsList,
       };
     }
     return {
-      crumbsList: [...defaultCrumbsList, ...action.payload.crumbs],
+      crumbsList: [...defaultCrumbsList, ...crumbs],
     };
   }
   return state;
