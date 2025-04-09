@@ -69,9 +69,5 @@ export const MedicalExpensesDescription = () => {
 export const PreviousFuneralExpenses = () => {
   const expensesType = 'deductibleFuneralExpenses';
 
-  return (
-    <>
-      <PreviousExpenses expensesType={expensesType} />
-    </>
-  );
+  return <PreviousExpenses expensesType={expensesType} />;
 };

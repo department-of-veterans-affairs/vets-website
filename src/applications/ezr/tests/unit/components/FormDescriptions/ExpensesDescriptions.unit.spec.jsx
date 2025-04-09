@@ -30,7 +30,7 @@ describe('ezr <EducationalExpensesDescription>', () => {
       it('should render without non-prefill content', () => {
         const { container } = renderProviderWrappedComponent(
           mockStoreData,
-          EducationalExpensesDescription('veteran'),
+          EducationalExpensesDescription(),
         );
 
         expect(container).to.not.be.empty;
@@ -47,7 +47,7 @@ describe('ezr <EducationalExpensesDescription>', () => {
       it('should render with non-prefill content', () => {
         const { container } = renderProviderWrappedComponent(
           mockStoreDataWithNonPrefill,
-          EducationalExpensesDescription('spouse'),
+          EducationalExpensesDescription(),
         );
 
         expect(container).to.not.be.empty;

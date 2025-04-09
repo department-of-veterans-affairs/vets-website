@@ -53,47 +53,44 @@ const FinancialSummaryCardDescription = item => {
     spouseNetIncome !== null &&
     spouseOtherIncome !== null;
 
-  return (
-    item && (
-      <>
-        {/* The heading for this section comes from the ArrayBuilder's "itemName" attribute */}
-        <p className="vads-u-margin-bottom--0">
-          Gross annual income:{' '}
-          {formatCurrency(item['view:veteranGrossIncome'].veteranGrossIncome)}
-        </p>
-        <p className="vads-u-margin-y--0">
-          Net annual income:{' '}
-          {formatCurrency(item['view:veteranNetIncome'].veteranNetIncome)}
-        </p>
-        <p className="vads-u-margin-top--0">
-          Other income:{' '}
-          {formatCurrency(item['view:veteranOtherIncome'].veteranOtherIncome)}
-        </p>
-        {includeSpousalInformation(formData) &&
-          spouseHasIncomes && <SpousalFinancialInformation item={item} />}
-        <h4>Deductible expenses from {LAST_YEAR}</h4>
-        <p className="vads-u-margin-bottom--0">
-          Non-reimbursable medical expenses:{' '}
-          {formatCurrency(
-            item['view:deductibleMedicalExpenses'].deductibleMedicalExpenses,
-          )}
-        </p>
-        <p className="vads-u-margin-y--0">
-          Education expenses:{' '}
-          {formatCurrency(
-            item['view:deductibleEducationExpenses']
-              .deductibleEducationExpenses,
-          )}
-        </p>
-        <p className="vads-u-margin-top--0">
-          Funeral expenses:{' '}
-          {formatCurrency(
-            item['view:deductibleFuneralExpenses'].deductibleFuneralExpenses,
-          )}
-        </p>
-      </>
-    )
-  );
+  return item !== null ? (
+    <>
+      {/* The heading for this section comes from the ArrayBuilder's "itemName" attribute */}
+      <p className="vads-u-margin-bottom--0">
+        Gross annual income:{' '}
+        {formatCurrency(item['view:veteranGrossIncome'].veteranGrossIncome)}
+      </p>
+      <p className="vads-u-margin-y--0">
+        Net annual income:{' '}
+        {formatCurrency(item['view:veteranNetIncome'].veteranNetIncome)}
+      </p>
+      <p className="vads-u-margin-top--0">
+        Other income:{' '}
+        {formatCurrency(item['view:veteranOtherIncome'].veteranOtherIncome)}
+      </p>
+      {includeSpousalInformation(formData) &&
+        spouseHasIncomes && <SpousalFinancialInformation item={item} />}
+      <h4>Deductible expenses from {LAST_YEAR}</h4>
+      <p className="vads-u-margin-bottom--0">
+        Non-reimbursable medical expenses:{' '}
+        {formatCurrency(
+          item['view:deductibleMedicalExpenses'].deductibleMedicalExpenses,
+        )}
+      </p>
+      <p className="vads-u-margin-y--0">
+        Education expenses:{' '}
+        {formatCurrency(
+          item['view:deductibleEducationExpenses'].deductibleEducationExpenses,
+        )}
+      </p>
+      <p className="vads-u-margin-top--0">
+        Funeral expenses:{' '}
+        {formatCurrency(
+          item['view:deductibleFuneralExpenses'].deductibleFuneralExpenses,
+        )}
+      </p>
+    </>
+  ) : null;
 };
 
 FinancialSummaryCardDescription.propTypes = {
