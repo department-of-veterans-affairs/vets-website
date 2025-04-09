@@ -1,7 +1,7 @@
-import { camelCase, lowerCase, startCase, upperFirst } from 'lodash';
+import { camelCase, lowerCase, upperFirst } from 'lodash';
 
 export const toPascalCase = str => {
-  return startCase(camelCase(str)).replace(/ /g, '');
+  return upperFirst(camelCase(str));
 };
 
 export const toSentenceCase = str => {
