@@ -9,7 +9,7 @@ import repStatusLoader from 'platform/user/widgets/representative-status';
 
 const AccreditedRepresentative = ({ powerOfAttorney }) => {
   const { BASE_URL } = environment;
-  const hasRepresentative = !!powerOfAttorney?.data?.id;
+  const hasRepresentative = !!powerOfAttorney?.id;
   const store = useStore();
 
   useEffect(
