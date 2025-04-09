@@ -94,8 +94,8 @@ export const CalculationInstructions = () => {
             <strong>HAS NOT</strong> been paid to the school prior to the
             reporting date (i.e., within 30 days of the beginning of the term if
             the school is term-based or within 30 days of the end of the quarter
-            if the school is non-term-based), <strong>UNLESS</strong>
-            the student is participating in a{' '}
+            if the school is non-term-based), <strong>UNLESS</strong> the
+            student is participating in a{' '}
             <strong>
               <em>compliant</em>
             </strong>{' '}
@@ -215,7 +215,7 @@ export const CalculationInstructions = () => {
           <strong>Note:</strong> The following types of aid are not
           institutional aid:
         </p>
-        <ul className="list-style margin-left">
+        <ul className="vads-u-margin-left--2 list-style">
           <li>Any student receiving Title IV Department of Education aid.</li>
           <li>
             Any student receiving Tuition Assistance through the Department of
