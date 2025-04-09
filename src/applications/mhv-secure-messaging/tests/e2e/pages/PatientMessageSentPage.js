@@ -18,7 +18,8 @@ class PatientMessageSentPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`,
       mockMessagesResponse,
     ).as('sentFolderMessages');
-    cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
+    cy.get('[data-testid="sent-inner-nav"] > a').click();
+    // cy.wait(['@sentFolder', '@sentFolderMessages']);
   };
 
   loadSingleThread = (

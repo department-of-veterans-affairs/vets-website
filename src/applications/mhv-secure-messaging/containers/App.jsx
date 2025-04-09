@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -130,10 +131,10 @@ const App = ({ isPilot }) => {
       <>
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
-          <va-loading-indicator
+          <VaLoadingIndicator
             message="Loading your secure messages..."
-            set-focus
-            data-testid="feature-flag-loading-indicator"
+            setFocus
+            dataTestid="feature-flag-loading-indicator"
           />
         </div>
       </>

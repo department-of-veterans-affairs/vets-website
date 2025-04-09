@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { retrieveMessageThread } from '../actions/messages';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
@@ -47,10 +48,7 @@ const MessageReply = () => {
   const content = () => {
     if (replyMessage === undefined) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          set-focus
-        />
+        <VaLoadingIndicator message="Loading your secure message..." setFocus />
       );
     }
     if (error) {
@@ -98,9 +96,9 @@ const MessageReply = () => {
         />
       ) : (
         <>
-          <va-loading-indicator
+          <VaLoadingIndicator
             message="Sending message..."
-            data-testid="sending-indicator"
+            dataTestid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />
           <div

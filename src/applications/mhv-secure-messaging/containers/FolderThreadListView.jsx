@@ -7,6 +7,7 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
@@ -212,10 +213,10 @@ const FolderThreadListView = props => {
 
   const LoadingIndicator = () => {
     return (
-      <va-loading-indicator
+      <VaLoadingIndicator
         message="Loading your secure messages..."
-        set-focus
-        data-testid="loading-indicator"
+        setFocus
+        dataTestid="loading-indicator"
       />
     );
   };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
@@ -731,10 +732,10 @@ const ComposeForm = props => {
 
   if (sendMessageFlag === true) {
     return (
-      <va-loading-indicator
+      <VaLoadingIndicator
         message="Sending message..."
-        set-focus
-        data-testid="sending-indicator"
+        setFocus
+        dataTestid="sending-indicator"
       />
     );
   }

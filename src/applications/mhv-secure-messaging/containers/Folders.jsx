@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import recordEvent from 'platform/monitoring/record-event';
@@ -96,10 +97,7 @@ const Folders = () => {
     const folderCount = folders?.length;
     if (folders === undefined) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          set-focus
-        />
+        <VaLoadingIndicator message="Loading your secure message..." setFocus />
       );
     }
     if (folders === null || folders === false) {

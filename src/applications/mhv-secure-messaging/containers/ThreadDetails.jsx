@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import PropTypes from 'prop-types';
@@ -107,18 +108,15 @@ const ThreadDetails = props => {
   const content = () => {
     if (!isLoaded) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          set-focus
-        />
+        <VaLoadingIndicator message="Loading your secure message..." setFocus />
       );
     }
     if (drafts?.length > 0 && messages?.length > 0) {
       return (
         <>
-          <va-loading-indicator
+          <VaLoadingIndicator
             message="Sending message..."
-            data-testid="sending-indicator"
+            dataTestid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />
           <div

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
@@ -134,10 +135,10 @@ const Compose = () => {
   return (
     <>
       {!draftType && (
-        <va-loading-indicator
+        <VaLoadingIndicator
           message="Loading your secure message..."
-          set-focus
-          data-testid="loading-indicator"
+          setFocus
+          dataTestid="loading-indicator"
         />
       )}
 
