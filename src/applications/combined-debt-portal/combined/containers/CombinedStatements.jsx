@@ -14,6 +14,7 @@ import environment from 'platform/utilities/environment';
 import Modals from '../../medical-copays/components/Modals';
 import { currency, setPageFocus, handlePdfGeneration } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const CombinedStatements = () => {
   useHeaderPageTitle('Combined statements');
@@ -25,6 +26,7 @@ const CombinedStatements = () => {
     useToggleValue,
     TOGGLE_NAMES,
   } = useFeatureToggle();
+  
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   const showOneVADebtLetterDownload = useToggleValue(
@@ -80,7 +82,7 @@ const CombinedStatements = () => {
     },
     [billError, debtError, showOneVADebtLetterDownload],
   );
-
+  
   // If the feature flag is not enabled, redirect to the summary page
   if (!showOneVADebtLetterDownload) {
     window.location.replace('/manage-va-debt/summary');
@@ -99,6 +101,64 @@ const CombinedStatements = () => {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
+  // Get the most recent date from the debtLetters data
+  const getMostRecentPaymentDate = () => {
+    // Default to current month's 1st date if no data is available
+    const defaultDate = new Date();
+    defaultDate.setDate(1); // First day of current month
+
+    if (!debtLetters?.debts?.length) {
+      return defaultDate;
+    }
+
+    // Collect all dates from debt histories
+    const allDates = [];
+
+    debtLetters.debts.forEach(debt => {
+      if (debt.debtHistory?.length) {
+        debt.debtHistory.forEach(item => {
+          if (item.date) {
+            // Parse the date (assuming format MM/DD/YYYY)
+            const parts = item.date.split('/');
+            if (parts.length === 3) {
+              const date = new Date(
+                parseInt(parts[2], 10),
+                parseInt(parts[0], 10) - 1,
+                parseInt(parts[1], 10),
+              );
+              allDates.push(date);
+            }
+          }
+        });
+      }
+
+      // Also consider debt date if available
+      if (debt.debtDate) {
+        const date = new Date(debt.debtDate);
+        if (!isNaN(date.getTime())) {
+          allDates.push(date);
+        }
+      }
+    });
+
+    // Return the most recent date or default
+    return allDates.length > 0
+      ? new Date(Math.max.apply(null, allDates.map(date => date.getTime())))
+      : defaultDate;
+  };
+
+  // Format the date as "Month DD, YYYY"
+  const formatStatementDate = date => {
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
+
+  // Get the most recent payment date for the statement
+  const statementDate = formatStatementDate(getMostRecentPaymentDate());
+
   // Mock data to match the mockup
   const recipientInfo = {
     name: 'Travis Jones',
@@ -107,27 +167,6 @@ const CombinedStatements = () => {
     fileNumber: '111002222',
     statementDate: 'September 30, 2024',
   };
-
-  // Mock overpayment charges data
-  const overpaymentCharges = [
-    {
-      date: 'July 25, 2024',
-      description:
-        'Disability compensation and pension debt\nFirst posted date',
-      amount: 250,
-    },
-    {
-      date: 'May 5, 2024',
-      description:
-        'Partial payment of $100.00 for Post-9/11 GI Bill debt for housing\nReceived via ACH',
-      amount: 100,
-    },
-    {
-      date: 'April 15, 2024',
-      description: 'Post-9/11 GI Bill debt for housing\nFirst posted date',
-      amount: 500,
-    },
-  ];
 
   const copayTotalRow = copay => {
     return (
@@ -270,50 +309,78 @@ const CombinedStatements = () => {
             result in you being paid more than you were entitled to receive.
           </p>
           <p className="vads-u-margin-bottom--3">
-            Statement does not reflect payments received by September 1, 2024.
+            Statement does not reflect payments received by {statementDate}.
           </p>
 
-          <va-table
-            table-type="bordered"
-            table-title="Overpayment charges"
-            className="vads-u-width--full"
-          >
-            <va-table-row slot="headers">
-              <span>Date</span>
-              <span>Description</span>
-              <span>Amount</span>
-            </va-table-row>
+          {/* Debt Letters tables */}
+          {debtLetters &&
+            debtLetters.debts &&
+            debtLetters.debts.map((debt, index) => (
+              <va-table
+                key={`debt-${index}`}
+                table-type="bordered"
+                table-title={`${deductionCodes[debt.deductionCode] ||
+                  debt.benefitType ||
+                  'VA Debt'}`}
+                className="vads-u-width--full"
+              >
+                <va-table-row slot="headers">
+                  <span>Date</span>
+                  <span>Description</span>
+                  <span>Amount</span>
+                </va-table-row>
 
-            {overpaymentCharges.map((charge, idx) => (
-              <va-table-row key={idx}>
-                <span>{charge.date}</span>
-                <span>
-                  {charge.description.split('\n').map((line, i) => (
-                    <React.Fragment key={i}>
-                      {line}
-                      {i < charge.description.split('\n').length - 1 && <br />}
-                    </React.Fragment>
+                {/* Debt History rows */}
+                {debt.debtHistory &&
+                  debt.debtHistory.map((historyItem, idx) => (
+                    <va-table-row key={`history-${idx}`}>
+                      <span>{historyItem.date}</span>
+                      <span>
+                        <p className="vads-u-margin--0 vads-u-font-size-md">
+                          <strong>{historyItem.description}</strong>
+                        </p>
+                      </span>
+                      <span>
+                        {/* We assume the amount is in the debt object for history items */}
+                        {idx === 0
+                          ? formatCurrency(parseFloat(debt.originalAr || 0))
+                          : '—'}
+                      </span>
+                    </va-table-row>
                   ))}
-                </span>
-                <span>{currency(charge.amount)}</span>
-              </va-table-row>
-            ))}
 
-            <va-table-row>
-              <span />
-              <span className="vads-u-text-align--right vads-u-font-weight--bold">
-                Total Due:
-              </span>
-              <span className="vads-u-font-weight--bold">
-                {currency(
-                  overpaymentCharges.reduce(
-                    (total, charge) => total + charge.amount,
-                    0,
-                  ),
+                {/* If there's no debt history, show the original debt details */}
+                {(!debt.debtHistory || debt.debtHistory.length === 0) && (
+                  <va-table-row>
+                    <span>{formatDate(debt.debtDate || '')}</span>
+                    <span>
+                      <strong>
+                        Overpayment for{' '}
+                        {deductionCodes[debt.deductionCode] ||
+                          debt.benefitType ||
+                          'VA Benefit'}
+                      </strong>
+                    </span>
+                    <span>
+                      {formatCurrency(parseFloat(debt.originalAr || 0))}
+                    </span>
+                  </va-table-row>
                 )}
-              </span>
-            </va-table-row>
-          </va-table>
+
+                {/* Total row */}
+                <va-table-row>
+                  <span />
+                  <span className="vads-u-text-align--right vads-u-font-weight--bold">
+                    Total Due:
+                  </span>
+                  <span className="vads-u-font-weight--bold">
+                    {formatCurrency(
+                      parseFloat(debt.currentAr || debt.originalAr || 0),
+                    )}
+                  </span>
+                </va-table-row>
+              </va-table>
+            ))}
 
           <div className="vads-u-margin-top--3">
             <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
