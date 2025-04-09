@@ -179,7 +179,7 @@ const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
   SECONDARY: item =>
     !item?.causedByCondition ||
-    !Object.keys(item?.causedByCondition).length ||
+    !Object.keys(item?.causedByCondition).length || // Check only needed for the secondary enhanced flow
     !item?.causedByConditionDescription,
   WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,

@@ -8,6 +8,16 @@ export const CONDITION_TYPE_RADIO = {
   name: 'conditionTypeRadios',
   label: 'kiwi',
 };
+export const RATED_OR_NEW_NEXT_PAGE_WITH_ENHANCED_SECONDARY = {
+  name: 'ratedOrNewNextPageWithEnhancedSecondaryFlow',
+  label: 'papaya',
+  description: 'Not for user testing',
+};
+export const DEMO_OPTIONS = [
+  RATED_OR_NEW_NEXT_PAGE,
+  CONDITION_TYPE_RADIO,
+  RATED_OR_NEW_NEXT_PAGE_WITH_ENHANCED_SECONDARY,
+];
 export const ARRAY_PATH = 'conditions';
 export const NEW_CONDITION_OPTION = 'New condition';
 export const NULL_CONDITION_STRING = 'Unknown Condition';
