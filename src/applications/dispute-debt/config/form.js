@@ -3,6 +3,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import {
   veteranInformation,
@@ -54,6 +55,14 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  downtime: {
+    dependencies: [
+      externalServices.mvi,
+      externalServices.vbs,
+      externalServices.dmc,
+      externalServices.vaProfile,
+    ],
+  },
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter: {

@@ -63,10 +63,10 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         });
         const blob = await response.blob();
         handlePdfDownload(blob);
-        recordEvent({ event: '10-10ez-pdf-download--success' });
+        recordEvent({ event: 'hca-pdf-download--success' });
       } catch (error) {
         setErrors(error.errors || []);
-        recordEvent({ event: '10-10ez-pdf-download--failure' });
+        recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
       }
