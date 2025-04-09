@@ -24,4 +24,8 @@ templates.selfEnteredInfo = () => {
   return require('./self_entered_info');
 };
 
+templates.oneDebtLetter = () => {
+  return require('./one_debt_letter');
+};
+
 export { templates };
