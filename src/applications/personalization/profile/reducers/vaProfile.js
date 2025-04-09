@@ -15,10 +15,16 @@ import {
   FETCH_MILITARY_INFORMATION_FAILED,
 } from '../actions';
 
+import {
+  FETCH_POWER_OF_ATTORNEY_SUCCEEDED,
+  FETCH_POWER_OF_ATTORNEY_FAILED,
+} from '../actions/powerOfAttorney';
+
 const initialState = {
   hero: null,
   personalInformation: null,
   militaryInformation: null,
+  powerOfAttorney: null,
 };
 
 function vaProfile(state = initialState, action) {
@@ -30,6 +36,10 @@ function vaProfile(state = initialState, action) {
     case FETCH_PERSONAL_INFORMATION_SUCCESS:
     case FETCH_PERSONAL_INFORMATION_FAILED:
       return set('personalInformation', action.personalInformation, state);
+
+    case FETCH_POWER_OF_ATTORNEY_SUCCEEDED:
+    case FETCH_POWER_OF_ATTORNEY_FAILED:
+      return set('powerOfAttorney', action.powerOfAttorney, state);
 
     case UPDATE_PERSONAL_INFORMATION_FIELD: {
       let fieldValue;

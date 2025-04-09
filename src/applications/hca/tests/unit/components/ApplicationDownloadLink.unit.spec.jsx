@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 import {
   mockApiRequest,
   setFetchJSONResponse,
@@ -99,7 +98,7 @@ describe('hca <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = '10-10ez-pdf-download--success';
+        const event = 'hca-pdf-download--success';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
@@ -111,7 +110,6 @@ describe('hca <ApplicationDownloadLink>', () => {
     });
 
     it('should record `error` event when the request fails', async () => {
-      const sentrySpy = sinon.spy(Sentry, 'withScope');
       const { selectors } = subject();
       const { vaLink: link } = selectors();
       triggerError({ link, status: '503' });
@@ -123,16 +121,12 @@ describe('hca <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = '10-10ez-pdf-download--failure';
+        const event = 'hca-pdf-download--failure';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
-        expect(sentrySpy.called).to.be.true;
-
         expect(vaLoadingIndicator).to.not.exist;
         expect(vaLink).to.not.exist;
       });
-
-      sentrySpy.restore();
     });
 
     it('should display `downtime` error message when error has status of `5xx`', async () => {

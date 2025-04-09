@@ -44,6 +44,7 @@ import {
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
+import { updateReportFileType } from '../../actions/downloads';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -52,6 +53,11 @@ const DownloadFileType = props => {
   const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
+
+  const fileTypeFilter = useSelector(
+    state => state.mr.downloads?.fileTypeFilter,
+  );
+
   const user = useSelector(state => state.user.profile);
   const name = formatNameFirstLast(user.userFullName);
   const dob = formatUserDob(user);
@@ -89,6 +95,15 @@ const DownloadFileType = props => {
   const progressBarRef = useRef(null);
 
   useFocusOutline(progressBarRef);
+
+  useEffect(
+    () => {
+      if (fileTypeFilter) {
+        setFileType(fileTypeFilter);
+      }
+    },
+    [fileTypeFilter],
+  );
 
   useEffect(
     () => {
@@ -421,6 +436,8 @@ const DownloadFileType = props => {
   const handleValueChange = e => {
     const { value } = e.detail;
     setFileType(value);
+    // Immediately update Redux when a radio button is selected
+    dispatch(updateReportFileType(value));
     const typeText = value === 'pdf' ? 'PDF' : 'Text file';
     sendDataDogAction(`${typeText} - File type`);
     selectFileTypeHandler(e);
@@ -475,11 +492,17 @@ const DownloadFileType = props => {
                 onVaValueChange={handleValueChange}
                 error={fileTypeError}
               >
-                <va-radio-option label="PDF" value="pdf" name="file-type" />
+                <va-radio-option
+                  label="PDF"
+                  value="pdf"
+                  name="file-type"
+                  checked={fileType === 'pdf'}
+                />
                 <va-radio-option
                   label="Text file"
                   value="txt"
                   name="file-type"
+                  checked={fileType === 'txt'}
                 />
               </VaRadio>
               {downloadStarted && <DownloadSuccessAlert />}

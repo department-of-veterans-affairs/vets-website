@@ -73,7 +73,7 @@ export const Data = {
   STEP_THREE_NO_TRACKING:
     'We’ll provide the tracking information when available.',
   STEP_THREE_NOT_STARTED: 'Step 3: Not started',
-  TOOL_TIP_TEXT: 'Filter the medications list',
+  TOOL_TIP_TEXT: 'Filter your list to find a specific medication.',
   QUANTITY_EMPTY: 'Quantity not available',
   DATE_EMPTY: 'not available',
   PROVIDER_NAME: 'Provider name not available',
@@ -86,6 +86,8 @@ export const Data = {
   PARTIAL_FILL_TEXT:
     'This fill has a smaller quantity on purpose. This is temporary.',
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
+  TRACKING_HEADING: 'Track your shipment',
+  PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
 };
 export const Paths = {
   LANDING_LIST:

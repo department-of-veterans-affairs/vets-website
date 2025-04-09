@@ -321,6 +321,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <DownloadSuccessAlert
             type="Continuity of Care Document download"
             className="vads-u-margin-bottom--1"
+            focusId="ccd-download-success"
           />
         )}
 

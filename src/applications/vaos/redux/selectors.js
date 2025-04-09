@@ -135,6 +135,9 @@ export const selectFeatureDirectScheduleAppointmentConflict = state =>
 export const selectFeatureDisplayPastCancelledAppointments = state =>
   toggleValues(state).vaOnlineSchedulingDisplayPastCancelledAppointments;
 
+export const selectFeaturePatientHistoryFutureAppts = state =>
+  toggleValues(state).vaOnlineSchedulingPatientHistoryFutureAppts;
+
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
 
