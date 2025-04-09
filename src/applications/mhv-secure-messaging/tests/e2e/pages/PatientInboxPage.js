@@ -427,43 +427,6 @@ class PatientInboxPage {
       .and('not.be.empty');
   };
 
-  sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${text}`, { force: true });
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads**`,
-      data,
-    );
-    cy.tabToElement('[data-testid="sort-button"]');
-    cy.realPress('Enter');
-  };
-
-  verifySortingByKeyboard = (text, data, folderId) => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
-      })
-      .then(() => {
-        this.sortMessagesByKeyboard(`${text}`, data, folderId);
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
-  };
-
   getInboxHeader = text => {
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };

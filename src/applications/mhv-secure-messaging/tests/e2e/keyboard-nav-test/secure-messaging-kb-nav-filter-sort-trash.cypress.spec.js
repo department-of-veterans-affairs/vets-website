@@ -1,6 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import PatientMessageTrashPage from '../pages/PatientMessageTrashPage';
 import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
@@ -27,8 +26,7 @@ describe('SM TRASH FILTER & SORT KB NAVIGATION', () => {
     PatientFilterPage.submitFilterByKeyboard(filteredData, -3);
     PatientFilterPage.verifyFilterResults('test', filteredData);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
@@ -37,25 +35,16 @@ describe('SM TRASH FILTER & SORT KB NAVIGATION', () => {
     PatientFilterPage.clearFilterByKeyboard();
     PatientFilterPage.verifyFilterFieldCleared();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works properly', () => {
-    const testData = {
-      data: Array.from(mockTrashMessages.data).sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
-
-    PatientMessageTrashPage.verifySortingByKeyboard(
-      'Oldest to newest',
-      testData,
-      -3,
+    const sortedResult = PatientFilterPage.sortMessagesThread(
+      mockTrashMessages,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.verifySortingByKeyboard(sortedResult);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

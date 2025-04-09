@@ -20,41 +20,29 @@ describe('SM SENT FILTER & SORT KB NAVIGATION', () => {
     PatientMessageSentPage.loadMessages();
   });
 
-  it('Verify filter works correctly', () => {
+  it('verify filter works correctly', () => {
     GeneralFunctionsPage.verifyHeaderFocused();
     PatientFilterPage.inputFilterDataByKeyboard('test');
     PatientFilterPage.submitFilterByKeyboard(filteredData, -1);
     PatientFilterPage.verifyFilterResults('test', filteredData);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
+  it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterDataByKeyboard('test');
     PatientFilterPage.submitFilterByKeyboard(filteredData, -1);
     PatientFilterPage.clearFilterByKeyboard();
     PatientFilterPage.verifyFilterFieldCleared();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works properly', () => {
-    const testData = {
-      data: Array.from(mockSentMessages.data).sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
+    const sortedResult = PatientFilterPage.sortMessagesThread(mockSentMessages);
 
-    PatientMessageSentPage.verifySortingByKeyboard(
-      'Oldest to newest',
-      testData,
-      -1,
-    );
+    PatientFilterPage.verifySortingByKeyboard(sortedResult);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

@@ -43,19 +43,12 @@ describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
   });
 
   it('verify sorting works properly', () => {
-    const testData = {
-      data: Array.from(mockSingleThreadResponse.data).sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
-
-    PatientCustomFolderPage.verifySortingByKeyboard(
-      'Oldest to newest',
-      testData,
+    const sortedResult = PatientFilterPage.sortMessagesThread(
+      mockSingleThreadResponse,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.verifySortingByKeyboard(sortedResult);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

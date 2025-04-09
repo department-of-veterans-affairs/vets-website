@@ -338,11 +338,11 @@ class PatientFilterSortPage {
     };
   };
 
-  clickSortMessagesByDateButton = (text, sortedResponse) => {
+  clickSortMessagesByDateButton = sortedResponse => {
     cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
-      .select(`${text}`);
+      .select('Oldest to newest');
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/folders/*/threads**`,
@@ -361,12 +361,49 @@ class PatientFilterSortPage {
         cy.log(`List before sorting: ${listBefore.join(',')}`);
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest', sortedResponse);
+        this.clickSortMessagesByDateButton(sortedResponse);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting: ${listAfter.join(',')}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
+  };
+
+  sortMessagesByKeyboard = sortedResponse => {
+    cy.get(Locators.DROPDOWN.SORT)
+      .shadow()
+      .find('select')
+      .select('Oldest to newest', { force: true });
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/*/threads**`,
+      sortedResponse,
+    );
+    cy.tabToElement('[data-testid="sort-button"]');
+    cy.realPress('Enter');
+  };
+
+  verifySortingByKeyboard = sortedResponse => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
+      })
+      .then(() => {
+        this.sortMessagesByKeyboard(sortedResponse);
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
