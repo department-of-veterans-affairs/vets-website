@@ -1453,6 +1453,7 @@ jobs:
           merge-multiple: true
 
       - name: Create Cypress E2E Mochawesome report
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
@@ -1481,7 +1482,7 @@ jobs:
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish Cypress test results
-        if: ${{ always() }}
+        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'}}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
