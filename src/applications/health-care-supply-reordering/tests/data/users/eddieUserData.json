@@ -61,6 +61,7 @@
           "Eddie",
           "Joseph"
         ],
+        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "988",

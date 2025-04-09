@@ -62,6 +62,7 @@ export default class MockUser {
           familyName: 'Webb-ster',
           gender: 'M',
           givenNames: ['Mark'],
+          isCernerPatient: false,
           facilities: facilities || [
             {
               facilityId: '983',

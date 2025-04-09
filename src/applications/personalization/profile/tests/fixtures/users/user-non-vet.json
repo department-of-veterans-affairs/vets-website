@@ -37,6 +37,7 @@
         "familyName": "Armstrong",
         "gender": null,
         "givenNames": ["Alfredo", "M"],
+        "isCernerPatient": false,
         "facilities": [],
         "vaPatient": false,
         "mhvAccountState": "NONE"

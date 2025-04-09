@@ -26,6 +26,7 @@
         "familyName": "Ford",
         "gender": "M",
         "givenNames": ["Wesley", "Watson"],
+        "isCernerPatient": false,
         "facilities": [],
         "vaPatient": true,
         "mhvAccountState": "NONE"

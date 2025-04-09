@@ -45,6 +45,7 @@
         "familyName": "Smith",
         "gender": "M",
         "givenNames": ["John", "B"],
+        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "553",

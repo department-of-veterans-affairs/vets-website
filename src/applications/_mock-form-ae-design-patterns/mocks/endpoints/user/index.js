@@ -64,6 +64,7 @@ const loa3User = {
         familyName: USER.LAST_NAME,
         gender: USER.GENDER,
         givenNames: [USER.FIRST_NAME, USER.MIDDLE_INITIAL],
+        isCernerPatient: false,
         facilities: [
           {
             facilityId: '989',

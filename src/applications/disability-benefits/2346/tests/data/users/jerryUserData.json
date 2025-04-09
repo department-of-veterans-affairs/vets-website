@@ -63,6 +63,7 @@
           "Jerry",
           "M"
         ],
+        "isCernerPatient": false,
         "facilities": [],
         "vaPatient": true,
         "mhvAccountState": "NONE"

@@ -68,6 +68,7 @@ export const mebUser = {
             isCerner: false,
           },
         ],
+        isCernerPatient: false,
         vaPatient: true,
         mhvAccountState: 'OK',
       },

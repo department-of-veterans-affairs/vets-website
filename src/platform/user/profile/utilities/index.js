@@ -68,6 +68,7 @@ export function mapRawUserDataToState(json) {
     email,
     gender,
     icn,
+    isCernerPatient: vaProfile?.isCernerPatient,
     loa,
     multifactor,
     prefillsAvailable,

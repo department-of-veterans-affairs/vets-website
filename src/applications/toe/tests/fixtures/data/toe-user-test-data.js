@@ -99,6 +99,7 @@ export const toeUser = {
             isCerner: false,
           },
         ],
+        isCernerPatient: false,
         vaPatient: true,
         mhvAccountState: 'OK',
       },

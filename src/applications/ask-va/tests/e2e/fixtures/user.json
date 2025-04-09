@@ -61,6 +61,7 @@
           "familyName": "Mhvtp",
           "gender": "M",
           "givenNames": ["Safari"],
+          "isCernerPatient": false,
           "facilities": [
             {
               "facilityId": "979",

@@ -160,6 +160,7 @@ const mockUserData = {
         familyName: 'Wazowski',
         gender: 'M',
         givenNames: ['Michael', ''],
+        isCernerPatient: false,
         facilities: [{ facilityId: '983', isCerner: false }],
         vaPatient: true,
         mhvAccountState: 'NONE',

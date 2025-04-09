@@ -53,6 +53,7 @@
         "familyName": "Jones",
         "gender": "M",
         "givenNames": ["Travis", "Null"],
+        "isCernerPatient": false,
         "facilities": [],
         "vaPatient": false,
         "mhvAccountState": "OK"

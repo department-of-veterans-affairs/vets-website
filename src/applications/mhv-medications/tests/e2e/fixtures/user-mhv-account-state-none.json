@@ -60,6 +60,7 @@
               "givenNames": [
                   "Safari"
               ],
+              "isCernerPatient": false,
               "facilities": [
                   {
                       "facilityId": "979",

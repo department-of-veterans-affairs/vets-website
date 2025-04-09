@@ -45,6 +45,7 @@
         "familyName": "Webb-ster",
         "gender": "M",
         "givenNames": ["Mark"],
+        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "556",

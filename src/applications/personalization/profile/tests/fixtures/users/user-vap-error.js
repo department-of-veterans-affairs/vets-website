@@ -47,6 +47,7 @@ export const mockUser = {
         familyName: 'Ford',
         gender: 'M',
         givenNames: ['Wesley', 'Watson'],
+        isCernerPatient: false,
         facilities: [{ facilityId: '983', isCerner: false }],
         vaPatient: true,
         mhvAccountState: 'NONE',

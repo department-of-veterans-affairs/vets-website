@@ -61,6 +61,7 @@
                     "Brock",
                     "Martin"
                 ],
+                "isCernerPatient": true,
                 "cernerId": "2109915257",
                 "cernerFacilityIds": [
                     "668"

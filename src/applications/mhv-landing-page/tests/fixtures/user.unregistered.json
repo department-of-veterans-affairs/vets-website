@@ -43,6 +43,7 @@
         "givenNames": [
           "Hector"
         ],
+        "isCernerPatient": false,
         "facilities": [],
         "vaPatient": false,
         "mhvAccountState": "NONE"

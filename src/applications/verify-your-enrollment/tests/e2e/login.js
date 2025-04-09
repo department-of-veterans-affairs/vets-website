@@ -70,6 +70,7 @@ export const mockUser = {
         familyName: 'Anderson',
         gender: 'M',
         givenNames: ['Greg', 'A'],
+        isCernerPatient: false,
         cernerId: null,
         cernerFacilityIds: ['610', '463'],
         facilities: [

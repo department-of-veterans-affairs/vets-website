@@ -52,6 +52,7 @@ const userObject = {
         familyName: 'Ford',
         gender: 'M',
         givenNames: ['Wesley', 'Watson'],
+        isCernerPatient: false,
         facilities: [
           {
             facilityId: '983',

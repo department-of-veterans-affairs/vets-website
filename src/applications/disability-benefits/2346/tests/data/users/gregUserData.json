@@ -48,6 +48,7 @@
           "Greg",
           "A"
         ],
+        "isCernerPatient": false,
         "facilities": [
           {
             "facilityId": "553",

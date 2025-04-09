@@ -39,6 +39,7 @@ module.exports = {
           familyName: 'Allen',
           gender: 'M',
           givenNames: ['Hector'],
+          isCernerPatient: false,
           facilities: [{ facilityId: '500', isCerner: false }],
           vaPatient: true,
           mhvAccountState: 'NONE',
