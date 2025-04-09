@@ -18,6 +18,7 @@ const { travelPay: reducer } = travelPayReducer;
 const defaultState = {
   appointment: {},
   travelClaims: {},
+  claimDetails: {},
   claimSubmission: {},
 };
 
