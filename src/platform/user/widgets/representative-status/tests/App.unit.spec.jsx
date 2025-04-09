@@ -7,10 +7,8 @@ import { waitFor, cleanup, render } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 
-// Import the App component
 import App from '../components/App';
 
-// Create a fake store for testing
 const createFakeStore = ({
   isLoading = false,
   toggleEnabled = true,
@@ -40,7 +38,6 @@ const createFakeStore = ({
 });
 
 describe('App component', () => {
-  // Create a sandbox for test isolation
   let sandbox;
 
   beforeEach(() => {
@@ -89,8 +86,6 @@ describe('App component', () => {
     });
 
     it('should render error message when rep api fails', async () => {
-      // Mock the CheckUsersRep component to reliably test the error path
-      // Create a simpler version that directly renders the error message
       const MockCheckUsersRep = ({ DynamicHeader }) => (
         <va-alert status="error" visible uswds>
           <DynamicHeader slot="headline">
@@ -107,12 +102,10 @@ describe('App component', () => {
         </va-alert>
       );
 
-      // Replace the CheckUsersRep component with our mock
       sandbox
         .stub(require('../components/CheckUsersRep'), 'CheckUsersRep')
         .value(MockCheckUsersRep);
 
-      // Set up the API mock to return an error
       server.use(
         rest.get(
           `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
@@ -120,7 +113,6 @@ describe('App component', () => {
         ),
       );
 
-      // Render the App
       const { container } = renderInReduxProvider(<App baseHeader={2} />, {
         initialState: createFakeStore({
           hasRepresentative: false,
@@ -128,20 +120,15 @@ describe('App component', () => {
         }),
       });
 
-      // Check the error message
       await waitFor(() => {
         const h2Tag = container.querySelector('h2');
         expect(h2Tag).to.exist;
 
-        // Check for parts of the text to avoid apostrophe issues
         const actualText = h2Tag.textContent;
         expect(
           actualText.includes('check if you have an accredited representative'),
         ).to.be.true;
       });
-
-      // Restore the original component
-      // sandbox.restore() in afterEach will handle this
     });
 
     it('should render representative info when rep is found', async () => {
@@ -193,7 +180,6 @@ describe('App component', () => {
 
   context('authenticated but missing participant ID', () => {
     it('should render NoRep component when user is LOA3 but missing participant ID', () => {
-      // Create a wrapper component that renders the expected UI directly
       const WrapperComponent = () => (
         <div>
           <div className="auth-card">
@@ -212,14 +198,11 @@ describe('App component', () => {
         </div>
       );
 
-      // Render our wrapper directly instead of the App
       const { container } = renderInReduxProvider(<WrapperComponent />, {});
 
-      // Find the header element and verify its content
       const headerElement = container.querySelector('.auth-no-rep-header');
       expect(headerElement).to.exist;
 
-      // Use simple text checks that don't rely on apostrophe comparison
       expect(
         headerElement.textContent.indexOf('have an accredited representative') >
           -1,
@@ -229,8 +212,6 @@ describe('App component', () => {
 
   context('LOA1 user', () => {
     it('should show verification UI for LOA1 users', () => {
-      // Simple test of what we expect an LOA1 user to see
-      // with no reference to App component
       const VerificationUI = () => (
         <div data-testid="verify-ui">
           <h2>Verify your identity</h2>
@@ -250,10 +231,8 @@ describe('App component', () => {
 
   context('unauthenticated', () => {
     it('should render Unauth component for unauthenticated users', () => {
-      // Create a mock for the toggleLoginModal function
       const toggleLoginModalSpy = sinon.spy();
 
-      // Create a wrapper component that simulates what the Unauth component would render
       const WrapperComponent = () => (
         <div data-testid="unauth-mock">
           <va-alert status="info" visible>
@@ -271,10 +250,8 @@ describe('App component', () => {
         </div>
       );
 
-      // Render our wrapper directly
       const { container } = renderInReduxProvider(<WrapperComponent />, {});
 
-      // Check that the heading is rendered correctly
       const headingElement = container.querySelector(
         '#track-your-status-on-mobile',
       );
@@ -283,20 +260,17 @@ describe('App component', () => {
         'Sign in with a verified account',
       );
 
-      // Test click handler
       const loginButton = container.querySelector(
         '[data-testid="login-button"]',
       );
       expect(loginButton).to.exist;
 
-      // Simulate click
       const clickEvent = new MouseEvent('click', {
         bubbles: true,
         cancelable: true,
       });
       loginButton.dispatchEvent(clickEvent);
 
-      // Verify spy was called
       sinon.assert.calledOnce(toggleLoginModalSpy);
       sinon.assert.calledWith(toggleLoginModalSpy, true);
     });
