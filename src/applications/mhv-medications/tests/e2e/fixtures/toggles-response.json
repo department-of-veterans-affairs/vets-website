@@ -45,6 +45,10 @@
             {
                 "name": "mhv_medications_partial_fill_content",
                 "value": true
+            },
+            {
+                "name": "mhv_medications_ipe_show_hide_criteria",
+                "value": true
             }
         ]
     }

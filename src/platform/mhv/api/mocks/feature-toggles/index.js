@@ -10,6 +10,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
+    mhvMedicationsIpeShowHideCriteria,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -96,6 +97,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_partial_fill_content',
           value: mhvMedicationsPartialFillContent,
+        },
+        {
+          name: 'mhv_medications_ipe_show_hide_criteria',
+          value: mhvMedicationsIpeShowHideCriteria,
         },
 
         // medical records
