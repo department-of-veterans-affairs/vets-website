@@ -13,7 +13,7 @@ const pageSchema = {
   uiSchema: {
     ...titleUI(
       'Your point of contact',
-      'To help us process your request, it helps us to be able to get in touch with you. Please provide the name and telephone number of someone who can help us locate you.',
+      'To help us process your request, we may need to share information with you. By providing a point of contact, you agree to let us contact this person about this form.',
     ),
     pointOfContactName: {
       'ui:title': 'Name of your point of contact',
