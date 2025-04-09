@@ -27,5 +27,5 @@ export const selectIPEContentFlag = state =>
 export const selectPartialFillContentFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsPartialFillContent];
 
-export const selectShowHideCriteriaFlag = state =>
+export const selectDontIncrementIpeCountFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDontIncrementIpeCount];
