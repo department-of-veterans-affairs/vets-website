@@ -6,8 +6,12 @@ import {
   Link,
   useNavigation,
 } from 'react-router-dom';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaBreadcrumbs,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
+import { SEARCH_BC_LABEL, poaSearchBC } from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 
@@ -85,11 +89,17 @@ const POARequestSearchPage = title => {
     },
     [title],
   );
-  const poaRequests = useLoaderData();
+  const poaRequests = useLoaderData().data;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
+
   return (
     <section className="poa-request">
+      <VaBreadcrumbs
+        breadcrumbList={poaSearchBC}
+        label={SEARCH_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       <h1
         data-testid="poa-requests-heading"
         className="poa-request__search-header"

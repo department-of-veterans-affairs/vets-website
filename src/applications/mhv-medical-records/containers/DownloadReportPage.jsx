@@ -75,6 +75,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
+        ccdDownloadSuccess,
         error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
@@ -286,6 +287,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
+      <h2>Download your VA Blue Button report</h2>
       {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -302,11 +304,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               BB_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Your VA Blue Button report download has"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
-      <h2>Download your VA Blue Button report</h2>
-      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
         download.
       </p>
@@ -320,13 +324,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       />
 
       <h2>Other reports you can download</h2>
-      <div id="generating-ccd-downloading-indicator">
-        <DownloadSuccessAlert
-          ccd
-          className="vads-u-margin-bottom--1"
-          visibility={generatingCCD}
-        />
-      </div>
+
+      {(generatingCCD || ccdDownloadSuccess) &&
+        !ccdError && (
+          <DownloadSuccessAlert
+            type="Continuity of Care Document download"
+            className="vads-u-margin-bottom--1"
+            focusId="ccd-download-success"
+          />
+        )}
 
       {accessErrors()}
 
@@ -355,7 +361,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               SEI_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Self-entered health information report download"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
       <va-accordion bordered>

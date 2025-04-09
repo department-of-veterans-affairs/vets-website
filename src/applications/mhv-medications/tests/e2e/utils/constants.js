@@ -13,11 +13,11 @@ export const Data = {
   ACTIVE_REFILL_IN_PROCESS: 'We expect to fill this prescription on',
   ACTIVE_NON_VA: 'You can’t manage this medication in this online tool.',
   PREVIOUS_PRESCRIPTION_PAGINATION:
-    'Showing 1 to 2 of 26 prescriptions, from newest to oldest',
+    'Showing 1 to 10 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_SECOND:
-    'Showing 3 to 4 of 26 prescriptions, from newest to oldest',
+    'Showing 11 to 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
-    'Showing 5 to 6 of 26 prescriptions, from newest to oldest',
+    'Showing 21 to 26 of 26 prescriptions, from newest to oldest',
   REFILL_HISTORY_INFO: 'Showing 12 refills, from newest to oldest',
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
@@ -73,7 +73,7 @@ export const Data = {
   STEP_THREE_NO_TRACKING:
     'We’ll provide the tracking information when available.',
   STEP_THREE_NOT_STARTED: 'Step 3: Not started',
-  TOOL_TIP_TEXT: 'Filter the medications list',
+  TOOL_TIP_TEXT: 'Filter your list to find a specific medication.',
   QUANTITY_EMPTY: 'Quantity not available',
   DATE_EMPTY: 'not available',
   PROVIDER_NAME: 'Provider name not available',
@@ -85,6 +85,9 @@ export const Data = {
   INSTRUCTIONS_EMPTY: 'Instructions not available',
   PARTIAL_FILL_TEXT:
     'This fill has a smaller quantity on purpose. This is temporary.',
+  DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
+  TRACKING_HEADING: 'Track your shipment',
+  PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
 };
 export const Paths = {
   LANDING_LIST:

@@ -30,8 +30,14 @@
     "applicantNewAddress": "yes",
     "missingUploads": [
       {
-        "name": "primaryInsuranceCard",
-        "path": "insurance-upload",
+        "name": "primaryInsuranceCardFront",
+        "path": "primary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCardBack",
+        "path": "primary-insurance-card-upload",
         "required": true,
         "uploaded": false
       }

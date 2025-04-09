@@ -39,12 +39,17 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
   FORM_21A: '21a',
   FORM_21P_0516_1_UPLOAD: '21P-0516-1-UPLOAD',
+  FORM_21P_0517_1_UPLOAD: '21P-0517-1-UPLOAD',
   FORM_21P_0518_1_UPLOAD: '21P-0518-1-UPLOAD',
+  FORM_21P_0519C_1_UPLOAD: '21P-0519C-1-UPLOAD',
+  FORM_21P_0519S_1_UPLOAD: '21P-0519S-1-UPLOAD',
   FORM_21P_0847: '21P-0847',
   FORM_21P_0969: '21P-0969',
   FORM_21P_527EZ: '21P-527EZ',
   FORM_21P_530: '21P-530',
+  FORM_21P_530A_UPLOAD: '21P-530a-UPLOAD',
   FORM_21P_530EZ: '21P-530EZ',
+  FORM_21P_8049_UPLOAD: '21P-8049-UPLOAD',
   FORM_22_0994: '22-0994',
   FORM_22_10203: '22-10203',
   FORM_22_10215: '22-10215',
@@ -94,6 +99,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
+  '21-686C-UPLOAD': '/accredited_representative_portal/v0/in_progress_forms/',
 });
 
 // Entries previously added to FORM_LINKS go in here:
@@ -399,11 +405,32 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21p-0516-1-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_21P_0517_1_UPLOAD,
+    benefit: `form 21P-0517-1 upload`,
+    title: `form 21P-0517-1 upload`,
+    description: 'uploaded file for form 21P-0517-1',
+    trackingPrefix: 'form-21p-0517-1-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_0518_1_UPLOAD,
     benefit: `form 21P-0518-1 upload`,
     title: `form 21P-0518-1 upload`,
     description: 'uploaded file for form 21P-0518-1',
     trackingPrefix: 'form-21p-0518-1-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_0519C_1_UPLOAD,
+    benefit: `form 21P-0519C-1 upload`,
+    title: `form 21P-0519C-1 upload`,
+    description: 'uploaded file for form 21P-0519C-1',
+    trackingPrefix: 'form-21p-0519C-1-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_0519S_1_UPLOAD,
+    benefit: `form 21P-0519S-1 upload`,
+    title: `form 21P-0519S-1 upload`,
+    description: 'uploaded file for form 21P-0519S-1',
+    trackingPrefix: 'form-21p-0519S-1-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0847,
@@ -420,11 +447,25 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pensions-527EZ-',
   },
   {
+    id: VA_FORM_IDS.FORM_21P_530A_UPLOAD,
+    benefit: `form 21P-530a upload`,
+    title: `form 21P-530a upload`,
+    description: 'uploaded file for form 21P-530a',
+    trackingPrefix: 'form-21p-530a-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_530EZ,
     benefit: 'burial benefits',
     title: 'burial benefits (21P-530EZ)',
     description: 'burial benefits application (21P-530EZ)',
     trackingPrefix: 'burials-530-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_8049_UPLOAD,
+    benefit: `form 21P-8049 upload`,
+    title: `form 21P-8049 upload`,
+    description: 'uploaded file for form 21P-8049',
+    trackingPrefix: 'form-21p-8049-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0994,

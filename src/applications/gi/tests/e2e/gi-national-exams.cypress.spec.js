@@ -12,13 +12,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    // Intercept feature toggles once for all tests
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'gi_comparison_tool_lce_toggle_flag', value: true }],
-      },
-    }).as('featureToggles');
   });
 
   describe('National Exams List Page', () => {
@@ -31,7 +24,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
       cy.visit('/education/gi-bill-comparison-tool/national-exams');
       cy.wait('@nationalExamsList');
-      cy.wait('@featureToggles');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -139,7 +131,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('h1.vads-u-margin-bottom--3')
         .should('be.visible')
         .and('contain.text', 'AP-advanced placement exams');
-      cy.get('h3.vads-u-margin-bottom--2')
+      cy.get('h2.vads-u-margin-bottom--2')
         .should('be.visible')
         .and('contain.text', 'Admin Info');
       cy.get('.provider-info-container')
@@ -196,7 +188,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       }).as('examDetailsSingle');
       cy.visit('/education/gi-bill-comparison-tool/national-exams/1@acce9');
       cy.wait('@examDetailsSingle');
-      cy.wait('@featureToggles');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -208,7 +199,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('.exam-single-test')
         .should('exist')
         .within(() => {
-          cy.get('h3').should('contain.text', 'Test Info');
+          cy.get('h2').should('contain.text', 'Test Info');
           cy.get('p').should('contain.text', 'Showing 1 of 1 test');
           cy.contains('Maximum reimbursement:').should('be.visible');
           cy.contains('AP Exam Fee International').should('be.visible');

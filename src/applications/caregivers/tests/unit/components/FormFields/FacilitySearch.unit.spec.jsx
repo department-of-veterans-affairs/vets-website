@@ -2,7 +2,6 @@ import React from 'react';
 import '../../../test-helpers';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as Sentry from '@sentry/browser';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -47,7 +46,6 @@ describe('CG <FacilitySearch>', () => {
   const goForward = sinon.spy();
   const goToPath = sinon.spy();
   const dispatch = sinon.spy();
-  let sentrySpy;
 
   const getData = ({ reviewMode = false, submitted = false, data = {} }) => ({
     props: {
@@ -94,16 +92,11 @@ describe('CG <FacilitySearch>', () => {
     return { container, selectors, getByText, queryByText };
   };
 
-  beforeEach(() => {
-    sentrySpy = sinon.spy(Sentry, 'captureMessage');
-  });
-
   afterEach(() => {
     goBack.reset();
     goForward.reset();
     dispatch.reset();
     goToPath.reset();
-    sentrySpy.restore();
   });
 
   context('when the component renders on the form page', () => {
@@ -284,7 +277,7 @@ describe('CG <FacilitySearch>', () => {
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
               veteranSelected: selectedFacility,
-              caregiverSupport: null,
+              caregiverSupport: undefined,
             },
           });
         });
@@ -292,9 +285,6 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'No selected facility offers caregiver services - loaded parent',
-          );
           expect(selectors().radioList).to.have.attr(
             'error',
             content['error--facilities-parent-facility'],
@@ -370,7 +360,7 @@ describe('CG <FacilitySearch>', () => {
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
               veteranSelected: selectedFacility,
-              caregiverSupport: null,
+              caregiverSupport: undefined,
             },
           });
         });
@@ -378,10 +368,6 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(sentrySpy.called).to.be.true;
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'No selected facility offers caregiver services - fetch parent',
-          );
           expect(selectors().radioList).to.have.attr(
             'error',
             content['error--facilities-parent-facility'],
@@ -422,7 +408,7 @@ describe('CG <FacilitySearch>', () => {
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
               veteranSelected: selectedFacility,
-              caregiverSupport: null,
+              caregiverSupport: undefined,
             },
           });
         });
@@ -827,7 +813,10 @@ describe('CG <FacilitySearch>', () => {
 
     context('review mode', () => {
       beforeEach(() => {
-        global.window.location = { search: '?review=true' };
+        Object.defineProperty(window, 'location', {
+          value: { search: '?review=true' },
+          configurable: true,
+        });
       });
 
       it('calls goToPath to review page on back click', () => {

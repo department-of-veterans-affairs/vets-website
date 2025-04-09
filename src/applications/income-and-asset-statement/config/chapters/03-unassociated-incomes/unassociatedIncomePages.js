@@ -18,25 +18,26 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'unassociatedIncomes',
   nounSingular: 'recurring income not associated with accounts or assets',
   nounPlural: 'recurring incomes not associated with accounts or assets',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.incomeType ||
-    !item.grossMonthlyIncome ||
-    !item.payer, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.incomeType) ||
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.payer), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome && (
+      isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income type:{' '}

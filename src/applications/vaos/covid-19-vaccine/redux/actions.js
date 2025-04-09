@@ -11,6 +11,8 @@ import {
   selectSystemIds,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -382,6 +384,8 @@ export function confirmAppointment(history) {
     const state = getState();
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -401,6 +405,8 @@ export function confirmAppointment(history) {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
         useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
 
       const data = selectCovid19VaccineFormData(getState());

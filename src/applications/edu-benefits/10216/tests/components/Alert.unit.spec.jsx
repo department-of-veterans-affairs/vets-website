@@ -32,7 +32,7 @@ describe('Alert component', () => {
     expect(getByText('Additional form needed')).to.exist;
     expect(
       getByText(
-        /Your school facility code indicates the school is not accredited/,
+        /Our records indicate your school is not recognized by a regional or national accreditor./,
       ),
     ).to.exist;
   });

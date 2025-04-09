@@ -22,7 +22,7 @@ import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
 import DownloadReportPage from './containers/DownloadReportPage';
-import DownloadDateRange from './components/DownloadRecords/DowloadDateRange';
+import DownloadDateRange from './components/DownloadRecords/DownloadDateRange';
 import DownloadRecordType from './components/DownloadRecords/DownloadRecordType';
 import DownloadFileType from './components/DownloadRecords/DownloadFileType';
 

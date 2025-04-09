@@ -86,7 +86,7 @@ const VaPrescription = prescription => {
 
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
-      datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_ACCORDIAN);
+      datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_ACCORDIAN);
     }
   };
 
@@ -699,7 +699,7 @@ const VaPrescription = prescription => {
                               : ''
                           }`}
                         </p>
-                        <VaAccordion
+                        <VaAccordion //
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
@@ -738,6 +738,7 @@ const VaPrescription = prescription => {
                                   data-testid="rx-refill"
                                   id={refillLabelId}
                                   slot="headline"
+                                  aria-label="refill label"
                                 >
                                   {refillLabel}
                                 </h4>

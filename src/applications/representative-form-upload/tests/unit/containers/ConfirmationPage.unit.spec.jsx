@@ -9,7 +9,7 @@ import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/confirmation';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const veteranFullName = {
   first: 'John',
@@ -30,10 +30,6 @@ const storeBase = {
     },
   },
 };
-const fullNameString = veteranFullName.middle
-  ? `${veteranFullName.first} ${veteranFullName.middle} ${veteranFullName.last}`
-  : `${veteranFullName.first} ${veteranFullName.last}`;
-const fullNameStringRegex = new RegExp(fullNameString, 'i');
 
 describe('Confirmation page', () => {
   beforeEach(() => {
@@ -62,8 +58,8 @@ describe('Confirmation page', () => {
     }).to.throw();
   });
 
-  it('shows status success and the correct name of applicant', () => {
-    const { container, getByText } = render(
+  it('shows status success', () => {
+    const { container } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationPage />
       </Provider>,
@@ -72,7 +68,6 @@ describe('Confirmation page', () => {
       'status',
       'success',
     );
-    getByText(fullNameStringRegex);
   });
 
   it('handles missing submission response', () => {
