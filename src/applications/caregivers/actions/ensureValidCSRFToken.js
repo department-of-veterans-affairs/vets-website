@@ -1,26 +1,18 @@
-import * as Sentry from '@sentry/browser';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { API_ENDPOINTS } from '../utils/constants';
 
 const fetchNewCSRFToken = async methodName => {
-  const message = `No csrfToken when making ${methodName} call.`;
-  const url = API_ENDPOINTS.csrfCheck;
-
   try {
-    await apiRequest(url, { method: 'HEAD' });
-    Sentry.withScope(scope => {
-      scope.setLevel(Sentry.Severity.Log);
-      Sentry.captureMessage(
-        `${message} ${url} successfully called to generate token.`,
-      );
+    await apiRequest(API_ENDPOINTS.csrfCheck, { method: 'HEAD' });
+    recordEvent({
+      event: 'caregivers-csrf-token-fetch--success',
+      method: methodName,
     });
   } catch (error) {
-    Sentry.withScope(scope => {
-      scope.setLevel(Sentry.Severity.Log);
-      scope.setExtra('error', error);
-      Sentry.captureMessage(
-        `${message} ${url} failed when called to generate token.`,
-      );
+    recordEvent({
+      event: 'caregivers-csrf-token-fetch--failure',
+      method: methodName,
     });
   }
 };
