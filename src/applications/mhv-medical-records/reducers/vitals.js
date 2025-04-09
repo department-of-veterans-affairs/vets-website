@@ -81,7 +81,7 @@ export const extractLocation = vital => {
     );
 
     if (organizations.length) {
-      return organizations.map(org => org?.display || EMPTY_FIELD).join(', ');
+      return organizations.map(org => org?.display).join(', ');
     }
   }
 

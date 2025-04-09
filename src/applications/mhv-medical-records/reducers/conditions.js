@@ -61,8 +61,9 @@ export const extractLocation = condition => {
 export const extractProvider = condition => {
   if (condition?.recorder) {
     const ref = condition.recorder?.reference;
+    // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
-    if (isArrayAndHasItems(org?.name) && org.name[0]) {
+    if (isArrayAndHasItems(org?.name)) {
       return formatNameFirstToLast(org.name[0]);
     }
   }
