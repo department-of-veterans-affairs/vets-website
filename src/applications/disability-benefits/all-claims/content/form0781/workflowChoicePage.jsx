@@ -225,6 +225,7 @@ export const mentalHealthKeys = [
   'unlistedBehaviors',
   'form781Upload',
   'additionalInformation',
+  'events',
 ];
 
 const confirmationDataUpload = {
