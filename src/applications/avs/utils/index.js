@@ -1,6 +1,7 @@
 import { parse } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { datadogRum } from '@datadog/browser-rum';
 
 const parseProblemDateTime = dateString => {
   try {
@@ -13,12 +14,13 @@ const parseProblemDateTime = dateString => {
       const year = parseInt(parts[5], 10);
 
       const date = new Date(`${month} ${day}, ${year}`);
-      if (date.toString() !== 'Invalid Date') {
-        return date;
+      if (date.toString() === 'Invalid Date') {
+        throw new Error(`Could not parse date "${dateString}"`);
       }
+      return date;
     }
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return 'N/A';
@@ -27,11 +29,12 @@ const parseProblemDateTime = dateString => {
 const parseVistaDateTime = date => {
   try {
     const parsedDate = parse(date, 'MM/dd/yyyy@HH:mm', new Date());
-    if (!Number.isNaN(parsedDate.getTime())) {
-      return parsedDate;
+    if (Number.isNaN(parsedDate.getTime())) {
+      throw new Error(`Could not parse date "${date}"`);
     }
+    return parsedDate;
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return 'N/A';
@@ -40,11 +43,12 @@ const parseVistaDateTime = date => {
 const parseVistaDate = date => {
   try {
     const parsedDate = parse(date, 'MM/dd/yyyy', new Date());
-    if (!Number.isNaN(parsedDate.getTime())) {
-      return parsedDate;
+    if (Number.isNaN(parsedDate.getTime())) {
+      throw new Error(`Could not parse date "${date}"`);
     }
+    return parsedDate;
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return 'N/A';
@@ -53,10 +57,10 @@ const parseVistaDate = date => {
 const formatImmunizationDate = date => {
   try {
     return formatDateLong(parseVistaDate(date));
-  } catch {
-    // Not all dates returned by AVS are valid.
-    return 'N/A';
+  } catch (error) {
+    datadogRum.addError(error);
   }
+  return 'N/A';
 };
 
 const stripDst = (timeZone, shortTimezone) => {
@@ -84,7 +88,7 @@ const getShortTimezone = avs => {
     // Strip out middle char in short timezone.
     return stripDst(timeZone, shortTimezone);
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return '';
@@ -93,11 +97,12 @@ const getShortTimezone = avs => {
 const getFormattedAppointmentTime = twentyFourHourTime => {
   try {
     const time = parse(twentyFourHourTime, 'HH:mm', new Date());
-    if (!Number.isNaN(time.getTime())) {
-      return format(time, 'h:mm aaaa');
+    if (Number.isNaN(time.getTime())) {
+      throw new Error(`Could not parse time "${twentyFourHourTime}"`);
     }
+    return format(time, 'h:mm aaaa');
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return '';
@@ -105,17 +110,17 @@ const getFormattedAppointmentTime = twentyFourHourTime => {
 
 const getFormattedAppointmentDate = avs => {
   try {
-    const formattedDate = formatDateLong(
-      parseVistaDateTime(
-        `${avs.clinicsVisited[0].date}@${avs.clinicsVisited[0].time}`,
-      ),
-    );
+    const dateTime = `${avs.clinicsVisited[0].date}@${
+      avs.clinicsVisited[0].time
+    }`;
+    const formattedDate = formatDateLong(parseVistaDateTime(dateTime));
 
-    if (formattedDate !== 'Invalid Date') {
-      return formattedDate;
+    if (formattedDate === 'Invalid Date') {
+      throw new Error(`Could not parse date "${dateTime}"`);
     }
+    return formattedDate;
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return '';
@@ -126,16 +131,19 @@ const getFormattedGenerationDate = avs => {
     const { generatedDate, timeZone } = avs.meta;
     const zonedDate = utcToZonedTime(generatedDate, timeZone);
 
-    if (!Number.isNaN(zonedDate.getTime())) {
-      const shortTimeZone = getShortTimezone(avs);
-      return `${format(
-        zonedDate,
-        "MMMM d, yyyy' at 'h:mm aaaa'",
-        timeZone,
-      )} ${shortTimeZone}`;
+    if (Number.isNaN(zonedDate.getTime())) {
+      throw new Error(
+        `Could not parse date "${generatedDate}" in timezone "${timeZone}"`,
+      );
     }
+    const shortTimeZone = getShortTimezone(avs);
+    return `${format(
+      zonedDate,
+      "MMMM d, yyyy' at 'h:mm aaaa'",
+      timeZone,
+    )} ${shortTimeZone}`;
   } catch (error) {
-    // Fall back to default value.
+    datadogRum.addError(error);
   }
 
   return 'N/A';
