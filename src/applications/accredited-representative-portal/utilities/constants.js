@@ -9,16 +9,14 @@ import {
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
 
-const USIP_PATH = '/sign-in';
+const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
 
-export const getSignInUrl = ({ __returnUrl } = {}) => {
-  const url = new URL(USIP_PATH, USIP_BASE_URL);
+export const getSignInUrl = ({ __useNewLogin = false } = {}) => {
+  const url = new URL(ARP_SIGN_IN_URL, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
-
   url.searchParams.set(USIP_QUERY_PARAMS.to, '/poa-requests');
-
   return url;
 };
 
