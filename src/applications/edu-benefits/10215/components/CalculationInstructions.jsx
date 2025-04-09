@@ -51,10 +51,10 @@ export const CalculationInstructions = () => {
         </ul>
       </div>
       <div className="bottom-border">
-        <h2 className="vads-u-margin-top--2">
+        <h2 className="vads-u-margin-top--2  vads-u-margin-bottom--2">
           Total number of students enrolled in the program
         </h2>
-        <ul className="vads-u-margin-left--2 list-style">
+        <ul className="vads-u-margin-left--2 list-style  vads-u-margin-bottom--2">
           <li>
             Enter the total number of students who are enrolled in the program.
           </li>
