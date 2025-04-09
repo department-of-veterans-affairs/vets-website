@@ -98,7 +98,7 @@ describe('hca <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = '10-10ez-pdf-download--success';
+        const event = 'hca-pdf-download--success';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
@@ -121,7 +121,7 @@ describe('hca <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = '10-10ez-pdf-download--failure';
+        const event = 'hca-pdf-download--failure';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
