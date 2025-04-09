@@ -147,6 +147,6 @@ module.exports = {
         '@department-of-veterans-affairs/axe-check-required': 1,
         '@department-of-veterans-affairs/cypress-viewport-deprecated': 1,
       },
-    }
+    },
   ],
 };
