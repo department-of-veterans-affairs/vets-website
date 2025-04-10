@@ -5,6 +5,7 @@ import MedicationsListPage from './pages/MedicationsListPage';
 describe('Medications About Medications Redirect to List Page', () => {
   it('visits Medications List Page After Redirect', () => {
     const site = new MedicationsSite();
+    site.mockPrescriptions();
     const listPage = new MedicationsListPage();
     site.login();
     cy.visit('/my-health/medications/about-medications');

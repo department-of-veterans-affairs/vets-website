@@ -61,7 +61,7 @@ const App = ({ children }) => {
         <MhvSecondaryNav />
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="rx-feature-flag-loading-indicator"
         />
       </div>
@@ -78,7 +78,7 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView user={user}>
+    <RequiredLoginView serviceRequired={[]} user={user}>
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.RX]}

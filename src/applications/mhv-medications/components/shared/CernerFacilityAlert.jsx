@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
@@ -41,8 +42,8 @@ const CernerFacilityAlert = ({ className = '' }) => {
     return cernerFacilitiesNames[0];
   };
   return (
-    <va-alert
-      class={`${className} ${
+    <VaAlert
+      className={`${className} ${
         cernerFacilitiesNames?.length > 0
           ? `vads-u-margin-bottom--2p5 ${
               // Need extra padding if both alerts appear
@@ -52,7 +53,7 @@ const CernerFacilityAlert = ({ className = '' }) => {
       }`}
       status="warning"
       visible={cernerFacilitiesNames?.length > 0}
-      data-testid="cerner-facilities-alert"
+      dataTestid="cerner-facilities-alert"
     >
       <h2 className="vads-u-font-size--md">
         To manage medications at{' '}
@@ -98,7 +99,7 @@ const CernerFacilityAlert = ({ className = '' }) => {
           with the same account you used to sign in to VA.gov.
         </p>
       </div>
-    </va-alert>
+    </VaAlert>
   );
 };
 
