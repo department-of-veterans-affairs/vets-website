@@ -11,7 +11,7 @@ export const CONDITION_TYPE_RADIO = {
 export const RATED_OR_NEW_NEXT_PAGE_WITH_ENHANCED_SECONDARY = {
   name: 'ratedOrNewNextPageWithEnhancedSecondaryFlow',
   label: 'papaya',
-  description: 'Not for user testing',
+  description: 'Enhanced Secondary Flow',
 };
 export const DEMO_OPTIONS = [
   RATED_OR_NEW_NEXT_PAGE,

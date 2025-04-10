@@ -117,6 +117,10 @@ export const remainingSharedPages = (
     onNavForward: props => {
       const { formData, setFormData } = props;
 
+      // This is to clear the condition not listed option
+      // With this implementation, there is an edge case in which the user
+      // hits cancel on the Add a new condition page
+      // then the condition not listed option is not cleared
       if (isEnhancedSecondary) {
         clearConditionNotListed(formData, setFormData);
       }
