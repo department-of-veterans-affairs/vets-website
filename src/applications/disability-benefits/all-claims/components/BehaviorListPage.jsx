@@ -40,6 +40,8 @@ const BehaviorListPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onReviewPage,
+  updatePage,
 }) => {
   const [selectedWorkBehaviors, setSelectedWorkBehaviors] = useState(
     data?.workBehaviors,
@@ -230,6 +232,19 @@ const BehaviorListPage = ({
         scrollToFirstError({ focusOnAlertRole: false });
       }
     },
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors(data)) {
+        scrollToFirstError({ focusOnAlertRole: false });
+      } else if (
+        data?.behaviorsDetails &&
+        Object.keys(orphanedBehaviorDetails(data)).length > 0
+      ) {
+        setShowModal(true);
+      } else {
+        updatePage(event);
+      }
+    },
   };
 
   const modalContent = formData => {
@@ -279,6 +294,27 @@ const BehaviorListPage = ({
     );
   };
 
+  const accordionsAndNavButtons = !onReviewPage ? (
+    <>
+      {behaviorListAdditionalInformation}
+      <>{mentalHealthSupportAlert()}</>
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue
+      />
+      {contentAfterButtons}
+    </>
+  ) : (
+    <va-button
+      text="Update page"
+      onClick={handlers.onUpdatePage}
+      label="Update page"
+      class="usa-button-primary"
+    />
+  );
+
   return (
     <div className="vads-u-margin-y--2">
       <>
@@ -319,15 +355,27 @@ const BehaviorListPage = ({
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">
-            We’ve removed optional descriptions about your behavioral changes.
-          </p>
-          <p>
-            <va-link
-              text="Continue with your claim"
-              onClick={handlers.onSubmit}
-            />
-          </p>
+          {!onReviewPage ? (
+            <>
+              <p className="vads-u-margin-y--0">
+                We’ve removed optional descriptions about your behavioral
+                changes.
+              </p>
+              <p>
+                <va-link
+                  text="Continue with your claim"
+                  onClick={handlers.onSubmit}
+                />
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="vads-u-margin-y--0">
+                We’ve removed optional descriptions about your behavioral
+                changes.
+              </p>
+            </>
+          )}
         </VaAlert>
       </div>
 
@@ -426,16 +474,7 @@ const BehaviorListPage = ({
             uswds
           />
         </VaCheckboxGroup>
-
-        {behaviorListAdditionalInformation}
-        <>{mentalHealthSupportAlert()}</>
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handlers.onSubmit}
-          submitToContinue
-        />
-        {contentAfterButtons}
+        {accordionsAndNavButtons}
       </form>
     </div>
   );
@@ -456,5 +495,6 @@ BehaviorListPage.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 export default BehaviorListPage;
