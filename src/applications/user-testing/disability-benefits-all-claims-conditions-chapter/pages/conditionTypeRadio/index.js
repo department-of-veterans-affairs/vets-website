@@ -5,8 +5,8 @@ import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
   arrayBuilderOptions,
   hasRatedDisabilities,
-  isRatedDisability,
   isActiveDemo,
+  isRatedDisability,
 } from '../shared/utils';
 import ratedDisabilityPage from './ratedDisability';
 import conditionTypePage from './conditionType';

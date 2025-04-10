@@ -18,7 +18,7 @@ import {
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
-export const isEdit = () => {
+const isEdit = () => {
   const search = getArrayUrlSearchParams();
   const hasEdit = search.get('edit');
   return !!hasEdit;
@@ -144,12 +144,6 @@ export const hasRatedDisabilities = fullData => {
 
   return Object.keys(createNonSelectedRatedDisabilities(fullData)).length > 0;
 };
-
-export const hasRatedDisabilitiesOrIsRatedDisability = (fullData, index) =>
-  hasRatedDisabilities(fullData) || isRatedDisability(fullData, index);
-
-export const hasRatedDisabilitiesAndIsRatedDisability = (fullData, index) =>
-  hasRatedDisabilities(fullData) && isRatedDisability(fullData, index);
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
 const capitalizeFirstLetter = string =>
