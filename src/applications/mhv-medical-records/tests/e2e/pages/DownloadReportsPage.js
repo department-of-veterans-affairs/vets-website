@@ -42,6 +42,12 @@ class DownloadReportsPage {
     });
   };
 
+  verifyCcdDownloadStartedAlert = () => {
+    cy.get('[data-testid="alert-download-started"]')
+      .should('be.focused')
+      .and('contain', 'Continuity of Care Document download started');
+  };
+
   verifySelfEnteredDownloadButton = () => {
     cy.get('[data-testid="downloadSelfEnteredButton"]').should('be.visible');
   };

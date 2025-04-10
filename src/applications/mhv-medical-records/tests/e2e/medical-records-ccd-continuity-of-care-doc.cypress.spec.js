@@ -21,6 +21,8 @@ describe('Medical Records download page', () => {
       pathToCcdDownloadResponse,
     );
 
+    DownloadReportsPage.verifyCcdDownloadStartedAlert();
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
