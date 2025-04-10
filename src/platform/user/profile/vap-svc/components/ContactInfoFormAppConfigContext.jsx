@@ -30,6 +30,11 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
       // using the existing timestamp to make sure the conditional logic on the
       // ContactInfo page doesn't override the 'form only' update
       const existingUpdatedAt = formData?.[wrapperKey][fieldName]?.updatedAt;
+      const newUpdatedAt = new Date().toISOString();
+
+      // Use new timestamp for form-only updates, otherwise use existing timestamp
+      const updatedAt =
+        updateProfileChoice === 'no' ? newUpdatedAt : existingUpdatedAt;
 
       let updatedFormAppData;
 
@@ -46,7 +51,7 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
             [value.formKey]: {
               ...payload,
               updateProfileChoice,
-              updatedAt: existingUpdatedAt,
+              updatedAt,
               countryName,
             },
           },
@@ -66,7 +71,7 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
             [fieldName]: {
               ...payload,
               updateProfileChoice,
-              updatedAt: existingUpdatedAt,
+              updatedAt,
             },
           },
         };
