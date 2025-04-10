@@ -311,6 +311,7 @@ export const SEI_DOMAINS = [
   'activityJournal',
   'allergies',
   'demographics',
+  'emergencyContacts',
   'familyHistory',
   'foodJournal',
   'providers',
