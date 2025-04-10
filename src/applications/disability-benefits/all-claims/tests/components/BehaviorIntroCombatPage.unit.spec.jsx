@@ -469,10 +469,11 @@ describe('BehaviorIntroCombatPage', () => {
                 modal.__events.secondaryButtonClick();
 
                 expect($('va-modal[visible="true"]', container)).not.to.exist;
+                expect(setFormDataSpy.notCalled).to.be.true;
                 expect(updateSpy.notCalled).to.be.true;
               });
 
-              it('displays a modal prompt to delete the answers, updates the page if the deletion is confirmed, and deletes the data', () => {
+              it('displays a modal prompt to delete the answers, updates the page if deletion is confirmed, and deletes the data', () => {
                 const updateSpy = sinon.spy();
                 const setFormDataSpy = sinon.spy();
 
@@ -517,8 +518,14 @@ describe('BehaviorIntroCombatPage', () => {
 
               it('does not display a prompt to delete the answers and does not prevent the update from submitting', () => {
                 const updateSpy = sinon.spy();
+                const setFormDataSpy = sinon.spy();
                 const { container } = render(
-                  page({ data, onReviewPage: true, updatePage: updateSpy }),
+                  page({
+                    data,
+                    onReviewPage: true,
+                    updatePage: updateSpy,
+                    setFormData: setFormDataSpy,
+                  }),
                 );
 
                 fireEvent.click($('va-button[text="Update page"]', container));
@@ -631,7 +638,6 @@ describe('BehaviorIntroCombatPage', () => {
 
       it('Displays forward and back buttons', () => {
         const { container } = render(page());
-
         const continueButton = $(
           '.usa-button-primary[type="submit"]',
           container,
@@ -648,13 +654,13 @@ describe('BehaviorIntroCombatPage', () => {
     });
 
     describe('When rendered on the Review and Submit Page', () => {
-      const { container } = render(page({ onReviewPage: true }));
-
       it('Does not display a Mental Health Alert Dropdown', () => {
+        const { container } = render(page({ onReviewPage: true }));
         expect($(mentalHealthDropdownSelector, container)).not.to.exist;
       });
 
       it('Does not display forward and back buttons', () => {
+        const { container } = render(page({ onReviewPage: true }));
         const continueButton = $(
           '.usa-button-primary[type="submit"][text="Continue"]',
           container,
