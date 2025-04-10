@@ -257,7 +257,7 @@ const ProofOfVeteranStatus = ({
 
         {isLoading ? (
           <va-loading-indicator
-            setFocus
+            set-focus
             message="Checking your eligibility..."
             data-testid="proof-of-status-loading-indicator"
           />

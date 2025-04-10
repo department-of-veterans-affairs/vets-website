@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
 
 /** @type {PageSchema} */
 
@@ -41,6 +42,49 @@ export default {
           </p>
         </>
       ),
+    ),
+    'ui:confirmationField': ({ formData }) => (
+      <>
+        {reviewEntry(
+          null,
+          'confirm-first-name',
+          {},
+          'First name',
+          formData['view:veteranPrefillStore']?.fullName?.first,
+        )}
+        {formData?.['view:veteranPrefillStore']?.fullName?.middle &&
+          reviewEntry(
+            null,
+            'confirm-middle-name',
+            {},
+            'Middle name',
+            formData['view:veteranPrefillStore']?.fullName?.middle,
+          )}
+        {reviewEntry(
+          null,
+          'confirm-last-name',
+          {},
+          'Last name',
+          formData['view:veteranPrefillStore']?.fullName?.last,
+        )}
+        {reviewEntry(
+          null,
+          'confirm-ssn',
+          {},
+          'Social Security number',
+          `●●●–●●–${formData['view:veteranPrefillStore']?.ssn?.slice(5)}`,
+        )}
+        {reviewEntry(
+          null,
+          'confirm-dob',
+          {},
+          'Date of birth',
+          moment(
+            formData?.['view:veteranPrefillStore']?.dateOfBirth,
+            'YYYY-MM-DD',
+          ).format('MM/DD/YYYY'),
+        )}
+      </>
     ),
     'view:confirmVeteranPersonalInformation': {
       'ui:options': {

@@ -1,5 +1,6 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
+import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
   it('verify empty fields alerts', () => {
@@ -12,18 +13,15 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
 
     PersonalInformationPage.load(updatedFeatureToggles);
 
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`).clear();
-    cy.get(`#root_signatureTitle`).clear();
-    cy.get(`[data-testid="save-edit-button"]`).click({
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD).clear();
+    cy.get(Locators.SIGNATURE.TITLE_FIELD).clear();
+    cy.get(Locators.SIGNATURE.SAVE_BTN).click({
       waitForAnimations: true,
     });
 
-    cy.get('[role="alert"]').each(el => {
-      cy.wrap(el).should(
-        `have.text`,
-        `Error Both fields are required to save a signature.`,
-      );
+    cy.get(Locators.SIGNATURE.ALERTS.FIELD_ERROR).each(el => {
+      cy.wrap(el).should(`have.text`, Data.SIGNATURE.ALERTS.EMPTY_FIELD);
     });
 
     cy.injectAxeThenAxeCheck();
@@ -54,70 +52,64 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
   });
 
   it('verify alert modal details', () => {
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`).type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD).type('Jack Sparrow');
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
     // verify alert details
-    cy.get(`.first-focusable-child`).should(`be.focused`);
-    cy.get(`[data-testid="confirm-cancel-modal"]`)
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).should(`be.focused`);
+
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_CANCEL_MODAL)
       .shadow()
       .find(`h2`)
-      .should(`have.text`, `Cancel changes?`);
-    cy.get(`[data-testid="confirm-cancel-modal"]`)
-      .find(`p`)
-      .should(
-        `contain.text`,
-        `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
-      );
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .first()
-      .should(`have.text`, `Yes, cancel my changes`);
+      .should(`have.text`, Data.SIGNATURE.ALERTS.CANCEL_CHANGES);
 
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .last()
-      .should(`have.text`, `No, go back to editing`);
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_CANCEL_MODAL)
+      .find(`p`)
+      .should(`contain.text`, Data.SIGNATURE.ALERTS.CANCEL_ALERT);
+
+    PersonalInformationPage.getCancelChangesBtn().should(
+      `have.text`,
+      Data.SIGNATURE.ALERTS.CANCEL_BTN,
+    );
+
+    PersonalInformationPage.getBackToEditBtn().should(
+      `have.text`,
+      Data.SIGNATURE.ALERTS.BACK_TO_EDIT_BTN,
+    );
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can cancel changes', () => {
     // close modal by cancel btn
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`).type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD).type('Jack Sparrow');
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .first()
-      .click();
+    PersonalInformationPage.getCancelChangesBtn().click();
 
-    cy.get(`#edit-messages-signature`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
 
     // close modal by cross btn
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`).type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD).type('Jack Sparrow');
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(`.first-focusable-child`).click();
-    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can back to editing', () => {
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`).type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD).type('Jack Sparrow');
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .last()
-      .click();
+    PersonalInformationPage.getBackToEditBtn().click();
 
-    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
@@ -135,78 +127,68 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
   });
 
   it('verify alert modal details', () => {
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`)
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD)
       .clear()
       .type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
     // verify alert details
-    cy.get(`.first-focusable-child`).should(`be.focused`);
-    cy.get(`[data-testid="confirm-cancel-modal"]`)
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_CANCEL_MODAL)
       .shadow()
       .find(`h2`)
-      .should(`have.text`, `Cancel changes?`);
-    cy.get(`[data-testid="confirm-cancel-modal"]`)
-      .find(`p`)
-      .should(
-        `contain.text`,
-        `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
-      );
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .first()
-      .should(`have.text`, `Yes, cancel my changes`);
+      .should(`have.text`, Data.SIGNATURE.ALERTS.CANCEL_CHANGES);
 
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .last()
-      .should(`have.text`, `No, go back to editing`);
+    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_CANCEL_MODAL)
+      .find(`p`)
+      .should(`contain.text`, Data.SIGNATURE.ALERTS.CANCEL_ALERT);
+
+    PersonalInformationPage.getCancelChangesBtn().should(
+      `have.text`,
+      Data.SIGNATURE.ALERTS.CANCEL_BTN,
+    );
+
+    PersonalInformationPage.getBackToEditBtn().should(
+      `have.text`,
+      Data.SIGNATURE.ALERTS.BACK_TO_EDIT_BTN,
+    );
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can cancel changes', () => {
     // close modal by cancel btn
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`)
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD)
       .clear()
       .type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .first()
-      .click();
+    PersonalInformationPage.getCancelChangesBtn().click();
 
-    cy.get(`#edit-messages-signature`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
 
     // close modal by cross btn
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`)
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD)
       .clear()
       .type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(`.first-focusable-child`).click();
-    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can back to editing', () => {
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName`)
-      .clear()
-      .type('Jack Sparrow');
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
+    cy.get(Locators.SIGNATURE.NAME_FIELD).type('Jack Sparrow');
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
-      .find(`button`, { includeShadowDom: true })
-      .last()
-      .click();
+    PersonalInformationPage.getBackToEditBtn().click();
 
-    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });

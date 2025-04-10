@@ -332,11 +332,11 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE',
-  NEW: 'NEW',
-  PROCESSING: 'PROCESSING',
-  COMPLETE: 'COMPLETE',
-  ERROR: 'ERROR',
+  NONE: 'NONE', // has not been requested
+  NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  PROCESSING: 'PROCESSING', // has been requested
+  COMPLETE: 'COMPLETE', // request complete
+  ERROR: 'ERROR', // error
 };
 
 export const refreshExtractTypes = {
@@ -559,4 +559,20 @@ export const OBSERVATION_DISPLAY_DISPLAY_MAP = {
   comments: OBSERVATION_DISPLAY_LABELS.COMMENTS,
   referenceRange: OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE,
   value: OBSERVATION_DISPLAY_LABELS.VALUE,
+
+export const SortTypes = {
+  ALPHABETICAL: {
+    value: 'alphatetically',
+    label: 'alphabetically',
+  },
+  ASC_DATE: {
+    value: 'ascDate',
+    label: 'newest to oldest',
+    labelWithDateEntered: 'newest to oldest (date entered)',
+  },
+  DSC_DATE: {
+    value: 'dscDate',
+    label: 'oldest to newest',
+    labelWithDateEntered: 'oldest to newest (date entered)',
+  },
 };

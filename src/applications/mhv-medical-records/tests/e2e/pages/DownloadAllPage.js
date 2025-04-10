@@ -24,6 +24,12 @@ class DownloadAllPage {
       .click();
   };
 
+  clickBackOnDownloadAllPage = () => {
+    cy.get('va-button')
+      .contains('Back')
+      .click();
+  };
+
   verifyError = error => {
     cy.get('va-select')
       .contains(error)
@@ -58,9 +64,16 @@ class DownloadAllPage {
   };
 
   verifyErrorStartDateGreaterThanEnd = error => {
-    cy.get('va-select')
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('[id^=error-message]')
       .contains(error)
       .should('be.visible');
+  };
+
+  verifyDateRangeOnPageTwo = dateRange => {
+    cy.get('legend')
+      .first()
+      .should('contain', dateRange); // .should('contain', `Date range: Custom (${dateRange})`);
   };
 
   selectDateRangeDropdown = option => {
@@ -73,14 +86,14 @@ class DownloadAllPage {
     cy.get('[data-testid="va-date-start-date"]')
       .find('select')
       .eq(0)
-      .select(month);
+      .select(month, { force: true });
   };
 
   selectCustomStartDay = day => {
     cy.get('[data-testid="va-date-start-date"]')
       .find('select')
       .eq(1)
-      .select(day);
+      .select(day, { force: true });
   };
 
   selectCustomStartYear = year => {
@@ -95,6 +108,12 @@ class DownloadAllPage {
       .clear();
   };
 
+  clearCustomEndYear = () => {
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('input')
+      .clear();
+  };
+
   blurCustomStartYear = () => {
     cy.get('[data-testid="va-date-start-date"]')
       .find('input')
@@ -105,14 +124,14 @@ class DownloadAllPage {
     cy.get('[data-testid="va-date-end-date"]')
       .find('select')
       .eq(0)
-      .select(month);
+      .select(month, { force: true });
   };
 
   selectCustomEndDay = day => {
     cy.get('[data-testid="va-date-end-date"]')
       .find('select')
       .eq(1)
-      .select(day);
+      .select(day, { force: true });
   };
 
   selectCustomEndYear = year => {

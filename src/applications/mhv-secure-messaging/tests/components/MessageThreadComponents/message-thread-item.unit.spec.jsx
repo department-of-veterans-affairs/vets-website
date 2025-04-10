@@ -67,7 +67,7 @@ describe('Message thread item', () => {
   it('message from patient renders without errors', () => {
     const message = {
       ...messageResponse,
-      recipientName: messageResponse.triageGroupName,
+      folderId: DefaultFolders.SENT.id,
     };
     const screen = setup(message);
     const accordion = document.querySelector('va-accordion-item');
@@ -98,7 +98,7 @@ describe('Message thread item', () => {
       `From: ${messageResponse.senderName} `,
     );
     expect(screen.getByTestId('to').textContent).to.equal(
-      `To: ${messageResponse.triageGroupName}`,
+      `To: ${messageResponse.recipientName}`,
     );
     expect(
       accordion

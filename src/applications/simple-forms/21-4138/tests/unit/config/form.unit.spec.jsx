@@ -65,7 +65,6 @@ describe('formConfig', () => {
           } = formConfig.chapters.statementTypeChapter.pages;
           it('should have required properties', () => {
             expect(statementTypePage).to.include.keys(
-              'initialData',
               'pageClass',
               'path',
               'schema',

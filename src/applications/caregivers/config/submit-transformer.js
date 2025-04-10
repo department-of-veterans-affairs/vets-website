@@ -4,7 +4,7 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
-} from '../utils/helpers/form-config';
+} from '../utils/helpers';
 
 const submitTransformer = (formConfig, form) => {
   const { data: formData } = form;

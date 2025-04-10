@@ -268,7 +268,11 @@ const EditContactList = () => {
                           team.stationNumber === stationNumber &&
                           team.blockedStatus === false,
                       )
-                      .sort((a, b) => a.name.localeCompare(b.name))}
+                      .sort((a, b) => {
+                        const aName = a.suggestedNameDisplay || a.name;
+                        const bName = b.suggestedNameDisplay || b.name;
+                        return aName.localeCompare(bName);
+                      })}
                   />
                 );
               }

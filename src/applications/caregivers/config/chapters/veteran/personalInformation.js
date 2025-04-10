@@ -1,10 +1,10 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { fullNameSchema } from '../../../definitions/sharedSchema';
 import { dobUI, genderUI, fullNameUI } from '../../../definitions/sharedUI';
-import { fullSchema } from '../../../utils/imports';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { fullName, date, gender } = fullSchema.definitions;
+const { fullName, date, gender } = FULL_SCHEMA.definitions;
 const inputLabel = content['vet-input-label'];
 
 const veteranPersonalInformation = {

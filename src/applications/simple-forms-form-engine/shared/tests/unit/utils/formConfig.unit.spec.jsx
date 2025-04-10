@@ -29,8 +29,14 @@ describe('createFormConfig', () => {
   let transformSpy;
 
   beforeEach(() => {
-    const FakeComponent = ({ ombInfo }) => (
+    const FakeComponent = ({ introParagraph, ombInfo, whatToKnow = [] }) => (
       <div>
+        <p data-testid="intro-paragraph">introParagraph: {introParagraph}</p>
+        <ul data-testid="what-to-know">
+          {whatToKnow.map((bullet, index) => (
+            <li key={index}>{bullet}</li>
+          ))}
+        </ul>
         <p data-testid="exp-date">expDate: {ombInfo.expDate}</p>
         <p data-testid="omb-number">ombNumber: {ombInfo.ombNumber}</p>
         <p data-testid="res-burden">resBurden: {ombInfo.resBurden}</p>
@@ -38,11 +44,13 @@ describe('createFormConfig', () => {
     );
 
     FakeComponent.propTypes = {
+      introParagraph: PropTypes.string,
       ombInfo: PropTypes.shape({
         expDate: PropTypes.string,
         ombNumber: PropTypes.number,
         resBurden: PropTypes.string,
       }),
+      whatToKnow: PropTypes.array,
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
     transformSpy = sinon.spy(submitTransform, 'default');
@@ -62,9 +70,9 @@ describe('createFormConfig', () => {
     expect(formConfig.rootUrl).to.eq('/root-url');
     expect(formConfig.urlPrefix).to.eq('/');
     expect(formConfig.trackingPrefix).to.eq('tracking-prefix-');
-    expect(formConfig.title).to.eq('Form with Two Steps');
+    expect(formConfig.title).to.eq('Multiple step form');
     expect(formConfig.formId).to.eq('2121212');
-    expect(formConfig.subTitle).to.eq('VA Form 2121212');
+    expect(formConfig.subTitle).to.eq('Form with Two Steps (VA Form 2121212)');
     expect(Object.keys(formConfig.chapters).length).to.eq(
       normalizedForm.chapters.length,
     );
@@ -82,9 +90,15 @@ describe('createFormConfig', () => {
     expect(page.uiSchema['ui:title']).not.to.eq(undefined);
   });
 
-  it('sends ombInfo to the Introduction Page', () => {
+  it('sends props to the Introduction Page', () => {
     const screen = render(formConfig.introduction());
 
+    expect(screen.getByTestId('intro-paragraph')).to.have.text(
+      `introParagraph: ${normalizedForm.introParagraph}`,
+    );
+    normalizedForm.whatToKnowBullets.map(bullet =>
+      expect(screen.getByTestId('what-to-know')).to.include.text(bullet),
+    );
     expect(screen.getByTestId('exp-date')).to.have.text(
       `expDate: ${normalizedForm.ombInfo.expDate}`,
     );

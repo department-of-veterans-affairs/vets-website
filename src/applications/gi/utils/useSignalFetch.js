@@ -1,19 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchLicenseCertificationResults } from '../actions';
 
-export const useSignalFetch = hasFetchedOnce => {
+export const useSignalFetch = performFetch => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!hasFetchedOnce) {
-      const controller = new AbortController();
+    const controller = new AbortController();
 
-      dispatch(fetchLicenseCertificationResults(controller.signal));
+    dispatch(performFetch(controller.signal));
 
-      return () => {
-        controller.abort();
-      };
-    }
-    return null;
+    return () => {
+      controller.abort();
+    };
   }, []);
 };

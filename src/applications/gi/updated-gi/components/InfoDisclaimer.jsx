@@ -21,13 +21,12 @@ const InfoDisclaimer = () => {
           id="disclaimer-link"
         >
           Search Accredited Attorneys, Claims Agents, or Veterans Service
-          Organizations (VSO) Representatives
+          Organizations (VSO) Representatives.
         </a>
-        .
         <span>
           {' '}
-          If you need technical assistance or have questions about the GI Bill
-          Comparison Tool, email us at{' '}
+          If you have data questions about the GI Bill Comparison Tool, email us
+          at{' '}
           <a href="mailto: vbacoeducomptoolinq@va.gov">
             vbacoeducomptoolinq@va.gov
           </a>

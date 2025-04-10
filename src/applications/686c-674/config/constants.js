@@ -1,8 +1,7 @@
 export const PAGE_TITLE = 'Add or remove dependents on VA benefits';
 // Tried to use platform/utilities/data/titleCase on the PAGE_TITLE, but it
 // makes "Or" lowercase
-export const DOC_TITLE =
-  'Add Or Remove Dependents With VA Form 21-686C | Veterans Affairs';
+export const DOC_TITLE = 'Add or remove dependents on VA benefits';
 
 export const TASK_KEYS = {
   addChild: 'addChild',

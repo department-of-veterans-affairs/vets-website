@@ -8,7 +8,11 @@ import { createInitialState } from '@department-of-veterans-affairs/platform-for
 import { mount } from 'enzyme';
 import testData from '../fixtures/data/test-data.json';
 import formConfig from '../../config/form';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import {
+  ConfirmationPage,
+  setClaimIdInLocalStage,
+  getClaimIdFromLocalStage,
+} from '../../containers/ConfirmationPage';
 
 const submitDate = new Date();
 const initialState = {
@@ -57,7 +61,16 @@ describe('ConfirmationPage', () => {
     }
     cleanup();
   });
-
+  it('should set claim id in local stage', () => {
+    const submission = {
+      response: {
+        id: 1,
+      },
+    };
+    setClaimIdInLocalStage(submission);
+    const result = getClaimIdFromLocalStage();
+    expect(result).to.equal(submission.response.id);
+  });
   it('passes the correct props to ConfirmationPageView', () => {
     const confirmationViewProps = wrapper.find('ConfirmationView').props();
 

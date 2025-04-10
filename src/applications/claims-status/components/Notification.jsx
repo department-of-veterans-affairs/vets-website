@@ -20,6 +20,7 @@ export default function Notification({
 
   return (
     <VaAlert
+      data-testid="notification"
       close-btn-aria-label="Close notification"
       className="claims-alert"
       closeable={closeable}

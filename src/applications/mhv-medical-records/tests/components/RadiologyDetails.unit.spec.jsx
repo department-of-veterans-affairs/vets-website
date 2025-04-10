@@ -10,6 +10,7 @@ import radiologyMhvWithImages from '../fixtures/radiologyMhvWithImages.json';
 import radiologyMhvWithImagesNew from '../fixtures/radiologyMhvWithImagesNew.json';
 import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
 import images from '../fixtures/images.json';
+import threeImageRequestInProgress from '../fixtures/threeImageRequestInProgress.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
 import {
   convertCvixRadiologyRecord,
@@ -361,5 +362,58 @@ describe('Radiology details component with missing fields', () => {
         'None noted',
       );
     });
+  });
+});
+
+describe('Radiology details component - over request limit', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(radiologyMhvWithImages);
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images: {
+        ...threeImageRequestInProgress,
+        studyRequestLimitReached: true, // simulating request limit reached
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('should display the over-request limit message', () => {
+    const limitMessage = screen.getByText(
+      'You can’t request images for this report right now. You can only have 3 image requests at a time.',
+      {
+        exact: false,
+        selector: 'p',
+      },
+    );
+    expect(limitMessage).to.exist;
+  });
+
+  it('should not display the request images button', () => {
+    const requestButton = screen.queryByTestId(
+      'radiology-request-images-button',
+    );
+    expect(requestButton).to.be.null;
   });
 });

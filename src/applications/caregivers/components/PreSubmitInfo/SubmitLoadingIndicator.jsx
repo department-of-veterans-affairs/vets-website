@@ -1,41 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import content from '../../locales/en/content.json';
 
 const SubmitLoadingIndicator = ({ submission }) => {
-  const [isLoading, setLoading] = useState(false);
-
   const { hasAttemptedSubmit, status } = submission;
-  const isSubmitPending = status === 'submitPending';
-
-  // set loading to true if user has attempted to submit and submit is pending
-  useEffect(
-    () => {
-      if (hasAttemptedSubmit && isSubmitPending) {
-        setLoading(true);
-      }
-
-      return () => {
-        setLoading(false);
-      };
-    },
-    [hasAttemptedSubmit, isSubmitPending],
-  );
-
-  return (
-    <>
-      {isLoading && (
-        <div className="loading-container">
-          <div className="vads-u-margin-y--4">
-            <va-loading-indicator message="We’re processing your application. This may take up to 1 minute. Please don’t refresh your browser." />
-          </div>
-        </div>
-      )}
-    </>
-  );
+  const isLoading = hasAttemptedSubmit && status === 'submitPending';
+  return isLoading ? (
+    <div className="loading-container">
+      <div className="vads-u-margin-y--4">
+        <va-loading-indicator message={content['form-submission-message']} />
+      </div>
+    </div>
+  ) : null;
 };
 
 SubmitLoadingIndicator.propTypes = {
-  submission: PropTypes.object.isRequired,
+  submission: PropTypes.shape({
+    hasAttemptedSubmit: PropTypes.bool,
+    status: PropTypes.string,
+  }),
 };
 
 export default SubmitLoadingIndicator;

@@ -52,6 +52,16 @@ describe('CDP - Copay generic navigation & content', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  it('displays helper components', () => {
+    cy.findByTestId(`how-to-pay`).should('exist');
+    cy.findByTestId(`financial-help`).should('exist');
+    cy.findByTestId(`dispute-charges`).should('exist');
+    cy.findByTestId(`balance-questions`).should('exist');
+    // need-help added with vha_show_payment_history
+    cy.findByTestId(`need-help`).should('not.exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   it('displays download statements - C12578', () => {
     cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();

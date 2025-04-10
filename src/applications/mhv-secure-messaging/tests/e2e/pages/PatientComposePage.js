@@ -4,7 +4,7 @@ import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientComposePage {

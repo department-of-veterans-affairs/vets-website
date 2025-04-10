@@ -29,6 +29,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureFeSourceOfTruth,
+  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -148,7 +149,12 @@ export const selectPastAppointmentsV2 = state => {
       }
 
       const sortedAppointments = past
-        .filter(isValidPastAppointment)
+        .filter(item =>
+          isValidPastAppointment(
+            item,
+            selectFeatureDisplayPastCancelledAppointments(state),
+          ),
+        )
         .sort(sortByDateDescending);
 
       return groupAppointmentsByMonth(sortedAppointments);

@@ -10,18 +10,19 @@ const attachmentClasses = 'vads-u-margin-right--1 vads-u-font-size--sm';
 
 const MessageListItem = props => {
   const location = useLocation();
+  const { activeFolder, keyword, message } = props;
+
   const {
     senderName,
     sentDate,
     subject,
     readReceipt,
     recipientName,
+    suggestedNameDisplay,
     attachment,
     messageId,
-    keyword,
     category,
-    activeFolder,
-  } = props;
+  } = message;
 
   const inSentOrDrafts =
     activeFolder.folderId === DefaultFolders.DRAFTS.id ||
@@ -95,7 +96,7 @@ const MessageListItem = props => {
                     <span className="thread-list-draft">(Draft)</span> -{' '}
                   </>
                 )}
-                To: {recipientName}
+                To: {suggestedNameDisplay || recipientName}
               </div>
               <div data-dd-privacy="mask">From: {senderName}</div>
             </div>
@@ -131,14 +132,6 @@ export default MessageListItem;
 
 MessageListItem.propTypes = {
   activeFolder: PropTypes.object,
-  attachment: PropTypes.any,
-  attributes: PropTypes.object,
-  category: PropTypes.string,
   keyword: PropTypes.any,
-  messageId: PropTypes.number,
-  readReceipt: PropTypes.any,
-  recipientName: PropTypes.string,
-  senderName: PropTypes.string,
-  sentDate: PropTypes.string,
-  subject: PropTypes.string,
+  message: PropTypes.object,
 };

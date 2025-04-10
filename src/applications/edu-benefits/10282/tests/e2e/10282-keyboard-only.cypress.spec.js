@@ -142,17 +142,9 @@ describe('22-10282 Edu form', () => {
       formConfig.chapters.personalInformation.pages.applicantGender.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 2);
+    cy.repeatKey('Tab', 1);
     cy.allyEvaluateRadioButtons(
-      [
-        'input#root_genderWinput',
-        'input#root_genderMinput',
-        'input#root_genderTWinput',
-        'input#root_genderTMinput',
-        'input#root_genderNBinput',
-        'input#root_gender0input',
-        'input#root_genderNAinput',
-      ],
+      ['input#root_genderMinput', 'input#root_genderWinput'],
       'ArrowDown',
     );
     cy.chooseRadio(maximalData.data.gender);

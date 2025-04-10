@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import uiSchema from '../../../src/js/definitions/ssn';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import uiSchema from '../../../src/js/definitions/ssn';
 
 describe('Schemaform definition ssn', () => {
   it('should render ssn with error', () => {
@@ -45,6 +45,6 @@ describe('Schemaform definition ssn', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelector('dd').textContent).to.equal('123-45-6789');
+    expect(formDOM.querySelector('dd').textContent).to.equal('●●●-●●-6789');
   });
 });

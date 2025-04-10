@@ -3,7 +3,6 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { MhvSimpleSigninCallToAction } from '../index';
 
 describe('MHV Signin CTA', () => {
@@ -13,8 +12,18 @@ describe('MHV Signin CTA', () => {
     const linkText = 'order medical supplies';
 
     it('unanthenticated user', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: false },
+            loa: { current: 0 },
+          },
+        },
+      };
       const { container, queryByTestId, getByText } = render(
-        <Provider store={mockStore()}>
+        <Provider store={mockStore(initialState)}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
             userIsLoggedIn={false}
@@ -29,13 +38,23 @@ describe('MHV Signin CTA', () => {
     });
 
     it('unverified user', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: false },
+            loa: { current: 1 },
+          },
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      };
       const { container, queryByTestId, getByText } = render(
-        <Provider store={mockStore()}>
+        <Provider store={mockStore(initialState)}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
-            userIsLoggedIn
-            userIsVerified={false}
-            serviceName={CSP_IDS.ID_ME}
           />
         </Provider>,
       );
@@ -47,13 +66,23 @@ describe('MHV Signin CTA', () => {
     });
 
     it('verified user', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: false },
+            loa: { current: 3 },
+          },
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      };
       const { container, queryByTestId } = render(
-        <Provider store={mockStore()}>
+        <Provider store={mockStore(initialState)}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
-            userIsLoggedIn
-            userIsVerified
-            serviceName={CSP_IDS.ID_ME}
             linkText={linkText}
             linkUrl="/health-care/order-medical-supplies/"
           />
@@ -66,13 +95,23 @@ describe('MHV Signin CTA', () => {
     });
 
     it('renders mhvAccount is loading indicator', () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: {
+            loading: false,
+            mhvAccount: { loading: true },
+            loa: { current: 0 },
+          },
+          signIn: {
+            serviceName: null,
+          },
+        },
+      };
       const { getByTestId } = render(
-        <Provider store={mockStore()}>
+        <Provider store={mockStore(initialState)}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
-            userIsLoggedIn={false}
-            mhvAccountLoading
-            profileLoading={false}
           />
         </Provider>,
       );
@@ -80,13 +119,23 @@ describe('MHV Signin CTA', () => {
     });
 
     it('renders profile is loading indicator', () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: {
+            loading: true,
+            mhvAccount: { loading: false },
+            loa: { current: 0 },
+          },
+          signIn: {
+            serviceName: null,
+          },
+        },
+      };
       const { getByTestId } = render(
-        <Provider store={mockStore()}>
+        <Provider store={mockStore(initialState)}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
-            userIsLoggedIn={false}
-            mhvAccountLoading={false}
-            profileLoading
           />
         </Provider>,
       );

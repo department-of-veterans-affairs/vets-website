@@ -12,6 +12,7 @@ export const SearchForm = () => {
   const query = new URLSearchParams(window.location.search).get('q') ?? '';
   const [queryState, setQueryState] = useState(query);
   const [showQueryError, setShowQueryError] = useState(false);
+  const [queryChanged, setQueryChanged] = useState(false);
   const dispatch = useDispatch();
 
   const findFormInputFieldRef = useRef(null);
@@ -23,6 +24,7 @@ export const SearchForm = () => {
     queryParams.set('q', queryState);
     history.replaceState({}, '', `${location.pathname}?${queryParams}`);
 
+    setQueryChanged(false);
     dispatch(fetchFormsAction(queryState));
     dispatch(updatePaginationAction());
 
@@ -80,6 +82,8 @@ export const SearchForm = () => {
 
     // Prevent users from entering spaces because this will not trigger a change when they exit the field
     setQueryState(onlySpaces(q) ? q.trim() : q);
+
+    setQueryChanged(true);
   };
 
   const onSubmitHandler = event => {
@@ -91,6 +95,11 @@ export const SearchForm = () => {
     // If not valid, set focus on input and return early
     if (checkQueryState) {
       setInputFieldFocus(findFormInputFieldRef.current);
+      return;
+    }
+
+    // Return early if query has not changed
+    if (!queryChanged) {
       return;
     }
 

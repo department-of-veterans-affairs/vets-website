@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { validateField, dateFormat } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectGroupingFlag } from '../../util/selectors';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const NonVaPrescription = prescription => {
   const showGroupingFlag = useSelector(selectGroupingFlag);
@@ -39,6 +40,9 @@ const NonVaPrescription = prescription => {
               trigger="What does this status mean?"
               data-testid="status-dropdown"
               uswds
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>

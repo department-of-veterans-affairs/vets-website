@@ -6,11 +6,11 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 export default function NewFeatureProgramsYRTAlert({
   institution,
-  toggleValue,
-  toggleGiProgramsFlag,
   programTypes,
   visible,
   onClose,
+  customHeadline,
+  customParagraph,
 }) {
   const handleLinkClick = (event, targetId) => {
     event.preventDefault();
@@ -30,18 +30,23 @@ export default function NewFeatureProgramsYRTAlert({
       status="info"
       visible={visible}
     >
-      <h2 id="track-your-status-on-mobile" slot="headline">
-        {institution.yr === true &&
-        toggleValue &&
-        programTypes?.length > 0 &&
-        toggleGiProgramsFlag
-          ? 'New features'
-          : 'New feature'}
-      </h2>
-      <p className="vads-u-margin-y--0">
-        Go to the “On this page” directory or click{' '}
-        {institution.yr === true &&
-          toggleValue && (
+      {customHeadline ? (
+        <h2 id="track-your-status-on-mobile" slot="headline">
+          {customHeadline}
+        </h2>
+      ) : (
+        <h2 id="track-your-status-on-mobile" slot="headline">
+          {institution.yr === true && programTypes.length > 0
+            ? 'New features'
+            : 'New feature'}
+        </h2>
+      )}
+      {customParagraph ? (
+        <p className="vads-u-margin-y--0">{customParagraph}</p>
+      ) : (
+        <p className="vads-u-margin-y--0">
+          Go to the “On this page” directory or click{' '}
+          {institution.yr === true && (
             <>
               <a
                 href="#yellow-ribbon-program-information"
@@ -51,25 +56,32 @@ export default function NewFeatureProgramsYRTAlert({
               >
                 Yellow Ribbon Program information
               </a>
-              {programTypes?.length > 0 && ' and '}
+              {programTypes.length > 0 && ' and '}
             </>
           )}{' '}
-        {programTypes?.length > 0 &&
-          toggleGiProgramsFlag && (
+          {programTypes.length > 0 && (
             <a href="#programs" onClick={e => handleLinkClick(e, 'programs')}>
               Programs
             </a>
           )}
-      </p>
+        </p>
+      )}
     </VaAlert>
   );
 }
 
 NewFeatureProgramsYRTAlert.propTypes = {
-  institution: PropTypes.object.isRequired,
-  toggleValue: PropTypes.bool.isRequired,
-  toggleGiProgramsFlag: PropTypes.bool.isRequired,
+  institution: PropTypes.object,
   programTypes: PropTypes.array,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  customHeadline: PropTypes.node,
+  customParagraph: PropTypes.node,
+};
+
+NewFeatureProgramsYRTAlert.defaultProps = {
+  institution: {},
+  programTypes: [],
+  customHeadline: null,
+  customParagraph: null,
 };

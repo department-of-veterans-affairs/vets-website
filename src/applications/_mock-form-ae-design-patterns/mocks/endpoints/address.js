@@ -93,7 +93,7 @@ const homeAddressUpdateSuccess = {
   },
 };
 
-const addressValidation = {
+const addressValidationMissingZip = {
   addresses: [
     {
       address: {
@@ -107,6 +107,28 @@ const addressValidation = {
       },
       addressMetaData: {
         confidenceScore: 0,
+        addressType: 'Domestic',
+        deliveryPointValidation: 'MISSING_ZIP',
+      },
+    },
+  ],
+  validationKey: -981994727,
+};
+
+const addressValidation = {
+  addresses: [
+    {
+      address: {
+        addressLine1: '345 Home Address St',
+        addressType: 'DOMESTIC',
+        city: 'San Francisco',
+        countryName: 'United States',
+        countryCodeIso3: 'USA',
+        stateCode: 'CA',
+        zipCode: '94115',
+      },
+      addressMetaData: {
+        confidenceScore: 88,
         addressType: 'Domestic',
         deliveryPointValidation: 'MISSING_ZIP',
       },
@@ -140,5 +162,6 @@ module.exports = {
   homeAddressUpdateReceived,
   homeAddressUpdateSuccess,
   addressValidation,
+  addressValidationMissingZip,
   addressValidationMatch,
 };

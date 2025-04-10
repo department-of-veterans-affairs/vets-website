@@ -140,7 +140,7 @@ export default function MissingFileList({
 
   return (
     <div>
-      <h3 className="vads-u-font-size--h4">{title || ''}</h3>
+      {title && <h3 className="vads-u-font-size--h4">{title || ''}</h3>}
       <p>{description || ''}</p>
       {wrapped.map((entry, outerIndex) => {
         if (

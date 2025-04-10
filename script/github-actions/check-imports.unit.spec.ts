@@ -10,7 +10,7 @@ const {
   getDeletedFiles,
   checkBrokenImports,
   getAllProjectFiles,
-} = require('./brokenImports'); 
+} = require('./brokenImports');
 describe('Broken Imports Checker', () => {
   let execSyncStub, readFileSyncStub, readdirSyncStub;
   beforeEach(() => {
@@ -46,24 +46,29 @@ describe('Broken Imports Checker', () => {
   it('should detect broken imports in checkBrokenImports', () => {
     const deletedFiles = ['src/oldFile.js'];
     // Mock project file content
-    readdirSyncStub.withArgs(process.cwd()).returns([
-      { name: 'index.js', isDirectory: () => false },
-    ]);
+    readdirSyncStub
+      .withArgs(process.cwd())
+      .returns([{ name: 'index.js', isDirectory: () => false }]);
     readFileSyncStub.returns(`import oldFile from './src/oldFile';`);
     const result = checkBrokenImports(deletedFiles);
     expect(result).to.deep.equal([
-      { file: path.join(process.cwd(), 'index.js'), deletedFile: 'src/oldFile.js' },
+      {
+        file: path.join(process.cwd(), 'index.js'),
+        deletedFile: 'src/oldFile.js',
+      },
     ]);
   });
   it('should recursively retrieve project files using getAllProjectFiles', () => {
     // Mock file structure
-    readdirSyncStub.withArgs(process.cwd()).returns([
-      { name: 'index.js', isDirectory: () => false },
-      { name: 'src', isDirectory: () => true },
-    ]);
-    readdirSyncStub.withArgs(path.join(process.cwd(), 'src')).returns([
-      { name: 'app.js', isDirectory: () => false },
-    ]);
+    readdirSyncStub
+      .withArgs(process.cwd())
+      .returns([
+        { name: 'index.js', isDirectory: () => false },
+        { name: 'src', isDirectory: () => true },
+      ]);
+    readdirSyncStub
+      .withArgs(path.join(process.cwd(), 'src'))
+      .returns([{ name: 'app.js', isDirectory: () => false }]);
     const result = getAllProjectFiles();
     expect(result).to.deep.equal([
       path.join(process.cwd(), 'index.js'),
@@ -71,12 +76,3 @@ describe('Broken Imports Checker', () => {
     ]);
   });
 });
-
-
-
-
-
-
-
-
-

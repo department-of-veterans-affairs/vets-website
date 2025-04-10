@@ -55,6 +55,18 @@ const useDatadogRum = config => {
 };
 
 // REMINDER: Always be conscience of PII and Datadog
+/**
+ * Sets the Datadog RUM user information if the environment is not local/CI,
+ * Datadog is configured, and the user object has an id.
+ *
+ * @param {Object} user - The user object containing user information.
+ * @param {string} user.id - The user's unique identifier.
+ * @param {boolean} user.hasEHRM - Indicates if the user has EHRM access.
+ * @param {boolean} user.hasVista - Indicates if the user has Vista access.
+ * @param {string} user.CSP - The user's CSP value.
+ * @param {string} user.LOA - The user's LOA value.
+ * @param {boolean} user.isVAPatient - Indicates if the user is a VA patient.
+ */
 const setDatadogRumUser = user => {
   if (
     // // Prevent RUM from running on local/CI environments.
@@ -69,6 +81,9 @@ const setDatadogRumUser = user => {
       id: user.id,
       hasEHRM: user.hasEHRM,
       hasVista: user.hasVista,
+      CSP: user.CSP,
+      LOA: user.LOA,
+      isVAPatient: user.isVAPatient,
     });
   }
 };

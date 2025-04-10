@@ -12,7 +12,7 @@ const route = [
   {
     path: '/',
     component: App,
-    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+    indexRoute: { onEnter: (_, replace) => replace('/introduction') },
     childRoutes: createRoutesWithSaveInProgress(formConfig),
   },
 ];

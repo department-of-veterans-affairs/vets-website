@@ -525,7 +525,9 @@ export default class DeceasedPersons extends React.Component {
                     <button
                       type="button"
                       className="usa-button-secondary edit vads-u-flex--auto"
-                      aria-label={`Edit ${ariaItemName}`}
+                      aria-label={`Edit ${item?.name?.first} ${
+                        item?.name?.last
+                      }`}
                       onClick={() => this.handleEdit(index)}
                     >
                       Edit
@@ -536,7 +538,9 @@ export default class DeceasedPersons extends React.Component {
                     <button
                       type="button"
                       className="usa-button-secondary edit vads-u-flex--auto"
-                      aria-label={`Edit ${ariaItemName}`}
+                      aria-label={`Edit ${item?.name?.first} ${
+                        item?.name?.last
+                      }`}
                       onClick={() => this.handleEdit(index, item)}
                     >
                       Edit

@@ -34,7 +34,9 @@ export const SpouseAdditionalEvidence = () => {
                 A copy of your marriage license, or a church record of your
                 marriage
                 {(isTribalMarriage || isProxyMarriage) && (
-                  <strong>, and</strong>
+                  <>
+                    , <strong>and</strong>
+                  </>
                 )}
               </li>
             )}
@@ -43,15 +45,13 @@ export const SpouseAdditionalEvidence = () => {
               <>
                 <li>
                   Copies of the birth certificates for you and your spouse’s
-                  children
-                  <strong>, and</strong>
+                  children, <strong>and</strong>
                 </li>
                 <li>
                   2 Statements of Marital Relationship (VA Form 21-4170) – 1
-                  that you complete and 1 that your spouse completes
-                  <strong>, and</strong>
-                </li>
-                <li>
+                  that you complete and 1 that your spouse completes,{' '}
+                  <strong>and</strong>
+                  <br />
                   <a
                     href="/find-forms/about-form-21-4170"
                     rel="noopener noreferrer"
@@ -64,8 +64,7 @@ export const SpouseAdditionalEvidence = () => {
                   2 Supporting Statements Regarding Marriage (VA Form 21-4171)
                   completed by two different people with knowledge about your
                   marriage
-                </li>
-                <li>
+                  <br />
                   <a
                     href="/find-forms/about-form-21p-4171"
                     rel="noopener noreferrer"
@@ -83,8 +82,8 @@ export const SpouseAdditionalEvidence = () => {
                   the name of the tribe, date (month, day, and year) of
                   marriage, place (city and state, county and state, or city and
                   country) where the marriage ceremony occurred, and the name
-                  and mailing address of the person who performed the ceremony
-                  <strong>, and</strong>
+                  and mailing address of the person who performed the ceremony,{' '}
+                  <strong>and</strong>
                 </li>
                 <li>
                   Signed statements from at least two people who were present at
@@ -92,8 +91,7 @@ export const SpouseAdditionalEvidence = () => {
                   the tribe, date (month, day, and year) of marriage, place
                   (city and state, county and state, or city and country) where
                   the ceremony happened, and the name and mailing address of the
-                  person who performed the ceremony
-                  <strong>, and</strong>
+                  person who performed the ceremony, <strong>and</strong>
                 </li>
                 <li>
                   A signed statement from the person who performed the ceremony.

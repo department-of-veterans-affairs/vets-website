@@ -18,7 +18,7 @@ describe('VAOS past appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({});
+      mockFeatureToggles({ vaOnlineSchedulingFeSourceOfTruth: false });
       mockVamcEhrApi();
 
       cy.login(new MockUser());
@@ -71,7 +71,8 @@ describe('VAOS past appointment flow', () => {
       // Act
       PastAppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
-        .selectListItem();
+        .selectListItem()
+        .assertLink({ name: /Back to past appointments/i, useShadowDOM: true });
 
       cy.axeCheckBestPractice();
     });

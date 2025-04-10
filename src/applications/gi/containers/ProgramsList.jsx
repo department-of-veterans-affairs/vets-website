@@ -164,9 +164,12 @@ const ProgramsList = ({ match }) => {
         className={`${institutionPrograms.length < 21 &&
           'vads-u-margin-bottom--4'}`}
       >
-        <h4 className="abbreviations" data-testid="abbreviations-container">
+        <h3
+          className="vads-u-font-size--h4 abbreviations"
+          data-testid="abbreviations-container"
+        >
           Abbreviation(s)
-        </h4>
+        </h3>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="list-style" role="list">
           {abbreviatedList.map(abb => (

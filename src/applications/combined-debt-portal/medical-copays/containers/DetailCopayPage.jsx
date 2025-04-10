@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
@@ -217,8 +218,9 @@ const DetailCopayPage = ({ match }) => {
             <p>
               You can contact us online through{' '}
               <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
-              Health Resource Center at <va-telephone contact="8664001238" />.
-              We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              Health Resource Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />. We’re
+              here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </div>
         </va-need-help>

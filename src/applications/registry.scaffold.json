@@ -88,11 +88,6 @@
   },
   {
     "appName": "Schedule And View VA Appointments Online",
-    "rootUrl": "/health-care/schedule-view-va-appointments",
-    "widgetType": "schedule-view-va-appointments-page"
-  },
-  {
-    "appName": "Schedule And View VA Appointments Online",
     "rootUrl": "/health-care/modern-schedule-view-va-appointments",
     "widgetType": "modern-schedule-view-va-appointments-page"
   },
@@ -146,14 +141,6 @@
     "appName": "Verify Your Enrollment Widget",
     "rootUrl": "/education/verify-school-enrollment",
     "widgetType": "vye-enrollment-login-widget"
-  },
-  {
-    "appName": "21a Apply to become a VA-accredited attorney or claims agent",
-    "entryName": "representative-21a",
-    "rootUrl": "/representative/accreditation/attorney-claims-agent-form-21a",
-    "template": {
-      "layout": "accredited-representative-portal.html"
-    }
   },
   {
     "appName": "Order Medical Supplies",

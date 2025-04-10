@@ -121,6 +121,8 @@ const ReviewAndConfirm = props => {
     );
   };
 
+  // handle routing to the next page once the appointment is created
+  // and the appointment id is available
   useEffect(
     () => {
       if (

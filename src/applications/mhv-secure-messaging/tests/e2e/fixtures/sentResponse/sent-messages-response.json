@@ -15,13 +15,15 @@
         "sentDate": "2023-07-17T19:57:15.000Z",
         "draftDate": null,
         "senderId": 694294,
-        "senderName": "MAMMADOV, FAZIL",
+        "senderName": "SPARROW, JACK",
         "recipientName": "MHVTP, SAFARI ",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2708300"
@@ -38,17 +40,19 @@
         "messageCount": 2,
         "category": "MEDICATIONS",
         "subject": "Medication Inquiry",
-        "triageGroupName": "Dimitar's TG",
+        "triageGroupName": "Black Pearl",
         "sentDate": "2023-02-07T16:15:32.000Z",
         "draftDate": null,
         "senderId": 694294,
-        "senderName": "TZVETANOV, DIMITAR  A",
-        "recipientName": "MAMMADOV, FAZIL",
+        "senderName": "TEACH, EDWARD",
+        "recipientName": "SPARROW, JACK",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649219"
@@ -69,13 +73,15 @@
         "sentDate": "2022-07-21T16:25:04.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "JOHNNY KIDD",
         "recipientName": "DG_SLC10_MOMHV7388",
         "recipientId": 1486187,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2405196"
@@ -96,13 +102,15 @@
         "sentDate": "2022-06-19T16:35:33.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "JONNY KIDD",
         "recipientName": "DG_SLC10_MOMHV7388",
         "recipientId": 1486187,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2402990"
@@ -123,13 +131,15 @@
         "sentDate": "2022-06-01T19:38:44.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "TEACH, EDWARD",
         "recipientName": "MHVTP, SAFARI ",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2329928"
@@ -156,7 +166,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": true,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1913609"
@@ -177,13 +189,15 @@
         "sentDate": "2020-10-13T14:19:53.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "TEACH, EDWARD",
         "recipientName": "MHVTP, SAFARI ",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1536732"
@@ -204,13 +218,15 @@
         "sentDate": "2020-10-02T20:46:55.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "TEACH, EDWARD",
         "recipientName": "MHVTP, SAFARI ",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1520121"
@@ -231,13 +247,15 @@
         "sentDate": "2020-09-18T15:59:53.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "TEACH, EDWARD",
         "recipientName": "MHVTP, SAFARI ",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1486527"
@@ -258,13 +276,15 @@
         "sentDate": "2020-09-18T15:59:20.000Z",
         "draftDate": null,
         "senderId": 263530,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "senderName": "BARBOSA, HECTOR",
         "recipientName": "MHVTP, SAFARI ",
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1486535"

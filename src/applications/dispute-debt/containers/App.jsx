@@ -5,6 +5,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
 
@@ -37,7 +38,12 @@ export default function App({ children, location }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <DowntimeNotification
+        appTitle="dispute debt system"
+        dependencies={formConfig.downtime.dependencies}
+      >
+        {children}
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 }

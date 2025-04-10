@@ -21,9 +21,11 @@ describe('Medications Details Page Active Submitted Progress Tracker', () => {
     );
     detailsPage.verifyProcessStepTwoHeaderOnDetailsPage(
       Data.STEP_TWO_SUBMITTED,
+      Data.STEP_TWO_NOTE,
     );
     detailsPage.verifyProcessStepThreeHeaderOnDetailsPage(
       Data.STEP_THREE_SUBMITTED,
+      Data.STEP_THREE_NO_TRACKING,
     );
     cy.injectAxe();
     cy.axeCheck('main');

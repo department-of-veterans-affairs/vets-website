@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import { getTriageTeams } from '../../actions/triageTeams';
-import * as triageTeamsResponse from '../e2e/fixtures/recipients-response.json';
+import * as triageTeamsResponse from '../e2e/fixtures/recipientsResponse/recipients-response.json';
 
 describe('triageTeam actions', () => {
   const middlewares = [thunk];

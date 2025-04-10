@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '../../utils/imports';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 

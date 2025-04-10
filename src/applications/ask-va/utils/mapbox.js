@@ -51,6 +51,9 @@ const convertToLatLng = async query => {
     })
     .send()
     .then(({ body: { features } }) => {
+      if (!features.length) {
+        return [];
+      }
       return features[0].center;
     });
 };

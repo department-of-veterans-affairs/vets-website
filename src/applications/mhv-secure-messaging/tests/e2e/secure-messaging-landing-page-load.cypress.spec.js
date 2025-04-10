@@ -3,7 +3,7 @@ import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
-import mockRecipients from './fixtures/recipients-response.json';
+import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 
 describe('SM MAIN PAGE', () => {
   beforeEach(() => {

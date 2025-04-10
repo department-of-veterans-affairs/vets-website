@@ -1,4 +1,13 @@
 {
   "data": {
+    "id": "39",
+    "type": "education_benefits_claim",
+    "attributes": {
+      "form":
+      "{\"studentRatioCalcChapter\":{\"beneficiaryStudent\":2,\"numOfStudent\":3,\"dateOfCalculation\":\"2020-01-06\",\"VABeneficiaryStudentsPercentage\":\"66.7%\"},\"institutionDetails\":{\"institutionName\":\"test\",\"facilityCode\":\"90987890\",\"termStartDate\":\"2020-01-02\"}}",
+      "regionalOffice":
+      "VA Regional Office\nP.O. Box 4616\nBuffalo, NY 14240-4616",
+      "confirmationNumber": "V-EBC-39"
+    }
   }
 }

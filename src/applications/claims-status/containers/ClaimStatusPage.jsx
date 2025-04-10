@@ -12,7 +12,6 @@ import NextSteps from '../components/claim-status-tab/NextSteps';
 import Payments from '../components/claim-status-tab/Payments';
 import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
-import { showClaimLettersFeature } from '../selectors';
 import {
   claimAvailable,
   isClaimOpen,
@@ -129,7 +128,6 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     loading: claimsState.claimDetail.loading,
     message: claimsState.notifications.message,
-    showClaimLettersLink: showClaimLettersFeature(state),
   };
 }
 
@@ -143,7 +141,6 @@ ClaimStatusPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
-  showClaimLettersLink: PropTypes.bool,
 };
 
 export default connect(

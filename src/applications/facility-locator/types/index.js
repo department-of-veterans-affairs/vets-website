@@ -229,7 +229,9 @@ export const SearchFormTypes = {
   geolocateUser: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  searchInitiated: PropTypes.bool,
   selectMobileMapPin: PropTypes.func,
+  setSearchInitiated: PropTypes.func,
   suppressPPMS: PropTypes.bool,
   vamcServiceDisplay: PropTypes.string,
 };

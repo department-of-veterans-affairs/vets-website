@@ -6,7 +6,7 @@ import { setData } from '~/platform/forms-system/src/js/actions';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 import { TITLE, SUBTITLE } from '../config/constants';
@@ -196,76 +196,61 @@ const IntroductionPage = props => {
         </li>
         <li>You can also send copies of your documents by mail.</li>
       </ul>
-      <va-additional-info trigger="Where can I send documents by mail?" uswds>
-        <p>
-          Find the benefit type you’re requesting priority processing for. Then
-          use the corresponding mailing address.
-        </p>
-        <p className="vads-u-padding-top--2">
-          <strong>Note:</strong> Please don’t send original documents. Send
-          copies instead.
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Compensation claims
-        </p>
-        <p>
-          Department of Veterans Affairs Compensation Intake Center
-          <br />
-          PO Box 4444
-          <br />
-          Janesville, WI 53547-4444
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Pension and survivors benefit claims
-        </p>
-        <p>
-          Department of Veterans Affairs Pension Intake Center
-          <br />
-          PO Box 5365
-          <br />
-          Janesville, WI 53547-5365
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Board of Veterans’ Appeals
-        </p>
-        <p>
-          Department of Veterans Affairs Board of Veterans' Appeals
-          <br />
-          PO Box 27063
-          <br />
-          Washington, DC 20038
-        </p>
-        <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
-          Fiduciary
-        </p>
-        <p>
-          Department of Veterans Affairs Fiduciary Intake Center
-          <br />
-          PO Box 5211
-          <br />
-          Janesville, WI 53547-5211
-        </p>
-      </va-additional-info>
-      <h2 id="start-your-request">Start your request</h2>
+      <div className="vads-u-margin-bottom--4">
+        <va-additional-info trigger="Where can I send documents by mail?" uswds>
+          <p>
+            Find the benefit type you’re requesting priority processing for.
+            Then use the corresponding mailing address.
+          </p>
+          <p className="vads-u-padding-top--2">
+            <strong>Note:</strong> Please don’t send original documents. Send
+            copies instead.
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Compensation claims
+          </p>
+          <p>
+            Department of Veterans Affairs Compensation Intake Center
+            <br />
+            PO Box 4444
+            <br />
+            Janesville, WI 53547-4444
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Pension and survivors benefit claims
+          </p>
+          <p>
+            Department of Veterans Affairs Pension Intake Center
+            <br />
+            PO Box 5365
+            <br />
+            Janesville, WI 53547-5365
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Board of Veterans’ Appeals
+          </p>
+          <p>
+            Department of Veterans Affairs Board of Veterans' Appeals
+            <br />
+            PO Box 27063
+            <br />
+            Washington, DC 20038
+          </p>
+          <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
+            Fiduciary
+          </p>
+          <p>
+            Department of Veterans Affairs Fiduciary Intake Center
+            <br />
+            PO Box 5211
+            <br />
+            Janesville, WI 53547-5211
+          </p>
+        </va-additional-info>
+      </div>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-          <div
-            className="id-not-verified-content vads-u-margin-top--4"
-            data-testid="verifyIdAlert"
-          >
-            <VerifyAlert headingLevel={3} />
-            <p className="vads-u-margin-top--3">
-              If you don’t want to verify your identity right now, you can still
-              download and complete the PDF version of this request.
-            </p>
-            <p className="vads-u-margin-y--3">
-              <va-link
-                download
-                href="https://www.vba.va.gov/pubs/forms/VBA-20-10207-ARE.pdf"
-                text="Get VA Form 20-10207 to download"
-              />
-            </p>
-          </div>
+          <IdNotVerifiedAlert formNumber="20-10207" />
         )}
     </>
   );

@@ -86,3 +86,10 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
 
   return indexRemainsInPlace;
 };
+
+export const filterDeletedForms = forms => {
+  if (!forms) {
+    return [];
+  }
+  return forms.filter(form => !form.attributes.deletedAt);
+};

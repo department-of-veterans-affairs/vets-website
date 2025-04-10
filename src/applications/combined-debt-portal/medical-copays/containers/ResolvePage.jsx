@@ -60,7 +60,8 @@ const ResolvePage = ({ match }) => {
           <div slot="content">
             <p>
               You can contact us online through Ask VA or call the VA Health
-              Resource Center at <va-telephone contact={CONTACTS.DMC} /> (
+              Resource Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
               <va-telephone contact="711" tty="true" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>

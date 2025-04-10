@@ -21,8 +21,6 @@ export const setupMinimalFooter = () => {
 
   if (footer?.dataset?.minimalExcludePaths) {
     excludePaths = JSON.parse(footer.dataset.minimalExcludePaths);
-    // Remove the data attribute from the DOM since it's no longer needed
-    footer.removeAttribute('data-minimal-exclude-paths');
   }
 
   return createShouldShowMinimal({

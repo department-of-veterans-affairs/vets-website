@@ -82,7 +82,7 @@ describe('VA prescription Config', () => {
   it('should show refill information', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Refill history\n');
-    expect(txt).to.include('Description:');
+    expect(txt).to.include('Medication description:');
     expect(txt).to.include(
       'Note: If the medication you’re taking doesn’t match this description',
     );

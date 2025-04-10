@@ -170,11 +170,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      // Another instance where we need to specifically find the element inside of a shadow dom (va-button)
-      cy.get('.screen-only')
-        .shadow()
-        .find('[type="button"')
-        .should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

@@ -40,17 +40,17 @@ export function ConfirmationPageContent({
 
   const claimList = () => {
     return [
-      <li key={'confirmation-number'}>
+      <li key="confirmation-number">
         <strong>Confirmation number</strong>
         <br />
         <span>{response.confirmationNumber}</span>
       </li>,
-      <li key={'date-received'}>
+      <li key="date-received">
         <strong>Date received</strong>
         <br />
         <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
       </li>,
-      <li key={'regional-office'}>
+      <li key="regional-office">
         <strong>Your claim was sent to</strong>
         <br />
         <address className="schemaform-address-view">
@@ -114,10 +114,7 @@ export function ConfirmationPageContent({
 
       {docExplanation &&
         docExplanationHeader && (
-          <div
-            id="collapsiblePanel"
-            className="usa-accordion-bordered screen-only"
-          >
+          <div id="collapsiblePanel" className="screen-only">
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul className="usa-unstyled-list" role="list">
               <li>
@@ -134,9 +131,7 @@ export function ConfirmationPageContent({
 
                 {isExpanded && (
                   <div id="collapsible-document-explanation">
-                    <div className="usa-accordion-content" aria-hidden="false">
-                      {docExplanation}
-                    </div>
+                    <div aria-hidden="false">{docExplanation}</div>
                   </div>
                 )}
               </li>
@@ -152,7 +147,7 @@ export function ConfirmationPageContent({
 
         <p className="confirmation-guidance-message">
           If you have questions, call 1-888-GI-BILL-1 (
-          <a href="tel:+18884424551">1-888-442-4551</a>
+          <va-telephone contact="8884424551" />
           ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
         </p>
       </div>

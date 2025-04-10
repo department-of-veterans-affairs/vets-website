@@ -77,8 +77,10 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     tree.unmount();
   });
 
-  it('should render h1 header if MINIMAL_HEADER_APPLICABLE is true', () => {
-    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+  it('should render h1 header if minimal header is present', () => {
+    const minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
 
     const formConfig = {
       chapters: {
@@ -124,8 +126,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
     expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
     treeWithMinimalHeader.unmount();
-
-    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
+    document.body.removeChild(minimalHeader);
 
     const treeWithoutMinimalHeader = shallow(
       <RoutedSavableReviewPage

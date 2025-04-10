@@ -1,6 +1,6 @@
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
-import { LAST_YEAR } from '../../../utils/constants';
+import { LAST_YEAR } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   DeductibleExpensesDescription,

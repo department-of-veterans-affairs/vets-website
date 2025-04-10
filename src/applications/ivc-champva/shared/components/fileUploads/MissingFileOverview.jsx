@@ -41,7 +41,7 @@ const mailInfo = (address, officeName, faxNum, preamble, appType) => {
   const faxNumMarkup = (
     <VaTelephone
       contact={JSON.stringify({
-        phoneNumber: faxNum ?? '3033317809',
+        phoneNumber: faxNum ?? '3033317807',
         description: 'fax number',
       })}
     />

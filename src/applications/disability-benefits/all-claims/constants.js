@@ -23,6 +23,11 @@ export const START_TEXT = {
   BDD: 'Start the Benefits Disability at Discharge Application',
 };
 
+export const ITF_NOTICE_TEXT = `By clicking the button to start the disability application, you’ll declare
+  your intent to file. This will reserve a potential effective date for when
+  you could start getting benefits. You have 1 year from the day you submit
+  your intent to file to complete your application.`;
+
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',
@@ -448,6 +453,12 @@ export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   socialEconomic: 'otherBehaviors',
   relationships: 'otherBehaviors',
   misconduct: 'otherBehaviors',
+});
+
+export const ALL_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
+  ...LISTED_BEHAVIOR_TYPES_WITH_SECTION,
+  unlisted: 'otherBehaviors',
+  'view:noBehaviorChanges': 'view:noneCheckbox',
 });
 
 export const MH_0781_URL_PREFIX = 'mental-health-form-0781';

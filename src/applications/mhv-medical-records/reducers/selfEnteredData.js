@@ -784,14 +784,14 @@ export const convertDemographics = patient => {
     },
     emergencyContacts: [
       {
-        firstName: 'Minnie', // Placeholder; replace with actual logic when available
-        lastName: 'Mouse', // Placeholder; replace with actual logic when available
+        firstName: NONE_ENTERED, // Placeholder; replace with actual logic when available
+        lastName: NONE_ENTERED, // Placeholder; replace with actual logic when available
         relationship: NONE_ENTERED, // Placeholder; replace with actual logic when available
         homePhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        workPhone: '801-422-9999', // Placeholder; replace with actual logic when available
+        workPhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
         mobilePhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
         email: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        address: '123 Disney land', // Placeholder; replace with actual logic when available
+        address: NONE_ENTERED, // Placeholder; replace with actual logic when available
       },
     ],
   };

@@ -108,11 +108,12 @@ const FileUpload = props => {
       reader.readAsDataURL(currentFile);
       reader.onload = () => {
         const base64Img = reader.result;
+        const base64NoPrefix = base64Img.split(',')[1];
         const imgData = {
           fileName: files[0].name,
           fileSize: files[0].size,
           fileType: files[0].type,
-          base64: base64Img,
+          base64: base64NoPrefix,
           fileID: inputID,
         };
 

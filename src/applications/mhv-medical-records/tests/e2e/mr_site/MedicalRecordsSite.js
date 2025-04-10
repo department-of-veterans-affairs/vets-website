@@ -57,14 +57,6 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhvMedicalRecordsToVAGovRelease',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_to_va_gov_release',
-            value: true,
-          },
-          {
             name: 'mhvMedicalRecordsDisplayDomains',
             value: true,
           },
@@ -106,6 +98,10 @@ class MedicalRecordsSite {
           },
           {
             name: 'mhv_medical_records_display_sidenav',
+            value: true,
+          },
+          {
+            name: 'mhv_medical_records_filter_and_sort',
             value: true,
           },
         ],

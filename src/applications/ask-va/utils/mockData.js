@@ -1519,6 +1519,133 @@ export const mockSubmitResponse = {
   listOfAttachments: [],
 };
 
+// Example of announcements response
+export const mockAnnouncementsResponse = {
+  data: [
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text:
+          'This is an example of an active Announcement that should display from 3/24 to 3/31',
+        startDate: '3/24/2025 1:00:00 PM',
+        endDate: '4/31/2025 1:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'This is an example of an upcoming announcementt.',
+        startDate: '11/14/2025 2:00:00 PM',
+        endDate: '11/14/2025 10:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'test banner',
+        startDate: '8/4/2024 1:00:00 PM',
+        endDate: '8/4/2024 3:00:00 PM',
+        isPortal: true,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'this is a portal notice',
+        startDate: '8/18/2024 12:00:00 PM',
+        endDate: '8/20/2024 12:00:00 PM',
+        isPortal: true,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'This is a global announcement',
+        startDate: '8/18/2024 12:00:00 PM',
+        endDate: '8/21/2024 12:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'Test banner',
+        startDate: '8/15/2023 3:00:00 PM',
+        endDate: '8/15/2023 6:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'Admin banner test',
+        startDate: '8/18/2023 1:00:00 PM',
+        endDate: '8/18/2023 1:15:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'Test',
+        startDate: '9/6/2023 12:00:00 PM',
+        endDate: '9/7/2023 12:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'Test',
+        startDate: '9/6/2023 12:00:00 PM',
+        endDate: '9/7/2023 12:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'Test',
+        startDate: '10/12/2022 6:00:00 PM',
+        endDate: '10/13/2022 2:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'test',
+        startDate: '10/11/2022 6:00:00 PM',
+        endDate: '10/15/2022 6:00:00 PM',
+        isPortal: false,
+      },
+    },
+    {
+      id: null,
+      type: 'announcements',
+      attributes: {
+        text: 'You are both CRAZY',
+        startDate: '8/3/2022 3:00:00 PM',
+        endDate: '8/5/2022 3:00:00 PM',
+        isPortal: false,
+      },
+    },
+  ],
+};
+
 // Example response taken from https://staging-api.va.gov/ask_va_api/v0/download_attachment?id=4ec11cee-2ebe-ef11-b8e9-001dd809b958
 export const mockAttachmentResponse = {
   data: {

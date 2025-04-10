@@ -60,3 +60,27 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 });
+
+describe('TG PLAIN NAMES', () => {
+  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
+    mockDraftMessages,
+    'TG | Type | Name',
+  );
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDraftMessages(updatedThreadResponse);
+  });
+
+  it('verify TG plain name in thread', () => {
+    cy.findAllByTestId('thread-list-item')
+      .first()
+      .should(
+        'contain.text',
+        updatedThreadResponse.data[0].attributes.suggestedNameDisplay,
+      );
+
+    cy.injectAxeThenAxeCheck();
+  });
+});

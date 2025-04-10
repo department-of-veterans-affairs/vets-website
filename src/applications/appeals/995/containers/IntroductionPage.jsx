@@ -35,7 +35,7 @@ const IntroductionPage = props => {
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle()} />
       <p className="va-introtext">
         If you disagree with our decision on your claim, a Supplemental Claim

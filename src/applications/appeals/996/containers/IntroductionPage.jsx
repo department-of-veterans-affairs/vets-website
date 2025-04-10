@@ -40,7 +40,7 @@ export const IntroductionPage = props => {
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <PageTitle />
       <IntroText />
 

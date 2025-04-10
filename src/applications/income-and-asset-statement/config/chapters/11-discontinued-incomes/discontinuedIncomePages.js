@@ -19,27 +19,28 @@ import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'discontinuedIncomes',
   nounSingular: 'discontinued income',
   nounPlural: 'discontinued incomes',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.payer ||
-    !item.incomeType ||
-    !item.incomeFrequency ||
-    !item.incomeLastReceivedDate ||
-    !item.grossAnnualAmount, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.payer) ||
+    !isDefined(item.incomeType) ||
+    !isDefined(item.incomeFrequency) ||
+    !isDefined(item.incomeLastReceivedDate) ||
+    !isDefined(item.grossAnnualAmount), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: () => 'Discontinued income',
     cardDescription: item =>
-      item?.grossAnnualAmount && (
+      isDefined(item?.grossAnnualAmount) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income relationship:{' '}

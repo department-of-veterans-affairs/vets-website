@@ -1,12 +1,19 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import UploadFileToVa from '../../../../components/MainContent/Update/UploadFileToVa';
 
 describe('UploadFileToVa', () => {
-  it('renders without crashing', () => {
-    const tree = shallow(<UploadFileToVa />);
-    expect(tree.exists()).to.be.true;
-    tree.unmount();
+  it('should render correctly with given props', () => {
+    const defaultStore = createCommonStore();
+    const { getByText } = render(
+      <Provider store={defaultStore}>
+        <UploadFileToVa />
+      </Provider>,
+    );
+
+    expect(getByText('Other accepted documents')).to.exist;
   });
 });

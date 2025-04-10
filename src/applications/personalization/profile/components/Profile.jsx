@@ -7,6 +7,7 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
+  fetchPowerOfAttorney as fetchPowerOfAttorneyAction,
 } from '@@profile/actions';
 
 import {
@@ -56,6 +57,7 @@ class Profile extends Component {
   componentDidMount() {
     const {
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -63,6 +65,7 @@ class Profile extends Component {
       isLOA3,
       isInMVI,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
@@ -72,6 +75,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -86,12 +92,14 @@ class Profile extends Component {
   componentDidUpdate(prevProps) {
     const {
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -100,6 +108,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (
@@ -144,7 +155,13 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes();
+    let routes = getRoutes();
+
+    if (!this.props.shouldShowAccreditedRepTab) {
+      routes = routes.filter(
+        item => item.name !== 'Accredited representative or VSO',
+      );
+    }
 
     return (
       <BrowserRouter>
@@ -233,6 +250,7 @@ Profile.propTypes = {
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
   isBlocked: PropTypes.bool.isRequired,
@@ -242,6 +260,7 @@ Profile.propTypes = {
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
@@ -266,6 +285,8 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const shouldShowAccreditedRepTab =
+    profileToggles?.representativeStatusEnableV2Features;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -321,6 +342,7 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchDirectDeposit,
+    shouldShowAccreditedRepTab,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -334,6 +356,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
+  fetchPowerOfAttorney: fetchPowerOfAttorneyAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,

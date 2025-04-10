@@ -6,6 +6,7 @@ import {
   fetchFormsSuccess,
   fetchFormsSuccessNoResults,
 } from '../actions';
+import { filterDeletedForms } from '../helpers';
 
 // Form URLs can be entered incorrectly, or the forms themselves can be deleted
 // by forms managers. This guards against sending users to 404 pages
@@ -70,7 +71,7 @@ export const fetchFormsApi = async (query, dispatch) => {
 
   try {
     const response = await apiRequest(FORMS_URL);
-    const forms = response?.data;
+    const forms = filterDeletedForms(response?.data);
 
     if (forms?.length) {
       dispatch(fetchFormsSuccess(forms, allFormsRetired(forms)));

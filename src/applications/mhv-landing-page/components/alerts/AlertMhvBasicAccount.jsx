@@ -5,6 +5,7 @@ import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { VerifyButton } from '~/platform/user/authentication/components/VerifyButton';
 import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
 
 const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
   useEffect(
@@ -15,6 +16,7 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
         'alert-box-headline': headline,
         'alert-box-status': 'warning',
       });
+      datadogRum.addAction('Showed Alert Box: MHV Basic Account Warning');
     },
     [headline, recordEvent],
   );

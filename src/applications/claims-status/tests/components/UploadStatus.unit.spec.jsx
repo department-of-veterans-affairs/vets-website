@@ -1,28 +1,38 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 
 import UploadStatus from '../../components/UploadStatus';
 
-describe('<UploadStatus>', () => {
-  it('should render single file needed', () => {
-    const tree = SkinDeep.shallowRender(
-      <UploadStatus files={1} progress={0.5} />,
-    );
+const props = {
+  files: 1,
+  progress: 0.5,
+  onCancel: () => {},
+};
 
-    expect(tree.subTree('h4').text()).to.contain('Uploading 1 file');
-    expect(tree.subTree('va-progress-bar').props.percent).to.equal(50);
+describe('<UploadStatus>', () => {
+  it('should render 1 file uploading and in progress', () => {
+    const uploadText = `Uploading ${props.files} file...`;
+    const { container, getByText, getByRole } = render(
+      <UploadStatus {...props} />,
+    );
+    getByText('Uploading files');
+    const h4Element = getByRole('heading', { level: 4 });
+    expect(h4Element.textContent).to.equal(uploadText);
+    expect($('va-progress-bar', container)).to.exist;
+    expect($('va-progress-bar', container).getAttribute('percent')).to.equal(
+      '50',
+    );
   });
   it('should call onCancel', () => {
     const onCancel = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <UploadStatus files={1} onCancel={onCancel} progress={0.5} />,
+    const { container } = render(
+      <UploadStatus {...props} onCancel={onCancel} />,
     );
-
-    tree.subTree('va-button').props.onClick({
-      preventDefault: () => {},
-    });
+    fireEvent.click($('va-button', container));
     expect(onCancel.called).to.be.true;
   });
 });

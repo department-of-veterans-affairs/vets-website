@@ -124,7 +124,7 @@ describe('YellowRibbonSelector component', () => {
     expect(cards.at(0).text()).to.contain('Program D');
 
     const summary = wrapper.find('#results-summary');
-    expect(summary.text()).to.contain('result for Bachelors degree level');
+    expect(summary.text()).to.contain('result for "Bachelors" degree level');
     expect(summary.text()).to.contain('Showing 1-1 of 1 result');
   });
 
@@ -175,7 +175,7 @@ describe('YellowRibbonSelector component', () => {
     let summary = wrapper.find('#results-summary');
     expect(summary.exists()).to.be.true;
     expect(summary.text()).to.contain(
-      'Showing 1-3 of 5 results for Bachelors degree level',
+      'Showing 1-3 of 5 results for "Bachelors" degree level',
     );
 
     // Navigate to the second page
@@ -191,7 +191,7 @@ describe('YellowRibbonSelector component', () => {
     summary = wrapper.find('#results-summary');
     expect(summary.exists()).to.be.true;
     expect(summary.text()).to.contain(
-      'Showing 4-5 of 5 results for Bachelors degree level',
+      'Showing 4-5 of 5 results for "Bachelors" degree level',
     );
   });
 

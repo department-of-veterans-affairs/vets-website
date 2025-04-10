@@ -38,6 +38,8 @@ const selectorShorthand = {
   TYPE_SSN: "va-text-input[name='root_aboutYourself_socialOrServiceNum_ssn']",
   TYPE_RESIDENCE: 'input#root_locationOfResidence',
   TYPE_PHONE_NUMBER: "va-text-input[name='root_phoneNumber']",
+  TYPE_BUSINESS_PHONE_NUMBER: "va-text-input[name='root_businessPhone']",
+  TYPE_BUSINESS_EMAIL: "va-text-input[name='root_businessEmail']",
   TYPE_EMAIL: "va-text-input[name='root_emailAddress']",
 };
 /*

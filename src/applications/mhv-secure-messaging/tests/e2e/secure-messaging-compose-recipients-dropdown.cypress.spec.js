@@ -2,9 +2,9 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import mockSpecialCharsMessage from './fixtures/message-response-specialchars.json';
-import mockMessages from './fixtures/messages-response.json';
+import mockMessages from './fixtures/threads-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
-import mockRecipients from './fixtures/recipients-response.json';
+import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import mockBlockedRecipientsResponse from './fixtures/recipientsResponse/group-blocked-recipients-response.json';
 
 describe('recipients dropdown box', () => {

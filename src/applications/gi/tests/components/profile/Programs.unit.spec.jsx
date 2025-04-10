@@ -20,10 +20,10 @@ describe('<Programs>', () => {
     ).to.equal(
       'The following program is approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
     );
-    programTypes.forEach(programType => {
-      const link = wrapper.find('[data-testid="program-link"]');
+    programTypes.forEach((programType, i) => {
+      const link = wrapper.find('[data-testid="program-link"]').at(i);
       expect(link.exists()).to.be.true;
-      expect(link.text()).to.equal(
+      expect(link.prop('text')).to.equal(
         `See ${mapProgramTypeToName(programType)} programs`,
       );
     });

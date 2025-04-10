@@ -1,42 +1,64 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
+import manifest from '../manifest.json';
 
 import formConfig from '../config/form';
-import manifest from '../manifest.json';
+
+const mockManifest = {
+  appName: manifest.appName,
+  entryFile: manifest.entryFile,
+  entryName: manifest.entryName,
+  productId: manifest.productId,
+  rootUrl: manifest.rootUrl,
+};
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataDir: path.join(__dirname, 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['maximal-test', 'test-data'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
-            .last()
+          // cy.get('a.va-link--primary')
+          cy.get('[class="schemaform-start-button"]')
+            .first()
             .click();
+        });
+      },
+      '/school-administrators/85-15-rule-enrollment-ratio/85-15-calculations/summary': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.selectVaRadioOption('root_view:programsSummary', 'N');
+          cy.tabToContinueForm();
+        });
+      },
+      '/school-administrators/85-15-rule-enrollment-ratio/review-and-submit': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          // cy.get('@testKey').then(testKey => {
+          cy.get('[id="inputField"]', { timeout: 10000 }).type('John Doe', {
+            force: true,
+          });
+          cy.get('[id="checkbox-element"]').check({ force: true });
+          cy.tabToSubmitForm();
         });
       },
     },
 
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
-      // cy.login();
-
-      cy.route('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('POST', formConfig.submitUrl);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
     skip: Cypress.env('CI'),
   },
-  manifest,
+  mockManifest,
   formConfig,
 );
 
