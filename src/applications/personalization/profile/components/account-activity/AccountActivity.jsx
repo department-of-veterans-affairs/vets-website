@@ -42,6 +42,8 @@ const mockApiRequest = async () => {
 
   const statuses = ['Success', 'Failure', 'Pending', 'Error'];
 
+  const performedBy = ['User', 'Guardian', 'System'];
+
   const data = [];
 
   const startDate = new Date('2021-01-01T00:00:00Z');
@@ -60,8 +62,17 @@ const mockApiRequest = async () => {
     const event = events[Math.floor(Math.random() * events.length)];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
     const device = devices[Math.floor(Math.random() * devices.length)];
+    const performer =
+      performedBy[Math.floor(Math.random() * performedBy.length)];
 
-    data.push({ timestamp: dateStr, ipAddress, device, event, status });
+    data.push({
+      timestamp: dateStr,
+      ipAddress,
+      performer,
+      device,
+      event,
+      status,
+    });
   }
 
   return { data };
@@ -176,6 +187,7 @@ export default function AccountActivity() {
           <va-table-row slot="headers">
             <span>Timestamp</span>
             <span>Event</span>
+            <span>Performed By</span>
             <span>IP Address</span>
             <span>Device Information</span>
             <span>Status</span>
@@ -184,6 +196,7 @@ export default function AccountActivity() {
             <va-table-row key={index}>
               <span>{formatTimestamp(record.timestamp)}</span>
               <span>{record.event}</span>
+              <span>{record.performer}</span>
               <span>{record.ipAddress}</span>
               <span>{record.device}</span>
               <span>{record.status}</span>
