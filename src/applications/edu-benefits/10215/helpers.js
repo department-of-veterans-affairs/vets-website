@@ -1,5 +1,14 @@
 import React from 'react';
 
+export const isTermEndBeforeTermStartDate = (
+  termStartDate,
+  dateOfCalculations,
+) => {
+  const startDate = new Date(termStartDate);
+  const calculationDate = new Date(dateOfCalculations);
+  return calculationDate < startDate;
+};
+
 export const isWithinThirtyDaysLogic = (termStartDate, dateOfCalculations) => {
   const startDate = new Date(termStartDate);
   const calculationDate = new Date(dateOfCalculations);

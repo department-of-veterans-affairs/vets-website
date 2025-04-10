@@ -8,7 +8,10 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { isWithinThirtyDaysLogic } from '../helpers';
+import {
+  isTermEndBeforeTermStartDate,
+  isWithinThirtyDaysLogic,
+} from '../helpers';
 import InstitutionName from '../components/InstitutionName';
 
 function isWithinThirtyDays(
@@ -20,6 +23,13 @@ function isWithinThirtyDays(
 ) {
   const { termStartDate, dateOfCalculations } = formData.institutionDetails;
   if (!termStartDate || !dateOfCalculations) return;
+
+  if (isTermEndBeforeTermStartDate(termStartDate, dateOfCalculations)) {
+    errors.addError(
+      `Calculations can't occur before the term start date. Enter the term start date or a later date`,
+    );
+  }
+
   if (!isWithinThirtyDaysLogic(termStartDate, dateOfCalculations)) {
     errors.addError(errorMessages.pattern);
   }

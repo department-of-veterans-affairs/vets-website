@@ -1,6 +1,23 @@
 // src/applications/edu-benefits/10215/helpers.test.js
 import { expect } from 'chai';
-import { isWithinThirtyDaysLogic, childContent, getFTECalcs } from '../helpers';
+import {
+  isWithinThirtyDaysLogic,
+  childContent,
+  getFTECalcs,
+  isTermEndBeforeTermStartDate,
+} from '../helpers';
+
+describe('isTermEndBeforeTermStartDate', () => {
+  it('should return true if dateOfCalculations occurred before termStartDate', () => {
+    const termStartDate = '2025-01-01';
+    const dateOfCalculations = '2024-12-20';
+    const result = isTermEndBeforeTermStartDate(
+      termStartDate,
+      dateOfCalculations,
+    );
+    expect(result).to.be.true;
+  });
+});
 
 describe('isWithinThirtyDaysLogic', () => {
   it('should return false if dateOfCalculations is over 30 days', () => {
