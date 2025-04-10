@@ -383,6 +383,8 @@ export const delete0781FormData = formData => {
   delete data.supportingEvidenceNoneCheckbox;
   delete data.optionIndicator;
   delete data.additionalRemarks781;
+  delete data.treatmentReceivedNonVaProvider;
+  delete data.treatmentReceivedVaProvider;
   delete data.treatmentNoneCheckbox;
   delete data.additionalInformation;
   data.vaTreatmentFacilities.forEach((facility, index, object) => {
@@ -539,10 +541,11 @@ export function transformTreatmentFacilities(
 }
 
 export const addForm0781V2 = formData => {
-  // In case of opt-out, we want to delete any 0781-related data
+  // If a user selects any workflow option outside of submitting the online form,
+  // we want to remove 0781-related data
   if (
-    formData.mentalHealthWorkflowChoice ===
-    form0781WorkflowChoices.OPT_OUT_OF_FORM0781
+    formData.mentalHealthWorkflowChoice !==
+    form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   ) {
     delete0781FormData(formData);
   }
