@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
 import { normalizeFullName } from '../../utils/helpers';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaModal } from '../../utils/imports';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-
-// expose React binding for web components
-const { VaModal } = REACT_BINDINGS;
 
 // declare shared routes from the form & default states
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
