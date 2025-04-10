@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
 
 const isPanelWhite = (mobileMediaQuery, panelWhite) => {
   if (mobileMediaQuery?.matches) {
@@ -25,7 +25,7 @@ const Column = props => {
     return (
       <div
         aria-hidden={hidden ? 'true' : 'false'}
-        className={`vetnav-panel vetnav-panel--submenu ${_.kebabCase(
+        className={`vetnav-panel vetnav-panel--submenu ${kebabCase(
           keyName,
         )}${isPanelWhite(mobileMediaQuery, panelWhite)}`}
         aria-label={keyName}
@@ -41,7 +41,7 @@ const Column = props => {
           <div className="mm-marketing-text">
             <a
               className="mm-links"
-              data-e2e-id={`${_.kebabCase(data.link.text)}`}
+              data-e2e-id={`${kebabCase(data.link.text)}`}
               href={data.link.href}
               onClick={columnThreeLinkClicked.bind(null, data.link)}
             >
@@ -57,14 +57,14 @@ const Column = props => {
   return (
     <div
       aria-hidden={hidden ? 'true' : 'false'}
-      className={`vetnav-panel vetnav-panel--submenu ${_.kebabCase(
+      className={`vetnav-panel vetnav-panel--submenu ${kebabCase(
         keyName,
       )}${isPanelWhite(mobileMediaQuery, panelWhite)}`}
     >
       {data.title ? (
         <h3
-          data-e2e-id={`vetnav-${_.kebabCase(keyName)}-header`}
-          id={`vetnav-${_.kebabCase(keyName)}-header`}
+          data-e2e-id={`vetnav-${kebabCase(keyName)}-header`}
+          id={`vetnav-${kebabCase(keyName)}-header`}
         >
           {data.title}
         </h3>
@@ -72,8 +72,8 @@ const Column = props => {
         <span>&nbsp;</span>
       )}
       <ul
-        id={`vetnav-${_.kebabCase(keyName)}-col`}
-        aria-labelledby={`vetnav-${_.kebabCase(keyName)}-header`}
+        id={`vetnav-${kebabCase(keyName)}-col`}
+        aria-labelledby={`vetnav-${kebabCase(keyName)}-header`}
       >
         <li className="panel-top-link">{props.children}</li>
 
@@ -81,7 +81,7 @@ const Column = props => {
           <li className="mm-link-container" key={`${link.href}-${i}`}>
             <a
               className="mm-links"
-              data-e2e-id={`${_.kebabCase(link.text)}-${i}`}
+              data-e2e-id={`${kebabCase(link.text)}-${i}`}
               href={link.href}
               onClick={linkClicked.bind(null, link)}
             >

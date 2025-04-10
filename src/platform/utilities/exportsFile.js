@@ -21,7 +21,6 @@ export { fetchAndUpdateSessionExpiration, apiRequest } from './api/index';
 export { getCernerURL, appointmentsToolLink } from './cerner/index';
 
 /* data */
-export { default as objectKeysToCamelCase } from './data/camelCaseObjectKeys';
 export { default as checkValidPath } from './data/checkValidPath';
 export { default as deconstructPath } from './data/deconstructPath';
 export { default as deduplicate } from './data/deduplicate';
