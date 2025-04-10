@@ -41,9 +41,9 @@ class Vitals {
   };
 
   goToVitalPage = () => {
-    cy.get('[data-testid="vitals-landing-page-link"]')
-      .should('be.visible')
-      .click();
+    cy.get('[data-testid="vitals-landing-page-link"]').as('vitals-link');
+    cy.get('@vitals-link').should('be.visible');
+    cy.get('@vitals-link').click();
   };
 
   checkUrl = ({ timeFrame }) => {
