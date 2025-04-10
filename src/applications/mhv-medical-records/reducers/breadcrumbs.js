@@ -25,7 +25,7 @@ const initialState = {
 export const breadcrumbsReducer = (state = initialState, action) => {
   if (action.type === Actions.Breadcrumbs.SET_BREAD_CRUMBS) {
     const crumbs = action.payload?.crumbs;
-    if (isArrayAndHasItems(crumbs) || crumbs[0] === undefined) {
+    if (!isArrayAndHasItems(crumbs) || crumbs[0] === undefined) {
       return {
         crumbsList: defaultCrumbsList,
       };
