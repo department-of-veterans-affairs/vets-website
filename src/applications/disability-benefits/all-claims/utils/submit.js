@@ -372,8 +372,6 @@ export const delete0781FormData = formData => {
   delete data.workBehaviors;
   delete data.otherBehaviors;
   delete data.healthBehaviors;
-  delete data.workBehaviorChanges;
-  delete data.socialBehaviorChanges;
   delete data.behaviorsDetails;
   delete data.supportingEvidenceRecords;
   delete data.supportingEvidenceReports;
@@ -382,7 +380,6 @@ export const delete0781FormData = formData => {
   delete data.supportingEvidenceOther;
   delete data.supportingEvidenceNoneCheckbox;
   delete data.optionIndicator;
-  delete data.additionalRemarks781;
   delete data.treatmentReceivedNonVaProvider;
   delete data.treatmentReceivedVaProvider;
   delete data.treatmentNoneCheckbox;
