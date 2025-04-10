@@ -23,7 +23,6 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import SortRecordList from '../components/RecordList/SortRecordList';
 
-
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
   const dispatch = useDispatch();
