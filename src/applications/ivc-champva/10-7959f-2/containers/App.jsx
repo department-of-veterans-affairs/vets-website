@@ -17,7 +17,7 @@ export default function App({ location, children }) {
     { href: '/', label: 'Home' },
     { href: '/health-care', label: 'Health care' },
     {
-      href: '/health-care/file-foreign-medical-program',
+      href: '/health-care/file-foreign-medical-program-claim',
       label: 'File a Foreign Medical Program (FMP) claim',
     },
   ];
