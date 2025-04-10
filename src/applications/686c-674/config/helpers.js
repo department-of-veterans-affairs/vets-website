@@ -6,16 +6,17 @@ export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
 
 export const VerifiedAlert = (
-  <div>
-    <div className="usa-alert usa-alert-info schemaform-sip-alert">
-      <div className="usa-alert-body">
-        <strong>Note:</strong> Since you’re signed in to your account and your
-        account is verified, we can prefill part of your application based on
-        your account details. You can also save your form in progress and come
-        back later to finish filling it out.
-      </div>
-    </div>
-    <br />
+  <div className="vads-u-margin-bottom--2">
+    <va-alert status="info" visible>
+      <h3 id="track-your-status-on-mobile" slot="headline">
+        We’ve prefilled some of your information
+      </h3>
+      <p className="vads-u-margin-y--0">
+        Since you’re signed in, we can prefill part of your application based on
+        your profile details. You can also save your application in progress and
+        come back later to finish filling it out.{' '}
+      </p>
+    </va-alert>
   </div>
 );
 
