@@ -363,7 +363,7 @@ class AddressValidationView extends React.Component {
         <div role="alert">
           <VaAlert
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-            status="warning"
+            status={addressValidationError ? 'error' : 'warning'}
             visible
             uswds
           >
@@ -386,15 +386,16 @@ class AddressValidationView extends React.Component {
 
           <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
             {this.renderPrimaryButton()}
-            {!isLoading && (
-              <button
-                type="button"
-                className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
-                onClick={this.onEditClick}
-              >
-                Edit address
-              </button>
-            )}
+            {!addressValidationError &&
+              !isLoading && (
+                <button
+                  type="button"
+                  className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  onClick={this.onEditClick}
+                >
+                  Edit address
+                </button>
+              )}
           </div>
         </form>
       </>

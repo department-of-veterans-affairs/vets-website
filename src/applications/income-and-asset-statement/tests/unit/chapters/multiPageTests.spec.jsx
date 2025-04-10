@@ -19,6 +19,14 @@ export const testOptionsIsItemIncomplete = (options, baseItem) => {
   });
 };
 
+export const testOptionsIsItemIncompleteWithZeroes = (options, baseItem) => {
+  describe('isItemIncomplete function', () => {
+    it('should return false if all required fields are present and values are zeroes', () => {
+      expect(options.isItemIncomplete(baseItem)).to.be.false;
+    });
+  });
+};
+
 export const testOptionsTextGetItemName = options => {
   describe('text getItemName function', () => {
     const testCases = [
@@ -53,11 +61,11 @@ export const testOptionsTextCardDescription = (
 ) => {
   describe('text cardDescription function', () => {
     it('should return a description list when item exists', () => {
-      const { container, getByText } = render(
+      const { container, getAllByText } = render(
         options.text.cardDescription(baseItem),
       );
 
-      expect(container.querySelector('ul')).to.exist;
+      expect(container.querySelector('li')).to.exist;
 
       // Define key-based formatters
       const formatters = {
@@ -79,7 +87,7 @@ export const testOptionsTextCardDescription = (
 
       Object.entries(baseItem).forEach(([key, value]) => {
         const formattedValue = formatters[key] ? formatters[key](value) : value;
-        expect(getByText(formattedValue)).to.exist;
+        expect(getAllByText(formattedValue)).to.exist;
       });
     });
 
