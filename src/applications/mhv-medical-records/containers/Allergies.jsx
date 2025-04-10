@@ -11,6 +11,7 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { isBefore, isAfter } from 'date-fns';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -19,6 +20,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  SortTypes,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -44,6 +46,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import SortRecordList from '../components/RecordList/SortRecordList';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -65,11 +68,72 @@ const Allergies = props => {
       ],
   );
 
+  const allowFilterSort = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort],
+  );
+
   const user = useSelector(state => state.user.profile);
   const { isAcceleratingAllergies } = useAcceleratedData();
 
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const [selectedSort, setSelectedSort] = useState(
+    allowFilterSort ? SortTypes.ALPHABETICAL.value : '',
+  );
+  const [sortString, setSortString] = useState(SortTypes.ALPHABETICAL.label);
+  const [sortedAllergies, setSortedAllergies] = useState(allergies);
+
+  useEffect(
+    () => {
+      switch (selectedSort) {
+        case SortTypes.ALPHABETICAL.value:
+          setSortString(SortTypes.ALPHABETICAL.label);
+          break;
+        case SortTypes.ASC_DATE.value:
+          setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
+          break;
+        case SortTypes.DSC_DATE.value:
+          setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
+          break;
+        default:
+          break;
+      }
+    },
+    [selectedSort],
+  );
+
+  useEffect(
+    () => {
+      switch (selectedSort) {
+        case SortTypes.ALPHABETICAL.value:
+          setSortedAllergies(
+            allergies?.sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            }),
+          );
+          break;
+        case SortTypes.ASC_DATE.value:
+          setSortedAllergies(
+            allergies?.sort((a, b) => {
+              return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
+            }),
+          );
+          break;
+        case SortTypes.DSC_DATE.value:
+          setSortedAllergies(
+            allergies?.sort((a, b) => {
+              return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
+            }),
+          );
+          break;
+        default:
+          break;
+      }
+    },
+    [selectedSort, allergies],
+  );
 
   const dispatchAction = isCurrent => {
     return getAllergiesList(isCurrent, isAcceleratingAllergies);
@@ -121,12 +185,13 @@ const Allergies = props => {
     const { title, subject, subtitles } = generateAllergiesIntro(
       refresh.status,
       lastUpdatedText,
+      sortString,
     );
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
+      ...generateAllergiesContent(sortedAllergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -165,7 +230,7 @@ ${reportGeneratedBy}\n
 This list includes all allergies, reactions, and side effects in your VA medical records. 
 If you have allergies or reactions that are missing from this list, 
 tell your care team at your next appointment.\n
-Showing ${allergies.length} from newest to oldest
+Showing ${allergies.length} records, ${sortString}
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
     const fileName = `VA-allergies-list-${getNameDateAndTime(user)}`;
@@ -212,26 +277,53 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             }}
           />
         )}
-
-        <PrintDownload
-          description="Allergies - List"
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Allergies"
-        />
+        {allowFilterSort ? (
+          <SortRecordList
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+            showDateEntered
+          />
+        ) : (
+          <>
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+          </>
+        )}
         <RecordList
-          records={allergies?.map(allergy => ({
+          records={sortedAllergies?.map(allergy => ({
             ...allergy,
             isOracleHealthData: isAcceleratingAllergies,
           }))}
           type={recordType.ALLERGIES}
+          sortedBy={sortString}
         />
       </RecordListSection>
+      {allowFilterSort &&
+        sortedAllergies?.length > 0 && (
+          <>
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <div className="vads-u-margin-bottom--5 no-print" />
+          </>
+        )}
     </div>
   );
 };

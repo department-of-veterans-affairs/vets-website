@@ -66,6 +66,7 @@ export default function LicenseCertificationSearchResults() {
       filterLocation,
     );
   });
+
   const itemsPerPage = 10;
 
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
@@ -175,7 +176,7 @@ export default function LicenseCertificationSearchResults() {
     focusElement(searchInfoWrapperRef.current, 0);
   };
 
-  const updateResults = () =>
+  const updateResults = () => {
     handleSearch(
       categoryCheckboxes
         .filter(checkbox => checkbox.checked === true)
@@ -183,6 +184,7 @@ export default function LicenseCertificationSearchResults() {
       nameParam,
       dropdown.current.optionValue,
     );
+  };
 
   const handleStateChange = e => {
     setFilterLocation(e.target.value);
@@ -377,7 +379,7 @@ export default function LicenseCertificationSearchResults() {
                       <FilterAccordion
                         button="Update search"
                         buttonLabel="Filter your results"
-                        open={!smallScreen}
+                        smallScreen={smallScreen}
                         updateResults={updateResults}
                         resetSearch={handleResetSearch}
                       >
