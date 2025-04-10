@@ -22,7 +22,8 @@ import { formatUserDob } from '../helpers';
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
-export const getTxtContent = (data, { userFullName, dob }, dateRange) => {
+export const getTxtContent = (data, user, dateRange) => {
+  const { userFullName } = user;
   const sections = [
     {
       label: 'Labs and Tests',
@@ -98,7 +99,7 @@ VA Blue Button® report
 
 This report includes key information from your VA medical records.
 ${userFullName.first} ${userFullName.last}\n
-Date of birth: ${formatUserDob({ dob: new Date(dob) })}\n
+Date of birth: ${formatUserDob(user)}\n
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.
