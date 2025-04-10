@@ -8,7 +8,22 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import { isWithinThirtyDaysLogic } from '../helpers';
 import InstitutionName from '../components/InstitutionName';
+
+function isWithinThirtyDays(
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) {
+  const { termStartDate, dateOfCalculations } = formData.institutionDetails;
+  if (!termStartDate || !dateOfCalculations) return;
+  if (!isWithinThirtyDaysLogic(termStartDate, dateOfCalculations)) {
+    errors.addError(errorMessages.pattern);
+  }
+}
 
 const uiSchema = {
   institutionDetails: {
@@ -50,31 +65,13 @@ const uiSchema = {
     dateOfCalculations: {
       ...currentOrPastDateUI({
         title: 'Date of calculations',
-        errorMessages: {
-          required: 'Please enter the date these calculations were performed',
-        },
       }),
-      'ui:validations': [
-        {
-          validator: (errors, _field, formData) => {
-            const {
-              termStartDate,
-              dateOfCalculations,
-            } = formData.institutionDetails;
-
-            if (!termStartDate || !dateOfCalculations) return;
-
-            const startDate = new Date(termStartDate);
-            const calculationDate = new Date(dateOfCalculations);
-
-            if (calculationDate < startDate) {
-              errors.addError(
-                `Calculations can't occur before the term start date. Enter the term start date or a later date`,
-              );
-            }
-          },
-        },
-      ],
+      'ui:validations': [isWithinThirtyDays],
+      'ui:errorMessages': {
+        pattern: `This date must be on or after, but not later than 30 days
+         after , the start of the term. You cannot enter a future date.`,
+        required: 'Please enter the date these calculations were performed',
+      },
     },
   },
 };

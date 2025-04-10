@@ -1,5 +1,15 @@
 import React from 'react';
 
+export const isWithinThirtyDaysLogic = (termStartDate, dateOfCalculations) => {
+  const startDate = new Date(termStartDate);
+  const calculationDate = new Date(dateOfCalculations);
+  const timeDifference = Math.abs(
+    calculationDate.getTime() - startDate.getTime(),
+  );
+  const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  return daysDifference < 30;
+};
+
 export const getFTECalcs = program => {
   const supported = Number(program?.fte?.supported) || 0;
   const nonSupported = Number(program?.fte?.nonSupported) || 0;
@@ -15,6 +25,7 @@ export const getFTECalcs = program => {
     supportedFTEPercent,
   };
 };
+
 export const childContent = (downloadLink, goBack) => (
   <div data-testid="download-link">
     <va-alert close-btn-aria-label="Close notification" status="into" visible>

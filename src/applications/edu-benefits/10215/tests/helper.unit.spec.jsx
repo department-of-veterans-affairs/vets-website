@@ -1,6 +1,21 @@
 // src/applications/edu-benefits/10215/helpers.test.js
 import { expect } from 'chai';
-import { childContent, getFTECalcs } from '../helpers';
+import { isWithinThirtyDaysLogic, childContent, getFTECalcs } from '../helpers';
+
+describe('isWithinThirtyDaysLogic', () => {
+  it('should return false if dateOfCalculations is over 30 days', () => {
+    const termStartDate = '2025-01-01';
+    const dateOfCalculations = '2025-01-31';
+    const result = isWithinThirtyDaysLogic(termStartDate, dateOfCalculations);
+    expect(result).to.be.false;
+  });
+  it('should return true if dateOfCalculations is under 30 days', () => {
+    const termStartDate = '2025-01-01';
+    const dateOfCalculations = '2025-01-20';
+    const result = isWithinThirtyDaysLogic(termStartDate, dateOfCalculations);
+    expect(result).to.be.true;
+  });
+});
 
 describe('getFTECalcs', () => {
   it('should return correct FTE calculations for supported and non-supported values', () => {
