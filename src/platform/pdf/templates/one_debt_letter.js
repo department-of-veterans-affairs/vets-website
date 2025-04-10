@@ -6,7 +6,6 @@ import {
   generateInitialHeaderContent,
   generateFooterContent,
 } from './utils';
-import vaLogoUrl from './va_logo.png';
 
 const defaultConfig = {
   margins: { top: 40, bottom: 40, left: 30, right: 30 },
@@ -118,7 +117,7 @@ const handlePageBreakWithBorders = (
 };
 
 const generate = async (data = {}, config = defaultConfig) => {
-  const { debts, copays, veteranContactInformation } = data;
+  const { debts, details, copays, veteranContactInformation } = data;
   const downloadDate = format(new Date(), 'MM/dd/yyyy');
 
   const doc = createAccessibleDoc(
@@ -134,13 +133,6 @@ const generate = async (data = {}, config = defaultConfig) => {
   );
   await registerVaGovFonts(doc);
   doc.addPage({ margins: config.margins });
-
-  // Fetch logo as base64
-  const response = await fetch(vaLogoUrl);
-  const arrayBuffer = await response.arrayBuffer();
-  const base64Image = `data:image/png;base64,${Buffer.from(
-    arrayBuffer,
-  ).toString('base64')}`;
 
   const wrapper = doc.struct('Document');
   doc.addStructure(wrapper);
@@ -169,20 +161,28 @@ const generate = async (data = {}, config = defaultConfig) => {
     }),
   );
 
-  // Logo
-  // TODO: fix alt text? - not announcing for some reason
-  const logoWidth = 275;
-  // right align based on feedback
-  const logoX = doc.page.width - config.margins.right - logoWidth;
-  wrapper.add(
-    doc.struct(
-      'Figure',
-      { alt: 'VA U.S Department of Veteran Affairs' },
-      () => {
-        doc.image(base64Image, logoX, 12, { width: logoWidth });
-      },
-    ),
-  );
+  // VA Logo
+  if (details?.logoUrl) {
+    // Fetch logo as base64
+    const response = await fetch(details?.logoUrl);
+    const arrayBuffer = await response.arrayBuffer();
+    const base64Image = `data:image/png;base64,${Buffer.from(
+      arrayBuffer,
+    ).toString('base64')}`;
+    const logoWidth = 275;
+
+    // right align logo
+    const logoX = doc.page.width - config.margins.right - logoWidth;
+    wrapper.add(
+      doc.struct(
+        'Figure',
+        { alt: 'VA U.S Department of Veteran Affairs' },
+        () => {
+          doc.image(base64Image, logoX, 12, { width: logoWidth });
+        },
+      ),
+    );
+  }
 
   // Veteran Contact Information
   const addressY = 100;
