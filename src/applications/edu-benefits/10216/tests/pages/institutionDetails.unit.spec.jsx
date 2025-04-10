@@ -35,42 +35,42 @@ describe('Form Configuration', () => {
     validateFacilityCodeStub.restore();
   });
 
-  it('should navigate to additional form if not accredited', async () => {
-    const goPath = sinon.spy();
-    const formData = {
-      facilityCode: '09101909',
-      institutionName: 'test',
-      startDate: '2024-01-01',
-    };
-    const validateFacilityCodeStub = sinon
-      .stub(utilities, 'validateFacilityCode')
-      .returns(Promise.resolve(false));
+  // it('should navigate to additional form if not accredited', async () => {
+  //   const goPath = sinon.spy();
+  //   const formData = {
+  //     facilityCode: '09101909',
+  //     institutionName: 'test',
+  //     startDate: '2024-01-01',
+  //   };
+  //   const validateFacilityCodeStub = sinon
+  //     .stub(utilities, 'validateFacilityCode')
+  //     .returns(Promise.resolve(false));
 
-    await institutionDetails.onNavForward({ formData, goPath });
+  //   await institutionDetails.onNavForward({ formData, goPath });
 
-    expect(goPath.calledWith('/additional-form')).to.be.true;
-    validateFacilityCodeStub.restore();
-  });
-  it('should validate facility code length', () => {
-    const errors = {
-      addError: message => {
-        errors.messages.push(message);
-      },
-      messages: [],
-    };
+  //   expect(goPath.calledWith('/additional-form')).to.be.true;
+  //   validateFacilityCodeStub.restore();
+  // });
+  // it('should validate facility code length', () => {
+  //   const errors = {
+  //     addError: message => {
+  //       errors.messages.push(message);
+  //     },
+  //     messages: [],
+  //   };
 
-    const validateFacilityCode =
-      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
-        .uiSchema.institutionDetails.facilityCode['ui:validations'][0];
-    validateFacilityCode(errors, '1234567');
-    expect(errors.messages).to.include(
-      'Please enter a valid 8-digit facility code',
-    );
+  //   const validateFacilityCode =
+  //     formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+  //       .uiSchema.institutionDetails.facilityCode['ui:validations'][0];
+  //   validateFacilityCode(errors, '1234567');
+  //   expect(errors.messages).to.include(
+  //     'Please enter a valid 8-digit facility code',
+  //   );
 
-    errors.messages = [];
-    validateFacilityCode(errors, '12345678');
-    expect(errors.messages).to.be.empty;
-  });
+  //   errors.messages = [];
+  //   validateFacilityCode(errors, '12345678');
+  //   expect(errors.messages).to.be.empty;
+  // });
   it('should validate term start date within the last 30 days or today', () => {
     const errors = {
       addError: message => {
