@@ -26,6 +26,8 @@ describe('BehaviorListPage', () => {
     goBack = () => {},
     goForward = () => {},
     setFormData = () => {},
+    onReviewPage = false,
+    updatePage = () => {},
   } = {}) => {
     return (
       <div>
@@ -34,6 +36,8 @@ describe('BehaviorListPage', () => {
           data={data}
           goBack={goBack}
           goForward={goForward}
+          onReviewPage={onReviewPage}
+          updatePage={updatePage}
         />
       </div>
     );
@@ -461,6 +465,43 @@ describe('BehaviorListPage', () => {
           });
         });
       });
+    });
+  });
+
+  describe('Review and submit page', () => {
+    it('should render all checkboxes on review & submit in edit mode', () => {
+      const { container } = render(page({ onReviewPage: true }));
+      const checkboxGroups = $$('va-checkbox-group', container);
+      expect(checkboxGroups.length).to.equal(4);
+      checkboxGroups.forEach(group => {
+        const label = group.getAttribute('label');
+        expect(Object.values(BEHAVIOR_LIST_SECTION_SUBTITLES)).to.include(
+          label,
+        );
+      });
+
+      const checkboxes = $$('va-checkbox', container);
+      expect(checkboxes.length).to.equal(16);
+
+      const allCheckBoxDescriptions = [
+        ...Object.values(BEHAVIOR_CHANGES_WORK),
+        ...Object.values(BEHAVIOR_CHANGES_HEALTH),
+        ...Object.values(BEHAVIOR_CHANGES_OTHER),
+      ];
+      allCheckBoxDescriptions.push(behaviorListNoneLabel);
+
+      checkboxes.forEach(checkbox => {
+        const label = checkbox.getAttribute('label');
+        expect(allCheckBoxDescriptions).to.include(label);
+      });
+    });
+    it('should call updatePage on review & submit in edit mode', () => {
+      const updateSpy = sinon.spy();
+      const { container } = render(
+        page({ onReviewPage: true, updatePage: updateSpy }),
+      );
+      fireEvent.click($('va-button[text="Update page"]', container));
+      expect(updateSpy.called).to.be.true;
     });
   });
 });
