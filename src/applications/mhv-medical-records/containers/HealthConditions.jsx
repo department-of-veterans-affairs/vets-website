@@ -24,6 +24,7 @@ const HealthConditions = () => {
   const updatedRecordList = useSelector(
     state => state.mr.conditions.updatedList,
   );
+
   const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const activeAlert = useAlerts(dispatch);
