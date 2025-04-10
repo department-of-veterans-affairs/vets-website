@@ -504,7 +504,7 @@ const WorkflowChoicePage = props => {
         <p>
           <va-link
             text="Continue with your claim"
-            onClick={() => goForward(data)}
+            onClick={handlers.onSubmit}
           />
         </p>
       </VaAlert>
