@@ -47,6 +47,7 @@ export const uiSchema = {
         formData?.currentMarriageInformation?.type === 'OTHER',
       expandUnder: 'type',
       expandUnderCondition: 'OTHER',
+      preserveHiddenData: true,
       showFieldLabel: true,
       keepInPageOnReview: true,
       hideIf: formData =>
