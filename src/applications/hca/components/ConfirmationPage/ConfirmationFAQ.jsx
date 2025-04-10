@@ -1,5 +1,5 @@
 import React from 'react';
-import { APP_URLS } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
 import { CONTACTS } from '../../utils/imports';
 
 const confirmationFAQ = () => {
