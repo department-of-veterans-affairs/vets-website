@@ -2,14 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  usePrintTitle,
-  generatePdfScaffold,
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { usePrintTitle } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import InfoAlert from '../shared/InfoAlert';
 import DateSubheading from '../shared/DateSubheading';
@@ -20,25 +13,15 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 
-import {
-  makePdf,
-  getNameDateAndTime,
-  generateTextFile,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../../util/helpers';
+import { makePdf, generateTextFile } from '../../util/helpers';
 
 import {
   pageTitles,
   LABS_AND_TESTS_DISPLAY_LABELS,
-  OBSERVATION_DISPLAY_LABELS,
 } from '../../util/constants';
-import {
-  generateLabsIntro,
-  generateGenericContent,
-} from '../../util/pdfHelpers/labsAndTests';
 
 import UnifiedLabAndTestObservations from './UnifiedLabAndTestObservations';
+import { pdfPrinter, txtPrinter } from '../../util/printHelper';
 
 const UnifiedLabsAndTests = props => {
   const { record, user, runningUnitTest = false } = props;
@@ -49,7 +32,7 @@ const UnifiedLabsAndTests = props => {
     },
     [record],
   );
-  // THOUGHT: this could probably be taken to the parent component?
+
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
@@ -60,93 +43,14 @@ const UnifiedLabsAndTests = props => {
 
   const generatePdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, subtitles } = generateLabsIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject);
-    const pdfData = {
-      ...scaffold,
-      subtitles,
-      ...generateGenericContent(record),
-    };
-    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+    const data = pdfPrinter({ record, user });
+    makePdf(data.title, data.body, 'Unified Lab And Tests', runningUnitTest);
   };
 
   const generateTxt = async () => {
     setDownloadStarted(true);
-    const content = [
-      `${crisisLineHeader}\n`,
-      `${record.name}`,
-      `${formatNameFirstLast(user.userFullName)}`,
-      `Date of birth: ${formatUserDob(user)}`,
-      `${reportGeneratedBy}`,
-      `${LABS_AND_TESTS_DISPLAY_LABELS.DATE}: ${record.date}`,
-      `${txtLine}\n`,
-      record.testCode
-        ? `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: ${record.testCode}`
-        : `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: None Noted`,
-      record.sampleTested
-        ? `${LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}: ${
-            record.sampleTested
-          }`
-        : '',
-      record.bodySite
-        ? `${LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}: ${record.bodySite}`
-        : '',
-      record.orderedBy
-        ? `${LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}: ${record.orderedBy}`
-        : `${LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}: None Noted`,
-      record.location
-        ? `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: ${record.location}`
-        : `${LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}: None Noted`,
-      record.comments
-        ? `${LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}: ${record.comments}`
-        : '',
-      `${txtLine}\n`,
-    ];
-    if (record.result) {
-      const results = [
-        'Results: \n',
-        'Your provider will review your results. If you need to do anything, your provider will contact you. If you have questions, send a message to the care team that ordered this test.\n',
-        'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.\n',
-        `${record.result}`,
-      ];
-      content.push(...results);
-    }
-    if (record.observations) {
-      const observations = [
-        'Results: \n',
-        ...record.observations.map(entry =>
-          [
-            `${txtLine}`,
-            `${entry.testCode}`,
-            `${txtLineDotted}`,
-            `${OBSERVATION_DISPLAY_LABELS.VALUE}: ${entry.value.text}`,
-            `${OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}: ${
-              entry.referenceRange
-            }`,
-            `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${entry.status}`,
-            entry.bodySite
-              ? `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: ${entry.bodySite}`
-              : '',
-            entry.sampleTested
-              ? `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: ${
-                  entry.sampleTested
-                }`
-              : '',
-            entry.comments
-              ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${entry.comments}`
-              : '',
-          ]
-            .filter(line => line)
-            .join(`\n`),
-        ),
-      ];
-      content.push(...observations);
-    }
-
-    const txt = content.filter(line => line).join(`\n`);
-    const txtName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}.txt`;
-    generateTextFile(txt, txtName);
+    const data = txtPrinter({ record, user });
+    generateTextFile(data.body, data.title);
   };
 
   return (
