@@ -813,7 +813,10 @@ describe('CG <FacilitySearch>', () => {
 
     context('review mode', () => {
       beforeEach(() => {
-        global.window.location = { search: '?review=true' };
+        Object.defineProperty(window, 'location', {
+          value: { search: '?review=true' },
+          configurable: true,
+        });
       });
 
       it('calls goToPath to review page on back click', () => {

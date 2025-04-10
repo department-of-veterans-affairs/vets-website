@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import { API_ENDPOINTS, DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
+import { API_ENDPOINTS } from '../utils/constants';
 import { submitTransformer } from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
@@ -27,7 +27,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     () => {
       if (!errors.length) return null;
       const code = errors[0].status[0];
-      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
+      return code === '5'
+        ? content['alert-download-message--500']
+        : content['alert-download-message--generic'];
     },
     [errors],
   );
@@ -63,10 +65,10 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         });
         const blob = await response.blob();
         handlePdfDownload(blob);
-        recordEvent({ event: '10-10ez-pdf-download--success' });
+        recordEvent({ event: 'hca-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
-        recordEvent({ event: '10-10ez-pdf-download--failure' });
+        setErrors(error.errors);
+        recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
       }
