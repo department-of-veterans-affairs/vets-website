@@ -4,7 +4,6 @@ import { obfuscate, obfuscateAriaLabel } from '../helpers';
 
 function ObfuscateReviewField({ children, uiSchema }) {
   const { formData } = children.props; // Extract form data
-  const maskedValue = obfuscate(formData); // Generate obfuscated value
 
   return (
     <dl
@@ -19,11 +18,11 @@ function ObfuscateReviewField({ children, uiSchema }) {
         {uiSchema['ui:title']}
       </dt>
       <dd
-        aria-label={obfuscateAriaLabel(formData)}
         className="survivor-benefit-definition-list_definition"
         id="obfuscate-review-value"
       >
-        {maskedValue}
+        <span aria-hidden="true">{obfuscate(formData)}</span>
+        <span className="sr-only">{obfuscateAriaLabel(formData)}</span>
       </dd>
     </dl>
   );

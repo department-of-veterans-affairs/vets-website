@@ -26,20 +26,16 @@ function DirectDepositViewField({ formData }) {
           <dt className="survivor-benefit-definition-list_term">
             Bank routing number:
           </dt>
-          <dd
-            aria-label={obfuscateAriaLabel(routingNumber)}
-            className="survivor-benefit-definition-list_definition"
-          >
-            {obfuscate(routingNumber)}
+          <dd className="survivor-benefit-definition-list_definition">
+            <span aria-hidden="true">{obfuscate(routingNumber)}</span>
+            <span className="sr-only">{obfuscateAriaLabel(routingNumber)}</span>
           </dd>
           <dt className="survivor-benefit-definition-list_term">
             Bank account number:
           </dt>
-          <dd
-            aria-label={obfuscateAriaLabel(accountNumber)}
-            className="survivor-benefit-definition-list_definition"
-          >
-            {obfuscate(accountNumber)}
+          <dd className="survivor-benefit-definition-list_definition">
+            <span aria-hidden="true">{obfuscate(accountNumber)}</span>
+            <span className="sr-only">{obfuscateAriaLabel(accountNumber)}</span>
           </dd>
         </dl>
       </div>
