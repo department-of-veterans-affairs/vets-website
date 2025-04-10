@@ -325,6 +325,9 @@ const newMailingAddress33 = {
       'view:validateAddress': {
         'ui:description': AddressValidationModal,
       },
+      [formFields.addressValidationOptOut]: {
+        'ui:widget': 'hidden',
+      },
     },
   },
   schema: {
@@ -351,7 +354,12 @@ const newMailingAddress33 = {
             type: 'object',
             properties: {},
           },
+          [formFields.addressValidationOptOut]: {
+            type: 'boolean',
+            default: false,
+          },
         },
+        required: [formFields.addressValidationOptOut],
       },
     },
   },

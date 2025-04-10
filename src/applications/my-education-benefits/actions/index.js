@@ -2,6 +2,7 @@ import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 import { toSnakeCase } from '../helpers';
+import { addressValidationResponse } from '../tests/fixtures/data/address-validation-reponse';
 
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
@@ -302,7 +303,23 @@ export function validateAddress(address) {
     dispatch({ type: ADDRESS_VALIDATION_START });
 
     try {
-      // Make API request to validate address
+      // In development, use mock response
+      if (process.env.NODE_ENV === 'development') {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        dispatch({
+          type: ADDRESS_VALIDATION_SUCCESS,
+          response: {
+            data: {
+              attributes: addressValidationResponse,
+            },
+          },
+        });
+        return;
+      }
+
+      // In production, make actual API call
       const response = await apiRequest('/v0/profile/address_validation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -313,8 +330,6 @@ export function validateAddress(address) {
         type: ADDRESS_VALIDATION_SUCCESS,
         response,
       });
-
-      return response;
     } catch (error) {
       dispatch({
         type: ADDRESS_VALIDATION_FAILURE,

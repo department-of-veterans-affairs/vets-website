@@ -34,6 +34,7 @@ import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import { prefillTransformer, formPages } from '../helpers';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
+import { formFields } from '../constants';
 
 const { fullName, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -85,6 +86,34 @@ const formConfig = {
     required: false,
     field: 'privacyAgreementAccepted',
   },
+  validate: (formData, errors) => {
+    // const addressData = formData[formFields.viewMailingAddress]?.[formFields.address];
+    const livesOnMilitaryBase =
+      formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase];
+    const addressValidationOptOut =
+      formData[formFields.viewMailingAddress]?.[
+        formFields.addressValidationOptOut
+      ];
+
+    // Skip validation if:
+    // 1. Feature toggle is off
+    // 2. User lives on military base
+    // 3. User has already opted out
+    if (
+      !formData.mebAddressValidationApi ||
+      livesOnMilitaryBase ||
+      addressValidationOptOut
+    ) {
+      return errors;
+    }
+
+    // If address is not validated and user hasn't opted out, prevent form submission
+    if (!formData[formFields.viewMailingAddress]?.addressValidated) {
+      errors.addError('Please validate your address before continuing');
+    }
+
+    return errors;
+  },
   chapters: {
     benefitSelectionChapter: {
       title: 'Benefit selection',
@@ -92,7 +121,7 @@ const formConfig = {
         [formPages.benefitSelection]: {
           path: 'benefit-selection',
           title: 'Benefit selection',
-          subTitle: 'You’re applying for education benefits',
+          subTitle: "You're applying for education benefits",
           depends: formData => formData?.meb160630Automation,
           uiSchema: benefitSelection.uiSchema,
           schema: benefitSelection.schema,

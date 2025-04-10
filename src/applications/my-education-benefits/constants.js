@@ -45,4 +45,5 @@ export const formFields = {
   viewReceiveTextMessages: 'view:receiveTextMessages',
   viewStopWarning: 'view:stopWarning',
   viewUserFullName: 'view:userFullName',
+  addressValidationOptOut: 'addressValidationOptOut',
 };

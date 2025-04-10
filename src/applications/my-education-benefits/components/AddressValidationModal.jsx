@@ -132,12 +132,27 @@ function AddressValidationModal(props) {
       [formFields.viewMailingAddress]: {
         ...formData[formFields.viewMailingAddress],
         [formFields.address]: selectedAddress,
+        [formFields.addressValidationOptOut]: false,
         addressValidated: true,
       },
     };
     setFormData(updatedFormData);
 
     acceptAddress(selectedAddress);
+    setValidated(true);
+    setModalOpen(false);
+  };
+
+  const handleRejectAddress = () => {
+    const updatedFormData = {
+      ...formData,
+      [formFields.viewMailingAddress]: {
+        ...formData[formFields.viewMailingAddress],
+        [formFields.addressValidationOptOut]: true,
+        addressValidated: true,
+      },
+    };
+    setFormData(updatedFormData);
     setValidated(true);
     setModalOpen(false);
   };
@@ -235,7 +250,7 @@ function AddressValidationModal(props) {
           {formatAddress(userEnteredAddress)}
         </p>
         <va-button
-          onClick={() => handleAcceptAddress(userEnteredAddress)}
+          onClick={handleRejectAddress}
           text="Use address as entered"
           class="vads-u-margin-top--1"
         />
