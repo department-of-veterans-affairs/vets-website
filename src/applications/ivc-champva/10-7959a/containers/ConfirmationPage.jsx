@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { applicantWording } from '../../shared/utilities';
+import {
+  CHAMPVA_PHONE_NUMBER,
+  CHAMPVA_CLAIMS_ADDRESS,
+  IVC_APPEALS_ADDRESS,
+} from '../../shared/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -90,36 +95,19 @@ export class ConfirmationPage extends React.Component {
           <br />
           Mail a letter requesting an appeal to this address:
         </p>
-        <p className="va-address-block">
-          VHA Office of Integrated Veteran Care
-          <br />
-          ATTN: APPEALS
-          <br />
-          PO Box 600
-          <br />
-          Spring City, PA 19475
-          <br />
-        </p>
+        {IVC_APPEALS_ADDRESS}
         <h2>How to contact us about CHAMPVA claims</h2>
         <p>
           If you have any questions about your claim, call us at{' '}
-          <va-telephone contact="8007338387" /> (TTY: 711). We’re here Monday
-          through Friday, 8:05 a.m. to 7:30 p.m. ET.
+          <va-telephone contact={CHAMPVA_PHONE_NUMBER} /> (TTY: 711). We’re here{' '}
+          Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
           <br />
           <br />
           Or you can send us a letter with questions about your claim to this
           address:
           <br />
-          <p className="va-address-block">
-            VHA Office of Integrated Veteran Care
-            <br />
-            ATTN: CHAMPVA Claims
-            <br />
-            PO Box 500
-            <br />
-            Spring City, PA 19475
-            <br />
-          </p>
+          <br />
+          {CHAMPVA_CLAIMS_ADDRESS}
           <p>You can also contact us online through Ask VA.</p>
           <va-link href="https://ask.va.gov/" text="Go to Ask VA" />
         </p>
