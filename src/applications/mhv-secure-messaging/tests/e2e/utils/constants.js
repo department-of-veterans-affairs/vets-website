@@ -222,6 +222,7 @@ export const Locators = {
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
     NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
+    COMBO_BOX: '.usa-error-message',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -351,6 +352,7 @@ export const Data = {
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
   SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
+  PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',

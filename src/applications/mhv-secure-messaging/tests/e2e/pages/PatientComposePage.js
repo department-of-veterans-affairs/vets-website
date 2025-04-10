@@ -551,6 +551,12 @@ class PatientComposePage {
       .invoke('attr', 'data-default-value')
       .should('eq', value);
   };
+
+  verifyRecipientsFieldAlert = text => {
+    cy.get(Locators.ALERTS.COMBO_BOX).should(`have.text`, text);
+    // temporary commented out / awaiting proper focus behavior confirmation
+    // cy.get(Locators.COMBO_BOX).should('be.focused');
+  };
 }
 
 export default new PatientComposePage();
