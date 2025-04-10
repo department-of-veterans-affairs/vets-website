@@ -18,8 +18,8 @@ describe('VAOS referral generator', () => {
     });
     it('Creates each referral on day later', () => {
       const referrals = referralUtil.createReferrals(2, '2024-10-30');
-      expect(referrals[0].referralDate).to.equal('2024-10-30');
-      expect(referrals[1].referralDate).to.equal('2024-10-31');
+      expect(referrals[0].attributes.expirationDate).to.equal('2025-04-30');
+      expect(referrals[1].attributes.expirationDate).to.equal('2025-04-31');
     });
   });
   describe('getReferralSlotKey', () => {
@@ -50,7 +50,7 @@ describe('VAOS referral generator', () => {
   });
   describe('getAddressString', () => {
     it('Formats the address string', () => {
-      const referral = referralUtil.createReferralById(today, '111', '333');
+      const referral = referralUtil.createReferralById(today, '111');
       expect(
         referralUtil.getAddressString(referral.referringFacilityInfo.address),
       ).to.equal('222 Richmond Avenue, BATAVIA, NY, 14020');

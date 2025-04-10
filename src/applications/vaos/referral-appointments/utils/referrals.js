@@ -10,7 +10,6 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} providerId The ID for the provider
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
@@ -18,7 +17,6 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 const createReferralListItem = (
   startDate,
   uuid,
-  providerId = '111',
   expirationDate,
   categoryOfCare = 'Physical Therapy',
 ) => {
@@ -26,12 +24,12 @@ const createReferralListItem = (
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
-    uuid,
-    referralDate: startDate,
-    categoryOfCare,
-    expirationDate:
-      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    providerId,
+    attributes: {
+      uuid,
+      categoryOfCare,
+      expirationDate:
+        expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+    },
   };
 };
 
@@ -105,7 +103,6 @@ const createReferrals = (
   const [year, month, day] = baseDate.split('-');
   const baseDateObject = new Date(year, month - 1, day);
   const referrals = [];
-  const providerIds = ['111', '222', '0', '333'];
 
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
@@ -120,7 +117,6 @@ const createReferrals = (
       createReferralListItem(
         referralDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
-        providerIds[i % providerIds.length],
         isExpired ? format(addDays(startDate, 6), mydFormat) : undefined,
       ),
     );
