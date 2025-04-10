@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
 import { formatDate, normalizeFullName } from '../../utils/helpers';
-import { APP_URLS, HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
+import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
 import { CONTACTS } from '../../utils/imports';
 
 const AuthProfileInformation = ({ user }) => {
