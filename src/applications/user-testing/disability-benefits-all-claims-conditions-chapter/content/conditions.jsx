@@ -31,7 +31,7 @@ export const NewConditionDescription = () => (
   </>
 );
 
-export const SecondaryNotListedAlert = () => {
+export const SecondaryEnhancedNotListedAlert = () => {
   const formData = useSelector(state => state.form.data);
   const currentIndex = getArrayIndexFromPathName();
   const newCondition = formData?.[ARRAY_PATH]?.[currentIndex]?.newCondition;
@@ -59,7 +59,7 @@ export const SecondaryNotListedAlert = () => {
   );
 };
 
-export const SecondaryOptionsConflictingAlert = () => (
+export const SecondaryEnhancedOptionsConflictingAlert = () => (
   <va-alert status="error">
     <p>
       You selected "My condition is not listed" along with one or more
@@ -68,9 +68,9 @@ export const SecondaryOptionsConflictingAlert = () => (
   </va-alert>
 );
 
-const createSecondaryDescriptionString = item => {
-  const conditions = Object.keys(item?.causedByCondition || {}).filter(
-    key => item.causedByCondition[key],
+const createSecondaryEnhancedDescriptionString = causedByCondition => {
+  const conditions = Object.keys(causedByCondition || {}).filter(
+    key => causedByCondition[key],
   );
 
   if (conditions.length === 0) {
@@ -93,18 +93,26 @@ const createSecondaryDescriptionString = item => {
   return `caused by ${conditionsString}`;
 };
 
-const createCauseFollowUpDescriptions = item => {
-  const cause = item?.cause;
+const createSecondaryDescriptionString = causedByCondition => {
+  if (typeof causedByCondition === 'object') {
+    return createSecondaryEnhancedDescriptionString(causedByCondition);
+  }
 
+  return `caused by ${causedByCondition ||
+    'another service-connected condition'}`;
+};
+
+const createCauseFollowUpDescriptions = item => {
   const causeFollowUpDescriptions = {
     NEW: 'caused by an injury, event, disease or exposure during my service',
-    SECONDARY: createSecondaryDescriptionString(item),
+    SECONDARY: createSecondaryDescriptionString(item?.causedByCondition),
     WORSENED:
       'existed before I served in the military, but got worse because of my military service',
     VA:
       'caused by an injury or event that happened when I was receiving VA care',
   };
 
+  const cause = item?.cause;
   return causeFollowUpDescriptions[cause];
 };
 

@@ -6,8 +6,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  SecondaryNotListedAlert,
-  SecondaryOptionsConflictingAlert,
+  SecondaryEnhancedNotListedAlert,
+  SecondaryEnhancedOptionsConflictingAlert,
 } from '../../content/conditions';
 import { arrayBuilderOptions, createNewConditionName } from '../shared/utils';
 import { CONDITION_NOT_LISTED_OPTION } from '../../constants';
@@ -92,7 +92,7 @@ const causeSecondaryEnhancedPage = {
     }),
     'ui:validations': [validateConflictingOptions],
     'view:notListedAlert': {
-      'ui:description': SecondaryNotListedAlert,
+      'ui:description': SecondaryEnhancedNotListedAlert,
       'ui:options': {
         hideIf: (_formData, index, fullData) => {
           const causedByCondition =
@@ -107,7 +107,7 @@ const causeSecondaryEnhancedPage = {
       },
     },
     'view:optionsConflictingAlert': {
-      'ui:description': SecondaryOptionsConflictingAlert,
+      'ui:description': SecondaryEnhancedOptionsConflictingAlert,
       'ui:options': {
         hideIf: (_formData, index, fullData) => {
           const causedByCondition =
