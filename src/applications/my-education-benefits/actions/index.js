@@ -69,6 +69,16 @@ export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 
+// Address validation actions
+export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
+export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
+export const ADDRESS_VALIDATION_FAILURE = 'ADDRESS_VALIDATION_FAILURE';
+export const ADDRESS_VALIDATION_MODAL_TOGGLE =
+  'ADDRESS_VALIDATION_MODAL_TOGGLE';
+export const ADDRESS_VALIDATION_ACCEPT = 'ADDRESS_VALIDATION_ACCEPT';
+export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
+export const ADDRESS_VALIDATION_VALIDATED = 'ADDRESS_VALIDATION_VALIDATED';
+
 const FIVE_SECONDS = 5000;
 const ONE_MINUTE_IN_THE_FUTURE = () => {
   return new Date(new Date().getTime() + 60000);
@@ -283,5 +293,62 @@ export function toggleModal(toggle) {
   return {
     type: TOGGLE_MODAL,
     toggle,
+  };
+}
+
+// Address validation action creators
+export function validateAddress(address) {
+  return async dispatch => {
+    dispatch({ type: ADDRESS_VALIDATION_START });
+
+    try {
+      // Make API request to validate address
+      const response = await apiRequest('/v0/profile/address_validation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address }),
+      });
+
+      dispatch({
+        type: ADDRESS_VALIDATION_SUCCESS,
+        response,
+      });
+
+      return response;
+    } catch (error) {
+      dispatch({
+        type: ADDRESS_VALIDATION_FAILURE,
+        error,
+      });
+
+      throw error;
+    }
+  };
+}
+
+export function setAddressValidationModalOpen(isOpen) {
+  return {
+    type: ADDRESS_VALIDATION_MODAL_TOGGLE,
+    isOpen,
+  };
+}
+
+export function acceptValidatedAddress(address) {
+  return {
+    type: ADDRESS_VALIDATION_ACCEPT,
+    address,
+  };
+}
+
+export function setAddressValidated(value) {
+  return {
+    type: ADDRESS_VALIDATION_VALIDATED,
+    value,
+  };
+}
+
+export function resetAddressValidation() {
+  return {
+    type: ADDRESS_VALIDATION_RESET,
   };
 }
