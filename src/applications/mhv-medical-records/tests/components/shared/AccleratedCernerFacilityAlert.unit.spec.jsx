@@ -10,6 +10,18 @@ import AcceleratedCernerFacilityAlert from '../../../components/shared/Accelerat
 import { CernerAlertContent } from '../../../util/constants';
 
 describe('Accelerated Cerner Facility Alert', () => {
+  const createFeatureToggles = ({
+    isAccelerating = false,
+    isAcceleratingAllergies = false,
+    isAcceleratingVitals = false,
+  }) => ({
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_enabled: isAccelerating,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_allergies_enabled: isAcceleratingAllergies,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_vital_signs_enabled: isAcceleratingVitals,
+  });
   const initialState = {
     drupalStaticData,
     user: {
@@ -17,7 +29,11 @@ describe('Accelerated Cerner Facility Alert', () => {
         facilities: [],
       },
     },
-    featureToggles: [],
+    featureToggles: createFeatureToggles({
+      isAccelerating: true,
+      isAcceleratingAllergies: true,
+      isAcceleratingVitals: true,
+    }),
   };
 
   const setup = (
@@ -42,16 +58,24 @@ describe('Accelerated Cerner Facility Alert', () => {
       CernerAlertContent.MR_LANDING_PAGE,
       CernerAlertContent.VITALS,
       CernerAlertContent.ALLERGIES,
-    ].forEach(page => {
+    ].forEach(async page => {
       const screen = setup(
-        undefined,
+        {
+          ...initialState,
+          featureToggles: createFeatureToggles({
+            isAccelerating: true,
+            isAcceleratingAllergies: true,
+            isAcceleratingVitals: true,
+          }),
+        },
         {
           facilities: userProfileFacilities,
         },
         page,
       );
 
-      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      await expect(screen.queryByTestId('cerner-facilities-alert')).to.not
+        .exist;
     });
   });
 
@@ -63,14 +87,72 @@ describe('Accelerated Cerner Facility Alert', () => {
       CernerAlertContent.HEALTH_CONDITIONS,
     ].forEach(async page => {
       const screen = setup(
-        undefined,
+        {
+          ...initialState,
+          featureToggles: createFeatureToggles({
+            isAccelerating: true,
+            isAcceleratingAllergies: true,
+            isAcceleratingVitals: true,
+          }),
+        },
         {
           facilities: userProfileFacilities,
         },
         page,
       );
 
-      expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+      await expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
     });
+  });
+
+  it('renders correctly when isAccelerating is false -- always should the modal when accelerating is false', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: false,
+        }),
+      },
+      {
+        facilities: userProfileFacilities,
+      },
+      CernerAlertContent.MR_LANDING_PAGE,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+  });
+
+  it('hides correctly when isAcceleratingVitals is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingVitals: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.VITALS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingAllergies is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingAllergies: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.ALLERGIES,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
 });
