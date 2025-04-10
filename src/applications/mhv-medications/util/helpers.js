@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import cheerio from 'cheerio';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
   EMPTY_FIELD,
@@ -9,10 +10,6 @@ import {
   DOWNLOAD_FORMAT,
   dispStatusObj,
 } from './constants';
-
-// Cache the dynamic import promise to avoid redundant network requests
-// and improve performance when generateMedicationsPDF is called multiple times
-let pdfModulePromise = null;
 
 // this function is needed to account for the prescription.trackingList dates coming in this format "Mon, 24 Feb 2025 03:39:11 EST" which is not recognized by momentjs
 const convertToISO = dateString => {
@@ -24,7 +21,7 @@ const convertToISO = dateString => {
   }
   // Return false if the date is invalid
   const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) {
+  if (isNaN(date.getTime())) {
     return false;
   }
 
@@ -72,17 +69,8 @@ export const generateMedicationsPDF = async (
   pdfData,
 ) => {
   try {
-    // Use cached module promise if available, otherwise create a new one
-    if (!pdfModulePromise) {
-      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
-    }
-
-    // Wait for the module to load and extract the generatePdf function
-    const { generatePdf } = await pdfModulePromise;
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
-    // Reset the pdfModulePromise so subsequent calls can try again
-    pdfModulePromise = null;
     Sentry.captureException(error);
     Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
     throw error;
