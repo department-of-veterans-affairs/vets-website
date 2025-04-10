@@ -1008,7 +1008,7 @@ jobs:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure')}}
+    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') && needs.unit-tests.outputs.app_folders != '' }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1096,7 +1096,7 @@ jobs:
           merge-multiple: true
       
       - name: Archive unit test coverage
-        if: ${{ always() }}
+        if: ${{ always() && needs.unit-tests.outputs.app_folders }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-coverage-merged
@@ -1124,7 +1124,7 @@ jobs:
 
       
       - name: Unit test results
-        if: ${{ always() }}
+        if: ${{ always() && needs.unit-tests.outputs.app_folders }}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -1210,6 +1210,7 @@ jobs:
           merge-multiple: true
 
       - name: Create Unit Test report
+        if: ${{ always() }}
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
@@ -1238,7 +1239,7 @@ jobs:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') && needs.unit-tests.outputs.app_folders != '' }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1333,7 +1334,7 @@ jobs:
         working-directory: qa-standards-dashboard-data
 
       - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
             aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
