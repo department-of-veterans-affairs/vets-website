@@ -1,6 +1,6 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
-import { RATED_OR_NEW_NEXT_PAGE_WITH_ENHANCED_SECONDARY as demo } from '../../constants';
+import { RATED_OR_NEW_NEXT_PAGE_SECONDARY_ENHANCED as demo } from '../../constants';
 import { introAndSummaryPages, remainingSharedPages } from '../shared';
 import {
   arrayBuilderOptions,
@@ -9,7 +9,7 @@ import {
 } from '../shared/utils';
 import conditionPage from '../ratedOrNewNextPage/condition';
 
-export const ratedOrNewNextPageWithEnhancedSecondaryPages = arrayBuilderPages(
+export const ratedOrNewNextPageSecondaryEnhancedPages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
     ...introAndSummaryPages(demo, pageBuilder),
@@ -26,4 +26,4 @@ export const ratedOrNewNextPageWithEnhancedSecondaryPages = arrayBuilderPages(
   }),
 );
 
-export default ratedOrNewNextPageWithEnhancedSecondaryPages;
+export default ratedOrNewNextPageSecondaryEnhancedPages;

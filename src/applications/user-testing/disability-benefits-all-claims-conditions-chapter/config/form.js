@@ -9,7 +9,7 @@ import manifest from '../manifest.json';
 import demo from '../pages/demo';
 import ratedOrNewNextPagePages from '../pages/ratedOrNewNextPage';
 import conditionTypeRadioPages from '../pages/conditionTypeRadio';
-import ratedOrNewNextPageWithEnhancedSecondaryPages from '../pages/ratedOrNewNextPageWithSecondaryFlow';
+import ratedOrNewNextPageSecondaryEnhancedPages from '../pages/ratedOrNewNextPageSecondaryEnhanced';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,7 +55,7 @@ const formConfig = {
         demo,
         ...ratedOrNewNextPagePages,
         ...conditionTypeRadioPages,
-        ...ratedOrNewNextPageWithEnhancedSecondaryPages,
+        ...ratedOrNewNextPageSecondaryEnhancedPages,
       },
     },
   },

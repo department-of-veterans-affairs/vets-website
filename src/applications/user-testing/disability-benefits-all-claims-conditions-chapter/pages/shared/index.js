@@ -1,7 +1,7 @@
 import { ARRAY_PATH, CONDITION_NOT_LISTED_OPTION } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
-import causeSecondaryEnhancedPage from '../ratedOrNewNextPageWithSecondaryFlow/causeSecondaryEnhanced';
+import causeSecondaryEnhancedPage from '../ratedOrNewNextPageSecondaryEnhanced/causeSecondaryEnhanced';
 import causeSecondaryPage from './causeSecondary';
 import causeVAPage from './causeVA';
 import causeWorsenedPage from './causeWorsened';
@@ -69,7 +69,7 @@ export const remainingSharedPages = (
   demo,
   pageBuilder,
   helpers,
-  isEnhancedSecondary,
+  isSecondaryEnhanced,
 ) => ({
   [`${demo.name}RatedDisabilityDate`]: pageBuilder.itemPage({
     title: 'Start date of rated disability worsening',
@@ -121,7 +121,7 @@ export const remainingSharedPages = (
       // With this implementation, there is an edge case in which the user
       // hits cancel on the Add a new condition page
       // then the condition not listed option is not cleared
-      if (isEnhancedSecondary) {
+      if (isSecondaryEnhanced) {
         clearConditionNotListed(formData, setFormData);
       }
 
@@ -153,16 +153,16 @@ export const remainingSharedPages = (
       isActiveDemo(formData, demo.name) &&
       isNewCondition(formData, index) &&
       hasCause(formData, index, 'SECONDARY'),
-    uiSchema: isEnhancedSecondary
+    uiSchema: isSecondaryEnhanced
       ? causeSecondaryEnhancedPage.uiSchema
       : causeSecondaryPage.uiSchema,
-    schema: isEnhancedSecondary
+    schema: isSecondaryEnhanced
       ? causeSecondaryEnhancedPage.schema
       : causeSecondaryPage.schema,
     onNavForward: props => {
       const { formData, index, setFormData } = props;
 
-      if (isEnhancedSecondary) {
+      if (isSecondaryEnhanced) {
         const hasConditionNotListedSelected =
           formData?.[arrayBuilderOptions.arrayPath]?.[index]
             ?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION];

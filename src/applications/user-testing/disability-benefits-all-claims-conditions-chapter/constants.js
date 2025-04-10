@@ -8,15 +8,15 @@ export const CONDITION_TYPE_RADIO = {
   name: 'conditionTypeRadios',
   label: 'kiwi',
 };
-export const RATED_OR_NEW_NEXT_PAGE_WITH_ENHANCED_SECONDARY = {
-  name: 'ratedOrNewNextPageWithEnhancedSecondaryFlow',
+export const RATED_OR_NEW_NEXT_PAGE_SECONDARY_ENHANCED = {
+  name: 'ratedOrNewNextPageSecondaryEnhanced',
   label: 'papaya',
   description: 'Enhanced Secondary Flow',
 };
 export const DEMO_OPTIONS = [
   RATED_OR_NEW_NEXT_PAGE,
   CONDITION_TYPE_RADIO,
-  RATED_OR_NEW_NEXT_PAGE_WITH_ENHANCED_SECONDARY,
+  RATED_OR_NEW_NEXT_PAGE_SECONDARY_ENHANCED,
 ];
 export const ARRAY_PATH = 'conditions';
 export const NEW_CONDITION_OPTION = 'New condition';
