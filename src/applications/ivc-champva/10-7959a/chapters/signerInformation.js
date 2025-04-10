@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   addressUI,
@@ -103,7 +104,13 @@ export const certifierAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
+        },
+      },
+    }),
   },
   schema: {
     type: 'object',
