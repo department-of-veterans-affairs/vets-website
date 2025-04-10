@@ -37,13 +37,15 @@ const LandingPageUnauth = () => {
       <p className="vads-u-margin-top--3px">
         <a
           className="vads-c-action-link--blue compose-message-link"
-          href="/my-health/secure-messages"
+          href="/my-health/my-secure-messages"
         >
           Start a new message
         </a>
       </p>
       <p>
-        <a href="/my-health/secure-messages">Learn about VA health benefits</a>
+        <a href="/my-health/my-secure-messages">
+          Learn about VA health benefits
+        </a>
       </p>
       <h2>
         Use the messages tool to send and receive messages with your care team

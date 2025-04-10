@@ -4,7 +4,7 @@ import App from './containers/App';
 
 const routes = (
   <Switch>
-    <Route path="/" key="App">
+    <Route path="/my-secure-messages" key="mhvSecureMessages">
       <App />
     </Route>
   </Switch>
