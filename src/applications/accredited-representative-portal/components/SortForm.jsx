@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { useSelector } from 'react-redux';
 import api from '../utilities/api';
 
 const SEARCH_PARAMS = {
   STATUS: 'status',
   SORT: 'sort',
 };
+
 const SortForm = ({ asc, desc, ascOption, descOption }) => {
   const navigate = useNavigate();
   const url = new URL(window.location);
@@ -28,32 +31,38 @@ const SortForm = ({ asc, desc, ascOption, descOption }) => {
     }
     return null;
   };
+  const accreditedRepresentativePortalSortBy = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.accreditedRepresentativePortalSortBy
+      ],
+  );
 
   return (
-    <Form
-      id="search-form"
-      role="search"
-      className="poa-request__sort-by vads-u-display--none"
-    >
-      <VaSelect
-        onVaSelect={handleChange}
-        label="Sort by"
-        message-aria-describedby="Sort by date"
-        name="options"
-        className="poa-request__select"
-        value={sortby || asc}
-      >
-        <option value={asc}>{ascOption}</option>
-        <option value={desc}>{descOption}</option>
-      </VaSelect>
-      <button
-        type="button"
-        className="usa-button-secondary poa-request__apply"
-        onClick={handleSorting}
-      >
-        Sort
-      </button>
-    </Form>
+    <>
+      {!accreditedRepresentativePortalSortBy && (
+        <Form id="search-form" role="search" className="poa-request__sort-by">
+          <VaSelect
+            onVaSelect={handleChange}
+            label="Sort by"
+            message-aria-describedby="Sort by date"
+            name="options"
+            className="poa-request__select"
+            value={sortby || asc}
+          >
+            <option value={asc}>{ascOption}</option>
+            <option value={desc}>{descOption}</option>
+          </VaSelect>
+          <button
+            type="button"
+            className="usa-button-secondary poa-request__apply"
+            onClick={handleSorting}
+          >
+            Sort
+          </button>
+        </Form>
+      )}
+    </>
   );
 };
 
