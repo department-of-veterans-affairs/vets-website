@@ -99,6 +99,16 @@ export const poaSearchBC = [
     label: 'Power of attorney requests',
   },
 ];
+export const searchPeopleBC = [
+  {
+    href: '/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Search People',
+  },
+];
 export const poaDetailsBreadcrumbs = [
   {
     href: 'https://va.gov/representative',
