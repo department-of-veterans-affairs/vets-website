@@ -53,9 +53,7 @@ const directDeposit = {
         volatileData: true,
       },
       'ui:description': _props => (
-        <>
-          <DirectDepositDescription formContext={_props.formContext} />
-        </>
+        <DirectDepositDescription formContext={_props.formContext} />
       ),
       bankAccount: {
         ...bankAccountUI,

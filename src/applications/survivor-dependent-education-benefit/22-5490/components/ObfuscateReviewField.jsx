@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { obfuscate } from '../helpers';
+import { obfuscate, obfuscateAriaLabel } from '../helpers';
 
 function ObfuscateReviewField({ children, uiSchema }) {
   const { formData } = children.props; // Extract form data
-  const maskedValue = obfuscate(formData); // Generate obfuscated value
-  const visibleLastDigits = formData.slice(-4); // Extract last 4 digits for accessibility
 
   return (
     <dl
@@ -20,11 +18,11 @@ function ObfuscateReviewField({ children, uiSchema }) {
         {uiSchema['ui:title']}
       </dt>
       <dd
-        id="obfuscate-review-value"
         className="survivor-benefit-definition-list_definition"
+        id="obfuscate-review-value"
       >
-        <span aria-hidden="true">{maskedValue}</span>
-        <span className="sr-only">Ending in {visibleLastDigits}</span>
+        <span aria-hidden="true">{obfuscate(formData)}</span>
+        <span className="sr-only">{obfuscateAriaLabel(formData)}</span>
       </dd>
     </dl>
   );

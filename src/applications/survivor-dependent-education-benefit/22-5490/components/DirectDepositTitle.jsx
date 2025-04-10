@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DirectDepositDescription = ({ formContext, title }) => {
-  if (!formContext) {
-    return null;
-  }
-
-  if (formContext.onReviewPage) {
+  if (!formContext || formContext.onReviewPage) {
     return null;
   }
 
