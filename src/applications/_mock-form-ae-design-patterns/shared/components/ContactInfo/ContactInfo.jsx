@@ -102,10 +102,6 @@ export const ContactInfoBase = ({
       : profile.vapContactInfo || {};
 
   const dataWrap = data[keys.wrapper] || {};
-  const email = dataWrap[keys.email] || {};
-  const homePhone = dataWrap[keys.homePhone] || {};
-  const mobilePhone = dataWrap[keys.mobilePhone] || {};
-  const address = dataWrap[keys.address] || {};
 
   const missingInfo = getMissingInfo({
     data: dataWrap,
@@ -169,100 +165,169 @@ export const ContactInfoBase = ({
     },
   };
 
-  useEffect(() => {
-    const wrapper = { ...data[keys.wrapper] };
-    const updatedWrapper = { ...wrapper };
-    let needsUpdate = false;
+  const lastSyncedData = useRef({});
 
-    if (keys.email) {
-      const newEmailUpdatedAt = contactInfo.email?.updatedAt || '';
-      const currentEmailUpdatedAt = email?.updatedAt || '';
-      if (newEmailUpdatedAt !== currentEmailUpdatedAt) {
-        updatedWrapper[keys.email] = {
-          ...contactInfo.email,
-          emailAddress: contactInfo.email?.emailAddress || '',
-        };
-        needsUpdate = true;
-      }
-    }
+  useEffect(
+    () => {
+      const wrapper = { ...data[keys.wrapper] };
+      const updatedWrapper = { ...wrapper };
+      let needsUpdate = false;
 
-    if (keys.homePhone) {
-      const newHomePhone = contactInfo.homePhone?.updatedAt || '';
-      const currentHomePhone = homePhone?.updatedAt || '';
-      if (newHomePhone !== currentHomePhone) {
-        updatedWrapper[
-          keys.homePhone
-        ] = convertNullishObjectValuesToEmptyString(contactInfo.homePhone);
-        needsUpdate = true;
-      }
-    }
+      const fields = [
+        { key: keys.email, path: 'email' },
+        { key: keys.homePhone, path: 'homePhone' },
+        { key: keys.mobilePhone, path: 'mobilePhone' },
+        { key: keys.address, path: 'mailingAddress' },
+      ];
 
-    if (keys.mobilePhone) {
-      const newMobilePhone = contactInfo.mobilePhone?.updatedAt || '';
-      const currentMobilePhone = mobilePhone?.updatedAt || '';
-      if (newMobilePhone !== currentMobilePhone) {
-        updatedWrapper[
-          keys.mobilePhone
-        ] = convertNullishObjectValuesToEmptyString(contactInfo.mobilePhone);
-        needsUpdate = true;
-      }
-    }
+      fields.forEach(({ key, path }) => {
+        const profileValue = contactInfo?.[path];
+        const formValue = wrapper?.[key];
 
-    if (keys.address) {
-      const newAddress = contactInfo.mailingAddress?.updatedAt || '';
-      const currentAddress = address?.updatedAt || '';
-      if (newAddress !== currentAddress) {
-        updatedWrapper[keys.address] = convertNullishObjectValuesToEmptyString(
-          contactInfo.mailingAddress,
-        );
-        needsUpdate = true;
-      }
-    }
+        const profileUpdated = profileValue?.updatedAt || '';
+        const formUpdated = formValue?.updatedAt || '';
 
-    if (needsUpdate) {
-      setFormData({ ...data, [keys.wrapper]: updatedWrapper });
-    }
-  }, [
-    contactInfo,
-    email,
-    homePhone,
-    mobilePhone,
-    address,
-    setFormData,
-    data,
-    keys,
-  ]);
+        // Prefer the more recent value between profile and form
+        const isFormNewer = formUpdated && formUpdated > profileUpdated;
+        const selectedValue = isFormNewer ? formValue : profileValue;
 
-  useEffect(() => {
-    if (editState) {
-      const [lastEdited, returnState] = editState.split(',');
-      setTimeout(() => {
-        const target =
-          returnState === 'canceled'
-            ? `#edit-${lastEdited}`
-            : `#updated-${lastEdited}`;
-        scrollTo(
-          onReviewPage
-            ? `${contactInfoPageKey}ScrollElement`
-            : `header-${lastEdited}`,
-        );
-        focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
-        setTimeout(() => {
-          clearReturnState();
-        }, 1000);
+        if (
+          selectedValue &&
+          JSON.stringify(lastSyncedData.current[key]) !==
+            JSON.stringify(selectedValue)
+        ) {
+          const cleanedValue =
+            path === 'email'
+              ? {
+                  ...selectedValue,
+                  emailAddress: selectedValue?.emailAddress || '',
+                }
+              : convertNullishObjectValuesToEmptyString(selectedValue);
+
+          updatedWrapper[key] = cleanedValue;
+          lastSyncedData.current[key] = selectedValue;
+          needsUpdate = true;
+        }
       });
-    }
-  }, [contactInfoPageKey, editState, onReviewPage]);
 
-  useEffect(() => {
-    if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-      // page had an error flag, so we know when to show a success alert
-      setHadError(true);
-    }
-    setTimeout(() => {
-      setHasInitialized(true);
-    });
-  }, [missingInfo, hasInitialized, testContinueAlert]);
+      if (needsUpdate) {
+        setFormData({ ...data, [keys.wrapper]: updatedWrapper });
+      }
+    },
+    [contactInfo, data, keys, setFormData],
+  );
+
+  // useEffect(() => {
+  //   const updated = {
+  //     [keys.email]: mergedContactInfo.email,
+  //     [keys.homePhone]: mergedContactInfo.homePhone,
+  //     [keys.mobilePhone]: mergedContactInfo.mobilePhone,
+  //     [keys.address]: mergedContactInfo.mailingAddress,
+  //   };
+
+  //   setFormData({ ...data, [keys.wrapper]: updated });
+  // }, [mergedContactInfo]);
+
+  // useEffect(() => {
+  //   const wrapper = { ...data[keys.wrapper] };
+  //   const updatedWrapper = { ...wrapper };
+  //   let needsUpdate = false;
+
+  //   if (keys.email) {
+  //     const newEmailUpdatedAt = contactInfo.email?.updatedAt || '';
+  //     const currentEmailUpdatedAt = email?.updatedAt || '';
+  //     if (newEmailUpdatedAt !== currentEmailUpdatedAt) {
+  //       updatedWrapper[keys.email] = {
+  //         ...contactInfo.email,
+  //         emailAddress: contactInfo.email?.emailAddress || '',
+  //       };
+  //       needsUpdate = true;
+  //     }
+  //   }
+
+  //   if (keys.homePhone) {
+  //     const newHomePhone = contactInfo.homePhone?.updatedAt || '';
+  //     const currentHomePhone = homePhone?.updatedAt || '';
+  //     if (newHomePhone !== currentHomePhone) {
+  //       updatedWrapper[
+  //         keys.homePhone
+  //       ] = convertNullishObjectValuesToEmptyString(contactInfo.homePhone);
+  //       needsUpdate = true;
+  //     }
+  //   }
+
+  //   if (keys.mobilePhone) {
+  //     const newMobilePhone = contactInfo.mobilePhone?.updatedAt || '';
+  //     const currentMobilePhone = mobilePhone?.updatedAt || '';
+  //     if (newMobilePhone !== currentMobilePhone) {
+  //       updatedWrapper[
+  //         keys.mobilePhone
+  //       ] = convertNullishObjectValuesToEmptyString(contactInfo.mobilePhone);
+  //       needsUpdate = true;
+  //     }
+  //   }
+
+  //   if (keys.address) {
+  //     const newAddress = contactInfo.mailingAddress?.updatedAt || '';
+  //     const currentAddress = address?.updatedAt || '';
+  //     if (newAddress !== currentAddress) {
+  //       updatedWrapper[keys.address] = convertNullishObjectValuesToEmptyString(
+  //         contactInfo.mailingAddress,
+  //       );
+  //       needsUpdate = true;
+  //     }
+  //   }
+
+  //   if (needsUpdate) {
+  //     setFormData({ ...data, [keys.wrapper]: updatedWrapper });
+  //   }
+  // }, [
+  //   contactInfo,
+  //   email,
+  //   homePhone,
+  //   mobilePhone,
+  //   address,
+  //   setFormData,
+  //   data,
+  //   keys,
+  // ]);
+
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        setTimeout(() => {
+          const target =
+            returnState === 'canceled'
+              ? `#edit-${lastEdited}`
+              : `#updated-${lastEdited}`;
+          scrollTo(
+            onReviewPage
+              ? `${contactInfoPageKey}ScrollElement`
+              : `header-${lastEdited}`,
+          );
+          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
+          setTimeout(() => {
+            clearReturnState();
+          }, 1000);
+        });
+      }
+    },
+    [contactInfoPageKey, editState, onReviewPage],
+  );
+
+  useEffect(
+    () => {
+      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+        // page had an error flag, so we know when to show a success alert
+        setHadError(true);
+      }
+      setTimeout(() => {
+        setHasInitialized(true);
+      });
+    },
+    [missingInfo, hasInitialized, testContinueAlert],
+  );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');

@@ -183,4 +183,93 @@ describe('Prefill pattern - Blue Task', () => {
     cy.findByRole('button', { name: /Continue/i }).click();
     cy.url().should('contain', 'mock-form-ae-design-patterns/');
   });
+
+  it('shows error alert when profile update fails but form data is saved', () => {
+    // Override the default interceptors with failure response for profile update
+    cy.intercept('PUT', '/v0/profile/addresses', {
+      statusCode: 500,
+      body: {
+        errors: [
+          {
+            title: 'Server Error',
+            detail: 'Profile update failed',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    }).as('updateProfileFail');
+
+    cy.visit(`${manifest.rootUrl}/2/task-blue/introduction?loggedIn=true`);
+
+    cy.injectAxeThenAxeCheck();
+
+    // Start the form flow
+    cy.findAllByRole('link', {
+      name: /Start the Board Appeal request/i,
+    })
+      .first()
+      .click();
+
+    cy.wait('@mockSip');
+    cy.url().should('contain', '/personal-information');
+    cy.findByRole('button', { name: /continue/i }).click();
+    cy.url().should('contain', '/veteran-information');
+
+    // Edit mailing address
+    cy.get('va-link[label="Edit mailing address"]').click();
+
+    // Update address fields using web components
+    cy.get('va-text-input[name="root_addressLine1"]')
+      .shadow()
+      .find('input')
+      .clear()
+      .type('11 Spooner St');
+
+    cy.get('va-text-input[name="root_city"]')
+      .shadow()
+      .find('input')
+      .clear()
+      .type('Boston');
+
+    cy.get('va-select[name="root_stateCode"]')
+      .shadow()
+      .find('select')
+      .select('MA');
+
+    cy.get('va-text-input[name="root_zipCode"]')
+      .shadow()
+      .find('input')
+      .clear()
+      .type('02108');
+
+    // Select to update profile (will fail)
+    cy.findByLabelText('Yes, also update my profile').click();
+
+    // Save changes
+    cy.findByTestId('save-edit-button').click();
+
+    // Wait for failed profile update
+    cy.wait('@updateProfileFail');
+
+    // Verify error alert is shown
+    cy.findByTestId('edit-error-alert').should('exist');
+    cy.findByTestId('edit-error-alert').should(
+      'contain',
+      "We couldn't update your VA.gov profile, but your changes were saved to this form.",
+    );
+
+    // Verify form data was updated despite profile update failure
+    cy.get('div[data-dd-action-name="street"]').should(
+      'contain',
+      '11 Spooner St',
+    );
+    cy.get('div[data-dd-action-name="cityStateZip"]').should(
+      'contain',
+      'Boston, MA 02108',
+    );
+
+    // Verify we can still proceed with the form
+    cy.findByRole('button', { name: /Continue/i }).should('be.enabled');
+  });
 });
