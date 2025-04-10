@@ -127,7 +127,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.13.9",
     "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.12.2",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.13.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
     "@testing-library/dom": "^7.26.6",
@@ -341,7 +341,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#005c292c915aaf1df1f702ab0c44614ec6789df6",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ebaaea0a7f451660e007036c1b649f9d035c858c",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {

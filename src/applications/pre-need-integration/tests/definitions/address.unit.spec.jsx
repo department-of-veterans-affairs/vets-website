@@ -22,16 +22,12 @@ describe('Pre-need definition address', () => {
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    // Count the form elements
     const inputs = form.find('input');
     const selects = form.find('select');
     expect(inputs.length).to.equal(4);
     expect(selects.length).to.equal(2);
 
-    // Postal code should be small
     expect(inputs.last().is('.usa-input-medium')).to.be.true;
-
-    // country is USA and there is no blank option
     expect(selects.first().props().value).to.equal('USA');
     expect(
       selects
@@ -46,10 +42,6 @@ describe('Pre-need definition address', () => {
     const s = schema(addressSchema, true);
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
-
-    // Ideally, we'd get the required inputs, not the <span>s denoting required
-    //  fields but this doesn't work.
-    // const requiredInputs = formDOM.querySelectorAll('input[required=true]');
     const requiredInputs = form
       .find('label')
       .find('span.schemaform-required-span');
@@ -71,23 +63,17 @@ describe('Pre-need definition address', () => {
     );
     const stateField = form.find('select#root_state');
 
-    // Check the labels' text
     expect(postalCodeLabel.text()).to.equal('Postal code');
     expect(stateLabel.text()).to.equal('State');
-
-    // And state input type / options
     expect(stateField.find('option').someWhere(n => n.props().value === 'OR'))
       .to.be.true;
 
-    // Entering a military city should result in different "state" options
     fillData(form, 'input#root_city', 'apo');
     expect(stateField.find('option').someWhere(n => n.props().value === 'AA'))
       .to.be.true;
 
-    // Change the country
     fillData(form, 'select#root_country', 'CAN');
 
-    // Check to see if the postal code and state updated
     expect(stateLabel.text()).to.equal('Province');
     expect(postalCodeLabel.text()).to.equal('Postal code');
     expect(
@@ -136,6 +122,51 @@ describe('Pre-need definition address', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    form.unmount();
+  }).timeout(4000);
+
+  it('should show error for invalid US ZIP', () => {
+    const s = schema(addressSchema, false);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    fillData(form, 'input#root_postalCode', 'abcde');
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').text()).to.include(
+      'valid postal code',
+    );
+    form.unmount();
+  }).timeout(4000);
+
+  it('should show error for invalid CAN postal code', () => {
+    const s = schema(addressSchema, false);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    fillData(form, 'select#root_country', 'CAN');
+    fillData(form, 'input#root_postalCode', '12345');
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').text()).to.include(
+      'valid postal code',
+    );
+    form.unmount();
+  }).timeout(4000);
+
+  it('should show error when street is all whitespace', () => {
+    const s = schema(addressSchema, true);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    fillData(form, 'input#root_street', '     ');
+    form.find('form').simulate('submit');
+
+    expect(
+      form
+        .find('.usa-input-error-message')
+        .someWhere(n => n.text().includes('provide a response')),
+    ).to.be.true;
     form.unmount();
   }).timeout(4000);
 });
