@@ -25,7 +25,6 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
 };
 
 AcceleratedCernerFacilityAlert.propTypes = {
-  cernerFacilities: PropTypes.arrayOf(PropTypes.object),
   linkPath: PropTypes.string,
   pageName: PropTypes.string,
 };
