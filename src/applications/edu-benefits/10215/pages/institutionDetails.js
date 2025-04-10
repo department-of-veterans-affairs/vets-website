@@ -2,19 +2,34 @@
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
-} from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
+} from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
 import {
   textSchema,
   textUI,
-} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+} from '~/platform/forms-system/src/js/web-component-patterns/textPatterns';
+import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
 import {
   isTermEndBeforeTermStartDate,
   isWithinThirtyDaysLogic,
+  getTodayDateYyyyMmDd,
 } from '../helpers';
 import InstitutionName from '../components/InstitutionName';
 
-function isWithinThirtyDays(
+function validateTermStartDate(
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) {
+  const today = getTodayDateYyyyMmDd();
+  const { termStartDate } = formData.institutionDetails;
+  if (!isWithinThirtyDaysLogic(today, termStartDate)) {
+    errors.addError(errorMessages.pattern);
+  }
+}
+
+function validateDateOfCalculations(
   errors,
   routingNumber,
   formData,
@@ -71,12 +86,18 @@ const uiSchema = {
           required: 'Please enter a term start date',
         },
       }),
+      'ui:validations': [validateTermStartDate],
+      'ui:errorMessages': {
+        pattern: `You cannot enter calculations for a term that started more than 30 days ago.
+         The deadline has passed. Contact your Education Liaison Representative.`,
+        required: 'Please enter a term start date',
+      },
     },
     dateOfCalculations: {
       ...currentOrPastDateUI({
         title: 'Date of calculations',
       }),
-      'ui:validations': [isWithinThirtyDays],
+      'ui:validations': [validateDateOfCalculations],
       'ui:errorMessages': {
         pattern: `This date must be on or after, but not later than 30 days
          after , the start of the term. You cannot enter a future date.`,
