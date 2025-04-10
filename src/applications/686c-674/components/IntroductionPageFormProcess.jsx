@@ -23,7 +23,7 @@ export const IntroductionPageFormProcess = () => (
           </li>
           <li>
             You’re a surviving spouse of a Veteran entitled to survivors
-            benefits, <strong>or</strong>
+            benefits
           </li>
         </ul>
         <p>
