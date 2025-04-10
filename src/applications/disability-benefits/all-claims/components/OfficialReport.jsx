@@ -47,10 +47,13 @@ const OfficialReport = props => {
   const handlers = {
     shouldShowPoliceDataModal,
     onModalOrContinue: ({ formData }) => {
+      if (shouldShowPoliceDataModal(formData)) {
+        setShowModal(true);
+        return;
+      }
+
       if (!formDomRef.current) return;
-
       setTempData(formData);
-
       formDomRef.current.submitForm();
     },
     onSubmit: ({ formData }) => {
@@ -135,17 +138,12 @@ const OfficialReport = props => {
   );
 
   if (!props.onReviewPage && !isEdit && !isAdd) {
-    // we should only arrive at this page with ?add=true or ?edit=true,
-    // so if we somehow get here without those, redirect to the summary
     const path = props.arrayBuilder.summaryRoute;
     props.goToPath(path);
     return null;
   }
 
   if (props.onReviewPage || (isEdit && !schema)) {
-    // 1. Don't show for review page.
-    // 2. If we're editing, the schema will initially be null,
-    //    so return null until schema is loaded by useState
     return null;
   }
 
@@ -199,6 +197,7 @@ const OfficialReport = props => {
         }}
       >
         <>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="submit"
             ref={submitButtonRef}
@@ -214,7 +213,6 @@ const OfficialReport = props => {
                 getText={props.arrayBuilder.getText}
                 required={props.arrayBuilder.required}
               />
-              {/* save-in-progress link, etc */}
               {props.pageContentBeforeButtons}
               {props.contentBeforeButtons}
               <NavButtons

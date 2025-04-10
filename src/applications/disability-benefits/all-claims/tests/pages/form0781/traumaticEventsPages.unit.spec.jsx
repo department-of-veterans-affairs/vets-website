@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   options,
   summaryPageTitleWithTag,
@@ -111,32 +110,5 @@ describe('Traumatic Events Pages', () => {
       'We understand that some of the questions may be difficult to answer.';
 
     expect(textContent).to.include(expectedText);
-  });
-
-  it('should enforce maxItems limit of 20', () => {
-    const MockDefinitionTester = ({ data, onSubmit }) => (
-      <div>
-        {data.events.map((_, index) => (
-          <div key={index} data-testid="event-item">
-            Event {index + 1}
-          </div>
-        ))}
-        {data.events.length < 20 && <button>Add an event</button>}
-        <button onClick={onSubmit}>Submit</button>
-      </div>
-    );
-
-    const events = Array.from({ length: 20 }, () => ({}));
-    const onSubmit = sinon.spy();
-
-    const { queryByText, queryAllByTestId } = render(
-      <MockDefinitionTester data={{ events }} onSubmit={onSubmit} />,
-    );
-
-    const renderedEvents = queryAllByTestId('event-item');
-    expect(renderedEvents.length).to.equal(20);
-
-    const addButton = queryByText('Add an event');
-    expect(addButton).to.be.null;
   });
 });
