@@ -99,10 +99,11 @@ const handlePageBreakWithBorders = (
   doc,
   currentY,
   config,
+  spaceNeeded,
   tableLeft,
   tableWidth,
 ) => {
-  if (currentY + 25 > doc.page.height - config.margins.bottom) {
+  if (currentY + spaceNeeded > doc.page.height - config.margins.bottom) {
     // Add a new page
     doc.addPage({ margins: config.margins });
 
@@ -319,6 +320,7 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   // All the copay data
   let totalCopay = 0;
+
   copays.forEach((copay, index) => {
     // Copay Station Row
     const stationRow = doc.struct('TR');
@@ -336,7 +338,15 @@ const generate = async (data = {}, config = defaultConfig) => {
       font: config.text.font,
       size: 8,
     });
-    currentY += stationHeight + 5;
+
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY + stationHeight + 5,
+      config,
+      25,
+      tableLeft,
+      tableWidth,
+    );
 
     // Account Number Row
     const accountNumberRow = doc.struct('TR');
@@ -361,7 +371,15 @@ const generate = async (data = {}, config = defaultConfig) => {
       width: col1Width,
       size: 8,
     });
-    currentY += accountNumberHeight + 5;
+
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY + accountNumberHeight + 5,
+      config,
+      25,
+      tableLeft,
+      tableWidth,
+    );
 
     // Statement Date Disclaimer bit
     const parsedStatementDate = new Date(copay.pSStatementDateOutput);
@@ -385,7 +403,15 @@ const generate = async (data = {}, config = defaultConfig) => {
       font: config.text.font,
       size: 8,
     });
-    currentY += statementInfoHeight + 5;
+
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY + statementInfoHeight + 5,
+      config,
+      25,
+      tableLeft,
+      tableWidth,
+    );
 
     // Copay Data Rows
     doc.font(config.text.font).fontSize(8);
@@ -417,7 +443,15 @@ const generate = async (data = {}, config = defaultConfig) => {
       font: config.text.font,
       size: 8,
     });
-    currentY += prevBalanceRowHeight + 5;
+
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY + prevBalanceRowHeight + 5,
+      config,
+      25,
+      tableLeft,
+      tableWidth,
+    );
 
     // Payments Received Row to help with maths
     const paymentsReceivedRow = doc.struct('TR');
@@ -445,7 +479,15 @@ const generate = async (data = {}, config = defaultConfig) => {
       font: config.text.font,
       size: 8,
     });
-    currentY += paymentsReceivedRowHeight + 5;
+
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY + paymentsReceivedRowHeight + 5,
+      config,
+      25,
+      tableLeft,
+      tableWidth,
+    );
 
     // Adding copay detail charges
     copayDetails.forEach(detail => {
@@ -490,7 +532,15 @@ const generate = async (data = {}, config = defaultConfig) => {
         font: config.text.font,
         size: 8,
       });
-      currentY += rowHeight + 5;
+
+      currentY = handlePageBreakWithBorders(
+        doc,
+        currentY + rowHeight + 5,
+        config,
+        25,
+        tableLeft,
+        tableWidth,
+      );
     });
 
     totalCopay += copay.pHAmtDue;
@@ -523,7 +573,16 @@ const generate = async (data = {}, config = defaultConfig) => {
     font: config.text.font,
     size: 8,
   });
-  currentY += totalHeight + 5;
+
+  // space needed for Instructions Rows is closer to 45 for all the lines
+  currentY = handlePageBreakWithBorders(
+    doc,
+    currentY + totalHeight + 5,
+    config,
+    45,
+    tableLeft,
+    tableWidth,
+  );
 
   // Copay Payment Instructions Row
   const paymentRow = doc.struct('TR');
@@ -578,7 +637,16 @@ const generate = async (data = {}, config = defaultConfig) => {
     'To Pay Your Copay Bills:\nIn Person: At your local Veteran Affairs Medical Center Agent Cashier’s Office\nBy Phone: Contact VA at 1-888-827-4817\nOnline: Pay by ACH withdrawal from your bank account, or by debit or credit card at www.pay.gov',
     { width: col1Width, font: config.text.font, size: 8 },
   );
-  currentY += paymentHeight + 5;
+
+  // making sure we have enough space for the header and Benefits Overpayment Description Row
+  currentY = handlePageBreakWithBorders(
+    doc,
+    currentY + paymentHeight + 5,
+    config,
+    headerHeight + 30,
+    tableLeft,
+    tableWidth,
+  );
 
   // Benefits Overpayment Header Row
   const overpaymentHeaderRow = doc.struct('TR');
@@ -631,7 +699,15 @@ const generate = async (data = {}, config = defaultConfig) => {
     font: config.text.font,
     size: 8,
   });
-  currentY += overpaymentDescHeight + 5;
+
+  currentY = handlePageBreakWithBorders(
+    doc,
+    currentY + overpaymentDescHeight + 5,
+    config,
+    20,
+    tableLeft,
+    tableWidth,
+  );
 
   // Debt update disclaimer
   const debtUpdateDisclaimerRow = doc.struct('TR');
@@ -666,6 +742,7 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc,
       currentY,
       config,
+      25,
       tableLeft,
       tableWidth,
     );
@@ -698,7 +775,15 @@ const generate = async (data = {}, config = defaultConfig) => {
       font: config.text.font,
       size: 8,
     });
-    currentY += rowHeight + 5;
+
+    currentY = handlePageBreakWithBorders(
+      doc,
+      currentY + rowHeight + 5,
+      config,
+      25,
+      tableLeft,
+      tableWidth,
+    );
 
     // Overpayment 'Updated on' line
     const dateUpdated = last(debt.debtHistory)?.date;
@@ -727,7 +812,98 @@ const generate = async (data = {}, config = defaultConfig) => {
         size: 8,
       });
 
-      currentY += debtUpdatedHeight + 5;
+      currentY = handlePageBreakWithBorders(
+        doc,
+        currentY + debtUpdatedHeight + 5,
+        config,
+        25,
+        tableLeft,
+        tableWidth,
+      );
+    }
+
+    // Overpayment Details - Payee number
+    if (debt.payeeNumber) {
+      const payeeNumberLine = doc.struct('TR');
+      tableStruct.add(payeeNumberLine);
+      const payeeNumberDesc = `Payee Number: ${debt.payeeNumber}`;
+      payeeNumberLine.add(
+        doc.struct('TD', () => {
+          doc.text(payeeNumberDesc, col1Indent.second, currentY, {
+            width: col1Width,
+          });
+        }),
+      );
+      const payeeNumberHeight = doc.heightOfString(payeeNumberDesc, {
+        width: col1Width,
+        font: config.text.font,
+        size: 8,
+      });
+
+      currentY = handlePageBreakWithBorders(
+        doc,
+        currentY + payeeNumberHeight + 5,
+        config,
+        25,
+        tableLeft,
+        tableWidth,
+      );
+    }
+
+    // Overpayment Details - Person entitled
+    if (debt.personEntitled) {
+      const personEntitledLine = doc.struct('TR');
+      tableStruct.add(personEntitledLine);
+      const personEntitledDesc = `Person entitled: ${debt.personEntitled}`;
+      personEntitledLine.add(
+        doc.struct('TD', () => {
+          doc.text(personEntitledDesc, col1Indent.second, currentY, {
+            width: col1Width,
+          });
+        }),
+      );
+      const personEntitledHeight = doc.heightOfString(personEntitledDesc, {
+        width: col1Width,
+        font: config.text.font,
+        size: 8,
+      });
+
+      currentY = handlePageBreakWithBorders(
+        doc,
+        currentY + personEntitledHeight + 5,
+        config,
+        25,
+        tableLeft,
+        tableWidth,
+      );
+    }
+
+    // Overpayment Details - Deduction code
+    if (debt.deductionCode) {
+      const deductionCodeLine = doc.struct('TR');
+      tableStruct.add(deductionCodeLine);
+      const deductionCodeDesc = `Deduction code: ${debt.deductionCode}`;
+      deductionCodeLine.add(
+        doc.struct('TD', () => {
+          doc.text(deductionCodeDesc, col1Indent.second, currentY, {
+            width: col1Width,
+          });
+        }),
+      );
+      const deductionCodeHeight = doc.heightOfString(deductionCodeDesc, {
+        width: col1Width,
+        font: config.text.font,
+        size: 8,
+      });
+
+      currentY = handlePageBreakWithBorders(
+        doc,
+        currentY + deductionCodeHeight + 5,
+        config,
+        25,
+        tableLeft,
+        tableWidth,
+      );
     }
 
     totalOverpayment += parseFloat(debt.currentAr || 0);
@@ -761,7 +937,16 @@ const generate = async (data = {}, config = defaultConfig) => {
     'Total VBA Overpayment Due',
     { width: 100, font: config.text.font, size: 8 },
   );
-  currentY += overpaymentTotalHeight + 5;
+
+  // space needed for Instructions Rows is closer to 35 for all the lines
+  currentY = handlePageBreakWithBorders(
+    doc,
+    currentY + overpaymentTotalHeight + 5,
+    config,
+    35,
+    tableLeft,
+    tableWidth,
+  );
 
   // Benefits Overpayment Payment Instructions Row
   const overpaymentPaymentRow = doc.struct('TR');
