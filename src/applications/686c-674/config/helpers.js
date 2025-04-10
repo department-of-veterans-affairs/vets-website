@@ -142,14 +142,6 @@ export const customLocationSchemaStatePostal = {
   },
 };
 
-export const PensionIncomeRemovalQuestionTitle = (
-  <p>
-    Did this dependent earn an income in the last 365 days? Answer this question{' '}
-    <strong>only</strong> if you are removing this dependent from your{' '}
-    <strong>pension</strong>.
-  </p>
-);
-
 export const generateHelpText = (text, className = 'vads-u-color--gray') => {
   return <span className={className}>{text}</span>;
 };

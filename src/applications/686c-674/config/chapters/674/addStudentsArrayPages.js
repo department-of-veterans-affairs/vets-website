@@ -13,6 +13,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
+  radioUI,
+  radioSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
@@ -167,17 +169,21 @@ export const studentIDInformationPage = {
 export const studentIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
-    studentIncome: {
-      ...yesNoUI('Did this student earn an income in the last 365 days?'),
-      'ui:description': generateHelpText(
+    studentIncome: radioUI({
+      title: 'Did this student have an income in the last 365 days?',
+      hint:
         'Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      studentIncome: yesNoSchema,
+      studentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };
