@@ -408,7 +408,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     goPath(path);
   };
 
-  const navForwardSummaryAddItem = ({ formData, goPath }) => {
+  const navForwardSummaryAddItem = ({ formData, goPath, urlParams }) => {
     const nextIndex = formData[arrayPath]?.length || 0;
 
     const path = createArrayBuilderItemAddPath({
@@ -417,7 +417,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         nextIndex,
         arrayBuilderContextObject({
           add: true,
-          review: getArrayUrlSearchParams()?.get('review') === 'true',
+          review: urlParams?.review,
         }),
       ),
       index: nextIndex,
@@ -449,9 +449,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   });
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardSummary = ({ formData, goPath, pageList }) => {
+  const navForwardSummary = ({ formData, goPath, pageList, urlParams }) => {
     if (formData?.[hasItemsKey]) {
-      navForwardSummaryAddItem({ formData, goPath });
+      navForwardSummaryAddItem({ formData, goPath, urlParams });
     } else {
       navForwardSummaryGoNextChapter({ formData, goPath, pageList });
     }
@@ -472,7 +472,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
           0,
           arrayBuilderContextObject({
             add: true,
-            review: getArrayUrlSearchParams()?.get('review') === 'true',
+            review: urlParams?.review,
           }),
         ),
         index: 0,
