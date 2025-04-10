@@ -9,7 +9,7 @@ import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-sys
 import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
@@ -127,16 +127,32 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   };
   const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
-    );
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      dispatch(
+        openReasonForAppointment(
+          pageKey,
+          pageUISchema,
+          pageInitialSchema,
+          useV2,
+        ),
+      );
+      if (featureBreadcrumbUrlUpdate) {
+        changeCrumb(pageTitle);
+      }
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div

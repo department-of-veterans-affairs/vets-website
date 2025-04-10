@@ -7,7 +7,7 @@ import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-sys
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
@@ -64,13 +64,21 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);
     }
 
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
+
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__facility-type">
