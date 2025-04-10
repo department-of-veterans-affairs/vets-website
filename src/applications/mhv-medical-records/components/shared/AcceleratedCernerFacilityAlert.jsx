@@ -14,9 +14,9 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
 
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
-    isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : '',
-    isAcceleratingAllergies ? CernerAlertContent.ALLERGIES.pageName : '',
-  ];
+    isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : null,
+    isAcceleratingAllergies ? CernerAlertContent.ALLERGIES.pageName : null,
+  ].filter(Boolean);
 
   if (hideOnPage.includes(pageName) && isAccelerating) {
     return <></>;
