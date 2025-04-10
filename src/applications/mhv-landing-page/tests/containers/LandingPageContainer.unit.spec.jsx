@@ -28,6 +28,7 @@ const stateFn = ({
       signIn: {
         serviceName,
       },
+      services: ['messaging'],
     },
     login: {
       currentlyLoggedIn,
