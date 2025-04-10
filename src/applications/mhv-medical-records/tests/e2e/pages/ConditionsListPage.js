@@ -45,5 +45,15 @@ class ConditionsListPage extends BaseListPage {
       .eq(_conditionIndex)
       .click();
   };
+
+  selectSort = _sort => {
+    cy.get('select').select(_sort);
+  };
+
+  verifyConditionTitleByIndex = (index, title) => {
+    cy.get('[data-testid="record-list-item"]')
+      .eq(index)
+      .should('contain', title);
+  };
 }
 export default new ConditionsListPage();

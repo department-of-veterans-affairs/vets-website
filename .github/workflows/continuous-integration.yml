@@ -1371,7 +1371,7 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
-    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
@@ -1453,6 +1453,7 @@ jobs:
           merge-multiple: true
 
       - name: Create Cypress E2E Mochawesome report
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
@@ -1475,13 +1476,14 @@ jobs:
         run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload Cypress E2E test report to s3
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
         # -------------------------
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish Cypress test results
-        if: ${{ always() }}
+        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'}}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

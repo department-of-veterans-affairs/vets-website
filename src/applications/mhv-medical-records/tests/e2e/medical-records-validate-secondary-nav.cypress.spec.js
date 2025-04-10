@@ -11,6 +11,7 @@ describe('Medical Records validate secondary nav', () => {
     cy.visit('my-health/medical-records');
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergiesListPage.verifySecondaryNav();
+    AllergiesListPage.selectSort('Newest to oldest (date entered)');
     AllergiesListPage.loadVAPaginationNextAllergies();
     // navigate to allergies details page
     AllergyDetailsPage.clickAllergyDetailsLink(
