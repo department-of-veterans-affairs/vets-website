@@ -384,25 +384,15 @@ export const delete0781FormData = formData => {
   delete data.treatmentReceivedVaProvider;
   delete data.treatmentNoneCheckbox;
   delete data.additionalInformation;
-  data.vaTreatmentFacilities.forEach((facility, index, object) => {
-    if (facility.treatmentLocation0781Related) {
-      object.splice(index, 1);
-    }
-  });
-  if (data.vaTreatmentFacilities.length === 0) {
-    delete data.vaTreatmentFacilities;
-  }
+  if ('vaTreatmentFacilities' in data)
+    data.vaTreatmentFacilities.forEach(item => {
+      const facility = item;
+      if ('treatmentLocation0781Related' in facility)
+        delete facility.treatmentLocation0781Related;
+    });
 };
 
 export const addForm0781 = formData => {
-  // In case of opt-out, we want to delete any 0781-related data
-  if (
-    formData.mentalHealthWorkflowChoice ===
-    form0781WorkflowChoices.OPT_OUT_OF_FORM0781
-  ) {
-    delete0781FormData(formData);
-  }
-
   if (formData.syncModern0781Flow === true) {
     return formData;
   }
