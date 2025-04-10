@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  VaLoadingIndicator,
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -24,7 +25,7 @@ const CategoryInput = props => {
 
   return (
     <>
-      {categories === undefined && <va-loading-indicator />}
+      {categories === undefined && <VaLoadingIndicator />}
 
       {categories?.length > 0 && (
         <VaRadio
