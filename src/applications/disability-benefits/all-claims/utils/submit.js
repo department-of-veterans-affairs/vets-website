@@ -384,12 +384,45 @@ export const delete0781FormData = formData => {
   delete data.treatmentReceivedVaProvider;
   delete data.treatmentNoneCheckbox;
   delete data.additionalInformation;
-  if ('vaTreatmentFacilities' in data)
+  if (data.vaTreatmentFacilities) {
     data.vaTreatmentFacilities.forEach(item => {
+      // Workaround to avoid eslint rule around mutating params/args
       const facility = item;
       if ('treatmentLocation0781Related' in facility)
         delete facility.treatmentLocation0781Related;
     });
+  }
+};
+
+export const delete0781BehavioralData = formData => {
+  // Workaround to avoid eslint rule around mutating params/args
+  const data = formData;
+  delete data.workBehaviors;
+  delete data.otherBehaviors;
+  delete data.healthBehaviors;
+  delete data.behaviorsDetails;
+};
+
+export const audit0781EventData = formData => {
+  const data = formData;
+  if (data.events) {
+    data.events.forEach(item => {
+      // Workaround to avoid eslint rule around mutating params/args
+      const event = item;
+      // If otherReports exists (assume not falsey) but reports['police'] is false,
+      // or if otherReports is absent, remove event location data
+      if (
+        (event.otherReports && event.reports.police === false) ||
+        !('otherReports' in event)
+      ) {
+        delete event.agency;
+        delete event.city;
+        delete event.country;
+        delete event.state;
+        delete event.township;
+      }
+    });
+  }
 };
 
 export const addForm0781 = formData => {
@@ -528,7 +561,7 @@ export function transformTreatmentFacilities(
 }
 
 export const addForm0781V2 = formData => {
-  // If a user selects any workflow option outside of submitting the online form,
+  // If a user selected any workflow option outside of submitting the online form,
   // we want to remove 0781-related data
   if (
     formData.mentalHealthWorkflowChoice !==
