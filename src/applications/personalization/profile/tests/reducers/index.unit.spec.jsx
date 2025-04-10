@@ -70,7 +70,7 @@ describe('index reducer', () => {
       poa: 'poa info',
     });
 
-    expect(state.poa).to.eql('poa info');
+    expect(state.powerOfAttorney).to.eql('poa info'); // <- fixed line
   });
 
   it('should populate power of attorney with errors when errors are present', () => {
@@ -81,6 +81,6 @@ describe('index reducer', () => {
       },
     });
 
-    expect(state.poa.errors).to.eql(['error']);
+    expect(state.powerOfAttorney.errors).to.eql(['error']);
   });
 });
