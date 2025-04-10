@@ -116,6 +116,7 @@ function UserNav({ profile }) {
           closeIcon="close"
           view="mobile"
           size={2}
+          data-testid="menu-toggle-dropdown-mobile"
         >
           <UserHelpLinks />
         </NavDropdown>
