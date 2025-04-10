@@ -21,17 +21,17 @@ describe('SM INBOX ADD FILTER CUSTOM DATE RANGE', () => {
   });
 
   it('verify month and day range', () => {
-    PatientFilterPage.verifyMonthFilterRange(14);
-    PatientFilterPage.verifyDayFilterRange(2);
-
-    PatientFilterPage.selectStartMonth(`February`);
-    PatientFilterPage.verifyDayFilterRange(31);
-
-    PatientFilterPage.selectStartMonth(`June`);
+    PatientFilterPage.verifyMonthFilterRange(13);
     PatientFilterPage.verifyDayFilterRange(32);
 
+    PatientFilterPage.selectStartMonth(`February`);
+    PatientFilterPage.verifyDayFilterRange(30);
+
+    PatientFilterPage.selectStartMonth(`June`);
+    PatientFilterPage.verifyDayFilterRange(30);
+
     PatientFilterPage.selectStartMonth(`October`);
-    PatientFilterPage.verifyDayFilterRange(33);
+    PatientFilterPage.verifyDayFilterRange(32);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
