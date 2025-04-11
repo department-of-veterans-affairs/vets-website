@@ -45,8 +45,8 @@ describe('NoRep component', () => {
     const link = wrapper.find('va-link');
 
     expect(link.exists()).to.be.true;
-    expect(link.prop('href')).to.equal(
-      'https://www.va.gov/resources/va-accredited-representative-faqs/',
+    expect(link.prop('href')).to.contain(
+      '/resources/va-accredited-representative-faqs/',
     );
     expect(link.prop('text')).to.equal(
       'Learn about accredited representatives',

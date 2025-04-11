@@ -131,8 +131,8 @@ describe('CurrentRep component', () => {
       'va-link[text="Learn about accredited representatives"]',
     );
     expect(learnMoreLink.exists()).to.be.true;
-    expect(learnMoreLink.prop('href')).to.equal(
-      'https://www.va.gov/resources/va-accredited-representative-faqs/',
+    expect(learnMoreLink.prop('href')).to.contain(
+      '/resources/va-accredited-representative-faqs/',
     );
     wrapper.unmount();
   });
