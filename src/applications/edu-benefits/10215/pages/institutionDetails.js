@@ -28,7 +28,8 @@ function validateTermStartDate(
 
   if (isCurrentOrPastDate(termStartDate)) {
     errors.addError(
-      `Calculations can't occur before the term start date. Enter the term start date or a later date.`,
+      `Calculations can't occur before the term start date.
+      Enter the term start date or a later date.`,
     );
   }
 
@@ -56,8 +57,9 @@ function validateDateOfCalculations(
 
   if (isTermEndBeforeTermStartDate(termStartDate, dateOfCalculations)) {
     errors.addError(
-      `Calculations can't occur before the term start date. 
-      Enter the term start date or a later date`,
+      `This date must be on or after, but not later than 30 days after,
+       the start of the term. If you are outside of this date range,
+       contact your Education Liaison Representative.`,
     );
   }
 
