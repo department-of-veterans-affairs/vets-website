@@ -11,6 +11,7 @@ import {
   selectVAPMailingAddress,
 } from '~/platform/user/selectors';
 import environment from 'platform/utilities/environment';
+import { parse, format } from 'date-fns';
 import Modals from '../../medical-copays/components/Modals';
 import { currency, setPageFocus, handlePdfGeneration } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
@@ -60,17 +61,8 @@ const CombinedStatements = () => {
   const payeeNumber = debts.length > 0 ? debts[0]?.payeeNumber || '' : '';
   const personEntitled = debts.length > 0 ? debts[0]?.personEntitled || '' : '';
 
-  // Format the date as "Month DD, YYYY"
-  const formatStatementDate = date => {
-    return new Date(date).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
   // Today's date formatted
-  const todaysDate = formatStatementDate(new Date());
+  const todaysDate = format(new Date(), 'MMMM d, yyyy');
 
   // Data for One VA Debt Letter PDF
   const veteranContactInformation = {
@@ -139,47 +131,28 @@ const CombinedStatements = () => {
 
   const getMostRecentPaymentDate = () => {
     const defaultDate = new Date();
-    defaultDate.setDate(1); // First day of current month
+    defaultDate.setDate(1); // First day of the current month
 
-    if (!debts.length) {
-      return defaultDate;
-    }
-
-    const allDates = [];
-
-    debts.forEach(debt => {
-      if (debt.debtHistory?.length) {
-        debt.debtHistory.forEach(item => {
+    const allDates = debts
+      .flatMap(debt => [
+        ...(debt.debtHistory?.map(item => {
           if (item.date) {
-            const parts = item.date.split('/');
-            if (parts.length === 3) {
-              const date = new Date(
-                parseInt(parts[2], 10),
-                parseInt(parts[0], 10) - 1,
-                parseInt(parts[1], 10),
-              );
-              allDates.push(date);
-            }
+            const parsedDate = parse(item.date, 'MM/dd/yyyy', new Date());
+            return !Number.isNaN(parsedDate.getTime()) ? parsedDate : null;
           }
-        });
-      }
+          return null;
+        }) || []),
+        debt.debtDate ? new Date(debt.debtDate) : null,
+      ])
+      .filter(date => date && !Number.isNaN(date.getTime()));
 
-      if (debt.debtDate) {
-        const date = new Date(debt.debtDate);
-        if (!isNaN(date.getTime())) {
-          allDates.push(date);
-        }
-      }
-    });
-
-    // Return the most recent date or default
     return allDates.length > 0
-      ? new Date(Math.max.apply(null, allDates.map(date => date.getTime())))
+      ? new Date(Math.max(...allDates.map(date => date.getTime())))
       : defaultDate;
   };
 
-  // Get the most recent payment date for the statement
-  const statementDate = formatStatementDate(getMostRecentPaymentDate());
+  // Get the most recent payment date and format it for display
+  const statementDate = format(getMostRecentPaymentDate(), 'MMMM d, yyyy');
 
   const copayTotalRow = copay => {
     return (
