@@ -10,7 +10,7 @@ const changedAppsConfig = require('../../config/changed-apps-build.json');
  * Gets the manifest of all apps in the root app folder that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
- * @returns {Object[]} Application manifests.
+ * @returns {Object[]} Application manifests
  */
 const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
@@ -132,36 +132,72 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
   return true;
 };
 
-if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+/**
+ * Splits an array into chunks of a specified size.
+ *
+ * @param {Array} array - The array to split.
+ * @param {number} size - The maximum size of each chunk.
+ * @returns {Array[]} An array of chunks.
+ */
+const chunkArray = (array, size) => {
+  const chunks = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
+};
 
-  const options = commandLineArgs([
-    // Use the --output-type option to specify one of the following outputs:
-    // 'entry': The entry names of the changed apps.
-    // 'folder': The relative path of the changed apps root folders.
-    // 'url': The root URLs of the changed apps.
-    // 'slack-group': The Slack group of the app's team, specified in the config.
-    { name: 'output-type', type: String, defaultValue: 'entry' },
-    { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
-    { name: 'continuous-deployment', type: Boolean, defaultValue: false },
-  ]);
+const options = commandLineArgs([
+  // Use the --output-type option to specify one of the following outputs:
+  // 'entry': The entry names of the changed apps.
+  // 'folder': The relative path of the changed apps root folders.
+  // 'url': The root URLs of the changed apps.
+  // 'slack-group': The Slack group of the app's team, specified in the config.
+  { name: 'output-type', type: String, defaultValue: 'entry' },
+  { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
+  { name: 'continuous-deployment', type: Boolean, defaultValue: false },
+  { name: 'file', type: String, defaultValue: null },
+]);
+
+let changedFilePaths = [];
+if (options.file) {
+  const fileContent = fs.readFileSync(options.file, 'utf8');
+  changedFilePaths = fileContent.split('\n').filter(Boolean);
+} else if (process.env.CHANGED_FILE_PATHS) {
+  changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+}
+
+if (changedFilePaths.length) {
+  const CHUNK_SIZE = 100; // Adjust chunk size as needed to avoid argument length issues
+  const filePathChunks = chunkArray(changedFilePaths, CHUNK_SIZE);
 
   if (options['continuous-deployment']) {
-    const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
-      changedFilePaths,
-      changedAppsConfig,
-    );
+    let continuousDeploymentEnabled = true;
+
+    for (const chunk of filePathChunks) {
+      if (!isContinuousDeploymentEnabled(chunk, changedAppsConfig)) {
+        continuousDeploymentEnabled = false;
+        break;
+      }
+    }
 
     console.log(continuousDeploymentEnabled);
   } else {
-    const changedAppsString = getChangedAppsString(
-      changedFilePaths,
-      changedAppsConfig,
-      options['output-type'],
-      options.delimiter,
-    );
+    const appStrings = [];
 
-    console.log(changedAppsString);
+    for (const chunk of filePathChunks) {
+      const chunkAppString = getChangedAppsString(
+        chunk,
+        changedAppsConfig,
+        options['output-type'],
+        options.delimiter,
+      );
+      if (chunkAppString) {
+        appStrings.push(chunkAppString);
+      }
+    }
+
+    console.log(appStrings.join(options.delimiter));
   }
 }
 
