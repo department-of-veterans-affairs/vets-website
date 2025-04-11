@@ -108,16 +108,14 @@ const submitClaimFailure = error => ({
   error,
 });
 
-export function submitMileageOnlyClaim(appointment) {
+export function submitMileageOnlyClaim(appointmentData) {
   return async dispatch => {
     dispatch(submitClaimStart());
     try {
       const options = {
         method: 'POST',
         body: JSON.stringify({
-          appointmentDatetime: appointment.localStartTime,
-          stationNumber: appointment.facilityId,
-          appointmentData: appointment,
+          appointmentData,
         }),
         headers: {
           'Content-Type': 'application/json',

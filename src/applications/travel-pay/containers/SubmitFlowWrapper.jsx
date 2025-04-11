@@ -68,7 +68,17 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
-    dispatch(submitMileageOnlyClaim(appointmentData));
+    const apptData = {
+      appointmentName: '',
+      appointmentDateTime: appointmentData.localStartTime,
+      facilityStationNumber: appointmentData.location.id,
+      appointmentType: appointmentData.isCompAndPen
+        ? 'CompensationAndPensionExamination'
+        : 'Other',
+      isComplete: false,
+    };
+
+    dispatch(submitMileageOnlyClaim(apptData));
     setPageIndex(pageIndex + 1);
   };
 
