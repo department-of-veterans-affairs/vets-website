@@ -8,6 +8,7 @@ import { benefitsServices } from '../config';
  */
 export const formatServiceName = service => {
   if (!service) return null;
+
   const lowerCaseService = service
     .replace(/([A-Z])/g, ' $1')
     .replace(/\s+/g, ' ')
@@ -21,6 +22,7 @@ export const formatServiceName = service => {
       'Integrated Disability Evaluation System assistance (IDES)',
     )
     .trim();
+
   switch (lowerCaseService) {
     case 'eBenefits registration help':
       return benefitsServices.eBenefitsRegistrationAssistance;

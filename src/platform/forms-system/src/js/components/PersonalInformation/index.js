@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  defaultConfig,
   PersonalInformation,
   PersonalInformationCardHeader,
   PersonalInformationFooter,
@@ -11,6 +12,7 @@ import {
 import { DefaultErrorMessage } from './DefaultErrorMessage';
 import { DefaultCardHeader } from './DefaultCardHeader';
 import { DefaultHeader } from './DefaultHeader';
+import { PersonalInformationReview } from './PersonalInformationReview';
 /**
  * @typedef {import('./PersonalInformation').PersonalInformationConfig} PersonalInformationConfig
  */
@@ -23,7 +25,7 @@ export const defaultPageConfig = {
   key: 'personalInfoPage',
   title: 'Personal Information',
   path: 'personal-information',
-  personalInfoConfig: {},
+  personalInfoConfig: defaultConfig,
   dataAdapter: {},
   errorMessage: DefaultErrorMessage,
   cardHeader: <DefaultCardHeader />,
@@ -32,6 +34,8 @@ export const defaultPageConfig = {
   footer: null,
   contentBeforeButtons: null,
   contentAfterButtons: null,
+  hideOnReview: true,
+  depends: () => true,
 };
 
 /**
@@ -55,8 +59,13 @@ const personalInformationPage = ({
   footer = defaultPageConfig.footer,
   contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
   contentAfterButtons = defaultPageConfig.contentAfterButtons,
-  depends = () => true,
+  hideOnReview = defaultPageConfig.hideOnReview,
+  depends = defaultPageConfig.depends,
 } = defaultPageConfig) => {
+  const config = {
+    ...defaultPageConfig.personalInfoConfig,
+    ...personalInfoConfig,
+  };
   return {
     [key]: {
       title,
@@ -69,19 +78,19 @@ const personalInformationPage = ({
       CustomPage: props => (
         <PersonalInformation
           {...props}
-          config={personalInfoConfig}
+          config={config}
           dataAdapter={dataAdapter}
           errorMessage={errorMessage}
           contentBeforeButtons={contentBeforeButtons}
           contentAfterButtons={contentAfterButtons}
         >
+          {header && (
+            <PersonalInformationHeader>{header}</PersonalInformationHeader>
+          )}
           {cardHeader && (
             <PersonalInformationCardHeader>
               {cardHeader}
             </PersonalInformationCardHeader>
-          )}
-          {header && (
-            <PersonalInformationHeader>{header}</PersonalInformationHeader>
           )}
           {note && <PersonalInformationNote>{note}</PersonalInformationNote>}
           {footer && (
@@ -89,8 +98,17 @@ const personalInformationPage = ({
           )}
         </PersonalInformation>
       ),
-      CustomPageReview: null,
-      hideOnReview: true,
+      CustomPageReview: hideOnReview
+        ? null
+        : props => (
+            <PersonalInformationReview
+              {...props}
+              config={personalInfoConfig}
+              dataAdapter={dataAdapter}
+              title={title}
+            />
+          ),
+      hideOnReview,
       depends,
     },
   };

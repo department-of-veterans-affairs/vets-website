@@ -5,7 +5,7 @@ import { UploadPage } from '../../../pages/upload';
 import formConfig from '../../../config/form';
 
 describe('UploadPage', () => {
-  const { uiSchema } = formConfig().chapters.uploadChapter.pages.uploadPage;
+  const { uiSchema } = formConfig.chapters.uploadChapter.pages.uploadPage;
   const subject = () => render(<UploadPage />);
 
   it('renders successfully', () => {

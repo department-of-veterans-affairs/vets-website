@@ -101,6 +101,7 @@ export const ch3Pages = {
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRoleEducationPage.uiSchema,
     schema: yourRoleEducationPage.schema,
+    CustomPageReview: CustomPageReviewField,
   },
   moreAboutYourRelationshipToVeteran: {
     editModeOnReviewPage: false,
@@ -197,7 +198,7 @@ export const ch3Pages = {
     schema: schoolInYourProfilePage.schema,
     depends: form =>
       // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
-      (form.school || form.schoolInfo?.schoolName) &&
+      form.schoolInfo?.schoolName &&
       ((form.selectCategory === CategoryDebt &&
         form.selectTopic === TopicEducationBenefitOverpayments) ||
         (form.yourRole === yourRoleOptionsEducation.SCO ||

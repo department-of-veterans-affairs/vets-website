@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,9 +13,15 @@ import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type, perPage = 10, hidePagination, domainOptions } = props;
+  const {
+    records,
+    type,
+    perPage = 10,
+    hidePagination,
+    domainOptions,
+    sortedBy = '',
+  } = props;
   const totalEntries = records?.length;
 
   const history = useHistory();
@@ -22,6 +30,11 @@ const RecordList = props => {
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(paramPage);
   const paginatedRecords = useRef([]);
+
+  const allowFilterSort = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort],
+  );
 
   const onPageChange = page => {
     sendDataDogAction(`Pagination - ${type}`);
@@ -84,11 +97,15 @@ const RecordList = props => {
         <span>
           {`Showing ${displayNums[0]} to ${
             displayNums[1]
-          } of ${totalEntries} records from newest to oldest`}
+          } of ${totalEntries} records${
+            allowFilterSort ? `, ${sortedBy}` : ' from newest to oldest'
+          }`}
         </span>
       </p>
       <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
-        Showing {totalEntries} records from newest to oldest
+        {`Showing ${totalEntries} records${
+          allowFilterSort ? `, ${sortedBy}` : ' from newest to oldest'
+        }`}
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&
@@ -114,13 +131,14 @@ const RecordList = props => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
               uswds
             />
           </div>
         ) : (
-          <div className="vads-u-margin-bottom--5 no-print" />
+          !allowFilterSort && (
+            <div className="vads-u-margin-bottom--5 no-print" />
+          )
         ))}
     </div>
   );
@@ -133,5 +151,6 @@ RecordList.propTypes = {
   hidePagination: PropTypes.bool,
   perPage: PropTypes.number,
   records: PropTypes.array,
+  sortedBy: PropTypes.string,
   type: PropTypes.string,
 };

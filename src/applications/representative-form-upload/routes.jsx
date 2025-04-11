@@ -1,11 +1,11 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes.js';
 import formConfig from './config/form';
 import App from './containers/App';
 
 // Add any new form-upload forms to this list
 const formUploadForms = ['21-686c'];
 
-const config = formConfig();
+const config = formConfig;
 
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
@@ -16,16 +16,8 @@ const routes = formUploadForms.map(formId => {
       onEnter: (nextState, replace) =>
         replace(`/${lowerCaseFormId}/introduction`),
     },
-    childRoutes: createRoutesWithSaveInProgress(config),
+    childRoutes: createRoutes(config),
   };
 });
-
-// or dynamic
-// {
-//   path: '/:formId',
-//   component: App,
-//   indexRoute: indexRouteByForm(':formId'),
-//   childRoutes: createRoutesWithSaveInProgress(config),
-// },
 
 export default routes;

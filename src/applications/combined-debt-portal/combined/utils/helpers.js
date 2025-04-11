@@ -3,6 +3,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import React from 'react';
+import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+import * as Sentry from '@sentry/browser';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -119,5 +122,100 @@ export const setPageFocus = selector => {
   } else {
     document.querySelector('#main h1').setAttribute('tabIndex', -1);
     document.querySelector('#main h1').focus();
+  }
+};
+
+// 'Manually' generating PDF instead of using generatePdf so we can
+//  get the blob and send it to the API to combine with the Notice of Rights PDF
+//  may just be a temporary solution until we can get all the content displaying in a reasonable way
+const getPdfBlob = async (templateId, data) => {
+  const template = templates[templateId]();
+  const doc = await template.generate(data);
+
+  const chunks = [];
+  return new Promise((resolve, reject) => {
+    doc.on('data', chunk => chunks.push(chunk));
+    doc.on('end', () => {
+      const blob = new Blob([Buffer.concat(chunks)], {
+        type: 'application/pdf',
+      });
+      resolve(blob);
+    });
+    doc.on('error', reject);
+    doc.end();
+  });
+};
+
+const pdfGenerationAnalytics = (success, count) => {
+  recordEvent({
+    event: 'cdp-one-va-letter-download',
+    'cdp-one-va-letter-download-success': success,
+    'cdp-one-va-letter-download-count-debt': count?.debt || 0,
+    'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+  });
+};
+
+// some fancy PDF generation
+export const handlePdfGeneration = async (environment, pdfData) => {
+  const analyticsCount = {
+    debt: pdfData?.debts?.length || 0,
+    copay: pdfData?.copays?.length || 0,
+  };
+
+  try {
+    const blob = await getPdfBlob('oneDebtLetter', pdfData);
+
+    const file = new File([blob], 'one_debt_letter.pdf', {
+      type: 'application/pdf',
+    });
+
+    const formData = new FormData();
+    formData.append('document', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'POST',
+      `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
+    );
+    xhr.responseType = 'blob';
+
+    xhr.setRequestHeader('X-Key-Inflection', 'camel');
+    xhr.setRequestHeader('X-CSRF-Token', localStorage.getItem('csrfToken'));
+    xhr.setRequestHeader('Source-App-Name', window.appName);
+    xhr.withCredentials = true;
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const filename = `one_debt_letter_${
+          new Date().toISOString().split('T')[0]
+        }.pdf`;
+
+        const url = URL.createObjectURL(xhr.response);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        pdfGenerationAnalytics(false, analyticsCount);
+        Sentry.captureMessage(
+          `OneDebtLetter - PDF request failed: ${xhr.status}`,
+        );
+      }
+    };
+
+    xhr.onerror = () => {
+      pdfGenerationAnalytics(false, analyticsCount);
+      Sentry.captureMessage(`OneDebtLetter - Network error during PDF request`);
+    };
+
+    xhr.send(formData);
+    pdfGenerationAnalytics(true, analyticsCount);
+  } catch (err) {
+    pdfGenerationAnalytics(false, analyticsCount);
+    Sentry.setExtra('error: ', err);
+    Sentry.captureMessage(
+      `OneDebtLetter - PDF generation failed: ${err.message}`,
+    );
   }
 };

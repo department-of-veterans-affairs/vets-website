@@ -12,7 +12,7 @@ import * as PersonalInformationModule from '../../../../src/js/components/Person
 const args = {
   title: 'Test Title',
   path: '/test-path',
-  personalInfoConfig: { ssn: true },
+  personalInfoConfig: {},
   dataAdapter: { ssn: 'veteran.ssn' },
 };
 
@@ -50,6 +50,7 @@ describe('personalInformationPage', () => {
       'CustomPageReview',
       'depends',
       'hideOnReview',
+      'depends',
     ]);
   });
 
@@ -109,7 +110,7 @@ describe('personalInformationPage', () => {
   });
 
   describe('CustomPage component', () => {
-    it('should render CustomPage with correct props', () => {
+    it('should render CustomPage with correct props, and default personalInfoConfig', () => {
       const result = personalInformationPage(args);
       const testProps = {
         someTestProp: 'test value',
@@ -123,7 +124,9 @@ describe('personalInformationPage', () => {
       const callProps = PersonalInformationStub.firstCall.args[0];
 
       expect(callProps).to.include(testProps);
-      expect(callProps.config).to.deep.equal(args.personalInfoConfig);
+      expect(callProps.config).to.deep.equal(
+        PersonalInformationModule.defaultConfig,
+      );
       expect(callProps.dataAdapter).to.deep.equal(args.dataAdapter);
     });
 
@@ -141,7 +144,9 @@ describe('personalInformationPage', () => {
       // because the personalInformationPage function is called
       // without personalInfoConfig and dataAdapter properties,
       // the config and dataAdapter should be empty objects
-      expect(callProps.config).to.deep.equal({});
+      expect(callProps.config).to.deep.equal(
+        PersonalInformationModule.defaultConfig,
+      );
       expect(callProps.dataAdapter).to.deep.equal({});
     });
   });
