@@ -225,7 +225,6 @@ export const mentalHealthKeys = [
   'unlistedBehaviors',
   'form781Upload',
   'additionalInformation',
-  'events',
 ];
 
 const confirmationDataUpload = {
@@ -331,6 +330,8 @@ const WorkflowChoicePage = props => {
     setFormData,
     contentBeforeButtons,
     contentAfterButtons,
+    onReviewPage,
+    updatePage,
   } = props;
 
   const selectionField = 'view:mentalHealthWorkflowChoice';
@@ -447,6 +448,27 @@ const WorkflowChoicePage = props => {
         setPreviousData();
       }
     },
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (
+        previousWorkflowChoice !== data?.['view:mentalHealthWorkflowChoice'] &&
+        checkMentalHealthData(data)
+      ) {
+        setShowModal(true);
+      } else {
+        setShowAlert(false);
+        const formData = {
+          ...data,
+          'view:previousMentalHealthWorkflowChoice':
+            data?.['view:mentalHealthWorkflowChoice'],
+        };
+        setPreviousWorkflowChoice(data?.['view:mentalHealthWorkflowChoice']);
+        setFormData(formData);
+        updatePage(event);
+      }
+    },
     onCloseModal: () => {
       setShowModal(false);
     },
@@ -554,13 +576,25 @@ const WorkflowChoicePage = props => {
           {modalContent}
         </VaModal>
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons
-        goBack={handlers.onGoBack}
-        goForward={handlers.onSubmit}
-        submitToContinue
-      />
-      {contentAfterButtons}
+      {onReviewPage ? (
+        <va-button
+          text="Update page"
+          onClick={handlers.onUpdatePage}
+          label="Update page"
+          class="usa-button-primary"
+        />
+      ) : (
+        <>
+          {contentBeforeButtons}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onSubmit}
+            submitToContinue
+          />
+          {contentAfterButtons}
+        </>
+      )}
+
     </form>
   );
 };
@@ -572,6 +606,8 @@ WorkflowChoicePage.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.bool,
+  onReviewPage: PropTypes.func,
 };
 
 export default WorkflowChoicePage;
