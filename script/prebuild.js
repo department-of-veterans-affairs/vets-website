@@ -2,6 +2,10 @@ const semver = require('semver');
 const fs = require('fs');
 const path = require('path');
 
+// Debug: Verify where semver is resolved from
+// eslint-disable-next-line no-console
+console.log('Resolved semver from:', require.resolve('semver'));
+
 const nodeVersion = path.join(__dirname, '../.nvmrc');
 const minimumNodeVersion = fs.readFileSync(nodeVersion).toString();
 

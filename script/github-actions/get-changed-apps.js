@@ -4,17 +4,13 @@ const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-// Ensure Node.js resolves modules from the project root
-process.env.NODE_PATH = path.join(__dirname, '../../node_modules');
-require('module').Module._initPaths();
-
 const changedAppsConfig = require('../../config/changed-apps-build.json');
 
 /**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
- * @returns {Object[]} Application manifests.
+ * @returns {Object[]} Application manifests
  */
 const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
