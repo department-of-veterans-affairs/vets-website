@@ -1,6 +1,7 @@
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
   profileShowPronounsAndSexualOrientation: false,
+  representativeStatusEnableV2Features: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
@@ -40,6 +41,7 @@ export const PROFILE_BREADCRUMB_BASE = [
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
   DIRECT_DEPOSIT: '/profile/direct-deposit',
+  ACCREDITED_REPRESENTATIVE: '/profile/accredited-representative',
   PERSONAL_INFORMATION: '/profile/personal-information',
   CONTACT_INFORMATION: '/profile/contact-information',
   MILITARY_INFORMATION: '/profile/military-information',
@@ -53,6 +55,7 @@ export const PROFILE_PATHS = Object.freeze({
 export const PROFILE_PATH_NAMES = Object.freeze({
   PROFILE_ROOT: 'Profile',
   DIRECT_DEPOSIT: 'Direct deposit information',
+  ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',
   PERSONAL_INFORMATION: 'Personal information',
   CONTACT_INFORMATION: 'Contact information',
   MILITARY_INFORMATION: 'Military information',

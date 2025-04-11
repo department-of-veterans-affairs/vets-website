@@ -22,6 +22,7 @@ import {
   getLastSuccessfulUpdate,
   formatUserDob,
   sendDataDogAction,
+  formatNameFirstLast,
 } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
@@ -56,16 +57,6 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
-export const formatNameFirstLast = ({
-  first = '',
-  middle = '',
-  last = '',
-  suffix = '',
-}) => {
-  const nameParts = [first, middle, last].filter(Boolean).join(' '); // Remove empty values
-  return suffix ? `${nameParts} ${suffix}` : nameParts;
-};
-
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -89,7 +80,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   // Extract user info
   const name = formatNameFirstLast(userProfile.userFullName);
-  const dob = formatUserDob(userProfile); // Example DOB
+  const dob = formatUserDob(userProfile);
 
   // Extract all SEI domain data
   const seiRecords = SEI_DOMAINS.reduce((acc, domain) => {
@@ -330,6 +321,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <DownloadSuccessAlert
             type="Continuity of Care Document download"
             className="vads-u-margin-bottom--1"
+            focusId="ccd-download-success"
           />
         )}
 

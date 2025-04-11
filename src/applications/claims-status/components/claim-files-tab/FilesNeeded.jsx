@@ -10,6 +10,7 @@ import {
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -36,7 +37,13 @@ export default function FilesNeeded({ item, previousPage = null }) {
     }
 
     if (cstFriendlyEvidenceRequests && item.friendlyName) {
-      displayName = `Provide ${item.friendlyName}`;
+      let updatedFriendlyName = item.friendlyName;
+      if (!evidenceDictionary[item.displayName].isProperNoun) {
+        updatedFriendlyName =
+          updatedFriendlyName.charAt(0).toLowerCase() +
+          updatedFriendlyName.slice(1);
+      }
+      displayName = `Provide ${updatedFriendlyName}`;
     }
     return displayName;
   };

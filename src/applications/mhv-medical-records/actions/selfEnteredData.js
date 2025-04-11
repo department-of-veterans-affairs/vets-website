@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import {
   getSeiActivityJournal,
   getSeiAllergies,
+  getSeiEmergencyContacts,
   getSeiFamilyHistory,
   getSeiFoodJournal,
   getSeiProviders,
@@ -25,6 +26,7 @@ export const getSelfEnteredData = () => async dispatch => {
     activityJournal: getSeiActivityJournal,
     allergies: getSeiAllergies,
     demographics: getPatient,
+    emergencyContacts: getSeiEmergencyContacts,
     familyHistory: getSeiFamilyHistory,
     foodJournal: getSeiFoodJournal,
     providers: getSeiProviders,
@@ -69,6 +71,12 @@ export const getSelfEnteredData = () => async dispatch => {
         case 'demographics':
           dispatch({
             type: Actions.SelfEntered.GET_DEMOGRAPHICS,
+            payload: response,
+          });
+          break;
+        case 'emergencyContacts':
+          dispatch({
+            type: Actions.SelfEntered.GET_EMERGENCY_CONTACTS,
             payload: response,
           });
           break;
