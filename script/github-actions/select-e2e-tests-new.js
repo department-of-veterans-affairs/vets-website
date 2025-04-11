@@ -84,76 +84,15 @@ function selectTests(pathsOfChangedFiles) {
   return tests;
 }
 
-// function selectTests(pathsOfChangedFiles) {
-//   const workflowsFilteredOut = pathsOfChangedFiles.filter(
-//     filePath =>
-//       !filePath.startsWith('.github/workflows') &&
-//       !filePath.startsWith('script/github-actions'),
-//   );
-//   if (workflowsFilteredOut.length === 0) {
-//     return [];
-//   }
-
-//   if (RUN_FULL_SUITE) {
-//     return allTests();
-//   }
-//   let allMdFiles = true;
-//   let allMdAndOrSrcApplicationsFiles = true;
-
-//   for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
-//     if (!pathsOfChangedFiles[i].endsWith('.md')) {
-//       allMdFiles = false;
-//     }
-
-//     if (
-//       !pathsOfChangedFiles[i].endsWith('.md') &&
-//       !pathsOfChangedFiles[i].startsWith('src/applications')
-//     ) {
-//       allMdAndOrSrcApplicationsFiles = false;
-//     }
-
-//     if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
-//       break;
-//     }
-//   }
-
-//   if (allMdFiles) {
-//     return [];
-//   }
-//   if (allMdAndOrSrcApplicationsFiles) {
-//     return selectedTests(pathsOfChangedFiles);
-//   }
-//   return allTests();
-// }
-
-// function selectTests(pathsOfChangedFiles) {
-//   console.log(pathsOfChangedFiles);
-
-//   return selectedTests(pathsOfChangedFiles);
-// }
-
 function exportVariables(tests) {
   const numTests = tests.length;
 
-  if (numTests <= 200) {
-    core.exportVariable('NUM_CONTAINERS', 8);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
+  if (numTests <= 20) {
+    core.exportVariable('NUM_CONTAINERS', 4);
+    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
   } else {
-    core.exportVariable('NUM_CONTAINERS', 12);
-    core.exportVariable('CI_NODE_INDEX', [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-    ]);
+    core.exportVariable('NUM_CONTAINERS', 7);
+    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
   }
   core.exportVariable('TESTS', 'true');
   fs.writeFileSync(`e2e_tests_to_test.json`, JSON.stringify(tests));

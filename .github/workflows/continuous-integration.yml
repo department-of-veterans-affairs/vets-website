@@ -196,7 +196,7 @@ jobs:
           name: e2e-allow-list
           path: .
 
-      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
+      - name: Select E2E Tests
         run: node script/github-actions/select-e2e-tests-new.js
         env:
           RUN_FULL_SUITE: false
@@ -755,7 +755,8 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
             
-      - name: Download Tests to verify
+      - name: Download Tests to run
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
           name: e2e-tests-to-test
