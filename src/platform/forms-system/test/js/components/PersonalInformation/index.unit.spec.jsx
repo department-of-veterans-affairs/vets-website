@@ -48,8 +48,8 @@ describe('personalInformationPage', () => {
       'schema',
       'CustomPage',
       'CustomPageReview',
-      'depends',
       'hideOnReview',
+      'depends',
     ]);
   });
 
