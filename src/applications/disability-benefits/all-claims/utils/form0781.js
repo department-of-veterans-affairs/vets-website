@@ -1,6 +1,5 @@
 // All flippers for the 0781 Papersync should be added to this file
 import _ from 'platform/utilities/data';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
@@ -173,7 +172,7 @@ export function showBehaviorSummaryPage(formData) {
  * @returns {UISchemaOptions}
  */
 export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
-  return titleUI(props => {
+  return props => {
     const search = getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const { id } = props;
@@ -188,5 +187,5 @@ export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
       );
     }
     return title;
-  });
+  };
 };
