@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const AddStudentsIntro = () => (
-  <div>
+  <>
     <p className="vads-u-margin-top--0">
       In the next few questions, we’ll ask you about your{' '}
       <strong>
@@ -17,7 +17,7 @@ export const AddStudentsIntro = () => (
       </strong>
       , you’ll need to enter it again.
     </p>
-  </div>
+  </>
 );
 
 export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'other'];

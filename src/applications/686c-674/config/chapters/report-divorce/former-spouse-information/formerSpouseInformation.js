@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   titleUI,
   fullNameNoSuffixUI,
@@ -5,6 +6,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -14,6 +16,10 @@ export const schema = {
       properties: {
         fullName: fullNameNoSuffixSchema,
         birthDate: currentOrPastDateSchema,
+        'view:cancelDivorce': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
@@ -28,6 +34,15 @@ export const uiSchema = {
     birthDate: {
       ...currentOrPastDateUI('Former spouse’s date of birth'),
       'ui:required': () => true,
+    },
+    'view:cancelDivorce': {
+      'ui:description': (
+        <CancelButton
+          buttonText="Cancel removing"
+          dependentType="former spouse"
+          isAddChapter={false}
+        />
+      ),
     },
   },
 };

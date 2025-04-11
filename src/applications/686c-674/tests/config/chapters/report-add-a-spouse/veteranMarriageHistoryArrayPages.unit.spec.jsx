@@ -357,7 +357,12 @@ describe('686 current marriage information: Former veteran name ', () => {
 
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(4);
-    expect($$('va-text-input', container).length).to.equal(1);
+
+    const textInput = container.querySelector(
+      'input[name="root_reasonMarriageEndedOther"]',
+    );
+
+    expect(textInput).to.not.be.null;
   });
 });
 

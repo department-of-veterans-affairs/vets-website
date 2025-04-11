@@ -1,9 +1,10 @@
+import React from 'react';
 import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { certificateNotice } from '../../../helpers';
+import { CancelButton, certificateNotice } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -15,6 +16,10 @@ export const schema = {
       },
     },
     'view:certificateNotice': {
+      type: 'object',
+      properties: {},
+    },
+    'view:cancelAddSpouse': {
       type: 'object',
       properties: {},
     },
@@ -32,5 +37,14 @@ export const uiSchema = {
       hideIf: formData =>
         formData?.veteranContactInformation?.veteranAddress?.country === 'USA',
     },
+  },
+  'view:cancelAddSpouse': {
+    'ui:description': (
+      <CancelButton
+        buttonText="Cancel adding spouse"
+        dependentTyp="spouse"
+        isAddChapter
+      />
+    ),
   },
 };

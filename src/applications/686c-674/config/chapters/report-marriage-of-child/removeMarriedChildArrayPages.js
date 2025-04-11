@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -14,6 +15,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const removeMarriedChildOptions = {
@@ -40,10 +42,24 @@ export const removeMarriedChildOptions = {
 
 export const removeMarriedChildIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your children under 18 who got married',
-      'In the next few questions, we’ll ask you about your children who have gotten married. You must add at least one child.',
-    ),
+    ...titleUI({
+      title: 'Your children under 18 who got married',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your children who
+              have gotten married. You must add at least one child.
+            </p>
+            <CancelButton
+              buttonText="Cancel removing married children"
+              dependentType="married children"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',

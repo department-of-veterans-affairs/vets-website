@@ -1,9 +1,9 @@
 import {
-  textUI,
   textSchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { separationLabelArr, separationLabels } from './helpers';
 
 export const schema = {
@@ -30,20 +30,21 @@ export const uiSchema = {
       required: () => true,
       classNames: 'vads-u-margin-top--4',
     }),
-    other: textUI({
-      title: 'Briefly describe why you live separately from your spouse',
-      required: formData =>
+    other: {
+      'ui:title': 'Briefly describe why you live separately from your spouse',
+      'ui:webComponentField': VaTextInputField,
+      'ui:required': formData =>
         formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation ===
         'OTHER',
-      expandUnder: 'currentSpouseReasonForSeparation',
-      expandUnderCondition: 'OTHER',
-      preserveHiddenData: true,
-      hideIf: formData =>
-        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
-        'OTHER',
-      showFieldLabel: true,
-      keepInPageOnReview: true,
-      classNames: 'vads-u-margin-top--2',
-    }),
+      'ui:options': {
+        expandUnder: 'currentSpouseReasonForSeparation',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+        preserveHiddenData: true,
+        hideIf: formData =>
+          formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
+          'OTHER',
+      },
+    },
   },
 };

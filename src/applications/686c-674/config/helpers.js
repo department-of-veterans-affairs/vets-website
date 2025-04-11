@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';
 
 export const isChapterFieldRequired = (formData, option) =>
@@ -67,6 +69,52 @@ export const certificateNotice = () => (
     of your marriage. We’ll ask you to submit this document at the end of the
     form
   </p>
+);
+
+export const CancelButton = withRouter(
+  ({
+    isAddChapter = false,
+    dependentType = 'dependents',
+    buttonText = 'Cancel',
+    router,
+  }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    const closeModal = () => setIsVisible(false);
+
+    return (
+      <>
+        <va-button
+          data-testid="cancel-btn"
+          onClick={() => setIsVisible(true)}
+          secondary
+          text={buttonText}
+        />
+
+        <VaModal
+          data-testid="cancel-modal"
+          modalTitle={`Would you like to cancel ${
+            isAddChapter ? 'adding' : 'removing'
+          } your ${dependentType}?`}
+          primaryButtonText="Yes"
+          secondaryButtonText="No"
+          visible={isVisible}
+          status="warning"
+          onPrimaryButtonClick={() => {
+            const route = isAddChapter
+              ? '/options-selection/add-dependents'
+              : '/options-selection/remove-dependents';
+            router?.push(route);
+          }}
+          onSecondaryButtonClick={closeModal}
+          onCloseEvent={closeModal}
+          clickToClose
+        >
+          <p>Click yes to return to the option selection screen.</p>
+        </VaModal>
+      </>
+    );
+  },
 );
 
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
