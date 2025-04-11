@@ -15,6 +15,7 @@ export const OAUTH_ENDPOINTS = {
   TOKEN: 'token',
   AUTHORIZE: 'authorize',
   REFRESH: 'refresh',
+  SSO: 'authorize_sso',
 };
 
 export const API_SIGN_IN_SERVICE_URL = ({
