@@ -311,7 +311,7 @@ const VaPrescription = prescription => {
                 prescription.refillRemaining,
               )}
             </p>
-            {!pendingMed && (
+            {!pendingMed && !pendingRenewal && (
               <>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Request refills by this prescription expiration date

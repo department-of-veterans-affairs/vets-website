@@ -22,6 +22,7 @@ import {
   getLastSuccessfulUpdate,
   formatUserDob,
   sendDataDogAction,
+  formatNameFirstLast,
 } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
@@ -54,16 +55,6 @@ const getFailedDomainList = (failed, displayMap) => {
     modFailed.push('medications');
   }
   return modFailed.map(domain => displayMap[domain]);
-};
-
-export const formatNameFirstLast = ({
-  first = '',
-  middle = '',
-  last = '',
-  suffix = '',
-}) => {
-  const nameParts = [first, middle, last].filter(Boolean).join(' '); // Remove empty values
-  return suffix ? `${nameParts} ${suffix}` : nameParts;
 };
 
 // --- Main component ---

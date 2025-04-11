@@ -23,7 +23,6 @@ import {
   answerCombatQuestionsChoice,
   combatIntroDescription,
   combatIntroTitle,
-  // deleteCombatAnswersModalTitle,
   missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
@@ -53,6 +52,8 @@ const BehaviorIntroCombatPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onReviewPage,
+  updatePage,
 }) => {
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
@@ -138,7 +139,12 @@ const BehaviorIntroCombatPage = ({
     onConfirmDeleteBehavioralAnswers: () => {
       deleteBehavioralAnswers();
       handlers.onCloseModal();
-      setShowDeletedAnswerConfirmation(true);
+
+      if (onReviewPage) {
+        updatePage();
+      } else {
+        setShowDeletedAnswerConfirmation(true);
+      }
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
@@ -148,6 +154,18 @@ const BehaviorIntroCombatPage = ({
     },
     onClickConfirmationLink: () => {
       goForward(data);
+    },
+    onUpdatePage: event => {
+      event.preventDefault();
+
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+        // hasSelectedBehaviors returns true if user selected behaviors already on the succeeding page, BehaviorListPage
+      } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
+        setShowDeleteAnswersModal(true);
+      } else {
+        updatePage(event);
+      }
     },
   };
 
@@ -224,14 +242,27 @@ const BehaviorIntroCombatPage = ({
             uswds
           />
         </VaRadio>
-        <>{mentalHealthSupportAlert()}</>
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handlers.onSubmit}
-          submitToContinue
-        />
-        {contentAfterButtons}
+        {/* Mental Health dropdown is not displayed when content is rendered on the Review and Submit page */}
+        <>{!onReviewPage && mentalHealthSupportAlert()}</>
+        {onReviewPage && (
+          <va-button
+            onClick={handlers.onUpdatePage}
+            label="Update behavior questions choice"
+            text="Update page"
+          />
+        )}
+
+        {!onReviewPage && (
+          <>
+            {contentBeforeButtons}
+            <FormNavButtons
+              goBack={goBack}
+              goForward={handlers.onSubmit}
+              submitToContinue
+            />
+            {contentAfterButtons}
+          </>
+        )}
       </form>
     </div>
   );
@@ -245,6 +276,8 @@ BehaviorIntroCombatPage.propTypes = {
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default BehaviorIntroCombatPage;

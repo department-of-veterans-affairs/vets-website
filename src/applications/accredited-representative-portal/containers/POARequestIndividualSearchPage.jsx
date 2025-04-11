@@ -4,10 +4,13 @@ import {
   VaTextInput,
   VaDate,
   VaLoadingIndicator,
+  VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
 import { useSearchParams, useNavigation } from 'react-router-dom';
+import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
+import { SEARCH_BC_LABEL, searchPeopleBC } from '../utilities/poaRequests';
 import POARequestSearchCard from '../components/POARequestSearchCard';
 
 const SearchResults = ({ poaRequests, searchData }) => {
@@ -72,7 +75,7 @@ const POARequestIndividualSearchPage = () => {
         .then(response => {
           return response.json();
         })
-        .then(function(data) {
+        .then(data => {
           setSearchPerformed(true);
           setPoaRequests(data);
         });
@@ -107,8 +110,21 @@ const POARequestIndividualSearchPage = () => {
     };
   };
 
+  const { useToggleValue } = useFeatureToggle();
+  if (
+    !useToggleValue(Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch)
+  ) {
+    window.location = '/representative';
+    return null;
+  }
+
   return (
-    <section className="poa-request">
+    <section className="poa-search">
+      <VaBreadcrumbs
+        breadcrumbList={searchPeopleBC}
+        label={SEARCH_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       <h1
         data-testid="poa-requests-heading"
         className="poa-request__search-header"

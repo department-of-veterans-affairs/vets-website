@@ -243,9 +243,25 @@ const BehaviorListPage = ({
 
   const modalContent = formData => {
     const orphanedDetails = orphanedBehaviorDetails(formData);
-    const orphanedBehaviorsCount = Object.keys(orphanedDetails).length;
-    const firstFourBehaviors = Object.values(orphanedDetails).slice(0, 4);
-    const remainingBehaviors = orphanedBehaviorsCount - 4;
+    const describedBehaviorsCount = Object.keys(orphanedDetails).length;
+    const behaviorDescriptions = Object.values(orphanedDetails);
+    const firstThreeBehaviors = Object.values(orphanedDetails).slice(0, 3);
+
+    const displayRemainingBehaviors = () => {
+      if (describedBehaviorsCount === 4) {
+        return (
+          <li key={4}>
+            <b>{behaviorDescriptions[3]}</b>
+          </li>
+        );
+      }
+
+      return (
+        <li key={4}>
+          And, <b>{describedBehaviorsCount - 3} other behavioral changes</b>
+        </li>
+      );
+    };
 
     return (
       <>
@@ -256,20 +272,17 @@ const BehaviorListPage = ({
           Remove behavioral changes?
         </h4>
         <p>
-          <b>What to know:</b> If you remove these items, we’ll delete
+          <strong>What to know:</strong> If you remove these items, we’ll delete
           information you provided about:
         </p>
         <ul>
-          {firstFourBehaviors.map((behaviorWithDetails, i) => (
+          {firstThreeBehaviors.map((behaviorDescription, i) => (
             <li key={i}>
-              <b>{Object.values(behaviorWithDetails)}</b>
+              <b>{behaviorDescription}</b>
             </li>
           ))}
-          {remainingBehaviors > 2 && (
-            <li>
-              And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
-            </li>
-          )}
+
+          {behaviorDescriptions.length > 3 && displayRemainingBehaviors()}
         </ul>
       </>
     );

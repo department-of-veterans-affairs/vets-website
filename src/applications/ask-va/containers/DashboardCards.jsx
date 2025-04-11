@@ -193,20 +193,27 @@ const DashboardCards = () => {
                       </span>
                     </dd>
                   </dl>
-                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
+                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
                 </h3>
-                <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
+                <p className="vads-u-margin--0 vads-u-padding-bottom--1">
                   <span className="vads-u-font-weight--bold">
                     Last updated:
                   </span>{' '}
                   {formatDate(card.attributes.lastUpdate)}
                 </p>
-                <p className="vacardCategory multiline-ellipsis-1">
+                <p className="vads-u-margin--0 vads-u-padding-bottom--1">
+                  <span className="vads-u-font-weight--bold">
+                    Reference number:
+                  </span>{' '}
+                  {card.attributes.inquiryNumber}
+                </p>
+                <p className="vads-u-margin--0 vads-u-padding-bottom--1 vacardCategory multiline-ellipsis-1">
                   <span className="vads-u-font-weight--bold">Category:</span>{' '}
                   {card.attributes.categoryName}
                 </p>
+
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
                 </p>

@@ -32,7 +32,7 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     // Verify Admitted Date
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None noted');
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None recorded');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
@@ -67,7 +67,7 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     // Verify Admitted Date
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None noted');
+    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None recorded');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
@@ -99,8 +99,8 @@ describe('Medical Records Care Summary Page', () => {
       notes.entry[4].resource.contained[1].name,
     );
 
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None noted');
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None noted');
+    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None recorded');
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None recorded');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(

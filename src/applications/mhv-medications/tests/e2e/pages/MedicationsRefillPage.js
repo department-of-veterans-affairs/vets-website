@@ -485,6 +485,12 @@ class MedicationsRefillPage {
     cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
   };
 
+  verifyRefillDelayAlertNotVisibleOnRefillPage(text) {
+    cy.get('[data-testid="rxDelay-alert-message"]')
+      .should('have.text', text)
+      .and('not.be.visible');
+  }
+
   verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
     cy.get('[data-testid="alert-banner"]').should('contain', rxName);
   };
