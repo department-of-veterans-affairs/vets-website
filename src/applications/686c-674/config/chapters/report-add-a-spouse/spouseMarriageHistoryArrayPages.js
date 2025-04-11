@@ -23,7 +23,7 @@ import {
   customLocationSchema,
 } from '../../helpers';
 
-/* NOTE: 
+/* NOTE:
  * In "Add mode" of the array builder, formData represents the entire formData object.
  * In "Edit mode," formData represents the specific array item being edited.
  * As a result, the index param may sometimes come back null depending on which mode the user is in.
@@ -138,6 +138,7 @@ export const formerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        preserveHiddenData: true,
         hideIf: (formData, index) =>
           !(
             formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
