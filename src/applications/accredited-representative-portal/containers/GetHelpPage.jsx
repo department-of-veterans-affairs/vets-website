@@ -50,7 +50,7 @@ const GetHelpPage = title => {
       </p>
       <a
         data-testid="download-instructions-pdf-link"
-        href="/files/How to submit VA Form 21-22 online_updated March 2025.pdf"
+        href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/site/assets/files/How%20to%20submit%20VA%20Form%2021-22%20online_updated%20March%202025.pdf"
         download
       >
         <va-icon
