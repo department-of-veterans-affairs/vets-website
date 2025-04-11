@@ -53,7 +53,7 @@ export const uiSchema = {
       keepInPageOnReview: true,
       hideIf: formData =>
         formData?.currentMarriageInformation?.type !== 'OTHER',
-    }),
+    },
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
     },

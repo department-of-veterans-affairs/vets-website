@@ -45,6 +45,6 @@ export const uiSchema = {
       showFieldLabel: true,
       keepInPageOnReview: true,
       classNames: 'vads-u-margin-top--2',
-    }),
+    },
   },
 };

@@ -1,5 +1,6 @@
 import { capitalize } from 'lodash';
 import {
+  titleUI,
   textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -136,7 +137,6 @@ export const formerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
-        dependents-staging-review-items-6
         expandedContentFocus: true,
         showFieldLabel: true,
         keepInPageOnReview: true,
