@@ -16,7 +16,7 @@ import {
 } from '../helpers';
 import InstitutionName from '../components/InstitutionName';
 
-function validateTermStartDate(errors, formData, errorMessages) {
+function validateTermStartDate(errors, xyz, formData, schema, errorMessages) {
   const today = getTodayDateYyyyMmDd();
   const { termStartDate } = formData.institutionDetails;
 
@@ -32,7 +32,13 @@ function validateTermStartDate(errors, formData, errorMessages) {
   }
 }
 
-function validateDateOfCalculations(errors, formData, errorMessages) {
+function validateDateOfCalculations(
+  errors,
+  xyz,
+  formData,
+  schema,
+  errorMessages,
+) {
   const { termStartDate, dateOfCalculations } = formData.institutionDetails;
   if (!termStartDate || !dateOfCalculations) return;
 
