@@ -70,6 +70,9 @@ const CombinedStatements = () => {
     copays: bills,
     debts,
     veteranContactInformation,
+    details: {
+      logoUrl: '/img/design/logo/logo-black-and-white.png',
+    },
   };
 
   const showOneVADebtLetterDownloadButton = useMemo(
