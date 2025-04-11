@@ -92,6 +92,7 @@ describe('<DashboardCards>', () => {
 
         // Check that the inquiry content is displayed
         expect(view.getByText('Test question')).to.exist;
+        expect(view.getByText('A-1')).to.exist;
       });
     });
 

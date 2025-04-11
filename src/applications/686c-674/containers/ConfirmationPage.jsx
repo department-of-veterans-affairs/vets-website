@@ -30,7 +30,9 @@ export default function ConfirmationPage() {
   return (
     <>
       <va-alert status="success" class="vads-u-margin-bottom--4">
-        <h3>Form submission started on {dateSubmitted}</h3>
+        <h2 className="vads-u-font-size--h3">
+          Form submission started on {dateSubmitted}
+        </h2>
         <p className="vads-u-margin-y--0">Your submission is in progress.</p>
         <p>
           It can take up to 10 days for us to receive your form. Your
@@ -66,10 +68,7 @@ export default function ConfirmationPage() {
       <section>
         <h2>What to expect</h2>
         <va-process-list>
-          <va-process-list-item
-            active
-            header="We’ll confirm that we’ve received your form"
-          >
+          <va-process-list-item header="We’ll confirm that we’ve received your form">
             <p>
               This can take up to 10 days. When we receive your form, we'll
               update the status on My VA.
@@ -80,7 +79,7 @@ export default function ConfirmationPage() {
               label="Check the status of your form on My VA"
             />
           </va-process-list-item>
-          <va-process-list-item pending header="Next, we’ll review your form">
+          <va-process-list-item header="Next, we’ll review your form">
             <p>
               If we need more information after reviewing your form, we’ll
               contact you.
@@ -167,7 +166,7 @@ export default function ConfirmationPage() {
         through Ask VA"
           label="Contact us online
         through Ask VA"
-          href="ask.va.gov"
+          href="https://ask.va.gov"
         />
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
           <va-link-action

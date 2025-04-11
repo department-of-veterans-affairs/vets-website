@@ -60,7 +60,7 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   });
 
   return apiRequest(fetchUrl)
-    .then(payload => onDone(payload))
+    ?.then(payload => onDone(payload))
     .catch(error => onError(error));
 }
 
@@ -175,7 +175,7 @@ export function submit(form, formConfig) {
   };
 
   return apiRequest('/gi_bill_feedbacks', apiRequestOptions)
-    .then(onSuccess)
+    ?.then(onSuccess)
     .catch(onFailure);
 }
 

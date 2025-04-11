@@ -87,7 +87,7 @@ export const convertChemHemObservation = record => {
       } = getObservationValueWithUnits(result);
       finalObservationValue = `${observationValue} ${observationUnit}`;
       standardRange = isArrayAndHasItems(result.referenceRange)
-        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+        ? `${result.referenceRange[0]?.text} ${observationUnit}`.trim()
         : null;
     }
     if (result.valueString) {
@@ -196,7 +196,7 @@ export const extractOrderedBy = record => {
     record.performer,
   );
   if (isArrayAndHasItems(performingLab?.name)) {
-    return performingLab.name[0].text || null;
+    return performingLab.name[0]?.text || null;
   }
   return null;
 };

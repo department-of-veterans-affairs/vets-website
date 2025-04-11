@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
-import LoginNote from './LoginNote';
 
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const mhvButtonDeprecated = useSelector(
     state => state?.featureToggles?.mhvCredentialButtonDisabled,
   );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth } = getQueryParams();
+  const { OAuth, clientId, codeChallenge } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -40,9 +39,12 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
+            queryParams={{ clientId, codeChallenge }}
           />
         ))}
-        <LoginNote />
+        <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
+          Learn about creating a Login.gov or ID.me account
+        </a>
         {isValid && (
           <div>
             <h2>Other sign-in options</h2>

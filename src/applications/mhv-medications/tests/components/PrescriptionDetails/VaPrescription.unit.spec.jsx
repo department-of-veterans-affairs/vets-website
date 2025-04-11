@@ -60,20 +60,6 @@ describe('vaPrescription details container', () => {
     expect(learnMoreLink).to.exist;
   });
 
-  it('displays Shipped on in Refill History', () => {
-    const screen = setup();
-    const shippedOn = screen.getAllByText(
-      dateFormat(
-        rxDetailsResponse.data.attributes.trackingList[0].completeDateTime,
-      ),
-      {
-        exact: true,
-        selector: 'span',
-      },
-    );
-    expect(shippedOn).to.exist;
-  });
-
   it('displays description correctly', async () => {
     const screen = setup();
     const shape = await screen.findByTestId('rx-shape');

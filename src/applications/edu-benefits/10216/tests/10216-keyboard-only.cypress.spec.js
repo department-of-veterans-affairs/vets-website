@@ -74,7 +74,6 @@ describe('22-10216 Edu form', () => {
     cy.typeInFocused('Director');
     cy.tabToContinueForm();
 
-    cy.tabToElement('input[name="root_institutionDetails_institutionName"]');
     cy.typeInFocused(
       'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
     );

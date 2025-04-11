@@ -4,6 +4,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import ResBurdenPrivacyPolicy from '../components/ResBurdenPrivacyAct';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
@@ -84,7 +85,7 @@ const IntroductionPage = ({ route }) => {
             you will download a PDF, which you will need to submit later by
             uploading it to the Education File Upload Portal. Ensure you have
             all the necessary details, such as your enrollment information,
-            institution, and any required documentaion, before continuing.
+            institution, and any required documentation, before continuing.
           </p>
           <p>
             <strong>Note for nonaccredited schools: </strong>
@@ -226,14 +227,13 @@ const IntroductionPage = ({ route }) => {
         pageList={route.pageList}
         startText="Start your 35% exemption request"
         headingLevel={2}
+        unauthStartText="Sign in to start your form"
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={30}
-        omb-number="2900-0896"
-        exp-date="1/31/2028"
-      />
+      <va-omb-info res-burden={30} omb-number="2900-0896" exp-date="1/31/2028">
+        <ResBurdenPrivacyPolicy />
+      </va-omb-info>
     </article>
   );
 };

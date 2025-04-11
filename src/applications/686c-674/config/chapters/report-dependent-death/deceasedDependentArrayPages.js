@@ -9,8 +9,6 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-  yesNoUI,
-  yesNoSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
   ssnUI,
@@ -55,7 +53,7 @@ export const deceasedDependentOptions = {
       const dependentType = item?.dependentType;
 
       if (!dependentType) {
-        return 'Unknown';
+        return 'Dependent';
       }
 
       const label = relationshipLabels[dependentType];
@@ -64,7 +62,7 @@ export const deceasedDependentOptions = {
         return label;
       }
 
-      return 'Unknown'; // Default if `dependentType` is undefined for some reason
+      return 'Dependent';
     },
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
@@ -281,14 +279,21 @@ export const deceasedDependentLocationOfDeathPage = {
 export const deceasedDependentIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Dependent’s income'),
-    deceasedDependentIncome: yesNoUI(
-      'Did this dependent earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
-    ),
+    deceasedDependentIncome: radioUI({
+      title: 'Did this dependent have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are adding this dependent to your pension.',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      deceasedDependentIncome: yesNoSchema,
+      deceasedDependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

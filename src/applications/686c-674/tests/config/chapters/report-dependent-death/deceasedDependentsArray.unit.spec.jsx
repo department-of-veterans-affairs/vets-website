@@ -88,25 +88,44 @@ describe('deceasedDependentOptions', () => {
     });
   });
 
-  describe('text.getItemName', () => {
+  describe('text.getItemName + cardDescription', () => {
     it('should return the relationship label if dependentType is valid', () => {
-      const item = { dependentType: 'SPOUSE' };
+      const item = {
+        dependentType: 'SPOUSE',
+        fullName: { first: 'John', last: 'Doe' },
+      };
       expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
         relationshipLabels.SPOUSE,
       );
-    });
-
-    it('should return "Unknown" if dependentType is missing', () => {
-      const item = {};
-      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
-        'Unknown',
+      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
+        'John Doe',
       );
     });
 
-    it('should return "Unknown" if dependentType is invalid', () => {
+    it('should return partial name', () => {
+      const item = {
+        dependentType: 'CHILD',
+        fullName: { first: 'John' },
+      };
+      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+        relationshipLabels.CHILD,
+      );
+      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
+        'John',
+      );
+    });
+
+    it('should return "Dependent" if dependentType is missing', () => {
+      const item = {};
+      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+        'Dependent',
+      );
+    });
+
+    it('should return "Dependent" if dependentType is invalid', () => {
       const item = { dependentType: 'invalidType' };
       expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
-        'Unknown',
+        'Dependent',
       );
     });
   });
@@ -415,6 +434,6 @@ describe('686 report death: Dependent income', () => {
 
     expect(queryByText(/Dependent’s income/i)).to.not.be.null;
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 });

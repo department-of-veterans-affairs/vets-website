@@ -54,7 +54,6 @@
       "country": "USA",
       "street": "123 Cert St",
       "street2": "St 2",
-      "street3": "St 3",
       "city": "Certland",
       "state": "AS",
       "postalCode": "12312"
@@ -66,6 +65,7 @@
       "suffix": "Jr."
     },
     "certifierRole": "other",
+    "certifierReceivedPacket": true,
     "policies": [
       {
         "type": "group",

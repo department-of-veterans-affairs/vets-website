@@ -41,9 +41,10 @@ export const removeChildHouseholdOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Stepchild',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };

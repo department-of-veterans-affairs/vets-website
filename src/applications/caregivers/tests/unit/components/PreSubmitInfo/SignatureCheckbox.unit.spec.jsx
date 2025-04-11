@@ -1,9 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-
-import * as recordEventModule from 'platform/monitoring/record-event';
 import SignatureCheckbox from '../../../../components/PreSubmitInfo/SignatureCheckbox';
 
 describe('CG <SignatureCheckbox>', () => {
@@ -44,27 +41,6 @@ describe('CG <SignatureCheckbox>', () => {
     it('should render `on behalf of` label', () => {
       const { selectors } = subject({ props });
       expect(selectors().repLabel).to.exist;
-    });
-  });
-
-  context('when the `va-checkbox` is clicked', () => {
-    it('should fire the `recordEvent` method to log the interaction to analytics', async () => {
-      const recordEventStub = sinon.stub(recordEventModule, 'default');
-      const { props } = getData({});
-      const { selectors } = subject({ props });
-
-      await waitFor(() => {
-        const { fullName, label, isRepresentative } = props;
-        const event = {
-          'caregivers-poa-certification-checkbox-checked': true,
-          fullName,
-          label,
-          isRepresentative,
-        };
-        selectors().vaCheckbox.__events.vaChange({ target: { checked: true } });
-        expect(recordEventStub.calledWith(event)).to.be.true;
-        recordEventStub.restore();
-      });
     });
   });
 

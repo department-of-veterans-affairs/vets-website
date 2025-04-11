@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import * as authUtilities from 'platform/user/authentication/utilities';
+import * as oauthUtils from 'platform/utilities/oauth/utilities';
 import LoginButton, {
   loginHandler,
 } from 'platform/user/authentication/components/LoginButton';
@@ -36,14 +37,46 @@ describe('LoginButton', () => {
 });
 
 describe('loginHandler', () => {
-  it('logs a user in with the correct `csp`', () => {
-    const mockAuthLogin = sinon.stub(authUtilities, 'login');
-    const loginHandlerSpy = sinon.spy(loginHandler);
+  let sandbox;
 
-    loginHandlerSpy('mhv');
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('logs a user in with the correct `csp`', () => {
+    const mockAuthLogin = sandbox.stub(authUtilities, 'login');
+    const loginHandlerSpy = sandbox.spy(loginHandler);
+
+    loginHandlerSpy('logingov');
     expect(loginHandlerSpy.called).to.be.true;
     expect(mockAuthLogin.called).to.be.true;
-    expect(mockAuthLogin.calledWith({ policy: 'mhv' })).to.be.true;
+    expect(mockAuthLogin.calledWith({ policy: 'logingov' })).to.be.true;
+
+    mockAuthLogin.restore();
+  });
+
+  it('returns a url for okta', () => {
+    const mockAuthLogin = sandbox.stub(oauthUtils, 'createOktaOAuthRequest');
+    const loginHandlerSpy = sandbox.spy(loginHandler);
+
+    loginHandlerSpy('logingov', true, {
+      clientId: 'okta_test',
+      codeChallenge: 'codetest',
+    });
+
+    expect(loginHandlerSpy.called).to.be.true;
+    expect(mockAuthLogin.called).to.be.true;
+    expect(
+      mockAuthLogin.calledWith({
+        clientId: 'okta_test',
+        codeChallenge: 'codetest',
+        loginType: 'logingov',
+      }),
+    ).to.be.true;
 
     mockAuthLogin.restore();
   });

@@ -153,7 +153,7 @@ describe('Admission and discharge summary details component header date', () => 
     expect(screen.queryByTestId('note-discharge-date')).to.exist;
   });
 
-  it('should display "None noted" if no date is found', () => {
+  it('should display "None recorded" if no date is found', () => {
     const jsonRecord = { type: { coding: [{ code: '18842-5' }] } };
 
     const screen = renderScreen(jsonRecord);

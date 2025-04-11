@@ -576,6 +576,7 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
+                itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
                 applicantName: fullNameUI(),

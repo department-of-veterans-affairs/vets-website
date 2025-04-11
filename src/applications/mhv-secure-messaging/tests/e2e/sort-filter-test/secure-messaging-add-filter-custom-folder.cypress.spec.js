@@ -17,9 +17,9 @@ describe('SM CUSTOM FOLDER ADD FILTER CATEGORY', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('Education');
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectAdvancedSearchCategory('Education');
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
   });
 
   it('verify all messages contain the searched category', () => {
@@ -46,7 +46,7 @@ describe('SM CUSTOM FOLDER ADD FILTER FIXED DATE RANGE', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
-    PatientInboxPage.openAdvancedSearch();
+    PatientFilterPage.openAdditionalFilter();
   });
 
   it('verify filter by last 3 month', () => {
@@ -56,8 +56,8 @@ describe('SM CUSTOM FOLDER ADD FILTER FIXED DATE RANGE', () => {
       mockSingleThreadResponse,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(3);
@@ -77,8 +77,8 @@ describe('SM CUSTOM FOLDER ADD FILTER FIXED DATE RANGE', () => {
       mockSingleThreadResponse,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(6);
@@ -98,8 +98,8 @@ describe('SM CUSTOM FOLDER ADD FILTER FIXED DATE RANGE', () => {
       mockSingleThreadResponse,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(12);

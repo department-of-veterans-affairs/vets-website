@@ -782,19 +782,36 @@ export const convertDemographics = patient => {
       zip: profile.address.zip || NONE_ENTERED,
       country: profile.address.country || NONE_ENTERED,
     },
-    emergencyContacts: [
-      {
-        firstName: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        lastName: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        relationship: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        homePhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        workPhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        mobilePhone: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        email: NONE_ENTERED, // Placeholder; replace with actual logic when available
-        address: NONE_ENTERED, // Placeholder; replace with actual logic when available
-      },
-    ],
+    // emergencyContacts: [...],
   };
+};
+
+/**
+ * Maps emergency contacts data from the provided JSON structure into a cleaner, structured object.
+ *
+ * @param {Object} patient - The patient object containing raw data.
+ * @returns {Object} A structured object with mapped patient details.
+ */
+export const convertEmergencyContacts = contacts => {
+  if (!contacts) return null;
+  return contacts.map(contact => ({
+    firstName: contact.firstName || NONE_ENTERED,
+    lastName: contact.lastName || NONE_ENTERED,
+    relationship: contact.relationship || NONE_ENTERED,
+    homePhone: contact.contactInfoHomePhone || NONE_ENTERED,
+    workPhone: contact.contactInfoWorkPhone || NONE_ENTERED,
+    mobilePhone: contact.contactInfoMobilePhone || NONE_ENTERED,
+    email: contact.contactInfoEmail || NONE_ENTERED,
+    address: {
+      street1: contact.addressStreet1 || NONE_ENTERED,
+      street2: contact.addressStreet1 || NONE_ENTERED,
+      city: contact.addressCity || NONE_ENTERED,
+      state: contact.addressState || NONE_ENTERED,
+      province: contact.addressProvince || NONE_ENTERED,
+      zip: contact.addressPostalCode || NONE_ENTERED,
+      country: contact.addressCountry || NONE_ENTERED,
+    },
+  }));
 };
 
 export const selfEnteredReducer = (state = initialState, action) => {
@@ -881,6 +898,12 @@ export const selfEnteredReducer = (state = initialState, action) => {
       return {
         ...state,
         demographics: convertDemographics(action.payload),
+      };
+    }
+    case Actions.SelfEntered.GET_EMERGENCY_CONTACTS: {
+      return {
+        ...state,
+        emergencyContacts: convertEmergencyContacts(action.payload),
       };
     }
     case Actions.SelfEntered.ADD_FAILED: {

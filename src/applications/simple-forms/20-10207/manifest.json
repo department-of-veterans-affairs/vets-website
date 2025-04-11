@@ -1,5 +1,5 @@
 {
-  "appName": "Request priority processing",
+  "appName": "Request priority processing for an existing claim",
   "entryFile": "./app-entry.jsx",
   "entryName": "10207-pp",
   "rootUrl": "/supporting-forms-for-claims/request-priority-processing-form-20-10207",
