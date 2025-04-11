@@ -89,3 +89,11 @@ runs:
       run: echo is_enabled=$(node script/github-actions/get-changed-apps.js --continuous-deployment) >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Chunk changed apps
+      id: chunk-changed-apps
+      shell: bash
+      run: |
+        node script/github-actions/get-changed-apps.js --output-type entry --delimiter ',' --chunk-output
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
