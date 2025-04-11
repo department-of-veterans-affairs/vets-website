@@ -168,4 +168,5 @@ export const AUTH_PARAMS = {
   scope: 'scope',
   verification: 'verification',
   operation: 'operation',
+  state: 'state',
 };
