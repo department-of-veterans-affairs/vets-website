@@ -220,6 +220,7 @@ Cypress.Commands.add(
             .find(getSelectors('month'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .focus();
           cy.realType(month);
         } else {
@@ -227,6 +228,7 @@ Cypress.Commands.add(
             .find(getSelectors('month'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .type(month);
         }
 
@@ -236,12 +238,14 @@ Cypress.Commands.add(
             .find(getSelectors('day'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .focus();
           cy.realType(day);
           cy.wrap(el)
             .find(getSelectors('year'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .focus();
           cy.realType(year);
         } else {
@@ -249,11 +253,13 @@ Cypress.Commands.add(
             .find(getSelectors('day'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .type(day);
           cy.wrap(el)
             .find(getSelectors('year'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .type(year);
         }
       });

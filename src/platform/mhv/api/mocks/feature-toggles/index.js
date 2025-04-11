@@ -23,6 +23,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
+    mhvMedicalRecordsFilterAndSort = true,
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
@@ -152,6 +153,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsMarch17Updates,
         },
         {
+          name: 'mhv_medical_records_filter_and_sort',
+          value: mhvMedicalRecordsFilterAndSort,
+        },
+        {
           name: 'mhv_secure_messaging_edit_contact_list',
           value: mhvSecureMessagingEditContactList,
         },
@@ -162,6 +167,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_opt_groups',
           value: mhvSecureMessagingRecipientOptGroups,
+        },
+        {
+          name: 'mhv_secure_messaging_remove_landing_page',
+          value: true,
         },
       ],
     },

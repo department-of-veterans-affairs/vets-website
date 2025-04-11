@@ -55,7 +55,7 @@ describe('extractReaction', () => {
     expect(result).equal('Sample Reaction');
   });
 
-  it('should return None noted if no contained Observation', () => {
+  it('should return None recorded if no contained Observation', () => {
     // Sample vaccine object without contained Observation
     const vaccineWithoutObservation = {
       contained: [],
@@ -63,10 +63,10 @@ describe('extractReaction', () => {
 
     const result = extractReaction(vaccineWithoutObservation);
 
-    expect(result).to.eq('None noted');
+    expect(result).to.eq('None recorded');
   });
 
-  it('should return None noted if contained Observation has no code.text', () => {
+  it('should return None recorded if contained Observation has no code.text', () => {
     // Sample vaccine object with contained Observation but no code.text
     const vaccineWithObservationNoCodeText = {
       contained: [
@@ -79,10 +79,10 @@ describe('extractReaction', () => {
 
     const result = extractReaction(vaccineWithObservationNoCodeText);
 
-    expect(result).to.eq('None noted');
+    expect(result).to.eq('None recorded');
   });
 
-  it('should return None noted if no contained resources', () => {
+  it('should return None recorded if no contained resources', () => {
     // Sample vaccine object with empty contained array
     const vaccineWithEmptyContained = {
       contained: [],
@@ -90,7 +90,7 @@ describe('extractReaction', () => {
 
     const result = extractReaction(vaccineWithEmptyContained);
 
-    expect(result).to.eq('None noted');
+    expect(result).to.eq('None recorded');
   });
 });
 
@@ -100,7 +100,7 @@ describe('extractLocation function', () => {
 
     const result = extractLocation(vaccine);
 
-    expect(result).to.equal('None noted');
+    expect(result).to.equal('None recorded');
   });
 
   it('should return the location name when vaccine has valid location data', () => {
@@ -138,7 +138,7 @@ describe('extractLocation function', () => {
 
     const result = extractLocation(vaccine);
 
-    expect(result).to.equal('None noted');
+    expect(result).to.equal('None recorded');
   });
 
   it('should return an empty field when vaccine has no contained resources', () => {
@@ -151,7 +151,7 @@ describe('extractLocation function', () => {
 
     const result = extractLocation(vaccine);
 
-    expect(result).to.equal('None noted');
+    expect(result).to.equal('None recorded');
   });
 });
 
