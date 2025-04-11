@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   addressUI,
   addressSchema,
@@ -96,14 +97,17 @@ export const applicantAddressSchema = {
         `${nameWording(formData, true, true, true)} mailing address`,
       'We’ll send any important information about this form to this address.',
     ),
-    applicantAddress: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox:
-            'Address is on a United States military base outside of the U.S.',
+    applicantAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
         },
-      }),
-    },
+      },
+      labels: {
+        militaryCheckbox:
+          'Address is on a United States military base outside of the U.S.',
+      },
+    }),
     applicantNewAddress: {
       ...radioUI({
         type: 'radio',
