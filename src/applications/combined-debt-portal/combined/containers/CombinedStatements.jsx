@@ -325,7 +325,7 @@ const CombinedStatements = () => {
           <p className="vads-u-margin-top--0">
             You can pay your debt online, by phone, or by mail. Call us at{' '}
             <va-telephone contact="8008270648" /> to discuss payment options,
-            request financial help, or dispute your bill
+            request financial help, or dispute your bill.
           </p>
           <va-link-action
             href="/manage-va-debt/summary"
@@ -338,7 +338,7 @@ const CombinedStatements = () => {
           </p>
 
           <va-table
-            table-type="bordered"
+            table-type="borderless"
             table-title="Overpayment charges"
             className="vads-u-width--full vads-u-margin-x--0"
           >
