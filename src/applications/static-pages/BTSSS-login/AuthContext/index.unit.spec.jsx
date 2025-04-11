@@ -86,6 +86,10 @@ describe('AuthContext', () => {
       }),
     });
     await waitFor(() => {
+      expect(screen.getByTestId('btsss-link')).to.exist;
+      expect(screen.queryAllByTestId('vagov-travel-pay-link').length).to.eq(0);
+      expect(screen.getByTestId('vagov-smoc-link')).to.exist;
+
       expect(
         $(
           'va-link-action[href="/my-health/appointments/past"][text="Go to your past appointments"]',
@@ -93,7 +97,7 @@ describe('AuthContext', () => {
       ).to.exist;
       expect(
         $(
-          'va-link[href="https://dvagov-btsss.dynamics365portals.us/signin"][text="Beneficiary Travel Self-Service System"]',
+          'va-link[href="https://dvagov-btsss.dynamics365portals.us/signin"][text="Go to BTSSS"]',
         ),
       ).to.exist;
       expect(

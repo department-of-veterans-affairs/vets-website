@@ -31,7 +31,7 @@ const AuthContext = () => {
       {smocEnabled ? (
         <>
           <va-link-action
-            data-testid="btsss-link"
+            data-testid="vagov-smoc-link"
             href="/my-health/appointments/past"
             text="Go to your past appointments"
           />
@@ -44,6 +44,7 @@ const AuthContext = () => {
             Self-Service System (BTSSS).
           </p>
           <va-link
+            data-testid="btsss-link"
             href="https://dvagov-btsss.dynamics365portals.us/signin"
             text="Go to BTSSS"
             label="Go to the Beneficiary Travel Self-Service System (BTSSS)"
