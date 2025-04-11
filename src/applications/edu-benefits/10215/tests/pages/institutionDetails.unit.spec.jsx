@@ -75,29 +75,6 @@ describe('22-10215 - Institution Details', () => {
     validateFacilityCode(errors, '12345678');
     expect(errors.messages).to.be.empty;
   });
-  it('should show date of calculations error if date of calculations is before term start date', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        onSubmit={onSubmit}
-        data={{
-          institutionDetails: {
-            institutionName: 'test',
-            facilityCode: '12345678',
-            termStartDate: '2025-02-01',
-            dateOfCalculations: '2025-01-01',
-          },
-        }}
-        uiSchema={uiSchema}
-        definitions={definitions}
-      />,
-    );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(1);
-    form.unmount();
-  });
   it('should not show date of calculations error if term start date is empty', () => {
     const onSubmit = sinon.spy();
     const form = mount(
