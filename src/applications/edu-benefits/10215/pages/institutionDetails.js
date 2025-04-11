@@ -49,13 +49,15 @@ function validateDateOfCalculations(
 
   if (isCurrentOrPastDate(dateOfCalculations)) {
     errors.addError(
-      `This date must be on or after, but not later than 30 days after, the start of the term. You cannot enter a future date.`,
+      `This date must be on or after, but not later than 30 days after,
+       the start of the term. You cannot enter a future date.`,
     );
   }
 
   if (isTermEndBeforeTermStartDate(termStartDate, dateOfCalculations)) {
     errors.addError(
-      `Calculations can't occur before the term start date. Enter the term start date or a later date`,
+      `Calculations can't occur before the term start date. 
+      Enter the term start date or a later date`,
     );
   }
 
