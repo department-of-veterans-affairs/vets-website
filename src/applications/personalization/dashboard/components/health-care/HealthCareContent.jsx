@@ -6,7 +6,6 @@ import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
@@ -28,7 +27,6 @@ const HealthCareContent = ({
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
-  facilityNames,
   fetchUnreadMessages,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
@@ -132,18 +130,6 @@ const HealthCareContent = ({
 
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
-  }
-  if (isCernerPatient && facilityNames?.length > 0) {
-    return (
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <CernerWidget
-            facilityLocations={facilityNames}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-          />
-        </div>
-      </div>
-    );
   }
 
   return (
