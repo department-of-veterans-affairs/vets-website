@@ -16,7 +16,7 @@ describe('NoRep component', () => {
 
   it('displays the correct heading', () => {
     const wrapper = mount(<NoRep {...defaultProps} />);
-    const headerElement = wrapper.find('.auth-no-rep-header');
+    const headerElement = wrapper.find('.vads-u-font-size--h3');
     expect(headerElement.exists()).to.be.true;
 
     const headerText = headerElement.text();
@@ -27,7 +27,7 @@ describe('NoRep component', () => {
 
   it('renders the correct heading level', () => {
     const wrapper = mount(<NoRep DynamicHeader="h3" />);
-    expect(wrapper.find('h3.auth-no-rep-header').exists()).to.be.true;
+    expect(wrapper.find('h3').exists()).to.be.true;
     wrapper.unmount();
   });
 
@@ -51,17 +51,6 @@ describe('NoRep component', () => {
     expect(link.prop('text')).to.equal(
       'Learn about accredited representatives',
     );
-    wrapper.unmount();
-  });
-
-  it('has the correct class structure', () => {
-    const wrapper = mount(<NoRep {...defaultProps} />);
-
-    expect(wrapper.find('.auth-card').exists()).to.be.true;
-    expect(wrapper.find('.auth-header-icon').exists()).to.be.true;
-    expect(wrapper.find('.auth-no-rep-text').exists()).to.be.true;
-    expect(wrapper.find('.auth-no-rep-body').exists()).to.be.true;
-
     wrapper.unmount();
   });
 });

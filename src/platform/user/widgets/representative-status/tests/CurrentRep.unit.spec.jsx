@@ -53,7 +53,7 @@ describe('CurrentRep component', () => {
     const orgProps = { ...defaultProps, poaType: 'organization' };
     const wrapper = mount(<CurrentRep {...orgProps} />);
     expect(wrapper.text()).to.include(
-      'You can work with any accredited representative at this organization',
+      'You can work with any accredited VSO representative at this organization',
     );
     wrapper.unmount();
   });
@@ -61,7 +61,7 @@ describe('CurrentRep component', () => {
   it('does not display organization note when poaType is representative', () => {
     const wrapper = mount(<CurrentRep {...defaultProps} />);
     expect(wrapper.text()).to.not.include(
-      'You can work with any accredited representative at this organization',
+      'You can work with any accredited VSO representative at this organization',
     );
     wrapper.unmount();
   });

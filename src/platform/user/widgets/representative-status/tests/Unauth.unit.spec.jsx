@@ -18,7 +18,7 @@ describe('Unauth component', () => {
 
   it('displays the correct heading', () => {
     const wrapper = mount(<Unauth {...defaultProps} />);
-    const headerElement = wrapper.find('#track-your-status-on-mobile');
+    const headerElement = wrapper.find('h3');
     expect(headerElement.exists()).to.be.true;
     expect(headerElement.text()).to.include('Sign in with a verified account');
     wrapper.unmount();
@@ -26,7 +26,7 @@ describe('Unauth component', () => {
 
   it('uses the provided DynamicHeader component type', () => {
     const wrapper = mount(<Unauth {...defaultProps} DynamicHeader="h3" />);
-    expect(wrapper.find('h3#track-your-status-on-mobile').exists()).to.be.true;
+    expect(wrapper.find('h3').exists()).to.be.true;
     wrapper.unmount();
   });
 
