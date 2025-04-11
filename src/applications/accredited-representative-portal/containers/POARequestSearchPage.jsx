@@ -179,6 +179,7 @@ const POARequestSearchPage = title => {
                         ascOption={PROCESSED.ASC_OPTION}
                         descOption={PROCESSED.DESC_OPTION}
                       />
+                      <p>{searchMetaText}</p>
                     </>
                   );
                 default:
