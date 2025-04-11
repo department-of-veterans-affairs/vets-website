@@ -29,7 +29,7 @@ export const treatmentReceivedNoneLabel =
  * @returns {boolean}
  */
 function hasSelectedNoneCheckbox(formData) {
-  return Object.values(formData['view:treatmentNoneCheckbox'] || {}).some(
+  return Object.values(formData.treatmentNoneCheckbox || {}).some(
     selected => selected === true,
   );
 }
@@ -97,7 +97,7 @@ export function validateProviders(errors, formData) {
 
   // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:treatmentNoneCheckbox'].addError(
+    errors.treatmentNoneCheckbox.addError(
       'If you select no treatment providers to include, unselect other treatment providers before continuing.',
     );
   }
