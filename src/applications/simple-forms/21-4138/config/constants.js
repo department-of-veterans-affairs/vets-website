@@ -140,7 +140,7 @@ export const OTHER_REASONS = Object.freeze({
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
-    <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
+    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
   </div>,
@@ -183,11 +183,8 @@ export const DECISION_REVIEW_HANDOFF = Object.freeze(
     </PrimaryActionLink>
     <p>
       If you disagree with a VA benefit or claim decision, you can choose from 3
-      decision review options (
-      <span className="vads-u-font-weight--bold">Supplemental Claim</span>,{' '}
-      <span className="vads-u-font-weight--bold">Higher-Level Review</span>, or{' '}
-      <span className="vads-u-font-weight--bold">Board Appeal</span>) to
-      continue your case.
+      decision review options (Supplemental Claim, Higher-Level Review, or Board
+      Appeal) to continue your case.
     </p>
     <p>
       If you aren’t satisfied with the results of the first option you choose,

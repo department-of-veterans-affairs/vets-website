@@ -74,3 +74,52 @@ export const resolutionDate = (date, requestId) => {
     </span>
   );
 };
+
+export const DETAILS_BC_LABEL = 'details breadcrumb';
+export const SEARCH_BC_LABEL = 'search breadcrumb';
+export const HELP_BC_LABEL = 'search breadcrumb';
+export const HelpBC = [
+  {
+    href: 'https://va.gov/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: 'https://va.gov/representative/get-help',
+    label: 'Get help using the portal',
+  },
+];
+
+export const poaSearchBC = [
+  {
+    href: 'https://va.gov/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Power of attorney requests',
+  },
+];
+export const searchPeopleBC = [
+  {
+    href: '/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Search People',
+  },
+];
+export const poaDetailsBreadcrumbs = [
+  {
+    href: 'https://va.gov/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: 'https://va.gov/poa-requests?status=pending',
+    label: 'Power of attorney requests',
+  },
+  {
+    href: window.location.href,
+    label: 'POA request',
+  },
+];

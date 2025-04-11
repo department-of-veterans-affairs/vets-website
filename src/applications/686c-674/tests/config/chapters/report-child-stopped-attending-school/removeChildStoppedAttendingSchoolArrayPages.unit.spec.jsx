@@ -112,28 +112,34 @@ describe('removeChildStoppedAttendingSchoolOptions', () => {
     });
   });
 
-  describe('getItemName', () => {
-    const { getItemName } = removeChildStoppedAttendingSchoolOptions.text;
+  describe('getItemName + cardDescription', () => {
+    const {
+      getItemName,
+      cardDescription,
+    } = removeChildStoppedAttendingSchoolOptions.text;
 
     it('should return the correctly capitalized full name', () => {
       const item = {
         fullName: { first: 'john', last: 'doe' },
       };
-      expect(getItemName(item)).to.equal('John Doe');
+      expect(getItemName()).to.equal('Child');
+      expect(cardDescription(item)).to.equal('John Doe');
     });
 
     it('should return the correctly capitalized full name with mixed case', () => {
       const item = {
         fullName: { first: 'jOhN', last: 'dOe' },
       };
-      expect(getItemName(item)).to.equal('John Doe');
+      expect(getItemName()).to.equal('Child');
+      expect(cardDescription(item)).to.equal('John Doe');
     });
 
     it('should handle the case when both names are empty', () => {
       const item = {
         fullName: { first: '', last: '' },
       };
-      expect(getItemName(item)).to.equal(' ');
+      expect(getItemName()).to.equal('Child');
+      expect(cardDescription(item)).to.equal(' ');
     });
   });
 });
@@ -234,7 +240,7 @@ describe('686 report child who stopped attending school: Date child stopped atte
   });
 });
 
-describe('686 report child who stopped attending school: Date child stopped attending', () => {
+describe('686 report child who stopped attending school: Income', () => {
   const {
     schema,
     uiSchema,
@@ -255,6 +261,6 @@ describe('686 report child who stopped attending school: Date child stopped atte
     );
 
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 });

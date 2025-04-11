@@ -6,6 +6,8 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
+import OmbInfo from '../components/OmbInfo';
+
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
@@ -84,10 +86,10 @@ const IntroductionPage = ({ route }) => {
           <p>
             Fill out the form online. This is a download and upload process.
             After completing the form, you will download a PDF, which you will
-            need to submit later by uploading it to the VA Education Portal.
-            Ensure you have all the necessary details, such as your enrollment
-            information, institution, and any required documentation, before
-            continuing.
+            need to submit later by uploading it to the Education File Upload
+            Portal. Ensure you have all the necessary details, such as your
+            enrollment information, institution, and any required documentation,
+            before continuing.
           </p>
         </va-process-list-item>
         <va-process-list-item header="Download the completed form as a PDF">
@@ -98,9 +100,9 @@ const IntroductionPage = ({ route }) => {
             completed form as a PDF and proceed to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the VA Educational portal">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
           <p>
-            As the final step of this form, please go to the VA Education File
+            As the final step of this form, please go to the Education File
             Upload Portal and upload the completed PDF document that you
             downloaded. This is how you submit this form.
           </p>
@@ -215,11 +217,7 @@ const IntroductionPage = ({ route }) => {
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={60}
-        omb-number="2900-0897"
-        exp-date="12/31/2024"
-      />
+      <OmbInfo />
     </article>
   );
 };

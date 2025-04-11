@@ -10,6 +10,7 @@ class ApiInitializer {
             { name: 'travel_pay_power_switch', value: true },
             { name: 'travel_pay_view_claim_details', value: true },
             { name: 'travel_pay_submit_mileage_expense', value: true },
+            { name: 'travel_pay_claims_management', value: true },
           ],
         },
       }).as('featureToggles');
@@ -19,6 +20,15 @@ class ApiInitializer {
   initializeClaims = {
     happyPath: () => {
       cy.intercept('GET', '/travel_pay/v0/claims', claims).as('sm');
+    },
+  };
+
+  initializeClaimDetails = {
+    happyPath: () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        fixture:
+          'applications/travel-pay/tests/fixtures/travel-claim-details-v1.json',
+      }).as('details');
     },
   };
 
