@@ -19,14 +19,33 @@ class DownloadReportsPage {
     cy.get('[data-testid="generateCcdButton"]').should('be.visible');
   };
 
-  clickCcdDownloadXmlFileButton = ccdGenerateResponse => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/medical_records/ccd/generate',
-      ccdGenerateResponse,
-    ).as('ccdGenerateResponse');
-    cy.get('[data-testid="generateCcdButton"]').click();
-    cy.wait('@ccdGenerateResponse');
+  clickCcdDownloadXmlFileButton = (
+    ccdGenerateResponse,
+    pathToCcdDownloadResponse,
+  ) => {
+    cy.fixture(pathToCcdDownloadResponse, 'utf8').then(xmlBody => {
+      cy.intercept(
+        'GET',
+        '/my_health/v1/medical_records/ccd/generate',
+        ccdGenerateResponse,
+      ).as('ccdGenerateResponse');
+      cy.intercept('GET', '/my_health/v1/medical_records/ccd/d**', {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/xml',
+        },
+        body: xmlBody,
+      }).as('getXml');
+      cy.get('[data-testid="generateCcdButton"]').click();
+      cy.wait('@ccdGenerateResponse');
+      cy.wait('@getXml');
+    });
+  };
+
+  verifyCcdDownloadStartedAlert = () => {
+    cy.get('[data-testid="alert-download-started"]')
+      .should('be.focused')
+      .and('contain', 'Continuity of Care Document download started');
   };
 
   verifySelfEnteredDownloadButton = () => {
@@ -53,5 +72,7 @@ class DownloadReportsPage {
         "We can't download your continuity of care document right now",
       );
   };
+
+  // verifyCcdDownloadStartedError = () => {
 }
 export default new DownloadReportsPage();
