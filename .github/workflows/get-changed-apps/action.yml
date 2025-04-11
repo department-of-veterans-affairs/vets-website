@@ -57,6 +57,7 @@ runs:
       run: echo entry_names=$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHUNK_SIZE: 100
 
     - name: Get folders
       id: get-folders
@@ -65,6 +66,7 @@ runs:
       run: echo folders=$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHUNK_SIZE: 100
 
     - name: Get Slack user groups
       id: get-slack-groups
@@ -73,6 +75,7 @@ runs:
       run: echo slack_groups=$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHUNK_SIZE: 100
 
     - name: Get URLs
       id: get-urls
@@ -81,6 +84,7 @@ runs:
       run: echo urls=$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHUNK_SIZE: 100
 
     - name: Check if continuous deployment is enabled
       id: check-continuous-deployment
@@ -89,3 +93,4 @@ runs:
       run: echo is_enabled=$(node script/github-actions/get-changed-apps.js --continuous-deployment) >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHUNK_SIZE: 100

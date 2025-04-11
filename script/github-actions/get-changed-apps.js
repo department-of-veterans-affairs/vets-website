@@ -132,8 +132,25 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
   return true;
 };
 
+/**
+ * Splits an array into chunks of a specified size.
+ *
+ * @param {Array} array - The array to split.
+ * @param {number} size - The maximum size of each chunk.
+ * @returns {Array[]} An array of chunks.
+ */
+const chunkArray = (array, size) => {
+  const chunks = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
+};
+
 if (process.env.CHANGED_FILE_PATHS) {
   const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+  const CHUNK_SIZE = 100; // Adjust chunk size as needed to avoid argument length issues
+  const filePathChunks = chunkArray(changedFilePaths, CHUNK_SIZE);
 
   const options = commandLineArgs([
     // Use the --output-type option to specify one of the following outputs:
@@ -147,21 +164,32 @@ if (process.env.CHANGED_FILE_PATHS) {
   ]);
 
   if (options['continuous-deployment']) {
-    const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
-      changedFilePaths,
-      changedAppsConfig,
-    );
+    let continuousDeploymentEnabled = true;
+
+    for (const chunk of filePathChunks) {
+      if (!isContinuousDeploymentEnabled(chunk, changedAppsConfig)) {
+        continuousDeploymentEnabled = false;
+        break;
+      }
+    }
 
     console.log(continuousDeploymentEnabled);
   } else {
-    const changedAppsString = getChangedAppsString(
-      changedFilePaths,
-      changedAppsConfig,
-      options['output-type'],
-      options.delimiter,
-    );
+    const appStrings = [];
 
-    console.log(changedAppsString);
+    for (const chunk of filePathChunks) {
+      const chunkAppString = getChangedAppsString(
+        chunk,
+        changedAppsConfig,
+        options['output-type'],
+        options.delimiter,
+      );
+      if (chunkAppString) {
+        appStrings.push(chunkAppString);
+      }
+    }
+
+    console.log(appStrings.join(options.delimiter));
   }
 }
 
