@@ -18,6 +18,7 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 
@@ -28,16 +29,16 @@ export const options = {
   nounPlural: 'incomes and net worth associated with financial accounts',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.incomeType ||
-    !item.grossMonthlyIncome ||
-    !item.accountValue ||
-    !item.payer, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.incomeType) ||
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.accountValue) ||
+    !isDefined(item.payer), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome && (
+      isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income type:{' '}

@@ -89,6 +89,7 @@ const wrapApiRequest = fn => {
 
 const api = {
   getPOARequests: wrapApiRequest(query => {
+    delete query.sort; // eslint-disable-line no-param-reassign
     const urlQuery = new URLSearchParams(query).toString();
     return [`/power_of_attorney_requests?${urlQuery}`];
   }),
