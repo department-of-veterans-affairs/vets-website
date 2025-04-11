@@ -16,9 +16,7 @@ describe('<AccreditedRepresentative />', () => {
   beforeEach(() => {
     store = mockStore({
       vaProfile: {
-        powerOfAttorney: {
-          data: { id: 'representative-id' },
-        },
+        powerOfAttorney: { id: 'representative-id' },
       },
     });
   });
