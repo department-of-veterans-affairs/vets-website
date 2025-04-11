@@ -1,38 +1,52 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/changed-apps-build.json');
 
 /**
- * Gets the manifest of all apps in the root app folder that a file belongs to.
+ * Helper function to chunk an array.
  *
- * @param {string} filePath - Relative file path.
- * @returns {Object[]} Application manifests.
+ * @param {Array} array - The array to chunk.
+ * @param {number} chunkSize - The size of each chunk.
+ * @returns {Array[]} An array of chunks.
  */
-const getManifests = filePath => {
+function chunkArray(array, chunkSize) {
+  const chunks = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize));
+  }
+  return chunks;
+}
+
+/**
+ * Gets the manifests of all apps in the root app folder that a file belongs to.
+ *
+ * @param {string} filePath - The file path.
+ * @returns {Object[]} The manifests of the apps.
+ */
+function getManifests(filePath) {
   const root = path.join(__dirname, '../..');
   const rootAppFolderName = filePath.split('/')[2];
   const fullAppPath = path.join(root, './src/applications', rootAppFolderName);
 
   if (!fs.existsSync(fullAppPath)) return [];
 
-  return find
-    .fileSync(/manifest\.(json|js)$/, fullAppPath)
-    .map(file => JSON.parse(fs.readFileSync(file)));
-};
+  return fs
+    .readdirSync(fullAppPath)
+    .filter(file => file.match(/manifest\.(json|js)$/))
+    .map(file => JSON.parse(fs.readFileSync(path.join(fullAppPath, file))));
+}
 
 /**
- * Gets the sliced manifest(s) of a file's root app folder with some added properties. The
- * app's root folder must be on the given allow list, otherwise returns an empty array.
+ * Gets the manifests of allowed apps for a given file path.
  *
- * @param {string} filePath - Relative file path.
- * @param {Object} allowedApps - List of allowed apps.
- * @returns {Object[]} Sliced manifests of allowed apps.
+ * @param {string} filePath - The file path.
+ * @param {Object[]} allowedApps - The list of allowed apps.
+ * @returns {Object[]} The manifests of allowed apps.
  */
-const getAllowedApps = (filePath, allowedApps) => {
+function getAllowedApps(filePath, allowedApps) {
   const appsDirectory = 'src/applications';
 
   if (!filePath.startsWith(appsDirectory)) return [];
@@ -55,25 +69,25 @@ const getAllowedApps = (filePath, allowedApps) => {
   }
 
   return [];
-};
+}
 
 /**
- * Checks if a list of file paths belong to allowed apps. If so, returns a
- * delimited string of application entry names, relative paths, URLs
- * or Slack user groups; otherwise returns an empty string.
+ * Gets the changed apps as a delimited string or writes them to chunked files.
  *
- * @param {string[]} filePaths - An array of relative file paths.
- * @param {Object} config - Changed apps config.
- * @param {string} outputType - Determines what app information should be returned.
- * @param {string} delimiter - Delimiter to use for string output.
- * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack user groups.
+ * @param {string[]} filePaths - A list of changed file paths.
+ * @param {Object} config - The changed apps configuration.
+ * @param {string} outputType - The type of output to generate.
+ * @param {string} delimiter - The delimiter for the output string.
+ * @param {boolean} chunkOutput - Whether to chunk the output into files.
+ * @returns {string|null} A delimited string of changed apps (if not chunking).
  */
-const getChangedAppsString = (
+function getChangedAppsString(
   filePaths,
   config,
   outputType = 'entry',
   delimiter = ' ',
-) => {
+  chunkOutput = false,
+) {
   const appStrings = [];
 
   for (const filePath of filePaths) {
@@ -91,81 +105,51 @@ const getChangedAppsString = (
           if (app.rootUrl) appStrings.push(app.rootUrl);
         } else throw new Error('Invalid output type specified.');
       });
-    } else return '';
+    }
   }
 
-  return [...new Set(appStrings)].join(delimiter);
-};
+  const uniqueAppStrings = [...new Set(appStrings)];
 
-/**
- * Checks whether all file paths belong to apps on the allowlist with continuous deployment
- * enabled. Returns false if all apps don't have continuous deployed enabled.
- *
- * @param {string[]} filePaths - A list of relative file paths.
- * @param {Object} config - Changed apps config.
- * @returns {Boolean} Whether apps of file paths have enabled continuous deployment.
- */
-const isContinuousDeploymentEnabled = (filePaths, config) => {
-  if (!filePaths.length) return false;
+  if (chunkOutput) {
+    const chunkSize = 100; // Define the chunk size
+    const chunks = chunkArray(uniqueAppStrings, chunkSize);
 
-  for (const filePath of filePaths) {
-    const allowedApps = getAllowedApps(filePath, config.apps);
+    chunks.forEach((chunk, index) => {
+      const fileName = `changed_apps_chunk_${index + 1}.txt`;
+      fs.writeFileSync(fileName, chunk.join(delimiter), 'utf8');
+      console.log(`Chunk ${index + 1} written to ${fileName}`);
+    });
 
-    if (allowedApps.length) {
-      const { continuousDeployment, rootPath } = allowedApps[0];
-      const invalidDataType = !['boolean', 'undefined'].includes(
-        typeof continuousDeployment,
-      );
-
-      if (invalidDataType) {
-        throw new Error(
-          `Invalid data type in 'continuousDeployment' field for ${rootPath}. Must be a boolean or omitted.`,
-        );
-      }
-
-      // Apps in the config are opted in to continuous deployment by default.
-      // `continuousDeployment` must be `false` to disable.
-      if (continuousDeployment === false) return false;
-    } else return false;
+    console.log(`Total chunks created: ${chunks.length}`);
+    return null; // No single string output when chunking
   }
 
-  return true;
-};
+  return uniqueAppStrings.join(delimiter);
+}
 
+// Main script logic
 if (process.env.CHANGED_FILE_PATHS) {
   const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
-    // Use the --output-type option to specify one of the following outputs:
-    // 'entry': The entry names of the changed apps.
-    // 'folder': The relative path of the changed apps root folders.
-    // 'url': The root URLs of the changed apps.
-    // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },
     { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
-    { name: 'continuous-deployment', type: Boolean, defaultValue: false },
+    { name: 'chunk-output', type: Boolean, defaultValue: false },
   ]);
 
-  if (options['continuous-deployment']) {
-    const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
-      changedFilePaths,
-      changedAppsConfig,
-    );
+  const result = getChangedAppsString(
+    changedFilePaths,
+    changedAppsConfig,
+    options['output-type'],
+    options.delimiter,
+    options['chunk-output'],
+  );
 
-    console.log(continuousDeploymentEnabled);
-  } else {
-    const changedAppsString = getChangedAppsString(
-      changedFilePaths,
-      changedAppsConfig,
-      options['output-type'],
-      options.delimiter,
-    );
-
-    console.log(changedAppsString);
+  if (result) {
+    console.log(result);
   }
 }
 
 module.exports = {
   getChangedAppsString,
-  isContinuousDeploymentEnabled,
 };
