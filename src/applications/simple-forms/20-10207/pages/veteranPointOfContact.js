@@ -12,11 +12,12 @@ const pageSchema = {
   uiSchema: {
     ...titleUI(
       'Veteran’s point of contact',
-      'To help us process this request, it helps us to be able to get in touch with the Veteran. Please provide the name and telephone number of someone who can help us locate the Veteran.',
+      'To help us process this request, we may need to contact the Veteran. As a 3rd party filling out this form on their behalf, you may list yourself as the point of contact, or you may add another person. By adding a point of contact you agree to let us contact this person about this form.',
     ),
     pointOfContactName: {
       'ui:title': 'Name of Veteran’s point of contact',
       'ui:webComponentField': VaTextInputField,
+      'ui:required': formData => !formData.veteranEmailAddress,
     },
     pointOfContactPhone: phoneUI(
       'Telephone number of Veteran’s point of contact',
