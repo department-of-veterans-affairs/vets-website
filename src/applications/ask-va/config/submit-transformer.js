@@ -45,7 +45,20 @@ const transformAddress = formData => {
 };
 
 export default function submitTransformer(formData, uploadFiles) {
+  /* eslint-disable no-param-reassign */
   const { stateOrResidency } = formData;
+
+  if (formData?.emailAddress) {
+    formData.businessEmail = formData.emailAddress;
+  } else {
+    formData.emailAddress = formData.businessEmail;
+  }
+
+  if (formData?.phoneNumber) {
+    formData.businessPhone = formData.phoneNumber;
+  } else {
+    formData.phoneNumber = formData.businessPhone;
+  }
 
   if (stateOrResidency?.schoolState || stateOrResidency?.residencyState) {
     stateOrResidency.schoolState = stateOrResidency?.schoolState || null;

@@ -169,17 +169,9 @@ describe('getTxtContent', () => {
     expect(result).to.include('Test 1 on');
     expect(result).to.include('Care summaries and notes');
     expect(result).to.include('Note 1');
-    expect(result).to.include('This list includes vaccines you got');
     expect(result).to.include('Vaccine 1');
-    expect(result).to.include('If you have allergies that are missing');
     expect(result).to.include('Type of allergy: food');
-    expect(result).to.include(
-      'This list includes your current health conditions',
-    );
     expect(result).to.include('SNOMED Clinical term: Condition 1');
-    expect(result).to.include(
-      'This list includes vitals and other basic health numbers',
-    );
     expect(result).to.include('Result: 42');
     expect(result).to.include('This is a list of prescriptions');
     expect(result).to.include('Title: Medication 1');

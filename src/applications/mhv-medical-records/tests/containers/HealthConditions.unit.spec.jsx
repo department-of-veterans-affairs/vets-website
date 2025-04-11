@@ -43,7 +43,7 @@ describe('Health conditions list container', () => {
   });
 
   it('displays active condition', () => {
-    expect(screen.getAllByText('None noted', { exact: false })).to.exist;
+    expect(screen.getAllByText('None recorded', { exact: false })).to.exist;
   });
 
   it('displays about codes info', () => {

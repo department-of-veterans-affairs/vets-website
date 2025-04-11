@@ -77,7 +77,7 @@ describe('Radiology details component - images', () => {
 
   it('should display the clinical history', () => {
     expect(screen.getByTestId('radiology-clinical-history')).to.contain.text(
-      'None noted',
+      'None recorded',
     );
   });
 
@@ -99,7 +99,7 @@ describe('Radiology details component - images', () => {
 
   it('should display the imaging provider', () => {
     expect(screen.getByTestId('radiology-imaging-provider')).to.contain.text(
-      'None noted',
+      'None recorded',
     );
   });
 
@@ -274,7 +274,7 @@ describe('Radiology details component', () => {
   });
 
   it('should display the reason for the test', () => {
-    const reason = screen.getByText('None noted', {
+    const reason = screen.getByText('None recorded', {
       exact: true,
       selector: 'p',
     });
@@ -359,7 +359,7 @@ describe('Radiology details component with missing fields', () => {
   it('should not display the date if date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });

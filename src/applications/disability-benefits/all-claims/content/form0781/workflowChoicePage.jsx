@@ -11,7 +11,7 @@ import { form0781HeadingTag, titleWithTag } from '../form0781';
 import { checkValidations } from '../../utils/submit';
 
 export const workflowChoicePageTitle =
-  'Adding VA Form 21-0781 to support new mental health conditions';
+  'Option to add a statement in support of mental health conditions';
 
 // Lists new conditions the veteran has claimed
 // The user should not get to this page if these conditions are not present
@@ -44,19 +44,35 @@ export const workflowChoicePageDescription = formData => {
   return (
     <>
       {conditionSelections(formData)}
-      <h4>When to consider adding VA Form 21-0781 to your claim</h4>
+      <h4>When to consider adding this statement to your claim</h4>
       <p>
-        We offer this optional form for you to share more supporting information
-        about certain conditions. If your claim includes a new mental health
-        condition (like PTSD, major depression, or generalized anxiety disorder)
-        that’s related to a traumatic event you experienced during military
-        service, we encourage you to submit this form.
+        If you added a new mental health condition that’s related to your
+        military service, we encourage you to submit a statement. Mental health
+        conditions include conditions like PTSD or depression.
       </p>
       <p>
-        We’ll need to ask you about the traumatic events you experienced and any
-        behavioral changes that you experienced as a result. Answer as many or
-        as few of the questions that you feel comfortable answering. We’ll use
-        any information you can share to support your claim.
+        <strong>What to expect if you add a statement</strong>
+        <br />
+        We’ll ask you questions about:
+      </p>
+      <ul>
+        <li>
+          <strong>Traumatic events from your military service</strong>
+        </li>
+        <li>
+          <strong>Behavioral changes you experienced as a result</strong>
+        </li>
+      </ul>
+
+      <p>
+        You will also be able to add{' '}
+        <strong>medical records, provider information,</strong> and{' '}
+        <strong> supporting documents </strong> later in the{' '}
+        <strong>Supporting Evidence </strong> section.
+      </p>
+      <p>
+        Answer as many or as few questions you feel comfortable answering. We’ll
+        use any information you share to support your claim.
       </p>
       <p>
         To answer all the questions, you’ll likely need about 45 minutes. You
@@ -75,7 +91,7 @@ export const workflowChoicePageDescription = formData => {
 };
 
 export const form0781WorkflowChoiceDescription =
-  'Do you want to add VA Form 21-0781?';
+  'Do you want to add a statement in support of mental health conditions?';
 
 export const form0781WorkflowChoices = {
   COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
@@ -236,12 +252,17 @@ export const mentalHealthKeys = [
 ];
 
 const confirmationDataUpload = {
-  yes: 'Yes, answer online instead',
+  yes: 'Yes, upload PDF instead',
   no: 'No, return to claim',
 };
 
 const confirmationDataOptOut = {
   yes: 'Yes, delete my statement',
+  no: 'No, return to claim',
+};
+
+const confirmationCompleteOnline = {
+  yes: 'Yes, answer online instead',
   no: 'No, return to claim',
 };
 
@@ -427,8 +448,8 @@ const WorkflowChoicePage = props => {
         };
       default:
         return {
-          primaryText: confirmationDataUpload.yes,
-          secondaryText: confirmationDataUpload.no,
+          primaryText: confirmationCompleteOnline.yes,
+          secondaryText: confirmationCompleteOnline.no,
           modalContent: data.form781Upload && modalDescriptionOnline(data),
           alertContent: alertDescriptionOnline,
           modalTitle: modalTitleOnline,

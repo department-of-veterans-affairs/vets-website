@@ -5,6 +5,7 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import React from 'react';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -145,8 +146,22 @@ const getPdfBlob = async (templateId, data) => {
   });
 };
 
+const pdfGenerationAnalytics = (success, count) => {
+  recordEvent({
+    event: 'cdp-one-va-letter-download',
+    'cdp-one-va-letter-download-success': success,
+    'cdp-one-va-letter-download-count-debt': count?.debt || 0,
+    'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+  });
+};
+
 // some fancy PDF generation
 export const handlePdfGeneration = async (environment, pdfData) => {
+  const analyticsCount = {
+    debt: pdfData?.debts?.length || 0,
+    copay: pdfData?.copays?.length || 0,
+  };
+
   try {
     const blob = await getPdfBlob('oneDebtLetter', pdfData);
 
@@ -182,6 +197,7 @@ export const handlePdfGeneration = async (environment, pdfData) => {
         link.click();
         URL.revokeObjectURL(url);
       } else {
+        pdfGenerationAnalytics(false, analyticsCount);
         Sentry.captureMessage(
           `OneDebtLetter - PDF request failed: ${xhr.status}`,
         );
@@ -189,11 +205,14 @@ export const handlePdfGeneration = async (environment, pdfData) => {
     };
 
     xhr.onerror = () => {
+      pdfGenerationAnalytics(false, analyticsCount);
       Sentry.captureMessage(`OneDebtLetter - Network error during PDF request`);
     };
 
     xhr.send(formData);
+    pdfGenerationAnalytics(true, analyticsCount);
   } catch (err) {
+    pdfGenerationAnalytics(false, analyticsCount);
     Sentry.setExtra('error: ', err);
     Sentry.captureMessage(
       `OneDebtLetter - PDF generation failed: ${err.message}`,

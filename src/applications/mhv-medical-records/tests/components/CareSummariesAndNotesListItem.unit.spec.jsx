@@ -159,7 +159,7 @@ describe('CareSummariesAndNotesListItem DS date field', () => {
     expect(srDate.innerHTML).to.contain('August 8, 2022');
   });
 
-  it('should display "None noted" if no date is found', () => {
+  it('should display "None recorded" if no date is found', () => {
     const jsonRecord = { type: { coding: [{ code: '18842-5' }] } };
 
     const screen = renderScreen(jsonRecord);

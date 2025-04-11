@@ -122,4 +122,7 @@ export const Alerts = {
   EMPTY_MED_LIST: 'You don’t have any VA prescriptions or medication records',
   NO_FILTER_RESULTS: 'We didn’t find any matches for this filter',
   NO_ACCESS_TO_MEDICATIONS_ERROR: 'We can’t access your medications right now',
+  REFILL_SUBMIT_SUCCESS: 'Refills requested',
+  REFILL_SUBMIT_FAILURE:
+    'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
 };
