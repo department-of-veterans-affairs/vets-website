@@ -17,6 +17,18 @@ import { currency, setPageFocus, handlePdfGeneration } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
+// Helper function to clean HTML entities
+const cleanHtmlEntities = text => {
+  if (!text) return '';
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+};
+
 const CombinedStatements = () => {
   useHeaderPageTitle('Combined statements');
   useEffect(() => {
@@ -142,6 +154,7 @@ const CombinedStatements = () => {
           }
           return null;
         }) || []),
+        // Excluding fiscalTransactionData dates as they're in 2024 but data is from 2020
         debt.debtDate ? new Date(debt.debtDate) : null,
       ])
       .filter(date => date && !Number.isNaN(date.getTime()));
@@ -242,7 +255,7 @@ const CombinedStatements = () => {
           </div>
         </div>
 
-        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-width--full">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Copay charges
           </h2>
@@ -271,7 +284,7 @@ const CombinedStatements = () => {
 
               {statement.details.map((charge, idx) => (
                 <va-table-row key={idx}>
-                  <span>{charge.pDTransDescOutput}</span>
+                  <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
                   <span>{charge.pDRefNo}</span>
                   <span>{currency(charge.pDTransAmt)}</span>
                 </va-table-row>
@@ -298,27 +311,39 @@ const CombinedStatements = () => {
           </div>
         </section>
 
-        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-color--gray-light">
+        <section className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-width--full">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
           <p className="vads-u-margin-top--0">
             Benefit overpayments are due to changes in your benefits which
-            result in you being paid more than you were entitled to receive.
+            result in you being paid more than you were owed.
           </p>
+          <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+            Resolve your overpayment
+          </h3>
+          <p className="vads-u-margin-top--0">
+            You can pay your debt online, by phone, or by mail. Call us at{' '}
+            <va-telephone contact="8008270648" /> to discuss payment options,
+            request financial help, or dispute your bill
+          </p>
+          <va-link-action
+            href="/manage-va-debt/summary"
+            text="Review and resolve overpayments"
+            type="secondary"
+          />
+
           <p className="vads-u-margin-bottom--3">
-            Statement does not reflect payments received by {statementDate}.
+            Payments made after {statementDate} will not be reflected here.
           </p>
 
-          {/* Debt Letters tables */}
-          {debts.map((debt, index) => (
+          {/* Combined Overpayment Charges Table */}
+          <div className="vads-u-width--full">
             <va-table
-              key={`debt-${index}`}
               table-type="bordered"
-              table-title={`${deductionCodes[debt.deductionCode] ||
-                debt.benefitType ||
-                'VA Debt'}`}
-              className="vads-u-width--full"
+              table-title="Overpayment charges"
+              className="vads-u-width--full vads-u-margin-x--0"
+              style={{ width: '100%', maxWidth: '100%', display: 'block' }}
             >
               <va-table-row slot="headers">
                 <span>Date</span>
@@ -326,68 +351,57 @@ const CombinedStatements = () => {
                 <span>Amount</span>
               </va-table-row>
 
-              {/* Debt History rows */}
-              {debt.debtHistory &&
-                debt.debtHistory.map((historyItem, idx) => (
-                  <va-table-row key={`history-${idx}`}>
-                    <span>{historyItem.date}</span>
+              {/* Map all debts into single table rows */}
+              {debts.map((debt, index) => {
+                const formattedDate =
+                  debt.debtHistory && debt.debtHistory.length > 0
+                    ? format(
+                        parse(
+                          debt.debtHistory[0].date,
+                          'MM/dd/yyyy',
+                          new Date(),
+                        ),
+                        'MMMM d, yyyy',
+                      )
+                    : '';
+
+                const debtAmount = parseFloat(
+                  debt.currentAr || debt.originalAr || 0,
+                );
+
+                return (
+                  <va-table-row key={`debt-combined-${index}`}>
+                    <span>{formattedDate}</span>
                     <span>
-                      <p className="vads-u-margin--0 vads-u-font-size-md">
-                        <strong>{historyItem.description}</strong>
-                      </p>
+                      <strong>
+                        {deductionCodes[debt.deductionCode] ||
+                          debt.benefitType ||
+                          'VA Debt'}
+                      </strong>
                     </span>
-                    <span>
-                      {/* We assume the amount is in the debt object for history items */}
-                      {idx === 0
-                        ? currency(parseFloat(debt.originalAr || 0))
-                        : '—'}
-                    </span>
+                    <span>{currency(debtAmount)}</span>
                   </va-table-row>
-                ))}
+                );
+              })}
 
-              {/* If there's no debt history, show the original debt details */}
-              {(!debt.debtHistory || debt.debtHistory.length === 0) && (
-                <va-table-row>
-                  <span>{debt.debtDate || ''}</span>
-                  <span>
-                    <strong>
-                      Overpayment for{' '}
-                      {deductionCodes[debt.deductionCode] ||
-                        debt.benefitType ||
-                        'VA Benefit'}
-                    </strong>
-                  </span>
-                  <span>{currency(parseFloat(debt.originalAr || 0))}</span>
-                </va-table-row>
-              )}
-
-              {/* Total row */}
+              {/* Grand Total row */}
               <va-table-row>
                 <span />
                 <span className="vads-u-text-align--right vads-u-font-weight--bold">
                   Total Due:
                 </span>
                 <span className="vads-u-font-weight--bold">
-                  {currency(parseFloat(debt.currentAr || debt.originalAr || 0))}
+                  {currency(
+                    debts.reduce(
+                      (total, debt) =>
+                        total +
+                        parseFloat(debt.currentAr || debt.originalAr || 0),
+                      0,
+                    ),
+                  )}
                 </span>
               </va-table-row>
             </va-table>
-          ))}
-
-          <div className="vads-u-margin-top--3">
-            <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-              Resolve your overpayment debt
-            </h3>
-            <p className="vads-u-margin-top--0">
-              You can pay your debt online, by phone, or by mail. Call us at{' '}
-              <va-telephone contact="8008270648" /> to discuss payment options,
-              request financial help, or dispute your bill.
-            </p>
-            <va-link-action
-              href="/manage-va-debt/summary"
-              text=" Manage your VA debt"
-              type="secondary"
-            />
           </div>
         </section>
 
