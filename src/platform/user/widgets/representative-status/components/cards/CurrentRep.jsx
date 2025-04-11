@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { representativeTypeMap } from '../../utilities/representativeTypeMap';
 
@@ -19,6 +20,10 @@ export function CurrentRep({
   concatAddress,
   vcfUrl,
 }) {
+  // "Learn more" link becomes Find-a-Rep link when place in profile (per design)
+  const containerIsProfile =
+    window.location.pathname === '/profile/accredited-representative';
+
   return (
     <va-card show-shadow>
       <div className="auth-card">
@@ -35,8 +40,8 @@ export function CurrentRep({
             <DynamicSubheader>{name}</DynamicSubheader>
             {poaType === 'organization' && (
               <p className="vads-u-margin-top--0">
-                You can work with any accredited representative at this
-                organization
+                <strong>Note:</strong> You can work with any accredited VSO
+                representative at this organization.
               </p>
             )}
           </div>
@@ -119,10 +124,21 @@ export function CurrentRep({
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
-              <va-link
-                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-                text="Learn about accredited representatives"
-              />
+              {containerIsProfile ? (
+                <va-link
+                  href={`${
+                    environment.BASE_URL
+                  }/get-help-from-accredited-representative/find-rep`}
+                  text="Find an accredited VSO representative at this organization"
+                />
+              ) : (
+                <va-link
+                  href={`${
+                    environment.BASE_URL
+                  }/resources/va-accredited-representative-faqs/`}
+                  text="Learn about accredited representatives"
+                />
+              )}
             </div>
           </div>
         </div>
