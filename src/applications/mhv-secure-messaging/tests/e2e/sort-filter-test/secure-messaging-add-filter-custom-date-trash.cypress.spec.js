@@ -31,7 +31,7 @@ describe('SM TRASH ADD FILTER CUSTOM DATE RANGE', () => {
     PatientFilterPage.verifyDayFilterRange(30);
 
     PatientFilterPage.selectStartMonth(`June`);
-    PatientFilterPage.verifyDayFilterRange(30);
+    PatientFilterPage.verifyDayFilterRange(31);
 
     PatientFilterPage.selectStartMonth(`October`);
     PatientFilterPage.verifyDayFilterRange(32);
