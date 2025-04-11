@@ -41,7 +41,7 @@ describe('CG fetchMapBoxGeocoding action', () => {
 
     it('should return a `not found` response when coordinates do not match any location', async () => {
       clientStub.returns({
-        send: sinon.stub().resolves({ body: { features: [] } }),
+        send: sinon.stub().resolves({ body: { features: undefined } }),
       });
 
       const response = await fetchMapBoxGeocoding('Dave', mockClient);
@@ -51,37 +51,60 @@ describe('CG fetchMapBoxGeocoding action', () => {
   });
 
   context('when the response fails', () => {
+    const errorMessage = 'Some bad error occurred.';
+    let mockLogger;
+
+    beforeEach(() => {
+      mockLogger = { error: sinon.spy() };
+
+      Object.defineProperty(window, 'DD_LOGS', {
+        value: { logger: mockLogger },
+        configurable: true,
+      });
+    });
+
+    it('should log error to Datadog', async () => {
+      const loggerMessage = 'Error fetching Mapbox coordinates';
+      const error = {
+        request: { origin: 'https://api.mapbox.com' },
+        body: { message: errorMessage },
+      };
+
+      clientStub.returns({ send: sinon.stub().rejects(error) });
+
+      await fetchMapBoxGeocoding('33618', mockClient);
+      expect(mockLogger.error.calledWith(loggerMessage, {}, error)).to.be.true;
+    });
+
     it('should render the error message string when error origin is not `mapbox.com`', async () => {
-      const error = 'Some bad error occurred.';
       clientStub.returns({
-        send: sinon.stub().rejects(error),
+        send: sinon.stub().rejects(errorMessage),
       });
 
       const response = await fetchMapBoxGeocoding('33618', mockClient);
-      const errorMessage = replaceStrValues(
+      const expectedMessage = replaceStrValues(
         content['error--facility-search-failed'],
-        error,
+        errorMessage,
       );
       expect(response).to.be.a('object');
-      expect(response.errorMessage).to.eq(errorMessage);
+      expect(response.errorMessage).to.eq(expectedMessage);
     });
 
     it('should render the error body string when error origin is not `mapbox.com`', async () => {
-      const error = 'Some bad error occurred.';
       clientStub.returns({
         send: sinon.stub().rejects({
           request: { origin: 'https://api.mapbox.com' },
-          body: { message: error },
+          body: { message: errorMessage },
         }),
       });
 
       const response = await fetchMapBoxGeocoding('33618', mockClient);
-      const errorMessage = replaceStrValues(
+      const expectedMessage = replaceStrValues(
         content['error--facility-search-failed'],
-        error,
+        errorMessage,
       );
       expect(response).to.be.a('object');
-      expect(response.errorMessage).to.eq(errorMessage);
+      expect(response.errorMessage).to.eq(expectedMessage);
     });
   });
 });

@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 import PatientFilterPage from '../pages/PatientFilterPage';
 
@@ -13,9 +13,9 @@ describe('SM INBOX ADD FILTER CATEGORY', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('COVID');
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectAdvancedSearchCategory('COVID');
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
   });
 
   it('verify all inbox messages contain the searched category', () => {
@@ -37,14 +37,14 @@ describe('SM INBOX ADD FILTER FIXED DATE RANGE', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.openAdvancedSearch();
+    PatientFilterPage.openAdditionalFilter();
   });
 
   it('verify filter by last 3 month', () => {
     filterResultResponse = PatientFilterPage.createDateFilterMockResponse(2, 3);
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(3);
@@ -60,8 +60,8 @@ describe('SM INBOX ADD FILTER FIXED DATE RANGE', () => {
   it('verify filter by last 6 month', () => {
     filterResultResponse = PatientFilterPage.createDateFilterMockResponse(3, 6);
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(6);
@@ -80,8 +80,8 @@ describe('SM INBOX ADD FILTER FIXED DATE RANGE', () => {
       12,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(12);

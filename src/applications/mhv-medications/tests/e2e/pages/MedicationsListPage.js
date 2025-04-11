@@ -921,17 +921,9 @@ class MedicationsListPage {
   };
 
   verifyToolTipTextOnListPage = text => {
-    cy.get('[data-testid="rx-ipe-filtering-container"]')
+    cy.get('#rx-ipe-filtering-description')
       .should('contain', text)
       .and('be.visible');
-  };
-
-  clickToolTipCloseButtonOnListPage = () => {
-    cy.intercept(
-      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
-      noToolTip,
-    ).as('noToolTip');
-    cy.get('[data-testid="rx-ipe-filtering-close"]').click({ force: true });
   };
 
   verifyToolTipNotVisibleOnListPage = () => {
@@ -974,6 +966,18 @@ class MedicationsListPage {
         };
       }),
     };
+  };
+
+  verifyToolTipCounterSetToZero = () => {
+    cy.get('@tooltipsVisible')
+      .its('response')
+      .then(res => {
+        expect(res.body.counter).to.eq(0);
+      });
+  };
+
+  verifyErroMessageforFailedAPICallListPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('contain', text);
   };
 }
 

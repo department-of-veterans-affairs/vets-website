@@ -137,7 +137,7 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const EMPTY_FIELD = 'None recorded';
 export const NONE_RECORDED = 'None recorded';
 export const NO_INFO_REPORTED = 'No information reported';
 export const NA = 'N/A';
@@ -311,6 +311,7 @@ export const SEI_DOMAINS = [
   'activityJournal',
   'allergies',
   'demographics',
+  'emergencyContacts',
   'familyHistory',
   'foodJournal',
   'providers',
@@ -332,11 +333,11 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE',
-  NEW: 'NEW',
-  PROCESSING: 'PROCESSING',
-  COMPLETE: 'COMPLETE',
-  ERROR: 'ERROR',
+  NONE: 'NONE', // has not been requested
+  NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  PROCESSING: 'PROCESSING', // has been requested
+  COMPLETE: 'COMPLETE', // request complete
+  ERROR: 'ERROR', // error
 };
 
 export const refreshExtractTypes = {
@@ -517,5 +518,22 @@ export const CernerAlertContent = {
   VITALS: {
     linkPath: '/pages/health_record/results',
     pageName: 'vitals',
+  },
+};
+
+export const SortTypes = {
+  ALPHABETICAL: {
+    value: 'alphatetically',
+    label: 'alphabetically',
+  },
+  ASC_DATE: {
+    value: 'ascDate',
+    label: 'newest to oldest',
+    labelWithDateEntered: 'newest to oldest (date entered)',
+  },
+  DSC_DATE: {
+    value: 'dscDate',
+    label: 'oldest to newest',
+    labelWithDateEntered: 'oldest to newest (date entered)',
   },
 };

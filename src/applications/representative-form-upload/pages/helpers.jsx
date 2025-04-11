@@ -4,18 +4,47 @@ import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/ui';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
 
+export const emptyObjectSchema = {
+  type: 'object',
+  properties: {},
+};
+
+export const claimantTitleAndDescription = {
+  'view:claimantTitle': {
+    'ui:title': 'Claimant information',
+  },
+  'view:claimantDescription': {
+    'ui:description':
+      "Note: If the claimant's information here doesn't match the uploaded PDF, it will cause processing delays",
+  },
+};
+
+export const veteranTitleAndDescription = {
+  'view:veteranTitle': {
+    'ui:title': 'Veteran identification information',
+  },
+  'view:veteranDescription': {
+    'ui:description':
+      "Note: If the veteran's information here doesn't match the uploaded PDF, it will cause processing delays",
+  },
+};
+
+export const representativeTitleAndDescription = {
+  'view:representativeTitle': {
+    'ui:title': 'Representative contact information',
+  },
+  'view:representativeDescription': {
+    'ui:description':
+      "Note: Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
+  },
+};
+
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [
-    { href: '/', label: 'VA.gov home' },
-    { href: '/find-forms', label: 'Find a VA form' },
-    // TODO: Restore this breadcrumb when the static content at /find-forms/upload plays nicely with the Form Upload tool
-    // {
-    //   href: `/find-forms/upload`,
-    //   label: `Upload VA forms`,
-    // },
+    { href: '/representative', label: 'ARP home' },
     {
-      href: `/find-forms/upload/${formNumber}/introduction`,
+      href: `/representative/representative-form-upload/${formNumber}/introduction`,
       label: `Upload form ${formNumber}`,
     },
   ];

@@ -168,7 +168,7 @@ describe('VAOS Backend Service Alert', () => {
       .exist;
   });
 
-  it('should display BackendAppointmentServiceAlert if there is a failure returned on the past appointments list', async () => {
+  it('should display BackendAppointmentServiceAlert if there is a failure returned on the past appointments list, useFeSourceOfTruthVA=false', async () => {
     const now = moment().startOf('day');
     const start = moment(now).subtract(3, 'months');
     const end = moment()
@@ -229,6 +229,68 @@ describe('VAOS Backend Service Alert', () => {
     });
   });
 
+  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list, useFeSourceOfTruthVA=true', async () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment()
+      .minutes(0)
+      .add(30, 'minutes');
+
+    const yesterday = moment.utc().subtract(1, 'day');
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      type: 'VA',
+      minutesDuration: 30,
+      status: 'booked',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      start: yesterday.format(),
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      backendServiceFailures: false,
+      avs: true,
+      fetchClaimStatus: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
+      initialState,
+    });
+
+    await waitFor(() => {
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
+        .exist;
+    });
+  });
+
   it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
     const now = moment().startOf('day');
     const start = moment(now).subtract(3, 'months');
@@ -241,6 +303,7 @@ describe('VAOS Backend Service Alert', () => {
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
+      type: 'VA',
       minutesDuration: 30,
       status: 'booked',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),

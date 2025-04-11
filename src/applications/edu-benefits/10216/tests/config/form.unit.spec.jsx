@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import formConfig, { subTitle, submitFormLogic } from '../../config/form';
 import manifest from '../../manifest.json';
-// import {subTitle} from "../../../../appeals/996/content/title";
 
 describe('22-10216 Form Config', () => {
   it('should render', () => {
@@ -12,7 +11,8 @@ describe('22-10216 Form Config', () => {
     expect(mySubTitle).to.not.be.undefined;
   });
   it('should test submitFormLogic function', () => {
-    const submitForm = submitFormLogic();
+    const form = {};
+    const submitForm = submitFormLogic(form, formConfig);
     expect(submitForm).to.not.be.undefined;
   });
   it('should have a required properties', () => {

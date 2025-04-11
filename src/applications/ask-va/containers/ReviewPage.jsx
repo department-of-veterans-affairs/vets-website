@@ -23,6 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -56,6 +57,7 @@ import {
   maskSocial,
   scrollToElement,
 } from '../utils/reviewPageUtils';
+import { relationshipOptionsSomeoneElse } from '../constants';
 
 const { scroller } = Scroll;
 
@@ -219,8 +221,9 @@ const ReviewPage = props => {
     );
   };
 
-  useEffect(() => {
-    getUploadedFiles();
+  useEffect(async () => {
+    await getUploadedFiles();
+    focusElement('h2');
   }, []);
 
   return (
@@ -228,6 +231,8 @@ const ReviewPage = props => {
       className="vads-u-padding-x--2p5 vads-u-padding-bottom--7"
       data-testid="review-page"
     >
+      <h3 className="vads-u-margin-bottom--2">Review and submit</h3>
+
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
       <div className="vads-u-margin-y--3">
@@ -1047,7 +1052,11 @@ const ReviewPage = props => {
                       items={[
                         {
                           name: 'Phone number',
-                          data: props.formData.phoneNumber,
+                          data:
+                            props.formData.relationshipToVeteran ===
+                            relationshipOptionsSomeoneElse.WORK
+                              ? props.formData.businessPhone
+                              : props.formData.phoneNumber,
                           key: 'yourContactInformation',
                         },
                         {
@@ -1279,7 +1288,7 @@ const ReviewPage = props => {
                 {props.formData.allowAttachments &&
                   props.isUserLOA3 && (
                     <div
-                      className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
+                      className="schemaform-chapter-accordion-content vads-u-padding-top--0"
                       aria-hidden="false"
                     >
                       <div className="form-review-panel-page vads-u-margin-bottom--0">
