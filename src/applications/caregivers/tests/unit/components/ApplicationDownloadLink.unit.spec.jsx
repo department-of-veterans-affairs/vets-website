@@ -3,10 +3,7 @@ import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockApiRequest,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
@@ -34,13 +31,19 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
     return { selectors };
   };
+  let apiRequestStub;
+  let recordEventStub;
 
   beforeEach(() => {
     localStorage.setItem('csrfToken', 'my-token');
+    apiRequestStub = sinon.stub(api, 'apiRequest');
+    recordEventStub = sinon.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
     localStorage.clear();
+    apiRequestStub.restore();
+    recordEventStub.restore();
   });
 
   context('default behavior', () => {
@@ -53,27 +56,13 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
   });
 
-  context('when clicking the download file button', () => {
-    const triggerError = ({ link, status }) => {
-      mockApiRequest({}, false);
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        // eslint-disable-next-line prefer-promise-reject-errors
-        Promise.reject({ errors: [{ status }] }),
-      );
+  context('when the download button has been clicked', () => {
+    const triggerError = ({ link, status = '503' }) => {
+      apiRequestStub.onFirstCall().rejects({ errors: [{ status }] });
       fireEvent.click(link);
     };
-    let recordEventStub;
 
-    beforeEach(() => {
-      recordEventStub = sinon.stub(recordEventModule, 'default');
-    });
-
-    afterEach(() => {
-      recordEventStub.restore();
-    });
-
-    it('should record `success` event when button is clicked', async () => {
+    it('should record the correct event when the request succeeds', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
       const createObjectStub = sinon
@@ -81,7 +70,7 @@ describe('CG <ApplicationDownloadLink>', () => {
         .returns('my_stubbed_url.com');
       const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
 
-      mockApiRequest({
+      apiRequestStub.onFirstCall().resolves({
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
       fireEvent.click(link);
@@ -94,7 +83,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf-download--success';
+        const event = 'caregivers-pdf-download--success';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
@@ -105,10 +94,10 @@ describe('CG <ApplicationDownloadLink>', () => {
       revokeObjectStub.restore();
     });
 
-    it('should record `error` event when the request fails', async () => {
+    it('should record the correct event when the request fails', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
-      triggerError({ link, status: '503' });
+      triggerError({ link });
 
       await waitFor(() => {
         const { vaLoadingIndicator } = selectors();
@@ -117,7 +106,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf-download--failure';
+        const event = 'caregivers-pdf-download--failure';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
@@ -128,7 +117,7 @@ describe('CG <ApplicationDownloadLink>', () => {
     it('should display `downtime` error message when error has status of `5xx`', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
-      triggerError({ link, status: '503' });
+      triggerError({ link });
 
       await waitFor(() => {
         const { vaLoadingIndicator } = selectors();

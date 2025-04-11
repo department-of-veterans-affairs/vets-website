@@ -148,7 +148,10 @@ function selectedTests(graph, pathsOfChangedFiles) {
   const tests = [];
   const applications = [];
   const applicationNames = pathsOfChangedFiles
-    .filter(filePath => !filePath.endsWith('.md'))
+    .filter(
+      filePath =>
+        !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
+    )
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
@@ -202,6 +205,15 @@ function allTests() {
 }
 
 function selectTests(graph, pathsOfChangedFiles) {
+  const workflowsFilteredOut = pathsOfChangedFiles.filter(
+    filePath =>
+      !filePath.startsWith('.github/workflows') &&
+      !filePath.startsWith('script/github-actions'),
+  );
+  if (workflowsFilteredOut.length === 0) {
+    return [];
+  }
+
   if (RUN_FULL_SUITE) {
     return allTests();
   }
