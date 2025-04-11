@@ -87,7 +87,7 @@ describe('AuthContext', () => {
     });
     await waitFor(() => {
       expect(screen.getByTestId('btsss-link')).to.exist;
-      expect(screen.queryAllByTestId('vagov-travel-pay-link').length).to.eq(0);
+      expect(screen.getByTestId('vagov-travel-pay-link')).to.exist;
       expect(screen.getByTestId('vagov-smoc-link')).to.exist;
 
       expect(
