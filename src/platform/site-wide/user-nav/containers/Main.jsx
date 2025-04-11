@@ -196,10 +196,7 @@ const mapDispatchToProps = {
   updateLoggedInStatus,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 Main.propTypes = {
   getBackendStatuses: PropTypes.func.isRequired,

@@ -30,9 +30,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (this.props.loading || !Object.keys(this.props.facility).length) {
       return (
         <va-loading-indicator
-          message={`Loading facility's ${
-            this.props.service
-          } appointment wait times...`}
+          message={`Loading facility's ${this.props.service} appointment wait times...`}
         />
       );
     }

@@ -153,9 +153,6 @@ OverviewPage.propTypes = {
   params: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OverviewPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OverviewPage);
 
 export { OverviewPage };

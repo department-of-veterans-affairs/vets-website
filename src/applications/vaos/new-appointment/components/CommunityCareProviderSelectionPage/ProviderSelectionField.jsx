@@ -24,18 +24,15 @@ export default function ProviderSelectionField({
     setMounted(true);
   }, []);
 
-  useEffect(
-    () => {
-      if (showProvidersList) {
-        scrollAndFocus('#providerSelectionHeader');
-      } else if (mounted && !providerSelected) {
-        scrollAndFocus('.va-button-link');
-      } else if (mounted) {
-        scrollAndFocus('#providerPostSelectionHeader');
-      }
-    },
-    [providerSelected, showProvidersList],
-  );
+  useEffect(() => {
+    if (showProvidersList) {
+      scrollAndFocus('#providerSelectionHeader');
+    } else if (mounted && !providerSelected) {
+      scrollAndFocus('.va-button-link');
+    } else if (mounted) {
+      scrollAndFocus('#providerPostSelectionHeader');
+    }
+  }, [providerSelected, showProvidersList]);
 
   if (!showProvidersList) {
     return (

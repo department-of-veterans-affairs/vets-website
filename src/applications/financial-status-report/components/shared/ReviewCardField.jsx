@@ -46,9 +46,7 @@ const ReviewCardField = ({
     // Throw an error if there’s no viewComponent (should be React component)
     if (!isReactComponent(get('ui:options.viewComponent', uiSchema))) {
       throw new Error(
-        `No viewComponent found in uiSchema for ReviewCardField ${
-          idSchema.$id
-        }.`,
+        `No viewComponent found in uiSchema for ReviewCardField ${idSchema.$id}.`,
       );
     }
 

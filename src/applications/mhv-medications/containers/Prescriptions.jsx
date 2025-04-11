@@ -849,6 +849,7 @@ const Prescriptions = () => {
             )}
           </>
         )}
+        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };

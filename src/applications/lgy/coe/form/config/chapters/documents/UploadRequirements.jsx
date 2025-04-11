@@ -55,7 +55,4 @@ UploadRequirements.propTypes = {
   formData: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(UploadRequirements);
+export default connect(mapStateToProps, null)(UploadRequirements);

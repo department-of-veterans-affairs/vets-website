@@ -32,17 +32,11 @@ export const mockFolderResponse = {
     },
   ],
   links: {
-    self: `${
-      environment.API_URL
-    }/my_health/v1/messaging/folders?page=1&per_page=999&use_cache=false'`,
-    first: `${
-      environment.API_URL
-    }/my_health/v1/messaging/folders?page=1&per_page=999&use_cache=false'`,
+    self: `${environment.API_URL}/my_health/v1/messaging/folders?page=1&per_page=999&use_cache=false'`,
+    first: `${environment.API_URL}/my_health/v1/messaging/folders?page=1&per_page=999&use_cache=false'`,
     prev: null,
     next: null,
-    last: `${
-      environment.API_URL
-    }/my_health/v1/messaging/folders?page=1&per_page=999&use_cache=false'`,
+    last: `${environment.API_URL}/my_health/v1/messaging/folders?page=1&per_page=999&use_cache=false'`,
   },
   meta: {
     pagination: {

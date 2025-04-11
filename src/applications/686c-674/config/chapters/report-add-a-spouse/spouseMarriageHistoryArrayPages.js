@@ -1,4 +1,3 @@
-import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
   textUI,
@@ -24,7 +23,7 @@ import {
   generateHelpText,
 } from '../../helpers';
 
-/* NOTE: 
+/* NOTE:
  * In "Add mode" of the array builder, formData represents the entire formData object.
  * In "Edit mode," formData represents the specific array item being edited.
  * As a result, the index param may sometimes come back null depending on which mode the user is in.
@@ -55,21 +54,12 @@ export const spouseMarriageHistoryOptions = {
       !item?.endLocation?.location?.country),
   maxItems: 20,
   text: {
-    summaryTitle: 'Review your spouse’s former marriages',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    summaryTitle: 'Review your spouse’s marital history',
+    getItemName: () => 'Spouse’s former marriage',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
-    cardDescription: item => {
-      const start = item?.startDate
-        ? format(parseISO(item.startDate), 'MM/dd/yyyy')
-        : 'Unknown';
-      const end = item?.endDate
-        ? format(parseISO(item.endDate), 'MM/dd/yyyy')
-        : 'Unknown';
-
-      return `${start} - ${end}`;
-    },
   },
 };
 

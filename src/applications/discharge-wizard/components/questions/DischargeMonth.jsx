@@ -23,21 +23,15 @@ const DischargeMonth = ({
   const shortName = SHORT_NAME_MAP.DISCHARGE_MONTH;
   const H1 = QUESTION_MAP[shortName];
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const dischargeMonth = formResponses[shortName];
   const monthOptions = months.map(month => {
@@ -86,7 +80,4 @@ const mapDispatchToProps = {
   setDischargeMonth: updateDischargeMonth,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DischargeMonth);
+export default connect(mapStateToProps, mapDispatchToProps)(DischargeMonth);

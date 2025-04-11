@@ -356,10 +356,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(YourClaimsPageV2),
+  connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2),
 );
 
 export { YourClaimsPageV2 };

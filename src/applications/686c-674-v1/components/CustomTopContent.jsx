@@ -28,16 +28,13 @@ export default function CustomTopContent() {
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (vaDependentsV2Banner) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    },
-    [vaDependentsV2Banner],
-  );
+  useEffect(() => {
+    if (vaDependentsV2Banner) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  }, [vaDependentsV2Banner]);
 
   return hideAlert || !isVisible ? null : (
     <div className="vads-u-margin-bottom--4">

@@ -76,28 +76,25 @@ export const App = ({
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  useEffect(
-    () => {
-      const newHeaderState = determineHeaderState(
+  useEffect(() => {
+    const newHeaderState = determineHeaderState(
+      show,
+      showMinimalHeader,
+      path,
+      isDesktop,
+    );
+
+    if (headerState !== newHeaderState) {
+      setStaticHeaderDisplay(
         show,
         showMinimalHeader,
-        path,
+        newHeaderState,
         isDesktop,
       );
-
-      if (headerState !== newHeaderState) {
-        setStaticHeaderDisplay(
-          show,
-          showMinimalHeader,
-          newHeaderState,
-          isDesktop,
-        );
-        setHeaderState(newHeaderState);
-        dispatch(updateLayoutHeaderType(newHeaderState));
-      }
-    },
-    [show, showMinimalHeader, path, isDesktop, dispatch, headerState],
-  );
+      setHeaderState(newHeaderState);
+      dispatch(updateLayoutHeaderType(newHeaderState));
+    }
+  }, [show, showMinimalHeader, path, isDesktop, dispatch, headerState]);
 
   if (!show || headerState !== 'mobile') {
     return null;

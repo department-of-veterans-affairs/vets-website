@@ -48,9 +48,7 @@ const DebtSummaryCard = ({ debt }) => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${
-                debt.compositeDebtId
-              }`}
+              href={`/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}`}
               text="Review details"
               aria-label={`Check details for ${debtCardHeading}`}
             />
@@ -62,9 +60,7 @@ const DebtSummaryCard = ({ debt }) => {
                   recordEvent({ event: 'cta-link-click-debt-summary-card' });
                   dispatch(setActiveDebt(debt));
                 }}
-                href={`/manage-va-debt/summary/debt-balances/details/${
-                  debt.compositeDebtId
-                }/resolve`}
+                href={`/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}/resolve`}
                 text="Resolve this debt"
                 aria-label={`Resolve ${debtCardHeading}`}
               />
@@ -79,9 +75,7 @@ const DebtSummaryCard = ({ debt }) => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${
-                debt.compositeDebtId
-              }`}
+              href={`/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}`}
               text="Check details and resolve this debt"
               aria-label={`Check details and resolve this ${debtCardHeading}`}
             />

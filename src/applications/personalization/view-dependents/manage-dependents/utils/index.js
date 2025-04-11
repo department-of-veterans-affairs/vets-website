@@ -47,9 +47,7 @@ const buildVeteranInformation = vetContactInfo => {
       stateCode,
       zipCode,
     },
-    phoneNumber: `${vetContactInfo.homePhone.areaCode}${
-      vetContactInfo.homePhone.phoneNumber
-    }`,
+    phoneNumber: `${vetContactInfo.homePhone.areaCode}${vetContactInfo.homePhone.phoneNumber}`,
     emailAddress: vetContactInfo.email.emailAddress,
   };
 };

@@ -32,13 +32,12 @@ const AllergiesPrintOnly = props => {
                         <br />
                         <strong>Signs and symptoms:</strong>{' '}
                         {allergy?.reaction?.length > 0 ? (
-                          allergy?.reaction?.map(
-                            (reaction, idx) =>
-                              idx === 0 ? (
-                                <span key={idx}>{reaction}</span>
-                              ) : (
-                                <span key={idx}>, {reaction}</span>
-                              ),
+                          allergy?.reaction?.map((reaction, idx) =>
+                            idx === 0 ? (
+                              <span key={idx}>{reaction}</span>
+                            ) : (
+                              <span key={idx}>, {reaction}</span>
+                            ),
                           )
                         ) : (
                           <span>None noted</span>

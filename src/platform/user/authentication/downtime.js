@@ -29,15 +29,9 @@ export const generateCSPBanner = ({ csp }) => {
         message: `We’re sorry. We’re working to fix some problems with ID.me, but you can still sign in to VA.gov using your Login.gov account. If you’d like to sign in with your ID.me or DS Logon accounts, please check back later.`,
       }
     : {
-        headline: `You may have trouble signing in with ${
-          SERVICE_PROVIDERS[csp].label
-        }`,
+        headline: `You may have trouble signing in with ${SERVICE_PROVIDERS[csp].label}`,
         status: 'warning',
-        message: `We’re sorry. We’re working to fix some problems with our ${
-          SERVICE_PROVIDERS[csp].label
-        } sign in process. If you’d like to sign in to VA.gov with your ${
-          SERVICE_PROVIDERS[csp].label
-        } account, please check back later.`,
+        message: `We’re sorry. We’re working to fix some problems with our ${SERVICE_PROVIDERS[csp].label} sign in process. If you’d like to sign in to VA.gov with your ${SERVICE_PROVIDERS[csp].label} account, please check back later.`,
       };
 };
 

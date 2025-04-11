@@ -139,9 +139,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${
-    environment.API_URL
-  }/v0/disability_compensation_form/submit_all_claim`,
+  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit_all_claim`,
   submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
   downtime: {

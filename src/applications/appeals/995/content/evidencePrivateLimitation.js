@@ -9,7 +9,7 @@ export const content = {
   info: (
     <va-additional-info
       class="vads-u-margin-bottom--4"
-      trigger="What does &quot;limiting consent&quot; mean?"
+      trigger='What does "limiting consent" mean?'
     >
       <p>
         If you choose to limit consent, you’re limiting the type or amount of

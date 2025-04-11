@@ -45,77 +45,62 @@ const AppointmentsPage = props => {
 
   const refreshTimer = useRef(null);
 
-  useEffect(
-    () => {
-      if (getCheckinComplete(window)) {
-        setRefresh(true);
-      }
-    },
-    [getCheckinComplete],
-  );
+  useEffect(() => {
+    if (getCheckinComplete(window)) {
+      setRefresh(true);
+    }
+  }, [getCheckinComplete]);
 
-  useEffect(
-    () => {
-      setIsLoading(!isComplete);
-      if (!loadedAppointments.length && !isComplete && !isDataLoading) {
-        refreshCheckInData();
-      } else if (loadedAppointments.length) {
-        setIsLoading(false);
-      }
-    },
-    [isComplete, isDataLoading, refreshCheckInData, loadedAppointments],
-  );
+  useEffect(() => {
+    setIsLoading(!isComplete);
+    if (!loadedAppointments.length && !isComplete && !isDataLoading) {
+      refreshCheckInData();
+    } else if (loadedAppointments.length) {
+      setIsLoading(false);
+    }
+  }, [isComplete, isDataLoading, refreshCheckInData, loadedAppointments]);
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (checkInDataError) {
+      updateError(
+        `error-fromlocation-${
+          app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
+        }-appointments`,
+      );
+    }
+  }, [checkInDataError, updateError, app]);
+
+  useEffect(() => {
+    if (refresh) {
+      refreshCheckInData();
+      setLoadedAppointments([]);
+      setRefresh(false);
+    }
+  }, [refresh, refreshCheckInData]);
+
+  useEffect(() => {
+    if (app === APP_NAMES.CHECK_IN) {
+      const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
+        appointments,
+      );
+
+      // Refresh the page 5 seconds before the checkIn window expires.
+      if (refreshInterval > 5000) {
+        if (refreshTimer.current !== null) {
+          clearTimeout(refreshTimer.current);
+        }
+
+        refreshTimer.current = setTimeout(
+          () => refreshCheckInData(),
+          refreshInterval - 5000,
+        );
+      }
+
       if (checkInDataError) {
-        updateError(
-          `error-fromlocation-${
-            app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
-          }-appointments`,
-        );
+        updateError('cant-retrieve-check-in-data');
       }
-    },
-    [checkInDataError, updateError, app],
-  );
-
-  useEffect(
-    () => {
-      if (refresh) {
-        refreshCheckInData();
-        setLoadedAppointments([]);
-        setRefresh(false);
-      }
-    },
-    [refresh, refreshCheckInData],
-  );
-
-  useEffect(
-    () => {
-      if (app === APP_NAMES.CHECK_IN) {
-        const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
-          appointments,
-        );
-
-        // Refresh the page 5 seconds before the checkIn window expires.
-        if (refreshInterval > 5000) {
-          if (refreshTimer.current !== null) {
-            clearTimeout(refreshTimer.current);
-          }
-
-          refreshTimer.current = setTimeout(
-            () => refreshCheckInData(),
-            refreshInterval - 5000,
-          );
-        }
-
-        if (checkInDataError) {
-          updateError('cant-retrieve-check-in-data');
-        }
-      }
-    },
-    [appointments, checkInDataError, updateError, refreshCheckInData, app],
-  );
+    }
+  }, [appointments, checkInDataError, updateError, refreshCheckInData, app]);
 
   if (isLoading) {
     window.scrollTo(0, 0);

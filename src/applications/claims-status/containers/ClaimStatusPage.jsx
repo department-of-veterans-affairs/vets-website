@@ -143,9 +143,6 @@ ClaimStatusPage.propTypes = {
   message: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ClaimStatusPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimStatusPage);
 
 export { ClaimStatusPage };

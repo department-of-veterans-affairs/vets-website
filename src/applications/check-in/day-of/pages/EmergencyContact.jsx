@@ -39,30 +39,24 @@ const EmergencyContact = props => {
     [dispatch],
   );
 
-  const yesClick = useCallback(
-    () => {
-      dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
-      setShouldSendDemographicsFlags(window, true);
-      goToNextPage();
-    },
-    [dispatch, goToNextPage, setShouldSendDemographicsFlags],
-  );
+  const yesClick = useCallback(() => {
+    dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
+    setShouldSendDemographicsFlags(window, true);
+    goToNextPage();
+  }, [dispatch, goToNextPage, setShouldSendDemographicsFlags]);
 
-  const noClick = useCallback(
-    () => {
-      dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
-      setShouldSendDemographicsFlags(window, true);
-      updateSeeStaffMessage(seeStaffMessage);
-      jumpToPage(URLS.SEE_STAFF);
-    },
-    [
-      dispatch,
-      updateSeeStaffMessage,
-      jumpToPage,
-      seeStaffMessage,
-      setShouldSendDemographicsFlags,
-    ],
-  );
+  const noClick = useCallback(() => {
+    dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
+    setShouldSendDemographicsFlags(window, true);
+    updateSeeStaffMessage(seeStaffMessage);
+    jumpToPage(URLS.SEE_STAFF);
+  }, [
+    dispatch,
+    updateSeeStaffMessage,
+    jumpToPage,
+    seeStaffMessage,
+    setShouldSendDemographicsFlags,
+  ]);
 
   return (
     <>

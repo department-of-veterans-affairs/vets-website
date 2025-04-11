@@ -34,7 +34,10 @@ describe('Get vaccine action', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined)(dispatch).then(() => {
+    return getVaccineDetails(
+      '3106',
+      undefined,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
   });

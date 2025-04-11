@@ -5,7 +5,7 @@ import {
 
 export const getClaimantIdentificationText = formData => {
   return (
-    claimantIdentificationDisplayOptions[(formData?.claimantIdentification)] ||
+    claimantIdentificationDisplayOptions[formData?.claimantIdentification] ||
     'Claimant'
   );
 };

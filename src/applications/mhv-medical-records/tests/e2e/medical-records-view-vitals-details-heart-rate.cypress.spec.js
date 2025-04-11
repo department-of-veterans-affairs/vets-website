@@ -32,9 +32,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[14].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${
-        defaultVitals.entry[14].resource.valueQuantity.value
-      } beats per minute`,
+      `${defaultVitals.entry[14].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[14].resource.contained[0].name,
       'None noted',
     );
@@ -44,9 +42,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[24].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${
-        defaultVitals.entry[24].resource.valueQuantity.value
-      } beats per minute`,
+      `${defaultVitals.entry[24].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[24].resource.contained[0].name,
       'None noted',
     );
@@ -56,9 +52,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[34].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${
-        defaultVitals.entry[34].resource.valueQuantity.value
-      } beats per minute`,
+      `${defaultVitals.entry[34].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[34].resource.contained[0].name,
       'None noted',
     );

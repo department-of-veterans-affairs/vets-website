@@ -15,29 +15,28 @@ const CautionFlagDetails = ({ cautionFlags }) => {
       <div className="flagDetail">
         <p>{flag.description}</p>
         {flag.linkText && !flag.linkUrl && <p>{flag.linkText}</p>}
-        {flag.linkText &&
-          flag.linkUrl && (
-            <a
-              href={flag.linkUrl}
-              target="_blank"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-warning-alert-box-content-link-click',
-                  alertBoxHeading: flag.title,
-                });
-              }}
-              rel="noopener noreferrer"
-            >
-              {flag.linkText}
-            </a>
-          )}
+        {flag.linkText && flag.linkUrl && (
+          <a
+            href={flag.linkUrl}
+            target="_blank"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-warning-alert-box-content-link-click',
+                alertBoxHeading: flag.title,
+              });
+            }}
+            rel="noopener noreferrer"
+          >
+            {flag.linkText}
+          </a>
+        )}
       </div>
     );
     return (
       <div className="cautionFlagDetails">
         {validFlags
-          .sort(
-            (a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1),
+          .sort((a, b) =>
+            a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
           )
           .map((flag, index) => (
             <AlertBox

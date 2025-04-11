@@ -111,13 +111,10 @@ export const Search = ({ onSearch }) => {
     setEndDateFull(getFullDate(endDateDay, endDateMonth, endDateYear));
   }, []);
 
-  useEffect(
-    () => {
-      updateFullDateValue(startDateFull, 'start');
-      updateFullDateValue(endDateFull, 'end');
-    },
-    [selectedOption, startDateFull, endDateFull],
-  );
+  useEffect(() => {
+    updateFullDateValue(startDateFull, 'start');
+    updateFullDateValue(endDateFull, 'end');
+  }, [selectedOption, startDateFull, endDateFull]);
 
   const onFilterByChange = event => {
     const filterByOption = filterByOptions?.find(

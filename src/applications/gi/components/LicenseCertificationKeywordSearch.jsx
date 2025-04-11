@@ -82,59 +82,57 @@ export default function LicenseCertificationKeywordSearch({
                   'aria-labelledby': 'lc-search-label',
                 })}
               />
-              {inputValue &&
-                inputValue.length > 0 && (
-                  <va-icon
-                    size={3}
-                    icon="cancel"
-                    id="clear-input"
-                    class="clear-icon vads-u-display--flex vads-u-align-items--center"
-                    onClick={handleClearInput}
-                  />
-                )}
-            </div>
-            {isOpen &&
-              inputValue && (
-                <div
-                  className="suggestions-list"
-                  role="listbox"
-                  id="lcKeywordSearch"
-                  style={{ maxWidth: '30rem' }}
-                >
-                  {suggestions
-                    .map((item, index) => (
-                      <div
-                        key={index}
-                        role="option"
-                        aria-selected={
-                          selectedItem === item.label ? 'true' : 'false'
-                        }
-                        className={classNames('suggestion', {
-                          'suggestion-highlighted': highlightedIndex === index,
-                        })}
-                        {...getItemProps({ item })}
-                      >
-                        {index !== 0 ? (
-                          item.lacNm
-                        ) : (
-                          <div className="keyword-suggestion-container">
-                            <span className="vads-u-padding-right--1">
-                              {item.lacNm}
-                            </span>
-                            <span>
-                              {`(${
-                                suggestions.length > 1
-                                  ? suggestions.length - 1
-                                  : 'No'
-                              } results)`}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    ))
-                    .slice(0, 6)}
-                </div>
+              {inputValue && inputValue.length > 0 && (
+                <va-icon
+                  size={3}
+                  icon="cancel"
+                  id="clear-input"
+                  class="clear-icon vads-u-display--flex vads-u-align-items--center"
+                  onClick={handleClearInput}
+                />
               )}
+            </div>
+            {isOpen && inputValue && (
+              <div
+                className="suggestions-list"
+                role="listbox"
+                id="lcKeywordSearch"
+                style={{ maxWidth: '30rem' }}
+              >
+                {suggestions
+                  .map((item, index) => (
+                    <div
+                      key={index}
+                      role="option"
+                      aria-selected={
+                        selectedItem === item.label ? 'true' : 'false'
+                      }
+                      className={classNames('suggestion', {
+                        'suggestion-highlighted': highlightedIndex === index,
+                      })}
+                      {...getItemProps({ item })}
+                    >
+                      {index !== 0 ? (
+                        item.lacNm
+                      ) : (
+                        <div className="keyword-suggestion-container">
+                          <span className="vads-u-padding-right--1">
+                            {item.lacNm}
+                          </span>
+                          <span>
+                            {`(${
+                              suggestions.length > 1
+                                ? suggestions.length - 1
+                                : 'No'
+                            } results)`}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                  .slice(0, 6)}
+              </div>
+            )}
           </div>
         )}
       </Downshift>
@@ -145,8 +143,6 @@ export default function LicenseCertificationKeywordSearch({
 LicenseCertificationKeywordSearch.propTypes = {
   handleClearInput: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
-  onSelection: PropTypes.func.isRequired,
-  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
   suggestions: PropTypes.arrayOf(
     PropTypes.shape({
       eduLacTypeNm: PropTypes.string,
@@ -155,4 +151,6 @@ LicenseCertificationKeywordSearch.propTypes = {
       state: PropTypes.string,
     }),
   ).isRequired,
+  onSelection: PropTypes.func.isRequired,
+  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
 };

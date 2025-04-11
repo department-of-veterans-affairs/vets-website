@@ -67,23 +67,20 @@ export function LocationSearchForm({
     { optionValue: '75', optionLabel: 'within 75 miles' },
   ];
 
-  useEffect(
-    () => {
-      if (
-        search.loadFromUrl &&
-        search.query.location !== null &&
-        search.query.location !== ''
-      ) {
-        dispatchFetchSearchByLocationResults(
-          search.query.location,
-          distance,
-          filters,
-          version,
-        );
-      }
-    },
-    [search.loadFromUrl],
-  );
+  useEffect(() => {
+    if (
+      search.loadFromUrl &&
+      search.query.location !== null &&
+      search.query.location !== ''
+    ) {
+      dispatchFetchSearchByLocationResults(
+        search.query.location,
+        distance,
+        filters,
+        version,
+      );
+    }
+  }, [search.loadFromUrl]);
 
   const onResetSearchClick = () => {
     inputRef.current.focus();
@@ -144,37 +141,27 @@ export function LocationSearchForm({
    * Triggers a search for search form when the "Update results" button in "Filter your results"
    * is clicked
    */
-  useEffect(
-    () => {
-      if (
-        !search.loadFromUrl &&
-        filters.search &&
-        search.tab === TABS.location &&
-        !search.query.mapState.changed
-      ) {
-        doSearch(null);
-      }
-    },
-    [filters.search],
-  );
-
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (
+      !search.loadFromUrl &&
+      filters.search &&
+      search.tab === TABS.location &&
+      !search.query.mapState.changed
+    ) {
       doSearch(null);
-    },
+    }
+  }, [filters.search]);
 
-    [autocompleteSelection],
-  );
+  useEffect(() => {
+    doSearch(null);
+  }, [autocompleteSelection]);
   // This effect runs to focus on search when Reset Search button is clicked.
-  useEffect(
-    () => {
-      if (focusOnSearch) {
-        inputRef.current.focus();
-        dispatch({ type: 'RESET_FOCUS' });
-      }
-    },
-    [focusOnSearch, inputRef, dispatch],
-  );
+  useEffect(() => {
+    if (focusOnSearch) {
+      inputRef.current.focus();
+      dispatch({ type: 'RESET_FOCUS' });
+    }
+  }, [focusOnSearch, inputRef, dispatch]);
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
@@ -185,26 +172,20 @@ export function LocationSearchForm({
     dispatchUpdateAutocompleteLocation(value);
   };
 
-  useEffect(
-    () => {
-      if (
-        search.query.streetAddress.searchString !== null &&
-        search.query.streetAddress.searchString !== ''
-      )
-        setLocation(search.query.streetAddress.searchString);
-    },
-    [search.query.streetAddress.searchString],
-  );
+  useEffect(() => {
+    if (
+      search.query.streetAddress.searchString !== null &&
+      search.query.streetAddress.searchString !== ''
+    )
+      setLocation(search.query.streetAddress.searchString);
+  }, [search.query.streetAddress.searchString]);
 
-  useEffect(
-    () => {
-      const distanceOption = distanceDropdownOptions.find(
-        option => option.optionValue === search.query.distance,
-      );
-      setDistance(distanceOption?.optionValue || INITIAL_STATE.query.distance);
-    },
-    [search.query.distance],
-  );
+  useEffect(() => {
+    const distanceOption = distanceDropdownOptions.find(
+      option => option.optionValue === search.query.distance,
+    );
+    setDistance(distanceOption?.optionValue || INITIAL_STATE.query.distance);
+  }, [search.query.distance]);
   return (
     <div className="location-search-form">
       <VaModal
@@ -309,17 +290,15 @@ export function LocationSearchForm({
           </div>
         </div>
       </form>
-      {!smallScreen &&
-        isProductionOrTestProdEnv() &&
-        showFiltersBeforeSearch && (
-          <div>
-            <FilterBeforeResults
-              nameVal={location}
-              searchType="location"
-              onApplyFilterClick={onResetSearchClick}
-            />
-          </div>
-        )}
+      {!smallScreen && isProductionOrTestProdEnv() && showFiltersBeforeSearch && (
+        <div>
+          <FilterBeforeResults
+            nameVal={location}
+            searchType="location"
+            onApplyFilterClick={onResetSearchClick}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -344,7 +323,4 @@ const mapDispatchToProps = {
   dispatchError: setError,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LocationSearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationSearchForm);

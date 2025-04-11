@@ -25,31 +25,28 @@ const useGetReferralsAndRequests = () => {
     state => getRequestedAppointmentListInfo(state),
     shallowEqual,
   );
-  useEffect(
-    () => {
-      if (referralsFetchStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchReferrals());
-      }
-      if (pendingStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchPendingAppointments());
-      }
-      if (
-        (pendingStatus === FETCH_STATUS.succeeded ||
-          pendingStatus === FETCH_STATUS.failed) &&
-        (referralsFetchStatus === FETCH_STATUS.succeeded ||
-          referralsFetchStatus === FETCH_STATUS.failed)
-      ) {
-        setLoading(false);
-      }
-      if (pendingStatus === FETCH_STATUS.failed) {
-        setRequestsError(true);
-      }
-      if (referralsFetchStatus === FETCH_STATUS.failed) {
-        setReferralsError(true);
-      }
-    },
-    [pendingStatus, referralsFetchStatus, dispatch],
-  );
+  useEffect(() => {
+    if (referralsFetchStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchReferrals());
+    }
+    if (pendingStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchPendingAppointments());
+    }
+    if (
+      (pendingStatus === FETCH_STATUS.succeeded ||
+        pendingStatus === FETCH_STATUS.failed) &&
+      (referralsFetchStatus === FETCH_STATUS.succeeded ||
+        referralsFetchStatus === FETCH_STATUS.failed)
+    ) {
+      setLoading(false);
+    }
+    if (pendingStatus === FETCH_STATUS.failed) {
+      setRequestsError(true);
+    }
+    if (referralsFetchStatus === FETCH_STATUS.failed) {
+      setReferralsError(true);
+    }
+  }, [pendingStatus, referralsFetchStatus, dispatch]);
 
   return {
     loading,

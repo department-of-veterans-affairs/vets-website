@@ -61,9 +61,11 @@ describe('profile actions', () => {
       { type: actions.UPDATE_PROFILE_FIELDS, payload: errorResponse },
     ];
 
-    await actions.refreshProfile(false, { local: 'none' }, recordEventSpy)(
-      dispatch,
-    );
+    await actions.refreshProfile(
+      false,
+      { local: 'none' },
+      recordEventSpy,
+    )(dispatch);
 
     expect(dispatch.firstCall.args[0]).to.eql(expectedActions[0]);
 

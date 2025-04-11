@@ -29,9 +29,7 @@ export const getContestableIssues = props => {
       );
     }
 
-    const apiUrl = `${
-      environment.API_URL
-    }${CONTESTABLE_ISSUES_API}/${benefitType}`;
+    const apiUrl = `${environment.API_URL}${CONTESTABLE_ISSUES_API}/${benefitType}`;
 
     return apiRequest(apiUrl)
       .then(response =>

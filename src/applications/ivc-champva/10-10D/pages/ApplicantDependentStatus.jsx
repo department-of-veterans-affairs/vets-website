@@ -15,9 +15,7 @@ function generateOptions({ data, pagePerItemIndex }) {
   const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const options = [
     {
-      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and ${
-        bp.beingVerbPresent
-      } enrolled as a student in a high school, college, or vocational school`,
+      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and ${bp.beingVerbPresent} enrolled as a student in a high school, college, or vocational school`,
       value: 'enrolled',
     },
     {

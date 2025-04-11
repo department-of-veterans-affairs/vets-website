@@ -49,7 +49,11 @@ describe('User Nav Actions', () => {
 
     it('should append `verification=required` when dispatched as such', async () => {
       expect(global.window.location.href.includes('localhost')).to.be.true;
-      await toggleLoginModal(true, '', true)(store.dispatch, () => ({
+      await toggleLoginModal(
+        true,
+        '',
+        true,
+      )(store.dispatch, () => ({
         ...featureToggleNotEnabled,
       }));
 

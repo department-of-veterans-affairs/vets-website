@@ -55,9 +55,7 @@ describe('Schemaform definition dateRange', () => {
       });
       fireEvent(submitButton, mouseClick);
 
-      const errorMessage = `Error ${
-        dateRangeUISchema['ui:errorMessages'].pattern
-      }`;
+      const errorMessage = `Error ${dateRangeUISchema['ui:errorMessages'].pattern}`;
       const errorElement = form.container.querySelector(
         '.usa-input-error-message',
       );

@@ -21,9 +21,7 @@ const ArrayBuilderSummaryReviewPage = ({
           <div className="form-review-panel-page-header-row">
             <h4
               className="form-review-panel-page-header vads-u-font-size--h5"
-              data-title-for-noun-singular={`${
-                arrayBuilderOptions.nounSingular
-              }`}
+              data-title-for-noun-singular={`${arrayBuilderOptions.nounSingular}`}
             >
               {arrayBuilderOptions.getText(
                 'summaryTitle',

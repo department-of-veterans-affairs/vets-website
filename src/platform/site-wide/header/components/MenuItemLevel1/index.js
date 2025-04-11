@@ -40,22 +40,20 @@ export const MenuItemLevel1 = ({
   return (
     <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
       {/* Raw title */}
-      {!item?.menuSections &&
-        !item?.href && (
-          <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full">
-            {item?.title}
-          </span>
-        )}
+      {!item?.menuSections && !item?.href && (
+        <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full">
+          {item?.title}
+        </span>
+      )}
       {/* Title link */}
-      {!item?.menuSections &&
-        item?.href && (
-          <a
-            className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
-            href={item?.href}
-          >
-            {item?.title}
-          </a>
-        )}
+      {!item?.menuSections && item?.href && (
+        <a
+          className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+          href={item?.href}
+        >
+          {item?.title}
+        </a>
+      )}
       {item?.menuSections && (
         <>
           {/* Expand title */}
@@ -144,7 +142,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateExpandedMenuIDAction(menuItemID)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MenuItemLevel1);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuItemLevel1);

@@ -8,9 +8,9 @@ This list includes vaccines you got at VA health facilities and from providers o
 For complete records of your allergies and reactions to vaccines, review your allergy records in this report.
 
 ${records
-    .map(
-      record =>
-        `
+  .map(
+    record =>
+      `
 ${record.name}
 ${txtLineDotted}
 ${`Date received: ${record.date}`}
@@ -18,7 +18,7 @@ ${`Location: ${record.location}`}
 Provider notes
 ${record.notes.map(note => `${note}`)}
             `,
-    )
-    .join('')}
+  )
+  .join('')}
     `;
 };

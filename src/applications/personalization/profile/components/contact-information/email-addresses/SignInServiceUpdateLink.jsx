@@ -14,8 +14,9 @@ const SignInServiceUpdateLink = ({ isIdentityVerified }) => {
 
   return (
     <>
-      {showCredRetirementMessaging &&
-        isIdentityVerified && <SignInEmailAlert />}
+      {showCredRetirementMessaging && isIdentityVerified && (
+        <SignInEmailAlert />
+      )}
 
       <p className="vads-u-margin--0">
         To access or update your sign-in information, go to the website where

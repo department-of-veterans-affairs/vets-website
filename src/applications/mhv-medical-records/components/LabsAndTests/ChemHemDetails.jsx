@@ -47,12 +47,9 @@ const ChemHemDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record.date, record.name],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record.date, record.name]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -92,8 +89,8 @@ Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
 ${record.results
-      .map(
-        entry => `
+  .map(
+    entry => `
 ${txtLine}\n
 ${entry.name}
 ${txtLineDotted}
@@ -101,8 +98,8 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab comments: ${entry.labComments}\n`,
-      )
-      .join('')}`;
+  )
+  .join('')}`;
 
     generateTextFile(
       content,

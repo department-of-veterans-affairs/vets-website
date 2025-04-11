@@ -74,9 +74,7 @@ const CompareLayout = ({
     let institutionRatingIsNotNull = false;
     let institutionCountIsNotNull = false;
     let institutionOverallAvgIsNotNull = false;
-    const ratingsAriaLabel = `Overall rating for ${
-      institution.name
-    } has not yet been rated by veterans`;
+    const ratingsAriaLabel = `Overall rating for ${institution.name} has not yet been rated by veterans`;
     /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
     if (institution.institutionRating != null) {
       institutionRatingIsNotNull = true;
@@ -113,9 +111,7 @@ const CompareLayout = ({
       return (
         <div>
           <div
-            aria-label={`Overall Rating for ${institution.name} is ${
-              stars.display
-            } out of 4.`}
+            aria-label={`Overall Rating for ${institution.name} is ${stars.display} out of 4.`}
           >
             {stars.display} out of a possible 4 stars
           </div>
@@ -586,7 +582,4 @@ CompareLayout.propTypes = {
   showDifferences: PropTypes.bool,
   smallScreen: PropTypes.bool,
 };
-export default connect(
-  null,
-  mapDispatchToProps,
-)(CompareLayout);
+export default connect(null, mapDispatchToProps)(CompareLayout);

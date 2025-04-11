@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import VeteranInfoBox from './VeteranInfoBox';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import VeteranInfoBox from './VeteranInfoBox';
 import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const VeteranInformation = ({
@@ -15,14 +15,11 @@ const VeteranInformation = ({
   setFormData,
 }) => {
   const headerRef = useRef(null);
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   const {
     personalData,

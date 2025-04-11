@@ -35,17 +35,16 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   </div>
 );
 
-const MaxItemsAlert = forwardRef(
-  ({ children, show }, ref) =>
-    show ? (
-      <div className="vads-u-margin-top--4">
-        <va-alert slim status="warning" tabIndex={-1} visible ref={ref}>
-          <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
-            {children}
-          </p>
-        </va-alert>
-      </div>
-    ) : null,
+const MaxItemsAlert = forwardRef(({ children, show }, ref) =>
+  show ? (
+    <div className="vads-u-margin-top--4">
+      <va-alert slim status="warning" tabIndex={-1} visible ref={ref}>
+        <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+          {children}
+        </p>
+      </va-alert>
+    </div>
+  ) : null,
 );
 
 function filterEmptyItems(arrayData) {
@@ -193,68 +192,55 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       resetYesNo();
     }, []);
 
-    useEffect(
-      () => {
-        if (updatedNounSingular === nounSingular.toLowerCase()) {
-          setShowUpdatedAlert(() => updateItemIndex != null);
-        }
-      },
-      [updatedNounSingular, updateItemIndex, nounSingular],
-    );
+    useEffect(() => {
+      if (updatedNounSingular === nounSingular.toLowerCase()) {
+        setShowUpdatedAlert(() => updateItemIndex != null);
+      }
+    }, [updatedNounSingular, updateItemIndex, nounSingular]);
 
-    useEffect(
-      () => {
-        let timeout;
-        let focusRef;
+    useEffect(() => {
+      let timeout;
+      let focusRef;
 
-        if (
-          showUpdatedAlert &&
-          updateItemIndex != null &&
-          updatedAlertRef.current
-        ) {
-          focusRef = updatedAlertRef;
-        } else if (
+      if (
+        showUpdatedAlert &&
+        updateItemIndex != null &&
+        updatedAlertRef.current
+      ) {
+        focusRef = updatedAlertRef;
+      } else if (isMaxItemsReached && !maxItemsAlertSeen && maxItemsAlertRef) {
+        focusRef = maxItemsAlertRef;
+      }
+
+      maxItemsAlertSeen = isMaxItemsReached;
+
+      if (focusRef) {
+        timeout = setTimeout(() => {
+          if (focusRef.current) {
+            scrollAndFocus(focusRef.current);
+          }
+        }, 300); // need to wait to override pageScrollAndFocus
+      }
+
+      return () => timeout && clearTimeout(timeout);
+    }, [showUpdatedAlert, updateItemIndex, updatedAlertRef, isMaxItemsReached]);
+
+    useEffect(() => {
+      if (
+        (uiSchema &&
+          schema?.properties &&
           isMaxItemsReached &&
-          !maxItemsAlertSeen &&
-          maxItemsAlertRef
-        ) {
-          focusRef = maxItemsAlertRef;
-        }
-
-        maxItemsAlertSeen = isMaxItemsReached;
-
-        if (focusRef) {
-          timeout = setTimeout(() => {
-            if (focusRef.current) {
-              scrollAndFocus(focusRef.current);
-            }
-          }, 300); // need to wait to override pageScrollAndFocus
-        }
-
-        return () => timeout && clearTimeout(timeout);
-      },
-      [showUpdatedAlert, updateItemIndex, updatedAlertRef, isMaxItemsReached],
-    );
-
-    useEffect(
-      () => {
-        if (
-          (uiSchema &&
-            schema?.properties &&
-            isMaxItemsReached &&
-            props.data?.[hasItemsKey] !== false) ||
-          (isReviewPage && props.data?.[hasItemsKey] == null)
-        ) {
-          // 1. If the user has reached the max items, we want to make sure the
-          //    yes/no field is set to false because it will be hidden yet required.
-          //    So we need to make sure it's false so it doesn't block the continue button.
-          // 2. the yes/no field should never be null/undefined on the final review page,
-          //    or it could cause a hidden validation error.
-          props.setData({ ...props.data, [hasItemsKey]: false });
-        }
-      },
-      [isReviewPage, arrayData?.length],
-    );
+          props.data?.[hasItemsKey] !== false) ||
+        (isReviewPage && props.data?.[hasItemsKey] == null)
+      ) {
+        // 1. If the user has reached the max items, we want to make sure the
+        //    yes/no field is set to false because it will be hidden yet required.
+        //    So we need to make sure it's false so it doesn't block the continue button.
+        // 2. the yes/no field should never be null/undefined on the final review page,
+        //    or it could cause a hidden validation error.
+        props.setData({ ...props.data, [hasItemsKey]: false });
+      }
+    }, [isReviewPage, arrayData?.length]);
 
     function forceRerender(data = props.data) {
       // This is a hacky workaround to rerender the page
@@ -269,21 +255,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       });
     }
 
-    useEffect(
-      () => {
-        setShowReviewErrorAlert(hasReviewError);
-        if (
-          props.recalculateErrors &&
-          props.name &&
-          (showUpdatedAlert || showRemovedAlert)
-        ) {
-          // Affects the red highlighting at the chapter level and
-          // error messages. This prop only exists on the review page.
-          props.recalculateErrors(props.name);
-        }
-      },
-      [hasReviewError, showUpdatedAlert, showRemovedAlert],
-    );
+    useEffect(() => {
+      setShowReviewErrorAlert(hasReviewError);
+      if (
+        props.recalculateErrors &&
+        props.name &&
+        (showUpdatedAlert || showRemovedAlert)
+      ) {
+        // Affects the red highlighting at the chapter level and
+        // error messages. This prop only exists on the review page.
+        props.recalculateErrors(props.name);
+      }
+    }, [hasReviewError, showUpdatedAlert, showRemovedAlert]);
 
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
@@ -356,14 +339,17 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const Title = ({ textType }) => {
       const text = getText(textType, updatedItemData, props.data);
 
-      return text ? (
-        <Heading
-          className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
-          data-title-for-noun-singular={nounSingular}
-        >
-          {text}
-        </Heading>
-      ) : null;
+      if (text) {
+        return (
+          <Heading
+            className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
+            data-title-for-noun-singular={nounSingular}
+          >
+            {text}
+          </Heading>
+        );
+      }
+      return null;
     };
 
     const UpdatedAlert = ({ show }) => {
@@ -626,10 +612,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     setData,
   };
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(CustomPage);
+  return connect(mapStateToProps, mapDispatchToProps)(CustomPage);
 }
 
 SuccessAlert.propTypes = {

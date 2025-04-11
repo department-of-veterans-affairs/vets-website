@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import environment from '~/platform/utilities/environment';
 import {
-  VaButton,
-  VaLoadingIndicator,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+  VaBreadcrumbs,
+  VaLinkAction,
+} from '@department-of-veterans-affairs/web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -52,23 +52,9 @@ const OverviewPage = () => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showOneVADebtLetterDownload = useToggleValue(
+  const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
-
-  const downloadPDF = async () => {
-    // One VA Debt Letter Download url
-    const pdfDownloadUrl = `${environment.API_URL}/debts_api/v0/download_one_debt_letter_pdf`;
-
-    // let's tryy this for now
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.href = pdfDownloadUrl;
-    downloadAnchor.download = 'CombinedStatement.pdf';
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    document.body.removeChild(downloadAnchor);
-    URL.revokeObjectURL(pdfDownloadUrl);
-  };
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
@@ -109,22 +95,13 @@ const OverviewPage = () => {
           <>
             <h2>Debt and bill overview</h2>
             <Balances />
-            {showOneVADebtLetterDownload ? (
-              <>
-                <VaButton
-                  onClick={downloadPDF}
-                  text="View combined statement"
-                  className="vads-u-margin-bottom--2"
-                  secondary
-                />
-                <va-additional-info trigger="What to know before you download">
-                  <p>
-                    By clicking download, you’ll download a combined PDF
-                    statement view of all your benefit debt and copay bills in
-                    one consolidated place.
-                  </p>
-                </va-additional-info>
-              </>
+            {showOneVADebtLetterLink ? (
+              <VaLinkAction
+                href="/manage-va-debt/summary/combined-statements"
+                label="Review combined statement"
+                text="Review combined statement"
+                type="secondary"
+              />
             ) : null}
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>

@@ -1,98 +1,47 @@
 import {
+  arrayBuilderItemFirstPageTitleUI,
   radioSchema,
   radioUI,
-  titleUI,
-  withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { NEW_CONDITION_OPTION } from '../../constants';
 import {
   arrayBuilderOptions,
-  createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
-  isEdit,
+  createRatedDisabilityDescriptions,
 } from '../shared/utils';
 
-const createNewConditionOption = () => {
-  if (isEdit()) {
-    return { 'Edit new condition': 'Edit new condition' };
-  }
-  return { 'Add a new condition': 'Add a new condition' };
-};
-
-const createRatedDisabilitiesSchema = fullData => {
-  const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
-    fullData,
-  );
-
-  return (
-    {
-      ...nonSelectedRatedDisabilities,
-      ...createNewConditionOption(),
-    } || {}
-  );
-};
-
-const createRatedDisabilitiesDescriptions = fullData => {
-  return fullData.ratedDisabilities.reduce((acc, disability) => {
-    let text = `Current rating: ${disability.ratingPercentage}%`;
-
-    if (disability.ratingPercentage === disability.maximumRatingPercentage) {
-      text += ` (You’re already at the maximum for this rated disability.)`;
-    }
-
-    acc[disability.name] = text;
-
-    return acc;
-  }, {});
-};
+const createRatedDisabilitySchema = fullData =>
+  ({
+    [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
+    ...createNonSelectedRatedDisabilities(fullData),
+  } || {});
 
 /** @returns {PageSchema} */
 const conditionPage = {
   uiSchema: {
-    ...titleUI(
-      () =>
-        createDefaultAndEditTitles(
-          'Tell us which condition you want to claim',
-          `Edit condition`,
-        ),
-      withAlertOrDescription({
-        nounSingular: arrayBuilderOptions.nounSingular,
-        hasMultipleItemPages: true,
-      }),
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Type of condition',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     ratedDisability: radioUI({
       title:
-        'Select a rated disability that worsened or a new condition to claim',
-      hint: 'Select one, you will have the opportunity to add more later.',
-      updateUiSchema: (_formData, fullData) => {
-        return {
-          'ui:options': {
-            descriptions: createRatedDisabilitiesDescriptions(fullData),
-          },
-        };
-      },
-      updateSchema: (
-        _formData,
-        _schema,
-        _uiSchema,
-        _index,
-        _path,
-        fullData,
-      ) => {
-        return radioSchema(
-          Object.keys(createRatedDisabilitiesSchema(fullData)),
-        );
-      },
+        'Select if you’d like to add a new condition or select which of your service-connected disabilities have gotten worse.',
+      hint:
+        'Choose one, you will return to this screen if you need to add more.',
+      updateUiSchema: (_formData, fullData) => ({
+        'ui:options': {
+          descriptions: createRatedDisabilityDescriptions(fullData),
+        },
+      }),
+      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
+        radioSchema(Object.keys(createRatedDisabilitySchema(fullData))),
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      ratedDisability: radioSchema(
-        Object.keys({
-          Error: 'Error',
-        }),
-      ),
+      ratedDisability: radioSchema(['error']),
     },
     required: ['ratedDisability'],
   },

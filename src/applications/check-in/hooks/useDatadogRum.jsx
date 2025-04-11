@@ -33,19 +33,16 @@ const useDatadogRum = () => {
   const featureToggles = useSelector(selectFeatureToggles);
   const { isBrowserMonitoringEnabled, isLoadingFeatureFlags } = featureToggles;
 
-  useEffect(
-    () => {
-      if (isLoadingFeatureFlags) {
-        return;
-      }
-      if (isBrowserMonitoringEnabled) {
-        initializeDatadogRum();
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [isBrowserMonitoringEnabled, isLoadingFeatureFlags],
-  );
+  useEffect(() => {
+    if (isLoadingFeatureFlags) {
+      return;
+    }
+    if (isBrowserMonitoringEnabled) {
+      initializeDatadogRum();
+    } else {
+      delete window.DD_RUM;
+    }
+  }, [isBrowserMonitoringEnabled, isLoadingFeatureFlags]);
 };
 
 export { useDatadogRum };

@@ -23,21 +23,15 @@ const Lejeune24 = ({
   const lejeune24 = formResponses[shortName];
   const { NO, NOT_SURE, YES } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const locationList = (
     <ul>
@@ -81,7 +75,4 @@ Lejeune24.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Lejeune24);
+export default connect(mapStateToProps, mapDispatchToProps)(Lejeune24);

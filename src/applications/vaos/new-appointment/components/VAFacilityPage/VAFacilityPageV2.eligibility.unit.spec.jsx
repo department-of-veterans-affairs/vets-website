@@ -563,9 +563,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Fail eligibility calls
       setFetchJSONFailure(
         global.fetch.withArgs(
-          `${
-            environment.API_URL
-          }/vaos/v2/eligibility?facility_id=983&clinical_service_id=primaryCare&type=request`,
+          `${environment.API_URL}/vaos/v2/eligibility?facility_id=983&clinical_service_id=primaryCare&type=request`,
           {
             errors: [],
           },

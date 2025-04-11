@@ -7,9 +7,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const setReturnUrl = () => {
     sessionStorage.setItem(
       'authReturnUrl',
-      `${
-        window.location.origin
-      }/burials-and-memorials/application/530/introduction/`,
+      `${window.location.origin}/burials-and-memorials/application/530/introduction/`,
     );
   };
   return (
@@ -77,7 +75,4 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

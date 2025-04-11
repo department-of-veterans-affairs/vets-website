@@ -37,7 +37,10 @@ export const fetchRepStatus = async () => {
         };
         return res;
       })
-      .then(data => resolve(data), error => reject(error));
+      .then(
+        data => resolve(data),
+        error => reject(error),
+      );
   });
 };
 

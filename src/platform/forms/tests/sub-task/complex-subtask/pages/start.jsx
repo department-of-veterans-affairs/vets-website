@@ -17,7 +17,10 @@ const content = {
 };
 
 // values should be strings
-const options = [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];
+const options = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+];
 
 const optionValues = options.map(option => option.value);
 

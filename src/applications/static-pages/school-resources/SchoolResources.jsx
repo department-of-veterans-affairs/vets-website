@@ -9,12 +9,12 @@ export async function createScoEventsWidget() {
   );
 
   if (widgets.length) {
-    const {
-      default: ScoEventsWidget,
-    } = await import(/* webpackChunkName: "sco-event-list" */ './ScoEventsWidget');
-    const {
-      default: scoEvents,
-    } = await import(/* webpackChunkName: "sco-event-list-data" */ './constants/events.json');
+    const { default: ScoEventsWidget } = await import(
+      /* webpackChunkName: "sco-event-list" */ './ScoEventsWidget'
+    );
+    const { default: scoEvents } = await import(
+      /* webpackChunkName: "sco-event-list-data" */ './constants/events.json'
+    );
 
     widgets.forEach(el => {
       ReactDOM.render(<ScoEventsWidget scoEvents={scoEvents} />, el);
@@ -29,12 +29,12 @@ export async function createScoAnnouncementsWidget() {
   );
 
   if (widgets.length) {
-    const {
-      default: ScoAnnouncementsWidget,
-    } = await import(/* webpackChunkName: "sco-announcements" */ './ScoAnnouncementsWidget');
-    const {
-      default: announcements,
-    } = await import(/* webpackChunkName: "sco-announcements-data" */ './constants/announcements.json');
+    const { default: ScoAnnouncementsWidget } = await import(
+      /* webpackChunkName: "sco-announcements" */ './ScoAnnouncementsWidget'
+    );
+    const { default: announcements } = await import(
+      /* webpackChunkName: "sco-announcements-data" */ './constants/announcements.json'
+    );
 
     widgets.forEach(el => {
       ReactDOM.render(

@@ -26,14 +26,11 @@ const CashOnHand = ({
   } = data;
   const { monetaryAssets = [] } = assets;
 
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   const cashOnHandTotal = monetaryAssets.find(f => f.name === CASH_ON_HAND) ?? {
     amount: '',

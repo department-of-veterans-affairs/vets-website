@@ -7,14 +7,11 @@ import manifest from '../manifest.json';
 const ResponseSentPage = () => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        focusElement(alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      focusElement(alertRef.current);
+    }
+  }, [alertRef]);
 
   return (
     <div className="row vads-u-padding-x--1">

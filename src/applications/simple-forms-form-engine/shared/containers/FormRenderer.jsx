@@ -23,30 +23,27 @@ const FormRenderer = ({ formId, rootUrl, trackingPrefix, breadcrumbs }) => {
     basename: rootUrl,
   });
 
-  useEffect(
-    () => {
-      if (formConfig) {
-        // We can't create a reducer or know the routes until we have the formConfig loaded.
-        // After successfully loading formConfig, update the reducer and then calculate the routes.
-        const formReducer = getReducerFromFormConfig(formConfig);
-        store.injectReducer('form', formReducer.form);
+  useEffect(() => {
+    if (formConfig) {
+      // We can't create a reducer or know the routes until we have the formConfig loaded.
+      // After successfully loading formConfig, update the reducer and then calculate the routes.
+      const formReducer = getReducerFromFormConfig(formConfig);
+      store.injectReducer('form', formReducer.form);
 
-        // The routes cannot be set until after the reducer has been injected
-        const route = getRoutesFromFormConfig(formConfig);
-        setRoutes(route);
-      } else if (formId) {
-        dispatch(
-          fetchAndBuildFormConfig(formId, {
-            rootUrl,
-            trackingPrefix,
-          }),
-        );
-      } else {
-        dispatch(formLoadingFailed('No form id'));
-      }
-    },
-    [formConfig, dispatch, store, formId, rootUrl, trackingPrefix],
-  );
+      // The routes cannot be set until after the reducer has been injected
+      const route = getRoutesFromFormConfig(formConfig);
+      setRoutes(route);
+    } else if (formId) {
+      dispatch(
+        fetchAndBuildFormConfig(formId, {
+          rootUrl,
+          trackingPrefix,
+        }),
+      );
+    } else {
+      dispatch(formLoadingFailed('No form id'));
+    }
+  }, [formConfig, dispatch, store, formId, rootUrl, trackingPrefix]);
 
   if (formLoadingError) {
     return <Error error={formLoadingError} />;

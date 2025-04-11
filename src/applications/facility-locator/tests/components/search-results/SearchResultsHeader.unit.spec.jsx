@@ -153,9 +153,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       new RegExp(
-        `Results for "Urgent care",\\s+"${
-          urgentCareServices.NonVAUrgentCare
-        }"\\s+near\\s+"new york"`,
+        `Results for "Urgent care",\\s+"${urgentCareServices.NonVAUrgentCare}"\\s+near\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -172,9 +170,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       new RegExp(
-        `Results for "Urgent care",\\s+"${
-          urgentCareServices.AllUrgentCare
-        }"\\s+near\\s+"new york"`,
+        `Results for "Urgent care",\\s+"${urgentCareServices.AllUrgentCare}"\\s+near\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -192,9 +188,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       new RegExp(
-        `Results for "Emergency Care",\\s+"${
-          emergencyCareServices.NonVAEmergencyCare
-        }"\\s+near\\s+"new york"`,
+        `Results for "Emergency Care",\\s+"${emergencyCareServices.NonVAEmergencyCare}"\\s+near\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -211,9 +205,7 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       new RegExp(
-        `Results for "Emergency Care",\\s+"${
-          emergencyCareServices.AllEmergencyCare
-        }"\\s+near\\s+"new york"`,
+        `Results for "Emergency Care",\\s+"${emergencyCareServices.AllEmergencyCare}"\\s+near\\s+"new york"`,
       ),
     );
     wrapper.unmount();

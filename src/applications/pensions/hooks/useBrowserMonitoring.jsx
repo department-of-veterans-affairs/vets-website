@@ -80,18 +80,15 @@ const useBrowserMonitoring = () => {
     TOGGLE_NAMES.pensionsBrowserMonitoringEnabled,
   );
 
-  useEffect(
-    () => {
-      if (isLoadingFeatureFlags) return;
-      if (isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring();
-        initializeBrowserLogging();
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [isBrowserMonitoringEnabled, isLoadingFeatureFlags],
-  );
+  useEffect(() => {
+    if (isLoadingFeatureFlags) return;
+    if (isBrowserMonitoringEnabled) {
+      initializeRealUserMonitoring();
+      initializeBrowserLogging();
+    } else {
+      delete window.DD_RUM;
+    }
+  }, [isBrowserMonitoringEnabled, isLoadingFeatureFlags]);
 };
 
 export { useBrowserMonitoring };

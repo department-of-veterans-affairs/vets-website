@@ -6,14 +6,11 @@ import { focusElement } from 'platform/utilities/ui';
 const BuildPage = ({ title, goToPath }) => {
   const headerRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   const handlers = {
     onSubmit: event => {

@@ -534,9 +534,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
         },
         ...prescription.groupedMedications.map(previousPrescription => {
           return {
-            header: `Prescription number: ${
-              previousPrescription.prescriptionNumber
-            }`,
+            header: `Prescription number: ${previousPrescription.prescriptionNumber}`,
             indent: 32,
             items: [
               {

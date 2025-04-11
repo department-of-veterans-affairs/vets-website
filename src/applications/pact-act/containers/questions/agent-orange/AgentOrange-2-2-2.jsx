@@ -23,21 +23,15 @@ const Orange222 = ({
   const orange222 = formResponses[shortName];
   const { NO, NOT_SURE, YES } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <TernaryRadios
@@ -73,7 +67,4 @@ Orange222.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Orange222);
+export default connect(mapStateToProps, mapDispatchToProps)(Orange222);

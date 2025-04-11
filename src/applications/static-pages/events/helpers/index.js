@@ -19,11 +19,10 @@ export const filterByOptions = [
 export const deriveDefaultSelectedOption = () => {
   const queryParams = new URLSearchParams(window.location.search);
 
-  return filterByOptions?.find(
-    option =>
-      queryParams.get('selectedOption')
-        ? option.value === queryParams.get('selectedOption')
-        : option.value === 'upcoming',
+  return filterByOptions?.find(option =>
+    queryParams.get('selectedOption')
+      ? option.value === queryParams.get('selectedOption')
+      : option.value === 'upcoming',
   );
 };
 
@@ -303,9 +302,7 @@ export const deriveEventLocations = event => {
       event?.fieldAddress?.administrativeArea
     ) {
       locations.push(
-        `${event?.fieldAddress?.locality}, ${
-          event?.fieldAddress?.administrativeArea
-        }`,
+        `${event?.fieldAddress?.locality}, ${event?.fieldAddress?.administrativeArea}`,
       );
     }
   }

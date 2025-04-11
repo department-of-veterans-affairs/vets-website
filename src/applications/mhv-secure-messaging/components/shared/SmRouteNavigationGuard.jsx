@@ -38,17 +38,14 @@ const SmRouteNavigationGuard = ({
     [onCancelButtonClick],
   );
 
-  const handleBlockedNavigation = useCallback(
-    () => {
-      if (isBlocking) {
-        updateModalVisible(true);
-        setIsBlocking(false);
-        return false; // Blocks Navigation
-      }
-      return true; // Allows Navigation
-    },
-    [isBlocking, setIsBlocking, updateModalVisible],
-  );
+  const handleBlockedNavigation = useCallback(() => {
+    if (isBlocking) {
+      updateModalVisible(true);
+      setIsBlocking(false);
+      return false; // Blocks Navigation
+    }
+    return true; // Allows Navigation
+  }, [isBlocking, setIsBlocking, updateModalVisible]);
 
   const localStorageValues = useMemo(() => {
     return {
@@ -61,12 +58,9 @@ const SmRouteNavigationGuard = ({
 
   const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
 
-  const noTimeout = useCallback(
-    () => {
-      clearTimeout(timeoutId);
-    },
-    [timeoutId],
-  );
+  const noTimeout = useCallback(() => {
+    clearTimeout(timeoutId);
+  }, [timeoutId]);
 
   const beforeUnloadHandler = useCallback(
     e => {
@@ -78,27 +72,24 @@ const SmRouteNavigationGuard = ({
   );
 
   // Update blocking state based on the `when` prop
-  useEffect(
-    () => {
-      setIsBlocking(when);
+  useEffect(() => {
+    setIsBlocking(when);
 
-      // beforeunload prevents the user from navigating away from the page
-      // without saving their work. This is a browser feature and cannot be
-      // disabled. The message displayed to the user is also a browser feature
-      if (when) {
-        window.addEventListener('beforeunload', beforeUnloadHandler);
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        noTimeout();
-      }
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [when, beforeUnloadHandler, noTimeout],
-  );
+    // beforeunload prevents the user from navigating away from the page
+    // without saving their work. This is a browser feature and cannot be
+    // disabled. The message displayed to the user is also a browser feature
+    if (when) {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+    } else {
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+      noTimeout();
+    }
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+      window.onbeforeunload = null;
+      noTimeout();
+    };
+  }, [when, beforeUnloadHandler, noTimeout]);
 
   return (
     <>

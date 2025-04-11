@@ -204,49 +204,40 @@ const PreviousEnrollmentVerifications = ({
     [handlePageChange],
   );
 
-  useEffect(
-    () => {
-      setUserEnrollmentData(enrollmentData);
-    },
-    [enrollmentData],
-  );
+  useEffect(() => {
+    setUserEnrollmentData(enrollmentData);
+  }, [enrollmentData]);
 
-  useEffect(
-    () => {
-      const allEnrollments = [];
-      if (userEnrollmentData?.pendingVerifications?.length > 0) {
-        const { pendingVerifications } = userEnrollmentData;
-        pendingVerifications.forEach(pendingAward => {
-          allEnrollments.push(pendingAward);
-        });
-      }
-      if (userEnrollmentData?.verifications?.length > 0) {
-        const { verifications } = userEnrollmentData;
-        verifications.forEach(award => {
-          allEnrollments.push(award);
-        });
-      }
+  useEffect(() => {
+    const allEnrollments = [];
+    if (userEnrollmentData?.pendingVerifications?.length > 0) {
+      const { pendingVerifications } = userEnrollmentData;
+      pendingVerifications.forEach(pendingAward => {
+        allEnrollments.push(pendingAward);
+      });
+    }
+    if (userEnrollmentData?.verifications?.length > 0) {
+      const { verifications } = userEnrollmentData;
+      verifications.forEach(award => {
+        allEnrollments.push(award);
+      });
+    }
 
-      setPastAndCurrentAwards(combineEnrollmentsWithStartMonth(allEnrollments));
-    },
-    [userEnrollmentData],
-  );
+    setPastAndCurrentAwards(combineEnrollmentsWithStartMonth(allEnrollments));
+  }, [userEnrollmentData]);
 
-  useEffect(
-    () => {
-      // set how many enrollments to initially show
-      // and the page count
-      if (totalEnrollmentCount >= ENROLLMETS_PER_PAGE) {
-        setSubsetEnd(ENROLLMETS_PER_PAGE);
-        setPageCount(Math.ceil(totalEnrollmentCount / ENROLLMETS_PER_PAGE));
-        setCurrentPage(1);
-      } else {
-        setSubsetEnd(totalEnrollmentCount);
-        setPageCount(1);
-      }
-    },
-    [totalEnrollmentCount],
-  );
+  useEffect(() => {
+    // set how many enrollments to initially show
+    // and the page count
+    if (totalEnrollmentCount >= ENROLLMETS_PER_PAGE) {
+      setSubsetEnd(ENROLLMETS_PER_PAGE);
+      setPageCount(Math.ceil(totalEnrollmentCount / ENROLLMETS_PER_PAGE));
+      setCurrentPage(1);
+    } else {
+      setSubsetEnd(totalEnrollmentCount);
+      setPageCount(1);
+    }
+  }, [totalEnrollmentCount]);
 
   return (
     <div>

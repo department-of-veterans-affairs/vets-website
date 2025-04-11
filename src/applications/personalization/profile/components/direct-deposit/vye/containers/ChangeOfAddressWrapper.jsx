@@ -51,33 +51,27 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   };
 
   // This Effcet to defalut setNewAddress to mailingAddress
-  useEffect(
-    () => {
-      setNewAddress(mailingAddress);
-    },
-    [mailingAddress],
-  );
-  const handleCloseForm = useCallback(
-    () => {
-      setFormData({});
-      if (confidenceScore === 100 && response) {
-        const isUSA = address.countryCodeIso3 === 'USA';
-        const stateAndZip = {
-          stateCode: isUSA ? address.stateCode : address.province,
-          zipCode: isUSA ? address.zipCode : address.internationalPostalCode,
-        };
-        setNewAddress({
-          street: `${address.addressLine1} ${address.addressLine2 || ''}`,
-          city: address.city,
-          ...stateAndZip,
-        });
-      }
-      sessionStorage.setItem('address', JSON.stringify(address));
-      setToggleAddressForm(false);
-      scrollToTopOfForm();
-    },
-    [confidenceScore, response, address],
-  );
+  useEffect(() => {
+    setNewAddress(mailingAddress);
+  }, [mailingAddress]);
+  const handleCloseForm = useCallback(() => {
+    setFormData({});
+    if (confidenceScore === 100 && response) {
+      const isUSA = address.countryCodeIso3 === 'USA';
+      const stateAndZip = {
+        stateCode: isUSA ? address.stateCode : address.province,
+        zipCode: isUSA ? address.zipCode : address.internationalPostalCode,
+      };
+      setNewAddress({
+        street: `${address.addressLine1} ${address.addressLine2 || ''}`,
+        city: address.city,
+        ...stateAndZip,
+      });
+    }
+    sessionStorage.setItem('address', JSON.stringify(address));
+    setToggleAddressForm(false);
+    scrollToTopOfForm();
+  }, [confidenceScore, response, address]);
 
   // called when submitting form
   const saveAddressInfo = async () => {
@@ -102,46 +96,37 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   };
 
   // This Effcet to close form after loading is done
-  useEffect(
-    () => {
-      if (
-        !isLoading &&
-        !isLoadingValidateAddress &&
-        (addressValidationData || validationError)
-      ) {
-        handleCloseForm();
-        setSuggestedAddressPicked(false);
-      }
-    },
-    [
-      addressValidationData,
-      handleCloseForm,
-      isLoading,
-      isLoadingValidateAddress,
-      validationError,
-    ],
-  );
+  useEffect(() => {
+    if (
+      !isLoading &&
+      !isLoadingValidateAddress &&
+      (addressValidationData || validationError)
+    ) {
+      handleCloseForm();
+      setSuggestedAddressPicked(false);
+    }
+  }, [
+    addressValidationData,
+    handleCloseForm,
+    isLoading,
+    isLoadingValidateAddress,
+    validationError,
+  ]);
   const setAddressToUI = value => {
     setNewAddress(value);
   };
 
   // This effect to reset setEditFormData and remove address from sessionStorage
   // When there is error, resonse or validationError
-  useEffect(
-    () => {
-      setEditFormData({});
-      sessionStorage.removeItem('address');
-      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
-      dispatch(handleSuggestedAddressPicked(false));
-    },
-    [dispatch, error, response, validationError],
-  );
-  useEffect(
-    () => {
-      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
-    },
-    [dispatch, location.pathname],
-  );
+  useEffect(() => {
+    setEditFormData({});
+    sessionStorage.removeItem('address');
+    dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+    dispatch(handleSuggestedAddressPicked(false));
+  }, [dispatch, error, response, validationError]);
+  useEffect(() => {
+    dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+  }, [dispatch, location.pathname]);
   const addressDescription = () => {
     return (
       <>

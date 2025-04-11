@@ -91,20 +91,19 @@ const PrintDownload = props => {
           data-testid="print-download-loading-indicator"
         />
       )}
-      {isSuccess &&
-        !isError && (
-          <div
-            className="vads-u-margin-bottom--3"
-            data-testid="download-success-banner"
-          >
-            <va-alert role="alert" status="success" background-only uswds>
-              <h2 slot="headline">Download started</h2>
-              <p className="vads-u-margin--0">
-                Check your device’s downloads location for your file.
-              </p>
-            </va-alert>
-          </div>
-        )}
+      {isSuccess && !isError && (
+        <div
+          className="vads-u-margin-bottom--3"
+          data-testid="download-success-banner"
+        >
+          <va-alert role="alert" status="success" background-only uswds>
+            <h2 slot="headline">Download started</h2>
+            <p className="vads-u-margin--0">
+              Check your device’s downloads location for your file.
+            </p>
+          </va-alert>
+        </div>
+      )}
       {/* hack to generate va-alert and va-telephone web components in case there is no network at the time of download */}
       <va-alert visible="false" uswds>
         <va-telephone />
@@ -228,10 +227,10 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
+  isLoading: PropTypes.bool,
   isSuccess: PropTypes.bool,
   list: PropTypes.any,
   onDownload: PropTypes.any,
   onPrint: PropTypes.func,
   onText: PropTypes.func,
-  isLoading: PropTypes.bool,
 };

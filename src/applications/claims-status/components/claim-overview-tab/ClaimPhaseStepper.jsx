@@ -214,17 +214,16 @@ export default function ClaimPhaseStepper({
                 {formattedCurrentClaimPhaseDate}.
               </strong>
             )}
-            {isCurrentPhase(claimPhase.phase) &&
-              currentPhaseBack && (
-                <va-alert
-                  class="optional-alert vads-u-padding-bottom--1"
-                  status="info"
-                  slim
-                >
-                  We moved your claim back to this step because we needed to
-                  find or review more evidence
-                </va-alert>
-              )}
+            {isCurrentPhase(claimPhase.phase) && currentPhaseBack && (
+              <va-alert
+                class="optional-alert vads-u-padding-bottom--1"
+                status="info"
+                slim
+              >
+                We moved your claim back to this step because we needed to find
+                or review more evidence
+              </va-alert>
+            )}
             {(!isCurrentPhase(claimPhase.phase) || !currentPhaseBack) &&
               phaseCanRepeat(claimPhase.phase) && (
                 <div className="repeat-phase">

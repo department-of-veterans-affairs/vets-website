@@ -51,45 +51,33 @@ const useFormRouting = (router = {}) => {
     [updateError, router],
   );
 
-  const getCurrentPageFromRouter = useCallback(
-    () => {
-      // substring to remove the leading /
-      return router?.location?.pathname.substring(1) || null;
-    },
-    [router],
-  );
+  const getCurrentPageFromRouter = useCallback(() => {
+    // substring to remove the leading /
+    return router?.location?.pathname.substring(1) || null;
+  }, [router]);
 
-  const getPreviousPageFromRouter = useCallback(
-    () => {
-      const currentPage = getCurrentPageFromRouter();
-      const positionInForm = pages.indexOf(currentPage);
-      return pages[positionInForm - 1];
-    },
-    [getCurrentPageFromRouter, pages],
-  );
+  const getPreviousPageFromRouter = useCallback(() => {
+    const currentPage = getCurrentPageFromRouter();
+    const positionInForm = pages.indexOf(currentPage);
+    return pages[positionInForm - 1];
+  }, [getCurrentPageFromRouter, pages]);
 
-  const getNextPageFromRouter = useCallback(
-    () => {
-      const currentPage = getCurrentPageFromRouter();
-      const positionInForm = pages.indexOf(currentPage);
-      return pages[positionInForm + 1];
-    },
-    [getCurrentPageFromRouter, pages],
-  );
+  const getNextPageFromRouter = useCallback(() => {
+    const currentPage = getCurrentPageFromRouter();
+    const positionInForm = pages.indexOf(currentPage);
+    return pages[positionInForm + 1];
+  }, [getCurrentPageFromRouter, pages]);
 
-  const goToNextPage = useCallback(
-    () => {
-      const here = getCurrentPageFromRouter();
-      const currentPageIndex = pages.findIndex(page => page === here);
-      const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
-      if (nextPage === 'complete' && app === APP_NAMES.CHECK_IN) {
-        router.push(`complete/${data?.activeAppointmentId}`);
-      } else {
-        router.push(nextPage);
-      }
-    },
-    [app, data?.activeAppointmentId, getCurrentPageFromRouter, pages, router],
-  );
+  const goToNextPage = useCallback(() => {
+    const here = getCurrentPageFromRouter();
+    const currentPageIndex = pages.findIndex(page => page === here);
+    const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
+    if (nextPage === 'complete' && app === APP_NAMES.CHECK_IN) {
+      router.push(`complete/${data?.activeAppointmentId}`);
+    } else {
+      router.push(nextPage);
+    }
+  }, [app, data?.activeAppointmentId, getCurrentPageFromRouter, pages, router]);
   const goToPreviousPage = () => {
     const { history } = window;
     history.back();

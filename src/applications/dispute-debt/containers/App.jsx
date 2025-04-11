@@ -5,6 +5,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
 
@@ -15,14 +16,11 @@ export default function App({ children, location }) {
   const { isDebtPending } = useSelector(state => state.availableDebts);
   const isLoadingFeatures = useSelector(state => toggleValues(state).loading);
 
-  useEffect(
-    () => {
-      if (userLoggedIn) {
-        fetchDebts(dispatch);
-      }
-    },
-    [dispatch, userLoggedIn],
-  );
+  useEffect(() => {
+    if (userLoggedIn) {
+      fetchDebts(dispatch);
+    }
+  }, [dispatch, userLoggedIn]);
 
   // only need to show loading for debt pending if user is logged in
   if ((userLoggedIn && isDebtPending) || isLoadingFeatures) {
@@ -37,7 +35,12 @@ export default function App({ children, location }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <DowntimeNotification
+        appTitle="dispute debt system"
+        dependencies={formConfig.downtime.dependencies}
+      >
+        {children}
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 }

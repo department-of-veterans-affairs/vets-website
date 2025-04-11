@@ -54,7 +54,4 @@ const mapStateToProps = state => ({
   hasFetchedOnce: getYellowRibbonAppState(state).hasFetchedOnce,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(YellowRibbonApp);
+export default connect(mapStateToProps, null)(YellowRibbonApp);

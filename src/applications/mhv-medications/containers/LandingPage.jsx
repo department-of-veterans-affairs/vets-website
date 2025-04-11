@@ -80,42 +80,41 @@ const LandingPage = () => {
     sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
   }, []);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle('About medications | Veterans Affairs');
-      if (
-        location.hash.includes('accordion-renew-rx') &&
-        !featureTogglesLoading &&
-        !isPrescriptionsLoading
-      ) {
-        setIsRxRenewAccordionOpen(true);
-        focusElement(manageMedicationsHeader.current);
-        if (!featureTogglesLoading && appEnabled) {
-          manageMedicationsAccordionSection.current?.scrollIntoView();
-        }
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle('About medications | Veterans Affairs');
+    if (
+      location.hash.includes('accordion-renew-rx') &&
+      !featureTogglesLoading &&
+      !isPrescriptionsLoading
+    ) {
+      setIsRxRenewAccordionOpen(true);
+      focusElement(manageMedicationsHeader.current);
+      if (!featureTogglesLoading && appEnabled) {
+        manageMedicationsAccordionSection.current?.scrollIntoView();
       }
-    },
-    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
-  );
+    }
+  }, [
+    location.hash,
+    featureTogglesLoading,
+    appEnabled,
+    isPrescriptionsLoading,
+  ]);
 
-  useEffect(
-    () => {
-      if (!showFilterContent && !paginatedPrescriptionsList) {
-        setIsPrescriptionsLoading(true);
-        dispatch(
-          getPrescriptionsPaginatedSortedList(
-            1,
-            rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-            showGroupingFlag ? 10 : 20,
-          ),
-        )
-          .then(() => setIsPrescriptionsLoading(false))
-          .catch(() => setIsPrescriptionsLoading(false));
-      }
-    },
-    [dispatch, paginatedPrescriptionsList],
-  );
+  useEffect(() => {
+    if (!showFilterContent && !paginatedPrescriptionsList) {
+      setIsPrescriptionsLoading(true);
+      dispatch(
+        getPrescriptionsPaginatedSortedList(
+          1,
+          rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+          showGroupingFlag ? 10 : 20,
+        ),
+      )
+        .then(() => setIsPrescriptionsLoading(false))
+        .catch(() => setIsPrescriptionsLoading(false));
+    }
+  }, [dispatch, paginatedPrescriptionsList]);
 
   useEffect(
     () => {

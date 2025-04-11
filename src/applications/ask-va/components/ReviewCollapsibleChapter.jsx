@@ -442,10 +442,7 @@ ReviewCollapsibleChapter.propTypes = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ReviewCollapsibleChapter),
+  connect(mapStateToProps, mapDispatchToProps)(ReviewCollapsibleChapter),
 );
 
 // for tests

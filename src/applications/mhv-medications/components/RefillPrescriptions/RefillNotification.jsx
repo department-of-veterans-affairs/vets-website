@@ -19,25 +19,22 @@ const RefillNotification = ({ refillStatus }) => {
   // Feature flags
   const showFilterContent = useSelector(selectFilterFlag);
 
-  useEffect(
-    () => {
-      if (refillStatus === 'finished') {
-        let elemId = '';
-        if (successfulMeds?.length === 0) {
-          elemId = 'failed-refill';
-        } else if (failedMeds?.length > 0) {
-          elemId = 'partial-refill';
-        } else {
-          elemId = 'success-refill';
-        }
-        const element = document.getElementById(elemId);
-        if (element) {
-          focusElement(element);
-        }
+  useEffect(() => {
+    if (refillStatus === 'finished') {
+      let elemId = '';
+      if (successfulMeds?.length === 0) {
+        elemId = 'failed-refill';
+      } else if (failedMeds?.length > 0) {
+        elemId = 'partial-refill';
+      } else {
+        elemId = 'success-refill';
       }
-    },
-    [refillStatus, successfulMeds, failedMeds],
-  );
+      const element = document.getElementById(elemId);
+      if (element) {
+        focusElement(element);
+      }
+    }
+  }, [refillStatus, successfulMeds, failedMeds]);
 
   const handleGoToMedicationsListOnSuccess = () => {
     if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {

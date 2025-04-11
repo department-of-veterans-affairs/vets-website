@@ -412,10 +412,9 @@ testSuite('PP 10207 - Veteran', () => {
 
       it('displays correct error message for invalid postal code', () => {
         fillMailingAddressPage('veteran');
-        cy.get('input[name="root_mailingAddress_postalCode"]').type(
-          '{selectall}1234',
-          { force: true },
-        );
+        cy.get(
+          'input[name="root_mailingAddress_postalCode"]',
+        ).type('{selectall}1234', { force: true });
         continueToNextPage();
         showsCorrectErrorMessage('Enter a valid 5-digit ZIP code');
       });
@@ -586,7 +585,9 @@ testSuite('PP 10207 - Veteran', () => {
         })
           .first()
           .click({ force: true });
-        cy.get('input[type="file"]').selectFile(
+        cy.get(
+          'input[type="file"]',
+        ).selectFile(
           'src/applications/simple-forms/shared/tests/e2e/fixtures/mocks/test.jpg',
           { force: true },
         );

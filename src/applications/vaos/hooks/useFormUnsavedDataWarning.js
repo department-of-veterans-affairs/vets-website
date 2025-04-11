@@ -24,27 +24,21 @@ function onBeforeUnload(e) {
 export default function useFormUnsavedDataWarning({ disabled = false } = {}) {
   const location = useLocation();
 
-  useEffect(
-    () => {
-      if (location.pathname.endsWith('confirmation')) {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-      }
-    },
-    [location],
-  );
+  useEffect(() => {
+    if (location.pathname.endsWith('confirmation')) {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    }
+  }, [location]);
 
-  useEffect(
-    () => {
-      if (disabled) {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-      } else {
-        window.addEventListener('beforeunload', onBeforeUnload);
-      }
+  useEffect(() => {
+    if (disabled) {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    } else {
+      window.addEventListener('beforeunload', onBeforeUnload);
+    }
 
-      return () => {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-      };
-    },
-    [location.pathname, disabled],
-  );
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, [location.pathname, disabled]);
 }

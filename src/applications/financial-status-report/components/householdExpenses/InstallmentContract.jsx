@@ -80,8 +80,8 @@ const InstallmentContract = props => {
 
   const amountDueMonthlyError =
     !isValidCurrency(contractRecord.amountDueMonthly) ||
-    (contractRecord.amountDueMonthly > MAXIMUM_INSTALLMENT_AMOUNT ||
-      contractRecord.amountDueMonthly < 0)
+    contractRecord.amountDueMonthly > MAXIMUM_INSTALLMENT_AMOUNT ||
+    contractRecord.amountDueMonthly < 0
       ? 'Please enter a minimum monthly payment amount less than $1,000,000'
       : null;
 

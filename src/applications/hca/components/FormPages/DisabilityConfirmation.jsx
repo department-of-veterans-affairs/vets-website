@@ -5,15 +5,12 @@ import recordEvent from 'platform/monitoring/record-event';
 
 const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   // use logging to compare number of short forms started vs completed
-  const onConfirm = useCallback(
-    () => {
-      recordEvent({
-        event: 'hca-short-form-flow',
-      });
-      goForward(data);
-    },
-    [data, goForward],
-  );
+  const onConfirm = useCallback(() => {
+    recordEvent({
+      event: 'hca-short-form-flow',
+    });
+    goForward(data);
+  }, [data, goForward]);
 
   return (
     <va-alert

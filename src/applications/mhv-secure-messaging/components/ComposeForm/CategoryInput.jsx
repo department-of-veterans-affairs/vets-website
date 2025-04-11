@@ -40,16 +40,12 @@ const CategoryInput = props => {
             <VaRadioOption
               data-dd-privacy="mask"
               data-testid="compose-category-radio-button"
-              data-dd-action-name={`${RadioCategories[item].label}: ${
-                RadioCategories[item].description
-              } Radio Button`}
+              data-dd-action-name={`${RadioCategories[item].label}: ${RadioCategories[item].description} Radio Button`}
               style={{ display: 'flex' }}
               key={i}
               label={
                 RadioCategories[item]
-                  ? `${RadioCategories[item].label}: ${
-                      RadioCategories[item].description
-                    }`
+                  ? `${RadioCategories[item].label}: ${RadioCategories[item].description}`
                   : item
               }
               name="compose-message-categories"

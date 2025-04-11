@@ -113,9 +113,9 @@ export const validateZipCode = (zipCode, stateCode, errors) => {
       return false;
     }
   } else if (isValidZipcode(zipCode)) {
-    const isDomesticZipCode = !Object.values(MILITARY_BASE_ZIP_REGEX).some(
-      regex => zipCode.match(regex),
-    );
+    const isDomesticZipCode = !Object.values(
+      MILITARY_BASE_ZIP_REGEX,
+    ).some(regex => zipCode.match(regex));
     if (isDomesticZipCode) {
       errors.addError(DOMESTIC_BASE_ERROR);
       return false;

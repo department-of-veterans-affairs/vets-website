@@ -318,105 +318,98 @@ export class SchoolSelectField extends React.Component {
             label="I want to type in my school’s name and address."
           />
           <div aria-live="polite" aria-relevant="additions text">
-            {showSearchResults &&
-              searchResultsCount > 0 && (
-                <div
-                  className="search-results-count"
-                  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                  tabIndex="0"
-                  ref={el => {
-                    this.resultCount = el;
-                  }}
-                >
-                  {`${searchResultsCount} results for ${institutionQuery}`}
-                </div>
-              )}
-            {showSearchResults &&
-              showInstitutions && (
-                <VaRadio
-                  className="school-select-field-radio"
-                  onVaValueChange={e =>
-                    this.handleOptionClick(
-                      _.find(institutions, { facilityCode: e?.detail?.value }),
-                    )
-                  }
-                >
-                  {institutions.map(institution => {
-                    const {
-                      address1,
-                      address2,
-                      address3,
-                      city,
-                      country,
-                      facilityCode,
-                      name,
-                      state,
-                      zip,
-                    } = institution;
-                    return (
-                      <VaRadioOption
-                        name={`page-${currentPageNumber}-radio-option`}
-                        className="school-select-field-radio-option"
-                        key={facilityCode}
-                        value={facilityCode}
-                        checked={facilityCode === facilityCodeSelected}
-                        label={name}
-                        tile
-                        description={displaySingleLineAddress({
-                          address1,
-                          address2,
-                          address3,
-                          city,
-                          country,
-                          state,
-                          zip,
-                        }).toUpperCase()}
-                      />
-                    );
-                  })}
-                </VaRadio>
-              )}{' '}
-            {showSearchResults &&
-              showInstitutionsLoading && (
-                <div>
-                  <VaLoadingIndicator
-                    message={`Searching ${institutionQuery}...`}
-                  />
-                </div>
-              )}
-            {showSearchResults &&
-              showNoResultsFound && (
-                <div className="no-results-box">
-                  <p>
-                    <strong>We can’t find your school</strong>
-                    <br />
-                    We’re sorry. We can’t find any school that matches your
-                    entry. Please try entering a different school name or city.
-                    Or, you can check the box to enter your school information
-                    yourself.
-                  </p>
-                </div>
-              )}
-            {showSearchResults &&
-              showPaginationLoading && (
-                <div>
-                  <VaLoadingIndicator
-                    message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}
-                  />
-                </div>
-              )}
-          </div>
-          {showSearchResults &&
-            showPagination && (
-              <VaPagination
-                page={currentPageNumber}
-                pages={pagesCount}
-                ariaLabelSuffix="of school results"
-                onPageSelect={this.handlePageSelect}
-                maxPageListLength={10}
-                showLastPage
-              />
+            {showSearchResults && searchResultsCount > 0 && (
+              <div
+                className="search-results-count"
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                tabIndex="0"
+                ref={el => {
+                  this.resultCount = el;
+                }}
+              >
+                {`${searchResultsCount} results for ${institutionQuery}`}
+              </div>
             )}
+            {showSearchResults && showInstitutions && (
+              <VaRadio
+                className="school-select-field-radio"
+                onVaValueChange={e =>
+                  this.handleOptionClick(
+                    _.find(institutions, { facilityCode: e?.detail?.value }),
+                  )
+                }
+              >
+                {institutions.map(institution => {
+                  const {
+                    address1,
+                    address2,
+                    address3,
+                    city,
+                    country,
+                    facilityCode,
+                    name,
+                    state,
+                    zip,
+                  } = institution;
+                  return (
+                    <VaRadioOption
+                      name={`page-${currentPageNumber}-radio-option`}
+                      className="school-select-field-radio-option"
+                      key={facilityCode}
+                      value={facilityCode}
+                      checked={facilityCode === facilityCodeSelected}
+                      label={name}
+                      tile
+                      description={displaySingleLineAddress({
+                        address1,
+                        address2,
+                        address3,
+                        city,
+                        country,
+                        state,
+                        zip,
+                      }).toUpperCase()}
+                    />
+                  );
+                })}
+              </VaRadio>
+            )}{' '}
+            {showSearchResults && showInstitutionsLoading && (
+              <div>
+                <VaLoadingIndicator
+                  message={`Searching ${institutionQuery}...`}
+                />
+              </div>
+            )}
+            {showSearchResults && showNoResultsFound && (
+              <div className="no-results-box">
+                <p>
+                  <strong>We can’t find your school</strong>
+                  <br />
+                  We’re sorry. We can’t find any school that matches your entry.
+                  Please try entering a different school name or city. Or, you
+                  can check the box to enter your school information yourself.
+                </p>
+              </div>
+            )}
+            {showSearchResults && showPaginationLoading && (
+              <div>
+                <VaLoadingIndicator
+                  message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}
+                />
+              </div>
+            )}
+          </div>
+          {showSearchResults && showPagination && (
+            <VaPagination
+              page={currentPageNumber}
+              pages={pagesCount}
+              ariaLabelSuffix="of school results"
+              onPageSelect={this.handlePageSelect}
+              maxPageListLength={10}
+              showLastPage
+            />
+          )}
         </div>
       </fieldset>
     );
@@ -478,26 +471,26 @@ const mapDispatchToProps = {
 };
 
 SchoolSelectField.propTypes = {
-  currentPageNumber: PropTypes.number,
-  errorMessages: PropTypes.array,
-  facilityCodeSelected: PropTypes.string,
-  institutionQuery: PropTypes.string,
-  institutions: PropTypes.array,
-  institutionSelected: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-  manualSchoolEntryChecked: PropTypes.bool,
-  pagesCount: PropTypes.number,
-  searchInputValue: PropTypes.string,
-  searchResultsCount: PropTypes.number,
-  showErrors: PropTypes.bool,
   showInstitutions: PropTypes.bool.isRequired,
   showInstitutionsLoading: PropTypes.bool.isRequired,
   showNoResultsFound: PropTypes.bool.isRequired,
   showPagination: PropTypes.bool.isRequired,
   showPaginationLoading: PropTypes.bool.isRequired,
   showSearchResults: PropTypes.bool.isRequired,
+  currentPageNumber: PropTypes.number,
+  errorMessages: PropTypes.array,
+  facilityCodeSelected: PropTypes.string,
+  institutionQuery: PropTypes.string,
+  institutionSelected: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
+  institutions: PropTypes.array,
+  manualSchoolEntryChecked: PropTypes.bool,
+  pagesCount: PropTypes.number,
+  searchInputValue: PropTypes.string,
+  searchResultsCount: PropTypes.number,
+  showErrors: PropTypes.bool,
 };
 
 SchoolSelectField.defaultProps = {
@@ -509,7 +502,4 @@ SchoolSelectField.defaultProps = {
   showSearchResults: true,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SchoolSelectField);
+export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);

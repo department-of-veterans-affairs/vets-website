@@ -28,9 +28,7 @@ export const UPDATE_VERIFICATION_STATUS_MONTHS =
   'UPDATE_VERIFICATION_STATUS_MONTHS';
 
 export function fetchPost911GiBillEligibility() {
-  const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
-    environment.API_URL
-  }/meb_api/v0/enrollment`;
+  const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${environment.API_URL}/meb_api/v0/enrollment`;
 
   return async dispatch => {
     dispatch({ type: FETCH_POST_911_GI_BILL_ELIGIBILITY });
@@ -52,9 +50,7 @@ export function fetchPost911GiBillEligibility() {
 }
 
 export function postEnrollmentVerifications(vs) {
-  const VERIFICATION_STATUS_ENDPOINT = `${
-    environment.API_URL
-  }/meb_api/v0/submit_enrollment_verification`;
+  const VERIFICATION_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/submit_enrollment_verification`;
 
   return async dispatch => {
     dispatch({ type: UPDATE_VERIFICATION_STATUS });

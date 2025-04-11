@@ -284,7 +284,7 @@ export const PrivateContent = ({
                 authorizationLabel
               ) : (
                 // including non-empty error attribute for focus management
-                <span className="usa-input-error-message" error="error">
+                <span className="usa-input-error-message">
                   {authorizationError}
                 </span>
               )}

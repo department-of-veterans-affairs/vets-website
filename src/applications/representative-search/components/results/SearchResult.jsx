@@ -104,19 +104,16 @@ const SearchResult = ({
     });
   };
 
-  useEffect(
-    () => {
-      if (reportSubmissionStatus === 'SUCCESS') {
-        scrollTo(`#thank-you-alert-${representativeId}`);
-        focusElement(`#thank-you-alert-${representativeId}`);
-      } else if (reportSubmissionStatus === 'CANCELLED') {
-        scrollTo(`#report-button-${representativeId}`);
-        focusElement(`#report-button-${representativeId}`);
-      }
-      initializeRepresentativeReport();
-    },
-    [reportModalIsShowing],
-  );
+  useEffect(() => {
+    if (reportSubmissionStatus === 'SUCCESS') {
+      scrollTo(`#thank-you-alert-${representativeId}`);
+      focusElement(`#thank-you-alert-${representativeId}`);
+    } else if (reportSubmissionStatus === 'CANCELLED') {
+      scrollTo(`#report-button-${representativeId}`);
+      focusElement(`#report-button-${representativeId}`);
+    }
+    initializeRepresentativeReport();
+  }, [reportModalIsShowing]);
 
   return (
     <div className="report-outdated-information-modal">
@@ -197,9 +194,7 @@ const SearchResult = ({
             {addressExists && (
               <div className="address-link">
                 <a
-                  href={`https://maps.google.com?saddr=${
-                    query?.context?.location
-                  }&daddr=${address}`}
+                  href={`https://maps.google.com?saddr=${query?.context?.location}&daddr=${address}`}
                   tabIndex="0"
                   className="address-anchor"
                   onClick={() => recordContactLinkClick()}

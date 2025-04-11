@@ -22,12 +22,9 @@ import { useTravelPayFlags } from '../../../hooks/useTravelPayFlags';
 
 const Confirmation = props => {
   const dispatch = useDispatch();
-  const refreshAppointments = useCallback(
-    () => {
-      dispatch(triggerRefresh());
-    },
-    [dispatch],
-  );
+  const refreshAppointments = useCallback(() => {
+    dispatch(triggerRefresh());
+  }, [dispatch]);
   const { router } = props;
   const { jumpToPage } = useFormRouting(router);
   const { updateError } = useUpdateError();
@@ -60,75 +57,69 @@ const Confirmation = props => {
     getCompleteTimestamp,
   } = useStorage(APP_NAMES.CHECK_IN);
 
-  useEffect(
-    () => {
-      if (appointmentId) {
-        const activeAppointmentDetails = findAppointment(
-          appointmentId,
-          appointments,
-        );
-        if (activeAppointmentDetails) {
-          setAppointment(activeAppointmentDetails);
-          return;
-        }
+  useEffect(() => {
+    if (appointmentId) {
+      const activeAppointmentDetails = findAppointment(
+        appointmentId,
+        appointments,
+      );
+      if (activeAppointmentDetails) {
+        setAppointment(activeAppointmentDetails);
+        return;
       }
-      // Go back to appointments page if no activeAppointment or not in list.
-      jumpToPage(URLS.APPOINTMENTS);
-    },
-    [appointmentId, appointments, jumpToPage],
-  );
+    }
+    // Go back to appointments page if no activeAppointment or not in list.
+    jumpToPage(URLS.APPOINTMENTS);
+  }, [appointmentId, appointments, jumpToPage]);
 
-  useEffect(
-    () => {
-      async function sendCheckInData() {
-        try {
-          const json = await api.v2.postCheckInData({
-            uuid: token,
-            appointmentIen: appointment.appointmentIen,
-            setECheckinStartedCalled,
-            isTravelEnabled: isTravelReimbursementEnabled,
-            travelSubmitted: travelPayEligible,
-          });
-          const { status } = json;
-          if (status === 200) {
-            const completeTime = getCompleteTimestamp(window);
-            setCheckinComplete(window, true);
-            setIsCheckInLoading(false);
-            if (!completeTime) {
-              setCompleteTimestamp(window, Date.now());
-            }
-          } else {
-            updateError('check-in-post-error');
+  useEffect(() => {
+    async function sendCheckInData() {
+      try {
+        const json = await api.v2.postCheckInData({
+          uuid: token,
+          appointmentIen: appointment.appointmentIen,
+          setECheckinStartedCalled,
+          isTravelEnabled: isTravelReimbursementEnabled,
+          travelSubmitted: travelPayEligible,
+        });
+        const { status } = json;
+        if (status === 200) {
+          const completeTime = getCompleteTimestamp(window);
+          setCheckinComplete(window, true);
+          setIsCheckInLoading(false);
+          if (!completeTime) {
+            setCompleteTimestamp(window, Date.now());
           }
-        } catch {
-          updateError('error-completing-check-in');
+        } else {
+          updateError('check-in-post-error');
         }
+      } catch {
+        updateError('error-completing-check-in');
       }
-      if (error) {
-        updateError('check-in-demographics-patch-error');
-      } else if (appointment && (isComplete || demographicsFlagsEmpty)) {
-        sendCheckInData();
-      } else if (appointment && getCheckinComplete(window)) {
-        setIsCheckInLoading(false);
-      }
-    },
-    [
-      isComplete,
-      error,
-      appointment,
-      demographicsFlagsEmpty,
-      updateError,
-      jumpToPage,
-      token,
-      getCheckinComplete,
-      setCheckinComplete,
-      setCompleteTimestamp,
-      getCompleteTimestamp,
-      setECheckinStartedCalled,
-      isTravelReimbursementEnabled,
-      travelPayEligible,
-    ],
-  );
+    }
+    if (error) {
+      updateError('check-in-demographics-patch-error');
+    } else if (appointment && (isComplete || demographicsFlagsEmpty)) {
+      sendCheckInData();
+    } else if (appointment && getCheckinComplete(window)) {
+      setIsCheckInLoading(false);
+    }
+  }, [
+    isComplete,
+    error,
+    appointment,
+    demographicsFlagsEmpty,
+    updateError,
+    jumpToPage,
+    token,
+    getCheckinComplete,
+    setCheckinComplete,
+    setCompleteTimestamp,
+    getCompleteTimestamp,
+    setECheckinStartedCalled,
+    isTravelReimbursementEnabled,
+    travelPayEligible,
+  ]);
 
   if (isCheckInLoading) {
     window.scrollTo(0, 0);

@@ -109,9 +109,7 @@ const ExtraDetails = rx => {
             to your care team.
           </p>
           <va-link
-            href={`${
-              environment.BASE_URL
-            }/my-health/secure-messages/new-message/`}
+            href={`${environment.BASE_URL}/my-health/secure-messages/new-message/`}
             text="Start a new message"
             data-testid="discontinued-compose-message-link"
             data-dd-action-name={
@@ -147,26 +145,22 @@ const ExtraDetails = rx => {
           />
         </p>
       )}
-      {dispStatus === dispStatusObj.active &&
-        noRefillRemaining && (
-          <div className="no-print">
-            <p
-              className="vads-u-margin-y--0"
-              data-testid="active-no-refill-left"
-            >
-              You have no refills left. If you need more, request a renewal.
-            </p>
-            <va-link
-              href={
-                removeLandingPage
-                  ? '/resources/how-to-renew-a-va-prescription'
-                  : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
-              }
-              text="Learn how to renew prescriptions"
-              data-testid="learn-to-renew-prescriptions-link"
-            />
-          </div>
-        )}
+      {dispStatus === dispStatusObj.active && noRefillRemaining && (
+        <div className="no-print">
+          <p className="vads-u-margin-y--0" data-testid="active-no-refill-left">
+            You have no refills left. If you need more, request a renewal.
+          </p>
+          <va-link
+            href={
+              removeLandingPage
+                ? '/resources/how-to-renew-a-va-prescription'
+                : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
+            }
+            text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-prescriptions-link"
+          />
+        </div>
+      )}
     </div>
   );
 };

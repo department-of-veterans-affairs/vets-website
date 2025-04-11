@@ -53,71 +53,68 @@ const Landing = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      const token = getTokenFromLocation(location);
+  useEffect(() => {
+    const token = getTokenFromLocation(location);
 
-      setCheckinComplete(window, false);
-      setCompleteTimestamp(window, null);
+    setCheckinComplete(window, false);
+    setCompleteTimestamp(window, null);
 
-      if (!token) {
-        updateError('no-token');
-      } else if (!isUUID(token)) {
-        updateError('bad-token');
-      }
+    if (!token) {
+      updateError('no-token');
+    } else if (!isUUID(token)) {
+      updateError('bad-token');
+    }
 
-      if (token && !sessionCallMade) {
-        setSessionCallMade(true);
-        api.v2
-          .getSession({
-            token,
-          })
-          .then(session => {
-            if (session.errors || session.error) {
-              clearCurrentStorage(window);
-              updateError('session-error');
-            } else {
-              // if session with read.full exists, go to check in page
-              setShouldSendDemographicsFlags(window, true);
-              setShouldSendTravelPayClaim(window, true);
-              setCurrentToken(window, token);
-              const pages = createForm();
-              const firstPage = pages[0];
-
-              initForm(pages, firstPage);
-              setSession(token, session.permissions);
-              if (session.permissions === SCOPES.READ_FULL) {
-                jumpToPage(URLS.APPOINTMENTS);
-              } else {
-                jumpToPage(URLS.VALIDATION_NEEDED);
-              }
-            }
-          })
-          .catch(e => {
+    if (token && !sessionCallMade) {
+      setSessionCallMade(true);
+      api.v2
+        .getSession({
+          token,
+        })
+        .then(session => {
+          if (session.errors || session.error) {
             clearCurrentStorage(window);
-            if (e.errors && e.errors[0]?.status === '404') {
-              updateError('uuid-not-found');
+            updateError('session-error');
+          } else {
+            // if session with read.full exists, go to check in page
+            setShouldSendDemographicsFlags(window, true);
+            setShouldSendTravelPayClaim(window, true);
+            setCurrentToken(window, token);
+            const pages = createForm();
+            const firstPage = pages[0];
+
+            initForm(pages, firstPage);
+            setSession(token, session.permissions);
+            if (session.permissions === SCOPES.READ_FULL) {
+              jumpToPage(URLS.APPOINTMENTS);
             } else {
-              updateError('error-fromlocation-landing');
+              jumpToPage(URLS.VALIDATION_NEEDED);
             }
-          });
-      }
-    },
-    [
-      location,
-      clearCurrentStorage,
-      setCurrentToken,
-      jumpToPage,
-      updateError,
-      initForm,
-      sessionCallMade,
-      setSession,
-      setShouldSendDemographicsFlags,
-      setShouldSendTravelPayClaim,
-      setCheckinComplete,
-      setCompleteTimestamp,
-    ],
-  );
+          }
+        })
+        .catch(e => {
+          clearCurrentStorage(window);
+          if (e.errors && e.errors[0]?.status === '404') {
+            updateError('uuid-not-found');
+          } else {
+            updateError('error-fromlocation-landing');
+          }
+        });
+    }
+  }, [
+    location,
+    clearCurrentStorage,
+    setCurrentToken,
+    jumpToPage,
+    updateError,
+    initForm,
+    sessionCallMade,
+    setSession,
+    setShouldSendDemographicsFlags,
+    setShouldSendTravelPayClaim,
+    setCheckinComplete,
+    setCompleteTimestamp,
+  ]);
   return (
     <div>
       <va-loading-indicator message={loadMessage} />

@@ -156,25 +156,24 @@ const LOA1Content = ({
       <EducationAndTraining isLOA1={isLOA1} />
       <BenefitApplications />
 
-      {showWelcomeToMyVaMessage &&
-        userIsNew && (
-          <VaModal
-            large
-            modalTitle="Welcome to My VA"
-            onCloseEvent={dismissWelcomeModal}
-            onPrimaryButtonClick={dismissWelcomeModal}
-            primaryButtonText="Continue"
-            visible={welcomeModalVisible}
-            data-testid="welcome-modal"
-          >
-            <p>
-              We’ll help you get started managing your benefits and information
-              online, as well as help you find resources and support. Once you
-              have applications or claims in process, you’ll be able to check
-              status here at My VA.
-            </p>
-          </VaModal>
-        )}
+      {showWelcomeToMyVaMessage && userIsNew && (
+        <VaModal
+          large
+          modalTitle="Welcome to My VA"
+          onCloseEvent={dismissWelcomeModal}
+          onPrimaryButtonClick={dismissWelcomeModal}
+          primaryButtonText="Continue"
+          visible={welcomeModalVisible}
+          data-testid="welcome-modal"
+        >
+          <p>
+            We’ll help you get started managing your benefits and information
+            online, as well as help you find resources and support. Once you
+            have applications or claims in process, you’ll be able to check
+            status here at My VA.
+          </p>
+        </VaModal>
+      )}
     </>
   );
 };
@@ -224,60 +223,48 @@ const Dashboard = ({
     localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
   };
 
-  useEffect(
-    () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    // use Drupal based Cerner facility data
+    connectDrupalSourceOfTruthCerner(dispatch);
+  }, [dispatch]);
 
   // focus on the name tag or the header when we are done loading
-  useEffect(
-    () => {
-      if (!showLoader) {
-        if (showNameTag) {
-          focusElement('#name-tag');
-        } else {
-          focusElement('#dashboard-title');
-        }
+  useEffect(() => {
+    if (!showLoader) {
+      if (showNameTag) {
+        focusElement('#name-tag');
+      } else {
+        focusElement('#dashboard-title');
       }
-    },
-    [showLoader, showNameTag],
-  );
+    }
+  }, [showLoader, showNameTag]);
 
   // fetch data when we determine they are LOA3
-  useEffect(
-    () => {
-      if (isLOA3) {
-        fetchFullName();
-        if (canAccessMilitaryHistory) {
-          fetchMilitaryInformation();
-        }
-        if (canAccessRatingInfo) {
-          fetchTotalDisabilityRating();
-        }
+  useEffect(() => {
+    if (isLOA3) {
+      fetchFullName();
+      if (canAccessMilitaryHistory) {
+        fetchMilitaryInformation();
       }
-    },
-    [
-      canAccessMilitaryHistory,
-      canAccessRatingInfo,
-      isLOA3,
-      fetchFullName,
-      fetchMilitaryInformation,
-      fetchTotalDisabilityRating,
-    ],
-  );
+      if (canAccessRatingInfo) {
+        fetchTotalDisabilityRating();
+      }
+    }
+  }, [
+    canAccessMilitaryHistory,
+    canAccessRatingInfo,
+    isLOA3,
+    fetchFullName,
+    fetchMilitaryInformation,
+    fetchTotalDisabilityRating,
+  ]);
 
   // fetch data when we determine they are LOA3
-  useEffect(
-    () => {
-      if (canAccessPaymentHistory) {
-        getPayments();
-      }
-    },
-    [canAccessPaymentHistory, getPayments],
-  );
+  useEffect(() => {
+    if (canAccessPaymentHistory) {
+      getPayments();
+    }
+  }, [canAccessPaymentHistory, getPayments]);
 
   return (
     <RequiredLoginView
@@ -502,7 +489,4 @@ const mapDispatchToProps = {
   getPayments: getAllPayments,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

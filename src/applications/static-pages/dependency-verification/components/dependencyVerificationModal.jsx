@@ -69,13 +69,10 @@ const DependencyVerificationModal = props => {
     }
   };
 
-  useEffect(
-    () => {
-      checkForOtherModals();
-      fireIfClearIfNotObserve();
-    },
-    [otherModal],
-  );
+  useEffect(() => {
+    checkForOtherModals();
+    fireIfClearIfNotObserve();
+  }, [otherModal]);
 
   return props?.data?.getDependencyVerificationStatus === CALLSTATUS.success ? (
     <>

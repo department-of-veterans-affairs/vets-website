@@ -76,29 +76,23 @@ const PrescriptionDetails = () => {
     id: prescription?.prescriptionId,
   });
 
-  useEffect(
-    () => {
-      if (prescription) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle('Medications details | Veterans Affairs');
-      } else {
-        window.scrollTo(0, 0);
-      }
-    },
-    [prescription],
-  );
+  useEffect(() => {
+    if (prescription) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle('Medications details | Veterans Affairs');
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [prescription]);
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch({ type: Actions.Prescriptions.CLEAR_DETAILS });
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch({ type: Actions.Prescriptions.CLEAR_DETAILS });
+    };
+  }, [dispatch]);
 
   const pdfData = useCallback(
     allergiesPdfList => {
@@ -145,9 +139,7 @@ const PrescriptionDetails = () => {
                       'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
                   },
                   {
-                    value: `Showing ${
-                      allergiesPdfList.length
-                    } records from newest to oldest`,
+                    value: `Showing ${allergiesPdfList.length} records from newest to oldest`,
                   },
                 ],
               }),
@@ -232,60 +224,48 @@ const PrescriptionDetails = () => {
     [nonVaPrescription, userName, txtData, setPdfTxtGenerateStatus],
   );
 
-  useEffect(
-    () => {
-      if (!prescription && prescriptionId)
-        dispatch(getPrescriptionDetails(prescriptionId));
-    },
-    [prescriptionId, dispatch, prescription],
-  );
+  useEffect(() => {
+    if (!prescription && prescriptionId)
+      dispatch(getPrescriptionDetails(prescriptionId));
+  }, [prescriptionId, dispatch, prescription]);
 
-  useEffect(
-    () => {
-      dispatch(getAllergiesList());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getAllergiesList());
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (
-        allergies &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
-        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-          generatePDF(buildAllergiesPDFList(allergies));
-        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-          generateTXT(buildAllergiesTXT(allergies));
-        } else {
-          setPdfTxtGenerateStatus({
-            status: PDF_TXT_GENERATE_STATUS.NotStarted,
-            format: 'print',
-          });
-        }
+  useEffect(() => {
+    if (
+      allergies &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+    ) {
+      if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
+        generatePDF(buildAllergiesPDFList(allergies));
+      } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
+        generateTXT(buildAllergiesTXT(allergies));
+      } else {
+        setPdfTxtGenerateStatus({
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          format: 'print',
+        });
       }
-      if (
-        allergies &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
-        pdfTxtGenerateStatus.format === 'print'
-      ) {
-        window.print();
-      }
-    },
-    [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
-  );
+    }
+    if (
+      allergies &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
+      pdfTxtGenerateStatus.format === 'print'
+    ) {
+      window.print();
+    }
+  }, [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT]);
 
-  useEffect(
-    () => {
-      if (!prescription) return;
-      setPrescriptionPdfList(
-        nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription)
-          : buildVAPrescriptionPDFList(prescription),
-      );
-    },
-    [nonVaPrescription, prescription],
-  );
+  useEffect(() => {
+    if (!prescription) return;
+    setPrescriptionPdfList(
+      nonVaPrescription
+        ? buildNonVAPrescriptionPDFList(prescription)
+        : buildVAPrescriptionPDFList(prescription),
+    );
+  }, [nonVaPrescription, prescription]);
 
   const filledEnteredDate = () => {
     if (nonVaPrescription) {

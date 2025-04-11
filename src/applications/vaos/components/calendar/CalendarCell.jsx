@@ -32,22 +32,9 @@ const CalendarCell = ({
     selectedDate?.startsWith(date),
   );
 
-  useEffect(
-    () => {
-      if (date !== null && currentlySelectedDate === date) {
-        const onResize = debounce(50, () => {
-          if (optionsHeightRef?.current && buttonRef?.current) {
-            const newHeight =
-              optionsHeightRef.current.getBoundingClientRect().height +
-              buttonRef.current.getBoundingClientRect().height +
-              10;
-
-            if (newHeight !== optionsHeight) {
-              setOptionsHeight(newHeight);
-            }
-          }
-        });
-
+  useEffect(() => {
+    if (date !== null && currentlySelectedDate === date) {
+      const onResize = debounce(50, () => {
         if (optionsHeightRef?.current && buttonRef?.current) {
           const newHeight =
             optionsHeightRef.current.getBoundingClientRect().height +
@@ -58,18 +45,28 @@ const CalendarCell = ({
             setOptionsHeight(newHeight);
           }
         }
+      });
 
-        window.addEventListener('resize', onResize);
+      if (optionsHeightRef?.current && buttonRef?.current) {
+        const newHeight =
+          optionsHeightRef.current.getBoundingClientRect().height +
+          buttonRef.current.getBoundingClientRect().height +
+          10;
 
-        return () => {
-          window.removeEventListener('resize', onResize);
-        };
+        if (newHeight !== optionsHeight) {
+          setOptionsHeight(newHeight);
+        }
       }
 
-      return undefined;
-    },
-    [date, currentlySelectedDate, optionsHeight],
-  );
+      window.addEventListener('resize', onResize);
+
+      return () => {
+        window.removeEventListener('resize', onResize);
+      };
+    }
+
+    return undefined;
+  }, [date, currentlySelectedDate, optionsHeight]);
 
   if (date === null) {
     return (

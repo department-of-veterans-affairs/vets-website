@@ -169,19 +169,17 @@ const ErrorMessageOrAlertComponent = ({
   return (
     <>
       {/* Show error message if there's no alert or if alert is hidden */}
-      {hasVisibleError &&
-        (!hasVisibleAlert || shouldHideAlert) && (
-          <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span> {reMapErrorMessage(error)}
-          </span>
-        )}
+      {hasVisibleError && (!hasVisibleAlert || shouldHideAlert) && (
+        <span className="usa-input-error-message" role="alert">
+          <span className="sr-only">Error</span> {reMapErrorMessage(error)}
+        </span>
+      )}
       {/* Show alert if it's visible and not hidden */}
-      {hasVisibleAlert &&
-        !shouldHideAlert && (
-          <div className="vads-u-margin-y--1p5">
-            <AlertComponent alert={alert} />
-          </div>
-        )}
+      {hasVisibleAlert && !shouldHideAlert && (
+        <div className="vads-u-margin-y--1p5">
+          <AlertComponent alert={alert} />
+        </div>
+      )}
     </>
   );
 };
@@ -329,25 +327,22 @@ const FileField = props => {
     [formData],
   );
 
-  useEffect(
-    () => {
-      // The File object is not preserved in the save-in-progress data
-      // We need to remove these entries; an empty `file` is included in the
-      // entry, but if API File Object still exists (within the same session), we
-      // can't use Object.keys() on it because it returns an empty array
-      const newData = files.filter(
-        // keep - file may not exist (already uploaded)
-        // keep - file may contain File object; ensure name isn't empty
-        // remove - file may be an empty object
-        data => !data.file || (data.file?.name || '') !== '',
-      );
-      if (newData.length !== files.length) {
-        onChange(newData);
-      }
-      setInitialized(true);
-    },
-    [files, onChange],
-  );
+  useEffect(() => {
+    // The File object is not preserved in the save-in-progress data
+    // We need to remove these entries; an empty `file` is included in the
+    // entry, but if API File Object still exists (within the same session), we
+    // can't use Object.keys() on it because it returns an empty array
+    const newData = files.filter(
+      // keep - file may not exist (already uploaded)
+      // keep - file may contain File object; ensure name isn't empty
+      // remove - file may be an empty object
+      data => !data.file || (data.file?.name || '') !== '',
+    );
+    if (newData.length !== files.length) {
+      onChange(newData);
+    }
+    setInitialized(true);
+  }, [files, onChange]);
 
   /**
    * Add file to list and upload
@@ -744,27 +739,26 @@ const FileField = props => {
                     </Tag>
                   )}
                 {/* Sometimes an error needs to be shown as an alert instead of an error message. */}
-                {!file.uploading &&
-                  hasVisibleError && (
-                    <ErrorMessageOrAlertComponent
-                      hasVisibleError={hasVisibleError}
-                      hasVisibleAlert={hasVisibleAlert}
-                      error={errors[0]}
-                      alert={
-                        hasVisibleAlert && {
-                          header: alerts[0].header,
-                          body: alerts[0].body,
-                          formName: alerts[0].formName,
-                          formNumber: alerts[0].formNumber,
-                          formLink: alerts[0].formLink,
-                          showMailingAddress: alerts[0].showMailingAddress,
-                        }
+                {!file.uploading && hasVisibleError && (
+                  <ErrorMessageOrAlertComponent
+                    hasVisibleError={hasVisibleError}
+                    hasVisibleAlert={hasVisibleAlert}
+                    error={errors[0]}
+                    alert={
+                      hasVisibleAlert && {
+                        header: alerts[0].header,
+                        body: alerts[0].body,
+                        formName: alerts[0].formName,
+                        formNumber: alerts[0].formNumber,
+                        formLink: alerts[0].formLink,
+                        showMailingAddress: alerts[0].showMailingAddress,
                       }
-                      hideAlertIfLoggedIn={
-                        hasVisibleAlert && alerts[0].hideAlertIfLoggedIn
-                      }
-                    />
-                  )}
+                    }
+                    hideAlertIfLoggedIn={
+                      hasVisibleAlert && alerts[0].hideAlertIfLoggedIn
+                    }
+                  />
+                )}
                 {showPasswordInput && (
                   <ShowPdfPassword
                     file={file.file}
@@ -773,47 +767,42 @@ const FileField = props => {
                     passwordLabel={content.passwordLabel(file.name)}
                   />
                 )}
-                {!formContext.reviewMode &&
-                  !isUploading && (
-                    <div className="vads-u-margin-top--2">
-                      {hasVisibleError && (
-                        <va-button
-                          name={`retry_upload_${index}`}
-                          class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                          onClick={getRetryFunction(
-                            allowRetry,
-                            index,
-                            file.file,
-                          )}
-                          label={
-                            allowRetry
-                              ? content.tryAgainLabel(file.name)
-                              : content.newFile
-                          }
-                          text={retryButtonText}
-                          uswds
-                        />
-                      )}
+                {!formContext.reviewMode && !isUploading && (
+                  <div className="vads-u-margin-top--2">
+                    {hasVisibleError && (
                       <va-button
-                        secondary
-                        class="delete-upload vads-u-width--auto"
-                        onClick={() => {
-                          if (hasVisibleError) {
-                            // Cancelling with error should not show the remove
-                            // file modal
-                            removeFile(index);
-                          } else {
-                            openRemoveModal(index);
-                          }
-                        }}
-                        label={content[
-                          hasVisibleError ? 'cancelLabel' : 'deleteLabel'
-                        ](file.name)}
-                        text={deleteButtonText}
+                        name={`retry_upload_${index}`}
+                        class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                        onClick={getRetryFunction(allowRetry, index, file.file)}
+                        label={
+                          allowRetry
+                            ? content.tryAgainLabel(file.name)
+                            : content.newFile
+                        }
+                        text={retryButtonText}
                         uswds
                       />
-                    </div>
-                  )}
+                    )}
+                    <va-button
+                      secondary
+                      class="delete-upload vads-u-width--auto"
+                      onClick={() => {
+                        if (hasVisibleError) {
+                          // Cancelling with error should not show the remove
+                          // file modal
+                          removeFile(index);
+                        } else {
+                          openRemoveModal(index);
+                        }
+                      }}
+                      label={content[
+                        hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                      ](file.name)}
+                      text={deleteButtonText}
+                      uswds
+                    />
+                  </div>
+                )}
               </li>
             );
           })}

@@ -55,9 +55,8 @@ export const CautionFlagAdditionalInfo = ({
           <div>
             <ul className="vads-u-padding-right--4">
               {validFlags
-                .sort(
-                  (a, b) =>
-                    a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+                .sort((a, b) =>
+                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
                 )
                 .map((flag, index) => (
                   <li

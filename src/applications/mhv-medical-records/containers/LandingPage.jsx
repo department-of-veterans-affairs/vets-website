@@ -87,15 +87,12 @@ const LandingPage = () => {
     };
   });
 
-  useEffect(
-    () => {
-      // Create the user's MHV session when they arrive at the MR landing page
-      createSession();
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    // Create the user's MHV session when they arrive at the MR landing page
+    createSession();
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+  }, [dispatch]);
 
   return (
     <div className="landing-page">

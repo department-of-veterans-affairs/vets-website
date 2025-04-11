@@ -72,70 +72,61 @@ const RecipientsSelect = ({
       ],
   );
 
-  useEffect(
-    () => {
-      if (optGroupEnabled) {
-        setRecipientsListSorted(() => {
-          return recipientsList
-            .map(item => {
-              return {
-                id: item.id,
-                vamcSystemName: getVamcSystemNameFromVhaId(
-                  ehrDataByVhaId,
-                  item.stationNumber,
-                ),
-                ...item,
-              };
-            })
-            .sort((a, b) => {
-              const aName = a.suggestedNameDisplay || a.name;
-              const bName = b.suggestedNameDisplay || b.name;
-              // If both vamcSystemName are undefined, sort alphabetically by name
-              if (
-                a.vamcSystemName === undefined &&
-                b.vamcSystemName === undefined
-              ) {
-                return aName.localeCompare(bName);
-              }
-              // If only one vamcSystemName is undefined, sort it to the top
-              if (a.vamcSystemName === undefined) return -1;
-              if (b.vamcSystemName === undefined) return 1;
-              // If both vamcSystemName are defined, sort by vamcSystemName first, then by name
-              if (a.vamcSystemName !== b.vamcSystemName) {
-                return a.vamcSystemName.localeCompare(b.vamcSystemName);
-              }
+  useEffect(() => {
+    if (optGroupEnabled) {
+      setRecipientsListSorted(() => {
+        return recipientsList
+          .map(item => {
+            return {
+              id: item.id,
+              vamcSystemName: getVamcSystemNameFromVhaId(
+                ehrDataByVhaId,
+                item.stationNumber,
+              ),
+              ...item,
+            };
+          })
+          .sort((a, b) => {
+            const aName = a.suggestedNameDisplay || a.name;
+            const bName = b.suggestedNameDisplay || b.name;
+            // If both vamcSystemName are undefined, sort alphabetically by name
+            if (
+              a.vamcSystemName === undefined &&
+              b.vamcSystemName === undefined
+            ) {
               return aName.localeCompare(bName);
-            });
-        });
-      }
-    },
-    [ehrDataByVhaId, recipientsList, optGroupEnabled],
-  );
+            }
+            // If only one vamcSystemName is undefined, sort it to the top
+            if (a.vamcSystemName === undefined) return -1;
+            if (b.vamcSystemName === undefined) return 1;
+            // If both vamcSystemName are defined, sort by vamcSystemName first, then by name
+            if (a.vamcSystemName !== b.vamcSystemName) {
+              return a.vamcSystemName.localeCompare(b.vamcSystemName);
+            }
+            return aName.localeCompare(bName);
+          });
+      });
+    }
+  }, [ehrDataByVhaId, recipientsList, optGroupEnabled]);
 
-  useEffect(
-    () => {
-      if (isSignatureRequired === true) {
-        setAlertDisplayed(true);
-      }
-    },
-    [isSignatureRequired],
-  );
+  useEffect(() => {
+    if (isSignatureRequired === true) {
+      setAlertDisplayed(true);
+    }
+  }, [isSignatureRequired]);
 
-  useEffect(
-    () => {
-      if (selectedRecipient) {
-        onValueChange(selectedRecipient);
-        setCheckboxMarked(false);
-        setElectronicSignature('');
-      }
-    },
-    [
-      onValueChange,
-      selectedRecipient,
-      setCheckboxMarked,
-      setElectronicSignature,
-    ],
-  );
+  useEffect(() => {
+    if (selectedRecipient) {
+      onValueChange(selectedRecipient);
+      setCheckboxMarked(false);
+      setElectronicSignature('');
+    }
+  }, [
+    onValueChange,
+    selectedRecipient,
+    setCheckboxMarked,
+    setElectronicSignature,
+  ]);
 
   const handleRecipientSelect = useCallback(
     e => {
@@ -155,61 +146,55 @@ const RecipientsSelect = ({
     [recipientsList, isSignatureRequired, setSelectedRecipient],
   );
 
-  const optionsValues = useMemo(
-    () => {
-      if (!optGroupEnabled) {
-        return sortRecipients(recipientsList)?.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.suggestedNameDisplay || item.name}
-          </option>
-        ));
-      }
+  const optionsValues = useMemo(() => {
+    if (!optGroupEnabled) {
+      return sortRecipients(recipientsList)?.map(item => (
+        <option key={item.id} value={item.id}>
+          {item.suggestedNameDisplay || item.name}
+        </option>
+      ));
+    }
 
-      let currentVamcSystemName = null;
-      const options = [];
-      let groupedOptions = [];
+    let currentVamcSystemName = null;
+    const options = [];
+    let groupedOptions = [];
 
-      recipientsListSorted.forEach(item => {
-        if (item.vamcSystemName === undefined) {
-          options.push(
-            <option key={item.id} value={item.id}>
-              {item.suggestedNameDisplay || item.name}
-            </option>,
-          );
-        } else if (item.vamcSystemName !== currentVamcSystemName) {
-          if (currentVamcSystemName !== null) {
-            options.push(
-              <optgroup
-                key={currentVamcSystemName}
-                label={currentVamcSystemName}
-              >
-                {groupedOptions}
-              </optgroup>,
-            );
-          }
-          currentVamcSystemName = item.vamcSystemName;
-          groupedOptions = [];
-        }
-        groupedOptions.push(
+    recipientsListSorted.forEach(item => {
+      if (item.vamcSystemName === undefined) {
+        options.push(
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
           </option>,
         );
-      });
-
-      // Push the last group
-      if (currentVamcSystemName !== null) {
-        options.push(
-          <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
-            {groupedOptions}
-          </optgroup>,
-        );
+      } else if (item.vamcSystemName !== currentVamcSystemName) {
+        if (currentVamcSystemName !== null) {
+          options.push(
+            <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+              {groupedOptions}
+            </optgroup>,
+          );
+        }
+        currentVamcSystemName = item.vamcSystemName;
+        groupedOptions = [];
       }
+      groupedOptions.push(
+        <option key={item.id} value={item.id}>
+          {item.suggestedNameDisplay || item.name}
+        </option>,
+      );
+    });
 
-      return options;
-    },
-    [recipientsListSorted, optGroupEnabled, recipientsList],
-  );
+    // Push the last group
+    if (currentVamcSystemName !== null) {
+      options.push(
+        <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+          {groupedOptions}
+        </optgroup>,
+      );
+    }
+
+    return options;
+  }, [recipientsListSorted, optGroupEnabled, recipientsList]);
 
   return (
     <>

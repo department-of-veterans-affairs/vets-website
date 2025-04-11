@@ -21,17 +21,14 @@ const ResolutionWaiverAgreement = ({ formContext }) => {
       currentDebt.resolutionWaiverCheck === true,
   );
 
-  useEffect(
-    () => {
-      if (formContext.submitted && !isWaiverChecked) {
-        setSelectionError('Please check the box below to continue');
-        setFocus('va-checkbox');
-      } else {
-        setSelectionError(null);
-      }
-    },
-    [formContext.submitted, isWaiverChecked],
-  );
+  useEffect(() => {
+    if (formContext.submitted && !isWaiverChecked) {
+      setSelectionError('Please check the box below to continue');
+      setFocus('va-checkbox');
+    } else {
+      setSelectionError(null);
+    }
+  }, [formContext.submitted, isWaiverChecked]);
 
   const onWaiverChecked = () => {
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {

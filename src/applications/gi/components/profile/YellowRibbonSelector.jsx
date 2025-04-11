@@ -148,19 +148,20 @@ const YellowRibbonSelector = ({ programs }) => {
   );
 
   const resultText = filteredPrograms.length === 1 ? 'result' : 'results';
-  const resultDegreeLevel =
-    degreeLevelOptions.length === 1
-      ? `${activeOption} degree levels`
-      : `"${activeOption}" degree levels`;
-
   const renderResultsSummary = () => {
     let activeOptionLabel = '';
     if (activeOption === 'All' || activeOption === 'Other') {
-      activeOptionLabel = resultDegreeLevel;
-    } else if (degreeLevelOptions.length === 1) {
-      activeOptionLabel = `${activeOption} degree level`;
+      activeOptionLabel = (
+        <>
+          "<strong>{activeOption}</strong>" degree levels
+        </>
+      );
     } else {
-      activeOptionLabel = `"${activeOption}" degree level`;
+      activeOptionLabel = (
+        <>
+          "<strong>{activeOption}</strong>" degree level
+        </>
+      );
     }
     return (
       <p
@@ -170,9 +171,8 @@ const YellowRibbonSelector = ({ programs }) => {
         tabIndex="-1"
         className="vads-u-margin-top--3 vads-u-margin-bottom--3"
       >
-        {`Showing ${startIndex}-${endIndex} of ${
-          filteredPrograms.length
-        } ${resultText} for ${activeOptionLabel}`}
+        {`Showing ${startIndex}-${endIndex} of ${filteredPrograms.length} ${resultText} for `}
+        {activeOptionLabel}
       </p>
     );
   };

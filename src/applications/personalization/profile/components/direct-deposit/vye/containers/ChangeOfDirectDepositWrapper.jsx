@@ -61,16 +61,13 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     dispatch(updateBankInfo(fields));
   };
 
-  useEffect(
-    () => {
-      if (!loading && (response || error)) {
-        handleCloseForm();
-      } else {
-        window.scrollTo(0, 0);
-      }
-    },
-    [error, handleCloseForm, loading, response],
-  );
+  useEffect(() => {
+    if (!loading && (response || error)) {
+      handleCloseForm();
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [error, handleCloseForm, loading, response]);
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>

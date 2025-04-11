@@ -90,49 +90,37 @@ const RadiologyDetails = props => {
   const ERROR_TRY_LATER =
     'We’re sorry. There was a problem with our system. Try again later.';
 
-  useEffect(
-    () => {
-      dispatch(fetchImageRequestStatus());
-      dispatch(fetchBbmiNotificationStatus());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchImageRequestStatus());
+    dispatch(fetchBbmiNotificationStatus());
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (studyJobs?.length) {
-        const jobsInProcess = studyJobs.filter(
-          job =>
-            job.status === studyJobStatus.PROCESSING ||
-            job.status === studyJobStatus.NEW,
-        );
-        if (jobsInProcess.length >= 3) {
-          dispatch(setStudyRequestLimitReached(true));
-        } else if (studyRequestLimitReached) {
-          dispatch(setStudyRequestLimitReached(false));
-        }
+  useEffect(() => {
+    if (studyJobs?.length) {
+      const jobsInProcess = studyJobs.filter(
+        job =>
+          job.status === studyJobStatus.PROCESSING ||
+          job.status === studyJobStatus.NEW,
+      );
+      if (jobsInProcess.length >= 3) {
+        dispatch(setStudyRequestLimitReached(true));
+      } else if (studyRequestLimitReached) {
+        dispatch(setStudyRequestLimitReached(false));
       }
-    },
-    [studyJobs],
-  );
+    }
+  }, [studyJobs]);
 
-  useEffect(
-    () => {
-      if (processingAlertHeadingRef.current) {
-        setImageProcessingAlertRendered(true);
-      }
-    },
-    [processingAlertHeadingRef.current],
-  );
+  useEffect(() => {
+    if (processingAlertHeadingRef.current) {
+      setImageProcessingAlertRendered(true);
+    }
+  }, [processingAlertHeadingRef.current]);
 
-  useEffect(
-    () => {
-      if (imageProcessingAlertRendered && isImageRequested) {
-        focusElement(processingAlertHeadingRef.current);
-      }
-    },
-    [imageProcessingAlertRendered, isImageRequested],
-  );
+  useEffect(() => {
+    if (imageProcessingAlertRendered && isImageRequested) {
+      focusElement(processingAlertHeadingRef.current);
+    }
+  }, [imageProcessingAlertRendered, isImageRequested]);
 
   const studyJob = useMemo(
     () =>
@@ -141,42 +129,33 @@ const RadiologyDetails = props => {
     [studyJobs, radiologyDetails.studyId],
   );
 
-  useEffect(
-    () => {
-      if (imageRequestApiFailed || studyRequestLimitReached) {
-        setProcessingRequest(false);
-      }
-    },
-    [imageRequestApiFailed, studyRequestLimitReached],
-  );
+  useEffect(() => {
+    if (imageRequestApiFailed || studyRequestLimitReached) {
+      setProcessingRequest(false);
+    }
+  }, [imageRequestApiFailed, studyRequestLimitReached]);
 
-  useEffect(
-    () => {
-      let timeoutId;
-      if (
-        studyJob?.status === studyJobStatus.NEW ||
-        studyJob?.status === studyJobStatus.PROCESSING
-      ) {
-        setProcessingRequest(false);
+  useEffect(() => {
+    let timeoutId;
+    if (
+      studyJob?.status === studyJobStatus.NEW ||
+      studyJob?.status === studyJobStatus.PROCESSING
+    ) {
+      setProcessingRequest(false);
 
-        timeoutId = setTimeout(() => {
-          dispatch(fetchImageRequestStatus());
-          // Increase the polling interval by 5% on each iteration, capped at 30 seconds
-          setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
-        }, pollInterval);
-      }
-      // Cleanup interval on component unmount or dependencies change
-      return () => clearTimeout(timeoutId);
-    },
-    [studyJob?.status, pollInterval, dispatch],
-  );
+      timeoutId = setTimeout(() => {
+        dispatch(fetchImageRequestStatus());
+        // Increase the polling interval by 5% on each iteration, capped at 30 seconds
+        setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
+      }, pollInterval);
+    }
+    // Cleanup interval on component unmount or dependencies change
+    return () => clearTimeout(timeoutId);
+  }, [studyJob?.status, pollInterval, dispatch]);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,

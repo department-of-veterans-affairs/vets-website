@@ -26,34 +26,28 @@ function useListRefresh({
   dispatchAction,
   dispatch,
 }) {
-  const refreshIsCurrent = useMemo(
-    () => {
-      const extractTypeList = Array.isArray(extractType)
-        ? extractType
-        : [extractType];
-      return (
-        refreshStatus &&
-        extractTypeList.every(type =>
-          refreshStatus.some(
-            extStatus =>
-              extStatus.extract === type &&
-              extStatus.phase === refreshPhases.CURRENT,
-          ),
-        )
-      );
-    },
-    [refreshStatus, extractType],
-  );
+  const refreshIsCurrent = useMemo(() => {
+    const extractTypeList = Array.isArray(extractType)
+      ? extractType
+      : [extractType];
+    return (
+      refreshStatus &&
+      extractTypeList.every(type =>
+        refreshStatus.some(
+          extStatus =>
+            extStatus.extract === type &&
+            extStatus.phase === refreshPhases.CURRENT,
+        ),
+      )
+    );
+  }, [refreshStatus, extractType]);
 
-  const isDataStale = useMemo(
-    () => {
-      if (!listCurrentAsOf) return true;
-      const now = new Date();
-      const durationSinceLastRefresh = now - listCurrentAsOf;
-      return durationSinceLastRefresh > VALID_REFRESH_DURATION;
-    },
-    [listCurrentAsOf],
-  );
+  const isDataStale = useMemo(() => {
+    if (!listCurrentAsOf) return true;
+    const now = new Date();
+    const durationSinceLastRefresh = now - listCurrentAsOf;
+    return durationSinceLastRefresh > VALID_REFRESH_DURATION;
+  }, [listCurrentAsOf]);
 
   useEffect(
     /**

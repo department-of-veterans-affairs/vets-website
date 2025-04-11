@@ -8,18 +8,15 @@ import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library
 import { datadogRum } from '@datadog/browser-rum';
 
 const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': 'warning',
-      });
-      datadogRum.addAction('Showed Alert Box: MHV Basic Account Warning');
-    },
-    [headline, recordEvent],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': 'warning',
+    });
+    datadogRum.addAction('Showed Alert Box: MHV Basic Account Warning');
+  }, [headline, recordEvent]);
 
   return (
     <VaAlertSignIn

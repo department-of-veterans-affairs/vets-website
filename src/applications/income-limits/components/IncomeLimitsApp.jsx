@@ -27,24 +27,21 @@ const IncomeLimitsApp = ({
     document.title = 'Income limits and your VA health care | Veterans Affairs';
   });
 
-  useEffect(
-    () => {
-      if (zipValidationError && location !== `/${ROUTES.ZIPCODE}`) {
-        updateZipValError(false);
-      }
+  useEffect(() => {
+    if (zipValidationError && location !== `/${ROUTES.ZIPCODE}`) {
+      updateZipValError(false);
+    }
 
-      if (resultsValidationError && location !== `/${ROUTES.REVIEW}`) {
-        updateResultsServiceError(false);
-      }
-    },
-    [
-      location,
-      resultsValidationError,
-      updateResultsServiceError,
-      updateZipValError,
-      zipValidationError,
-    ],
-  );
+    if (resultsValidationError && location !== `/${ROUTES.REVIEW}`) {
+      updateResultsServiceError(false);
+    }
+  }, [
+    location,
+    resultsValidationError,
+    updateResultsServiceError,
+    updateZipValError,
+    zipValidationError,
+  ]);
 
   const alertBanner = (message = null) => {
     return (
@@ -90,7 +87,4 @@ IncomeLimitsApp.propTypes = {
   zipValidationError: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IncomeLimitsApp);
+export default connect(mapStateToProps, mapDispatchToProps)(IncomeLimitsApp);

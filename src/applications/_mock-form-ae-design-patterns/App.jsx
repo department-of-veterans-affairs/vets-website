@@ -48,12 +48,9 @@ export const handleEditPageDisplayTweaks = location => {
 export default function App({ location, children }) {
   const formConfig = useContext(PatternConfigContext);
 
-  useEffect(
-    () => {
-      handleEditPageDisplayTweaks(location);
-    },
-    [location],
-  );
+  useEffect(() => {
+    handleEditPageDisplayTweaks(location);
+  }, [location]);
 
   return (
     <div className="vads-u-margin-top--4">

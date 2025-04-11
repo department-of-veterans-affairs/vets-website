@@ -4,25 +4,22 @@ import { FacilityType, OperatingStatusDisplay } from '../../constants';
 
 export default function OperationStatus(props) {
   const { operatingStatus, website, facilityType } = props;
-  const visitText = useMemo(
-    () => {
-      if (facilityType === FacilityType.VA_CEMETERY) {
-        return (
-          <p data-testid="visit-text">
-            For more information about the cemetery including interment, visit
-            our <va-link href={website} text="cemetery website" />.
-          </p>
-        );
-      }
+  const visitText = useMemo(() => {
+    if (facilityType === FacilityType.VA_CEMETERY) {
       return (
         <p data-testid="visit-text">
-          Visit the <va-link href={website} text="website" /> to learn more
-          about hours and services.
+          For more information about the cemetery including interment, visit our{' '}
+          <va-link href={website} text="cemetery website" />.
         </p>
       );
-    },
-    [facilityType, website],
-  );
+    }
+    return (
+      <p data-testid="visit-text">
+        Visit the <va-link href={website} text="website" /> to learn more about
+        hours and services.
+      </p>
+    );
+  }, [facilityType, website]);
 
   if (!operatingStatus || operatingStatus.code === 'NORMAL') {
     return <></>;

@@ -49,28 +49,22 @@ const GrossMonthlyIncomeInput = props => {
     setGrossMonthlyIncome({ value: event.target.value, dirty: true });
   };
 
-  const validateGrossMonthlyIncome = useCallback(
-    () => {
-      const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+  const validateGrossMonthlyIncome = useCallback(() => {
+    const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
-      if (
-        !grossMonthlyIncome.value ||
-        (grossMonthlyIncome.value &&
-          (!regex.test(grossMonthlyIncome.value) ||
-            Number(grossMonthlyIncome.value) < 0))
-      ) {
-        setIncomeError(true);
-      }
-    },
-    [grossMonthlyIncome],
-  );
+    if (
+      !grossMonthlyIncome.value ||
+      (grossMonthlyIncome.value &&
+        (!regex.test(grossMonthlyIncome.value) ||
+          Number(grossMonthlyIncome.value) < 0))
+    ) {
+      setIncomeError(true);
+    }
+  }, [grossMonthlyIncome]);
 
-  useEffect(
-    () => {
-      validateGrossMonthlyIncome();
-    },
-    [incomeError, grossMonthlyIncome, validateGrossMonthlyIncome],
-  );
+  useEffect(() => {
+    validateGrossMonthlyIncome();
+  }, [incomeError, grossMonthlyIncome, validateGrossMonthlyIncome]);
 
   const updateFormData = e => {
     e.preventDefault();

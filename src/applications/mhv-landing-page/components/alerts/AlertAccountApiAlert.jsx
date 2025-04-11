@@ -14,18 +14,15 @@ const AlertAccountApiAlert = ({
   const headline = userActionable
     ? `Error code ${errorCode}: Contact the My HealtheVet help desk`
     : `You can't access messages, medications, or medical records right now`;
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': 'warning',
-      });
-      datadogRum.addAction('Showed Alert Box: Alert Account API ');
-    },
-    [headline, recordEvent],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': 'warning',
+    });
+    datadogRum.addAction('Showed Alert Box: Alert Account API ');
+  }, [headline, recordEvent]);
 
   return (
     <VaAlert
@@ -105,10 +102,10 @@ AlertAccountApiAlert.defaultProps = {
 
 AlertAccountApiAlert.propTypes = {
   errorCode: PropTypes.number,
-  title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
   testId: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default AlertAccountApiAlert;

@@ -1,6 +1,4 @@
-export {
-  default as AddressViewField,
-} from './src/js/components/AddressViewField';
+export { default as AddressViewField } from './src/js/components/AddressViewField';
 
 export { default as FormNavButtons } from './src/js/components/FormNavButtons';
 
@@ -8,9 +6,7 @@ export { default as FormTitle } from './src/js/components/FormTitle';
 
 export { default as ProgressButton } from './src/js/components/ProgressButton';
 
-export {
-  default as ReviewCardField,
-} from './src/js/components/ReviewCardField';
+export { default as ReviewCardField } from './src/js/components/ReviewCardField';
 
 export { default as SchemaForm } from './src/js/components/SchemaForm';
 
@@ -36,19 +32,13 @@ export {
   uiSchema as autosuggestUiSchema,
 } from './src/js/definitions/autosuggest';
 
-export {
-  default as confirmationEmail,
-} from './src/js/definitions/confirmationEmail';
+export { default as confirmationEmail } from './src/js/definitions/confirmationEmail';
 
 export { default as currency } from './src/js/definitions/currency';
 
-export {
-  default as currentOrPastDate,
-} from './src/js/definitions/currentOrPastDate';
+export { default as currentOrPastDate } from './src/js/definitions/currentOrPastDate';
 
-export {
-  default as currentOrPastMonthYear,
-} from './src/js/definitions/currentOrPastMonthYear';
+export { default as currentOrPastMonthYear } from './src/js/definitions/currentOrPastMonthYear';
 
 export { default as date } from './src/js/definitions/date';
 
@@ -82,9 +72,7 @@ export { default as FullNameField } from './src/js/fields/FullNameField';
 
 export { default as ObjectField } from './src/js/fields/ObjectField';
 
-export {
-  default as ReviewPhoneNumberWidget,
-} from './src/js/review/PhoneNumberWidget';
+export { default as ReviewPhoneNumberWidget } from './src/js/review/PhoneNumberWidget';
 
 export {
   mapStateToProps,
@@ -117,13 +105,9 @@ export {
   getViewedPages,
 } from './src/js/state/selectors';
 
-export {
-  default as numberToWords,
-} from './src/js/utilities/data/numberToWords';
+export { default as numberToWords } from './src/js/utilities/data/numberToWords';
 
-export {
-  default as findDuplicateIndexes,
-} from './src/js/utilities/data/findDuplicateIndexes';
+export { default as findDuplicateIndexes } from './src/js/utilities/data/findDuplicateIndexes';
 
 export { default as get } from './src/js/utilities/data/get';
 
@@ -178,9 +162,7 @@ export {
 
 export { default as viewifyFields } from './src/js/utilities/viewify-fields';
 
-export {
-  default as PhoneNumberWidget,
-} from './src/js/widgets/PhoneNumberWidget';
+export { default as PhoneNumberWidget } from './src/js/widgets/PhoneNumberWidget';
 
 export { default as TextWidget } from './src/js/widgets/TextWidget';
 

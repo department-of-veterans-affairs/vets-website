@@ -442,9 +442,7 @@ describe('getDebtDetailsCardContent', () => {
   ];
 
   testCases.forEach(({ debt, expectedHeaderText, expectedBodyText }) => {
-    it(`should render the correct message for diary code ${
-      debt.diaryCode
-    }`, () => {
+    it(`should render the correct message for diary code ${debt.diaryCode}`, () => {
       const { container, content } = renderDebtDetailsCardContent(
         debt,
         testDate,

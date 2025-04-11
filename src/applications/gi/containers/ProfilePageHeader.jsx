@@ -335,28 +335,27 @@ const ProfilePageHeader = ({
             </span>
           )}
         </div>
-        {displayStars &&
-          isShowRatingsToggle && (
-            <div className={starClasses}>
-              <span className="vads-u-font-size--sm">
-                <RatingsStars rating={ratingAvg} />
-              </span>{' '}
-              <span className="vads-u-padding-left--1 vads-u-padding-right--1">
-                |
-              </span>{' '}
-              <span className="vads-u-font-weight--bold vads-u-padding-right--1">
-                {stars.display} of 4
-              </span>{' '}
-              (
-              <a
-                href="#veteran-ratings"
-                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-              >
-                See {ratingCount} ratings by Veterans
-              </a>
-              )
-            </div>
-          )}
+        {displayStars && isShowRatingsToggle && (
+          <div className={starClasses}>
+            <span className="vads-u-font-size--sm">
+              <RatingsStars rating={ratingAvg} />
+            </span>{' '}
+            <span className="vads-u-padding-left--1 vads-u-padding-right--1">
+              |
+            </span>{' '}
+            <span className="vads-u-font-weight--bold vads-u-padding-right--1">
+              {stars.display} of 4
+            </span>{' '}
+            (
+            <a
+              href="#veteran-ratings"
+              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+            >
+              See {ratingCount} ratings by Veterans
+            </a>
+            )
+          </div>
+        )}
         {!displayStars &&
           type.toUpperCase() !== 'OJT' &&
           isShowRatingsToggle && <span>Not yet rated by Veterans</span>}
@@ -417,7 +416,4 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePageHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePageHeader);

@@ -161,12 +161,11 @@ Cypress.Commands.add('fillVaDate', (field, dateString, isMonthYearOnly) => {
         : cy.wrap(field);
     element.as('currentElement');
 
-    const [year, month, day] = dateString.split('-').map(
-      dateComponent =>
-        // eslint-disable-next-line no-restricted-globals
-        isFinite(dateComponent)
-          ? parseInt(dateComponent, 10).toString()
-          : dateComponent,
+    const [year, month, day] = dateString.split('-').map(dateComponent =>
+      // eslint-disable-next-line no-restricted-globals
+      isFinite(dateComponent)
+        ? parseInt(dateComponent, 10).toString()
+        : dateComponent,
     );
 
     if (isMonthYearOnly == null) {
@@ -188,12 +187,11 @@ Cypress.Commands.add(
           ? cy.get(`va-memorable-date[name="${field}"]`)
           : cy.wrap(field);
 
-      const [year, month, day] = dateString.split('-').map(
-        dateComponent =>
-          // eslint-disable-next-line no-restricted-globals
-          isFinite(dateComponent)
-            ? parseInt(dateComponent, 10).toString()
-            : dateComponent,
+      const [year, month, day] = dateString.split('-').map(dateComponent =>
+        // eslint-disable-next-line no-restricted-globals
+        isFinite(dateComponent)
+          ? parseInt(dateComponent, 10).toString()
+          : dateComponent,
       );
 
       element.shadow().then(el => {

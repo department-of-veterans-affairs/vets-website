@@ -33,8 +33,9 @@ export default function ClaimTimeline({ currentPhaseBack, phase }) {
             moves forward to “Preparation for notification” and then briefly
             back to this stage for more processing.
           </p>
-          {currentPhaseBack &&
-            phase === LAST_EVIDENCE_GATHERING_PHASE && <PhaseBackWarning />}
+          {currentPhaseBack && phase === LAST_EVIDENCE_GATHERING_PHASE && (
+            <PhaseBackWarning />
+          )}
         </ClaimPhase>
         <ClaimPhase phase={4} current={userPhase}>
           <p>We are preparing your claim decision packet to be mailed.</p>

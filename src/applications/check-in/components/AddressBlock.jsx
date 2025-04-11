@@ -33,9 +33,7 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
     if (addressObject.street3) {
       addressString = `${addressString}, ${addressObject.street3}`;
     }
-    addressString = `${addressString}, ${addressObject.city}, ${
-      addressObject.state
-    }, ${addressObject.zip}`;
+    addressString = `${addressString}, ${addressObject.city}, ${addressObject.state}, ${addressObject.zip}`;
     return addressString;
   };
 
@@ -49,30 +47,29 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
       <p className="vads-u-margin--0" data-testid="address-city-state-and-zip">
         {`${address.city}, ${address.state} ${address.zip.substring(0, 5)}`}
       </p>
-      {showDirections &&
-        placeName && (
-          <div
-            data-testid="directions-link-wrapper"
-            className="vads-u-display--flex vads-u-color--link-default"
+      {showDirections && placeName && (
+        <div
+          data-testid="directions-link-wrapper"
+          className="vads-u-display--flex vads-u-color--link-default"
+        >
+          <va-icon
+            className="vads-u-margin-right--0p5 vads-u-color--link-default"
+            icon="directions"
+            size={3}
+          />
+          <a
+            data-testid="directions-link"
+            href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
+              address,
+            )}`}
+            aria-label={t('directions-to-location', { location: placeName })}
+            target="_blank"
+            rel="noreferrer"
           >
-            <va-icon
-              className="vads-u-margin-right--0p5 vads-u-color--link-default"
-              icon="directions"
-              size={3}
-            />
-            <a
-              data-testid="directions-link"
-              href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
-                address,
-              )}`}
-              aria-label={t('directions-to-location', { location: placeName })}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t('directions')}
-            </a>
-          </div>
-        )}
+            {t('directions')}
+          </a>
+        </div>
+      )}
     </div>
   );
 };

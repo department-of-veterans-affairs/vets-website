@@ -28,9 +28,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     options,
     customTitle,
     description: `What’s ${customTitle}?`,
-    customHint: `Enter the sex that appears on ${
-      bp.relativePossessive
-    } birth certificate`,
+    customHint: `Enter the sex that appears on ${bp.relativePossessive} birth certificate`,
   };
 }
 

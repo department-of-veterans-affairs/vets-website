@@ -32,79 +32,69 @@ const getClaimUpdateDate = claim => {
 
 const useHighlightedClaimOrAppeal = (appealsData, claimsData) => {
   // the appeals data sorted with the most recently updated appeal first
-  const sortedAppeals = React.useMemo(
-    () => {
-      // Array sorting is done in place. Sorting `appealsData` directly was
-      // leading to odd behavior. So copy the appealsData before sorting
-      const appealsDataCopy = [...appealsData];
-      return appealsDataCopy.sort((a, b) => {
-        const appealAUpdatedAt = getAppealUpdateDate(a);
-        const appealBUpdatedAt = getAppealUpdateDate(b);
-        return new Date(appealAUpdatedAt).getTime() >
-          new Date(appealBUpdatedAt).getTime()
-          ? -1
-          : 1;
-      });
-    },
-    [appealsData],
-  );
+  const sortedAppeals = React.useMemo(() => {
+    // Array sorting is done in place. Sorting `appealsData` directly was
+    // leading to odd behavior. So copy the appealsData before sorting
+    const appealsDataCopy = [...appealsData];
+    return appealsDataCopy.sort((a, b) => {
+      const appealAUpdatedAt = getAppealUpdateDate(a);
+      const appealBUpdatedAt = getAppealUpdateDate(b);
+      return new Date(appealAUpdatedAt).getTime() >
+        new Date(appealBUpdatedAt).getTime()
+        ? -1
+        : 1;
+    });
+  }, [appealsData]);
 
   // the claims data sorted with the most recently updated claim first
-  const sortedClaims = React.useMemo(
-    () => {
-      // Array sorting is done in place. Sorting `claimsData` directly was
-      // leading to odd behavior. So copy the claimsData before sorting
-      const claimsDataCopy = [...claimsData];
-      return claimsDataCopy.sort((a, b) => {
-        return new Date(getClaimUpdateDate(a)).getTime() >
-          new Date(getClaimUpdateDate(b)).getTime()
-          ? -1
-          : 1;
-      });
-    },
-    [claimsData],
-  );
+  const sortedClaims = React.useMemo(() => {
+    // Array sorting is done in place. Sorting `claimsData` directly was
+    // leading to odd behavior. So copy the claimsData before sorting
+    const claimsDataCopy = [...claimsData];
+    return claimsDataCopy.sort((a, b) => {
+      return new Date(getClaimUpdateDate(a)).getTime() >
+        new Date(getClaimUpdateDate(b)).getTime()
+        ? -1
+        : 1;
+    });
+  }, [claimsData]);
 
   // the most recently updated open claim or appeal or
   // the latest closed claim or appeal that has been updated in the past 60 days
-  return React.useMemo(
-    () => {
-      let result;
-      let mostRecentAppeal =
-        (sortedAppeals.length > 0 && sortedAppeals[0]) || null;
-      let mostRecentClaim =
-        (sortedClaims.length > 0 && sortedClaims[0]) || null;
+  return React.useMemo(() => {
+    let result;
+    let mostRecentAppeal =
+      (sortedAppeals.length > 0 && sortedAppeals[0]) || null;
+    let mostRecentClaim = (sortedClaims.length > 0 && sortedClaims[0]) || null;
 
-      if (
-        !mostRecentAppeal?.attributes?.active &&
-        !isWithinPast60Days(getAppealUpdateDate(mostRecentAppeal))
-      ) {
-        mostRecentAppeal = null;
-      }
+    if (
+      !mostRecentAppeal?.attributes?.active &&
+      !isWithinPast60Days(getAppealUpdateDate(mostRecentAppeal))
+    ) {
+      mostRecentAppeal = null;
+    }
 
-      if (
-        !isClaimOpen(mostRecentClaim) &&
-        !isWithinPast60Days(getClaimUpdateDate(mostRecentClaim))
-      ) {
-        mostRecentClaim = null;
-      }
+    if (
+      !isClaimOpen(mostRecentClaim) &&
+      !isWithinPast60Days(getClaimUpdateDate(mostRecentClaim))
+    ) {
+      mostRecentClaim = null;
+    }
 
-      const mostRecentAppealDate = getAppealUpdateDate(mostRecentAppeal) || 0;
-      const mostRecentClaimDate = getClaimUpdateDate(mostRecentClaim) || 0;
+    const mostRecentAppealDate = getAppealUpdateDate(mostRecentAppeal) || 0;
+    const mostRecentClaimDate = getClaimUpdateDate(mostRecentClaim) || 0;
 
-      if (
-        new Date(mostRecentAppealDate).getTime() >
-        new Date(mostRecentClaimDate).getTime()
-      ) {
-        result = mostRecentAppeal;
-      } else {
-        result = mostRecentClaim;
-      }
+    if (
+      new Date(mostRecentAppealDate).getTime() >
+      new Date(mostRecentClaimDate).getTime()
+    ) {
+      result = mostRecentAppeal;
+    } else {
+      result = mostRecentClaim;
+    }
 
-      return result;
-    },
-    [sortedAppeals, sortedClaims],
-  );
+    return result;
+  }, [sortedAppeals, sortedClaims]);
 };
 
 export default useHighlightedClaimOrAppeal;

@@ -5,9 +5,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
-  const apiImagingPath = `${
-    environment.API_URL
-  }/my_health/v1/medical_records/imaging`;
+  const apiImagingPath = `${environment.API_URL}/my_health/v1/medical_records/imaging`;
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.ceil(imageList.length / imagesPerPage);
@@ -49,9 +47,7 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
                 </h2>
                 <div className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5">
                   <img
-                    src={`${apiImagingPath}/${studyId}/images/${
-                      image.seriesAndImage
-                    }`}
+                    src={`${apiImagingPath}/${studyId}/images/${image.seriesAndImage}`}
                     alt={`${image.index}, Details not provided`}
                   />
                 </div>
@@ -63,7 +59,6 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={pageCount}
-              maxPageListLength={5}
               showLastPage
               uswds
             />

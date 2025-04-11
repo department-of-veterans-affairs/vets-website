@@ -18,20 +18,17 @@ const ErrorLinks = props => {
     setHadErrors(true);
   }
 
-  useEffect(
-    () => {
-      // Move focus to legend
-      if (
-        errors.length > 0 &&
-        !errorRef.current.classList.contains('has-focused')
-      ) {
-        // initially focus on alert legend immediately above error links
-        errorRef.current.focus();
-        errorRef.current.classList.add('has-focused');
-      }
-    },
-    [errors, errorRef],
-  );
+  useEffect(() => {
+    // Move focus to legend
+    if (
+      errors.length > 0 &&
+      !errorRef.current.classList.contains('has-focused')
+    ) {
+      // initially focus on alert legend immediately above error links
+      errorRef.current.focus();
+      errorRef.current.classList.add('has-focused');
+    }
+  }, [errors, errorRef]);
 
   return (
     <va-alert

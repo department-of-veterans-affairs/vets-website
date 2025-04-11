@@ -7,15 +7,12 @@ import recordEvent from 'platform/monitoring/record-event';
 const SubmissionError = ({ form }) => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo(alertRef.current);
-        focusElement('h3', {}, alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo(alertRef.current);
+      focusElement('h3', {}, alertRef.current);
+    }
+  }, [alertRef]);
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'error',

@@ -34,21 +34,18 @@ const BenefitRelinquishmentDate = props => {
     });
   }, []);
 
-  useEffect(
-    () => {
-      if (
-        formData?.mebAutoPopulateRelinquishmentDate &&
-        (!formData?.benefitEffectiveDate ||
-          moment(formData?.benefitEffectiveDate).isBefore(aYearAgo))
-      ) {
-        setFormData({
-          ...formData,
-          benefitEffectiveDate: dateValue,
-        });
-      }
-    },
-    [formData?.benefitEffectiveDate, dateValue, setFormData],
-  );
+  useEffect(() => {
+    if (
+      formData?.mebAutoPopulateRelinquishmentDate &&
+      (!formData?.benefitEffectiveDate ||
+        moment(formData?.benefitEffectiveDate).isBefore(aYearAgo))
+    ) {
+      setFormData({
+        ...formData,
+        benefitEffectiveDate: dateValue,
+      });
+    }
+  }, [formData?.benefitEffectiveDate, dateValue, setFormData]);
 
   function handleChange(event) {
     if (event !== null && event !== undefined) {

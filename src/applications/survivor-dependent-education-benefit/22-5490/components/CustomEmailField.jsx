@@ -38,9 +38,9 @@ function CustomEmailField(props) {
 }
 
 CustomEmailField.propTypes = {
+  email: PropTypes.string,
   fetchDuplicateContactInfo: PropTypes.func,
   updateGlobalEmail: PropTypes.func,
-  email: PropTypes.string,
 };
 
 const mapStateToProps = state => {
@@ -59,7 +59,4 @@ const mapDispatchToProps = {
   updateGlobalEmail,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CustomEmailField);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomEmailField);

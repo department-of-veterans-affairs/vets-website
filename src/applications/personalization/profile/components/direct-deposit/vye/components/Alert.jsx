@@ -6,17 +6,14 @@ const Alert = ({ status, title, message }) => {
   const dispatch = useDispatch();
 
   // This Effcet to reset errors or response after 15s
-  useEffect(
-    () => {
-      const timer = setTimeout(() => {
-        dispatch({ type: 'RESET_ERROR' });
-        dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
-        dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
-      }, 15000);
-      return () => clearTimeout(timer);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch({ type: 'RESET_ERROR' });
+      dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [dispatch]);
 
   return (
     <div className="vads-u-margin-y--2">

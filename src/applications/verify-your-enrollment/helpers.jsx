@@ -757,136 +757,133 @@ export const getSignlePreviousEnrollments = awards => {
   const myUUID = uuidv4();
   return (
     <div className="vye-top-border" key={myUUID}>
-      {awards?.transactDate &&
-        awards?.paymentDate && (
-          <>
-            <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
-              <span className="vads-u-display--inline-block ">
-                {awards.actBegin !== null
-                  ? translateDateIntoMonthYearFormat(awards?.actBegin)
-                  : translateDateIntoMonthYearFormat(awards?.actEnd)}
-              </span>{' '}
-              <va-icon
-                icon="check_circle"
-                class="icon-color"
-                aria-hidden="true"
-              />{' '}
-              <span className="vads-u-display--block">Verified</span>
-            </h3>
-            <p>We processed your payment for this month.</p>
-            <va-additional-info
-              trigger={`
+      {awards?.transactDate && awards?.paymentDate && (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {awards.actBegin !== null
+                ? translateDateIntoMonthYearFormat(awards?.actBegin)
+                : translateDateIntoMonthYearFormat(awards?.actEnd)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <p>We processed your payment for this month.</p>
+          <va-additional-info
+            trigger={`
             ${
               awards.actBegin !== null
                 ? translateDateIntoMonthYearFormat(awards?.actBegin)
                 : translateDateIntoMonthYearFormat(awards?.actEnd)
             } verification details
           `}
-              class="vads-u-margin-bottom--4"
-            >
-              <p className="vads-u-font-weight--bold">
-                {translateDatePeriod(awards?.actBegin, awards?.actEnd)}
-              </p>
-              <p>
-                <span className="vads-u-font-weight--bold">
-                  Total credit hours:
-                </span>{' '}
-                {awards.numberHours === null
-                  ? 'Hours unavailable'
-                  : awards.numberHours}
-              </p>
-              <p>
-                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-                {awards.monthlyRate === null
-                  ? 'Rate unavailable'
-                  : formatCurrency(awards?.monthlyRate)}
-              </p>
-              <p className="vads-u-padding-bottom--3">
-                The rate may vary based on the dates and credit hours you
-                attended.
-              </p>
-              <p className="vads-u-font-style--italic  vads-u-margin-top--3">
-                You verified on{' '}
-                {translateDateIntoMonthDayYearFormat(awards?.transactDate)}
-              </p>
-            </va-additional-info>
-          </>
-        )}
-      {awards?.transactDate &&
-        !awards?.paymentDate && (
-          <>
-            <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
-              <span className="vads-u-display--inline-block ">
-                {awards.actBegin !== null
-                  ? translateDateIntoMonthYearFormat(awards?.actBegin)
-                  : translateDateIntoMonthYearFormat(awards?.actEnd)}
+            class="vads-u-margin-bottom--4"
+          >
+            <p className="vads-u-font-weight--bold">
+              {translateDatePeriod(awards?.actBegin, awards?.actEnd)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Total credit hours:
               </span>{' '}
-              <va-icon
-                icon="check_circle"
-                class="icon-color"
-                aria-hidden="true"
-              />{' '}
-              <span className="vads-u-display--block">Verified</span>
-            </h3>
-            <va-additional-info
-              trigger={`${translateDateIntoMonthYearFormat(
-                awards?.actBegin,
-              )} verification details`}
-              class="vads-u-margin-bottom--4"
+              {awards.numberHours === null
+                ? 'Hours unavailable'
+                : awards.numberHours}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+              {awards.monthlyRate === null
+                ? 'Rate unavailable'
+                : formatCurrency(awards?.monthlyRate)}
+            </p>
+            <p className="vads-u-padding-bottom--3">
+              The rate may vary based on the dates and credit hours you
+              attended.
+            </p>
+            <p className="vads-u-font-style--italic  vads-u-margin-top--3">
+              You verified on{' '}
+              {translateDateIntoMonthDayYearFormat(awards?.transactDate)}
+            </p>
+          </va-additional-info>
+        </>
+      )}
+      {awards?.transactDate && !awards?.paymentDate && (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {awards.actBegin !== null
+                ? translateDateIntoMonthYearFormat(awards?.actBegin)
+                : translateDateIntoMonthYearFormat(awards?.actEnd)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awards?.actBegin,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            <p className="vads-u-font-weight--bold">
+              {translateDatePeriod(awards?.actBegin, awards?.actEnd)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Total credit hours:
+              </span>{' '}
+              {awards?.numberHours === null
+                ? 'Hours unavailable'
+                : awards?.numberHours}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+              {awards?.monthlyRate === null
+                ? 'Rate unavailable'
+                : formatCurrency(awards?.monthlyRate)}
+            </p>
+            <p className="vads-u-padding-bottom--3">
+              The rate may vary based on the dates and credit hours you
+              attended.
+            </p>
+            <p className="vads-u-font-style--italic">
+              You verified on{' '}
+              {translateDateIntoMonthDayYearFormat(awards?.transactDate)}
+            </p>
+          </va-additional-info>
+        </>
+      )}
+      {!awards?.transactDate && !awards?.paymentDate && (
+        <>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awards?.actBegin)}
+          </h3>
+          <va-alert
+            background-only
+            class="vads-u-margin-bottom--3"
+            close-btn-aria-label="Close notification"
+            disable-analytics="true"
+            full-width="false"
+            status="info"
+            visible="true"
+            slim
+          >
+            <p
+              className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+              data-testid="have-not-verified"
             >
-              <p className="vads-u-font-weight--bold">
-                {translateDatePeriod(awards?.actBegin, awards?.actEnd)}
-              </p>
-              <p>
-                <span className="vads-u-font-weight--bold">
-                  Total credit hours:
-                </span>{' '}
-                {awards?.numberHours === null
-                  ? 'Hours unavailable'
-                  : awards?.numberHours}
-              </p>
-              <p>
-                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-                {awards?.monthlyRate === null
-                  ? 'Rate unavailable'
-                  : formatCurrency(awards?.monthlyRate)}
-              </p>
-              <p className="vads-u-padding-bottom--3">
-                The rate may vary based on the dates and credit hours you
-                attended.
-              </p>
-              <p className="vads-u-font-style--italic">
-                You verified on{' '}
-                {translateDateIntoMonthDayYearFormat(awards?.transactDate)}
-              </p>
-            </va-additional-info>
-          </>
-        )}
-      {!awards?.transactDate &&
-        !awards?.paymentDate && (
-          <>
-            <h3 className="vads-u-font-size--h4">
-              {translateDateIntoMonthYearFormat(awards?.actBegin)}
-            </h3>
-            <va-alert
-              background-only
-              class="vads-u-margin-bottom--3"
-              close-btn-aria-label="Close notification"
-              disable-analytics="true"
-              full-width="false"
-              status="info"
-              visible="true"
-              slim
-            >
-              <p
-                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
-                data-testid="have-not-verified"
-              >
-                You haven’t verified your enrollment for the month.
-              </p>
-            </va-alert>
-          </>
-        )}
+              You haven’t verified your enrollment for the month.
+            </p>
+          </va-alert>
+        </>
+      )}
     </div>
   );
 };

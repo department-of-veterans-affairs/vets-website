@@ -61,33 +61,29 @@ export default function FacilityAddress({
             {clinicName} <br />
           </>
         )}
-        {!!clinicPhysicalLocation &&
-          !isPhone && (
-            <>
-              <HeadingSub className="vads-u-display--inline">
-                Location:
-              </HeadingSub>{' '}
-              {clinicPhysicalLocation} <br />
-            </>
-          )}
-        {showPhone &&
-          !!clinicPhone && (
-            <FacilityPhone
-              contact={clinicPhone}
-              extension={clinicPhoneExtension}
-              heading="Clinic phone:"
-              level={level + 1}
-            />
-          )}
-        {showPhone &&
-          !!phone &&
-          !clinicPhone && (
-            <FacilityPhone
-              contact={phone}
-              level={level + 1}
-              heading={phoneHeading}
-            />
-          )}
+        {!!clinicPhysicalLocation && !isPhone && (
+          <>
+            <HeadingSub className="vads-u-display--inline">
+              Location:
+            </HeadingSub>{' '}
+            {clinicPhysicalLocation} <br />
+          </>
+        )}
+        {showPhone && !!clinicPhone && (
+          <FacilityPhone
+            contact={clinicPhone}
+            extension={clinicPhoneExtension}
+            heading="Clinic phone:"
+            level={level + 1}
+          />
+        )}
+        {showPhone && !!phone && !clinicPhone && (
+          <FacilityPhone
+            contact={phone}
+            level={level + 1}
+            heading={phoneHeading}
+          />
+        )}
       </div>
     </>
   );

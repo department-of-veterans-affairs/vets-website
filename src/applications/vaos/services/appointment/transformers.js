@@ -18,17 +18,22 @@ export function getAppointmentType(
   // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
 
-  // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-  // eslint-disable-next-line sonarjs/no-collapsible-if
   if (useFeSourceOfTruthVA) {
-    if (isCerner && appt?.type === 'VA') {
+    if (appt?.type === 'VA') {
       return APPOINTMENT_TYPES.vaAppointment;
     }
-  } else {
-    // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-    // eslint-disable-next-line no-lonely-if
-    if (isCerner && !isEmpty(appt?.end)) {
-      return APPOINTMENT_TYPES.vaAppointment;
+
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
+    }
+  }
+
+  if (useFeSourceOfTruthCC) {
+    if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
+      return APPOINTMENT_TYPES.ccAppointment;
+    }
+    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+      return APPOINTMENT_TYPES.ccRequest;
     }
   }
 
@@ -54,17 +59,6 @@ export function getAppointmentType(
 
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
-  }
-
-  // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-  // eslint-disable-next-line sonarjs/no-collapsible-if
-  if (useFeSourceOfTruthVA) {
-    if (appt?.type === 'VA') {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
-    // We must return a value for the function, but this is technically only possible when the type is invalid.
-    // We can potentially throw an error here but that's rather unusual in our codebase.
-    return appt?.type;
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
@@ -277,7 +271,9 @@ export function transformVAOSAppointment(
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start.format() : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,

@@ -61,8 +61,8 @@ class ReadOnlyArrayField extends React.Component {
                     {uiOptions.itemName}
                   </H>
                   {/* outer wrapper needs uiOptions.customTitle = ' ' to prevent
-                    * rendering of a <dl> around the schemaform-field-container
-                    */}
+                   * rendering of a <dl> around the schemaform-field-container
+                   */}
                   <Wrapper className="review">
                     <SchemaField
                       key={index}

@@ -31,31 +31,25 @@ const Navigation = () => {
     setIsNavigationOpen(true);
   }
 
-  const closeNavigation = useCallback(
-    () => {
-      setIsNavigationOpen(false);
-      focusElement(navMenuButtonRef);
-    },
-    [navMenuButtonRef],
-  );
+  const closeNavigation = useCallback(() => {
+    setIsNavigationOpen(false);
+    focusElement(navMenuButtonRef);
+  }, [navMenuButtonRef]);
 
   useEffect(() => {
     checkScreenSize();
   }, []);
 
-  useEffect(
-    () => {
-      if (isNavigationOpen) {
-        focusElement(closeMenuButtonRef.current);
-        trapFocus(
-          sideBarNavRef.current,
-          `a[href]:not([disabled]), button:not([disabled])`,
-          closeNavigation,
-        );
-      }
-    },
-    [isNavigationOpen, closeMenuButtonRef, sideBarNavRef, closeNavigation],
-  );
+  useEffect(() => {
+    if (isNavigationOpen) {
+      focusElement(closeMenuButtonRef.current);
+      trapFocus(
+        sideBarNavRef.current,
+        `a[href]:not([disabled]), button:not([disabled])`,
+        closeNavigation,
+      );
+    }
+  }, [isNavigationOpen, closeMenuButtonRef, sideBarNavRef, closeNavigation]);
 
   const paths = () => {
     return [

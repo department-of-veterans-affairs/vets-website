@@ -35,16 +35,15 @@ export default class SupportingDocsVerification {
           const itemProps = Array.isArray(items)
             ? items[0]?.properties // Confirmation page has different page structure
             : items?.properties;
-          return Object.keys(itemProps ?? {}).map(
-            item =>
-              // Descend into the page to determine if it has a file upload
-              itemProps[item]?.type === 'array'
-                ? {
-                    name: item,
-                    path: pages[page].path,
-                    required: Object.keys(this.requiredFiles).includes(item),
-                  }
-                : undefined,
+          return Object.keys(itemProps ?? {}).map(item =>
+            // Descend into the page to determine if it has a file upload
+            itemProps[item]?.type === 'array'
+              ? {
+                  name: item,
+                  path: pages[page].path,
+                  required: Object.keys(this.requiredFiles).includes(item),
+                }
+              : undefined,
           );
         })
         .flat(Infinity) // List of all potential files

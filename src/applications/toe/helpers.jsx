@@ -372,8 +372,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
 export function mapSelectedSponsors(sponsors) {
   // Map selected sponsors' IDs
   return (
-    sponsors.sponsors?.flatMap(
-      sponsor => (sponsor.selected ? [sponsor.id] : []),
+    sponsors.sponsors?.flatMap(sponsor =>
+      sponsor.selected ? [sponsor.id] : [],
     ) || []
   );
 }

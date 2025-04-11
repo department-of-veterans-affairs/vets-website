@@ -349,16 +349,13 @@ export const SubmissionAlert = ({
 }) => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo('topScrollElement');
-        // delay focus for Safari
-        waitForRenderThenFocus('h2', alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo('topScrollElement');
+      // delay focus for Safari
+      waitForRenderThenFocus('h2', alertRef.current);
+    }
+  }, [alertRef]);
 
   const onCheckVaStatusClick = () => {
     recordEvent({

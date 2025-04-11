@@ -14,14 +14,11 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
     pageSetup(H1);
   });
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const resultsPageContinue = event => {
     event.preventDefault();

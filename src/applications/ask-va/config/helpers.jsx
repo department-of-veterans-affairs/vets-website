@@ -347,9 +347,7 @@ export const isLocationOfResidenceRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-    isQuestionAboutVeteranOrSomeoneElse ===
-      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN
+    relationshipToVeteran === relationshipOptionsSomeoneElse.WORK
   ) {
     return true;
   }
@@ -506,8 +504,6 @@ export const isPostalCodeRequired = data => {
     (GuardianshipAndVRE || EducationAndVRE) &&
     whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
     relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-    isQuestionAboutVeteranOrSomeoneElse ===
-      isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;

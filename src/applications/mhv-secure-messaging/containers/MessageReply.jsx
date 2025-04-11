@@ -21,28 +21,19 @@ const MessageReply = () => {
   const [isEditing, setIsEditing] = useState(true);
   const [isSending, setIsSending] = useState(false);
 
-  useEffect(
-    () => {
-      if (isSending === true) {
-        scrollToTop();
-      }
-    },
-    [isSending],
-  );
+  useEffect(() => {
+    if (isSending === true) {
+      scrollToTop();
+    }
+  }, [isSending]);
 
-  useEffect(
-    () => {
-      dispatch(retrieveMessageThread(replyId));
-    },
-    [replyId, dispatch],
-  );
+  useEffect(() => {
+    dispatch(retrieveMessageThread(replyId));
+  }, [replyId, dispatch]);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [acknowledged, replyMessage],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [acknowledged, replyMessage]);
 
   const content = () => {
     if (replyMessage === undefined) {

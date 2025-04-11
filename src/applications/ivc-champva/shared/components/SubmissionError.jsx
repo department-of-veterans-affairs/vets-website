@@ -7,21 +7,16 @@ import recordEvent from 'platform/monitoring/record-event';
 const SubmissionError = ({ form }) => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo(alertRef.current);
-        focusElement('h3', {}, alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo(alertRef.current);
+      focusElement('h3', {}, alertRef.current);
+    }
+  }, [alertRef]);
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'error',
-    'alert-box-heading': `${
-      form?.formId
-    } - Your CHAMPVA submission didn’t go through`,
+    'alert-box-heading': `${form?.formId} - Your CHAMPVA submission didn’t go through`,
     'error-key': 'submission_failure',
     'alert-box-full-width': false,
     'alert-box-background-only': false,

@@ -37,18 +37,12 @@ const NextOfKin = props => {
     [dispatch, goToNextPage],
   );
 
-  const yesClick = useCallback(
-    () => {
-      buttonClick('yes');
-    },
-    [buttonClick],
-  );
-  const noClick = useCallback(
-    () => {
-      buttonClick('no');
-    },
-    [buttonClick],
-  );
+  const yesClick = useCallback(() => {
+    buttonClick('yes');
+  }, [buttonClick]);
+  const noClick = useCallback(() => {
+    buttonClick('no');
+  }, [buttonClick]);
   const header = t('is-this-your-current-next-of-kin');
   const subtitle = t(
     'this-helps-us-keep-information-about-your-next-of-kin-up-to-date',

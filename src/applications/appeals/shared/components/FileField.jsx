@@ -136,19 +136,16 @@ const FileField = props => {
     setProgress(percent);
   };
 
-  useEffect(
-    () => {
-      if (files.length === 0 && formContext.submitted) {
-        // scroll fieldset to top
-        scrollTo('topContentElement');
-        // focus on error text above upload button
-        setTimeout(() => {
-          focusElement('span.usa-input-error-message');
-        });
-      }
-    },
-    [formContext.submitted, files.length],
-  );
+  useEffect(() => {
+    if (files.length === 0 && formContext.submitted) {
+      // scroll fieldset to top
+      scrollTo('topContentElement');
+      // focus on error text above upload button
+      setTimeout(() => {
+        focusElement('span.usa-input-error-message');
+      });
+    }
+  }, [formContext.submitted, files.length]);
 
   useEffect(
     () => {
@@ -172,29 +169,25 @@ const FileField = props => {
     [formData],
   );
 
-  useEffect(
-    () => {
-      // The File object is not preserved in the save-in-progress data
-      // We need to remove these entries; an empty `file` is included in the
-      // entry, but if API File Object still exists (within the same session), we
-      // can't use Object.keys() on it because it returns an empty array
-      const newData = files.filter(
-        // keep - file may not exist (already uploaded)
-        // keep - file may contain File object; ensure name isn't empty
-        // remove - file may be an empty object
-        // remove - file without confirmationCode & an error
-        data =>
-          (!data.file &&
-            (initialized || (!initialized && !data.errorMessage))) ||
-          (data.file?.name || '') !== '',
-      );
-      if (newData.length !== files.length) {
-        onChange(newData);
-      }
-      setInitialized(true);
-    },
-    [files, onChange, initialized],
-  );
+  useEffect(() => {
+    // The File object is not preserved in the save-in-progress data
+    // We need to remove these entries; an empty `file` is included in the
+    // entry, but if API File Object still exists (within the same session), we
+    // can't use Object.keys() on it because it returns an empty array
+    const newData = files.filter(
+      // keep - file may not exist (already uploaded)
+      // keep - file may contain File object; ensure name isn't empty
+      // remove - file may be an empty object
+      // remove - file without confirmationCode & an error
+      data =>
+        (!data.file && (initialized || (!initialized && !data.errorMessage))) ||
+        (data.file?.name || '') !== '',
+    );
+    if (newData.length !== files.length) {
+      onChange(newData);
+    }
+    setInitialized(true);
+  }, [files, onChange, initialized]);
 
   /**
    * Add file to list and upload
@@ -594,13 +587,12 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
-                {!file.uploading &&
-                  hasVisibleError && (
-                    <div className="usa-input-error-message vads-u-color--secondary-dark">
-                      <span className="sr-only">Error</span>{' '}
-                      {reMapErrorMessage(errors[0])}
-                    </div>
-                  )}
+                {!file.uploading && hasVisibleError && (
+                  <div className="usa-input-error-message vads-u-color--secondary-dark">
+                    <span className="sr-only">Error</span>{' '}
+                    {reMapErrorMessage(errors[0])}
+                  </div>
+                )}
                 {showPasswordInput && (
                   <ShowPdfPassword
                     file={file.file}
@@ -610,30 +602,24 @@ const FileField = props => {
                     cancelButton={cancelButton}
                   />
                 )}
-                {!formContext.reviewMode &&
-                  !file.uploading && (
-                    <div className="vads-u-margin-top--2">
-                      {hasVisibleError &&
-                        !showPasswordInput && (
-                          <va-button
-                            name={`retry_upload_${index}`}
-                            class="retry-upload vads-u-width--auto vads-u-margin-right--1"
-                            onClick={getRetryFunction(
-                              allowRetry,
-                              index,
-                              file.file,
-                            )}
-                            label={
-                              allowRetry
-                                ? content.tryAgainLabel(file.name)
-                                : content.newFile
-                            }
-                            text={retryButtonText}
-                          />
-                        )}
-                      {!showPasswordInput && cancelButton}
-                    </div>
-                  )}
+                {!formContext.reviewMode && !file.uploading && (
+                  <div className="vads-u-margin-top--2">
+                    {hasVisibleError && !showPasswordInput && (
+                      <va-button
+                        name={`retry_upload_${index}`}
+                        class="retry-upload vads-u-width--auto vads-u-margin-right--1"
+                        onClick={getRetryFunction(allowRetry, index, file.file)}
+                        label={
+                          allowRetry
+                            ? content.tryAgainLabel(file.name)
+                            : content.newFile
+                        }
+                        text={retryButtonText}
+                      />
+                    )}
+                    {!showPasswordInput && cancelButton}
+                  </div>
+                )}
               </li>
             );
           })}

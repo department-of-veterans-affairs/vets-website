@@ -47,22 +47,19 @@ export const PreSubmitInfo = ({
     [termsAndConditionsChecked, formReplacementChecked, privacyPolicyChecked],
   );
 
-  useEffect(
-    () => {
-      if (showError && !hasSubmit) {
-        setTermsAndConditionsError(!termsAndConditionsChecked);
-        setFormReplacementError(!formReplacementChecked);
-        setPrivacyPolicyError(!privacyPolicyChecked);
-      }
-    },
-    [
-      showError,
-      hasSubmit,
-      termsAndConditionsChecked,
-      formReplacementChecked,
-      privacyPolicyChecked,
-    ],
-  );
+  useEffect(() => {
+    if (showError && !hasSubmit) {
+      setTermsAndConditionsError(!termsAndConditionsChecked);
+      setFormReplacementError(!formReplacementChecked);
+      setPrivacyPolicyError(!privacyPolicyChecked);
+    }
+  }, [
+    showError,
+    hasSubmit,
+    termsAndConditionsChecked,
+    formReplacementChecked,
+    privacyPolicyChecked,
+  ]);
 
   if (isSubmitPending) {
     return (
@@ -177,7 +174,4 @@ const mapStateToProps = ({ form }) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(PreSubmitInfo);
+export default connect(mapStateToProps, null)(PreSubmitInfo);

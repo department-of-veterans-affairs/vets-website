@@ -316,91 +316,90 @@ function CalendarWidget({
               {exceededMaximumSelections && maxSelectionsError}
             </span>
           )}
-          {months.map(
-            (month, index) =>
-              month.format('YYYY-MM') <= maxMonth ? (
-                <div
-                  key={`month-${index}`}
-                  className="vaos-calendar__container vads-u-margin-bottom--3"
-                  aria-labelledby={`h2-${month.format('YYYY-MM')}`}
-                  role="table"
-                >
-                  <>
-                    {index === 0 && (
-                      <CalendarNavigation
-                        prevOnClick={() =>
-                          handlePrev(onPreviousMonth, months, setMonths)
-                        }
-                        nextOnClick={() =>
-                          handleNext(onNextMonth, months, setMonths)
-                        }
-                        momentMonth={month}
-                        prevDisabled={prevDisabled}
-                        nextDisabled={nextDisabled}
-                      />
-                    )}
-                    <hr aria-hidden="true" className="vads-u-margin-y--1" />
-                    <CalendarWeekdayHeader showFullWeek={showWeekends} />
-                    <div role="rowgroup">
-                      {getCalendarWeeks(month, showWeekends).map(
-                        (week, weekIndex) => (
-                          <CalendarRow
-                            availableSlots={availableSlots}
-                            cells={week}
-                            id={id}
-                            timezone={timezone}
-                            currentlySelectedDate={currentlySelectedDate}
-                            handleSelectDate={date => {
-                              if (
-                                maxSelections === 1 &&
-                                date === currentlySelectedDate
-                              ) {
-                                onChange([]);
-                              }
+          {months.map((month, index) =>
+            month.format('YYYY-MM') <= maxMonth ? (
+              <div
+                key={`month-${index}`}
+                className="vaos-calendar__container vads-u-margin-bottom--3"
+                aria-labelledby={`h2-${month.format('YYYY-MM')}`}
+                role="table"
+              >
+                <>
+                  {index === 0 && (
+                    <CalendarNavigation
+                      prevOnClick={() =>
+                        handlePrev(onPreviousMonth, months, setMonths)
+                      }
+                      nextOnClick={() =>
+                        handleNext(onNextMonth, months, setMonths)
+                      }
+                      momentMonth={month}
+                      prevDisabled={prevDisabled}
+                      nextDisabled={nextDisabled}
+                    />
+                  )}
+                  <hr aria-hidden="true" className="vads-u-margin-y--1" />
+                  <CalendarWeekdayHeader showFullWeek={showWeekends} />
+                  <div role="rowgroup">
+                    {getCalendarWeeks(month, showWeekends).map(
+                      (week, weekIndex) => (
+                        <CalendarRow
+                          availableSlots={availableSlots}
+                          cells={week}
+                          id={id}
+                          timezone={timezone}
+                          currentlySelectedDate={currentlySelectedDate}
+                          handleSelectDate={date => {
+                            if (
+                              maxSelections === 1 &&
+                              date === currentlySelectedDate
+                            ) {
+                              onChange([]);
+                            }
 
-                              setCurrentlySelectedDate(
-                                date === currentlySelectedDate ? null : date,
-                              );
-                            }}
-                            handleSelectOption={date => {
-                              if (maxSelections > 1) {
-                                if (value.includes(date)) {
-                                  onChange(
-                                    value.filter(
-                                      selectedDate => selectedDate !== date,
-                                    ),
-                                  );
-                                } else {
-                                  onChange(value.concat(date));
-                                }
-                              } else {
+                            setCurrentlySelectedDate(
+                              date === currentlySelectedDate ? null : date,
+                            );
+                          }}
+                          handleSelectOption={date => {
+                            if (maxSelections > 1) {
+                              if (value.includes(date)) {
                                 onChange(
-                                  [date],
-                                  maxSelections,
-                                  upcomingAppointments,
-                                  timezone,
+                                  value.filter(
+                                    selectedDate => selectedDate !== date,
+                                  ),
                                 );
+                              } else {
+                                onChange(value.concat(date));
                               }
-                            }}
-                            hasError={hasError}
-                            key={`row-${weekIndex}`}
-                            maxDate={maxDate}
-                            maxSelections={maxSelections}
-                            minDate={minDate}
-                            rowNumber={weekIndex}
-                            selectedDates={value}
-                            renderIndicator={renderIndicator}
-                            renderOptions={renderOptions}
-                            renderSelectedLabel={renderSelectedLabel}
-                            disabled={disabled}
-                            showWeekends={showWeekends}
-                          />
-                        ),
-                      )}
-                    </div>
-                  </>
-                </div>
-              ) : null,
+                            } else {
+                              onChange(
+                                [date],
+                                maxSelections,
+                                upcomingAppointments,
+                                timezone,
+                              );
+                            }
+                          }}
+                          hasError={hasError}
+                          key={`row-${weekIndex}`}
+                          maxDate={maxDate}
+                          maxSelections={maxSelections}
+                          minDate={minDate}
+                          rowNumber={weekIndex}
+                          selectedDates={value}
+                          renderIndicator={renderIndicator}
+                          renderOptions={renderOptions}
+                          renderSelectedLabel={renderSelectedLabel}
+                          disabled={disabled}
+                          showWeekends={showWeekends}
+                        />
+                      ),
+                    )}
+                  </div>
+                </>
+              </div>
+            ) : null,
           )}
         </div>
       </div>

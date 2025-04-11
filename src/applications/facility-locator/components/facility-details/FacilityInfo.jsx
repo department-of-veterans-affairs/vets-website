@@ -34,24 +34,21 @@ class FacilityInfo extends Component {
         <div>
           <LocationPhoneLink location={facility} />
         </div>
-        {website &&
-          website !== 'NULL' && (
-            <p className="vads-u-margin--0">
-              <va-link
-                data-testid="facility-info-url"
-                href={website}
-                text="Visit our website"
-              />
-            </p>
-          )}
-        {phone &&
-          phone.main &&
-          !isVBA && (
-            <p>
-              Planning to visit? Please call first as information on this page
-              may change.
-            </p>
-          )}
+        {website && website !== 'NULL' && (
+          <p className="vads-u-margin--0">
+            <va-link
+              data-testid="facility-info-url"
+              href={website}
+              text="Visit our website"
+            />
+          </p>
+        )}
+        {phone && phone.main && !isVBA && (
+          <p>
+            Planning to visit? Please call first as information on this page may
+            change.
+          </p>
+        )}
         {isCemetery && <BurialStatus facility={facility} />}
       </div>
     );

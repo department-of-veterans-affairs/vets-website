@@ -9,9 +9,7 @@ import { touStyles, errorMessages } from '../constants';
 import touData from '../touData';
 
 const redirectToErrorPage = errorCode => {
-  window.location = `${
-    environment.BASE_URL
-  }/auth/login/callback/?auth=fail&code=${errorCode}`;
+  window.location = `${environment.BASE_URL}/auth/login/callback/?auth=fail&code=${errorCode}`;
 };
 
 const defaultMessage = {
@@ -30,41 +28,36 @@ export default function MyVAHealth() {
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
 
-  useEffect(
-    () => {
-      if (ssoeTarget) {
-        apiRequest(`/terms_of_use_agreements/update_provisioning`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+  useEffect(() => {
+    if (ssoeTarget) {
+      apiRequest(`/terms_of_use_agreements/update_provisioning`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      })
+        .then(response => {
+          if (response?.provisioned) {
+            window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
+          } else {
+            redirectToErrorPage(111);
+          }
         })
-          .then(response => {
-            if (response?.provisioned) {
-              window.location = parseRedirectUrl(
-                decodeURIComponent(ssoeTarget),
-              );
-            } else {
-              redirectToErrorPage(111);
-            }
-          })
-          .catch(err => {
-            const message = err?.error;
-            if (message === 'Agreement not accepted') {
-              setDisplayTerms(true);
-            } else if (message === 'Account not Provisioned') {
-              redirectToErrorPage(111);
-            } else {
-              setError({
-                isError: true,
-                message: errorMessages.network,
-              });
-              redirectToErrorPage(110);
-            }
-          });
-      }
-    },
-    [ssoeTarget],
-  );
+        .catch(err => {
+          const message = err?.error;
+          if (message === 'Agreement not accepted') {
+            setDisplayTerms(true);
+          } else if (message === 'Account not Provisioned') {
+            redirectToErrorPage(111);
+          } else {
+            setError({
+              isError: true,
+              message: errorMessages.network,
+            });
+            redirectToErrorPage(110);
+          }
+        });
+    }
+  }, [ssoeTarget]);
 
   const handleTouClick = async type => {
     const cernerType = type === 'accept' ? 'accept_and_provision' : type;
@@ -114,18 +107,17 @@ export default function MyVAHealth() {
       )}
       <section className="usa-grid usa-grid-full">
         <article className="usa-content vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
-          {!displayTerms &&
-            error.isError && (
-              <va-alert
-                status="error"
-                slim
-                visible
-                uswds
-                class="vads-u-margin-y--1p5"
-              >
-                {error.message}
-              </va-alert>
-            )}
+          {!displayTerms && error.isError && (
+            <va-alert
+              status="error"
+              slim
+              visible
+              uswds
+              class="vads-u-margin-y--1p5"
+            >
+              {error.message}
+            </va-alert>
+          )}
           {displayTerms && (
             <>
               <h1>VA online services terms of use</h1>

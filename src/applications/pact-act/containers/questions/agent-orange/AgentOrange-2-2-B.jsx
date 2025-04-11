@@ -22,21 +22,15 @@ const Orange22B = ({
   const H1 = QUESTION_MAP[shortName];
   const orange22B = formResponses[shortName];
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const locations = [
     RESPONSES.VIETNAM_REP,
@@ -78,7 +72,4 @@ Orange22B.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Orange22B);
+export default connect(mapStateToProps, mapDispatchToProps)(Orange22B);

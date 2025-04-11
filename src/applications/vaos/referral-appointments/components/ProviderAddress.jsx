@@ -22,30 +22,29 @@ const ProviderAddress = props => {
         )}
         {address.city}, {address.state}, {address.zipCode}
       </p>
-      {showDirections &&
-        directionsName && (
-          <div
-            data-testid="directions-link-wrapper"
-            className="vads-u-display--flex vads-u-color--link-default vads-u-margin-bottom--1"
+      {showDirections && directionsName && (
+        <div
+          data-testid="directions-link-wrapper"
+          className="vads-u-display--flex vads-u-color--link-default vads-u-margin-bottom--1"
+        >
+          <va-icon
+            className="vads-u-margin-right--0p5 vads-u-color--link-default"
+            icon="directions"
+            size={3}
+          />
+          <a
+            data-testid="directions-link"
+            href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
+              address,
+            )}`}
+            aria-label={`directions to ${directionsName}`}
+            target="_blank"
+            rel="noreferrer"
           >
-            <va-icon
-              className="vads-u-margin-right--0p5 vads-u-color--link-default"
-              icon="directions"
-              size={3}
-            />
-            <a
-              data-testid="directions-link"
-              href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
-                address,
-              )}`}
-              aria-label={`directions to ${directionsName}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Directions
-            </a>
-          </div>
-        )}
+            Directions
+          </a>
+        </div>
+      )}
       <p className="vads-u-margin--0" data-testid="phone">
         Phone: <va-telephone contact={phone} data-testid="provider-telephone" />
       </p>

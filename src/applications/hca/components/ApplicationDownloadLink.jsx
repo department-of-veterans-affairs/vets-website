@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import { API_ENDPOINTS, DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
+import { API_ENDPOINTS } from '../utils/constants';
 import { submitTransformer } from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
@@ -24,14 +23,13 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   const { veteranFullName: name } = form.data['view:veteranInformation'];
 
   // fetch a custom error message based on status code
-  const errorMessage = useMemo(
-    () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
-      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
-    },
-    [errors],
-  );
+  const errorMessage = useMemo(() => {
+    if (!errors.length) return null;
+    const code = errors[0].status[0];
+    return code === '5'
+      ? content['alert-download-message--500']
+      : content['alert-download-message--generic'];
+  }, [errors]);
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -64,11 +62,10 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         });
         const blob = await response.blob();
         handlePdfDownload(blob);
-        recordEvent({ event: '10-10ez-pdf-download--success' });
+        recordEvent({ event: 'hca-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors || []);
-        recordEvent({ event: '10-10ez-pdf-download--failure' });
-        Sentry.withScope(scope => scope.setExtra('error', error));
+        setErrors(error.errors);
+        recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
       }
@@ -77,12 +74,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   );
 
   // apply focus to the error alert if we have errors set
-  useEffect(
-    () => {
-      if (errorMessage) focusElement('.hca-download-error');
-    },
-    [errorMessage],
-  );
+  useEffect(() => {
+    if (errorMessage) focusElement('.hca-download-error');
+  }, [errorMessage]);
 
   // render loading indicator while application download is processing
   if (loading) {

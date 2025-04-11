@@ -63,25 +63,23 @@ const HCAEnrollmentStatusFAQ = ({
       {getFAQContent(enrollmentStatus)}
       {(reapplyAllowed || applyAllowed) &&
         showingReapplyForHealthCareContent && <ReapplyContent route={route} />}
-      {reapplyAllowed &&
-        !showingReapplyForHealthCareContent && (
-          <ReapplyTextLink
-            onClick={() => {
-              recordEvent({ event: 'hca-form-reapply' });
-              showReapplyContent();
-            }}
-          />
-        )}
-      {applyAllowed &&
-        !showingReapplyForHealthCareContent && (
-          <ReapplyTextLink
-            linkLabel="Apply for VA health care"
-            onClick={() => {
-              recordEvent({ event: 'hca-form-apply' });
-              showReapplyContent();
-            }}
-          />
-        )}
+      {reapplyAllowed && !showingReapplyForHealthCareContent && (
+        <ReapplyTextLink
+          onClick={() => {
+            recordEvent({ event: 'hca-form-reapply' });
+            showReapplyContent();
+          }}
+        />
+      )}
+      {applyAllowed && !showingReapplyForHealthCareContent && (
+        <ReapplyTextLink
+          linkLabel="Apply for VA health care"
+          onClick={() => {
+            recordEvent({ event: 'hca-form-apply' });
+            showReapplyContent();
+          }}
+        />
+      )}
     </>
   );
 };

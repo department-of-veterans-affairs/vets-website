@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CalendarContext } from './CalendarContext';
 
-/* 
+/*
  * Because we want to create a background for a jagged grid of cells,
  * we need to set padding and border radius for each cell depending on
  * where it is in the grid and how many cells per row we're displaying
- * 
+ *
  * This was a huge pain to figure out
  */
 function getOptionClasses(index, optionCount, rowSize) {

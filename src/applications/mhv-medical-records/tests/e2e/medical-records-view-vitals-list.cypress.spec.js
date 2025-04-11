@@ -18,9 +18,7 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.verifyVitalOnListPage(
       0,
       'Blood pressure',
-      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[0].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${defaultVitals.entry[0].resource.component[1].valueQuantity.value}`,
       moment
         .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
         .format('MMMM D, YYYY'),
@@ -38,9 +36,7 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.verifyVitalOnListPage(
       2,
       'Breathing rate',
-      `${
-        defaultVitals.entry[7].resource.valueQuantity.value
-      } breaths per minute`,
+      `${defaultVitals.entry[7].resource.valueQuantity.value} breaths per minute`,
       moment
         .parseZone(defaultVitals.entry[7].resource.effectiveDateTime)
         .format('MMMM D, YYYY'),

@@ -12,9 +12,9 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
     document.querySelectorAll(`[data-widget-type="${widgetType}"]`),
   );
   if (widgets.length) {
-    const {
-      default: MhvSigninCallToAction,
-    } = await import(/* webpackChunkName: "mhv-signin-cta" */ 'applications/static-pages/mhv-signin-cta');
+    const { default: MhvSigninCallToAction } = await import(
+      /* webpackChunkName: "mhv-signin-cta" */ 'applications/static-pages/mhv-signin-cta'
+    );
 
     widgets.forEach(el => {
       // Grab the content that will show if no alerts.

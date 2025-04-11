@@ -38,24 +38,16 @@ const ManageFolderButtons = props => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (alertStatus) {
-        renameModalReference.current?.focus();
-      }
-    },
-    [alertStatus],
-  );
+  useEffect(() => {
+    if (alertStatus) {
+      renameModalReference.current?.focus();
+    }
+  }, [alertStatus]);
 
-  useEffect(
-    () => {
-      if (nameWarning.length)
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-    },
-    [nameWarning],
-  );
+  useEffect(() => {
+    if (nameWarning.length)
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+  }, [nameWarning]);
 
   const openDelModal = () => {
     if (alertStatus) dispatch(closeAlert());

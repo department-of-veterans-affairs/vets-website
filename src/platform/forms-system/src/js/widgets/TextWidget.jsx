@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const numberTypes = new Set(['number', 'integer']);
 
 export default function TextWidget(props) {
-  let inputType = props.options.inputType;
+  let { inputType } = props.options;
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }
@@ -45,8 +45,8 @@ TextWidget.propTypes = {
    */
   options: PropTypes.shape({
     /*
-    * input's autocomplete attribute value
-    */
+     * input's autocomplete attribute value
+     */
     autocomplete: PropTypes.string,
     /**
      * input's aria-describedby attribute

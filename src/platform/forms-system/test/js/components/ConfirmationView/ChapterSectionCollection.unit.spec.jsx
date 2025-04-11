@@ -383,11 +383,10 @@ class MockChapter {
   get chapterKey() {
     return this.title
       .split(' ')
-      .map(
-        (word, index) =>
-          index === 0
-            ? word.toLowerCase()
-            : word[0].toUpperCase() + word.slice(1).toLowerCase(),
+      .map((word, index) =>
+        index === 0
+          ? word.toLowerCase()
+          : word[0].toUpperCase() + word.slice(1).toLowerCase(),
       )
       .join('');
   }

@@ -7,13 +7,10 @@ import { useHistory } from 'react-router-dom';
 export default function useHandleClick({ link, idClickable }) {
   const history = useHistory();
 
-  return useCallback(
-    () => {
-      return () => {
-        focusElement(`#${idClickable}`);
-        history.push(link);
-      };
-    },
-    [history, idClickable, link],
-  );
+  return useCallback(() => {
+    return () => {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    };
+  }, [history, idClickable, link]);
 }

@@ -52,7 +52,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         <h4>Confirmation for your records</h4>
         <p>You can print this confirmation page for your records.</p>
 
-        <div className="vads-u-margin-top--2">
+        <div className="vads-u-margin-y--2">
           <va-button
             text="Print this page"
             onClick={() => window.print()}

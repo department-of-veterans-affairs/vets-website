@@ -112,32 +112,29 @@ export function FilterYourResults({
     specialMissionTRIBAL,
   } = filters;
 
-  useEffect(
-    () => {
-      const isEmpty = isEmptyCheckboxFilters(filters);
+  useEffect(() => {
+    const isEmpty = isEmptyCheckboxFilters(filters);
 
-      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
-        dispatchError(null);
-    },
-    [
-      schools,
-      excludeCautionFlags,
-      accredited,
-      studentVeteran,
-      yellowRibbonScholarship,
-      employers,
-      specialMissionHbcu,
-      specialMissionMenonly,
-      specialMissionWomenonly,
-      specialMissionRelaffil,
-      specialMissionHSI,
-      specialMissionNANTI,
-      specialMissionANNHI,
-      specialMissionAANAPII,
-      specialMissionPBI,
-      specialMissionTRIBAL,
-    ],
-  );
+    if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+      dispatchError(null);
+  }, [
+    schools,
+    excludeCautionFlags,
+    accredited,
+    studentVeteran,
+    yellowRibbonScholarship,
+    employers,
+    specialMissionHbcu,
+    specialMissionMenonly,
+    specialMissionWomenonly,
+    specialMissionRelaffil,
+    specialMissionHSI,
+    specialMissionNANTI,
+    specialMissionANNHI,
+    specialMissionAANAPII,
+    specialMissionPBI,
+    specialMissionTRIBAL,
+  ]);
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
@@ -565,7 +562,4 @@ FilterYourResults.propTypes = {
   smallScreen: PropTypes.bool.isRequired,
   dispatchFocusSearch: PropTypes.func,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilterYourResults);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterYourResults);

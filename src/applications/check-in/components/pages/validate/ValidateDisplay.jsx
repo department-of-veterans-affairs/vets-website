@@ -26,37 +26,31 @@ export default function ValidateDisplay({
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
-  useEffect(
-    () => {
-      if (showValidateError) focusElement('.validate-error-alert');
-    },
-    [showValidateError],
-  );
+  useEffect(() => {
+    if (showValidateError) focusElement('.validate-error-alert');
+  }, [showValidateError]);
 
-  useEffect(
-    () => {
-      if (lastNameError) {
-        const nestedShadowElement = document
-          .getElementById('last-name-input')
-          .shadowRoot.getElementById('inputField');
-        focusElement(nestedShadowElement);
-      } else if (dobError) {
-        // get the first element with the class usa-input--error with in the shadowRoot of the dob-input
-        const inputs = document
-          .getElementById('dob-input')
-          .shadowRoot.querySelectorAll('va-text-input');
-        const firstError = [...inputs].find(input => {
-          const inputField = input.shadowRoot.getElementById('inputField');
-          return inputField.classList.contains('usa-input--error');
-        });
-        if (firstError) {
-          focusElement(firstError.shadowRoot.getElementById('inputField'));
-        }
+  useEffect(() => {
+    if (lastNameError) {
+      const nestedShadowElement = document
+        .getElementById('last-name-input')
+        .shadowRoot.getElementById('inputField');
+      focusElement(nestedShadowElement);
+    } else if (dobError) {
+      // get the first element with the class usa-input--error with in the shadowRoot of the dob-input
+      const inputs = document
+        .getElementById('dob-input')
+        .shadowRoot.querySelectorAll('va-text-input');
+      const firstError = [...inputs].find(input => {
+        const inputField = input.shadowRoot.getElementById('inputField');
+        return inputField.classList.contains('usa-input--error');
+      });
+      if (firstError) {
+        focusElement(firstError.shadowRoot.getElementById('inputField'));
       }
-      setDobError(false);
-    },
-    [lastNameError, dobError, setDobError],
-  );
+    }
+    setDobError(false);
+  }, [lastNameError, dobError, setDobError]);
 
   const updateFormState = () => {
     const lastNameValue = document.getElementById('last-name-input').value;

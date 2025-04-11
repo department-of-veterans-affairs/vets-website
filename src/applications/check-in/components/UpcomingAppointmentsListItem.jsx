@@ -105,17 +105,16 @@ const UpcomingAppointmentsListItem = props => {
         >
           {t('details')}
         </a>
-        {app === APP_NAMES.CHECK_IN &&
-          page === 'appointments' && (
-            <div data-testid="appointment-action">
-              <AppointmentMessage appointment={appointment} page={page} />
-              <UpcomingAppointmentsListItemAction
-                appointment={appointment}
-                router={router}
-                event="check-in-clicked-VAOS-design"
-              />
-            </div>
-          )}
+        {app === APP_NAMES.CHECK_IN && page === 'appointments' && (
+          <div data-testid="appointment-action">
+            <AppointmentMessage appointment={appointment} page={page} />
+            <UpcomingAppointmentsListItemAction
+              appointment={appointment}
+              router={router}
+              event="check-in-clicked-VAOS-design"
+            />
+          </div>
+        )}
       </div>
     </>
   );

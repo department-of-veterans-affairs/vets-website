@@ -45,6 +45,13 @@ const transformAddress = formData => {
 };
 
 export default function submitTransformer(formData, uploadFiles) {
+  const { stateOrResidency } = formData;
+
+  if (stateOrResidency?.schoolState || stateOrResidency?.residencyState) {
+    stateOrResidency.schoolState = stateOrResidency?.schoolState || null;
+    stateOrResidency.residencyState = stateOrResidency?.residencyState || null;
+  }
+
   return {
     ...formData,
     ...transformAddress(formData),

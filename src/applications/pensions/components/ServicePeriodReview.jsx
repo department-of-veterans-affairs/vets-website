@@ -38,20 +38,18 @@ const ServicePeriodReview = ({ data, editPage }) => {
           <dt>Branch of service</dt>
           <dd>{branchesString}</dd>
         </div>
-        {activeServiceDateRange &&
-          activeServiceDateRange.from && (
-            <div className="review-row">
-              <dt>Date initially entered active duty</dt>
-              <dd>{formatDateShort(activeServiceDateRange.from)}</dd>
-            </div>
-          )}
-        {activeServiceDateRange &&
-          activeServiceDateRange.to && (
-            <div className="review-row">
-              <dt>Final release date from active duty</dt>
-              <dd>{formatDateShort(activeServiceDateRange.to)}</dd>
-            </div>
-          )}
+        {activeServiceDateRange && activeServiceDateRange.from && (
+          <div className="review-row">
+            <dt>Date initially entered active duty</dt>
+            <dd>{formatDateShort(activeServiceDateRange.from)}</dd>
+          </div>
+        )}
+        {activeServiceDateRange && activeServiceDateRange.to && (
+          <div className="review-row">
+            <dt>Final release date from active duty</dt>
+            <dd>{formatDateShort(activeServiceDateRange.to)}</dd>
+          </div>
+        )}
         {serviceNumber && (
           <div className="review-row">
             <dt>Military Service number</dt>

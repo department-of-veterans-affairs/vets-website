@@ -5,7 +5,7 @@ import guid from 'simple-guid';
  * ICS files have a 75 character line limit. Longer fields need to be broken
  * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
  * character at the start of each new line, which is why I set the limit to 74
- * 
+ *
  * Additionally, any actual line breaks in the text need to be escaped
  */
 export const ICS_LINE_LIMIT = 74;

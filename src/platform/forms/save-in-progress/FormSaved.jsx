@@ -60,23 +60,22 @@ const FormSaved = props => {
             {savedMessage(route.formConfig)}
           </h2>
           <br />
-          {!!lastSavedDate &&
-            !!expirationDate && (
-              <div className="saved-form-metadata-container">
-                <span className="saved-form-metadata">
-                  Last saved on{' '}
-                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}
-                </span>
-                {expirationMessage || (
-                  <p className="expires-container">
-                    Your saved {appType}{' '}
-                    <span className="expires">
-                      will expire on {expirationDate}.
-                    </span>
-                  </p>
-                )}
-              </div>
-            )}
+          {!!lastSavedDate && !!expirationDate && (
+            <div className="saved-form-metadata-container">
+              <span className="saved-form-metadata">
+                Last saved on{' '}
+                {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}
+              </span>
+              {expirationMessage || (
+                <p className="expires-container">
+                  Your saved {appType}{' '}
+                  <span className="expires">
+                    will expire on {expirationDate}.
+                  </span>
+                </p>
+              )}
+            </div>
+          )}
           {success}
           If you’re on a public computer, please sign out of your account before
           you leave so your information stays secure.
@@ -164,10 +163,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(FormSaved),
+  connect(mapStateToProps, mapDispatchToProps)(FormSaved),
 );
 
 export { FormSaved };

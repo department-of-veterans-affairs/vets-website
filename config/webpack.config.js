@@ -122,9 +122,7 @@ async function getScaffoldAssets() {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
-          response.statusText
-        }`,
+        `Failed to fetch ${fileUrl}.\n\n${response.status}: ${response.statusText}`,
       );
     }
 
@@ -133,9 +131,10 @@ async function getScaffoldAssets() {
     return [filename, fileContents];
   };
 
-  const inlineScripts = ['record-event.js', 'static-page-widgets.js'].map(
-    filename => path.join('src/site/assets/js', filename),
-  );
+  const inlineScripts = [
+    'record-event.js',
+    'static-page-widgets.js',
+  ].map(filename => path.join('src/site/assets/js', filename));
 
   const appRegistry = path.join('src/applications', 'registry.json');
 
@@ -259,10 +258,10 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
         typeof template !== 'undefined' && template.title
           ? `${template.title} | Veterans Affairs`
           : typeof appName !== 'undefined'
-            ? appName
-              ? `${appName} | Veterans Affairs`
-              : null
-            : 'VA.gov Home | Veterans Affairs',
+          ? appName
+            ? `${appName} | Veterans Affairs`
+            : null
+          : 'VA.gov Home | Veterans Affairs',
     });
   /* eslint-enable no-nested-ternary */
 

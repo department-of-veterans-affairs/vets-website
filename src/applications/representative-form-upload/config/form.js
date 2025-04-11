@@ -4,20 +4,12 @@ import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import { uploadPage, UploadPage } from '../pages/upload';
-import {
-  NameAndZipCodePage,
-  nameAndZipCodePage,
-} from '../pages/nameAndZipCode';
-import { SAVE_IN_PROGRESS_CONFIG } from './constants';
-import prefillTransformer from './prefill-transformer';
+import * as claimantInformationModule from '../pages/claimantInformation';
+import * as veteranInformationModule from '../pages/veteranInformation';
+import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
-import {
-  VeteranIdentificationInformationPage,
-  veteranIdentificationInformationPage,
-} from '../pages/veteranIdentificationInformation';
-import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
 import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
@@ -29,91 +21,109 @@ export function isLocalhost() {
 }
 
 const mockData = testData.data;
+const { title, subTitle, formNumber } = getFormContent();
+const formId = `${formNumber.toUpperCase()}-UPLOAD`;
+const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
-const formConfig = (pathname = null) => {
-  const { title, subTitle, formNumber } = getFormContent(pathname);
-  const formId = `${formNumber.toUpperCase()}-UPLOAD`;
-  const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
+const {
+  claimantInformationPage,
+  ClaimantInformationPage,
+} = claimantInformationModule;
+const {
+  veteranInformationPage,
+  VeteranInformationPage,
+} = veteranInformationModule;
+const { isVeteranPage } = isVeteranModule;
 
-  return {
-    rootUrl: manifest.rootUrl,
-    urlPrefix: `/${formNumber.toLowerCase()}/`,
-    submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
-    trackingPrefix,
-    confirmation: ConfirmationPage,
-    CustomTopContent,
-    CustomReviewTopContent,
-    customText: { appType: 'form' },
-    hideReviewChapters: true,
-    introduction: IntroductionPage,
-    formId,
-    saveInProgress: SAVE_IN_PROGRESS_CONFIG,
-    version: 0,
-    prefillEnabled: true,
-    prefillTransformer,
-    transformForSubmit,
-    savedFormMessages: {
-      notFound: 'Please start over to upload your form.',
-      noAuth: 'Please sign in again to continue uploading your form.',
-    },
-    title,
-    subTitle,
-    defaultDefinitions: {},
-    v3SegmentedProgressBar: { useDiv: false },
-    chapters: {
-      personalInformationChapter: {
-        title: 'Veteran information',
-        pages: {
-          nameAndZipCodePage: {
-            path: 'name-and-zip-code',
-            title: 'Veteran information',
-            uiSchema: nameAndZipCodePage.uiSchema,
-            schema: nameAndZipCodePage.schema,
-            CustomPage: NameAndZipCodePage,
-            scrollAndFocusTarget,
-            // we want req'd fields prefilled for LOCAL testing/previewing
-            // one single initialData prop here will suffice for entire form
-            initialData: getMockData(mockData, isLocalhost),
-          },
-          veteranIdentificationInformationPage: {
-            path: 'identification-information',
-            title: 'Identification information',
-            uiSchema: veteranIdentificationInformationPage.uiSchema,
-            schema: veteranIdentificationInformationPage.schema,
-            CustomPage: VeteranIdentificationInformationPage,
-            scrollAndFocusTarget,
-          },
-        },
-      },
-      contactInformationChapter: {
-        title: 'Your contact information',
-        pages: {
-          phoneNumberAndEmailPage: {
-            path: 'phone-number-and-email',
-            title: 'Phone and email address',
-            uiSchema: phoneNumberAndEmailPage.uiSchema,
-            schema: phoneNumberAndEmailPage.schema,
-            scrollAndFocusTarget,
-          },
-        },
-      },
-      uploadChapter: {
-        title: 'Upload',
-        pages: {
-          uploadPage: {
-            path: 'upload',
-            title: 'Upload Your File',
-            uiSchema: uploadPage.uiSchema,
-            schema: uploadPage.schema,
-            CustomPage: UploadPage,
-            scrollAndFocusTarget,
-          },
+const formConfig = {
+  rootUrl: manifest.rootUrl,
+  urlPrefix: `/${formNumber.toLowerCase()}/`,
+  submitUrl: `${environment.API_URL}/accredited_representative_portal/v0/submit_representative_form`,
+  dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+  trackingPrefix,
+  confirmation: ConfirmationPage,
+  CustomTopContent,
+  CustomReviewTopContent,
+  customText: { appType: 'form' },
+  hideReviewChapters: true,
+  introduction: IntroductionPage,
+  formId,
+  version: 0,
+  prefillEnabled: false,
+  transformForSubmit,
+  savedFormMessages: {
+    notFound: 'Please start over to upload your form.',
+    noAuth: 'Please sign in again to continue uploading your form.',
+  },
+  title,
+  subTitle,
+  defaultDefinitions: {},
+  v3SegmentedProgressBar: { useDiv: false },
+  chapters: {
+    isVeteranChapter: {
+      title: 'Who is the claimant?',
+      pages: {
+        isVeteranPage: {
+          path: 'is-veteran',
+          title: 'Who is the claimant?',
+          uiSchema: isVeteranPage.uiSchema,
+          schema: isVeteranPage.schema,
         },
       },
     },
-    footerContent,
-  };
+    veteranInformationChapter: {
+      title: 'Veteran Information',
+      pages: {
+        veteranInformation: {
+          path: 'veteran-information',
+          title: 'Veteran information',
+          uiSchema: veteranInformationPage.uiSchema,
+          depends: formData => {
+            return formData.isVeteran === true;
+          },
+          schema: veteranInformationPage.schema,
+          CustomPage: VeteranInformationPage,
+          scrollAndFocusTarget,
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData: getMockData(mockData, isLocalhost),
+        },
+      },
+    },
+    claimantInformationChapter: {
+      title: 'Claimant Information',
+      pages: {
+        claimantInformation: {
+          path: 'claimant-information',
+          title: 'Claimant information',
+          uiSchema: claimantInformationPage.uiSchema,
+          depends: formData => {
+            return formData.isVeteran === false;
+          },
+          schema: claimantInformationPage.schema,
+          CustomPage: ClaimantInformationPage,
+          scrollAndFocusTarget,
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData: getMockData(mockData, isLocalhost),
+        },
+      },
+    },
+    uploadChapter: {
+      title: 'Upload',
+      pages: {
+        uploadPage: {
+          path: 'upload',
+          title: 'Upload Your File',
+          uiSchema: uploadPage.uiSchema,
+          schema: uploadPage.schema,
+          CustomPage: UploadPage,
+          scrollAndFocusTarget,
+        },
+      },
+    },
+  },
+  footerContent,
 };
 
 export default formConfig;

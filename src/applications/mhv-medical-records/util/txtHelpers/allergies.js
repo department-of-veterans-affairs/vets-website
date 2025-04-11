@@ -6,8 +6,8 @@ ${index}) Allergies
 
 If you have allergies that are missing from this list, send a secure message to your care team.
 ${records
-    .map(
-      record => `
+  .map(
+    record => `
 ${record.name}
 ${txtLineDotted}
 Date entered: ${record.date}
@@ -17,7 +17,7 @@ Location: ${record.location}
 Observed or historical: ${record.observedOrReported}
 Provider notes: ${record.notes}
 `,
-    )
-    .join('')}
+  )
+  .join('')}
 `;
 };

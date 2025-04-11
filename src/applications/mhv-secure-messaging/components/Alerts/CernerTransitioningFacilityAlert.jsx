@@ -30,88 +30,79 @@ const CernerTransitioningFacilityAlert = ({ t5, t30, facilityId }) => {
   const userFacilities = user.profile.facilities;
   const ehrFacilities = useSelector(selectEhrDataByVhaId);
 
-  const isTranstioningFacility = useMemo(
-    () => {
-      const transitioningFacility = ehrFacilities[transitioningFacilityId];
-      if (
-        userFacilities &&
-        transitioningFacility &&
-        transitioningFacility.ehr !== 'cerner' &&
-        userFacilities.some(
-          facility =>
-            parseInt(facility.facilityId, 10) ===
-            parseInt(transitioningFacility.vhaId, 10),
-        )
-      ) {
-        return getVamcSystemNameFromVhaId(
-          ehrFacilities,
-          transitioningFacility.vhaId,
-        );
-      }
-      return null;
-    },
-    [userFacilities, ehrFacilities],
-  );
-
-  const contentT30 = useMemo(
-    () => {
-      return (
-        isTranstioningFacility && (
-          <va-alert status="warning" class="vads-u-margin-y--2">
-            <h1 slot="headline">
-              Your health facility is moving to My VA Health
-            </h1>
-            <div>
-              <p>
-                <strong>{isTranstioningFacility}</strong> is moving to our My VA
-                Health portal.
-              </p>
-              <ul>
-                <li>
-                  Starting on <strong>March 4,</strong> you won’t be able to use
-                  this My HealtheVet tool to send messages to care teams at this
-                  facility.
-                </li>
-                <li>
-                  Starting on <strong>March 9,</strong> you can use the new My
-                  VA Health portal to send messages to these care teams.
-                </li>
-              </ul>
-            </div>
-          </va-alert>
-        )
+  const isTranstioningFacility = useMemo(() => {
+    const transitioningFacility = ehrFacilities[transitioningFacilityId];
+    if (
+      userFacilities &&
+      transitioningFacility &&
+      transitioningFacility.ehr !== 'cerner' &&
+      userFacilities.some(
+        facility =>
+          parseInt(facility.facilityId, 10) ===
+          parseInt(transitioningFacility.vhaId, 10),
+      )
+    ) {
+      return getVamcSystemNameFromVhaId(
+        ehrFacilities,
+        transitioningFacility.vhaId,
       );
-    },
-    [isTranstioningFacility],
-  );
+    }
+    return null;
+  }, [userFacilities, ehrFacilities]);
 
-  const contentT5 = useMemo(
-    () => {
-      return (
-        isTranstioningFacility && (
-          <va-alert status="warning" class="vads-u-margin-y--2">
-            <h1 slot="headline">
-              You can’t send messages to some of your care teams right now
-            </h1>
-            <div>
-              <p>
-                We’re moving data for <strong>{isTranstioningFacility}</strong>{' '}
-                to our My VA Health portal. On March 9, you can start using My
-                VA Health to send messages to care teams at this facility.
-              </p>
-              <p>To contact your care team now, call your facility.</p>
-              <p>
-                <a href="/find-locations" target="_blank">
-                  Find your VA health facility
-                </a>
-              </p>
-            </div>
-          </va-alert>
-        )
-      );
-    },
-    [isTranstioningFacility],
-  );
+  const contentT30 = useMemo(() => {
+    return (
+      isTranstioningFacility && (
+        <va-alert status="warning" class="vads-u-margin-y--2">
+          <h1 slot="headline">
+            Your health facility is moving to My VA Health
+          </h1>
+          <div>
+            <p>
+              <strong>{isTranstioningFacility}</strong> is moving to our My VA
+              Health portal.
+            </p>
+            <ul>
+              <li>
+                Starting on <strong>March 4,</strong> you won’t be able to use
+                this My HealtheVet tool to send messages to care teams at this
+                facility.
+              </li>
+              <li>
+                Starting on <strong>March 9,</strong> you can use the new My VA
+                Health portal to send messages to these care teams.
+              </li>
+            </ul>
+          </div>
+        </va-alert>
+      )
+    );
+  }, [isTranstioningFacility]);
+
+  const contentT5 = useMemo(() => {
+    return (
+      isTranstioningFacility && (
+        <va-alert status="warning" class="vads-u-margin-y--2">
+          <h1 slot="headline">
+            You can’t send messages to some of your care teams right now
+          </h1>
+          <div>
+            <p>
+              We’re moving data for <strong>{isTranstioningFacility}</strong> to
+              our My VA Health portal. On March 9, you can start using My VA
+              Health to send messages to care teams at this facility.
+            </p>
+            <p>To contact your care team now, call your facility.</p>
+            <p>
+              <a href="/find-locations" target="_blank">
+                Find your VA health facility
+              </a>
+            </p>
+          </div>
+        </va-alert>
+      )
+    );
+  }, [isTranstioningFacility]);
 
   const content = () => {
     if (t5) return contentT5;

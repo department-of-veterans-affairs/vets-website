@@ -88,16 +88,15 @@ export default function DetailsVA({ appointment, facilityData }) {
                   />
                 </>
               )}
-              {!!facility &&
-                !isCC && (
-                  <VAFacilityLocation
-                    facility={facility}
-                    facilityName={facility?.name}
-                    facilityId={facility?.id}
-                    isPhone
-                    showDirectionsLink={false}
-                  />
-                )}
+              {!!facility && !isCC && (
+                <VAFacilityLocation
+                  facility={facility}
+                  facilityName={facility?.name}
+                  facilityId={facility?.id}
+                  isPhone
+                  showDirectionsLink={false}
+                />
+              )}
             </p>
           </VaAlert>
         </div>

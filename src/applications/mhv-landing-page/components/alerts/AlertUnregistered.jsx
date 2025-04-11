@@ -13,18 +13,15 @@ import { datadogRum } from '@datadog/browser-rum';
 const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
 
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': 'warning',
-      });
-      datadogRum.addAction('Showed Alert Box: Unregistered');
-    },
-    [headline, recordEvent],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': 'warning',
+    });
+    datadogRum.addAction('Showed Alert Box: Unregistered');
+  }, [headline, recordEvent]);
 
   return (
     <VaAlert status="warning" data-testid={testId} disableAnalytics>

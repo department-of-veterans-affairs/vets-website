@@ -4,6 +4,7 @@ import {
   VaRadio,
   VaRadioOption,
   VaLoadingIndicator,
+  VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -11,6 +12,8 @@ import {
   formatStatus,
   resolutionDate,
   BANNER_TYPES,
+  DETAILS_BC_LABEL,
+  poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
@@ -118,15 +121,17 @@ const checkLimitations = (limitations, limit) => {
 
 const POARequestDetailsPage = title => {
   const poaRequest = useLoaderData();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
+  const [decisionValue, setDecisionValue] = useState();
   const handleChange = e => {
     e.preventDefault();
     const radioValue = e.detail?.value;
     if (radioValue) {
-      setError(false);
+      setError();
     } else {
       setError(true);
     }
+    setDecisionValue(radioValue);
   };
 
   const poaStatus =
@@ -155,6 +160,14 @@ const POARequestDetailsPage = title => {
     document.title = title.title;
   }, [title]);
 
+  const handleSubmit = e => {
+    if (!decisionValue) {
+      setError('Please select an option.');
+      e.preventDefault();
+    }
+    return true;
+  };
+
   setTimeout(() => {
     if (document.querySelector('va-radio')) {
       document
@@ -166,6 +179,11 @@ const POARequestDetailsPage = title => {
 
   return (
     <>
+      <VaBreadcrumbs
+        breadcrumbList={poaDetailsBreadcrumbs}
+        label={DETAILS_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       {navigation.state === 'loading' ? (
         <VaLoadingIndicator message="Loading..." />
       ) : (
@@ -412,6 +430,7 @@ const POARequestDetailsPage = title => {
               <Form
                 method="post"
                 action="decision"
+                onSubmit={handleSubmit}
                 className={
                   error
                     ? `poa-request-details__form poa-request-details__form--error`
@@ -425,6 +444,7 @@ const POARequestDetailsPage = title => {
                   class="poa-request-details__form-label"
                   onVaValueChange={handleChange}
                   required
+                  error={error}
                 >
                   <p>
                     We’ll send the claimant an email letting them know your

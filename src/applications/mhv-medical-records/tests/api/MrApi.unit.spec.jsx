@@ -287,9 +287,7 @@ describe('Get appointments api call', () => {
 
     const statusParams =
       '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
-    const expectedUrl = `${
-      environment.API_URL
-    }/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
+    const expectedUrl = `${environment.API_URL}/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
     expect(fetchStub.firstCall.args[0]).to.equal(expectedUrl);
     expect(result.data.length).to.equal(2);
 

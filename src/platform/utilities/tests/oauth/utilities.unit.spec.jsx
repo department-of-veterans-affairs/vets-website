@@ -364,9 +364,7 @@ describe('OAuth - Utilities', () => {
       const storage = localStorage;
       storage.clear();
       storage.setItem('code_verifier', cvValue);
-      const tokenPath = `${
-        environment.API_URL
-      }/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
+      const tokenPath = `${environment.API_URL}/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
       const btr = await oAuthUtils.buildTokenRequest({
         code: 'hello',
       });
@@ -546,9 +544,7 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should remove INFO_TOKEN from cookies when it exists', () => {
-      document.cookie = `${
-        COOKIES.INFO_TOKEN
-      }=some_info_token_value; expires=Wed, 29 Jun 2022 16:41:35 GMT;`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=some_info_token_value; expires=Wed, 29 Jun 2022 16:41:35 GMT;`;
       document.cookie = 'another_cookie=some_value;';
 
       oAuthUtils.removeInfoToken();
@@ -669,9 +665,7 @@ describe('OAuth - Utilities', () => {
 
       document.cookie = 'other_cookie=some_value;';
 
-      document.cookie = `${
-        COOKIES.INFO_TOKEN
-      }=${validCookie};another_cookie=another_value;`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};another_cookie=another_value;`;
 
       const result = getInfoToken();
       expect(result).to.not.be.null;
@@ -840,6 +834,22 @@ describe('OAuth - Utilities', () => {
 
       expect(teardownSpy.called).to.be.true;
       teardownSpy.restore();
+    });
+  });
+
+  describe('createOktaOAuthRequest', () => {
+    it(`should create the proper URL for Okta client_id`, () => {
+      const expected = {
+        clientId: 'okta_test',
+        codeChallenge: 'samplecode',
+        loginType: 'idme',
+      };
+      const url = oAuthUtils.createOktaOAuthRequest({ ...expected });
+      expect(url).to.include(`type=${expected.loginType}`);
+      expect(url).to.include(`client_id=${expected.clientId}`);
+      expect(url).to.include(`code_challenge=${expected.codeChallenge}`);
+      expect(url).to.include('response_type=code');
+      expect(url).to.include('acr=loa3');
     });
   });
 });

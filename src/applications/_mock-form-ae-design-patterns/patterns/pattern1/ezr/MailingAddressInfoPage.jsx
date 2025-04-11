@@ -22,10 +22,9 @@ export const MailingAddressInfoPage = () => {
         address.
       </p>
 
-      {showSuccessAlert &&
-        showSuccessAlert === 'address,updated' && (
-          <MailingAddressSaveSuccessAlert />
-        )}
+      {showSuccessAlert && showSuccessAlert === 'address,updated' && (
+        <MailingAddressSaveSuccessAlert />
+      )}
 
       <BorderedInfoSection>
         <span className="vads-u-font-weight--bold">Mailing Address</span>

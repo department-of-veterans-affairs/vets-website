@@ -147,14 +147,13 @@ const ReportModal = ({
             </ul>
           </>
         )}
-        {someItemsReported &&
-          notAllItemsReported && (
-            <>
-              <h3 style={{ fontSize: 17, marginBottom: 0 }}>
-                You can add to your report
-              </h3>
-            </>
-          )}
+        {someItemsReported && notAllItemsReported && (
+          <>
+            <h3 style={{ fontSize: 17, marginBottom: 0 }}>
+              You can add to your report
+            </h3>
+          </>
+        )}
 
         {notAllItemsReported && (
           <>

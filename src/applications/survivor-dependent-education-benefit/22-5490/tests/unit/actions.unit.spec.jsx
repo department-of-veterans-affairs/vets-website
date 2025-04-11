@@ -47,14 +47,20 @@ describe('Duplicate Contact Info action', () => {
     const mockData = { data: { duplicates: [] } };
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return fetchDuplicateContactInfo(email, phoneNumber)(dispatch).then(() => {
+    return fetchDuplicateContactInfo(
+      email,
+      phoneNumber,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(FETCH_DUPLICATE_CONTACT);
     });
   });
   it('should dispatch a fetch error', () => {
     mockApiRequest({}, false);
     const dispatch = sinon.spy();
-    return fetchDuplicateContactInfo(email, phoneNumber)(dispatch).then(() => {
+    return fetchDuplicateContactInfo(
+      email,
+      phoneNumber,
+    )(dispatch).then(() => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('object');
     });
   });

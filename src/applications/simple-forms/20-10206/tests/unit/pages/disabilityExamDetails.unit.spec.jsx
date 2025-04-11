@@ -40,7 +40,7 @@ describe('ui:reviewField', () => {
       uiSchema.disabilityExams.items.disabilityExamDate['ui:reviewField'];
     const wrapper = render(
       <ReviewField>
-        <div formData="2022-01-01" />
+        <div />
       </ReviewField>,
     );
 
@@ -53,7 +53,7 @@ describe('ui:reviewField', () => {
       uiSchema.disabilityExams.items.disabilityExamDate['ui:reviewField'];
     const wrapper = render(
       <ReviewField>
-        <div formData={null} />
+        <div />
       </ReviewField>,
     );
 

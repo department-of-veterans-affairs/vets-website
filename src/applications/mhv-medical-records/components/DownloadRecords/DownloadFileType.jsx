@@ -44,6 +44,7 @@ import {
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
+import { updateReportFileType } from '../../actions/downloads';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -52,6 +53,11 @@ const DownloadFileType = props => {
   const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
+
+  const fileTypeFilter = useSelector(
+    state => state.mr.downloads?.fileTypeFilter,
+  );
+
   const user = useSelector(state => state.user.profile);
   const name = formatName(user.userFullName);
   const dob = formatUserDob(user);
@@ -90,29 +96,27 @@ const DownloadFileType = props => {
 
   useFocusOutline(progressBarRef);
 
-  useEffect(
-    () => {
-      setTimeout(() => {
-        const heading = progressBarRef?.current?.shadowRoot?.querySelector(
-          'h2',
-        );
-        focusElement(heading);
-      }, 400);
-      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
-    },
-    [progressBarRef],
-  );
+  useEffect(() => {
+    if (fileTypeFilter) {
+      setFileType(fileTypeFilter);
+    }
+  }, [fileTypeFilter]);
 
-  useEffect(
-    () => {
-      if (!dateFilterOption) {
-        history.push('/download/date-range');
-      } else if (!recordFilter) {
-        history.push('/download/record-type');
-      }
-    },
-    [dateFilterOption, history, recordFilter],
-  );
+  useEffect(() => {
+    setTimeout(() => {
+      const heading = progressBarRef?.current?.shadowRoot?.querySelector('h2');
+      focusElement(heading);
+    }, 400);
+    updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
+  }, [progressBarRef]);
+
+  useEffect(() => {
+    if (!dateFilterOption) {
+      history.push('/download/date-range');
+    } else if (!recordFilter) {
+      history.push('/download/record-type');
+    }
+  }, [dateFilterOption, history, recordFilter]);
 
   const filterByDate = useCallback(
     recDate => {
@@ -130,177 +134,165 @@ const DownloadFileType = props => {
   /**
    * True if all the records that were specified in the filters have been fetched, otherwise false.
    */
-  const isDataFetched = useMemo(
-    () => {
-      // Map the recordFilter keys to the corresponding data domains
-      const dataMap = {
-        labTests: labsAndTests,
-        careSummaries: notes,
-        vaccines,
-        allergies,
-        conditions,
-        vitals,
-        medications,
-        upcomingAppts: appointments,
-        pastAppts: appointments,
-        demographics,
-        militaryService,
+  const isDataFetched = useMemo(() => {
+    // Map the recordFilter keys to the corresponding data domains
+    const dataMap = {
+      labTests: labsAndTests,
+      careSummaries: notes,
+      vaccines,
+      allergies,
+      conditions,
+      vitals,
+      medications,
+      upcomingAppts: appointments,
+      pastAppts: appointments,
+      demographics,
+      militaryService,
+      accountSummary,
+    };
+
+    // Map the recordFilter keys to the option list
+    const optionsMap = {
+      labTests: 'labsAndTests',
+      careSummaries: 'notes',
+      vaccines: 'vaccines',
+      allergies: 'allergies',
+      conditions: 'conditions',
+      vitals: 'vitals',
+      medications: 'medications',
+      upcomingAppts: 'appointments',
+      pastAppts: 'appointments',
+      demographics: 'demographics',
+      militaryService: 'militaryService',
+      accountSummary: 'patient',
+    };
+
+    // Check if all domains in the recordFilter were fetched or failed
+    return recordFilter?.every(filter => {
+      const optionDomain = optionsMap[filter];
+      const isFetched = !!dataMap[filter];
+      const hasFailed = failedDomains.includes(optionDomain);
+      return isFetched || hasFailed;
+    });
+  }, [
+    labsAndTests,
+    notes,
+    vaccines,
+    allergies,
+    conditions,
+    vitals,
+    medications,
+    appointments,
+    demographics,
+    militaryService,
+    accountSummary,
+    failedDomains,
+    recordFilter,
+  ]);
+
+  useEffect(() => {
+    const options = {
+      labsAndTests: recordFilter?.includes('labTests'),
+      radiology: recordFilter?.includes('labTests'),
+      notes: recordFilter?.includes('careSummaries'),
+      vaccines: recordFilter?.includes('vaccines'),
+      allergies:
+        recordFilter?.includes('allergies') ||
+        recordFilter?.includes('medications'),
+      conditions: recordFilter?.includes('conditions'),
+      vitals: recordFilter?.includes('vitals'),
+      medications: recordFilter?.includes('medications'),
+      appointments:
+        recordFilter?.includes('upcomingAppts') ||
+        recordFilter?.includes('pastAppts'),
+      demographics: recordFilter?.includes('demographics'),
+      militaryService: recordFilter?.includes('militaryService'),
+      patient: true,
+    };
+
+    if (!isDataFetched) {
+      dispatch(getBlueButtonReportData(options, dateFilter));
+    }
+  }, [isDataFetched, recordFilter, dispatch, dateFilter]);
+
+  const recordData = useMemo(() => {
+    if (isDataFetched) {
+      return {
+        labsAndTests:
+          labsAndTests && recordFilter?.includes('labTests')
+            ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
+            : null,
+        notes:
+          notes && recordFilter?.includes('careSummaries')
+            ? notes.filter(rec => filterByDate(rec.sortByDate))
+            : null,
+        vaccines:
+          vaccines && recordFilter?.includes('vaccines')
+            ? vaccines.filter(rec => filterByDate(rec.date))
+            : null,
+        allergies:
+          allergies &&
+          (recordFilter?.includes('allergies') ||
+            recordFilter?.includes('medications'))
+            ? allergies
+            : null,
+        conditions:
+          conditions && recordFilter?.includes('conditions')
+            ? conditions
+            : null,
+        vitals:
+          vitals && recordFilter?.includes('vitals')
+            ? vitals.filter(rec => filterByDate(rec.date))
+            : null,
+        medications:
+          medications && recordFilter?.includes('medications')
+            ? medications.filter(rec => filterByDate(rec.lastFilledOn))
+            : null,
+        appointments: appointments || null,
+        demographics:
+          demographics && recordFilter?.includes('demographics')
+            ? demographics
+            : null,
+        militaryService:
+          militaryService && recordFilter?.includes('militaryService')
+            ? militaryService
+            : null,
         accountSummary,
       };
+    }
+    return null;
+  }, [
+    filterByDate,
+    isDataFetched,
+    recordFilter,
+    labsAndTests,
+    notes,
+    vaccines,
+    allergies,
+    conditions,
+    vitals,
+    medications,
+    appointments,
+    demographics,
+    militaryService,
+    accountSummary,
+  ]);
 
-      // Map the recordFilter keys to the option list
-      const optionsMap = {
-        labTests: 'labsAndTests',
-        careSummaries: 'notes',
-        vaccines: 'vaccines',
-        allergies: 'allergies',
-        conditions: 'conditions',
-        vitals: 'vitals',
-        medications: 'medications',
-        upcomingAppts: 'appointments',
-        pastAppts: 'appointments',
-        demographics: 'demographics',
-        militaryService: 'militaryService',
-        accountSummary: 'patient',
-      };
+  const recordCount = useMemo(() => {
+    let count = 0;
+    count += recordData?.labsAndTests ? recordData?.labsAndTests?.length : 0;
+    count += recordData?.notes ? recordData?.notes?.length : 0;
+    count += recordData?.vaccines ? recordData?.vaccines?.length : 0;
+    count += recordData?.allergies ? recordData?.allergies?.length : 0;
+    count += recordData?.conditions ? recordData?.conditions?.length : 0;
+    count += recordData?.vitals ? recordData?.vitals?.length : 0;
+    count += recordData?.medications ? recordData?.medications?.length : 0;
+    count += recordData?.appointments ? recordData?.appointments?.length : 0;
+    count += recordData?.demographics ? 1 : 0;
+    count += recordData?.militaryService ? 1 : 0;
 
-      // Check if all domains in the recordFilter were fetched or failed
-      return recordFilter?.every(filter => {
-        const optionDomain = optionsMap[filter];
-        const isFetched = !!dataMap[filter];
-        const hasFailed = failedDomains.includes(optionDomain);
-        return isFetched || hasFailed;
-      });
-    },
-    [
-      labsAndTests,
-      notes,
-      vaccines,
-      allergies,
-      conditions,
-      vitals,
-      medications,
-      appointments,
-      demographics,
-      militaryService,
-      accountSummary,
-      failedDomains,
-      recordFilter,
-    ],
-  );
-
-  useEffect(
-    () => {
-      const options = {
-        labsAndTests: recordFilter?.includes('labTests'),
-        radiology: recordFilter?.includes('labTests'),
-        notes: recordFilter?.includes('careSummaries'),
-        vaccines: recordFilter?.includes('vaccines'),
-        allergies:
-          recordFilter?.includes('allergies') ||
-          recordFilter?.includes('medications'),
-        conditions: recordFilter?.includes('conditions'),
-        vitals: recordFilter?.includes('vitals'),
-        medications: recordFilter?.includes('medications'),
-        appointments:
-          recordFilter?.includes('upcomingAppts') ||
-          recordFilter?.includes('pastAppts'),
-        demographics: recordFilter?.includes('demographics'),
-        militaryService: recordFilter?.includes('militaryService'),
-        patient: true,
-      };
-
-      if (!isDataFetched) {
-        dispatch(getBlueButtonReportData(options, dateFilter));
-      }
-    },
-    [isDataFetched, recordFilter, dispatch, dateFilter],
-  );
-
-  const recordData = useMemo(
-    () => {
-      if (isDataFetched) {
-        return {
-          labsAndTests:
-            labsAndTests && recordFilter?.includes('labTests')
-              ? labsAndTests.filter(rec => filterByDate(rec.sortDate))
-              : null,
-          notes:
-            notes && recordFilter?.includes('careSummaries')
-              ? notes.filter(rec => filterByDate(rec.sortByDate))
-              : null,
-          vaccines:
-            vaccines && recordFilter?.includes('vaccines')
-              ? vaccines.filter(rec => filterByDate(rec.date))
-              : null,
-          allergies:
-            allergies &&
-            (recordFilter?.includes('allergies') ||
-              recordFilter?.includes('medications'))
-              ? allergies
-              : null,
-          conditions:
-            conditions && recordFilter?.includes('conditions')
-              ? conditions
-              : null,
-          vitals:
-            vitals && recordFilter?.includes('vitals')
-              ? vitals.filter(rec => filterByDate(rec.date))
-              : null,
-          medications:
-            medications && recordFilter?.includes('medications')
-              ? medications.filter(rec => filterByDate(rec.lastFilledOn))
-              : null,
-          appointments: appointments || null,
-          demographics:
-            demographics && recordFilter?.includes('demographics')
-              ? demographics
-              : null,
-          militaryService:
-            militaryService && recordFilter?.includes('militaryService')
-              ? militaryService
-              : null,
-          accountSummary,
-        };
-      }
-      return null;
-    },
-    [
-      filterByDate,
-      isDataFetched,
-      recordFilter,
-      labsAndTests,
-      notes,
-      vaccines,
-      allergies,
-      conditions,
-      vitals,
-      medications,
-      appointments,
-      demographics,
-      militaryService,
-      accountSummary,
-    ],
-  );
-
-  const recordCount = useMemo(
-    () => {
-      let count = 0;
-      count += recordData?.labsAndTests ? recordData?.labsAndTests?.length : 0;
-      count += recordData?.notes ? recordData?.notes?.length : 0;
-      count += recordData?.vaccines ? recordData?.vaccines?.length : 0;
-      count += recordData?.allergies ? recordData?.allergies?.length : 0;
-      count += recordData?.conditions ? recordData?.conditions?.length : 0;
-      count += recordData?.vitals ? recordData?.vitals?.length : 0;
-      count += recordData?.medications ? recordData?.medications?.length : 0;
-      count += recordData?.appointments ? recordData?.appointments?.length : 0;
-      count += recordData?.demographics ? 1 : 0;
-      count += recordData?.militaryService ? 1 : 0;
-
-      return count;
-    },
-    [recordData],
-  );
+    return count;
+  }, [recordData]);
 
   const formatDateRange = () => {
     return {
@@ -310,91 +302,82 @@ const DownloadFileType = props => {
     };
   };
 
-  const generatePdf = useCallback(
-    async () => {
-      try {
-        setDownloadStarted(true);
-        dispatch(clearAlerts());
+  const generatePdf = useCallback(async () => {
+    try {
+      setDownloadStarted(true);
+      dispatch(clearAlerts());
 
-        if (isDataFetched) {
-          const title = 'Blue Button report';
-          const subject = 'VA Medical Record';
-          const scaffold = generatePdfScaffold(user, title, subject);
-          const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-          const pdfData = {
-            ...formatDateRange(),
-            recordSets: generateBlueButtonData(recordData, recordFilter),
-            ...scaffold,
-            name,
-            dob,
-            lastUpdated: getLastUpdatedText(refreshStatus, [
-              refreshExtractTypes.ALLERGY,
-              refreshExtractTypes.CHEM_HEM,
-              refreshExtractTypes.VPR,
-            ]),
-          };
-          await makePdf(
-            pdfName,
-            pdfData,
-            title,
-            runningUnitTest,
-            'blueButtonReport',
-          );
-          dispatch({ type: Actions.Downloads.BB_SUCCESS });
-        }
-      } catch (error) {
-        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+      if (isDataFetched) {
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const scaffold = generatePdfScaffold(user, title, subject);
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const pdfData = {
+          ...formatDateRange(),
+          recordSets: generateBlueButtonData(recordData, recordFilter),
+          ...scaffold,
+          name,
+          dob,
+          lastUpdated: getLastUpdatedText(refreshStatus, [
+            refreshExtractTypes.ALLERGY,
+            refreshExtractTypes.CHEM_HEM,
+            refreshExtractTypes.VPR,
+          ]),
+        };
+        await makePdf(
+          pdfName,
+          pdfData,
+          title,
+          runningUnitTest,
+          'blueButtonReport',
+        );
+        dispatch({ type: Actions.Downloads.BB_SUCCESS });
       }
-    },
-    [
-      fromDate,
-      toDate,
-      dispatch,
-      dob,
-      isDataFetched,
-      name,
-      recordData,
-      recordFilter,
-      refreshStatus,
-      runningUnitTest,
-      user,
-    ],
-  );
+    } catch (error) {
+      dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+    }
+  }, [
+    fromDate,
+    toDate,
+    dispatch,
+    dob,
+    isDataFetched,
+    name,
+    recordData,
+    recordFilter,
+    refreshStatus,
+    runningUnitTest,
+    user,
+  ]);
 
-  const generateTxt = useCallback(
-    async () => {
-      try {
-        setDownloadStarted(true);
-        dispatch(clearAlerts());
-        if (isDataFetched) {
-          const title = 'Blue Button report';
-          const subject = 'VA Medical Record';
-          const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
-            user,
-            title,
-            subject,
-          )}`;
-          const dateRange = formatDateRange();
-          const content = getTxtContent(recordData, user, dateRange);
+  const generateTxt = useCallback(async () => {
+    try {
+      setDownloadStarted(true);
+      dispatch(clearAlerts());
+      if (isDataFetched) {
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(
+          user,
+          title,
+          subject,
+        )}`;
+        const dateRange = formatDateRange();
+        const content = getTxtContent(recordData, user, dateRange);
 
-          generateTextFile(content, pdfName, user);
-          dispatch({ type: Actions.Downloads.BB_SUCCESS });
-        }
-      } catch (error) {
-        dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+        generateTextFile(content, pdfName, user);
+        dispatch({ type: Actions.Downloads.BB_SUCCESS });
       }
-    },
-    [dispatch, isDataFetched, recordData, user],
-  );
+    } catch (error) {
+      dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+    }
+  }, [dispatch, isDataFetched, recordData, user]);
 
-  const checkFileTypeValidity = useCallback(
-    () => {
-      const isValid = !!fileType;
-      setFileTypeError(isValid ? '' : 'Please select a file type');
-      return isValid;
-    },
-    [fileType],
-  );
+  const checkFileTypeValidity = useCallback(() => {
+    const isValid = !!fileType;
+    setFileTypeError(isValid ? '' : 'Please select a file type');
+    return isValid;
+  }, [fileType]);
 
   const selectFileTypeHandler = e => {
     checkFileTypeValidity();
@@ -421,6 +404,8 @@ const DownloadFileType = props => {
   const handleValueChange = e => {
     const { value } = e.detail;
     setFileType(value);
+    // Immediately update Redux when a radio button is selected
+    dispatch(updateReportFileType(value));
     const typeText = value === 'pdf' ? 'PDF' : 'Text file';
     sendDataDogAction(`${typeText} - File type`);
     selectFileTypeHandler(e);
@@ -444,71 +429,75 @@ const DownloadFileType = props => {
           <VaLoadingIndicator message="Loading your records..." />
         </div>
       )}
-      {isDataFetched &&
-        recordCount === 0 && (
-          <div className="vads-u-padding-bottom--2">
-            <va-alert data-testid="no-records-alert" status="error">
-              <h2 slot="headline">No records found</h2>
-              <p>
-                We couldn’t find any records that match your selection. Go back
-                and update the date range or select more record types.
-              </p>
-              <p>
-                <Link to="/download/date-range">Go back to update report</Link>
-              </p>
-            </va-alert>
-          </div>
-        )}
-      {isDataFetched &&
-        recordCount > 0 && (
-          <form onSubmit={e => handleSubmit(e)}>
-            <fieldset>
-              <legend
-                className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
-                data-testid="record-count"
-              >
-                You’re downloading <strong>{recordCount} total records</strong>
-              </legend>
+      {isDataFetched && recordCount === 0 && (
+        <div className="vads-u-padding-bottom--2">
+          <va-alert data-testid="no-records-alert" status="error">
+            <h2 slot="headline">No records found</h2>
+            <p>
+              We couldn’t find any records that match your selection. Go back
+              and update the date range or select more record types.
+            </p>
+            <p>
+              <Link to="/download/date-range">Go back to update report</Link>
+            </p>
+          </va-alert>
+        </div>
+      )}
+      {isDataFetched && recordCount > 0 && (
+        <form onSubmit={e => handleSubmit(e)}>
+          <fieldset>
+            <legend
+              className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+              data-testid="record-count"
+            >
+              You’re downloading <strong>{recordCount} total records</strong>
+            </legend>
 
-              <VaRadio
-                label="If you use assistive technology, a text file may work better for you."
-                onVaValueChange={handleValueChange}
-                error={fileTypeError}
-              >
-                <va-radio-option label="PDF" value="pdf" name="file-type" />
-                <va-radio-option
-                  label="Text file"
-                  value="txt"
-                  name="file-type"
-                />
-              </VaRadio>
-              {downloadStarted && <DownloadSuccessAlert />}
-              <div className="vads-u-margin-top--1">
-                <DownloadingRecordsInfo description="Blue Button Report" />
-              </div>
-            </fieldset>
-
-            <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
-              <button
-                type="button"
-                className="usa-button-secondary vads-u-margin-y--0p5"
-                onClick={handleBack}
-              >
-                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-                  <va-icon icon="navigate_far_before" size={2} />
-                  <span className="vads-u-margin-left--0p5">Back</span>
-                </div>
-              </button>
-              <button
-                type="submit"
-                className="vads-u-margin-y--0p5 vads-u-width--auto"
-                data-testid="download-report-button"
-              >
-                Download report
-              </button>
+            <VaRadio
+              label="If you use assistive technology, a text file may work better for you."
+              onVaValueChange={handleValueChange}
+              error={fileTypeError}
+            >
+              <va-radio-option
+                label="PDF"
+                value="pdf"
+                name="file-type"
+                checked={fileType === 'pdf'}
+              />
+              <va-radio-option
+                label="Text file"
+                value="txt"
+                name="file-type"
+                checked={fileType === 'txt'}
+              />
+            </VaRadio>
+            {downloadStarted && <DownloadSuccessAlert />}
+            <div className="vads-u-margin-top--1">
+              <DownloadingRecordsInfo description="Blue Button Report" />
             </div>
-          </form>
-        )}
+          </fieldset>
+
+          <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
+            <button
+              type="button"
+              className="usa-button-secondary vads-u-margin-y--0p5"
+              onClick={handleBack}
+            >
+              <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
+                <va-icon icon="navigate_far_before" size={2} />
+                <span className="vads-u-margin-left--0p5">Back</span>
+              </div>
+            </button>
+            <button
+              type="submit"
+              className="vads-u-margin-y--0p5 vads-u-width--auto"
+              data-testid="download-report-button"
+            >
+              Download report
+            </button>
+          </div>
+        </form>
+      )}
       <NeedHelpSection />
     </div>
   );

@@ -7,7 +7,7 @@ import { dismissNotificationById } from '../../../common/actions/notifications';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
 /*
- * This component uses the va-notification web component 
+ * This component uses the va-notification web component
  * and is more updated than DebtNotificationAlert
  */
 
@@ -64,7 +64,4 @@ const mapDispatchToProps = {
   dismissNotification: dismissNotificationById,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(TestNotification);
+export default connect(null, mapDispatchToProps)(TestNotification);

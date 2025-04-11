@@ -9,30 +9,27 @@ import { PROFILE_PATHS } from '../../constants';
 const MissingContactInfoAlertLink = ({ missingInfo }) => {
   const { generateContactInfoLink } = useContactInfoDeepLink();
 
-  const linkInfo = useMemo(
-    () => {
-      const linkMap = {
-        [MISSING_CONTACT_INFO.EMAIL]: {
-          linkText: 'Add an email address to your profile',
-          linkTarget: generateContactInfoLink({
-            fieldName: FIELD_NAMES.EMAIL,
-            returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
-          }),
-          linkTestId: 'add-email-address-link',
-        },
-        [MISSING_CONTACT_INFO.MOBILE]: {
-          linkText: 'Add a phone number to your profile',
-          linkTarget: generateContactInfoLink({
-            fieldName: FIELD_NAMES.MOBILE_PHONE,
-            returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
-          }),
-          linkTestId: 'add-mobile-phone-link',
-        },
-      };
-      return linkMap[missingInfo];
-    },
-    [missingInfo, generateContactInfoLink],
-  );
+  const linkInfo = useMemo(() => {
+    const linkMap = {
+      [MISSING_CONTACT_INFO.EMAIL]: {
+        linkText: 'Add an email address to your profile',
+        linkTarget: generateContactInfoLink({
+          fieldName: FIELD_NAMES.EMAIL,
+          returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+        }),
+        linkTestId: 'add-email-address-link',
+      },
+      [MISSING_CONTACT_INFO.MOBILE]: {
+        linkText: 'Add a phone number to your profile',
+        linkTarget: generateContactInfoLink({
+          fieldName: FIELD_NAMES.MOBILE_PHONE,
+          returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+        }),
+        linkTestId: 'add-mobile-phone-link',
+      },
+    };
+    return linkMap[missingInfo];
+  }, [missingInfo, generateContactInfoLink]);
   return (
     <va-link
       href={linkInfo.linkTarget}

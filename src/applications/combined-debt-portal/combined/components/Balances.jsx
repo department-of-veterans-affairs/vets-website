@@ -66,34 +66,34 @@ const Balances = () => {
   return (
     <>
       {/* BalanceCards */}
-      {!debtError &&
-        totalDebts > 0 && (
-          <BalanceCard
-            amount={totalDebts}
-            count={debts.length}
-            date={latestDebt}
-            appType={APP_TYPES.DEBT}
-          />
-        )}
-      {isEnrolledInHealthCare &&
-        !billError &&
-        totalBills > 0 && (
-          <BalanceCard
-            amount={totalBills}
-            count={bills.length}
-            date={latestBill}
-            appType={APP_TYPES.COPAY}
-          />
-        )}
+      {!debtError && totalDebts > 0 && (
+        <BalanceCard
+          amount={totalDebts}
+          count={debts.length}
+          date={latestDebt}
+          appType={APP_TYPES.DEBT}
+        />
+      )}
+      {isEnrolledInHealthCare && !billError && totalBills > 0 && (
+        <BalanceCard
+          amount={totalBills}
+          count={bills.length}
+          date={latestBill}
+          appType={APP_TYPES.COPAY}
+        />
+      )}
       {/* ZeroBalanceCards */}
-      {!debtError &&
-        totalDebts === 0 && <ZeroBalanceCard appType={APP_TYPES.DEBT} />}
-      {!billError &&
-        totalBills === 0 && <ZeroBalanceCard appType={APP_TYPES.COPAY} />}
+      {!debtError && totalDebts === 0 && (
+        <ZeroBalanceCard appType={APP_TYPES.DEBT} />
+      )}
+      {!billError && totalBills === 0 && (
+        <ZeroBalanceCard appType={APP_TYPES.COPAY} />
+      )}
       {/* AlertCards */}
       {debtError && <AlertCard appType={APP_TYPES.DEBT} />}
-      {isEnrolledInHealthCare &&
-        billError && <AlertCard appType={APP_TYPES.COPAY} />}
+      {isEnrolledInHealthCare && billError && (
+        <AlertCard appType={APP_TYPES.COPAY} />
+      )}
       {!isEnrolledInHealthCare && (
         <>
           <MCPAlert type="no-health-care" />

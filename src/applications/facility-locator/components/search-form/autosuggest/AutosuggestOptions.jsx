@@ -17,27 +17,24 @@ function AutosuggestOptions({
   // All an option is required to have is an id, toDisplay, and optionally disabled
   // Anything else is up to the user. The `id` is used for the key and that's why it is required
   const [optionsToShow, setOptionsToShow] = useState([]);
-  useEffect(
-    () => {
-      if (isLoading) {
-        setOptionsToShow([
-          { id: 'loading', disabled: true, toDisplay: loadingMessage },
-        ]);
-      } else if (!options?.length && shouldShowNoResults) {
-        setOptionsToShow([
-          {
-            id: 'no-items',
-            disabled: true,
-            toDisplay: noItemsMessage,
-            isError: true,
-          },
-        ]);
-      } else {
-        setOptionsToShow(options);
-      }
-    },
-    [options, noItemsMessage, shouldShowNoResults, isLoading, loadingMessage],
-  );
+  useEffect(() => {
+    if (isLoading) {
+      setOptionsToShow([
+        { id: 'loading', disabled: true, toDisplay: loadingMessage },
+      ]);
+    } else if (!options?.length && shouldShowNoResults) {
+      setOptionsToShow([
+        {
+          id: 'no-items',
+          disabled: true,
+          toDisplay: noItemsMessage,
+          isError: true,
+        },
+      ]);
+    } else {
+      setOptionsToShow(options);
+    }
+  }, [options, noItemsMessage, shouldShowNoResults, isLoading, loadingMessage]);
 
   return (
     <div

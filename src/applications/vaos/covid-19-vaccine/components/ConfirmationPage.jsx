@@ -82,9 +82,7 @@ export default function ConfirmationPage() {
           <AddToCalendar
             summary={`Appointment at ${facilityDetails.name}`}
             description={{
-              text: `You have a health care appointment at ${
-                facilityDetails.name
-              }`,
+              text: `You have a health care appointment at ${facilityDetails.name}`,
               phone: getFacilityPhone(facilityDetails),
               additionalText: [
                 'Sign in to VA.gov to get details about this appointment',

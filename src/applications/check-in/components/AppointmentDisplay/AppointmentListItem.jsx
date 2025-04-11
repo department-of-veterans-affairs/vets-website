@@ -51,7 +51,9 @@ const AppointmentListItem = props => {
 
     return `${t('details-for')} ${modality}${type}${facility}${provider} ${t(
       'on-date-at-time',
-      { date: appointmentDateTime },
+      {
+        date: appointmentDateTime,
+      },
     )}`;
   };
 
@@ -163,18 +165,17 @@ const AppointmentListItem = props => {
           </div>
         )}
       </div>
-      {app === APP_NAMES.PRE_CHECK_IN &&
-        page === 'confirmation' && (
-          <va-alert
-            show-icon
-            data-testid="appointment-message"
-            class="vads-u-margin-bottom--2"
-            uswds
-            slim
-          >
-            <div>{infoBlockMessage()}</div>
-          </va-alert>
-        )}
+      {app === APP_NAMES.PRE_CHECK_IN && page === 'confirmation' && (
+        <va-alert
+          show-icon
+          data-testid="appointment-message"
+          class="vads-u-margin-bottom--2"
+          uswds
+          slim
+        >
+          <div>{infoBlockMessage()}</div>
+        </va-alert>
+      )}
     </>
   );
   if (count === 1) {

@@ -6,8 +6,8 @@ ${index}) Health conditions
 
 This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.
 ${records
-    .map(
-      record => `
+  .map(
+    record => `
 ${record.name}
 ${txtLineDotted}
 Date: ${record.date}
@@ -17,7 +17,7 @@ Status of health condition: ${record.active}
 Location: ${record.facility}
 SNOMED Clinical term: ${record.name}
 `,
-    )
-    .join('')}
+  )
+  .join('')}
 `;
 };

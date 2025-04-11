@@ -321,9 +321,7 @@ export const moveMessageThread = (threadId, toFolderId) => {
  */
 export const deleteMessageThread = threadId => {
   return apiRequest(
-    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${
-      DefaultFolders.DELETED.id
-    }
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${DefaultFolders.DELETED.id}
   `,
     {
       method: 'PATCH',

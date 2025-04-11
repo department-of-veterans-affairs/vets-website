@@ -72,11 +72,14 @@ function fillDate(formDOM, partialId, dateString) {
       },
     },
   );
-  ReactTestUtils.Simulate.change(inputs.find(i => i.id === `${partialId}Day`), {
-    target: {
-      value: date[2],
+  ReactTestUtils.Simulate.change(
+    inputs.find(i => i.id === `${partialId}Day`),
+    {
+      target: {
+        value: date[2],
+      },
     },
-  });
+  );
   ReactTestUtils.Simulate.change(
     inputs.find(i => i.id === `${partialId}Year`),
     {

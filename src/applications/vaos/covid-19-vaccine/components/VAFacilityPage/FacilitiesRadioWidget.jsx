@@ -38,14 +38,11 @@ export default function FacilitiesRadioWidget({
     enumOptions.length > INITIAL_FACILITY_DISPLAY_COUNT
       ? enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT
       : 0;
-  useEffect(
-    () => {
-      if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
-        scrollAndFocus(`#${id}_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
-      }
-    },
-    [displayedOptions.length, displayAll],
-  );
+  useEffect(() => {
+    if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
+      scrollAndFocus(`#${id}_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
+    }
+  }, [displayedOptions.length, displayAll]);
 
   return (
     <fieldset>
@@ -93,23 +90,20 @@ export default function FacilitiesRadioWidget({
         );
       })}
 
-      {!displayAll &&
-        hiddenCount > 0 && (
-          <button
-            type="button"
-            className="additional-info-button usa-button-secondary vads-u-display--block"
-            onClick={() => {
-              setDisplayAll(!displayAll);
-            }}
-          >
-            <span className="sr-only">show</span>
-            <span>
-              {`Show ${hiddenCount} more location${
-                hiddenCount === 1 ? '' : 's'
-              }`}
-            </span>
-          </button>
-        )}
+      {!displayAll && hiddenCount > 0 && (
+        <button
+          type="button"
+          className="additional-info-button usa-button-secondary vads-u-display--block"
+          onClick={() => {
+            setDisplayAll(!displayAll);
+          }}
+        >
+          <span className="sr-only">show</span>
+          <span>
+            {`Show ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
+          </span>
+        </button>
+      )}
     </fieldset>
   );
 }

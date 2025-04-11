@@ -9,38 +9,36 @@ const DraftSavedInfo = props => {
 
   const threadDetails = useSelector(state => state.sm.threadDetails);
 
-  const { isSaving = null, saveError = null, lastSaveTime = null } = useMemo(
-    () => {
-      const draft = messageId
-        ? drafts?.find(d => d.messageId === messageId)
-        : null;
+  const {
+    isSaving = null,
+    saveError = null,
+    lastSaveTime = null,
+  } = useMemo(() => {
+    const draft = messageId
+      ? drafts?.find(d => d.messageId === messageId)
+      : null;
 
-      if (drafts?.length > 1) {
-        return {
-          isSaving: draft?.isSaving,
-          saveError: draft?.saveError,
-          lastSaveTime: draft?.lastSaveTime,
-        };
-      }
-      return threadDetails;
-    },
-    [drafts, messageId, threadDetails],
-  );
+    if (drafts?.length > 1) {
+      return {
+        isSaving: draft?.isSaving,
+        saveError: draft?.saveError,
+        lastSaveTime: draft?.lastSaveTime,
+      };
+    }
+    return threadDetails;
+  }, [drafts, messageId, threadDetails]);
 
-  const content = useMemo(
-    () => {
-      if (isSaving) return 'Saving...';
+  const content = useMemo(() => {
+    if (isSaving) return 'Saving...';
 
-      if (lastSaveTime) {
-        return `Your message was saved on ${dateFormat(
-          lastSaveTime,
-          'MMMM D, YYYY [at] h:mm a z',
-        )}.`;
-      }
-      return '';
-    },
-    [isSaving, lastSaveTime],
-  );
+    if (lastSaveTime) {
+      return `Your message was saved on ${dateFormat(
+        lastSaveTime,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}.`;
+    }
+    return '';
+  }, [isSaving, lastSaveTime]);
 
   if (saveError) {
     return (

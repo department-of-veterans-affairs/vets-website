@@ -40,6 +40,9 @@ export const fetchRepresentatives = async ({ query }) => {
         };
         return res;
       })
-      .then(data => resolve(data), error => reject(error));
+      .then(
+        data => resolve(data),
+        error => reject(error),
+      );
   });
 };

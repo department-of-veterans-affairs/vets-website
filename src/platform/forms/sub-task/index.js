@@ -215,8 +215,5 @@ SubTask.propTypes = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SubTask),
+  connect(mapStateToProps, mapDispatchToProps)(SubTask),
 );

@@ -54,13 +54,10 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+  }, [dispatch]);
 
   return (
     <div id="labs-and-tests">

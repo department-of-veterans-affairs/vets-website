@@ -35,31 +35,28 @@ export const FormApp = ({
 }) => {
   const { pathname } = location || {};
 
-  useEffect(
-    () => {
-      if (loggedIn) {
-        const areaOfDisagreement = getSelected(formData);
-        if (
-          areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
-          !areaOfDisagreement.every(
-            (entry, index) =>
-              getIssueNameAndDate(entry) ===
-              getIssueNameAndDate(formData.areaOfDisagreement[index]),
-          )
-        ) {
-          setFormData({
-            ...formData,
-            // save existing settings
-            areaOfDisagreement: copyAreaOfDisagreementOptions(
-              areaOfDisagreement,
-              formData.areaOfDisagreement,
-            ),
-          });
-        }
+  useEffect(() => {
+    if (loggedIn) {
+      const areaOfDisagreement = getSelected(formData);
+      if (
+        areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+        !areaOfDisagreement.every(
+          (entry, index) =>
+            getIssueNameAndDate(entry) ===
+            getIssueNameAndDate(formData.areaOfDisagreement[index]),
+        )
+      ) {
+        setFormData({
+          ...formData,
+          // save existing settings
+          areaOfDisagreement: copyAreaOfDisagreementOptions(
+            areaOfDisagreement,
+            formData.areaOfDisagreement,
+          ),
+        });
       }
-    },
-    [loggedIn, formData, setFormData],
-  );
+    }
+  }, [loggedIn, formData, setFormData]);
 
   // This useEffect is responsible for 1) loading contestable issues from the API,
   // 2) filtering and normalizing that data, and 3) updating `formData` with that
@@ -173,7 +170,4 @@ const mapDispatchToProps = {
   getContestableIssues: getContestableIssuesAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FormApp);
+export default connect(mapStateToProps, mapDispatchToProps)(FormApp);

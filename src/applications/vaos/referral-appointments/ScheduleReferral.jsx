@@ -13,14 +13,11 @@ export default function ScheduleReferral(props) {
   const location = useLocation();
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('scheduleReferral'));
-      dispatch(setInitReferralFlow());
-      sessionStorage.removeItem(selectedSlotKey);
-    },
-    [location, dispatch, selectedSlotKey],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('scheduleReferral'));
+    dispatch(setInitReferralFlow());
+    sessionStorage.removeItem(selectedSlotKey);
+  }, [location, dispatch, selectedSlotKey]);
   return (
     <ReferralLayout
       hasEyebrow

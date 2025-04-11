@@ -62,10 +62,9 @@ const Covid19Result = ({ index, isMobile = false, location }) => {
           </h3>
         )}
         <LocationDistance distance={location.distance} />
-        {operatingStatus &&
-          operatingStatus.code !== OperatingStatus.NORMAL && (
-            <LocationOperationStatus operatingStatus={operatingStatus} />
-          )}
+        {operatingStatus && operatingStatus.code !== OperatingStatus.NORMAL && (
+          <LocationOperationStatus operatingStatus={operatingStatus} />
+        )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} />
         {appointmentPhone ? (

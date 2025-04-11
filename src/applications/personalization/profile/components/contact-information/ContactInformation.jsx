@@ -52,73 +52,61 @@ const ContactInformation = () => {
 
   const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
-  useEffect(
-    () => {
-      document.title = `Contact Information | Veterans Affairs`;
+  useEffect(() => {
+    document.title = `Contact Information | Veterans Affairs`;
 
-      return () => {
-        clearSuccessAlert();
-      };
-    },
-    [clearSuccessAlert],
-  );
+    return () => {
+      clearSuccessAlert();
+    };
+  }, [clearSuccessAlert]);
 
-  useEffect(
-    () => {
-      // Set the focus on the page's focus target _unless_ one of the following
-      // is true:
-      // - there is a hash in the URL and there is a named-anchor that matches
-      //   the hash
-      // - the user just came to this route via the root profile route. If a
-      //   user got to the Profile via a link to /profile or /profile/ we want
-      //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
-      //   a11y reasons
-      const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
-      if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
+  useEffect(() => {
+    // Set the focus on the page's focus target _unless_ one of the following
+    // is true:
+    // - there is a hash in the URL and there is a named-anchor that matches
+    //   the hash
+    // - the user just came to this route via the root profile route. If a
+    //   user got to the Profile via a link to /profile or /profile/ we want
+    //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
+    //   a11y reasons
+    const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
+    if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
+      return;
+    }
+    if (window.location.hash) {
+      // We will always attempt to focus on the element that matches the
+      // location.hash
+      const focusTarget = document.querySelector(window.location.hash);
+      // But if the hash starts with `edit` we will scroll a different
+      // element to the top of the viewport
+      const scrollTarget = getScrollTarget(window.location.hash);
+      if (scrollTarget) {
+        scrollTarget.scrollIntoView();
+      }
+      if (focusTarget) {
+        focusElement(focusTarget);
         return;
       }
-      if (window.location.hash) {
-        // We will always attempt to focus on the element that matches the
-        // location.hash
-        const focusTarget = document.querySelector(window.location.hash);
-        // But if the hash starts with `edit` we will scroll a different
-        // element to the top of the viewport
-        const scrollTarget = getScrollTarget(window.location.hash);
-        if (scrollTarget) {
-          scrollTarget.scrollIntoView();
-        }
-        if (focusTarget) {
-          focusElement(focusTarget);
-          return;
-        }
-      }
+    }
 
-      focusElement('[data-focus-target]');
-    },
-    [lastLocation],
-  );
+    focusElement('[data-focus-target]');
+  }, [lastLocation]);
 
-  useEffect(
-    () => {
-      // Show alert when navigating away
-      if (hasUnsavedEdits) {
-        window.onbeforeunload = () => '';
-        return;
-      }
+  useEffect(() => {
+    // Show alert when navigating away
+    if (hasUnsavedEdits) {
+      window.onbeforeunload = () => '';
+      return;
+    }
 
-      window.onbeforeunload = undefined;
-    },
-    [hasUnsavedEdits],
-  );
+    window.onbeforeunload = undefined;
+  }, [hasUnsavedEdits]);
 
-  useEffect(
-    () => {
-      return () => {
-        openEditModal(null);
-      };
-    },
-    [openEditModal],
-  );
+  useEffect(() => {
+    return () => {
+      openEditModal(null);
+    };
+  }, [openEditModal]);
 
   const showFormBadAddressAlert =
     userHasBadAddress &&

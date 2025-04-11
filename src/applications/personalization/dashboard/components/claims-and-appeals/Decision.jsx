@@ -70,23 +70,20 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
     <div>
       <div className="decision-items">
         {allowedBlock}
-        {allowedBlock &&
-          boardDecision && (
-            <p>
-              If this decision changes your disability rating or your
-              eligibility for VA benefits, you should see this change made in 1
-              to 2 months.
-            </p>
-          )}
+        {allowedBlock && boardDecision && (
+          <p>
+            If this decision changes your disability rating or your eligibility
+            for VA benefits, you should see this change made in 1 to 2 months.
+          </p>
+        )}
         {deniedBlock}
         {remandBlock}
-        {remandBlock &&
-          ama && (
-            <p>
-              After the {aojDescription} has completed the judge’s instructions
-              to correct the error, they will make a new decision.
-            </p>
-          )}
+        {remandBlock && ama && (
+          <p>
+            After the {aojDescription} has completed the judge’s instructions to
+            correct the error, they will make a new decision.
+          </p>
+        )}
       </div>
       <p>Please see your decision for more details.</p>
     </div>

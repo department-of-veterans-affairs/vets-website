@@ -247,7 +247,10 @@ const generateContentsSection = (doc, parent, data) => {
           doc
             .font(config.text.font)
             .fontSize(config.text.size)
-            .list(missingRecordSets.map(type => capitalize(type)), listOptions);
+            .list(
+              missingRecordSets.map(type => capitalize(type)),
+              listOptions,
+            );
         }),
       );
       doc.moveDown(0.75);

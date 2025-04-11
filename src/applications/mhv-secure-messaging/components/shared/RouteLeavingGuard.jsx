@@ -74,24 +74,18 @@ export const RouteLeavingGuard = ({
     }
   };
 
-  useEffect(
-    () => {
-      if (confirmedNavigation) {
-        navigate(lastLocation.pathname);
-        updateConfirmedNavigation(false);
-      }
-    },
-    [confirmedNavigation],
-  );
+  useEffect(() => {
+    if (confirmedNavigation) {
+      navigate(lastLocation.pathname);
+      updateConfirmedNavigation(false);
+    }
+  }, [confirmedNavigation]);
 
-  useEffect(
-    () => {
-      if (savedDraft && !!saveError) {
-        updateModalVisible(true);
-      }
-    },
-    [saveError, savedDraft],
-  );
+  useEffect(() => {
+    if (savedDraft && !!saveError) {
+      updateModalVisible(true);
+    }
+  }, [saveError, savedDraft]);
 
   return (
     <>

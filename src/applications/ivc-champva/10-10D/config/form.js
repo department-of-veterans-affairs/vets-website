@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable react/jsx-wrap-multilines */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -576,6 +578,7 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
+                itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
                 applicantName: fullNameUI(),
@@ -686,12 +689,12 @@ const formConfig = {
                       'We’ll send any important information about your application to this address';
                     // Prefill message conditionally displays based on `certifierRole`
                     return formContext.pagePerItemIndex === '0' ? (
-                      <>
+                      (<>
                         <p>{txt}</p>
                         {CustomPrefillMessage(formData, 'applicant')}
-                      </>
+                      </>)
                     ) : (
-                      <p>{txt}</p>
+                      (<p>{txt}</p>)
                     );
                   },
                 ),
@@ -733,12 +736,12 @@ const formConfig = {
                     )} if we need to follow up about this application.`;
                     // Prefill message conditionally displays based on `certifierRole`
                     return formContext.pagePerItemIndex === '0' ? (
-                      <>
+                      (<>
                         <p>{txt}</p>
                         {CustomPrefillMessage(formData, 'applicant')}
-                      </>
+                      </>)
                     ) : (
-                      <p>{txt}</p>
+                      (<p>{txt}</p>)
                     );
                   },
                 ),
@@ -810,10 +813,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'child'
+              ) === 'child')
             );
           },
           CustomPage: ApplicantRelOriginPage,
@@ -850,8 +853,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              formData.applicants[index]?.applicantRelationshipToSponsor
-                ?.relationshipToVeteran === 'child'
+              (formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -874,14 +877,14 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
                 'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'adoption'
+              ) === 'adoption')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -905,14 +908,14 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
                 'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'step'
+              ) === 'step')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -935,13 +938,13 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              formData.applicants[index]?.applicantRelationshipToSponsor
+              (formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
                 getAgeInYears(formData.applicants[index]?.applicantDob),
                 18,
                 23,
-              )
+              ))
             );
           },
           CustomPage: ApplicantDependentStatusPage,
@@ -978,7 +981,7 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              formData.applicants[index]?.applicantRelationshipToSponsor
+              (formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
                 getAgeInYears(formData.applicants[index]?.applicantDob),
@@ -987,7 +990,7 @@ const formConfig = {
               ) &&
               ['enrolled', 'intendsToEnroll'].includes(
                 formData.applicants[index]?.applicantDependentStatus?.status,
-              )
+              ))
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1010,11 +1013,11 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              formData.applicants[index]?.applicantRelationshipToSponsor
+              (formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
               formData.applicants[index]?.applicantDependentStatus?.status ===
-                'over18HelplessChild'
+                'over18HelplessChild')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1047,10 +1050,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse' && get('sponsorIsDeceased', formData)
+              ) === 'spouse' && get('sponsorIsDeceased', formData))
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1096,10 +1099,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled'
+              ) === 'enrolled')
             );
           },
           CustomPage: ApplicantMedicareStatusContinuedPage,
@@ -1127,10 +1130,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled'
+              ) === 'enrolled')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1154,14 +1157,14 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
               ) === 'enrolled' &&
               get(
                 'applicantMedicarePartD.enrollment',
                 formData?.applicants?.[index],
-              ) === 'enrolled'
+              ) === 'enrolled')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1188,11 +1191,11 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get(
+              (get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
               ) === 'ineligible' &&
-              getAgeInYears(formData.applicants[index]?.applicantDob) >= 65
+              getAgeInYears(formData.applicants[index]?.applicantDob) >= 65)
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1239,8 +1242,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
-              'yes'
+              (get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+              'yes')
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1264,12 +1267,12 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+              (get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
                 'yes' ||
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled'
+              ) === 'enrolled')
             );
           },
           CustomPage: FileFieldWrapped,

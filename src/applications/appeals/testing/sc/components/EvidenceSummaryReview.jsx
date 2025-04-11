@@ -24,19 +24,16 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 
   const editRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (
-        window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
-        editRef?.current
-      ) {
-        // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(SUMMARY_EDIT);
-        setTimeout(() => focusElement('button', {}, editRef.current));
-      }
-    },
-    [editRef],
-  );
+  useEffect(() => {
+    if (
+      window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
+      editRef?.current
+    ) {
+      // focus on edit button _after_ editing and returning
+      window.sessionStorage.removeItem(SUMMARY_EDIT);
+      setTimeout(() => focusElement('button', {}, editRef.current));
+    }
+  }, [editRef]);
 
   // on review & submit in review mode (not editing)
   const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];

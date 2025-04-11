@@ -13,16 +13,13 @@ const ApprovedConfirmation = ({
   userEmail,
   userFirstName,
 }) => {
-  useEffect(
-    () => {
-      sendConfirmation({
-        claimStatus: 'ELIGIBLE',
-        email: userEmail,
-        firstName: userFirstName,
-      });
-    },
-    [sendConfirmation, userEmail, userFirstName],
-  );
+  useEffect(() => {
+    sendConfirmation({
+      claimStatus: 'ELIGIBLE',
+      email: userEmail,
+      firstName: userFirstName,
+    });
+  }, [sendConfirmation, userEmail, userFirstName]);
 
   if (confirmationLoading) {
     return <LoadingIndicator message="Sending confirmation email..." />;

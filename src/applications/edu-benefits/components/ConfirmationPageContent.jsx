@@ -112,32 +112,31 @@ export function ConfirmationPageContent({
         </ul>
       </div>
 
-      {docExplanation &&
-        docExplanationHeader && (
-          <div id="collapsiblePanel" className="screen-only">
-            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-            <ul className="usa-unstyled-list" role="list">
-              <li>
-                <div className="accordion-header clearfix">
-                  <button
-                    className="usa-button-unstyled doc-explanation"
-                    aria-expanded={isExpanded ? 'true' : 'false'}
-                    aria-controls="collapsible-document-explanation"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                  >
-                    {docExplanationHeader}
-                  </button>
-                </div>
+      {docExplanation && docExplanationHeader && (
+        <div id="collapsiblePanel" className="screen-only">
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul className="usa-unstyled-list" role="list">
+            <li>
+              <div className="accordion-header clearfix">
+                <button
+                  className="usa-button-unstyled doc-explanation"
+                  aria-expanded={isExpanded ? 'true' : 'false'}
+                  aria-controls="collapsible-document-explanation"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                >
+                  {docExplanationHeader}
+                </button>
+              </div>
 
-                {isExpanded && (
-                  <div id="collapsible-document-explanation">
-                    <div aria-hidden="false">{docExplanation}</div>
-                  </div>
-                )}
-              </li>
-            </ul>
-          </div>
-        )}
+              {isExpanded && (
+                <div id="collapsible-document-explanation">
+                  <div aria-hidden="false">{docExplanation}</div>
+                </div>
+              )}
+            </li>
+          </ul>
+        </div>
+      )}
       <div className="confirmation-guidance-container">
         {additionalGuidance}
         {guidance}

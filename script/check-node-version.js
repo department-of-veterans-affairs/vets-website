@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const semver = require('semver');
-const packageJson = require('../package.json');
 const chalk = require('chalk');
+const packageJson = require('../package.json');
 
 const version = packageJson.engines.node;
 
@@ -10,9 +10,7 @@ if (!semver.satisfies(process.version, version)) {
   console.log(`${chalk.yellow.bold(`/**`)}`);
   console.log(
     `${chalk.yellow.bold(
-      ` * ATTN: Required node version (${version}) not satisfied with current version (${
-        process.version
-      })`,
+      ` * ATTN: Required node version (${version}) not satisfied with current version (${process.version})`,
     )}`,
   );
   console.log(

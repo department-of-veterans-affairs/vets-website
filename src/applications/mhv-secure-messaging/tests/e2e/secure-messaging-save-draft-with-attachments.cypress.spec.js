@@ -15,9 +15,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
 
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        mockSavedDraftResponse.data[0].attributes.messageId
-      }`,
+      `/my_health/v1/messaging/message_drafts/${mockSavedDraftResponse.data[0].attributes.messageId}`,
 
       { statusCode: 204 },
     ).as('saveDraft');

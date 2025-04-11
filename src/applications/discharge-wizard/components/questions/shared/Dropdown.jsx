@@ -205,7 +205,4 @@ const mapStateToProps = state => ({
     state?.dischargeUpgradeWizard?.duwForm?.questionSelectedToEdit,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown);

@@ -60,7 +60,7 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   });
 
   return apiRequest(fetchUrl)
-    .then(payload => onDone(payload))
+    ?.then(payload => onDone(payload))
     .catch(error => onError(error));
 }
 
@@ -129,9 +129,7 @@ function pollStatus(guid, onDone, onError) {
           recordEvent({ event: `${trackingPrefix}submission-failed` });
           // needs to start with this string to get the right message on the form
           throw new Error(
-            `vets_server_error_gi_bill_feedbacks: status ${
-              res.data.attributes.state
-            }`,
+            `vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`,
           );
         }
       })
@@ -175,7 +173,7 @@ export function submit(form, formConfig) {
   };
 
   return apiRequest('/gi_bill_feedbacks', apiRequestOptions)
-    .then(onSuccess)
+    ?.then(onSuccess)
     .catch(onFailure);
 }
 

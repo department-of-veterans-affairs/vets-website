@@ -52,33 +52,24 @@ const VaccineDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      if (vaccineId) {
-        dispatch(getVaccineDetails(vaccineId, vaccines));
-      }
-    },
-    [vaccineId, vaccines, dispatch],
-  );
+  useEffect(() => {
+    if (vaccineId) {
+      dispatch(getVaccineDetails(vaccineId, vaccines));
+    }
+  }, [vaccineId, vaccines, dispatch]);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearVaccineDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearVaccineDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (record) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
-      }
-    },
-    [dispatch, record],
-  );
+  useEffect(() => {
+    if (record) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
+    }
+  }, [dispatch, record]);
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,

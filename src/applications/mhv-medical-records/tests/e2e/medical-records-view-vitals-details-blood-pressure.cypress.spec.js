@@ -22,9 +22,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[0].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${defaultVitals.entry[0].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[0].resource.contained[0].name,
       'None noted',
     );
@@ -34,9 +32,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[10].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[10].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[10].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[10].resource.component[0].valueQuantity.value}/${defaultVitals.entry[10].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[10].resource.contained[0].name,
       'None noted',
     );
@@ -46,9 +42,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[20].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[20].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[20].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[20].resource.component[0].valueQuantity.value}/${defaultVitals.entry[20].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[20].resource.contained[0].name,
       'None noted',
     );
@@ -58,9 +52,7 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[30].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[30].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[30].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[30].resource.component[0].valueQuantity.value}/${defaultVitals.entry[30].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[30].resource.contained[0].name,
       'None noted',
     );

@@ -110,11 +110,10 @@ export const employersPageNameAndAddressPage = {
 /** @returns {PageSchema} */
 export const employersDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.name
-          ? `Dates you were employed at ${formData.name}`
-          : 'Dates you were employed',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      formData?.name
+        ? `Dates you were employed at ${formData.name}`
+        : 'Dates you were employed',
     ),
     dateRange: currentOrPastDateRangeUI(
       'Start date of employment',

@@ -46,23 +46,17 @@ export function NewBookingSection() {
   );
   const [crumb, setCrumb] = useState('New COVID-19 vaccine appointment');
 
-  useEffect(
-    () => {
-      if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFacilitySettings());
-      }
-    },
-    [dispatch, facilitySettingsStatus],
-  );
+  useEffect(() => {
+    if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchFacilitySettings());
+    }
+  }, [dispatch, facilitySettingsStatus]);
 
-  useEffect(
-    () => {
-      if (facilitySettingsStatus === FETCH_STATUS.failed) {
-        scrollAndFocus();
-      }
-    },
-    [facilitySettingsStatus],
-  );
+  useEffect(() => {
+    if (facilitySettingsStatus === FETCH_STATUS.failed) {
+      scrollAndFocus();
+    }
+  }, [facilitySettingsStatus]);
 
   useManualScrollRestoration();
 

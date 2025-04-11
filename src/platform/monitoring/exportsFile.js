@@ -7,19 +7,13 @@ export {
   DowntimeNotification,
 } from './DowntimeNotification/index';
 
-export {
-  default as DowntimeBanner,
-} from './DowntimeNotification/components/Banner';
+export { default as DowntimeBanner } from './DowntimeNotification/components/Banner';
 export {
   default as Down,
   DownMessaging,
 } from './DowntimeNotification/components/Down';
-export {
-  default as DowntimeApproaching,
-} from './DowntimeNotification/components/DowntimeApproaching';
-export {
-  default as DowntimeNotificationWrapper,
-} from './DowntimeNotification/components/Wrapper';
+export { default as DowntimeApproaching } from './DowntimeNotification/components/DowntimeApproaching';
+export { default as DowntimeNotificationWrapper } from './DowntimeNotification/components/Wrapper';
 
 export {
   getStatusForTimeframe,
@@ -29,6 +23,4 @@ export {
   getCurrentGlobalDowntime,
 } from './DowntimeNotification/util/helpers';
 
-export {
-  ExternalServicesError,
-} from './external-services/ExternalServicesError';
+export { ExternalServicesError } from './external-services/ExternalServicesError';

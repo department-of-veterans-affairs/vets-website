@@ -88,8 +88,8 @@
   },
   {
     "appName": "Schedule And View VA Appointments Online",
-    "rootUrl": "/health-care/schedule-view-va-appointments",
-    "widgetType": "schedule-view-va-appointments-page"
+    "rootUrl": "/health-care/modern-schedule-view-va-appointments",
+    "widgetType": "modern-schedule-view-va-appointments-page"
   },
   {
     "appName": "Schedule And View VA Appointments Online",

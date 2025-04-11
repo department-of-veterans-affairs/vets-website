@@ -34,36 +34,27 @@ const UpcomingAppointmentsPage = props => {
 
   const { upcomingAppointments } = useSelector(selectVeteranData);
 
-  useEffect(
-    () => {
-      if (!upcomingAppointments.length && !isComplete && !isLoading) {
-        refreshUpcomingData();
-      }
-    },
-    [upcomingAppointments, isComplete, refreshUpcomingData, isLoading],
-  );
+  useEffect(() => {
+    if (!upcomingAppointments.length && !isComplete && !isLoading) {
+      refreshUpcomingData();
+    }
+  }, [upcomingAppointments, isComplete, refreshUpcomingData, isLoading]);
 
-  useEffect(
-    () => {
-      if (upcomingAppointmentsDataError) {
-        updateError(
-          `error-fromlocation-${
-            app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
-          }-upcoming-appointments`,
-        );
-      }
-    },
-    [upcomingAppointmentsDataError, updateError, app],
-  );
+  useEffect(() => {
+    if (upcomingAppointmentsDataError) {
+      updateError(
+        `error-fromlocation-${
+          app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
+        }-upcoming-appointments`,
+      );
+    }
+  }, [upcomingAppointmentsDataError, updateError, app]);
 
-  useEffect(
-    () => {
-      if (refresh) {
-        refreshUpcomingData();
-      }
-    },
-    [refresh, refreshUpcomingData],
-  );
+  useEffect(() => {
+    if (refresh) {
+      refreshUpcomingData();
+    }
+  }, [refresh, refreshUpcomingData]);
   let body = '';
 
   if (isLoading) {

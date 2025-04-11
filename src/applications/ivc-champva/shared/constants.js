@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 
 export const ConfirmationPagePropTypes = {
   form: PropTypes.shape({
@@ -24,3 +25,60 @@ export const ConfirmationPagePropTypes = {
 
 export const ADDITIONAL_FILES_HINT =
   'Depending on your response, you may need to submit additional documents with this application.';
+
+const addressFormat = markup => (
+  <>
+    <address className="va-address-block">{markup}</address>
+  </>
+);
+
+export const CHAMPVA_CLAIMS_ADDRESS = addressFormat(
+  <>
+    VHA Office of Integrated Veteran Care
+    <br />
+    ATTN: CHAMPVA Claims
+    <br />
+    PO Box 500
+    <br />
+    Spring City, PA 19475
+    <br />
+  </>,
+);
+
+export const CHAMPVA_ELIGIBILITY_ADDRESS = addressFormat(
+  <>
+    VHA Office of Integrated Veteran Care
+    <br />
+    ChampVA Eligibility
+    <br />
+    P.O. Box 137
+    <br />
+    Spring City, PA 19475
+    <br />
+    United States of America
+  </>,
+);
+
+export const IVC_APPEALS_ADDRESS = addressFormat(
+  <>
+    VHA Office of Integrated Veteran Care
+    <br />
+    ATTN: APPEALS
+    <br />
+    PO Box 600
+    <br />
+    Spring City, PA 19475
+    <br />
+  </>,
+);
+
+// TODO: Audit all IVC forms and make sure they're referencing
+// these values so we can control them all in one place.
+export const CHAMPVA_PHONE_NUMBER = '8007338387';
+export const CHAMPVA_FAX_NUMBER = '3033317809';
+export const CHAMPVA_CLAIMS_PHONE_NUMBER = CHAMPVA_PHONE_NUMBER;
+export const CHAMPVA_CLAIMS_FAX_NUMBER = '3033317804';
+export const CHAMPVA_OHI_PHONE_NUMBER = CHAMPVA_PHONE_NUMBER;
+export const CHAMPVA_OHI_FAX_NUMBER = '3033317808';
+export const FMP_PHONE_NUMBER = '3033317590';
+export const FMP_FAX_NUMBER = '3033317803';

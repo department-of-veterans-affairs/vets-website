@@ -104,34 +104,28 @@ const PreSubmitSignature = ({
     }
   }, []);
 
-  useEffect(
-    () => {
-      // show error if user has touched input and signature does not match
-      // show error if there is a form error and has not been submitted
-      if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
-        setSignatureError(true);
-      }
+  useEffect(() => {
+    // show error if user has touched input and signature does not match
+    // show error if there is a form error and has not been submitted
+    if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
+      setSignatureError(true);
+    }
 
-      // if input has been touched and signature matches allow submission
-      // if input is dirty and representative is signing skip validation
-      // make sure signature is not undefined
-      if (isDirty && signatureMatches) {
-        setSignatureError(false);
-      }
-    },
-    [showError, hasSubmit, isDirty, signature.dirty, signatureMatches],
-  );
+    // if input has been touched and signature matches allow submission
+    // if input is dirty and representative is signing skip validation
+    // make sure signature is not undefined
+    if (isDirty && signatureMatches) {
+      setSignatureError(false);
+    }
+  }, [showError, hasSubmit, isDirty, signature.dirty, signatureMatches]);
 
-  useEffect(
-    () => {
-      if (showError && !hasSubmit) {
-        setCertifyCheckboxError(!certifyChecked);
-        setPrivacyCheckboxError(!privacyChecked);
-        setSignatureError(!signatureMatches);
-      }
-    },
-    [showError, hasSubmit, certifyChecked, privacyChecked, signatureMatches],
-  );
+  useEffect(() => {
+    if (showError && !hasSubmit) {
+      setCertifyCheckboxError(!certifyChecked);
+      setPrivacyCheckboxError(!privacyChecked);
+      setSignatureError(!signatureMatches);
+    }
+  }, [showError, hasSubmit, certifyChecked, privacyChecked, signatureMatches]);
 
   useEffect(
     () => {
@@ -273,8 +267,5 @@ const mapStateToProps = ({ form }) => {
 
 export default {
   required: true,
-  CustomComponent: connect(
-    mapStateToProps,
-    null,
-  )(PreSubmitSignature),
+  CustomComponent: connect(mapStateToProps, null)(PreSubmitSignature),
 };

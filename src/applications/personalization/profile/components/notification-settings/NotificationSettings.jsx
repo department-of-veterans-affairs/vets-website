@@ -53,14 +53,11 @@ const NotificationSettings = ({
     toggles,
   } = useNotificationSettingsUtils();
 
-  const requiredContactInfoOnFile = useMemo(
-    () => {
-      return showEmail
-        ? !!(emailAddress || mobilePhoneNumber)
-        : !!mobilePhoneNumber;
-    },
-    [emailAddress, mobilePhoneNumber, showEmail],
-  );
+  const requiredContactInfoOnFile = useMemo(() => {
+    return showEmail
+      ? !!(emailAddress || mobilePhoneNumber)
+      : !!mobilePhoneNumber;
+  }, [emailAddress, mobilePhoneNumber, showEmail]);
 
   const showMissingContactInfoAlert = useMemo(
     () =>
@@ -70,56 +67,44 @@ const NotificationSettings = ({
     [requiredContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
-  const shouldFetchNotificationSettings = useMemo(
-    () => {
-      return !showMissingContactInfoAlert && !shouldShowAPIError;
-    },
-    [showMissingContactInfoAlert, shouldShowAPIError],
-  );
+  const shouldFetchNotificationSettings = useMemo(() => {
+    return !showMissingContactInfoAlert && !shouldShowAPIError;
+  }, [showMissingContactInfoAlert, shouldShowAPIError]);
 
-  useEffect(
-    () => {
-      // issue: 48011
-      // used via passed state from contact info - mobile update alert link
-      if (location.state?.scrollToTop) {
-        scroll.scrollToTop({ duration: 0, smooth: false });
-      }
+  useEffect(() => {
+    // issue: 48011
+    // used via passed state from contact info - mobile update alert link
+    if (location.state?.scrollToTop) {
+      scroll.scrollToTop({ duration: 0, smooth: false });
+    }
 
-      focusElement('[data-focus-target]');
-      document.title = `Notification Settings | Veterans Affairs`;
-    },
-    [location.state?.scrollToTop],
-  );
+    focusElement('[data-focus-target]');
+    document.title = `Notification Settings | Veterans Affairs`;
+  }, [location.state?.scrollToTop]);
 
-  useEffect(
-    () => {
-      if (shouldFetchNotificationSettings) {
-        fetchNotificationSettings({
-          facilities,
-        });
-      }
-    },
-    [fetchNotificationSettings, shouldFetchNotificationSettings],
-  );
+  useEffect(() => {
+    if (shouldFetchNotificationSettings) {
+      fetchNotificationSettings({
+        facilities,
+      });
+    }
+  }, [fetchNotificationSettings, shouldFetchNotificationSettings]);
 
   const availableGroups = useAvailableGroups();
 
-  const shouldShowNotificationGroups = useMemo(
-    () => {
-      return (
-        !shouldShowAPIError &&
-        !showMissingContactInfoAlert &&
-        !shouldShowLoadingIndicator &&
-        availableGroups.length > 0
-      );
-    },
-    [
-      shouldShowAPIError,
-      showMissingContactInfoAlert,
-      shouldShowLoadingIndicator,
-      availableGroups,
-    ],
-  );
+  const shouldShowNotificationGroups = useMemo(() => {
+    return (
+      !shouldShowAPIError &&
+      !showMissingContactInfoAlert &&
+      !shouldShowLoadingIndicator &&
+      availableGroups.length > 0
+    );
+  }, [
+    shouldShowAPIError,
+    showMissingContactInfoAlert,
+    shouldShowLoadingIndicator,
+    availableGroups,
+  ]);
 
   return (
     <>

@@ -3,7 +3,10 @@ import { appendReportsFromLocalStorage } from '../../utils/helpers';
 
 describe('appendReportsFromLocalStorage', () => {
   it('should return the original results array when localStorage is empty', () => {
-    const resultsArray = [{ id: 1, reports: [] }, { id: 2, reports: [] }];
+    const resultsArray = [
+      { id: 1, reports: [] },
+      { id: 2, reports: [] },
+    ];
 
     global.localStorage.getItem = () => null;
 

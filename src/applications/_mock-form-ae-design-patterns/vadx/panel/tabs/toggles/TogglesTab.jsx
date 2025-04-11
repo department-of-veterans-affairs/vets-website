@@ -43,16 +43,13 @@ export const TogglesTab = () => {
     togglesState,
   } = useContext(VADXContext);
 
-  const handleResetToggles = useCallback(
-    () => {
-      updateDevLoading(true);
-      updateClearLocalToggles();
-      dispatch({ type: TOGGLE_VALUES_RESET });
-      dispatch(connectFeatureToggle);
-      updateDevLoading(false);
-    },
-    [dispatch, updateDevLoading, updateClearLocalToggles],
-  );
+  const handleResetToggles = useCallback(() => {
+    updateDevLoading(true);
+    updateClearLocalToggles();
+    dispatch({ type: TOGGLE_VALUES_RESET });
+    dispatch(connectFeatureToggle);
+    updateDevLoading(false);
+  }, [dispatch, updateDevLoading, updateClearLocalToggles]);
 
   const { searchQuery, isDevLoading } = preferences;
 
@@ -63,59 +60,53 @@ export const TogglesTab = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchDevToggles = useCallback(
-    async () => {
-      try {
-        updateDevLoading(true);
+  const fetchDevToggles = useCallback(async () => {
+    try {
+      updateDevLoading(true);
 
-        const response = await fetch(
-          'https://staging-api.va.gov/v0/feature_toggles',
+      const response = await fetch(
+        'https://staging-api.va.gov/v0/feature_toggles',
+      );
+      const {
+        data: { features },
+      } = await response.json();
+
+      const formattedToggles = features
+        .filter(toggle => {
+          return toggle.name.includes('_') && !toggle.name.includes('vadx');
+        })
+        .reduce(
+          (acc, toggle) => {
+            acc[toggle.name] = toggle.value;
+            return acc;
+          },
+          {
+            [FEATURE_FLAG_NAMES.aedpVADX]: true,
+          },
         );
-        const {
-          data: { features },
-        } = await response.json();
 
-        const formattedToggles = features
-          .filter(toggle => {
-            return toggle.name.includes('_') && !toggle.name.includes('vadx');
-          })
-          .reduce(
-            (acc, toggle) => {
-              acc[toggle.name] = toggle.value;
-              return acc;
-            },
-            {
-              [FEATURE_FLAG_NAMES.aedpVADX]: true,
-            },
-          );
+      updateLocalToggles(formattedToggles);
 
-        updateLocalToggles(formattedToggles);
+      updateDevLoading(false);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching dev toggles:', error);
+    }
+  }, [updateDevLoading, updateLocalToggles]);
 
-        updateDevLoading(false);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Error fetching dev toggles:', error);
-      }
-    },
-    [updateDevLoading, updateLocalToggles],
-  );
+  const filteredToggles = useMemo(() => {
+    return Object.keys(togglesState).filter(toggle => {
+      const toggleName = toggle.toLowerCase();
+      const searchQueryLower = searchQuery?.toLowerCase() || '';
 
-  const filteredToggles = useMemo(
-    () => {
-      return Object.keys(togglesState).filter(toggle => {
-        const toggleName = toggle.toLowerCase();
-        const searchQueryLower = searchQuery?.toLowerCase() || '';
-
-        return (
-          toggle.includes('_') &&
-          toggleName.includes(searchQueryLower) &&
-          !toggleName.includes('vadx') &&
-          toggle !== 'loading'
-        );
-      });
-    },
-    [togglesState, searchQuery],
-  );
+      return (
+        toggle.includes('_') &&
+        toggleName.includes(searchQueryLower) &&
+        !toggleName.includes('vadx') &&
+        toggle !== 'loading'
+      );
+    });
+  }, [togglesState, searchQuery]);
 
   if (togglesLoading || isDevLoading) {
     return <div>Loading...</div>;

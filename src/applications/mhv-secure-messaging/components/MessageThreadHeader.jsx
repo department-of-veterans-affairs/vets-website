@@ -49,57 +49,45 @@ const MessageThreadHeader = props => {
       ],
   );
 
-  useEffect(
-    () => {
-      if (message) {
-        const tempRecipient = {
-          recipientId,
-          name:
-            messages.find(m => m.triageGroupName === message.triageGroupName)
-              ?.triageGroupName || message.triageGroupName,
-          suggestedNameDisplay: message.suggestedNameDisplay,
-          type: Recipients.CARE_TEAM,
-          status: RecipientStatus.ALLOWED,
-        };
-
-        setCurrentRecipient(tempRecipient);
-      }
-
-      // The Blocked Triage Group alert should stay visible until the user navigates away
-    },
-    [message, recipients],
-  );
-
-  useEffect(
-    () => {
-      if (new Date() > cannotReplyDate) {
-        setReplyButton(true);
-      }
-    },
-    [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
-  );
-
-  useEffect(
-    () => {
-      return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
+  useEffect(() => {
+    if (message) {
+      const tempRecipient = {
+        recipientId,
+        name:
+          messages.find(m => m.triageGroupName === message.triageGroupName)
+            ?.triageGroupName || message.triageGroupName,
+        suggestedNameDisplay: message.suggestedNameDisplay,
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
       };
-    },
-    [location.pathname, dispatch],
-  );
+
+      setCurrentRecipient(tempRecipient);
+    }
+
+    // The Blocked Triage Group alert should stay visible until the user navigates away
+  }, [message, recipients]);
+
+  useEffect(() => {
+    if (new Date() > cannotReplyDate) {
+      setReplyButton(true);
+    }
+  }, [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate]);
+
+  useEffect(() => {
+    return () => {
+      if (location.pathname) {
+        dispatch(closeAlert());
+      }
+    };
+  }, [location.pathname, dispatch]);
 
   const categoryLabel = Categories[category];
 
-  useEffect(
-    () => {
-      const pageTitleTag = getPageTitle({ removeLandingPageFF });
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitleTag);
-    },
-    [categoryLabel, message, removeLandingPageFF, subject],
-  );
+  useEffect(() => {
+    const pageTitleTag = getPageTitle({ removeLandingPageFF });
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitleTag);
+  }, [categoryLabel, message, removeLandingPageFF, subject]);
 
   useEffect(() => {
     setTimeout(() => {

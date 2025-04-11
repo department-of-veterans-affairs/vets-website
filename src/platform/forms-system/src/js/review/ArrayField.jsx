@@ -386,26 +386,25 @@ class ArrayField extends React.Component {
               </div>
             </div>
           )}
-          {title &&
-            !itemCountLocked && (
-              <>
-                <button
-                  type="button"
-                  name={`add-another-${fieldName}`}
-                  disabled={addAnotherDisabled}
-                  className="add-btn primary-outline"
-                  onClick={() => this.handleAdd()}
-                >
-                  {uiOptions.itemName
-                    ? `Add another ${uiOptions.itemName}`
-                    : 'Add another'}
-                </button>
-                <div>
-                  {addAnotherDisabled &&
-                    `You’ve entered the maximum number of items allowed.`}
-                </div>
-              </>
-            )}
+          {title && !itemCountLocked && (
+            <>
+              <button
+                type="button"
+                name={`add-another-${fieldName}`}
+                disabled={addAnotherDisabled}
+                className="add-btn primary-outline"
+                onClick={() => this.handleAdd()}
+              >
+                {uiOptions.itemName
+                  ? `Add another ${uiOptions.itemName}`
+                  : 'Add another'}
+              </button>
+              <div>
+                {addAnotherDisabled &&
+                  `You’ve entered the maximum number of items allowed.`}
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
@@ -415,13 +414,13 @@ class ArrayField extends React.Component {
 export default ArrayField;
 
 ArrayField.propTypes = {
-  schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  trackingPrefix: PropTypes.string.isRequired,
   pageKey: PropTypes.string.isRequired,
   path: PropTypes.array.isRequired,
-  formData: PropTypes.object,
-  arrayData: PropTypes.array,
+  schema: PropTypes.object.isRequired,
+  trackingPrefix: PropTypes.string.isRequired,
   appStateData: PropTypes.object,
+  arrayData: PropTypes.array,
+  formData: PropTypes.object,
   pageTitle: PropTypes.string,
+  uiSchema: PropTypes.object,
 };

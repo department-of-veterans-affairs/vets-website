@@ -84,41 +84,32 @@ export const useDirectDeposit = () => {
 
   // function to exit the direct deposit update view
   // also will clear any pending form data in UI
-  const exitUpdateView = useCallback(
-    () => {
-      setFormData({});
-      dispatch(toggleDirectDepositEdit(false));
-    },
-    [setFormData, dispatch],
-  );
+  const exitUpdateView = useCallback(() => {
+    setFormData({});
+    dispatch(toggleDirectDepositEdit(false));
+  }, [setFormData, dispatch]);
 
   // function to handle the cancel button click
   // on direct deposit update form
-  const onCancel = useCallback(
-    () => {
-      if (hasUnsavedFormEdits) {
-        setShowCancelModal(true);
-        return;
-      }
+  const onCancel = useCallback(() => {
+    if (hasUnsavedFormEdits) {
+      setShowCancelModal(true);
+      return;
+    }
 
-      exitUpdateView();
-    },
-    [hasUnsavedFormEdits, setShowCancelModal, exitUpdateView],
-  );
+    exitUpdateView();
+  }, [hasUnsavedFormEdits, setShowCancelModal, exitUpdateView]);
 
-  const onFormSubmit = useCallback(
-    () => {
-      const payload = {
-        paymentAccount: {
-          accountType: formData.accountType,
-          accountNumber: formData.accountNumber,
-          routingNumber: formData.routingNumber,
-        },
-      };
-      dispatch(saveDirectDeposit(payload));
-    },
-    [dispatch, formData],
-  );
+  const onFormSubmit = useCallback(() => {
+    const payload = {
+      paymentAccount: {
+        accountType: formData.accountType,
+        accountNumber: formData.accountNumber,
+        routingNumber: formData.routingNumber,
+      },
+    };
+    dispatch(saveDirectDeposit(payload));
+  }, [dispatch, formData]);
 
   const {
     canUpdateDirectDeposit,

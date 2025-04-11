@@ -24,7 +24,6 @@ export default function TypeOfCareRadioWidget({
 
         {enumOptions.map((option, i) => {
           const checked = option.value === value;
-          const { label } = option;
 
           return (
             <div className="form-radio-buttons" key={option.value}>

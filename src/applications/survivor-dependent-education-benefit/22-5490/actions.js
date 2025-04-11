@@ -1,9 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-export const CLAIMANT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_claimant_info?type=Chapter35`;
+export const CLAIMANT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claimant_info?type=Chapter35`;
 
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
@@ -11,9 +9,7 @@ export const FETCH_PERSONAL_INFORMATION_SUCCESS =
 export const FETCH_PERSONAL_INFORMATION_FAILED =
   'FETCH_PERSONAL_INFORMATION_FAILED';
 
-export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/duplicate_contact_info`;
+export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/duplicate_contact_info`;
 export const FETCH_DUPLICATE_CONTACT = 'FETCH_DUPLICATE_CONTACT';
 export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
   'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
@@ -24,13 +20,9 @@ export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 
-export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${
-  environment.API_URL
-}/v0/profile/direct_deposits`;
+export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${environment.API_URL}/v0/profile/direct_deposits`;
 
-export const CLAIM_STATUS_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_claim_status`;
+export const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claim_status`;
 export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
 export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
 export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';

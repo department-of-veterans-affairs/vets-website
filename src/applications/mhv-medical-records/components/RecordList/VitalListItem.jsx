@@ -15,52 +15,43 @@ const VitalListItem = props => {
   const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
-  const ddLabelName = useMemo(
-    () => {
-      return displayName.includes('Blood oxygen level')
-        ? 'Blood Oxygen over time Link'
-        : `${displayName} over time Link`;
-    },
-    [displayName],
-  );
+  const ddLabelName = useMemo(() => {
+    return displayName.includes('Blood oxygen level')
+      ? 'Blood Oxygen over time Link'
+      : `${displayName} over time Link`;
+  }, [displayName]);
 
-  const updatedRecordType = useMemo(
-    () => {
-      const typeMap = {
-        PULSE: 'HEART-RATE',
-        RESPIRATION: 'BREATHING-RATE',
-        PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
-      };
-      return typeMap[record.type] || record.type;
-    },
-    [record.type],
-  );
+  const updatedRecordType = useMemo(() => {
+    const typeMap = {
+      PULSE: 'HEART-RATE',
+      RESPIRATION: 'BREATHING-RATE',
+      PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
+    };
+    return typeMap[record.type] || record.type;
+  }, [record.type]);
 
-  const dataTestIds = useMemo(
-    () => {
-      if (isAccelerating) {
-        return {
-          displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
-          noRecordMessage: `vital-${kebabCase(
-            updatedRecordType,
-          )}-no-record-message`,
-          measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
-          date: `vital-${kebabCase(updatedRecordType)}-date`,
-          dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
-          reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
-        };
-      }
+  const dataTestIds = useMemo(() => {
+    if (isAccelerating) {
       return {
-        displayName: 'vital-li-display-name',
-        noRecordMessage: 'vital-li-no-record-message',
-        measurement: 'vital-li-measurement',
-        date: 'vital-li-date',
-        dateTimestamp: 'vital-li-date-timestamp',
-        reviewLink: 'vital-li-review-over-time',
+        displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
+        noRecordMessage: `vital-${kebabCase(
+          updatedRecordType,
+        )}-no-record-message`,
+        measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
+        date: `vital-${kebabCase(updatedRecordType)}-date`,
+        dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
+        reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
       };
-    },
-    [updatedRecordType, isAccelerating],
-  );
+    }
+    return {
+      displayName: 'vital-li-display-name',
+      noRecordMessage: 'vital-li-no-record-message',
+      measurement: 'vital-li-measurement',
+      date: 'vital-li-date',
+      dateTimestamp: 'vital-li-date-timestamp',
+      reviewLink: 'vital-li-review-over-time',
+    };
+  }, [updatedRecordType, isAccelerating]);
 
   const url = `/vitals/${kebabCase(updatedRecordType)}-history${
     isAccelerating ? `?timeFrame=${timeFrame}` : ''

@@ -12,9 +12,7 @@ const PendingReferralCard = ({ referral, index }) => {
   const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.categoryOfCare;
 
-  const link = `schedule-referral?id=${
-    referral.uuid
-  }&referrer=referrals-requests`;
+  const link = `schedule-referral?id=${referral.uuid}&referrer=referrals-requests`;
 
   const parsedDate = parseISO(referral.expirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');

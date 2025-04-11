@@ -9,14 +9,11 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
   const menuItemID = deriveMenuItemID(item, '2');
   const shouldFocus = menuItemID === lastClickedMenuID;
 
-  useEffect(
-    () => {
-      if (shouldFocus) {
-        document.getElementById(menuItemID)?.focus?.();
-      }
-    },
-    [shouldFocus, menuItemID],
-  );
+  useEffect(() => {
+    if (shouldFocus) {
+      document.getElementById(menuItemID)?.focus?.();
+    }
+  }, [shouldFocus, menuItemID]);
 
   if (!item?.links && !item?.href && !item?.title) {
     return null;
@@ -39,26 +36,24 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
       className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
       data-e2e-id={item?.title?.replaceAll(' ', '-')}
     >
-      {!item?.links &&
-        !item?.href && (
-          <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full">
-            {item?.title}
-          </span>
-        )}
+      {!item?.links && !item?.href && (
+        <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full">
+          {item?.title}
+        </span>
+      )}
       {/* Title link */}
-      {!item?.links &&
-        item?.href && (
-          <a
-            className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full"
-            data-e2e-id={item?.title
-              ?.replaceAll(' ', '-')
-              ?.replaceAll(/[{(,&)}]/g, '')
-              .toLowerCase()}
-            href={item?.href}
-          >
-            {item?.title}
-          </a>
-        )}
+      {!item?.links && item?.href && (
+        <a
+          className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full"
+          data-e2e-id={item?.title
+            ?.replaceAll(' ', '-')
+            ?.replaceAll(/[{(,&)}]/g, '')
+            .toLowerCase()}
+          href={item?.href}
+        >
+          {item?.title}
+        </a>
+      )}
       {/* Expand title */}
       {item?.links && (
         <button
@@ -92,6 +87,7 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
 };
 
 MenuItemLevel2.propTypes = {
+  updateSubMenu: PropTypes.func.isRequired,
   item: PropTypes.oneOfType([
     PropTypes.shape({
       href: PropTypes.string,
@@ -174,7 +170,6 @@ MenuItemLevel2.propTypes = {
     }),
   ]),
   lastClickedMenuID: PropTypes.string,
-  updateSubMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -185,7 +180,4 @@ const mapDispatchToProps = dispatch => ({
   updateSubMenu: subMenu => dispatch(updateSubMenuAction(subMenu)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MenuItemLevel2);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuItemLevel2);

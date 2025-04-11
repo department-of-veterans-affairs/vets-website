@@ -97,8 +97,8 @@ describe('flowPages', () => {
           ((!formData.school ||
             !formData.schoolInfo?.schoolName ||
             formData.useSchoolInProfile === schoolInYourProfileOptions.NO) &&
-            (formData.selectCategory === CategoryDebt &&
-              formData.selectTopic === TopicEducationBenefitOverpayments)) ||
+            formData.selectCategory === CategoryDebt &&
+            formData.selectTopic === TopicEducationBenefitOverpayments) ||
           ((formData.useSchoolInProfile === schoolInYourProfileOptions.NO ||
             !formData.schoolInfo?.schoolName) &&
             (formData.yourRole === yourRoleOptionsEducation.SCO ||

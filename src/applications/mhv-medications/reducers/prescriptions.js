@@ -162,11 +162,10 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.FILL: {
       return {
         ...state,
-        prescriptionsList: state.prescriptionsList?.map(
-          rx =>
-            rx.prescriptionId === action.response.id
-              ? { ...rx, error: undefined, success: true }
-              : rx,
+        prescriptionsList: state.prescriptionsList?.map(rx =>
+          rx.prescriptionId === action.response.id
+            ? { ...rx, error: undefined, success: true }
+            : rx,
         ),
         prescriptionDetails: {
           ...state.prescriptionDetails,
@@ -178,11 +177,10 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.FILL_ERROR: {
       return {
         ...state,
-        prescriptionsList: state.prescriptionsList?.map(
-          rx =>
-            rx.prescriptionId === action.err.id
-              ? { ...rx, error: action.err, success: undefined }
-              : rx,
+        prescriptionsList: state.prescriptionsList?.map(rx =>
+          rx.prescriptionId === action.err.id
+            ? { ...rx, error: action.err, success: undefined }
+            : rx,
         ),
         prescriptionDetails: {
           ...state.prescriptionDetails,
@@ -194,11 +192,10 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.CLEAR_ERROR: {
       return {
         ...state,
-        prescriptionsList: state.prescriptionsList?.map(
-          rx =>
-            rx.prescriptionId === action.prescriptionId
-              ? { ...rx, error: undefined }
-              : rx,
+        prescriptionsList: state.prescriptionsList?.map(rx =>
+          rx.prescriptionId === action.prescriptionId
+            ? { ...rx, error: undefined }
+            : rx,
         ),
         prescriptionDetails: {
           ...state.prescriptionDetails,

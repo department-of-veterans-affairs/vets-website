@@ -41,9 +41,7 @@ const StepComponent = props => {
               return (
                 <li
                   key={index}
-                  className={`process-step list-${
-                    entry.step
-                  } vads-u-padding-bottom--0p5`}
+                  className={`process-step list-${entry.step} vads-u-padding-bottom--0p5`}
                 >
                   <h5 className="vads-u-font-size--h4">{entry.title}</h5>
                   <ul>

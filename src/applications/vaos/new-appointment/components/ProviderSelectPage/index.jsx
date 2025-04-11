@@ -31,13 +31,10 @@ export default function SelectProviderPage() {
   const pageHeader =
     patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-    },
-    [pageTitle],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+  }, [pageTitle]);
 
   if (patientRelationshipsError) {
     return <ErrorMessage level={1} />;

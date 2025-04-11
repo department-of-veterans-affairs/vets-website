@@ -34,7 +34,10 @@ describe('Get condition action', () => {
     const mockData = condition;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getConditionDetails('3106', undefined)(dispatch).then(() => {
+    return getConditionDetails(
+      '3106',
+      undefined,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
     });
   });

@@ -15,9 +15,7 @@ const CallPharmacyPhone = ({ cmopDivisionPhone, page }) => {
             contact={number}
             data-testid="pharmacy-phone-number"
             data-dd-privacy="mask"
-            data-dd-action-name={`${
-              dataDogActionNames.shared.PHARMACY_PHONE_NUMBER_LINK
-            }${page}`}
+            data-dd-action-name={`${dataDogActionNames.shared.PHARMACY_PHONE_NUMBER_LINK}${page}`}
           />{' '}
           <span>
             (<va-telephone tty contact="711" />)

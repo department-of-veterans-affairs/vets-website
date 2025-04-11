@@ -1,8 +1,20 @@
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+import { combineReducers } from 'redux';
+
+import { FeatureToggleReducer as featureToggles } from 'platform/site-wide/feature-toggles/reducers';
+import scheduledDowntime from 'platform/monitoring/DowntimeNotification/reducer';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
+
+import user from './user';
+import navigation from './navigation';
 import formConfig from '../config/form';
 
-const config = formConfig();
+const form = createSaveInProgressFormReducer(formConfig);
+const rootReducer = combineReducers({
+  scheduledDowntime,
+  featureToggles,
+  navigation,
+  user,
+  form,
+});
 
-export default {
-  form: createSaveInProgressFormReducer(config),
-};
+export default rootReducer;

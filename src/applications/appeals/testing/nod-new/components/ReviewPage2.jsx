@@ -49,46 +49,48 @@ const ReviewPage = props => {
       <div name="topNavScrollElement" />
       <h1>Review Board Appeal</h1>
       <va-on-this-page />
-      {chapterTitles.filter(title => title !== 'Apply').map((title, index) => (
-        <div key={index}>
-          <div className={chapterClasses}>
-            <h2 id={index} className="vads-u-margin--0">
-              {title}
-            </h2>
-          </div>
-          <ul className="review-pages vads-u-padding--0">
-            {getChapterPagesFromChapterIndex(index).map(page => {
-              const depends = page.depends ? page.depends(props.data) : true;
-              return page.review && depends && !page.taskListHide
-                ? Object.entries(page.review(props.data)).map(
-                    ([label, value], rowIndex) => (
-                      <li key={label} className={listClasses}>
-                        <div className={divClasses}>
-                          <div>
-                            <div className="page-title vads-u-color--gray">
-                              {label}
+      {chapterTitles
+        .filter(title => title !== 'Apply')
+        .map((title, index) => (
+          <div key={index}>
+            <div className={chapterClasses}>
+              <h2 id={index} className="vads-u-margin--0">
+                {title}
+              </h2>
+            </div>
+            <ul className="review-pages vads-u-padding--0">
+              {getChapterPagesFromChapterIndex(index).map(page => {
+                const depends = page.depends ? page.depends(props.data) : true;
+                return page.review && depends && !page.taskListHide
+                  ? Object.entries(page.review(props.data)).map(
+                      ([label, value], rowIndex) => (
+                        <li key={label} className={listClasses}>
+                          <div className={divClasses}>
+                            <div>
+                              <div className="page-title vads-u-color--gray">
+                                {label}
+                              </div>
+                              <div className="page-value">{value}</div>
                             </div>
-                            <div className="page-value">{value}</div>
-                          </div>
-                          {/* Not ideal, but for now, only render one edit link
+                            {/* Not ideal, but for now, only render one edit link
                            for the contact info page */}
-                          {rowIndex > 0 ? null : (
-                            <Link to={page.path}>
-                              Edit{' '}
-                              <span className="vads-u-visibility--screen-reader">
-                                {page.title}
-                              </span>
-                            </Link>
-                          )}
-                        </div>
-                      </li>
-                    ),
-                  )
-                : null;
-            })}
-          </ul>
-        </div>
-      ))}
+                            {rowIndex > 0 ? null : (
+                              <Link to={page.path}>
+                                Edit{' '}
+                                <span className="vads-u-visibility--screen-reader">
+                                  {page.title}
+                                </span>
+                              </Link>
+                            )}
+                          </div>
+                        </li>
+                      ),
+                    )
+                  : null;
+              })}
+            </ul>
+          </div>
+        ))}
       <p className="vads-u-margin-top--6">
         <strong>Note:</strong> According to federal law, there are criminal
         penalties, including a fine and/or imprisonment for up to 5 years, for

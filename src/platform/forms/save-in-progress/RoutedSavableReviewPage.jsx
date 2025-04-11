@@ -109,11 +109,10 @@ function mapStateToProps(state, ownProps) {
     form,
     formConfig,
     formContext,
-    pageList: pageList.map(
-      page =>
-        page.appStateSelector
-          ? { ...page, appStateData: page.appStateSelector(state) }
-          : page,
+    pageList: pageList.map(page =>
+      page.appStateSelector
+        ? { ...page, appStateData: page.appStateSelector(state) }
+        : page,
     ),
     showLoginModal: state.navigation.showLoginModal,
     path,
@@ -181,10 +180,7 @@ RoutedSavableReviewPage.defaultProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(RoutedSavableReviewPage),
+  connect(mapStateToProps, mapDispatchToProps)(RoutedSavableReviewPage),
 );
 
 export { RoutedSavableReviewPage };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -12,15 +13,12 @@ export const ConfirmationPage = () => {
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo('topScrollElement');
-        waitForRenderThenFocus('h2', alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo('topScrollElement');
+      waitForRenderThenFocus('h2', alertRef.current);
+    }
+  }, [alertRef]);
 
   return (
     <div>
@@ -70,11 +68,9 @@ export const ConfirmationPage = () => {
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
-
-      {/* <div className="help-footer-box">
-        <h2 className="help-heading">Need help?</h2>
-        <GetFormHelp />
-      </div> */}
+      <va-need-help>
+        <NeedHelp />
+      </va-need-help>
     </div>
   );
 };

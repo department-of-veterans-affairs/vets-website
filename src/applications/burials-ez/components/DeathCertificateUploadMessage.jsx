@@ -8,7 +8,7 @@ export default function DeathCertificateUploadMessage({ formData }) {
 
   const isConnectedToMedicalCenter = Boolean(
     formData?.burialAllowanceRequested?.service === true &&
-    formData?.locationOfDeath?.location === 'vaMedicalCenter'
+      formData?.locationOfDeath?.location === 'vaMedicalCenter'
       ? 0
       : 1,
   );

@@ -41,31 +41,28 @@ export function useEditOrAddForm({
   const [localSchema, setLocalSchema] = useState(null);
   const [localUiSchema, setLocalUiSchema] = useState(null);
 
-  useEffect(
-    () => {
-      if (isEdit) {
-        // We run updateSchemasAndData before setting data in case
-        // there are updateSchema, replaceSchema, updateUiSchema
-        // or other dynamic properties
-        const {
-          data: initialData,
-          schema: initialSchema,
-          uiSchema: initialUiSchema,
-        } = updateSchemasAndData(
-          cloneDeep(schema),
-          cloneDeep(uiSchema),
-          cloneDeep(data),
-          false, // preserveHiddenData default
-          cloneDeep(fullData),
-          index,
-        );
-        setLocalData(initialData);
-        setLocalSchema(initialSchema);
-        setLocalUiSchema(initialUiSchema);
-      }
-    },
-    [data, fullData, schema, uiSchema, isEdit, index],
-  );
+  useEffect(() => {
+    if (isEdit) {
+      // We run updateSchemasAndData before setting data in case
+      // there are updateSchema, replaceSchema, updateUiSchema
+      // or other dynamic properties
+      const {
+        data: initialData,
+        schema: initialSchema,
+        uiSchema: initialUiSchema,
+      } = updateSchemasAndData(
+        cloneDeep(schema),
+        cloneDeep(uiSchema),
+        cloneDeep(data),
+        false, // preserveHiddenData default
+        cloneDeep(fullData),
+        index,
+      );
+      setLocalData(initialData);
+      setLocalSchema(initialSchema);
+      setLocalUiSchema(initialUiSchema);
+    }
+  }, [data, fullData, schema, uiSchema, isEdit, index]);
 
   const handleOnChange = useCallback(
     updatedData => {

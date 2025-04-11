@@ -140,7 +140,4 @@ const mapStateToProps = state => ({
   formData: state.form?.data,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(ContactAccreditedRepresentative);
+export default connect(mapStateToProps, null)(ContactAccreditedRepresentative);

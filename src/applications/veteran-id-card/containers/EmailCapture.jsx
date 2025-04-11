@@ -103,8 +103,5 @@ const mapDispatchToProps = {
   setDirty,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EmailCapture);
+export default connect(mapStateToProps, mapDispatchToProps)(EmailCapture);
 export { EmailCapture };

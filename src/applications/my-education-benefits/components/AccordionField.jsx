@@ -43,9 +43,7 @@ export default class AccordionField extends React.Component {
       !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
-        `No viewComponent found in uiSchema for AccordionField${
-          this.props.idSchema.$id
-        }.`,
+        `No viewComponent found in uiSchema for AccordionField${this.props.idSchema.$id}.`,
       );
     }
 
@@ -240,6 +238,18 @@ export default class AccordionField extends React.Component {
 }
 
 AccordionField.propTypes = {
+  errorSchema: PropTypes.object.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
+  idSchema: PropTypes.object.isRequired,
+  registry: PropTypes.shape({
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.elementType.isRequired,
+    }),
+    definitions: PropTypes.object.isRequired,
+  }).isRequired,
+  schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       /**
@@ -265,18 +275,6 @@ AccordionField.propTypes = {
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,
-  schema: PropTypes.object.isRequired,
-  errorSchema: PropTypes.object.isRequired,
-  idSchema: PropTypes.object.isRequired,
-  registry: PropTypes.shape({
-    fields: PropTypes.shape({
-      SchemaField: PropTypes.elementType.isRequired,
-    }),
-    definitions: PropTypes.object.isRequired,
-  }).isRequired,
-  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onBlur: PropTypes.func.isRequired,
-  formContext: PropTypes.shape({
-    onError: PropTypes.func.isRequired,
-  }).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };

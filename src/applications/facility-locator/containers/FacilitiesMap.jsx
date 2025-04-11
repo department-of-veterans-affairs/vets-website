@@ -617,7 +617,221 @@ const FacilitiesMap = props => {
         {isSmallDesktop && useProgressiveDisclosure && paginationWrapper()}
 
         {isMobile && (
+          <ControlsAndMapContainer
+            isSmallDesktop={!!(isSmallDesktop && useProgressiveDisclosure)}
+          >
+            <ControlResultsHolder
+              isSmallDesktop={!!(isSmallDesktop && useProgressiveDisclosure)}
+            >
+              {useProgressiveDisclosure ? (
+                <PpmsServiceError currentQuery={props.currentQuery} />
+              ) : null}
+              <SearchForm
+                currentQuery={currentQuery}
+                isMobile={isMobile}
+                isSmallDesktop={isSmallDesktop}
+                isTablet={isTablet}
+                mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                onChange={props.updateSearchQuery}
+                onSubmit={handleSearch}
+                searchInitiated={searchInitiated}
+                selectMobileMapPin={props.selectMobileMapPin}
+                setSearchInitiated={setSearchInitiated}
+                suppressPPMS={props.suppressPPMS}
+                useProgressiveDisclosure={useProgressiveDisclosure}
+                vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
+              />
+              <EmergencyCareAlert
+                shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
+              />
+              <div id="search-results-title" ref={searchResultTitleRef}>
+                {!searchError && (
+                  <SearchResultsHeader
+                    results={results}
+                    facilityType={facilityType}
+                    serviceType={serviceType}
+                    context={queryContext}
+                    specialtyMap={props.specialties}
+                    inProgress={currentQuery.inProgress}
+                    pagination={pagination}
+                  />
+                )}
+                {searchError && <p />}
+              </div>
+              {!isMobile && (
+                <>
+                  {isSmallDesktop && useProgressiveDisclosure && (
+                    <div
+                      className="search-results-container vads-u-padding-x--0p5 vads-u-padding-top--0p5 columns"
+                      id="searchResultsContainer"
+                    >
+                      <div className="facility-search-results">
+                        {resultsList()}
+                      </div>
+                    </div>
+                  )}
+                  {((!isMobile && !useProgressiveDisclosure) ||
+                    (isTablet && useProgressiveDisclosure)) && (
+                    <>
+                      <div
+                        className={
+                          !isMobile ? 'tablet-results-map-container' : undefined
+                        }
+                      >
+                        <div
+                          className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0p25"
+                          id="searchResultsContainer"
+                        >
+                          <div className="facility-search-results">
+                            {resultsList()}
+                          </div>
+                        </div>
+                        <RenderMap
+                          currentQuery={currentQuery}
+                          handleSearchArea={handleSearchArea}
+                          isSearching={isSearching}
+                          mapboxGlContainer={mapboxGlContainer}
+                          map={map}
+                          mobile={false}
+                          mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                          results={results}
+                          selectMobileMapPin={props.selectMobileMapPin}
+                          searchAreaButtonEnabled={
+                            !!map && searchAreaButtonEnabled()
+                          }
+                          shouldRenderSearchArea={
+                            !!map && shouldRenderSearchArea()
+                          }
+                          smallDesktop={false}
+                          zoomMessageDivID={zoomMessageDivID}
+                          ref={mapboxGlContainerRef}
+                        />
+                      </div>
+                      {paginationWrapper()}
+                    </>
+                  )}
+                </>
+              )}
+            </ControlResultsHolder>
+            {isSmallDesktop && useProgressiveDisclosure && (
+              <div className="map-and-message-container">
+                <RenderMap
+                  currentQuery={currentQuery}
+                  handleSearchArea={handleSearchArea}
+                  isSearching={isSearching}
+                  mapboxGlContainer={mapboxGlContainer}
+                  map={map}
+                  mobile={false}
+                  mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                  results={results}
+                  searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
+                  shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                  smallDesktop
+                  zoomMessageDivID={zoomMessageDivID}
+                  ref={mapboxGlContainerRef}
+                />
+              </div>
+            )}
+          </ControlsAndMapContainer>
+        )}
+        {isSmallDesktop && useProgressiveDisclosure && paginationWrapper()}
+
+        {isMobile && (
           <div className="columns small-12">
+            {mobileMapUpdateEnabled ? (
+              <>
+                <SegmentedControl
+                  a11yLabels={['View List', 'View Map']}
+                  labels={['View List', 'View Map']}
+                  onChange={segmentOnChange}
+                  selected={selectedTab}
+                />
+                <>
+                  {selectedTab === 0 ? (
+                    <>
+                      <div className="facility-search-results">
+                        {resultsList()}
+                      </div>
+                      {paginationWrapper()}{' '}
+                    </>
+                  ) : (
+                    <>
+                      <RenderMap
+                        currentQuery={currentQuery}
+                        handleSearchArea={handleSearchArea}
+                        isSearching={isSearching}
+                        mapboxGlContainer={mapboxGlContainer}
+                        map={map}
+                        mobile
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                        results={results}
+                        searchAreaButtonEnabled={
+                          !!map && searchAreaButtonEnabled()
+                        }
+                        selectMobileMapPin={props.selectMobileMapPin}
+                        shouldRenderSearchArea={
+                          !!map && shouldRenderSearchArea()
+                        }
+                        smallDesktop={false}
+                        zoomMessageDivID={zoomMessageDivID}
+                        ref={mapboxGlContainerRef}
+                      />
+                      {currentQuery.searchStarted && !results.length && (
+                        <NoResultsMessage
+                          resultRef={searchResultMessageRef}
+                          resultsFound={false}
+                          searchStarted
+                        />
+                      )}
+                      <MobileMapSearchResult
+                        mobileMapPinSelected={mobileMapPinSelected}
+                        query={currentQuery}
+                        searchResultMessageRef={searchResultMessageRef}
+                      />
+                    </>
+                  )}
+                </>
+              </>
+            ) : (
+              <Tabs>
+                <TabList>
+                  <Tab className="small-6 tab">View List</Tab>
+                  <Tab onClick={setMapResize} className="small-6 tab">
+                    View Map
+                  </Tab>
+                </TabList>
+                <TabPanel>
+                  <div className="facility-search-results">{resultsList()}</div>
+                  {paginationWrapper()}
+                </TabPanel>
+                <TabPanel>
+                  <RenderMap
+                    currentQuery={currentQuery}
+                    handleSearchArea={handleSearchArea}
+                    isSearching={isSearching}
+                    mapboxGlContainer={mapboxGlContainer}
+                    map={map}
+                    mobile
+                    mobileMapUpdateEnabled
+                    results={results}
+                    searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
+                    shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                    smallDesktop={false}
+                    zoomMessageDivID={zoomMessageDivID}
+                    ref={mapboxGlContainerRef}
+                  />
+                  {currentQuery.searchStarted && !results.length && (
+                    <NoResultsMessage
+                      resultRef={searchResultMessageRef}
+                      resultsFound={false}
+                      searchStarted
+                    />
+                  )}
+                </TabPanel>
+              </Tabs>
+            )}
             {mobileMapUpdateEnabled ? (
               <>
                 <SegmentedControl

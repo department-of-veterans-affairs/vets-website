@@ -45,23 +45,17 @@ export default function ContactFacilitiesPage({ changeCrumb }) {
   const pageTitle = canUseVaccineFlow
     ? 'We can’t schedule your second dose online'
     : 'Contact a facility';
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      dispatch(openContactFacilitiesPage());
-    },
-    [openContactFacilitiesPage],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    dispatch(openContactFacilitiesPage());
+  }, [openContactFacilitiesPage]);
 
-  useEffect(
-    () => {
-      scrollAndFocus();
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
-    },
-    [facilitiesStatus],
-  );
+  useEffect(() => {
+    scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, [facilitiesStatus]);
 
   if (facilitiesStatus === FETCH_STATUS.failed) {
     return <ErrorMessage level="1" />;

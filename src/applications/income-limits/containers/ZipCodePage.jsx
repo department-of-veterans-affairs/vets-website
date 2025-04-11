@@ -40,25 +40,22 @@ const ZipCodePage = ({
     return zipCode && zip.match(/^[0-9]+$/) && zip.length === 5;
   };
 
-  useEffect(
-    () => {
-      // If pastMode is null, the home screen hasn't been used yet
-      let shouldRedirectToHome = pastMode === null;
+  useEffect(() => {
+    // If pastMode is null, the home screen hasn't been used yet
+    let shouldRedirectToHome = pastMode === null;
 
-      if (pastMode) {
-        shouldRedirectToHome = !year;
-      }
+    if (pastMode) {
+      shouldRedirectToHome = !year;
+    }
 
-      if (shouldRedirectToHome) {
-        router.push(ROUTES.HOME);
-        return;
-      }
+    if (shouldRedirectToHome) {
+      router.push(ROUTES.HOME);
+      return;
+    }
 
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      waitForRenderThenFocus('h1');
-    },
-    [pastMode, router, year],
-  );
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    waitForRenderThenFocus('h1');
+  }, [pastMode, router, year]);
 
   const onContinueClick = async () => {
     // Zip meets input criteria
@@ -199,7 +196,4 @@ ZipCodePage.propTypes = {
   zipValidationServiceError: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ZipCodePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ZipCodePage);

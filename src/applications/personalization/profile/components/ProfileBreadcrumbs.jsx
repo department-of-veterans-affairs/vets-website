@@ -22,40 +22,37 @@ export const ProfileBreadcrumbs = ({ className }) => {
     history.push(href);
   }
 
-  const breadcrumbs = useMemo(
-    () => {
-      const path = normalizePath(location.pathname);
+  const breadcrumbs = useMemo(() => {
+    const path = normalizePath(location.pathname);
 
-      if (path === PROFILE_PATHS.PROFILE_ROOT) {
-        return PROFILE_BREADCRUMB_BASE;
-      }
+    if (path === PROFILE_PATHS.PROFILE_ROOT) {
+      return PROFILE_BREADCRUMB_BASE;
+    }
 
-      try {
-        const routeInfo = getRouteInfoFromPath(path, PROFILE_PATHS_WITH_NAMES);
+    try {
+      const routeInfo = getRouteInfoFromPath(path, PROFILE_PATHS_WITH_NAMES);
 
-        return [
-          ...PROFILE_BREADCRUMB_BASE,
-          {
-            href: path,
-            label: routeInfo.name,
-            isRouterLink: true,
-          },
-        ];
-      } catch (e) {
-        // if no route matches, then the breadcrumb should reflect the root route
-        const rootRouteInfo = PROFILE_PATHS_WITH_NAMES[0];
-        return [
-          ...PROFILE_BREADCRUMB_BASE,
-          {
-            href: rootRouteInfo.path,
-            label: rootRouteInfo.name,
-            isRouterLink: true,
-          },
-        ];
-      }
-    },
-    [location],
-  );
+      return [
+        ...PROFILE_BREADCRUMB_BASE,
+        {
+          href: path,
+          label: routeInfo.name,
+          isRouterLink: true,
+        },
+      ];
+    } catch (e) {
+      // if no route matches, then the breadcrumb should reflect the root route
+      const rootRouteInfo = PROFILE_PATHS_WITH_NAMES[0];
+      return [
+        ...PROFILE_BREADCRUMB_BASE,
+        {
+          href: rootRouteInfo.path,
+          label: rootRouteInfo.name,
+          isRouterLink: true,
+        },
+      ];
+    }
+  }, [location]);
 
   return (
     <div
