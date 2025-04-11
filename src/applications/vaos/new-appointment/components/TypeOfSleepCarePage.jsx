@@ -12,7 +12,7 @@ import {
   updateFormData,
 } from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { TYPES_OF_SLEEP_CARE } from '../../utils/constants';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
@@ -71,11 +71,18 @@ export default function TypeOfSleepCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);
     }
   }, []);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__radio-field-descriptive">
