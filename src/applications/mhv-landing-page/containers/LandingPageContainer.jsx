@@ -16,7 +16,7 @@ import {
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  hasMhvAccount,
+  hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
 
@@ -31,7 +31,7 @@ const LandingPageContainer = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const userHasMhvAccount = useSelector(hasMhvAccount);
+  const userHasMessagingAccess = useSelector(hasMessagingAccess);
 
   const data = useMemo(
     () => {
@@ -55,11 +55,11 @@ const LandingPageContainer = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (userHasMhvAccount) {
+      if (userHasMessagingAccess) {
         loadMessages();
       }
     },
-    [userHasMhvAccount, loading],
+    [userHasMessagingAccess, loading],
   );
 
   useEffect(
