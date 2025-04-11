@@ -73,7 +73,7 @@ describe('RouteLeavingGuard component', () => {
     await fireEvent.click(
       document.querySelector(`[text="${confirmButtonText}"]`),
     );
-    expect(saveDraftHandlerSpy.calledWith('manual')).to.be.true;
+    expect(saveDraftHandlerSpy.calledWith('auto')).to.be.true;
   });
 
   it('respond to closing modal', async () => {

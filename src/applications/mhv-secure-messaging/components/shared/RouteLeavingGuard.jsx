@@ -50,7 +50,7 @@ export const RouteLeavingGuard = ({
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
-      saveDraftHandler('manual');
+      saveDraftHandler('auto');
     }
     closeModal();
     if (lastLocation) {

@@ -975,6 +975,41 @@ describe('Compose form component', () => {
     });
   });
 
+  it('displays modal on attempt to manual save with electronic signature populated', async () => {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, val);
+
+    const electronicSignature = await screen.findByText(
+      ElectronicSignatureBox.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+    let modal = null;
+
+    fireEvent.click(screen.getByTestId('save-draft-button'));
+    await waitFor(() => {
+      modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+    });
+    expect(modal).to.have.attribute(
+      'modal-title',
+      "We can't save your signature in a draft message",
+    );
+  });
+
   it('should display an error message when a file is 0B', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     const file = new File([''], 'test.png', { type: 'image/png' });
