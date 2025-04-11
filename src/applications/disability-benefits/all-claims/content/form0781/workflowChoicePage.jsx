@@ -248,7 +248,6 @@ export const mentalHealthKeys = [
   'unlistedBehaviors',
   'form781Upload',
   'additionalInformation',
-  'events',
 ];
 
 const confirmationDataUpload = {
@@ -378,16 +377,23 @@ const WorkflowChoicePage = props => {
     setFormData,
     contentBeforeButtons,
     contentAfterButtons,
+    onReviewPage,
+    updatePage,
   } = props;
 
-  const selectionField = 'view:mentalHealthWorkflowChoice';
+  const selectionField = 'view:selectedMentalHealthWorkflowChoice';
   const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
     data?.['view:previousMentalHealthWorkflowChoice'] ?? null,
   );
+  const [
+    selectedMentalHealthWorkflowChoice,
+    setSelectedMentalHealthWorkflowChoice,
+  ] = useState(data?.['view:mentalHealthWorkflowChoice'] ?? null);
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [shouldGoForward, setShouldGoForward] = useState(false);
 
   useEffect(
     () => {
@@ -396,6 +402,20 @@ const WorkflowChoicePage = props => {
       }
     },
     [showAlert],
+  );
+
+  useEffect(
+    () => {
+      if (
+        shouldGoForward &&
+        data?.['view:mentalHealthWorkflowChoice'] ===
+          selectedMentalHealthWorkflowChoice
+      ) {
+        setShouldGoForward(false);
+        goForward(data);
+      }
+    },
+    [data?.['view:mentalHealthWorkflowChoice'], shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
@@ -410,7 +430,7 @@ const WorkflowChoicePage = props => {
   const checkErrors = (formData = data) => {
     const error = checkValidations(
       [missingSelection],
-      data?.['view:mentalHealthWorkflowChoice'],
+      data?.['view:selectedMentalHealthWorkflowChoice'],
       formData,
     );
 
@@ -420,7 +440,7 @@ const WorkflowChoicePage = props => {
     return result;
   };
 
-  const selectedChoice = data?.['view:mentalHealthWorkflowChoice'] ?? null;
+  const selectedChoice = selectedMentalHealthWorkflowChoice ?? null;
 
   const {
     primaryText,
@@ -460,24 +480,23 @@ const WorkflowChoicePage = props => {
   const setPreviousData = () => {
     const formData = {
       ...data,
-      'view:previousMentalHealthWorkflowChoice':
-        data?.['view:mentalHealthWorkflowChoice'],
+      'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+      'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
     };
-    setPreviousWorkflowChoice(data?.['view:mentalHealthWorkflowChoice']);
+    setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
     setFormData(formData);
-    goForward(data);
+    setShouldGoForward(true);
   };
 
   const handlers = {
     onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
-        const formData = {
+        setSelectedMentalHealthWorkflowChoice(value);
+        setFormData({
           ...data,
-          'view:mentalHealthWorkflowChoice': value,
-        };
-        setFormData(formData);
-        checkErrors(formData);
+          'view:selectedMentalHealthWorkflowChoice': value,
+        });
       }
     },
     onSubmit: event => {
@@ -485,13 +504,36 @@ const WorkflowChoicePage = props => {
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
       } else if (
-        previousWorkflowChoice !== data?.['view:mentalHealthWorkflowChoice'] &&
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
         checkMentalHealthData(data)
       ) {
         setShowModal(true);
       } else {
         setShowAlert(false);
         setPreviousData();
+      }
+    },
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
+        checkMentalHealthData(data)
+      ) {
+        setShowModal(true);
+      } else {
+        setShowAlert(false);
+        const formData = {
+          ...data,
+          'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+          'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+        };
+        setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
+        setFormData(formData);
+        setTimeout(() => {
+          updatePage(event);
+        }, 100);
       }
     },
     onCloseModal: () => {
@@ -557,7 +599,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.COMPLETE_ONLINE_FORM}
                 checked={
-                  data?.['view:mentalHealthWorkflowChoice'] ===
+                  selectedMentalHealthWorkflowChoice ===
                   form0781WorkflowChoices.COMPLETE_ONLINE_FORM
                 }
               />
@@ -570,7 +612,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.SUBMIT_PAPER_FORM}
                 checked={
-                  data?.['view:mentalHealthWorkflowChoice'] ===
+                  selectedMentalHealthWorkflowChoice ===
                   form0781WorkflowChoices.SUBMIT_PAPER_FORM
                 }
               />
@@ -583,7 +625,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.OPT_OUT_OF_FORM0781}
                 checked={
-                  data?.['view:mentalHealthWorkflowChoice'] ===
+                  selectedMentalHealthWorkflowChoice ===
                   form0781WorkflowChoices.OPT_OUT_OF_FORM0781
                 }
               />
@@ -607,13 +649,25 @@ const WorkflowChoicePage = props => {
           {modalContent}
         </VaModal>
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons
-        goBack={handlers.onGoBack}
-        goForward={handlers.onSubmit}
-        submitToContinue
-      />
-      {contentAfterButtons}
+      {onReviewPage ? (
+        <button
+          className="usa-button-primary"
+          type="button"
+          onClick={event => handlers.onUpdatePage(event)}
+        >
+          Update page
+        </button>
+      ) : (
+        <>
+          {contentBeforeButtons}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onSubmit}
+            submitToContinue
+          />
+          {contentAfterButtons}
+        </>
+      )}
     </form>
   );
 };
@@ -625,6 +679,8 @@ WorkflowChoicePage.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.bool,
+  onReviewPage: PropTypes.func,
 };
 
 export default WorkflowChoicePage;
