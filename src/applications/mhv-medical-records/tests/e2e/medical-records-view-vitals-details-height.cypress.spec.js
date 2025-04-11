@@ -24,7 +24,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[3].resource.valueQuantity.value} inches`,
       defaultVitals.entry[3].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -34,7 +34,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[13].resource.valueQuantity.value} inches`,
       defaultVitals.entry[13].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -44,7 +44,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[23].resource.valueQuantity.value} inches`,
       defaultVitals.entry[23].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -54,7 +54,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[33].resource.valueQuantity.value} inches`,
       defaultVitals.entry[33].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     // Axe check
