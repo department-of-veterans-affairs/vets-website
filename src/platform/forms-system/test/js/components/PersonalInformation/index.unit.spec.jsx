@@ -50,7 +50,6 @@ describe('personalInformationPage', () => {
       'CustomPageReview',
       'depends',
       'hideOnReview',
-      'depends',
     ]);
   });
 
