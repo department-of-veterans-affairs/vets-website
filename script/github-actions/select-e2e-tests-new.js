@@ -1,11 +1,8 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
-
 const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const findImports = require('find-imports');
 
 const {
   e2e: { specPattern },
@@ -29,126 +26,14 @@ const ALLOW_LIST =
       )
     : [];
 
-function getImports(filePath) {
-  return findImports(filePath, {
-    absoluteImports: true,
-    relativeImports: true,
-    packageImports: false,
-  });
-}
-
-function getAppNameFromFilePath(filePath) {
-  return filePath.split('/')[2];
-}
-
-/* Function takes an import reference and returns the path
- * to the referenced file from 'src/' if the reference begins
- * with 'applications/' or starts with '../'. Otherwise
- * it returns the given reference.
- */
-function getImportPath(filePathAsArray, importRef) {
-  if (importRef.startsWith('applications/')) {
-    return `src/${importRef}`;
-  }
-  if (importRef.startsWith('../')) {
-    const numDirsUp = importRef.split('/').filter(str => str === '..').length;
-
-    return importRef.replace(
-      '../'.repeat(numDirsUp),
-      `${filePathAsArray
-        .slice(0, filePathAsArray.length - 1 - numDirsUp)
-        .join('/')}/`,
-    );
-  }
-
-  return importRef;
-}
-
-function importIsFromOtherApplication(appName, importPath) {
-  return (
-    importPath.startsWith('src/applications') &&
-    !importPath.startsWith(`src/applications/${appName}`)
-  );
-}
-
-function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
-  const importAppName = getAppNameFromFilePath(importeeFilePath);
-
-  if (!graph[importAppName]) {
-    graph[importAppName] = {
-      appsToTest: [importAppName],
-      appsThatThisAppImportsFrom: {},
-      appsThatImportFromThisApp: {},
-    };
-  }
-
-  graph[importAppName].appsToTest.push(appName);
-
-  if (!graph[appName].appsThatThisAppImportsFrom[importAppName]) {
-    graph[appName].appsThatThisAppImportsFrom[importAppName] = {
-      filesImported: [],
-    };
-  }
-
-  graph[appName].appsThatThisAppImportsFrom[importAppName].filesImported.push({
-    importer: importerFilePath,
-    importee: importeeFilePath,
-  });
-
-  if (!graph[importAppName].appsThatImportFromThisApp[appName]) {
-    graph[importAppName].appsThatImportFromThisApp[appName] = {
-      filesImported: [],
-    };
-  }
-
-  graph[importAppName].appsThatImportFromThisApp[appName].filesImported.push({
-    importer: importerFilePath,
-    importee: importeeFilePath,
-  });
-}
-
-function buildGraph() {
-  const graph = {};
-  const files = ['src/applications/**/*.*', '!src/applications/*.*'];
-  const imports = getImports(files);
-
-  Object.keys(imports).forEach(importerFilePath => {
-    const appName = getAppNameFromFilePath(importerFilePath);
-    const filePathAsArray = importerFilePath.split('/');
-
-    if (!graph[appName]) {
-      graph[appName] = {
-        appsToTest: [appName],
-        appsThatThisAppImportsFrom: {},
-        appsThatImportFromThisApp: {},
-      };
-    }
-
-    imports[importerFilePath].forEach(importRef => {
-      const importeeFilePath = getImportPath(filePathAsArray, importRef);
-
-      if (importIsFromOtherApplication(appName, importeeFilePath)) {
-        updateGraph(graph, appName, importerFilePath, importeeFilePath);
-      }
-    });
-  });
-
-  return graph;
-}
-
-function dedupeGraph(graph) {
-  Object.keys(graph).forEach(app => {
-    graph[app].appsToTest = [...new Set(graph[app].appsToTest)];
-  });
-
-  return graph;
-}
-
 function selectedTests(graph, pathsOfChangedFiles) {
   const tests = [];
   const applications = [];
   const applicationNames = pathsOfChangedFiles
-    .filter(filePath => !filePath.endsWith('.md'))
+    .filter(
+      filePath =>
+        !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
+    )
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
@@ -170,8 +55,6 @@ function selectedTests(graph, pathsOfChangedFiles) {
     tests.push(...glob.sync(selectedTestsPattern));
   });
 
-  // Only run the mega menu test for changed apps builds,
-  // otherwise run all tests in src/platform for full builds
   if (IS_CHANGED_APPS_BUILD) {
     const megaMenuTestPath = path.join(
       __dirname,
@@ -201,7 +84,16 @@ function allTests() {
   return glob.sync(pattern);
 }
 
-function selectTests(graph, pathsOfChangedFiles) {
+function selectTests(pathsOfChangedFiles) {
+  const workflowsFilteredOut = pathsOfChangedFiles.filter(
+    filePath =>
+      !filePath.startsWith('.github/workflows') &&
+      !filePath.startsWith('script/github-actions'),
+  );
+  if (workflowsFilteredOut.length === 0) {
+    return [];
+  }
+
   if (RUN_FULL_SUITE) {
     return allTests();
   }
@@ -229,7 +121,7 @@ function selectTests(graph, pathsOfChangedFiles) {
     return [];
   }
   if (allMdAndOrSrcApplicationsFiles) {
-    return selectedTests(graph, pathsOfChangedFiles);
+    return selectedTests(pathsOfChangedFiles);
   }
   return allTests();
 }
@@ -262,8 +154,6 @@ function exportVariables(tests) {
 }
 
 function main() {
-  const graph = dedupeGraph(buildGraph());
-
   const allAllowListSpecs = ALLOW_LIST.map(spec => spec.spec_path);
 
   // groups of tests from the allow list
@@ -271,7 +161,7 @@ function main() {
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
 
-  const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
+  const testsSelectedByTestSelection = selectTests(CHANGED_FILE_PATHS);
 
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
@@ -337,8 +227,3 @@ function main() {
 if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
   main();
 }
-
-module.exports = {
-  buildGraph,
-  dedupeGraph,
-};

@@ -197,7 +197,7 @@ jobs:
           path: .
 
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
-        run: node script/github-actions/select-cypress-tests.js
+        run: node script/github-actions/select-e2e-tests-new.js
         env:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
