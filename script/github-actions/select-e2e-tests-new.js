@@ -26,105 +26,111 @@ const ALLOW_LIST =
       )
     : [];
 
-function selectedTests(graph, pathsOfChangedFiles) {
-  const tests = [];
-  const applications = [];
-  const applicationNames = pathsOfChangedFiles
-    .filter(
-      filePath =>
-        !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
-    )
-    .map(filePath => filePath.split('/')[2]);
-  console.log('applicationNames: ', applicationNames);
-  [...new Set(applicationNames)].forEach(app => {
-    if (graph[app]) {
-      // Lookup app in cross-app imports graph to reference which app's tests
-      // should run
-      applications.push(...graph[app].appsToTest);
-    }
-  });
-
-  [...new Set(applications)].forEach(app => {
-    const selectedTestsPattern = path.join(
-      __dirname,
-      '../..',
-      'src/applications',
-      `${app}/**/tests/**/*.cypress.spec.js?(x)`,
-    );
-
-    tests.push(...glob.sync(selectedTestsPattern));
-  });
-
-  if (IS_CHANGED_APPS_BUILD) {
-    const megaMenuTestPath = path.join(
-      __dirname,
-      '../..',
-      'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
-    );
-
-    // Ensure changed apps have URLs to run header test on
-    if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
-      tests.push(megaMenuTestPath);
-  } else {
-    const defaultTestsPattern = path.join(
-      __dirname,
-      '../..',
-      'src/platform',
-      '**/tests/**/*.cypress.spec.js?(x)',
-    );
-
-    tests.push(...glob.sync(defaultTestsPattern));
-  }
-
-  return tests;
-}
-
 function allTests() {
   const pattern = path.join(__dirname, '../..', specPattern);
   return glob.sync(pattern);
 }
 
 function selectTests(pathsOfChangedFiles) {
-  const workflowsFilteredOut = pathsOfChangedFiles.filter(
-    filePath =>
-      !filePath.startsWith('.github/workflows') &&
-      !filePath.startsWith('script/github-actions'),
-  );
-  if (workflowsFilteredOut.length === 0) {
-    return [];
-  }
-
+  console.log('selecting tests');
+  const tests = [];
   if (RUN_FULL_SUITE) {
-    return allTests();
-  }
-  let allMdFiles = true;
-  let allMdAndOrSrcApplicationsFiles = true;
+    console.log('all tests selected');
+    tests.push(allTests());
+  } else {
+    const applications = [];
+    const applicationNames = pathsOfChangedFiles
+      .filter(
+        filePath =>
+          !filePath.endsWith('.md') &&
+          !filePath.startsWith('.github/workflows'),
+      )
+      .map(filePath => filePath.split('/')[2]);
+    console.log('applicationNames: ', applicationNames);
 
-  for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
-    if (!pathsOfChangedFiles[i].endsWith('.md')) {
-      allMdFiles = false;
+    [...new Set(applications)].forEach(app => {
+      const selectedTestsPattern = path.join(
+        __dirname,
+        '../..',
+        'src/applications',
+        `${app}/**/tests/**/*.cypress.spec.js?(x)`,
+      );
+
+      tests.push(...glob.sync(selectedTestsPattern));
+    });
+    console.log('tests: ', tests);
+    if (IS_CHANGED_APPS_BUILD) {
+      const megaMenuTestPath = path.join(
+        __dirname,
+        '../..',
+        'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
+      );
+
+      // Ensure changed apps have URLs to run header test on
+      if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
+        tests.push(megaMenuTestPath);
+    } else {
+      const defaultTestsPattern = path.join(
+        __dirname,
+        '../..',
+        'src/platform',
+        '**/tests/**/*.cypress.spec.js?(x)',
+      );
+
+      tests.push(...glob.sync(defaultTestsPattern));
     }
-
-    if (
-      !pathsOfChangedFiles[i].endsWith('.md') &&
-      !pathsOfChangedFiles[i].startsWith('src/applications')
-    ) {
-      allMdAndOrSrcApplicationsFiles = false;
-    }
-
-    if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
-      break;
-    }
   }
 
-  if (allMdFiles) {
-    return [];
-  }
-  if (allMdAndOrSrcApplicationsFiles) {
-    return selectedTests(pathsOfChangedFiles);
-  }
-  return allTests();
+  return tests;
 }
+
+// function selectTests(pathsOfChangedFiles) {
+//   const workflowsFilteredOut = pathsOfChangedFiles.filter(
+//     filePath =>
+//       !filePath.startsWith('.github/workflows') &&
+//       !filePath.startsWith('script/github-actions'),
+//   );
+//   if (workflowsFilteredOut.length === 0) {
+//     return [];
+//   }
+
+//   if (RUN_FULL_SUITE) {
+//     return allTests();
+//   }
+//   let allMdFiles = true;
+//   let allMdAndOrSrcApplicationsFiles = true;
+
+//   for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
+//     if (!pathsOfChangedFiles[i].endsWith('.md')) {
+//       allMdFiles = false;
+//     }
+
+//     if (
+//       !pathsOfChangedFiles[i].endsWith('.md') &&
+//       !pathsOfChangedFiles[i].startsWith('src/applications')
+//     ) {
+//       allMdAndOrSrcApplicationsFiles = false;
+//     }
+
+//     if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
+//       break;
+//     }
+//   }
+
+//   if (allMdFiles) {
+//     return [];
+//   }
+//   if (allMdAndOrSrcApplicationsFiles) {
+//     return selectedTests(pathsOfChangedFiles);
+//   }
+//   return allTests();
+// }
+
+// function selectTests(pathsOfChangedFiles) {
+//   console.log(pathsOfChangedFiles);
+
+//   return selectedTests(pathsOfChangedFiles);
+// }
 
 function exportVariables(tests) {
   const numTests = tests.length;
