@@ -13,8 +13,6 @@ import {
   getTooltip,
 } from '../../actions/tooltip'; // Adjust the import path according to your project structure
 
-export const RX_IPE_FILTERING_DESCRIPTION_ID = 'rx-ipe-filtering-description';
-
 const InProductionEducationFiltering = () => {
   const dispatch = useDispatch();
 
@@ -64,14 +62,15 @@ const InProductionEducationFiltering = () => {
   return (
     <>
       {tooltipVisible && (
-        <div
+        <aside
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
+          aria-label="Hint for filter list"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"
-            id={RX_IPE_FILTERING_DESCRIPTION_ID}
+            id="rx-ipe-filtering-description"
           >
             {tooltipHintContent.filterAccordion.HINT}
           </p>
@@ -89,7 +88,7 @@ const InProductionEducationFiltering = () => {
           >
             This hint for filtering will not appear anymore
           </span>
-        </div>
+        </aside>
       )}
     </>
   );
