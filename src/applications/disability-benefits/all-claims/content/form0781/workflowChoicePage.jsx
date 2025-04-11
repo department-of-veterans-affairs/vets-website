@@ -334,7 +334,7 @@ const WorkflowChoicePage = props => {
     updatePage,
   } = props;
 
-  const selectionField = 'view:mentalHealthWorkflowChoice';
+  const selectionField = 'view:selectedMentalHealthWorkflowChoice';
   const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
     data?.['view:previousMentalHealthWorkflowChoice'] ?? null,
   );
@@ -346,6 +346,7 @@ const WorkflowChoicePage = props => {
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [shouldGoForward, setShouldGoForward] = useState(false);
 
   useEffect(
     () => {
@@ -354,6 +355,20 @@ const WorkflowChoicePage = props => {
       }
     },
     [showAlert],
+  );
+
+  useEffect(
+    () => {
+      if (
+        shouldGoForward &&
+        data?.['view:mentalHealthWorkflowChoice'] ===
+          selectedMentalHealthWorkflowChoice
+      ) {
+        setShouldGoForward(false);
+        goForward(data);
+      }
+    },
+    [data?.['view:mentalHealthWorkflowChoice'], shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
@@ -368,7 +383,7 @@ const WorkflowChoicePage = props => {
   const checkErrors = (formData = data) => {
     const error = checkValidations(
       [missingSelection],
-      data?.['view:mentalHealthWorkflowChoice'],
+      data?.['view:selectedMentalHealthWorkflowChoice'],
       formData,
     );
 
@@ -423,9 +438,7 @@ const WorkflowChoicePage = props => {
     };
     setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
     setFormData(formData);
-    setTimeout(() => {
-      goForward(formData);
-    }, 200);
+    setShouldGoForward(true);
   };
 
   const handlers = {
@@ -433,7 +446,10 @@ const WorkflowChoicePage = props => {
       const { value } = event?.detail || {};
       if (value) {
         setSelectedMentalHealthWorkflowChoice(value);
-        checkErrors(data);
+        setFormData({
+          ...data,
+          'view:selectedMentalHealthWorkflowChoice': value,
+        });
       }
     },
     onSubmit: event => {
@@ -470,7 +486,7 @@ const WorkflowChoicePage = props => {
         setFormData(formData);
         setTimeout(() => {
           updatePage(event);
-        }, 200);
+        }, 100);
       }
     },
     onCloseModal: () => {
