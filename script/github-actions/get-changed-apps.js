@@ -147,21 +147,29 @@ const chunkArray = (array, size) => {
   return chunks;
 };
 
-if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+const options = commandLineArgs([
+  // Use the --output-type option to specify one of the following outputs:
+  // 'entry': The entry names of the changed apps.
+  // 'folder': The relative path of the changed apps root folders.
+  // 'url': The root URLs of the changed apps.
+  // 'slack-group': The Slack group of the app's team, specified in the config.
+  { name: 'output-type', type: String, defaultValue: 'entry' },
+  { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
+  { name: 'continuous-deployment', type: Boolean, defaultValue: false },
+  { name: 'file', type: String, defaultValue: null },
+]);
+
+let changedFilePaths = [];
+if (options.file) {
+  const fileContent = fs.readFileSync(options.file, 'utf8');
+  changedFilePaths = fileContent.split('\n').filter(Boolean);
+} else if (process.env.CHANGED_FILE_PATHS) {
+  changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+}
+
+if (changedFilePaths.length) {
   const CHUNK_SIZE = 100; // Adjust chunk size as needed to avoid argument length issues
   const filePathChunks = chunkArray(changedFilePaths, CHUNK_SIZE);
-
-  const options = commandLineArgs([
-    // Use the --output-type option to specify one of the following outputs:
-    // 'entry': The entry names of the changed apps.
-    // 'folder': The relative path of the changed apps root folders.
-    // 'url': The root URLs of the changed apps.
-    // 'slack-group': The Slack group of the app's team, specified in the config.
-    { name: 'output-type', type: String, defaultValue: 'entry' },
-    { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
-    { name: 'continuous-deployment', type: Boolean, defaultValue: false },
-  ]);
 
   if (options['continuous-deployment']) {
     let continuousDeploymentEnabled = true;
