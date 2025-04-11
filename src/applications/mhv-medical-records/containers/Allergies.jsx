@@ -45,7 +45,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import SortRecordList from '../components/RecordList/SortRecordList';
 
 const Allergies = props => {
@@ -252,7 +252,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         team at your next appointment.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection

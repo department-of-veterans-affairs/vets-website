@@ -309,7 +309,11 @@ const acceleratedCernerUser = {
             isCerner: true,
           },
           {
-            facilityId: '979',
+            facilityId: '528',
+            isCerner: false,
+          },
+          {
+            facilityId: '459',
             isCerner: false,
           },
         ],

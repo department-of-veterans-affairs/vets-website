@@ -19,7 +19,8 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import SortRecordList from '../components/RecordList/SortRecordList';
 
 const HealthConditions = () => {
@@ -139,7 +140,9 @@ const HealthConditions = () => {
         providers enter them.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
+      <AcceleratedCernerFacilityAlert
+        {...CernerAlertContent.HEALTH_CONDITIONS}
+      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

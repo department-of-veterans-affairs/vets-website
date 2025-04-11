@@ -26,7 +26,7 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 
 const Vitals = () => {
@@ -271,7 +271,9 @@ const Vitals = () => {
         appointments.`}
       </p>
 
-      <CernerFacilityAlert {...Constants.CernerAlertContent.VITALS} />
+      <AcceleratedCernerFacilityAlert
+        {...Constants.CernerAlertContent.VITALS}
+      />
 
       {isLoading && (
         <div className="vads-u-margin-y--8">

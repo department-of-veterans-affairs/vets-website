@@ -44,7 +44,7 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -170,7 +170,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         </Link>
       </div>
 
-      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
