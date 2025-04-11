@@ -50,6 +50,7 @@
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
   
+  @import "./accordions.scss";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
@@ -2467,6 +2468,8 @@
     > li {
       margin-bottom: 6px !important;
       background-color: #162e51;
+      margin-bottom: 0;
+      max-width: unset
     }
   }
 
