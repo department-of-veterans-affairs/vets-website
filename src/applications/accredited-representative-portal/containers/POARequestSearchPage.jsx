@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -11,36 +11,18 @@ import {
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
-import { SEARCH_BC_LABEL, poaSearchBC } from '../utilities/poaRequests';
+import {
+  SEARCH_BC_LABEL,
+  poaSearchBC,
+  SEARCH_PARAMS,
+  SORT_BY,
+  PENDING,
+  PROCESSED,
+  STATUSES,
+} from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
-
-const SEARCH_PARAMS = {
-  STATUS: 'status',
-  SORT: 'sort',
-};
-
-const SORT_BY = {
-  CREATED_ASC: 'created_at_asc',
-  CREATED_DESC: 'created_at_desc',
-  RESOLVED_ASC: 'resolved_at_asc',
-  RESOLVED_DESC: 'resolved_at_desc',
-};
-
-const PENDING = {
-  ASC_OPTION: 'Expiration date (nearest)',
-  DESC_OPTION: 'Expiration date (farthest)',
-};
-
-const PROCESSED = {
-  ASC_OPTION: 'Processed date (nearest)',
-  DESC_OPTION: 'Processed date (farthest)',
-};
-
-const STATUSES = {
-  PENDING: 'pending',
-  PROCESSED: 'processed',
-};
+import Pagination from '../components/Pagination';
 
 const SearchResults = ({ poaRequests }) => {
   if (poaRequests.length === 0) {
@@ -70,7 +52,7 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sort=${tabSort}`}
+      to={`?status=${tabStatus}&sort=${tabSort}&pageSize=20&pageNumber=1`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -83,6 +65,7 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 };
 
 const POARequestSearchPage = title => {
+  const [count, setCount] = useState(1);
   useEffect(
     () => {
       document.title = title.title;
@@ -90,8 +73,22 @@ const POARequestSearchPage = title => {
     [title],
   );
   const poaRequests = useLoaderData().data;
+  const meta = useLoaderData().meta.page;
+  const pageSize = 20;
+  let initCount = 1;
+  let pageSizeCount = pageSize * count;
+  const totalCount = meta.total;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
+  if (pageSizeCount > totalCount) {
+    pageSizeCount = pageSize + (totalCount - pageSize);
+  }
+  if (count > 1) {
+    initCount += pageSize;
+  }
+  const searchMetaText = `Showing ${initCount}-${pageSizeCount} of ${
+    meta.total
+  } ${searchStatus} requests sorted by “Submitted date (newest)”`;
 
   return (
     <section className="poa-request">
@@ -164,6 +161,7 @@ const POARequestSearchPage = title => {
                         ascOption={PENDING.ASC_OPTION}
                         descOption={PENDING.DESC_OPTION}
                       />
+                      <p>{searchMetaText}</p>
                     </>
                   );
                 case STATUSES.PROCESSED:
@@ -189,6 +187,7 @@ const POARequestSearchPage = title => {
             })()}
 
             <SearchResults poaRequests={poaRequests} />
+            <Pagination setCount={setCount} meta={meta} />
           </div>
         )}
       </div>
@@ -200,17 +199,21 @@ POARequestSearchPage.loader = ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORT);
+  const size = searchParams.get(SEARCH_PARAMS.SIZE);
+  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (
     !Object.values(STATUSES).includes(status) &&
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
     searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.CREATED_ASC);
+    searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 
   return api.getPOARequests(
-    { status, sort },
+    { status, sort, size, number },
     {
       signal: request.signal,
     },
