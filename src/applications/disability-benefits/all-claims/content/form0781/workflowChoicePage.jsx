@@ -338,6 +338,10 @@ const WorkflowChoicePage = props => {
   const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
     data?.['view:previousMentalHealthWorkflowChoice'] ?? null,
   );
+  const [
+    selectedMentalHealthWorkflowChoice,
+    setSelectedMentalHealthWorkflowChoice,
+  ] = useState(data?.['view:mentalHealthWorkflowChoice'] ?? null);
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -374,7 +378,7 @@ const WorkflowChoicePage = props => {
     return result;
   };
 
-  const selectedChoice = data?.['view:mentalHealthWorkflowChoice'] ?? null;
+  const selectedChoice = selectedMentalHealthWorkflowChoice ?? null;
 
   const {
     primaryText,
@@ -414,24 +418,22 @@ const WorkflowChoicePage = props => {
   const setPreviousData = () => {
     const formData = {
       ...data,
-      'view:previousMentalHealthWorkflowChoice':
-        data?.['view:mentalHealthWorkflowChoice'],
+      'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+      'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
     };
-    setPreviousWorkflowChoice(data?.['view:mentalHealthWorkflowChoice']);
+    setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
     setFormData(formData);
-    goForward(data);
+    setTimeout(() => {
+      goForward(formData);
+    }, 200);
   };
 
   const handlers = {
     onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
-        const formData = {
-          ...data,
-          'view:mentalHealthWorkflowChoice': value,
-        };
-        setFormData(formData);
-        checkErrors(formData);
+        setSelectedMentalHealthWorkflowChoice(value);
+        checkErrors(data);
       }
     },
     onSubmit: event => {
@@ -439,7 +441,7 @@ const WorkflowChoicePage = props => {
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
       } else if (
-        previousWorkflowChoice !== data?.['view:mentalHealthWorkflowChoice'] &&
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
         checkMentalHealthData(data)
       ) {
         setShowModal(true);
@@ -453,7 +455,7 @@ const WorkflowChoicePage = props => {
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
       } else if (
-        previousWorkflowChoice !== data?.['view:mentalHealthWorkflowChoice'] &&
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
         checkMentalHealthData(data)
       ) {
         setShowModal(true);
@@ -461,12 +463,14 @@ const WorkflowChoicePage = props => {
         setShowAlert(false);
         const formData = {
           ...data,
-          'view:previousMentalHealthWorkflowChoice':
-            data?.['view:mentalHealthWorkflowChoice'],
+          'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+          'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
         };
-        setPreviousWorkflowChoice(data?.['view:mentalHealthWorkflowChoice']);
+        setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
         setFormData(formData);
-        updatePage(event);
+        setTimeout(() => {
+          updatePage(event);
+        }, 200);
       }
     },
     onCloseModal: () => {
@@ -526,7 +530,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.COMPLETE_ONLINE_FORM}
                 checked={
-                  data?.['view:mentalHealthWorkflowChoice'] ===
+                  selectedMentalHealthWorkflowChoice ===
                   form0781WorkflowChoices.COMPLETE_ONLINE_FORM
                 }
               />
@@ -539,7 +543,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.SUBMIT_PAPER_FORM}
                 checked={
-                  data?.['view:mentalHealthWorkflowChoice'] ===
+                  selectedMentalHealthWorkflowChoice ===
                   form0781WorkflowChoices.SUBMIT_PAPER_FORM
                 }
               />
@@ -552,7 +556,7 @@ const WorkflowChoicePage = props => {
                 name="private"
                 value={form0781WorkflowChoices.OPT_OUT_OF_FORM0781}
                 checked={
-                  data?.['view:mentalHealthWorkflowChoice'] ===
+                  selectedMentalHealthWorkflowChoice ===
                   form0781WorkflowChoices.OPT_OUT_OF_FORM0781
                 }
               />
@@ -594,7 +598,6 @@ const WorkflowChoicePage = props => {
           {contentAfterButtons}
         </>
       )}
-
     </form>
   );
 };
