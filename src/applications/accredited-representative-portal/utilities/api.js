@@ -61,9 +61,11 @@ const wrapApiRequest = fn => {
         // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
-          window.location.pathname,
-        )
+        ![
+          manifest.rootUrl,
+          `${manifest.rootUrl}/`,
+          `${manifest.rootUrl}/sign-in`,
+        ].includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
           returnUrl: window.location.href,

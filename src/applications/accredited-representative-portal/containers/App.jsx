@@ -1,14 +1,17 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
+import PublicHeader from '../components/PublicHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function App() {
+  const isPublicRoute = useLocation().pathname === '/sign-in';
+
   const {
     TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
     useToggleLoadingValue,
@@ -36,7 +39,7 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
+      {isPublicRoute ? <PublicHeader /> : <Header />}
       <Outlet />
       <Footer />
     </div>

@@ -9,6 +9,8 @@ import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
+import LoginContainer from './containers/LoginContainer';
+
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
@@ -61,6 +63,17 @@ const routes = [
         element: (
           <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
         ),
+      },
+      {
+        path: 'sign-in',
+        element: <LoginContainer />,
+        loader: async () => {
+          // If authenticated, redirect to POA requests
+          if (await userPromise) {
+            throw redirect('/poa-requests');
+          }
+          return null;
+        },
       },
       forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
