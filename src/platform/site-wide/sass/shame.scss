@@ -234,6 +234,7 @@ $medium-phone-screen: 375px;
       .profile-nav-container {
         align-items: baseline;
         display: inherit;
+        white-space: nowrap;
       }
 
       .sign-in-nav {
