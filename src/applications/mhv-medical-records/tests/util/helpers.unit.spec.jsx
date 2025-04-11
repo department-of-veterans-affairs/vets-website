@@ -100,7 +100,7 @@ describe('processList', () => {
   it('returns EMPTY_FIELD value if there are no items in the list', () => {
     const list = [];
     const result = processList(list);
-    expect(result).to.eq('None noted');
+    expect(result).to.eq('None recorded');
   });
 });
 

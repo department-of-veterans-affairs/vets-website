@@ -25,7 +25,13 @@ Cypress.Commands.add('loginArpUser', () => {
 
 const setUpInterceptsAndVisit = (featureToggles, url) => {
   cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-  setFeatureToggles(featureToggles || { isAppEnabled: true, isInPilot: true });
+  setFeatureToggles(
+    featureToggles || {
+      isAppEnabled: true,
+      isInPilot: true,
+      isSearchEnabled: true,
+    },
+  );
   cy.visit(url || '/representative');
   cy.injectAxeThenAxeCheck();
 };
@@ -46,11 +52,20 @@ describe('Accredited Representative Portal', () => {
     });
   });
 
-  describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
+  describe('App feature toggle is enabled, but search feature toggle is not enabled', () => {
     beforeEach(() => {
-      setUpInterceptsAndVisit({
-        isAppEnabled: true,
-        isInPilot: false,
+      setUpInterceptsAndVisit(
+        {
+          isAppEnabled: true,
+          isInPilot: true,
+          isSearchEnabled: false,
+        },
+        POA_SEARCH,
+      );
+
+      it('redirects to representative home', () => {
+        cy.injectAxeThenAxeCheck();
+        cy.location('pathname').should('eq', '/representative');
       });
     });
   });
