@@ -35,7 +35,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
         !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
     )
     .map(filePath => filePath.split('/')[2]);
-
+  console.log('applicationNames: ', applicationNames);
   [...new Set(applicationNames)].forEach(app => {
     if (graph[app]) {
       // Lookup app in cross-app imports graph to reference which app's tests
