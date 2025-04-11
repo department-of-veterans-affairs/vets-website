@@ -866,7 +866,12 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return (useFeSourceOfTruth, useFeSourceOfTruthCC, useFeSourceOfTruthVA) => {
+  return (
+    useFeSourceOfTruth,
+    useFeSourceOfTruthCC,
+    useFeSourceOfTruthVA,
+    useFeSourceOfTruthModaility,
+  ) => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
@@ -903,6 +908,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModaility,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());
