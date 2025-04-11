@@ -1,5 +1,13 @@
 import React from 'react';
 
+export const isCurrentOrPastDate = date => {
+  const dateObj = new Date(date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return dateObj >= today;
+};
+
 export const getTodayDateYyyyMmDd = () => {
   const today = new Date();
   const yyyy = today.getFullYear();

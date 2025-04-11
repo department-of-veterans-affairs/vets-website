@@ -12,6 +12,7 @@ import {
   isTermEndBeforeTermStartDate,
   isWithinThirtyDaysLogic,
   getTodayDateYyyyMmDd,
+  isCurrentOrPastDate,
 } from '../helpers';
 import InstitutionName from '../components/InstitutionName';
 
@@ -24,6 +25,13 @@ function validateTermStartDate(
 ) {
   const today = getTodayDateYyyyMmDd();
   const { termStartDate } = formData.institutionDetails;
+
+  if (isCurrentOrPastDate(termStartDate)) {
+    errors.addError(
+      `Calculations can't occur before the term start date. Enter the term start date or a later date.`,
+    );
+  }
+
   if (!isWithinThirtyDaysLogic(today, termStartDate)) {
     errors.addError(errorMessages.pattern);
   }
@@ -38,6 +46,12 @@ function validateDateOfCalculations(
 ) {
   const { termStartDate, dateOfCalculations } = formData.institutionDetails;
   if (!termStartDate || !dateOfCalculations) return;
+
+  if (isCurrentOrPastDate(dateOfCalculations)) {
+    errors.addError(
+      `This date must be on or after, but not later than 30 days after, the start of the term. You cannot enter a future date.`,
+    );
+  }
 
   if (isTermEndBeforeTermStartDate(termStartDate, dateOfCalculations)) {
     errors.addError(
