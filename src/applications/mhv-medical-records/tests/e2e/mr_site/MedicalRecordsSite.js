@@ -26,6 +26,7 @@ class MedicalRecordsSite {
     isAcceleratingEnabled = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
+    isAcceleratingLabsAndTests = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -42,6 +43,10 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_vital_signs_enabled',
             value: isAcceleratingVitals,
+          },
+          {
+            name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+            value: isAcceleratingLabsAndTests,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',

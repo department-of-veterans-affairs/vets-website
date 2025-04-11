@@ -149,28 +149,16 @@ const LandingPage = () => {
                 Get results of your VA medical tests. This includes blood tests,
                 X-rays, and other imaging tests.
               </p>
-              {isAccelerating ? (
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                  href={getCernerURL('/pages/health_record/results', true)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="labs-and-tests-oh-landing-page-link"
-                >
-                  View your labs and tests on My VA Health (opens in new tab)
-                </a>
-              ) : (
-                <Link
-                  to="/labs-and-tests"
-                  className="vads-c-action-link--blue"
-                  data-testid="labs-and-tests-landing-page-link"
-                  onClick={() => {
-                    sendDataDogAction(LAB_TEST_RESULTS_LABEL);
-                  }}
-                >
-                  {LAB_TEST_RESULTS_LABEL}
-                </Link>
-              )}
+              <Link
+                to="/labs-and-tests"
+                className="vads-c-action-link--blue"
+                data-testid="labs-and-tests-landing-page-link"
+                onClick={() => {
+                  sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                }}
+              >
+                {LAB_TEST_RESULTS_LABEL}
+              </Link>
             </section>
           )}
           {displayNotes && (
