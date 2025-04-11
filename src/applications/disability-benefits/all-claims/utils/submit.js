@@ -18,6 +18,8 @@ import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
+
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
@@ -362,6 +364,86 @@ export const addForm4142 = formData => {
   return clonedData;
 };
 
+export const delete0781FormData = formData => {
+  // Workaround to avoid eslint rule around mutating params/args
+  const data = formData;
+  delete data.events;
+  delete data.eventTypes;
+  delete data.workBehaviors;
+  delete data.otherBehaviors;
+  delete data.healthBehaviors;
+  delete data.behaviorsDetails;
+  delete data.supportingEvidenceRecords;
+  delete data.supportingEvidenceReports;
+  delete data.supportingEvidenceUnlisted;
+  delete data.supportingEvidenceWitness;
+  delete data.supportingEvidenceOther;
+  delete data.supportingEvidenceNoneCheckbox;
+  delete data.optionIndicator;
+  delete data.treatmentReceivedNonVaProvider;
+  delete data.treatmentReceivedVaProvider;
+  delete data.treatmentNoneCheckbox;
+  delete data.additionalInformation;
+  if (data.vaTreatmentFacilities) {
+    data.vaTreatmentFacilities.forEach(item => {
+      // Workaround to avoid eslint rule around mutating params/args
+      const facility = item;
+      if ('treatmentLocation0781Related' in facility)
+        delete facility.treatmentLocation0781Related;
+    });
+  }
+};
+
+export const delete0781BehavioralData = formData => {
+  // Workaround to avoid eslint rule around mutating params/args
+  const data = formData;
+  delete data.workBehaviors;
+  delete data.otherBehaviors;
+  delete data.healthBehaviors;
+  delete data.behaviorsDetails;
+};
+
+export const audit0781EventData = formData => {
+  const data = formData;
+  if (data.events) {
+    data.events.forEach(item => {
+      // Workaround to avoid eslint rule around mutating params/args
+      const event = item;
+      // If otherReports exists (assume not falsey) but reports['police'] is false,
+      // or if otherReports is absent, remove event location data
+      if (
+        (event.otherReports && event.reports.police === false) ||
+        !('otherReports' in event)
+      ) {
+        delete event.agency;
+        delete event.city;
+        delete event.country;
+        delete event.state;
+        delete event.township;
+      }
+    });
+  }
+};
+
+export const audit0781BehaviorDetailsList = formData => {
+  // Workaround to avoid eslint rule around mutating params/args
+  const data = formData;
+  if (data.behaviorsDetails) {
+    Object.keys(data.behaviorsDetails).forEach(key => {
+      // Compare the selected behavior types (workBehaviors, healthBehaviors, and otherBehaviors)
+      // to the existing formData.behaviorsDetails object. Any of the 15 possible behaviorsDetails
+      // that do not have a corresponding selected behaviorType should be deleted.
+      if (
+        !(key in data.workBehaviors) &&
+        !(key in data.healthBehaviors) &&
+        !(key in data.otherBehaviors)
+      ) {
+        delete data.behaviorsDetails[key];
+      }
+    });
+  }
+};
+
 export const addForm0781 = formData => {
   if (formData.syncModern0781Flow === true) {
     return formData;
@@ -498,6 +580,15 @@ export function transformTreatmentFacilities(
 }
 
 export const addForm0781V2 = formData => {
+  // If a user selected any workflow option outside of submitting the online form,
+  // we want to remove 0781-related data
+  if (
+    formData.mentalHealthWorkflowChoice !==
+    form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+  ) {
+    delete0781FormData(formData);
+  }
+
   if (!formData.syncModern0781Flow) {
     return formData;
   }

@@ -720,16 +720,86 @@ describe('addForm0781V2', () => {
     treatmentReceivedNonVaProvider: true,
     treatmentNoneCheckbox: true,
     providerFacility: ['facility1'],
-    vaTreatmentFacilities: [],
+    vaTreatmentFacilities: [
+      {
+        treatmentCenterName: 'Treatment Center the First',
+        treatmentLocation0781Related: true,
+      },
+      {
+        treatmentCenterName: 'Treatment Center the Second',
+        treatmentLocation0781Related: false,
+      },
+      {
+        treatmentCenterName: 'Treatment Center the Third',
+      },
+    ],
     optionIndicator: 'option1',
     additionalInformation: 'info',
+    mentalHealthWorkflowChoice: 'optForOnlineForm0781',
   };
+
+  it('should delete 0781 form data if user opted out', () => {
+    const data = {
+      ...formData,
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+    };
+    const expectedResult = {
+      form0781: {
+        treatmentProvidersDetails: [],
+      },
+      vaTreatmentFacilities: [
+        {
+          treatmentCenterName: 'Treatment Center the First',
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Second',
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Third',
+        },
+      ],
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+      syncModern0781Flow: true,
+    };
+
+    const result = addForm0781V2(data);
+    expect(result).to.deep.equal(expectedResult);
+  });
+
+  it('should delete 0781 form data if user submitting paper form', () => {
+    const data = {
+      ...formData,
+      mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
+    };
+    const expectedResult = {
+      form0781: {
+        treatmentProvidersDetails: [],
+      },
+      vaTreatmentFacilities: [
+        {
+          treatmentCenterName: 'Treatment Center the First',
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Second',
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Third',
+        },
+      ],
+      mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
+      syncModern0781Flow: true,
+    };
+
+    const result = addForm0781V2(data);
+    expect(result).to.deep.equal(expectedResult);
+  });
 
   it('should return the same object if syncModern0781Flow is false', () => {
     const formDataSyncModern0781False = {
       syncModern0781Flow: false,
       eventTypes: ['eventType1'],
       workBehaviors: ['workBehavior1'],
+      mentalHealthWorkflowChoice: 'optForOnlineForm0781',
     };
 
     const result = addForm0781V2(formDataSyncModern0781False);
