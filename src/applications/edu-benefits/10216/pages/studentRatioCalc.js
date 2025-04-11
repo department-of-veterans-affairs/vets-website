@@ -9,7 +9,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
 import CustomReviewField from '../ReviewPage/CustomReviewField';
-import { isDateThirtyDaysOld } from '../utilities';
+import { isDateThirtyDaysOld, isValidStudentRatio } from '../utilities';
+import RatioExceedMessage from '../components/RatioExceedMessage';
 
 export default {
   uiSchema: {
@@ -23,6 +24,15 @@ export default {
               'Please enter the number of beneficiary students at your institution',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            if (!isValidStudentRatio(formData)) {
+              errors.addError(
+                'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+              );
+            }
+          },
+        ],
       },
       numOfStudent: {
         ...numberUI({
@@ -62,6 +72,14 @@ export default {
           },
         ],
       },
+      'view:ratioExceedMessage': {
+        'ui:description': RatioExceedMessage,
+        'ui:options': {
+          hideIf: formData => {
+            return isValidStudentRatio(formData);
+          },
+        },
+      },
     },
   },
   schema: {
@@ -76,6 +94,7 @@ export default {
             type: 'number',
           },
           dateOfCalculation: currentOrPastDateSchema,
+          'view:ratioExceedMessage': { type: 'object', properties: {} },
         },
         required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
       },
