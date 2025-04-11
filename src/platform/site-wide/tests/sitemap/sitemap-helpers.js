@@ -1,4 +1,4 @@
-const libxmljs2 = require('libxmljs2');
+const { XMLParser } = require('fast-xml-parser');
 const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 
@@ -19,10 +19,15 @@ const shouldIgnore = url => {
   );
 };
 
+function parseXML(body) {
+  const parser = new XMLParser();
+  return parser.parse(body);
+}
+
 function sitemapURLs() {
   return fetch(SITEMAP_URL)
     .then(res => res.text())
-    .then(body => libxmljs2.parseXml(body))
+    .then(body => parseXML(body))
     .then(doc =>
       doc
         .find('//xmlns:loc', SITEMAP_LOC_NS)
