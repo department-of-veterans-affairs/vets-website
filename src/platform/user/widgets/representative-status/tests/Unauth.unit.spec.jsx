@@ -18,7 +18,7 @@ describe('Unauth component', () => {
 
   it('displays the correct heading', () => {
     const wrapper = mount(<Unauth {...defaultProps} />);
-    const headerElement = wrapper.find('h3');
+    const headerElement = wrapper.find('h2');
     expect(headerElement.exists()).to.be.true;
     expect(headerElement.text()).to.include('Sign in with a verified account');
     wrapper.unmount();
