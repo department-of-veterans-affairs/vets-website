@@ -23,6 +23,7 @@ export const uiSchema = {
         reportChild18OrOlderIsNotAttendingSchool:
           removeDependentOptions.reportChild18OrOlderIsNotAttendingSchool,
       },
+      enableAnalytics: true,
       errorMessages: {
         required: 'Select at least one option',
       },
