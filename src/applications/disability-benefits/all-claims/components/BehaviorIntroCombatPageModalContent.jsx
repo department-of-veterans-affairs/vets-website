@@ -56,7 +56,7 @@ export const BehaviorIntroCombatPageModalContent = forwardRef(
           {deleteCombatAnswersModalTitle}
         </h4>
         <p>
-          <b>What to know: </b>
+          <strong>What to know: </strong>
           If you change to skip questions about behavioral changes, we’ll delete
           information you provided about:
         </p>
@@ -69,9 +69,6 @@ export const BehaviorIntroCombatPageModalContent = forwardRef(
 
           {behaviorDescriptions.length > 3 && displayRemainingBehaviors()}
         </ul>
-        <p>
-          <b>Do you want to skip questions about behavioral changes?</b>
-        </p>
       </>
     );
   },

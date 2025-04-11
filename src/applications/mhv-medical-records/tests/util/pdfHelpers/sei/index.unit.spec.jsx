@@ -62,16 +62,17 @@ describe('generateSelfEnteredData', () => {
         contactInfo: { homePhone: '5555551212' },
         relationshipToVA: ['Veteran'],
         address: { street: '123 main st' },
-        emergencyContacts: [
-          {
-            firstName: 'Jane',
-            lastName: 'Doe',
-            relationship: 'Spouse',
-            homePhone: '5555551212',
-            workPhone: '5555551212',
-          },
-        ],
       },
+      emergencyContacts: [
+        {
+          firstName: 'Jane',
+          lastName: 'Doe',
+          relationship: 'Spouse',
+          homePhone: '5555551212',
+          workPhone: '5555551212',
+          address: {},
+        },
+      ],
     };
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
@@ -82,9 +83,10 @@ describe('generateSelfEnteredData', () => {
     expect(demographicsSection.records)
       .to.be.an('array')
       .with.length(2);
-    expect(demographicsSection.records[1].details[0].items[0].value).to.equal(
-      'Jane',
-    );
+    expect(
+      demographicsSection.records[1].details[0].items[0].value[0].value[0]
+        .value,
+    ).to.equal('Jane');
   });
 
   it('should generate data for family history', () => {

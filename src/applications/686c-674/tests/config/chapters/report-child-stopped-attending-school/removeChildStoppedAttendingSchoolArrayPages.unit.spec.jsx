@@ -240,7 +240,7 @@ describe('686 report child who stopped attending school: Date child stopped atte
   });
 });
 
-describe('686 report child who stopped attending school: Date child stopped attending', () => {
+describe('686 report child who stopped attending school: Income', () => {
   const {
     schema,
     uiSchema,
@@ -261,6 +261,6 @@ describe('686 report child who stopped attending school: Date child stopped atte
     );
 
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 });

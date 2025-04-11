@@ -5,12 +5,14 @@ import {
   internationalPhoneUI,
   phoneSchema,
   phoneUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    title: 'Contact information',
+    ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle),
     phone: phoneUI('Phone number'),
     cellPhone: phoneUI('Cell phone number'),
     internationalPhone: internationalPhoneUI('International phone number'),
