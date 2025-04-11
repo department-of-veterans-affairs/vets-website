@@ -62,7 +62,7 @@ const RecipientsSelect = ({
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
 
-  const { isComboBoxEnabled } = useFeatureToggles();
+  const { isComboBoxEnabled, featureTogglesLoading } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
@@ -217,15 +217,13 @@ const RecipientsSelect = ({
 
   return (
     <>
-      {isComboBoxEnabled ? (
+      {!featureTogglesLoading && isComboBoxEnabled ? (
         <VaComboBox
           required
-          id="recipient-combobox"
           label="Select a care team to send your message to"
           name="to"
           value={defaultValue !== undefined ? defaultValue : ''}
           onVaSelect={handleRecipientSelect}
-          class="composeComboBox"
           data-testid="compose-recipient-combobox"
           error={error}
           data-dd-privacy="mask"
