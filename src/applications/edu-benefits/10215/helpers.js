@@ -1,5 +1,43 @@
 import React from 'react';
 
+export const isCurrentOrPastDate = date => {
+  const dateObj = new Date(date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return dateObj >= today;
+};
+
+export const getTodayDateYyyyMmDd = () => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Month is zero-based
+  let dd = today.getDate();
+
+  if (dd < 10) dd = `0${dd}`;
+  if (mm < 10) mm = `0${mm}`;
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+export const isTermEndBeforeTermStartDate = (
+  termStartDate,
+  dateOfCalculations,
+) => {
+  const startDate = new Date(termStartDate);
+  const calculationDate = new Date(dateOfCalculations);
+  return calculationDate < startDate;
+};
+
+export const isWithinThirtyDaysLogic = (termStartDate, dateOfCalculations) => {
+  const startDate = new Date(termStartDate);
+  const calculationDate = new Date(dateOfCalculations);
+  const timeDifference = Math.abs(
+    calculationDate.getTime() - startDate.getTime(),
+  );
+  const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  return daysDifference < 30;
+};
+
 export const getFTECalcs = program => {
   const supported = Number(program?.fte?.supported) || 0;
   const nonSupported = Number(program?.fte?.nonSupported) || 0;
@@ -15,6 +53,7 @@ export const getFTECalcs = program => {
     supportedFTEPercent,
   };
 };
+
 export const childContent = (downloadLink, goBack) => (
   <div data-testid="download-link">
     <va-alert close-btn-aria-label="Close notification" status="into" visible>

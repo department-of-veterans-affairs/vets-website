@@ -1,0 +1,23 @@
+{
+  "data": {
+    "id": "007",
+    "type": "organization",
+    "attributes": {
+      "addressLine1": "123 East St",
+      "addressLine2": null,
+      "addressLine3": null,
+      "addressType": "Domestic",
+      "city": "Green Hill",
+      "countryName": "United States",
+      "countryCodeIso3": "USA",
+      "province": "Ohio",
+      "internationalPostalCode": null,
+      "stateCode": "OH",
+      "zipCode": "12345",
+      "zipSuffix": "4321",
+      "phone": "432-567-8907",
+      "type": "organization",
+      "name": "Ohio Veterans Organization"
+    }
+  }
+}

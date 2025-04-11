@@ -36,17 +36,15 @@ export const uiSchema = {
       'ui:required': formData =>
         formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation ===
         'OTHER',
-      'ui:options': {
-        expandUnder: 'currentSpouseReasonForSeparation',
-        expandUnderCondition: 'OTHER',
-        expandedContentFocus: true,
-        hideIf: formData =>
-          formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
-          'OTHER',
-        showFieldLabel: true,
-        keepInPageOnReview: true,
-        classNames: 'vads-u-margin-top--2',
-      },
-    },
+      expandUnder: 'currentSpouseReasonForSeparation',
+      expandUnderCondition: 'OTHER',
+      preserveHiddenData: true,
+      hideIf: formData =>
+        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
+        'OTHER',
+      showFieldLabel: true,
+      keepInPageOnReview: true,
+      classNames: 'vads-u-margin-top--2',
+    }),
   },
 };

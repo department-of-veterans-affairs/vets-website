@@ -46,17 +46,14 @@ export const uiSchema = {
       'ui:webComponentField': VaTextInputField,
       'ui:required': formData =>
         formData?.currentMarriageInformation?.type === 'OTHER',
-      'ui:options': {
-        expandUnder: 'type',
-        expandUnderCondition: 'OTHER',
-        expandedContentFocus: true,
-        showFieldLabel: true,
-        keepInPageOnReview: true,
-        classNames: 'vads-u-margin-top--2',
-        hideIf: formData =>
-          formData?.currentMarriageInformation?.type !== 'OTHER',
-      },
-    },
+      expandUnder: 'type',
+      expandUnderCondition: 'OTHER',
+      preserveHiddenData: true,
+      showFieldLabel: true,
+      keepInPageOnReview: true,
+      hideIf: formData =>
+        formData?.currentMarriageInformation?.type !== 'OTHER',
+    }),
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
     },

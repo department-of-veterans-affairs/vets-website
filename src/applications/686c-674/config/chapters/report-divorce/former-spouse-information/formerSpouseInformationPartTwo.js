@@ -94,6 +94,7 @@ export const uiSchema = {
         expandUnderCondition: 'Other',
         expandedContentFocus: true,
         showFieldLabel: true,
+        preserveHiddenData: true,
         keepInPageOnReview: true,
         classNames: 'vads-u-margin-top--2',
         hideIf: formData =>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { APP_URLS } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
 import { CONTACTS } from '../../utils/imports';
 
 const RegistrationOnlyAlert = ({ headingLevel = 3 }) => {

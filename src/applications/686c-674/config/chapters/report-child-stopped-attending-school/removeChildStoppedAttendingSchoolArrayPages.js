@@ -6,8 +6,8 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
-  yesNoUI,
-  yesNoSchema,
+  radioUI,
+  radioSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
@@ -142,16 +142,21 @@ export const dateChildLeftSchoolPage = {
 export const childIncomeQuestionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s income'),
-    dependentIncome: {
-      ...yesNoUI(
-        'Did this child earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+    dependentIncome: radioUI({
+      title: 'Did this child have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are adding this dependent to your pension.',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      dependentIncome: yesNoSchema,
+      dependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

@@ -141,6 +141,9 @@ export const vetFormerMarriageEndReasonPage = {
         showFieldLabel: true,
         keepInPageOnReview: true,
         classNames: 'vads-u-margin-top--2',
+
+        preserveHiddenData: true,
+
         hideIf: (formData, index) =>
           !(
             formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===

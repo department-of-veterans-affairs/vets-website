@@ -14,6 +14,7 @@ export const uiSchema = {
         add: 'Add one or more dependents',
         remove: 'Remove one or more dependents',
       },
+      enableAnalytics: true,
       errorMessages: {
         required: 'Select at least one option',
       },

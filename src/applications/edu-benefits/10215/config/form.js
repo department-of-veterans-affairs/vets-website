@@ -13,6 +13,7 @@ import { getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
@@ -93,10 +94,8 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
-      body:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'certifyingOfficial',
     },
   },

@@ -17,7 +17,7 @@ function PercentageCalc({ formData }) {
         </h4>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           (Number of VA beneficiary students divided by Total number of
-          students) multiplied by 100 = Percentage of VA beneficiary students
+          students) multiplied by 100 = Percentage of VA beneficiary students.
         </p>
         <p className="vads-u-margin-y--0">
           If this percentage seems incorrect, please check the numbers you
