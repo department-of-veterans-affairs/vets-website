@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -11,6 +12,7 @@ import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import { isUserSignedIn } from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,6 +57,18 @@ const formConfig = {
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
+        ...profileContactInfo({
+          contactInfoPageKey: 'applicantContactInformation',
+          contactPath: 'applicant-contact-information',
+          included: ['email', 'mobilePhone'],
+          depends: formData => isUserSignedIn(formData),
+        }),
+        ...profileContactInfo({
+          contactInfoPageKey: 'applicantMailingAddress',
+          contactPath: 'applicant-mailing-address',
+          included: ['mailingAddress'],
+          depends: formData => isUserSignedIn(formData),
+        }),
       },
     },
     veteranInformation: {
