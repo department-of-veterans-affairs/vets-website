@@ -10,14 +10,11 @@ export const heading =
 const NeedsToVerify = ({ basename }) => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        focusElement(alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      focusElement(alertRef.current);
+    }
+  }, [alertRef]);
 
   recordEvent({
     event: 'visible-alert-box',

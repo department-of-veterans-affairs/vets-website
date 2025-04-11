@@ -43,12 +43,9 @@ const initializeDatadogRum = () => {
 };
 
 const useDatadogRum = config => {
-  useEffect(
-    () => {
-      initializeDatadogRum();
-    },
-    [config],
-  );
+  useEffect(() => {
+    initializeDatadogRum();
+  }, [config]);
 };
 
 export { useDatadogRum };

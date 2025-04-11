@@ -168,7 +168,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {},
-)(BenefitPayments);
+export default connect(mapStateToProps, {})(BenefitPayments);

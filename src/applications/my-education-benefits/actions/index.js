@@ -3,9 +3,7 @@ import environment from 'platform/utilities/environment';
 
 import { toSnakeCase } from '../helpers';
 
-export const CLAIMANT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/claimant_info`;
+export const CLAIMANT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/claimant_info`;
 
 const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
@@ -29,12 +27,8 @@ export const FETCH_EXCLUSION_PERIODS_SUCCESS =
   'FETCH_EXCLUSION_PERIODS_SUCCESS';
 export const FETCH_EXCLUSION_PERIODS_FAILURE =
   'FETCH_EXCLUSION_PERIODS_FAILURE';
-export const EXCLUSION_PERIODS_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/exclusion_periods`;
-export const DIRECT_DEPOSIT_ENDPOINT = `${
-  environment.API_URL
-}/v0/profile/direct_deposits`;
+export const EXCLUSION_PERIODS_ENDPOINT = `${environment.API_URL}/meb_api/v0/exclusion_periods`;
+export const DIRECT_DEPOSIT_ENDPOINT = `${environment.API_URL}/v0/profile/direct_deposits`;
 
 export const CLAIM_STATUS_RESPONSE_ELIGIBLE = 'ELIGIBLE';
 export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';
@@ -50,17 +44,13 @@ export const ELIGIBILITY = {
   CHAPTER1606: 'Chapter1606',
 };
 
-export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/duplicate_contact_info`;
+export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/duplicate_contact_info`;
 export const FETCH_DUPLICATE_CONTACT = 'FETCH_DUPLICATE_CONTACT';
 export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
   'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
 export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
   'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
-const CONFIRMATION_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/send_confirmation_email`;
+const CONFIRMATION_ENDPOINT = `${environment.API_URL}/meb_api/v0/send_confirmation_email`;
 export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
 export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
 export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';

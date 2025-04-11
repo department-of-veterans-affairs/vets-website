@@ -563,6 +563,7 @@ describe('Schemaform <FileField>', () => {
 
     // click yes in modal
     $('va-modal', container).__events.primaryButtonClick();
+    uploadButton.focus();
 
     await waitFor(() => {
       expect($$('li', container)).to.be.empty;
@@ -607,6 +608,7 @@ describe('Schemaform <FileField>', () => {
 
     // click no in modal
     $('va-modal', container).__events.secondaryButtonClick();
+    deleteButton.focus();
 
     await waitFor(() => {
       expect($$('li', container)).to.not.be.empty;

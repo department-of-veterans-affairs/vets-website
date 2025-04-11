@@ -12,14 +12,11 @@ import { setReturnState } from '../../utils/contactInformation';
 const BuildPage = ({ title, field, id, goToPath }) => {
   const headerRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
   const returnPath = onReviewPage

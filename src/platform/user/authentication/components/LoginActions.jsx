@@ -19,12 +19,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
 
-  useEffect(
-    () => {
-      setOAuth(OAuthEnabled && OAuth === 'true');
-    },
-    [OAuth, OAuthEnabled],
-  );
+  useEffect(() => {
+    setOAuth(OAuthEnabled && OAuth === 'true');
+  }, [OAuth, OAuthEnabled]);
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
   const isValid = mhv || dslogon;

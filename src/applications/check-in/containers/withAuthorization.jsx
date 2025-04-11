@@ -22,21 +22,18 @@ const withAuthorization = (Component, options) => {
     const { getCurrentToken } = useStorage(appName);
     const { updateError } = useUpdateError();
 
-    useEffect(
-      () => {
-        if (!token) {
-          const sessionToken = getCurrentToken(window)?.token;
-          if (!sessionToken) {
-            updateError('no-token');
-          } else {
-            jumpToPage(URLS.LANDING, { params: { url: { id: sessionToken } } });
-          }
-        } else if (permissions !== SCOPES.READ_FULL) {
-          jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
+    useEffect(() => {
+      if (!token) {
+        const sessionToken = getCurrentToken(window)?.token;
+        if (!sessionToken) {
+          updateError('no-token');
+        } else {
+          jumpToPage(URLS.LANDING, { params: { url: { id: sessionToken } } });
         }
-      },
-      [token, permissions, getCurrentToken, updateError, jumpToPage],
-    );
+      } else if (permissions !== SCOPES.READ_FULL) {
+        jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
+      }
+    }, [token, permissions, getCurrentToken, updateError, jumpToPage]);
 
     return (
       <>

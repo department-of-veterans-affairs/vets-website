@@ -72,19 +72,14 @@ export function CurrentRep({
                 </div>
               </div>
             )}
-            {poaType === 'representative' &&
-              email && (
-                <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                    <va-icon
-                      icon="mail"
-                      size={2}
-                      srtext="Representative email"
-                    />
-                  </div>
-                  <a href={`mailto:${email}`}>{email}</a>
+            {poaType === 'representative' && email && (
+              <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                  <va-icon icon="mail" size={2} srtext="Representative email" />
                 </div>
-              )}
+                <a href={`mailto:${email}`}>{email}</a>
+              </div>
+            )}
             {contact && (
               <div className="vads-u-display--flex vads-u-margin-top--1p5">
                 <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
@@ -101,20 +96,19 @@ export function CurrentRep({
                 />
               </div>
             )}
-            {poaType === 'representative' &&
-              (contact || email) && (
-                <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                    <va-icon icon="file_download" size={2} />
-                  </div>
-                  <va-link
-                    filetype="VCF"
-                    filename="accredited_representative_contact"
-                    href={vcfUrl}
-                    text="Download your accredited representative's contact information"
-                  />
+            {poaType === 'representative' && (contact || email) && (
+              <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                  <va-icon icon="file_download" size={2} />
                 </div>
-              )}
+                <va-link
+                  filetype="VCF"
+                  filename="accredited_representative_contact"
+                  href={vcfUrl}
+                  text="Download your accredited representative's contact information"
+                />
+              </div>
+            )}
             <div className="vads-u-display--flex vads-u-margin-top--1p5">
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />

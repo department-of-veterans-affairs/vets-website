@@ -115,20 +115,17 @@ export const ApplicantInformation = ({
 
   const progressBar = document.getElementById('nav-form-header');
 
-  useEffect(
-    () => {
-      const timeout = setTimeout(() => {
-        scrollTo('topScrollElement');
-        if (progressBar) {
-          progressBar.style.display = 'block';
-          focusElement(progressBar);
-        }
-      }, 250);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      scrollTo('topScrollElement');
+      if (progressBar) {
+        progressBar.style.display = 'block';
+        focusElement(progressBar);
+      }
+    }, 250);
 
-      return () => clearTimeout(timeout);
-    },
-    [progressBar],
-  );
+    return () => clearTimeout(timeout);
+  }, [progressBar]);
 
   return (
     <>

@@ -7,15 +7,12 @@ const useTrackPreviousUrl = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      // Update previousUrl in Redux before location changes
-      return () => {
-        dispatch(setPreviousUrl(location.pathname));
-      };
-    },
-    [location, dispatch],
-  );
+  useEffect(() => {
+    // Update previousUrl in Redux before location changes
+    return () => {
+      dispatch(setPreviousUrl(location.pathname));
+    };
+  }, [location, dispatch]);
 };
 
 export default useTrackPreviousUrl;

@@ -88,16 +88,13 @@ export const Edit = () => {
     selectVAPContactInfoField(state, fieldInfo?.fieldName),
   );
 
-  const editPageHeadingString = useMemo(
-    () => {
-      const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
-        ? 'Add'
-        : 'Update';
+  const editPageHeadingString = useMemo(() => {
+    const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
+      ? 'Add'
+      : 'Update';
 
-      return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
-    },
-    [fieldData, fieldInfo],
-  );
+    return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
+  }, [fieldData, fieldInfo]);
 
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
@@ -130,23 +127,20 @@ export const Edit = () => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      // this is where we track the state of the beforeunload listener
-      // and add/remove it as needed when the form has unsaved edits
-      if (hasUnsavedEdits && !hasBeforeUnloadListener) {
-        window.addEventListener('beforeunload', beforeUnloadHandler);
-        setHasBeforeUnloadListener(true);
-        return;
-      }
+  useEffect(() => {
+    // this is where we track the state of the beforeunload listener
+    // and add/remove it as needed when the form has unsaved edits
+    if (hasUnsavedEdits && !hasBeforeUnloadListener) {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      setHasBeforeUnloadListener(true);
+      return;
+    }
 
-      if (!hasUnsavedEdits && hasBeforeUnloadListener) {
-        setHasBeforeUnloadListener(false);
-        clearBeforeUnloadListener();
-      }
-    },
-    [hasUnsavedEdits, hasBeforeUnloadListener],
-  );
+    if (!hasUnsavedEdits && hasBeforeUnloadListener) {
+      setHasBeforeUnloadListener(false);
+      clearBeforeUnloadListener();
+    }
+  }, [hasUnsavedEdits, hasBeforeUnloadListener]);
 
   const handlers = {
     cancel: () => {

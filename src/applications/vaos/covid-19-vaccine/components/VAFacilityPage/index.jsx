@@ -62,24 +62,18 @@ function VAFacilityPage({
     }
   }, []);
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-      openFacilityPage();
-    },
-    [openFacilityPage],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    openFacilityPage();
+  }, [openFacilityPage]);
 
   const previouslyShowingModal = usePrevious(showEligibilityModal);
-  useEffect(
-    () => {
-      if (!showEligibilityModal && previouslyShowingModal) {
-        scrollAndFocus('.usa-button-primary');
-      }
-    },
-    [showEligibilityModal, previouslyShowingModal],
-  );
+  useEffect(() => {
+    if (!showEligibilityModal && previouslyShowingModal) {
+      scrollAndFocus('.usa-button-primary');
+    }
+  }, [showEligibilityModal, previouslyShowingModal]);
 
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
@@ -113,12 +107,9 @@ function VAFacilityPage({
     facilitiesStatus === FETCH_STATUS.loading ||
     facilitiesStatus === FETCH_STATUS.notStarted;
 
-  useEffect(
-    () => {
-      scrollAndFocus();
-    },
-    [loadingFacilities],
-  );
+  useEffect(() => {
+    scrollAndFocus();
+  }, [loadingFacilities]);
 
   const goBack = () =>
     dispatch(routeToPreviousAppointmentPage(history, pageKey, data));
@@ -235,35 +226,10 @@ function VAFacilityPage({
         {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
           ' Locations closest to you are listed first.'}
       </p>
-      {sortByDistanceFromResidential &&
-        !requestingLocation && (
-          <>
-            <ResidentialAddress address={address} />
-            {requestLocationStatus !== FETCH_STATUS.failed && (
-              <p>
-                Or,{' '}
-                <button
-                  type="button"
-                  className="va-button-link"
-                  onClick={() => {
-                    updateFacilitySortMethod(
-                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                      uiSchema,
-                    );
-                  }}
-                >
-                  use your current location
-                </button>
-              </p>
-            )}
-          </>
-        )}
-      {sortByDistanceFromCurrentLocation &&
-        !requestingLocation && (
-          <>
-            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Facilities based on your location
-            </h2>
+      {sortByDistanceFromResidential && !requestingLocation && (
+        <>
+          <ResidentialAddress address={address} />
+          {requestLocationStatus !== FETCH_STATUS.failed && (
             <p>
               Or,{' '}
               <button
@@ -271,16 +237,39 @@ function VAFacilityPage({
                 className="va-button-link"
                 onClick={() => {
                   updateFacilitySortMethod(
-                    FACILITY_SORT_METHODS.distanceFromResidential,
+                    FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                     uiSchema,
                   );
                 }}
               >
-                use your home address on file
+                use your current location
               </button>
             </p>
-          </>
-        )}
+          )}
+        </>
+      )}
+      {sortByDistanceFromCurrentLocation && !requestingLocation && (
+        <>
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            Facilities based on your location
+          </h2>
+          <p>
+            Or,{' '}
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={() => {
+                updateFacilitySortMethod(
+                  FACILITY_SORT_METHODS.distanceFromResidential,
+                  uiSchema,
+                );
+              }}
+            >
+              use your home address on file
+            </button>
+          </p>
+        </>
+      )}
       {requestLocationStatus === FETCH_STATUS.failed && (
         <InfoAlert
           status="warning"
@@ -300,31 +289,30 @@ function VAFacilityPage({
           <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
-      {facilitiesStatus === FETCH_STATUS.succeeded &&
-        !requestingLocation && (
-          <SchemaForm
-            name="VA Facility"
-            title="VA Facility"
-            schema={schema}
-            uiSchema={uiSchema}
-            onChange={newData => setData(newData)}
-            onSubmit={goForward}
-            formContext={{ loadingEligibility: loadingClinics, sortMethod }}
-            data={data}
-          >
-            <FormButtons
-              continueLabel=""
-              pageChangeInProgress={pageChangeInProgress}
-              onBack={goBack}
-              disabled={
-                loadingFacilities ||
-                loadingClinics ||
-                (supportedFacilities?.length === 1 &&
-                  !canScheduleAtChosenFacility)
-              }
-            />
-          </SchemaForm>
-        )}
+      {facilitiesStatus === FETCH_STATUS.succeeded && !requestingLocation && (
+        <SchemaForm
+          name="VA Facility"
+          title="VA Facility"
+          schema={schema}
+          uiSchema={uiSchema}
+          onChange={newData => setData(newData)}
+          onSubmit={goForward}
+          formContext={{ loadingEligibility: loadingClinics, sortMethod }}
+          data={data}
+        >
+          <FormButtons
+            continueLabel=""
+            pageChangeInProgress={pageChangeInProgress}
+            onBack={goBack}
+            disabled={
+              loadingFacilities ||
+              loadingClinics ||
+              (supportedFacilities?.length === 1 &&
+                !canScheduleAtChosenFacility)
+            }
+          />
+        </SchemaForm>
+      )}
 
       {showEligibilityModal && (
         <EligibilityModal
@@ -368,7 +356,4 @@ const mapDispatchToProps = {
   updateFormData: actions.updateFormData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VAFacilityPage);
+export default connect(mapStateToProps, mapDispatchToProps)(VAFacilityPage);

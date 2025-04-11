@@ -35,9 +35,7 @@ export const fieldsMustMatchValidation = (
   // For string props like phones/emails:
   if (typeof target === 'string' && page[certProp] !== target) {
     errors[certProp].addError(
-      `Must match corresponding ${
-        formData.certifierRole
-      } ${friendlyName}: ${target}`,
+      `Must match corresponding ${formData.certifierRole} ${friendlyName}: ${target}`,
     );
   } else {
     // Identify which fields of the multi-field name object are different (e.g., address fields):
@@ -45,9 +43,7 @@ export const fieldsMustMatchValidation = (
     if (target && diff.length > 0) {
       diff.forEach(k =>
         errors[certProp][k].addError(
-          `Must match corresponding ${
-            formData.certifierRole
-          } ${friendlyName}: ${target[k]}`,
+          `Must match corresponding ${formData.certifierRole} ${friendlyName}: ${target[k]}`,
         ),
       );
     }

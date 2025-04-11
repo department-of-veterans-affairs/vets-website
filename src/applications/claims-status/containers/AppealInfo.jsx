@@ -222,8 +222,5 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = { getAppealsV2: getAppealsV2Action };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AppealInfo),
+  connect(mapStateToProps, mapDispatchToProps)(AppealInfo),
 );

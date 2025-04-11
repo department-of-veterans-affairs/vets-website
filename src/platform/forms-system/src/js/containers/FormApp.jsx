@@ -33,13 +33,10 @@ const FormApp = props => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      // Set current location in data-location for custom CSS
-      document.body.dataset.location = currentLocation.pathname.slice(1);
-    },
-    [currentLocation.pathname],
-  );
+  useEffect(() => {
+    // Set current location in data-location for custom CSS
+    document.body.dataset.location = currentLocation.pathname.slice(1);
+  }, [currentLocation.pathname]);
 
   const nonFormPages = additionalRoutes
     ? additionalRoutes.map(route => route.path)

@@ -389,14 +389,11 @@ const WorkflowChoicePage = props => {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  useEffect(
-    () => {
-      if (showAlert) {
-        scrollTo('success-alert');
-      }
-    },
-    [showAlert],
-  );
+  useEffect(() => {
+    if (showAlert) {
+      scrollTo('success-alert');
+    }
+  }, [showAlert]);
 
   const missingSelectionErrorMessage =
     'A response is needed for this question.';

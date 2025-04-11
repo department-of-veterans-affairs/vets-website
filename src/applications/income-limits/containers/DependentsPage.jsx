@@ -36,24 +36,21 @@ const DependentsPage = ({
 
   const validDependents = dependents?.length > 0 && dependentsValid(dependents);
 
-  useEffect(
-    () => {
-      let shouldRedirectToHome = !zipCode;
+  useEffect(() => {
+    let shouldRedirectToHome = !zipCode;
 
-      if (pastMode) {
-        shouldRedirectToHome = !zipCode && !year;
-      }
+    if (pastMode) {
+      shouldRedirectToHome = !zipCode && !year;
+    }
 
-      if (shouldRedirectToHome) {
-        router.push(ROUTES.HOME);
-        return;
-      }
+    if (shouldRedirectToHome) {
+      router.push(ROUTES.HOME);
+      return;
+    }
 
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      waitForRenderThenFocus('h1');
-    },
-    [pastMode, router, year, zipCode],
-  );
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    waitForRenderThenFocus('h1');
+  }, [pastMode, router, year, zipCode]);
 
   const onContinueClick = () => {
     setSubmitted(true);
@@ -172,7 +169,4 @@ DependentsPage.propTypes = {
   year: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DependentsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(DependentsPage);

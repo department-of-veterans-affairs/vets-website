@@ -784,9 +784,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           });
           return { ...slot, start: time };
         });
-        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
-          (a, b) => a.start.localeCompare(b.start),
-        );
+        const sortedSlots = [
+          ...availableSlots,
+          ...correctedSlots,
+        ].sort((a, b) => a.start.localeCompare(b.start));
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -1107,9 +1108,7 @@ export function requestProvidersList(address) {
       const typeOfCare = getTypeOfCare(newAppointment.data);
       let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
-        ccProviderCacheKey = `${sortMethod}_${selectedCCFacility.id}_${
-          typeOfCare.ccId
-        }`;
+        ccProviderCacheKey = `${sortMethod}_${selectedCCFacility.id}_${typeOfCare.ccId}`;
       }
       let typeOfCareProviders = communityCareProviders[ccProviderCacheKey];
 
@@ -1190,9 +1189,9 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         // HACK: For new CC primary care facility flow, very hacky
         // TODO: Clean up how we handle new flow
         !nextPage.url.endsWith('/') &&
-        (previousPage !== 'typeOfFacility' &&
-          previousPage !== 'audiologyCareType' &&
-          previousPage !== 'vaFacilityV2')
+        previousPage !== 'typeOfFacility' &&
+        previousPage !== 'audiologyCareType' &&
+        previousPage !== 'vaFacilityV2'
       ) {
         history.push(nextPage.url);
       } else if (

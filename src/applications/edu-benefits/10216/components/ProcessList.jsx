@@ -21,9 +21,7 @@ const ProcessList = ({ isAccredited, id }) => {
                   <VaLink
                     download
                     filetype="PDF"
-                    href={`${
-                      environment.API_URL
-                    }/v0/education_benefits_claims/download_pdf/${id}`}
+                    href={`${environment.API_URL}/v0/education_benefits_claims/download_pdf/${id}`}
                     fileName="Name"
                     text="Download VA Form 22-10216"
                   />
@@ -67,9 +65,7 @@ const ProcessList = ({ isAccredited, id }) => {
                   <va-link
                     download
                     filetype="PDF"
-                    href={`${
-                      environment.API_URL
-                    }/v0/education_benefits_claims/download_pdf/${id}`}
+                    href={`${environment.API_URL}/v0/education_benefits_claims/download_pdf/${id}`}
                     // fileName={''}
                     text="Download VA Form 22-10216"
                   />

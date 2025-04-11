@@ -3,13 +3,9 @@ import environment from 'platform/utilities/environment';
 
 import { toSnakeCase } from './helpers';
 
-export const CLAIMANT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_claimant_info`;
+export const CLAIMANT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claimant_info`;
 
-export const CLAIM_STATUS_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_claim_status`;
+export const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claim_status`;
 export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
 export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
 export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';
@@ -25,9 +21,7 @@ export const FETCH_MILITARY_INFORMATION_SUCCESS =
 export const FETCH_MILITARY_INFORMATION_FAILED =
   'FETCH_MILITARY_INFORMATION_FAILED';
 
-export const SPONSORS_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_sponsors`;
+export const SPONSORS_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_sponsors`;
 export const FETCH_SPONSORS = 'FETCH_SPONSORS';
 export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
@@ -36,25 +30,17 @@ export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
 export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
 export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
 export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
-export const DIRECT_DEPOSIT_ENDPOINT = `${
-  environment.API_URL
-}/v0/profile/ch33_bank_accounts`;
-export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${
-  environment.API_URL
-}/v0/profile/direct_deposits`;
+export const DIRECT_DEPOSIT_ENDPOINT = `${environment.API_URL}/v0/profile/ch33_bank_accounts`;
+export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${environment.API_URL}/v0/profile/direct_deposits`;
 
-export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/duplicate_contact_info`;
+export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/duplicate_contact_info`;
 export const FETCH_DUPLICATE_CONTACT = 'FETCH_DUPLICATE_CONTACT';
 export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
   'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
 export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
   'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
-const CONFIRMATION_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_send_confirmation_email`;
+const CONFIRMATION_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_send_confirmation_email`;
 export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
 export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
 export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';

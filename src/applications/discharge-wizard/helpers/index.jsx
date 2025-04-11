@@ -286,9 +286,7 @@ export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
     ].includes(prevAppType)
   ) {
     return oldDischarge
-      ? `the ${
-          boardToSubmit.name
-        }. The Board handles all cases from 15 or more years ago.`
+      ? `the ${boardToSubmit.name}. The Board handles all cases from 15 or more years ago.`
       : 'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
   }
   if (
@@ -296,9 +294,7 @@ export const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
       prevAppType,
     )
   ) {
-    return `the ${boardToSubmit.name}. The ${
-      boardToSubmit.abbr
-    } was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
+    return `the ${boardToSubmit.name}. The ${boardToSubmit.abbr} was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
   }
   return '';
 };
@@ -346,9 +342,7 @@ export const handleDRBExplanation = (
     boardToSubmit.abbr
   } is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
     prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
-      ? `Because your application was rejected by the ${
-          boardToSubmit.abbr
-        } on Documentary Review, you must apply for a Personal Appearance Review.`
+      ? `Because your application was rejected by the ${boardToSubmit.abbr} on Documentary Review, you must apply for a Personal Appearance Review.`
       : ''
   }`;
 };

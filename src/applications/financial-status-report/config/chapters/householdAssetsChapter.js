@@ -94,8 +94,8 @@ export default {
 
           return (
             (filteredLiquidAssets.length > 0 &&
-              (formData['view:reviewPageNavigationToggle'] &&
-                !isStreamlinedShortForm(formData))) ||
+              formData['view:reviewPageNavigationToggle'] &&
+              !isStreamlinedShortForm(formData)) ||
             (filteredLiquidAssets.length > 0 &&
               !isStreamlinedShortForm(formData))
           );

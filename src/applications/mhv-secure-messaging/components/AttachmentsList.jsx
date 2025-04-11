@@ -35,22 +35,19 @@ const AttachmentsList = props => {
   const attachFileAlertRef = useRef();
   const [focusedElement, setFocusedElement] = useState(null);
 
-  useEffect(
-    () => {
-      if (attachmentScanError) {
-        setTimeout(
-          () =>
-            setFocusedElement(
-              attachments.length > 1
-                ? document.getElementById('remove-all-attachments-button')
-                : document.querySelector('.remove-attachment-button'),
-            ),
-          400,
-        );
-      }
-    },
-    [attachmentScanError, attachments.length],
-  );
+  useEffect(() => {
+    if (attachmentScanError) {
+      setTimeout(
+        () =>
+          setFocusedElement(
+            attachments.length > 1
+              ? document.getElementById('remove-all-attachments-button')
+              : document.querySelector('.remove-attachment-button'),
+          ),
+        400,
+      );
+    }
+  }, [attachmentScanError, attachments.length]);
 
   const getSize = num => {
     if (num > 999999) {
@@ -65,35 +62,26 @@ const AttachmentsList = props => {
   const attachmentNameId = id =>
     forPrint ? `has-attachment-for-print-${id}` : `has-attachment-${id}`;
 
-  useEffect(
-    () => {
-      focusElement(focusedElement);
-    },
-    [focusedElement],
-  );
+  useEffect(() => {
+    focusElement(focusedElement);
+  }, [focusedElement]);
 
-  useEffect(
-    () => {
-      const alertButton = attachFileAlertRef?.current?.shadowRoot?.querySelector(
-        '#close-success-alert-button',
-      );
-      if (attachFileSuccess && alertButton) {
-        setTimeout(() => {
-          setFocusedElement(alertButton);
-        }, 400);
-      }
-    },
-    [attachFileSuccess, attachments, attachFileAlertRef],
-  );
+  useEffect(() => {
+    const alertButton = attachFileAlertRef?.current?.shadowRoot?.querySelector(
+      '#close-success-alert-button',
+    );
+    if (attachFileSuccess && alertButton) {
+      setTimeout(() => {
+        setFocusedElement(alertButton);
+      }, 400);
+    }
+  }, [attachFileSuccess, attachments, attachFileAlertRef]);
 
-  useEffect(
-    () => {
-      if (attachments.length === 0) {
-        setAttachFileSuccess(false);
-      }
-    },
-    [attachments],
-  );
+  useEffect(() => {
+    if (attachments.length === 0) {
+      setAttachFileSuccess(false);
+    }
+  }, [attachments]);
 
   const removeAttachment = file => {
     const newAttArr = attachments?.filter(item => {
@@ -167,46 +155,44 @@ const AttachmentsList = props => {
       </div>
       {editingEnabled && <HowToAttachFiles />}
 
-      {attachFileSuccess &&
-        attachments.length > 0 &&
-        !attachmentScanError && (
-          <VaAlert
-            aria-live="polite"
-            aria-label="file successfully attached"
-            ref={attachFileAlertRef}
-            background-only
-            className="file-attached-success vads-u-margin-top--2"
-            data-testid="file-attached-success-alert"
-            data-dd-action-name="File Attached Alert"
-            disable-analytics
-            full-width="false"
-            show-icon
-            status="success"
-            onCloseEvent={handleSuccessAlertClose}
+      {attachFileSuccess && attachments.length > 0 && !attachmentScanError && (
+        <VaAlert
+          aria-live="polite"
+          aria-label="file successfully attached"
+          ref={attachFileAlertRef}
+          background-only
+          className="file-attached-success vads-u-margin-top--2"
+          data-testid="file-attached-success-alert"
+          data-dd-action-name="File Attached Alert"
+          disable-analytics
+          full-width="false"
+          show-icon
+          status="success"
+          onCloseEvent={handleSuccessAlertClose}
+        >
+          <p className="vads-u-margin-y--0">File attached</p>
+          <button
+            className="close-success-alert-button vads-u-padding--0p5 vads-u-color--base"
+            id="close-success-alert-button"
+            data-testid="close-success-alert-button"
+            aria-label="Close notification"
+            type="button"
+            onClick={() => {
+              setAttachFileSuccess(false);
+              handleSuccessAlertClose();
+              datadogRum.addAction('File Attached Alert Closed');
+            }}
           >
-            <p className="vads-u-margin-y--0">File attached</p>
-            <button
-              className="close-success-alert-button vads-u-padding--0p5 vads-u-color--base"
-              id="close-success-alert-button"
-              data-testid="close-success-alert-button"
-              aria-label="Close notification"
-              type="button"
-              onClick={() => {
-                setAttachFileSuccess(false);
-                handleSuccessAlertClose();
-                datadogRum.addAction('File Attached Alert Closed');
-              }}
-            >
-              <va-icon
-                icon="cancel"
-                size={3}
-                alt="Close notification icon"
-                aria-hidden="true"
-                role="presentation"
-              />
-            </button>
-          </VaAlert>
-        )}
+            <va-icon
+              icon="cancel"
+              size={3}
+              alt="Close notification icon"
+              aria-hidden="true"
+              role="presentation"
+            />
+          </button>
+        </VaAlert>
+      )}
 
       {attachmentScanError &&
         (attachments.length > 1 ? (

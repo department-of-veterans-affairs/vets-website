@@ -22,25 +22,22 @@ const FloatingButtonStyled = styled.button`
 `;
 
 export const FloatingButton = ({ showVADX, setShowVADX }) => {
-  useEffect(
-    () => {
-      const handleKeyPress = event => {
-        // Check for Ctrl/Cmd + Shift + /
-        if (
-          (event.ctrlKey || event.metaKey) &&
-          event.shiftKey &&
-          event.key === '\\'
-        ) {
-          event.preventDefault();
-          setShowVADX(!showVADX);
-        }
-      };
+  useEffect(() => {
+    const handleKeyPress = event => {
+      // Check for Ctrl/Cmd + Shift + /
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.shiftKey &&
+        event.key === '\\'
+      ) {
+        event.preventDefault();
+        setShowVADX(!showVADX);
+      }
+    };
 
-      document.addEventListener('keydown', handleKeyPress);
-      return () => document.removeEventListener('keydown', handleKeyPress);
-    },
-    [showVADX, setShowVADX],
-  );
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [showVADX, setShowVADX]);
 
   return (
     <FloatingButtonStyled onClick={() => setShowVADX(!showVADX)} type="button">

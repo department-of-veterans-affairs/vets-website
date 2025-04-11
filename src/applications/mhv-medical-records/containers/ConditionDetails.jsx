@@ -59,32 +59,22 @@ const ConditionDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearConditionDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearConditionDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (conditionId)
-        dispatch(getConditionDetails(conditionId, conditionList));
-    },
-    [conditionId, conditionList, dispatch],
-  );
+  useEffect(() => {
+    if (conditionId) dispatch(getConditionDetails(conditionId, conditionList));
+  }, [conditionId, conditionList, dispatch]);
 
-  useEffect(
-    () => {
-      if (record?.name) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
-      }
-    },
-    [record],
-  );
+  useEffect(() => {
+    if (record?.name) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
+    }
+  }, [record]);
 
   usePrintTitle(
     pageTitles.HEALTH_CONDITIONS_PAGE_TITLE,

@@ -85,26 +85,20 @@ const DashboardCards = () => {
       });
   }, []);
 
-  useEffect(
-    () => {
-      // Focus element if we're on the main dashboard
-      if (window.location.pathname.includes('introduction')) {
-        focusElement('.schemaform-title > h1');
-      }
+  useEffect(() => {
+    // Focus element if we're on the main dashboard
+    if (window.location.pathname.includes('introduction')) {
+      focusElement('.schemaform-title > h1');
+    }
 
-      // Always fetch inquiries data regardless of route
-      getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
-    },
-    [getApiData],
-  );
+    // Always fetch inquiries data regardless of route
+    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
+  }, [getApiData]);
 
-  useEffect(
-    () => {
-      setPendingStatusFilter(statusFilter);
-      setPendingCategoryFilter(categoryFilter);
-    },
-    [statusFilter, categoryFilter],
-  );
+  useEffect(() => {
+    setPendingStatusFilter(statusFilter);
+    setPendingCategoryFilter(categoryFilter);
+  }, [statusFilter, categoryFilter]);
 
   const filterAndSortInquiries = loa => {
     return inquiries

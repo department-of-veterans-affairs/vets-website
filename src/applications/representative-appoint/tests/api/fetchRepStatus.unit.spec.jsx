@@ -26,9 +26,7 @@ describe('fetchRepStatus', () => {
 
     const result = await fetchRepStatus();
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/power_of_attorney`;
+    const expectedUrl = `${environment.API_URL}/representation_management/v0/power_of_attorney`;
     sinon.assert.calledWith(fetchStub, expectedUrl, {
       'Content-Type': 'application/json',
       mode: 'cors',

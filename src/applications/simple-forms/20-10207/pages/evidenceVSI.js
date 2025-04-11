@@ -37,9 +37,7 @@ export default {
         attachmentDescription: {
           'ui:title': 'Document description',
         },
-        fileUploadUrl: `${
-          environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+        fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

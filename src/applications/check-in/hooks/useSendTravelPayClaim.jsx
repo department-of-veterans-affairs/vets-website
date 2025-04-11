@@ -29,45 +29,42 @@ const useSendTravelPayClaim = appointment => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
-  useEffect(
-    () => {
-      if (travelPayData.travelQuestion) {
-        setTravelPayClaimRequested(true);
-      }
+  useEffect(() => {
+    if (travelPayData.travelQuestion) {
+      setTravelPayClaimRequested(true);
+    }
 
-      if (
-        isLoading ||
-        !isTravelReimbursementEnabled ||
-        travelPayClaimSent ||
-        !travelPayEligible ||
-        !travelPayData.travelQuestion ||
-        !getShouldSendTravelPayClaim(window)
-      ) {
-        return;
-      }
+    if (
+      isLoading ||
+      !isTravelReimbursementEnabled ||
+      travelPayClaimSent ||
+      !travelPayEligible ||
+      !travelPayData.travelQuestion ||
+      !getShouldSendTravelPayClaim(window)
+    ) {
+      return;
+    }
 
-      setIsLoading(true);
-      api.v2
-        .postDayOfTravelPayClaim(travelPayData, setECheckinStartedCalled)
-        .catch(() => {
-          setTravelPayClaimError(true);
-        })
-        .finally(() => {
-          setTravelPayClaimSent(true);
-          setIsLoading(false);
-        });
-    },
-    [
-      getShouldSendTravelPayClaim,
-      isTravelReimbursementEnabled,
-      setECheckinStartedCalled,
-      setTravelPayClaimSent,
-      travelPayData,
-      travelPayEligible,
-      travelPayClaimSent,
-      isLoading,
-    ],
-  );
+    setIsLoading(true);
+    api.v2
+      .postDayOfTravelPayClaim(travelPayData, setECheckinStartedCalled)
+      .catch(() => {
+        setTravelPayClaimError(true);
+      })
+      .finally(() => {
+        setTravelPayClaimSent(true);
+        setIsLoading(false);
+      });
+  }, [
+    getShouldSendTravelPayClaim,
+    isTravelReimbursementEnabled,
+    setECheckinStartedCalled,
+    setTravelPayClaimSent,
+    travelPayData,
+    travelPayEligible,
+    travelPayClaimSent,
+    isLoading,
+  ]);
 
   return {
     travelPayClaimError,

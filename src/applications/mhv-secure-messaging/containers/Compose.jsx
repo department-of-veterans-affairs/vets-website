@@ -36,70 +36,55 @@ const Compose = () => {
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(
-    () => {
-      if (location.pathname === Paths.COMPOSE) {
+  useEffect(() => {
+    if (location.pathname === Paths.COMPOSE) {
+      dispatch(clearThread());
+      setDraftType('compose');
+    } else {
+      dispatch(retrieveMessageThread(draftId));
+    }
+
+    const checkNextPath = history.listen(nextPath => {
+      if (nextPath.pathname !== Paths.CONTACT_LIST) {
         dispatch(clearThread());
-        setDraftType('compose');
-      } else {
-        dispatch(retrieveMessageThread(draftId));
       }
+    });
+    return () => {
+      checkNextPath();
+    };
+  }, [dispatch, draftId, location.pathname]);
 
-      const checkNextPath = history.listen(nextPath => {
-        if (nextPath.pathname !== Paths.CONTACT_LIST) {
-          dispatch(clearThread());
-        }
-      });
-      return () => {
-        checkNextPath();
-      };
-    },
-    [dispatch, draftId, location.pathname],
-  );
+  useEffect(() => {
+    if (!signature) {
+      dispatch(getPatientSignature());
+    }
+  }, [signature, dispatch]);
 
-  useEffect(
-    () => {
-      if (!signature) {
-        dispatch(getPatientSignature());
-      }
-    },
-    [signature, dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (draftMessage?.messageId && draftMessage.draftDate === null) {
-        history.push(Paths.INBOX);
-      }
-      return () => {
-        if (isDraftPage) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [isDraftPage, draftMessage, history, dispatch],
-  );
-
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (draftMessage?.messageId && draftMessage.draftDate === null) {
+      history.push(Paths.INBOX);
+    }
+    return () => {
       if (isDraftPage) {
-        setPageTitle('Edit draft');
+        dispatch(closeAlert());
       }
-    },
-    [isDraftPage],
-  );
+    };
+  }, [isDraftPage, draftMessage, history, dispatch]);
 
-  useEffect(
-    () => {
-      if (acknowledged && header) focusElement(document.querySelector('h1'));
-      document.title = `${pageTitle} ${
-        removeLandingPageFF
-          ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-          : PageTitles.PAGE_TITLE_TAG
-      }`;
-    },
-    [header, acknowledged, removeLandingPageFF, pageTitle],
-  );
+  useEffect(() => {
+    if (isDraftPage) {
+      setPageTitle('Edit draft');
+    }
+  }, [isDraftPage]);
+
+  useEffect(() => {
+    if (acknowledged && header) focusElement(document.querySelector('h1'));
+    document.title = `${pageTitle} ${
+      removeLandingPageFF
+        ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
+        : PageTitles.PAGE_TITLE_TAG
+    }`;
+  }, [header, acknowledged, removeLandingPageFF, pageTitle]);
 
   const content = () => {
     if (!isDraftPage && recipients) {
@@ -141,23 +126,23 @@ const Compose = () => {
         />
       )}
 
-      {draftType &&
-        (noAssociations || allTriageGroupsBlocked) && (
-          <div className="vads-l-grid-container compose-container">
-            <h1>Start a new message</h1>
-            <BlockedTriageGroupAlert
-              alertStyle={
-                allTriageGroupsBlocked
-                  ? BlockedTriageAlertStyles.WARNING
-                  : BlockedTriageAlertStyles.INFO
-              }
-            />
-          </div>
-        )}
+      {draftType && (noAssociations || allTriageGroupsBlocked) && (
+        <div className="vads-l-grid-container compose-container">
+          <h1>Start a new message</h1>
+          <BlockedTriageGroupAlert
+            alertStyle={
+              allTriageGroupsBlocked
+                ? BlockedTriageAlertStyles.WARNING
+                : BlockedTriageAlertStyles.INFO
+            }
+          />
+        </div>
+      )}
 
       {draftType &&
       !acknowledged &&
-      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
+      noAssociations === (undefined || false) &&
+      !allTriageGroupsBlocked ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -167,8 +152,8 @@ const Compose = () => {
       ) : (
         <>
           {draftType &&
-            (noAssociations === (undefined || false) &&
-              !allTriageGroupsBlocked) && (
+            noAssociations === (undefined || false) &&
+            !allTriageGroupsBlocked && (
               <div className="vads-l-grid-container compose-container">
                 {content()}
               </div>

@@ -20,22 +20,19 @@ export const withError = Component => {
 
     const { goToErrorPage } = useFormRouting(router);
 
-    useEffect(
-      () => {
-        if (
-          error ===
-          `error-fromlocation-${
-            app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
-          }-upcoming-appointments`
-        ) {
-          return;
-        }
-        if (error) {
-          goToErrorPage(error);
-        }
-      },
-      [error, goToErrorPage, app],
-    );
+    useEffect(() => {
+      if (
+        error ===
+        `error-fromlocation-${
+          app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
+        }-upcoming-appointments`
+      ) {
+        return;
+      }
+      if (error) {
+        goToErrorPage(error);
+      }
+    }, [error, goToErrorPage, app]);
     // Allowing for HOC
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...props} />;

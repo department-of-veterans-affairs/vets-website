@@ -144,13 +144,10 @@ const DependentInformation = props => {
   };
 
   // apply focus to the `page` title on change -- runs only after first render
-  useAfterRenderEffect(
-    () => {
-      window.scrollTo(0, 0);
-      focusElement('#root__title');
-    },
-    [currentPage],
-  );
+  useAfterRenderEffect(() => {
+    window.scrollTo(0, 0);
+    focusElement('#root__title');
+  }, [currentPage]);
 
   // set form data on each change to the localData object state
   /**
@@ -176,15 +173,12 @@ const DependentInformation = props => {
   */
 
   // set active pages array based on form data conditionals
-  useEffect(
-    () => {
-      if (localData) {
-        const pagesToSet = getActivePages(DEPENDENT_SUBPAGES, localData);
-        setActivePages(pagesToSet);
-      }
-    },
-    [localData],
-  );
+  useEffect(() => {
+    if (localData) {
+      const pagesToSet = getActivePages(DEPENDENT_SUBPAGES, localData);
+      setActivePages(pagesToSet);
+    }
+  }, [localData]);
 
   /**
    * build list of forms, with display conditional, based on current page id

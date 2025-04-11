@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import { ARRAY_PATH, CONDITION_NOT_LISTED_OPTION } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
@@ -39,8 +40,8 @@ export const introAndSummaryPages = (demo, pageBuilder) => ({
 const clearSideOfBody = (formData, index, setFormData) => {
   setFormData({
     ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
+    [ARRAY_PATH]: formData[ARRAY_PATH].map((item, i) =>
+      i === index ? { ...item, sideOfBody: undefined } : item,
     ),
   });
 };
@@ -50,14 +51,13 @@ const clearConditionNotListed = (formData, setFormData) => {
     ...formData,
     [arrayBuilderOptions.arrayPath]: formData[
       arrayBuilderOptions.arrayPath
-    ].map(
-      item =>
-        item?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION] === true
-          ? {
-              ...item,
-              causedByCondition: {},
-            }
-          : item,
+    ].map(item =>
+      item?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION] === true
+        ? {
+            ...item,
+            causedByCondition: {},
+          }
+        : item,
     ),
   });
 };

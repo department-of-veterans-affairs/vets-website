@@ -57,13 +57,10 @@ const CheckInConfirmation = props => {
     travelPayClaimSent,
   } = useSendTravelPayClaim(appointment);
 
-  useEffect(
-    () => {
-      scrollToTop('topScrollElement');
-      triggerRefresh();
-    },
-    [triggerRefresh],
-  );
+  useEffect(() => {
+    scrollToTop('topScrollElement');
+    triggerRefresh();
+  }, [triggerRefresh]);
 
   const {
     setShouldSendTravelPayClaim,
@@ -72,21 +69,18 @@ const CheckInConfirmation = props => {
 
   const { setTravelPaySent } = useStorage(APP_NAMES.CHECK_IN, true);
 
-  useEffect(
-    () => {
-      if (travelPayClaimSent) {
-        const travelPaySent = new Date();
-        setShouldSendTravelPayClaim(window, false);
-        setTravelPaySent(window, travelPaySent);
-      }
-    },
-    [
-      travelPayClaimSent,
-      setShouldSendTravelPayClaim,
-      setTravelPaySent,
-      selectedAppointment,
-    ],
-  );
+  useEffect(() => {
+    if (travelPayClaimSent) {
+      const travelPaySent = new Date();
+      setShouldSendTravelPayClaim(window, false);
+      setTravelPaySent(window, travelPaySent);
+    }
+  }, [
+    travelPayClaimSent,
+    setShouldSendTravelPayClaim,
+    setTravelPaySent,
+    selectedAppointment,
+  ]);
 
   const handleDetailClick = e => {
     e.preventDefault();
@@ -97,22 +91,16 @@ const CheckInConfirmation = props => {
     refreshCheckInData();
   };
 
-  useEffect(
-    () => {
-      if (isComplete) {
-        jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
-      }
-    },
-    [isComplete, jumpToPage, appointment],
-  );
-  useEffect(
-    () => {
-      if (checkInDataError) {
-        updateError('refresh-on-details');
-      }
-    },
-    [checkInDataError, updateError],
-  );
+  useEffect(() => {
+    if (isComplete) {
+      jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    }
+  }, [isComplete, jumpToPage, appointment]);
+  useEffect(() => {
+    if (checkInDataError) {
+      updateError('refresh-on-details');
+    }
+  }, [checkInDataError, updateError]);
 
   const renderLoadingMessage = () => {
     return (
@@ -192,7 +180,8 @@ const CheckInConfirmation = props => {
     !isCheckInDataLoading &&
     (!isTravelReimbursementEnabled ||
       !travelPayEligible ||
-      (travelPayClaimRequested === false || travelPayClaimSent) ||
+      travelPayClaimRequested === false ||
+      travelPayClaimSent ||
       !getShouldSendTravelPayClaim(window))
   ) {
     return renderConfirmationMessage();

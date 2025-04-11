@@ -85,55 +85,49 @@ const Allergies = props => {
   const [sortString, setSortString] = useState(SortTypes.ALPHABETICAL.label);
   const [sortedAllergies, setSortedAllergies] = useState(allergies);
 
-  useEffect(
-    () => {
-      switch (selectedSort) {
-        case SortTypes.ALPHABETICAL.value:
-          setSortString(SortTypes.ALPHABETICAL.label);
-          break;
-        case SortTypes.ASC_DATE.value:
-          setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
-          break;
-        case SortTypes.DSC_DATE.value:
-          setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
-          break;
-        default:
-          break;
-      }
-    },
-    [selectedSort],
-  );
+  useEffect(() => {
+    switch (selectedSort) {
+      case SortTypes.ALPHABETICAL.value:
+        setSortString(SortTypes.ALPHABETICAL.label);
+        break;
+      case SortTypes.ASC_DATE.value:
+        setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
+        break;
+      case SortTypes.DSC_DATE.value:
+        setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
+        break;
+      default:
+        break;
+    }
+  }, [selectedSort]);
 
-  useEffect(
-    () => {
-      switch (selectedSort) {
-        case SortTypes.ALPHABETICAL.value:
-          setSortedAllergies(
-            allergies?.sort((a, b) => {
-              return a.name.localeCompare(b.name);
-            }),
-          );
-          break;
-        case SortTypes.ASC_DATE.value:
-          setSortedAllergies(
-            allergies?.sort((a, b) => {
-              return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
-            }),
-          );
-          break;
-        case SortTypes.DSC_DATE.value:
-          setSortedAllergies(
-            allergies?.sort((a, b) => {
-              return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
-            }),
-          );
-          break;
-        default:
-          break;
-      }
-    },
-    [selectedSort, allergies],
-  );
+  useEffect(() => {
+    switch (selectedSort) {
+      case SortTypes.ALPHABETICAL.value:
+        setSortedAllergies(
+          allergies?.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          }),
+        );
+        break;
+      case SortTypes.ASC_DATE.value:
+        setSortedAllergies(
+          allergies?.sort((a, b) => {
+            return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
+          }),
+        );
+        break;
+      case SortTypes.DSC_DATE.value:
+        setSortedAllergies(
+          allergies?.sort((a, b) => {
+            return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
+          }),
+        );
+        break;
+      default:
+        break;
+    }
+  }, [selectedSort, allergies]);
 
   const dispatchAction = isCurrent => {
     return getAllergiesList(isCurrent, isAcceleratingAllergies);
@@ -160,13 +154,10 @@ const Allergies = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+  }, [dispatch]);
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -307,23 +298,22 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           sortedBy={sortString}
         />
       </RecordListSection>
-      {allowFilterSort &&
-        sortedAllergies?.length > 0 && (
-          <>
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Allergies"
-            />
-            <PrintDownload
-              description="Allergies - List"
-              list
-              downloadPdf={generateAllergiesPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateAllergiesTxt}
-            />
-            <div className="vads-u-margin-bottom--5 no-print" />
-          </>
-        )}
+      {allowFilterSort && sortedAllergies?.length > 0 && (
+        <>
+          <DownloadingRecordsInfo
+            allowTxtDownloads={allowTxtDownloads}
+            description="Allergies"
+          />
+          <PrintDownload
+            description="Allergies - List"
+            list
+            downloadPdf={generateAllergiesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateAllergiesTxt}
+          />
+          <div className="vads-u-margin-bottom--5 no-print" />
+        </>
+      )}
     </div>
   );
 };

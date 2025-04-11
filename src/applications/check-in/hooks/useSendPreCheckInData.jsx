@@ -33,61 +33,58 @@ const useSendPreCheckInData = () => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  useEffect(
-    () => {
-      async function sendPreCheckInData() {
-        // Set pre-checkin complete and send demographics flags.
-        const preCheckInData = { uuid: token };
+  useEffect(() => {
+    async function sendPreCheckInData() {
+      // Set pre-checkin complete and send demographics flags.
+      const preCheckInData = { uuid: token };
 
-        if (demographicsUpToDate) {
-          preCheckInData.demographicsUpToDate = demographicsUpToDate === 'yes';
-        }
-        if (nextOfKinUpToDate) {
-          preCheckInData.nextOfKinUpToDate = nextOfKinUpToDate === 'yes';
-        }
-        if (emergencyContactUpToDate) {
-          preCheckInData.emergencyContactUpToDate =
-            emergencyContactUpToDate === 'yes';
-        }
-        try {
-          const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
-          if (resp.data.error || resp.data.errors) {
-            updateError('pre-check-in-post-error');
-          } else {
-            setPreCheckinComplete(window, true);
-            const completeTime = getCompleteTimestamp(window);
-            if (!completeTime) {
-              setCompleteTimestamp(window, Date.now());
-            }
-            // hide loading screen
-            setIsLoading(false);
-            focusElement('h1');
+      if (demographicsUpToDate) {
+        preCheckInData.demographicsUpToDate = demographicsUpToDate === 'yes';
+      }
+      if (nextOfKinUpToDate) {
+        preCheckInData.nextOfKinUpToDate = nextOfKinUpToDate === 'yes';
+      }
+      if (emergencyContactUpToDate) {
+        preCheckInData.emergencyContactUpToDate =
+          emergencyContactUpToDate === 'yes';
+      }
+      try {
+        const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
+        if (resp.data.error || resp.data.errors) {
+          updateError('pre-check-in-post-error');
+        } else {
+          setPreCheckinComplete(window, true);
+          const completeTime = getCompleteTimestamp(window);
+          if (!completeTime) {
+            setCompleteTimestamp(window, Date.now());
           }
-        } catch (error) {
-          updateError('error-completing-pre-check-in');
+          // hide loading screen
+          setIsLoading(false);
+          focusElement('h1');
         }
+      } catch (error) {
+        updateError('error-completing-pre-check-in');
       }
-      if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
-        sendPreCheckInData();
-      } else {
-        // hide loading screen
-        setIsLoading(false);
-      }
+    }
+    if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
+      sendPreCheckInData();
+    } else {
+      // hide loading screen
+      setIsLoading(false);
+    }
 
-      focusElement('h1');
-    },
-    [
-      demographicsUpToDate,
-      emergencyContactUpToDate,
-      getPreCheckinComplete,
-      updateError,
-      nextOfKinUpToDate,
-      setPreCheckinComplete,
-      setCompleteTimestamp,
-      getCompleteTimestamp,
-      token,
-    ],
-  );
+    focusElement('h1');
+  }, [
+    demographicsUpToDate,
+    emergencyContactUpToDate,
+    getPreCheckinComplete,
+    updateError,
+    nextOfKinUpToDate,
+    setPreCheckinComplete,
+    setCompleteTimestamp,
+    getCompleteTimestamp,
+    token,
+  ]);
 
   return { isLoading };
 };

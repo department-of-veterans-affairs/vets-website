@@ -6,8 +6,10 @@ import { Provider } from 'react-redux';
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "modern-get-medical-records-page" */
-    './components/App').then(module => {
+    import(
+      /* webpackChunkName: "modern-get-medical-records-page" */
+      './components/App'
+    ).then(module => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>

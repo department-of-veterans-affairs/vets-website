@@ -23,16 +23,13 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   const { veteranFullName: name } = form.data['view:veteranInformation'];
 
   // fetch a custom error message based on status code
-  const errorMessage = useMemo(
-    () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
-      return code === '5'
-        ? content['alert-download-message--500']
-        : content['alert-download-message--generic'];
-    },
-    [errors],
-  );
+  const errorMessage = useMemo(() => {
+    if (!errors.length) return null;
+    const code = errors[0].status[0];
+    return code === '5'
+      ? content['alert-download-message--500']
+      : content['alert-download-message--generic'];
+  }, [errors]);
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -77,12 +74,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   );
 
   // apply focus to the error alert if we have errors set
-  useEffect(
-    () => {
-      if (errorMessage) focusElement('.hca-download-error');
-    },
-    [errorMessage],
-  );
+  useEffect(() => {
+    if (errorMessage) focusElement('.hca-download-error');
+  }, [errorMessage]);
 
   // render loading indicator while application download is processing
   if (loading) {

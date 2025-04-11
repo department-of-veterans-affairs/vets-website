@@ -51,29 +51,26 @@ function YellowRibbonTable({ programs }) {
   const maxWidth = 750;
 
   // Using useEffect since click event doesn't register when adding onClick to va-icon.
-  useEffect(
-    () => {
-      const tableElement = tableRef.current;
+  useEffect(() => {
+    const tableElement = tableRef.current;
 
-      const handleTableClick = event => {
-        const clickedIcon = event.target.closest('va-icon');
-        if (clickedIcon) {
-          const columnId = matchColumn(clickedIcon);
-          handleSort(
-            columnId,
-            sortedPrograms,
-            _yellowRibbonColumns,
-            setSortConfig,
-            setSortedPrograms,
-          );
-        }
-      };
+    const handleTableClick = event => {
+      const clickedIcon = event.target.closest('va-icon');
+      if (clickedIcon) {
+        const columnId = matchColumn(clickedIcon);
+        handleSort(
+          columnId,
+          sortedPrograms,
+          _yellowRibbonColumns,
+          setSortConfig,
+          setSortedPrograms,
+        );
+      }
+    };
 
-      tableElement.addEventListener('click', handleTableClick);
-      return () => tableElement.removeEventListener('click', handleTableClick);
-    },
-    [smallScreen, sortedPrograms],
-  );
+    tableElement.addEventListener('click', handleTableClick);
+    return () => tableElement.removeEventListener('click', handleTableClick);
+  }, [smallScreen, sortedPrograms]);
 
   useEffect(() => {
     const handleResize = () => {

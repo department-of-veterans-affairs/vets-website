@@ -45,24 +45,18 @@ const ProgramsList = ({ match }) => {
       .includes(submittedQuery.toLowerCase()),
   );
 
-  useEffect(
-    () => {
-      window.scrollTo(0, 0);
-      dispatch(fetchInstitutionPrograms(facilityCode, abbreviatedProgramTypes));
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchInstitutionPrograms(facilityCode, abbreviatedProgramTypes));
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (submittedQuery && !filteredPrograms.length) {
-        setTimeout(() => {
-          noResultsMessageRef.current?.focus();
-        }, 0);
-      }
-    },
-    [submittedQuery],
-  );
+  useEffect(() => {
+    if (submittedQuery && !filteredPrograms.length) {
+      setTimeout(() => {
+        noResultsMessageRef.current?.focus();
+      }, 0);
+    }
+  }, [submittedQuery]);
 
   const handleSearchInput = e => {
     setSearchQuery(e.target.value);
@@ -212,9 +206,7 @@ const ProgramsList = ({ match }) => {
         <p ref={resultsSummaryRef} tabIndex="-1" id="results-summary">
           {submittedQuery ? (
             <>
-              {`Showing ${startIndex} - ${endIndex} of ${
-                filteredPrograms.length
-              } results for `}
+              {`Showing ${startIndex} - ${endIndex} of ${filteredPrograms.length} results for `}
               "<strong>{submittedQuery}</strong>"
             </>
           ) : (
@@ -241,9 +233,7 @@ const ProgramsList = ({ match }) => {
             key={program.id}
           >
             {program.attributes.programType === 'OJT'
-              ? `${program.attributes.ojtAppType} ${
-                  program.attributes.description
-                }`
+              ? `${program.attributes.ojtAppType} ${program.attributes.description}`
               : program.attributes.description}
           </li>
         ))}

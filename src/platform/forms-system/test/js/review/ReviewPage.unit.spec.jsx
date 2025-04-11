@@ -73,10 +73,8 @@ describe('Schemaform review: ReviewPage', () => {
     tree.unmount();
   });
 
-  it('should render h1 header if minimal header is present', () => {
-    minimalHeader = document.createElement('div');
-    minimalHeader.id = 'header-minimal';
-    document.body.appendChild(minimalHeader);
+  it('should render h1 header if MINIMAL_HEADER_APPLICABLE is true', () => {
+    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
 
     const treeWithMinimalHeader = shallow(
       <ReviewPage
@@ -91,9 +89,9 @@ describe('Schemaform review: ReviewPage', () => {
 
     expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
     treeWithMinimalHeader.unmount();
-  });
 
-  it('should not contain the h1 if header-minimal is not present', () => {
+    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
+
     const treeWithoutMinimalHeader = shallow(
       <ReviewPage
         form={form}

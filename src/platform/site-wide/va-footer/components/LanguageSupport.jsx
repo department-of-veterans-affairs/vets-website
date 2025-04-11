@@ -59,22 +59,19 @@ export default function LanguageSupport({
   dispatchLanguageSelection,
   languageCode,
 }) {
-  useEffect(
-    () => {
-      const { code: parsedLanguageCode } = getConfigFromUrl(
-        document?.location?.href,
-        TRANSLATED_LANGUAGES,
-      );
+  useEffect(() => {
+    const { code: parsedLanguageCode } = getConfigFromUrl(
+      document?.location?.href,
+      TRANSLATED_LANGUAGES,
+    );
 
-      setLangAttributes(parsedLanguageCode);
-      adjustSidebarNav(parsedLanguageCode);
+    setLangAttributes(parsedLanguageCode);
+    adjustSidebarNav(parsedLanguageCode);
 
-      if (languageCode === parsedLanguageCode) return;
+    if (languageCode === parsedLanguageCode) return;
 
-      dispatchLanguageSelection(parsedLanguageCode);
-    },
-    [dispatchLanguageSelection, languageCode],
-  );
+    dispatchLanguageSelection(parsedLanguageCode);
+  }, [dispatchLanguageSelection, languageCode]);
 
   if (isDesktop) {
     return (

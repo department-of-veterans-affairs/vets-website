@@ -64,9 +64,7 @@ describe('/actions/claims-and-appeals', () => {
     };
 
     Object.keys(appealsErrors).forEach(code => {
-      it(`Dispatches ${
-        appealsErrors[code]
-      } when GET fails with ${code}`, done => {
+      it(`Dispatches ${appealsErrors[code]} when GET fails with ${code}`, done => {
         setFetchJSONFailure(global.fetch.onCall(0), {
           errors: [{ status: `${code}` }],
         });

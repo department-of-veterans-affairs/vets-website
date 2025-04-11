@@ -25,46 +25,32 @@ const useAcceleratedData = () => {
       ],
   );
 
-  useEffect(
-    () => {
-      // TECH DEBT: Do not trigger the connection when running unit tests because
-      // the connection is not mocked and will cause the test to fail
-      if (!window.Mocha) {
-        // use Drupal based Cerner facility data
-        connectDrupalSourceOfTruthCerner(dispatch);
-      }
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    // TECH DEBT: Do not trigger the connection when running unit tests because
+    // the connection is not mocked and will cause the test to fail
+    if (!window.Mocha) {
+      // use Drupal based Cerner facility data
+      connectDrupalSourceOfTruthCerner(dispatch);
+    }
+  }, [dispatch]);
   const isCerner = useSelector(selectIsCernerPatient);
 
   const { featureToggles, drupalStaticData } = useSelector(state => state);
-  const isLoading = useMemo(
-    () => {
-      return featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
-    },
-    [drupalStaticData, featureToggles],
-  );
+  const isLoading = useMemo(() => {
+    return featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
+  }, [drupalStaticData, featureToggles]);
 
-  const isAcceleratingAllergies = useMemo(
-    () => {
-      return (
-        isAcceleratedDeliveryEnabled &&
-        isAcceleratingAllergiesEnabled &&
-        isCerner
-      );
-    },
-    [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled, isCerner],
-  );
+  const isAcceleratingAllergies = useMemo(() => {
+    return (
+      isAcceleratedDeliveryEnabled && isAcceleratingAllergiesEnabled && isCerner
+    );
+  }, [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled, isCerner]);
 
-  const isAcceleratingVitals = useMemo(
-    () => {
-      return (
-        isAcceleratedDeliveryEnabled && isAcceleratingVitalsEnabled && isCerner
-      );
-    },
-    [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
-  );
+  const isAcceleratingVitals = useMemo(() => {
+    return (
+      isAcceleratedDeliveryEnabled && isAcceleratingVitalsEnabled && isCerner
+    );
+  }, [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner]);
 
   const isAccelerating = useMemo(
     () => isAcceleratingAllergies || isAcceleratingVitals,

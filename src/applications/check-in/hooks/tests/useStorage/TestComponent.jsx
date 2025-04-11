@@ -34,23 +34,17 @@ export default function TestComponent({
       />
       <va-button
         uswds
-        onClick={useCallback(
-          () => {
-            setFromSession(getCurrentToken(window));
-          },
-          [setFromSession, getCurrentToken, window],
-        )}
+        onClick={useCallback(() => {
+          setFromSession(getCurrentToken(window));
+        }, [setFromSession, getCurrentToken, window])}
         text="get"
         data-testid="get-button"
       />
       <va-button
         uswds
-        onClick={useCallback(
-          () => {
-            setCurrentToken(window, token);
-          },
-          [setCurrentToken, window, token],
-        )}
+        onClick={useCallback(() => {
+          setCurrentToken(window, token);
+        }, [setCurrentToken, window, token])}
         text="set"
         data-testid="set-button"
       />
@@ -59,23 +53,17 @@ export default function TestComponent({
       </div>
       <va-button
         uswds
-        onClick={useCallback(
-          () => {
-            setFromLocal(getTravelPaySent(window));
-          },
-          [setFromLocal, getTravelPaySent, window],
-        )}
+        onClick={useCallback(() => {
+          setFromLocal(getTravelPaySent(window));
+        }, [setFromLocal, getTravelPaySent, window])}
         text="get local"
         data-testid="get-local-button"
       />
       <va-button
         uswds
-        onClick={useCallback(
-          () => {
-            setTravelPaySent(window, travelPay);
-          },
-          [setTravelPaySent, window, travelPay],
-        )}
+        onClick={useCallback(() => {
+          setTravelPaySent(window, travelPay);
+        }, [setTravelPaySent, window, travelPay])}
         text="set local"
         data-testid="set-local-button"
       />
@@ -84,23 +72,17 @@ export default function TestComponent({
       </div>
       <va-button
         uswds
-        onClick={useCallback(
-          () => {
-            setCompleteTimestamp(window, completeTimestamp);
-          },
-          [setCompleteTimestamp, window, completeTimestamp],
-        )}
+        onClick={useCallback(() => {
+          setCompleteTimestamp(window, completeTimestamp);
+        }, [setCompleteTimestamp, window, completeTimestamp])}
         text="set complete timestamp"
         data-testid="set-complete-timestamp-button"
       />
       <va-button
         uswds
-        onClick={useCallback(
-          () => {
-            setFromSession(getCompleteTimestamp(window));
-          },
-          [setFromSession, getCompleteTimestamp, window],
-        )}
+        onClick={useCallback(() => {
+          setFromSession(getCompleteTimestamp(window));
+        }, [setFromSession, getCompleteTimestamp, window])}
         text="Get Complete Timestamp"
         data-testid="get-complete-timestamp-button"
       />

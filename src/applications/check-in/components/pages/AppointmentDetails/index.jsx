@@ -59,33 +59,30 @@ const AppointmentDetails = props => {
   const { appointmentId } = router.params;
   const { getPreCheckinComplete } = useStorage(app);
 
-  useLayoutEffect(
-    () => {
-      if (appointmentId) {
-        // TODO: It's not going to find upcoming appoinments in the list of vista appointments until we can figure out which data to use to link the two.
-        const activeAppointmentDetails = findAppointment(
-          appointmentId,
-          appointments,
-        );
-        if (activeAppointmentDetails) {
-          setAppointment(activeAppointmentDetails);
-          return;
-        }
-        const activeUpcomingAppointmentDetails = findUpcomingAppointment(
-          appointmentId,
-          upcomingAppointments,
-        );
-        if (activeUpcomingAppointmentDetails) {
-          setIsUpcoming(true);
-          setAppointment(activeUpcomingAppointmentDetails);
-          return;
-        }
+  useLayoutEffect(() => {
+    if (appointmentId) {
+      // TODO: It's not going to find upcoming appoinments in the list of vista appointments until we can figure out which data to use to link the two.
+      const activeAppointmentDetails = findAppointment(
+        appointmentId,
+        appointments,
+      );
+      if (activeAppointmentDetails) {
+        setAppointment(activeAppointmentDetails);
+        return;
       }
-      // Go back to appointments page if no activeAppointment or not in list.
-      jumpToPage('appointments');
-    },
-    [appointmentId, appointments, upcomingAppointments, jumpToPage],
-  );
+      const activeUpcomingAppointmentDetails = findUpcomingAppointment(
+        appointmentId,
+        upcomingAppointments,
+      );
+      if (activeUpcomingAppointmentDetails) {
+        setIsUpcoming(true);
+        setAppointment(activeUpcomingAppointmentDetails);
+        return;
+      }
+    }
+    // Go back to appointments page if no activeAppointment or not in list.
+    jumpToPage('appointments');
+  }, [appointmentId, appointments, upcomingAppointments, jumpToPage]);
 
   const handlePhoneNumberClick = () => {
     recordEvent({
@@ -286,37 +283,35 @@ const AppointmentDetails = props => {
                   </div>
                 </va-alert>
               )}
-              {isUpcoming &&
-                !isCanceled && (
-                  <va-alert-expandable
-                    status="warning"
-                    trigger={t('we-cant-show-all-information')}
-                    class="vads-u-margin-top--3"
-                    data-testid="info-warning"
-                  >
-                    <p>{t('some-appointment-information-not-available')}</p>
-                    {/* Slotted p tags can't have margin for some reason. */}
-                    <br />
-                    {app === APP_NAMES.PRE_CHECK_IN ? (
-                      <p data-testid="pre-check-in-info">
-                        {t('find-all-appointment-information-pre-check-in')}
-                      </p>
-                    ) : (
-                      <p data-testid="check-in-info">
-                        {t('find-all-appointment-information-check-in')}
-                      </p>
-                    )}
-                  </va-alert-expandable>
-                )}
-              {app === APP_NAMES.PRE_CHECK_IN &&
-                link && (
-                  <>
-                    <h2 className="vads-u-font-size--sm">
-                      {t('review-contact-information')}
-                    </h2>
-                    {link}
-                  </>
-                )}
+              {isUpcoming && !isCanceled && (
+                <va-alert-expandable
+                  status="warning"
+                  trigger={t('we-cant-show-all-information')}
+                  class="vads-u-margin-top--3"
+                  data-testid="info-warning"
+                >
+                  <p>{t('some-appointment-information-not-available')}</p>
+                  {/* Slotted p tags can't have margin for some reason. */}
+                  <br />
+                  {app === APP_NAMES.PRE_CHECK_IN ? (
+                    <p data-testid="pre-check-in-info">
+                      {t('find-all-appointment-information-pre-check-in')}
+                    </p>
+                  ) : (
+                    <p data-testid="check-in-info">
+                      {t('find-all-appointment-information-check-in')}
+                    </p>
+                  )}
+                </va-alert-expandable>
+              )}
+              {app === APP_NAMES.PRE_CHECK_IN && link && (
+                <>
+                  <h2 className="vads-u-font-size--sm">
+                    {t('review-contact-information')}
+                  </h2>
+                  {link}
+                </>
+              )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
                 <p
@@ -388,9 +383,7 @@ const AppointmentDetails = props => {
                         className="vads-u-margin--0"
                         data-testid="appointment-details--facility-address"
                       >
-                        {`${appointment.facilityAddress.city}, ${
-                          appointment.facilityAddress.state
-                        }`}
+                        {`${appointment.facilityAddress.city}, ${appointment.facilityAddress.state}`}
                       </p>
                     )}
                 </div>

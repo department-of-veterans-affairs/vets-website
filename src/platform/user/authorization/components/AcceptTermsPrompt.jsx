@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
-import recordEvent from '../../../monitoring/record-event';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import recordEvent from '../../../monitoring/record-event';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -59,8 +59,6 @@ class AcceptTermsPrompt extends React.Component {
     if (!terms.termsContent) {
       return <div />;
     }
-
-    const titleHLevel = `h${this.props.level || 1}`;
 
     const submitDisabled = !(
       this.state.scrolledToBottom && this.state.yesSelected

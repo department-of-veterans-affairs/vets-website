@@ -50,33 +50,35 @@ export const createIssueName = ({ attributes } = {}) => {
 }]
 */
 export const getContestedIssues = ({ contestedIssues } = {}) =>
-  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
-    const attr = issue.attributes;
-    const attributes = [
-      'decisionIssueId',
-      'ratingIssueReferenceId',
-      'ratingDecisionReferenceId',
-      'socDate',
-    ].reduce(
-      (acc, key) => {
-        // Don't submit null or empty strings
-        if (attr[key]) {
-          acc[key] = attr[key];
-        }
-        return acc;
-      },
-      {
-        issue: createIssueName(issue),
-        decisionDate: fixDateFormat(attr.approxDecisionDate),
-      },
-    );
+  (contestedIssues || [])
+    .filter(issue => issue[SELECTED])
+    .map(issue => {
+      const attr = issue.attributes;
+      const attributes = [
+        'decisionIssueId',
+        'ratingIssueReferenceId',
+        'ratingDecisionReferenceId',
+        'socDate',
+      ].reduce(
+        (acc, key) => {
+          // Don't submit null or empty strings
+          if (attr[key]) {
+            acc[key] = attr[key];
+          }
+          return acc;
+        },
+        {
+          issue: createIssueName(issue),
+          decisionDate: fixDateFormat(attr.approxDecisionDate),
+        },
+      );
 
-    return {
-      // type: "contestableIssues"
-      type: issue.type,
-      attributes,
-    };
-  });
+      return {
+        // type: "contestableIssues"
+        type: issue.type,
+        attributes,
+      };
+    });
 
 /**
  * Combine included issues and additional issues

@@ -233,7 +233,4 @@ ViewPaymentsLists.propTypes = {
   payments: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ViewPaymentsLists);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPaymentsLists);

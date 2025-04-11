@@ -19,22 +19,16 @@ export default function FacilitiesNotShown({
   cernerSiteIds,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(
-    () => {
-      setIsOpen(false);
-    },
-    [sortMethod],
-  );
-  useEffect(
-    () => {
-      if (isOpen) {
-        recordEvent({
-          event: `${GA_PREFIX}-facilities-not-listed-click`,
-        });
-      }
-    },
-    [isOpen],
-  );
+  useEffect(() => {
+    setIsOpen(false);
+  }, [sortMethod]);
+  useEffect(() => {
+    if (isOpen) {
+      recordEvent({
+        event: `${GA_PREFIX}-facilities-not-listed-click`,
+      });
+    }
+  }, [isOpen]);
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>

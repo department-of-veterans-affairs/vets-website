@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import localStorage from '../../../../utilities/storage/localStorage';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 import sessionStorage from '../../../../utilities/storage/sessionStorage';
 import { AnnouncementBehavior } from '../../constants';
 import * as announcementActions from '../../actions';

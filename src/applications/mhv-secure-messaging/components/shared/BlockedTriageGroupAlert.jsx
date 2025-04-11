@@ -81,149 +81,140 @@ const BlockedTriageGroupAlert = props => {
       : sortTriageList(recipientList);
   };
 
-  useEffect(
-    () => {
-      if (associatedBlockedTriageGroupsQty !== undefined) {
-        if (currentRecipient) {
-          const { formattedRecipient } = updateTriageGroupRecipientStatus(
-            recipients,
-            currentRecipient,
-          );
+  useEffect(() => {
+    if (associatedBlockedTriageGroupsQty !== undefined) {
+      if (currentRecipient) {
+        const { formattedRecipient } = updateTriageGroupRecipientStatus(
+          recipients,
+          currentRecipient,
+        );
 
-          if (formattedRecipient.status === RecipientStatus.NOT_ASSOCIATED) {
-            if (blockedRecipients.length > 0) {
-              const organizedList = organizeBlockedList(
-                blockedRecipients,
-                blockedFacilityNames,
-              );
-              setBlockedTriageList(
-                sortTriageList([...organizedList, formattedRecipient]),
-              );
-            } else {
-              setBlockedTriageList([formattedRecipient]);
-            }
-            setShowAlert(true);
-            setShowBlockedTriageGroupAlert(true);
-          } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
-            if (parentComponent === ParentComponent.COMPOSE_FORM) {
-              const organizedList = organizeBlockedList(
-                blockedRecipients,
-                blockedFacilityNames,
-              );
+        if (formattedRecipient.status === RecipientStatus.NOT_ASSOCIATED) {
+          if (blockedRecipients.length > 0) {
+            const organizedList = organizeBlockedList(
+              blockedRecipients,
+              blockedFacilityNames,
+            );
+            setBlockedTriageList(
+              sortTriageList([...organizedList, formattedRecipient]),
+            );
+          } else {
+            setBlockedTriageList([formattedRecipient]);
+          }
+          setShowAlert(true);
+          setShowBlockedTriageGroupAlert(true);
+        } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
+          if (parentComponent === ParentComponent.COMPOSE_FORM) {
+            const organizedList = organizeBlockedList(
+              blockedRecipients,
+              blockedFacilityNames,
+            );
 
-              if (organizedList.length > 0) {
-                setBlockedTriageList([...organizedList]);
-                setShowAlert(true);
-                setShowBlockedTriageGroupAlert(true);
-              }
-            } else {
-              setBlockedTriageList([formattedRecipient]);
+            if (organizedList.length > 0) {
+              setBlockedTriageList([...organizedList]);
               setShowAlert(true);
               setShowBlockedTriageGroupAlert(true);
             }
-          }
-        } else if (noAssociations || allTriageGroupsBlocked) {
-          setShowAlert(true);
-          setShowBlockedTriageGroupAlert(true);
-        } else if (
-          parentComponent === ParentComponent.COMPOSE_FORM ||
-          parentComponent === ParentComponent.CONTACT_LIST
-        ) {
-          const organizedList = organizeBlockedList(
-            blockedRecipients,
-            blockedFacilityNames,
-          );
-
-          if (organizedList.length > 0) {
-            setBlockedTriageList([...organizedList]);
+          } else {
+            setBlockedTriageList([formattedRecipient]);
             setShowAlert(true);
             setShowBlockedTriageGroupAlert(true);
           }
         }
+      } else if (noAssociations || allTriageGroupsBlocked) {
+        setShowAlert(true);
+        setShowBlockedTriageGroupAlert(true);
+      } else if (
+        parentComponent === ParentComponent.COMPOSE_FORM ||
+        parentComponent === ParentComponent.CONTACT_LIST
+      ) {
+        const organizedList = organizeBlockedList(
+          blockedRecipients,
+          blockedFacilityNames,
+        );
+
+        if (organizedList.length > 0) {
+          setBlockedTriageList([...organizedList]);
+          setShowAlert(true);
+          setShowBlockedTriageGroupAlert(true);
+        }
       }
-    },
-    [currentRecipient, recipients],
-  );
+    }
+  }, [currentRecipient, recipients]);
 
-  useEffect(
-    () => {
-      if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
-        let value = '';
-        if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
-          value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
-        } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
-          value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
-        } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
-          value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
-        } else {
-          value = alertTitleText;
-        }
-        datadogRum.addAction('Blocked triage group alert', { type: value });
+  useEffect(() => {
+    if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
+      let value = '';
+      if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
+        value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
+      } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
+        value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
+      } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
+        value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
+      } else {
+        value = alertTitleText;
       }
-    },
-    [alertTitle.NO_ASSOCIATIONS, alertTitleText],
-  );
+      datadogRum.addAction('Blocked triage group alert', { type: value });
+    }
+  }, [alertTitle.NO_ASSOCIATIONS, alertTitleText]);
 
-  useEffect(
-    () => {
-      if (associatedBlockedTriageGroupsQty !== undefined) {
-        if (parentComponent === ParentComponent.FOLDER_HEADER) {
-          if (noAssociations) {
-            return;
-          }
-
-          if (allTriageGroupsBlocked) {
-            setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
-            setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-            return;
-          }
+  useEffect(() => {
+    if (associatedBlockedTriageGroupsQty !== undefined) {
+      if (parentComponent === ParentComponent.FOLDER_HEADER) {
+        if (noAssociations) {
+          return;
         }
 
-        if (parentComponent === ParentComponent.COMPOSE_FORM) {
-          if (noAssociations) {
-            return;
-          }
-
-          if (allTriageGroupsBlocked) {
-            setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
-            setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-            return;
-          }
-        }
-
-        if (blockedTriageList?.length === 1) {
-          const name =
-            blockedTriageList[0].suggestedNameDisplay ||
-            blockedTriageList[0].name;
-          if (blockedTriageList[0].type === Recipients.FACILITY) {
-            setAlertTitleText(`${MESSAGE_TO_CARE_TEAMS} ${name}`);
-            setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
-          } else {
-            setAlertTitleText(
-              blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
-                ? `${ACCOUNT_DISCONNECTED} ${name}`
-                : `${MESSAGE_TO_CARE_TEAM} ${name}`,
-            );
-            if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
-              setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
-            } else {
-              setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
-            }
-          }
-        } else if (noAssociations) {
-          setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
-          setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
-        } else if (allTriageGroupsBlocked) {
+        if (allTriageGroupsBlocked) {
           setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
           setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-        } else {
-          setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
-          setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
+          return;
         }
       }
-    },
-    [blockedTriageList, recipients, noAssociations],
-  );
+
+      if (parentComponent === ParentComponent.COMPOSE_FORM) {
+        if (noAssociations) {
+          return;
+        }
+
+        if (allTriageGroupsBlocked) {
+          setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+          setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
+          return;
+        }
+      }
+
+      if (blockedTriageList?.length === 1) {
+        const name =
+          blockedTriageList[0].suggestedNameDisplay ||
+          blockedTriageList[0].name;
+        if (blockedTriageList[0].type === Recipients.FACILITY) {
+          setAlertTitleText(`${MESSAGE_TO_CARE_TEAMS} ${name}`);
+          setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
+        } else {
+          setAlertTitleText(
+            blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
+              ? `${ACCOUNT_DISCONNECTED} ${name}`
+              : `${MESSAGE_TO_CARE_TEAM} ${name}`,
+          );
+          if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
+            setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
+          } else {
+            setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
+          }
+        }
+      } else if (noAssociations) {
+        setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
+        setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
+      } else if (allTriageGroupsBlocked) {
+        setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+        setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
+      } else {
+        setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
+        setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
+      }
+    }
+  }, [blockedTriageList, recipients, noAssociations]);
 
   if (!showAlert) {
     return null;

@@ -98,35 +98,32 @@ const App = ({
   };
 
   // Contact information data
-  useEffect(
-    () => {
-      if (isLoggedIn) {
-        const { personalData = {} } = formData || {};
-        const { veteranContactInformation = {} } = personalData;
+  useEffect(() => {
+    if (isLoggedIn) {
+      const { personalData = {} } = formData || {};
+      const { veteranContactInformation = {} } = personalData;
 
-        if (
-          email?.emailAddress !== veteranContactInformation.email ||
-          mobilePhone?.updatedAt !==
-            veteranContactInformation.mobilePhone?.updatedAt ||
-          mailingAddress?.updatedAt !==
-            veteranContactInformation.address?.updatedAt
-        ) {
-          setFormData({
-            ...formData,
-            personalData: {
-              ...personalData,
-              veteranContactInformation: {
-                email: email?.emailAddress,
-                mobilePhone,
-                address: mailingAddress,
-              },
+      if (
+        email?.emailAddress !== veteranContactInformation.email ||
+        mobilePhone?.updatedAt !==
+          veteranContactInformation.mobilePhone?.updatedAt ||
+        mailingAddress?.updatedAt !==
+          veteranContactInformation.address?.updatedAt
+      ) {
+        setFormData({
+          ...formData,
+          personalData: {
+            ...personalData,
+            veteranContactInformation: {
+              email: email?.emailAddress,
+              mobilePhone,
+              address: mailingAddress,
             },
-          });
-        }
+          },
+        });
       }
-    },
-    [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
-  );
+    }
+  }, [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData]);
 
   useEffect(() => {
     if (restartShouldRedirect(WIZARD_STATUS)) {
@@ -134,21 +131,15 @@ const App = ({
     }
   });
 
-  useEffect(
-    () => {
-      if (showFSR === false) {
-        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
-      }
-    },
-    [showFSR],
-  );
+  useEffect(() => {
+    if (showFSR === false) {
+      setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+    }
+  }, [showFSR]);
 
-  useEffect(
-    () => {
-      getFormStatus();
-    },
-    [getFormStatus],
-  );
+  useEffect(() => {
+    getFormStatus();
+  }, [getFormStatus]);
 
   useEffect(
     () => {
@@ -256,7 +247,4 @@ const mapDispatchToProps = dispatch => ({
   setFormData: data => dispatch(setData(data)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

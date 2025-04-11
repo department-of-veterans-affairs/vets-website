@@ -47,16 +47,13 @@ const SearchByProgram = () => {
     // Show program results...
   };
 
-  useEffect(
-    () => {
-      const { searchString } = search.query.streetAddress;
-      if (searchString) {
-        setLocation(searchString);
-        focusLocationInput();
-      }
-    },
-    [search],
-  );
+  useEffect(() => {
+    const { searchString } = search.query.streetAddress;
+    if (searchString) {
+      setLocation(searchString);
+      focusLocationInput();
+    }
+  }, [search]);
 
   return (
     <div className="vads-u-display--flex mobile:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-justify-content--space-between mobile:vads-u-align-items--flex-start medium-screen:vads-u-align-items--flex-end">

@@ -23,19 +23,14 @@ const SignInInterruptPage = ({ goBack, goForward, formData }) => {
     focusElement('va-alert-sign-in[heading-level="4"]');
   }, []);
 
-  useEffect(
-    () => {
-      if (isLOA3) {
-        goForward(formData);
-      }
-    },
-    [isLOA3, goForward, formData],
-  );
+  useEffect(() => {
+    if (isLOA3) {
+      goForward(formData);
+    }
+  }, [isLOA3, goForward, formData]);
 
   const navigateToAskVAAndTriggerLoginModal = () => {
-    window.location.href = `${
-      manifest.rootUrl
-    }/introduction?showSignInModal=true`;
+    window.location.href = `${manifest.rootUrl}/introduction?showSignInModal=true`;
   };
 
   return (

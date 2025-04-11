@@ -8,14 +8,11 @@ const MhvServiceRequiredGuard = ({ children, serviceRequired, user }) => {
     userServices.includes(service),
   );
 
-  useEffect(
-    () => {
-      if (!user.profile.verified || !hasRequiredService) {
-        window.location.replace('/my-health');
-      }
-    },
-    [hasRequiredService, user, userServices],
-  );
+  useEffect(() => {
+    if (!user.profile.verified || !hasRequiredService) {
+      window.location.replace('/my-health');
+    }
+  }, [hasRequiredService, user, userServices]);
 
   return <>{children}</>;
 };

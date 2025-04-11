@@ -34,46 +34,40 @@ export default function TermsOfUse() {
   const isFullyAuthenticated = isAuthenticatedWithIAM || isAuthenticatedWithSiS;
   const isUnauthenticated = !isMiddleAuth && !isFullyAuthenticated;
 
-  useEffect(
-    () => {
-      if (!termsCodeExists) {
-        apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
-          const [{ code, title }] = response.errors;
-          if (code === '401' || title?.includes('Not authorized')) {
-            setIsMiddleAuth(false);
-          }
-        });
-      }
+  useEffect(() => {
+    if (!termsCodeExists) {
+      apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
+        const [{ code, title }] = response.errors;
+        if (code === '401' || title?.includes('Not authorized')) {
+          setIsMiddleAuth(false);
+        }
+      });
+    }
 
-      if (redirectUrl) {
-        sessionStorage.setItem(
-          AUTHN_SETTINGS.RETURN_URL,
-          parseRedirectUrl(redirectUrl),
-        );
-      }
-    },
-    [termsCodeExists, redirectUrl],
-  );
+    if (redirectUrl) {
+      sessionStorage.setItem(
+        AUTHN_SETTINGS.RETURN_URL,
+        parseRedirectUrl(redirectUrl),
+      );
+    }
+  }, [termsCodeExists, redirectUrl]);
 
-  useEffect(
-    () => {
-      let timeoutId;
-      const resetButton = () => {
-        setButtonPushed(0);
-        setIsDisabled(false);
-        setError({ isError: false, message: '' });
-      };
+  useEffect(() => {
+    let timeoutId;
+    const resetButton = () => {
+      setButtonPushed(0);
+      setIsDisabled(false);
+      setError({ isError: false, message: '' });
+    };
 
-      if (error.isError && buttonPushed >= 3) {
-        timeoutId = setTimeout(resetButton, 25000);
-      }
+    if (error.isError && buttonPushed >= 3) {
+      timeoutId = setTimeout(resetButton, 25000);
+    }
 
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    },
-    [error, buttonPushed],
-  );
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [error, buttonPushed]);
 
   const handleTouClick = async type => {
     const params = {
@@ -138,9 +132,9 @@ export default function TermsOfUse() {
 
   return (
     <>
-      {isMiddleAuth &&
-        !isFullyAuthenticated &&
-        !isUnauthenticated && <style>{touStyles}</style>}
+      {isMiddleAuth && !isFullyAuthenticated && !isUnauthenticated && (
+        <style>{touStyles}</style>
+      )}
       <section className="usa-grid usa-grid-full">
         <article className="usa-content vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
           <h1>VA online services terms of use</h1>

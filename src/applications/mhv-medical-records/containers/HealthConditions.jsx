@@ -66,67 +66,58 @@ const HealthConditions = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+  }, [dispatch]);
 
   const [selectedSort, setSelectedSort] = useState(
     allowFilterSort ? SortTypes.ASC_DATE.value : '',
   );
 
-  useEffect(
-    () => {
-      switch (selectedSort) {
-        case SortTypes.ALPHABETICAL.value:
-          setSortString(SortTypes.ALPHABETICAL.label);
-          break;
-        case SortTypes.ASC_DATE.value:
-          setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
-          break;
-        case SortTypes.DSC_DATE.value:
-          setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
-          break;
-        default:
-          break;
-      }
-    },
-    [selectedSort],
-  );
+  useEffect(() => {
+    switch (selectedSort) {
+      case SortTypes.ALPHABETICAL.value:
+        setSortString(SortTypes.ALPHABETICAL.label);
+        break;
+      case SortTypes.ASC_DATE.value:
+        setSortString(SortTypes.ASC_DATE.labelWithDateEntered);
+        break;
+      case SortTypes.DSC_DATE.value:
+        setSortString(SortTypes.DSC_DATE.labelWithDateEntered);
+        break;
+      default:
+        break;
+    }
+  }, [selectedSort]);
 
-  useEffect(
-    () => {
-      switch (selectedSort) {
-        case SortTypes.ALPHABETICAL.value:
-          setSortedConditions(
-            conditions?.sort((a, b) => {
-              return a.name.localeCompare(b.name);
-            }),
-          );
-          break;
-        case SortTypes.ASC_DATE.value:
-          setSortedConditions(
-            conditions?.sort((a, b) => {
-              return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
-            }),
-          );
-          break;
-        case SortTypes.DSC_DATE.value:
-          setSortedConditions(
-            conditions?.sort((a, b) => {
-              return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
-            }),
-          );
-          break;
-        default:
-          break;
-      }
-    },
-    [selectedSort, conditions],
-  );
+  useEffect(() => {
+    switch (selectedSort) {
+      case SortTypes.ALPHABETICAL.value:
+        setSortedConditions(
+          conditions?.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          }),
+        );
+        break;
+      case SortTypes.ASC_DATE.value:
+        setSortedConditions(
+          conditions?.sort((a, b) => {
+            return isBefore(new Date(a.date), new Date(b.date)) ? 1 : -1;
+          }),
+        );
+        break;
+      case SortTypes.DSC_DATE.value:
+        setSortedConditions(
+          conditions?.sort((a, b) => {
+            return isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1;
+          }),
+        );
+        break;
+      default:
+        break;
+    }
+  }, [selectedSort, conditions]);
 
   return (
     <>

@@ -23,21 +23,15 @@ const DischargeType = ({
   const dischargeType = formResponses[shortName];
   const { DISCHARGE_HONORABLE, DISCHARGE_DISHONORABLE } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <RadioGroup
@@ -57,10 +51,10 @@ const DischargeType = ({
 
 DischargeType.propTypes = {
   formResponses: PropTypes.object,
-  setDischargeType: PropTypes.func,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setDischargeType: PropTypes.func,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -73,7 +67,4 @@ const mapDispatchToProps = {
   setDischargeType: updateDischargeType,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DischargeType);
+export default connect(mapStateToProps, mapDispatchToProps)(DischargeType);

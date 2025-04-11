@@ -20,9 +20,7 @@ const branchComponentsSchemaProps = allBranches.reduce((acc, branchKey) => {
 const branchComponentsUIProps = allBranches.reduce((acc, branchKey) => {
   acc[branchKey] = checkboxGroupUI({
     enableAnalytics: true,
-    title: `Which component of ${
-      militaryBranchTypeLabels[branchKey]
-    } did you serve in?`,
+    title: `Which component of ${militaryBranchTypeLabels[branchKey]} did you serve in?`,
     labels: militaryBranchComponentTypeLabels,
     required: () => false,
     hideIf: formData => {

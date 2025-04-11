@@ -54,34 +54,25 @@ const App = ({ children }) => {
     state => state.mr.refresh.statusPollBeginDate,
   );
 
-  useEffect(
-    () => {
-      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-    },
-    [mhvMockSessionFlag],
-  );
+  useEffect(() => {
+    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+  }, [mhvMockSessionFlag]);
 
-  const mhvMrDown = useMemo(
-    () => {
-      if (scheduledDowntimes.size > 0) {
-        return (
-          scheduledDowntimes?.get(externalServices.mhvMr)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
-          scheduledDowntimes?.get(externalServices.global)?.status ||
-          globalDowntime
-        );
-      }
-      return 'downtime status: ok';
-    },
-    [scheduledDowntimes, globalDowntime],
-  );
+  const mhvMrDown = useMemo(() => {
+    if (scheduledDowntimes.size > 0) {
+      return (
+        scheduledDowntimes?.get(externalServices.mhvMr)?.status ||
+        scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
+        scheduledDowntimes?.get(externalServices.global)?.status ||
+        globalDowntime
+      );
+    }
+    return 'downtime status: ok';
+  }, [scheduledDowntimes, globalDowntime]);
 
-  useEffect(
-    () => {
-      dispatch(getScheduledDowntime());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getScheduledDowntime());
+  }, [dispatch]);
 
   const handleDdRumBeforeSend = event => {
     const customEvent = { ...event };

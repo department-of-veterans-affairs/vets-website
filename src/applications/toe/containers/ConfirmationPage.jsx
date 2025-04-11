@@ -25,24 +25,21 @@ export const ConfirmationPage = ({
 }) => {
   const [apiError, setApiError] = useState(false); // Track if a 400 or 500 error happens
 
-  useEffect(
-    () => {
-      if (!claimStatus) {
-        getClaimStatus('ToeSubmission')
-          .then(response => {
-            // Only trigger error if response has a status code >= 400
-            if (response?.status >= 400) {
-              setApiError(true); // Set error if the response status indicates a failure
-            }
-          })
-          .catch(() => {
-            // Catch any network errors and set error to true
-            setApiError(true);
-          });
-      }
-    },
-    [getClaimStatus, claimStatus],
-  );
+  useEffect(() => {
+    if (!claimStatus) {
+      getClaimStatus('ToeSubmission')
+        .then(response => {
+          // Only trigger error if response has a status code >= 400
+          if (response?.status >= 400) {
+            setApiError(true); // Set error if the response status indicates a failure
+          }
+        })
+        .catch(() => {
+          // Catch any network errors and set error to true
+          setApiError(true);
+        });
+    }
+  }, [getClaimStatus, claimStatus]);
 
   const { first, last, middle, suffix } = user?.profile?.userFullName || {};
   let newReceivedDate;
@@ -174,10 +171,7 @@ const mapDispatchToProps = {
   sendConfirmation: sendConfirmationAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationPage);
 
 ConfirmationPage.propTypes = {
   getClaimStatus: PropTypes.func.isRequired,

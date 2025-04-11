@@ -25,32 +25,29 @@ const InProductionEducationFiltering = () => {
     state => state?.rx?.inProductEducation?.tooltipId,
   );
 
-  useEffect(
-    () => {
-      const fetchTooltips = async () => {
-        const filterTooltip = await dispatch(getTooltip());
+  useEffect(() => {
+    const fetchTooltips = async () => {
+      const filterTooltip = await dispatch(getTooltip());
 
-        if (filterTooltip) {
-          dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
+      if (filterTooltip) {
+        dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-          if (!filterTooltip.hidden) {
-            dispatch(incrementTooltip(filterTooltip.id));
-          }
-        } else {
-          const newTooltipResponse = await dispatch(createNewTooltip());
-
-          if (newTooltipResponse) {
-            dispatch(
-              setTooltip(newTooltipResponse.id, !newTooltipResponse.hidden),
-            );
-          }
+        if (!filterTooltip.hidden) {
+          dispatch(incrementTooltip(filterTooltip.id));
         }
-      };
+      } else {
+        const newTooltipResponse = await dispatch(createNewTooltip());
 
-      fetchTooltips();
-    },
-    [dispatch],
-  );
+        if (newTooltipResponse) {
+          dispatch(
+            setTooltip(newTooltipResponse.id, !newTooltipResponse.hidden),
+          );
+        }
+      }
+    };
+
+    fetchTooltips();
+  }, [dispatch]);
 
   const handleStopShowing = async () => {
     datadogRum.addAction(

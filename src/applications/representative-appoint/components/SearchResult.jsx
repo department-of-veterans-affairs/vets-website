@@ -120,9 +120,7 @@ const SearchResult = ({
             <div className="address-link vads-u-display--flex">
               <va-icon icon="location_on" size="3" />
               <a
-                href={`https://maps.google.com?saddr=${
-                  query?.context?.location
-                }&daddr=${address}`}
+                href={`https://maps.google.com?saddr=${query?.context?.location}&daddr=${address}`}
                 tabIndex="0"
                 className="address-anchor vads-u-margin-left--1"
                 // onClick={() => recordContactLinkClick()}
@@ -226,7 +224,4 @@ const mapDispatchToProps = {
 };
 
 export { SearchResult };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchResult);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResult);

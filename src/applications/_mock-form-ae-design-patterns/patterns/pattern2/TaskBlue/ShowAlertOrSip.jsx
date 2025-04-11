@@ -16,14 +16,11 @@ export const heading = 'We’re missing some of your personal information';
 const NeedsMissingInfoAlert = ({ missing }) => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        focusElement(alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      focusElement(alertRef.current);
+    }
+  }, [alertRef]);
 
   recordEvent({
     event: 'visible-alert-box',

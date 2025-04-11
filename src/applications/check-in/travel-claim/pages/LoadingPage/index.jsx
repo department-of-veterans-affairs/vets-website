@@ -19,22 +19,16 @@ const LoadingPage = props => {
 
   const { updateError } = useUpdateError();
 
-  useEffect(
-    () => {
-      if (checkInDataError) {
-        updateError('cant-retrieve-travel-claim-data');
-      }
-    },
-    [checkInDataError, updateError],
-  );
-  useEffect(
-    () => {
-      if (isComplete) {
-        goToNextPage();
-      }
-    },
-    [isComplete, goToNextPage],
-  );
+  useEffect(() => {
+    if (checkInDataError) {
+      updateError('cant-retrieve-travel-claim-data');
+    }
+  }, [checkInDataError, updateError]);
+  useEffect(() => {
+    if (isComplete) {
+      goToNextPage();
+    }
+  }, [isComplete, goToNextPage]);
   window.scrollTo(0, 0);
 
   return (

@@ -28,9 +28,7 @@ describe('fetchRepresentatives', () => {
 
     await fetchRepresentatives({ query });
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/original_entities?query=${query}`;
+    const expectedUrl = `${environment.API_URL}/representation_management/v0/original_entities?query=${query}`;
 
     sinon.assert.calledWith(fetchStub, expectedUrl);
   });

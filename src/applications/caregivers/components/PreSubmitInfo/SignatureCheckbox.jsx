@@ -35,17 +35,11 @@ const SignatureCheckbox = props => {
     setIsChecked(value);
   };
 
-  useEffect(
-    () => {
-      const hasError =
-        isChecked === true || hasSubmittedForm ? false : showError;
-      const message = hasError
-        ? content['validation-signature-required']
-        : null;
-      setError(message);
-    },
-    [showError, isChecked, hasSubmittedForm],
-  );
+  useEffect(() => {
+    const hasError = isChecked === true || hasSubmittedForm ? false : showError;
+    const message = hasError ? content['validation-signature-required'] : null;
+    setError(message);
+  }, [showError, isChecked, hasSubmittedForm]);
 
   return (
     <fieldset

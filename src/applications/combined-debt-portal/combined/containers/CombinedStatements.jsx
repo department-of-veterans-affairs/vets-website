@@ -75,14 +75,11 @@ const CombinedStatements = () => {
     },
   };
 
-  const showOneVADebtLetterDownloadButton = useMemo(
-    () => {
-      // 403 error is not enrolled, so bills aren't proper borked
-      const billsBorked = billError ? billError?.code !== '403' : false;
-      return showOneVADebtLetterDownload && !debtError && !billsBorked;
-    },
-    [billError, debtError, showOneVADebtLetterDownload],
-  );
+  const showOneVADebtLetterDownloadButton = useMemo(() => {
+    // 403 error is not enrolled, so bills aren't proper borked
+    const billsBorked = billError ? billError?.code !== '403' : false;
+    return showOneVADebtLetterDownload && !debtError && !billsBorked;
+  }, [billError, debtError, showOneVADebtLetterDownload]);
 
   // If the feature flag is not enabled, redirect to the summary page
   if (!showOneVADebtLetterDownload) {

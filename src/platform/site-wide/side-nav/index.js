@@ -17,9 +17,9 @@ export default async sideNavConfig => {
     return;
   }
 
-  const {
-    default: SideNav,
-  } = await import(/* webpackChunkName: "side-nav-widget" */ './components/SideNav');
+  const { default: SideNav } = await import(
+    /* webpackChunkName: "side-nav-widget" */ './components/SideNav'
+  );
 
   const { rootPath, data } = sideNavConfig;
 

@@ -32,24 +32,18 @@ const LabAndTestDetails = () => {
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearLabsAndTestDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearLabsAndTestDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (labId) {
-        dispatch(getlabsAndTestsDetails(labId, labAndTestList));
-      }
-      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
-    },
-    [labId, labAndTestList, dispatch],
-  );
+  useEffect(() => {
+    if (labId) {
+      dispatch(getlabsAndTestsDetails(labId, labAndTestList));
+    }
+    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
+  }, [labId, labAndTestList, dispatch]);
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 

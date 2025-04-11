@@ -41,27 +41,24 @@ export default function SchoolLocations({
   const [viewAll, setViewAll] = useState(false);
   const [viewableRowCount, setViewableRowCount] = useState(initialViewableRows);
 
-  useEffect(
-    () => {
-      // Necessary so screen reader users are aware that the school locations table has changed.
-      if (focusedElementIndex) {
-        const newRowElements = [
-          ...document.querySelectorAll(
-            'table.sl-table > tbody > tr > td:first-child',
-          ),
-        ]
-          .slice(focusedElementIndex + 1, totalRowCount + 1)
-          .filter(span => span.firstChild.nodeName === 'VA-LINK');
+  useEffect(() => {
+    // Necessary so screen reader users are aware that the school locations table has changed.
+    if (focusedElementIndex) {
+      const newRowElements = [
+        ...document.querySelectorAll(
+          'table.sl-table > tbody > tr > td:first-child',
+        ),
+      ]
+        .slice(focusedElementIndex + 1, totalRowCount + 1)
+        .filter(span => span.firstChild.nodeName === 'VA-LINK');
 
-        if (newRowElements.length > 0) {
-          const firstElement = newRowElements[0];
-          const firstLink = firstElement.firstChild;
-          waitForRenderThenFocus('a', firstLink.shadowRoot);
-        }
+      if (newRowElements.length > 0) {
+        const firstElement = newRowElements[0];
+        const firstLink = firstElement.firstChild;
+        waitForRenderThenFocus('a', firstLink.shadowRoot);
       }
-    },
-    [focusedElementIndex],
-  );
+    }
+  }, [focusedElementIndex]);
 
   const institutionIsBeingViewed = facilityCode =>
     facilityCode === institution.facilityCode;
@@ -240,9 +237,7 @@ export default function SchoolLocations({
     const renderSchoolName = name => {
       if (name && name.props?.children?.props) {
         const { props } = name.props.children;
-        const href = `/education/gi-bill-comparison-tool/institution/${
-          props.to
-        }`;
+        const href = `/education/gi-bill-comparison-tool/institution/${props.to}`;
         const text = props.children;
         return (
           <va-link

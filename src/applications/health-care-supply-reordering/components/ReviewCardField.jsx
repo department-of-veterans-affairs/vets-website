@@ -52,9 +52,7 @@ class ReviewCardField extends React.Component {
       !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
-        `No viewComponent found in uiSchema for ReviewCardField ${
-          this.props.idSchema.$id
-        }.`,
+        `No viewComponent found in uiSchema for ReviewCardField ${this.props.idSchema.$id}.`,
       );
     }
 
@@ -377,60 +375,54 @@ class ReviewCardField extends React.Component {
           })}
         >
           <ViewComponent formData={this.props.formData} />
-          {!volatileData &&
-            isTempAddressValid && (
-              <button
-                className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
-                aria-label={`Edit ${title.toLowerCase()}`}
-                style={{ minWidth: '5rem' }}
-                onClick={() => this.startEditing(this.props.name)}
-                type="button"
-              >
-                Edit {title.toLowerCase()}
-              </button>
-            )}
+          {!volatileData && isTempAddressValid && (
+            <button
+              className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
+              aria-label={`Edit ${title.toLowerCase()}`}
+              style={{ minWidth: '5rem' }}
+              onClick={() => this.startEditing(this.props.name)}
+              type="button"
+            >
+              Edit {title.toLowerCase()}
+            </button>
+          )}
 
-          {!volatileData &&
-            !isTempAddressValid && (
-              <button
-                className={`${editLink} va-button-link`}
-                aria-label={`Add a ${title.toLowerCase()}`}
-                style={{ minWidth: '5rem' }}
-                onClick={() => this.startEditing(this.props.name)}
-                type="button"
+          {!volatileData && !isTempAddressValid && (
+            <button
+              className={`${editLink} va-button-link`}
+              aria-label={`Add a ${title.toLowerCase()}`}
+              style={{ minWidth: '5rem' }}
+              onClick={() => this.startEditing(this.props.name)}
+              type="button"
+            >
+              Add a {title.toLowerCase()}
+            </button>
+          )}
+          {street && city && country && (
+            <div className="vads-u-margin-top--2">
+              <input
+                id={this.props.name}
+                type="radio"
+                className=" vads-u-width--auto"
+                checked={this.props['view:currentAddress'] === this.props.name}
+                onChange={() =>
+                  this.onChange('view:currentAddress', this.props.name)
+                }
+              />
+              <label
+                className={classnames({
+                  'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-text-align--left vads-u-padding-x--2': true,
+                  'vads-u-color--white':
+                    this.props.name === this.props['view:currentAddress'],
+                  'vads-u-background-color--white vads-u-color--primary':
+                    this.props.name !== this.props['view:currentAddress'],
+                })}
+                htmlFor={this.props.name}
               >
-                Add a {title.toLowerCase()}
-              </button>
-            )}
-          {street &&
-            city &&
-            country && (
-              <div className="vads-u-margin-top--2">
-                <input
-                  id={this.props.name}
-                  type="radio"
-                  className=" vads-u-width--auto"
-                  checked={
-                    this.props['view:currentAddress'] === this.props.name
-                  }
-                  onChange={() =>
-                    this.onChange('view:currentAddress', this.props.name)
-                  }
-                />
-                <label
-                  className={classnames({
-                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-text-align--left vads-u-padding-x--2': true,
-                    'vads-u-color--white':
-                      this.props.name === this.props['view:currentAddress'],
-                    'vads-u-background-color--white vads-u-color--primary':
-                      this.props.name !== this.props['view:currentAddress'],
-                  })}
-                  htmlFor={this.props.name}
-                >
-                  Send to {addressTypeWithSpace}
-                </label>
-              </div>
-            )}
+                Send to {addressTypeWithSpace}
+              </label>
+            </div>
+          )}
         </div>
         {volatileData && (
           <button
@@ -601,6 +593,19 @@ class ReviewCardField extends React.Component {
 }
 
 ReviewCardField.propTypes = {
+  errorSchema: PropTypes.object.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
+  formData: PropTypes.object.isRequired,
+  idSchema: PropTypes.object.isRequired,
+  registry: PropTypes.shape({
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.elementType.isRequired,
+    }),
+    definitions: PropTypes.object.isRequired,
+  }).isRequired,
+  schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       viewComponent: PropTypes.oneOfType([
@@ -612,20 +617,7 @@ ReviewCardField.propTypes = {
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,
-  schema: PropTypes.object.isRequired,
-  errorSchema: PropTypes.object.isRequired,
-  idSchema: PropTypes.object.isRequired,
-  registry: PropTypes.shape({
-    fields: PropTypes.shape({
-      SchemaField: PropTypes.elementType.isRequired,
-    }),
-    definitions: PropTypes.object.isRequired,
-  }).isRequired,
-  formData: PropTypes.object.isRequired,
   onBlur: PropTypes.func.isRequired,
-  formContext: PropTypes.shape({
-    onError: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -637,7 +629,4 @@ const mapDispatchToProps = {
   setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewCardField);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewCardField);

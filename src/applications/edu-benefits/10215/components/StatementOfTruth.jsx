@@ -27,23 +27,20 @@ export default function StatementOfTruth(signatureProps) {
 
   // Call onCompleteSection with true or false when switching between valid
   // and invalid states respectively
-  useEffect(
-    () => {
-      const isComplete =
-        checked && !signatureError && !signatureOfficialTitleError;
-      if (sectionComplete !== isComplete) {
-        setSectionComplete(isComplete);
-        signatureProps?.onSectionComplete(isComplete);
-      }
-    },
-    [
-      checked,
-      signatureError,
-      signatureOfficialTitleError,
-      sectionComplete,
-      signatureProps?.onSectionComplete,
-    ],
-  );
+  useEffect(() => {
+    const isComplete =
+      checked && !signatureError && !signatureOfficialTitleError;
+    if (sectionComplete !== isComplete) {
+      setSectionComplete(isComplete);
+      signatureProps?.onSectionComplete(isComplete);
+    }
+  }, [
+    checked,
+    signatureError,
+    signatureOfficialTitleError,
+    sectionComplete,
+    signatureProps?.onSectionComplete,
+  ]);
 
   const pp = (
     <span>

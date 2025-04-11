@@ -83,14 +83,11 @@ const AddressValidationRadio = props => {
     focusElement('#address-validation-alert-heading');
   }, []);
 
-  useEffect(
-    () => {
-      if (apiData.length > 0) {
-        handleValueChange(apiData[0].address, '0');
-      }
-    },
-    [apiData],
-  );
+  useEffect(() => {
+    if (apiData.length > 0) {
+      handleValueChange(apiData[0].address, '0');
+    }
+  }, [apiData]);
 
   const renderAddressOption = (address, id = 'userEntered') => {
     const hasConfirmedSuggestions = apiData.length > 0;

@@ -40,11 +40,7 @@ const introPage = {
   uiSchema: {
     ...titleUI(
       `Your ${options.nounPlural}`,
-      `In the next few questions, we’ll ask you about your ${
-        options.nounPlural
-      }. You must add at least one ${
-        options.nounSingular
-      }. You may add up to 4 ${options.nounPlural}.`,
+      `In the next few questions, we’ll ask you about your ${options.nounPlural}. You must add at least one ${options.nounSingular}. You may add up to 4 ${options.nounPlural}.`,
     ),
   },
   schema: {

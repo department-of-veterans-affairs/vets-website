@@ -30,26 +30,20 @@ const ReviewPage = ({
 }) => {
   const H1 = 'Review your answers';
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
   useEffect(() => {
     toggleEditMode(false);
     toggleQuestionFlowChanged(false);
   }, []);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const onEditAnswerClick = (route, name) => {
     toggleEditMode(true);
@@ -159,7 +153,4 @@ const mapStateToProps = state => ({
   answerChanged: state?.dischargeUpgradeWizard?.duwForm?.answerChanged,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);

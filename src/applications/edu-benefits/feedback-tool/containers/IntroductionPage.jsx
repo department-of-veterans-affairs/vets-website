@@ -39,7 +39,7 @@ class IntroductionPage extends React.Component {
           Questions about your eligibility and payments under the GI Bill should
           be directed to the <br />
           <PageLink
-            text="&quot;Ask VA&quot;"
+            text='"Ask VA"'
             href="https://ask.va.gov/"
             target="_blank"
           />{' '}

@@ -166,9 +166,7 @@ const getAddressString = addressObject => {
   if (addressObject.street3) {
     addressString = `${addressString}, ${addressObject.address3}`;
   }
-  addressString = `${addressString}, ${addressObject.city}, ${
-    addressObject.state
-  }, ${addressObject.zipCode}`;
+  addressString = `${addressString}, ${addressObject.city}, ${addressObject.state}, ${addressObject.zipCode}`;
   return addressString;
 };
 

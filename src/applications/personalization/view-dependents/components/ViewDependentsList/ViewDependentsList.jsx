@@ -51,10 +51,9 @@ function ViewDependentsList(props) {
       >
         {props.linkText}
       </a>
-      {manageDependentsToggle &&
-        props?.submittedDependents?.length > 0 && (
-          <RemoveDependentSuccessMessage />
-        )}
+      {manageDependentsToggle && props?.submittedDependents?.length > 0 && (
+        <RemoveDependentSuccessMessage />
+      )}
       {mainContent}
     </>
   );
@@ -64,16 +63,13 @@ const mapStateToProps = state => ({
   submittedDependents: state?.removeDependents?.submittedDependents,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(ViewDependentsList);
+export default connect(mapStateToProps, null)(ViewDependentsList);
 
 export { ViewDependentsList };
 ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
-  subHeader: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
+  subHeader: PropTypes.object,
   submittedDependents: PropTypes.array,
 };

@@ -29,9 +29,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
       cy.intercept(
         'POST',
-        `${Paths.SM_API_EXTENDED}/${
-          updatedSingleThreadResponse.data[0].attributes.messageId
-        }/reply`,
+        `${Paths.SM_API_EXTENDED}/${updatedSingleThreadResponse.data[0].attributes.messageId}/reply`,
         {
           statusCode: 400,
           body: { errors: [{ code: 'SM172' }] },
@@ -83,9 +81,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
       cy.intercept(
         'POST',
-        `${Paths.SM_API_EXTENDED}/${
-          updatedSingleThreadResponse.data[0].attributes.messageId
-        }/reply`,
+        `${Paths.SM_API_EXTENDED}/${updatedSingleThreadResponse.data[0].attributes.messageId}/reply`,
         {
           statusCode: 400,
           body: { errors: [{ code: 'SM172' }] },

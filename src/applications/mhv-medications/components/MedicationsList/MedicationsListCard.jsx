@@ -118,9 +118,7 @@ const MedicationsListCard = ({ rx }) => {
       >
         <Link
           id={`card-header-${rx.prescriptionId}`}
-          aria-describedby={`status-${rx.prescriptionId} status-description-${
-            rx.prescriptionId
-          } fill-or-refill-button-${rx.prescriptionId}`}
+          aria-describedby={`status-${rx.prescriptionId} status-description-${rx.prescriptionId} fill-or-refill-button-${rx.prescriptionId}`}
           data-dd-privacy="mask"
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
@@ -133,12 +131,11 @@ const MedicationsListCard = ({ rx }) => {
           {rx.prescriptionName ||
             (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
         </Link>
-        {rx.dispStatus !== 'Unknown' &&
-          rx.dispStatus !== 'Active: Non-VA' && (
-            <p data-testid="rx-number" data-dd-privacy="mask">
-              Prescription number: {rx.prescriptionNumber}
-            </p>
-          )}
+        {rx.dispStatus !== 'Unknown' && rx.dispStatus !== 'Active: Non-VA' && (
+          <p data-testid="rx-number" data-dd-privacy="mask">
+            Prescription number: {rx.prescriptionNumber}
+          </p>
+        )}
         {cardBodyContent()}
       </div>
     </div>

@@ -374,9 +374,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = { fetchMHVAccount };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(MHVApp),
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MHVApp));

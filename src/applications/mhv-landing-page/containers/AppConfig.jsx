@@ -35,23 +35,20 @@ const AppConfig = ({
   });
 
   // Set uuid from profile, once there is a value
-  useEffect(
-    () => {
-      const id = profile?.accountUuid;
-      if (id) {
-        const user = {
-          id,
-          hasEHRM: profileHasEHRM({ profile }),
-          hasVista: profileHasVista({ profile }),
-          CSP: selectProfileLogInProvider({ profile }),
-          LOA: selectProfileLoa({ profile }),
-          isVAPatient: selectVaPatient({ profile }),
-        };
-        setDatadogRumUserFn(user);
-      }
-    },
-    [profile, setDatadogRumUserFn],
-  );
+  useEffect(() => {
+    const id = profile?.accountUuid;
+    if (id) {
+      const user = {
+        id,
+        hasEHRM: profileHasEHRM({ profile }),
+        hasVista: profileHasVista({ profile }),
+        CSP: selectProfileLogInProvider({ profile }),
+        LOA: selectProfileLoa({ profile }),
+        isVAPatient: selectVaPatient({ profile }),
+      };
+      setDatadogRumUserFn(user);
+    }
+  }, [profile, setDatadogRumUserFn]);
 
   return <>{children}</>;
 };

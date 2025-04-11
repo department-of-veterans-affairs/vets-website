@@ -28,24 +28,18 @@ const CareSummariesDetails = () => {
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearCareSummariesDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearCareSummariesDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (summaryId) {
-        dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
-      }
-      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
-    },
-    [summaryId, careSummariesList, dispatch],
-  );
+  useEffect(() => {
+    if (summaryId) {
+      dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
+    }
+    updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
+  }, [summaryId, careSummariesList, dispatch]);
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 

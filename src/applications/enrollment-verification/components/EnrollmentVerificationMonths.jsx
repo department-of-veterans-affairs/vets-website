@@ -83,12 +83,11 @@ function EnrollmentVerificationMonths({
         </p>
       )}
       {months?.slice(minMonth, maxMonth)}
-      {!showMaintenanceAlert &&
-        !months?.length && (
-          <p className="vads-u-margin-bottom--6">
-            <strong>You currently have no enrollments.</strong>
-          </p>
-        )}
+      {!showMaintenanceAlert && !months?.length && (
+        <p className="vads-u-margin-bottom--6">
+          <strong>You currently have no enrollments.</strong>
+        </p>
+      )}
       {months?.length > 0 && (
         <VaPagination
           onPageSelect={e => onPageSelect(e.detail.page)}

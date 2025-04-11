@@ -13,6 +13,7 @@ const validatedConfigs = new Map();
 
 const formConfigFnParams = {
   'form-upload': '/find-forms/upload/21-0779',
+  'representative-form-upload': '/representative-form-upload/21-686c',
 };
 
 const missingFromVetsJsonSchema = [
@@ -206,9 +207,7 @@ const validateFormConfig = {
     if (migrations || version > 0) {
       expect(migrations?.length).to.equal(
         version,
-        `Version ${version} requires ${version} migrations, found ${
-          migrations?.length
-        }`,
+        `Version ${version} requires ${version} migrations, found ${migrations?.length}`,
       );
       validators.array({ migrations }, 'migrations');
       expect(migrations.every(m => typeof m === 'function')).to.be.true;

@@ -344,9 +344,7 @@ const ReviewPage = props => {
                 return (
                   <>
                     <div
-                      name={`chapter${
-                        chapterTitles.veteransPersonalInformation
-                      }ScrollElement`}
+                      name={`chapter${chapterTitles.veteransPersonalInformation}ScrollElement`}
                       key={chapter.name}
                     />
                     {!editSection.includes(
@@ -496,9 +494,7 @@ const ReviewPage = props => {
                 return (
                   <>
                     <div
-                      name={`chapter${
-                        chapterTitles.familyMembersPersonalInformation
-                      }ScrollElement`}
+                      name={`chapter${chapterTitles.familyMembersPersonalInformation}ScrollElement`}
                       key={chapter.name}
                     />
                     {!editSection.includes(
@@ -625,9 +621,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourInformation
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.yourInformation}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourInformation) ? (
@@ -778,9 +772,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourVAHealthFacility
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.yourVAHealthFacility}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
@@ -834,9 +826,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.stateOfProperty
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.stateOfProperty}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
@@ -890,9 +880,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourVREInformation
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.yourVREInformation}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
@@ -954,9 +942,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.schoolInformation
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.schoolInformation}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
@@ -1036,9 +1022,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourContactInformation
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.yourContactInformation}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(
@@ -1125,9 +1109,7 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourMailingAddress
-                    }ScrollElement`}
+                    name={`chapter${chapterTitles.yourMailingAddress}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourMailingAddress) ? (
@@ -1285,56 +1267,51 @@ const ReviewPage = props => {
                     />
                   </>
                 )}
-                {props.formData.allowAttachments &&
-                  props.isUserLOA3 && (
-                    <div
-                      className="schemaform-chapter-accordion-content vads-u-padding-top--0"
-                      aria-hidden="false"
-                    >
-                      <div className="form-review-panel-page vads-u-margin-bottom--0">
-                        <div name="questionScrollElement" />
-                        <form className="rjsf">
-                          <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-                                {!editAttachments ? (
-                                  nonEditAttachmentsMode()
-                                ) : (
-                                  <>
-                                    {attachments.map(file => (
-                                      <div
-                                        key={`${file.fileID}-${
-                                          file.fileName
-                                        }-edit`}
-                                        className="review-page-attachments"
-                                      >
-                                        <dt className="form-review-panel-page-header">
-                                          {`${file.fileName} (${
-                                            file.fileSize
-                                          })`}
-                                        </dt>
-                                        <dd className="vads-u-margin-right--0">
-                                          <va-button-icon
-                                            button-type="delete"
-                                            onClick={() =>
-                                              deleteFile(file.fileID)
-                                            }
-                                          />
-                                        </dd>
-                                      </div>
-                                    ))}
-                                    <div className="vads-u-margin-y--2">
-                                      <FileUpload />
+                {props.formData.allowAttachments && props.isUserLOA3 && (
+                  <div
+                    className="schemaform-chapter-accordion-content vads-u-padding-top--0"
+                    aria-hidden="false"
+                  >
+                    <div className="form-review-panel-page vads-u-margin-bottom--0">
+                      <div name="questionScrollElement" />
+                      <form className="rjsf">
+                        <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+                          <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                            <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              {!editAttachments ? (
+                                nonEditAttachmentsMode()
+                              ) : (
+                                <>
+                                  {attachments.map(file => (
+                                    <div
+                                      key={`${file.fileID}-${file.fileName}-edit`}
+                                      className="review-page-attachments"
+                                    >
+                                      <dt className="form-review-panel-page-header">
+                                        {`${file.fileName} (${file.fileSize})`}
+                                      </dt>
+                                      <dd className="vads-u-margin-right--0">
+                                        <va-button-icon
+                                          button-type="delete"
+                                          onClick={() =>
+                                            deleteFile(file.fileID)
+                                          }
+                                        />
+                                      </dd>
                                     </div>
-                                  </>
-                                )}
-                              </dl>
+                                  ))}
+                                  <div className="vads-u-margin-y--2">
+                                    <FileUpload />
+                                  </div>
+                                </>
+                              )}
                             </dl>
-                          </div>
-                        </form>
-                      </div>
+                          </dl>
+                        </div>
+                      </form>
                     </div>
-                  )}
+                  </div>
+                )}
               </VaAccordionItem>
             );
           })}
@@ -1403,11 +1380,10 @@ function mapStateToProps(state, ownProps) {
         hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
       return {
-        expandedPages: expandedPages.map(
-          page =>
-            page.appStateSelector
-              ? { ...page, appStateData: page.appStateSelector(state) }
-              : page,
+        expandedPages: expandedPages.map(page =>
+          page.appStateSelector
+            ? { ...page, appStateData: page.appStateSelector(state) }
+            : page,
         ),
         formConfig: chapterFormConfig,
         name: chapterName,
@@ -1437,8 +1413,8 @@ ReviewPage.propTypes = {
   formData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  loggedIn: PropTypes.bool,
   isUserLOA3: PropTypes.bool,
+  loggedIn: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

@@ -55,52 +55,40 @@ const App = ({ isPilot }) => {
     state => state.featureToggles['mhv-mock-session'],
   );
 
-  useEffect(
-    () => {
-      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-    },
-    [mhvMockSessionFlag],
-  );
+  useEffect(() => {
+    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+  }, [mhvMockSessionFlag]);
 
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
 
-  const mhvSMDown = useMemo(
-    () => {
-      if (scheduledDowntimes.size > 0) {
-        return (
-          scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
-        );
+  const mhvSMDown = useMemo(() => {
+    if (scheduledDowntimes.size > 0) {
+      return (
+        scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
+        scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+      );
+    }
+    return 'downtime status: ok';
+  }, [scheduledDowntimes]);
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      dispatch(getScheduledDowntime());
+
+      if (user.login.currentlyLoggedIn) {
+        await dispatch(getAllTriageTeamRecipients());
       }
-      return 'downtime status: ok';
-    },
-    [scheduledDowntimes],
-  );
+    };
+    fetchAllData();
+  }, [user.login.currentlyLoggedIn, dispatch]);
 
-  useEffect(
-    () => {
-      const fetchAllData = async () => {
-        dispatch(getScheduledDowntime());
-
-        if (user.login.currentlyLoggedIn) {
-          await dispatch(getAllTriageTeamRecipients());
-        }
-      };
-      fetchAllData();
-    },
-    [user.login.currentlyLoggedIn, dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (isPilot) {
-        dispatch({ type: Actions.App.IS_PILOT });
-      }
-    },
-    [isPilot, dispatch],
-  );
+  useEffect(() => {
+    if (isPilot) {
+      dispatch({ type: Actions.App.IS_PILOT });
+    }
+  }, [isPilot, dispatch]);
 
   const datadogRumConfig = {
     applicationId: '02c72297-5059-4ed8-8472-874276f4a9b2',
@@ -118,12 +106,9 @@ const App = ({ isPilot }) => {
   };
 
   useDatadogRum(datadogRumConfig);
-  useEffect(
-    () => {
-      setDatadogRumUser({ id: user?.profile?.accountUuid });
-    },
-    [user],
-  );
+  useEffect(() => {
+    setDatadogRumUser({ id: user?.profile?.accountUuid });
+  }, [user]);
 
   if (featureTogglesLoading) {
     return (

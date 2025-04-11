@@ -46,13 +46,12 @@ function phoneUISchema(category) {
         hideIf: formData => {
           if (category === 'mobile') {
             if (
-              !formData[(formFields?.viewPhoneNumbers)]?.mobilePhoneNumber
-                ?.phone
+              !formData[formFields?.viewPhoneNumbers]?.mobilePhoneNumber?.phone
             ) {
               return true;
             }
           } else if (
-            !formData[(formFields?.viewPhoneNumbers)]?.phoneNumber?.phone
+            !formData[formFields?.viewPhoneNumbers]?.phoneNumber?.phone
           ) {
             return true;
           }

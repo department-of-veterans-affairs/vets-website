@@ -16,15 +16,12 @@ export const NotificationCheckbox = ({
   last,
   defaultSendIndicator,
 }) => {
-  const checked = useMemo(
-    () => {
-      if (isOptedIn === null) {
-        return defaultSendIndicator;
-      }
-      return !!isOptedIn;
-    },
-    [isOptedIn, defaultSendIndicator],
-  );
+  const checked = useMemo(() => {
+    if (isOptedIn === null) {
+      return defaultSendIndicator;
+    }
+    return !!isOptedIn;
+  }, [isOptedIn, defaultSendIndicator]);
 
   const handleChange = e => {
     onValueChange(e);

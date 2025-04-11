@@ -13,16 +13,13 @@ const ConfirmationPending = ({
   userEmail,
   userFirstName,
 }) => {
-  useEffect(
-    () => {
-      sendConfirmation({
-        claimStatus: 'IN_PROGRESS',
-        email: userEmail,
-        firstName: userFirstName,
-      });
-    },
-    [sendConfirmation, userEmail, userFirstName],
-  );
+  useEffect(() => {
+    sendConfirmation({
+      claimStatus: 'IN_PROGRESS',
+      email: userEmail,
+      firstName: userFirstName,
+    });
+  }, [sendConfirmation, userEmail, userFirstName]);
 
   if (confirmationLoading) {
     return <LoadingIndicator message="Sending confirmation email..." />;

@@ -23,21 +23,15 @@ const Intention = ({
   const intention = formResponses[shortName];
   const { INTENTION_YES, INTENTION_NO } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <RadioGroup
@@ -73,7 +67,4 @@ const mapDispatchToProps = {
   setIntention: updateIntention,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Intention);
+export default connect(mapStateToProps, mapDispatchToProps)(Intention);

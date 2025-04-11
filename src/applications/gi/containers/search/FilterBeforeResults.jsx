@@ -344,32 +344,29 @@ export function FilterBeforeResults({
     specialMissionTRIBAL,
   } = filters;
 
-  useEffect(
-    () => {
-      const isEmpty = isEmptyCheckboxFilters(filters);
+  useEffect(() => {
+    const isEmpty = isEmptyCheckboxFilters(filters);
 
-      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
-        dispatchError(null);
-    },
-    [
-      schools,
-      excludeCautionFlags,
-      accredited,
-      studentVeteran,
-      yellowRibbonScholarship,
-      employers,
-      specialMissionHbcu,
-      specialMissionMenonly,
-      specialMissionWomenonly,
-      specialMissionRelaffil,
-      specialMissionHSI,
-      specialMissionNANTI,
-      specialMissionANNHI,
-      specialMissionAANAPII,
-      specialMissionPBI,
-      specialMissionTRIBAL,
-    ],
-  );
+    if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+      dispatchError(null);
+  }, [
+    schools,
+    excludeCautionFlags,
+    accredited,
+    studentVeteran,
+    yellowRibbonScholarship,
+    employers,
+    specialMissionHbcu,
+    specialMissionMenonly,
+    specialMissionWomenonly,
+    specialMissionRelaffil,
+    specialMissionHSI,
+    specialMissionNANTI,
+    specialMissionANNHI,
+    specialMissionAANAPII,
+    specialMissionPBI,
+    specialMissionTRIBAL,
+  ]);
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
@@ -396,17 +393,14 @@ export function FilterBeforeResults({
   // to the way state updates, because of this,
   // I am using useEffect for the scroll to only
   // when jumpLinkToggle updates
-  useEffect(
-    () => {
-      const scrollToSMFAccordion = () => {
-        const targetEl = document.getElementById('smfAccordion');
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      };
+  useEffect(() => {
+    const scrollToSMFAccordion = () => {
+      const targetEl = document.getElementById('smfAccordion');
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
 
-      return jumpLinkToggle > 0 && smallScreen && scrollToSMFAccordion();
-    },
-    [jumpLinkToggle],
-  );
+    return jumpLinkToggle > 0 && smallScreen && scrollToSMFAccordion();
+  }, [jumpLinkToggle]);
 
   const recordCheckboxEvent = e => {
     recordEvent({

@@ -52,26 +52,23 @@ export const useMockedLogin = () => {
    * @returns {void}
    */
   const useLoggedInQuery = location => {
-    useEffect(
-      () => {
-        if (location?.query?.loggedIn === 'true') {
-          setLocalHasSession('true');
-          dispatch(initializeProfile());
-        }
+    useEffect(() => {
+      if (location?.query?.loggedIn === 'true') {
+        setLocalHasSession('true');
+        dispatch(initializeProfile());
+      }
 
-        if (location?.query?.loggedIn === 'false') {
-          teardownProfileSession();
-          dispatch(updateLoggedInStatus(false));
-          clearLocalHasSession();
-        }
+      if (location?.query?.loggedIn === 'false') {
+        teardownProfileSession();
+        dispatch(updateLoggedInStatus(false));
+        clearLocalHasSession();
+      }
 
-        // having the pollTimeout present triggers some api calls to be made locally and in codespaces
-        if (!window?.VetsGov?.pollTimeout) {
-          window.VetsGov.pollTimeout = 500;
-        }
-      },
-      [location],
-    );
+      // having the pollTimeout present triggers some api calls to be made locally and in codespaces
+      if (!window?.VetsGov?.pollTimeout) {
+        window.VetsGov.pollTimeout = 500;
+      }
+    }, [location]);
   };
 
   return { logIn, logOut, useLoggedInQuery, loggedIn };

@@ -73,8 +73,5 @@ const mapDispatchToProps = {
   fetchAllDependents,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ViewDependentsApp);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewDependentsApp);
 export { ViewDependentsApp };

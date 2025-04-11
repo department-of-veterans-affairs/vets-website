@@ -51,11 +51,10 @@ function lcsScoreByWordSum(inputWord, disabilityWord, splitReg = REGEX_SPLIT) {
     splitReg,
   );
   for (let i = 0; i < splitInput.length; i += 1) {
-    disWordSplit.forEach(
-      t =>
-        lcsWrapper.nodeLcsFunction(t, splitInput[i]) >= 3
-          ? tempScoreList.push(lcsWrapper.nodeLcsFunction(t, splitInput[i]))
-          : null,
+    disWordSplit.forEach(t =>
+      lcsWrapper.nodeLcsFunction(t, splitInput[i]) >= 3
+        ? tempScoreList.push(lcsWrapper.nodeLcsFunction(t, splitInput[i]))
+        : null,
     );
   }
   return tempScoreList.reduce((acc, current) => acc + current, 0);

@@ -70,16 +70,15 @@ const MessageListItem = props => {
       data-testid="message-list-item"
     >
       <div className="unread-column vads-l-col">
-        {!inSentOrDrafts &&
-          (readReceipt !== 'READ' && (
-            <span
-              aria-label="Unread message"
-              role="img"
-              className="unread-icon vads-u-margin-right--1 unread-bubble"
-              alt="Unread message icon"
-              data-testid="unread-message-icon"
-            />
-          ))}
+        {!inSentOrDrafts && readReceipt !== 'READ' && (
+          <span
+            aria-label="Unread message"
+            role="img"
+            className="unread-icon vads-u-margin-right--1 unread-bubble"
+            alt="Unread message icon"
+            data-testid="unread-message-icon"
+          />
+        )}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>

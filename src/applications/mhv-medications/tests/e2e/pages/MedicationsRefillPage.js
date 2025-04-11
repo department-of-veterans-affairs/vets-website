@@ -45,10 +45,9 @@ class MedicationsRefillPage {
 
   verifyRefillCheckBoxesClicked = numberOfCheckboxes => {
     for (let i = 0; i < `${numberOfCheckboxes}`; i++) {
-      cy.get(`[data-testid="refill-prescription-checkbox-${i}"]`).should(
-        'be.visible',
-        { force: true },
-      );
+      cy.get(
+        `[data-testid="refill-prescription-checkbox-${i}"]`,
+      ).should('be.visible', { force: true });
     }
   };
 

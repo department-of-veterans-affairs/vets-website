@@ -75,15 +75,12 @@ const ManageDependents = props => {
     initialize();
   }, []);
 
-  useEffect(
-    () => {
-      if (dependentsState?.[stateKey]) {
-        setSchema(dependentsState[stateKey].formSchema);
-        setUiSchema(dependentsState[stateKey].uiSchema);
-      }
-    },
-    [dependentsState, stateKey],
-  );
+  useEffect(() => {
+    if (dependentsState?.[stateKey]) {
+      setSchema(dependentsState[stateKey].formSchema);
+      setUiSchema(dependentsState[stateKey].uiSchema);
+    }
+  }, [dependentsState, stateKey]);
 
   return schema ? (
     <div>
@@ -139,19 +136,16 @@ const mapDispatchToProps = {
   ...actions,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ManageDependents);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageDependents);
 export { ManageDependents };
 
 ManageDependents.propTypes = {
-  relationship: PropTypes.string,
-  updateFormData: PropTypes.func,
-  dependentsState: PropTypes.object,
-  veteranContactInformation: PropTypes.object,
   cleanupFormData: PropTypes.func,
   closeFormHandler: PropTypes.func,
+  dependentsState: PropTypes.object,
+  relationship: PropTypes.string,
   stateKey: PropTypes.number,
+  updateFormData: PropTypes.func,
   userInfo: PropTypes.object,
+  veteranContactInformation: PropTypes.object,
 };

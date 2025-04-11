@@ -13,9 +13,7 @@ function RepresentativeDirectionsLink({ representative, query }) {
   return (
     <div className="vads-u-margin-bottom--1p5 representative-directions-link">
       <a
-        href={`https://maps.google.com?saddr=${
-          query?.context?.location
-        }&daddr=${address}`}
+        href={`https://maps.google.com?saddr=${query?.context?.location}&daddr=${address}`}
         rel="noopener noreferrer"
       >
         <div>

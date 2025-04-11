@@ -239,9 +239,7 @@ describe('NationalExamsList', () => {
     const testExam = mockExams[0];
     const expectedExamName = formatNationalExamName(testExam.name);
     const expectedEncodedName = encodeURIComponent(expectedExamName);
-    const expectedPath = `/national-exams/${
-      testExam.enrichedId
-    }?examName=${expectedEncodedName}`;
+    const expectedPath = `/national-exams/${testExam.enrichedId}?examName=${expectedEncodedName}`;
 
     const wrapper = mount(
       <Provider store={store}>

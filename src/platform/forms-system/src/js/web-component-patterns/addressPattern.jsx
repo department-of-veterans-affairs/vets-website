@@ -250,9 +250,7 @@ export function addressUI(options) {
       const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(addr.postalCode);
       if (!(isAA || isAE || isAP)) {
         errors.postalCode.addError(
-          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema.isMilitary['ui:title']
-          }". If your mailing address is an ${MILITARY_CITY_TITLE} address, enter the postal code for the military base.`,
+          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${uiSchema.isMilitary['ui:title']}". If your mailing address is an ${MILITARY_CITY_TITLE} address, enter the postal code for the military base.`,
         );
       }
     }

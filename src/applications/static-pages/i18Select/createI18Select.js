@@ -15,8 +15,10 @@ export default function createI18Select(store, widgetType) {
   if (!pageType) return;
 
   if (root) {
-    import(/* webpackChunkName: "i18Select" */
-    './I18Select').then(module => {
+    import(
+      /* webpackChunkName: "i18Select" */
+      './I18Select'
+    ).then(module => {
       const I18Select = module.default;
       ReactDOM.render(
         <Provider store={store}>

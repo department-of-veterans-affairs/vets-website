@@ -6,17 +6,14 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 const AlertMhvUserAction = ({ errorCode, testId, recordEvent }) => {
   const headline = `Error code ${errorCode}: Contact the My HealtheVet help desk`;
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': 'warning',
-      });
-    },
-    [headline, recordEvent],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': 'warning',
+    });
+  }, [headline, recordEvent]);
 
   return (
     <VaAlert
@@ -63,10 +60,10 @@ AlertMhvUserAction.defaultProps = {
 
 AlertMhvUserAction.propTypes = {
   errorCode: PropTypes.string,
-  title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
   testId: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default AlertMhvUserAction;

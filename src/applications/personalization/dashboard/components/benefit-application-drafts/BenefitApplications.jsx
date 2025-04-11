@@ -18,21 +18,15 @@ const BenefitApplications = ({
 }) => {
   const sectionRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (shouldGetESRStatus) {
-        getESREnrollmentStatus();
-      }
-    },
-    [shouldGetESRStatus, getESREnrollmentStatus],
-  );
+  useEffect(() => {
+    if (shouldGetESRStatus) {
+      getESREnrollmentStatus();
+    }
+  }, [shouldGetESRStatus, getESREnrollmentStatus]);
 
-  useEffect(
-    () => {
-      getFormStatuses();
-    },
-    [getFormStatuses],
-  );
+  useEffect(() => {
+    getFormStatuses();
+  }, [getFormStatuses]);
 
   useLayoutEffect(() => {
     const handleAnchorLink = () => {

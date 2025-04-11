@@ -9,8 +9,10 @@ export default store => {
     `[data-widget-type="${widgetTypes.BTSSS_LOGIN}"]`,
   );
   if (root) {
-    import(/* webpackChunkName: "btsss-login" */
-    './App').then(module => {
+    import(
+      /* webpackChunkName: "btsss-login" */
+      './App'
+    ).then(module => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>
