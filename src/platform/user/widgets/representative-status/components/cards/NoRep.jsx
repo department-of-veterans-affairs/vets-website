@@ -12,8 +12,11 @@ export function NoRep({ DynamicHeader }) {
             srtext="Your representative"
           />{' '}
         </div>
-        <div className="auth-no-rep-text">
-          <DynamicHeader className="auth-no-rep-header">
+        <div>
+          <DynamicHeader
+            className="vads-u-font-size--h3 vads-u-margin-top--0"
+            slot="headline"
+          >
             You don’t have an accredited representative
           </DynamicHeader>
           <div className="auth-no-rep-body">

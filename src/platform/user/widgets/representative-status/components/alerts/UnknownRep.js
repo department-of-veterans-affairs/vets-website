@@ -10,7 +10,10 @@ export function UnknownRep({ DynamicHeader }) {
       uswds
       visible
     >
-      <DynamicHeader slot="headline">
+      <DynamicHeader
+        className="vads-u-font-size--h3 vads-u-margin-top--0"
+        slot="headline"
+      >
         We can’t check if you have an accredited representative.
       </DynamicHeader>
       <React.Fragment key=".1">

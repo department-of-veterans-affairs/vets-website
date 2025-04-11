@@ -170,9 +170,9 @@ describe('App component', () => {
       });
 
       await waitFor(() => {
-        expect(container.querySelector('.auth-rep-subheader')).to.exist;
+        expect(container.querySelector('.vads-u-font-size--h4 ')).to.exist;
         expect(
-          container.querySelector('.auth-rep-subheader h3').textContent,
+          container.querySelector('.vads-u-font-size--h4 h3').textContent,
         ).to.contain('American Legion');
       });
     });

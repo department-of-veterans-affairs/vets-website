@@ -90,6 +90,21 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
           }}
         />
       )}
+      {!isLOA1 && (
+        <IconCTALink
+          text="Get help from your accredited representative or VSO"
+          href="/profile/accredited-representative/"
+          icon="account_circle"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header':
+                'Get help from your accredited representative or VSO',
+              'links-list-section-header': 'Claims and appeals',
+            });
+          }}
+        />
+      )}
     </>
   );
 };

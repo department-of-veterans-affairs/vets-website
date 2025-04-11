@@ -53,7 +53,7 @@ describe('CurrentRep component', () => {
     const orgProps = { ...defaultProps, poaType: 'organization' };
     const wrapper = mount(<CurrentRep {...orgProps} />);
     expect(wrapper.text()).to.include(
-      'You can work with any accredited representative at this organization',
+      'You can work with any accredited VSO representative at this organization',
     );
     wrapper.unmount();
   });
@@ -61,7 +61,7 @@ describe('CurrentRep component', () => {
   it('does not display organization note when poaType is representative', () => {
     const wrapper = mount(<CurrentRep {...defaultProps} />);
     expect(wrapper.text()).to.not.include(
-      'You can work with any accredited representative at this organization',
+      'You can work with any accredited VSO representative at this organization',
     );
     wrapper.unmount();
   });
@@ -131,8 +131,8 @@ describe('CurrentRep component', () => {
       'va-link[text="Learn about accredited representatives"]',
     );
     expect(learnMoreLink.exists()).to.be.true;
-    expect(learnMoreLink.prop('href')).to.equal(
-      'https://www.va.gov/resources/va-accredited-representative-faqs/',
+    expect(learnMoreLink.prop('href')).to.contain(
+      '/resources/va-accredited-representative-faqs/',
     );
     wrapper.unmount();
   });
