@@ -16,13 +16,7 @@ import {
 } from '../helpers';
 import InstitutionName from '../components/InstitutionName';
 
-function validateTermStartDate(
-  errors,
-  routingNumber,
-  formData,
-  schema,
-  errorMessages,
-) {
+function validateTermStartDate(errors, formData, errorMessages) {
   const today = getTodayDateYyyyMmDd();
   const { termStartDate } = formData.institutionDetails;
 
@@ -38,13 +32,7 @@ function validateTermStartDate(
   }
 }
 
-function validateDateOfCalculations(
-  errors,
-  routingNumber,
-  formData,
-  schema,
-  errorMessages,
-) {
+function validateDateOfCalculations(errors, formData, errorMessages) {
   const { termStartDate, dateOfCalculations } = formData.institutionDetails;
   if (!termStartDate || !dateOfCalculations) return;
 
@@ -118,7 +106,7 @@ const uiSchema = {
       'ui:validations': [validateDateOfCalculations],
       'ui:errorMessages': {
         pattern: `This date must be on or after, but not later than 30 days
-         after , the start of the term. You cannot enter a future date.`,
+         after, the start of the term. You cannot enter a future date.`,
         required: 'Please enter the date these calculations were performed',
       },
     },
