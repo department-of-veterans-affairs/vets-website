@@ -255,7 +255,7 @@ const CombinedStatements = () => {
           </div>
         </div>
 
-        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-width--full">
+        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Copay charges
           </h2>
@@ -311,7 +311,7 @@ const CombinedStatements = () => {
           </div>
         </section>
 
-        <section className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-width--full">
+        <section className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-border-color--gray-light ">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
@@ -337,72 +337,62 @@ const CombinedStatements = () => {
             Payments made after {statementDate} will not be reflected here.
           </p>
 
-          {/* Combined Overpayment Charges Table */}
-          <div className="vads-u-width--full">
-            <va-table
-              table-type="bordered"
-              table-title="Overpayment charges"
-              className="vads-u-width--full vads-u-margin-x--0"
-              style={{ width: '100%', maxWidth: '100%', display: 'block' }}
-            >
-              <va-table-row slot="headers">
-                <span>Date</span>
-                <span>Description</span>
-                <span>Amount</span>
-              </va-table-row>
+          <va-table
+            table-type="bordered"
+            table-title="Overpayment charges"
+            className="vads-u-width--full vads-u-margin-x--0"
+          >
+            <va-table-row slot="headers">
+              <span>Date</span>
+              <span>Description</span>
+              <span>Amount</span>
+            </va-table-row>
 
-              {/* Map all debts into single table rows */}
-              {debts.map((debt, index) => {
-                const formattedDate =
-                  debt.debtHistory && debt.debtHistory.length > 0
-                    ? format(
-                        parse(
-                          debt.debtHistory[0].date,
-                          'MM/dd/yyyy',
-                          new Date(),
-                        ),
-                        'MMMM d, yyyy',
-                      )
-                    : '';
+            {debts.map((debt, index) => {
+              const formattedDate =
+                debt.debtHistory && debt.debtHistory.length > 0
+                  ? format(
+                      parse(debt.debtHistory[0].date, 'MM/dd/yyyy', new Date()),
+                      'MMMM d, yyyy',
+                    )
+                  : '';
 
-                const debtAmount = parseFloat(
-                  debt.currentAr || debt.originalAr || 0,
-                );
+              const debtAmount = parseFloat(
+                debt.currentAr || debt.originalAr || 0,
+              );
 
-                return (
-                  <va-table-row key={`debt-combined-${index}`}>
-                    <span>{formattedDate}</span>
-                    <span>
-                      <strong>
-                        {deductionCodes[debt.deductionCode] ||
-                          debt.benefitType ||
-                          'VA Debt'}
-                      </strong>
-                    </span>
-                    <span>{currency(debtAmount)}</span>
-                  </va-table-row>
-                );
-              })}
+              return (
+                <va-table-row key={`debt-combined-${index}`}>
+                  <span>{formattedDate}</span>
+                  <span>
+                    <strong>
+                      {deductionCodes[debt.deductionCode] ||
+                        debt.benefitType ||
+                        'VA Debt'}
+                    </strong>
+                  </span>
+                  <span>{currency(debtAmount)}</span>
+                </va-table-row>
+              );
+            })}
 
-              {/* Grand Total row */}
-              <va-table-row>
-                <span />
-                <span className="vads-u-text-align--right vads-u-font-weight--bold">
-                  Total Due:
-                </span>
-                <span className="vads-u-font-weight--bold">
-                  {currency(
-                    debts.reduce(
-                      (total, debt) =>
-                        total +
-                        parseFloat(debt.currentAr || debt.originalAr || 0),
-                      0,
-                    ),
-                  )}
-                </span>
-              </va-table-row>
-            </va-table>
-          </div>
+            <va-table-row>
+              <span />
+              <span className="vads-u-text-align--right vads-u-font-weight--bold">
+                Total Due:
+              </span>
+              <span className="vads-u-font-weight--bold">
+                {currency(
+                  debts.reduce(
+                    (total, debt) =>
+                      total +
+                      parseFloat(debt.currentAr || debt.originalAr || 0),
+                    0,
+                  ),
+                )}
+              </span>
+            </va-table-row>
+          </va-table>
         </section>
 
         <Modals title="Notice of rights and responsibilities" id="notice-modal">
