@@ -40,14 +40,14 @@ const AuthContext = () => {
               If you need to submit receipts for other expenses, like tolls,
               meals, or lodging
             </strong>
-            , you can file your travel claim through the{' '}
-            <va-link
-              external
-              href="https://dvagov-btsss.dynamics365portals.us/signin"
-              text="Beneficiary Travel Self-Service System"
-            />
-            .
+            , you can file your travel claim through the Beneficiary Travel
+            Self-Service System (BTSSS).
           </p>
+          <va-link
+            href="https://dvagov-btsss.dynamics365portals.us/signin"
+            text="Go to BTSSS"
+            label="Go to the Beneficiary Travel Self-Service System (BTSSS)"
+          />
           <p>
             <strong>
               If you want to check the status of all your travel claims
