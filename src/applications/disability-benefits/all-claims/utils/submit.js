@@ -425,6 +425,25 @@ export const audit0781EventData = formData => {
   }
 };
 
+export const audit0781BehaviorDetailsList = formData => {
+  // Workaround to avoid eslint rule around mutating params/args
+  const data = formData;
+  if (data.behaviorsDetails) {
+    Object.keys(data.behaviorsDetails).forEach(key => {
+      // Compare the selected behavior types (workBehaviors, healthBehaviors, and otherBehaviors)
+      // to the existing formData.behaviorsDetails object. Any of the 15 possible behaviorsDetails
+      // that do not have a corresponding selected behaviorType should be deleted.
+      if (
+        !(key in data.workBehaviors) &&
+        !(key in data.healthBehaviors) &&
+        !(key in data.otherBehaviors)
+      ) {
+        delete data.behaviorsDetails[key];
+      }
+    });
+  }
+};
+
 export const addForm0781 = formData => {
   if (formData.syncModern0781Flow === true) {
     return formData;
