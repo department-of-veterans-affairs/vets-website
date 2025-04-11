@@ -31,20 +31,21 @@ export function CurrentRep({
           <va-icon icon="account_circle" size={4} />{' '}
         </div>
         <div className="auth-rep-text">
-          <div className="auth-rep-header">
-            <DynamicHeader>
-              Your current {representativeTypeMap(poaType)}
-            </DynamicHeader>
-          </div>
-          <div className="auth-rep-subheader">
-            <DynamicSubheader>{name}</DynamicSubheader>
-            {poaType === 'organization' && (
-              <p className="vads-u-margin-top--0">
-                <strong>Note:</strong> You can work with any accredited VSO
-                representative at this organization.
-              </p>
-            )}
-          </div>
+          <DynamicHeader
+            className="vads-u-font-size--h3 vads-u-margin-top--0"
+            slot="headline"
+          >
+            Your current {representativeTypeMap(poaType)}
+          </DynamicHeader>
+          <DynamicSubheader className="vads-u-font-size--h4 vads-u-margin-top--0">
+            {name}
+          </DynamicSubheader>
+          {poaType === 'organization' && (
+            <p className="vads-u-margin-top--0">
+              <strong>Note:</strong> You can work with any accredited VSO
+              representative at this organization.
+            </p>
+          )}
 
           <div className="auth-rep-body">
             {concatAddress && (
