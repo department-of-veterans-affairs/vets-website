@@ -76,12 +76,12 @@ export const Hub = () => {
         {showAccreditedRepresentative && (
           <HubCard
             heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
-            content="Accredited representative or VSO"
+            content="Contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)"
           >
             <>
               <ProfileLink
                 className="vads-u-display--block vads-u-margin-bottom--2"
-                text="Review your accredited representative or VSO"
+                text="Check your accredited representative or VSO"
                 href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
               />
             </>
