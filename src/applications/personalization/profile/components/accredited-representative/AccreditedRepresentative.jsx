@@ -51,7 +51,7 @@ const AccreditedRepresentative = ({ powerOfAttorney }) => {
         <va-link
           class="home__link"
           href={`${BASE_URL}/get-help-from-accredited-representative`}
-          text="Get help from an accredited representative"
+          text="Get help from an accredited representative or VSO"
         />
       </>
     );
@@ -59,7 +59,13 @@ const AccreditedRepresentative = ({ powerOfAttorney }) => {
 
   return (
     <>
-      <h2>Accredited Representative or VSO</h2>
+      <h1
+        tabIndex="-1"
+        className="vads-u-font-size--h2 vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
+        data-focus-target
+      >
+        Accredited Representative or VSO
+      </h1>
 
       {hasRepresentative ? renderHasRepresentative() : renderNoRepresentative()}
     </>
