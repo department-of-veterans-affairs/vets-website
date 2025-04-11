@@ -1,3 +1,5 @@
+// eslint-disable color-no-hex
+
 // This file exists to support legacy accordions on va.gov, e.g. in the footer
 // these styles should not be used in any new app code
 
@@ -17,6 +19,17 @@ $accordion-border: 3px solid $vads-color-base-lightest;
 $icon-size: 15px;
 $h-padding: 20px;
 $v-padding: 15px;
+
+@mixin unstyled-list() {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  padding-left: 0;
+
+  > li {
+    margin-bottom: 0;
+  }
+}
 
 @mixin accordion-list-styles {
   @include unstyled-list;
