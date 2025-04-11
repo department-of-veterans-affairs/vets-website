@@ -351,12 +351,7 @@ export function createOktaOAuthRequest({
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
   };
 
-  const url = new URL(
-    API_SIGN_IN_SERVICE_URL({
-      type: loginType,
-      endpoint: OAUTH_ENDPOINTS.SSO,
-    }),
-  );
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: loginType }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
