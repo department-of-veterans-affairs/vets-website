@@ -987,7 +987,7 @@ export const headerFooterData = {
                 },
                 {
                   text: 'Apply now for a Veterans Pension',
-                  href: '/pension/application/527EZ',
+                  href: '/pension/apply-for-veteran-pension-form-21p-527ez',
                 },
               ],
             },
