@@ -72,12 +72,8 @@ const CareSummariesAndNotes = () => {
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
-      <p>
-        Most care summaries and notes are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after
-        providers sign them. This list doesn’t include care summaries from
-        before 2013.
-      </p>
+
+      <p>This list doesn’t include care summaries from before 2013.</p>
 
       <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
 
