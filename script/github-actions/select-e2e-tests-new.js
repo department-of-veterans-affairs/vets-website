@@ -87,7 +87,7 @@ function selectTests(pathsOfChangedFiles) {
 function exportVariables(tests) {
   const numTests = tests.length;
 
-  if (numTests <= 20) {
+  if (numTests <= 30) {
     core.exportVariable('NUM_CONTAINERS', 4);
     core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
   } else {
