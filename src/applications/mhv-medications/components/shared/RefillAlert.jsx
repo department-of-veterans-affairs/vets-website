@@ -13,6 +13,10 @@ const RefillAlert = props => {
     state => state.rx.prescriptions?.refillAlertList,
   );
 
+  const refillNotification = useSelector(
+    state => state.rx.prescriptions?.refillNotification,
+  );
+
   useEffect(() => {
     if (!refillAlertList) {
       dispatch(getRefillAlertList());
@@ -22,7 +26,7 @@ const RefillAlert = props => {
   return (
     <VaAlert
       status="warning"
-      visible={!!refillAlertList?.length}
+      visible={!!refillAlertList?.length && !refillNotification}
       uswds
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
       data-testid="alert-banner"

@@ -37,6 +37,7 @@ export const uiSchema = {
         'OTHER',
       expandUnder: 'currentSpouseReasonForSeparation',
       expandUnderCondition: 'OTHER',
+      preserveHiddenData: true,
       hideIf: formData =>
         formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
         'OTHER',
