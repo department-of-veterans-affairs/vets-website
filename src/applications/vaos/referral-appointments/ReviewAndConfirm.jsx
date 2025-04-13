@@ -31,7 +31,7 @@ import {
 import ProviderAddress from './components/ProviderAddress';
 
 const ReviewAndConfirm = props => {
-  const { currentReferral } = props;
+  const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlot(state));

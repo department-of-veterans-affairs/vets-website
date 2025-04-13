@@ -386,7 +386,7 @@ const responses = {
   // EPS api
   'GET /vaos/v2/epsApi/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4, '2024-12-02'),
+      data: referralUtils.createReferrals(4),
     });
   },
   'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
@@ -395,28 +395,15 @@ const responses = {
     }
 
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
-      const yesterday = moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DD');
       const expiredReferral = referralUtils.createReferralById(
-        '2024-12-02',
         req.params.referralId,
-        '111',
-        yesterday,
+        '2024-12-02',
       );
       return res.json({
         data: expiredReferral,
       });
     }
-    const tomorrow = moment()
-      .add(2, 'days')
-      .format('YYYY-MM-DD');
-    const referral = referralUtils.createReferralById(
-      '2024-12-02',
-      req.params.referralId,
-      '111',
-      tomorrow,
-    );
+    const referral = referralUtils.createReferralById(req.params.referralId);
     return res.json({
       data: referral,
     });

@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 const { addDays, addMonths, format, subMonths } = require('date-fns');
 
 const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
@@ -15,75 +14,63 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
  */
 
 const createReferralListItem = (
-  startDate,
-  uuid,
   expirationDate,
+  uuid,
   categoryOfCare = 'Physical Therapy',
 ) => {
-  const [year, month, day] = startDate.split('-');
+  const [year, month, day] = expirationDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
     attributes: {
-      uuid,
-      categoryOfCare,
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+      uuid,
+      categoryOfCare,
     },
   };
 };
 
 /**
- * Creates a referral object relative to a start date.
+ * Creates a referral object with specified uuid and expiration date.
  *
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} providerId The ID for the provider
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
 const createReferralById = (
-  startDate,
   uuid,
-  providerId = '111',
   expirationDate,
   categoryOfCare = 'Physical Therapy',
 ) => {
-  const [year, month, day] = startDate.split('-');
-  const relativeDate = new Date(year, month - 1, day);
-
+  // if no expiration date is provided, set it to 6 months from today
+  const today = new Date();
   const mydFormat = 'yyyy-MM-dd';
-
   return {
-    uuid,
-    referralDate: format(relativeDate, mydFormat),
-    expirationDate:
-      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    referralNumber: 'VA0000009880',
-    status: 'Approved',
-    categoryOfCare,
-    stationId: '528A4',
-    sta6: '534',
-    referringFacility: 'Batavia VA Medical Center',
-    referringFacilityInfo: {
-      facilityName: 'Batavia VA Medical Center',
-      facilityCode: '528A4',
-      description: 'Batavia VA Medical Center',
-      address: {
-        address1: '222 Richmond Avenue',
-        city: 'BATAVIA',
-        state: 'NY',
-        zipCode: '14020',
+    id: uuid,
+    type: 'referral',
+    attributes: {
+      uuid,
+      expirationDate: expirationDate || format(addMonths(today, 6), mydFormat),
+      referralNumber: 'VA0000009880',
+      categoryOfCare,
+      referringFacilityInfo: {
+        facilityName: 'Batavia VA Medical Center',
+        facilityCode: '528A4',
+        address: {
+          address1: '222 Richmond Avenue',
+          city: 'BATAVIA',
+          state: 'NY',
+          zipCode: '14020',
+        },
+        phone: '(585) 297-1000',
       },
-      phone: '(585) 297-1000',
+      provider: {
+        name: 'Dr. Moreen S. Rafa',
+        location: 'FHA South Melbourne Medical Complex',
+      },
+      hasAppointments: false,
     },
-    referralStatus: 'open',
-    provider: {
-      id: providerId,
-      name: 'Dr. Moreen S. Rafa',
-      location: 'FHA South Melbourne Medical Complex',
-    },
-    appointments: [],
   };
 };
 
@@ -100,24 +87,30 @@ const createReferrals = (
   baseDate,
   numberOfExpiringReferrals = 0,
 ) => {
-  const [year, month, day] = baseDate.split('-');
-  const baseDateObject = new Date(year, month - 1, day);
+  // create a date object for today that is not affected by the time zone
+  const dateOjbect = baseDate ? new Date(baseDate) : new Date();
+  const baseDateObject = new Date(
+    dateOjbect.getUTCFullYear(),
+    dateOjbect.getUTCMonth(),
+    dateOjbect.getUTCDate(),
+  );
   const referrals = [];
-
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
     const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
-    const startDate = addDays(
-      isExpired ? subMonths(baseDateObject, 6) : baseDateObject,
+    // make expiration date 6 months from the base date
+    // or 6 months before the base date if expired
+    // and add i days
+    const modifiedDate = addDays(
+      isExpired ? subMonths(baseDateObject, 6) : addMonths(baseDateObject, 6),
       i,
     );
     const mydFormat = 'yyyy-MM-dd';
-    const referralDate = format(startDate, mydFormat);
+    const expirationDate = format(modifiedDate, mydFormat);
     referrals.push(
       createReferralListItem(
-        referralDate,
+        expirationDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
-        isExpired ? format(addDays(startDate, 6), mydFormat) : undefined,
       ),
     );
   }
@@ -144,7 +137,7 @@ const filterReferrals = referrals => {
     return [];
   }
   return referrals.filter(
-    referral => referral.categoryOfCare === 'Physical Therapy',
+    referral => referral.attributes.categoryOfCare === 'Physical Therapy',
   );
 };
 

@@ -9,7 +9,7 @@ import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
-  const { currentReferral } = props;
+  const { attributes: currentReferral } = props.currentReferral;
   const location = useLocation();
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
