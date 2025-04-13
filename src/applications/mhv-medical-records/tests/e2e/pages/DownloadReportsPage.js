@@ -42,6 +42,16 @@ class DownloadReportsPage {
     });
   };
 
+  clickCcdDownloadXmlFileButtonWithoutDownloadIntercept = ccdGenerateResponse => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/ccd/generate',
+      ccdGenerateResponse,
+    ).as('ccdGenerateResponse');
+    cy.get('[data-testid="generateCcdButton"]').click();
+    cy.wait('@ccdGenerateResponse');
+  };
+
   verifyCcdDownloadStartedAlert = () => {
     cy.get('[data-testid="alert-download-started"]')
       .should('be.focused')
