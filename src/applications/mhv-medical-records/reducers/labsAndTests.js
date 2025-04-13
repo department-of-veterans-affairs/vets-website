@@ -241,7 +241,7 @@ const convertPathologyRecord = record => {
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
-    name: record.code?.text,
+    name: record.code.coding[0]?.code,
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
@@ -421,18 +421,23 @@ export const mergeRadiologyLists = (
  */
 const getRecordType = record => {
   if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
+    const coding = record.code?.coding;
+    const loincMap = {
+      [loincCodes.MICROBIOLOGY]: labTypes.MICROBIOLOGY,
+      [loincCodes.PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.SURGICAL_PATHOLOGY]: labTypes.SURGICAL_PATHOLOGY,
+      [loincCodes.ELECTRON_MICROSCOPY]: labTypes.ELECTRON_MICROSCOPY,
+      [loincCodes.CYTOPATHOLOGY]: labTypes.CYTOPATHOLOGY,
+    };
+
+    // Check if the code text is 'CH'
     if (record.code?.text === 'CH') return labTypes.CHEM_HEM;
-    if (
-      record.code?.coding?.some(
-        coding => coding.code === loincCodes.MICROBIOLOGY,
-      )
-    ) {
-      return labTypes.MICROBIOLOGY;
-    }
-    if (
-      record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
-    ) {
-      return labTypes.PATHOLOGY;
+
+    // Check if coding matches any LOINC code using Object.entries()
+    for (const [code, type] of Object.entries(loincMap)) {
+      if (coding?.some(c => c.code === code)) {
+        return type;
+      }
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
