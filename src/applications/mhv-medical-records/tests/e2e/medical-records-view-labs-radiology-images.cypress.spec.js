@@ -33,6 +33,11 @@ describe('Medical Records - Radiology images are shown when requested', () => {
 
     RadiologyDetailsPage.verifyShowingImageRecords(1, 10, 11);
 
+    // cy.get('va-link')
+    //   .shadow()
+    //   .find('a')
+    //   .click();
+
     cy.injectAxe();
     cy.axeCheck('main', {});
   });
