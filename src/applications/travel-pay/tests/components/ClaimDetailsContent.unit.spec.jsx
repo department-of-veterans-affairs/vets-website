@@ -131,7 +131,7 @@ describe('ClaimDetailsContent', () => {
       },
     );
 
-    expect(screen.getByText('DecisionLetter.pdf')).to.exist;
+    expect(screen.getByText('Download your decision letter')).to.exist;
     expect(screen.getByText('screenshot.png')).to.exist;
     expect(screen.queryByText('note-1.txt')).to.not.exist;
   });
@@ -160,7 +160,7 @@ describe('ClaimDetailsContent', () => {
     expect($(`va-additional-info[trigger="What does this status mean?"]`)).to
       .not.exist;
     expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
-    expect(screen.queryByText('DecisionLetter.pdf')).to.not.exist;
+    expect(screen.queryByText('Download your decision letter')).to.not.exist;
     expect(screen.queryByText('screenshot.png')).to.not.exist;
   });
 });
