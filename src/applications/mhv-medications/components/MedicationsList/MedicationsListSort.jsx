@@ -5,7 +5,7 @@ import {
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { rxListSortingOptions } from '../../util/constants';
@@ -17,7 +17,7 @@ import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showFilterContent = useSelector(selectFilterFlag);
   const [sortListOption, setSortListOption] = useState(value);
@@ -40,7 +40,9 @@ const MedicationsListSort = props => {
             // clean after filter flag is removed
             if (showFilterContent) {
               sortRxList(e.detail.value);
-              history.push(`/?page=1`);
+              navigate(`/?page=1`, {
+                replace: true,
+              });
               waitForRenderThenFocus(
                 "[data-testid='page-total-info']",
                 document,
@@ -84,7 +86,9 @@ const MedicationsListSort = props => {
             onClick={() => {
               if (sortListOption) {
                 sortRxList(sortListOption);
-                history.push(`/?page=1`);
+                navigate(`/?page=1`, {
+                  replace: true,
+                });
                 waitForRenderThenFocus(
                   "[data-testid='page-total-info']",
                   document,

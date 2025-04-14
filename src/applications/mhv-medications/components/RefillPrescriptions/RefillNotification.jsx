@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
@@ -147,7 +147,7 @@ const RefillNotification = ({ refillStatus }) => {
           </p>
           <Link
             data-testid="back-to-medications-page-link"
-            to="/"
+            to="../../medications"
             className="hide-visited-link"
             data-dd-action-name={
               dataDogActionNames.refillPage

@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -72,7 +72,7 @@ import InProductionEducationFiltering from '../components/MedicationsList/InProd
 
 const Prescriptions = () => {
   const { search } = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
@@ -162,7 +162,7 @@ const Prescriptions = () => {
       focusElement(document.getElementById('showingRx'));
     });
 
-    history.replace('/?page=1');
+    navigate('/?page=1', { replace: true });
     if (isFiltering) {
       sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
     }
@@ -244,8 +244,9 @@ const Prescriptions = () => {
         updateLoadingStatus(true, 'Loading your medications...');
       }
       if (Number.isNaN(page) || page < 1) {
-        history.replace(
+        navigate(
           `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
+          { replace: true },
         );
         return;
       }

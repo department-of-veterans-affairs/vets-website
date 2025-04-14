@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
@@ -127,7 +127,7 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`/prescription/${rx.prescriptionId}`}
+          to={`prescription/${rx.prescriptionId}`}
           onClick={handleLinkClick}
         >
           {rx.prescriptionName ||

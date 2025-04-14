@@ -1,7 +1,7 @@
 // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation, Redirect } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -692,7 +692,7 @@ const LandingPage = () => {
   }
 
   if (removeLandingPage) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

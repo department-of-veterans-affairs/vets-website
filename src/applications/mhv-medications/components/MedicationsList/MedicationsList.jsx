@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
@@ -19,7 +19,7 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const MedicationsList = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     isFullList,
     rxList,
@@ -48,7 +48,9 @@ const MedicationsList = props => {
     document.getElementById('showingRx').scrollIntoView();
     // replace terniary with true once loading spinner is added for the filter list fetch
     updateLoadingStatus(!showFilterContent, 'Loading your medications...');
-    history.push(`/?page=${page}`);
+    navigate(`/?page=${page}`, {
+      replace: true,
+    });
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
