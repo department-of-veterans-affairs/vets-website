@@ -562,7 +562,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     form.unmount();
   });
 
-  it('should fill out the contact method fields', () => {
+  it('should fill out the contact method field', () => {
     const initialState = {
       featureToggles: {
         showMeb5490MaintenanceAlert: true,
@@ -603,16 +603,60 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     );
 
     selectRadio(form, 'root_contactMethod', 'Email');
+
+    expect(
+      form.find('input[name="root_contactMethod"][value="Email"]').props()
+        .checked,
+    ).to.be.true;
+    form.unmount();
+  });
+
+  it('should fill out the notification method field', () => {
+    const initialState = {
+      featureToggles: {
+        showMeb5490MaintenanceAlert: true,
+      },
+      user: {
+        profile: {
+          userFullName: {
+            first: 'john',
+            middle: 't',
+            last: 'test',
+          },
+          dob: '1990-01-01',
+          loa: {
+            current: 3,
+          },
+        },
+      },
+    };
+    const mockStore = configureStore();
+    const store = mockStore(initialState);
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.contactInformationChapter.pages.chooseNotificationMethod;
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
+          formData={{
+            title: 'test form',
+            mobilePhone: { phone: '4138675309' },
+          }}
+        />
+      </Provider>,
+    );
+
     selectRadio(
       form,
       'root_notificationMethod',
       'No, just send me email notifications',
     );
 
-    expect(
-      form.find('input[name="root_contactMethod"][value="Email"]').props()
-        .checked,
-    ).to.be.true;
     expect(
       form
         .find(
@@ -622,6 +666,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     ).to.be.true;
     form.unmount();
   });
+
   it('should fill out the direct deposit fields', () => {
     const {
       schema,
