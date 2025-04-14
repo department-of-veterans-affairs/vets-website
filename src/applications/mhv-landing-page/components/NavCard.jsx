@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -22,31 +24,61 @@ const NavCard = ({
   links,
   tag,
 }) => {
-  const listItems = links?.map(({ ariaLabel, href, text, isExternal }) => (
-    <li className="mhv-c-navlistitem" key={href}>
-      <a
-        className={isExternal ? 'mhv-c-navlink-external' : 'mhv-c-navlink'}
-        href={href}
-        aria-label={ariaLabel}
-        target={isExternal ? '_blank' : ''}
-        onClick={() => {
-          recordEvent({
-            event: 'nav-linkslist',
-            'links-list-header': text,
-            'links-list-section-header': title,
-          });
-        }}
-        rel="noreferrer"
-      >
-        <span
-          className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+  const listItems = links?.map(({ ariaLabel, href, text, isExternal }) => {
+    if (isExternal) {
+      return (
+        <li className="mhv-c-navlistitem" key={href}>
+              <a
+                className="mhv-c-navlink-external"
+                href={href}
+                aria-label={ariaLabel}
+                target='_blank'
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': text,
+                    'links-list-section-header': title,
+                  });
+                }}
+                rel="noreferrer"
+              >
+                <span
+                  className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+                >
+                  {text} {isExternal && externalLinkText}
+                </span>
+                {!isExternal && <va-icon icon="navigate_next" size={4} />}
+              </a>
+        </li>
+      )
+    };
+    return (
+      <li className="mhv-c-navlistitem" key={href}>
+        <Link
+          className='mhv-c-navlink'
+          to={href}
+          aria-label={ariaLabel}
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': text,
+              'links-list-section-header': title,
+            });
+          }}
+          rel="noreferrer"
         >
-          {text} {isExternal && externalLinkText}
-        </span>
-        {!isExternal && <va-icon icon="navigate_next" size={4} />}
-      </a>
-    </li>
-  ));
+          <span
+            className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+          >
+            {text} {isExternal && externalLinkText}
+          </span>
+          {!isExternal && <va-icon icon="navigate_next" size={4} />}
+        </Link>
+      </li>
+    )
+  }
+);
+
   const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
   return (
     <div

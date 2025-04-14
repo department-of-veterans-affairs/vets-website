@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
@@ -47,8 +48,8 @@ const MhvSecondaryNavItem = ({
 
   return (
     <div key={key} className={itemClass} data-testid="mhv-sec-nav-item">
-      <a
-        href={href}
+      <Link
+        to={href}
         data-dd-action-name={actionName}
         className="vads-u-text-decoration--none"
         aria-label={abbreviation && ariaLabel}
@@ -70,7 +71,7 @@ const MhvSecondaryNavItem = ({
         <span className={`mhv-u-sec-nav-short-title ${titleClass}`}>
           {abbreviation || title}
         </span>
-      </a>
+      </Link>
     </div>
   );
 };

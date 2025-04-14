@@ -1,6 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import MhvSecondaryNavItem from './MhvSecondaryNavItem';
 
 /**
@@ -20,7 +20,8 @@ const MhvSecondaryNavMenu = ({ items, loading }) => {
    * @returns the path without a trailing slash
    */
   const stripTrailingSlash = path => path?.replace(/\/$/, '');
-
+  const stripBasenameAndTrailingSlash = path =>
+    path?.replace(/^\/my-health|\/$/, '');
   /**
    * Find which navigation item needs to be set to active, if any. An item should be active
    * when the URL pathname starts with the app's root URL, or the href matches the current
@@ -36,7 +37,10 @@ const MhvSecondaryNavMenu = ({ items, loading }) => {
         const appRootUrl = stripTrailingSlash(item.appRootUrl || item.href);
         // Remove the trailing slash as they are optional.
         const linkNoTrailing = stripTrailingSlash(item.href);
-        const urlNoTrailing = stripTrailingSlash(window?.location?.pathname);
+        // Remove the basename '/my-health' as we're using Link instead of '<a>' tag and trailing slash.
+        const urlNoTrailing = stripBasenameAndTrailingSlash(
+          window?.location?.pathname,
+        );
         return (
           window?.location?.pathname?.startsWith(appRootUrl) ||
           linkNoTrailing === urlNoTrailing
@@ -87,7 +91,6 @@ MhvSecondaryNavMenu.propTypes = {
       appRootUrl: PropTypes.string,
     }),
   ),
-  loading: PropTypes.bool,
 };
 
 export default MhvSecondaryNavMenu;
