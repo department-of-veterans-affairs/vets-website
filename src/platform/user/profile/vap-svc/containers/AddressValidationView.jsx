@@ -40,7 +40,7 @@ class AddressValidationView extends React.Component {
   // the updateProfileChoice in the vapService.formFields state
   updateProfileChoice =
     this.context?.fieldName &&
-    this.props.vapServiceFormFields[this.context?.fieldName]?.value
+    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
       ?.updateProfileChoice;
 
   componentDidMount() {
