@@ -18,14 +18,18 @@ import {
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
-const isEdit = () => {
+const isEditFromUrl = () => {
   const search = getArrayUrlSearchParams();
   const hasEdit = search.get('edit');
   return !!hasEdit;
 };
 
+export const isEditFromContext = context => {
+  return context.edit;
+};
+
 export const createAddAndEditTitles = (addTitle, editTitle) => {
-  if (isEdit()) {
+  if (isEditFromUrl()) {
     return editTitle;
   }
   return addTitle;

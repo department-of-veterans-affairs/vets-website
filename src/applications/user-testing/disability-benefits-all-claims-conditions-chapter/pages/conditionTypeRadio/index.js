@@ -6,6 +6,7 @@ import {
   arrayBuilderOptions,
   hasRatedDisabilities,
   isActiveDemo,
+  isEditFromContext,
   isRatedDisability,
 } from '../shared/utils';
 import ratedDisabilityPage from './ratedDisability';
@@ -20,7 +21,7 @@ const conditionTypeRadioPages = arrayBuilderPages(
       path: `conditions-${demo.label}/:index/condition-type`,
       depends: (formData, index, context) =>
         isActiveDemo(formData, demo.name) &&
-        context.add &&
+        !isEditFromContext(context) &&
         hasRatedDisabilities(formData, index),
       uiSchema: conditionTypePage.uiSchema,
       schema: conditionTypePage.schema,
@@ -30,7 +31,7 @@ const conditionTypeRadioPages = arrayBuilderPages(
       path: `conditions-${demo.label}/:index/rated-disability`,
       depends: (formData, index, context) =>
         isActiveDemo(formData, demo.name) &&
-        context.add &&
+        !isEditFromContext(context) &&
         hasRatedDisabilities(formData) &&
         isRatedDisability(formData, index),
       uiSchema: ratedDisabilityPage.uiSchema,

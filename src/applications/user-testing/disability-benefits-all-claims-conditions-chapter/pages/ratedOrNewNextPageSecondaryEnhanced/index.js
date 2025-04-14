@@ -6,6 +6,7 @@ import {
   arrayBuilderOptions,
   hasRatedDisabilities,
   isActiveDemo,
+  isEditFromContext,
 } from '../shared/utils';
 import conditionPage from '../ratedOrNewNextPage/condition';
 
@@ -18,7 +19,7 @@ export const ratedOrNewNextPageSecondaryEnhancedPages = arrayBuilderPages(
       path: `conditions-${demo.label}/:index/condition`,
       depends: (formData, _index, context) =>
         isActiveDemo(formData, demo.name) &&
-        context.add &&
+        !isEditFromContext(context) &&
         hasRatedDisabilities(formData),
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
