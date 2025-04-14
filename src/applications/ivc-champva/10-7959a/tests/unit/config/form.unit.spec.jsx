@@ -1,9 +1,12 @@
+import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
 import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
+import { NotEnrolledChampvaPage } from '../../../chapters/NotEnrolledChampvaPage';
 
 describe('Certifier role page', () => {
   testNumberOfWebComponentFields(
@@ -14,6 +17,35 @@ describe('Certifier role page', () => {
     'Certifier role',
     { ...mockData.data },
   );
+});
+
+describe('Certifier enrolled in CHAMPVA page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.signerInformation.pages.page1a1.schema,
+    formConfig.chapters.signerInformation.pages.page1a1.uiSchema,
+    1,
+    'Certifier enrolled in CHAMPVA page',
+    { ...mockData.data },
+  );
+});
+
+describe('Certifier enrolled in CHAMPVA (role: other) page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.signerInformation.pages.page1a1.schema,
+    formConfig.chapters.signerInformation.pages.page1a1.uiSchema,
+    1,
+    'Certifier enrolled in CHAMPVA page',
+    { ...mockData.data, certifierRole: 'other' },
+  );
+});
+
+describe('NotEnrolledChampvaPage', () => {
+  it('should render', () => {
+    const { container } = render(<NotEnrolledChampvaPage goBack={() => {}} />);
+    expect(container).to.exist;
+  });
 });
 
 describe('Certifier relationship page', () => {

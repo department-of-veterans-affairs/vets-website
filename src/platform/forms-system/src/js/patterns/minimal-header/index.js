@@ -10,6 +10,8 @@ import { createBreadcrumbListFromPath } from '../../routing';
  * @returns {boolean}
  */
 export function isMinimalHeaderApp() {
+  // The header DOM is rendered before app-entry.js is executed,
+  // so it is safe to use for initialization conditions for the app
   return document.getElementById('header-minimal') !== null;
 }
 
@@ -109,6 +111,10 @@ export const minimalHeaderFormConfigOptions = ({
   homeVeteransAffairs,
   CustomTopContent,
 } = {}) => {
+  if (!isMinimalHeaderApp()) {
+    return {};
+  }
+
   const TopContent = ({ currentLocation }) => {
     const ConditionalBreadcrumbs = isMinimalHeaderPath() ? null : (
       <Breadcrumbs

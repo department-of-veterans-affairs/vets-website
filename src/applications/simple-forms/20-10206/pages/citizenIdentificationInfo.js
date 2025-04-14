@@ -11,7 +11,6 @@ export default {
       title: 'Identification information',
       description:
         'You must enter either a Social Security number or VA File number',
-      headerLevel: 3,
     }),
     citizenId: ssnOrVaFileNumberNoHintUI(),
   },

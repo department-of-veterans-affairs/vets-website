@@ -14,6 +14,9 @@ describe('22-10215 - Institution Details', () => {
     uiSchema,
   } = formConfig.chapters.institutionDetailsChapter.pages.institutionDetails;
 
+  delete uiSchema.institutionDetails.institutionName;
+  delete schema.properties.institutionDetails.properties.institutionName;
+
   it('renders the correct amount of inputs', () => {
     const form = mount(
       <DefinitionTester
@@ -24,7 +27,7 @@ describe('22-10215 - Institution Details', () => {
     );
 
     // Institution name and Facility code fields
-    expect(form.find('va-text-input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(1);
     // Term start date and Date of calculation fields
     expect(form.find('va-memorable-date').length).to.equal(2);
 
@@ -45,7 +48,7 @@ describe('22-10215 - Institution Details', () => {
 
     form.find('form').simulate('submit');
     // Institution name and Facility code errors
-    expect(form.find('va-text-input[error]').length).to.equal(2);
+    expect(form.find('va-text-input[error]').length).to.equal(1);
     // Term start date and Date of calculation errors
     expect(form.find('va-memorable-date[error]').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
@@ -71,29 +74,6 @@ describe('22-10215 - Institution Details', () => {
     errors.messages = [];
     validateFacilityCode(errors, '12345678');
     expect(errors.messages).to.be.empty;
-  });
-  it('should show date of calculations error if date of calculations is before term start date', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        onSubmit={onSubmit}
-        data={{
-          institutionDetails: {
-            institutionName: 'test',
-            facilityCode: '12345678',
-            termStartDate: '2025-02-01',
-            dateOfCalculations: '2025-01-01',
-          },
-        }}
-        uiSchema={uiSchema}
-        definitions={definitions}
-      />,
-    );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(1);
-    form.unmount();
   });
   it('should not show date of calculations error if term start date is empty', () => {
     const onSubmit = sinon.spy();

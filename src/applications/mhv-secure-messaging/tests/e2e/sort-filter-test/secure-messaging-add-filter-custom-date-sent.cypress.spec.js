@@ -12,8 +12,8 @@ describe('SM SENT ADD FILTER CUSTOM DATE RANGE', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     PatentMessageSentPage.loadMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectDateRange('Custom');
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectDateRange('Custom');
   });
 
   it('verify advanced filter form elements', () => {
@@ -113,7 +113,7 @@ describe('SM SENT ADD FILTER CUSTOM DATE RANGE', () => {
     PatientFilterPage.selectEndDay(`11`);
     PatientFilterPage.getEndYear(year);
 
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientFilterPage.clickApplyFilterButton(searchResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(searchResultResponse);
     PatientFilterPage.verifyMessageDate(2);

@@ -35,4 +35,24 @@ describe('transformForSubmit in Pre-need Integration', () => {
       'mailingAddress',
     );
   });
+
+  it('should retain name and mailingAddress if applicantRelationshipToClaimant is not Self', () => {
+    mockForm.data.application.applicant.applicantRelationshipToClaimant =
+      'Other';
+    const result = transformForSubmit(mockFormConfig, mockForm);
+
+    expect(result).to.be.a('string');
+    const parsedResult = JSON.parse(result);
+    expect(parsedResult).to.have.property('formNumber', 'test-form-id');
+    expect(parsedResult).to.have.property('version', 'int');
+
+    expect(parsedResult.application.applicant).to.have.property(
+      'name',
+      'Sonic Hedgehog',
+    );
+    expect(parsedResult.application.applicant).to.have.property(
+      'mailingAddress',
+      '123 GreenHillZone Street',
+    );
+  });
 });

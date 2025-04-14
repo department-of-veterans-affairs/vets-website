@@ -108,9 +108,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
       },
     };
-    const now = moment();
-    const start = moment(now).subtract(30, 'days');
-    const end = moment(now).add(395, 'days');
+
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -137,24 +135,22 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
           },
         },
       },
-      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: now.format('YYYY-MM-DDTHH:mm:ss'),
-      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
       future: true,
     };
 
     mockAppointmentsApi({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
+      end: format(now, 'yyyy-MM-dd'), // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: format(start, 'yyyy-MM-dd'),
+      end: format(end, 'yyyy-MM-dd'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -165,7 +161,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     await screen.findAllByLabelText(
-      new RegExp(now.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(now, 'EEEE, MMMM d'), 'i'), // Format as 'Day, Month Date'
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });

@@ -3,6 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import recordEvent from '~/platform/monitoring/record-event';
 import OverviewPage from './containers/OverviewPage';
 import CombinedPortalApp from './containers/CombinedPortalApp';
+import CombinedStatements from './containers/CombinedStatements';
 import Details from '../medical-copays/containers/Details';
 import HTMLStatementPage from '../medical-copays/containers/HTMLStatementPage';
 import MCPOverview from '../medical-copays/containers/SummaryPage';
@@ -46,6 +47,7 @@ const Routes = () => (
         path="/debt-balances/details/:id/resolve"
         component={ResolveDebtPage}
       />
+      <Route exact path="/combined-statements" component={CombinedStatements} />
       <Route>
         <Redirect to="/" />
       </Route>

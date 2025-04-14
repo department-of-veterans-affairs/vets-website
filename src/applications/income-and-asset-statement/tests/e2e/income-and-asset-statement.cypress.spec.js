@@ -40,7 +40,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.get('a.vads-c-action-link--green')
-            .contains('Start the Application')
+            .contains('Start the Income and Asset Statement application')
             .click({ force: true });
         });
       },
@@ -470,7 +470,7 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', mockUser);
-      cy.intercept('POST', `v0/${formConfig.submitUrl}`, {
+      cy.intercept('POST', `income_and_assets/v0/${formConfig.submitUrl}`, {
         data: {
           id: 'mock-id',
           type: 'saved_income_and_asset_claim',
