@@ -113,6 +113,7 @@ function LcTestInfo({ tests }) {
             <va-table
               table-type={isSmallScreen() ? 'bordered' : 'borderless'}
               stacked
+              table-title="test fee description and reimbursement details"
             >
               <va-table-row slot="headers">
                 <span>Test Name</span>
