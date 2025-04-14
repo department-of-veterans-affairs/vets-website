@@ -13,6 +13,7 @@ import { transform } from './submit-transformer';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 import SubmissionInstructions from '../components/SubmissionInstructions';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 // Pages
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -83,12 +84,10 @@ const formConfig = {
   },
   preSubmitInfo: {
     statementOfTruth: {
+      body: PrivacyPolicy,
       heading: 'Certification statement',
-      body:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
       fullNamePath: 'certifyingOfficial',
+      messageAriaDescribedBy: 'I have read and accept the privacy policy.',
     },
   },
   transformForSubmit: transform,

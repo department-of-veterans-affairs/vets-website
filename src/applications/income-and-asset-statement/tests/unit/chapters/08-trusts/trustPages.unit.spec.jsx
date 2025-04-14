@@ -5,8 +5,11 @@ import {
   options,
 } from '../../../../config/chapters/08-trusts/trustPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -20,10 +23,31 @@ describe('trust list and loop pages', () => {
   const { trustPagesSummary } = trustPages;
 
   describe('isItemIncomplete function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { addedFundsDate, addedFundsAmount, receivingIncomeFromTrust, annualReceivedIncome, monthlyMedicalReimbursementAmount, ...baseItem } = testData.data.trusts[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsDate,
+      addedFundsAmount,
+      receivingIncomeFromTrust,
+      annualReceivedIncome,
+      monthlyMedicalReimbursementAmount,
+      ...baseItem
+    } = testData.data.trusts[0];
+    /* eslint-enable no-unused-vars */
     testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('isItemIncomplete function tested with zeroes', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsDate,
+      addedFundsAmount,
+      receivingIncomeFromTrust,
+      annualReceivedIncome,
+      monthlyMedicalReimbursementAmount,
+      ...baseItem
+    } = testDataZeroes.data.trusts[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
   });
 
   describe('text getItemName function', () => {
@@ -33,9 +57,40 @@ describe('trust list and loop pages', () => {
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { trustType, addedFundsAfterEstablishment, addedFundsDate, addedFundsAmount, receivingIncomeFromTrust, annualReceivedIncome, trustUsedForMedicalExpenses, monthlyMedicalReimbursementAmount, trustEstablishedForVeteransChild, haveAuthorityOrControlOfTrust, ...baseItem } = testData.data.trusts[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      trustType,
+      addedFundsAfterEstablishment,
+      addedFundsDate,
+      addedFundsAmount,
+      receivingIncomeFromTrust,
+      annualReceivedIncome,
+      trustUsedForMedicalExpenses,
+      monthlyMedicalReimbursementAmount,
+      trustEstablishedForVeteransChild,
+      haveAuthorityOrControlOfTrust,
+      ...baseItem
+    } = testData.data.trusts[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      trustType,
+      addedFundsAfterEstablishment,
+      addedFundsDate,
+      addedFundsAmount,
+      receivingIncomeFromTrust,
+      annualReceivedIncome,
+      trustUsedForMedicalExpenses,
+      monthlyMedicalReimbursementAmount,
+      trustEstablishedForVeteransChild,
+      haveAuthorityOrControlOfTrust,
+      ...baseItem
+    } = testDataZeroes.data.trusts[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem);
   });
 

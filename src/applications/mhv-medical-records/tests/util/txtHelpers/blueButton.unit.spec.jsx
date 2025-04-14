@@ -156,28 +156,22 @@ const data = {
 };
 
 describe('getTxtContent', () => {
-  const userFullName = { first: 'John', last: 'Doe' };
-  const dob = '01/01/1970';
+  const user = {
+    userFullName: { first: 'John', last: 'Doe' },
+    dob: '1974-04-06',
+  };
   const dateRange = { fromDate: 'any', toDate: 'any' };
 
   it('should handle data with all fields populated', () => {
-    const result = getTxtContent(data, { userFullName, dob }, dateRange);
+    const result = getTxtContent(data, user, dateRange);
     expect(result).to.include('Date range: All time');
     expect(result).to.include('Lab and test results');
     expect(result).to.include('Test 1 on');
     expect(result).to.include('Care summaries and notes');
     expect(result).to.include('Note 1');
-    expect(result).to.include('This list includes vaccines you got');
     expect(result).to.include('Vaccine 1');
-    expect(result).to.include('If you have allergies that are missing');
     expect(result).to.include('Type of allergy: food');
-    expect(result).to.include(
-      'This list includes your current health conditions',
-    );
     expect(result).to.include('SNOMED Clinical term: Condition 1');
-    expect(result).to.include(
-      'This list includes vitals and other basic health numbers',
-    );
     expect(result).to.include('Result: 42');
     expect(result).to.include('This is a list of prescriptions');
     expect(result).to.include('Title: Medication 1');

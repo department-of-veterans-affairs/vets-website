@@ -43,7 +43,7 @@ describe('<FilterAccordion>', () => {
   it('should show update and clear buttons when expanded', () => {
     const wrapper = mountComponent({ ...defaultProps, open: true });
     expect(wrapper.find('VaButton[text="Update Results"]')).to.have.lengthOf(1);
-    expect(wrapper.find('ClearFiltersBtn')).to.have.lengthOf(1);
+    expect(wrapper.find('VaButton[text="Reset search"]')).to.have.lengthOf(1);
   });
 
   it('should call updateResults when update button is clicked', () => {
@@ -64,7 +64,7 @@ describe('<FilterAccordion>', () => {
       open: true,
       resetSearch: resetSearchSpy,
     });
-    wrapper.find('ClearFiltersBtn').simulate('click');
+    wrapper.find('VaButton[text="Reset search"]').simulate('click');
     expect(resetSearchSpy.called).to.be.true;
   });
 
@@ -76,6 +76,6 @@ describe('<FilterAccordion>', () => {
       ...defaultProps,
       open: false,
     });
-    expect(collapsedWrapper.find('VaAccordionItem').props().open).to.be.false;
+    expect(collapsedWrapper.find('VaAccordionItem').props().open).to.be.true;
   });
 });

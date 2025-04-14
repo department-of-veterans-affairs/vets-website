@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
-import LoginNote from './LoginNote';
 
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const mhvButtonDeprecated = useSelector(
@@ -43,7 +42,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             queryParams={{ clientId, codeChallenge }}
           />
         ))}
-        <LoginNote />
+        <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
+          Learn about creating a Login.gov or ID.me account
+        </a>
         {isValid && (
           <div>
             <h2>Other sign-in options</h2>

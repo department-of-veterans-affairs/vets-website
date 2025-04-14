@@ -1,4 +1,4 @@
-import { LAST_YEAR } from '../../../utils/constants';
+import { LAST_YEAR } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import { SpouseFinancialSupportDescription } from '../../../components/FormDescriptions';
 
