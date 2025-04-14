@@ -26,6 +26,7 @@ export const schema = {
         'view:marriageTypeInformation':
           currentMarriageInformation.properties['view:marriageTypeInformation'],
       },
+      required: ['typeOfMarriage'],
     },
   },
 };
