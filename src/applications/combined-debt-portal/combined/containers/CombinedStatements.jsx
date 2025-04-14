@@ -306,6 +306,7 @@ const CombinedStatements = () => {
               href="/manage-va-debt/summary/copay-balances"
               text="Review and resolve copay bills"
               type="secondary"
+              data-testid="review-copays-link"
             />
           </div>
 
@@ -364,9 +365,10 @@ const CombinedStatements = () => {
             request financial help, or dispute your bill.
           </p>
           <va-link-action
-            href="/manage-va-debt/summary"
+            href="/manage-va-debt/summary/debt-balances"
             text="Review and resolve overpayments"
             type="secondary"
+            data-testid="review-debts-link"
           />
 
           <p className="vads-u-margin-bottom--3">
@@ -377,6 +379,7 @@ const CombinedStatements = () => {
             table-type="borderless"
             table-title="Overpayment charges"
             className="vads-u-width--full vads-u-margin-x--0"
+            data-testid="combined-statements-debt-table"
           >
             <va-table-row slot="headers">
               <span>Date</span>

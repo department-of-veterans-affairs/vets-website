@@ -66,100 +66,46 @@ describe('CDP - Combined statements', () => {
     });
   });
 
-  // context('User has Debts only', () => {
-  //   beforeEach(() => {
-  //     copayResponses.empty('copaysC');
-  //     debtResponses.good('debtsC');
+  context('User has Debts only', () => {
+    beforeEach(() => {
+      copayResponses.empty('copaysC');
+      debtResponses.good('debtsC');
 
-  //     cy.visit('/manage-va-debt/summary/combined-statements');
-  //     cy.wait(['@features', '@copaysC', '@debtsC']);
-  //     cy.findByTestId('detail-page-title').should('exist');
-  //   });
-  // });
+      cy.visit('/manage-va-debt/summary/combined-statements');
+      cy.wait(['@features', '@copaysC', '@debtsC']);
+      cy.findByTestId('detail-page-title').should('exist');
+    });
 
-  // context('User has both Copays and Debts', () => {
-  //   beforeEach(() => {
-  //     copayResponses.good('copaysD');
-  //     debtResponses.good('debtsD');
+    it('should display debt table correctly', () => {
+      cy.get(
+        '[data-testid="combined-statements-debt-table"] > va-table-inner.hydrated',
+      ).should('exist');
+      cy.get(
+        '[data-testid="combined-statements-copay-table-Ralph H. Johnson Department of Veterans Affairs Medical Center"] > va-table-inner.hydrated',
+      ).should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 
-  //     cy.visit('/manage-va-debt/summary/combined-statements');
-  //     cy.wait(['@features', '@copaysD', '@debtsD']);
-  //     cy.findByTestId('detail-page-title').should('exist');
-  //   });
+  context('User has both Copays and Debts', () => {
+    beforeEach(() => {
+      copayResponses.good('copaysD');
+      debtResponses.good('debtsD');
 
-  //   it('should navigate to Copay-list & Debt-list pages - C18024', () => {
-  //     cy.findByTestId('balance-card-copay')
-  //       .findByTestId('card-link')
-  //       .click();
-  //     cy.url().should('match', /\/copay-balances$/);
+      cy.visit('/manage-va-debt/summary/combined-statements');
+      cy.wait(['@features', '@copaysD', '@debtsD']);
+      cy.findByTestId('detail-page-title').should('exist');
+    });
 
-  //     cy.go('back');
-  //     cy.findByTestId('balance-card-debt')
-  //       .findByTestId('card-link')
-  //       .click();
-  //     cy.url().should('match', /\/debt-balances$/);
+    it('should navigate to Copay-list & Debt-list pages', () => {
+      cy.findByTestId('review-copays-link').click();
+      cy.url().should('match', /\/copay-balances$/);
 
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-  // });
+      cy.go('back');
+      cy.findByTestId('review-debts-link').click();
+      cy.url().should('match', /\/debt-balances$/);
 
-  // context('User is not enrolled in healthcare', () => {
-  //   it('should display not enrolled in healthcare alert', () => {
-  //     copayResponses.notEnrolled('copaysNE');
-  //     debtResponses.good('debtsNE');
-
-  //     cy.visit('/manage-va-debt/summary');
-  //     cy.wait(['@features', '@copaysNE', '@debtsNE']);
-
-  //     cy.findByTestId('overview-page-title').should('exist');
-  //     cy.findByTestId('no-healthcare-alert').should('exist');
-
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-  // });
-
-  // context('Error states', () => {
-  //   it('should display Copays error message upon copays API-404-error - C18216', () => {
-  //     copayResponses.bad('copaysE1');
-  //     debtResponses.good('debtsE1');
-
-  //     cy.visit('/manage-va-debt/summary');
-  //     cy.wait(['@features', '@copaysE1', '@debtsE1']);
-  //     cy.findByTestId('overview-page-title').should('exist');
-
-  //     cy.findByTestId('balance-card-alert-copay').should('exist');
-  //     cy.findByTestId('balance-card-copay').should('not.exist');
-
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-
-  //   it('should display Debts error message upon debts API-404-error - C18217', () => {
-  //     copayResponses.good('copaysE2');
-  //     debtResponses.bad('debtsE2');
-
-  //     cy.visit('/manage-va-debt/summary');
-  //     cy.wait(['@features', '@copaysE2', '@debtsE2']);
-
-  //     cy.findByTestId('overview-page-title').should('exist');
-  //     cy.findByTestId('balance-card-alert-debt').should('exist');
-  //     cy.findByTestId('balance-card-debt').should('not.exist');
-
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-
-  //   it('should display Combined error message upon both API-404-errors - C18218', () => {
-  //     copayResponses.bad('copaysE3');
-  //     debtResponses.bad('debtsE3');
-
-  //     cy.visit('/manage-va-debt/summary');
-  //     cy.wait(['@features', '@copaysE3', '@debtsE3']);
-  //     cy.findByTestId('overview-page-title').should('exist');
-
-  //     cy.findByTestId('balance-card-combo-alert-error').should('exist');
-  //     cy.findByTestId('balance-card-copay').should('not.exist');
-  //     cy.findByTestId('balance-card-debt').should('not.exist');
-
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-  // });
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
