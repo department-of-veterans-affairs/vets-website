@@ -236,7 +236,7 @@ class MedicationsListPage {
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download a PDF of this list')
+      .should('contain', 'Download a PDF of all medications')
       .should('be.visible');
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
