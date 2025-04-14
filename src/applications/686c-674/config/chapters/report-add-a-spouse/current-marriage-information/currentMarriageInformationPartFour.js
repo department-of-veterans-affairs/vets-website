@@ -2,9 +2,8 @@ import React from 'react';
 import {
   radioSchema,
   radioUI,
-  textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { addSpouse } from '../../../utilities';
 import {
   marriageTypeLabels,
@@ -20,8 +19,10 @@ export const schema = {
     currentMarriageInformation: {
       type: 'object',
       properties: {
-        type: radioSchema(marriageTypeArr),
-        typeOther: textSchema,
+        typeOfMarriage: radioSchema(marriageTypeArr),
+        typeOther: {
+          type: 'string',
+        },
         'view:marriageTypeInformation':
           currentMarriageInformation.properties['view:marriageTypeInformation'],
       },
@@ -31,30 +32,37 @@ export const schema = {
 
 export const uiSchema = {
   currentMarriageInformation: {
-    type: radioUI({
+    typeOfMarriage: radioUI({
       title: 'How did you get married?',
       labels: marriageTypeLabels,
-      required: () => true,
       labelHeaderLevel: '3',
       errorMessages: {
         required: 'Select the type of marriage',
       },
       classNames: 'vads-u-margin-bottom--2 vads-u-margin-top--5',
     }),
-    typeOther: textUI({
-      title: 'Other type of marriage',
-      required: formData =>
-        formData?.currentMarriageInformation?.type === 'OTHER',
-      expandUnder: 'type',
-      expandUnderCondition: 'OTHER',
-      preserveHiddenData: true,
-      showFieldLabel: true,
-      keepInPageOnReview: true,
-      hideIf: formData =>
-        formData?.currentMarriageInformation?.type !== 'OTHER',
-    }),
+    typeOther: {
+      'ui:title': 'Other type of marriage',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'typeOfMarriage',
+        expandUnderCondition: 'OTHER',
+        preserveHiddenData: true,
+      },
+    },
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.typeOther['ui:collapsed']) {
+          return { ...formSchema, required: ['typeOfMarriage'] };
+        }
+        return {
+          ...formSchema,
+          required: ['typeOfMarriage', 'typeOther'],
+        };
+      },
     },
   },
 };
