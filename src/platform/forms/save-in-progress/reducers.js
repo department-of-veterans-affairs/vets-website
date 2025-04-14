@@ -41,7 +41,6 @@ export const saveInProgressReducers = {
 
     return newState;
   },
-
   [SET_AUTO_SAVE_FORM_STATUS]: (state, action) => {
     const newState = set('autoSavedStatus', action.status, state);
 
@@ -71,7 +70,7 @@ export const saveInProgressReducers = {
   [SET_IN_PROGRESS_FORM]: (state, action) => {
     let newState;
 
-    // if we're prefilling, we want to use whatever initial data the form has
+    // if we’re prefilling, we want to use whatever initial data the form has
     if (state.prefillStatus === PREFILL_STATUSES.pending) {
       const formData = merge({}, state.data, action.data.formData);
       const loadedData = set('formData', formData, action.data);
