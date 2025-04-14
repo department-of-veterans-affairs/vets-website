@@ -17,7 +17,7 @@ export function fetchEnrollmentStatus(env = environment, simulate = false) {
     const { isLoading } = selectEnrollmentStatus(getState());
     if (isLoading) return null;
 
-    const simulateServerLocally = env.isLocalhost() && simulate;
+    const simulateServerLocally = env.isLocalhost() && !simulate;
     const { FETCH_ENROLLMENT_STATUS_STARTED } = ENROLLMENT_STATUS_ACTIONS;
 
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
