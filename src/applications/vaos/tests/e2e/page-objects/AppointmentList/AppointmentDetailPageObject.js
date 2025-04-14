@@ -108,19 +108,14 @@ export class AppointmentDetailPageObject extends PageObject {
 
       // And the start time should match the appointment
       expect(tokens.get('DTSTAMP')).to.equal(
-        `${moment(startDate)
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        `${moment(startDate).format('YYYYMMDDTHHmmss[Z]')}`,
       );
       expect(tokens.get('DTSTART')).to.equal(
-        `${moment(startDate)
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        `${moment(startDate).format('YYYYMMDDTHHmmss[Z]')}`,
       );
       expect(tokens.get('DTEND')).to.equal(
         `${moment(startDate)
           .add(60, 'minutes') // Default duration
-          .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
       expect(tokens.get('END')).includes('VEVENT');

@@ -13,7 +13,7 @@ import {
   selectCommunityCareSupportedSites,
   selectPageChangeInProgress,
 } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import useFormState from '../../hooks/useFormState';
 import { getPageTitle } from '../newAppointmentFlow';
 
@@ -44,11 +44,6 @@ export default function ClosestCityStatePage() {
   const supportedParentSites = useSelector(selectCommunityCareSupportedSites);
   const initialData = useSelector(getFormData, shallowEqual);
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
-
   const { data, schema, setData } = useFormState({
     initialData,
     initialSchema() {
@@ -68,6 +63,19 @@ export default function ClosestCityStatePage() {
     },
     uiSchema,
   });
+
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }, []);
+
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div>

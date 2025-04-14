@@ -6,7 +6,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
@@ -72,11 +72,18 @@ export default function TypeOfAudiologyCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);
     }
   }, []);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__radio-field-descriptive">
