@@ -95,7 +95,7 @@ describe('Microbiology details component with no date', () => {
 
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });
