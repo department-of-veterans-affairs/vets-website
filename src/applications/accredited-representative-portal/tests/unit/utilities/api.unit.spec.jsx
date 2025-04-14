@@ -70,9 +70,7 @@ describe('API utilities', () => {
 
       expect(fetchStub.called).to.be.true;
       const url = fetchStub.firstCall.args[0];
-      expect(url).to.include(
-        '/power_of_attorney_requests?status=pending&sort=created_at_desc',
-      );
+      expect(url).to.include('/power_of_attorney_requests?status=pending');
     });
   });
 

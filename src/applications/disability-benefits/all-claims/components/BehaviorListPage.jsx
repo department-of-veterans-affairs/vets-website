@@ -40,6 +40,8 @@ const BehaviorListPage = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onReviewPage,
+  updatePage,
 }) => {
   const [selectedWorkBehaviors, setSelectedWorkBehaviors] = useState(
     data?.workBehaviors,
@@ -230,13 +232,42 @@ const BehaviorListPage = ({
         scrollToFirstError({ focusOnAlertRole: false });
       }
     },
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors(data)) {
+        scrollToFirstError({ focusOnAlertRole: false });
+      } else if (
+        data?.behaviorsDetails &&
+        Object.keys(orphanedBehaviorDetails(data)).length > 0
+      ) {
+        setShowModal(true);
+      } else {
+        updatePage(event);
+      }
+    },
   };
 
   const modalContent = formData => {
     const orphanedDetails = orphanedBehaviorDetails(formData);
-    const orphanedBehaviorsCount = Object.keys(orphanedDetails).length;
-    const firstFourBehaviors = Object.values(orphanedDetails).slice(0, 4);
-    const remainingBehaviors = orphanedBehaviorsCount - 4;
+    const describedBehaviorsCount = Object.keys(orphanedDetails).length;
+    const behaviorDescriptions = Object.values(orphanedDetails);
+    const firstThreeBehaviors = Object.values(orphanedDetails).slice(0, 3);
+
+    const displayRemainingBehaviors = () => {
+      if (describedBehaviorsCount === 4) {
+        return (
+          <li key={4}>
+            <b>{behaviorDescriptions[3]}</b>
+          </li>
+        );
+      }
+
+      return (
+        <li key={4}>
+          And, <b>{describedBehaviorsCount - 3} other behavioral changes</b>
+        </li>
+      );
+    };
 
     return (
       <>
@@ -247,24 +278,42 @@ const BehaviorListPage = ({
           Remove behavioral changes?
         </h4>
         <p>
-          <b>What to know:</b> If you remove these items, we’ll delete
+          <strong>What to know:</strong> If you remove these items, we’ll delete
           information you provided about:
         </p>
         <ul>
-          {firstFourBehaviors.map((behaviorWithDetails, i) => (
+          {firstThreeBehaviors.map((behaviorDescription, i) => (
             <li key={i}>
-              <b>{Object.values(behaviorWithDetails)}</b>
+              <b>{behaviorDescription}</b>
             </li>
           ))}
-          {remainingBehaviors > 2 && (
-            <li>
-              And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
-            </li>
-          )}
+
+          {behaviorDescriptions.length > 3 && displayRemainingBehaviors()}
         </ul>
       </>
     );
   };
+
+  const accordionsAndNavButtons = !onReviewPage ? (
+    <>
+      {behaviorListAdditionalInformation}
+      <>{mentalHealthSupportAlert()}</>
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue
+      />
+      {contentAfterButtons}
+    </>
+  ) : (
+    <va-button
+      text="Update page"
+      onClick={handlers.onUpdatePage}
+      label="Update page"
+      class="usa-button-primary"
+    />
+  );
 
   return (
     <div className="vads-u-margin-y--2">
@@ -306,15 +355,27 @@ const BehaviorListPage = ({
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">
-            We’ve removed optional descriptions about your behavioral changes.
-          </p>
-          <p>
-            <va-link
-              text="Continue with your claim"
-              onClick={handlers.onSubmit}
-            />
-          </p>
+          {!onReviewPage ? (
+            <>
+              <p className="vads-u-margin-y--0">
+                We’ve removed optional descriptions about your behavioral
+                changes.
+              </p>
+              <p>
+                <va-link
+                  text="Continue with your claim"
+                  onClick={handlers.onSubmit}
+                />
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="vads-u-margin-y--0">
+                We’ve removed optional descriptions about your behavioral
+                changes.
+              </p>
+            </>
+          )}
         </VaAlert>
       </div>
 
@@ -413,16 +474,7 @@ const BehaviorListPage = ({
             uswds
           />
         </VaCheckboxGroup>
-
-        {behaviorListAdditionalInformation}
-        <>{mentalHealthSupportAlert()}</>
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handlers.onSubmit}
-          submitToContinue
-        />
-        {contentAfterButtons}
+        {accordionsAndNavButtons}
       </form>
     </div>
   );
@@ -443,5 +495,6 @@ BehaviorListPage.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 export default BehaviorListPage;

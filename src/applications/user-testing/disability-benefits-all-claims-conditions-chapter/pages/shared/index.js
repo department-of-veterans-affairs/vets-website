@@ -1,6 +1,7 @@
-import { ARRAY_PATH } from '../../constants';
+import { ARRAY_PATH, CONDITION_NOT_LISTED_OPTION } from '../../constants';
 import causePage from './cause';
 import causeNewPage from './causeNew';
+import causeSecondaryEnhancedPage from '../ratedOrNewNextPageSecondaryEnhanced/causeSecondaryEnhanced';
 import causeSecondaryPage from './causeSecondary';
 import causeVAPage from './causeVA';
 import causeWorsenedPage from './causeWorsened';
@@ -17,38 +18,6 @@ import {
   isActiveDemo,
   isNewCondition,
 } from './utils';
-
-export const clearSideOfBody = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
-    ),
-  });
-};
-
-export const clearNewConditionData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index
-          ? {
-              ...item,
-              newCondition: undefined,
-              cause: undefined,
-              primaryDescription: undefined,
-              causedByCondition: undefined,
-              causedByConditionDescription: undefined,
-              vaMistreatmentDescription: undefined,
-              vaMistreatmentLocation: undefined,
-              worsenedDescription: undefined,
-              worsenedEffects: undefined,
-            }
-          : item,
-    ),
-  });
-};
 
 export const introAndSummaryPages = (demo, pageBuilder) => ({
   [`${demo.name}Intro`]: pageBuilder.introPage({
@@ -67,10 +36,41 @@ export const introAndSummaryPages = (demo, pageBuilder) => ({
   }),
 });
 
+const clearSideOfBody = (formData, index, setFormData) => {
+  setFormData({
+    ...formData,
+    [ARRAY_PATH]: formData[ARRAY_PATH].map(
+      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
+    ),
+  });
+};
+
+const clearConditionNotListed = (formData, setFormData) => {
+  setFormData({
+    ...formData,
+    [arrayBuilderOptions.arrayPath]: formData[
+      arrayBuilderOptions.arrayPath
+    ].map(
+      item =>
+        item?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION] === true
+          ? {
+              ...item,
+              causedByCondition: {},
+            }
+          : item,
+    ),
+  });
+};
+
 const hasCause = (formData, index, cause) =>
   formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause === cause;
 
-export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
+export const remainingSharedPages = (
+  demo,
+  pageBuilder,
+  helpers,
+  isSecondaryEnhanced,
+) => ({
   [`${demo.name}RatedDisabilityDate`]: pageBuilder.itemPage({
     title: 'Start date of rated disability worsening',
     path: `conditions-${demo.label}/:index/rated-disability-date`,
@@ -79,13 +79,6 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       hasRatedDisabilitiesAndIsRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
-    onNavForward: props => {
-      const { formData, index, setFormData } = props;
-
-      clearNewConditionData(formData, Number(index), setFormData);
-
-      return helpers.navForwardFinishedItem(props);
-    },
   }),
   [`${demo.name}NewCondition`]: pageBuilder.itemPage({
     title: 'Add a new condition',
@@ -121,6 +114,19 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
     uiSchema: newConditionDatePage.uiSchema,
     schema: newConditionDatePage.schema,
+    onNavForward: props => {
+      const { formData, setFormData } = props;
+
+      // This is to clear the condition not listed option
+      // With this implementation, there is an edge case in which the user
+      // hits cancel on the Add a new condition page
+      // then the condition not listed option is not cleared
+      if (isSecondaryEnhanced) {
+        clearConditionNotListed(formData, setFormData);
+      }
+
+      return helpers.navForwardKeepUrlParams(props);
+    },
   }),
   [`${demo.name}Cause`]: pageBuilder.itemPage({
     title: 'Cause of new condition',
@@ -147,8 +153,27 @@ export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
       isActiveDemo(formData, demo.name) &&
       isNewCondition(formData, index) &&
       hasCause(formData, index, 'SECONDARY'),
-    uiSchema: causeSecondaryPage.uiSchema,
-    schema: causeSecondaryPage.schema,
+    uiSchema: isSecondaryEnhanced
+      ? causeSecondaryEnhancedPage.uiSchema
+      : causeSecondaryPage.uiSchema,
+    schema: isSecondaryEnhanced
+      ? causeSecondaryEnhancedPage.schema
+      : causeSecondaryPage.schema,
+    onNavForward: props => {
+      const { formData, index, setFormData } = props;
+
+      if (isSecondaryEnhanced) {
+        const hasConditionNotListedSelected =
+          formData?.[arrayBuilderOptions.arrayPath]?.[index]
+            ?.causedByCondition?.[CONDITION_NOT_LISTED_OPTION];
+
+        if (hasConditionNotListedSelected) {
+          clearConditionNotListed(formData, setFormData);
+        }
+      }
+
+      return helpers.navForwardFinishedItem(props);
+    },
   }),
   [`${demo.name}CauseWorsened`]: pageBuilder.itemPage({
     title: 'Follow-up of cause worsened because of my service',

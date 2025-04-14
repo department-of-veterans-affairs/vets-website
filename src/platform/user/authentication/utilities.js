@@ -197,7 +197,7 @@ export const createAndStoreReturnUrl = () => {
     returnUrl = window.location.toString();
   }
   if (window.location.pathname === '/verify/') {
-    returnUrl = '/';
+    returnUrl = '/my-va';
   }
 
   sessionStorage.setItem(
