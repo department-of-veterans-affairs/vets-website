@@ -44,6 +44,7 @@ import {
 import { supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
+import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -101,8 +102,10 @@ export const form0781PagesConfig = {
     title: behaviorPageTitle,
     path: 'mental-health-form-0781/behavior-changes-combat',
     depends: formData => showBehaviorIntroCombatPage(formData),
-    uiSchema: behaviorIntroCombatPage.uiSchema,
+    CustomPage: BehaviorIntroCombatPage,
+    CustomPageReview: null,
     schema: behaviorIntroCombatPage.schema,
+    uiSchema: behaviorIntroCombatPage.uiSchema,
   },
   behaviorListPage: {
     title: behaviorListPageTitle,

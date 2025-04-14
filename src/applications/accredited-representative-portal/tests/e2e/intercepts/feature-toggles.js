@@ -11,6 +11,10 @@ export const setFeatureToggles = toggles => {
           name: 'accredited_representative_portal_pilot',
           value: toggles.isInPilot,
         },
+        {
+          name: 'accredited_representative_portal_search',
+          value: toggles.isSearchEnabled,
+        },
       ],
     },
   });

@@ -6,8 +6,11 @@ import {
 } from '../../../../config/chapters/12-income-receipt-waivers/incomeReceiptWaiverPages';
 import { relationshipLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -21,10 +24,27 @@ describe('income receipt waiver list and loop pages', () => {
   const { incomeReceiptWaiverPagesSummary } = incomeReceiptWaiverPages;
 
   describe('isItemIncomplete function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { expectedIncome, 'view:paymentsWillResume': _, paymentResumeDate, ...baseItem } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      paymentResumeDate,
+      ...baseItem
+    } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
     testOptionsIsItemIncomplete(options, baseItem);
+  });
+
+  describe('isItemIncomplete function tested with zeroes', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      paymentResumeDate,
+      ...baseItem
+    } = testDataZeroes.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
   });
 
   describe('text getItemName function', () => {
@@ -34,9 +54,26 @@ describe('income receipt waiver list and loop pages', () => {
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { expectedIncome, 'view:paymentsWillResume': _, paymentResumeDate, ...baseItem } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      paymentResumeDate,
+      ...baseItem
+    } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      paymentResumeDate,
+      ...baseItem
+    } = testDataZeroes.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, relationshipLabels);
   });
 

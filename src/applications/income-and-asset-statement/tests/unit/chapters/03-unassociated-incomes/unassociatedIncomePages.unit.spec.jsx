@@ -6,8 +6,11 @@ import {
 import { incomeTypeLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextGetItemName,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
@@ -26,6 +29,11 @@ describe('unassociated income list and loop pages', () => {
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    const baseItem = testDataZeroes.data.unassociatedIncomes[0];
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
     testOptionsTextGetItemName(options);
   });
@@ -36,6 +44,15 @@ describe('unassociated income list and loop pages', () => {
       recipientRelationship,
       ...baseItem
     } = testData.data.unassociatedIncomes[0];
+    testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    const {
+      // eslint-disable-next-line no-unused-vars
+      recipientRelationship,
+      ...baseItem
+    } = testDataZeroes.data.unassociatedIncomes[0];
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 

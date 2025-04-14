@@ -1,9 +1,8 @@
 import {
   titleUI,
-  yesNoUI,
-  yesNoSchema,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateHelpText } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -11,7 +10,7 @@ export const schema = {
     doesLiveWithSpouse: {
       type: 'object',
       properties: {
-        spouseIncome: yesNoSchema,
+        spouseIncome: radioSchema(['Y', 'N', 'NA']),
       },
     },
   },
@@ -20,11 +19,15 @@ export const schema = {
 export const uiSchema = {
   ...titleUI('Information about your marriage'),
   doesLiveWithSpouse: {
-    spouseIncome: {
-      ...yesNoUI('Did your spouse have income in the last 365 days?'),
-      'ui:description': generateHelpText(
+    spouseIncome: radioUI({
+      title: 'Did your spouse have an income in the last 365 days?',
+      hint:
         'Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
 };

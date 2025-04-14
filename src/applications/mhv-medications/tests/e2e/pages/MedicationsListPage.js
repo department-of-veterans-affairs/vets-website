@@ -975,6 +975,10 @@ class MedicationsListPage {
         expect(res.body.counter).to.eq(0);
       });
   };
+
+  verifyErroMessageforFailedAPICallListPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('contain', text);
+  };
 }
 
 export default MedicationsListPage;
