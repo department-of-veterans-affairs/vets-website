@@ -483,9 +483,9 @@ const responses = {
     });
   },
   'POST /vaos/v2/epsApi/appointments': (req, res) => {
-    const { slotId, draftApppointmentId, referralId } = req.body;
+    const { slotId, draftApppointmentId, referralNumber } = req.body;
 
-    if (!referralId || !slotId || !draftApppointmentId) {
+    if (!referralNumber || !slotId || !draftApppointmentId) {
       return res.status(400).json({ error: true });
     }
 

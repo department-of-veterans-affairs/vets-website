@@ -39,7 +39,9 @@ export const ChooseDateAndTime = props => {
         futureStatus === FETCH_STATUS.notStarted
       ) {
         if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(createDraftReferralAppointment(currentReferral.uuid));
+          dispatch(
+            createDraftReferralAppointment(currentReferral.referralNumber),
+          );
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
