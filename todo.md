@@ -2,8 +2,7 @@
 
 PR Ready:
 
-- refactor print
-- clean up PR feedback
+- UI updates
 - rafactor date picker
   - mr breadcrumbs
 - unit tests
