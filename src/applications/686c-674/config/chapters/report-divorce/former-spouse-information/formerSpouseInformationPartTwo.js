@@ -92,6 +92,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        preserveHiddenData: true,
         keepInPageOnReview: true,
         hideIf: formData =>
           formData?.reportDivorce?.reasonMarriageEnded !== 'Other',
