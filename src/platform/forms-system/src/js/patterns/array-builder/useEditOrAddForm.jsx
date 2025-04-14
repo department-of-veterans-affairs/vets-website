@@ -94,7 +94,7 @@ export function useEditOrAddForm({
           localSchema,
           localUiSchema,
           updatedData,
-          false,
+          false, // preserveHiddenData
           newFullData,
           index,
         );
