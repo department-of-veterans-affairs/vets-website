@@ -19,6 +19,7 @@ import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
+import { hasMessagingAccess } from './hasMessagingAccess';
 
 import {
   mhvAccountStatusLoading,
@@ -38,6 +39,7 @@ import {
 export {
   hasMhvAccount,
   hasMhvBasicAccount,
+  hasMessagingAccess,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
