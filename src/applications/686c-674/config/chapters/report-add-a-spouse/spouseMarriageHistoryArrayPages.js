@@ -3,8 +3,6 @@ import {
   titleUI,
   relationshipToVeteranUI,
   relationshipToVeteranSchema,
-  // textUI,
-  // textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,

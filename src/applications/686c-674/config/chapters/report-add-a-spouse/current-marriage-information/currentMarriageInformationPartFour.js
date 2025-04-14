@@ -48,6 +48,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'typeOfMarriage',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
         preserveHiddenData: true,
       },
     },
