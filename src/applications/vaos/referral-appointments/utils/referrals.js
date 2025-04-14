@@ -48,19 +48,21 @@ const createReferralById = (
   const mydFormat = 'yyyy-MM-dd';
   return {
     id: uuid,
-    type: 'referral',
+    type: 'referrals',
     attributes: {
       uuid,
+      referralDate: '2023-01-01',
+      stationId: '528A4',
       expirationDate: expirationDate || format(addMonths(today, 6), mydFormat),
       referralNumber: 'VA0000009880',
       categoryOfCare,
       referringFacilityInfo: {
-        facilityName: 'Batavia VA Medical Center',
-        facilityCode: '528A4',
+        name: 'Batavia VA Medical Center',
+        code: '528A4',
         address: {
           address1: '222 Richmond Avenue',
           city: 'BATAVIA',
-          state: 'NY',
+          state: null,
           zipCode: '14020',
         },
         phone: '(585) 297-1000',
@@ -68,6 +70,8 @@ const createReferralById = (
       provider: {
         name: 'Dr. Moreen S. Rafa',
         location: 'FHA South Melbourne Medical Complex',
+        npi: '1346206547',
+        telephone: '(937) 236-6750',
       },
       hasAppointments: false,
     },
@@ -148,17 +152,15 @@ const filterReferrals = referrals => {
  * @returns {String} Address string
  */
 const getAddressString = addressObject => {
-  let addressString = addressObject.address1;
-  if (addressObject.address2) {
-    addressString = `${addressString}, ${addressObject.address2}`;
+  if (!addressObject) {
+    return '';
   }
-  if (addressObject.street3) {
-    addressString = `${addressString}, ${addressObject.address3}`;
-  }
-  addressString = `${addressString}, ${addressObject.city}, ${
-    addressObject.state
-  }, ${addressObject.zipCode}`;
-  return addressString;
+  const { address1, address2, address3, city, state, zipCode } = addressObject;
+
+  const addressParts = [address1, address2, address3, city, state, zipCode];
+
+  // Filter out any undefined or empty parts and join with a comma
+  return addressParts.filter(Boolean).join(', ');
 };
 
 module.exports = {

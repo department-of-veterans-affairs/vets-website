@@ -48,7 +48,7 @@ const ReviewAndConfirm = props => {
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.facilityCode,
+    currentReferral.referringFacilityInfo.code,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -206,7 +206,7 @@ const ReviewAndConfirm = props => {
                 'h:mm aaaa',
               )}{' '}
               {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacilityInfo.facilityCode,
+                currentReferral.referringFacilityInfo.code,
               )}`}
             </>
           </p>
