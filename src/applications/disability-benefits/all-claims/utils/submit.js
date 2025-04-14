@@ -394,6 +394,7 @@ export const delete0781FormData = formData => {
   }
 };
 
+// This function is a failsafe redundancy to BehaviorIntroCombatPage.jsx > deleteBehavioralAnswers()
 export const delete0781BehavioralData = formData => {
   // Workaround to avoid eslint rule around mutating params/args
   const data = formData;
@@ -425,6 +426,7 @@ export const audit0781EventData = formData => {
   }
 };
 
+// This function is a failsafe redundancy for BehaviorListPage.jsx > deleteBehaviorDetails()
 export const audit0781BehaviorDetailsList = formData => {
   // Workaround to avoid eslint rule around mutating params/args
   const data = formData;
@@ -580,6 +582,10 @@ export function transformTreatmentFacilities(
 }
 
 export const addForm0781V2 = formData => {
+  if (!formData.syncModern0781Flow) {
+    return formData;
+  }
+
   // If a user selected any workflow option outside of submitting the online form,
   // we want to remove 0781-related data
   if (
@@ -589,9 +595,6 @@ export const addForm0781V2 = formData => {
     delete0781FormData(formData);
   }
 
-  if (!formData.syncModern0781Flow) {
-    return formData;
-  }
   const clonedData = _.cloneDeep(formData);
 
   clonedData.form0781 = {
