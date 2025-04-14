@@ -41,14 +41,7 @@ export const saveInProgressReducers = {
 
     return newState;
   },
-  // Add handler for our custom action type that updates the save status without triggering redirect
-  SET_SAVE_FORM_SUCCESS_NO_REDIRECT: (state, action) => {
-    const newState = set('savedStatus', action.status, state);
-    newState.isStartingOver = false;
-    newState.prefillStatus = PREFILL_STATUSES.notAttempted;
-    newState.lastSavedDate = action.lastSavedDate;
-    return newState;
-  },
+
   [SET_AUTO_SAVE_FORM_STATUS]: (state, action) => {
     const newState = set('autoSavedStatus', action.status, state);
 
