@@ -1,13 +1,14 @@
 import React, { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 
+import Prescriptions from './containers/Prescriptions';
+
 // Lazy-loaded components
-const Prescriptions = lazy(() => import('./containers/Prescriptions'));
 const LandingPage = lazy(() => import('./containers/LandingPage'));
 const RefillPrescriptions = lazy(() =>
   import('./containers/RefillPrescriptions'),
@@ -28,67 +29,69 @@ const Loading = () => (
   />
 );
 
-/**
- * Route that wraps its children within the application component.
- */
-const AppRoute = ({ children, ...rest }) => {
+// Wrapper component that provides both access guard and App container
+const AppWrapper = props => {
+  console.log('AppWrapper props:', props);
+  useMyHealthAccessGuard();
+  const { id, prescriptionId } = useParams();
+
   return (
-    <Route {...rest}>
-      <App>
-        <RxBreadcrumbs />
-        <div>{children}</div>
-      </App>
-    </Route>
+    <App>
+      <RxBreadcrumbs />
+      <Suspense fallback={<Loading />}>
+        {props.children ? (
+          props.children
+        ) : (
+          <props.Component {...props} id={id} prescriptionId={prescriptionId} />
+        )}
+      </Suspense>
+    </App>
   );
 };
 
-AppRoute.propTypes = {
-  children: PropTypes.object,
+AppWrapper.propTypes = {
+  Component: PropTypes.elementType,
+  children: PropTypes.node,
 };
 
-const AccessGuardWrapper = ({ children }) => {
-  useMyHealthAccessGuard();
-  return children;
-};
+// Route definitions in React Router v6 object format
+const routes = [
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
+  {
+    path: '/my-health/medications/about/*',
+    element: <AppWrapper Component={LandingPage} />,
+  },
+  {
+    path: '/my-health/medications/about',
+    element: <AppWrapper Component={LandingPage} />,
+  },
+  {
+    path: '/my-health/medications/refill',
+    element: <AppWrapper Component={RefillPrescriptions} />,
+  },
+  {
+    path: '/my-health/medications/:page',
+    element: <AppWrapper Component={Prescriptions} />,
+  },
+  {
+    path: '/my-health/medications',
+    element: <AppWrapper Component={Prescriptions} />,
+  },
+  {
+    path: '/my-health/medications/prescription/:prescriptionId/documentation',
+    element: <AppWrapper Component={PrescriptionDetailsDocumentation} />,
+  },
+  {
+    path: '/my-health/medications/prescription/:prescriptionId',
+    element: <AppWrapper Component={PrescriptionDetails} />,
+  },
+  {
+    path: '*',
+    element: <PageNotFound />,
+  },
+];
 
-const routes = (
-  <AccessGuardWrapper>
-    <Suspense fallback={<Loading />}>
-      <Switch>
-        {/* TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod */}
-        <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
-          <LandingPage />
-        </AppRoute>
-        <AppRoute exact path={['/refill']} key="RefillPage">
-          <div>
-            <RefillPrescriptions />
-          </div>
-        </AppRoute>
-        <AppRoute exact path={['/', '/:page']} key="App">
-          <div>
-            <Prescriptions />
-          </div>
-        </AppRoute>
-        <AppRoute
-          exact
-          path="/prescription/:prescriptionId"
-          key="prescriptionDetails"
-        >
-          <PrescriptionDetails />
-        </AppRoute>
-        <AppRoute
-          exact
-          path="/prescription/:prescriptionId/documentation"
-          key="prescriptionDetailsDocumentation"
-        >
-          <PrescriptionDetailsDocumentation />
-        </AppRoute>
-        <Route>
-          <PageNotFound />
-        </Route>
-      </Switch>
-    </Suspense>
-  </AccessGuardWrapper>
-);
+// Create the router instance
+const router = createBrowserRouter(routes);
 
-export default routes;
+export { routes, router as default };

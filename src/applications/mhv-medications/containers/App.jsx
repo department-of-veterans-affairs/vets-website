@@ -16,15 +16,17 @@ import {
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom-v5-compat';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls } from '../util/constants';
 import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const App = ({ children }) => {
   const location = useLocation();
+  console.log(location);
   const { measuredRef, isHidden } = useBackToTop(location);
   const user = useSelector(selectUser);
+  console.log(user);
   const contentClasses =
     'main-content usa-width-two-thirds medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
   const { featureTogglesLoading, appEnabled } = useSelector(
@@ -77,8 +79,9 @@ const App = ({ children }) => {
     return <></>;
   }
 
+  console.log(backendServices.RX);
   return (
-    <RequiredLoginView user={user}>
+    <RequiredLoginView user={user} serviceRequired={[backendServices.RX]}>
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.RX]}
