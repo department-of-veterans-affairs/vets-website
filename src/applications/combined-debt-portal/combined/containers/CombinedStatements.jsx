@@ -1,24 +1,133 @@
-import React, { useEffect } from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import React, { useEffect, useMemo } from 'react';
+import {
+  VaBreadcrumbs,
+  VaButton,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  selectProfile,
+  selectVAPMailingAddress,
+} from '~/platform/user/selectors';
+import environment from 'platform/utilities/environment';
+import { parse, format } from 'date-fns';
 import Modals from '../../medical-copays/components/Modals';
-import { setPageFocus } from '../utils/helpers';
+import { currency, setPageFocus, handlePdfGeneration } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+
+// Helper function to clean HTML entities
+const cleanHtmlEntities = text => {
+  if (!text) return '';
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+};
 
 const CombinedStatements = () => {
   useHeaderPageTitle('Combined statements');
   useEffect(() => {
     setPageFocus('h1');
   }, []);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const redirectCombinedStatements = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const {
+    useToggleLoadingValue,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  // boolean value to represent if toggles are still loading or not
+  const togglesLoading = useToggleLoadingValue();
+  const showOneVADebtLetterDownload = useToggleValue(
+    TOGGLE_NAMES.showOneVADebtLetter,
   );
-  const { mcp } = useSelector(({ combinedPortal }) => combinedPortal);
+
+  const { debtLetters, mcp } = useSelector(
+    ({ combinedPortal }) => combinedPortal,
+  );
+
+  // Get errors
+  const billError = mcp.error;
+  const debtError = debtLetters.errors?.length > 0;
+
+  const debts = debtLetters.debts || [];
+  const bills = mcp.statements;
+
+  // Pulling veteran contact information from the Redux store
+  const {
+    addressLine1 = '',
+    addressLine2 = '',
+    addressLine3 = '',
+    city = '',
+    zipCode = '',
+    stateCode = '',
+  } = useSelector(selectVAPMailingAddress);
+  const { userFullName = {} } = useSelector(selectProfile);
+
+  // Get additional debt-specific information from the first debt if available
+  const fileNumber = debts.length > 0 ? debts[0]?.fileNumber || '' : '';
+  const payeeNumber = debts.length > 0 ? debts[0]?.payeeNumber || '' : '';
+  const personEntitled = debts.length > 0 ? debts[0]?.personEntitled || '' : '';
+
+  // Today's date formatted
+  const todaysDate = format(new Date(), 'MMMM d, yyyy');
+
+  // Data for One VA Debt Letter PDF
+  const veteranContactInformation = {
+    veteranFullName: userFullName,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    fileNumber,
+    payeeNumber,
+    personEntitled,
+  };
+
+  // Get the veteran's formatted name
+  const getFormattedName = () => {
+    if (userFullName.first && userFullName.last) {
+      return `${userFullName.first} ${
+        userFullName.middle ? `${userFullName.middle} ` : ''
+      }${userFullName.last}${
+        userFullName.suffix ? `, ${userFullName.suffix}` : ''
+      }`;
+    }
+    return 'Veteran';
+  };
+
+  // Get formatted city, state, and zip
+  const getFormattedCityStateZip = () => {
+    return city && stateCode ? `${city}, ${stateCode} ${zipCode}` : '';
+  };
+
+  // Merge into namespaced pdfData for One VA Debt Letter PDF
+  const pdfData = {
+    copays: bills,
+    debts,
+    veteranContactInformation,
+    details: {
+      logoUrl: '/img/design/logo/logo-black-and-white.png',
+    },
+  };
+
+  const showOneVADebtLetterDownloadButton = useMemo(
+    () => {
+      // 403 error is not enrolled, so bills aren't proper borked
+      const billsBorked = billError ? billError?.code !== '403' : false;
+      return showOneVADebtLetterDownload && !debtError && !billsBorked;
+    },
+    [billError, debtError, showOneVADebtLetterDownload],
+  );
 
   // If the feature flag is not enabled, redirect to the summary page
-  if (!redirectCombinedStatements) {
+  if (!showOneVADebtLetterDownload) {
     window.location.replace('/manage-va-debt/summary');
     return (
       <div className="vads-u-margin--5">
@@ -30,43 +139,36 @@ const CombinedStatements = () => {
     );
   }
 
-  const formatCurrency = amount => {
-    if (!amount) return '$0.00';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
+
+  const getMostRecentPaymentDate = () => {
+    const defaultDate = new Date();
+    defaultDate.setDate(1); // First day of the current month
+
+    const allDates = debts
+      .flatMap(debt => [
+        ...(debt.debtHistory?.map(item => {
+          if (item.date) {
+            const parsedDate = parse(item.date, 'MM/dd/yyyy', new Date());
+            return !Number.isNaN(parsedDate.getTime()) ? parsedDate : null;
+          }
+          return null;
+        }) || []),
+        // Excluding fiscalTransactionData dates as they're in 2024 but data is from 2020
+        debt.debtDate ? new Date(debt.debtDate) : null,
+      ])
+      .filter(date => date && !Number.isNaN(date.getTime()));
+
+    return allDates.length > 0
+      ? new Date(Math.max(...allDates.map(date => date.getTime())))
+      : defaultDate;
   };
 
-  // Mock data to match the mockup
-  const recipientInfo = {
-    name: 'Travis Jones',
-    address: '1234 Main St',
-    cityStateZip: 'Tampa, FL 33612-4745',
-    fileNumber: '111002222',
-    statementDate: 'September 30, 2024',
-  };
-
-  // Mock overpayment charges data
-  const overpaymentCharges = [
-    {
-      date: 'July 25, 2024',
-      description:
-        'Disability compensation and pension debt\nFirst posted date',
-      amount: 250,
-    },
-    {
-      date: 'May 5, 2024',
-      description:
-        'Partial payment of $100.00 for Post-9/11 GI Bill debt for housing\nReceived via ACH',
-      amount: 100,
-    },
-    {
-      date: 'April 15, 2024',
-      description: 'Post-9/11 GI Bill debt for housing\nFirst posted date',
-      amount: 500,
-    },
-  ];
+  // Get the most recent payment date and format it for display
+  const statementDate = format(getMostRecentPaymentDate(), 'MMMM d, yyyy');
 
   const copayTotalRow = copay => {
     return (
@@ -76,7 +178,7 @@ const CombinedStatements = () => {
           Total Due:
         </span>
         <span className="vads-u-font-weight--bold">
-          {formatCurrency(
+          {currency(
             copay.details.reduce(
               (total, charge) =>
                 total +
@@ -123,18 +225,36 @@ const CombinedStatements = () => {
               Recipient address
             </strong>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              {recipientInfo.name}
+              {getFormattedName()}
               <br />
-              {recipientInfo.address}
+              {veteranContactInformation.addressLine1}
+              {veteranContactInformation.addressLine2 ? (
+                <>
+                  <br />
+                  {veteranContactInformation.addressLine2}
+                </>
+              ) : null}
+              {veteranContactInformation.addressLine3 ? (
+                <>
+                  <br />
+                  {veteranContactInformation.addressLine3}
+                </>
+              ) : null}
               <br />
-              {recipientInfo.cityStateZip}
+              {getFormattedCityStateZip()}
             </p>
             <p className="vads-u-margin-top--2  vads-u-margin-bottom--2">
-              File number: {recipientInfo.fileNumber}
+              File number: {veteranContactInformation.fileNumber}
               <br />
-              Today’s date: {recipientInfo.statementDate}
+              Today’s date: {todaysDate}
             </p>
-            <va-button text="Download combined statement" />
+            {showOneVADebtLetterDownloadButton ? (
+              <VaButton
+                onClick={() => handlePdfGeneration(environment, pdfData)}
+                text="Download combined statement"
+                className="vads-u-margin-bottom--2"
+              />
+            ) : null}
           </div>
         </div>
 
@@ -148,7 +268,7 @@ const CombinedStatements = () => {
             non-service connected conditions.
           </p>
           <p className="vads-u-margin-bottom--2">
-            Statements do not reflect payments received by September 1, 2024.
+            Statements do not reflect payments received by {statementDate}.
           </p>
 
           {/* Copay charges tables */}
@@ -167,9 +287,9 @@ const CombinedStatements = () => {
 
               {statement.details.map((charge, idx) => (
                 <va-table-row key={idx}>
-                  <span>{charge.pDTransDescOutput}</span>
+                  <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
                   <span>{charge.pDRefNo}</span>
-                  <span>{formatCurrency(charge.pDTransAmt)}</span>
+                  <span>{currency(charge.pDTransAmt)}</span>
                 </va-table-row>
               ))}
 
@@ -194,22 +314,36 @@ const CombinedStatements = () => {
           </div>
         </section>
 
-        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-color--gray-light">
+        <section className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-border-color--gray-light ">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
           <p className="vads-u-margin-top--0">
             Benefit overpayments are due to changes in your benefits which
-            result in you being paid more than you were entitled to receive.
+            result in you being paid more than you were owed.
           </p>
+          <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+            Resolve your overpayment
+          </h3>
+          <p className="vads-u-margin-top--0">
+            You can pay your debt online, by phone, or by mail. Call us at{' '}
+            <va-telephone contact="8008270648" /> to discuss payment options,
+            request financial help, or dispute your bill.
+          </p>
+          <va-link-action
+            href="/manage-va-debt/summary"
+            text="Review and resolve overpayments"
+            type="secondary"
+          />
+
           <p className="vads-u-margin-bottom--3">
-            Statement does not reflect payments received by September 1, 2024.
+            Payments made after {statementDate} will not be reflected here.
           </p>
 
           <va-table
-            table-type="bordered"
+            table-type="borderless"
             table-title="Overpayment charges"
-            className="vads-u-width--full"
+            className="vads-u-width--full vads-u-margin-x--0"
           >
             <va-table-row slot="headers">
               <span>Date</span>
@@ -217,20 +351,33 @@ const CombinedStatements = () => {
               <span>Amount</span>
             </va-table-row>
 
-            {overpaymentCharges.map((charge, idx) => (
-              <va-table-row key={idx}>
-                <span>{charge.date}</span>
-                <span>
-                  {charge.description.split('\n').map((line, i) => (
-                    <React.Fragment key={i}>
-                      {line}
-                      {i < charge.description.split('\n').length - 1 && <br />}
-                    </React.Fragment>
-                  ))}
-                </span>
-                <span>{formatCurrency(charge.amount)}</span>
-              </va-table-row>
-            ))}
+            {debts.map((debt, index) => {
+              const formattedDate =
+                debt.debtHistory && debt.debtHistory.length > 0
+                  ? format(
+                      parse(debt.debtHistory[0].date, 'MM/dd/yyyy', new Date()),
+                      'MMMM d, yyyy',
+                    )
+                  : '';
+
+              const debtAmount = parseFloat(
+                debt.currentAr || debt.originalAr || 0,
+              );
+
+              return (
+                <va-table-row key={`debt-combined-${index}`}>
+                  <span>{formattedDate}</span>
+                  <span>
+                    <strong>
+                      {deductionCodes[debt.deductionCode] ||
+                        debt.benefitType ||
+                        'VA Debt'}
+                    </strong>
+                  </span>
+                  <span>{currency(debtAmount)}</span>
+                </va-table-row>
+              );
+            })}
 
             <va-table-row>
               <span />
@@ -238,31 +385,17 @@ const CombinedStatements = () => {
                 Total Due:
               </span>
               <span className="vads-u-font-weight--bold">
-                {formatCurrency(
-                  overpaymentCharges.reduce(
-                    (total, charge) => total + charge.amount,
+                {currency(
+                  debts.reduce(
+                    (total, debt) =>
+                      total +
+                      parseFloat(debt.currentAr || debt.originalAr || 0),
                     0,
                   ),
                 )}
               </span>
             </va-table-row>
           </va-table>
-
-          <div className="vads-u-margin-top--3">
-            <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-              Resolve your overpayment debt
-            </h3>
-            <p className="vads-u-margin-top--0">
-              You can pay your debt online, by phone, or by mail. Call us at{' '}
-              <va-telephone contact="8008270648" /> to discuss payment options,
-              request financial help, or dispute your bill.
-            </p>
-            <va-link-action
-              href="/manage-va-debt/summary"
-              text=" Manage your VA debt"
-              type="secondary"
-            />
-          </div>
         </section>
 
         <Modals title="Notice of rights and responsibilities" id="notice-modal">

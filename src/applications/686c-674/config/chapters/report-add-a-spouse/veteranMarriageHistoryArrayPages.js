@@ -138,6 +138,7 @@ export const vetFormerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        preserveHiddenData: true,
         hideIf: (formData, index) =>
           !(
             formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===

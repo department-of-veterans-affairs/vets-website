@@ -6,6 +6,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import {
+  LAST_YEAR,
   getDataToSet,
   getSearchAction,
   getSearchIndex,
@@ -17,13 +18,9 @@ import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
-  LAST_YEAR,
 } from '../../utils/constants';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaModal } from '../../utils/imports';
 import content from '../../locales/en/content.json';
-
-// expose React binding for web components
-const { VaModal } = REACT_BINDINGS;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
