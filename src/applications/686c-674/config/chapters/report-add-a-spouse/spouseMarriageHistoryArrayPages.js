@@ -1,8 +1,10 @@
 import { capitalize } from 'lodash';
 import {
   titleUI,
-  textUI,
-  textSchema,
+  relationshipToVeteranUI,
+  relationshipToVeteranSchema,
+  // textUI,
+  // textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -121,38 +123,43 @@ export const formerMarriageEndReasonPage = {
     reasonMarriageEnded: {
       ...radioUI({
         title: 'How did their marriage end?',
-        required: () => true,
         labels: spouseFormerMarriageLabels,
+        labelHeaderLevel: '3',
       }),
     },
     reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how their marriage ended'),
-      'ui:required': (formData, index) => {
-        const isEditMode = formData?.reasonMarriageEnded === 'Other';
-        const isAddMode =
-          formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
-          'Other';
-
-        return isEditMode || isAddMode;
-      },
+      'ui:title': 'Briefly describe how their marriage ended',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        expandedContentFocus: true,
         preserveHiddenData: true,
-        hideIf: (formData, index) =>
-          !(
-            formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
-              'Other' || formData?.reasonMarriageEnded === 'Other'
-          ),
-        keepInPageOnReview: true,
+      },
+    },
+    testProperty: relationshipToVeteranUI(),
+    'ui:options': {
+      // Use updateSchema to set
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.reasonMarriageEndedOther['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonMarriageEnded'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonMarriageEnded', 'reasonMarriageEndedOther'],
+        };
       },
     },
   },
   schema: {
     type: 'object',
+    required: ['reasonMarriageEnded'],
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: textSchema,
+      reasonMarriageEndedOther: {
+        type: 'string',
+      },
+      testProperty: relationshipToVeteranSchema,
     },
   },
 };
