@@ -7,7 +7,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import mailingAddress from '../pages/mailingAddress';
+import veteranName from '../pages/veteranName';
+import veteranInfo1 from '../pages/veteranInfo1';
+import veteranInfo2 from '../pages/veteranInfo2';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
@@ -60,11 +62,23 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        veteranName: {
+          path: 'veteran-name',
+          title: 'Veteran name',
+          uiSchema: veteranName.uiSchema,
+          schema: veteranName.schema,
+        },
+        veteranInfo1: {
+          path: 'veteran-personal-information-1',
+          title: 'Veteran personal information',
+          uiSchema: veteranInfo1.uiSchema,
+          schema: veteranInfo1.schema,
+        },
+        veteranInfo2: {
+          path: 'veteran-personal-information-2',
+          title: 'Veteran personal information',
+          uiSchema: veteranInfo2.uiSchema,
+          schema: veteranInfo2.schema,
         },
       },
     },
