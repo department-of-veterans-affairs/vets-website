@@ -141,23 +141,6 @@ const ProofOfVeteranStatus = ({
     [shouldFocusError, errors],
   );
 
-  const createPdf = async () => {
-    setErrors(null);
-
-    try {
-      await generatePdf(
-        'veteranStatusNew',
-        'Veteran status card',
-        pdfData,
-        !isMobile,
-      );
-    } catch (error) {
-      setErrors([
-        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
-      ]);
-      captureError(error, { eventName: 'vet-status-pdf-download' });
-    }
-  };
 
 
   const {
@@ -173,9 +156,28 @@ const ProofOfVeteranStatus = ({
 
   // console.log('isLoadingFeatureFlags', isLoadingFeatureFlags)
   // console.log('monitorPdfGeneration', monitorPdfGeneration)
-  if(isLoadingFeatureFlags === false && monitorPdfGeneration === true){
-    console.log('Do the thing!', )
-  }
+
+  const createPdf = async () => {
+    setErrors(null);
+
+    try {
+      await generatePdf(
+        // 'veteranStatusNew',
+        'fakeTemplateName',
+        'Veteran status card',
+        pdfData,
+        !isMobile,
+      );
+    } catch (error) {
+      setErrors([
+        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
+      ]);
+      captureError(error, { eventName: 'vet-status-pdf-download' });
+      if(isLoadingFeatureFlags === false && monitorPdfGeneration === true){
+        console.log('Do the thing!', )
+      }  
+    }
+  };
 
   const isVetStatusEligibilityPopulated =
     Object.keys(vetStatusEligibility).length !== 0;
