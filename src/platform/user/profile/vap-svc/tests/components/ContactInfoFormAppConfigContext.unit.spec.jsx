@@ -8,6 +8,7 @@ import { rest } from 'msw';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { setData } from 'platform/forms-system/exportsFile';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+import PropTypes from 'prop-types';
 import {
   ContactInfoFormAppConfigProvider,
   useContactInfoFormAppConfig,
@@ -86,6 +87,10 @@ const TestComponent = ({ updateProfileChoice = 'no' }) => {
       )}
     </>
   );
+};
+
+TestComponent.propTypes = {
+  updateProfileChoice: PropTypes.string,
 };
 
 describe('ContactInfoFormAppConfigProvider - Error Handling', () => {
