@@ -12,6 +12,7 @@ import {
   defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
 } from './helpers';
+
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
