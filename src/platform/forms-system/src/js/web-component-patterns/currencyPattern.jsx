@@ -60,8 +60,8 @@ export const currencyUI = options => {
     'ui:webComponentField': CurrencyField,
     'ui:options': uiOptions,
     'ui:errorMessages': {
-      required: 'Enter a valid number',
-      pattern: 'Enter a valid number',
+      required: 'Enter an amount',
+      pattern: 'Enter a valid dollar amount',
       ...errorMessages,
     },
     'ui:reviewWidget': CurrencyWidget,
