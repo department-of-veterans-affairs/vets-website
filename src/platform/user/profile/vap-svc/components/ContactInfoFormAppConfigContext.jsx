@@ -118,5 +118,6 @@ ContactInfoFormAppConfigProvider.propTypes = {
     formKey: PropTypes.string.isRequired,
     formId: PropTypes.string,
     returnPath: PropTypes.string,
+    updateProfileChoice: PropTypes.string,
   }).isRequired,
 };
