@@ -102,7 +102,7 @@ export const poaSearchBC = [
 export const searchPeopleBC = [
   {
     href: '/representative',
-    label: '/representative home',
+    label: 'VA.gov/representative home',
   },
   {
     href: window.location.href,
