@@ -351,6 +351,9 @@ export default function LicenseCertificationSearchResults() {
 
               <div className="lc-result-info-wrapper row">
                 <LicenseCertificationSearchInfo
+                  key={`${activeCategories.join(
+                    '-',
+                  )}-${nameParam}-${stateParam}-${currentPage}`}
                   filteredResults={filteredResults}
                   currentPage={currentPage}
                   itemsPerPage={itemsPerPage}
