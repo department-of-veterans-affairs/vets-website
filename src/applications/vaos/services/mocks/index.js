@@ -382,14 +382,12 @@ const responses = {
   'GET /vaos/v2/relationships': (req, res) => {
     return res.json(patientProviderRelationships);
   },
-
-  // EPS api
-  'GET /vaos/v2/epsApi/referrals': (req, res) => {
+  'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
       data: referralUtils.createReferrals(4),
     });
   },
-  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
+  'GET /vaos/v2/referrals/:referralId': (req, res) => {
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
