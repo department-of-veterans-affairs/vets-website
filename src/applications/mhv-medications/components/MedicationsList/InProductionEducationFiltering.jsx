@@ -23,7 +23,9 @@ const InProductionEducationFiltering = () => {
   const tooltipId = useSelector(
     state => state?.rx?.inProductEducation?.tooltipId,
   );
-  const dontIncrementTooltipCount = selectDontIncrementIpeCountFlag();
+  const dontIncrementTooltipCount = useSelector(
+    selectDontIncrementIpeCountFlag,
+  );
 
   useEffect(
     () => {
