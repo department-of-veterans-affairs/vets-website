@@ -367,12 +367,7 @@ export const addForm4142 = formData => {
 export const delete0781FormData = formData => {
   // Workaround to avoid eslint rule around mutating params/args
   const data = formData;
-  delete data.events;
   delete data.eventTypes;
-  delete data.workBehaviors;
-  delete data.otherBehaviors;
-  delete data.healthBehaviors;
-  delete data.behaviorsDetails;
   delete data.supportingEvidenceRecords;
   delete data.supportingEvidenceReports;
   delete data.supportingEvidenceUnlisted;
@@ -593,6 +588,8 @@ export const addForm0781V2 = formData => {
     form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   ) {
     delete0781FormData(formData);
+    delete0781BehavioralData(formData);
+    audit0781EventData(formData);
   }
 
   const clonedData = _.cloneDeep(formData);
