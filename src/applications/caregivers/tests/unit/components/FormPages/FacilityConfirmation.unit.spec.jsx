@@ -92,8 +92,8 @@ describe('CG <FacilityConfirmation>', () => {
   context('when the page renders in review mode', () => {
     beforeEach(() => {
       Object.defineProperty(window, 'location', {
-        configurable: true,
         value: { search: '?review=true' },
+        configurable: true,
       });
     });
 

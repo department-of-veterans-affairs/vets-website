@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockApiRequest,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
 import {
   fetchEnrollmentStatus,
   resetEnrollmentStatus,
@@ -19,17 +16,23 @@ describe('hca `fetchEnrollmentStatus` action', () => {
     FETCH_ENROLLMENT_STATUS_FAILED,
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
   } = ENROLLMENT_STATUS_ACTIONS;
+  let apiRequestStub;
   let dispatch;
   let getState;
   let mockData;
   let thunk;
 
   beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest');
     dispatch = sinon.spy();
     getState = () => ({
       hcaEnrollmentStatus: { loading: false },
     });
     mockData = { data: 'data' };
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
   });
 
   context('when we are not simulating the local server', () => {
@@ -38,7 +41,7 @@ describe('hca `fetchEnrollmentStatus` action', () => {
     });
 
     it('should dispatch a fetch started action when fetch operation starts', done => {
-      mockApiRequest(mockData);
+      apiRequestStub.onFirstCall().resolves(mockData);
       thunk(dispatch, getState)
         .then(() => {
           const { type } = dispatch.firstCall.args[0];
@@ -48,7 +51,7 @@ describe('hca `fetchEnrollmentStatus` action', () => {
     });
 
     it('should dispatch a fetch succeeded action with data when fetch operation succeeds', done => {
-      mockApiRequest(mockData);
+      apiRequestStub.onFirstCall().resolves(mockData);
       thunk(dispatch, getState)
         .then(() => {
           const { type, response } = dispatch.secondCall.args[0];
@@ -59,12 +62,7 @@ describe('hca `fetchEnrollmentStatus` action', () => {
     });
 
     it('should dispatch a fetch failed action when fetch operation fails', done => {
-      mockApiRequest(mockData, false);
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        // eslint-disable-next-line prefer-promise-reject-errors
-        Promise.reject({ status: 503, error: 'error' }),
-      );
+      apiRequestStub.onFirstCall().rejects({ status: 503, error: 'error' });
       thunk(dispatch, getState)
         .then(() => {
           const { type } = dispatch.secondCall.args[0];

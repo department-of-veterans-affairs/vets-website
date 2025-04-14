@@ -53,6 +53,7 @@ describe('avs', () => {
         expect(formattedDate).to.equal('N/A');
       });
     });
+
     describe('parseProblemDateTime', () => {
       it('should correctly parse dates for all months', () => {
         const months = [
@@ -95,7 +96,22 @@ describe('avs', () => {
         const dateString = 'Invalid Date String';
         const parsedDate = parseProblemDateTime(dateString);
 
-        expect(parsedDate.toString()).to.equal('Invalid Date');
+        expect(parsedDate.toString()).to.equal('N/A');
+      });
+
+      it('should handle null input gracefully', () => {
+        const parsedDate = parseProblemDateTime(null);
+        expect(parsedDate.toString()).to.equal('N/A');
+      });
+
+      it('should handle undefined input gracefully', () => {
+        const parsedDate = parseProblemDateTime(undefined);
+        expect(parsedDate.toString()).to.equal('N/A');
+      });
+
+      it('should handle empty string input gracefully', () => {
+        const parsedDate = parseProblemDateTime('');
+        expect(parsedDate.toString()).to.equal('N/A');
       });
     });
 
@@ -106,6 +122,27 @@ describe('avs', () => {
         const result = parseVistaDateTime(vistaDateTime);
         assert.deepEqual(result, expected);
       });
+
+      it('handles invalid vista datetime gracefully', () => {
+        const invalidDateTime = 'not-a-date';
+        const result = parseVistaDateTime(invalidDateTime);
+        expect(result.toString()).to.equal('N/A');
+      });
+
+      it('handles null input gracefully', () => {
+        const result = parseVistaDateTime(null);
+        expect(result.toString()).to.equal('N/A');
+      });
+
+      it('handles undefined input gracefully', () => {
+        const result = parseVistaDateTime(undefined);
+        expect(result.toString()).to.equal('N/A');
+      });
+
+      it('handles empty string input gracefully', () => {
+        const result = parseVistaDateTime('');
+        expect(result.toString()).to.equal('N/A');
+      });
     });
 
     describe('parse vista date format', () => {
@@ -114,6 +151,27 @@ describe('avs', () => {
         const expected = new Date('2018-11-12T00:00:00');
         const result = parseVistaDate(vistaDate);
         assert.deepEqual(result, expected);
+      });
+
+      it('handles invalid vista date gracefully', () => {
+        const invalidDate = 'not-a-date';
+        const result = parseVistaDate(invalidDate);
+        expect(result.toString()).to.equal('N/A');
+      });
+
+      it('handles null input gracefully', () => {
+        const result = parseVistaDate(null);
+        expect(result.toString()).to.equal('N/A');
+      });
+
+      it('handles undefined input gracefully', () => {
+        const result = parseVistaDate(undefined);
+        expect(result.toString()).to.equal('N/A');
+      });
+
+      it('handles empty string input gracefully', () => {
+        const result = parseVistaDate('');
+        expect(result.toString()).to.equal('N/A');
       });
     });
 
@@ -155,6 +213,18 @@ describe('avs', () => {
         const shortTimeZone = 'PHT';
         expect(stripDst(timeZone, shortTimeZone)).to.equal('PHT');
       });
+
+      it('handles null inputs gracefully', () => {
+        expect(stripDst(null, null)).to.equal('');
+      });
+
+      it('handles undefined inputs gracefully', () => {
+        expect(stripDst(undefined, undefined)).to.equal('');
+      });
+
+      it('handles empty string inputs gracefully', () => {
+        expect(stripDst('', '')).to.equal('');
+      });
     });
 
     describe('get timezone from AVS', () => {
@@ -180,6 +250,22 @@ describe('avs', () => {
         avs.meta.timeZone = 'America/Los_Angeles';
         expect(getShortTimezone(avs)).to.equal('PT');
       });
+
+      it('handles missing timeZone gracefully', () => {
+        const invalidAvs = {
+          meta: {},
+        };
+        expect(getShortTimezone(invalidAvs)).to.equal('');
+      });
+
+      it('handles invalid avs object gracefully', () => {
+        const invalidAvs = {};
+        expect(getShortTimezone(invalidAvs)).to.equal('');
+      });
+
+      it('handles null input gracefully', () => {
+        expect(getShortTimezone(null)).to.equal('');
+      });
     });
 
     describe('format appointment time', () => {
@@ -188,6 +274,22 @@ describe('avs', () => {
       });
       it('correctly returns afternoon times', () => {
         expect(getFormattedAppointmentTime('15:45')).to.equal('3:45 p.m.');
+      });
+
+      it('handles invalid time format gracefully', () => {
+        expect(getFormattedAppointmentTime('invalid-time')).to.equal('');
+      });
+
+      it('handles null input gracefully', () => {
+        expect(getFormattedAppointmentTime(null)).to.equal('');
+      });
+
+      it('handles undefined input gracefully', () => {
+        expect(getFormattedAppointmentTime(undefined)).to.equal('');
+      });
+
+      it('handles empty string input gracefully', () => {
+        expect(getFormattedAppointmentTime('')).to.equal('');
       });
     });
 
@@ -207,6 +309,27 @@ describe('avs', () => {
         const avs = { clinicsVisited: [{ foo: 'bar' }] };
         expect(getFormattedAppointmentDate(avs)).to.be.empty;
       });
+
+      it('handles invalid date format gracefully', () => {
+        const avs = {
+          clinicsVisited: [
+            {
+              date: 'invalid-date',
+              time: 'invalid-time',
+            },
+          ],
+        };
+        expect(getFormattedAppointmentDate(avs)).to.equal('');
+      });
+
+      it('handles missing clinicsVisited array gracefully', () => {
+        const avs = {};
+        expect(getFormattedAppointmentDate(avs)).to.equal('');
+      });
+
+      it('handles null input gracefully', () => {
+        expect(getFormattedAppointmentDate(null)).to.equal('');
+      });
     });
 
     describe('format AVS generation date', () => {
@@ -220,6 +343,25 @@ describe('avs', () => {
         expect(getFormattedGenerationDate(avs)).to.equal(
           'July 12, 2023 at 5:45 p.m. CT',
         );
+      });
+
+      it('handles invalid generatedDate format gracefully', () => {
+        const avs = {
+          meta: {
+            generatedDate: 'invalid-date',
+            timeZone: 'America/Chicago',
+          },
+        };
+        expect(getFormattedGenerationDate(avs)).to.equal('N/A');
+      });
+
+      it('handles missing meta data gracefully', () => {
+        const avs = {};
+        expect(getFormattedGenerationDate(avs)).to.equal('N/A');
+      });
+
+      it('handles null input gracefully', () => {
+        expect(getFormattedGenerationDate(null)).to.equal('N/A');
       });
     });
 

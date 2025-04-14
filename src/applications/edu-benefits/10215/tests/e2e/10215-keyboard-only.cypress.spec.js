@@ -18,7 +18,7 @@ describe('22-10215 Edu Benefits Form', () => {
 
     const institutionDetail = {
       institutionName: 'Test Institution Name',
-      facilityCode: '12345678',
+      facilityCode: '15012020',
       termStartDate: '2000-01-01',
       dateOfCalculations: '2010-01-01',
     };
@@ -90,15 +90,6 @@ describe('22-10215 Edu Benefits Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 1);
-    cy.fillVaTextInput(
-      'root_institutionDetails_institutionName',
-      institutionDetail.institutionName,
-    );
-    cy.fillVaTextInput(
-      'root_institutionDetails_institutionName',
-      institutionDetail.institutionName,
-    );
     cy.repeatKey('Tab', 1);
     cy.fillVaTextInput(
       'root_institutionDetails_facilityCode',

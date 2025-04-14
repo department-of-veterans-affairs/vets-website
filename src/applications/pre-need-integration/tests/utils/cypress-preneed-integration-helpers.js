@@ -90,7 +90,9 @@ function autoSuggestFirstResult(field, value) {
 
 // Visits the pre-need intro page, validates the title, clicks start application
 function visitIntro() {
-  cy.visit('/burials-and-memorials/pre-need-integration/introduction');
+  cy.visit(
+    '/burials-memorials/pre-need/form-10007-apply-for-eligibility/introduction',
+  );
   cy.get('body').should('be.visible');
   cy.title().should(
     'contain',

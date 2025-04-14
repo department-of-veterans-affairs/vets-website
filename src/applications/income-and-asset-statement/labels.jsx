@@ -33,7 +33,7 @@ export const incomeFrequencyLabels = {
 
 export const incomeTypeLabels = {
   SOCIAL_SECURITY: 'Social Security',
-  PENSION_RETIREMENT: 'Pension or retirement income',
+  RETIREMENT_PENSION: 'Pension or retirement income',
   WAGES: 'Wages',
   UNEMPLOYMENT: 'Unemployment',
   CIVIL_SERVICE: 'Civil Service',

@@ -75,7 +75,7 @@ export const sponsorAddressSchema = {
     sponsorAddress: merge({}, addressUI(), {
       state: {
         'ui:errorMessages': {
-          required: 'Enter a valid State, Province, or Regions',
+          required: 'Enter a valid State, Province, or Region',
         },
       },
     }),

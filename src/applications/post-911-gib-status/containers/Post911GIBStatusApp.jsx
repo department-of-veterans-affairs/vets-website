@@ -13,7 +13,7 @@ import Main from './Main';
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 
-function AppContent({ children, isDataAvailable }) {
+export function AppContent({ children, isDataAvailable }) {
   const unregistered = isDataAvailable === false;
   let view;
 

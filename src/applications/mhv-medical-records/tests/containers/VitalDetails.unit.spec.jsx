@@ -76,7 +76,7 @@ describe('Vital details container', () => {
 
   it('displays the location and provider notes', () => {
     waitFor(() => {
-      const location = screen.getAllByText('None noted', {
+      const location = screen.getAllByText('None recorded', {
         exact: true,
         selector: 'p',
       });

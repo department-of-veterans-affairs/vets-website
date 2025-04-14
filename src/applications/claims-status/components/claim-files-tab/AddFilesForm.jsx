@@ -280,7 +280,7 @@ class AddFilesForm extends React.Component {
         )}
         <VaButton
           id="submit"
-          text="Submit files for review"
+          text="Submit documents for review"
           onClick={this.submit}
         />
         <va-additional-info

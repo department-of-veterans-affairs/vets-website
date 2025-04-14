@@ -36,6 +36,7 @@ const testConfig = createTestConfig(
       'military-address-no-ohi-pharmacy-work.json',
       'third-party-foreign-address-ohi-medical-claim-work-auto.json',
       'two-ohi-other-type.json',
+      'no-packet.json',
     ],
 
     pageHooks: {
@@ -57,6 +58,24 @@ const testConfig = createTestConfig(
               sig,
               `Submit ${formConfig.customText.appType}`,
             );
+          });
+        });
+      },
+      // When we land on this screener page, progressing through the form is
+      // blocked (by design). To successfully complete the test,
+      // once we land here, change `certifierReceivedPacket` to `true`
+      // and click '<< Back' so that we can proceed past the screener
+      [ALL_PAGES.page1a2.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.axeCheck();
+            if (data.certifierReceivedPacket === false) {
+              // eslint-disable-next-line no-param-reassign
+              data.certifierReceivedPacket = true;
+              // This targets the '<< Back' button
+              cy.get('va-button').click();
+            }
           });
         });
       },

@@ -17,6 +17,7 @@ import {
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
@@ -309,6 +310,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -327,6 +329,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             directSchedulingEnabled,
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
             isCerner: true,
           });
 
@@ -364,6 +367,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           featureClinicFilter,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
 
         if (showModal) {
@@ -911,6 +915,7 @@ export function submitAppointmentOrRequest(history) {
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -938,6 +943,7 @@ export function submitAppointmentOrRequest(history) {
           appointment: transformFormToVAOSAppointment(getState()),
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
 
         dispatch({
@@ -1034,6 +1040,7 @@ export function submitAppointmentOrRequest(history) {
           appointment: requestBody,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
 
         dispatch({

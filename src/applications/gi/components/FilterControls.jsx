@@ -10,17 +10,31 @@ function FilterControls({
   handleDropdownChange,
   filterLocation,
 }) {
+  const stopPropagation = e => {
+    e.stopPropagation();
+  };
+
   return (
-    <div>
-      <fieldset role="group" aria-labelledby="category-type-heading">
-        <h3
-          className="vads-u-margin-bottom--3 vads-u-margin-top--0p5"
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
+    <div
+      className="vads-u-padding-bottom--4 vads-u-padding-top--2"
+      onClick={stopPropagation}
+      onKeyDown={stopPropagation}
+    >
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+      <fieldset
+        className="vads-u-padding-bottom--2"
+        role="group"
+        aria-labelledby="category-type-heading"
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
+      >
+        <legend
+          className="vads-u-margin-bottom--1 vads-u-margin-top--0p5 filter-header"
           id="category-type-heading"
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex="0"
         >
           Category type
-        </h3>
+        </legend>
         {categoryCheckboxes.map((option, index) => {
           return (
             <VaCheckbox
@@ -29,28 +43,36 @@ function FilterControls({
               name={option.name}
               checked={option.checked}
               className="category-checkbox"
-              onVaChange={e => handleCheckboxGroupChange(e)}
+              onVaChange={e => {
+                handleCheckboxGroupChange(e);
+              }}
             />
           );
         })}
       </fieldset>
 
-      <fieldset role="group" aria-labelledby="state-heading">
-        <h3
-          className="vads-u-margin-bottom--2"
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+      <fieldset
+        role="group"
+        aria-labelledby="state-heading"
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
+      >
+        <legend
+          className="vads-u-margin-bottom--1 filter-header"
           id="state-heading"
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex="0"
         >
           State
-        </h3>
+        </legend>
         <Dropdown
           label="Applies to only license and prep course category type. Certifications are available nationwide."
           name={dropdown.label}
           alt="Filter results by state"
           options={dropdown.options}
           value={filterLocation}
-          onChange={handleDropdownChange}
+          onChange={e => {
+            handleDropdownChange(e);
+          }}
           className="state-dropdown"
           visible
           boldLabel

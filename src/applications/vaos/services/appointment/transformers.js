@@ -10,14 +10,22 @@ import {
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(appt, useFeSourceOfTruthCC) {
+export function getAppointmentType(
+  appt,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+) {
   // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
-  if (isCerner && isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.request;
-  }
-  if (isCerner && !isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.vaAppointment;
+
+  if (useFeSourceOfTruthVA) {
+    if (appt?.type === 'VA') {
+      return APPOINTMENT_TYPES.vaAppointment;
+    }
+
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
+    }
   }
 
   if (useFeSourceOfTruthCC) {
@@ -27,18 +35,24 @@ export function getAppointmentType(appt, useFeSourceOfTruthCC) {
     if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
       return APPOINTMENT_TYPES.ccRequest;
     }
-  } else {
-    if (appt?.kind === 'cc' && appt?.start) {
-      return APPOINTMENT_TYPES.ccAppointment;
-    }
-    if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-      return APPOINTMENT_TYPES.ccRequest;
-    }
   }
 
+  if (isCerner && isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.request;
+  }
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
+
   return APPOINTMENT_TYPES.vaAppointment;
 }
 /**
@@ -121,8 +135,13 @@ export function transformVAOSAppointment(
   appt,
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
 ) {
-  const appointmentType = getAppointmentType(appt, useFeSourceOfTruthCC);
+  const appointmentType = getAppointmentType(
+    appt,
+    useFeSourceOfTruthCC,
+    useFeSourceOfTruthVA,
+  );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
@@ -244,7 +263,9 @@ export function transformVAOSAppointment(
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start.format() : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
@@ -320,8 +341,14 @@ export function transformVAOSAppointments(
   appts,
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
 ) {
   return appts.map(appt =>
-    transformVAOSAppointment(appt, useFeSourceOfTruth, useFeSourceOfTruthCC),
+    transformVAOSAppointment(
+      appt,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+      useFeSourceOfTruthVA,
+    ),
   );
 }

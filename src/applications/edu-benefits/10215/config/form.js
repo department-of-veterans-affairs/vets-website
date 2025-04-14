@@ -13,6 +13,7 @@ import { getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
@@ -67,7 +68,7 @@ export const confirmFormLogic = ({ router, route }) => (
 );
 
 export const onNavForwardLogic = ({ goPath }) => {
-  goPath('/institution-details-1');
+  goPath('/identifying-details-1');
   localStorage.removeItem('10215ClaimId');
 };
 
@@ -93,10 +94,8 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
-      body:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'certifyingOfficial',
     },
   },
@@ -138,8 +137,8 @@ const formConfig = {
           onNavForward: onNavForwardLogic,
         },
         institutionDetails: {
-          path: 'institution-details-1',
-          title: 'Identifying details',
+          path: 'identifying-details-1',
+          title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
         },

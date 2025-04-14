@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn } from 'platform/user/selectors';
 import { fetchEnrollmentStatus, resetEnrollmentStatus } from '../utils/actions';
@@ -30,7 +29,6 @@ const IdentityPage = ({ location, route, router }) => {
   const onChange = useCallback(data => setLocalData(data), []);
   const onSubmit = useCallback(
     data => {
-      recordEvent({ event: 'hca-continue-application' });
       dispatch(fetchEnrollmentStatus(data.formData));
     },
     [dispatch],

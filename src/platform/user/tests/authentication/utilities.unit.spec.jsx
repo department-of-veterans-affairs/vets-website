@@ -427,11 +427,13 @@ describe('Authentication Utilities', () => {
         setup({});
       });
 
-      it('should return "/" when pathname is "/verify/"', () => {
+      it('should return "/my-va" when pathname is "/verify/"', () => {
         setup({ path: '/verify/' });
 
-        expect(authUtilities.createAndStoreReturnUrl()).to.equal('/');
-        expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal('/');
+        expect(authUtilities.createAndStoreReturnUrl()).to.equal('/my-va');
+        expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
+          '/my-va',
+        );
       });
     });
 

@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { API_ENDPOINTS } from '../utils/constants';
 import { ensureValidCSRFToken } from './ensureValidCSRFToken';
@@ -32,12 +31,6 @@ export const fetchFacilities = async ({
   try {
     await ensureValidCSRFToken('fetchFacilities');
 
-    Sentry.withScope(scope => {
-      scope.setLevel(Sentry.Severity.Log);
-      scope.setExtra('facilityId(s)', facilityIds.join(','));
-      Sentry.captureMessage('FetchFacilities facilityIds');
-    });
-
     const { data, meta } = await apiRequest(API_ENDPOINTS.facilities, {
       method: 'POST',
       body: JSON.stringify({
@@ -68,25 +61,11 @@ export const fetchFacilities = async ({
       meta,
     };
   } catch (error) {
-    Sentry.withScope(scope => {
-      scope.setExtra('error', error);
-      scope.setExtra('errors', error.errors);
-      Sentry.captureMessage(content['error--facilities-fetch']);
-    });
-
     const errorResponse = error?.errors?.[0];
     if (
       errorResponse?.status === '403' &&
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
-      Sentry.withScope(scope => {
-        scope.setLevel(Sentry.Severity.Log);
-        scope.setExtra('status', errorResponse.status);
-        scope.setExtra('detail', errorResponse.detail);
-        Sentry.captureMessage(
-          'Error in fetchFacilities. Clearing csrfToken in localStorage.',
-        );
-      });
       localStorage.setItem('csrfToken', '');
     }
 

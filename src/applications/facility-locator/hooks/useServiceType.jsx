@@ -194,7 +194,7 @@ export const filterMatches = (allServicesByFacilityType, term) => {
     }
   });
 
-  if (!matchedServices) {
+  if (!matchedServices?.length) {
     return [];
   }
 

@@ -63,7 +63,6 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={pageCount}
-              maxPageListLength={5}
               showLastPage
               uswds
             />

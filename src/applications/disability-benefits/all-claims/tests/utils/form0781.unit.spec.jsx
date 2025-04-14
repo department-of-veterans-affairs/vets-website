@@ -42,6 +42,19 @@ describe('showForm0781Pages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
+        ratedDisabilities: [
+          {
+            diagnosticCode: 5420,
+            decisionCode: 'SVCCONNCTED',
+            name: 'Post traumatic stress disorder',
+            ratedDisabilityId: '9459392',
+            ratingDecisionId: '63655',
+            ratingPercentage: 40,
+            maximumRatingPercentage: 40,
+            specialIssues: ['PTSD/1'],
+            disabilityActionType: 'NONE',
+          },
+        ],
         'view:claimType': {
           'view:claimingIncrease': true,
         },

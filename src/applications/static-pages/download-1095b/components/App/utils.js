@@ -23,10 +23,11 @@ export const notFoundComponent = () => {
         You don’t have a 1095-B tax form available right now
       </h3>
       <p className="vads-u-margin-y--0">
-        You do not have a 1095-B tax form available. This could be because you
-        weren’t enrolled in VA healthcare in 2024. If you think you were
-        enrolled, call us at {phoneComponent(CONTACTS['222_VETS'])}. We’re here
-        Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        You don’t have a 1095-B tax form available. This could be because you
+        were a CHAMPVA beneficiary or you weren’t enrolled in VA healthcare in
+        2024. If you think you were enrolled, call us at{' '}
+        {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
+        Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
     </va-alert>
   );
@@ -76,4 +77,21 @@ export const systemErrorComponent = (
       {phoneComponent(CONTACTS['222_VETS'])}. We’re here 24/7.
     </p>
   </va-alert>
+);
+
+export const pdfHelp = (
+  <div className="vads-u-margin-top--4">
+    <p>
+      If you’re having trouble viewing your IRS 1095-B tax form, you may need
+      the latest version of Adobe Acrobat Reader. It’s free to download.{' '}
+      <va-link
+        href="https://get.adobe.com/reader"
+        text="Get Acrobat Reader for free from Adobe."
+      />
+    </p>
+    <p>
+      If you are still having trouble viewing your 1095-B, call our MyVA411 main
+      information line at {phoneComponent(CONTACTS.VA_411)}.
+    </p>
+  </div>
 );

@@ -1701,5 +1701,17 @@
     "src": "/wilmington",
     "dest": "/wilmington-va-regional-benefit-office",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROSTPAUL",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/stpaul",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

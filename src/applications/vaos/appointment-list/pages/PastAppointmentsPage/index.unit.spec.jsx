@@ -118,6 +118,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     const data = {
       id: '1234',
       kind: 'clinic',
+      type: 'VA',
       clinic: 'fake',
       localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
@@ -158,13 +159,103 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(timeHeader).to.contain.text('MT');
   });
 
-  it('should show information with facility name', async () => {
+  it('should show information with facility name, useFeSourceOfTruthVA=false', async () => {
     const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const data = {
       id: '1234',
       currentStatus: 'CHECKED OUT',
       kind: 'clinic',
+      clinic: 'fake',
+      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      start: pastDate.format(),
+      locationId: '983GC',
+      status: 'fulfilled',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          vastParent: '983',
+          type: 'va_facilities',
+          name: 'Cheyenne VA Medical Center',
+          classification: 'VA Medical Center (VAMC)',
+          timezone: {
+            timeZoneId: 'America/Denver',
+          },
+          lat: 39.744507,
+          long: -104.830956,
+          website: 'https://www.denver.va.gov/locations/directions.asp',
+          phone: {
+            main: '307-778-7550',
+            fax: '307-778-7381',
+            pharmacy: '866-420-6337',
+            afterHours: '307-778-7550',
+            patientAdvocate: '307-778-7550 x7517',
+            mentalHealthClinic: '307-778-7349',
+            enrollmentCoordinator: '307-778-7550 x7579',
+          },
+          physicalAddress: {
+            type: 'physical',
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+          mobile: false,
+          healthService: [],
+          operatingStatus: {
+            code: 'NORMAL',
+          },
+        },
+      },
+    };
+    const appointment = createMockAppointment({
+      ...data,
+    });
+
+    mockVAOSAppointmentsFetch({
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
+      fetchClaimStatus: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
+    });
+
+    await screen.findAllByLabelText(
+      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
+    );
+
+    const firstCard = screen.getAllByRole('listitem')[0];
+
+    expect(
+      within(firstCard).getByText(
+        new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+      ),
+    ).to.exist;
+    // TODO: Skipping until api call is made to get facility data on page load.
+    // Currently, facility data is only retrieved when viewing appointment details
+    // await waitFor(() => {
+    //   expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to
+    //     .exist;
+    // });
+    // expect(screen.baseElement).not.to.contain.text('VA appointment');
+  });
+
+  it('should show information with facility name, useFeSourceOfTruthVA=true', async () => {
+    const pastDate = moment(testDates().now).subtract(3, 'days');
+
+    const data = {
+      id: '1234',
+      currentStatus: 'CHECKED OUT',
+      kind: 'clinic',
+      type: 'VA',
       clinic: 'fake',
       localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
@@ -290,6 +381,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       clinicId: null,
       facilityId: '983',
       kind: 'telehealth',
+      type: 'VA',
       locationId: '983',
       localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
@@ -352,6 +444,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      type: 'VA',
       minutesDuration: 30,
       status: 'booked',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
@@ -407,6 +500,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      type: 'VA',
       minutesDuration: 30,
       status: 'cancelled',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),

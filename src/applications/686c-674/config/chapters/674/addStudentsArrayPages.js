@@ -13,6 +13,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
+  radioUI,
+  radioSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
@@ -34,13 +36,6 @@ import {
   TermDateHint,
 } from './helpers';
 import { generateHelpText } from '../../helpers';
-
-/* NOTE: 
- * In "Add mode" of the array builder, formData represents the entire formData object.
- * In "Edit mode," formData represents the specific array item being edited.
- * As a result, the index param may sometimes come back null depending on which mode the user is in.
- * To handle both modes, ensure that you check both via RJSF like these pages do.
- */
 
 const numberSchema = {
   type: 'string',
@@ -68,7 +63,7 @@ export const addStudentsOptions = {
     !item?.schoolInformation?.name ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
-    !item?.schoolInformation?.isSchoolAccredited ||
+    item?.schoolInformation?.isSchoolAccredited == null ||
     !item?.schoolInformation?.currentTermDates?.officialSchoolStartDate ||
     !item?.schoolInformation?.currentTermDates?.expectedStudentStartDate ||
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
@@ -87,9 +82,10 @@ export const addStudentsOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your students',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Student',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };
@@ -173,17 +169,21 @@ export const studentIDInformationPage = {
 export const studentIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
-    studentIncome: {
-      ...yesNoUI('Did this student earn an income in the last 365 days?'),
-      'ui:description': generateHelpText(
+    studentIncome: radioUI({
+      title: 'Did this student have an income in the last 365 days?',
+      hint:
         'Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      studentIncome: yesNoSchema,
+      studentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };
@@ -446,7 +446,6 @@ export const schoolAccreditationPage = {
     schoolInformation: {
       isSchoolAccredited: yesNoUI({
         title: 'Is the student’s school accredited?',
-        required: () => true,
       }),
       'view:accredited': {
         'ui:description': AccreditedSchool,
@@ -458,6 +457,7 @@ export const schoolAccreditationPage = {
     properties: {
       schoolInformation: {
         type: 'object',
+        required: ['isSchoolAccredited'],
         properties: {
           isSchoolAccredited: yesNoSchema,
           'view:accredited': {

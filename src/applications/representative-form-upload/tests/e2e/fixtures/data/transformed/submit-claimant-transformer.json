@@ -1,0 +1,21 @@
+{
+  "confirmationCode": "123456",
+  "formName": "Declaration of Status of Dependents",
+  "formData": {
+    "veteranSsn": "234232345",
+    "postalCode": "12345",
+    "veteranDateOfBirth": "1932-02-05",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "claimantDateOfBirth": "1932-02-05",
+    "claimantFullName": {
+      "first": "John",
+      "last": "Claimant"
+    },
+    "claimantSsn": "234232345",
+    "formNumber": "21-686c",
+    "email": "john@veteran.com"
+  }
+}

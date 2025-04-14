@@ -36,6 +36,25 @@ const renderWithProvider = (Component, store = mockStore) => {
 };
 
 describe('<IntroductionPage /> component', () => {
+  it('renders the title and subtitle', () => {
+    const formConfig = {
+      title: 'Test out this form',
+      subTitle: 'Test Form (VA Form 12-3456)',
+    };
+    const screen = renderWithProvider(
+      <IntroductionPage
+        route={{
+          formConfig,
+          pageList: [],
+        }}
+      />,
+    );
+    const article = screen.getByRole('article');
+
+    expect(article).to.include.text(formConfig.title);
+    expect(article).to.include.text(formConfig.subTitle);
+  });
+
   describe('hides links for proceeding without logging in', () => {
     it('does not render the link anywhere on the page', () => {
       const screen = renderWithProvider(
@@ -51,6 +70,25 @@ describe('<IntroductionPage /> component', () => {
         'Start your application without signing in',
       );
       expect(unauthedLink).to.not.exist;
+    });
+  });
+
+  describe('introParagraph', () => {
+    it('renders the introduction paragraph', () => {
+      const introParagraph =
+        'A brief intro describing when to use this form. This could be 1 to 3 sentences, with no more than 25 words per sentence. This text is styled differently than body copy.';
+      const screen = renderWithProvider(
+        <IntroductionPage
+          introParagraph={introParagraph}
+          route={{
+            formConfig: {},
+            pageList: [],
+          }}
+        />,
+      );
+      const article = screen.getByRole('article');
+
+      expect(article).to.include.text(introParagraph);
     });
   });
 
@@ -97,6 +135,34 @@ describe('<IntroductionPage /> component', () => {
 
         expect(screen.queryByTestId('va-omb-info')).to.be.null;
       });
+    });
+  });
+
+  describe('whatToKnow', () => {
+    const whatToKnow = [
+      'This is a test bullet',
+      'A second example',
+      'Maybe even a third one',
+    ];
+    const screen = renderWithProvider(
+      <IntroductionPage
+        whatToKnow={whatToKnow}
+        route={{
+          formConfig: {},
+          pageList: [],
+        }}
+      />,
+    );
+    const article = screen.getByRole('article');
+
+    it('renders the correct header', () => {
+      expect(article).to.include.text(
+        'What to know before you fill out this form',
+      );
+    });
+
+    it('renders a bullet for each whatToKnow item', () => {
+      whatToKnow.forEach(bullet => expect(article).to.include.text(bullet));
     });
   });
 });

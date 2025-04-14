@@ -1,0 +1,140 @@
+{
+  "data": {
+    "incomeNetWorthDateRange": {
+      "from": "2023-07-01",
+      "to": "2024-01-01"
+    },
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranSocialSecurityNumber": "321654987",
+    "view:applicantIsVeteran": false,
+    "claimantFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "claimantSocialSecurityNumber": "321654987",
+    "claimantType": "SPOUSE",
+    "view:isAddingUnassociatedIncomes": true,
+    "unassociatedIncomes": [
+      {
+        "recipientRelationship": "SPOUSE",
+        "incomeType": "SOCIAL_SECURITY",
+        "grossMonthlyIncome": 0,
+        "payer": "Business name"
+      }
+    ],
+    "view:isAddingAssociatedIncomes": true,
+    "associatedIncomes": [
+      {
+        "recipientRelationship": "SPOUSE",
+        "incomeType": "INTEREST",
+        "grossMonthlyIncome": 0,
+        "accountValue": 0,
+        "payer": "Financial name"
+      }
+    ],
+    "view:isAddingOwnedAssets": true,
+    "ownedAssets": [
+      {
+        "recipientRelationship": "SPOUSE",
+        "recipientName": "Recipient name",
+        "grossMonthlyIncome": 0,
+        "ownedPortionValue": 0,
+        "assetType": "BUSINESS"
+      }
+    ],
+    "view:isAddingRoyalties": true,
+    "royaltiesAndOtherProperties": [
+      {
+        "recipientRelationship": "SPOUSE",
+        "canBeSold": true,
+        "fairMarketValue": 0,
+        "grossMonthlyIncome": 0,
+        "incomeGenerationMethod": "INTELLECTUAL_PROPERTY"
+      }
+    ],
+    "view:isAddingAssetTransfers": true,
+    "assetTransfers": [
+      {
+        "originalOwnerRelationship": "SPOUSE",
+        "transferMethod": "SOLD",
+        "assetType": "Real Estate Property",
+        "newOwnerName": { "first": "Alice", "last": "Johnson" },
+        "newOwnerRelationship": "Friend",
+        "saleReportedToIrs": true,
+        "transferDate": "2023-05-15",
+        "assetTransferredUnderFairMarketValue": false,
+        "fairMarketValue": 0,
+        "saleValue": 0,
+        "capitalGainValue": 0
+      }
+    ],
+    "view:isAddingTrusts": true,
+    "trusts": [
+      {
+        "establishedDate": "2020-03-15",
+        "marketValueAtEstablishment": 0,
+        "trustType": "REVOCABLE",
+        "addedFundsAfterEstablishment": true,
+        "addedFundsDate": "2021-05-10",
+        "addedFundsAmount": 0,
+        "receivingIncomeFromTrust": true,
+        "annualReceivedIncome": 0,
+        "trustUsedForMedicalExpenses": false,
+        "monthlyMedicalReimbursementAmount": 0,
+        "trustEstablishedForVeteransChild": false,
+        "haveAuthorityOrControlOfTrust": true
+      }
+    ],
+    "view:isAddingAnnuities": true,
+    "annuities": [
+      {
+        "establishedDate": "2018-06-15",
+        "marketValueAtEstablishment": 0,
+        "addedFundsAfterEstablishment": true,
+        "addedFundsDate": "2020-09-22",
+        "addedFundsAmount": 0,
+        "revocable": false,
+        "receivingIncomeFromAnnuity": true,
+        "annualReceivedIncome": 0,
+        "canBeLiquidated": true,
+        "surrenderValue": 0
+      }
+    ],
+    "view:isAddingUnreportedAssets": true,
+    "unreportedAssets": [
+      {
+        "assetOwnerRelationship": "SPOUSE",
+        "ownedPortionValue": 0,
+        "assetType": "Investment Portfolio",
+        "assetLocation": "Global Investments LLC, Portfolio ID #987654321"
+      }
+    ],
+    "view:isAddingDiscontinuedIncomes": true,
+    "discontinuedIncomes": [
+      {
+        "recipientRelationship": "SPOUSE",
+        "payer": "Social Security Administration",
+        "incomeType": "Social Security",
+        "incomeFrequency": "RECURRING",
+        "incomeLastReceivedDate": "2023-05-15",
+        "grossAnnualAmount": 0
+      }
+    ],
+    "view:isAddingIncomeReceiptWaivers": true,
+    "incomeReceiptWaivers": [
+      {
+        "recipientRelationship": "SPOUSE",
+        "payer": "Social Security Administration",
+        "expectedIncome": 0,
+        "view:paymentsWillResume": true,
+        "paymentResumeDate": "2024-06-01",
+        "waivedGrossMonthlyIncome": 0
+      }
+    ],
+    "statementOfTruthSignature": "Jane Doe",
+    "statementOfTruthCertified": true
+  }
+}
