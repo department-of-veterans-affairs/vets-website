@@ -1,15 +1,14 @@
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import cookie from 'js-cookie';
-// import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-// import PropTypes from 'prop-types';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import PropTypes from 'prop-types';
 import React from 'react';
-// import BreadCrumbs from '../components/BreadCrumbs';
-// import ProgressBar from '../components/ProgressBar';
-// import formConfig from '../config/form';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import BreadCrumbs from '../components/BreadCrumbs';
+import ProgressBar from '../components/ProgressBar';
+import formConfig from '../config/form';
 
-// export default function App({ location, children }) {
-export default function App() {
+export default function App({ location, children }) {
   const {
     TOGGLE_NAMES,
     useToggleLoadingValue,
@@ -48,16 +47,17 @@ export default function App() {
           <a href="https://ask.va.gov/">previous version of Ask VA</a>
         </p>
       </VaAlert>
-      {/* <BreadCrumbs currentLocation={location.pathname} /> */}
-      {/* <RoutedSavableApp formConfig={formConfig} currentLocation={location}> */}
-      {/* <ProgressBar pathname={location.pathname} /> */}
-      {/* {children} */}
-      {/* </RoutedSavableApp> */}
+
+      <BreadCrumbs currentLocation={location.pathname} />
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <ProgressBar pathname={location.pathname} />
+        {children}
+      </RoutedSavableApp>
     </>
   );
 }
 
-// App.propTypes = {
-//   children: PropTypes.node,
-//   location: PropTypes.object,
-// };
+App.propTypes = {
+  children: PropTypes.node,
+  location: PropTypes.object,
+};
