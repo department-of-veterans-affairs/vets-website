@@ -297,6 +297,7 @@
   "vaOnlineSchedulingDisplayPastCancelledAppointments": "va_online_scheduling_display_past_cancelled_appointments",
   "vaOnlineSchedulingPatientHistoryFutureAppts": "va_online_scheduling_patient_history_future_appts",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
+  "vetStatusPdfLogging": "vet_status_pdf_logging",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
