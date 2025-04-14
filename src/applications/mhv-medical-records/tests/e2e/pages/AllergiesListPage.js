@@ -36,12 +36,12 @@ class AllergiesListPage extends BaseListPage {
   ) => {
     cy.get('#showingRecords').should(
       'have.text',
-      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records, alphabetically`,
     );
     cy.focused().then($el => {
       cy.wrap($el).should(
         'contain',
-        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records, alphabetically`,
       );
     });
   };
@@ -62,6 +62,16 @@ class AllergiesListPage extends BaseListPage {
       .eq(4)
       .find('a')
       .should('have.attr', 'href', '/my-health/medical-records');
+  };
+
+  selectSort = _sort => {
+    cy.get('select').select(_sort);
+  };
+
+  verifyAllergyTitleByIndex = (index, title) => {
+    cy.get('[data-testid="record-list-item"]')
+      .eq(index)
+      .should('contain', title);
   };
 }
 export default new AllergiesListPage();

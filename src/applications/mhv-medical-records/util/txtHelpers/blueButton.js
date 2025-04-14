@@ -66,10 +66,25 @@ export const getTxtContent = (data, user, dateRange) => {
     },
   ];
 
-  const recordsSection = sections
+  const dateRangeText = `Date range: ${
+    dateRange.fromDate === 'any'
+      ? 'All time'
+      : `${dateRange.fromDate} to ${dateRange.toDate}`
+  }`;
+
+  const inReport = sections
     .filter(section => section.data)
-    .map((section, index) => `  ${index + 1}. ${section.label}`)
+    .map(section => `  • ${section.label}`)
     .join('\n');
+
+  const notInReportList = sections
+    .filter(section => !section.data)
+    .map(section => `  • ${section.label}`)
+    .join('\n');
+
+  const recordsSection = `Records in this report\n\n${dateRangeText}\n\n${inReport}${
+    notInReportList ? `\n\nRecords not in this report\n${notInReportList}` : ''
+  }`;
 
   const contentSection = sections
     .filter(section => section.data)
@@ -83,7 +98,7 @@ export const getTxtContent = (data, user, dateRange) => {
 VA Blue Button® report
 
 This report includes key information from your VA medical records.
-${userFullName.last}, ${userFullName.first}\n
+${userFullName.first} ${userFullName.last}\n
 Date of birth: ${formatUserDob(user)}\n
 
 What to know about your Blue Button report
@@ -98,12 +113,6 @@ Need help?
 ${txtLine}
 The following records have been downloaded:
 ${txtLineDotted}
-
-Date range: ${
-    dateRange.fromDate === 'any'
-      ? 'All time'
-      : `${dateRange.fromDate} to ${dateRange.toDate}`
-  }
 
 ${recordsSection}
 
