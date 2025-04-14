@@ -333,7 +333,7 @@ export default class MockAppointmentResponse {
     return this;
   }
 
-  setModality(value = 'claimExamAppointment') {
+  setModality(value) {
     this.attributes.modality = value;
   }
 

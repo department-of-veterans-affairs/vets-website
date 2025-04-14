@@ -149,7 +149,7 @@ export class MockAppointment {
     this.created = value;
   }
 
-  setModality(value = 'claimExamAppointment') {
+  setModality(value) {
     this.modality = value;
   }
 }
