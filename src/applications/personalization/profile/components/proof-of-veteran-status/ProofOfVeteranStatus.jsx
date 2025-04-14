@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { generatePdf } from '~/platform/pdf';
 import { focusElement } from '~/platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { apiRequest } from '~/platform/utilities/api';
@@ -157,6 +158,24 @@ const ProofOfVeteranStatus = ({
       captureError(error, { eventName: 'vet-status-pdf-download' });
     }
   };
+
+
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const monitorPdfGeneration = useToggleValue(
+    TOGGLE_NAMES.veteranStatusCardPdfGenerationMonitoring,
+  );
+
+  // console.log('isLoadingFeatureFlags', isLoadingFeatureFlags)
+  // console.log('monitorPdfGeneration', monitorPdfGeneration)
+  if(isLoadingFeatureFlags === false && monitorPdfGeneration === true){
+    console.log('Do the thing!', )
+  }
 
   const isVetStatusEligibilityPopulated =
     Object.keys(vetStatusEligibility).length !== 0;
