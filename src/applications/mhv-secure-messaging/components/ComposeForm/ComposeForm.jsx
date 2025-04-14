@@ -349,8 +349,8 @@ const ComposeForm = props => {
           setRecipientError(ErrorMessages.ComposeForm.VALID_RECIPIENT_REQUIRED);
         } else {
           setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-          messageValid = false;
         }
+        messageValid = false;
       }
       if (!subject || subject === '') {
         setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
