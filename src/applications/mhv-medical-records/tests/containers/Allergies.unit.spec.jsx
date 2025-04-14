@@ -173,3 +173,35 @@ describe('Allergies list container with errors', () => {
     });
   });
 });
+
+describe('Allergies list container with sort selector', () => {
+  it('displays the sorting information', () => {
+    const initialState = {
+      user,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_filter_and_sort: true,
+      },
+      mr: {
+        allergies: {
+          allergiesList: allergies.entry.map(item =>
+            convertAllergy(item.resource),
+          ),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies',
+    });
+
+    expect(screen.getByTestId('mr-sort-selector')).to.exist;
+    expect(
+      screen.getByText('Showing 1 to 5 of 5 records, alphabetically', {
+        exact: true,
+      }),
+    ).to.exist;
+  });
+});

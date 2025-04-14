@@ -31,6 +31,7 @@ const conditionTypePage = {
     properties: {
       'view:conditionType': radioSchema(Object.keys(conditionTypeOptions)),
     },
+    required: ['view:conditionType'],
   },
 };
 

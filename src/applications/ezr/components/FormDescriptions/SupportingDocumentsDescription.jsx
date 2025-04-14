@@ -12,7 +12,7 @@ const ToxicExposureDescription = (
       they may help us confirm certain details about your service history and
       process your form faster.
     </p>
-    <h4>Documents you can upload</h4>
+    <h2 className="vads-u-font-size--h4">Documents you can upload</h2>
     <p>
       Upload a document with information about what you may have been exposed
       to, the type of activity you were engaged in when you were exposed (like
