@@ -19,6 +19,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
+import { stripTZOffset } from '../util/dates';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -69,8 +70,7 @@ const SubmitFlowWrapper = () => {
       return;
     }
     const apptData = {
-      appointmentName: '',
-      appointmentDateTime: appointmentData.localStartTime,
+      appointmentDateTime: stripTZOffset(appointmentData.localStartTime),
       facilityStationNumber: appointmentData.location.id,
       appointmentType: appointmentData.isCompAndPen
         ? 'CompensationAndPensionExamination'
