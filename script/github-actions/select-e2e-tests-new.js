@@ -33,6 +33,7 @@ function allTests() {
 
 function selectTests(pathsOfChangedFiles) {
   console.log('selecting tests');
+
   const tests = [];
   if (RUN_FULL_SUITE) {
     console.log('all tests selected');
@@ -49,12 +50,14 @@ function selectTests(pathsOfChangedFiles) {
     console.log('applicationNames: ', applicationNames);
 
     [...new Set(applications)].forEach(app => {
+      console.log('app: ', app);
       const selectedTestsPattern = path.join(
         __dirname,
         '../..',
         'src/applications',
         `${app}/**/tests/**/*.cypress.spec.js?(x)`,
       );
+      console.log('selectedTestsPattern: ', selectedTestsPattern);
 
       tests.push(...glob.sync(selectedTestsPattern));
     });
