@@ -34,33 +34,39 @@ const AccessGuardWrapper = ({ children }) => {
   return children;
 };
 
+const baseName = '/my-medications';
+
 const routes = (
   <AccessGuardWrapper>
     <Switch>
       {/* TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod */}
-      <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
+      <AppRoute
+        exact
+        path={[`${baseName}/about`, `${baseName}/about/*`]}
+        key="LandingPage"
+      >
         <LandingPage />
       </AppRoute>
-      <AppRoute exact path={['/refill']} key="RefillPage">
+      <AppRoute exact path={[`${baseName}/refill`]} key="RefillPage">
         <div>
           <RefillPrescriptions />
         </div>
       </AppRoute>
-      <AppRoute exact path={['/', '/:page']} key="App">
+      <AppRoute exact path={[`${baseName}`, `${baseName}/:page`]} key="App">
         <div>
           <Prescriptions />
         </div>
       </AppRoute>
       <AppRoute
         exact
-        path="/prescription/:prescriptionId"
+        path={`${baseName}/prescription/:prescriptionId`}
         key="prescriptionDetails"
       >
         <PrescriptionDetails />
       </AppRoute>
       <AppRoute
         exact
-        path="/prescription/:prescriptionId/documentation"
+        path={`${baseName}/prescription/:prescriptionId/documentation`}
         key="prescriptionDetailsDocumentation"
       >
         <PrescriptionDetailsDocumentation />

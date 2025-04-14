@@ -162,7 +162,7 @@ const Prescriptions = () => {
       focusElement(document.getElementById('showingRx'));
     });
 
-    history.replace('/?page=1');
+    history.replace('/my-medications/?page=1');
     if (isFiltering) {
       sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
     }
@@ -245,7 +245,9 @@ const Prescriptions = () => {
       }
       if (Number.isNaN(page) || page < 1) {
         history.replace(
-          `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
+          `/my-medications/?page=${sessionStorage.getItem(
+            SESSION_SELECTED_PAGE_NUMBER,
+          ) || 1}`,
         );
         return;
       }

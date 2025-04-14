@@ -17,21 +17,21 @@ export const rxListSortingOptions = {
 export const medicationsUrls = {
   VA_HOME: '/../../../',
   MHV_HOME: '/../../my-health',
-  MEDICATIONS_URL: '/my-health/medications',
-  MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
+  MEDICATIONS_URL: '/my-health/my-medications',
+  MEDICATIONS_LOGIN: '/my-health/my-medications?next=loginModal&oauth=true',
   // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-  MEDICATIONS_ABOUT: '/my-health/medications/about',
+  MEDICATIONS_ABOUT: '/my-health/my-medications/about',
   MEDICATIONS_ABOUT_ACCORDION_RENEW:
     '/my-health/medications/about#accordion-renew-rx',
-  MEDICATIONS_REFILL: '/my-health/medications/refill',
-  PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
+  MEDICATIONS_REFILL: '/my-health/my-medications/refill',
+  PRESCRIPTION_DETAILS: '/my-health/my-medications/prescription',
   subdirectories: {
-    BASE: '/',
+    BASE: '/my-medications/',
     // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-    ABOUT: '/about',
-    REFILL: '/refill',
-    DETAILS: '/prescription',
-    DOCUMENTATION: '/documentation',
+    ABOUT: '/my-medications/about',
+    REFILL: '/my-medications/refill',
+    DETAILS: '/my-medications/prescription',
+    DOCUMENTATION: '/my-medications/documentation',
   },
 };
 
@@ -45,7 +45,7 @@ export const filterOptions = {
   [ALL_MEDICATIONS_FILTER_KEY]: {
     label: 'All medications',
     description: 'All medications in your VA medical records',
-    url: '',
+    url: '/my-medications',
     showingContentDisplayName: '',
   },
   [ACTIVE_FILTER_KEY]: {
@@ -53,7 +53,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
     url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
+      '/my-medications&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {
@@ -61,7 +61,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
     url:
-      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
+      '/my-medications&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
     showingContentDisplayName: ' recently requested',
   },
   [RENEWAL_FILTER_KEY]: {
@@ -69,7 +69,7 @@ export const filterOptions = {
     name: 'filter option',
     description:
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
-    url: '&filter[[disp_status][eq]]=Active,Expired',
+    url: '/my-medications&filter[[disp_status][eq]]=Active,Expired',
     showingContentDisplayName: ' renewal needed before refill',
   },
   [NON_ACTIVE_FILTER_KEY]: {
@@ -77,7 +77,8 @@ export const filterOptions = {
     name: 'filter option',
     description:
       'Prescriptions that are discontinued, expired, or have an unkown status',
-    url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
+    url:
+      '/my-medications&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
 };

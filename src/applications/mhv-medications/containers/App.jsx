@@ -20,6 +20,9 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls } from '../util/constants';
 import { selectRemoveLandingPageFlag } from '../util/selectors';
+import 'platform/polyfills';
+import '../sass/medications.scss';
+import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 
 const App = ({ children }) => {
   const location = useLocation();

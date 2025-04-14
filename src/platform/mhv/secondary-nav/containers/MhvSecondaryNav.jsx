@@ -34,8 +34,7 @@ export const mhvSecNavItems = [
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'pill',
-    href: '/my-health/medications/about',
-    appRootUrl: '/my-health/medications',
+    href: '/my-medications',
   },
   {
     title: 'Records',
@@ -50,24 +49,9 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  const {
-    loading = true,
-    mhvMedicationsRemoveLandingPage = false,
-  } = useSelector(toggleValuesSelector);
+  const { loading = true } = useSelector(toggleValuesSelector);
 
-  const updatedNavItems = mhvSecNavItems.map(item => {
-    // Current URL: /my-health/medications/about
-    // Replace with milestone1 URL: /my-health/medications
-    if (
-      mhvMedicationsRemoveLandingPage &&
-      item.href === '/my-health/medications/about'
-    ) {
-      return { ...item, href: '/my-health/medications' };
-    }
-    return item;
-  });
-
-  return <MhvSecondaryNavMenu items={updatedNavItems} loading={loading} />;
+  return <MhvSecondaryNavMenu items={mhvSecNavItems} loading={loading} />;
 };
 
 export default MhvSecondaryNav;

@@ -184,7 +184,7 @@ const VaPrescription = prescription => {
                     className={`${
                       !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
                     }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                    to="/refill"
+                    to="/my-medications/refill"
                     data-testid="refill-nav-link"
                     data-dd-action-name={
                       dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
@@ -458,7 +458,7 @@ const VaPrescription = prescription => {
                   // Any of the Rx's NDC's will work here. They should all show the same information
                   refillHistory.some(p => p.cmopNdcNumber) && (
                     <Link
-                      to={`/prescription/${
+                      to={`/my-medications/prescription/${
                         prescription.prescriptionId
                       }/documentation`}
                       data-testid="va-prescription-documentation-link"

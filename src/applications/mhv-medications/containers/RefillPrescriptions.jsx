@@ -332,7 +332,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                 <Link
                   data-testid="medications-page-link"
                   className="vads-u-margin-top--2 vads-u-display--block"
-                  to="/"
+                  to="/my-medications/"
                   data-dd-action-name={
                     dataDogActionNames.refillPage
                       .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW

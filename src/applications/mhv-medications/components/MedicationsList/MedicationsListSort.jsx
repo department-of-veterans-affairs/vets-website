@@ -40,7 +40,7 @@ const MedicationsListSort = props => {
             // clean after filter flag is removed
             if (showFilterContent) {
               sortRxList(e.detail.value);
-              history.push(`/?page=1`);
+              history.push(`/my-medications/?page=1`);
               waitForRenderThenFocus(
                 "[data-testid='page-total-info']",
                 document,
@@ -84,7 +84,7 @@ const MedicationsListSort = props => {
             onClick={() => {
               if (sortListOption) {
                 sortRxList(sortListOption);
-                history.push(`/?page=1`);
+                history.push(`/my-medications/?page=1`);
                 waitForRenderThenFocus(
                   "[data-testid='page-total-info']",
                   document,

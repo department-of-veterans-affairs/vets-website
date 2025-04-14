@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import AppConfig from './containers/AppConfig';
 import LandingPageContainer from './containers/LandingPageContainer';
+import MhvMedcationsRoutes from '../mhv-medications/routes';
 import MhvSecureMessagingRoutes from '../mhv-secure-messaging/routes';
 import AppointmentsRoutes from '../vaos/routes';
 
@@ -12,6 +13,13 @@ const routes = (
     <Switch>
       <Route exact path="/" key="mhvLandingPage">
         <LandingPageContainer />
+      </Route>
+      <Route
+        exact
+        path={['/my-medications', '/my-medications/*']}
+        key="mhvMedications"
+      >
+        {MhvMedcationsRoutes}
       </Route>
       <Route
         exact
