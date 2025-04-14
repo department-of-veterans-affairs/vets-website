@@ -18,6 +18,7 @@ import {
   addForm4142,
   addForm0781,
   addForm0781V2,
+  audit0781EventData,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -705,7 +706,53 @@ describe('addForm0781V2', () => {
   const formData = {
     syncModern0781Flow: true,
     eventTypes: ['eventType1'],
-    events: ['event1'],
+    events: [
+      {
+        location: 'Where did the event happen?',
+        otherReports: 'Other official report type listed here',
+        timing: 'When did the event happen?',
+        reports: {
+          restricted: true,
+          unrestricted: true,
+          police: true,
+          none: true,
+        },
+        agency: 'Name of the agency that issued the report',
+        city: 'report city',
+        state: 'report state',
+        township: 'report township',
+        country: 'USA',
+      },
+      {
+        location: 'Where did the event happen?',
+        otherReports: 'Other official report type listed here',
+        reports: {
+          restricted: true,
+          unrestricted: true,
+          police: false,
+          none: true,
+        },
+        agency: 'Name of the agency that issued the report',
+        city: 'report city',
+        state: 'report state',
+        township: 'report township',
+        country: 'USA',
+      },
+      {
+        location: 'Where did the event happen?',
+        reports: {
+          restricted: true,
+          unrestricted: true,
+          police: true,
+          none: true,
+        },
+        agency: 'Name of the agency that issued the report',
+        city: 'report city',
+        state: 'report state',
+        township: 'report township',
+        country: 'USA',
+      },
+    ],
     workBehaviors: ['workBehavior1'],
     healthBehaviors: ['healthBehavior1'],
     otherBehaviors: ['otherBehavior1'],
@@ -745,6 +792,43 @@ describe('addForm0781V2', () => {
     };
     const expectedResult = {
       form0781: {
+        events: [
+          {
+            location: 'Where did the event happen?',
+            otherReports: 'Other official report type listed here',
+            timing: 'When did the event happen?',
+            reports: {
+              restricted: true,
+              unrestricted: true,
+              police: true,
+              none: true,
+            },
+            agency: 'Name of the agency that issued the report',
+            city: 'report city',
+            state: 'report state',
+            township: 'report township',
+            country: 'USA',
+          },
+          {
+            location: 'Where did the event happen?',
+            otherReports: 'Other official report type listed here',
+            reports: {
+              restricted: true,
+              unrestricted: true,
+              police: false,
+              none: true,
+            },
+          },
+          {
+            location: 'Where did the event happen?',
+            reports: {
+              restricted: true,
+              unrestricted: true,
+              police: true,
+              none: true,
+            },
+          },
+        ],
         treatmentProvidersDetails: [],
       },
       vaTreatmentFacilities: [
@@ -773,6 +857,43 @@ describe('addForm0781V2', () => {
     };
     const expectedResult = {
       form0781: {
+        events: [
+          {
+            location: 'Where did the event happen?',
+            otherReports: 'Other official report type listed here',
+            timing: 'When did the event happen?',
+            reports: {
+              restricted: true,
+              unrestricted: true,
+              police: true,
+              none: true,
+            },
+            agency: 'Name of the agency that issued the report',
+            city: 'report city',
+            state: 'report state',
+            township: 'report township',
+            country: 'USA',
+          },
+          {
+            location: 'Where did the event happen?',
+            otherReports: 'Other official report type listed here',
+            reports: {
+              restricted: true,
+              unrestricted: true,
+              police: false,
+              none: true,
+            },
+          },
+          {
+            location: 'Where did the event happen?',
+            reports: {
+              restricted: true,
+              unrestricted: true,
+              police: true,
+              none: true,
+            },
+          },
+        ],
         treatmentProvidersDetails: [],
       },
       vaTreatmentFacilities: [
@@ -792,6 +913,100 @@ describe('addForm0781V2', () => {
 
     const result = addForm0781V2(data);
     expect(result).to.deep.equal(expectedResult);
+  });
+
+  it('audit0781EventData properly removes location data when conditions are met', () => {
+    const data = {
+      events: [
+        {
+          location: 'Where did the event happen?',
+          otherReports: 'Other official report type listed here',
+          timing: 'When did the event happen?',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: true,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+        {
+          location: 'Where did the event happen?',
+          otherReports: 'Other official report type listed here',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: false,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+        {
+          location: 'Where did the event happen?',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: true,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+      ],
+    };
+    const expectedResult = {
+      events: [
+        {
+          location: 'Where did the event happen?',
+          timing: 'When did the event happen?',
+          otherReports: 'Other official report type listed here',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: true,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+        {
+          location: 'Where did the event happen?',
+          otherReports: 'Other official report type listed here',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: false,
+            none: true,
+          },
+        },
+        {
+          location: 'Where did the event happen?',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: true,
+            none: true,
+          },
+        },
+      ],
+    };
+
+    audit0781EventData(data);
+    expect(data).to.deep.equal(expectedResult);
   });
 
   it('should return the same object if syncModern0781Flow is false', () => {
