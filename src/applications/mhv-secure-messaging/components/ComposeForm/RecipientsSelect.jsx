@@ -57,6 +57,7 @@ const RecipientsSelect = ({
   isSignatureRequired,
   setCheckboxMarked,
   setElectronicSignature,
+  setComboBoxInputValue,
 }) => {
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
@@ -140,6 +141,10 @@ const RecipientsSelect = ({
       setElectronicSignature,
     ],
   );
+
+  const handleInput = e => {
+    setComboBoxInputValue(e.target.shadowRoot.querySelector('input').value);
+  };
 
   const handleRecipientSelect = useCallback(
     e => {
@@ -228,6 +233,7 @@ const RecipientsSelect = ({
           error={error}
           data-dd-privacy="mask"
           data-dd-action-name="Compose Recipient Combobox List"
+          onInput={handleInput}
         >
           <CantFindYourTeam />
           {optionsValues}

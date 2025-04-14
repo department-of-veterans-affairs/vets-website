@@ -104,6 +104,7 @@ const ComposeForm = props => {
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
+  const [comboBoxInputValue, setComboBoxInputValue] = useState('');
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const categories = useSelector(state => state.sm.categories?.categories);
@@ -346,7 +347,13 @@ const ComposeForm = props => {
         !selectedRecipientId
       ) {
         if (isComboBoxEnabled) {
-          setRecipientError(ErrorMessages.ComposeForm.VALID_RECIPIENT_REQUIRED);
+          if (comboBoxInputValue === '') {
+            setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+          } else {
+            setRecipientError(
+              ErrorMessages.ComposeForm.VALID_RECIPIENT_REQUIRED,
+            );
+          }
         } else {
           setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
         }
@@ -385,6 +392,8 @@ const ComposeForm = props => {
       electronicSignature,
       checkboxMarked,
       setMessageInvalid,
+      comboBoxInputValue,
+      isComboBoxEnabled,
     ],
   );
 
@@ -837,6 +846,7 @@ const ComposeForm = props => {
                 isSignatureRequired={isSignatureRequired}
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
+                setComboBoxInputValue={setComboBoxInputValue}
               />
             )}
           <div className="compose-form-div">
