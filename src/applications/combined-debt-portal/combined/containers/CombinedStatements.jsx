@@ -282,7 +282,8 @@ const CombinedStatements = () => {
             ) : null}
           </div>
         </div>
-        <div>
+
+        <div className="vads-u-margin-y--4 vads-u-padding-y--2">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Copay charges
           </h2>
@@ -347,7 +348,7 @@ const CombinedStatements = () => {
           ))}
         </div>
 
-        <div>
+        <div className="vads-u-margin-y--4 vads-u-padding-y--2">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
