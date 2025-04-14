@@ -282,153 +282,156 @@ const CombinedStatements = () => {
             ) : null}
           </div>
         </div>
+        <div>
+          <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Copay charges
+          </h2>
+          <p className="vads-u-margin-top--0">
+            You are receiving this billing statement because you are currently
+            enrolled in a priority group requiring copayments for treatment of
+            non-service connected conditions.
+          </p>
 
-        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Copay charges
-        </h2>
-        <p className="vads-u-margin-top--0">
-          You are receiving this billing statement because you are currently
-          enrolled in a priority group requiring copayments for treatment of
-          non-service connected conditions.
-        </p>
+          <div className="vads-u-margin-top--3">
+            <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+              Resolve your copay bills
+            </h3>
+            <p className="vads-u-margin-top--0">
+              You can pay your debt online, by phone, or by mail. Call us at{' '}
+              <va-telephone contact="8664001238" /> to discuss payment options,
+              request financial help, or dispute your bill.
+            </p>
+            <va-link-action
+              href="/manage-va-debt/summary/copay-balances"
+              text="Review and resolve copay bills"
+              type="secondary"
+              data-testid="review-copays-link"
+            />
+          </div>
 
-        <div className="vads-u-margin-top--3">
+          {/* Copay charges tables */}
+          {mcp.statements.map(statement => (
+            <div key={statement.station.facilityName}>
+              <h3>{statement.station.facilityName}</h3>
+              <p className="vads-u-margin-bottom--0">
+                Payments made after{' '}
+                {getLatestPaymentDateFromCopayForFacility(statement)} will not
+                be reflected here
+              </p>
+              <va-table
+                table-title={`Copay charges for ${
+                  statement.station.facilityName
+                }`}
+                data-testid={`combined-statements-copay-table-${
+                  statement.station.facilityName
+                }`}
+                className="vads-u-width--full"
+              >
+                <va-table-row slot="headers">
+                  <span>Description</span>
+                  <span>Billing reference</span>
+                  <span>Amount</span>
+                </va-table-row>
+
+                {statement.details.map((charge, idx) => (
+                  <va-table-row key={idx}>
+                    <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
+                    <span>{charge.pDRefNo}</span>
+                    <span>{currency(charge.pDTransAmt)}</span>
+                  </va-table-row>
+                ))}
+
+                {copayTotalRow(statement)}
+              </va-table>
+            </div>
+          ))}
+        </div>
+
+        <div>
+          <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Overpayment charges
+          </h2>
+          <p className="vads-u-margin-top--0">
+            Benefit overpayments are due to changes in your benefits which
+            result in you being paid more than you were owed.
+          </p>
           <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-            Resolve your copay bills
+            Resolve your overpayment
           </h3>
           <p className="vads-u-margin-top--0">
             You can pay your debt online, by phone, or by mail. Call us at{' '}
-            <va-telephone contact="8664001238" /> to discuss payment options,
+            <va-telephone contact="8008270648" /> to discuss payment options,
             request financial help, or dispute your bill.
           </p>
           <va-link-action
-            href="/manage-va-debt/summary/copay-balances"
-            text="Review and resolve copay bills"
+            href="/manage-va-debt/summary/debt-balances"
+            text="Review and resolve overpayments"
             type="secondary"
-            data-testid="review-copays-link"
+            data-testid="review-debts-link"
           />
-        </div>
 
-        {/* Copay charges tables */}
-        {mcp.statements.map(statement => (
-          <div key={statement.station.facilityName}>
-            <h3>{statement.station.facilityName}</h3>
-            <p className="vads-u-margin-bottom--0">
-              Payments made after{' '}
-              {getLatestPaymentDateFromCopayForFacility(statement)} will not be
-              reflected here
-            </p>
-            <va-table
-              table-title={`Copay charges for ${
-                statement.station.facilityName
-              }`}
-              data-testid={`combined-statements-copay-table-${
-                statement.station.facilityName
-              }`}
-              className="vads-u-width--full"
-            >
-              <va-table-row slot="headers">
-                <span>Description</span>
-                <span>Billing reference</span>
-                <span>Amount</span>
-              </va-table-row>
+          <p className="vads-u-margin-bottom--3">
+            Payments made after {statementDate} will not be reflected here.
+          </p>
 
-              {statement.details.map((charge, idx) => (
-                <va-table-row key={idx}>
-                  <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
-                  <span>{charge.pDRefNo}</span>
-                  <span>{currency(charge.pDTransAmt)}</span>
+          <va-table
+            table-type="borderless"
+            table-title="Overpayment charges"
+            className="vads-u-width--full vads-u-margin-x--0"
+            data-testid="combined-statements-debt-table"
+          >
+            <va-table-row slot="headers">
+              <span>Date</span>
+              <span>Description</span>
+              <span>Amount</span>
+            </va-table-row>
+
+            {debts.map((debt, index) => {
+              const formattedDate =
+                debt.debtHistory && debt.debtHistory.length > 0
+                  ? format(
+                      parse(debt.debtHistory[0].date, 'MM/dd/yyyy', new Date()),
+                      'MMMM d, yyyy',
+                    )
+                  : '';
+
+              const debtAmount = parseFloat(
+                debt.currentAr || debt.originalAr || 0,
+              );
+
+              return (
+                <va-table-row key={`debt-combined-${index}`}>
+                  <span>{formattedDate}</span>
+                  <span>
+                    <strong>
+                      {deductionCodes[debt.deductionCode] ||
+                        debt.benefitType ||
+                        'VA Debt'}
+                    </strong>
+                  </span>
+                  <span>{currency(debtAmount)}</span>
                 </va-table-row>
-              ))}
+              );
+            })}
 
-              {copayTotalRow(statement)}
-            </va-table>
-          </div>
-        ))}
-
-        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Overpayment charges
-        </h2>
-        <p className="vads-u-margin-top--0">
-          Benefit overpayments are due to changes in your benefits which result
-          in you being paid more than you were owed.
-        </p>
-        <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-          Resolve your overpayment
-        </h3>
-        <p className="vads-u-margin-top--0">
-          You can pay your debt online, by phone, or by mail. Call us at{' '}
-          <va-telephone contact="8008270648" /> to discuss payment options,
-          request financial help, or dispute your bill.
-        </p>
-        <va-link-action
-          href="/manage-va-debt/summary/debt-balances"
-          text="Review and resolve overpayments"
-          type="secondary"
-          data-testid="review-debts-link"
-        />
-
-        <p className="vads-u-margin-bottom--3">
-          Payments made after {statementDate} will not be reflected here.
-        </p>
-
-        <va-table
-          table-type="borderless"
-          table-title="Overpayment charges"
-          className="vads-u-width--full vads-u-margin-x--0"
-          data-testid="combined-statements-debt-table"
-        >
-          <va-table-row slot="headers">
-            <span>Date</span>
-            <span>Description</span>
-            <span>Amount</span>
-          </va-table-row>
-
-          {debts.map((debt, index) => {
-            const formattedDate =
-              debt.debtHistory && debt.debtHistory.length > 0
-                ? format(
-                    parse(debt.debtHistory[0].date, 'MM/dd/yyyy', new Date()),
-                    'MMMM d, yyyy',
-                  )
-                : '';
-
-            const debtAmount = parseFloat(
-              debt.currentAr || debt.originalAr || 0,
-            );
-
-            return (
-              <va-table-row key={`debt-combined-${index}`}>
-                <span>{formattedDate}</span>
-                <span>
-                  <strong>
-                    {deductionCodes[debt.deductionCode] ||
-                      debt.benefitType ||
-                      'VA Debt'}
-                  </strong>
-                </span>
-                <span>{currency(debtAmount)}</span>
-              </va-table-row>
-            );
-          })}
-
-          <va-table-row>
-            <span />
-            <span className="vads-u-text-align--right vads-u-font-weight--bold">
-              Total Due:
-            </span>
-            <span className="vads-u-font-weight--bold">
-              {currency(
-                debts.reduce(
-                  (total, debt) =>
-                    total + parseFloat(debt.currentAr || debt.originalAr || 0),
-                  0,
-                ),
-              )}
-            </span>
-          </va-table-row>
-        </va-table>
-
+            <va-table-row>
+              <span />
+              <span className="vads-u-text-align--right vads-u-font-weight--bold">
+                Total Due:
+              </span>
+              <span className="vads-u-font-weight--bold">
+                {currency(
+                  debts.reduce(
+                    (total, debt) =>
+                      total +
+                      parseFloat(debt.currentAr || debt.originalAr || 0),
+                    0,
+                  ),
+                )}
+              </span>
+            </va-table-row>
+          </va-table>
+        </div>
         <Modals title="Notice of rights and responsibilities" id="notice-modal">
           <Modals.Rights />
         </Modals>
