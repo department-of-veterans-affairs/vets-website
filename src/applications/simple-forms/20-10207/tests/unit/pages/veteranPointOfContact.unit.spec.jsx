@@ -26,7 +26,7 @@ testNumberOfWebComponentFields(
   data,
 );
 
-const expectedNumberOfWebComponentErrors = 1;
+const expectedNumberOfWebComponentErrors = 2;
 
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
