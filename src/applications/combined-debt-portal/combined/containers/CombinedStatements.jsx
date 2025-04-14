@@ -283,7 +283,7 @@ const CombinedStatements = () => {
           </div>
         </div>
 
-        <section className="vads-u-margin-y--4 vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+        <div className="vads-u-margin-y--4 vads-u-padding-y--2">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Copay charges
           </h2>
@@ -346,9 +346,9 @@ const CombinedStatements = () => {
               </va-table>
             </div>
           ))}
-        </section>
+        </div>
 
-        <section className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-border-color--gray-light ">
+        <div className="vads-u-margin-y--4 vads-u-padding-y--2">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
@@ -432,8 +432,7 @@ const CombinedStatements = () => {
               </span>
             </va-table-row>
           </va-table>
-        </section>
-
+        </div>
         <Modals title="Notice of rights and responsibilities" id="notice-modal">
           <Modals.Rights />
         </Modals>
