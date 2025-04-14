@@ -21,11 +21,11 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams, Paths } from '../util/constants';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
+import FetchRecipients from '../components/FetchRecipients';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
@@ -62,6 +62,10 @@ const App = ({ isPilot }) => {
     [mhvMockSessionFlag],
   );
 
+  const scheduledDownTimeIsReady = useSelector(
+    state => state.scheduledDowntime?.isReady,
+  );
+
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
@@ -81,16 +85,11 @@ const App = ({ isPilot }) => {
 
   useEffect(
     () => {
-      const fetchAllData = async () => {
+      if (!scheduledDownTimeIsReady) {
         dispatch(getScheduledDowntime());
-
-        if (user.login.currentlyLoggedIn) {
-          await dispatch(getAllTriageTeamRecipients());
-        }
-      };
-      fetchAllData();
+      }
     },
-    [user.login.currentlyLoggedIn, dispatch],
+    [dispatch, scheduledDownTimeIsReady],
   );
 
   useEffect(
@@ -160,6 +159,7 @@ const App = ({ isPilot }) => {
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
       >
+        <FetchRecipients />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
           {mhvSMDown === externalServiceStatus.down ? (

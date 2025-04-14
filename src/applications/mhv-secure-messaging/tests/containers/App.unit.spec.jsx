@@ -130,7 +130,7 @@ describe('App', () => {
     );
   });
 
-  it('renders the downtime notification', () => {
+  it('renders the downtime notification', async () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         scheduledDowntime: {
@@ -145,12 +145,14 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(
-      screen.getByText('Maintenance on My HealtheVet', {
-        selector: 'h2',
-        exact: true,
-      }),
-    );
+    await waitFor(() => {
+      expect(
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
+          exact: true,
+        }),
+      );
+    });
     expect(
       screen.getByText(
         'We’re working on this messaging tool right now. The maintenance will last 48 hours.',
@@ -161,7 +163,7 @@ describe('App', () => {
     );
   });
 
-  it('renders the downtime notification for multiple configured services', () => {
+  it('renders the downtime notification for multiple configured services', async () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         scheduledDowntime: {
@@ -176,12 +178,14 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(
-      screen.getByText('Maintenance on My HealtheVet', {
-        selector: 'h2',
-        exact: true,
-      }),
-    );
+    await waitFor(() => {
+      expect(
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
+          exact: true,
+        }),
+      );
+    });
     expect(
       screen.getByText(
         'We’re working on this messaging tool right now. The maintenance will last 48 hours.',
@@ -192,7 +196,7 @@ describe('App', () => {
     );
   });
 
-  it('renders the downtime notification for mixed services', () => {
+  it('renders the downtime notification for mixed services', async () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         scheduledDowntime: {
@@ -207,12 +211,14 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(
-      screen.getByText('Maintenance on My HealtheVet', {
-        selector: 'h2',
-        exact: true,
-      }),
-    );
+    await waitFor(() => {
+      expect(
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
+          exact: true,
+        }),
+      );
+    });
     expect(
       screen.getByText(
         'We’re working on this messaging tool right now. The maintenance will last 48 hours.',
@@ -276,12 +282,15 @@ describe('App', () => {
       `${'mhv_secure_messaging_remove_landing_page'}`
     ] = true;
 
-    renderWithStoreAndRouter(<App />, {
+    await renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
       path: `/`,
     });
-    expect(window.location.replace.called).to.be.true;
+
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.true;
+    });
     expect(window.location.replace.args[0][0]).to.equal(
       '/my-health/secure-messages/inbox/',
     );
@@ -307,17 +316,13 @@ describe('App', () => {
       `${'mhv_secure_messaging_remove_landing_page'}`
     ] = true;
 
-    const { queryByText } = renderWithStoreAndRouter(
-      <App isPilot removeLandingPage />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/`,
-      },
-    );
+    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.called).to.be.true;
     await waitFor(() => {
       expect(window.location.replace.args[0][0]).to.equal(
         '/my-health/secure-messages-pilot/inbox/',
@@ -342,8 +347,10 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
+    await waitFor(() => {
+      expect(getByText('Messages', { selector: 'h1', exact: true })).to.exist;
+    });
 
-    expect(getByText('Messages', { selector: 'h1', exact: true }));
     expect(window.location.replace.called).to.be.false;
     expect(window.location.pathname).to.equal('/secure-messages/');
     expect(global.document.title).to.equal(
@@ -371,7 +378,10 @@ describe('App', () => {
       path: `/`,
     });
 
-    expect(getByText('Messages', { selector: 'h1', exact: true }));
+    await waitFor(() => {
+      expect(getByText('Messages', { selector: 'h1', exact: true })).to.exist;
+    });
+
     expect(window.location.replace.called).to.be.false;
     expect(window.location.pathname).to.equal('/secure-messages-pilot/');
     expect(global.document.title).to.equal(
@@ -407,17 +417,19 @@ describe('App', () => {
     expect(window.location.replace.called).to.be.true;
   });
 
-  it('displays Page Not Found component if bad url', () => {
+  it('displays Page Not Found component if bad url', async () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState,
       reducers: reducer,
       path: `/sdfsdf`,
     });
-    expect(
-      screen.getByText(pageNotFoundHeading, {
-        selector: 'h1',
-        exact: true,
-      }),
-    );
+    await waitFor(() => {
+      expect(
+        screen.getByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.exist;
+    });
   });
 });

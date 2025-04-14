@@ -2,9 +2,5 @@
     "unauthenticated": [
     ],
     "authenticated": [
-        "2a.yml",
-        "3a.yml",
-        "4a.yml",
-        "5i.yml"
     ]
 }

@@ -47,6 +47,14 @@
         },
         "authnContext": "http://idmanagement.gov/ns/assurance/loa/3"
       },
+      "VAPMailingAddress": {
+        "addressLine1" : "1234 Main St",
+        "addressLine2" : "Apt 1",
+        "addressLine3" : "",
+        "city" : "Cleveland",
+        "zipCode" : "44102",
+        "stateCode" : "OH"
+      },
       "vaProfile": {
         "status": "OK",
         "birthDate": "19510710",

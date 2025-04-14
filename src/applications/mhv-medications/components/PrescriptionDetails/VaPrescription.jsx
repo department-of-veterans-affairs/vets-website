@@ -312,20 +312,21 @@ const VaPrescription = prescription => {
                 prescription.refillRemaining,
               )}
             </p>
-            {!pendingMed && (
-              <>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                  Request refills by this prescription expiration date
-                </h3>
-                <p data-testid="expiration-date">
-                  {dateFormat(
-                    prescription.expirationDate,
-                    'MMMM D, YYYY',
-                    'Date not available',
-                  )}
-                </p>
-              </>
-            )}
+            {!pendingMed &&
+              !pendingRenewal && (
+                <>
+                  <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                    Request refills by this prescription expiration date
+                  </h3>
+                  <p data-testid="expiration-date">
+                    {dateFormat(
+                      prescription.expirationDate,
+                      'MMMM D, YYYY',
+                      'Date not available',
+                    )}
+                  </p>
+                </>
+              )}
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
               <>

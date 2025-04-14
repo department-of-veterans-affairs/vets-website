@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import {
   updateRequiredFields,
+  getPreserveHiddenData,
   setHiddenFields,
   removeHiddenData,
   updateSchemaFromUiSchema,
@@ -130,6 +131,48 @@ describe('Schemaform formState:', () => {
       expect(requiredSpy.args[1]).to.deep.equal([data, 1, fullData]);
     });
   });
+
+  describe('getPreserveHiddenData', () => {
+    const preserveTrue = { 'ui:options': { preserveHiddenData: true } };
+    const preserveFalse = { 'ui:options': { preserveHiddenData: false } };
+
+    it('should return preserveHiddenData from top level uiSchema', () => {
+      expect(getPreserveHiddenData(preserveTrue)).to.be.true;
+      expect(getPreserveHiddenData()).to.be.false;
+      expect(getPreserveHiddenData({})).to.be.false;
+      expect(getPreserveHiddenData(preserveFalse)).to.be.false;
+    });
+    it('should return preserveHiddenData from one level deep in uiSchema', () => {
+      expect(getPreserveHiddenData({ test: preserveTrue })).to.be.true;
+      expect(getPreserveHiddenData({ test: preserveFalse })).to.be.false;
+    });
+
+    it('should return preserveHiddenData from two levels deep in uiSchema', () => {
+      expect(
+        getPreserveHiddenData({
+          test: { test1: preserveFalse, test2: preserveFalse },
+        }),
+      ).to.be.false;
+      expect(
+        getPreserveHiddenData({
+          test: { test1: preserveFalse, test2: preserveTrue },
+        }),
+      ).to.be.true;
+    });
+
+    it('should return preserveHiddenData true if set anywhere on the page', () => {
+      expect(
+        getPreserveHiddenData({
+          test: {
+            test1: preserveFalse,
+            test2: preserveFalse,
+            test3: preserveTrue,
+          },
+        }),
+      ).to.be.true;
+    });
+  });
+
   describe('setHiddenFields', () => {
     it('should set field as hidden', () => {
       const schema = {};

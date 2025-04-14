@@ -168,6 +168,11 @@ describe('22-10215 Edu Benefits Form', () => {
     // Review application
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
+    // The 'Note' above the Certification statement should be hidden
+    cy.get('va-statement-of-truth')
+      .shadow()
+      .find('p.font-sans-6')
+      .should('have.css', 'display', 'none');
     fillStatementOfTruthSignature(
       `${institutionOfficial.first} ${institutionOfficial.last}`,
     );

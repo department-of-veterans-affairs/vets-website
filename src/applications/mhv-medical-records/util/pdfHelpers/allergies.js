@@ -1,11 +1,11 @@
-export const generateAllergiesIntro = (records, lastUpdated, sortedBy) => {
+export const generateAllergiesIntro = (records, lastUpdated) => {
   return {
     title: 'Allergies and reactions',
     subject: 'VA Medical Record',
     subtitles: [
       'This list includes all allergies, reactions, and side effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
       lastUpdated,
-      `Showing ${records.length} records, ${sortedBy}`,
+      `Showing ${records.length} records from newest to oldest`,
     ],
   };
 };
