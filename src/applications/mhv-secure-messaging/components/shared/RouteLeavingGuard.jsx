@@ -1,9 +1,11 @@
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
-import { Prompt } from 'react-router-dom';
+import { Prompt, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ErrorMessages } from '../../util/constants';
+import { deleteDraft } from '../../actions/draftDetails';
 
 export const RouteLeavingGuard = ({
   navigate,
@@ -22,6 +24,9 @@ export const RouteLeavingGuard = ({
   confirmButtonDDActionName = 'Confirm Navigation Leaving Button',
   cancelButtonDDActionName = 'Cancel Navigation Continue Editing Button',
 }) => {
+  const dispatch = useDispatch();
+  const { draftId } = useParams();
+
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
   const [modalVisible, updateModalVisible] = useState(false);
@@ -48,9 +53,13 @@ export const RouteLeavingGuard = ({
 
   const handleConfirmNavigationClick = () => {
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
+    const isConfirmDeleteDraft = confirmButtonText.includes('Delete draft');
 
     if (isConfirmButtonTextMatching) {
       saveDraftHandler('manual');
+    }
+    if (isConfirmDeleteDraft) {
+      dispatch(deleteDraft(draftId));
     }
     closeModal();
     if (lastLocation) {
