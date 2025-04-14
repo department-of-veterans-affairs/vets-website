@@ -69,7 +69,7 @@ PrintPage.propTypes = {
   }),
 };
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
   };

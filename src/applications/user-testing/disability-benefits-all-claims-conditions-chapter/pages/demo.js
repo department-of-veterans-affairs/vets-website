@@ -4,12 +4,19 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import capitalize from 'lodash/capitalize';
 
-import { CONDITION_TYPE_RADIO, RATED_OR_NEW_NEXT_PAGE } from '../constants';
+import { DEMO_OPTIONS } from '../constants';
 
-const demoOptions = {
-  [RATED_OR_NEW_NEXT_PAGE.name]: capitalize(RATED_OR_NEW_NEXT_PAGE.label),
-  [CONDITION_TYPE_RADIO.name]: capitalize(CONDITION_TYPE_RADIO.label),
-};
+const demoOptions = DEMO_OPTIONS.reduce((acc, demo) => {
+  acc[demo.name] = capitalize(demo.label);
+
+  return acc;
+}, {});
+
+const demoDescriptions = DEMO_OPTIONS.reduce((acc, demo) => {
+  acc[demo.name] = demo.description;
+
+  return acc;
+}, {});
 
 /** @type {PageSchema} */
 export default {
@@ -58,6 +65,7 @@ export default {
     demo: radioUI({
       title: 'Choose a demo',
       labels: demoOptions,
+      descriptions: demoDescriptions,
     }),
   },
   schema: {
