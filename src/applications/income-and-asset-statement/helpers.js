@@ -8,6 +8,8 @@ export const annualReceivedIncomeFromTrustRequired = (form, index) =>
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
+export const isDefined = value => value !== '' && typeof value !== 'undefined';
+
 export const monthlyMedicalReimbursementAmountRequired = (form, index) =>
   get(['trusts', index, 'monthlyMedicalReimbursementAmount'], form);
 

@@ -12,7 +12,7 @@ const TrackingInfo = ({ carrier, trackingNumber, prescriptionName }) => {
   const label = carrierConfig ? carrierConfig.label : carrier;
 
   return (
-    <VaAlert status="info">
+    <VaAlert status="info" className="tracking-alert">
       <h2 className="vads-u-margin-y--0" data-testid="track-package">
         <span>Track your shipment</span>
       </h2>

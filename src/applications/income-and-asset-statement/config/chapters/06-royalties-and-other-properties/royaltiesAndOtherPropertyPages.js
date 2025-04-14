@@ -22,6 +22,7 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherGeneratedIncomeTypeExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -32,17 +33,17 @@ export const options = {
   nounPlural: 'royalties and other properties',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
+    !isDefined(item?.recipientRelationship) ||
     typeof item.canBeSold !== 'boolean' ||
-    !item.grossMonthlyIncome ||
-    !item.fairMarketValue ||
-    !item.incomeGenerationMethod, // include all required fields here
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.fairMarketValue) ||
+    !isDefined(item.incomeGenerationMethod), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome &&
-      item?.fairMarketValue && (
+      isDefined(item?.grossMonthlyIncome) &&
+      isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income Generation Method:{' '}

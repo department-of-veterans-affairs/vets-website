@@ -57,7 +57,7 @@ export const SpouseAdditionalEvidence = () => {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Get VA Form 21-4170 to download (opens in new tab)
+                    Download VA Form 21-4170 (opens in new tab)
                   </a>
                 </li>
                 <li>
@@ -70,7 +70,7 @@ export const SpouseAdditionalEvidence = () => {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Get VA Form 21-4171 to download (opens in new tab)
+                    Download VA Form 21-4171 (opens in new tab)
                   </a>
                 </li>
               </>

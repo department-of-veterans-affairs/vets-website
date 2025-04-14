@@ -15,30 +15,30 @@
       "last": "Doe"
     },
     "claimantSocialSecurityNumber": "321654987",
-    "claimantType": "VETERAN",
+    "claimantType": "SPOUSE",
     "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {
+        "recipientRelationship": "SPOUSE",
         "incomeType": "SOCIAL_SECURITY",
         "grossMonthlyIncome": 2500,
-        "payer": "Business name",
-        "recipientRelationship": "SPOUSE"
+        "payer": "Business name"
       }
     ],
     "view:isAddingAssociatedIncomes": true,
     "associatedIncomes": [
       {
+        "recipientRelationship": "SPOUSE",
         "incomeType": "INTEREST",
         "grossMonthlyIncome": 500,
         "accountValue": 50000,
-        "payer": "Financial name",
-        "recipientRelationship": "VETERAN"
+        "payer": "Financial name"
       }
     ],
     "view:isAddingOwnedAssets": true,
     "ownedAssets": [
       {
-        "recipientRelationship": "PARENT",
+        "recipientRelationship": "SPOUSE",
         "recipientName": "Recipient name",
         "grossMonthlyIncome": 2500,
         "ownedPortionValue": 100000,
@@ -48,7 +48,7 @@
     "view:isAddingRoyalties": true,
     "royaltiesAndOtherProperties": [
       {
-        "recipientRelationship": "VETERAN",
+        "recipientRelationship": "SPOUSE",
         "canBeSold": true,
         "fairMarketValue": 25000,
         "grossMonthlyIncome": 1200,
@@ -58,7 +58,7 @@
     "view:isAddingAssetTransfers": true,
     "assetTransfers": [
       {
-        "originalOwnerRelationship": "VETERAN",
+        "originalOwnerRelationship": "SPOUSE",
         "transferMethod": "SOLD",
         "assetType": "Real Estate Property",
         "newOwnerName": { "first": "Alice", "last": "Johnson" },
@@ -106,7 +106,7 @@
     "view:isAddingUnreportedAssets": true,
     "unreportedAssets": [
       {
-        "assetOwnerRelationship": "VETERAN",
+        "assetOwnerRelationship": "SPOUSE",
         "ownedPortionValue": 500000.0,
         "assetType": "Investment Portfolio",
         "assetLocation": "Global Investments LLC, Portfolio ID #987654321"
@@ -115,7 +115,7 @@
     "view:isAddingDiscontinuedIncomes": true,
     "discontinuedIncomes": [
       {
-        "recipientRelationship": "VETERAN",
+        "recipientRelationship": "SPOUSE",
         "payer": "Social Security Administration",
         "incomeType": "Social Security",
         "incomeFrequency": "RECURRING",
@@ -126,7 +126,7 @@
     "view:isAddingIncomeReceiptWaivers": true,
     "incomeReceiptWaivers": [
       {
-        "recipientRelationship": "VETERAN",
+        "recipientRelationship": "SPOUSE",
         "payer": "Social Security Administration",
         "expectedIncome": 2000.0,
         "view:paymentsWillResume": true,
@@ -134,7 +134,7 @@
         "waivedGrossMonthlyIncome": 1800.0
       }
     ],
-    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthSignature": "Jane Doe",
     "statementOfTruthCertified": true
   }
 }

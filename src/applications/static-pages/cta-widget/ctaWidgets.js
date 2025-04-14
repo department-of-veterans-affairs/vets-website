@@ -3,7 +3,6 @@ import backendServices from '~/platform/user/profile/constants/backendServices';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { MHV_ACCOUNT_TYPES } from './constants';
 
 const viewDependentsUrl = getAppUrl('dependents-view-dependents');
 
@@ -25,19 +24,14 @@ export const CTA_WIDGET_TYPES = {
   ENROLLMENT_VERIFICATION: 'enrollment-verification',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HA_CPAP_SUPPLIES: 'ha-cpap-supplies',
-  HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   HOME_LOAN_COE_STATUS: 'home-loan-coe-status',
-  LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MANAGE_VA_DEBT: 'manage-va-debt',
-  MESSAGING: 'messaging',
-  RX: 'rx',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
   UPDATE_HEALTH_BENEFITS_INFO: 'update-health-benefits-info',
   VETERAN_ID_CARD: 'vic',
   VET_TEC: 'vet-tec',
-  VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
 };
@@ -154,20 +148,6 @@ export const ctaWidgetsLookup = {
     serviceDescription: 'order hearing aid and CPAP supplies',
     featureToggle: featureFlagNames.haCpapSuppliesCta,
   },
-  [CTA_WIDGET_TYPES.HEALTH_RECORDS]: {
-    id: CTA_WIDGET_TYPES.HEALTH_RECORDS,
-    deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: accountLevel =>
-      MHV_ACCOUNT_TYPES.includes(accountLevel),
-    isHealthTool: true,
-    mhvToolName: 'VA Blue Button',
-    requiredServices: backendServices.HEALTH_RECORDS,
-    serviceDescription: 'manage your VA medical records',
-    requiresVerification: true,
-  },
   [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,
     deriveToolUrlDetails: () => ({
@@ -193,20 +173,6 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'check the status of your COE',
   },
-  [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
-    id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
-    deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: accountLevel =>
-      MHV_ACCOUNT_TYPES.includes(accountLevel),
-    isHealthTool: true,
-    mhvToolName: 'Lab and Test Results',
-    requiredServices: null,
-    serviceDescription: 'view your lab and test results',
-    requiresVerification: true,
-  },
   [CTA_WIDGET_TYPES.LETTERS]: {
     id: CTA_WIDGET_TYPES.LETTERS,
     deriveToolUrlDetails: () => ({
@@ -230,36 +196,6 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'manage your VA debt',
-  },
-  [CTA_WIDGET_TYPES.MESSAGING]: {
-    id: CTA_WIDGET_TYPES.MESSAGING,
-    deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
-    isHealthTool: true,
-    mhvToolName: 'Secure Messaging',
-    requiredServices: backendServices.MESSAGING,
-    serviceDescription: 'send secure messages',
-    requiresVerification: true,
-  },
-  [CTA_WIDGET_TYPES.RX]: {
-    id: CTA_WIDGET_TYPES.RX,
-    deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(
-        authenticatedWithSSOe,
-        'web/myhealthevet/refill-prescriptions',
-      ),
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: accountLevel =>
-      MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel),
-    isHealthTool: true,
-    mhvToolName: 'Prescription Refill and Tracking',
-    requiredServices: backendServices.RX,
-    serviceDescription: 'refill prescriptions',
-    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS]: {
     id: CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS,
@@ -309,19 +245,6 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: backendServices.EDUCATION_BENEFITS,
     serviceDescription: 'apply for VET TEC',
-  },
-  [CTA_WIDGET_TYPES.VIEW_APPOINTMENTS]: {
-    id: CTA_WIDGET_TYPES.VIEW_APPOINTMENTS,
-    deriveToolUrlDetails: () => ({
-      url: '/my-health/appointments',
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: () => false,
-    isHealthTool: false,
-    mhvToolName: 'VA Appointments',
-    requiredServices: null,
-    serviceDescription: 'view, schedule, or cancel your appointment online',
-    requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,
