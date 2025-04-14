@@ -11,9 +11,15 @@ import {
   selectVAPMailingAddress,
 } from '~/platform/user/selectors';
 import environment from 'platform/utilities/environment';
+import last from 'lodash/last';
 import { parse, format } from 'date-fns';
 import Modals from '../../medical-copays/components/Modals';
-import { currency, setPageFocus, handlePdfGeneration } from '../utils/helpers';
+import {
+  currency,
+  setPageFocus,
+  handlePdfGeneration,
+  formatDate,
+} from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
@@ -58,14 +64,7 @@ const CombinedStatements = () => {
   const bills = mcp.statements;
 
   // Pulling veteran contact information from the Redux store
-  const {
-    addressLine1 = '',
-    addressLine2 = '',
-    addressLine3 = '',
-    city = '',
-    zipCode = '',
-    stateCode = '',
-  } = useSelector(selectVAPMailingAddress);
+  const mailingAddress = useSelector(selectVAPMailingAddress);
   const { userFullName = {} } = useSelector(selectProfile);
 
   // Get additional debt-specific information from the first debt if available
@@ -79,12 +78,12 @@ const CombinedStatements = () => {
   // Data for One VA Debt Letter PDF
   const veteranContactInformation = {
     veteranFullName: userFullName,
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    zipCode,
-    stateCode,
+    addressLine1: (mailingAddress && mailingAddress.addressLine1) || '',
+    addressLine2: (mailingAddress && mailingAddress.addressLine2) || '',
+    addressLine3: (mailingAddress && mailingAddress.addressLine3) || '',
+    city: (mailingAddress && mailingAddress.city) || '',
+    zipCode: (mailingAddress && mailingAddress.zipCode) || '',
+    stateCode: (mailingAddress && mailingAddress.stateCode) || '',
     fileNumber,
     payeeNumber,
     personEntitled,
@@ -104,7 +103,13 @@ const CombinedStatements = () => {
 
   // Get formatted city, state, and zip
   const getFormattedCityStateZip = () => {
-    return city && stateCode ? `${city}, ${stateCode} ${zipCode}` : '';
+    if (!mailingAddress) return '';
+
+    return mailingAddress.city && mailingAddress.stateCode
+      ? `${mailingAddress.city}, ${mailingAddress.stateCode} ${
+          mailingAddress.zipCode
+        }`
+      : '';
   };
 
   // Merge into namespaced pdfData for One VA Debt Letter PDF
@@ -170,6 +175,20 @@ const CombinedStatements = () => {
   // Get the most recent payment date and format it for display
   const statementDate = format(getMostRecentPaymentDate(), 'MMMM d, yyyy');
 
+  const getLatestPaymentDateFromCopayForFacility = statement => {
+    let latestPostedDate = last(statement.details)?.pDDatePostedOutput;
+
+    if (latestPostedDate === '') {
+      latestPostedDate = statement.pSStatementDateOutput;
+    }
+
+    if (!latestPostedDate) {
+      return 'N/A';
+    }
+
+    return formatDate(latestPostedDate);
+  };
+
   const copayTotalRow = copay => {
     return (
       <va-table-row>
@@ -217,14 +236,20 @@ const CombinedStatements = () => {
         </h1>
 
         <div className="vads-u-margin-y--3">
-          <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--h2">
+          <h2
+            data-testid="combined-statements-veteran-info"
+            className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--h2"
+          >
             Veteran information
           </h2>
           <div className="vads-u-margin-bottom--2">
             <strong className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--1">
               Recipient address
             </strong>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+            <p
+              data-testid="combined-statements-recipient-info"
+              className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+            >
               {getFormattedName()}
               <br />
               {veteranContactInformation.addressLine1}
@@ -244,7 +269,7 @@ const CombinedStatements = () => {
               {getFormattedCityStateZip()}
             </p>
             <p className="vads-u-margin-top--2  vads-u-margin-bottom--2">
-              File number: {veteranContactInformation.fileNumber}
+              File number: {fileNumber}
               <br />
               Today’s date: {todaysDate}
             </p>
@@ -267,35 +292,6 @@ const CombinedStatements = () => {
             enrolled in a priority group requiring copayments for treatment of
             non-service connected conditions.
           </p>
-          <p className="vads-u-margin-bottom--2">
-            Statements do not reflect payments received by {statementDate}.
-          </p>
-
-          {/* Copay charges tables */}
-          {mcp.statements.map(statement => (
-            <va-table
-              key={statement.station.facilityName}
-              table-type="bordered"
-              table-title={statement.station.facilityName}
-              className="vads-u-width--full"
-            >
-              <va-table-row slot="headers">
-                <span>Description</span>
-                <span>Billing reference</span>
-                <span>Amount</span>
-              </va-table-row>
-
-              {statement.details.map((charge, idx) => (
-                <va-table-row key={idx}>
-                  <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
-                  <span>{charge.pDRefNo}</span>
-                  <span>{currency(charge.pDTransAmt)}</span>
-                </va-table-row>
-              ))}
-
-              {copayTotalRow(statement)}
-            </va-table>
-          ))}
 
           <div className="vads-u-margin-top--3">
             <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
@@ -307,11 +303,48 @@ const CombinedStatements = () => {
               request financial help, or dispute your bill.
             </p>
             <va-link-action
-              href="/manage-va-debt/summary"
-              text=" Manage your VA debt"
+              href="/manage-va-debt/summary/copay-balances"
+              text="Review and resolve copay bills"
               type="secondary"
             />
           </div>
+
+          {/* Copay charges tables */}
+          {mcp.statements.map(statement => (
+            <div key={statement.station.facilityName}>
+              <h3>{statement.station.facilityName}</h3>
+              <p className="vads-u-margin-bottom--0">
+                Payments made after{' '}
+                {getLatestPaymentDateFromCopayForFacility(statement)} will not
+                be reflected here
+              </p>
+              <va-table
+                table-title={`Copay charges for ${
+                  statement.station.facilityName
+                }`}
+                data-testid={`combined-statements-copay-table-${
+                  statement.station.facilityName
+                }`}
+                className="vads-u-width--full"
+              >
+                <va-table-row slot="headers">
+                  <span>Description</span>
+                  <span>Billing reference</span>
+                  <span>Amount</span>
+                </va-table-row>
+
+                {statement.details.map((charge, idx) => (
+                  <va-table-row key={idx}>
+                    <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
+                    <span>{charge.pDRefNo}</span>
+                    <span>{currency(charge.pDTransAmt)}</span>
+                  </va-table-row>
+                ))}
+
+                {copayTotalRow(statement)}
+              </va-table>
+            </div>
+          ))}
         </section>
 
         <section className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-border-color--gray-light ">
