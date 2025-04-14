@@ -16,7 +16,7 @@ chunkIds=($(echo ${APP_DIRS//,/ } | tr '/' '_'))
 webpackChunkNames=($(grep -r 'webpackChunkName:' ${APP_DIRS//,/ } | grep -o '"[^"]\+"' | tr -d \"))
 
 # Generate array of file patterns to sync
-filesToSync=("${entryNames[@]/%/.*}" "${chunkIds[@]/%/*}" "${webpackChunkNames[@]/%/.*}")
+filesToSync=("${entryNames[@]/%/.*}" "${chunkIds[@]/%/*}" "${webpackChunkNames[@]/%/*}")
 
 if [ -z "$chunkIds" ] || [ -z "$webpackChunkNames" ]; then echo "No lazy loaded app chunks found."; fi
 echo "Files to sync:" && printf "%s\n" "${filesToSync[@]}" | sort

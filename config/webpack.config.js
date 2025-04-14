@@ -474,6 +474,13 @@ module.exports = async (env = {}) => {
             name: 'vendor',
             enforce: true,
           },
+          'platform-pdf': {
+            test: /[\\/]platform[\\/]pdf[\\/]/,
+            name: 'platform-pdf',
+            chunks: 'all',
+            enforce: true,
+            priority: 20, // Higher priority than the vendors group
+          },
         },
       },
     },
