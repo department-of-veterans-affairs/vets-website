@@ -557,6 +557,11 @@ class PatientComposePage {
     // temporary commented out / awaiting proper focus behavior confirmation
     // cy.get(Locators.COMBO_BOX).should('be.focused');
   };
+
+  deleteUnsavedDraft = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
+  };
 }
 
 export default new PatientComposePage();
