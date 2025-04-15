@@ -39,7 +39,9 @@ export default function LicenseCertificationSearchForm() {
     },
     ...filteredResults,
   ];
-
+  useEffect(() => {
+    document.title = `Licenses, certifications, and prep courses: GI Bill® Comparison Tool  | Veterans Affairs`;
+  }, []);
   useEffect(() => {
     if (!hasFetchedOnce) {
       dispatch(fetchLicenseCertificationResults());

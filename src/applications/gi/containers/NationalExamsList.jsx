@@ -27,6 +27,9 @@ const NationalExamsList = () => {
     },
     [dispatch],
   );
+  useEffect(() => {
+    document.title = `National Exams: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
 
   // Calculate total pages and slice programs for pagination
   const totalPages = Math.ceil(nationalExams.length / itemsPerPage);

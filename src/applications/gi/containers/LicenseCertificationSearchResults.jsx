@@ -76,6 +76,10 @@ export default function LicenseCertificationSearchResults() {
   );
 
   useEffect(() => {
+    document.title = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
+
+  useEffect(() => {
     if (!hasFetchedOnce) {
       dispatch(fetchLicenseCertificationResults());
     }

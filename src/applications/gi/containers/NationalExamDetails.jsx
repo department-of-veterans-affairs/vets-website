@@ -24,6 +24,17 @@ const NationalExamDetails = () => {
     [examId, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (examDetails?.name) {
+        document.title = `${formatNationalExamName(
+          examDetails.name,
+        )}: GI Bill® Comparison Tool | Veterans Affairs`;
+      }
+    },
+    [examDetails],
+  );
+
   useEffect(() => {
     function handleResize() {
       const isNowMobile = window.innerWidth < 481;

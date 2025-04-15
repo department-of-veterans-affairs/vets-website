@@ -8,10 +8,10 @@ import LicesnseCertificationServiceError from '../components/LicesnseCertificati
 
 export default function LicenseCertificationSearchResult() {
   const { id } = useParams();
-
   const { fetchingLcResult, lcResultInfo, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
+  const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
 
   const dispatch = useDispatch();
 
@@ -26,7 +26,16 @@ export default function LicenseCertificationSearchResult() {
     };
   }, []);
 
-  const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
+  useEffect(
+    () => {
+      if (institution?.name) {
+        document.title = `${
+          institution.name
+        }: GI Bill® Comparison Tool | Veterans Affairs`;
+      }
+    },
+    [institution],
+  );
 
   return (
     <>
