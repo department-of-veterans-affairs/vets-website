@@ -20,7 +20,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
   const referral = createReferralById(
     '2024-12-05',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
-  );
+  ).attributes;
   const appointmentsByMonth = {
     '2024-12': [
       {
