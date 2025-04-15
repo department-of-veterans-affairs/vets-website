@@ -1,15 +1,40 @@
-import { notFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
+
+import features from '../fixtures/features';
 
 const avsId = '9A7AF40B2BC2471EA116891839113252';
 const testUrl = `${manifest.rootUrl}/${avsId}`;
 
 import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
-describe('After-visit Summary', () => {
-  beforeEach(() => {
-    cy.intercept('GET', `/avs/v0/avs/*`, avsData);
+const setup = ({
+  featureToggleDelay = 0,
+  avsDelay = 0,
+  avsEnabled = true,
+  apiStatus = 200,
+  login = true,
+}) => {
+  cy.intercept('/v0/feature_toggles*', features(avsEnabled)).as('features');
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    statusCode: 200,
+    delay: featureToggleDelay,
+    body: features(avsEnabled),
+  });
+  cy.intercept('GET', `/avs/v0/avs/*`, {
+    statusCode: apiStatus,
+    delay: avsDelay,
+    body: apiStatus === 200 ? avsData : {},
+  });
+
+  if (login) {
     cy.login();
+  }
+};
+
+describe('After-visit Summary - Happy Path', () => {
+  beforeEach(() => {
+    setup({});
   });
 
   it('is accessible', () => {
@@ -17,6 +42,8 @@ describe('After-visit Summary', () => {
     cy.get('h1').contains('After-visit summary');
     cy.injectAxeThenAxeCheck();
   });
+
+  // Add container behavior tests.
 
   it('only the top accordion is open by default', () => {
     cy.visit(testUrl);
@@ -72,9 +99,55 @@ describe('After-visit Summary', () => {
   it('child paths past an ID get page not found', () => {
     cy.visit(`${testUrl}/path1`);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
 
     cy.visit(`${testUrl}/path1/path2`);
-    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
+  });
+});
+
+describe('After-visit Summary - Feature Toggles', () => {
+  it('Loading indicator is displayed while feature toggles are loading', () => {
+    setup({ featureToggleDelay: 10000 });
+    cy.visit(testUrl);
+    // find test id avs-loading-indicator
+    cy.get('[data-testid="avs-loading-indicator"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('Users are redirected to the homepage if the feature toggle is not enabled', () => {
+    setup({ avsEnabled: false });
+    cy.visit(testUrl);
+    cy.injectAxeThenAxeCheck();
+    cy.url().should('match', /\/$/);
+  });
+});
+
+describe('After-visit Summary - Authentication', () => {
+  it('Users are redirected to login if they are not authenticated', () => {
+    setup({ login: false });
+    cy.visit(testUrl);
+    cy.injectAxeThenAxeCheck();
+    const urlPattern = `\\/\\?next=%2Fmy-health%2Fmedical-records%2Fsummaries-and-notes%2Fvisit-summary%2F${avsId}$`;
+    cy.url().should('match', new RegExp(urlPattern));
+  });
+});
+
+describe('After-visit Summary - API', () => {
+  it('Loading indicator is displayed while AVS data is loading', () => {
+    setup({ avsDelay: 10000 });
+    cy.visit(testUrl);
+    // find test id avs-loading-indicator
+    cy.get('[data-testid="avs-loading-indicator"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('Error is shown on API failure', () => {
+    setup({ apiStatus: 500 });
+    cy.visit(testUrl);
+    cy.get('body').contains(
+      'We can’t access your after-visit summary right now',
+    );
+    cy.injectAxeThenAxeCheck();
   });
 });

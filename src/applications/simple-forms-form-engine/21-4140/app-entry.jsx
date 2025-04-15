@@ -5,4 +5,11 @@ startFormEngineApp({
   formId: '21-4140',
   rootUrl: manifest.rootUrl,
   trackingPrefix: '21-4140-eq-',
+  breadcrumbs: [
+    { href: '/', label: 'Home' },
+    {
+      href: '/employment-questionnaire-form-21-4140',
+      label: 'Provide your employment history and related loss of income',
+    },
+  ],
 });

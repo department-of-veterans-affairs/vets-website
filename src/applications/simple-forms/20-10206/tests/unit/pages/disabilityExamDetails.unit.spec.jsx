@@ -12,7 +12,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.disabilityExamDetailsChapter.pages.disabilityExamDetailsPage;
+} = formConfig.chapters.recordsChapter.pages.disabilityExamDetailsPage;
 
 const pageTitle = 'Claim exam details';
 

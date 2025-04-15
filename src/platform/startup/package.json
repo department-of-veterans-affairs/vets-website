@@ -2,16 +2,17 @@
   "name": "@department-of-veterans-affairs/platform-startup",
   "version": "1.0.0",
   "scripts": {
-    "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "exports": {
-    "." : "./exportsFile.js",
-    "./index" : "./index.js",
-    "./store" : "./store.js",
-    "./react" : "./react.js",
-    "./setup" : "./setup.js",
-    "./router" : "./router.js",
-    "./analytics-middleware" : "./analytics-middleware.js"
+    ".": "./exportsFile.js",
+    "./index": "./index.js",
+    "./store": "./store.js",
+    "./react": "./react.js",
+    "./setup": "./setup.js",
+    "./router": "./router.js",
+    "./withoutRouter": "./withoutRouter.js",
+    "./analytics-middleware": "./analytics-middleware.js"
   },
   "peerDependencies": {
     "history": "*",
@@ -30,4 +31,3 @@
   "license": "MIT",
   "private": true
 }
-  

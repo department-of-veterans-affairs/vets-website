@@ -11,7 +11,7 @@ describe('past year flow', () => {
 
     // Year
     h.verifyElement(h.YEARINPUT);
-    h.selectFromDropdown(h.YEARINPUT, h.YEAR);
+    h.typeInInput(h.YEARINPUT, h.YEAR);
     h.clickContinue();
 
     // Zip code
@@ -48,7 +48,7 @@ describe('past year flow', () => {
 
     // Year
     h.verifyElement(h.YEARINPUT);
-    h.selectFromDropdown(h.YEARINPUT, h.YEAR);
+    h.typeInInput(h.YEARINPUT, h.YEAR);
     h.clickBack();
 
     // Home

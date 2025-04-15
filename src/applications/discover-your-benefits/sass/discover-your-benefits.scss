@@ -31,6 +31,10 @@
   margin-right: 0;
 }
 
+.discover-your-benefits .usa-width-two-thirds {
+  width: auto !important;
+}
+
 #filters-section-desktop {
   @media (min-width: $medium-screen) {
     border-right: 2px solid var(--vads-color-gray-medium);
@@ -86,6 +90,10 @@
   }
 }
 
+.start-over-link-container {
+  margin-bottom: 3rem;
+}
+
 @media (max-width: $small-screen) {
   .vads-l-grid-container {
 
@@ -119,4 +127,12 @@
 
 .category-label {
   font-weight: normal !important;
+}
+
+.link-container {
+  margin-top: 16px;
+}
+
+.link-container a {
+  margin: 16px 0;
 }

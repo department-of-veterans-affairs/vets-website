@@ -1,10 +1,12 @@
 import { appName } from '../../../manifest.json';
 import { USER_MOCKS } from '../../../mocks/api/user';
 import LandingPage from '../pages/LandingPage';
+import ApiInitializer from '../utilities/ApiInitializer';
 
 describe(`${appName} -- Alerts`, () => {
   beforeEach(() => {
     LandingPage.initializeApi();
+    ApiInitializer.initializeAccountStatus.with801();
   });
 
   [

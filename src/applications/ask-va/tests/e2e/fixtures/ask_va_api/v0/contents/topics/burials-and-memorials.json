@@ -1,0 +1,131 @@
+{
+    "data": [
+        {
+            "id": "ff2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Burial allowance",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Burial allowance",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "cb07439d-6877-ef11-a670-001dd8055a8b",
+            "type": "contents",
+            "attributes": {
+                "name": "Burial allowance for unclaimed Veteran remains",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Burial allowance for unclaimed Veteran remains",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "f1e8bfff-e7a8-eb11-b1ac-001dd804a23f",
+            "type": "contents",
+            "attributes": {
+                "name": "Burial in a VA grant-funded state or tribal cemetery",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Burial in a VA grant-funded state or tribal cemetery",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "cf7dc10a-7e3b-ed11-9daf-001dd806846c",
+            "type": "contents",
+            "attributes": {
+                "name": "Burial in a VA national cemetery",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Burial in a VA national cemetery",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "fb2a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Memorial items",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Memorial items",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "012b8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Other",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Other",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 999,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "f92a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Pre-need eligibility for burial",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Pre-need eligibility for burial",
+                "parentId": "71524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        }
+    ]
+}

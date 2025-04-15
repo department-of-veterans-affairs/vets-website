@@ -3,7 +3,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { cleanup } from '@testing-library/react';
 import { format } from 'date-fns';
@@ -12,32 +11,35 @@ import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import testData from '../../e2e/fixtures/data/backend-mapping-support/veteran-maximal-2.json';
 
+const submitDate = new Date();
+const initialState = {
+  form: {
+    ...createInitialState(formConfig),
+    testData,
+    submission: {
+      response: {
+        confirmationNumber: '1234567890',
+      },
+      timestamp: submitDate,
+    },
+  },
+};
+const mockStore = state => createStore(() => state);
+
+const mountPage = (state = initialState) => {
+  const store = mockStore(state);
+  return mount(
+    <Provider store={store}>
+      <ConfirmationPage route={{ formConfig }} />
+    </Provider>,
+  );
+};
+
 describe('ConfirmationPage', () => {
   let wrapper;
-  let store;
-  const mockStore = configureMockStore();
-  const initialState = {
-    form: {
-      data: {
-        ...createInitialState(formConfig),
-        ...testData.data,
-      },
-      submission: {
-        response: {
-          confirmationNumber: '1234567890',
-        },
-        timestamp: '2022-01-01T00:00:00Z',
-      },
-    },
-  };
 
   beforeEach(() => {
-    store = mockStore(initialState);
-    wrapper = mount(
-      <Provider store={store}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
+    wrapper = mountPage();
   });
 
   afterEach(() => {
@@ -50,52 +52,20 @@ describe('ConfirmationPage', () => {
   it('passes the correct props to ConfirmationPageView', () => {
     const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    expect(confirmationViewProps.submitDate).to.equal('2022-01-01T00:00:00Z');
+    expect(confirmationViewProps.submitDate).to.equal(submitDate);
     expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
   });
 
   it('should select form from state when state.form is defined', () => {
-    const submitDate = new Date();
-    const mockInitialState = {
-      form: {
-        submission: {
-          timestamp: submitDate,
-          response: { confirmationNumber: '1234' },
-        },
-        data: {
-          ...createInitialState(formConfig),
-          ...testData.data,
-        },
-      },
-    };
-    const mockDefinedState = createStore(() => mockInitialState);
-
-    const definedWrapper = mount(
-      <Provider store={mockDefinedState}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    expect(definedWrapper.text()).to.include(
-      format(submitDate, 'MMMM d, yyyy'),
-    );
-    expect(definedWrapper.text()).to.include('1234');
-
-    definedWrapper.unmount();
+    expect(wrapper.text()).to.include(format(submitDate, 'MMMM d, yyyy'));
+    expect(wrapper.text()).to.include('1234');
   });
 
   it('should throw error when state.form is undefined', () => {
-    const mockEmptyState = {};
-    const mockEmptyStore = createStore(() => mockEmptyState);
-
     let errorWrapper;
 
     expect(() => {
-      errorWrapper = mount(
-        <Provider store={mockEmptyStore}>
-          <ConfirmationPage route={{ formConfig }} />
-        </Provider>,
-      );
+      errorWrapper = mountPage({});
     }).to.throw();
 
     if (errorWrapper) {

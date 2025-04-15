@@ -1,7 +1,8 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import PatientSearchPage from '../pages/PatientSearchPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
+import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Basic Search Tests', () => {
@@ -13,9 +14,9 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Highlight Inbox Check', () => {
-    PatientSearchPage.typeSearchInputFieldText(searchText);
-    PatientSearchPage.clickInboxSearchButton();
-    PatientSearchPage.verifyHighlightedText(searchText);
+    PatientFilterPage.inputFilterData(searchText);
+    PatientFilterPage.clickApplyFilterButton(mockMessageResponse);
+    PatientFilterPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -24,9 +25,9 @@ describe('Secure Messaging Basic Search Tests', () => {
   it('Basic Search Highlight Drafts Check', () => {
     PatientMessageDraftsPage.loadDrafts();
 
-    PatientSearchPage.typeSearchInputFieldText(searchText);
-    PatientSearchPage.clickDraftSearchButton();
-    PatientSearchPage.verifyHighlightedText(searchText);
+    PatientFilterPage.inputFilterData(searchText);
+    PatientFilterPage.clickApplyFilterButton(mockMessageResponse);
+    PatientFilterPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

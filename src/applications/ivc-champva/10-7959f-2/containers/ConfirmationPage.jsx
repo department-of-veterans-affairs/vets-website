@@ -87,11 +87,11 @@ export class ConfirmationPage extends React.Component {
         <p className="va-address-block">
           VHA Office of Integrated Veteran Care
           <br />
-          Reconsiderations/Appeals
+          Appeals
           <br />
-          PO Box 460948
+          PO Box 600
           <br />
-          Denver, CO 80246-9028
+          Spring City, PA 19475
         </p>
         <p>Include any new information or documents that support your claim.</p>
         <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-">

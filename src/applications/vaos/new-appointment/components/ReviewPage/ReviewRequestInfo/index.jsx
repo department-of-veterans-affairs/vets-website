@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
+import { FACILITY_TYPES } from '../../../../utils/constants';
 import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
 import CommunityCareSection from './CommunityCareSection/CommunityCareSection';
-import Description from './ReviewDirectScheduleInfo/Description';
 
 export default function ReviewRequestInfo({
   data,
@@ -17,9 +16,14 @@ export default function ReviewRequestInfo({
 
   return (
     <div>
-      <h1 className="vaos-review__header vads-u-font-size--h2">{pageTitle}</h1>
-      <Description data={data} flowType={FLOW_TYPES.REQUEST} />
-      <TypeOfAppointmentSection data={data} flowType={FLOW_TYPES.REQUEST} />
+      <h1 className="vaos-review__header vaos__dynamic-font-size--h2">
+        {pageTitle}
+      </h1>
+      <p>
+        After you submit your request, we’ll contact you to finish scheduling
+        your appointment.
+      </p>
+      <TypeOfAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       {isCommunityCare && (
         <CommunityCareSection

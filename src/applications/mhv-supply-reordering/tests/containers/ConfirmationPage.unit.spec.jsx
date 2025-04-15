@@ -11,9 +11,7 @@ const storeBase = {
   form: {
     formId: formConfig.formId,
     submission: {
-      response: {
-        confirmationNumber: '123456',
-      },
+      response: [{ productId: '1234', orderId: '4567' }],
       timestamp: Date.now(),
     },
     data: {

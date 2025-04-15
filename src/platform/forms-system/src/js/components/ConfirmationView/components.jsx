@@ -141,13 +141,15 @@ export const WhatsNextProcessList = ({
         item1Header || 'We’ll confirm when we receive your form in our system'
       }
     >
-      {item1Content || (
+      {item1Content === undefined ? (
         <p>
           This can take up to 30 days. When we receive your form, we’ll update
           the status on My VA.
         </p>
+      ) : (
+        item1Content
       )}
-      {item1Actions || (
+      {item1Actions === undefined ? (
         <p>
           <va-link
             href="/my-va#benefit-applications"
@@ -155,6 +157,8 @@ export const WhatsNextProcessList = ({
             text="Check the status of your form on My VA"
           />
         </p>
+      ) : (
+        item1Actions
       )}
     </VaProcessListItem>
   );
@@ -164,11 +168,13 @@ export const WhatsNextProcessList = ({
       header={item2Header || 'We’ll review your form'}
       className="vads-u-margin-bottom--neg2"
     >
-      {item2Content || (
+      {item2Content === undefined ? (
         <p>
           If we need more information after reviewing your form, we’ll contact
           you.
         </p>
+      ) : (
+        item2Content
       )}
     </VaProcessListItem>
   );
@@ -366,24 +372,30 @@ export const SubmissionAlert = ({
       isValid(submitDate) ? ` on ${format(submitDate, 'MMMM d, yyyy')}` : ''
     }`;
 
-  const contentBody = content || (
-    <>
-      <p>Your submission is in progress.</p>
-      <p>
-        It can take up to 30 days for us to receive your form.
-        {confirmationNumber &&
-          ` Your confirmation number is ${confirmationNumber}.`}
-      </p>
-    </>
-  );
+  const contentBody =
+    content === undefined ? (
+      <>
+        <p>Your submission is in progress.</p>
+        <p>
+          It can take up to 30 days for us to receive your form.
+          {confirmationNumber &&
+            ` Your confirmation number is ${confirmationNumber}.`}
+        </p>
+      </>
+    ) : (
+      content
+    );
 
-  const actionsBody = actions || (
-    <VaLinkAction
-      href="/my-va#benefit-applications"
-      text="Check the status of your form on My VA"
-      onClick={onCheckVaStatusClick}
-    />
-  );
+  const actionsBody =
+    actions === undefined ? (
+      <VaLinkAction
+        href="/my-va#benefit-applications"
+        text="Check the status of your form on My VA"
+        onClick={onCheckVaStatusClick}
+      />
+    ) : (
+      actions
+    );
 
   return (
     <VaAlert
@@ -396,7 +408,7 @@ export const SubmissionAlert = ({
       )}
     >
       <h2 slot="headline">{titleText}</h2>
-      {contentBody}
+      {typeof contentBody === 'string' ? <p>{contentBody}</p> : contentBody}
       {actionsBody}
     </VaAlert>
   );
@@ -408,7 +420,7 @@ SubmissionAlert.propTypes = {
   confirmationNumber: PropTypes.string,
   content: PropTypes.node,
   status: PropTypes.string,
-  submitDate: PropTypes.instanceOf(Date),
+  submitDate: PropTypes.any,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };

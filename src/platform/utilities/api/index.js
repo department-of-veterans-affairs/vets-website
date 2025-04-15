@@ -44,16 +44,11 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
   }
 
   const originalFetch = fetch;
-  // Only replace with custom fetch if not stubbed for unit testing
-  const _fetch = !environment.isProduction()
-    ? retryFetch(originalFetch)
-    : fetch;
+  const _fetch = retryFetch(originalFetch);
 
   const mergedSettings = {
     ...settings,
-    ...(!environment.isProduction() && {
-      retryOn,
-    }),
+    ...(!window.Mocha && { retryOn }),
   };
 
   return _fetch(url, mergedSettings).then(response => {
@@ -167,7 +162,7 @@ export function apiRequest(
 
         if (shouldRedirectToSessionExpired) {
           sessionStorage.removeItem('shouldRedirectExpiredSession');
-          window.location = '/session-expired';
+          window.location = '/?next=loginModal&status=session_expired';
         }
       }
 

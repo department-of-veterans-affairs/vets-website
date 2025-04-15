@@ -28,7 +28,7 @@ export const tabsConfig = {
       path: '/2/task-orange',
 
       description: 'Pattern 2 - Orange Task',
-      bgColor: '--uswds-system-color-orange-40',
+      bgColor: '--vads-color-orange',
       textColor: '--vads-color-black',
     },
     {
@@ -51,6 +51,13 @@ export const tabsConfig = {
       description: 'Pattern 2 - Post Study Review',
       bgColor: '--vads-color-warning',
       textColor: '--vads-color-black',
+    },
+    {
+      name: 'Personal Info Demo',
+      path: '/2/personal-information-demo',
+      description: 'Pattern 2 - Personal Information Demo',
+      bgColor: '--vads-color-secondary-darkest',
+      textColor: '--vads-color-white',
     },
   ],
 };

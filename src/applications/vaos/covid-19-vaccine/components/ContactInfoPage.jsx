@@ -47,7 +47,7 @@ const uiSchema = {
         services?
         <br />
         <NewTabAnchor href="/profile/contact-information">
-          Go to your VA profile
+          Go to your VA.gov profile (opens in new tab)
         </NewTabAnchor>
         .
       </p>

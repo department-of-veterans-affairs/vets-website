@@ -50,7 +50,7 @@ class NotesDetailsPage extends BaseDetailsPage {
 
   clickBreadCrumbsLink = breadcrumb => {
     // Click Back to Care summaries and notes
-    cy.get('[data-testid="breadcrumbs"]')
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .eq(breadcrumb)
       .click();

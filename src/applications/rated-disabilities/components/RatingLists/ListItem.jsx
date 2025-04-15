@@ -9,10 +9,19 @@ const ListItem = ({ rating }) => {
 
   return (
     <va-card class="vads-u-margin-bottom--2">
-      <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{headingText}</h4>
+      <h4
+        className="vads-u-margin-y--0 vads-u-font-size--h3"
+        data-dd-privacy="mask"
+        data-dd-action-name="rating text"
+      >
+        {headingText}
+      </h4>
       {effectiveDate !== null && (
         <div className="vads-u-margin-top--2">
-          <strong>Effective date:</strong> {formatDate(effectiveDate)}
+          <strong>Effective date:</strong>{' '}
+          <span data-dd-privacy="mask" data-dd-action-name="effective date">
+            {formatDate(effectiveDate)}
+          </span>
         </div>
       )}
     </va-card>

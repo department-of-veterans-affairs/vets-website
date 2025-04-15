@@ -1,80 +1,86 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-const FacilityConfirmation = props => {
-  const { data, goBack, goForward, goToPath } = props;
-  const selectedFacility = data['view:plannedClinic'].veteranSelected;
-  const selectedCaregiverSupportFacility =
-    data['view:plannedClinic'].caregiverSupport;
+// declare routes for page navigation when in review mode
+export const reviewModeRoutes = {
+  back: '/veteran-information/va-medical-center/locator?review=true',
+  forward: '/review-and-submit',
+};
 
-  const isReviewPage = () => {
+const FacilityConfirmation = ({ data, goBack, goForward, goToPath }) => {
+  const selectedFacility = data?.['view:plannedClinic']?.veteranSelected;
+  const selectedCaregiverSupportFacility =
+    data?.['view:plannedClinic']?.caregiverSupport;
+
+  const isReviewPage = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('review') === 'true';
-  };
+  }, []);
 
-  const onGoForward = () => {
-    if (isReviewPage()) {
-      goToPath('/review-and-submit');
-    } else {
-      goForward(data);
-    }
-  };
+  const onGoBack = useCallback(
+    () => (isReviewPage ? goToPath(reviewModeRoutes.back) : goBack()),
+    [goBack, goToPath, isReviewPage],
+  );
 
-  const onGoBack = () => {
-    if (isReviewPage()) {
-      goToPath('/veteran-information/va-medical-center/locator?review=true');
-    } else {
-      goBack();
-    }
-  };
+  const onGoForward = useCallback(
+    () => (isReviewPage ? goToPath(reviewModeRoutes.forward) : goForward(data)),
+    [data, goForward, goToPath, isReviewPage],
+  );
 
-  const addressText = facility => {
+  const renderAddress = facility => {
+    if (!facility) return null;
+
+    const { name, address: { physical } = {} } = facility;
+    const addressText = [
+      physical?.address1,
+      physical?.address2,
+      physical?.address3,
+    ]
+      .filter(Boolean)
+      .map((line, index, src) => (
+        <React.Fragment key={line}>
+          {line}
+          {index < src.length - 1 && <br role="presentation" />}
+        </React.Fragment>
+      ));
+
     return (
-      <>
-        <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
-          {facility.name}
-        </h5>
-        {facility?.address?.physical?.address1 && (
+      <p className="va-address-block">
+        {name && (
           <>
-            {facility.address.physical.address1}
+            <strong className="vads-u-font-size--h4 vads-u-margin-top--0">
+              {name}
+            </strong>
             <br role="presentation" />
           </>
         )}
-        {facility?.address?.physical?.address2 && (
-          <>
-            {facility.address.physical.address2}
-            <br role="presentation" />
-          </>
-        )}
-        {facility?.address?.physical?.address3 && (
-          <>{facility.address.physical.address3}</>
-        )}
-      </>
+        {addressText}
+      </p>
     );
   };
 
   return (
-    <div>
-      <h3>Confirm your health care facilities</h3>
-      <h4>The Veteran’s facility you selected</h4>
+    <>
+      <h3>Caregiver support location</h3>
       <p>
-        This is the facility where you told us the Veteran receives or plans to
-        receive treatment.
+        This is the location we’ve assigned to support the caregiver in the
+        application process:
       </p>
-      <va-card>{addressText(selectedFacility)}</va-card>
-      <h4>Your assigned caregiver support facility</h4>
+      {renderAddress(selectedCaregiverSupportFacility)}
       <p>
-        This is the facility we’ve assigned to support you in the application
-        process and has a caregiver support coordinator on staff. The
-        coordinator at this facility will support you through the application
-        process.
+        This VA health facility has a Caregiver Support Team coordinator. And
+        this facility is closest to where the Veteran receives or plans to
+        receive care.
       </p>
-      <p className="va-address-block">
-        {addressText(selectedCaregiverSupportFacility)}
+      <h4>The Veteran’s VA health facility</h4>
+      <p>
+        The Veteran will still receive their health care at the facility you
+        selected:
       </p>
+      {renderAddress(selectedFacility)}
       <FormNavButtons goBack={onGoBack} goForward={onGoForward} />
-    </div>
+    </>
   );
 };
 

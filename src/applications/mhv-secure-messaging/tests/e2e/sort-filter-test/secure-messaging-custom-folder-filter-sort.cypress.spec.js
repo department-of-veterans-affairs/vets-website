@@ -2,9 +2,12 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
+import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
+import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
-describe('Secure Messaging Custom Folder filter-sort checks', () => {
+describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -13,25 +16,29 @@ describe('Secure Messaging Custom Folder filter-sort checks', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientMessageCustomFolderPage.inputFilterDataText('test');
-    PatientMessageCustomFolderPage.clickFilterMessagesButton();
-    PatientMessageCustomFolderPage.verifyFilterResultsText('test');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.inputFilterData('test');
+    PatientFilterPage.clickApplyFilterButton(customSearchResponse);
+    PatientFilterPage.verifyFilterResults('test', customSearchResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
-    PatientMessageCustomFolderPage.inputFilterDataText('any');
-    PatientMessageCustomFolderPage.clickFilterMessagesButton();
-    PatientMessageCustomFolderPage.clickClearFilterButton();
-    PatientMessageCustomFolderPage.verifyFilterFieldCleared();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('verify clear filter btn works correctly', () => {
+    PatientFilterPage.inputFilterData('any');
+    PatientFilterPage.clickApplyFilterButton(customSearchResponse);
+    PatientFilterPage.clickClearFilterButton();
+    PatientFilterPage.verifyFilterFieldCleared();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Check sorting works properly', () => {
-    PatientMessageCustomFolderPage.verifySorting();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('check sorting works properly', () => {
+    const sortedResponse = PatientFilterPage.sortMessagesThread(
+      mockSingleThreadResponse,
+    );
+
+    PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

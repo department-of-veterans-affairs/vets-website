@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
+import { Data } from './utils/constants';
 
 describe('Medications Cerner User Alert and Error Message for API Call Failure ', () => {
   it('visits Medications Landing Page Cerner User Alert and Refill Page Error', () => {
@@ -13,6 +14,8 @@ describe('Medications Cerner User Alert and Error Message for API Call Failure '
     cy.injectAxe();
     cy.axeCheck('main');
     landingPage.verifyErroMessageforFailedAPICallListPage();
-    landingPage.verifyCernerUserMyVAHealthAlertOnAboutMedicationsPage();
+    refillPage.verifyCernerUserMyVAHealthAlertOnRefillsPage(
+      Data.SINGLE_CERNER_FACILITY_USER,
+    );
   });
 });

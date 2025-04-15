@@ -48,7 +48,9 @@ class SettingsPage extends BaseListPage {
     ).as('postOptOut');
 
     cy.get('[data-testid="open-opt-in-out-modal-button"]').click();
-    cy.get('button:contains("Yes, opt out")').click();
+    cy.get('va-modal')
+      .contains('button', 'Opt out')
+      .click();
     cy.wait('@postOptOut');
   };
 
@@ -60,7 +62,9 @@ class SettingsPage extends BaseListPage {
     ).as('postOptIn');
 
     cy.get('[data-testid="open-opt-in-out-modal-button"]').click();
-    cy.get('button:contains("Yes, opt in")').click();
+    cy.get('va-modal')
+      .contains('button', 'Opt in')
+      .click();
     cy.wait('@postOptIn');
   };
 }

@@ -1,36 +1,31 @@
-import React, { useState, useRef } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useRef, useEffect } from 'react';
+import { connect, useSelector } from 'react-redux';
+
+import { createIsServiceAvailableSelector } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
-import { isLoggedIn } from 'platform/user/selectors';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import { fetchRepStatus } from '../api/fetchRepStatus';
 import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { SearchResultsHeader } from './SearchResultsHeader';
+import { formIs2122 } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
-  const {
-    loggedIn,
-    setFormData,
-    formData,
-    goBack,
-    goForward,
-    goToPath,
-  } = props;
-  const [loadingReps, setLoadingReps] = useState(false);
-  const [loadingPOA, setLoadingPOA] = useState(false);
-  const [error, setError] = useState(null);
+  const { setFormData, formData, goBack, goForward, goToPath } = props;
+
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
-
-  const query = formData['view:representativeQuery'];
-  const invalidQuery = query === undefined || !query.trim();
+  const queryInput = formData['view:representativeQueryInput'];
+  const querySubmission = formData['view:representativeQuerySubmission'];
+  const invalidQuery = queryInput === undefined || !queryInput.trim();
 
   const noSearchError =
     'Enter the name of the accredited representative or VSO you’d like to appoint';
@@ -38,10 +33,22 @@ const SelectAccreditedRepresentative = props => {
   const noSelectionError =
     'Select the accredited representative or VSO you’d like to appoint below.';
 
+  const [loadingReps, setLoadingReps] = useState(false);
+  const [loadingPOA, setLoadingPOA] = useState(false);
+  const [error, setError] = useState(null);
+
+  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
+
   const isReviewPage = useReviewPage();
 
+  // Based on user.icn.present? && user.participant_id.present? in vets-api policy
+  // From src/applications/personalization/profile/hooks/useDirectDeposit.js
+  const isUserLOA3WithParticipantId = useSelector(
+    createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
+  );
+
   const getRepStatus = async () => {
-    if (loggedIn) {
+    if (isUserLOA3WithParticipantId) {
       setLoadingPOA(true);
 
       try {
@@ -64,9 +71,15 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const handleGoForward = ({ selectionMade = false }) => {
+  const handleGoForward = ({ selectionMade = false, newSelection = null }) => {
     const selection = formData['view:selectedRepresentative'];
+
+    const repTypeChanged =
+      formIs2122(currentSelectedRep.current) !== formIs2122(newSelection);
+
     const noSelectionExists = !selection && !selectionMade;
+    const noNewSelection =
+      !newSelection || newSelection === currentSelectedRep.current;
 
     if (noSelectionExists && !invalidQuery) {
       setError(noSelectionError);
@@ -75,8 +88,10 @@ const SelectAccreditedRepresentative = props => {
       setError(noSearchError);
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
-      if (selection === currentSelectedRep.current) {
+      if (noNewSelection) {
         goToPath('/review-and-submit');
+      } else if (repTypeChanged) {
+        goToPath('/representative-contact');
       } else {
         goToPath('/representative-contact?review=true');
       }
@@ -96,9 +111,10 @@ const SelectAccreditedRepresentative = props => {
     setError(null);
 
     try {
-      const res = await fetchRepresentatives({ query });
+      const res = await fetchRepresentatives({ query: queryInput });
       setFormData({
         ...formData,
+        'view:representativeQuerySubmission': queryInput,
         'view:representativeSearchResults': res,
       });
     } catch (err) {
@@ -124,6 +140,7 @@ const SelectAccreditedRepresentative = props => {
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
         selectedAccreditedOrganizationId: null,
+        representativeSubmissionMethod: null,
       };
 
       setFormData({
@@ -133,11 +150,27 @@ const SelectAccreditedRepresentative = props => {
       // similar to the tempData trick above with async state variables,
       //  we need to trick our routing logic to know that a selection has
       //  been made before that selection is reflected in formData.
-      //  Otherwise, one would have to double click the select
+      //
+      // selectionMade: prevents users from needing to double click the select
       //  representative button to register that a selection was made.
-      handleGoForward({ selectionMade: true });
+      //
+      // newSelection: prevents issue with routing from the review page
+      //   where selecting a new representative is treated as the original
+      //   representative due to formData not updating synchronously.
+      handleGoForward({ selectionMade: true, newSelection: selectedRepResult });
     }
   };
+
+  useEffect(
+    () => {
+      const searchHeader = document.querySelector('.search-header');
+
+      if (searchHeader) {
+        focusElement('.search-header');
+      }
+    },
+    [loadingReps, representativeResults?.length],
+  );
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
@@ -159,6 +192,11 @@ const SelectAccreditedRepresentative = props => {
           set-focus
         />
       ) : null}
+      <SearchResultsHeader
+        inProgress={loadingReps}
+        query={querySubmission}
+        resultCount={representativeResults?.length}
+      />
       {representativeResults &&
         representativeResults.map((rep, index) => (
           <SearchResult
@@ -169,6 +207,10 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />
         ))}
       <p className="vads-u-margin-y--4">
@@ -198,7 +240,6 @@ SelectAccreditedRepresentative.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data,
-  loggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {

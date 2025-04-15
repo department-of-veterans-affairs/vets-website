@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   addressUI,
   addressSchema,
@@ -63,11 +64,12 @@ export const applicantMemberNumberSchema = {
           },
           'ui:options': {
             uswds: true,
-            hint: `This number is usually the same as ${
-              formData?.certifierRole === 'applicant'
-                ? 'your'
-                : 'the beneficiary’s'
-            } Social Security number.`,
+            hint: `This number is usually the same as ${nameWording(
+              formData,
+              true,
+              false,
+              true,
+            )} Social Security number.`,
           },
         };
       },
@@ -95,16 +97,20 @@ export const applicantAddressSchema = {
         `${nameWording(formData, true, true, true)} mailing address`,
       'We’ll send any important information about this form to this address.',
     ),
-    applicantAddress: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox:
-            'Address is on a United States military base outside of the U.S.',
+    applicantAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
         },
-      }),
-    },
+      },
+      labels: {
+        militaryCheckbox:
+          'Address is on a United States military base outside of the U.S.',
+      },
+    }),
     applicantNewAddress: {
       ...radioUI({
+        type: 'radio',
         updateUiSchema: formData => {
           const labels = {
             yes: 'Yes',

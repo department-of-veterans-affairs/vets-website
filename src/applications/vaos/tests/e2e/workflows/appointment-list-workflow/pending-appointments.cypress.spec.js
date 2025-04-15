@@ -30,6 +30,7 @@ describe('VAOS pending appointment flow', () => {
           id: i,
           localStartTime: moment(),
           status: APPOINTMENT_STATUS.proposed,
+          pending: true,
         });
         response.push(appt);
       }
@@ -54,6 +55,7 @@ describe('VAOS pending appointment flow', () => {
         localStartTime: moment(),
         serviceType: 'primaryCare',
         status: APPOINTMENT_STATUS.proposed,
+        pending: true,
       });
 
       mockAppointmentsGetApi({ response: [appt] });
@@ -69,6 +71,41 @@ describe('VAOS pending appointment flow', () => {
       // Assert
       cy.findByText(/Pending \(1\)/i).should('be.ok');
       cy.findByText(/Pending primary care appointment/i).should('be.ok');
+      cy.findByText(/You requested this appointment/i).should('be.ok');
+
+      cy.axeCheckBestPractice();
+    });
+
+    it('should display pending appointment pass due alert', () => {
+      // Arrange
+      const past = moment().subtract(7, 'day');
+      const appt = new MockAppointmentResponse({
+        localStartTime: moment(),
+        serviceType: 'primaryCare',
+        status: APPOINTMENT_STATUS.proposed,
+        created: past,
+        pending: true,
+      });
+
+      mockAppointmentsGetApi({ response: [appt] });
+
+      // Act
+      cy.login(new MockUser());
+
+      PendingAppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 1,
+      });
+      cy.findByText(/Primary care/i).click({ waitForAnimations: true });
+
+      // Assert
+      cy.findByText(/Pending \(1\)/i).should('be.ok');
+      cy.findByText(/Pending primary care appointment/i).should('be.ok');
+      cy.get('va-alert[status=warning]')
+        .as('alert')
+        .shadow();
+      cy.get('@alert').contains(
+        /We're having trouble scheduling this appointment/i,
+      );
 
       cy.axeCheckBestPractice();
     });

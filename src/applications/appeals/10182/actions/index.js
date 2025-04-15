@@ -1,6 +1,7 @@
+import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
@@ -12,7 +13,9 @@ export const getContestableIssues = () => {
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
-    return apiRequest(CONTESTABLE_ISSUES_API, { apiVersion: 'v1' })
+    const apiUrl = `${environment.API_URL}${CONTESTABLE_ISSUES_API}`;
+
+    return apiRequest(apiUrl)
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,

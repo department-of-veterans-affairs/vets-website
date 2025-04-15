@@ -1,7 +1,10 @@
+import merge from 'lodash/merge';
 import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
+  emailUI,
+  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -13,7 +16,7 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -69,9 +72,20 @@ export const applicantAddressInfoSchema = {
         `${nameWording(formData, undefined, undefined, true)} mailing address`,
       'We’ll send any important information about this form to this address.',
     ),
-    applicantAddress: {
-      ...addressUI({ labels: { street3: 'Apartment or unit number' } }),
-    },
+    applicantAddress: merge({}, addressUI(), {
+      street3: {
+        'ui:title': 'Apartment or unit number',
+      },
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
+        },
+      },
+      isMilitary: {
+        'ui:title':
+          'Address is on a U.S. military base outside of the United States.',
+      },
+    }),
     applicantNewAddress: {
       ...radioUI({
         updateUiSchema: formData => {
@@ -114,6 +128,24 @@ export const applicantContactInfoSchema = {
       'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
+    applicantEmail: emailUI(),
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        const fs = JSON.parse(JSON.stringify(formSchema)); // Deep copy
+        // If user is the applicant, they have already given us an email
+        // previously in signer section, so remove the field on this page:
+        if (formData.certifierRole === 'applicant') {
+          delete fs.properties.applicantEmail;
+          // Just in case we require this email field in future, be sure to un-require it:
+          fs.required = fs.required.filter(f => f !== 'applicantEmail');
+        } else if (fs.properties.applicantEmail === undefined) {
+          // Replace email field if we previously dropped it and
+          // user is not the applicant:
+          fs.properties.applicantEmail = emailSchema;
+        }
+        return fs;
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -121,6 +153,7 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
+      applicantEmail: emailSchema,
     },
   },
 };

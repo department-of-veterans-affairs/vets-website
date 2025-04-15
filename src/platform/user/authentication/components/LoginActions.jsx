@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
-import LoginNote from './LoginNote';
 
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
+  const mhvButtonDeprecated = useSelector(
+    state => state?.featureToggles?.mhvCredentialButtonDisabled,
+  );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth } = getQueryParams();
+  const { OAuth, clientId, codeChallenge } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -25,6 +28,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
   const isValid = mhv || dslogon;
+  const mhvButtonShouldDisplay = mhvButtonDeprecated;
 
   return (
     <div className="row">
@@ -35,18 +39,21 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
+            queryParams={{ clientId, codeChallenge }}
           />
         ))}
-        <LoginNote />
+        <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
+          Learn about creating a Login.gov or ID.me account
+        </a>
         {isValid && (
           <div>
             <h2>Other sign-in options</h2>
-            {mhv && (
+            {!mhvButtonShouldDisplay && (
               <>
                 <h3 id="mhvH3">
                   My HealtheVet sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through January 31, 2025
+                    Available through March 4, 2025
                   </span>
                 </h3>
                 <p>
@@ -61,7 +68,25 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   ariaDescribedBy="mhvH3"
                   actionLocation={actionLocation}
                 />
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+                />
               </>
+            )}
+            {mhvButtonDeprecated && (
+              <div>
+                <h3 id="mhvH3" className="vads-u-margin-top--3">
+                  My HealtheVet sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    This option is no longer available
+                  </span>
+                </h3>
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+                />
+              </div>
             )}
             {dslogon && (
               <>
@@ -71,7 +96,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through September 30, 2025
+                    {mhvButtonDeprecated
+                      ? 'We’ll remove this option after September 30, 2025'
+                      : 'Available through September 30, 2025'}
                   </span>
                 </h3>
                 <p>

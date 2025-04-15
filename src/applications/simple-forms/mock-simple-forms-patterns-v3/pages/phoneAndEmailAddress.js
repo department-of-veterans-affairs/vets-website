@@ -12,7 +12,7 @@ export default {
     ...titleUI('Phone and email address'),
     homePhone: phoneUI('Home phone number'),
     mobilePhone: phoneUI('Mobile phone number'),
-    emailAddress: emailToSendNotificationsUI,
+    emailAddress: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',

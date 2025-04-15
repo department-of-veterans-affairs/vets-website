@@ -4,13 +4,30 @@ const dfns = require('date-fns');
 const fetch = require('node-fetch');
 const { warn, error, success, debug } = require('../utils');
 
-const cwd = process.cwd();
+const findBuildRoot = startDir => {
+  let currentDir = startDir;
 
-const buildLocalhostPath = './build/localhost/data/cms/vamc-ehr.json';
+  // Walk up until we find .build or hit the root
+  while (currentDir !== path.parse(currentDir).root) {
+    const buildPath = path.join(currentDir, 'build');
+
+    if (fs.existsSync(buildPath)) {
+      return currentDir;
+    }
+
+    currentDir = path.dirname(currentDir);
+  }
+
+  throw new Error('Could not find .build directory in parent directories');
+};
+
+const buildRoot = findBuildRoot(__dirname);
+const pathToSaveData = path.join(
+  buildRoot,
+  'build/localhost/data/cms/vamc-ehr.json',
+);
 
 const urlForStagingVamcDSOT = 'https://staging.va.gov/data/cms/vamc-ehr.json';
-const pathToSaveData = path.join(cwd, buildLocalhostPath);
-
 const amount = 14;
 const twoWeeksAgo = dfns.subDays(new Date(), amount);
 

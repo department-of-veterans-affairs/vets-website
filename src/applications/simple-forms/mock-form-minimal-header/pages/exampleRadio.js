@@ -7,11 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI({
-      title: 'Example radio page',
-      headerLevel: 1,
-      headerStyleLevel: 2,
-    }),
+    ...titleUI('Example radio page'),
     exampleRadio: radioUI({
       title: 'Example radio field',
       labels: {

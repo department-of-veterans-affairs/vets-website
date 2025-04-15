@@ -1,0 +1,55 @@
+{
+    "data": {
+        "type": "feature_toggles",
+        "features": [
+            {
+                "name": "askVaAnnouncementBanner",
+                "value": false
+            },
+            {
+                "name": "ask_va_ask_va_announcement_banner",
+                "value": false
+            },
+            {
+                "name": "askVaCanaryRelease",
+                "value": true
+            },
+            {
+                "name": "ask_va_canary_release",
+                "value": true
+            },
+            {
+                "name": "askVaMockApiForTesting",
+                "value": false
+            },
+            {
+                "name": "ask_va_mock_api_for_testing",
+                "value": false
+            },
+            {
+                "name": "askVAFormFeature",
+                "value": false
+            },
+            {
+                "name": "ask_va_form_feature",
+                "value": false
+            },
+            {
+                "name": "askVADashboardFeature",
+                "value": false
+            },
+            {
+                "name": "ask_va_dashboard_feature",
+                "value": false
+            },
+            {
+                "name": "askVAIntroductionPageFeature",
+                "value": false
+            },
+            {
+                "name": "ask_va_introduction_page_feature",
+                "value": false
+            }
+       ]
+    }
+}

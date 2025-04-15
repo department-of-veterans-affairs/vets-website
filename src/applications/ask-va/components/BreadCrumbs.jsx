@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { breadcrumbsDictionary } from '../constants';
+import manifest from '../manifest.json';
 
 const adjustLocation = currentLocation => {
-  if (currentLocation.startsWith('/contact-us/ask-va-too/user/dashboard')) {
+  if (currentLocation.startsWith(`${manifest.rootUrl}/user/dashboard`)) {
     return '/user/dashboard';
   }
   if (currentLocation.startsWith('/response-sent')) {

@@ -1,11 +1,10 @@
 import mockCustomFolderMessages from '../fixtures/customResponse/custom-folder-messages-response.json';
 import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-message-response.json';
-import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
-import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -93,8 +92,9 @@ class PatientMessageCustomFolderPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
       threadResponse,
     ).as('customFolderThread');
+    FolderLoadPage.loadFolders();
 
-    cy.get(`[data-testid=${folderName}]`).click();
+    cy.get(`[data-testid=${folderName}]`).click({ force: true });
 
     cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${folderId}`, {
       onBeforeLoad: win => {
@@ -140,45 +140,6 @@ class PatientMessageCustomFolderPage {
     );
   };
 
-  clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
-    folderId = this.folderId,
-  ) => {
-    cy.get(Locators.DROPDOWN.SORT)
-      .shadow()
-      .find('select')
-      .select(`${text}`);
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads**`,
-      sortedResponse,
-    );
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
-  };
-
-  verifySorting = () => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting: ${listBefore.join(',')}`);
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting: ${listAfter.join(',')}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
-  };
-
   verifyMainButtons = () => {
     cy.get(Locators.BUTTONS.EDIT_FOLDER)
       .should('be.visible')
@@ -191,53 +152,7 @@ class PatientMessageCustomFolderPage {
       .find(`button`)
       .should('be.visible')
       .and('contain.text', `Sort`);
-    cy.get(Locators.BUTTONS.FILTER).contains('Filter');
-  };
-
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  clickFilterMessagesButton = (folderId = this.folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/search`,
-      customSearchResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  verifyFilterResultsText = (
-    filterValue,
-    responseData = customSearchResponse,
-  ) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`test`);
-        });
-    });
-  };
-
-  clickClearFilterButton = () => {
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
+    cy.get(Locators.BUTTONS.FILTER).contains('filter');
   };
 
   createCustomFolder = (

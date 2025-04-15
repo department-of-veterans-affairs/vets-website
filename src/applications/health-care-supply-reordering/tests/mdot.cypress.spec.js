@@ -39,25 +39,7 @@ const testConfig = createTestConfig(
       },
       address: () => {
         cy.get('@testKey').then(testKey => {
-          if (testKey === 'noTempAddress') {
-            cy.get('select[name="root_temporaryAddress_country"]').select(
-              'CAN',
-            );
-            cy.get('input[name="root_temporaryAddress_street"]').clear();
-            cy.get('input[name="root_temporaryAddress_street"]').type(
-              '205 Test Lane',
-            );
-            cy.get('input[name="root_temporaryAddress_city"]').clear();
-            cy.get('input[name="root_temporaryAddress_city"]').type('Calgary');
-            cy.get('select[name="root_temporaryAddress_state"]').select(
-              'Alberta',
-            );
-            cy.get('input[name="root_temporaryAddress_postalCode"]').clear();
-            cy.get('input[name="root_temporaryAddress_postalCode"]').type(
-              'T1X0L4',
-            );
-            cy.findByText(/Save temporary address/i).click();
-          } else if (testKey === 'foreignAddress') {
+          if (testKey === 'foreignAddress') {
             // Don't modify the address for this order.
           } else {
             cy.get('input#permanentAddress').should('be.checked');

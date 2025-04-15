@@ -14,9 +14,7 @@
           "state": "CO",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123123123"
-        },
+        "applicantSSN": "123123123",
         "applicantName": {
           "first": "Applicant",
           "last": "Jones"

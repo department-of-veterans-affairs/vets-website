@@ -4,12 +4,15 @@ import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
   refreshPhases,
   VALID_REFRESH_DURATION,
+  Paths,
+  Breadcrumbs,
 } from './constants';
 
 /**
@@ -22,6 +25,10 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+export const dateFormatWithoutTime = str => {
+  return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
 
 /**
@@ -621,6 +628,46 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
+export const handleDataDogAction = ({
+  locationBasePath,
+  locationChildPath,
+  sendAnalytics = true,
+}) => {
+  const domainPaths = [
+    Paths.LABS_AND_TESTS,
+    Paths.CARE_SUMMARIES_AND_NOTES,
+    Paths.VACCINES,
+    Paths.ALLERGIES,
+    Paths.HEALTH_CONDITIONS,
+    Paths.VITALS,
+  ];
+
+  const isVitalsDetail =
+    Paths.VITALS.includes(locationBasePath) && locationChildPath;
+
+  const isDomain = domainPaths.some(path => path.includes(locationBasePath));
+  const isDetailPage = isDomain && !!locationChildPath;
+  const path = locationBasePath
+    ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
+    : '/';
+  const feature = Object.keys(Paths).find(_path => Paths[_path].includes(path));
+
+  let tag = '';
+  if (isVitalsDetail) {
+    tag = `Back - Vitals - ${Breadcrumbs[feature].label}`;
+  } else if (isDomain) {
+    tag = `Back - ${Breadcrumbs[feature].label} - ${
+      isDetailPage ? 'Detail' : 'List'
+    }`;
+  } else {
+    tag = `Breadcrumb - ${Breadcrumbs[feature].label}`;
+  }
+  if (sendAnalytics) {
+    sendDataDogAction(tag);
+  }
+  return tag;
+};
+
 /**
  * Format a iso8601 date in the local browser timezone.
  *
@@ -636,6 +683,37 @@ export const formatDateInLocalTimezone = date => {
   return `${formattedDate} ${localTimeZoneName}`;
 };
 
+/**
+ * Form Helper to focus on error field
+ */
+export const focusOnErrorField = () => {
+  setTimeout(() => {
+    const errors = document.querySelectorAll('[error]:not([error=""])');
+    const firstError =
+      errors.length > 0 &&
+      (errors[0]?.shadowRoot?.querySelector('select, input, textarea') ||
+        errors[0]
+          ?.querySelector('va-checkbox')
+          ?.shadowRoot?.querySelector('input') ||
+        errors[0].querySelector('input'));
+
+    if (firstError) {
+      focusElement(firstError);
+    }
+  }, 300);
+};
+
 export const formatUserDob = userProfile => {
   return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
+};
+
+/**
+ * Removes the trailing slash from a path
+ *
+ * @param {string} path path to remove trailing slash from
+ * @returns {string} path without trailing slash
+ */
+export const removeTrailingSlash = path => {
+  if (!path) return path;
+  return path.replace(/\/$/, '');
 };

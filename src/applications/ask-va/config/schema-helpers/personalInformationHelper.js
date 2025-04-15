@@ -8,16 +8,11 @@ import {
   ssnSchema,
   ssnUI,
   yesNoSchema,
-  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
-import {
-  branchesOfService,
-  CHAPTER_3,
-  suffixes,
-  yesNoOptions,
-} from '../../constants';
+import { branchesOfService, suffixes } from '../../constants';
+import { isBranchOfServiceRequired } from '../helpers';
 
 const ssnServiceInfo = (
   <div className="vads-u-margin-bottom--neg2p5">
@@ -33,7 +28,7 @@ const ssnServiceInfo = (
   </div>
 );
 
-const validateSSandSNGroup = (errors, values, formData) => {
+export const validateSSandSNGroup = (errors, values, formData) => {
   if (
     !(
       (formData.whoIsYourQuestionAbout === 'Someone else' &&
@@ -80,26 +75,6 @@ export const personalInformationFormSchemas = {
   branchOfService: selectSchema(branchesOfService),
 };
 
-export const aboutYourselfRelationshipFamilyMemberSchema = {
-  first: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  middle: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
-  suffix: selectSchema(suffixes),
-  socialNum: ssnSchema,
-  dateOfBirth: dateOfBirthSchema,
-  branchOfService: selectSchema(branchesOfService),
-};
-
 export const aboutYourselfGeneralSchema = {
   first: {
     type: 'string',
@@ -115,60 +90,6 @@ export const aboutYourselfGeneralSchema = {
   },
   last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
   suffix: selectSchema(suffixes),
-};
-
-export const personalInformationUiSchemas = {
-  first: {
-    'ui:title': 'First name',
-    'ui:webComponentField': VaTextInputField,
-    'ui:autocomplete': 'given-name',
-    'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a first name' },
-  },
-  middle: {
-    'ui:title': 'Middle name',
-    'ui:webComponentField': VaTextInputField,
-    'ui:autocomplete': 'additional-name',
-  },
-  last: {
-    'ui:title': 'Last name',
-    'ui:webComponentField': VaTextInputField,
-    'ui:autocomplete': 'family-name',
-    'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a last name' },
-  },
-  suffix: {
-    'ui:title': 'Suffix',
-    'ui:webComponentField': VaSelectField,
-    'ui:autocomplete': 'honorific-suffix',
-    'ui:options': {
-      widgetClassNames: 'form-select-medium',
-      hideEmptyValueInReview: true,
-    },
-  },
-  isVeteranDeceased: yesNoUI({
-    title: CHAPTER_3.VET_DECEASED.TITLE,
-    labels: yesNoOptions,
-    required: () => true,
-    errorMessages: {
-      required: 'Please let us know if the Veteran is deceased',
-    },
-  }),
-  socialOrServiceNum: {
-    'ui:title': ssnServiceInfo,
-    'ui:validations': [validateSSandSNGroup],
-    'ui:options': { showFieldLabel: true },
-    ssn: ssnUI(),
-    serviceNumber: serviceNumberUI('Service number'),
-  },
-  dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
-  branchOfService: {
-    'ui:title': 'Branch of service',
-    'ui:webComponentField': VaSelectField,
-    'ui:options': {
-      hideIf: () => true,
-    },
-  },
 };
 
 export const personalInformationAboutYourselfUiSchemas = {
@@ -254,28 +175,10 @@ export const personalInformationAboutYourselfUiSchemas = {
   branchOfService: {
     'ui:title': 'Branch of service',
     'ui:webComponentField': VaSelectField,
-    'ui:required': formData =>
-      (formData.whoIsYourQuestionAbout === 'Myself' ||
-        formData.whoIsYourQuestionAbout === 'Someone else') &&
-      formData.relationshipToVeteran === "I'm the Veteran" &&
-      (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
-        formData.selectCategory === 'Survivor Benefits' ||
-        formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
-        formData.selectCategory === "Women Veterans' issues" ||
-        formData.selectCategory === 'Benefits Issues Outside the US'),
+    'ui:required': formData => isBranchOfServiceRequired(formData),
     'ui:options': {
       uswds: true,
-      hideIf: formData =>
-        !(
-          (formData.whoIsYourQuestionAbout === 'Myself' ||
-            formData.whoIsYourQuestionAbout === 'Someone else') &&
-          formData.relationshipToVeteran === "I'm the Veteran" &&
-          (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
-            formData.selectCategory === 'Survivor Benefits' ||
-            formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
-            formData.selectCategory === "Women Veterans' issues" ||
-            formData.selectCategory === 'Benefits Issues Outside the US')
-        ),
+      hideIf: formData => !isBranchOfServiceRequired(formData),
     },
   },
 };

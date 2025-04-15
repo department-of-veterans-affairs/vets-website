@@ -3,12 +3,9 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { files } from '../../definitions';
-import { showUploadDocuments } from '../../../helpers';
 
-// TODO: Remove path ternary when pension_document_upload_update flipper is removed
-const path = showUploadDocuments()
-  ? 'additional-information/upload-documents'
-  : 'temporarily-hidden-upload-documents';
+const MAX_FILE_SIZE_MB = 20;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 const Description = (
   <>
@@ -34,13 +31,23 @@ const UploadMessage = (
 
 export default {
   title: 'Upload documents',
-  path,
-  depends: () => showUploadDocuments(),
+  path: 'additional-information/upload-documents',
   uiSchema: {
     ...titleUI('Submit your supporting documents'),
     'ui:description': Description,
     files: fileUploadUI('', {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+      maxSize: MAX_FILE_SIZE_BYTES,
+      fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+      fileUploadNetworkErrorMessage:
+        'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+      fileUploadNetworkErrorAlert: {
+        header: 'We couldn’t upload your file',
+        body: [
+          'We’re sorry. There was a problem with our system and we couldn’t upload your file. Try uploading your file again.',
+          'Or select Continue to fill out the rest of your form. And then follow the instructions at the end to learn how to submit your documents.',
+        ],
+      },
       hideLabelText: true,
     }),
     'view:uploadMessage': {

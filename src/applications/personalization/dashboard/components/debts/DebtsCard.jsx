@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import CTALink from '../CTALink';
 
 export const DebtsCard = ({ debts }) => {
   const debtHistory = debts.reduce(

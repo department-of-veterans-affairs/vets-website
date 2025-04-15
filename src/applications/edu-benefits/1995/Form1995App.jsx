@@ -8,9 +8,9 @@ import { useSetToggleParam } from '../hooks/useSetToggleParam';
 export default function Form1995Entry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.merge1995And5490);
+  const showRudisill1995 = useToggleValue(TOGGLE_NAMES.showRudisill1995);
 
-  useSetToggleParam(toggleValue);
-
+  useSetToggleParam(toggleValue, showRudisill1995);
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

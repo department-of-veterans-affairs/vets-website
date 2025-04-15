@@ -70,4 +70,19 @@ describe('<Alerts /> container', () => {
     getByTestId('reorder-alert--no-supplies-for-reorder');
     expect(getAllByTestId(/^reorder-alert--/).length).to.eq(1);
   });
+  it('renders <AlertNoSuppliesForReorder /> with undefined reOrderDate', () => {
+    const initialState = stateFn({
+      supplies: [{}],
+    });
+    const { getAllByTestId, getByTestId, queryByText } = setup({
+      initialState,
+    });
+    getByTestId('reorder-alert--no-supplies-for-reorder');
+    expect(getAllByTestId(/^reorder-alert--/).length).to.eq(1);
+    expect(
+      queryByText(
+        `Our records show that your items aren’t available for reorder`,
+      ),
+    ).to.be.null;
+  });
 });

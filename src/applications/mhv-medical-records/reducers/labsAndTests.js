@@ -85,13 +85,9 @@ export const convertChemHemObservation = record => {
         observationValue,
         observationUnit,
       } = getObservationValueWithUnits(result);
-      const fixedObservationValue =
-        typeof observationValue === 'number'
-          ? observationValue.toFixed(1)
-          : observationValue;
-      finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
+      finalObservationValue = `${observationValue} ${observationUnit}`;
       standardRange = isArrayAndHasItems(result.referenceRange)
-        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+        ? `${result.referenceRange[0]?.text} ${observationUnit}`.trim()
         : null;
     }
     if (result.valueString) {
@@ -200,7 +196,7 @@ export const extractOrderedBy = record => {
     record.performer,
   );
   if (isArrayAndHasItems(performingLab?.name)) {
-    return performingLab.name[0].text || null;
+    return performingLab.name[0]?.text || null;
   }
   return null;
 };
@@ -249,7 +245,7 @@ const convertPathologyRecord = record => {
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime, 'MMMM d, yyyy')
       : EMPTY_FIELD,
     dateCollected: specimen?.collection?.collectedDateTime
       ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)

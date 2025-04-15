@@ -67,7 +67,7 @@ const InstallmentContractSummary = ({
     const dateYear = dateReceived.split('-')[0];
     const dateMonth = dateReceived.split('-')[1];
 
-    return `${dateMonth}/XX/${dateYear}`;
+    return `${dateMonth}/${dateYear}`;
   };
 
   const billBody = ({

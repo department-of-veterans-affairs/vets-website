@@ -1,0 +1,47 @@
+{
+  "statusCode": 200,
+  "body": {
+    "formData": {
+      "veteranFullName": { "first": "Julio", "middle": "E", "last": "Hunter" },
+      "gender": "M",
+      "veteranDateOfBirth": "1951-11-18",
+      "veteranSocialSecurityNumber": "796378321",
+      "homePhone": "6575107441",
+      "email": "vets.gov.user+71@gmail.com",
+      "lastServiceBranch": "air force",
+      "lastEntryDate": "1977-06-03",
+      "lastDischargeDate": "1998-06-30",
+      "dischargeType": "honorable",
+      "veteranAddress": {
+        "street": "123 aspen st",
+        "street2": "Apt 4",
+        "street3": "Room 6",
+        "city": "Hadley",
+        "country": "USA",
+        "state": "MA",
+        "postalCode": "01070"
+      },
+      "view:doesMailingMatchHomeAddress": true,
+      "hasTeraResponse": false,
+      "vaCompensationType": "none",
+      "vaPensionType": "No",
+      "dependents": []
+    },
+    "metadata": {
+      "version": 0,
+      "returnUrl": "/household-information/financial-information-use",
+      "savedAt": 1739200257608,
+      "submission": {
+          "status": false,
+          "errorMessage": false,
+          "id": false,
+          "timestamp": false,
+          "hasAttemptedSubmit": false
+      },
+      "createdAt": 1739200226,
+      "expiresAt": 1744384257,
+      "lastUpdated": 1739200257,
+      "inProgressFormId": 12345
+    }
+  }
+}

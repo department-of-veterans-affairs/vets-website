@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -22,12 +21,15 @@ import {
   makePdf,
   getLastSuccessfulUpdate,
   formatUserDob,
+  sendDataDogAction,
+  formatNameFirstLast,
 } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_SEI_ERROR,
+  ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -55,29 +57,6 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
-/**
- * Checks if CCD retry is needed and returns a formatted timestamp or null.
- */
-const getCCDRetryTimestamp = () => {
-  const errorTimestamp = localStorage.getItem('lastCCDError');
-  if (!errorTimestamp) return null;
-
-  const retryDate = add(new Date(errorTimestamp), { hours: 24 });
-  if (compareAsc(retryDate, new Date()) >= 0) {
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZoneName: 'short',
-    };
-    return new Intl.DateTimeFormat('en-US', options).format(retryDate);
-  }
-  return null;
-};
-
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -87,7 +66,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
-        ccdError,
+        ccdDownloadSuccess,
+        error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
       blueButton: { failedDomains: failedBBDomains },
@@ -99,8 +79,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const fullState = useSelector(state => state);
 
   // Extract user info
-  const name = formatName(userProfile.userFullName);
-  const dob = formatUserDob(userProfile); // Example DOB
+  const name = formatNameFirstLast(userProfile.userFullName);
+  const dob = formatUserDob(userProfile);
 
   // Extract all SEI domain data
   const seiRecords = SEI_DOMAINS.reduce((acc, domain) => {
@@ -114,7 +94,29 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
 
-  const CCDRetryTimestamp = useMemo(() => getCCDRetryTimestamp(), [ccdError]);
+  // Checks if CCD retry is needed and returns a formatted timestamp or null.
+  const CCDRetryTimestamp = useMemo(
+    () => {
+      const errorTimestamp = localStorage.getItem('lastCCDError');
+      if (errorTimestamp !== null) {
+        const retryDate = add(new Date(errorTimestamp), { hours: 24 });
+        if (compareAsc(retryDate, new Date()) >= 0) {
+          const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZoneName: 'short', // Include the time zone abbreviation
+          };
+          return new Intl.DateTimeFormat('en-US', options).format(retryDate);
+        }
+      }
+      return null;
+    },
+    [ccdError],
+  );
 
   // Initial page setup effect
   useEffect(
@@ -204,7 +206,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
 
   const accessErrors = () => {
-    // CCD Access Error
+    // CCD generation Error
     if (CCDRetryTimestamp) {
       return (
         <AccessTroubleAlertBox
@@ -241,6 +243,23 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
+  const handleDownloadCCD = e => {
+    e.preventDefault();
+    dispatch(
+      genAndDownloadCCD(
+        userProfile?.userFullName?.first,
+        userProfile?.userFullName?.last,
+      ),
+    );
+    sendDataDogAction('Download Continuity of Care Document xml Link');
+  };
+
+  const handleDownloadSelfEnteredPdf = e => {
+    e.preventDefault();
+    generateSEIPdf();
+    sendDataDogAction('Download self-entered health information PDF link');
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -259,7 +278,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
-
+      <h2>Download your VA Blue Button report</h2>
       {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -267,15 +286,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           className="vads-u-margin-bottom--1"
         />
       )}
-
-      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
@@ -285,8 +295,52 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               BB_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Your VA Blue Button report download has"
+            className="vads-u-margin-bottom--1"
+          />
         </>
+      )}
+      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
+        First, select the types of records you want in your report. Then
+        download.
+      </p>
+      <va-link-action
+        href="/my-health/medical-records/download/date-range"
+        label="Select records and download report"
+        text="Select records and download report"
+        data-dd-action-name="Select records and download"
+        onClick={() => sendDataDogAction('Select records and download')}
+        data-testid="go-to-download-all"
+      />
+
+      <h2>Other reports you can download</h2>
+
+      {(generatingCCD || ccdDownloadSuccess) &&
+        !ccdError && (
+          <DownloadSuccessAlert
+            type="Continuity of Care Document download"
+            className="vads-u-margin-bottom--1"
+            focusId="ccd-download-success"
+          />
+        )}
+
+      {accessErrors()}
+
+      {/* redux action/server errors */}
+      {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.CCD}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
       )}
 
       {successfulSeiDownload === true && (
@@ -298,28 +352,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               SEI_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Self-entered health information report download"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
-
-      <h2>Download your VA Blue Button report</h2>
-      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-        First, select the types of records you want in your report. Then
-        download.
-      </p>
-      <va-link-action
-        href="/my-health/medical-records/download/date-range"
-        label="Select records and download"
-        text="Select records and download"
-      />
-      <h2>Other reports you can download</h2>
-      {accessErrors()}
       <va-accordion bordered>
-        <va-accordion-item
-          bordered
-          header="Continuity of Care Document (VA Health Summary)"
-          data-testid="ccdAccordionItem"
-        >
+        <va-accordion-item bordered data-testid="ccdAccordionItem">
+          <h3 slot="headline">
+            Continuity of Care Document (VA Health Summary)
+          </h3>
           <p className="vads-u-margin--0">
             This Continuity of Care Document (CCD) is a summary of your VA
             medical records that you can share with non-VA providers in your
@@ -340,24 +383,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={() =>
-                dispatch(
-                  genAndDownloadCCD(
-                    userProfile.userFullName.first,
-                    userProfile.userFullName.last,
-                  ),
-                )
-              }
-              text="Download .xml file"
+              href="#"
+              onClick={handleDownloadCCD}
+              text="Download Continuity of Care Document (XML)"
               data-testid="generateCcdButton"
             />
           )}
         </va-accordion-item>
-        <va-accordion-item
-          bordered
-          header="Self-entered health information"
-          data-testid="selfEnteredAccordionItem"
-        >
+        <va-accordion-item bordered data-testid="selfEnteredAccordionItem">
+          <h3 slot="headline">Self-entered health information</h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
@@ -380,8 +414,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ) : (
             <va-link
               download
-              onClick={generateSEIPdf}
-              text="Download PDF"
+              href="#"
+              onClick={handleDownloadSelfEnteredPdf}
+              text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
           )}
@@ -393,7 +428,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of MyHealtheVet to download historical
+            text="Go to the previous version of My HealtheVet to download historical
             goals"
           />
         </va-accordion-item>

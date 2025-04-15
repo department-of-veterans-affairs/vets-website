@@ -147,6 +147,11 @@ export default {
               fullSchema,
               () => true,
             ),
+            [providerFacilityFields.treatmentDateRange]: {
+              ...fullSchema.properties[providerFacilityFields.parentObject]
+                .items.properties[providerFacilityFields.treatmentDateRange]
+                .items,
+            },
           },
         },
       },

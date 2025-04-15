@@ -60,7 +60,7 @@ const fetchImage = async url => {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'serviceHistory']; // If there is no serviceHistory, there is also no DOD ID
+  const requiredFields = ['fullName', 'latestService']; // If there is no latestService, there is also no DoD ID
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -186,19 +186,6 @@ const generate = async data => {
     cardSection.add(seal);
   }
 
-  // Generate content for latest period of service
-  const latestService = data.details.serviceHistory[0];
-  const serviceStartYear = latestService.beginDate
-    ? latestService.beginDate.substring(0, 4)
-    : '';
-  const serviceEndYear = latestService.endDate
-    ? latestService.endDate.substring(0, 4)
-    : '';
-  const dateRange =
-    serviceStartYear.length || serviceEndYear.length
-      ? `${serviceStartYear}–${serviceEndYear}`
-      : '';
-
   // First column of info items
   doc.moveDown(0.25);
   const infoItems = [
@@ -208,7 +195,7 @@ const generate = async data => {
     },
     {
       heading: 'Latest period of service',
-      content: `${latestService.branchOfService} • ${dateRange}`,
+      content: `${data.details.latestService}`,
     },
     {
       heading: 'DoD ID Number',

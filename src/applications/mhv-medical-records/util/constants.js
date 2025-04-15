@@ -137,7 +137,7 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const EMPTY_FIELD = 'None recorded';
 export const NONE_RECORDED = 'None recorded';
 export const NO_INFO_REPORTED = 'No information reported';
 export const NA = 'N/A';
@@ -221,6 +221,8 @@ export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_BB_ERROR = 'blue button download error';
 export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
+export const ALERT_TYPE_CCD_ERROR =
+  'continuity of care document download error';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -228,6 +230,8 @@ export const pageTitles = {
     'Lab And Test Results - Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
     'Lab And Test Results Details - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE:
+    'Lab And Test Results Images - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
@@ -307,6 +311,7 @@ export const SEI_DOMAINS = [
   'activityJournal',
   'allergies',
   'demographics',
+  'emergencyContacts',
   'familyHistory',
   'foodJournal',
   'providers',
@@ -328,11 +333,11 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE',
-  NEW: 'NEW',
-  PROCESSING: 'PROCESSING',
-  COMPLETE: 'COMPLETE',
-  ERROR: 'ERROR',
+  NONE: 'NONE', // has not been requested
+  NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  PROCESSING: 'PROCESSING', // has been requested
+  COMPLETE: 'COMPLETE', // request complete
+  ERROR: 'ERROR', // error
 };
 
 export const refreshExtractTypes = {
@@ -353,6 +358,9 @@ export const EXTRACT_LIST = [
 export const VALID_REFRESH_DURATION = 3600000; // 1 hour
 
 export const STATUS_POLL_INTERVAL = 2000;
+
+/** How long to poll the backend while it's returning 202 Patient Not Found */
+export const INITIAL_FHIR_LOAD_DURATION = 120000; // in milliseconds
 
 export const refreshPhases = {
   STALE: 'stale',
@@ -388,7 +396,6 @@ export const Paths = {
   HEALTH_CONDITIONS: '/conditions/',
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
-  DOWNLOAD_ALL: '/download-all/',
   DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
@@ -430,12 +437,7 @@ export const Breadcrumbs = {
   VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
   SETTINGS: {
     href: Paths.SETTINGS,
-    label: 'Medical records settings',
-    isRouterLink: true,
-  },
-  DOWNLOAD_ALL: {
-    href: Paths.DOWNLOAD_ALL,
-    label: 'Download all medical records',
+    label: 'Manage your electronic sharing settings',
     isRouterLink: true,
   },
   DOWNLOAD: {
@@ -471,6 +473,22 @@ export const Breadcrumbs = {
   },
   WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
+
+export const DateRangeValues = {
+  ANY: 'any',
+  LAST3: 3,
+  LAST6: 6,
+  LAST12: 12,
+  CUSTOM: 'custom',
+};
+
+export const DateRangeOptions = [
+  { value: DateRangeValues.ANY, label: 'Any' },
+  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
+  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
+  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom' },
+];
 
 export const CernerAlertContent = {
   MR_LANDING_PAGE: {

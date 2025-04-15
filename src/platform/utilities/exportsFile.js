@@ -80,6 +80,7 @@ export {
   SKIP_DUPE_QUERY,
   SKIP_DUPE,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
   eauthEnvironmentPrefixes,
 } from './sso/constants';
 export {

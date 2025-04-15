@@ -16,9 +16,9 @@ const App = ({ formEnabled }) => {
         <p>You can submit this form online or by mail.</p>
         <a
           className="vads-c-action-link--blue"
-          href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138"
+          href="/supporting-forms-for-claims/submit-statement-form-21-4138"
         >
-          Submit a request online for your statement in support of a claim
+          Submit a Statement in support of your claim online
         </a>
       </>
     );

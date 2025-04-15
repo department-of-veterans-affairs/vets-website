@@ -26,31 +26,32 @@ import {
   formatCurrency,
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
+  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'assetTransfers',
   nounSingular: 'asset transfer',
   nounPlural: 'asset transfers',
   required: false,
   isItemIncomplete: item =>
-    !item?.originalOwnerRelationship ||
-    !item.transferMethod ||
-    !item.assetType ||
-    !item.newOwnerName ||
-    !item.newOwnerRelationship ||
+    !isDefined(item?.originalOwnerRelationship) ||
+    !isDefined(item.transferMethod) ||
+    !isDefined(item.assetType) ||
+    !isDefined(item.newOwnerName) ||
+    !isDefined(item.newOwnerRelationship) ||
     typeof item.saleReportedToIrs !== 'boolean' ||
-    !item.transferDate ||
+    !isDefined(item.transferDate) ||
     typeof item.assetTransferredUnderFairMarketValue !== 'boolean' ||
-    !item.fairMarketValue ||
-    !item.capitalGainValue, // include all required fields here
+    !isDefined(item.fairMarketValue) ||
+    !isDefined(item.capitalGainValue), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => item.assetType,
     cardDescription: item =>
-      item?.fairMarketValue &&
-      item?.capitalGainValue && (
+      isDefined(item?.fairMarketValue) &&
+      isDefined(item?.capitalGainValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Transfer Method:{' '}

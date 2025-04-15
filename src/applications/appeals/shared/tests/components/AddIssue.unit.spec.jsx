@@ -140,6 +140,20 @@ describe('<AddIssue>', () => {
       errorMessages.maxLength(MAX_LENGTH.ISSUE_NAME),
     );
   });
+  it('should show error when issue name is all whitespace', () => {
+    const issue = '       ';
+    const { container } = render(
+      setup({
+        data: { contestedIssues, additionalIssues: [{ issue }] },
+        index: 1,
+      }),
+    );
+    fireEvent.click($('#submit', container));
+
+    const textInput = $('va-text-input', container);
+    expect(textInput.error).to.contain(errorMessages.missingIssue);
+  });
+
   it('should show error when issue date is not in range', () => {
     const decisionDate = parseDateWithOffset({ years: MAX_YEARS_PAST * 2 });
     const { container } = render(

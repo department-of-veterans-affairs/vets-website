@@ -105,7 +105,7 @@ describe('Chem Hem details component', () => {
 
   it('should display the result and interpretation in parentheses', () => {
     expect(screen.getAllByText('Result', { selector: 'h4' }).length).to.eq(2);
-    expect(screen.getByText('138.0 mEq/L (Low)', { selector: 'p' })).to.exist;
+    expect(screen.getByText('138 mEq/L (Low)', { selector: 'p' })).to.exist;
   });
 
   it('should display the reference range with units', () => {
@@ -162,7 +162,7 @@ describe('Chem hem details component with no date', () => {
   it('should not display the formatted date if effectiveDateTime is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });

@@ -46,9 +46,7 @@ const CalendarCheckboxOption = ({
           {label} appointment
         </span>
       </label>
-      {!!secondaryLabel && (
-        <span className="vads-u-font-size--sm">{secondaryLabel}</span>
-      )}
+      {!!secondaryLabel && <span>{secondaryLabel}</span>}
     </div>
   );
 };

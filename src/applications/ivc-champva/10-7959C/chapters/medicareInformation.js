@@ -11,16 +11,13 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { nameWording } from '../../shared/utilities';
 import {
-  fileWithMetadataSchema,
-  fileUploadBlurb,
-} from '../../shared/components/fileUploads/attachments';
-
-// TODO put in /shared
-const additionalFilesHint =
-  'Depending on your response, you may need to submit additional documents with this application.';
+  fileUploadUi as fileUploadUI,
+  singleFileSchema,
+} from '../../shared/components/fileUploads/upload';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
@@ -45,7 +42,7 @@ export const applicantHasMedicareSchema = {
               false,
               true,
             )} have Medicare information to provide or update at this time?`,
-            'ui:options': { hint: additionalFilesHint },
+            'ui:options': { hint: ADDITIONAL_FILES_HINT },
           };
         },
       }),
@@ -225,12 +222,8 @@ export const applicantMedicareABUploadSchema = {
             <br />
             Upload a copy of one of these documents:
             <ul>
-              <li>
-                Medicare Parts A and B card, <b>or</b>
-              </li>
-              <li>
-                Medicare Advantage card, <b>or</b>
-              </li>
+              <li>Medicare Parts A and B card, or</li>
+              <li>Medicare Advantage card, or</li>
               <li>Medicare PACE card</li>
             </ul>
             If you don’t have a copy to upload now, you can send it by mail or
@@ -240,25 +233,22 @@ export const applicantMedicareABUploadSchema = {
       },
     ),
     ...fileUploadBlurb,
-    applicantMedicarePartAPartBCard: {
-      ...fileUploadUI({
-        label: 'Upload Medicare card',
-      }),
-      'ui:errorMessages': {
-        minItems:
-          'You must add both the front and back of your card as separate files.',
-      },
-    },
+    applicantMedicarePartAPartBCardFront: fileUploadUI({
+      label: 'Upload front of Medicare card',
+      attachmentId: 'Front of Medicare card', // used behind the scenes
+    }),
+    applicantMedicarePartAPartBCardBack: fileUploadUI({
+      label: 'Upload back of Medicare card',
+      attachmentId: 'Back of Medicare card', // used behind the scenes
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-        ['Front of Medicare card', 'Back of Medicare card'],
-        2,
-      ),
+      applicantMedicarePartAPartBCardFront: singleFileSchema,
+      applicantMedicarePartAPartBCardBack: singleFileSchema,
     },
   },
 };
@@ -286,7 +276,7 @@ export const applicantHasMedicareDSchema = {
               false,
               true,
             )} have Medicare Part D information to provide or update at this time?`,
-            'ui:options': { hint: additionalFilesHint },
+            'ui:options': { hint: ADDITIONAL_FILES_HINT },
           };
         },
       }),
@@ -345,25 +335,22 @@ export const applicantMedicareDUploadSchema = {
       );
     }),
     ...fileUploadBlurb,
-    applicantMedicarePartDCard: {
-      ...fileUploadUI({
-        label: 'Upload Medicare Part D card',
-      }),
-      'ui:errorMessages': {
-        minItems:
-          'You must add both the front and back of your card as separate files.',
-      },
-    },
+    applicantMedicarePartDCardFront: fileUploadUI({
+      label: 'Upload front of Medicare Part D card',
+      attachmentId: 'Front of Medicare Part D card', // used behind the scenes
+    }),
+    applicantMedicarePartDCardBack: fileUploadUI({
+      label: 'Upload back of Medicare Part D card',
+      attachmentId: 'Back of Medicare Part D card', // used behind the scenes
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartDCard: fileWithMetadataSchema(
-        ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
-        2,
-      ),
+      applicantMedicarePartDCardFront: singleFileSchema,
+      applicantMedicarePartDCardBack: singleFileSchema,
     },
   },
 };

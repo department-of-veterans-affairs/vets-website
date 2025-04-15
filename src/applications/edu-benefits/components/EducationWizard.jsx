@@ -73,7 +73,7 @@ class EducationWizard extends React.Component {
         break;
       case '1990':
         if (this?.props.meb160630Automation) {
-          url = `/education/apply-for-benefits-form-22-1990`;
+          url = `/education/apply-for-gi-bill-form-22-1990`;
           break;
         }
 
@@ -81,7 +81,7 @@ class EducationWizard extends React.Component {
         break;
       case '5490':
         if (this?.props.meb160630Automation) {
-          url = `/education/survivor-dependent-education-benefit-22-5490`;
+          url = `/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490`;
           break;
         }
 

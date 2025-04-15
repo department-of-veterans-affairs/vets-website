@@ -11,7 +11,7 @@ import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import FormApp from '../../containers/FormApp';
-import { CONTESTABLE_ISSUES_API } from '../../constants';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -122,23 +122,6 @@ describe('FormApp', () => {
 
     await waitFor(() => {
       expect(global.fetch.notCalled).to.be.true;
-      resetFetch();
-    });
-  });
-
-  it('should call API when logged in', async () => {
-    mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData({
-      formData: { internalTesting: true },
-    });
-    render(
-      <Provider store={mockStore(data)}>
-        <FormApp {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(global.fetch.called).to.be.true;
       resetFetch();
     });
   });

@@ -94,6 +94,12 @@ export const VADXProvider = ({ children }) => {
     [broadcastChannel],
   );
 
+  const createUpdateHandlerByKey = key => {
+    return update => {
+      setSyncedData({ ...preferences, [key]: update });
+    };
+  };
+
   // update the loading state for the dev tools
   const updateDevLoading = isLoading => {
     setSyncedData({ ...preferences, isDevLoading: isLoading });
@@ -116,6 +122,9 @@ export const VADXProvider = ({ children }) => {
   const updateShowVADX = show => {
     setSyncedData({ ...preferences, showVADX: show });
   };
+
+  const updateFeApi = createUpdateHandlerByKey('feApiUrl');
+  const updateBeApi = createUpdateHandlerByKey('beApiUrl');
 
   // update local toggles
   const updateLocalToggles = useCallback(
@@ -148,10 +157,12 @@ export const VADXProvider = ({ children }) => {
   return (
     <VADXContext.Provider
       value={{
+        preferences,
+        togglesLoading,
+        togglesState,
         logIn,
         logOut,
         loggedIn,
-        preferences,
         setSyncedData,
         updateDevLoading,
         updateSearchQuery,
@@ -159,9 +170,9 @@ export const VADXProvider = ({ children }) => {
         updateShowVADX,
         updateLocalToggles,
         updateClearLocalToggles,
+        updateFeApi,
+        updateBeApi,
         debouncedSetSearchQuery,
-        togglesLoading,
-        togglesState,
       }}
     >
       {children}

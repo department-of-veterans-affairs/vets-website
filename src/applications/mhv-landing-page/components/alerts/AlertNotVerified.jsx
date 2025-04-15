@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
-import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
+import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 import {
   CSP_IDS,
   SERVICE_PROVIDERS,
@@ -25,12 +25,7 @@ const AlertNotVerified = ({ cspId, recordEvent }) => {
   );
 
   return (
-    <IdentityNotVerified
-      headline={headline}
-      showHelpContent={false}
-      showVerifyIdenityHelpInfo
-      signInService={cspId}
-    />
+    <VerifyAlert headingLevel={2} dataTestId="verify-identity-alert-headline" />
   );
 };
 

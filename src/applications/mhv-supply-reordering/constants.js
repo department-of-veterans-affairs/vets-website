@@ -1,7 +1,8 @@
 const { freeze } = Object;
 
 export const TITLE = 'Order medical supplies';
-export const SUBTITLE =
+export const INTRO_TITLE = 'Medical supplies';
+export const INTRO_SUBTITLE =
   'Use this form to order hearing aid batteries and accessories and CPAP supplies';
 
 export const DLC_EMAIL = 'dalc.css@va.gov';
@@ -19,4 +20,9 @@ export const PRODUCT_GROUPS = freeze({
   ACCESSORIES: 'accessories',
   BATTERIES: 'batteries',
   APNEA: 'apnea',
+});
+
+export const PAGE_PATH = freeze({
+  CONTACT_INFORMATION: '/contact-information',
+  REVIEW_AND_SUBMIT: '/review-and-submit',
 });

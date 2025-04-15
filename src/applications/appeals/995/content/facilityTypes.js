@@ -5,7 +5,8 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 export const facilityTypeTitle =
   'Select all the types of facilities or providers that treated you';
 
-export const facilityTypeTextLabel = 'Specify any other facility or provider';
+export const facilityTypeTextLabel =
+  'Specify any other types of facility or provider';
 
 export const facilityTypeChoices = {
   vamc: 'A VA medical center (also called a VAMC)',
@@ -22,6 +23,17 @@ export const facilityTypeChoices = {
     description:
       'This includes providers who aren’t community care providers, and who don’t work at a military treatment facility.',
   },
+};
+
+// Submission data
+export const facilityTypeSubmissionChoices = {
+  nonVa: 'PRIVATE HEALTH CARE PROVIDER',
+  vetCenter: 'VA VET CENTER',
+  ccp: 'COMMUNITY CARE',
+  vamcCobc:
+    'VA MEDICAL CENTERS (VAMC) AND COMMUNITY-BASED OUTPATIENT CLINICS (CBOC)',
+  mtf: 'DEPARTMENT OF DEFENSE (DOD) MILITARY TREATMENT FACILITY(IES) (MTF)',
+  other: 'OTHER',
 };
 
 export const facilityTypeError =

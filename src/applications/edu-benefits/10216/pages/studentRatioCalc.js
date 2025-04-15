@@ -8,6 +8,9 @@ import {
   numberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
+import CustomReviewField from '../ReviewPage/CustomReviewField';
+import { isDateThirtyDaysOld, isValidStudentRatio } from '../utilities';
+import RatioExceedMessage from '../components/RatioExceedMessage';
 
 export default {
   uiSchema: {
@@ -21,6 +24,15 @@ export default {
               'Please enter the number of beneficiary students at your institution',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            if (!isValidStudentRatio(formData)) {
+              errors.addError(
+                'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+              );
+            }
+          },
+        ],
       },
       numOfStudent: {
         ...numberUI({
@@ -32,7 +44,11 @@ export default {
       },
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',
-        'ui:description': PercentageCalc,
+        'ui:field': PercentageCalc,
+        'ui:reviewField': CustomReviewField,
+        'ui:options': {
+          classNames: 'vads-u-margin-top--2',
+        },
       },
       dateOfCalculation: {
         ...currentOrPastDateUI({
@@ -43,6 +59,26 @@ export default {
             required: 'Please enter a date',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            const {
+              institutionDetails: { termStartDate },
+            } = formData;
+            if (isDateThirtyDaysOld(fieldData, termStartDate)) {
+              errors.addError(
+                'Please enter a date within 30 calendar days of the term start date',
+              );
+            }
+          },
+        ],
+      },
+      'view:ratioExceedMessage': {
+        'ui:description': RatioExceedMessage,
+        'ui:options': {
+          hideIf: formData => {
+            return isValidStudentRatio(formData);
+          },
+        },
       },
     },
   },
@@ -55,12 +91,10 @@ export default {
           beneficiaryStudent: numberSchema,
           numOfStudent: numberSchema,
           studentPercentageCalc: {
-            type: 'object',
-            properties: {
-              calculatedPercentage: { type: 'number' },
-            },
+            type: 'number',
           },
           dateOfCalculation: currentOrPastDateSchema,
+          'view:ratioExceedMessage': { type: 'object', properties: {} },
         },
         required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
       },

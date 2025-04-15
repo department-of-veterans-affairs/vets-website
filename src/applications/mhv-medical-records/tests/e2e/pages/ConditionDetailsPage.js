@@ -2,6 +2,10 @@
 import BaseDetailsPage from './BaseDetailsPage';
 
 class ConditionDetailsPage extends BaseDetailsPage {
+  verifyTitle = title => {
+    cy.get('h1').should('contain', title);
+  };
+
   verifyProvider = provider => {
     cy.get('[data-testid="condition-provider"]').should('be.visible');
     cy.get('[data-testid="condition-provider"]').contains(provider);

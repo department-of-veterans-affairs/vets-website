@@ -125,6 +125,34 @@ describe('Reply form component', () => {
     expect(actionButtons).to.exist;
   });
 
+  it('renders correct category in h1 when category is "OTHER"', async () => {
+    const customReplyMessage = {
+      ...replyMessage,
+      category: 'OTHER',
+      subject: 'test replace category',
+    };
+    const screen = render(undefined, undefined, customReplyMessage);
+
+    await waitFor(() => {
+      const replyTitle = screen.getByTestId('reply-form-title');
+      expect(replyTitle).to.have.text('General: test replace category');
+    });
+  });
+
+  it('renders correct category in h1 when category is "TEST_RESULTS"', async () => {
+    const customReplyMessage = {
+      ...replyMessage,
+      category: 'TEST_RESULTS',
+      subject: 'test replace category',
+    };
+    const screen = render(undefined, undefined, customReplyMessage);
+
+    await waitFor(() => {
+      const replyTitle = screen.getByTestId('reply-form-title');
+      expect(replyTitle).to.have.text('Test: test replace category');
+    });
+  });
+
   it('renders the message signature in the textarea if a signature is included', async () => {
     const screen = render();
     expect(screen.getByTestId('message-body-field'))

@@ -7,6 +7,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
+import { createStringifyFormReplacer } from './utilities/createStringifyFormReplacer';
 
 export const minYear = 1900;
 export const currentYear = getYear(new Date());
@@ -143,33 +144,6 @@ export function createPageList(formConfig, formPages) {
     );
 }
 
-export function hideFormTitle(formConfig, pathName) {
-  if (
-    !formConfig?.chapters ||
-    typeof formConfig.chapters !== 'object' ||
-    formConfig.chapters.length === 0
-  )
-    return false;
-
-  const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-  const page = pageList.find(p => p.path === pathName);
-
-  if (pathName === '/confirmation') {
-    return formConfig.hideFormTitle ?? false;
-  }
-
-  if (!page || !page.chapterKey) {
-    return false;
-  }
-
-  return (
-    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
-    formConfig.hideFormTitle ??
-    false
-  );
-}
-
 function formatDayMonth(val) {
   if (val) {
     const dayOrMonth = val.toString();
@@ -288,61 +262,6 @@ export function filterInactivePageData(inactivePages, activePages, form) {
       }, formData),
     form.data,
   );
-}
-
-function isPartialAddress(data) {
-  return (
-    data &&
-    typeof data.country !== 'undefined' &&
-    (!data.street || !data.city || (!data.postalCode && !data.zipcode))
-  );
-}
-
-/**
- * Create a replacer function for JSON.stringify
- * A replacer function is the second argument to JSON.stringify
- *
- * @param {{
- *  allowPartialAddress?: boolean,
- * }} [options] - Options for the replacer
- */
-export function createStringifyFormReplacer(options) {
-  const replacerFn = (key, value) => {
-    if (!options?.allowPartialAddress && isPartialAddress(value)) {
-      return undefined;
-    }
-
-    if (typeof value === 'object') {
-      const fields = Object.keys(value);
-      if (
-        fields.length === 0 ||
-        fields.every(field => value[field] === undefined)
-      ) {
-        return undefined;
-      }
-
-      // autosuggest widgets save value and label info, but we should just return the value
-      if (value.widget === 'autosuggest') {
-        return value.id;
-      }
-
-      // Exclude file data
-      if (value.confirmationCode && value.file) {
-        return omit('file', value);
-      }
-    }
-
-    // Clean up empty objects in arrays
-    if (Array.isArray(value)) {
-      const newValues = value.filter(v => !!replacerFn(key, v));
-      // If every item in the array is cleared, remove the whole array
-      return newValues.length > 0 ? newValues : undefined;
-    }
-
-    return value;
-  };
-
-  return replacerFn;
 }
 
 export const stringifyFormReplacer = createStringifyFormReplacer();
@@ -720,6 +639,40 @@ export function getActiveChapters(formConfig, formData) {
   );
 }
 
+export function hideFormTitle(formConfig, pathName, formData) {
+  if (
+    !formConfig?.chapters ||
+    typeof formConfig.chapters !== 'object' ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
+  const formPages = createFormPageList(formConfig);
+  let pageList = createPageList(formConfig, formPages);
+  try {
+    pageList = getActiveExpandedPages(pageList, formData);
+  } catch {
+    // If we can't get active expanded pages, just use the default pageList
+  }
+  const page = pageList.find(p => p.path === pathName);
+
+  if (pathName === '/confirmation') {
+    return !!(formConfig.hideFormTitleConfirmation === undefined
+      ? formConfig.hideFormTitle
+      : formConfig.hideFormTitleConfirmation);
+  }
+
+  if (!page || !page.chapterKey) {
+    return false;
+  }
+
+  return (
+    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
+    formConfig.hideFormTitle ??
+    false
+  );
+}
+
 /**
  * Returns the schema, omitting all `required` arrays.
  *
@@ -742,9 +695,7 @@ export function omitRequired(schema) {
 /**
  * @param formConfig
  * @param form
- * @param [options] {{
- *  allowPartialAddress?: boolean,
- * } | (key, val) => any | any[] } An object of options for the transform, or a JSON.stringify replacer argument
+ * @param {ReplacerOptions | (key, val) => any | any[]} [options] An object of options for the transform, or a JSON.stringify replacer argument
  */
 export function transformForSubmit(formConfig, form, options) {
   const replacer =
@@ -857,4 +808,44 @@ export function getUrlPathIndex(url) {
     .reverse()
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
+}
+
+/**
+ * Converts a url path to a formConfig's page path, which for arrays will include `:index`
+ *
+ * @param {string} urlPath for example `window.location.pathname` is a valid urlPath
+ * @param {string} [rootUrl] Optional - First part of the url path to remove
+ * @returns {string}
+ */
+export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
+  if (!urlPath) {
+    return urlPath;
+  }
+
+  try {
+    let pageConfigPath = urlPath;
+    let root = rootUrl;
+
+    pageConfigPath = pageConfigPath.split('/').filter(Boolean);
+
+    if (root) {
+      root = root.split('/').filter(Boolean);
+
+      pageConfigPath = pageConfigPath.reduce((acc, _, index) => {
+        if (pageConfigPath[index] !== root[index]) {
+          acc.push(pageConfigPath[index]);
+        }
+        return acc;
+      }, []);
+    }
+
+    pageConfigPath = pageConfigPath.join('/');
+
+    // change path/0/name to path/:index/name
+    // change path/0 to path/:index
+    // keep path/name as path/name
+    return pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
+  } catch {
+    return urlPath;
+  }
 }

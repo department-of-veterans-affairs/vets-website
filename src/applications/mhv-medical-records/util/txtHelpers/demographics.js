@@ -48,7 +48,6 @@ ${records
 
       return `
 VA Facility: ${record.facility || 'Unknown Facility'}
-titleMoveDownAmount: 0.5,
 ${demographicsContent}
       `;
     })

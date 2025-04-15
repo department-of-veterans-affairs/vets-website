@@ -41,7 +41,7 @@ const mailInfo = (address, officeName, faxNum, preamble, appType) => {
   const faxNumMarkup = (
     <VaTelephone
       contact={JSON.stringify({
-        phoneNumber: faxNum ?? '3033317809',
+        phoneNumber: faxNum ?? '3033317807',
         description: 'fax number',
       })}
     />
@@ -259,7 +259,7 @@ export default function MissingFileOverview({
   // Update sponsor to identify missing uploads
   const sponsorConditionalPages = getConditionalPages(pages, data);
   const sponsorMiss = {
-    name: data?.[nonListNameKey || 'veteransFullName'],
+    [nonListNameKey ?? 'name']: data?.[nonListNameKey || 'veteransFullName'],
     missingUploads: checkFlags(
       sponsorConditionalPages,
       data,

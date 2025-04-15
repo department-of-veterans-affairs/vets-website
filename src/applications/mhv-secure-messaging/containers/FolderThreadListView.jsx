@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   focusElement,
   waitForRenderThenFocus,
@@ -12,7 +13,6 @@ import {
   Alerts,
   Paths,
   threadSortingOptions,
-  PageTitles,
   THREADS_PER_PAGE_DEFAULT,
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
@@ -21,10 +21,15 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
+import Footer from '../components/Footer';
 import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase, scrollTo } from '../util/helpers';
+import {
+  convertPathNameToTitleCase,
+  scrollTo,
+  getPageTitle,
+} from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -49,6 +54,12 @@ const FolderThreadListView = props => {
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
+  );
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
   );
 
   const displayingNumberOfThreadsSelector =
@@ -136,7 +147,11 @@ const FolderThreadListView = props => {
     () => {
       if (folderId !== (null || undefined)) {
         if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-          updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+          const pageTitleTag = getPageTitle({
+            removeLandingPageFF,
+            folderName: folder.name,
+          });
+          updatePageTitle(pageTitleTag);
         }
         if (folderId !== threadSort?.folderId) {
           let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
@@ -221,7 +236,7 @@ const FolderThreadListView = props => {
                 </div>
               )}
 
-            <div className="vads-u-margin-top--3">
+            <div className="vads-u-margin-y--3">
               <va-alert
                 background-only="true"
                 status="info"
@@ -303,6 +318,7 @@ const FolderThreadListView = props => {
             />
 
             {content}
+            <Footer />
           </>
         )}
       </div>

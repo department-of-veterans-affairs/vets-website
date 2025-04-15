@@ -16,6 +16,7 @@ describe('Veteran Identification page', () => {
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
+    form: { data: {} },
   });
 
   it('should render', () => {
@@ -32,5 +33,10 @@ describe('Veteran Identification page', () => {
     );
 
     expect(container.querySelector('button[type="submit"]')).to.exist;
+  });
+
+  it('should have proper max lengths in schema', () => {
+    expect(schema.properties.veteranVAFileNumber.maxLength).to.equal(9);
+    expect(schema.properties.veteranServiceNumber.maxLength).to.equal(9);
   });
 });

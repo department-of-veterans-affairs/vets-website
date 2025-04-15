@@ -18,11 +18,17 @@ describe('MHV Signin CTA', () => {
             loa: {
               current: null,
             },
+            loading: false,
+            mhvAccount: {
+              loading: false,
+            },
           },
         },
       };
       const result = mapStateToProps(state);
       expect(result.userIsLoggedIn).to.eql(false);
+      expect(result.profileLoading).to.eql(false);
+      expect(result.mhvAccountLoading).to.eql(false);
     });
 
     it('user logged in', () => {
@@ -38,6 +44,10 @@ describe('MHV Signin CTA', () => {
             signIn: {
               serviceName: CSP_IDS.ID_ME,
             },
+            loading: true,
+            mhvAccount: {
+              loading: true,
+            },
           },
         },
       };
@@ -45,6 +55,8 @@ describe('MHV Signin CTA', () => {
       expect(result.userIsLoggedIn).to.eql(true);
       expect(result.serviceName).to.eql(CSP_IDS.ID_ME);
       expect(result.userIsVerified).to.eql(true);
+      expect(result.profileLoading).to.eql(true);
+      expect(result.mhvAccountLoading).to.eql(true);
     });
   });
 
@@ -52,6 +64,7 @@ describe('MHV Signin CTA', () => {
     const mockStore = configureStore([]);
     const serviceDescription = 'order supplies';
     const linkText = 'order medical supplies';
+    const defaultLinkText = 'Order hearing aid and CPAP supplies online';
 
     /**
      * Creates an HTML Collection with a div and a link.
@@ -105,7 +118,7 @@ describe('MHV Signin CTA', () => {
       expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
     });
 
-    it('verified user', async () => {
+    it('verified user with noAlertContent', async () => {
       const { queryByTestId, queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
@@ -120,6 +133,53 @@ describe('MHV Signin CTA', () => {
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
       expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
+    });
+
+    it('verified user without noAlertContent', async () => {
+      const { container, queryByTestId, queryByRole } = render(
+        <Provider store={mockStore()}>
+          <MhvSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn
+            userIsVerified
+            serviceName={CSP_IDS.ID_ME}
+          />
+        </Provider>,
+      );
+      expect(queryByTestId('mhv-unverified-alert')).to.be.null;
+      expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
+      expect(
+        container.querySelector(`va-link-action[text="${defaultLinkText}"]`),
+      ).to.exist;
+    });
+
+    it('renders mhvAccount is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading
+            profileLoading={false}
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
+    });
+
+    it('renders profile is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading={false}
+            profileLoading
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
     });
   });
 });

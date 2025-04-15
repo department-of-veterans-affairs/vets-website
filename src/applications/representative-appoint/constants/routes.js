@@ -4,6 +4,7 @@ export const ROUTES = Object.freeze({
   REPRESENTATIVE_SELECT: 'representative-select',
   REPRESENTATIVE_CONTACT: 'representative-contact',
   REPRESENTATIVE_ORGANIZATION: 'representative-organization',
+  REPRESENTATIVE_SUBMISSION_METHOD: 'representative-submission-method',
   CLAIMANT_RELATIONSHIP: 'claimant-relationship',
   CLAIMANT_PERSONAL_INFORMATION: 'claimant-personal-information',
   CLAIMANT_CONTACT_MAILING: 'claimant-contact-mailing',

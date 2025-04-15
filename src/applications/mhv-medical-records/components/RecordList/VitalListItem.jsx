@@ -5,13 +5,14 @@ import { kebabCase } from 'lodash';
 
 import { vitalTypeDisplayNames } from '../../util/constants';
 import {
-  formatDateInLocalTimezone,
+  dateFormatWithoutTime,
+  formatDate,
   sendDataDogAction,
 } from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
-  const { isAccelerating } = options;
+  const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
   const ddLabelName = useMemo(
@@ -60,6 +61,10 @@ const VitalListItem = props => {
     },
     [updatedRecordType, isAccelerating],
   );
+
+  const url = `/vitals/${kebabCase(updatedRecordType)}-history${
+    isAccelerating ? `?timeFrame=${timeFrame}` : ''
+  }`;
 
   return (
     <va-card
@@ -110,13 +115,13 @@ const VitalListItem = props => {
             <span className="vads-u-font-weight--bold">Date: </span>
             <span data-testid={dataTestIds.dateTimestamp}>
               {isAccelerating
-                ? formatDateInLocalTimezone(record.effectiveDateTime)
-                : record.date}
+                ? formatDate(record.effectiveDateTime)
+                : dateFormatWithoutTime(record.date)}
             </span>
           </div>
 
           <Link
-            to={`/vitals/${kebabCase(updatedRecordType)}-history`}
+            to={url}
             className="vads-u-line-height--4"
             data-testid={dataTestIds.reviewLink}
             onClick={() => {

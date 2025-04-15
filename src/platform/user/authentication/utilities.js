@@ -152,8 +152,10 @@ export const createExternalApplicationUrl = () => {
       URL = sanitizeOracleHealth({ application });
       break;
     case EXTERNAL_APPS.ARP:
+      URL = sanitizeUrl(externalRedirectUrl, to);
+      break;
     case EXTERNAL_APPS.SMHD:
-      URL = sanitizeUrl(`${externalRedirectUrl}`);
+      URL = `${sanitizeUrl(`${externalRedirectUrl}`)}/`;
       break;
     default:
       break;
@@ -193,6 +195,9 @@ export const createAndStoreReturnUrl = () => {
     }
     // If we are not on the USiP, we should always return the user back to their current location
     returnUrl = window.location.toString();
+  }
+  if (window.location.pathname === '/verify/') {
+    returnUrl = '/my-va';
   }
 
   sessionStorage.setItem(
@@ -242,9 +247,12 @@ export function sessionTypeUrl({
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    allowVerification ||
-    forceVerify === 'required' ||
-    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
+    type !== POLICY_TYPES.SLO &&
+    (allowVerification ||
+      forceVerify === 'required' ||
+      (externalRedirect &&
+        (isLogin || isSignup) &&
+        config.requiresVerification))
       ? '_verified'
       : '';
 

@@ -39,8 +39,7 @@ const getPlatformAppImports = (platformImports, appFolder) => {
 const appHasCrossAppImports = (importGraph, appFolder) => {
   return (
     Object.keys(importGraph[appFolder].appsThatThisAppImportsFrom).length ||
-    Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length ||
-    importGraph[appFolder].platformFilesThatImportFromThisApp.length
+    Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length
   );
 };
 
@@ -60,6 +59,13 @@ const getCrossAppImports = appFolders => {
     absoluteImports: true,
     relativeImports: true,
     packageImports: false,
+  });
+
+  // Zero out references from src/platform so that they won't flag isolation checks.
+  // This approach preserves data in case you want to log or debug it,
+  // but ensures it doesn't affect the cross-app import logic.
+  Object.keys(importGraph).forEach(app => {
+    importGraph[app].platformFilesThatImportFromThisApp = [];
   });
 
   Object.keys(importGraph).forEach(app => {

@@ -15,13 +15,12 @@ import { VIEW_FIELD_SCHEMA } from 'applications/_mock-form-ae-design-patterns/ut
 import { ContactInformationInfoSection } from '../components/ContactInfo';
 import VeteranProfileInformation from '../components/VeteranProfileInformation';
 import IntroductionPage from '../containers/IntroductionPage';
-import manifest from '../manifest.json';
 import { definitions } from './schemaImports';
 import profileContactInfo from './profileContactInfo';
 import ReviewPage from '../../pages/ReviewPage';
 
 const formConfig = {
-  rootUrl: manifest.rootUrl,
+  rootUrl: '/mock-form-ae-design-patterns',
   urlPrefix: '/2/task-gray/',
   // submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
   // transformForSubmit: customCOEsubmit,

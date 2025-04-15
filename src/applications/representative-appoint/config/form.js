@@ -1,18 +1,16 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+
+import GetFormHelp from '../components/GetFormHelp';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { generatePDF } from '../api/generatePDF';
+import { submitPOARequest } from '../api/submitPOARequest';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import {
-  preparerIsVeteran,
-  isAttorneyOrClaimsAgent,
-} from '../utilities/helpers';
-
+import { preparerIsVeteran, formIs2122A } from '../utilities/helpers';
 import {
   authorizeMedical,
   authorizeMedicalSelect,
@@ -26,6 +24,7 @@ import {
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
+  veteranContactPhoneEmailClaimant,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -34,18 +33,20 @@ import {
   replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
+  representativeSubmissionMethod,
 } from '../pages';
 
-import initialData from '../tests/fixtures/data/test-data.json';
+// import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 import SelectAccreditedRepresentative from '../components/SelectAccreditedRepresentative';
 import SelectedAccreditedRepresentativeReview from '../components/SelectAccreditedRepresentativeReview';
 import ContactAccreditedRepresentative from '../components/ContactAccreditedRepresentative';
 import SelectOrganization from '../components/SelectOrganization';
+import RepresentativeSubmissionMethod from '../components/RepresentativeSubmissionMethod';
 
 import SubmissionError from '../components/SubmissionError';
 
-const mockData = initialData;
+// const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -61,11 +62,17 @@ const formConfig = {
   submit: async form => {
     await generatePDF(form.data);
 
-    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
+    if (form.data.representativeSubmissionMethod === 'digital') {
+      await submitPOARequest(form.data);
+    }
+
+    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } }); // I'm not sure what this confirmation number is about
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   formId: '21-22',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
@@ -135,29 +142,26 @@ const formConfig = {
           uiSchema: contactAccreditedRepresentative.uiSchema,
           schema: contactAccreditedRepresentative.schema,
         },
+        RepresentativeSubmissionMethod: {
+          title: 'Representative Submission Method',
+          path: 'representative-submission-method',
+          CustomPage: RepresentativeSubmissionMethod,
+          depends: formData =>
+            representativeSubmissionMethod.pageDepends(formData),
+          uiSchema: representativeSubmissionMethod.uiSchema,
+          schema: representativeSubmissionMethod.schema,
+        },
         selectAccreditedOrganization: {
           path: 'representative-organization',
           title: 'Organization Select',
           hideOnReview: true,
           CustomPage: SelectOrganization,
           depends: formData =>
-            !!formData['view:selectedRepresentative'] &&
-            ['representative', 'veteran_service_officer'].includes(
-              formData['view:selectedRepresentative'].attributes
-                ?.individualType,
-            ) &&
-            formData['view:selectedRepresentative'].attributes
-              ?.accreditedOrganizations?.data?.length > 1,
+            selectedAccreditedOrganizationId.pageDepends(formData),
           uiSchema: selectedAccreditedOrganizationId.uiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              selectedAccreditedOrganizationId: {
-                type: 'string',
-              },
-            },
-          },
+          schema: selectedAccreditedOrganizationId.schema,
         },
+
         replaceAccreditedRepresentative: {
           title: 'Representative Replace',
           path: 'representative-replace',
@@ -183,11 +187,11 @@ const formConfig = {
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
           depends: formData => !preparerIsVeteran({ formData }),
-          initialData:
-            /* istanbul ignore next */
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          // initialData:
+          //   /* istanbul ignore next */
+          //   !!mockData && environment.isLocalhost() && !window.Cypress
+          //     ? mockData
+          //     : undefined,
           title: 'Your Personal Information',
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
@@ -206,7 +210,6 @@ const formConfig = {
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
         },
-
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
           path: 'veteran-personal-information',
@@ -223,7 +226,7 @@ const formConfig = {
         },
         veteranContactPhoneEmail: {
           path: 'veteran-contact-phone-email',
-          title: `Your phone number and email address`,
+          title: 'Your phone number and email address',
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
@@ -239,10 +242,7 @@ const formConfig = {
           path: 'veteran-service-information',
           title: `Your service information`,
           depends: formData => {
-            return (
-              isAttorneyOrClaimsAgent(formData) &&
-              preparerIsVeteran({ formData })
-            );
+            return formIs2122A(formData) && preparerIsVeteran({ formData });
           },
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
@@ -267,12 +267,12 @@ const formConfig = {
           uiSchema: veteranContactMailingClaimant.uiSchema,
           schema: veteranContactMailingClaimant.schema,
         },
-        veteranContactPhoneEmail: {
-          path: 'veteran-contact-phone-email',
-          title: `Veteran's phone number and email address`,
+        veteranContactPhoneEmailClaimant: {
+          path: 'veteran-contact-phone-email-claimant',
+          title: "Veteran's phone number and email address",
           depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactPhoneEmail.uiSchema,
-          schema: veteranContactPhoneEmail.schema,
+          uiSchema: veteranContactPhoneEmailClaimant.uiSchema,
+          schema: veteranContactPhoneEmailClaimant.schema,
         },
         veteranIdentification: {
           path: 'veteran-identification',
@@ -285,10 +285,7 @@ const formConfig = {
           path: 'veteran-service-information',
           title: `Veteran's service information`,
           depends: formData => {
-            return (
-              isAttorneyOrClaimsAgent(formData) &&
-              !preparerIsVeteran({ formData })
-            );
+            return formIs2122A(formData) && !preparerIsVeteran({ formData });
           },
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
@@ -325,7 +322,7 @@ const formConfig = {
         authorizeInsideVA: {
           path: 'authorize-inside-va',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return formIs2122A(formData);
           },
           title: 'Authorization for Access Inside VA Systems',
           uiSchema: authorizeInsideVA.uiSchema,
@@ -334,7 +331,7 @@ const formConfig = {
         authorizeOutsideVA: {
           path: 'authorize-outside-va',
           depends: formData => {
-            return isAttorneyOrClaimsAgent(formData);
+            return formIs2122A(formData);
           },
           title: 'Authorization for Access Outside VA Systems',
           uiSchema: authorizeOutsideVA.uiSchema,
@@ -344,7 +341,7 @@ const formConfig = {
           path: 'authorize-outside-va/names',
           depends: formData => {
             return (
-              isAttorneyOrClaimsAgent(formData) &&
+              formIs2122A(formData) &&
               formData.authorizeOutsideVARadio === 'Yes'
             );
           },

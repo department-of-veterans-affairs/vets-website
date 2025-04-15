@@ -91,7 +91,7 @@ export default {
   },
   [EXTERNAL_APPS.ARP]: {
     allowedSignInProviders: {
-      idme: true,
+      idme: false,
       logingov: true,
     },
     legacySignInProviders: {
@@ -129,7 +129,7 @@ export default {
     },
     oAuthOptions: defaultMobileOAuthOptions,
     OAuthEnabled: false,
-    requiresVerification: true,
+    requiresVerification: false,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD],
   },
 };

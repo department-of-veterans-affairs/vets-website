@@ -50,51 +50,30 @@ export const getEligibleContestableIssues = issues => {
   return processContestableIssues(result);
 };
 
-/**
- * Are there any legacy appeals in the API, or did the Veteran manually add an
- * issue of unknown legacy status?
- * @param {Number} legacyCount - legacy appeal array size
- * @returns {Boolean}
- */
-export const mayHaveLegacyAppeals = ({
-  legacyCount = 0,
-  additionalIssues,
-} = {}) => legacyCount > 0 || additionalIssues?.length > 0;
-
-export const showNewHlrContent = formData => !!formData.hlrUpdatedContent;
-export const hideNewHlrContent = formData => !formData.hlrUpdatedContent;
-
 export const showConferenceContact = formData =>
-  showNewHlrContent(formData) && formData.informalConferenceChoice === 'yes';
+  formData.informalConferenceChoice === 'yes';
 export const showConferenceVeteranPage = formData =>
-  (showNewHlrContent(formData) &&
-    formData.informalConferenceChoice === 'yes' &&
-    formData.informalConference === 'me') ||
-  (hideNewHlrContent(formData) && formData.informalConference === 'me');
+  formData.informalConferenceChoice === 'yes' &&
+  formData.informalConference === 'me';
 export const showConferenceRepPages = formData =>
-  (showNewHlrContent(formData) &&
-    formData.informalConferenceChoice === 'yes' &&
-    formData.informalConference === 'rep') ||
-  (hideNewHlrContent(formData) && formData.informalConference === 'rep');
+  formData.informalConferenceChoice === 'yes' &&
+  formData.informalConference === 'rep';
 
 export const checkNeedsFormDataUpdate = props => {
   const { formData } = props;
-  const showNewContent = showNewHlrContent(formData);
   const confContact = formData.informalConference;
 
   let confYesNo = formData.informalConferenceChoice;
 
   // *** Convert old informalConference data to new split values; not using a
   // migration because this is behind a feature toggle
-  if (showNewContent) {
-    if (confYesNo === 'no' || confContact === 'no') {
-      confYesNo = 'no';
-    } else if (confYesNo === 'yes' || ['me', 'rep'].includes(confContact)) {
-      confYesNo = 'yes';
-    }
-    formData.informalConferenceChoice = confYesNo;
-    formData.informalConference = confContact;
+  if (confYesNo === 'no' || confContact === 'no') {
+    confYesNo = 'no';
+  } else if (confYesNo === 'yes' || ['me', 'rep'].includes(confContact)) {
+    confYesNo = 'yes';
   }
+  formData.informalConferenceChoice = confYesNo;
+  formData.informalConference = confContact;
 };
 
 /**
@@ -110,17 +89,13 @@ export const checkNeedsRedirect = props => {
   const { formData, routes, router } = props;
   let { returnUrl } = props;
 
-  const showNewContent = showNewHlrContent(formData);
   const socOptIn = '/opt-in';
   const socAuth = '/authorization';
 
   // *** Check feature for showing new HLR content & check the return URL
   // "/authorization" will replace "/opt-in" path
-  if (showNewContent && props.returnUrl === socOptIn) {
+  if (props.returnUrl === socOptIn) {
     returnUrl = socAuth;
-  } else if (!showNewContent && props.returnUrl === socAuth) {
-    // return to opt in page if toggle is disabled
-    returnUrl = socOptIn;
   }
 
   // Check valid return URL; copied from RoutedSavableApp

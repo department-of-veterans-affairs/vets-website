@@ -5,18 +5,6 @@ import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
 
-const medicalRecordsLink = {
-  title: 'Records',
-  actionName: `${actionPrefix} - Records`,
-  icon: 'note_add',
-  href: `/my-health/medical-records`,
-};
-
-const transitionalMedicalRecordsLink = {
-  ...medicalRecordsLink,
-  href: '/my-health/records',
-};
-
 /**
  * MHV secondary navigation items. Note the first item is the home link.
  */
@@ -40,6 +28,7 @@ export const mhvSecNavItems = [
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
     href: `/my-health/secure-messages`,
+    appRootUrl: '/my-health/secure-messages',
   },
   {
     title: 'Medications',
@@ -49,6 +38,12 @@ export const mhvSecNavItems = [
     href: '/my-health/medications/about',
     appRootUrl: '/my-health/medications',
   },
+  {
+    title: 'Records',
+    actionName: `${actionPrefix} - Records`,
+    icon: 'note_add',
+    href: `/my-health/medical-records`,
+  },
 ];
 
 /**
@@ -56,23 +51,33 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  const items = [...mhvSecNavItems];
   const {
     loading = true,
-    mhvTransitionalMedicalRecordsLandingPage = false,
-    mhvIntegrationMedicalRecordsToPhase1 = false,
+    mhvMedicationsRemoveLandingPage = false,
+    mhvSecureMessagingRemoveLandingPage = false,
   } = useSelector(toggleValuesSelector);
 
-  if (
-    mhvTransitionalMedicalRecordsLandingPage &&
-    !mhvIntegrationMedicalRecordsToPhase1
-  ) {
-    items.push(transitionalMedicalRecordsLink);
-  } else {
-    items.push(medicalRecordsLink);
-  }
+  const updatedNavItems = mhvSecNavItems.map(item => {
+    // Current URL: /my-health/secure-messages
+    // Replace with milestone1 URL: /my-health/secure-messages/inbox
+    if (
+      mhvSecureMessagingRemoveLandingPage &&
+      item.href === '/my-health/secure-messages'
+    ) {
+      return { ...item, href: '/my-health/secure-messages/inbox' };
+    }
+    // Current URL: /my-health/medications/about
+    // Replace with milestone1 URL: /my-health/medications
+    if (
+      mhvMedicationsRemoveLandingPage &&
+      item.href === '/my-health/medications/about'
+    ) {
+      return { ...item, href: '/my-health/medications' };
+    }
+    return item;
+  });
 
-  return <MhvSecondaryNavMenu items={items} loading={loading} />;
+  return <MhvSecondaryNavMenu items={updatedNavItems} loading={loading} />;
 };
 
 export default MhvSecondaryNav;

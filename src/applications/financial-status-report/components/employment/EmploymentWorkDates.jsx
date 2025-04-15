@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import PropTypes from 'prop-types';
-import ButtonGroup from '../shared/ButtonGroup';
+
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { isValidStartDate, isValidEndDate } from '../../utils/helpers';
 import {
   getJobIndex,
   getJobButton,
   jobButtonConstants,
 } from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
-import { isValidStartDate, isValidEndDate } from '../../utils/helpers';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const EmploymentWorkDates = props => {
   const { goToPath, setFormData, data } = props;
@@ -19,9 +20,7 @@ const EmploymentWorkDates = props => {
   const RETURN_PATH = '/enhanced-employment-records';
 
   const editIndex = getJobIndex();
-
   const isEditing = editIndex && !Number.isNaN(editIndex);
-
   const index = isEditing ? Number(editIndex) : 0;
 
   const userType = 'veteran';
@@ -35,65 +34,75 @@ const EmploymentWorkDates = props => {
     },
   } = data;
 
-  const [employmentRecord, setEmploymentRecord] = useState({
-    ...(isEditing ? employmentRecords[index] : newRecord),
-  });
+  const [employmentRecord, setEmploymentRecord] = useState(
+    isEditing ? employmentRecords[index] : newRecord,
+  );
 
   const { employerName = '', from, to } = employmentRecord;
 
+  // Parse the 'from' and 'to' into { month, year } for VaDate
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
 
-  const fromError = 'Please enter a valid employment start date.';
-  const toError = 'Please enter a valid employment end date.';
+  const fromErrorMessage = 'Please enter a valid employment start date.';
+  const toErrorMessage = 'Please enter a valid employment end date.';
 
-  const [toDateError, setToDateError] = useState(null);
   const [fromDateError, setFromDateError] = useState(null);
+  const [toDateError, setToDateError] = useState(null);
+
+  const handleChange = (key, value) => {
+    setEmploymentRecord(prev => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const updateFormData = () => {
+    const { from: startDate, to: endDate, isCurrent } = employmentRecord;
+
+    // If start date or end date is invalid, set errors and stop
     if (
-      !isValidStartDate(employmentRecord.from) ||
-      (!isValidEndDate(employmentRecord.from, employmentRecord.to) &&
-        !employmentRecord.isCurrent)
+      !isValidStartDate(startDate) ||
+      (!isCurrent && !isValidEndDate(startDate, endDate))
     ) {
+      setFromDateError(!isValidStartDate(startDate) ? fromErrorMessage : null);
       setToDateError(
-        isValidEndDate(employmentRecord.from, employmentRecord.to)
-          ? null
-          : toError,
-      );
-      setFromDateError(
-        isValidStartDate(employmentRecord.from) ? null : fromError,
+        !isCurrent && !isValidEndDate(startDate, endDate)
+          ? toErrorMessage
+          : null,
       );
       return null;
     }
 
+    // Past this point, we know the date(s) are valid
     if (isEditing) {
-      // find the one we are editing in the employeeRecords array
-      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
-        return arrayIndex === index ? employmentRecord : item;
-      });
-      // update form data
+      const updatedRecords = employmentRecords.map(
+        (item, idx) => (idx === index ? employmentRecord : item),
+      );
+
       setFormData({
         ...data,
         personalData: {
           ...data.personalData,
           employmentHistory: {
             ...data.personalData.employmentHistory,
-            [`${userType}`]: {
-              ...data.personalData.employmentHistory[`${userType}`],
+            [userType]: {
+              ...data.personalData.employmentHistory[userType],
               employmentRecords: updatedRecords,
             },
           },
         },
       });
-      if (employmentRecord.isCurrent) {
-        return goToPath(`/gross-monthly-income`);
-      }
-      return goToPath(`/employment-history`);
+
+      // If current job, go to gross monthly income; else go back
+      return employmentRecord.isCurrent
+        ? goToPath(`/gross-monthly-income`)
+        : goToPath(`/employment-history`);
     }
 
-    // we are not editing a record, so we are adding a new one
+    // Otherwise, adding a brand new record
     if (employmentRecord.isCurrent) {
+      // Store new record for “current job”
       setFormData({
         ...data,
         personalData: {
@@ -107,6 +116,7 @@ const EmploymentWorkDates = props => {
       return goToPath(`/gross-monthly-income`);
     }
 
+    // Store record in array + reset newRecord
     setFormData({
       ...data,
       personalData: {
@@ -114,9 +124,9 @@ const EmploymentWorkDates = props => {
         employmentHistory: {
           ...data.personalData.employmentHistory,
           newRecord: { ...BASE_EMPLOYMENT_RECORD },
-          [`${userType}`]: {
-            ...data.personalData.employmentHistory[`${userType}`],
-            employmentRecords: [{ ...employmentRecord }, ...employmentRecords],
+          [userType]: {
+            ...data.personalData.employmentHistory[userType],
+            employmentRecords: [employmentRecord, ...employmentRecords],
           },
         },
       },
@@ -124,90 +134,75 @@ const EmploymentWorkDates = props => {
     return goToPath(`/employment-history`);
   };
 
-  const handleChange = (key, value) => {
-    setEmploymentRecord({
-      ...employmentRecord,
-      [key]: value,
-    });
-  };
-
   const handlers = {
     onCancel: event => {
       event.preventDefault();
       goToPath(RETURN_PATH);
     },
-    handleDateChange: (key, monthYear) => {
-      const dateString = `${monthYear}-XX`;
+    handleDateChange: (key, rawMonthYear) => {
+      const dateString = `${rawMonthYear}-01`;
       handleChange(key, dateString);
-    },
-    handleBack: event => {
-      event.preventDefault();
-      goToPath(RETURN_PATH);
+      if (key === 'from') {
+        if (!isValidStartDate(dateString)) {
+          setFromDateError(fromErrorMessage);
+        } else {
+          setFromDateError(null);
+        }
+      }
+      if (key === 'to') {
+        if (
+          !isValidEndDate(employmentRecord.from, dateString) &&
+          !employmentRecord.isCurrent
+        ) {
+          setToDateError(toErrorMessage);
+        } else {
+          setToDateError(null);
+        }
+      }
     },
     onUpdate: event => {
-      // Handle validation in update
       event.preventDefault();
       updateFormData();
     },
     getContinueButtonText: () => {
-      if (
-        employmentRecord.isCurrent ||
-        getJobButton() === jobButtonConstants.FIRST_JOB
-      ) {
+      const btn = getJobButton();
+      if (employmentRecord.isCurrent || btn === jobButtonConstants.FIRST_JOB) {
         return 'Continue';
       }
-
-      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+      if (btn === jobButtonConstants.EDIT_JOB) {
         return 'Update employment record';
       }
       return 'Add employment record';
     },
   };
 
-  const ShowWorkDates = () => {
-    return (
-      <div className="vads-u-margin-top--3">
+  /**
+   * Render the date fields. Note how we pass `onDateChange` to do immediate checks.
+   */
+  const ShowWorkDates = () => (
+    <div className="vads-u-margin-top--3">
+      <VaDate
+        monthYearOnly
+        value={`${fromYear}-${fromMonth}`} // e.g., "2021-01"
+        label="Date you started work at this job?"
+        name="from"
+        required
+        onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+        error={fromDateError}
+      />
+      {!employmentRecord.isCurrent && (
         <VaDate
           monthYearOnly
-          value={`${fromYear}-${fromMonth}`}
-          label="Date you started work at this job?"
-          name="from"
-          onDateChange={e => {
-            setFromDateError(null);
-            handlers.handleDateChange('from', e.target.value);
-          }}
-          onBlur={() =>
-            setFromDateError(
-              isValidStartDate(employmentRecord.from) ? null : fromError,
-            )
-          }
+          value={`${toYear}-${toMonth}`}
+          label="Date you stopped work at this job?"
+          name="to"
           required
-          error={fromDateError}
+          onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+          error={toDateError}
         />
-        {!employmentRecord.isCurrent ? (
-          <VaDate
-            monthYearOnly
-            value={`${toYear}-${toMonth}`}
-            label="Date you stopped work at this job?"
-            name="to"
-            onDateChange={e => {
-              setToDateError(null);
-              handlers.handleDateChange('to', e.target.value);
-            }}
-            onBlur={() =>
-              setToDateError(
-                isValidEndDate(employmentRecord.from, employmentRecord.to)
-                  ? null
-                  : toError,
-              )
-            }
-            required
-            error={toDateError}
-          />
-        ) : null}
-      </div>
-    );
-  };
+      )}
+    </div>
+  );
 
   return (
     <form>
@@ -215,7 +210,7 @@ const EmploymentWorkDates = props => {
         <legend className="schemaform-block-title">
           Your job at {employerName}
         </legend>
-        <div>{ShowWorkDates()}</div>
+        {ShowWorkDates()}
         <ButtonGroup
           buttons={[
             {
@@ -234,22 +229,6 @@ const EmploymentWorkDates = props => {
     </form>
   );
 };
-
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
-  };
-};
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EmploymentWorkDates);
 
 EmploymentWorkDates.propTypes = {
   data: PropTypes.shape({
@@ -283,3 +262,17 @@ EmploymentWorkDates.propTypes = {
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = ({ form }) => ({
+  formData: form.data,
+  employmentHistory: form.data.personalData.employmentHistory,
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EmploymentWorkDates);

@@ -10,10 +10,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import {
-  pdfDefaultStatusDefinition,
-  DOWNLOAD_FORMAT,
-} from '../../util/constants';
+import { DOWNLOAD_FORMAT, EMPTY_FIELD } from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -29,9 +26,7 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
-    expect(pdfList[0].sections[0].items[2].value).to.equal(
-      pdfDefaultStatusDefinition,
-    );
+    expect(pdfList[0].sections[0].items[2].value).to.equal(EMPTY_FIELD);
   });
 });
 
@@ -43,14 +38,14 @@ describe('Allergies List Config', () => {
 });
 
 describe('VA prescription Config', () => {
-  it('should create "About your prescription" section', () => {
+  it('should create "Most recent prescription" section', () => {
     const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails);
-    expect(pdfGen[0].header).to.equal('About your prescription');
+    expect(pdfGen[0].header).to.equal('Most recent prescription');
   });
 
-  it('should create "About this medication or supply" section', () => {
+  it('should create "Refill history" section', () => {
     const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails);
-    expect(pdfGen[1].header).to.equal('About this medication or supply');
+    expect(pdfGen[1].header).to.equal('Refill history');
   });
 
   it('should handle single name provider', () => {
@@ -58,7 +53,7 @@ describe('VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[7].value).to.equal('test, ');
+    expect(pdfList[0].sections[0].items[12].value).to.equal('test, ');
   });
 });
 

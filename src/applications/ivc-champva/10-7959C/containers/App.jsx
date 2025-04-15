@@ -20,15 +20,20 @@ const breadcrumbList = [
   },
   {
     href: `/family-and-caregiver-benefits/health-and-disability/`,
-    label: `Health and disability`,
+    label: `Health and disability benefits for family and caregivers`,
   },
   {
     href: `/family-and-caregiver-benefits/health-and-disability/champva`,
     label: `CHAMPVA benefits`,
   },
+  {
+    href: `#content`,
+    label: formConfig.title,
+  },
 ];
 
 export default function App({ location, children }) {
+  document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
@@ -37,17 +42,21 @@ export default function App({ location, children }) {
       ['va-memorable-date'],
       '#dateHint {display: none}',
     );
+    breadcrumbList.slice(-1).label = document.querySelector('h1');
   });
 
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959c}>
         <Toggler.Enabled>
-          <VaBreadcrumbs breadcrumbList={breadcrumbList} />
+          <VaBreadcrumbs wrapping breadcrumbList={breadcrumbList} />
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[externalServices.pega]}
+              dependencies={[
+                externalServices.pega,
+                externalServices.form107959c,
+              ]}
             >
               {children}
             </DowntimeNotification>

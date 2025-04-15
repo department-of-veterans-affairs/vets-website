@@ -156,6 +156,7 @@ const AddressValidationRadio = props => {
       <div role="alert">
         <VaAlert
           className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
+          status="warning"
           visible={shouldShowSuggestions || noRecommendationsAvailable}
         >
           <h4
@@ -166,7 +167,7 @@ const AddressValidationRadio = props => {
             {shouldShowSuggestions
               ? `We can’t confirm the address you entered with the U.S. Postal
             Service`
-              : `Confirm you address`}
+              : `Confirm your address`}
           </h4>
           <p className="vads-u-margin-y--0">
             {shouldShowSuggestions

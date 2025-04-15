@@ -43,7 +43,7 @@ describe('check in', () => {
       expect(
         component.getByTestId('travel-pay-message-ineligible'),
       ).to.have.text(
-        'We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file within 30 days of the appointment.',
+        'We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file through the Beneficiary Travel Self Service System (BTSSS).',
       );
     });
     it('renders a generic api error message', () => {

@@ -121,7 +121,7 @@ function marriageTitle(text, subtitle) {
 
 const dateOfMarriageToSponsor = {
   ...currentOrPastDateUI({
-    title: 'Date of marriage to sponsor',
+    title: 'Date of marriage to the sponsor',
     errorMessages: {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of marriage',
@@ -144,7 +144,7 @@ export const marriageDatesSchema = {
       'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': marriageTitle(
-          ' date of marriage to sponsor',
+          ' date of marriage to the sponsor',
           'If you don’t know the exact date, enter your best guess',
         ),
         dateOfMarriageToSponsor,

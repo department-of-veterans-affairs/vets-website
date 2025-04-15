@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
-import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
+import { useIsInCCPilot } from '../hooks/useIsInCCPilot';
 import { routeToNextReferralPage } from '../flow';
 import { selectCurrentPage } from '../redux/selectors';
 
@@ -21,12 +21,9 @@ function ReferralAppLinkComponent({ linkText, id }) {
       routeToNextReferralPage(history, currentPage, id);
     };
   };
+  const { isInCCPilot } = useIsInCCPilot();
 
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
-
-  return featureCCDirectScheduling ? (
+  return isInCCPilot ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       className="vads-c-action-link--green vaos-hide-for-print"

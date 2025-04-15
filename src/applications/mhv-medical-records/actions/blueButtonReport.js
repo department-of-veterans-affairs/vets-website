@@ -1,3 +1,4 @@
+import { formatISO, subYears, addMonths } from 'date-fns';
 import {
   getLabsAndTests,
   getNotes,
@@ -14,13 +15,14 @@ import {
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 
-import {} from '../util/constants';
-
 export const clearFailedList = domain => dispatch => {
   dispatch({ type: Actions.BlueButtonReport.CLEAR_FAILED, payload: domain });
 };
 
-export const getBlueButtonReportData = (options = {}) => async dispatch => {
+export const getBlueButtonReportData = (
+  options = {},
+  dateFilter,
+) => async dispatch => {
   const fetchMap = {
     labsAndTests: getLabsAndTests,
     notes: getNotes,
@@ -38,15 +40,50 @@ export const getBlueButtonReportData = (options = {}) => async dispatch => {
 
   const promises = Object.entries(fetchMap)
     .filter(([key]) => options[key]) // Only include enabled fetches
-    .map(([key, fetchFn]) =>
-      fetchFn()
+    .map(([key, fetchFn]) => {
+      if (key === 'appointments') {
+        let fromDate;
+        let toDate;
+        const currentDate = new Date();
+        if (dateFilter.option === 'any') {
+          // Set fromDate to be two years in the past
+          const dateTwoYearsAgo = subYears(currentDate, 2);
+          // Set toDate to be 13 months in the future
+          const dateThirteenMonthsAhead = addMonths(currentDate, 13);
+          fromDate = formatISO(dateTwoYearsAgo);
+          toDate = formatISO(dateThirteenMonthsAhead);
+        } else {
+          // Use the provided dates but clamp them to allowed boundaries
+          let providedFromDate = new Date(dateFilter.fromDate);
+          let providedToDate = new Date(dateFilter.toDate);
+          const earliestAllowedFromDate = subYears(currentDate, 2);
+          const latestAllowedToDate = addMonths(currentDate, 13);
+          if (providedFromDate < earliestAllowedFromDate) {
+            providedFromDate = earliestAllowedFromDate;
+          }
+          if (providedToDate > latestAllowedToDate) {
+            providedToDate = latestAllowedToDate;
+          }
+          fromDate = formatISO(providedFromDate);
+          toDate = formatISO(providedToDate);
+        }
+
+        return fetchFn(fromDate, toDate)
+          .then(response => ({ key, response }))
+          .catch(error => {
+            const newError = new Error(error);
+            newError.key = key;
+            throw newError;
+          });
+      }
+      return fetchFn()
         .then(response => ({ key, response }))
         .catch(error => {
           const newError = new Error(error);
           newError.key = key;
           throw newError;
-        }),
-    );
+        });
+    });
 
   const results = await Promise.allSettled(promises);
 

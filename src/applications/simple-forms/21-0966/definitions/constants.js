@@ -13,3 +13,8 @@ export const veteranBenefits = {
 export const survivingDependentBenefits = {
   SURVIVOR: 'survivor',
 };
+
+export const submissionApis = {
+  BENEFITS_INTAKE: 'benefitsIntake', // benefits intake - async
+  INTENT_TO_FILE: 'intentToFile', // benefits claims - syncronous
+};

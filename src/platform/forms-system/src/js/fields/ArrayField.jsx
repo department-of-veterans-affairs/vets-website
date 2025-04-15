@@ -10,6 +10,7 @@ import {
 import {
   VaCard,
   VaModal,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { Element } from 'platform/utilities/scroll';
@@ -23,6 +24,7 @@ import {
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
+import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -343,6 +345,8 @@ export default class ArrayField extends React.Component {
     const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
     const { generateIndividualItemHeaders, useVaCards } = uiOptions;
+    const isMinimalHeader = isMinimalHeaderPath();
+    const Heading = isMinimalHeader ? 'h2' : 'h3';
 
     const modalPrimaryButtonText =
       uiOptions.modalPrimaryButtonText || `Yes, remove this ${uiItemName}`;
@@ -424,16 +428,16 @@ export default class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
-                        <h3 className="vads-u-font-size--h5">
+                        <Heading className="vads-u-font-size--h5">
                           New {uiItemName}
-                        </h3>
+                        </Heading>
                       ) : null}
                       {!isLast &&
                       multipleRows &&
                       generateIndividualItemHeaders ? (
-                        <h3 className="vads-u-font-size--h5">
+                        <Heading className="vads-u-font-size--h5">
                           {uiItemNameOriginal}
-                        </h3>
+                        </Heading>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -457,31 +461,28 @@ export default class ArrayField extends React.Component {
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {(!isLast || showSave) && (
-                              <button
-                                type="button"
+                              <VaButton
                                 className="float-left"
-                                aria-label={`${updateText} ${ariaItemName}`}
+                                label={`${updateText} ${ariaItemName}`}
                                 onClick={() => this.handleUpdate(index)}
-                              >
-                                {updateText}
-                              </button>
+                                text={updateText}
+                              />
                             )}
                           </div>
                           <div className="small-6 right columns">
                             {multipleRows && (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-right"
-                                aria-label={`Remove ${ariaItemName}`}
+                              <VaButton
+                                secondary
+                                className="float-right"
+                                label={`Remove ${ariaItemName}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
                                     uiOptions.confirmRemove,
                                   )
                                 }
-                              >
-                                Remove
-                              </button>
+                                text="Remove"
+                              />
                             )}
                           </div>
                         </div>
@@ -537,14 +538,12 @@ export default class ArrayField extends React.Component {
                       onEdit={() => this.handleEdit(index)}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${ariaItemName}`}
+                  <VaButton
+                    secondary
+                    label={`Edit ${ariaItemName}`}
                     onClick={() => this.handleEdit(index)}
-                  >
-                    Edit
-                  </button>
+                    text="Edit"
+                  />
                 </div>
               </CardOrDiv>
             );

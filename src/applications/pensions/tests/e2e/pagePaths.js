@@ -88,5 +88,4 @@ export default {
     formChapters.financialInformation.pages.hasMedicalExpenses.path,
   medicalExpenses: formChapters.financialInformation.pages.medicalExpenses.path,
   directDeposit: formChapters.additionalInformation.pages.directDeposit.path,
-  documentUpload: formChapters.additionalInformation.pages.documentUpload.path,
 };

@@ -13,6 +13,7 @@ import { parseAppointments } from './appointments';
 import { parseDemographics } from './demographics';
 import { parseMilitaryService } from './militaryService';
 import { parseAccountSummary } from './accountSummary';
+import { formatUserDob } from '../helpers';
 
 // TODO: figure out a way to reduce complexity of the functions in this file
 /**
@@ -21,7 +22,8 @@ import { parseAccountSummary } from './accountSummary';
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
-export const getTxtContent = (data, { userFullName, dob }) => {
+export const getTxtContent = (data, user, dateRange) => {
+  const { userFullName } = user;
   const sections = [
     {
       label: 'Labs and Tests',
@@ -64,10 +66,25 @@ export const getTxtContent = (data, { userFullName, dob }) => {
     },
   ];
 
-  const recordsSection = sections
+  const dateRangeText = `Date range: ${
+    dateRange.fromDate === 'any'
+      ? 'All time'
+      : `${dateRange.fromDate} to ${dateRange.toDate}`
+  }`;
+
+  const inReport = sections
     .filter(section => section.data)
-    .map((section, index) => `  ${index + 1}. ${section.label}`)
+    .map(section => `  • ${section.label}`)
     .join('\n');
+
+  const notInReportList = sections
+    .filter(section => !section.data)
+    .map(section => `  • ${section.label}`)
+    .join('\n');
+
+  const recordsSection = `Records in this report\n\n${dateRangeText}\n\n${inReport}${
+    notInReportList ? `\n\nRecords not in this report\n${notInReportList}` : ''
+  }`;
 
   const contentSection = sections
     .filter(section => section.data)
@@ -78,11 +95,11 @@ export const getTxtContent = (data, { userFullName, dob }) => {
     .join('\n\n');
 
   return `
-Blue Button report
+VA Blue Button® report
 
 This report includes key information from your VA medical records.
-${userFullName.last}, ${userFullName.first}\n
-Date of birth: ${dob}\n
+${userFullName.first} ${userFullName.last}\n
+Date of birth: ${formatUserDob(user)}\n
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.
@@ -96,6 +113,7 @@ Need help?
 ${txtLine}
 The following records have been downloaded:
 ${txtLineDotted}
+
 ${recordsSection}
 
 ${contentSection}

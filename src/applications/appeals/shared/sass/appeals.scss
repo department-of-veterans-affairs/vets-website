@@ -110,10 +110,23 @@ va-checkbox-group va-text-input[error]::part(label) {
   }
 }
 
+/* file upload with incorrect password and input error for missing password */
+.schemaform-file-error va-text-input[error] {
+  margin-left: -1.3rem;
+}
+
 article[data-location="review-and-submit"] {
   dd {
     word-break: break-word;
   }
+}
+
+/* Save in progress renders a div with a single br in it at the bottom of the
+ * introduction page when you have an in in progress form; without this CSS, an
+ * extra 56 pixels of whitespace is rendered below the process list
+ */
+.sip-wrapper br:only-child {
+  display: none;
 }
 
 @media screen and (max-width: $small-screen) {

@@ -4,14 +4,10 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 
 const ContactDMC = () => (
   <>
-    Call us at <VaTelephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
-    <VaTelephone
-      contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-      international
-      tty
-    />{' '}
-    from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-    If you have hearing loss, call (<VaTelephone contact={CONTACTS[711]} tty />
+    Call us at <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+    overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If
+    you have hearing loss, call (<VaTelephone contact={CONTACTS[711]} tty />
     ).
   </>
 );

@@ -20,17 +20,7 @@ const loa1DashboardTest = (mobile, stubs) => {
   }
 
   // make sure that the "Verify" alert is shown
-  cy.findByText(/We need you to verify your identity for this account/i).should(
-    'exist',
-  );
-  cy.findByText(/will ask you for certain personal information/i).should(
-    'exist',
-  );
-  cy.findByRole('link', { name: 'Verify your identity' }).should(
-    'have.attr',
-    'href',
-    '/verify',
-  );
+  cy.get('va-alert-sign-in').should('exist');
 
   // make sure that we don't call APIs to get name, service history, or disability rating
   cy.should(() => {
@@ -43,17 +33,7 @@ const loa1DashboardTest = (mobile, stubs) => {
   cy.findByTestId('name-tag').should('not.exist');
 
   // make sure that the "Verify" alert is shown
-  cy.findByText(/We need you to verify your identity for this account/i).should(
-    'exist',
-  );
-  cy.findByText(/will ask you for certain personal information/i).should(
-    'exist',
-  );
-  cy.findByRole('link', { name: 'Verify your identity' }).should(
-    'have.attr',
-    'href',
-    '/verify',
-  );
+  cy.get('va-alert-sign-in').should('exist');
 
   // make sure the claims and appeals section is visible
   cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');

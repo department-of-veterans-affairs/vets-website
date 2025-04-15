@@ -17,8 +17,8 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 export const uiSchema = {
   ...titleUI('Your personal information'),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePhone />
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includePhone isClaimantChapter />
     ),
   },
   applicantName: fullNameMiddleInitialUI,
@@ -33,7 +33,24 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    applicantName: fullNameSchema,
+    applicantName: {
+      ...fullNameSchema,
+      properties: {
+        ...fullNameSchema.properties,
+        first: {
+          type: 'string',
+          maxLength: 12,
+        },
+        middle: {
+          type: 'string',
+          maxLength: 1,
+        },
+        last: {
+          type: 'string',
+          maxLength: 18,
+        },
+      },
+    },
     applicantDOB: dateOfBirthSchema,
   },
 };

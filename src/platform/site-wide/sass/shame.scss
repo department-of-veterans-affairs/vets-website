@@ -480,6 +480,11 @@ $medium-phone-screen: 375px;
   }
 }
 
+// scrolling box scrolls smoothly - let `scrollTo` control smooth scroll
+body {
+  scroll-behavior: smooth;
+}
+
 // There are styles in our sidebar styles that set a small
 // amount of padding on the grid for detail pages, which we
 // are overriding for WBC with no padding

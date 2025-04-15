@@ -7,14 +7,17 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { getMdotInProgressForm } from '../actions';
-import { TITLE, SUBTITLE } from '../constants';
+import { INTRO_TITLE, INTRO_SUBTITLE } from '../constants';
 
-import Breadcrumbs from '../components/Breadcrumbs';
 import VerifiedPrefillAlert from '../components/VerifiedPrefillAlert';
 import Alerts from './Alerts';
 import SuppliesAvailable from '../components/SuppliesAvailable';
 import SuppliesUnavailable from '../components/SuppliesUnavailable';
-import { selectSupplies, selectUnavailableSupplies } from '../selectors';
+import {
+  isAlerting,
+  selectSupplies,
+  selectUnavailableSupplies,
+} from '../selectors';
 
 const Loading = () => (
   <div className="vads-u-margin--5">
@@ -30,6 +33,7 @@ export const IntroductionPage = ({ route }) => {
     state?.user?.profile?.loading ||
     false;
 
+  const isNotAlerting = !useSelector(isAlerting);
   const supplies = useSelector(selectSupplies);
   const unavailableSupplies = useSelector(selectUnavailableSupplies);
 
@@ -43,21 +47,24 @@ export const IntroductionPage = ({ route }) => {
 
   return (
     <>
-      <Breadcrumbs />
-      <FormTitle title={TITLE} />
-      <p className="vads-u-font-family--serif">{SUBTITLE}</p>
+      <FormTitle title={INTRO_TITLE} />
+      <p className="vads-u-font-family--serif">{INTRO_SUBTITLE}</p>
       <Alerts />
-      <SuppliesAvailable supplies={supplies} />
-      <SaveInProgressIntro
-        headingLevel={3}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start a new order"
-        formConfig={route.formConfig}
-        verifiedPrefillAlert={VerifiedPrefillAlert}
-      />
-      <SuppliesUnavailable supplies={unavailableSupplies} />
+      {isNotAlerting && (
+        <>
+          <SuppliesAvailable supplies={supplies} />
+          <SaveInProgressIntro
+            headingLevel={3}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
+            startText="Start a new order"
+            formConfig={route.formConfig}
+            verifiedPrefillAlert={VerifiedPrefillAlert}
+          />
+          <SuppliesUnavailable supplies={unavailableSupplies} />
+        </>
+      )}
     </>
   );
 };

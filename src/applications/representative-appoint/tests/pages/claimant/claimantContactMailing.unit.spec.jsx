@@ -27,4 +27,14 @@ describe('Claimant Contact Mailing page', () => {
 
     expect($('button[type="submit"]', container)).to.exist;
   });
+
+  it('should have proper max lengths for address fields', () => {
+    const addressProps = schema.properties.homeAddress.properties;
+
+    expect(addressProps.street.maxLength).to.equal(30);
+    expect(addressProps.street2.maxLength).to.equal(5);
+    expect(addressProps.city.maxLength).to.equal(18);
+    expect(addressProps.state.maxLength).to.equal(2);
+    expect(addressProps.postalCode.maxLength).to.equal(9);
+  });
 });

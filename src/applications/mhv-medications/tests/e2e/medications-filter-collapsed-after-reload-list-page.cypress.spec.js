@@ -1,17 +1,15 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import MedicationsLandingPage from './pages/MedicationsLandingPage';
+import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 
 describe('Medications List Page Filter Accordion Collapsed', () => {
   it('visits Medications List Page Filter Accordion Collapsed after Reload', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    const landingPage = new MedicationsLandingPage();
     site.login();
-    landingPage.visitLandingPageURL();
+    listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink();
     listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterHeaderTextHasFocusafterExpanded();

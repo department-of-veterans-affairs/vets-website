@@ -10,11 +10,13 @@ export const title4142Omb =
   'Authorization to disclose information to the Department of Veteran Affairs (VA)';
 export const subTitle4142Omb = 'VA Forms 21-4142 and 21-4142a';
 export const subTitle4142 = `${subTitle4142Omb} with ${subTitle995}`;
+export const title4142WithId = `${title4142} (21-4142)`;
 
 const paths4142 = [
   '/private-medical-records-authorization',
+  '/add-limitation',
+  '/limitation',
   '/private-medical-records',
-  '/add-private-record-limitations',
 ];
 
 const isNonVaEvidencePage = currentPath =>

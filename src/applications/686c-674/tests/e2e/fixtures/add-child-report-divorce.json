@@ -1,0 +1,120 @@
+{
+  "data": {
+    "householdIncome": true,
+    "childrenToAdd": [
+      {
+        "incomeInLastYear": "Y",
+        "livingWith": {
+          "first": "John",
+          "last": "Doe II"
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "DZA",
+          "street": "test address",
+          "city": "test city",
+          "postalCode": "43242"
+        },
+        "doesChildHaveDisability": false,
+        "doesChildLiveWithYou": false,
+        "hasChildEverBeenMarried": false,
+        "isBiologicalChild": true,
+        "dateEnteredHousehold": "2023-02-01",
+        "biologicalParentName": {
+          "first": "Jane",
+          "last": "Doe"
+        },
+        "biologicalParentSsn": "432432432",
+        "biologicalParentDob": "1990-02-01",
+        "relationshipToChild": {
+          "stepchild": true
+        },
+        "birthLocation": {
+          "location": {
+            "city": "Fakesville",
+            "state": "AK",
+            "postalCode": "43222"
+          }
+        },
+        "ssn": "432432432",
+        "fullName": {
+          "first": "John",
+          "last": "Doe"
+        },
+        "birthDate": "2000-02-01",
+        "view:isUnmarriedAndInSchool": "Y",
+        "view:hasReceivedBenefits": "N"
+      }
+    ],
+    "veteranContactInformation": {
+      "veteranAddress": {
+        "view:livesOnMilitaryBase": false,
+        "view:livesOnMilitaryBaseInfo": {},
+        "country": "USA",
+        "street": "1600 Fakesville Ave",
+        "city": "Washington",
+        "state": "DC",
+        "postalCode": "20500"
+      },
+      "phoneNumber": "1231231234",
+      "emailAddress": "nope@nope.org"
+    },
+    "view:686Information": {},
+    "view:addOrRemoveDependents": {
+      "add": true,
+      "remove": true
+    },
+    "view:selectable686Options": {
+      "addChild": true,
+      "reportDivorce": true
+    },
+    "view:addDependentOptions": {
+    "addChild": true
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true
+  },
+    "reportDivorce": {
+      "fullName": {
+        "first": "john",
+        "last": "does"
+      },
+      "date": "1991-07-07",
+      "divorceLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "MD",
+          "city": "Army Post Office"
+        }
+      },
+      "reasonMarriageEnded": "Divorce",
+      "birthDate": "1991-05-04",
+      "spouseIncome": false
+    },
+    "veteranInformation": {
+      "fullName": {
+        "first": "Greg",
+        "middle": "A",
+        "last": "Anderson"
+      },
+      "ssn": "796121200",
+      "birthDate": "1933-05-04"
+    },
+    "childSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "spouseSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ]
+  }
+}

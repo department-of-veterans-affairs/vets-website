@@ -6,8 +6,6 @@ describe('Direct deposit information', () => {
    * @param {object} win
    */
   beforeEach(() => {
-    cy.login(mockUser);
-    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -19,8 +17,17 @@ describe('Direct deposit information', () => {
         ],
       },
     });
+    cy.intercept('GET', '/vye/v1', { statusCode: 200 }).as('getVye');
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.login(mockUser);
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
+    cy.wait('@getVye');
   });
   const fillForm = () => {
     cy.get(
@@ -43,7 +50,7 @@ describe('Direct deposit information', () => {
       '00026643207',
     );
   };
-  it('should show Dirct deposit infromation', () => {
+  it('should show Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
@@ -86,7 +93,7 @@ describe('Direct deposit information', () => {
       'not.exist',
     );
   });
-  it('should show show errors when save button is clicked and some or all of the required fields empty ', () => {
+  it('should show errors when save button is clicked and some or all of the required fields empty ', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',

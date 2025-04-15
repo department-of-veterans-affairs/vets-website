@@ -142,7 +142,7 @@ describe('BlockedTriageGroupAlert component', () => {
       parentComponent: ParentComponent.FOLDER_HEADER,
       alertStyle: BlockedTriageAlertStyles.INFO,
     });
-    screen.debug(undefined, 10000);
+
     await waitFor(() => {
       expect(
         screen.queryByTestId('blocked-triage-group-alert'),

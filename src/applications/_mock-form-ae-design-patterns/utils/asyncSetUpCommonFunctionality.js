@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import startSitewideComponents from 'platform/site-wide';
-import createRtkCommonStore from './rtkStore';
+import createCommonStore from 'platform/startup/store';
 
 /**
  * Wrapper for creating a store and sitewide components, this async version is used
@@ -28,7 +28,7 @@ export default async function asyncSetUpCommonFunctionality({
   // Set the app name for use in the apiRequest helper
   window.appName = entryName;
 
-  const store = createRtkCommonStore(reducer, analyticsEvents);
+  const store = createCommonStore(reducer, analyticsEvents);
   await connectFeatureToggle(store.dispatch);
 
   if (url?.endsWith('/')) {

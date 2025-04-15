@@ -1,6 +1,4 @@
 import {
-  DW_UPDATE_FIELD,
-  // v2 actions
   DUW_UPDATE_FORM_STORE,
   DUW_VIEWED_INTRO_PAGE,
   DUW_UPDATE_SERVICE_BRANCH,
@@ -21,14 +19,6 @@ import {
   DUW_ANSWER_CHANGED,
   DUW_ROUTE_MAP,
 } from '../constants';
-
-export const updateField = (key, value) => {
-  return {
-    type: DW_UPDATE_FIELD,
-    key,
-    value,
-  };
-};
 
 export const updateFormStore = value => {
   return {

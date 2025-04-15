@@ -1,84 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { Element } from 'platform/utilities/scroll';
-
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updateCourtMartial } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const CourtMartial = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  setCourtMartial,
+  router,
+  viewedIntroPage,
 }) => {
-  const key = '7_courtMartial';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.COURT_MARTIAL;
+  const H1 = QUESTION_MAP[shortName];
+  const courtMartial = formResponses[shortName];
+  const { COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE } = RESPONSES;
 
-  if (!formValues) {
-    return null;
-  }
-
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  // explicit override for dd214 condition
-  if (formValues['4_reason'] === '8') {
-    return null;
-  }
-
-  const options = [
-    {
-      label: 'Yes, my discharge was the outcome of a general court-martial.',
-      value: '1',
+  useEffect(
+    () => {
+      pageSetup(H1);
     },
-    {
-      label:
-        'No, my discharge was administrative or the outcome of a special or summary court-martial.',
-      value: '2',
-    },
-    { label: "I'm not sure.", value: '3' },
-  ];
+    [H1],
+  );
 
-  const radioButtonProps = {
-    name: key,
-    label: 'Was your discharge the outcome of a general court-martial?',
-    'label-header-level': '2',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={courtMartial}
+      H1={H1}
+      responses={[COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-court_martial"
+      valueSetter={setCourtMartial}
+    />
   );
 };
 
 CourtMartial.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setCourtMartial: PropTypes.func,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default CourtMartial;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setCourtMartial: updateCourtMartial,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CourtMartial);

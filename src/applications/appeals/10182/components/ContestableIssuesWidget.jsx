@@ -37,7 +37,7 @@ const ContestableIssuesWidget = props => {
     getContestableIssues,
     contestableIssues,
     setFormData,
-    formData,
+    formData = {},
   } = props;
 
   const hasAttempted = useRef(false);

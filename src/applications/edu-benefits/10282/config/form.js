@@ -1,6 +1,7 @@
 import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
@@ -23,7 +24,7 @@ import {
   techIndustryFocusArea,
 } from '../pages';
 import StatementOfTruth from '../components/StatementOfTruth';
-// import submitForm from './submitForm';
+import submitForm from './submitForm';
 import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -31,12 +32,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: async formData => {
-    return new Promise(resolve => {
-      resolve({ status: 201, data: formData });
-    });
-  },
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10282`,
+  submit: submitForm,
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -44,10 +41,10 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your 	education benefits application (22-10282) is in progress.',
+        'Your education benefits application (22-10282) is in progress.',
       expired:
-        'Your saved 	education benefits application (22-10282) has expired. If you want to apply for 	education benefits, please start a new application.',
-      saved: 'Your 	education benefits application has been saved.',
+        'Your saved education benefits application (22-10282) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
     },
   },
   version: 0,
@@ -61,7 +58,6 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-
   title: 'Apply for the IBM SkillsBuild program',
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',

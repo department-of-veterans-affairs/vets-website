@@ -43,16 +43,11 @@ describe('Allergy details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the allergy label and name', () => {
-    const allergyLabel = screen.getByText('Allergies and reactions:', {
-      exact: false,
-      selector: 'h1',
-    });
+  it('displays the allergy name', () => {
     const allergyName = screen.getByText('NUTS', {
       exact: true,
-      selector: 'span',
+      selector: 'h1',
     });
-    expect(allergyLabel).to.exist;
     expect(allergyName).to.exist;
   });
 
@@ -117,7 +112,7 @@ describe('Allergy details container with date missing', () => {
   it('should not display the formatted date if date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });

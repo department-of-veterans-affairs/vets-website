@@ -22,7 +22,7 @@ import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
 import DownloadReportPage from './containers/DownloadReportPage';
-import DownloadDateRange from './components/DownloadRecords/DowloadDateRange';
+import DownloadDateRange from './components/DownloadRecords/DownloadDateRange';
 import DownloadRecordType from './components/DownloadRecords/DownloadRecordType';
 import DownloadFileType from './components/DownloadRecords/DownloadFileType';
 
@@ -150,38 +150,18 @@ const routes = (
       >
         <SettingsPage />
       </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download"
-        key="Download"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      <AppRoute exact path="/download" key="Download">
         <DownloadReportPage />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download/date-range"
-        key="Download-date-range"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      </AppRoute>
+      <AppRoute exact path="/download/date-range" key="Download-date-range">
         <DownloadDateRange />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download/record-type"
-        key="Download-record-type"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      </AppRoute>
+      <AppRoute exact path="/download/record-type" key="Download-record-type">
         <DownloadRecordType />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download/file-type"
-        key="Download-file-type"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      </AppRoute>
+      <AppRoute exact path="/download/file-type" key="Download-file-type">
         <DownloadFileType />
-      </FeatureFlagRoute>
+      </AppRoute>
       <Route>
         <PageNotFound />
       </Route>

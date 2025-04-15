@@ -4,7 +4,7 @@ import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientComposePage {
@@ -21,11 +21,9 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.contain(
-            `\n\n\nName\nTitleTest${mockRequest.body} `,
-          );
+          expect(request.body).to.contain(mockRequest.body);
           expect(request.category).to.eq(mockRequest.category);
-          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
       });
@@ -330,16 +328,11 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    const {
-      signatureName,
-      signatureTitle,
-      includeSignature,
-    } = mockSignature.data;
+    const { signatureName, signatureTitle } = mockSignature.data.attributes;
     cy.get(Locators.FIELDS.MESSAGE_BODY).should(
       'have.attr',
       'value',
-      `${includeSignature &&
-        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
+      `\n\n\n${signatureName}\n${signatureTitle}\n${url}`,
     );
   };
 

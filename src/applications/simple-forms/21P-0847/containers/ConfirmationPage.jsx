@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-
-const content = {
-  headlineText: 'You’ve submitted your request to be a substitute claimant',
-  nextStepsText:
-    'We’ll mail you a letter to tell you our decision on your request.',
-};
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
 const childContent = (
   <>
@@ -65,42 +58,52 @@ const childContent = (
   </>
 );
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const { submission, data } = form;
-  const fullName = data.preparerName;
+  const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
-    <ConfirmationPageView
-      submitterName={fullName}
-      submitterHeader="Who submitted this form"
-      formType="submission"
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
-      childContent={childContent}
-    />
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      <ConfirmationView.SubmissionAlert />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList />
+      {childContent}
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
+    data: PropTypes.object,
     formId: PropTypes.string,
     submission: PropTypes.shape({
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
       timestamp: PropTypes.string,
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {

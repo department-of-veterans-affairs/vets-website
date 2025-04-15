@@ -16,7 +16,7 @@ describe('preferences actions', () => {
     await store.dispatch(getPatientSignature());
     expect(store.getActions()).to.deep.include({
       type: Actions.Preferences.GET_USER_SIGNATURE,
-      payload: signatureResponse.data,
+      payload: signatureResponse.data.attributes,
     });
   });
   it('should dispatch action on getPatientSignature error', async () => {

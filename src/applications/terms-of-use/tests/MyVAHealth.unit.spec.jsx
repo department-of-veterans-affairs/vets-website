@@ -13,6 +13,7 @@ const oldLocation = global.window.location;
 
 describe('MyVAHealth', () => {
   const ssoeTarget = `https://staging-patientportal.myhealth.va.gov`;
+  const altSsoeTarget = `https://sandbox-patientportal.myhealth.va.gov`;
   const server = setupServer();
 
   before(() => server.listen());
@@ -32,20 +33,23 @@ describe('MyVAHealth', () => {
     expect(loadingIndicator).to.not.be.null;
   });
 
-  it('should redirect formatted redirect url when api returns 200', async () => {
-    global.window.location = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+  [ssoeTarget, altSsoeTarget].forEach(targetUrl => {
+    it(`should redirect formatted redirect url (${targetUrl}) when api returns 200`, async () => {
+      global.window.location = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${targetUrl}`;
 
-    server.use(
-      rest.put(
-        `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-        (_, res, ctx) => res(ctx.status(200), ctx.json({ provisioned: true })),
-      ),
-    );
+      server.use(
+        rest.put(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          (_, res, ctx) =>
+            res(ctx.status(200), ctx.json({ provisioned: true })),
+        ),
+      );
 
-    render(<MyVAHealth />);
+      render(<MyVAHealth />);
 
-    await waitFor(() => {
-      expect(global.window.location).to.eql(ssoeTarget);
+      await waitFor(() => {
+        expect(global.window.location).to.eql(targetUrl);
+      });
     });
   });
 

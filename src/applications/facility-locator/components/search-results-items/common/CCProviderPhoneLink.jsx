@@ -19,7 +19,11 @@ const CCProviderPhoneLink = ({ location, query }) => {
 
   return (
     <div>
-      {renderPhoneNumber('Main number', null, phone, true, location)}
+      {renderPhoneNumber('Main phone', null, phone, location)}
+      <p>
+        <strong>Telecommunications Relay Services (using TTY):</strong>{' '}
+        <va-telephone tty contact="711" />
+      </p>
       {isCCProvider && (
         <p className="referral-message">
           If you don’t have a referral, contact your local VA medical center.

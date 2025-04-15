@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
@@ -27,6 +27,7 @@ import {
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
+  reMapErrorMessage,
 } from '../utilities/file';
 import { usePreviousValue } from '../helpers';
 import {
@@ -75,6 +76,131 @@ import {
  * @property {DOMFileObject} file - (Encrypted PDF only) File object, used
  *  when user submits password
  */
+
+/**
+ * Optional alert to override error message
+ * @typedef {Object} Alert
+ * @property {string} header - The title or headline of the alert.
+ * @property {Array<string|JSX.Element>} body - An array of strings or JSX elements to be displayed as the main body of the alert.
+ * @property {string} [formName] - Optional. The name of a form to display within the alert message.
+ * @property {string} [formNumber] - Optional. The form number (e.g., "21-526EZ") to include in the alert.
+ * @property {string} [formLink] - Optional. A URL to the form (e.g., a VA.gov form page) for users to download or view.
+ * @property {boolean} [showMailingAddress] - Optional. Whether to show the VA mailing address for submitting forms and documents.
+ */
+const MAILING_ADDRESS = (
+  <>
+    <p className="vads-u-margin-top--0">
+      Mail your completed form and copies of supporting documents to this
+      address:
+    </p>
+    <p>
+      Department of Veterans Affairs <br />
+      Pension Intake Center <br />
+      PO Box 5365 <br />
+      Janesville, WI 53547-5365 <br />
+    </p>
+  </>
+);
+
+const AlertComponent = ({ alert }) => {
+  const {
+    header,
+    body,
+    formName,
+    formNumber,
+    formLink,
+    showMailingAddress,
+  } = alert;
+  return (
+    <va-alert status="error">
+      {header && <h2 slot="headline">{header}</h2>}
+      {Array.isArray(body) &&
+        body.map((content, i) => (
+          <p key={`alert-body-${i}`} className="vads-u-margin-top--0">
+            {content}
+          </p>
+        ))}
+      {formName && (
+        <p className="vads-u-margin-y--0">
+          Fill out an {formName}
+          {formNumber && ` (VA Form ${formNumber}).`}
+        </p>
+      )}
+      {formLink && (
+        <p className="vads-u-margin-top--0">
+          <a href={formLink} rel="noopener noreferrer" target="_blank">
+            Get VA Form {formNumber} to download
+          </a>
+        </p>
+      )}
+      {showMailingAddress && MAILING_ADDRESS}
+    </va-alert>
+  );
+};
+
+AlertComponent.propTypes = {
+  alert: PropTypes.shape({
+    header: PropTypes.string,
+    body: PropTypes.arrayOf(PropTypes.string),
+    formName: PropTypes.string,
+    formNumber: PropTypes.string,
+    formLink: PropTypes.string,
+    showMailingAddress: PropTypes.bool,
+  }).isRequired,
+};
+
+/**
+ * Conditionally displays either an error message or an alert based on the provided props and user login status.
+ * @typedef {Object} ErrorMessageOrAlertComponentProps
+ * @property {string} error - The error message string to display when no alert is rendered.
+ * @property {Object} [alert] - Optional. An object containing alert details for rendering an alert instead of an error message.
+ * @property {boolean} [hideAlertIfLoggedIn=false] - Optional. If `true`, the alert will not render if the user is logged in,
+ * and the error message will be shown instead. Defaults to `false`.
+ */
+const ErrorMessageOrAlertComponent = ({
+  hasVisibleError,
+  hasVisibleAlert,
+  error,
+  alert,
+  hideAlertIfLoggedIn = false,
+}) => {
+  const loggedIn = useSelector(isLoggedIn);
+  const shouldHideAlert = hideAlertIfLoggedIn && loggedIn;
+  return (
+    <>
+      {/* Show error message if there's no alert or if alert is hidden */}
+      {hasVisibleError &&
+        (!hasVisibleAlert || shouldHideAlert) && (
+          <span className="usa-input-error-message" role="alert">
+            <span className="sr-only">Error</span> {reMapErrorMessage(error)}
+          </span>
+        )}
+      {/* Show alert if it's visible and not hidden */}
+      {hasVisibleAlert &&
+        !shouldHideAlert && (
+          <div className="vads-u-margin-y--1p5">
+            <AlertComponent alert={alert} />
+          </div>
+        )}
+    </>
+  );
+};
+
+ErrorMessageOrAlertComponent.propTypes = {
+  error: PropTypes.string.isRequired,
+  hasVisibleAlert: PropTypes.bool.isRequired,
+  hasVisibleError: PropTypes.bool.isRequired,
+  alert: PropTypes.shape({
+    header: PropTypes.string,
+    body: PropTypes.arrayOf(PropTypes.string),
+    formName: PropTypes.string,
+    formNumber: PropTypes.string,
+    formLink: PropTypes.string,
+    showMailingAddress: PropTypes.bool,
+  }),
+  hideAlertIfLoggedIn: PropTypes.bool,
+};
+
 const FileField = props => {
   const {
     enableShortWorkflow,
@@ -437,6 +563,7 @@ const FileField = props => {
             const errors =
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
+            const alerts = [file.alert].filter(alert => alert);
 
             if (file.isEncrypted && !content.allowEncryptedFiles) {
               if (errors[0] === MISSING_PASSWORD_ERROR) {
@@ -451,6 +578,8 @@ const FileField = props => {
             // prevent page submission without adding an error; see #71406
             const hasVisibleError =
               errors.length > 0 && errors[0] !== MISSING_PASSWORD_ERROR;
+
+            const hasVisibleAlert = alerts.length > 0;
 
             const itemClasses = classNames('va-growable-background', {
               'schemaform-file-error usa-input-error':
@@ -614,11 +743,27 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
+                {/* Sometimes an error needs to be shown as an alert instead of an error message. */}
                 {!file.uploading &&
                   hasVisibleError && (
-                    <span className="usa-input-error-message" role="alert">
-                      <span className="sr-only">Error</span> {errors[0]}
-                    </span>
+                    <ErrorMessageOrAlertComponent
+                      hasVisibleError={hasVisibleError}
+                      hasVisibleAlert={hasVisibleAlert}
+                      error={errors[0]}
+                      alert={
+                        hasVisibleAlert && {
+                          header: alerts[0].header,
+                          body: alerts[0].body,
+                          formName: alerts[0].formName,
+                          formNumber: alerts[0].formNumber,
+                          formLink: alerts[0].formLink,
+                          showMailingAddress: alerts[0].showMailingAddress,
+                        }
+                      }
+                      hideAlertIfLoggedIn={
+                        hasVisibleAlert && alerts[0].hideAlertIfLoggedIn
+                      }
+                    />
                   )}
                 {showPasswordInput && (
                   <ShowPdfPassword

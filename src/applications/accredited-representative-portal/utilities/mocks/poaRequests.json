@@ -1,0 +1,267 @@
+[
+  {
+    "claimantId": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
+    "createdAt": "2024-12-24T20:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
+      "authorizations": {
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": ["DRUG_ABUSE", "HIV"],
+        "addressChange": true
+      },
+      "claimant": {
+        "name": {
+          "first": "Emmett",
+          "middle": null,
+          "last": "Bernard"
+        },
+        "address": {
+          "addressLine1": "853 Hane Trail",
+          "addressLine2": null,
+          "city": "Bahringerton",
+          "stateCode": "FL",
+          "country": "US",
+          "zipCode": "68673",
+          "zipCodeSuffix": null
+        },
+        "ssn": "408682258",
+        "vaFileNumber": "323282169",
+        "dateOfBirth": "1970-08-31",
+        "serviceNumber": "885767888",
+        "serviceBranch": "COAST_GUARD",
+        "phone": "161-646-4221",
+        "email": "tony@greenfelder.example"
+      }
+    },
+    "resolution": {
+      "createdAt": "2024-12-25T20:25:43.742Z",
+      "type": "expiration",
+      "id": "3774f8cc-326d-4568-b2b0-f703b53c254b"
+    },
+    "powerOfAttorneyHolder": {
+      "type": "veteran_service_organization",
+      "name": "Trustworthy Organization",
+      "id": "23563963-e31c-4797-a259-e26b727072e1"
+    },
+    "accreditedIndividual": {
+      "fullName": "Bob Representative",
+      "id": "d9d7e941-7156-4eca-827c-bcabe731d7ea"
+    },
+    "id": "345dd27a-db3f-4e8f-8588-e0d589026e44"
+  },
+  {
+    "claimantId": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
+    "createdAt": "2025-01-03T20:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
+      "authorizations": {
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": ["DRUG_ABUSE", "HIV"],
+        "addressChange": true
+      },
+      "claimant": {
+        "name": {
+          "first": "Emmett",
+          "middle": null,
+          "last": "Bernard"
+        },
+        "address": {
+          "addressLine1": "853 Hane Trail",
+          "addressLine2": null,
+          "city": "Bahringerton",
+          "stateCode": "FL",
+          "country": "US",
+          "zipCode": "68673",
+          "zipCodeSuffix": null
+        },
+        "ssn": "408682258",
+        "vaFileNumber": "323282169",
+        "dateOfBirth": "1970-08-31",
+        "serviceNumber": "885767888",
+        "serviceBranch": "COAST_GUARD",
+        "phone": "161-646-4221",
+        "email": "tony@greenfelder.example"
+      }
+    },
+    "resolution": {
+      "createdAt": "2025-01-04T20:25:43.742Z",
+      "type": "decision",
+      "decisionType": "declination",
+      "reason": "Didn't authorize treatment record disclosure",
+      "creatorId": "61d86989-2a13-4c72-9ae0-c3c6cb09260b",
+      "id": "a5bf6a40-ac6f-49df-b18f-b6d11db18936"
+    },
+    "powerOfAttorneyHolder": {
+      "type": "veteran_service_organization",
+      "name": "Good Representatives R Us",
+      "id": "41d36596-67d1-4b23-ab58-927447e88d07"
+    },
+    "accreditedIndividual": {
+      "fullName": "Bob Representative",
+      "id": "d9d7e941-7156-4eca-827c-bcabe731d7ea"
+    },
+    "id": "0b255a94-b9e0-45c8-b313-3c1179178b4f"
+  },
+  {
+    "claimantId": "7de8ce1e-af1c-4c5d-8caf-4002593dac69",
+    "createdAt": "2025-01-13T20:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
+      "authorizations": {
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": ["DRUG_ABUSE", "HIV"],
+        "addressChange": true
+      },
+      "claimant": {
+        "name": {
+          "first": "Emmett",
+          "middle": null,
+          "last": "Bernard"
+        },
+        "address": {
+          "addressLine1": "853 Hane Trail",
+          "addressLine2": null,
+          "city": "Bahringerton",
+          "stateCode": "FL",
+          "country": "US",
+          "zipCode": "68673",
+          "zipCodeSuffix": null
+        },
+        "ssn": "408682258",
+        "vaFileNumber": "323282169",
+        "dateOfBirth": "1970-08-31",
+        "serviceNumber": "885767888",
+        "serviceBranch": "COAST_GUARD",
+        "phone": "161-646-4221",
+        "email": "tony@greenfelder.example"
+      }
+    },
+    "resolution": {
+      "createdAt": "2025-01-14T20:25:43.742Z",
+      "type": "decision",
+      "decisionType": "acceptance",
+      "creatorId": "ec1557e9-9d54-4310-9ef9-3213a4d5d778",
+      "id": "ddc65772-e924-496a-b8ae-27d12c676b01"
+    },
+    "powerOfAttorneyHolder": {
+      "type": "veteran_service_organization",
+      "name": "Trustworthy Organization",
+      "id": "23563963-e31c-4797-a259-e26b727072e1"
+    },
+    "accreditedIndividual": {
+      "fullName": "Robert Lowe",
+      "id": "3f47a6c7-ce14-4ab5-9567-6e3803336fe1"
+    },
+    "id": "521ea854-2dee-4b52-b681-401c6c8542f5"
+  },
+  {
+    "claimantId": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
+    "createdAt": "2024-12-25T02:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
+      "authorizations": {
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": [
+          "ALCOHOLISM",
+          "DRUG_ABUSE",
+          "SICKLE_CELL"
+        ],
+        "addressChange": false
+      },
+      "claimant": {
+        "name": {
+          "first": "Oswaldo",
+          "middle": null,
+          "last": "Dorie"
+        },
+        "address": {
+          "addressLine1": "151 Cole Island",
+          "addressLine2": null,
+          "city": "Sinaside",
+          "stateCode": "CA",
+          "country": "US",
+          "zipCode": "29556-1866",
+          "zipCodeSuffix": null
+        },
+        "ssn": "770301851",
+        "vaFileNumber": "806349829",
+        "dateOfBirth": "1983-08-08",
+        "serviceNumber": "946178914",
+        "serviceBranch": "ARMY",
+        "phone": "2351452514",
+        "email": "ernie@keebler-berge.example"
+      }
+    },
+    "resolution": {
+      "createdAt": "2024-12-26T02:25:43.742Z",
+      "type": "expiration",
+      "id": "8608bb4d-ccfc-4613-948d-77ccb591a18e"
+    },
+    "powerOfAttorneyHolder": {
+      "type": "veteran_service_organization",
+      "name": "We Help Vets",
+      "id": "83b7de4d-a2cd-4b15-9e32-af48804c3e31"
+    },
+    "accreditedIndividual": {
+      "fullName": "Robert Lowe",
+      "id": "3f47a6c7-ce14-4ab5-9567-6e3803336fe1"
+    },
+    "id": "6cb8c41a-7ede-4124-91e3-aeb31932207a"
+  },
+  {
+    "claimantId": "3e6f543c-1d24-456e-be14-49e0a0d6eeb1",
+    "createdAt": "2025-01-04T02:25:43.742Z",
+    "expiresAt": null,
+    "powerOfAttorneyForm": {
+      "authorizations": {
+        "recordDisclosure": false,
+        "recordDisclosureLimitations": [
+          "ALCOHOLISM",
+          "DRUG_ABUSE",
+          "SICKLE_CELL"
+        ],
+        "addressChange": false
+      },
+      "claimant": {
+        "name": {
+          "first": "Oswaldo",
+          "middle": null,
+          "last": "Dorie"
+        },
+        "address": {
+          "addressLine1": "151 Cole Island",
+          "addressLine2": null,
+          "city": "Sinaside",
+          "stateCode": "CA",
+          "country": "US",
+          "zipCode": "29556-1866",
+          "zipCodeSuffix": null
+        },
+        "ssn": "770301851",
+        "vaFileNumber": "806349829",
+        "dateOfBirth": "1983-08-08",
+        "serviceNumber": "946178914",
+        "serviceBranch": "ARMY",
+        "phone": "2351452514",
+        "email": "ernie@keebler-berge.example"
+      }
+    },
+    "resolution": {
+      "createdAt": "2025-01-05T02:25:43.742Z",
+      "type": "decision",
+      "decisionType": "acceptance",
+      "creatorId": "efe06275-97c7-442b-b226-3d7a90e0992e",
+      "id": "f767ec7c-be23-4a72-9acd-9e0c9c1389eb"
+    },
+    "powerOfAttorneyHolder": {
+      "type": "veteran_service_organization",
+      "name": "The Swift Reps",
+      "id": "31f61e0f-8993-4c57-86f2-7f22e9ca9e68"
+    },
+    "accreditedIndividual": {
+      "fullName": "Robert Lowe",
+      "id": "3f47a6c7-ce14-4ab5-9567-6e3803336fe1"
+    },
+    "id": "53a1c8f1-0ac2-442b-b6df-768a5324fd78"
+  }
+]
