@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { scrollToFirstError } from 'platform/utilities/ui';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -18,9 +17,11 @@ import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionError
 import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
-import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
+import { getAppointmentData } from '../redux/actions';
+import { SmocContext } from '../context/SmocContext';
 
 const SubmitFlowWrapper = () => {
+  const { pageIndex, isUnsupportedClaimType } = useContext(SmocContext);
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
@@ -51,93 +52,15 @@ const SubmitFlowWrapper = () => {
     [dispatch, appointmentData, apptId, error],
   );
 
-  const [yesNo, setYesNo] = useState({
-    mileage: '',
-    vehicle: '',
-    address: '',
-  });
-
-  const [pageIndex, setPageIndex] = useState(0);
-  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
-  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
-  const [isAgreementError, setIsAgreementError] = useState(false);
-
-  const onSubmit = () => {
-    if (!isAgreementChecked) {
-      setIsAgreementError(true);
-      scrollToFirstError();
-      return;
-    }
-    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
-    setPageIndex(pageIndex + 1);
-  };
-
   const pageList = [
-    {
-      page: 'intro',
-      component: (
-        <IntroductionPage
-          onStart={e => {
-            e.preventDefault();
-            setPageIndex(pageIndex + 1);
-          }}
-        />
-      ),
-    },
-    {
-      page: 'mileage',
-      component: (
-        <MileagePage
-          pageIndex={pageIndex}
-          setPageIndex={setPageIndex}
-          setYesNo={setYesNo}
-          yesNo={yesNo}
-          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
-        />
-      ),
-    },
-    {
-      page: 'vehicle',
-      component: (
-        <VehiclePage
-          setYesNo={setYesNo}
-          yesNo={yesNo}
-          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
-          pageIndex={pageIndex}
-          setPageIndex={setPageIndex}
-        />
-      ),
-    },
-    {
-      page: 'address',
-      component: (
-        <AddressPage
-          yesNo={yesNo}
-          setYesNo={setYesNo}
-          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
-          pageIndex={pageIndex}
-          setPageIndex={setPageIndex}
-        />
-      ),
-    },
-    {
-      page: 'review',
-      component: (
-        <ReviewPage
-          onSubmit={onSubmit}
-          setYesNo={setYesNo}
-          setPageIndex={setPageIndex}
-          isAgreementChecked={isAgreementChecked}
-          setIsAgreementChecked={setIsAgreementChecked}
-          isError={isAgreementError}
-        />
-      ),
-    },
-    {
-      page: 'confirm',
-      component: <ConfirmationPage />,
-    },
+    IntroductionPage,
+    MileagePage,
+    VehiclePage,
+    AddressPage,
+    ReviewPage,
+    ConfirmationPage,
   ];
+  const SmocPage = pageList[pageIndex];
 
   if (toggleIsLoading || isLoading) {
     return (
@@ -161,17 +84,9 @@ const SubmitFlowWrapper = () => {
       <article className="usa-grid-full vads-u-margin-bottom--0">
         <Breadcrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {isUnsupportedClaimType && (
-            <UnsupportedClaimTypePage
-              pageIndex={pageIndex}
-              setPageIndex={setPageIndex}
-              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
-            />
-          )}
+          {isUnsupportedClaimType && <UnsupportedClaimTypePage />}
           {submissionError && <SubmissionErrorPage />}
-          {!isUnsupportedClaimType &&
-            !submissionError &&
-            pageList[pageIndex].component}
+          {!isUnsupportedClaimType && !submissionError && <SmocPage />}
           <div className="vads-u-margin-top--4">
             <va-need-help>
               <div slot="content">

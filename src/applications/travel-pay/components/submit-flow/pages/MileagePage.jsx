@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -9,22 +8,24 @@ import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
+import { SmocContext } from '../../../context/SmocContext';
 import SmocRadio from '../../SmocRadio';
 
 const title = 'Are you only claiming mileage?';
 
-const MileagePage = ({
-  pageIndex,
-  setPageIndex,
-  yesNo,
-  setYesNo,
-  setIsUnsupportedClaimType,
-}) => {
+const MileagePage = () => {
   useEffect(() => {
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
 
+  const {
+    pageIndex,
+    setIsUnsupportedClaimType,
+    setPageIndex,
+    yesNo,
+    setYesNo,
+  } = useContext(SmocContext);
   useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
@@ -105,14 +106,6 @@ const MileagePage = ({
       />
     </div>
   );
-};
-
-MileagePage.propTypes = {
-  pageIndex: PropTypes.number,
-  setIsUnsupportedClaimType: PropTypes.func,
-  setPageIndex: PropTypes.func,
-  setYesNo: PropTypes.func,
-  yesNo: PropTypes.object,
 };
 
 export default MileagePage;

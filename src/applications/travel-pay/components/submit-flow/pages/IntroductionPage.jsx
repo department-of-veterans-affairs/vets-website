@@ -1,18 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
+import { SmocContext } from '../../../context/SmocContext';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 
 const title = 'File a travel reimbursement claim';
 
-const IntroductionPage = ({ onStart }) => {
+const IntroductionPage = () => {
   useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
+  const { pageIndex, setPageIndex } = useContext(SmocContext);
+  const onStart = e => {
+    e.preventDefault();
+    setPageIndex(pageIndex + 1);
+  };
 
   return (
     <div>
@@ -94,10 +99,6 @@ const IntroductionPage = ({ onStart }) => {
       </div>
     </div>
   );
-};
-
-IntroductionPage.propTypes = {
-  onStart: PropTypes.func,
 };
 
 export default IntroductionPage;

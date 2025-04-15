@@ -5,6 +5,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import VehiclePage from '../../../../components/submit-flow/pages/VehiclePage';
+import SmocContextProvider from '../../../../context/SmocContext';
 
 describe('Vehicle page', () => {
   const setPageIndex = sinon.spy();
@@ -23,7 +24,11 @@ describe('Vehicle page', () => {
   };
 
   it('should render correctly', () => {
-    const screen = render(<VehiclePage {...props} />);
+    const screen = render(
+      <SmocContextProvider>
+        <VehiclePage />
+      </SmocContextProvider>,
+    );
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
     expect($('va-radio')).to.have.attribute(
@@ -46,7 +51,11 @@ describe('Vehicle page', () => {
   });
 
   it('should render an error if no selection made', () => {
-    const screen = render(<VehiclePage {...props} />);
+    const screen = render(
+      <SmocContextProvider>
+        <VehiclePage />
+      </SmocContextProvider>,
+    );
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
     $('va-button-pair').__events.primaryClick(); // continue
@@ -58,7 +67,11 @@ describe('Vehicle page', () => {
 
   it('should render an error selection is "no"', () => {
     render(
-      <VehiclePage {...props} yesNo={{ ...props.yesNo, vehicle: 'no' }} />,
+      <SmocContextProvider
+        value={{ ...props, yesNo: { ...props.yesNo, vehicle: 'no' } }}
+      >
+        <VehiclePage />
+      </SmocContextProvider>,
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
@@ -67,7 +80,11 @@ describe('Vehicle page', () => {
 
   it('should move on to the next step if selection is "yes"', () => {
     render(
-      <VehiclePage {...props} yesNo={{ ...props.yesNo, vehicle: 'yes' }} />,
+      <SmocContextProvider
+        value={{ ...props, yesNo: { ...props.yesNo, vehicle: 'yes' } }}
+      >
+        <VehiclePage />
+      </SmocContextProvider>,
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
@@ -76,7 +93,11 @@ describe('Vehicle page', () => {
   });
 
   it('should move back a step', () => {
-    render(<VehiclePage {...props} />);
+    render(
+      <SmocContextProvider value={props}>
+        <VehiclePage />
+      </SmocContextProvider>,
+    );
     $('va-button-pair').__events.secondaryClick(); // back
 
     expect(setPageIndex.calledWith(1)).to.be.true;
