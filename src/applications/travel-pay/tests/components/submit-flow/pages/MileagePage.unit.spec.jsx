@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import MileagePage from '../../../../components/submit-flow/pages/MileagePage';
@@ -28,12 +30,12 @@ const mockAppt = {
   },
 };
 
-const setPageIndexSpy = sinon.spy();
-// TODO: figure out a way to test this set state call
-const setYesNoSpy = sinon.spy();
-const setCantFileSpy = sinon.spy();
-
 describe('Mileage page', () => {
+  const setPageIndexSpy = sinon.spy();
+  // TODO: figure out a way to test this set state call
+  const setYesNoSpy = sinon.spy();
+  const setCantFileSpy = sinon.spy();
+
   const props = {
     pageIndex: 1,
     setPageIndex: setPageIndexSpy,
@@ -45,6 +47,16 @@ describe('Mileage page', () => {
     setYesNo: setYesNoSpy,
     setIsUnsupportedClaimType: setCantFileSpy,
   };
+
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
 
   it('should render correctly', () => {
     const screen = renderWithStoreAndRouter(<MileagePage {...props} />, {
@@ -81,6 +93,14 @@ describe('Mileage page', () => {
     expect(screen.getByText(/submit receipts for other expenses/i)).to.exist;
 
     $('va-button-pair').__events.primaryClick(); // continue
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'mileage',
+        'option-label': 'answered',
+      }),
+    ).to.be.true;
     expect(setPageIndexSpy.calledWith(2)).to.be.true;
   });
 
@@ -133,6 +153,14 @@ describe('Mileage page', () => {
     );
 
     $('va-button-pair').__events.primaryClick(); // continue
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'mileage',
+        'option-label': 'unsupported',
+      }),
+    ).to.be.true;
     expect(setCantFileSpy.calledWith(true)).to.be.true;
   });
 
@@ -152,6 +180,13 @@ describe('Mileage page', () => {
 
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'mileage',
+        'option-label': 'back',
+      }),
+    ).to.be.true;
     expect(setCantFileSpy.calledWith(false)).to.be.true;
     expect(setPageIndexSpy.calledWith(0)).to.be.true;
   });
