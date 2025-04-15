@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import SelectProviderPage from './index';
 import {
@@ -222,6 +223,48 @@ describe('VAOS Page: ProviderSelectPage', () => {
 
       expect(screen.getByText(/Which provider do you want to schedule with?/i))
         .to.exist;
+    });
+  });
+
+  describe('when a provider has availability and is selected', () => {
+    it('should update selected provider in state', async () => {
+      const store = createTestStore({
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          patientProviderRelationships: [
+            {
+              resourceType: 'PatientProviderRelationship',
+              providerName: 'Doe, John D, MD',
+              providerId: 'Practitioner/123456',
+              serviceType: 'Routine Follow-up',
+              locationName: 'Marion VA Clinic',
+              clinicName: 'Zanesville Primary Care',
+              vistaId: '534',
+              lastSeen: '2024-11-26T00:32:34.216Z',
+              hasAvailability: true,
+            },
+          ],
+        },
+      });
+
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+
+      const link = await screen.container.querySelector(
+        'va-link[text="Choose your preferred date and time"]',
+      );
+
+      // await waitFor(() => {
+      //   expect(link).to.be.ok;
+      // });
+
+      userEvent.click(link);
+
+      await waitFor(() => expect(screen.history.push.called).to.be.true);
+
+      // expect(screen.history.push.called).to.be.true;
     });
   });
 });
