@@ -24,12 +24,8 @@ export const isEdit = () => {
   return !!hasEdit;
 };
 
-export const createAddAndEditTitles = (addTitle, editTitle) => {
-  if (isEdit()) {
-    return editTitle;
-  }
-  return addTitle;
-};
+export const createAddAndEditTitles = (addTitle, editTitle) =>
+  isEdit() ? editTitle : addTitle;
 
 export const createRatedDisabilityDescriptions = fullData => {
   return fullData.ratedDisabilities.reduce((acc, disability) => {
@@ -172,13 +168,10 @@ export const createNewConditionName = (item, capFirstLetter = false) => {
   return newCondition;
 };
 
-const getItemName = item => {
-  if (isNewCondition(item)) {
-    return createNewConditionName(item, true);
-  }
-
-  return item?.ratedDisability;
-};
+const getItemName = item =>
+  isNewCondition(item)
+    ? createNewConditionName(item, true)
+    : item?.ratedDisability;
 
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
@@ -202,13 +195,10 @@ const isItemIncomplete = item => {
   return !item?.ratedDisability;
 };
 
-const cardDescription = (item, _index, formData) => {
-  if (isNewCondition(item)) {
-    return NewConditionCardDescription(item);
-  }
-
-  return RatedDisabilityCardDescription(item, formData);
-};
+const cardDescription = (item, _index, formData) =>
+  isNewCondition(item)
+    ? NewConditionCardDescription(item)
+    : RatedDisabilityCardDescription(item, formData);
 
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
