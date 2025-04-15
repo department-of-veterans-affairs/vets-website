@@ -21,6 +21,11 @@ const UnsupportedClaimTypePage = ({
   useSetPageTitle(title);
 
   const onBack = () => {
+    window.dataLayer.push({
+      event: 'smoc-questions',
+      label: 'unsupported',
+      'option-label': 'back',
+    });
     setIsUnsupportedClaimType(false);
     setPageIndex(pageIndex);
   };

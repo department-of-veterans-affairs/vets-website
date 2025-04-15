@@ -68,6 +68,11 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
+    window.dataLayer.push({
+      event: 'smoc-questions',
+      label: 'review',
+      'option-label': 'file-claim',
+    });
     dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
     setPageIndex(pageIndex + 1);
   };

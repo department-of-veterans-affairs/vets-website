@@ -47,13 +47,28 @@ const AddressPage = ({
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
+        window.dataLayer.push({
+          event: 'smoc-questions',
+          label: 'address',
+          'option-label': 'unsupported',
+        });
         setIsUnsupportedClaimType(true);
       } else {
+        window.dataLayer.push({
+          event: 'smoc-questions',
+          label: 'address',
+          'option-label': 'answered',
+        });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
     onBack: () => {
+      window.dataLayer.push({
+        event: 'smoc-questions',
+        label: 'address',
+        'option-label': 'back',
+      });
       setPageIndex(pageIndex - 1);
     },
   };

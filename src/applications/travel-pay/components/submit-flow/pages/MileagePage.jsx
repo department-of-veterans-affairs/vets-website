@@ -38,13 +38,28 @@ const MileagePage = ({
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
+        window.dataLayer.push({
+          event: 'smoc-questions',
+          label: 'mileage',
+          'option-label': 'unsupported',
+        });
         setIsUnsupportedClaimType(true);
       } else {
+        window.dataLayer.push({
+          event: 'smoc-questions',
+          label: 'mileage',
+          'option-label': 'answered',
+        });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
     onBack: () => {
+      window.dataLayer.push({
+        event: 'smoc-questions',
+        label: 'mileage',
+        'option-label': 'back',
+      });
       setPageIndex(pageIndex - 1);
     },
   };

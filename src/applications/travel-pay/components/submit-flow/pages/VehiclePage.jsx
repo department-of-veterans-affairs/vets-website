@@ -31,13 +31,28 @@ const VehiclePage = ({
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
+        window.dataLayer.push({
+          event: 'smoc-questions',
+          label: 'vehicle',
+          'option-label': 'unsupported',
+        });
         setIsUnsupportedClaimType(true);
       } else {
+        window.dataLayer.push({
+          event: 'smoc-questions',
+          label: 'vehicle',
+          'option-label': 'answered',
+        });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
     onBack: () => {
+      window.dataLayer.push({
+        event: 'smoc-questions',
+        label: 'vehicle',
+        'option-label': 'back',
+      });
       setPageIndex(pageIndex - 1);
     },
   };

@@ -37,6 +37,11 @@ const ReviewPage = ({
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
+    window.dataLayer.push({
+      event: 'smoc-questions',
+      label: 'review',
+      'option-label': 'start-over',
+    });
     setYesNo({
       mileage: '',
       vehicle: '',
