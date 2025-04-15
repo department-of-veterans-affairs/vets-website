@@ -554,8 +554,9 @@ class PatientComposePage {
 
   verifyRecipientsFieldAlert = text => {
     cy.get(Locators.ALERTS.COMBO_BOX).should(`have.text`, text);
-    // temporary commented out / awaiting proper focus behavior confirmation
-    // cy.get(Locators.COMBO_BOX).should('be.focused');
+    cy.get(Locators.COMBO_BOX)
+      .find(`#options`)
+      .should('be.focused');
   };
 
   deleteUnsavedDraft = () => {

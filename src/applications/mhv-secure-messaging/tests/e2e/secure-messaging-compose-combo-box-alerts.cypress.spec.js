@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Locators, Data } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('SM MESSAGING COMBO BOX ALERTS', () => {
@@ -39,8 +39,7 @@ describe('SM MESSAGING COMBO BOX ALERTS', () => {
     PatientComposePage.enterDataToMessageBody('{moveToStart}testBody');
     PatientComposePage.sendMessageWithoutVerification();
 
-    cy.get(Locators.ALERTS.COMBO_BOX).should(
-      `have.text`,
+    PatientComposePage.verifyRecipientsFieldAlert(
       Data.PLEASE_SELECT_VALID_RECIPIENT,
     );
 

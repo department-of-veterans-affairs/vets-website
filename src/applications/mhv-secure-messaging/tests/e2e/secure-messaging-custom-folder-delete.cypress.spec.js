@@ -14,7 +14,7 @@ describe('SM DELETE CUSTOM FOLDER', () => {
 
   it('remove non-empty folder', () => {
     PatientMessageCustomFolderPage.loadMessages();
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.clickRemoveFolderButton();
     PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
     PatientMessageCustomFolderPage.clickOnCloseIcon();
     PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
@@ -38,7 +38,7 @@ describe('SM DELETE CUSTOM FOLDER', () => {
     const updatedFolderList = { data: newData, meta: newMeta };
 
     PatientMessageCustomFolderPage.loadMessages(emptyThread);
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.clickRemoveFolderButton();
 
     cy.get(Locators.BUTTONS.ALERT_CLOSE).should(`be.focused`);
     cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
@@ -46,7 +46,7 @@ describe('SM DELETE CUSTOM FOLDER', () => {
       .click();
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(`be.focused`);
 
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.clickRemoveFolderButton();
 
     PatientMessageCustomFolderPage.deleteParticularCustomFolder(
       deletedFolder.attributes.folderId,
