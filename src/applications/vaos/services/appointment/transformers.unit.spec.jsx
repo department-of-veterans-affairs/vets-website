@@ -84,7 +84,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     const appointment = new MockAppointment({
       start: now,
     });
-    appointment.setModality();
+    appointment.setModality('claimExamAppointment');
 
     // Act
     const a = transformVAOSAppointment(
