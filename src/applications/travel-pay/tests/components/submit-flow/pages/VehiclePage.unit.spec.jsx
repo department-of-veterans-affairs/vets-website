@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import VehiclePage from '../../../../components/submit-flow/pages/VehiclePage';
 
@@ -21,6 +22,16 @@ describe('Vehicle page', () => {
     setYesNo: () => {},
     setIsUnsupportedClaimType,
   };
+
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
 
   it('should render correctly', () => {
     const screen = render(<VehiclePage {...props} />);
@@ -62,6 +73,13 @@ describe('Vehicle page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'vehicle',
+        'option-label': 'unsupported',
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
   });
 
@@ -71,6 +89,13 @@ describe('Vehicle page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'vehicle',
+        'option-label': 'answered',
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(3)).to.be.true;
   });
@@ -79,6 +104,13 @@ describe('Vehicle page', () => {
     render(<VehiclePage {...props} />);
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'vehicle',
+        'option-label': 'back',
+      }),
+    ).to.be.true;
     expect(setPageIndex.calledWith(1)).to.be.true;
   });
 });

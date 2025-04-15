@@ -2,6 +2,8 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ReviewPage from '../../../../components/submit-flow/pages/ReviewPage';
@@ -34,12 +36,12 @@ const mockAppt = {
 
 const practitioner = 'Kenneth J. Bernardo';
 
-const onSubmitSpy = sinon.spy();
-const setIsAgreementCheckedSpy = sinon.spy();
-const setPageIndexSpy = sinon.spy();
-const setYesNoSpy = sinon.spy();
-
 describe('Review page', () => {
+  const onSubmitSpy = sinon.spy();
+  const setIsAgreementCheckedSpy = sinon.spy();
+  const setPageIndexSpy = sinon.spy();
+  const setYesNoSpy = sinon.spy();
+
   const getData = ({ homeAddress = home, pract } = {}) => {
     return {
       user: {
@@ -72,6 +74,16 @@ describe('Review page', () => {
     setPageIndex: () => setPageIndexSpy(),
     setYesNo: () => setYesNoSpy(),
   };
+
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
 
   it('should render properly with all data', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
@@ -138,6 +150,14 @@ describe('Review page', () => {
     expect(screen.getByText('Review your travel claim')).to.exist;
 
     $('va-button-pair').__events.secondaryClick(); // start over
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'review',
+        'option-label': 'start-over',
+      }),
+    ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;
     expect(setYesNoSpy.called).to.be.true;
   });
