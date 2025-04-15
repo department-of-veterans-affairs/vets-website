@@ -3,6 +3,8 @@ import { Actions } from '../../util/actionTypes';
 import {
   convertActivityJournal,
   convertAllergies,
+  convertDemographics,
+  convertEmergencyContacts,
   convertFamilyHealthHistory,
   convertFoodJournal,
   convertHealthcareProviders,
@@ -1609,5 +1611,108 @@ describe('selfEnteredReducer', () => {
     });
 
     expect(newState.failedDomains.length).to.equal(0);
+  });
+});
+
+describe('convertDemographics', () => {
+  it('should return a correctly transformed object for valid input', () => {
+    const input = {
+      userProfile: {
+        name: {
+          firstName: 'John',
+          middleName: 'A',
+          lastName: 'Doe',
+          alias: 'JD',
+        },
+        birthDate: '1985-06-15T00:00:00Z',
+        gender: 'Male',
+        bloodType: 'O+',
+        isOrganDonor: true,
+        maritalStatus: 'Single',
+        isPatient: true,
+        isVeteran: false,
+        isCaregiver: false,
+        isPatientAdvocate: true,
+        isHealthCareProvider: false,
+        isServiceMember: false,
+        isOther: true,
+        currentOccupation: 'Engineer',
+        contact: {
+          homePhone: '555-1234',
+          workPhone: '555-5678',
+          pager: '555-9999',
+          mobilePhone: '555-4321',
+          fax: '555-1111',
+          email: 'john@example.com',
+          contactMethod: 'Email',
+        },
+        address: {
+          address1: '123 Main St',
+          city: 'Somewhere',
+          state: 'CA',
+          zip: '90210',
+          country: 'USA',
+        },
+      },
+    };
+
+    const result = convertDemographics(input);
+    expect(result.firstName).to.eq('John');
+    expect(result.middleName).to.eq('A');
+    expect(result.lastName).to.eq('Doe');
+    expect(result.alias).to.eq('JD');
+    expect(result.dateOfBirth).to.eq('1985-06-15');
+    expect(result.gender).to.eq('Male');
+    expect(result.bloodType).to.eq('O+');
+    expect(result.organDonor).to.eq(true);
+    expect(result.maritalStatus).to.eq('Single');
+    expect(result.relationshipToVA).to.deep.equal([
+      'Patient',
+      'Advocate',
+      'Other',
+    ]);
+    expect(result.occupation).to.eq('Engineer');
+    expect(result.contactInfo.homePhone).to.eq('555-1234');
+    expect(result.contactInfo.email).to.eq('john@example.com');
+    expect(result.address.city).to.eq('Somewhere');
+  });
+
+  it('should return null when input is null', () => {
+    expect(convertDemographics(null)).to.be.null;
+  });
+});
+
+describe('convertEmergencyContacts', () => {
+  it('should return a correctly transformed array for valid input', () => {
+    const input = [
+      {
+        firstName: 'Jane',
+        lastName: 'Smith',
+        relationship: 'Sister',
+        contactInfoHomePhone: '111-1111',
+        contactInfoWorkPhone: '222-2222',
+        contactInfoMobilePhone: '333-3333',
+        contactInfoEmail: 'jane@example.com',
+        addressStreet1: '456 Maple St',
+        addressCity: 'Anywhere',
+        addressState: 'NY',
+        addressPostalCode: '10001',
+        addressCountry: 'USA',
+      },
+    ];
+
+    const result = convertEmergencyContacts(input);
+    expect(result)
+      .to.be.an('array')
+      .with.lengthOf(1);
+    expect(result[0].firstName).to.eq('Jane');
+    expect(result[0].lastName).to.eq('Smith');
+    expect(result[0].relationship).to.eq('Sister');
+    expect(result[0].homePhone).to.eq('111-1111');
+    expect(result[0].address.city).to.eq('Anywhere');
+  });
+
+  it('should return null when input is null', () => {
+    expect(convertEmergencyContacts(null)).to.be.null;
   });
 });

@@ -13,11 +13,12 @@ describe('Download Actions', () => {
       const dispatch = sinon.spy();
       mockApiRequest({ some: 'data' });
       await getSelfEnteredData()(dispatch);
-      expect(dispatch.callCount).to.equal(14);
+      expect(dispatch.callCount).to.equal(15);
       const expectedActions = [
         Actions.SelfEntered.GET_ACTIVITY_JOURNAL,
         Actions.SelfEntered.GET_ALLERGIES,
         Actions.SelfEntered.GET_DEMOGRAPHICS,
+        Actions.SelfEntered.GET_EMERGENCY_CONTACTS,
         Actions.SelfEntered.GET_FAMILY_HISTORY,
         Actions.SelfEntered.GET_FOOD_JOURNAL,
         Actions.SelfEntered.GET_PROVIDERS,

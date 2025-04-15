@@ -5,10 +5,10 @@ import ReferralTaskCard from './ReferralTaskCard';
 import { useGetReferralByIdQuery } from '../../redux/api/vaosApi';
 
 const isExpired = referral => {
-  if (!referral?.expirationDate) {
+  if (!referral?.attributes?.expirationDate) {
     return false;
   }
-  const { expirationDate } = referral;
+  const { expirationDate } = referral.attributes;
   const now = new Date();
   const expiration = new Date(expirationDate);
   return isAfter(now, expiration);

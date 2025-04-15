@@ -80,18 +80,18 @@ export const SEARCH_BC_LABEL = 'search breadcrumb';
 export const HELP_BC_LABEL = 'search breadcrumb';
 export const HelpBC = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
-    href: 'https://va.gov/representative/get-help',
+    href: '/representative/get-help',
     label: 'Get help using the portal',
   },
 ];
 
 export const poaSearchBC = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
@@ -99,13 +99,23 @@ export const poaSearchBC = [
     label: 'Power of attorney requests',
   },
 ];
+export const searchPeopleBC = [
+  {
+    href: '/representative',
+    label: '/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Search People',
+  },
+];
 export const poaDetailsBreadcrumbs = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
-    href: 'https://va.gov/poa-requests?status=pending',
+    href: '/representative/poa-requests?status=pending',
     label: 'Power of attorney requests',
   },
   {
