@@ -48,7 +48,6 @@ export default function ProviderCard({ provider }) {
         <VaLink
           active
           data-testid="choose-date-time"
-          href="#"
           text="Choose your preferred date and time"
           onClick={handleClick({
             history,
