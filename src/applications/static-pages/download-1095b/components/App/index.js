@@ -58,7 +58,6 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
       apiRequest('/form1095_bs/available_forms')
         .then(response => {
           if (response.errors || response.availableForms.length === 0) {
-            // should this be a system error?
             recordEvent({ event: '1095b-available-forms-not-found' });
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
           }
