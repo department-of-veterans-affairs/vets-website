@@ -87,5 +87,8 @@ describe('Financial information net worth estimation pension page', () => {
     it('should return true if undefined', () => {
       expect(hideIfUnder25000({})).to.be.true;
     });
+    it('should return true if null', () => {
+      expect(hideIfUnder25000({ netWorthEstimation: null })).to.be.true;
+    });
   });
 });

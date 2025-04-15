@@ -8,9 +8,14 @@ import {
   TotalNetWorthOverTwentyFiveThousandAlert,
 } from '../../../components/FormAlerts';
 
-export const hideIfUnder25000 = formData =>
-  formData.netWorthEstimation === undefined ||
-  parseInt(formData.netWorthEstimation, 10) <= 25000;
+export const hideIfUnder25000 = formData => {
+  const value = parseInt(formData.netWorthEstimation, 10);
+  return (
+    formData.netWorthEstimation == null || // null or undefined
+    Number.isNaN(value) ||
+    value <= 25000
+  );
+};
 
 /** @type {PageSchema} */
 export default {
