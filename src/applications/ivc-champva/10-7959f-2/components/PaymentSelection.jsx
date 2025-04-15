@@ -36,6 +36,78 @@ export const PaymentReviewScreen = props => {
   ) : null;
 };
 
+const introText = (
+  <p>
+    Tell us if we should send any payments for this claim to you or to the
+    provider:
+  </p>
+);
+
+const providerText = (
+  <p>
+    <b>If you haven’t paid the provider,</b> select <b>Provider</b>. We’ll send
+    a check to the provider by mail.
+  </p>
+);
+
+const noDirectDeposit = (
+  <p>
+    Don’t have direct deposit or a U.S. bank account? We’ll send any payments to
+    you by check at the mailing address you gave us on this form.
+  </p>
+);
+
+export const loggedInPaymentInfo = (
+  <>
+    {introText}
+    <p>
+      <b>If you already paid the provider,</b> select <b>Veteran</b>. We’ll send
+      any payments to you by direct deposit (if you have it set up) or a mailed
+      check. up for your VA benefit payments. Or we’ll mail you a check.
+    </p>
+    {providerText}
+
+    <va-additional-info trigger="Learn more about direct deposit payments">
+      If you have a U.S. bank account, you can add, review, or edit your direct
+      deposit information in your{' '}
+      <va-link href="https://www.va.gov" text="VA.gov" /> profile anytime.
+      <br />
+      <br />
+      <va-link
+        href="https://www.va.gov/my-va/"
+        text="Go to your direct deposit information in your VA.gov profile"
+        external
+      />
+      <br />
+      <br />
+      {noDirectDeposit}
+    </va-additional-info>
+  </>
+);
+
+export const loggedOutPaymentInfo = (
+  <>
+    {introText}
+    <ul>
+      <li>
+        <b>If you already paid the provider,</b> select <b>Veteran</b>. If we
+        approve your claim, we’ll pay you by direct deposit if you have it set
+        up for your VA benefit payments. Or we’ll mail you a check.
+      </li>
+      <li>{providerText}</li>
+    </ul>
+    <va-additional-info trigger="Learn more about direct deposit payments">
+      <va-link
+        href="https://www.va.gov/change-direct-deposit/"
+        text="Learn how to change your direct deposit information for your VA benefit payments."
+      />
+      <br />
+      <br />
+      {noDirectDeposit}
+    </va-additional-info>
+  </>
+);
+
 export default PaymentSelectionUI;
 
 PaymentReviewScreen.propTypes = {

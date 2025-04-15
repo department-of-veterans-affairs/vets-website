@@ -33,6 +33,8 @@ import {
 } from '../../shared/components/InternationalPhone';
 import PaymentSelectionUI, {
   PaymentReviewScreen,
+  loggedInPaymentInfo,
+  loggedOutPaymentInfo,
 } from '../components/PaymentSelection';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
@@ -263,37 +265,17 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Who should we send payments to?',
-              <>
-                <p>
-                  Tell us if we should send any payments for this claim to you
-                  or to the provider:
-                </p>
-                <ul>
-                  <li>
-                    <b>If you already paid the provider,</b> select{' '}
-                    <b>Veteran</b>. If we approve your claim, we’ll pay you by
-                    direct deposit if you have it set up for your VA benefit
-                    payments. Or we’ll mail you a check.
-                  </li>
-                  <li>
-                    <b>If you haven’t paid the provider,</b> select{' '}
-                    <b>Provider</b>. We’ll send a check to the provider by mail.
-                  </li>
-                </ul>
-                <va-additional-info trigger="Learn more about direct deposit payments">
-                  <va-link
-                    href="https://www.va.gov/change-direct-deposit/"
-                    text="Learn how to change your direct deposit information for your VA benefit payments."
-                  />
-                  <br />
-                  <br />
-                  <p>
-                    Don’t have direct deposit or a U.S. bank account? We’ll send
-                    any payments to you by check at the mailing address you gave
-                    us on this form.
-                  </p>
-                </va-additional-info>
-              </>,
+              ({ _formData, formContext }) => {
+                return (
+                  <>
+                    {formContext?.isLoggedIn ? (
+                      <>{loggedInPaymentInfo} </>
+                    ) : (
+                      <>{loggedOutPaymentInfo}</>
+                    )}
+                  </>
+                );
+              },
             ),
             sendPayment: PaymentSelectionUI(),
           },
