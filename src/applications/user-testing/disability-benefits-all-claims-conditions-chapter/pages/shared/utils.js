@@ -18,9 +18,7 @@ import {
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
-export const isEditFromContext = context => {
-  return context.edit;
-};
+export const isEditFromContext = context => context.edit;
 
 const isEditFromUrl = () => {
   const search = getArrayUrlSearchParams();

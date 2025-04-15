@@ -36,29 +36,6 @@ export const introAndSummaryPages = (demo, pageBuilder) => ({
   }),
 });
 
-const clearNewConditionData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index
-          ? {
-              ...item,
-              newCondition: undefined,
-              cause: undefined,
-              primaryDescription: undefined,
-              causedByCondition: undefined,
-              causedByConditionDescription: undefined,
-              vaMistreatmentDescription: undefined,
-              vaMistreatmentLocation: undefined,
-              worsenedDescription: undefined,
-              worsenedEffects: undefined,
-            }
-          : item,
-    ),
-  });
-};
-
 const clearSideOfBody = (formData, index, setFormData) => {
   setFormData({
     ...formData,
@@ -102,13 +79,6 @@ export const remainingSharedPages = (
       isActiveDemo(formData, demo.name) && isRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
-    onNavForward: props => {
-      const { formData, index, setFormData } = props;
-
-      clearNewConditionData(formData, Number(index), setFormData);
-
-      return helpers.navForwardFinishedItem(props);
-    },
   }),
   [`${demo.name}NewCondition`]: pageBuilder.itemPage({
     title: 'Add new condition',
