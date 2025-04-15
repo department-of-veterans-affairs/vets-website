@@ -9,7 +9,6 @@ import AppointmentColumn from '../../components/AppointmentColumn';
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
   const idClickable = `id-${referral.uuid.replace('.', '\\.')}`;
-  const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.categoryOfCare;
 
   const link = `schedule-referral?id=${
@@ -44,7 +43,6 @@ const PendingReferralCard = ({ referral, index }) => {
                     padding="0p5"
                     size="1"
                     className="vaos-appts__display--table"
-                    canceled={isCanceled}
                   >
                     <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                       {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
