@@ -53,7 +53,7 @@ const AccessGuardWrapper = ({ children }) => {
 
 const baseName = '/my-medications';
 
-const routes = (
+const routes = () => (
   <AccessGuardWrapper>
     <Suspense fallback={<Loading />}>
       <Switch>
