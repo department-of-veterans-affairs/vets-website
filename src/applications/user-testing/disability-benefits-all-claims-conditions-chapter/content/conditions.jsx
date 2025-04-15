@@ -1,4 +1,7 @@
 import React from 'react';
+import { format } from 'date-fns';
+
+import { createSecondaryEnhancedDescriptionString } from './secondaryEnhanced';
 
 export const ConditionsIntroDescription = () => (
   <p>
@@ -26,37 +29,64 @@ export const NewConditionDescription = () => (
   </>
 );
 
-const createCauseFollowUpDescriptions = item => {
-  const cause = item?.cause;
+const createSecondaryDescriptionString = causedByCondition => {
+  // Just for SecondaryEnhanced demo
+  if (typeof causedByCondition === 'object') {
+    return createSecondaryEnhancedDescriptionString(causedByCondition);
+  }
 
+  return `caused by ${causedByCondition ||
+    'a missing service-connected condition'}`;
+};
+
+const createCauseFollowUpDescriptions = item => {
   const causeFollowUpDescriptions = {
     NEW: 'caused by an injury, event, disease or exposure during my service',
-    SECONDARY: `caused by ${item?.causedByCondition ||
-      'an unspecified condition'}`,
+    SECONDARY: createSecondaryDescriptionString(item?.causedByCondition),
     WORSENED:
       'existed before I served in the military, but got worse because of my military service',
     VA:
       'caused by an injury or event that happened when I was receiving VA care',
   };
 
+  const cause = item?.cause;
   return causeFollowUpDescriptions[cause];
 };
 
-export const NewConditionCardDescription = (item, date) => {
+const formatDateString = dateString => {
+  if (!dateString) {
+    return '';
+  }
+
+  const [year, month, day] = dateString.split('-').map(Number);
+  if (day) {
+    return format(new Date(year, month - 1, day), 'MMMM d, yyyy');
+  }
+  if (month) {
+    return format(new Date(year, month - 1), 'MMMM yyyy');
+  }
+  return year;
+};
+
+export const NewConditionCardDescription = item => {
   const causeFollowUpDescription = createCauseFollowUpDescriptions(item);
+  const date = formatDateString(item?.conditionDate);
 
   return (
     <p>
-      New condition;
-      {date && ` started ${date};`} {causeFollowUpDescription}.
+      New condition
+      {date && `; started ${date}`}
+      {causeFollowUpDescription && `; ${causeFollowUpDescription}`}
+      {(date || causeFollowUpDescription) && '.'}
     </p>
   );
 };
 
-export const RatedDisabilityCardDescription = (item, fullData, date) => {
+export const RatedDisabilityCardDescription = (item, fullData) => {
   const ratingPercentage = fullData?.ratedDisabilities?.find(
     ratedDisability => ratedDisability?.name === item?.ratedDisability,
   )?.ratingPercentage;
+  const date = formatDateString(item?.conditionDate);
 
   return (
     <>
