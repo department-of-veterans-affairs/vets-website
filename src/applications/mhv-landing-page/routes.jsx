@@ -1,6 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/no-cross-app-imports */
 import React, { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import AppConfig from './containers/AppConfig';
 
@@ -25,29 +25,24 @@ const Loading = () => (
 const routes = (
   <AppConfig>
     <Suspense fallback={<Loading />}>
-      <Switch>
-        <Route exact path="/" key="mhvLandingPage">
-          <LandingPageContainer />
-        </Route>
+      <Routes>
         <Route
-          exact
-          path={['/my-secure-messages', '/my-secure-messages/*']}
+          path="/"
+          element={<LandingPageContainer />}
+          key="mhvLandingPage"
+        />
+        <Route
+          path="/my-secure-messages/*"
+          element={<MhvSecureMessagingRoutes />}
           key="mhvSecureMessages"
-        >
-          <MhvSecureMessagingRoutes />
-        </Route>
+        />
         <Route
-          exact
-          path={['/my-appointments', '/my-appointments/*']}
+          path="/my-appointments/*"
+          element={<AppointmentsRoutes />}
           key="appointments"
-        >
-          <AppointmentsRoutes />
-        </Route>
-
-        <Route>
-          <PageNotFound />
-        </Route>
-      </Switch>
+        />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </Suspense>
   </AppConfig>
 );
