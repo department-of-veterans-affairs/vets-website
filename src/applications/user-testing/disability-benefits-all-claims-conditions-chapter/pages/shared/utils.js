@@ -158,7 +158,7 @@ const capitalizeFirstLetter = string =>
 export const createNewConditionName = (item, capFirstLetter = false) => {
   const newCondition = capFirstLetter
     ? capitalizeFirstLetter(item?.newCondition)
-    : item?.newCondition || 'condition';
+    : item?.newCondition || 'new condition';
 
   if (item?.sideOfBody) {
     return `${newCondition}, ${item?.sideOfBody.toLowerCase()}`;
