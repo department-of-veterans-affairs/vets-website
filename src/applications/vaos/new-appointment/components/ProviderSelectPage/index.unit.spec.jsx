@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import SelectProviderPage from './index';
 import {
@@ -252,19 +251,15 @@ describe('VAOS Page: ProviderSelectPage', () => {
         store,
       });
 
-      const link = await screen.container.querySelector(
-        'va-link[text="Choose your preferred date and time"]',
-      );
+      const chooseDateTimeLink = await screen.queryByTestId('choose-date-time');
 
-      // await waitFor(() => {
-      //   expect(link).to.be.ok;
-      // });
+      chooseDateTimeLink.click();
 
-      userEvent.click(link);
-
-      await waitFor(() => expect(screen.history.push.called).to.be.true);
-
-      // expect(screen.history.push.called).to.be.true;
+      await waitFor(() => {
+        expect(store.getState().newAppointment.data.selectedProvider).to.equal(
+          'Practitioner/123456',
+        );
+      });
     });
   });
 });
