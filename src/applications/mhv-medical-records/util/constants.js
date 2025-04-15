@@ -526,20 +526,3 @@ export const CernerAlertContent = {
     pageName: 'vitals',
   },
 };
-
-export const SortTypes = {
-  ALPHABETICAL: {
-    value: 'alphatetically',
-    label: 'alphabetically',
-  },
-  ASC_DATE: {
-    value: 'ascDate',
-    label: 'newest to oldest',
-    labelWithDateEntered: 'newest to oldest (date entered)',
-  },
-  DSC_DATE: {
-    value: 'dscDate',
-    label: 'oldest to newest',
-    labelWithDateEntered: 'oldest to newest (date entered)',
-  },
-};
