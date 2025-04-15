@@ -1,6 +1,11 @@
-const semver = require('semver');
 const fs = require('fs');
 const path = require('path');
+
+const nodeMdodulesPath = require.resolve('semver', {
+  paths: [path.join(__dirname, '../node_modules')],
+});
+// eslint-disable-next-line import/no-dynamic-require
+const semver = require(nodeMdodulesPath);
 
 const nodeVersion = path.join(__dirname, '../.nvmrc');
 const minimumNodeVersion = fs.readFileSync(nodeVersion).toString();
