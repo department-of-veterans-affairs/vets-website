@@ -4,6 +4,8 @@ import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import AddressPage from '../../../../components/submit-flow/pages/AddressPage';
@@ -49,6 +51,16 @@ describe('Address page', () => {
     setYesNo: () => {},
     setIsUnsupportedClaimType,
   };
+
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
 
   it('should render with user home address', () => {
     const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
@@ -106,7 +118,7 @@ describe('Address page', () => {
     );
   });
 
-  it('should render an error selection is "no"', async () => {
+  it('should render an error if selection is "no"', async () => {
     renderWithStoreAndRouter(
       <AddressPage {...props} yesNo={{ ...props.yesNo, address: 'no' }} />,
       {
@@ -117,6 +129,13 @@ describe('Address page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'address',
+        'option-label': 'unsupported',
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
   });
 
@@ -131,6 +150,13 @@ describe('Address page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'address',
+        'option-label': 'answered',
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(4)).to.be.true;
   });
@@ -143,6 +169,13 @@ describe('Address page', () => {
     });
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-questions',
+        label: 'address',
+        'option-label': 'back',
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(2)).to.be.true;
   });
