@@ -6,9 +6,6 @@ import { render } from '@testing-library/react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
-import vapService from '@@vap-svc/reducers';
-
-import vapProfile from 'platform/user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
 import thunk from 'redux-thunk';
 
 import EditAddress from '../../containers/EditAddress';
@@ -76,10 +73,6 @@ describe('<EditAddress>', () => {
           </Routes>
         </MemoryRouter>
       </Provider>,
-      {
-        initialState: vapProfile,
-        reducers: { vapService },
-      },
     );
 
     const needHelpEl = container.querySelector('va-need-help');
