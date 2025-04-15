@@ -237,11 +237,18 @@ export const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertPathologyRecord = record => {
+  const { code } = record.code.coding?.[0];
+
+  // Define a set of valid pathology codes
+  const validCodes = new Set(['11526-1', '27898-6', '50668-3', '26438-2']);
+
+  // If the code exists in our valid set, assign record.code.text; otherwise, undefined
+  const pathologyType = validCodes.has(code) ? record.code.text : '';
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
-    name: record.code.coding[0]?.code,
+    name: pathologyType,
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
@@ -425,9 +432,9 @@ const getRecordType = record => {
     const loincMap = {
       [loincCodes.MICROBIOLOGY]: labTypes.MICROBIOLOGY,
       [loincCodes.PATHOLOGY]: labTypes.PATHOLOGY,
-      [loincCodes.SURGICAL_PATHOLOGY]: labTypes.SURGICAL_PATHOLOGY,
-      [loincCodes.ELECTRON_MICROSCOPY]: labTypes.ELECTRON_MICROSCOPY,
-      [loincCodes.CYTOPATHOLOGY]: labTypes.CYTOPATHOLOGY,
+      [loincCodes.SURGICAL_PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.ELECTRON_MICROSCOPY]: labTypes.PATHOLOGY,
+      [loincCodes.CYTOPATHOLOGY]: labTypes.PATHOLOGY,
     };
 
     // Check if the code text is 'CH'
