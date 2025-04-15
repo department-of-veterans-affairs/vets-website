@@ -11,6 +11,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
 - Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
 - visit the app: `http://localhost:3001/my-health/medications`
 
+
 ## Running tests
 
 Unit tests for can be run using this command: `yarn test:unit --app-folder mhv-medications`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder mhv-medications --coverage --coverage-html`. View the report at `/coverage/index.html`
