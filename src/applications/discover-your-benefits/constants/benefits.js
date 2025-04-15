@@ -635,7 +635,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/disability/',
-    applyNowURL: 'https://www.va.gov/disability/how-to-file-a-claim',
+    applyNowURL: 'https://www.va.gov/disability/how-to-file-claim',
   },
   {
     name: 'VA-backed home loans',
