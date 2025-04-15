@@ -11,9 +11,7 @@ import {
 } from '../../redux/actions';
 import { getFormData } from '../../redux/selectors';
 
-const pageKey = 'selectProvider';
-
-function handleClick({ history, dispatch, data, provider }) {
+function handleClick({ history, dispatch, data, provider, pageKey }) {
   return () => {
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
     dispatch(routeToNextAppointmentPage(history, pageKey, data));
@@ -25,6 +23,7 @@ export default function ProviderCard({ provider }) {
   const { lastSeen, providerName, hasAvailability } = provider;
   const dispatch = useDispatch();
   const history = useHistory();
+  const pageKey = useSelector(state => state?.newAppointment?.currentPageKey);
   const data = useSelector(getFormData);
 
   return (
@@ -56,6 +55,7 @@ export default function ProviderCard({ provider }) {
             dispatch,
             data,
             provider,
+            pageKey,
           })}
         />
       )}
