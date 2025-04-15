@@ -471,7 +471,9 @@ const DownloadFileType = props => {
                 and update the date range or select more record types.
               </p>
               <p>
-                <Link to="/download/date-range">Go back to update report</Link>
+                <Link to="/my-medical-records/download/date-range">
+                  Go back to update report
+                </Link>
               </p>
             </va-alert>
           </div>

@@ -61,22 +61,26 @@ const AccessGuardWrapper = ({ children }) => {
   return children;
 };
 
-const routes = (
+const routes = () => (
   <AccessGuardWrapper>
     <Suspense fallback={<Loading />}>
       <Switch>
-        <AppRoute exact path="/" key="Medical Records Home">
+        <AppRoute exact path="/my-medical-records" key="Medical Records Home">
           <LandingPage />
         </AppRoute>
-        <AppRoute exact path="/allergies" key="Allergies">
+        <AppRoute exact path="/my-medical-records/allergies" key="Allergies">
           <Allergies />
         </AppRoute>
-        <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
+        <AppRoute
+          exact
+          path="/my-medical-records/allergies/:allergyId"
+          key="AllergyDetails"
+        >
           <AllergyDetails />
         </AppRoute>
         <FeatureFlagRoute
           exact
-          path="/vaccines"
+          path="/my-medical-records/vaccines"
           key="Vaccines"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
         >
@@ -84,7 +88,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/vaccines/:vaccineId"
+          path="/my-medical-records/vaccines/:vaccineId"
           key="Vaccine"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
         >
@@ -92,7 +96,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/summaries-and-notes"
+          path="/my-medical-records/summaries-and-notes"
           key="CareSummariesAndNotes"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
         >
@@ -100,7 +104,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/summaries-and-notes/:summaryId"
+          path="/my-medical-records/summaries-and-notes/:summaryId"
           key="CareSummaryAndNotesDetails"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
         >
@@ -108,7 +112,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/conditions"
+          path="/my-medical-records/conditions"
           key="Health Conditions"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
         >
@@ -116,7 +120,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/conditions/:conditionId"
+          path="/my-medical-records/conditions/:conditionId"
           key="Condition Details"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
         >
@@ -124,7 +128,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/vitals"
+          path="/my-medical-records/vitals"
           key="Vitals"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
         >
@@ -132,7 +136,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/vitals/:vitalType-history"
+          path="/my-medical-records/vitals/:vitalType-history"
           key="VitalDetails"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
         >
@@ -140,7 +144,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/labs-and-tests"
+          path="/my-medical-records/labs-and-tests"
           key="LabsAndTests"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
@@ -148,7 +152,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/labs-and-tests/:labId"
+          path="/my-medical-records/labs-and-tests/:labId"
           key="LabAndTestDetails"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
@@ -156,7 +160,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/labs-and-tests/:labId/images"
+          path="/my-medical-records/labs-and-tests/:labId/images"
           key="RadiologyImagesList"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
@@ -164,7 +168,7 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/labs-and-tests/:labId/images/:imageId"
+          path="/my-medical-records/labs-and-tests/:labId/images/:imageId"
           key="RadiologySingleImage"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
@@ -172,22 +176,34 @@ const routes = (
         </FeatureFlagRoute>
         <FeatureFlagRoute
           exact
-          path="/settings"
+          path="/my-medical-records/settings"
           key="Settings"
           featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage}
         >
           <SettingsPage />
         </FeatureFlagRoute>
-        <AppRoute exact path="/download" key="Download">
+        <AppRoute exact path="/my-medical-records/download" key="Download">
           <DownloadReportPage />
         </AppRoute>
-        <AppRoute exact path="/download/date-range" key="Download-date-range">
+        <AppRoute
+          exact
+          path="/my-medical-records/download/date-range"
+          key="Download-date-range"
+        >
           <DownloadDateRange />
         </AppRoute>
-        <AppRoute exact path="/download/record-type" key="Download-record-type">
+        <AppRoute
+          exact
+          path="/my-medical-records/download/record-type"
+          key="Download-record-type"
+        >
           <DownloadRecordType />
         </AppRoute>
-        <AppRoute exact path="/download/file-type" key="Download-file-type">
+        <AppRoute
+          exact
+          path="/my-medical-records/download/file-type"
+          key="Download-file-type"
+        >
           <DownloadFileType />
         </AppRoute>
         <Route>

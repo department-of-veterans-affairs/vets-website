@@ -14,7 +14,7 @@ const ConditionListItem = props => {
     >
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/conditions/${record.id}`}
+          to={`/my-medical-records/conditions/${record.id}`}
           data-dd-privacy="mask"
           data-dd-action-name="Health Conditions Detail Link"
           className="no-print"

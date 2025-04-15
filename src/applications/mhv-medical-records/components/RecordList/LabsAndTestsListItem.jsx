@@ -15,7 +15,9 @@ const LabsAndTestsListItem = props => {
     >
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/labs-and-tests/${record.id}`}
+          to={`/my-medical-records/my-medical-records/labs-and-tests/${
+            record.id
+          }`}
           data-dd-privacy="mask"
           data-dd-action-name="Lab and Test Results Detail Link"
           onClick={() => {

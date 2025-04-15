@@ -50,7 +50,7 @@ const CareSummariesAndNotesListItem = props => {
       {/* web view header */}
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/summaries-and-notes/${record.id}`}
+          to={`/my-medical-records/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
           data-dd-action-name="Care Summaries & Notes Detail Link"
           className="no-print"

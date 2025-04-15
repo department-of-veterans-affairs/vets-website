@@ -63,7 +63,7 @@ const VitalListItem = props => {
   );
 
   const url = `/vitals/${kebabCase(updatedRecordType)}-history${
-    isAccelerating ? `?timeFrame=${timeFrame}` : ''
+    isAccelerating ? `/my-medical-records?timeFrame=${timeFrame}` : ''
   }`;
 
   return (

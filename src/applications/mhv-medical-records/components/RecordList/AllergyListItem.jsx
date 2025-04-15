@@ -15,7 +15,7 @@ const AllergyListItem = props => {
       {/* web view header */}
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/allergies/${record.id}`}
+          to={`/my-medical-records/allergies/${record.id}`}
           data-dd-privacy="mask"
           data-dd-action-name="[allergy list - name Link]"
           data-testid={`allergy-link-${record.id}`}

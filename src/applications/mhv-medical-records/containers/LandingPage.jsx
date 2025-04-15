@@ -161,7 +161,7 @@ const LandingPage = () => {
                 </a>
               ) : (
                 <Link
-                  to="/labs-and-tests"
+                  to="/my-medical-records/labs-and-tests"
                   className="vads-c-action-link--blue"
                   data-testid="labs-and-tests-landing-page-link"
                   onClick={() => {
@@ -202,7 +202,7 @@ const LandingPage = () => {
               ) : (
                 <>
                   <Link
-                    to="/summaries-and-notes"
+                    to="/my-medical-records/summaries-and-notes"
                     className="vads-c-action-link--blue"
                     data-testid="notes-landing-page-link"
                     onClick={() => {
@@ -239,7 +239,7 @@ const LandingPage = () => {
                 </a>
               ) : (
                 <Link
-                  to="/vaccines"
+                  to="/my-medical-records/vaccines"
                   className="vads-c-action-link--blue"
                   data-testid="vaccines-landing-page-link"
                   onClick={() => {
@@ -275,7 +275,7 @@ const LandingPage = () => {
               </a>
             ) : (
               <Link
-                to="/allergies"
+                to="/my-medical-records/allergies"
                 className="vads-c-action-link--blue"
                 data-testid="allergies-landing-page-link"
                 onClick={() => {
@@ -307,7 +307,7 @@ const LandingPage = () => {
                 </a>
               ) : (
                 <Link
-                  to="/conditions"
+                  to="/my-medical-records/conditions"
                   className="vads-c-action-link--blue"
                   data-testid="conditions-landing-page-link"
                   onClick={() => {
@@ -346,7 +346,7 @@ const LandingPage = () => {
                 </a>
               ) : (
                 <Link
-                  to="/vitals"
+                  to="/my-medical-records/vitals"
                   className="vads-c-action-link--blue"
                   data-testid="vitals-landing-page-link"
                   onClick={() => {
@@ -370,7 +370,7 @@ const LandingPage = () => {
                   notification settings.
                 </p>
                 <Link
-                  to="/settings"
+                  to="/my-medical-records/settings"
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   onClick={() => {
@@ -393,7 +393,7 @@ const LandingPage = () => {
                   className="vads-u-margin-bottom--2"
                 >
                   <Link
-                    to="/download"
+                    to="/my-medical-records/download"
                     className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
                     onClick={() => {
@@ -423,7 +423,7 @@ const LandingPage = () => {
                   className="vads-u-margin-bottom--2"
                 >
                   <Link
-                    to="/download"
+                    to="/my-medical-records/download"
                     className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
                     onClick={() => {
@@ -443,7 +443,7 @@ const LandingPage = () => {
                   notification settings.
                 </p>
                 <Link
-                  to="/settings"
+                  to="/my-medical-records/settings"
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   onClick={() => {
@@ -529,7 +529,7 @@ const LandingPage = () => {
                       </p>
                       <p className="vads-u-margin-bottom--2">
                         <Link
-                          to="/download"
+                          to="/my-medical-records/download"
                           onClick={() => {
                             sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                           }}

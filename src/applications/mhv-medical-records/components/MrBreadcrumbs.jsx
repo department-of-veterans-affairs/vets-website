@@ -157,7 +157,9 @@ const MrBreadcrumbs = () => {
         </span>
         <Link
           to={`${backToImagesBreadcrumb}${
-            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+            urlVitalsDate
+              ? `/my-medical-records?timeFrame=${urlVitalsDate}`
+              : ''
           }`}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });

@@ -335,7 +335,7 @@ ${record.results}`;
         </p>
         <p>
           <Link
-            to={`/labs-and-tests/${record.id}/images`}
+            to={`/my-medical-records/labs-and-tests/${record.id}/images`}
             className="vads-c-action-link--blue"
             data-testid="radiology-view-all-images"
             onClick={() => {

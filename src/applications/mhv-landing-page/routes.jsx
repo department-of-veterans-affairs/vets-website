@@ -9,6 +9,9 @@ const LandingPageContainer = lazy(() =>
   import('./containers/LandingPageContainer'),
 );
 const MhvMedcationsRoutes = lazy(() => import('../mhv-medications/routes'));
+const MhvMedicalRecordsRoutes = lazy(() =>
+  import('../mhv-medical-records/routes'),
+);
 const MhvSecureMessagingRoutes = lazy(() =>
   import('../mhv-secure-messaging/routes'),
 );
@@ -36,6 +39,13 @@ const routes = (
           key="mhvMedications"
         >
           <MhvMedcationsRoutes />
+        </Route>
+        <Route
+          exact
+          path={['/my-medical-records', '/my-medical-records/*']}
+          key="mhvMedicalRecords"
+        >
+          <MhvMedicalRecordsRoutes />
         </Route>
         <Route
           exact

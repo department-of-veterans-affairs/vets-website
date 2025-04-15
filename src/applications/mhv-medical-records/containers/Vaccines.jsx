@@ -160,7 +160,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
       </p>
       <div className="vads-u-margin-bottom--4">
         <Link
-          to="/allergies"
+          to="/my-medical-records/allergies"
           className="no-print"
           onClick={() => {
             sendDataDogAction('Go to your allergy records - Vaccines');

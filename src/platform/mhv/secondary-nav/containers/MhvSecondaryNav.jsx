@@ -40,7 +40,7 @@ export const mhvSecNavItems = [
     title: 'Records',
     actionName: `${actionPrefix} - Records`,
     icon: 'note_add',
-    href: `/my-health/medical-records`,
+    href: `/my-medical-records`,
   },
 ];
 
