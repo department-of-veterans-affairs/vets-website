@@ -5,30 +5,9 @@ import { mount } from 'enzyme';
 
 import { DefinitionTester } from '~/platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
+import { daysAgoYyyyMmDd, futureDateYyyyMmDd } from '../../helpers';
 
 const definitions = formConfig.defaultDefinitions;
-
-const formatDateYyyyMmDd = day => {
-  const yyyy = day.getFullYear();
-  let mm = day.getMonth() + 1; // Month is zero-based
-  let dd = day.getDate();
-
-  if (dd < 10) dd = `0${dd}`;
-  if (mm < 10) mm = `0${mm}`;
-  return `${yyyy}-${mm}-${dd}`;
-};
-
-const futureDateYyyyMmDd = numberOfDays => {
-  const day = new Date();
-  day.setDate(day.getDate() + numberOfDays);
-  return formatDateYyyyMmDd(day);
-};
-
-const daysAgoYyyyMmDd = numberOfDays => {
-  const day = new Date();
-  day.setDate(day.getDate() - numberOfDays);
-  return formatDateYyyyMmDd(day);
-};
 
 describe('22-10215 - Institution Details', () => {
   const {
