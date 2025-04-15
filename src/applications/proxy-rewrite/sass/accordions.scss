@@ -1,0 +1,184 @@
+/* stylelint-disable color-no-hex */
+
+.usa-accordion,.usa-accordion-bordered {
+  margin-bottom: 0;
+  margin-top: 0;
+  list-style-type: none;
+  padding-left: 0;
+  color: #212121;
+  margin: 0;
+  padding: 0;
+  width: 100%
+}
+
+.usa-accordion>li,.usa-accordion-bordered>li {
+  margin-bottom: 0;
+  max-width: unset
+}
+
+.usa-accordion>ul li ul,.usa-accordion-bordered>ul li ul {
+  list-style: disc
+}
+
+.usa-accordion>ul li ul>li>ul,.usa-accordion-bordered>ul li ul>li>ul {
+  list-style: circle
+}
+
+.usa-accordion>ul li ul>li>ul>li>ul,.usa-accordion-bordered>ul li ul>li>ul>li>ul {
+  list-style: square
+}
+
+.usa-accordion+.usa-accordion,.usa-accordion+.usa-accordion-bordered,.usa-accordion-bordered+.usa-accordion,.usa-accordion-bordered+.usa-accordion-bordered {
+  margin-top: 0.625rem
+}
+
+.usa-accordion>ul,.usa-accordion-bordered>ul {
+  margin-bottom: 0;
+  margin-top: 0;
+  list-style-type: none;
+  padding-left: 0;
+  color: #212121;
+  margin: 0;
+  padding: 0;
+  width: 100%
+}
+
+.usa-accordion>ul>li,.usa-accordion-bordered>ul>li {
+  margin-bottom: 0;
+  max-width: unset
+}
+
+.usa-accordion>ul>li,.usa-accordion-bordered>ul>li {
+  background-color: #f0f0f0;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  list-style: none;
+  margin-bottom: 0.3125rem;
+  width: 100%
+}
+
+.usa-accordion>ul button,.usa-accordion-bordered>ul button {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  -webkit-font-smoothing: auto;
+  background-color: #f0f0f0;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAAAVUlEQVR4Ae2SVwHAIBQDQ/CCt+66RBVbAXn8csfelGKZjRMccBSUDQgbgSc/vpN+PBHgoy+iES3JogU9Ec2mSabj2T7E+OQ/v0n/8clVFn8jJ7jIpgLHRrH/NkY3iQAAAABJRU5ErkJggg==);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='401.991' height='401.991' viewBox='0 0 401.991 401.991'%3e%3cpath d='M394 154.174c-5.33-5.33-11.806-7.995-19.417-7.995H27.406c-7.61 0-14.084 2.66-19.414 7.99C2.662 159.5 0 165.97 0 173.586v54.82c0 7.617 2.662 14.086 7.992 19.41 5.33 5.332 11.803 7.994 19.414 7.994h347.176c7.61 0 14.086-2.66 19.417-7.993 5.32-5.324 7.99-11.793 7.99-19.41v-54.82c0-7.615-2.66-14.087-7.99-19.413z'/%3e%3c/svg%3e");
+  background-position: right 1.25rem center;
+  background-repeat: no-repeat;
+  background-size: 0.9375rem;
+  color: #212121;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: 700;
+  margin: 0;
+  padding: 0.9375rem 3.4375rem 0.9375rem 1.25rem;
+  width: 100%
+}
+
+.usa-accordion>ul button:hover,.usa-accordion-bordered>ul button:hover {
+  background-color: transparent
+}
+
+.usa-accordion>ul button:hover,.usa-accordion-bordered>ul button:hover {
+  background-color: #d6d7d9;
+  color: #212121
+}
+
+.usa-accordion>ul button h1,.usa-accordion>ul button h2,.usa-accordion>ul button h3,.usa-accordion>ul button h4,.usa-accordion>ul button h5,.usa-accordion>ul button h6,.usa-accordion-bordered>ul button h1,.usa-accordion-bordered>ul button h2,.usa-accordion-bordered>ul button h3,.usa-accordion-bordered>ul button h4,.usa-accordion-bordered>ul button h5,.usa-accordion-bordered>ul button h6 {
+  margin: 0
+}
+
+.usa-accordion>ul [aria-expanded=false],.usa-accordion-bordered>ul [aria-expanded=false] {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAAAuElEQVR4Ac2UhQGFMBBDj9wu3Q1nMRjjMxV6Xyof9wRPH4UaOUK3Ky654bpzwy9S8nRSHhECQRqWIwJ5OiEJkVlQppMpKLWg9H7IE8t5CNLpF8b3YhrSZQY7AKEFhTQghQApkt5yDjk3Ic4RSvItEZAi6X3X9cCVdkkSuG60h1LqDytdb4Q2fd6WhpAmz5D+HHFhNXmByEgzafJ/ITIhRHa6cxh52sOQ9kMn4b6FZf8SNrxYlkOLZQs8CzRVr/mMVAAAAABJRU5ErkJggg==);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='401.994' height='401.994' viewBox='0 0 401.994 401.994'%3e%3cpath d='M394 154.175c-5.33-5.33-11.806-7.994-19.417-7.994H255.81V27.41c0-7.61-2.665-14.084-7.993-19.414C242.487 2.666 236.02 0 228.397 0h-54.81c-7.613 0-14.085 2.663-19.415 7.993-5.33 5.33-7.994 11.803-7.994 19.414v118.775H27.408c-7.612 0-14.085 2.664-19.415 7.994S0 165.973 0 173.59v54.818c0 7.618 2.662 14.086 7.992 19.41 5.33 5.333 11.803 7.995 19.414 7.995h118.77V374.59c0 7.61 2.665 14.09 7.995 19.417 5.33 5.325 11.806 7.987 19.418 7.987H228.4c7.618 0 14.087-2.662 19.418-7.987 5.332-5.33 7.994-11.806 7.994-19.417V255.813h118.77c7.618 0 14.09-2.662 19.417-7.994 5.325-5.33 7.99-11.797 7.99-19.415v-54.82c0-7.615-2.66-14.086-7.993-19.413z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 0.9375rem
+}
+
+.usa-accordion>li,.usa-accordion-bordered>li {
+  background-color: #f0f0f0;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  list-style: none;
+  margin-bottom: 0.3125rem;
+  width: 100%
+}
+
+.usa-accordion-bordered .usa-accordion-content {
+  border-bottom: 3px solid #f0f0f0;
+  border-left: 3px solid #f0f0f0;
+  border-right: 3px solid #f0f0f0
+}
+
+.usa-accordion-content {
+  background-color: #ffffff;
+  overflow: auto;
+  padding: 0.9375rem 1.25rem
+}
+
+.usa-accordion-content>*:first-child {
+  margin-top: 0
+}
+
+.usa-accordion-content>*:last-child {
+  margin-bottom: 0
+}
+
+.usa-accordion-content:not([aria-hidden]) {
+  position: absolute;
+  left: -999em
+}
+
+.usa-accordion-content[aria-hidden=true] {
+  display: none
+}
+
+.usa-accordion-button {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  -webkit-font-smoothing: auto;
+  background-color: #f0f0f0;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAAAVUlEQVR4Ae2SVwHAIBQDQ/CCt+66RBVbAXn8csfelGKZjRMccBSUDQgbgSc/vpN+PBHgoy+iES3JogU9Ec2mSabj2T7E+OQ/v0n/8clVFn8jJ7jIpgLHRrH/NkY3iQAAAABJRU5ErkJggg==);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='401.991' height='401.991' viewBox='0 0 401.991 401.991'%3e%3cpath d='M394 154.174c-5.33-5.33-11.806-7.995-19.417-7.995H27.406c-7.61 0-14.084 2.66-19.414 7.99C2.662 159.5 0 165.97 0 173.586v54.82c0 7.617 2.662 14.086 7.992 19.41 5.33 5.332 11.803 7.994 19.414 7.994h347.176c7.61 0 14.086-2.66 19.417-7.993 5.32-5.324 7.99-11.793 7.99-19.41v-54.82c0-7.615-2.66-14.087-7.99-19.413z'/%3e%3c/svg%3e");
+  background-position: right 1.25rem center;
+  background-repeat: no-repeat;
+  background-size: 0.9375rem;
+  color: #212121;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: 700;
+  margin: 0;
+  padding: 0.9375rem 3.4375rem 0.9375rem 1.25rem;
+  width: 100%
+}
+
+.usa-accordion-button:hover {
+  background-color: transparent
+}
+
+.usa-accordion-button:hover {
+  background-color: #d6d7d9;
+  color: #212121
+}
+
+.usa-accordion-button h1,.usa-accordion-button h2,.usa-accordion-button h3,.usa-accordion-button h4,.usa-accordion-button h5,.usa-accordion-button h6 {
+  margin: 0
+}
+
+.usa-accordion-button[aria-expanded=false] {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAAAuElEQVR4Ac2UhQGFMBBDj9wu3Q1nMRjjMxV6Xyof9wRPH4UaOUK3Ky654bpzwy9S8nRSHhECQRqWIwJ5OiEJkVlQppMpKLWg9H7IE8t5CNLpF8b3YhrSZQY7AKEFhTQghQApkt5yDjk3Ic4RSvItEZAi6X3X9cCVdkkSuG60h1LqDytdb4Q2fd6WhpAmz5D+HHFhNXmByEgzafJ/ITIhRHa6cxh52sOQ9kMn4b6FZf8SNrxYlkOLZQs8CzRVr/mMVAAAAABJRU5ErkJggg==);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='401.994' height='401.994' viewBox='0 0 401.994 401.994'%3e%3cpath d='M394 154.175c-5.33-5.33-11.806-7.994-19.417-7.994H255.81V27.41c0-7.61-2.665-14.084-7.993-19.414C242.487 2.666 236.02 0 228.397 0h-54.81c-7.613 0-14.085 2.663-19.415 7.993-5.33 5.33-7.994 11.803-7.994 19.414v118.775H27.408c-7.612 0-14.085 2.664-19.415 7.994S0 165.973 0 173.59v54.818c0 7.618 2.662 14.086 7.992 19.41 5.33 5.333 11.803 7.995 19.414 7.995h118.77V374.59c0 7.61 2.665 14.09 7.995 19.417 5.33 5.325 11.806 7.987 19.418 7.987H228.4c7.618 0 14.087-2.662 19.418-7.987 5.332-5.33 7.994-11.806 7.994-19.417V255.813h118.77c7.618 0 14.09-2.662 19.417-7.994 5.325-5.33 7.99-11.797 7.99-19.415v-54.82c0-7.615-2.66-14.086-7.993-19.413z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 0.9375rem
+}
