@@ -12,6 +12,10 @@ const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
 
+// const CHANGED_FILE_PATHS = '.github/workflows/continuous-integration.yml script/check-cross-app-imports.js script/github-actions/select-e2e-tests-new.js src/applications/disability-benefits/2346/components/Accessories.jsx'.split(
+//   ' ',
+// );
+
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
@@ -39,7 +43,6 @@ function selectTests(pathsOfChangedFiles) {
     console.log('all tests selected');
     tests.push(allTests());
   } else {
-    const applications = [];
     const applicationNames = pathsOfChangedFiles
       .filter(
         filePath =>
@@ -47,9 +50,7 @@ function selectTests(pathsOfChangedFiles) {
           !filePath.startsWith('.github/workflows'),
       )
       .map(filePath => filePath.split('/')[2]);
-    console.log('applicationNames: ', applicationNames);
-
-    [...new Set(applications)].forEach(app => {
+    [...new Set(applicationNames)].forEach(app => {
       console.log('app: ', app);
       const selectedTestsPattern = path.join(
         __dirname,
@@ -61,6 +62,7 @@ function selectTests(pathsOfChangedFiles) {
 
       tests.push(...glob.sync(selectedTestsPattern));
     });
+
     console.log('tests: ', tests);
     if (IS_CHANGED_APPS_BUILD) {
       const megaMenuTestPath = path.join(
@@ -172,6 +174,6 @@ function main() {
     core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'false');
   }
 }
-if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
-  main();
-}
+// if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
+main();
+// }
