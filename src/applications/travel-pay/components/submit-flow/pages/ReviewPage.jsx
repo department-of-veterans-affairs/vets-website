@@ -135,6 +135,7 @@ const ReviewPage = ({
       <VaButtonPair
         className="vads-u-margin-top--2"
         continue
+        disable-analytics
         rightButtonText="File claim"
         leftButtonText="Start over"
         onPrimaryClick={onSubmit}

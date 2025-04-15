@@ -74,6 +74,7 @@ const VehiclePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />

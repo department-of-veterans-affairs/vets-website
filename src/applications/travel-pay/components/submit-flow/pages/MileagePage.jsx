@@ -116,6 +116,7 @@ const MileagePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

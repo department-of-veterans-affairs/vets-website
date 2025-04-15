@@ -100,7 +100,12 @@ const AddressPage = ({
         </h2>
         <HelpTextGeneral />
         <br />
-        <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
+        <va-button
+          back
+          disable-analytics
+          onClick={handlers.onBack}
+          class="vads-u-margin-y--2"
+        />
       </>
     );
   }
@@ -152,6 +157,7 @@ const AddressPage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

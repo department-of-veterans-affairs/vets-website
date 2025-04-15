@@ -40,7 +40,12 @@ const UnsupportedClaimTypePage = ({
       </h2>
       <HelpTextGeneral />
       <br />
-      <va-button class="vads-u-margin-y--2" text="Back" onClick={onBack} />
+      <va-button
+        disable-analytics
+        class="vads-u-margin-y--2"
+        text="Back"
+        onClick={onBack}
+      />
     </div>
   );
 };
