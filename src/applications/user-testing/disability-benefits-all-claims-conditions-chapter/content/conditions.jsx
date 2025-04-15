@@ -73,10 +73,6 @@ const createSecondaryEnhancedDescriptionString = causedByCondition => {
     key => causedByCondition[key],
   );
 
-  if (conditions.length === 0) {
-    return '';
-  }
-
   let conditionsString = '';
 
   if (conditions.length === 1) {
@@ -90,7 +86,8 @@ const createSecondaryEnhancedDescriptionString = causedByCondition => {
     }`;
   }
 
-  return `caused by ${conditionsString}`;
+  return `caused by ${conditionsString ||
+    'a missing service-connected condition'}`;
 };
 
 const createSecondaryDescriptionString = causedByCondition => {
@@ -99,7 +96,7 @@ const createSecondaryDescriptionString = causedByCondition => {
   }
 
   return `caused by ${causedByCondition ||
-    'another service-connected condition'}`;
+    'a missing service-connected condition'}`;
 };
 
 const createCauseFollowUpDescriptions = item => {
