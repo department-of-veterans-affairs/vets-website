@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import {
   getArrayIndexFromPathName,
   getArrayUrlSearchParams,
@@ -15,6 +14,7 @@ import {
   RatedDisabilityCardDescription,
 } from '../../content/conditions';
 
+// Just for user testing demo functionality
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
@@ -45,6 +45,7 @@ export const createRatedDisabilityDescriptions = fullData => {
   }, {});
 };
 
+// Just for ConditionTypeRadio demo
 const isNewConditionForConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
@@ -58,6 +59,7 @@ const isNewConditionForConditionTypeRadio = (formData, index) => {
   );
 };
 
+// Just for ConditionTypeRadio demo
 const isRatedDisabilityForConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
@@ -68,9 +70,11 @@ const isRatedDisabilityForConditionTypeRadio = (formData, index) => {
   return formData?.['view:conditionType'] === 'RATED';
 };
 
+// Just for RatedOrNewNextPage demo
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
+// Just for RatedOrNewNextPage demo
 const isNewConditionForRatedOrNewNextPage = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
@@ -84,6 +88,7 @@ const isNewConditionForRatedOrNewNextPage = (formData, index) => {
   );
 };
 
+// Just for RatedOrNewNextPage demo
 const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
@@ -197,26 +202,12 @@ const isItemIncomplete = item => {
   return !item?.ratedDisability;
 };
 
-const formatDateString = dateString => {
-  if (!dateString) {
-    return '';
-  }
-
-  const [year, month, day] = dateString.split('-').map(Number);
-  if (day) {
-    return format(new Date(year, month - 1, day), 'MMMM d, yyyy');
-  }
-  return format(new Date(year, month - 1), 'MMMM yyyy');
-};
-
 const cardDescription = (item, _index, formData) => {
-  const date = formatDateString(item?.conditionDate);
-
   if (isNewCondition(item)) {
-    return NewConditionCardDescription(item, date);
+    return NewConditionCardDescription(item);
   }
 
-  return RatedDisabilityCardDescription(item, formData, date);
+  return RatedDisabilityCardDescription(item, formData);
 };
 
 /** @type {ArrayBuilderOptions} */

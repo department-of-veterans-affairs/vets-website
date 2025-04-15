@@ -68,6 +68,7 @@ const clearSideOfBody = (formData, index, setFormData) => {
   });
 };
 
+// Just for SecondaryEnhanced demo
 const clearConditionNotListed = (formData, setFormData) => {
   setFormData({
     ...formData,

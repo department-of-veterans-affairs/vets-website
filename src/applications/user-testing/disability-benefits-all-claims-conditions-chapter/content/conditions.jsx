@@ -1,9 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { format } from 'date-fns';
 
-import { ARRAY_PATH } from '../constants';
+import { createSecondaryEnhancedDescriptionString } from './secondaryEnhanced';
 
 export const ConditionsIntroDescription = () => (
   <p>
@@ -31,66 +29,8 @@ export const NewConditionDescription = () => (
   </>
 );
 
-export const SecondaryEnhancedNotListedAlert = () => {
-  const formData = useSelector(state => state.form.data);
-  const currentIndex = getArrayIndexFromPathName();
-  const newCondition = formData?.[ARRAY_PATH]?.[currentIndex]?.newCondition;
-  const capitalNewCondition =
-    newCondition.charAt(0).toUpperCase() + newCondition.slice(1);
-  const demoLabel = window.location.pathname
-    .split('conditions-')[1]
-    ?.split('/')[0];
-  const targetIndex = formData?.[ARRAY_PATH]?.length;
-
-  return (
-    <va-alert status="warning">
-      <p>
-        Tell us the service-connected disability or condition that caused{' '}
-        {newCondition}. You may add it now and your progress will be saved.{' '}
-        {capitalNewCondition} will be marked as incomplete until that condition
-        is added.
-      </p>
-      <Link
-        to={`conditions-${demoLabel}/${targetIndex}/new-condition?add=true`}
-      >
-        Add new condition now
-      </Link>
-    </va-alert>
-  );
-};
-
-export const SecondaryEnhancedOptionsConflictingAlert = () => (
-  <va-alert status="error">
-    <p>
-      You selected "My condition is not listed" along with one or more
-      conditions. Revise your selection so they don’t conflict to continue.
-    </p>
-  </va-alert>
-);
-
-const createSecondaryEnhancedDescriptionString = causedByCondition => {
-  const conditions = Object.keys(causedByCondition || {}).filter(
-    key => causedByCondition[key],
-  );
-
-  let conditionsString = '';
-
-  if (conditions.length === 1) {
-    const [condition] = conditions;
-    conditionsString = condition;
-  } else if (conditions.length === 2) {
-    conditionsString = conditions.join(' and ');
-  } else if (conditions.length > 2) {
-    conditionsString = `${conditions.slice(0, -1).join(', ')}, and ${
-      conditions[conditions.length - 1]
-    }`;
-  }
-
-  return `caused by ${conditionsString ||
-    'a missing service-connected condition'}`;
-};
-
 const createSecondaryDescriptionString = causedByCondition => {
+  // Just for SecondaryEnhanced demo
   if (typeof causedByCondition === 'object') {
     return createSecondaryEnhancedDescriptionString(causedByCondition);
   }
@@ -113,8 +53,24 @@ const createCauseFollowUpDescriptions = item => {
   return causeFollowUpDescriptions[cause];
 };
 
-export const NewConditionCardDescription = (item, date) => {
+const formatDateString = dateString => {
+  if (!dateString) {
+    return '';
+  }
+
+  const [year, month, day] = dateString.split('-').map(Number);
+  if (day) {
+    return format(new Date(year, month - 1, day), 'MMMM d, yyyy');
+  }
+  if (month) {
+    return format(new Date(year, month - 1), 'MMMM yyyy');
+  }
+  return year;
+};
+
+export const NewConditionCardDescription = item => {
   const causeFollowUpDescription = createCauseFollowUpDescriptions(item);
+  const date = formatDateString(item?.conditionDate);
 
   return (
     <p>
@@ -126,10 +82,11 @@ export const NewConditionCardDescription = (item, date) => {
   );
 };
 
-export const RatedDisabilityCardDescription = (item, fullData, date) => {
+export const RatedDisabilityCardDescription = (item, fullData) => {
   const ratingPercentage = fullData?.ratedDisabilities?.find(
     ratedDisability => ratedDisability?.name === item?.ratedDisability,
   )?.ratingPercentage;
+  const date = formatDateString(item?.conditionDate);
 
   return (
     <>
