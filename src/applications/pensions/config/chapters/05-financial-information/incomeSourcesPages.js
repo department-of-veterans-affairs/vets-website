@@ -1,16 +1,16 @@
 import React from 'react';
-import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import {
@@ -162,11 +162,7 @@ const incomePayerPage = {
       hint:
         'Enter the name of a government agency, a company, or another organization.',
     }),
-    amount: merge({}, currencyUI('What’s the monthly amount of income?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    amount: currencyUI('What’s the monthly amount of income?'),
   },
   schema: {
     type: 'object',
@@ -176,9 +172,7 @@ const incomePayerPage = {
         properties: {},
       },
       payer: textSchema,
-      amount: {
-        type: 'number',
-      },
+      amount: currencySchema,
     },
     required: ['payer', 'amount'],
   },
