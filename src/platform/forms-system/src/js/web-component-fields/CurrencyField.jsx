@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -16,7 +16,7 @@ export function parseCurrencyString(currencyString = '') {
   if (isNaN(value)) {
     return undefined;
   }
-  return value;
+  return Math.round(value * 100) / 100;
 }
 
 /*
@@ -34,10 +34,10 @@ export function parseCurrencyString(currencyString = '') {
  * @param {WebComponentFieldProps} props */
 export default function CurrencyField(fieldProps) {
   const props = vaTextInputFieldMapping(fieldProps);
+  const { uiOptions } = fieldProps;
 
   const [val, setVal] = useState(parseCurrencyString(props.value));
   const [displayVal, setDisplayVal] = useState(props.value);
-  const vaTextInput = useRef();
   const className = `${props.class || ''} currency-field`;
 
   const handleChange = event => {
@@ -55,25 +55,30 @@ export default function CurrencyField(fieldProps) {
 
   const handleBlur = () => {
     setDisplayVal(val);
-    props.onBlur(props.id);
+    props.onBlur(props.name);
   };
 
   const handleFocus = () => {
     setDisplayVal(val);
   };
 
+  // Not using currency property because inside the web component, it switches
+  // inputmode to numeric and adds a invalid number error message, but the error
+  // message isn't rendered! See https://github.com/department-of-veterans-affairs/va.gov-team/issues/106934#issuecomment-2806489322
+  // Using inputPrefix instead
   return (
     <VaTextInput
       {...props}
-      currency
+      // currency
+      inputPrefix={uiOptions?.currencySymbol || '$'}
       type="text"
-      inputMode="text"
+      inputmode="text"
       class={className}
       value={displayVal}
+      showInputError
       onInput={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      ref={vaTextInput}
     />
   );
 }
@@ -82,6 +87,6 @@ CurrencyField.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   class: PropTypes.string,
-  id: PropTypes.string,
+  name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

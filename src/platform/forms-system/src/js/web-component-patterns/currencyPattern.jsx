@@ -13,8 +13,9 @@ import { minMaxValidation } from './numberPattern';
  * exampleIncome: currencyUI({
  *  title: 'Gross monthy income',
  *  description: 'This is a description',
- *  hint: 'This is a hint'
- *  width: 'sm'
+ *  hint: 'This is a hint',
+ *  width: 'sm',
+ *  currencySymbol: '$',
  *  min: 0,
  *  max: 99
  * })
@@ -32,6 +33,7 @@ import { minMaxValidation } from './numberPattern';
  *   hint?: string,
  *   width?: UISchemaOptions['ui:options']['width'],
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   currencySymbol?: '$',
  *   min?: number,
  *   max?: number,
  * }} [options] accepts a single string for title, or an object of options
