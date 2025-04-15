@@ -8,7 +8,7 @@ import { arrayBuilderOptions } from '../shared/utils';
 
 const conditionTypeOptions = {
   RATED:
-    'A service-connected disability I have already received a rating for, but has gotten worse since the rating  decision.',
+    'A service-connected disability I have already received a rating for, but has worsened since the rating decision.',
   NEW: 'A condition I have not applied for before.',
 };
 

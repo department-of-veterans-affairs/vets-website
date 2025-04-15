@@ -96,7 +96,7 @@ export const remainingSharedPages = (
   isSecondaryEnhanced,
 ) => ({
   [`${demo.name}RatedDisabilityDate`]: pageBuilder.itemPage({
-    title: 'Approximate date of service-connected disability getting worse',
+    title: 'Approximate date of service-connected disability worsening',
     path: `conditions-${demo.label}/:index/rated-disability-date`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
