@@ -78,7 +78,7 @@ const IntroductionPage = ({ onStart }) => {
         </p>
         <va-link
           external
-          href="https://www.cep.fsc.va.gov/"
+          href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
           text="Set up direct deposit"
         />
       </va-alert>
