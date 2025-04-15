@@ -9,7 +9,8 @@ const ratedDisabilityDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Approximate date of ${formData?.ratedDisability} getting worse`,
+        `Approximate date of ${formData?.ratedDisability ||
+          'service-connected disability'} getting worse`,
     ),
     conditionDate: currentOrPastDateUI({
       title: 'Around what date did your disability get worse?',
