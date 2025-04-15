@@ -10,7 +10,7 @@ import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField
 import { useSearchParams, useNavigation } from 'react-router-dom';
 import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
-import { SEARCH_BC_LABEL, searchPeopleBC } from '../utilities/poaRequests';
+import { SEARCH_BC_LABEL, findClaimantBC } from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 
 const lastFour = ssn => {
@@ -57,9 +57,10 @@ const SearchResults = ({ claimant, searchData }) => {
     return (
       <>
         <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-          No result found for <strong>“{searchData.first_name}“</strong>
-          {', '}
-          <strong>“{searchData.last_name}“</strong>
+          No result found for{' '}
+          <strong>
+            “{searchData.first_name} {searchData.last_name}”
+          </strong>
           {', '}
           <strong>“{searchData.dob}”</strong>
           {', '}
@@ -103,25 +104,26 @@ const SearchResults = ({ claimant, searchData }) => {
       <h2>
         {claimant.lastName}, {claimant.firstName}
       </h2>
-      {claimant.city}, {claimant.state}
-      {}
-      {claimant.postalCode}
+      {claimant.city}, {claimant.state} {claimant.postalCode}
+      <br />
+      <br />
       {claimant.poaStatus === 'pending' || claimant.poaStatus === 'declined' ? (
-        <p>
+        <>
+          <strong>POA Status: </strong>
           <span>
             <va-icon size={3} icon="warning" className="yellow-warning" />
           </span>{' '}
           You do not have POA for this claimant.
-        </p>
+        </>
       ) : (
         <>
-          <br />
-          <strong>Representative:</strong> {claimant.representative}
+          <strong>POA Status:</strong> {claimant.representative} has POA for
+          this claimant.
         </>
       )}
       {claimant.poaRequests?.length ? (
         <>
-          <hr />
+          <hr className="divider claimant-search" />
           <h3>Recent power of attorney requests</h3>
           {poaStatusCta(claimant.poaStatus)}
           <ul
@@ -150,7 +152,7 @@ SearchResults.propTypes = {
     poaStatus: PropTypes.string,
     representative: PropTypes.string,
     icnTemporaryIdentifier: PropTypes.string,
-    poaRequests: PropTypes.arrayOf.shape({}),
+    poaRequests: PropTypes.arrayOf(PropTypes.shape({})),
   }),
   /* eslint-disable camelcase */
   searchData: PropTypes.shape({
@@ -234,7 +236,7 @@ const POARequestIndividualSearchPage = () => {
   return (
     <section className="poa-search">
       <VaBreadcrumbs
-        breadcrumbList={searchPeopleBC}
+        breadcrumbList={findClaimantBC}
         label={SEARCH_BC_LABEL}
         homeVeteransAffairs={false}
       />
@@ -242,7 +244,7 @@ const POARequestIndividualSearchPage = () => {
         data-testid="poa-requests-heading"
         className="poa-request__search-header"
       >
-        Search people
+        Find claimant
       </h1>
       <form
         role="search"
