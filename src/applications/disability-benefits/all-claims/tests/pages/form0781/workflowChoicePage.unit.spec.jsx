@@ -56,6 +56,8 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:mentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      'view:selectedMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
     };
 
     const { container } = render(page({ data, goForward: goForwardSpy }));
@@ -67,8 +69,12 @@ describe('WorkflowChoicePage', () => {
   it('opens modal when mental health data is present and choice changes', () => {
     const goForwardSpy = sinon.spy();
     const data = {
+      'view:selectedMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       'view:mentalHealthWorkflowChoice':
         form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+      'view:previousMentalHealthWorkflowChoice':
+        form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
       treatmentReceivedVaProvider: {
         vaPaid: true,
       },
@@ -89,7 +95,7 @@ describe('WorkflowChoicePage', () => {
     const data = {
       'view:previousMentalHealthWorkflowChoice':
         form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-      'view:mentalHealthWorkflowChoice':
+      'view:selectedMentalHealthWorkflowChoice':
         form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
       treatmentReceivedVaProvider: { vaPaid: true },
       supportingEvidenceReports: { police: true },
