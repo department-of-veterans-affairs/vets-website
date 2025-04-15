@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
@@ -21,7 +22,7 @@ const UnsupportedClaimTypePage = ({
   useSetPageTitle(title);
 
   const onBack = () => {
-    window.dataLayer.push({
+    recordEvent({
       event: 'smoc-questions',
       label: 'unsupported',
       'option-label': 'back',

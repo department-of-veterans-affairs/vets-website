@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { scrollToFirstError } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -67,7 +68,7 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
-    window.dataLayer.push({
+    recordEvent({
       event: 'smoc-questions',
       label: 'review',
       'option-label': 'file-claim',
@@ -171,7 +172,7 @@ const SubmitFlowWrapper = () => {
             href={`/my-health/appointments/past/${apptId}`}
             text="Back to your appointment"
             onClick={() => {
-              window.dataLayer.push({
+              recordEvent({
                 event: 'smoc-questions',
                 label: `${pageList[pageIndex].page}`,
                 'option-label': 'abandon',

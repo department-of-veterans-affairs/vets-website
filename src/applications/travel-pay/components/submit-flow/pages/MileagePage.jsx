@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
@@ -38,14 +39,14 @@ const MileagePage = ({
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
-        window.dataLayer.push({
+        recordEvent({
           event: 'smoc-questions',
           label: 'mileage',
           'option-label': 'unsupported',
         });
         setIsUnsupportedClaimType(true);
       } else {
-        window.dataLayer.push({
+        recordEvent({
           event: 'smoc-questions',
           label: 'mileage',
           'option-label': 'answered',
@@ -55,7 +56,7 @@ const MileagePage = ({
       }
     },
     onBack: () => {
-      window.dataLayer.push({
+      recordEvent({
         event: 'smoc-questions',
         label: 'mileage',
         'option-label': 'back',

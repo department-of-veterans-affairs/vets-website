@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
@@ -47,14 +49,14 @@ const AddressPage = ({
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
-        window.dataLayer.push({
+        recordEvent({
           event: 'smoc-questions',
           label: 'address',
           'option-label': 'unsupported',
         });
         setIsUnsupportedClaimType(true);
       } else {
-        window.dataLayer.push({
+        recordEvent({
           event: 'smoc-questions',
           label: 'address',
           'option-label': 'answered',
@@ -64,7 +66,7 @@ const AddressPage = ({
       }
     },
     onBack: () => {
-      window.dataLayer.push({
+      recordEvent({
         event: 'smoc-questions',
         label: 'address',
         'option-label': 'back',

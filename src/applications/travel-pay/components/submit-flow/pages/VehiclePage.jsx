@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
@@ -31,14 +32,14 @@ const VehiclePage = ({
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
-        window.dataLayer.push({
+        recordEvent({
           event: 'smoc-questions',
           label: 'vehicle',
           'option-label': 'unsupported',
         });
         setIsUnsupportedClaimType(true);
       } else {
-        window.dataLayer.push({
+        recordEvent({
           event: 'smoc-questions',
           label: 'vehicle',
           'option-label': 'answered',
@@ -48,7 +49,7 @@ const VehiclePage = ({
       }
     },
     onBack: () => {
-      window.dataLayer.push({
+      recordEvent({
         event: 'smoc-questions',
         label: 'vehicle',
         'option-label': 'back',

@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
@@ -37,7 +38,7 @@ const ReviewPage = ({
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
-    window.dataLayer.push({
+    recordEvent({
       event: 'smoc-questions',
       label: 'review',
       'option-label': 'start-over',
