@@ -5,10 +5,6 @@ import { mount } from 'enzyme';
 
 import { DefinitionTester } from '~/platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
-import {
-  validateTermStartDate,
-  validateDateOfCalculations,
-} from '../../pages/institutionDetails';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -171,90 +167,103 @@ describe('22-10215 - Institution Details', () => {
     form.unmount();
   });
   it("can test 'validateTermStartDate' error 'isCurrentOrPastDate(termStartDate)' ", () => {
-    const errors = {
-      addError: message => {
-        errors.messages.push(message);
-      },
-      messages: [],
-    };
     const termStartDate = daysAgoYyyyMmDd(5);
     const dateOfCalculations = daysAgoYyyyMmDd(10);
-    // daysAgoYyyyMmDd
-    // daysAgoYyyyMmDd
-    const xyz = undefined;
-    const formData = {
-      institutionDetails: {
-        institutionName: 'test',
-        facilityCode: '12345678',
-        termStartDate,
-        dateOfCalculations,
-      },
-    };
-    const errorMessages = [];
-    validateTermStartDate(errors, xyz, formData, uiSchema, errorMessages);
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          institutionDetails: {
+            institutionName: 'not found',
+            facilityCode: '12345678',
+            termStartDate,
+            dateOfCalculations,
+          },
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+
+    expect(form.find('va-memorable-date[error]').length).to.equal(1);
+    form.unmount();
   });
   it("can test 'validateTermStartDate' error future date ", () => {
-    const errors = {
-      addError: message => {
-        errors.messages.push(message);
-      },
-      messages: [],
-    };
     const termStartDate = futureDateYyyyMmDd(5);
     const dateOfCalculations = daysAgoYyyyMmDd(10);
-    const xyz = undefined;
-    const formData = {
-      institutionDetails: {
-        institutionName: 'test',
-        facilityCode: '12345678',
-        termStartDate,
-        dateOfCalculations,
-      },
-    };
-    const errorMessages = [];
-    validateTermStartDate(errors, xyz, formData, uiSchema, errorMessages);
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          institutionDetails: {
+            institutionName: 'not found',
+            facilityCode: '12345678',
+            termStartDate,
+            dateOfCalculations,
+          },
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+
+    expect(form.find('va-memorable-date[error]').length).to.equal(2);
+    form.unmount();
   });
   it("can test 'validateDateOfCalculations' valid past date ", () => {
-    const errors = {
-      addError: message => {
-        errors.messages.push(message);
-      },
-      messages: [],
-    };
     const termStartDate = futureDateYyyyMmDd(15);
     const dateOfCalculations = daysAgoYyyyMmDd(10);
-    const xyz = undefined;
-    const formData = {
-      institutionDetails: {
-        institutionName: 'test',
-        facilityCode: '12345678',
-        termStartDate,
-        dateOfCalculations,
-      },
-    };
-    const errorMessages = [];
-    validateDateOfCalculations(errors, xyz, formData, uiSchema, errorMessages);
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          institutionDetails: {
+            institutionName: 'not found',
+            facilityCode: '12345678',
+            termStartDate,
+            dateOfCalculations,
+          },
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+
+    expect(form.find('va-memorable-date[error]').length).to.equal(2);
+    form.unmount();
   });
   it("can test 'validateDateOfCalculations' error 'isCurrentOrPastDate(dateOfCalculations)' ", () => {
-    const errors = {
-      addError: message => {
-        errors.messages.push(message);
-      },
-      messages: [],
-    };
     const termStartDate = daysAgoYyyyMmDd(15);
     const dateOfCalculations = futureDateYyyyMmDd(10);
-    const xyz = undefined;
-    const formData = {
-      institutionDetails: {
-        institutionName: 'test',
-        facilityCode: '12345678',
-        termStartDate,
-        dateOfCalculations,
-      },
-    };
-    const errorMessages = [];
-    validateDateOfCalculations(errors, xyz, formData, uiSchema, errorMessages);
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          institutionDetails: {
+            institutionName: 'not found',
+            facilityCode: '12345678',
+            termStartDate,
+            dateOfCalculations,
+          },
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+
+    expect(form.find('va-memorable-date[error]').length).to.equal(1);
+    form.unmount();
   });
 });
-// validateDateOfCalculations
