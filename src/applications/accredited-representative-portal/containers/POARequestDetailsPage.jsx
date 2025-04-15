@@ -165,7 +165,7 @@ const POARequestDetailsPage = title => {
 
   const handleSubmit = e => {
     if (!decisionValue) {
-      setError('Please select an option.');
+      setError('Select an option to continue');
       e.preventDefault();
     }
     return true;

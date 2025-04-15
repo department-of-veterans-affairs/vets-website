@@ -10,7 +10,7 @@ describe('Medical Records View Conditions', () => {
     site.login();
     // cy.visit('my-health/medical-records/conditions');
     ConditionsListPage.gotoConditionsListPage();
-    ConditionsListPage.clickConditionsDetailsLink(2);
+    ConditionsListPage.clickConditionsDetailsLink(1);
     ConditionDetailsPage.verifyTitle(conditions.entry[0].resource.code.text);
 
     ConditionDetailsPage.verifyProvider(
