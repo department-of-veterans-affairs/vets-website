@@ -110,7 +110,7 @@ describe('App', () => {
       expect(screen.getByTestId('mr-feature-flag-loading-indicator'));
     });
 
-    it('feature flags are done loading', async () => {
+    it('feature flags are done loading', () => {
       const screen = renderWithStoreAndRouter(
         <App>
           <LandingPage />
@@ -124,14 +124,12 @@ describe('App', () => {
           path: `/`,
         },
       );
-      await waitFor(() => {
-        expect(
-          screen.getAllByText('Medical records', {
-            selector: 'h1',
-            exact: true,
-          }),
-        );
-      });
+      expect(
+        screen.getAllByText('Medical records', {
+          selector: 'h1',
+          exact: true,
+        }),
+      );
       expect(
         screen.getAllByText(
           'Review, print, and download your VA medical records.',
@@ -145,8 +143,8 @@ describe('App', () => {
     });
   });
 
-  describe.skip('Downtime notification logic', () => {
-    it('renders the global downtime notification', async () => {
+  describe('Downtime notification logic', () => {
+    it('renders the global downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           ...initialState,
@@ -161,14 +159,12 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      await waitFor(() => {
-        expect(
-          screen.getByText('This tool is down for maintenance', {
-            selector: 'h3',
-            exact: true,
-          }),
-        );
-      });
+      expect(
+        screen.getByText('This tool is down for maintenance', {
+          selector: 'h3',
+          exact: true,
+        }),
+      );
       expect(
         screen.getByText('We’re making some updates to this tool', {
           exact: false,
@@ -176,7 +172,7 @@ describe('App', () => {
       );
     });
 
-    it('renders the downtime notification', async () => {
+    it('renders the downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           ...initialState,
@@ -191,14 +187,12 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      await waitFor(() => {
-        expect(
-          screen.getByText('Maintenance on My HealtheVet', {
-            selector: 'h2',
-            exact: true,
-          }),
-        );
-      });
+      expect(
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
+          exact: true,
+        }),
+      );
       expect(
         screen.getByText(
           'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
@@ -209,7 +203,7 @@ describe('App', () => {
       );
     });
 
-    it('renders the downtime notification for multiple services', async () => {
+    it('renders the downtime notification for multiple services', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           ...initialState,
@@ -224,14 +218,12 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      await waitFor(() => {
-        expect(
-          screen.getByText('Maintenance on My HealtheVet', {
-            selector: 'h2',
-            exact: true,
-          }),
-        );
-      });
+      expect(
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
+          exact: true,
+        }),
+      );
       expect(
         screen.getByText(
           'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
@@ -283,9 +275,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    waitFor(() => {
-      expect(screen.getByTestId('breadcrumbs')).to.exist;
-    });
+    expect(screen.getByTestId('breadcrumbs')).to.exist;
   });
 
   it('does not render breadcrumbs when downtime and not at the landing page', () => {
