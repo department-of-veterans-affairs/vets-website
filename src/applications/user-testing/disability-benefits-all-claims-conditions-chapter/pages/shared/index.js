@@ -95,7 +95,7 @@ export const remainingSharedPages = (
   isSecondaryEnhanced,
 ) => ({
   [`${demo.name}RatedDisabilityDate`]: pageBuilder.itemPage({
-    title: 'Start date of rated disability worsening',
+    title: 'Approximate date of service-connected disability getting worse',
     path: `conditions-${demo.label}/:index/rated-disability-date`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
@@ -111,7 +111,7 @@ export const remainingSharedPages = (
     },
   }),
   [`${demo.name}NewCondition`]: pageBuilder.itemPage({
-    title: 'Add a new condition',
+    title: 'Add new condition',
     path: `conditions-${demo.label}/:index/new-condition`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
@@ -128,7 +128,7 @@ export const remainingSharedPages = (
     },
   }),
   [`${demo.name}SideOfBody`]: pageBuilder.itemPage({
-    title: 'Side of body of new condition',
+    title: 'Side of the body for new condition',
     path: `conditions-${demo.label}/:index/side-of-body`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
@@ -138,7 +138,7 @@ export const remainingSharedPages = (
     schema: sideOfBodyPage.schema,
   }),
   [`${demo.name}NewConditionDate`]: pageBuilder.itemPage({
-    title: 'Start date of new condition',
+    title: 'Approximate start date of new condition',
     path: `conditions-${demo.label}/:index/new-condition-date`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) && isNewCondition(formData, index),
@@ -167,7 +167,8 @@ export const remainingSharedPages = (
     schema: causePage.schema,
   }),
   [`${demo.name}CauseNew`]: pageBuilder.itemPage({
-    title: 'Follow-up of cause new',
+    title:
+      'Details of the injury, event, disease or exposure that caused new condition',
     path: `conditions-${demo.label}/:index/cause-new`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
@@ -177,7 +178,8 @@ export const remainingSharedPages = (
     schema: causeNewPage.schema,
   }),
   [`${demo.name}CauseSecondary`]: pageBuilder.itemPage({
-    title: 'Follow-up of cause secondary condition',
+    title:
+      'Details of the service-connected disability or condition that caused new condition',
     path: `conditions-${demo.label}/:index/cause-secondary`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
@@ -206,7 +208,8 @@ export const remainingSharedPages = (
     },
   }),
   [`${demo.name}CauseWorsened`]: pageBuilder.itemPage({
-    title: 'Follow-up of cause worsened because of my service',
+    title:
+      'Details of the injury, event or exposure that worsened new condition',
     path: `conditions-${demo.label}/:index/cause-worsened`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
@@ -216,7 +219,8 @@ export const remainingSharedPages = (
     schema: causeWorsenedPage.schema,
   }),
   [`${demo.name}CauseVA`]: pageBuilder.itemPage({
-    title: 'Follow-up of cause VA care',
+    title:
+      'Details of the injury or event in VA care that caused new condition',
     path: `conditions-${demo.label}/:index/cause-va`,
     depends: (formData, index) =>
       isActiveDemo(formData, demo.name) &&
