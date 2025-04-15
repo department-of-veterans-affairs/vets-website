@@ -33,7 +33,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3, '2024-11-20'),
+        referrals: createReferrals(3),
         referralsFetchStatus: FETCH_STATUS.succeeded,
       },
       appointments: {
@@ -51,7 +51,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3, '2024-11-20'),
+        referrals: createReferrals(3),
         referralsFetchStatus: FETCH_STATUS.failed,
       },
       appointments: {

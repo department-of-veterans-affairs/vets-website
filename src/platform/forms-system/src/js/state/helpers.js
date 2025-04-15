@@ -115,6 +115,26 @@ export function isContentExpanded(data, matcher, formData, index, fullData) {
   return data === matcher;
 }
 
+/**
+ * Gets preserveHiddenData value for the page (multiple levels deep).
+ * At least three levels are needed to work with arrays:
+ * uiSchema (0) > arrayValue > items > formEl > ui:options > preserveHiddenData
+ * @param {UISchemaOptions} uiSchema
+ * @returns {Boolean} Flag to preserve hidden data is set to true anywhere
+ * within the page uiSchema ui:options
+ */
+export function getPreserveHiddenData(uiSchema, index = 0) {
+  // Stop recursion after 3 levels deep
+  return index > 3
+    ? false
+    : get(['ui:options', 'preserveHiddenData'], uiSchema || {}) ||
+        Object.keys(uiSchema || {}).reduce(
+          (result, key) =>
+            result || getPreserveHiddenData(uiSchema[key], index + 1) || false,
+          false,
+        );
+}
+
 /*
  * This steps through a schema and sets any fields to hidden, based on a
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
@@ -653,7 +673,7 @@ export function updateSchemasAndData(
   schema,
   uiSchema,
   formData,
-  preserveHiddenData = false,
+  preserveHiddenData = false, // also in uiSchema['ui:options']
   fullData,
   index,
 ) {
@@ -693,7 +713,7 @@ export function updateSchemasAndData(
     fullData || formData,
   );
 
-  if (!preserveHiddenData) {
+  if (!(preserveHiddenData || getPreserveHiddenData(uiSchema))) {
     // Remove any data that’s now hidden in the schema
     const newData = removeHiddenData(newSchema, formData);
 
@@ -743,7 +763,7 @@ export function recalculateSchemaAndData(reduxFormState) {
       page.schema,
       page.uiSchema,
       formData,
-      false,
+      false, // preserveHiddenData
       formData,
       // index: undefined; assuming we're recalculating outside of arrays
     );

@@ -460,17 +460,45 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     }
 
     if (Array.isArray(element.value)) {
-      content.push(
-        doc.struct('List', () => {
-          doc.font(font).list(element.value, {
-            ...paragraphOptions,
-            listType: 'bullet',
-            bulletRadius: 2,
-            indent: element.indent ?? 15,
-            baseline: 'hanging',
+      if (element.value.every(val => val.label)) {
+        // Create a List container and add LI items to it.
+        const listContainer = doc.struct('List');
+        element.value.forEach(record => {
+          const li = doc.struct('LI', () => {
+            // Save the current x
+            const originalX = doc.x;
+            // Adjust the x coordinate:
+            // eslint-disable-next-line no-param-reassign
+            doc.x = config.indents.one;
+            doc
+              .font(config.text.boldFont)
+              .fontSize(config.text.size)
+              .text(`${record.label}: `, { continued: true })
+              .font(config.text.font)
+              .fontSize(config.text.size)
+              .text(record.value);
+            // Restore the original x coordinate.
+            // eslint-disable-next-line no-param-reassign
+            doc.x = originalX;
           });
-        }),
-      );
+          listContainer.add(li);
+        });
+        // Add the list container to the section.
+        // infoSection.add(listContainer);
+        content.push(listContainer);
+      } else {
+        content.push(
+          doc.struct('List', () => {
+            doc.font(font).list(element.value, {
+              ...paragraphOptions,
+              listType: 'bullet',
+              bulletRadius: 2,
+              indent: element.indent ?? 15,
+              baseline: 'hanging',
+            });
+          }),
+        );
+      }
     } else if (element.title) {
       elementTitleText += ': ';
       content.push(
