@@ -262,20 +262,37 @@ const formConfig = {
           title: 'Where to send the payment',
           uiSchema: {
             ...titleUI(
-              'Where to send the payment',
+              'Who should we send payments to?',
               <>
+                <p>
+                  Tell us if we should send any payments for this claim to you
+                  or to the provider:
+                </p>
                 <ul>
                   <li>
-                    Select <strong>Veteran</strong> if you’ve already paid this
-                    provider. We’ll send a check to your mailing address to pay
-                    you back (also called reimbursement).
+                    <b>If you already paid the provider,</b> select{' '}
+                    <b>Veteran</b>. If we approve your claim, we’ll pay you by
+                    direct deposit if you have it set up for your VA benefit
+                    payments. Or we’ll mail you a check.
                   </li>
                   <li>
-                    Select <strong>Provider</strong> if you haven’t paid the
-                    provider. We’ll send a check to the provider’s mailing
-                    address to pay them directly.
+                    <b>If you haven’t paid the provider,</b> select{' '}
+                    <b>Provider</b>. We’ll send a check to the provider by mail.
                   </li>
                 </ul>
+                <va-additional-info trigger="Learn more about direct deposit payments">
+                  <va-link
+                    href="https://www.va.gov/change-direct-deposit/"
+                    text="Learn how to change your direct deposit information for your VA benefit payments."
+                  />
+                  <br />
+                  <br />
+                  <p>
+                    Don’t have direct deposit or a U.S. bank account? We’ll send
+                    any payments to you by check at the mailing address you gave
+                    us on this form.
+                  </p>
+                </va-additional-info>
               </>,
             ),
             sendPayment: PaymentSelectionUI(),
