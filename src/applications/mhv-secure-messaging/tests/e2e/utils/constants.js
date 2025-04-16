@@ -164,7 +164,7 @@ export const Locators = {
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
   },
   ALERTS: {
-    HEADER: `#heading`,
+    HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     CLOSE_NOTIFICATION: '.va-alert',

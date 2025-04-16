@@ -14,12 +14,12 @@ describe('SM DELETE CUSTOM FOLDER', () => {
 
   it('remove non-empty folder', () => {
     PatientMessageCustomFolderPage.loadMessages();
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.clickRemoveFolderButton();
     PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
     PatientMessageCustomFolderPage.clickOnCloseIcon();
     PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('remove empty folder', () => {
@@ -38,15 +38,17 @@ describe('SM DELETE CUSTOM FOLDER', () => {
     const updatedFolderList = { data: newData, meta: newMeta };
 
     PatientMessageCustomFolderPage.loadMessages(emptyThread);
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.clickRemoveFolderButton();
 
-    cy.get(Locators.BUTTONS.ALERT_CLOSE).should(`be.focused`);
+    cy.get(Locators.BUTTONS.ALERT_CLOSE, { timeout: 2000 }).should(
+      `be.focused`,
+    );
     cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
       .find(`va-button[text*='keep']`)
       .click();
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(`be.focused`);
 
-    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.clickRemoveFolderButton();
 
     PatientMessageCustomFolderPage.deleteParticularCustomFolder(
       deletedFolder.attributes.folderId,
