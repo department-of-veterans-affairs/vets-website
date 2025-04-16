@@ -122,7 +122,7 @@ export const vetFormerMarriageEndReasonPage = {
         labels: veteranFormerMarriageLabels,
       }),
     },
-    reasonMarriageEndedOther: {
+    otherReasonMarriageEnded: {
       'ui:title': 'Briefly describe how your marriage ended',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -134,12 +134,12 @@ export const vetFormerMarriageEndReasonPage = {
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.reasonMarriageEndedOther['ui:collapsed']) {
+        if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
           return { ...formSchema, required: ['reasonMarriageEnded'] };
         }
         return {
           ...formSchema,
-          required: ['reasonMarriageEnded', 'reasonMarriageEndedOther'],
+          required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
         };
       },
     },
@@ -148,7 +148,7 @@ export const vetFormerMarriageEndReasonPage = {
     type: 'object',
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: {
+      otherReasonMarriageEnded: {
         type: 'string',
       },
     },
