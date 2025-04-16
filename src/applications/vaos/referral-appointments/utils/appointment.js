@@ -1,7 +1,7 @@
 const appointmentData = {
   appointment: {
     id: 'qdm61cJ5',
-    status: 'booked',
+    status: 'not-booked',
     patientIcn: 'care-nav-patient-casey',
     created: '2025-02-10T14:35:44Z',
     locationId: 'sandbox-network-5vuTac8v',
