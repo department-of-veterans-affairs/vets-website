@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -10,7 +10,7 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -192,16 +192,8 @@ const incomeTypePage = {
           'associatedIncomes',
         ),
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    accountValue: merge({}, currencyUI('Value of account'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI({ title: 'Gross monthly income' }),
+    accountValue: currencyUI({ title: 'Value of account' }),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, or program, etc.',
