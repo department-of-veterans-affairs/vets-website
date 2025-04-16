@@ -1,0 +1,1 @@
+const nick = "test";
