@@ -66,6 +66,7 @@ describe('loginHandler', () => {
     loginHandlerSpy('logingov', true, {
       clientId: 'okta_test',
       codeChallenge: 'codetest',
+      state: 'some_state',
     });
 
     expect(loginHandlerSpy.called).to.be.true;
@@ -75,6 +76,7 @@ describe('loginHandler', () => {
         clientId: 'okta_test',
         codeChallenge: 'codetest',
         loginType: 'logingov',
+        state: 'some_state',
       }),
     ).to.be.true;
 
