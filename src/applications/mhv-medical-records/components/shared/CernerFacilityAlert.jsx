@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getCernerURL } from 'platform/utilities/cerner';
-import useAcceleratedData from '../../hooks/useAcceleratedData';
 
 const CernerFacilityAlert = ({ linkPath, pageName }) => {
   const ehrDataByVhaId = useSelector(
@@ -13,8 +12,6 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
-
-  const { isAccelerating } = useAcceleratedData();
 
   const cernerFacilities = useMemo(() => {
     return userFacilities?.filter(facility =>
@@ -32,10 +29,6 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
     }
     return [];
   }, [cernerFacilities, ehrDataByVhaId]);
-
-  if (isAccelerating) {
-    return <></>;
-  }
 
   return (
     <>

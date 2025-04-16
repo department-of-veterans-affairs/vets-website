@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -13,6 +13,7 @@ import {
 import {
   MHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -54,6 +55,9 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
+  useEffect(() => {
+    setDatadogRumUser({ id: user?.profile?.accountUuid });
+  }, [user]);
 
   if (featureTogglesLoading) {
     return (

@@ -12,8 +12,7 @@ import {
   updateTooltipVisibility,
   getTooltip,
 } from '../../actions/tooltip'; // Adjust the import path according to your project structure
-
-export const RX_IPE_FILTERING_DESCRIPTION_ID = 'rx-ipe-filtering-description';
+import { selectDontIncrementIpeCountFlag } from '../../util/selectors';
 
 const InProductionEducationFiltering = () => {
   const dispatch = useDispatch();
@@ -24,6 +23,9 @@ const InProductionEducationFiltering = () => {
   const tooltipId = useSelector(
     state => state?.rx?.inProductEducation?.tooltipId,
   );
+  const dontIncrementTooltipCount = useSelector(
+    selectDontIncrementIpeCountFlag,
+  );
 
   useEffect(() => {
     const fetchTooltips = async () => {
@@ -32,7 +34,7 @@ const InProductionEducationFiltering = () => {
       if (filterTooltip) {
         dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-        if (!filterTooltip.hidden) {
+        if (!filterTooltip.hidden && !dontIncrementTooltipCount) {
           dispatch(incrementTooltip(filterTooltip.id));
         }
       } else {
@@ -61,14 +63,15 @@ const InProductionEducationFiltering = () => {
   return (
     <>
       {tooltipVisible && (
-        <div
+        <aside
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
+          aria-label="Hint for filter list"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"
-            id={RX_IPE_FILTERING_DESCRIPTION_ID}
+            id="rx-ipe-filtering-description"
           >
             {tooltipHintContent.filterAccordion.HINT}
           </p>
@@ -86,7 +89,7 @@ const InProductionEducationFiltering = () => {
           >
             This hint for filtering will not appear anymore
           </span>
-        </div>
+        </aside>
       )}
     </>
   );

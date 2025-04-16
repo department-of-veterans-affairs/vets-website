@@ -199,7 +199,7 @@ const PrintDownload = props => {
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
             >
-              Download a PDF of this {list ? 'list' : 'page'}
+              Download a PDF of {list ? 'all medications' : 'this page'}
             </button>
           </li>
           <li>
@@ -215,7 +215,8 @@ const PrintDownload = props => {
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
-              Download a text file (.txt) of this {list ? 'list' : 'page'}
+              Download a text file (.txt) of{' '}
+              {list ? 'all medications' : 'this page'}
             </button>
           </li>
         </ul>

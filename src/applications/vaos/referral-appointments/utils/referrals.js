@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 const { addDays, addMonths, format, subMonths } = require('date-fns');
 
 const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
@@ -10,82 +9,72 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} providerId The ID for the provider
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
 
 const createReferralListItem = (
-  startDate,
-  uuid,
-  providerId = '111',
   expirationDate,
+  uuid,
   categoryOfCare = 'Physical Therapy',
 ) => {
-  const [year, month, day] = startDate.split('-');
+  const [year, month, day] = expirationDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
-    uuid,
-    referralDate: startDate,
-    categoryOfCare,
-    expirationDate:
-      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    providerId,
+    attributes: {
+      expirationDate:
+        expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+      uuid,
+      categoryOfCare,
+    },
   };
 };
 
 /**
- * Creates a referral object relative to a start date.
+ * Creates a referral object with specified uuid and expiration date.
  *
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} providerId The ID for the provider
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
 const createReferralById = (
-  startDate,
   uuid,
-  providerId = '111',
   expirationDate,
   categoryOfCare = 'Physical Therapy',
 ) => {
-  const [year, month, day] = startDate.split('-');
-  const relativeDate = new Date(year, month - 1, day);
-
+  // if no expiration date is provided, set it to 6 months from today
+  const today = new Date();
   const mydFormat = 'yyyy-MM-dd';
-
   return {
-    uuid,
-    referralDate: format(relativeDate, mydFormat),
-    expirationDate:
-      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    referralNumber: 'VA0000009880',
-    status: 'Approved',
-    categoryOfCare,
-    stationId: '528A4',
-    sta6: '534',
-    referringFacility: 'Batavia VA Medical Center',
-    referringFacilityInfo: {
-      facilityName: 'Batavia VA Medical Center',
-      facilityCode: '528A4',
-      description: 'Batavia VA Medical Center',
-      address: {
-        address1: '222 Richmond Avenue',
-        city: 'BATAVIA',
-        state: 'NY',
-        zipCode: '14020',
+    id: uuid,
+    type: 'referrals',
+    attributes: {
+      uuid,
+      referralDate: '2023-01-01',
+      stationId: '528A4',
+      expirationDate: expirationDate || format(addMonths(today, 6), mydFormat),
+      referralNumber: 'VA0000009880',
+      categoryOfCare,
+      referringFacilityInfo: {
+        name: 'Batavia VA Medical Center',
+        code: '528A4',
+        address: {
+          address1: '222 Richmond Avenue',
+          city: 'BATAVIA',
+          state: null,
+          zipCode: '14020',
+        },
+        phone: '(585) 297-1000',
       },
-      phone: '(585) 297-1000',
+      provider: {
+        name: 'Dr. Moreen S. Rafa',
+        location: 'FHA South Melbourne Medical Complex',
+        npi: '1346206547',
+        telephone: '(937) 236-6750',
+      },
+      hasAppointments: false,
     },
-    referralStatus: 'open',
-    provider: {
-      id: providerId,
-      name: 'Dr. Moreen S. Rafa',
-      location: 'FHA South Melbourne Medical Complex',
-    },
-    appointments: [],
   };
 };
 
@@ -102,26 +91,30 @@ const createReferrals = (
   baseDate,
   numberOfExpiringReferrals = 0,
 ) => {
-  const [year, month, day] = baseDate.split('-');
-  const baseDateObject = new Date(year, month - 1, day);
+  // create a date object for today that is not affected by the time zone
+  const dateOjbect = baseDate ? new Date(baseDate) : new Date();
+  const baseDateObject = new Date(
+    dateOjbect.getUTCFullYear(),
+    dateOjbect.getUTCMonth(),
+    dateOjbect.getUTCDate(),
+  );
   const referrals = [];
-  const providerIds = ['111', '222', '0', '333'];
-
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
     const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
-    const startDate = addDays(
-      isExpired ? subMonths(baseDateObject, 6) : baseDateObject,
+    // make expiration date 6 months from the base date
+    // or 6 months before the base date if expired
+    // and add i days
+    const modifiedDate = addDays(
+      isExpired ? subMonths(baseDateObject, 6) : addMonths(baseDateObject, 6),
       i,
     );
     const mydFormat = 'yyyy-MM-dd';
-    const referralDate = format(startDate, mydFormat);
+    const expirationDate = format(modifiedDate, mydFormat);
     referrals.push(
       createReferralListItem(
-        referralDate,
+        expirationDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
-        providerIds[i % providerIds.length],
-        isExpired ? format(addDays(startDate, 6), mydFormat) : undefined,
       ),
     );
   }
@@ -148,7 +141,7 @@ const filterReferrals = referrals => {
     return [];
   }
   return referrals.filter(
-    referral => referral.categoryOfCare === 'Physical Therapy',
+    referral => referral.attributes.categoryOfCare === 'Physical Therapy',
   );
 };
 
@@ -159,15 +152,15 @@ const filterReferrals = referrals => {
  * @returns {String} Address string
  */
 const getAddressString = addressObject => {
-  let addressString = addressObject.address1;
-  if (addressObject.address2) {
-    addressString = `${addressString}, ${addressObject.address2}`;
+  if (!addressObject) {
+    return '';
   }
-  if (addressObject.street3) {
-    addressString = `${addressString}, ${addressObject.address3}`;
-  }
-  addressString = `${addressString}, ${addressObject.city}, ${addressObject.state}, ${addressObject.zipCode}`;
-  return addressString;
+  const { address1, address2, address3, city, state, zipCode } = addressObject;
+
+  const addressParts = [address1, address2, address3, city, state, zipCode];
+
+  // Filter out any undefined or empty parts and join with a comma
+  return addressParts.filter(Boolean).join(', ');
 };
 
 module.exports = {

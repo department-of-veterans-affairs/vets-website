@@ -144,6 +144,7 @@ export function transformVAOSAppointment(
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 ) {
   const appointmentType = getAppointmentType(
     appt,
@@ -168,7 +169,11 @@ export function transformVAOSAppointment(
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
-  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  if (useFeSourceOfTruthModality) {
+    isCompAndPen = appt.modality === 'claimExamAppointment';
+  }
+
   const isCancellable = appt.cancellable;
   const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
 
@@ -350,6 +355,7 @@ export function transformVAOSAppointments(
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 ) {
   return appts.map(appt =>
     transformVAOSAppointment(
@@ -357,6 +363,7 @@ export function transformVAOSAppointments(
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
     ),
   );
 }

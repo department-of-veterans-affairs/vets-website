@@ -20,7 +20,7 @@ const ProviderAddress = props => {
             <br />
           </span>
         )}
-        {address.city}, {address.state}, {address.zipCode}
+        {address.city}, {address.state && `${address.state},`} {address.zipCode}
       </p>
       {showDirections && directionsName && (
         <div
