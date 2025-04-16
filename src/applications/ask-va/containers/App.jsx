@@ -20,8 +20,12 @@ export default function App({ location, children }) {
     cookie.get('askVaCanaryReleaseOverride') === 'true';
 
   const toggleName = TOGGLE_NAMES.askVaCanaryRelease;
+  const toggleOldPortalAlert = TOGGLE_NAMES.askVaAlertLinkToOldPortal;
   const isCanaryEnabled = useToggleValue(toggleName);
+  const isOldPortalAlertEnabled = useToggleValue(toggleOldPortalAlert);
   const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
+  const showAlertAndHideForm =
+    !isLoadingFeatureFlags && isOldPortalAlertEnabled;
   const performRedirect =
     !isLoadingFeatureFlags && !(isCanaryEnabled || isCanaryEnabledViaCookie);
 
@@ -30,10 +34,10 @@ export default function App({ location, children }) {
     return <></>;
   }
 
-  return (
-    <>
+  if (showAlertAndHideForm) {
+    return (
       <VaAlert
-        className="usa-width-two-thirds vads-u-margin-left--2 vads-u-margin-top--3  vads-u-margin-bottom--9"
+        className="vads-u-margin-x--2 vads-u-margin-top--3  vads-u-margin-bottom--9"
         close-btn-aria-label="Close notification"
         status="warning"
         uswds
@@ -47,13 +51,19 @@ export default function App({ location, children }) {
           <a href="https://ask.va.gov/">previous version of Ask VA</a>
         </p>
       </VaAlert>
+    );
+  }
 
+  return !isLoadingFeatureFlags ? (
+    <>
       <BreadCrumbs currentLocation={location.pathname} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         <ProgressBar pathname={location.pathname} />
         {children}
       </RoutedSavableApp>
     </>
+  ) : (
+    <></>
   );
 }
 
