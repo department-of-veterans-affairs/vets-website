@@ -52,7 +52,7 @@ export async function postDraftReferralAppointment(referralNumber) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ referralNumber }),
+      body: JSON.stringify({ referralId: referralNumber }),
     },
   );
   return response.data;

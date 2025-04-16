@@ -406,26 +406,11 @@ const responses = {
       data: referral,
     });
   },
-  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
-    // Provider 3 throws error
-    if (req.params.providerId === '3') {
-      return res.status(500).json({ error: true });
-    }
-    // Provider 0 has no available slots
-    if (req.params.providerId === '0') {
-      return res.json({
-        data: providerUtils.createProviderDetails(0, req.params.providerId),
-      });
-    }
-    return res.json({
-      data: providerUtils.createProviderDetails(5, req.params.providerId),
-    });
-  },
   'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
+    // referralId is the referralNumber of the referral
     const { referralId } = req.body;
-
     // Provider 3 throws error
-    if (referralId === '3') {
+    if (referralId === '') {
       return res.status(500).json({ error: true });
     }
 
@@ -440,7 +425,7 @@ const responses = {
       referralId,
     );
 
-    draftAppointments[draftAppointment.appointment.id] = draftAppointment;
+    draftAppointments[draftAppointment.id] = draftAppointment;
 
     return res.json({
       data: draftAppointment,
@@ -449,37 +434,34 @@ const responses = {
   'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
+    const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
+      appointmentId,
+      null,
+      epsAppointmentUtils.appointmentData,
+    );
 
     if (appointmentId === 'timeout-appointment-id') {
       // Set a very high poll count to simulate a timeout
-      draftAppointments[
-        appointmentId
-      ] = providerUtils.createDraftAppointmentInfo(5);
       successPollCount = 1000;
     }
 
-    const draftAppointment = draftAppointments[appointmentId];
-    if (!draftAppointment || appointmentId === 'eps-error-appointment-id') {
+    if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { status } = draftAppointment.appointment;
 
     // Mock polling for appointment state change
     if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      status = 'booked';
+      // reassign status of mocked appointment to booked to simulate success
+      mockAppointment.appointment.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
-      data: epsAppointmentUtils.createMockEpsAppointment(
-        appointmentId,
-        status,
-        epsAppointmentUtils.appointmentData,
-      ),
+      data: mockAppointment,
     });
   },
   'POST /vaos/v2/epsApi/appointments': (req, res) => {
@@ -492,7 +474,7 @@ const responses = {
     draftAppointmentPollCount[draftApppointmentId] = 1;
 
     return res.status(201).json({
-      data: { appointmentId: draftApppointmentId },
+      data: { id: draftApppointmentId },
     });
   },
   // Required v0 APIs
