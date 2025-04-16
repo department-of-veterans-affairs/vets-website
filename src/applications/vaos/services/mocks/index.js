@@ -456,7 +456,7 @@ const responses = {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
       // reassign status of mocked appointment to booked to simulate success
-      mockAppointment.appointment.status = 'booked';
+      mockAppointment.attributes.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
