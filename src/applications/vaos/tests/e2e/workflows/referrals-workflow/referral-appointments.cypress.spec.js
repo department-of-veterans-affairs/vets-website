@@ -86,8 +86,13 @@ describe('VAOS Referral Appointments', () => {
       referralsAndRequests.validate();
       cy.injectAxeThenAxeCheck();
 
-      // Verify that no referrals message is displayed
+      // Verify that referrals are displayed
       referralsAndRequests.assertPendingReferrals({ count: numberOfReferrals });
+
+      // Select the first referral
+      referralsAndRequests.selectReferral(0);
+
+      // Verify that the referral details are displayed
     });
   });
 });

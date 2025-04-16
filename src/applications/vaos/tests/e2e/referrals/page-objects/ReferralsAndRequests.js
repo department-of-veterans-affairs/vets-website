@@ -38,10 +38,10 @@ export class ReferralsAndRequestsPageObject extends PageObject {
    * @param {number} index - Index of the referral to select (0-based)
    */
   selectReferral(index = 0) {
-    cy.findAllByTestId('pending-referral-card')
+    cy.findAllByTestId('appointment-list-item')
       .eq(index)
       .within(() => {
-        cy.findByText(/Schedule an appointment/i).click({
+        cy.findByTestId('schedule-appointment-link').click({
           waitForAnimations: true,
         });
       });
