@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 
 import {
   ssnOrVaFileNumberNoHintSchema,
@@ -14,6 +15,8 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -30,10 +33,6 @@ import {
   ssnOrVaFileNumberCustomUI,
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
-import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../../shared/components/InternationalPhone';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -153,9 +152,11 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
-            veteranAddress: addressUI({
-              required: {
-                state: () => true,
+            veteranAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
+                },
               },
             }),
           },
@@ -201,13 +202,13 @@ const formConfig = {
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
-            physicalAddress: {
-              ...addressUI({
-                required: {
-                  state: () => true,
+            physicalAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
                 },
-              }),
-            },
+              },
+            }),
           },
           schema: {
             type: 'object',
@@ -233,7 +234,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: internationalPhoneUI(),
+            veteranPhoneNumber: phoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -241,7 +242,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },
