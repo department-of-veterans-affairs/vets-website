@@ -2,7 +2,6 @@ import React from 'react';
 import {
   radioSchema,
   radioUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { addSpouse } from '../../../utilities';
@@ -20,21 +19,23 @@ export const schema = {
     currentMarriageInformation: {
       type: 'object',
       properties: {
-        type: radioSchema(marriageTypeArr),
-        typeOther: textSchema,
+        typeOfMarriage: radioSchema(marriageTypeArr),
+        typeOther: {
+          type: 'string',
+        },
         'view:marriageTypeInformation':
           currentMarriageInformation.properties['view:marriageTypeInformation'],
       },
+      required: ['typeOfMarriage'],
     },
   },
 };
 
 export const uiSchema = {
   currentMarriageInformation: {
-    type: radioUI({
+    typeOfMarriage: radioUI({
       title: 'How did you get married?',
       labels: marriageTypeLabels,
-      required: () => true,
       labelHeaderLevel: '3',
       errorMessages: {
         required: 'Select the type of marriage',
@@ -44,20 +45,26 @@ export const uiSchema = {
     typeOther: {
       'ui:title': 'Other type of marriage',
       'ui:webComponentField': VaTextInputField,
-      'ui:required': formData =>
-        formData?.currentMarriageInformation?.type === 'OTHER',
       'ui:options': {
-        expandUnder: 'type',
+        expandUnder: 'typeOfMarriage',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
         preserveHiddenData: true,
-        showFieldLabel: true,
-        keepInPageOnReview: true,
-        hideIf: formData =>
-          formData?.currentMarriageInformation?.type !== 'OTHER',
       },
     },
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.typeOther['ui:collapsed']) {
+          return { ...formSchema, required: ['typeOfMarriage'] };
+        }
+        return {
+          ...formSchema,
+          required: ['typeOfMarriage', 'typeOther'],
+        };
+      },
     },
   },
 };

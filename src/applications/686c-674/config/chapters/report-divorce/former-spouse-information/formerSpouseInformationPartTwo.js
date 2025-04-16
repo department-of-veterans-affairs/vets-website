@@ -1,6 +1,5 @@
 import {
   titleUI,
-  textSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -20,8 +19,11 @@ export const schema = {
         date: currentOrPastDateSchema,
         divorceLocation: customLocationSchema,
         reasonMarriageEnded: radioSchema(['Divorce', 'Other']),
-        explanationOfOther: textSchema,
+        explanationOfOther: {
+          type: 'string',
+        },
       },
+      required: ['reasonMarriageEnded'],
     },
   },
 };
@@ -78,7 +80,6 @@ export const uiSchema = {
     },
     reasonMarriageEnded: radioUI({
       title: 'Reason marriage ended',
-      required: () => true,
       labels: {
         Divorce: 'Divorce',
         Other: 'Annulment or other',
@@ -87,18 +88,22 @@ export const uiSchema = {
     explanationOfOther: {
       'ui:title': 'Briefly describe how the marriage ended',
       'ui:webComponentField': VaTextInputField,
-      'ui:required': formData =>
-        formData?.reportDivorce?.reasonMarriageEnded === 'Other',
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
         expandedContentFocus: true,
-        showFieldLabel: true,
         preserveHiddenData: true,
-        keepInPageOnReview: true,
-        classNames: 'vads-u-margin-top--2',
-        hideIf: formData =>
-          formData?.reportDivorce?.reasonMarriageEnded !== 'Other',
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.explanationOfOther['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonMarriageEnded'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonMarriageEnded', 'explanationOfOther'],
+        };
       },
     },
   },

@@ -1,5 +1,4 @@
 import {
-  textSchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -15,8 +14,11 @@ export const schema = {
         currentSpouseReasonForSeparation: {
           ...radioSchema(separationLabelArr),
         },
-        other: textSchema,
+        other: {
+          type: 'string',
+        },
       },
+      required: ['currentSpouseReasonForSeparation'],
     },
   },
 };
@@ -27,23 +29,29 @@ export const uiSchema = {
       title: 'Reason you live separately from your spouse',
       labelHeaderLevel: '3',
       labels: separationLabels,
-      required: () => true,
       classNames: 'vads-u-margin-top--4',
     }),
     other: {
       'ui:title': 'Briefly describe why you live separately from your spouse',
       'ui:webComponentField': VaTextInputField,
-      'ui:required': formData =>
-        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation ===
-        'OTHER',
       'ui:options': {
         expandUnder: 'currentSpouseReasonForSeparation',
         expandUnderCondition: 'OTHER',
-        expandedContentFocus: true,
         preserveHiddenData: true,
-        hideIf: formData =>
-          formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
-          'OTHER',
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.other['ui:collapsed']) {
+          return {
+            ...formSchema,
+            required: ['currentSpouseReasonForSeparation'],
+          };
+        }
+        return {
+          ...formSchema,
+          required: ['currentSpouseReasonForSeparation', 'other'],
+        };
       },
     },
   },
