@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -65,7 +65,6 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 };
 
 const POARequestSearchPage = title => {
-  const [count, setCount] = useState(1);
   useEffect(
     () => {
       document.title = title.title;
@@ -76,19 +75,22 @@ const POARequestSearchPage = title => {
   const meta = useLoaderData().meta.page;
   const pageSize = 20;
   let initCount = 1;
-  let pageSizeCount = pageSize * count;
+  const pageNumber = useSearchParams()[0].get('pageNumber');
+  let pageSizeCount = pageSize * pageNumber;
   const totalCount = meta.total;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   if (pageSizeCount > totalCount) {
     pageSizeCount = pageSize + (totalCount - pageSize);
   }
-  if (count > 1) {
+  if (pageNumber > 1) {
     initCount += pageSize;
   }
   const searchMetaText = `Showing ${initCount}-${pageSizeCount} of ${
     meta.total
-  } ${searchStatus} requests sorted by “Submitted date (newest)”`;
+  } ${searchStatus} requests sorted by “${
+    searchStatus === 'processed' ? 'Processed' : 'Submitted'
+  } date (newest)”`;
 
   return (
     <section className="poa-request">
@@ -188,7 +190,7 @@ const POARequestSearchPage = title => {
             })()}
 
             <SearchResults poaRequests={poaRequests} />
-            <Pagination setCount={setCount} meta={meta} />
+            <Pagination meta={meta} />
           </div>
         )}
       </div>
