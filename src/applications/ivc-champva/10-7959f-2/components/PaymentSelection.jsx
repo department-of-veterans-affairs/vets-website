@@ -65,19 +65,19 @@ export const loggedInPaymentInfo = (
   <>
     {introText}
     <p>
-      <b>If you already paid the provider,</b> select <b>Veteran</b>. We’ll send
-      any payments to you by direct deposit (if you have it set up) or a mailed
-      check. up for your VA benefit payments. Or we’ll mail you a check.
+      <b>If you’ve already paid the provider,</b> select <b>Veteran</b>. We’ll
+      send any payments to you by direct deposit (if you have it set up) or a
+      mailed check.
     </p>
     {providerText}
 
     <va-additional-info trigger="Learn more about direct deposit payments">
       If you have a U.S. bank account, you can add, review, or edit your direct
-      deposit information in your{' '}
-      <va-link href="https://www.va.gov" text="VA.gov" /> profile anytime.
+      deposit information in your <va-link href="/" text="VA.gov" /> profile
+      anytime.
       <br />
       <br />
-      <a href="https://www.va.gov/my-va/" rel="noreferrer" target="_blank">
+      <a href="/profile/direct-deposit" rel="noreferrer" target="_blank">
         Go to your direct deposit information in your VA.gov profile (opens in a
         new tab)
       </a>
