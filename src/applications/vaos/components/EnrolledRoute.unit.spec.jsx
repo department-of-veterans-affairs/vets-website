@@ -3,13 +3,14 @@ import { Switch } from 'react-router-dom';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import sinon from 'sinon';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../tests/mocks/setup.js';
-import EnrolledRoute from './EnrolledRoute.jsx';
+} from '../tests/mocks/setup';
+import EnrolledRoute from './EnrolledRoute';
 
 const initialState = {
   featureToggles: {
@@ -18,6 +19,7 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingMhvRouteGuards: false,
   },
   user: {
     login: {
@@ -33,8 +35,15 @@ const initialState = {
 };
 
 describe('VAOS Component: EnrolledRoute', () => {
+  let replaceStub;
+
   beforeEach(() => {
     mockFetch();
+    replaceStub = sinon.stub(window.location, 'replace'); // Mock window.location.replace
+  });
+
+  afterEach(() => {
+    replaceStub.restore(); // Restore the original function
   });
 
   it('should render route when logged in', async () => {
@@ -118,5 +127,91 @@ describe('VAOS Component: EnrolledRoute', () => {
       ).to.be.ok;
     });
     expect(screen.queryByText('Child content')).not.to.exist;
+  });
+  it('should not redirect when vaOnlineSchedulingMhvRouteGuards is disabled', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMhvRouteGuards: false,
+      },
+    };
+    const store = createTestStore(myInitialState);
+    const screen = renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      {
+        store,
+      },
+    );
+
+    // Assert that the child content is rendered
+    expect(await screen.findByText('Child content')).to.exist;
+  });
+  it('should redirect to /my-health when user is not registered with any facilities and vaOnlineSchedulingMhvRouteGuards is enabled', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMhvRouteGuards: true, // Enable the feature flag
+      },
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          facilities: [], // No facilities registered
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      {
+        store,
+      },
+    );
+    // Assert that the user is redirected to /my-health
+    await waitFor(() => {
+      expect(replaceStub.calledWith('/my-health')).to.be.true;
+    });
+  });
+  it('should redirect to /my-health when vaOnlineSchedulingMhvRouteGuards is enabled and user is not LOA3', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMhvRouteGuards: true, // Enable the feature flag
+      },
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          loa: { current: 3 },
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      {
+        store,
+      },
+    );
+
+    // Assert that the user is redirected to /my-health
+    await waitFor(() => {
+      expect(replaceStub.calledWith('/my-health')).to.be.true;
+    });
   });
 });
