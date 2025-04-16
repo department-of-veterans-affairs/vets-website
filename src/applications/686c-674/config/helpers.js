@@ -75,29 +75,41 @@ export const CancelButton = withRouter(
   ({
     isAddChapter = false,
     dependentType = 'dependents',
-    buttonText = 'Cancel',
+    altMessage = false,
     router,
   }) => {
     const [isVisible, setIsVisible] = useState(false);
-
     const closeModal = () => setIsVisible(false);
+
+    const cancelText =
+      dependentType && typeof dependentType === 'string'
+        ? `Cancel ${isAddChapter ? 'adding' : 'removing'} ${dependentType}`
+        : 'Cancel';
+
+    const modalText = `Cancel ${
+      isAddChapter ? 'adding' : 'removing'
+    } ${dependentType}?`;
+
+    const secondaryText = `No, continue ${
+      isAddChapter ? 'adding' : 'removing'
+    } ${dependentType}`;
 
     return (
       <>
         <va-button
           data-testid="cancel-btn"
+          aria-label={cancelText}
           onClick={() => setIsVisible(true)}
           secondary
-          text={buttonText}
+          text={cancelText}
         />
 
         <VaModal
+          large
           data-testid="cancel-modal"
-          modalTitle={`Would you like to cancel ${
-            isAddChapter ? 'adding' : 'removing'
-          } your ${dependentType}?`}
-          primaryButtonText="Yes"
-          secondaryButtonText="No"
+          modalTitle={modalText}
+          primaryButtonText="Yes, cancel"
+          secondaryButtonText={secondaryText}
           visible={isVisible}
           status="warning"
           onPrimaryButtonClick={() => {
@@ -110,7 +122,16 @@ export const CancelButton = withRouter(
           onCloseEvent={closeModal}
           clickToClose
         >
-          <p>Click yes to return to the option selection screen.</p>
+          {altMessage ? (
+            <p>
+              If you cancel, the information entered won’t be saved and you’ll
+              be taken to step 1, to update your selection.
+            </p>
+          ) : (
+            <p>
+              If you cancel, you’ll be taken to step 1 to update your selection.
+            </p>
+          )}
         </VaModal>
       </>
     );

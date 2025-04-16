@@ -38,9 +38,9 @@ export const uiSchema = {
     'view:cancelDivorce': {
       'ui:description': (
         <CancelButton
-          buttonText="Cancel removing"
-          dependentType="former spouse"
+          dependentType="divorced spouse"
           isAddChapter={false}
+          altMessage
         />
       ),
     },

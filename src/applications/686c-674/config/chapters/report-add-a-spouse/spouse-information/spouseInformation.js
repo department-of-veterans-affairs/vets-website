@@ -40,11 +40,7 @@ export const uiSchema = {
   },
   'view:cancelAddSpouse': {
     'ui:description': (
-      <CancelButton
-        buttonText="Cancel adding spouse"
-        dependentTyp="spouse"
-        isAddChapter
-      />
+      <CancelButton dependentType="spouse" isAddChapter altMessage />
     ),
   },
 };

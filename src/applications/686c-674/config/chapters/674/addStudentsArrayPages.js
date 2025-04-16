@@ -99,11 +99,7 @@ export const addStudentsIntroPage = {
         return (
           <>
             {AddStudentsIntro()}
-            <CancelButton
-              buttonText="Cancel adding students"
-              dependentType="students"
-              isAddChapter
-            />
+            <CancelButton dependentType="students" isAddChapter />
           </>
         );
       },

@@ -52,8 +52,7 @@ export const removeMarriedChildIntroPage = {
               have gotten married. You must add at least one child.
             </p>
             <CancelButton
-              buttonText="Cancel removing married children"
-              dependentType="married children"
+              dependentType="children who got married"
               isAddChapter={false}
             />
           </>

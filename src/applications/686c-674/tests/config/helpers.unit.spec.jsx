@@ -67,7 +67,7 @@ describe('CancelButton Component (Web Components)', () => {
   [false, true].forEach(isAddChapter => {
     it(`should show the correct modal title when add flow is: ${isAddChapter}`, async () => {
       const addOrRemove = isAddChapter === false ? `removing` : `adding`;
-      const expectedString = `Would you like to cancel ${addOrRemove} your spouse?`;
+      const expectedString = `Cancel ${addOrRemove} spouse?`;
       const props = {
         isAddChapter,
         dependentType: 'spouse',

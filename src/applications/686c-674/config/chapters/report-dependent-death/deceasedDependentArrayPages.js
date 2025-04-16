@@ -91,8 +91,7 @@ export const deceasedDependentIntroPage = {
               have died. You must add at least one dependent who has died.
             </p>
             <CancelButton
-              buttonText="Cancel removing dependent"
-              dependentType="dependents"
+              dependentType="dependents who have died"
               isAddChapter={false}
             />
           </>

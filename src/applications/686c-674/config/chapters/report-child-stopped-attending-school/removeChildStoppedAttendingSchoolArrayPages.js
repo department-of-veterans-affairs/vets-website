@@ -53,8 +53,7 @@ export const removeChildStoppedAttendingSchoolIntroPage = {
               child.
             </p>
             <CancelButton
-              buttonText="Cancel removing children"
-              dependentType="children"
+              dependentType="children who left school"
               isAddChapter={false}
             />
           </>

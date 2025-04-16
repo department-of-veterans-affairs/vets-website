@@ -13,11 +13,7 @@ export const intro = {
               In the next few questions, we’ll ask you about your children. You
               must add at least one child.
             </p>
-            <CancelButton
-              buttonText="Cancel adding children"
-              dependentType="children"
-              isAddChapter
-            />
+            <CancelButton dependentType="children" isAddChapter />
           </>
         );
       },

@@ -66,11 +66,7 @@ export const removeChildHouseholdIntroPage = {
               In the next few questions, we’ll ask you about your stepchildren.
               You must add at least one stepchild.
             </p>
-            <CancelButton
-              buttonText="Cancel removing stepchildren"
-              dependentType="stepchildren"
-              isAddChapter={false}
-            />
+            <CancelButton dependentType="stepchildren" isAddChapter={false} />
           </>
         );
       },
