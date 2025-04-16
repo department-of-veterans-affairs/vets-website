@@ -44,7 +44,7 @@ export default function TypeOfCarePage() {
   const useFeSourceOfTruthVA = useSelector(state =>
     selectFeatureFeSourceOfTruthVA(state),
   );
-  const useFeSourceOfTruthModaility = useSelector(state =>
+  const useFeSourceOfTruthModality = useSelector(state =>
     selectFeatureFeSourceOfTruthModality(state),
   );
 
@@ -162,7 +162,7 @@ export default function TypeOfCarePage() {
                 useFeSourceOfTruth,
                 useFeSourceOfTruthCC,
                 useFeSourceOfTruthVA,
-                useFeSourceOfTruthModaility,
+                useFeSourceOfTruthModality,
               );
             }
 

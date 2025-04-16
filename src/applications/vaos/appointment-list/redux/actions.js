@@ -103,7 +103,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-    const useFeSourceOfTruthModaility = selectFeatureFeSourceOfTruthModality(
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
     const patientFacilities = selectPatientFacilities(state);
@@ -147,7 +147,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
-          useFeSourceOfTruthModaility,
+          useFeSourceOfTruthModality,
         }),
       ];
       if (includeRequests) {
@@ -168,7 +168,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
-            useFeSourceOfTruthModaility,
+            useFeSourceOfTruthModality,
           })
             .then(requests => {
               dispatch({
@@ -280,7 +280,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-    const useFeSourceOfTruthModaility = selectFeatureFeSourceOfTruthModality(
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
     const patientFacilities = selectPatientFacilities(state);
@@ -308,7 +308,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
-        useFeSourceOfTruthModaility,
+        useFeSourceOfTruthModality,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -367,7 +367,7 @@ export function fetchRequestDetails(id) {
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-      const useFeSourceOfTruthModaility = selectFeatureFeSourceOfTruthModality(
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
 
@@ -390,7 +390,7 @@ export function fetchRequestDetails(id) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
-          useFeSourceOfTruthModaility,
+          useFeSourceOfTruthModality,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -437,7 +437,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
-      const useFeSourceOfTruthModaility = selectFeatureFeSourceOfTruthModality(
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
 
@@ -464,7 +464,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
-          useFeSourceOfTruthModaility,
+          useFeSourceOfTruthModality,
         });
       }
 

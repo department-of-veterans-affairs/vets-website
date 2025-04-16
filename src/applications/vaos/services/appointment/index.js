@@ -82,7 +82,7 @@ export async function fetchAppointments({
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
-  useFeSourceOfTruthModaility = false,
+  useFeSourceOfTruthModality = false,
 }) {
   try {
     const appointments = [];
@@ -111,7 +111,7 @@ export async function fetchAppointments({
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
-        useFeSourceOfTruthModaility,
+        useFeSourceOfTruthModality,
       ),
       {
         meta: allAppointments.backendSystemFailures,
@@ -212,7 +212,7 @@ export async function fetchRequestById({
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
-  useFeSourceOfTruthModaility = false,
+  useFeSourceOfTruthModality = false,
 }) {
   try {
     const appointment = await getAppointment(id);
@@ -222,7 +222,7 @@ export async function fetchRequestById({
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
-      useFeSourceOfTruthModaility,
+      useFeSourceOfTruthModality,
     );
   } catch (e) {
     if (e.errors) {
@@ -252,7 +252,7 @@ export async function fetchBookedAppointment({
   useFeSourceOfTruth = true,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
-  useFeSourceOfTruthModaility = false,
+  useFeSourceOfTruthModality = false,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
@@ -261,7 +261,7 @@ export async function fetchBookedAppointment({
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
-      useFeSourceOfTruthModaility,
+      useFeSourceOfTruthModality,
     );
   } catch (e) {
     if (e.errors) {
@@ -870,7 +870,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
     useFeSourceOfTruth,
     useFeSourceOfTruthCC,
     useFeSourceOfTruthVA,
-    useFeSourceOfTruthModaility,
+    useFeSourceOfTruthModality,
   ) => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
@@ -908,7 +908,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
-          useFeSourceOfTruthModaility,
+          useFeSourceOfTruthModality,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());

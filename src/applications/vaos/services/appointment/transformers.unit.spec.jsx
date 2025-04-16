@@ -80,7 +80,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
   it('should set isCompAndPenAppointment when feature flag is on', async () => {
     // Arrange
     const now = moment();
-    const useFeSourceOfTruthModaility = true;
+    const useFeSourceOfTruthModality = true;
     const appointment = new MockAppointment({
       start: now,
     });
@@ -92,7 +92,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
       false,
       false,
       false,
-      useFeSourceOfTruthModaility,
+      useFeSourceOfTruthModality,
     );
 
     // Assert
@@ -102,7 +102,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
   it('should not set isCompAndPenAppointment when feature flag is off', async () => {
     // Arrange
     const now = moment();
-    const useFeSourceOfTruthModaility = false;
+    const useFeSourceOfTruthModality = false;
     const appointment = new MockAppointment({
       start: now,
     });
@@ -114,7 +114,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
       false,
       false,
       false,
-      useFeSourceOfTruthModaility,
+      useFeSourceOfTruthModality,
     );
 
     // Assert
