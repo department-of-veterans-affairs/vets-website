@@ -13,7 +13,7 @@ import {
   validateIfAvailable,
   getImageUri,
   dateFormat,
-  createOriginalFillRecord,
+  createMostRecentFillRecord,
   pharmacyPhoneNumber,
   isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
@@ -46,7 +46,7 @@ const VaPrescription = prescription => {
       ],
   );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
+  const mostRecentFill = createMostRecentFillRecord(prescription);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
@@ -54,7 +54,7 @@ const VaPrescription = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
-  refillHistory.push(originalFill);
+  refillHistory.unshift(mostRecentFill);
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
@@ -728,7 +728,7 @@ const VaPrescription = prescription => {
                                 bordered="true"
                                 key={i}
                                 subHeader={dateFormat(
-                                  entry.dispensedDate,
+                                  entry.sortedDispensedDate,
                                   'MMMM D, YYYY',
                                   'Date not available',
                                   'Filled on ',

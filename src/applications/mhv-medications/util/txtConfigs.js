@@ -4,7 +4,7 @@ import {
   validateField,
   createVAPharmacyText,
   createNoDescriptionText,
-  createOriginalFillRecord,
+  createMostRecentFillRecord,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -118,7 +118,7 @@ ${
               return previousRx.prescriptionNumber;
             })
             .join(', ')}
-  
+
 `
         : ``
     }`;
@@ -177,8 +177,8 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
-  refillHistory.push(originalFill);
+  const originalFill = createMostRecentFillRecord(prescription);
+  refillHistory.unshift(originalFill);
 
   let result = `
 ---------------------------------------------------------------------------------
@@ -259,7 +259,9 @@ Note: If the medication you’re taking doesn’t match this description, call $
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       : createNoDescriptionText(phone);
     result += `
-${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(entry.dispensedDate)}
+${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(
+      entry.sortedDispensedDate,
+    )}
 ${
       i === 0
         ? `
