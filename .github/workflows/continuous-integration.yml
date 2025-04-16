@@ -197,7 +197,7 @@ jobs:
           path: .
 
       - name: Select E2E Tests
-        run: node script/github-actions/select-e2e-tests-new.js
+        run: node script/github-actions/select-e2e-tests.js
         env:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -205,7 +205,7 @@ jobs:
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
           TEST_TYPE: e2e
 
-      - name: Run Unit Test Selection
+      - name: Select Unit Tests
         run: node script/github-actions/select-unit-tests.js
         env:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
