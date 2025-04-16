@@ -10,7 +10,7 @@ const AddressAuthorizationDescription = ({ formData }) => {
         This accredited {getRepType(formData['view:selectedRepresentative'])}{' '}
         can help you change the address on your VA records. If the address on
         your VA records is incorrect or outdated, it may take us longer to
-        contact you and process your benefit claims.
+        contact you and process your benefit claimsss.
       </p>
     </>
   );

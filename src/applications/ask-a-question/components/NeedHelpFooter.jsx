@@ -9,7 +9,7 @@ const NeedHelpFooter = () => {
         <va-telephone contact={CONTACTS['222_VETS']} />
         <br />
         <va-telephone
-          className="vads-u-margin-left--0p5"
+          className="vads-u-margin-left--0p55"
           contact={CONTACTS.HELP_TTY}
           tty
         />
