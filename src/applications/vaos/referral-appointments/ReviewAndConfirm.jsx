@@ -129,17 +129,17 @@ const ReviewAndConfirm = props => {
     () => {
       if (
         appointmentCreateStatus === FETCH_STATUS.succeeded &&
-        draftAppointmentInfo?.appointment?.id
+        draftAppointmentInfo?.id
       ) {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
           null,
-          draftAppointmentInfo.appointment.id,
+          draftAppointmentInfo.id,
         );
       }
     },
-    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
+    [appointmentCreateStatus, draftAppointmentInfo.id, history],
   );
 
   const headingStyles =
@@ -236,7 +236,7 @@ const ReviewAndConfirm = props => {
                 createReferralAppointment({
                   referralNumber: currentReferral.referralNumber,
                   slotId: selectedSlot,
-                  draftApppointmentId: draftAppointmentInfo.appointment.id,
+                  draftApppointmentId: draftAppointmentInfo.id,
                 }),
               );
             }}
