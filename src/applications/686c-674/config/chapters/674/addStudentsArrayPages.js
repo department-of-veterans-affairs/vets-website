@@ -24,7 +24,8 @@ import {
   currentOrPastDateSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
-  numberUI,
+  currencyUI,
+  currencyStringSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
@@ -37,11 +38,6 @@ import {
   TermDateHint,
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
-
-const numberSchema = {
-  type: 'string',
-  pattern: '^\\$?\\d+(\\.\\d{2})?$',
-};
 
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {
@@ -647,11 +643,11 @@ export const studentEarningsPage = {
       },
     },
     studentEarningsFromSchoolYear: {
-      earningsFromAllEmployment: numberUI('Earnings from all employment'),
-      annualSocialSecurityPayments: numberUI('Annual Social Security'),
-      otherAnnuitiesIncome: numberUI('Other annuities'),
+      earningsFromAllEmployment: currencyUI('Earnings from all employment'),
+      annualSocialSecurityPayments: currencyUI('Annual Social Security'),
+      otherAnnuitiesIncome: currencyUI('Other annuities'),
       allOtherIncome: {
-        ...numberUI('All other income'),
+        ...currencyUI('All other income'),
         'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
       },
     },
@@ -662,10 +658,10 @@ export const studentEarningsPage = {
       studentEarningsFromSchoolYear: {
         type: 'object',
         properties: {
-          earningsFromAllEmployment: numberSchema,
-          annualSocialSecurityPayments: numberSchema,
-          otherAnnuitiesIncome: numberSchema,
-          allOtherIncome: numberSchema,
+          earningsFromAllEmployment: currencyStringSchema,
+          annualSocialSecurityPayments: currencyStringSchema,
+          otherAnnuitiesIncome: currencyStringSchema,
+          allOtherIncome: currencyStringSchema,
         },
       },
     },
@@ -678,11 +674,11 @@ export const studentFutureEarningsPage = {
       () => 'Student’s expected income next year',
     ),
     studentExpectedEarningsNextYear: {
-      earningsFromAllEmployment: textUI('Earnings from all employment'),
-      annualSocialSecurityPayments: textUI('Annual Social Security'),
-      otherAnnuitiesIncome: textUI('Other annuities'),
+      earningsFromAllEmployment: currencyUI('Earnings from all employment'),
+      annualSocialSecurityPayments: currencyUI('Annual Social Security'),
+      otherAnnuitiesIncome: currencyUI('Other annuities'),
       allOtherIncome: {
-        ...textUI('All other income'),
+        ...currencyUI('All other income'),
         'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
       },
     },
@@ -693,10 +689,10 @@ export const studentFutureEarningsPage = {
       studentExpectedEarningsNextYear: {
         type: 'object',
         properties: {
-          earningsFromAllEmployment: textSchema,
-          annualSocialSecurityPayments: textSchema,
-          otherAnnuitiesIncome: textSchema,
-          allOtherIncome: textSchema,
+          earningsFromAllEmployment: currencyStringSchema,
+          annualSocialSecurityPayments: currencyStringSchema,
+          otherAnnuitiesIncome: currencyStringSchema,
+          allOtherIncome: currencyStringSchema,
         },
       },
     },
@@ -708,18 +704,18 @@ export const studentAssetsPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Value of student’s assets'),
     studentNetworthInformation: {
       savings: {
-        ...textUI('Savings'),
+        ...currencyUI('Savings'),
         'ui:description': generateHelpText('Includes cash'),
       },
-      securities: textUI('Securities, bonds, etc.'),
+      securities: currencyUI('Securities, bonds, etc.'),
       realEstate: {
-        ...textUI('Real estate'),
+        ...currencyUI('Real estate'),
         'ui:description': generateHelpText(
           'Don’t include the value of your primary home',
         ),
       },
-      otherAssets: textUI('All other assets'),
-      totalValue: textUI('Total value'),
+      otherAssets: currencyUI('All other assets'),
+      totalValue: currencyUI('Total value'),
     },
   },
   schema: {
@@ -728,11 +724,11 @@ export const studentAssetsPage = {
       studentNetworthInformation: {
         type: 'object',
         properties: {
-          savings: textSchema,
-          securities: textSchema,
-          realEstate: textSchema,
-          otherAssets: textSchema,
-          totalValue: textSchema,
+          savings: currencyStringSchema,
+          securities: currencyStringSchema,
+          realEstate: currencyStringSchema,
+          otherAssets: currencyStringSchema,
+          totalValue: currencyStringSchema,
         },
       },
     },
