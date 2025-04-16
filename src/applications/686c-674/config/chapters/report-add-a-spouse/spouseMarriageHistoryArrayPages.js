@@ -1,5 +1,6 @@
 import { capitalize } from 'lodash';
 import {
+  titleUI,
   textUI,
   textSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -20,10 +21,9 @@ import {
   marriageEnums,
   spouseFormerMarriageLabels,
   customLocationSchema,
-  generateHelpText,
 } from '../../helpers';
 
-/* NOTE: 
+/* NOTE:
  * In "Add mode" of the array builder, formData represents the entire formData object.
  * In "Edit mode," formData represents the specific array item being edited.
  * As a result, the index param may sometimes come back null depending on which mode the user is in.
@@ -138,6 +138,7 @@ export const formerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        preserveHiddenData: true,
         hideIf: (formData, index) =>
           !(
             formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
@@ -282,13 +283,14 @@ export const formerMarriageEndLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     endLocation: {
-      'ui:title': 'Where did the marriage end?',
+      ...titleUI({
+        title: 'Where did the marriage end?',
+        description:
+          'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
+      }),
       'ui:options': {
         labelHeaderLevel: '4',
       },
-      'ui:description': generateHelpText(
-        'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
-      ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,

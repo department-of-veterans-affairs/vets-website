@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
-import { useYesNoInputEvents } from '../hooks/useYesNoInputEvents';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import { useLoa3UserData } from '../hooks/useLoa3UserData';
 import content from '../locales/en/content.json';
@@ -25,9 +24,6 @@ const App = ({ children, location }) => {
 
   // Set default view fields within the form data
   useDefaultFormData();
-
-  // Attach analytics events to all yes/no radio inputs
-  useYesNoInputEvents(isAppLoading, location);
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();

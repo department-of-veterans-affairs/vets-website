@@ -1,8 +1,7 @@
 // All flippers for the 0781 Papersync should be added to this file
 import _ from 'platform/utilities/data';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { isClaimingIncrease, isClaimingNew } from '.';
+import { isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
@@ -33,11 +32,7 @@ function combatOnlySelection(formData) {
  *     - returns false
  */
 export function showForm0781Pages(formData) {
-  return (
-    formData?.syncModern0781Flow === true &&
-    isClaimingNew(formData) &&
-    !isClaimingIncrease(formData)
-  );
+  return formData?.syncModern0781Flow === true && isClaimingNew(formData);
 }
 
 export function showManualUpload0781Page(formData) {
@@ -177,7 +172,7 @@ export function showBehaviorSummaryPage(formData) {
  * @returns {UISchemaOptions}
  */
 export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
-  return titleUI(props => {
+  return props => {
     const search = getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const { id } = props;
@@ -192,5 +187,5 @@ export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
       );
     }
     return title;
-  });
+  };
 };
