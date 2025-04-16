@@ -64,12 +64,12 @@ describe('Helpers Module', () => {
     it('should handle single-character strings', () => {
       expect(titleCase('h')).to.equal('H');
     });
-    it('should throw an error for empty strings', () => {
-      expect(() => titleCase('')).to.throw();
+    it('should return an empty string for empty strings', () => {
+      expect(titleCase('')).to.equal('');
     });
-    it('should throw an error when input is null or undefined', () => {
-      expect(() => titleCase(null)).to.throw();
-      expect(() => titleCase(undefined)).to.throw();
+    it('should return empty string when input is null or undefined', () => {
+      expect(titleCase(null)).to.equal('');
+      expect(titleCase(undefined)).to.equal('');
     });
   });
   describe('obfuscate', () => {
