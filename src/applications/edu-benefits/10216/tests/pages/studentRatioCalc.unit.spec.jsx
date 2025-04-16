@@ -71,11 +71,55 @@ describe('Student Ratio Calculation page', () => {
     waitFor(() => {
       expect($$('va-memorable-date[error]', container).length).to.equal(1);
       expect(date.error).to.contain(
-        'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+        'Please enter a date within 30 calendar days of the term start date',
       );
       expect(errors.messages).to.contain(
-        'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+        'Please enter a date within 30 calendar days of the term start date',
       );
+    });
+  });
+  it('Shows correct validation message when student ratio exceeds 35%', async () => {
+    const data = {
+      institutionDetails: {
+        institutionName: 'Example',
+        facilityCode: '12345678',
+        termStartDate: '2025-01-01',
+      },
+      studentRatioCalcChapter: {
+        beneficiaryStudent: 36,
+        numOfStudent: 100,
+        dateOfCalculation: '2025-01-02',
+      },
+    };
+    const errors = {
+      messages: [],
+      addError: message => {
+        errors.messages.push(message);
+      },
+    };
+    const validateRatio =
+      formConfig.chapters.studentRatioCalcChapter.pages.studentRatioCalc
+        .uiSchema.studentRatioCalcChapter.beneficiaryStudent[
+        'ui:validations'
+      ][0];
+    validateRatio(errors, '36', data);
+
+    const { container } = renderWithStore(data);
+    const input = $(
+      'va-text-input[name="root_studentRatioCalcChapter_beneficiaryStudent"]',
+      container,
+    );
+    fireEvent.blur(input);
+
+    waitFor(() => {
+      expect($$('va-text-input[error]', container).length).to.equal(1);
+      expect(input.error).to.contain(
+        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+      );
+      expect(errors.messages).to.contain(
+        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+      );
+      expect($('va-alert[status="error"]', container)).to.exist;
     });
   });
 });

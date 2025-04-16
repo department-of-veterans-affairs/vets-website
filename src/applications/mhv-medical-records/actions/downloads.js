@@ -99,3 +99,10 @@ export const updateReportRecordType = selectedTypes => async dispatch => {
     response: selectedTypes,
   });
 };
+
+export const updateReportFileType = selectedType => async dispatch => {
+  dispatch({
+    type: Actions.Downloads.SET_FILE_TYPE_FILTER,
+    response: selectedType,
+  });
+};

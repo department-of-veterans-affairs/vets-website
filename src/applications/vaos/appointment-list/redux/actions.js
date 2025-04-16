@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
@@ -10,7 +10,9 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
   selectSystemIds,
+  selectFeatureFeSourceOfTruthModality,
 } from '../../redux/selectors';
 import {
   APPOINTMENT_TYPES,
@@ -100,6 +102,10 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
     const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
@@ -126,32 +132,43 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
        * and requests lists, but needs confirmed to go back 30 days. Appointments
        * will be filtered out by date accordingly in our selectors
        */
+      const now = new Date();
+      const startDate = new Date(now);
+      startDate.setDate(startDate.getDate() - 30); // Subtract 30 days
+
+      const endDate = new Date(now);
+      endDate.setDate(endDate.getDate() + 395); // Add 395 days
+
       const promises = [
         fetchAppointments({
-          startDate: moment()
-            .subtract(30, 'days')
-            .format('YYYY-MM-DD'),
-          endDate: moment()
-            .add(395, 'days')
-            .format('YYYY-MM-DD'),
+          startDate: format(startDate, 'yyyy-MM-dd'), // Start 30 days in the past for canceled appointments
+          endDate: format(endDate, 'yyyy-MM-dd'),
           includeEPS,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         }),
       ];
       if (includeRequests) {
+        const requestStartDate = new Date(now);
+        requestStartDate.setDate(requestStartDate.getDate() - 120); // Subtract 120 days
+
+        const requestEndDate = new Date(now);
+        if (featureVAOSServiceRequests) {
+          requestEndDate.setDate(requestEndDate.getDate() + 1); // Add 1 day
+        }
+
         promises.push(
           getAppointmentRequests({
-            startDate: moment()
-              .subtract(120, 'days')
-              .format('YYYY-MM-DD'),
-            endDate: moment()
-              .add(featureVAOSServiceRequests ? 1 : 0, 'days')
-              .format('YYYY-MM-DD'),
+            startDate: format(requestStartDate, 'yyyy-MM-dd'), // Start 120 days in the past for requests
+            endDate: format(requestEndDate, 'yyyy-MM-dd'), // End 1 day in the future for requests
             useV2: featureVAOSServiceRequests,
             includeEPS,
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
+            useFeSourceOfTruthModality,
           })
             .then(requests => {
               dispatch({
@@ -262,6 +279,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
     const patientFacilities = selectPatientFacilities(state);
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
@@ -286,6 +307,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         includeEPS,
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -343,6 +366,10 @@ export function fetchRequestDetails(id) {
       const state = getState();
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+        state,
+      );
 
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
@@ -362,6 +389,8 @@ export function fetchRequestDetails(id) {
           id,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -407,6 +436,10 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           : featureVAOSServiceVAAppointments;
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+        state,
+      );
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -430,6 +463,8 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           useV2,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
       }
 
@@ -497,6 +532,7 @@ export function confirmCancelAppointment() {
     const appointment = state.appointments.appointmentToCancel;
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
     try {
       dispatch({
@@ -507,6 +543,7 @@ export function confirmCancelAppointment() {
         appointment,
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
       });
 
       dispatch({

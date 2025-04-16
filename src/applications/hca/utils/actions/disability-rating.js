@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import { API_ENDPOINTS, DISABILITY_RATING_ACTIONS } from '../constants';
-import { logFetchError, parseResponseErrors } from '../helpers';
+import { parseResponseErrors } from '../helpers';
 
 /**
  * Action to fetch users total disability rating
@@ -24,7 +24,6 @@ export const fetchTotalDisabilityRating = () => async dispatch => {
     });
   } catch (error) {
     const { code, detail } = parseResponseErrors(error);
-    logFetchError(code);
     dispatch({
       type: FETCH_DISABILITY_RATING_FAILED,
       error: { code, detail },

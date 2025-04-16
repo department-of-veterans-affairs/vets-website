@@ -1,12 +1,14 @@
 import { expect } from 'chai';
-import { getAppointmentType } from './transformers';
+import moment from 'moment';
+import { getAppointmentType, transformVAOSAppointment } from './transformers';
+import { MockAppointment } from '../../tests/mocks/unit-test-helpers';
 
 describe('getAppointmentType util', () => {
   it('should return appointment type as request', async () => {
     const appointment = {
       id: 'CERN123',
     };
-    const result = getAppointmentType(appointment, false);
+    const result = getAppointmentType(appointment, false, false);
     expect(result).to.equal('request');
   });
   it('should return appointment type as vaAppointment for cerner appointment', async () => {
@@ -14,7 +16,7 @@ describe('getAppointmentType util', () => {
       id: 'CERN123',
       end: '2021-08-31T17:00:00Z',
     };
-    const result = getAppointmentType(appointment, false);
+    const result = getAppointmentType(appointment, false, false);
     expect(result).to.equal('vaAppointment');
   });
   it('should return appointment type as ccAppointment, useFeSourceOfTruthCC=false', async () => {
@@ -23,7 +25,7 @@ describe('getAppointmentType util', () => {
       kind: 'cc',
       start: '2021-08-31T17:00:00Z',
     };
-    const result = getAppointmentType(appointment, false);
+    const result = getAppointmentType(appointment, false, false);
     expect(result).to.equal('ccAppointment');
   });
   it('should return appointment type as ccAppointment, useFeSourceOfTruthCC=true', async () => {
@@ -31,7 +33,7 @@ describe('getAppointmentType util', () => {
       id: '123',
       type: 'COMMUNITY_CARE_APPOINTMENT',
     };
-    const result = getAppointmentType(appointment, true);
+    const result = getAppointmentType(appointment, true, false);
     expect(result).to.equal('ccAppointment');
   });
   it('should return appointment type as ccRequest, useFeSourceOfTruthCC=false', async () => {
@@ -44,7 +46,7 @@ describe('getAppointmentType util', () => {
         },
       ],
     };
-    const result = getAppointmentType(appointment, false);
+    const result = getAppointmentType(appointment, false, false);
     expect(result).to.equal('ccRequest');
   });
   it('should return appointment type as ccRequest, useFeSourceOfTruthCC=true', async () => {
@@ -52,16 +54,70 @@ describe('getAppointmentType util', () => {
       id: '123',
       type: 'COMMUNITY_CARE_REQUEST',
     };
-    const result = getAppointmentType(appointment, true);
+    const result = getAppointmentType(appointment, true, false);
     expect(result).to.equal('ccRequest');
   });
-  it('should return appointment type as vaAppointment', async () => {
+  it('should return appointment type as vaAppointment, useFeSourceOfTruthVA=false', async () => {
     const appointment = {
       id: '123',
       kind: 'clinic',
       start: '2021-08-31T17:00:00Z',
     };
-    const result = getAppointmentType(appointment, false);
+    const result = getAppointmentType(appointment, false, false);
     expect(result).to.equal('vaAppointment');
+  });
+  it('should return appointment type as vaAppointment, useFeSourceOfTruthVA=true', async () => {
+    const appointment = {
+      id: '123',
+      type: 'VA',
+    };
+    const result = getAppointmentType(appointment, false, true);
+    expect(result).to.equal('vaAppointment');
+  });
+});
+
+describe('VAOS <transformVAOSAppointment>', () => {
+  it('should set isCompAndPenAppointment when feature flag is on', async () => {
+    // Arrange
+    const now = moment();
+    const useFeSourceOfTruthModality = true;
+    const appointment = new MockAppointment({
+      start: now,
+    });
+    appointment.setModality('claimExamAppointment');
+
+    // Act
+    const a = transformVAOSAppointment(
+      appointment,
+      false,
+      false,
+      false,
+      useFeSourceOfTruthModality,
+    );
+
+    // Assert
+    expect(a.vaos.isCompAndPenAppointment).to.be.true;
+  });
+
+  it('should not set isCompAndPenAppointment when feature flag is off', async () => {
+    // Arrange
+    const now = moment();
+    const useFeSourceOfTruthModality = false;
+    const appointment = new MockAppointment({
+      start: now,
+    });
+    appointment.setModality('claimExamAppointment');
+
+    // Act
+    const a = transformVAOSAppointment(
+      appointment,
+      false,
+      false,
+      false,
+      useFeSourceOfTruthModality,
+    );
+
+    // Assert
+    expect(a.vaos.isCompAndPenAppointment).to.be.false;
   });
 });

@@ -1,6 +1,6 @@
 import FULL_SCHEMA from 'vets-json-schema/dist/10-10CG-schema.json';
 import SCHEMA_CONSTANTS from 'vets-json-schema/dist/constants.json';
-import CAREGIVER_FACILITIES from 'vets-json-schema/dist/caregiverProgramFacilities.json';
+import CAREGIVER_FACILITIES from './caregiverProgramFacilities.json';
 
 export {
   VaCheckbox,

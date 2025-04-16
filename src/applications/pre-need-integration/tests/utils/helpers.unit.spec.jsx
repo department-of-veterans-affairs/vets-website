@@ -1,9 +1,12 @@
 /* eslint-disable mocha/no-exclusive-tests */
 import React from 'react';
+import * as ReactRedux from 'react-redux';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import { countries } from 'platform/forms/address';
+import { render } from '@testing-library/react';
 import {
   transform,
   ApplicantDescriptionWrapper,
@@ -25,6 +28,9 @@ import {
   formatName,
   claimantHeader,
   validateMilitaryHistory,
+  addressConfirmationRenderLine,
+  formatSuggestedAddress,
+  MailingAddressStateTitle,
 } from '../../utils/helpers';
 import * as utils from '../../utils/helpers';
 
@@ -659,5 +665,156 @@ describe('Preneed helpers', () => {
 
       expect(errors.dateRange.to.addError.calledOnce).to.be.false;
     });
+  });
+});
+
+describe('addressConfirmationRenderLine', () => {
+  it('should render content with a line break when content is provided', () => {
+    const content = 'Test Content';
+    const { container } = render(addressConfirmationRenderLine(content));
+    expect(container.innerHTML).to.equal('Test Content<br>');
+  });
+
+  it('should return null when content is not provided', () => {
+    const content = null;
+    const result = addressConfirmationRenderLine(content);
+    expect(result).to.be.null;
+  });
+});
+
+describe('formatSuggestedAddress', () => {
+  it('should format address with all fields', () => {
+    const address = {
+      street: '123 Shoryuken St',
+      street2: 'Apt 4',
+      city: 'Luthadel',
+      state: 'CA',
+      postalCode: '12345',
+      country: 'USA',
+    };
+    const result = formatSuggestedAddress(address);
+    expect(result).to.equal('123 Shoryuken St, Apt 4, Luthadel, CA 12345');
+  });
+
+  it('should format address without street2', () => {
+    const address = {
+      street: '123 Shoryuken St',
+      city: 'Luthadel',
+      state: 'CA',
+      postalCode: '12345',
+      country: 'USA',
+    };
+    const result = formatSuggestedAddress(address);
+    expect(result).to.equal('123 Shoryuken St, Luthadel, CA 12345');
+  });
+
+  it('should format address without postalCode', () => {
+    const address = {
+      street: '123 Shoryuken St',
+      street2: 'Apt 4',
+      city: 'Luthadel',
+      state: 'CA',
+      country: 'USA',
+    };
+    const result = formatSuggestedAddress(address);
+    expect(result).to.equal('123 Shoryuken St, Apt 4, Luthadel, CA');
+  });
+
+  it('should format address with country other than USA', () => {
+    const address = {
+      street: '123 Shoryuken St',
+      street2: 'Apt 4',
+      city: 'Luthadel',
+      state: 'CA',
+      postalCode: '12345',
+      country: 'CAN',
+    };
+    const result = formatSuggestedAddress(address);
+    expect(result).to.equal(
+      '123 Shoryuken St, Apt 4, Luthadel, CA 12345, Canada',
+    );
+  });
+
+  it('should return empty string if address is null', () => {
+    const result = formatSuggestedAddress(null);
+    expect(result).to.equal('');
+  });
+
+  it('should return empty string if address is undefined', () => {
+    const result = formatSuggestedAddress(undefined);
+    expect(result).to.equal('');
+  });
+
+  it('should format address with country label when country is not USA', () => {
+    const address = {
+      street: '123 Shoryuken St',
+      street2: 'Apt 4',
+      city: 'Luthadel',
+      state: 'CA',
+      postalCode: '12345',
+      country: 'CAN',
+    };
+    const result = formatSuggestedAddress(address);
+    const countryLabel = countries.find(c => c.value === 'CAN').label || 'CAN';
+    expect(result).to.equal(
+      `123 Shoryuken St, Apt 4, Luthadel, CA 12345, ${countryLabel}`,
+    );
+  });
+});
+
+describe('MailingAddressStateTitle', () => {
+  let useSelectorStub;
+
+  beforeEach(() => {
+    useSelectorStub = sinon.stub(ReactRedux, 'useSelector');
+  });
+
+  afterEach(() => {
+    useSelectorStub.restore();
+  });
+
+  it('should return "Province" when country is "CAN"', () => {
+    useSelectorStub.returns({ form: { data: { country: 'CAN' } } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('Province');
+    wrapper.unmount();
+  });
+
+  it('should return "State or territory" when country is not "CAN"', () => {
+    useSelectorStub.returns({ form: { data: { country: 'USA' } } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
+  });
+
+  it('should return "State or territory" when country is undefined', () => {
+    useSelectorStub.returns({ form: { data: {} } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
+  });
+
+  it('should handle empty data object', () => {
+    useSelectorStub.returns({});
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
+  });
+
+  it('should handle missing country field', () => {
+    useSelectorStub.returns({ form: { data: { otherField: 'value' } } });
+    const wrapper = shallow(
+      <MailingAddressStateTitle elementPath="form.data.country" />,
+    );
+    expect(wrapper.text()).to.equal('State or territory');
+    wrapper.unmount();
   });
 });

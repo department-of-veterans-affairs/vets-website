@@ -105,6 +105,7 @@ const responses = {
           patientComments = token.substring('comments:'.length);
         }
       }
+      type = pending ? 'REQUEST' : 'VA';
     }
 
     const submittedAppt = {
@@ -381,41 +382,26 @@ const responses = {
   'GET /vaos/v2/relationships': (req, res) => {
     return res.json(patientProviderRelationships);
   },
-
-  // EPS api
-  'GET /vaos/v2/epsApi/referrals': (req, res) => {
+  'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4, '2024-12-02'),
+      data: referralUtils.createReferrals(4),
     });
   },
-  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
+  'GET /vaos/v2/referrals/:referralId': (req, res) => {
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
 
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
-      const yesterday = moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DD');
       const expiredReferral = referralUtils.createReferralById(
-        '2024-12-02',
         req.params.referralId,
-        '111',
-        yesterday,
+        '2024-12-02',
       );
       return res.json({
         data: expiredReferral,
       });
     }
-    const tomorrow = moment()
-      .add(2, 'days')
-      .format('YYYY-MM-DD');
-    const referral = referralUtils.createReferralById(
-      '2024-12-02',
-      req.params.referralId,
-      '111',
-      tomorrow,
-    );
+    const referral = referralUtils.createReferralById(req.params.referralId);
     return res.json({
       data: referral,
     });

@@ -236,55 +236,32 @@ describe('veteranMarriageHistoryOptions', () => {
     });
   });
 
-  describe('text.getItemName', () => {
+  describe('text.getItemName + text.cardDescription', () => {
     it('should return the full name of the item', () => {
       const item = {
         fullName: { first: 'John', last: 'Doe' },
       };
-      expect(veteranMarriageHistoryOptions.text.getItemName(item)).to.equal(
+      expect(veteranMarriageHistoryOptions.text.getItemName()).to.equal(
+        'Your former marriage',
+      );
+      expect(veteranMarriageHistoryOptions.text.cardDescription(item)).to.equal(
         'John Doe',
       );
     });
 
     it('should return an empty string if first or last name is missing', () => {
       const incompleteItem = { fullName: { first: 'John' } };
+      expect(veteranMarriageHistoryOptions.text.getItemName()).to.equal(
+        'Your former marriage',
+      );
       expect(
-        veteranMarriageHistoryOptions.text.getItemName(incompleteItem),
+        veteranMarriageHistoryOptions.text.cardDescription(incompleteItem),
       ).to.equal('John ');
 
       const missingBoth = { fullName: {} };
       expect(
-        veteranMarriageHistoryOptions.text.getItemName(missingBoth),
-      ).to.equal(' ');
-    });
-  });
-
-  describe('text.cardDescription', () => {
-    it('should return formatted start and end dates', () => {
-      const item = {
-        startDate: '1991-02-19',
-        endDate: '2000-02-19',
-      };
-      expect(veteranMarriageHistoryOptions.text.cardDescription(item)).to.equal(
-        '02/19/1991 - 02/19/2000',
-      );
-    });
-
-    it('should return "Unknown" if start or end date is missing', () => {
-      const missingStartDate = { endDate: '2000-02-19' };
-      expect(
-        veteranMarriageHistoryOptions.text.cardDescription(missingStartDate),
-      ).to.equal('Unknown - 02/19/2000');
-
-      const missingEndDate = { startDate: '1991-02-19' };
-      expect(
-        veteranMarriageHistoryOptions.text.cardDescription(missingEndDate),
-      ).to.equal('02/19/1991 - Unknown');
-
-      const missingBoth = {};
-      expect(
         veteranMarriageHistoryOptions.text.cardDescription(missingBoth),
-      ).to.equal('Unknown - Unknown');
+      ).to.equal(' ');
     });
   });
 });

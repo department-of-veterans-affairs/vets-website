@@ -142,41 +142,51 @@ describe('addStudentsOptions', () => {
         'Review your students',
       );
     });
-
-    it('should return correct item name', () => {
-      const item = { fullName: { first: 'Jane', last: 'Doe' } };
-      expect(addStudentsOptions.text.getItemName(item)).to.equal('Jane Doe');
-    });
   });
-  describe('getItemName', () => {
+  describe('getItemName + cardDescription', () => {
     it('should return a full name when both first and last names are provided', () => {
       const item = { fullName: { first: 'john', last: 'doe' } };
       const expectedName = 'John Doe';
-      expect(addStudentsOptions.text.getItemName(item)).to.equal(expectedName);
+      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
+      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
+        expectedName,
+      );
     });
 
     it('should return only the first name when the last name is missing', () => {
       const item = { fullName: { first: 'john' } };
       const expectedName = 'John ';
-      expect(addStudentsOptions.text.getItemName(item)).to.equal(expectedName);
+      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
+      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
+        expectedName,
+      );
     });
 
     it('should return only the last name when the first name is missing', () => {
       const item = { fullName: { last: 'doe' } };
       const expectedName = ' Doe';
-      expect(addStudentsOptions.text.getItemName(item)).to.equal(expectedName);
+      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
+      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
+        expectedName,
+      );
     });
 
     it('should return an empty string when both first and last names are missing', () => {
       const item = { fullName: {} };
       const expectedName = ' ';
-      expect(addStudentsOptions.text.getItemName(item)).to.equal(expectedName);
+      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
+      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
+        expectedName,
+      );
     });
 
     it('should return an empty string when fullName is not provided', () => {
       const item = {};
       const expectedName = ' ';
-      expect(addStudentsOptions.text.getItemName(item)).to.equal(expectedName);
+      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
+      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
+        expectedName,
+      );
     });
   });
 });
@@ -301,7 +311,7 @@ describe('674 Add students: Student income the past year ', () => {
     );
 
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 });
 

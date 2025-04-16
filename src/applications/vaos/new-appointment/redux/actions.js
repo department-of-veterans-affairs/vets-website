@@ -17,6 +17,7 @@ import {
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
@@ -90,6 +91,8 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
+export const FORM_UPDATE_SELECTED_PROVIDER =
+  'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -217,6 +220,13 @@ export function updateFacilityType(facilityType) {
   };
 }
 
+export function updateSelectedProvider(provider) {
+  return {
+    type: FORM_UPDATE_SELECTED_PROVIDER,
+    provider,
+  };
+}
+
 export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
   if (isRecordEvent) {
     recordEvent({
@@ -309,6 +319,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -327,6 +338,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             directSchedulingEnabled,
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
             isCerner: true,
           });
 
@@ -364,6 +376,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           featureClinicFilter,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
 
         if (showModal) {
@@ -827,6 +840,7 @@ export function onCalendarChange(
     isAppointmentSelectionError: isSame,
   };
 }
+
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
@@ -911,6 +925,7 @@ export function submitAppointmentOrRequest(history) {
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -938,6 +953,7 @@ export function submitAppointmentOrRequest(history) {
           appointment: transformFormToVAOSAppointment(getState()),
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
 
         dispatch({
@@ -1034,6 +1050,7 @@ export function submitAppointmentOrRequest(history) {
           appointment: requestBody,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
         });
 
         dispatch({

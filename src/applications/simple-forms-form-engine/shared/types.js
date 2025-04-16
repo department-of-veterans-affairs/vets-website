@@ -18,6 +18,19 @@
  */
 
 /**
+ * @typedef {Object} NormalizedForm
+ * @property {Object} chapters
+ * @property {number} cmsId
+ * @property {string} formId
+ * @property {string} introParagraph
+ * @property {string} moderationState
+ * @property {Object} ombInfo
+ * @property {string} plainLanguageHeader
+ * @property {string} title
+ * @property {Array<string>} whatToKnowBullets
+ */
+
+/**
  * @typedef {Object} NormalizedResponseOption
  * @property {string} [description]
  * @property {string} label

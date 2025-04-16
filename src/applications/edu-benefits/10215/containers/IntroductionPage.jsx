@@ -6,6 +6,8 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
+import OmbInfo from '../components/OmbInfo';
+
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
@@ -215,11 +217,7 @@ const IntroductionPage = ({ route }) => {
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={60}
-        omb-number="2900-0897"
-        exp-date="01/31/2028"
-      />
+      <OmbInfo />
     </article>
   );
 };
