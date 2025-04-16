@@ -22,7 +22,7 @@ export class ReferralsAndRequestsPageObject extends PageObject {
    */
   assertPendingReferrals({ count = 0 } = {}) {
     if (count > 0) {
-      cy.findAllByTestId('pending-referral-card').should('have.length', count);
+      cy.findAllByTestId('appointment-list-item').should('have.length', count);
     } else {
       cy.findByRole('heading', {
         level: 2,

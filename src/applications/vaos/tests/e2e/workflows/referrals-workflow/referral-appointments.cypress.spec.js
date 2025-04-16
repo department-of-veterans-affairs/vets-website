@@ -66,15 +66,16 @@ describe('VAOS Referral Appointments', () => {
   });
 
   describe('Viewing the Referrals and Requests page with referrals', () => {
+    const numberOfReferrals = 2;
     beforeEach(() => {
       // Mock empty referrals response
       const referralsResponse = new MockReferralListResponse({
-        numberOfReferrals: 2,
-      });
+        numberOfReferrals,
+      }).toJSON();
       mockReferralsGetApi({ response: referralsResponse });
     });
 
-    it('should show no referrals message', () => {
+    it('should show a list of referrals', () => {
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
 
@@ -86,7 +87,7 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
 
       // Verify that no referrals message is displayed
-      referralsAndRequests.assertPendingReferrals({ count: 2 });
+      referralsAndRequests.assertPendingReferrals({ count: numberOfReferrals });
     });
   });
 });

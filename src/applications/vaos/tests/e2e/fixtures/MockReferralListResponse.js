@@ -26,8 +26,8 @@ class MockReferralListResponse {
     id = `referral-${Math.random()
       .toString(36)
       .substring(2, 10)}`,
-    categoryOfCare = 'PHYSICAL THERAPY',
-    referralNumber = `${Math.floor(1000 + Math.random() * 9000)}`,
+    categoryOfCare = 'Physical Therapy',
+    referralNumber = `VA${Math.floor(1000 + Math.random() * 9000)}`,
     expirationDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
   } = {}) {
     return {
@@ -54,20 +54,20 @@ class MockReferralListResponse {
     return [
       MockReferralListResponse.createReferral({
         id: 'PmDYsBz-egEtG13flMnHUQ==',
-        categoryOfCare: 'CARDIOLOGY',
-        referralNumber: '5682',
+        categoryOfCare: 'Physical Therapy',
+        referralNumber: 'VA0000005682',
         expirationDate: format(addMonths(today, 2), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'oSI3vEVkzuR-JJomdWA6Fw==',
-        categoryOfCare: 'CARDIOLOGY',
-        referralNumber: '6569',
+        categoryOfCare: 'Physical Therapy',
+        referralNumber: 'VA0000006569',
         expirationDate: format(addMonths(today, 6), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-        categoryOfCare: 'PHYSICAL THERAPY',
-        referralNumber: '7123',
+        categoryOfCare: 'Physical Therapy',
+        referralNumber: 'VA0000007123',
         expirationDate: format(addMonths(today, 5), formatStr),
       }),
     ];
