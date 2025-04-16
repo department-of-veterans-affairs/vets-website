@@ -1,6 +1,6 @@
 export const URLS = Object.freeze({
   GIB_LEARN: 'https://www.va.gov/education/about-gi-bill-benefits/',
-  GIB_APPLY: 'https://www.va.gov/education/how-to_APPLY/',
+  GIB_APPLY: 'https://www.va.gov/education/how-to-apply/',
   DBP_LEARN: 'https://skillbridge.osd.mil/program-overview.htm/',
   ECC_LEARN:
     'https://www.va.gov/careers-employment/education-and-career-counseling/',
@@ -12,13 +12,13 @@ export const URLS = Object.freeze({
   TAP_LEARN: 'https://www.dodtap.mil/dodtap/app/home',
   VRE_LEARN: 'https://www.va.gov/careers-employment/vocational-rehabilitation/',
   VRE_APPLY:
-    'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to_APPLY',
+    'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
   VSC_LEARN: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
   DHS_LEARN: 'https://www.va.gov/housing-assistance/disability-housing-grants/',
   DHS_APPLY:
-    'https://www.va.gov/housing-assistance/disability-housing-grants/how-to_APPLY/',
+    'https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/',
   VAP_LEARN: 'https://www.va.gov/pension/eligibility/',
-  VAP_APPLY: 'https://www.va.gov/pension/how-to_APPLY/',
+  VAP_APPLY: 'https://www.va.gov/pension/how-to-apply/',
   MHC_LEARN:
     'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
   FMP_LEARN: 'https://www.va.gov/health-care/foreign-medical-program/',
@@ -33,7 +33,7 @@ export const URLS = Object.freeze({
   COE_APPLY:
     'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
   VAH_LEARN: 'https://www.va.gov/health-care/',
-  VAH_APPLY: 'https://www.va.gov/health-care/how-to_APPLY/',
+  VAH_APPLY: 'https://www.va.gov/health-care/how-to-apply/',
   BUR_LEARN: 'https://www.va.gov/burials-memorials/eligibility/',
   BUR_APPLY: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
   TGI_LEARN:
