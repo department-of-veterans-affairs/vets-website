@@ -6,9 +6,11 @@ import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring'
 import formConfig from '../config/form';
 import OrientationWizardContainer from './OrientationWizardContainer';
 import { WIZARD_STATUS } from '../constants';
-import { App } from '../new-28-1900/containers/App';
+import {App as NewApp} from '../new-28-1900/containers/App';
 
 function App({ location }) {
+  return <NewApp location={location}/>;
+
   const wizardStateHandler = status => {
     sessionStorage.setItem(WIZARD_STATUS, status);
   };
@@ -22,14 +24,9 @@ function App({ location }) {
     toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
   });
 
-  if (true) {
-    return App;
-  }
-
   return (
     <>
       {content}
-      <div>test change</div>
       <FormFooter formConfig={formConfig} />
     </>
   );
