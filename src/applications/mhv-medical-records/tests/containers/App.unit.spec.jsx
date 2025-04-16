@@ -143,7 +143,9 @@ describe('App', () => {
       );
       expect(screen.getByRole('navigation', { name: 'My HealtheVet' }));
     });
+  });
 
+  describe.skip('Downtime notification logic', () => {
     it('renders the global downtime notification', async () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {

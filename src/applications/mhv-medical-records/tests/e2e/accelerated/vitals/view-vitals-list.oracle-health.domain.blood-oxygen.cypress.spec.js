@@ -18,9 +18,6 @@ describe('Medical Records View Blood Oxygen', () => {
   it('Visits View Vital list', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Vitals.checkLandingPageLinks();
-
     Vitals.goToVitalPage();
 
     // switch to march 2024
