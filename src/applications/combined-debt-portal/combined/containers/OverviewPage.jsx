@@ -95,7 +95,7 @@ const OverviewPage = () => {
           <>
             <h2>Debt and bill overview</h2>
             <Balances />
-            {showOneVADebtLetterLink ? (
+            {showOneVADebtLetterLink && !debtError && !billError ? (
               <VaLinkAction
                 href="/manage-va-debt/summary/combined-statements"
                 label="Review combined statement"
