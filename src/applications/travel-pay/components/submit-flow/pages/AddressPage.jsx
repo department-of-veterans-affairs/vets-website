@@ -28,6 +28,11 @@ const AddressPage = ({
     ? 'We can’t file this claim in this tool at this time'
     : 'Did you travel from your home address?';
 
+  const addressEvent = {
+    event: 'smoc-questions',
+    'smoc-page': 'address',
+  };
+
   useSetPageTitle(title);
 
   useEffect(
@@ -50,16 +55,14 @@ const AddressPage = ({
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
         recordEvent({
-          event: 'smoc-questions',
-          label: 'address',
-          'option-label': 'unsupported',
+          ...addressEvent,
+          'smoc-action': 'unsupported',
         });
         setIsUnsupportedClaimType(true);
       } else {
         recordEvent({
-          event: 'smoc-questions',
-          label: 'address',
-          'option-label': 'answered',
+          ...addressEvent,
+          'smoc-action': 'answered',
         });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
@@ -67,9 +70,8 @@ const AddressPage = ({
     },
     onBack: () => {
       recordEvent({
-        event: 'smoc-questions',
-        label: 'address',
-        'option-label': 'back',
+        ...addressEvent,
+        'smoc-action': 'back',
       });
       setPageIndex(pageIndex - 1);
     },

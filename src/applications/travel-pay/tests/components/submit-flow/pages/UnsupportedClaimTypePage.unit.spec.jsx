@@ -41,8 +41,8 @@ describe('Unsupported claim type page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'unsupported',
-        'option-label': 'back',
+        'smoc-page': 'unsupported',
+        'smoc-action': 'back',
       }),
     ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;

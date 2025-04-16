@@ -40,8 +40,8 @@ const ReviewPage = ({
   const onBack = () => {
     recordEvent({
       event: 'smoc-questions',
-      label: 'review',
-      'option-label': 'start-over',
+      'smoc-page': 'review',
+      'smoc-action': 'start-over',
     });
     setYesNo({
       mileage: '',

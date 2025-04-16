@@ -76,8 +76,8 @@ describe('Vehicle page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'vehicle',
-        'option-label': 'unsupported',
+        'smoc-page': 'vehicle',
+        'smoc-action': 'unsupported',
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
@@ -92,8 +92,8 @@ describe('Vehicle page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'vehicle',
-        'option-label': 'answered',
+        'smoc-page': 'vehicle',
+        'smoc-action': 'answered',
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
@@ -107,8 +107,8 @@ describe('Vehicle page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'vehicle',
-        'option-label': 'back',
+        'smoc-page': 'vehicle',
+        'smoc-action': 'back',
       }),
     ).to.be.true;
     expect(setPageIndex.calledWith(1)).to.be.true;

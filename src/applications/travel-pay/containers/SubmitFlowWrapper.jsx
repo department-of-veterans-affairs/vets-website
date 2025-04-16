@@ -70,8 +70,8 @@ const SubmitFlowWrapper = () => {
     }
     recordEvent({
       event: 'smoc-questions',
-      label: 'review',
-      'option-label': 'file-claim',
+      'smoc-page': 'review',
+      'smoc-action': 'file-claim',
     });
     dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
     setPageIndex(pageIndex + 1);
@@ -174,8 +174,8 @@ const SubmitFlowWrapper = () => {
             onClick={() => {
               recordEvent({
                 event: 'smoc-questions',
-                label: `${pageList[pageIndex].page}`,
-                'option-label': 'abandon',
+                'smoc-page': `${pageList[pageIndex].page}`,
+                'smoc-action': 'abandon',
               });
             }}
           />

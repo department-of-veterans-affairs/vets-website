@@ -14,6 +14,11 @@ import SmocRadio from '../../SmocRadio';
 
 const title = 'Are you only claiming mileage?';
 
+const mileageEvent = {
+  event: 'smoc-questions',
+  'smoc-page': 'mileage',
+};
+
 const MileagePage = ({
   pageIndex,
   setPageIndex,
@@ -40,16 +45,14 @@ const MileagePage = ({
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
         recordEvent({
-          event: 'smoc-questions',
-          label: 'mileage',
-          'option-label': 'unsupported',
+          ...mileageEvent,
+          'smoc-action': 'unsupported',
         });
         setIsUnsupportedClaimType(true);
       } else {
         recordEvent({
-          event: 'smoc-questions',
-          label: 'mileage',
-          'option-label': 'answered',
+          ...mileageEvent,
+          'smoc-action': 'answered',
         });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
@@ -57,9 +60,8 @@ const MileagePage = ({
     },
     onBack: () => {
       recordEvent({
-        event: 'smoc-questions',
-        label: 'mileage',
-        'option-label': 'back',
+        ...mileageEvent,
+        'smoc-action': 'back',
       });
       setPageIndex(pageIndex - 1);
     },

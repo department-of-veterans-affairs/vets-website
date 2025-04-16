@@ -97,8 +97,8 @@ describe('Mileage page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'mileage',
-        'option-label': 'answered',
+        'smoc-page': 'mileage',
+        'smoc-action': 'answered',
       }),
     ).to.be.true;
     expect(setPageIndexSpy.calledWith(2)).to.be.true;
@@ -157,8 +157,8 @@ describe('Mileage page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'mileage',
-        'option-label': 'unsupported',
+        'smoc-page': 'mileage',
+        'smoc-action': 'unsupported',
       }),
     ).to.be.true;
     expect(setCantFileSpy.calledWith(true)).to.be.true;
@@ -183,8 +183,8 @@ describe('Mileage page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'mileage',
-        'option-label': 'back',
+        'smoc-page': 'mileage',
+        'smoc-action': 'back',
       }),
     ).to.be.true;
     expect(setCantFileSpy.calledWith(false)).to.be.true;

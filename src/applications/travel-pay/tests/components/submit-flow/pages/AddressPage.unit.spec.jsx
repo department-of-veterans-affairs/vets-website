@@ -132,8 +132,8 @@ describe('Address page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'address',
-        'option-label': 'unsupported',
+        'smoc-page': 'address',
+        'smoc-action': 'unsupported',
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
@@ -153,8 +153,8 @@ describe('Address page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'address',
-        'option-label': 'answered',
+        'smoc-page': 'address',
+        'smoc-action': 'answered',
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
@@ -172,8 +172,8 @@ describe('Address page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'address',
-        'option-label': 'back',
+        'smoc-page': 'address',
+        'smoc-action': 'back',
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;

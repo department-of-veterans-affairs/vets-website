@@ -11,6 +11,11 @@ import SmocRadio from '../../SmocRadio';
 
 const title = 'Did you travel in your own vehicle?';
 
+const vehicleEvent = {
+  event: 'smoc-questions',
+  'smoc-page': 'vehicle',
+};
+
 const VehiclePage = ({
   pageIndex,
   setPageIndex,
@@ -33,16 +38,14 @@ const VehiclePage = ({
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
         recordEvent({
-          event: 'smoc-questions',
-          label: 'vehicle',
-          'option-label': 'unsupported',
+          ...vehicleEvent,
+          'smoc-action': 'unsupported',
         });
         setIsUnsupportedClaimType(true);
       } else {
         recordEvent({
-          event: 'smoc-questions',
-          label: 'vehicle',
-          'option-label': 'answered',
+          ...vehicleEvent,
+          'smoc-action': 'answered',
         });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
@@ -50,9 +53,8 @@ const VehiclePage = ({
     },
     onBack: () => {
       recordEvent({
-        event: 'smoc-questions',
-        label: 'vehicle',
-        'option-label': 'back',
+        ...vehicleEvent,
+        'smoc-action': 'back',
       });
       setPageIndex(pageIndex - 1);
     },

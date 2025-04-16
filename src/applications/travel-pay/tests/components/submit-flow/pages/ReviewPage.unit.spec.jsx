@@ -154,8 +154,8 @@ describe('Review page', () => {
     expect(
       recordEventStub.calledWith({
         event: 'smoc-questions',
-        label: 'review',
-        'option-label': 'start-over',
+        'smoc-page': 'review',
+        'smoc-action': 'start-over',
       }),
     ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;

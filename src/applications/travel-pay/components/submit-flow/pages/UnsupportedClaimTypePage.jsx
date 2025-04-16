@@ -24,8 +24,8 @@ const UnsupportedClaimTypePage = ({
   const onBack = () => {
     recordEvent({
       event: 'smoc-questions',
-      label: 'unsupported',
-      'option-label': 'back',
+      'smoc-page': 'unsupported',
+      'smoc-action': 'back',
     });
     setIsUnsupportedClaimType(false);
     setPageIndex(pageIndex);
