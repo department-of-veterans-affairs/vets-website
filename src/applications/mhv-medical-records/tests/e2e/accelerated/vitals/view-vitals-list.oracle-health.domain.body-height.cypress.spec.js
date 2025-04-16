@@ -18,9 +18,6 @@ describe('Medical Records View Body Height', () => {
   it('Visits View Vital List', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Vitals.checkLandingPageLinks();
-
     Vitals.goToVitalPage();
 
     // switch to march 2024

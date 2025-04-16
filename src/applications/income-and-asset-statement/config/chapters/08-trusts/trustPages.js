@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -12,7 +12,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateShort } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
@@ -119,17 +119,10 @@ const informationPage = {
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the trust established?'),
-    marketValueAtEstablishment: merge(
-      {},
-      currencyUI(
+    marketValueAtEstablishment: currencyUI({
+      title:
         'What was the market value of all assets within the trust at the time of establishment?',
-      ),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
+    }),
   },
   schema: {
     type: 'object',
@@ -166,18 +159,12 @@ const incomePage = {
     receivingIncomeFromTrust: yesNoUI(
       'Are you receiving income from the trust?',
     ),
-    annualReceivedIncome: merge(
-      {},
-      currencyUI('How much is the annual amount received?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-          expandUnder: 'receivingIncomeFromTrust',
-          expandUnderCondition: true,
-        },
-        'ui:required': annualReceivedIncomeFromTrustRequired,
-      },
-    ),
+    annualReceivedIncome: currencyUI({
+      title: 'How much is the annual amount received?',
+      expandUnder: 'receivingIncomeFromTrust',
+      expandUnderCondition: true,
+      required: annualReceivedIncomeFromTrustRequired,
+    }),
   },
   schema: {
     type: 'object',
@@ -196,18 +183,12 @@ const medicalExpensePage = {
     trustUsedForMedicalExpenses: yesNoUI(
       'Is the trust being used to pay for or to reimburse someone else for your medical expenses?',
     ),
-    monthlyMedicalReimbursementAmount: merge(
-      {},
-      currencyUI('How much is the amount being reimbursed monthly?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-          expandUnder: 'trustUsedForMedicalExpenses',
-          expandUnderCondition: true,
-        },
-        'ui:required': monthlyMedicalReimbursementAmountRequired,
-      },
-    ),
+    monthlyMedicalReimbursementAmount: currencyUI({
+      title: 'How much is the amount being reimbursed monthly?',
+      expandUnder: 'trustUsedForMedicalExpenses',
+      expandUnderCondition: true,
+      required: monthlyMedicalReimbursementAmountRequired,
+    }),
   },
   schema: {
     type: 'object',
@@ -275,11 +256,7 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: merge({}, currencyUI('How much did you add?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    addedFundsAmount: currencyUI({ title: 'How much did you add?' }),
   },
   schema: {
     type: 'object',

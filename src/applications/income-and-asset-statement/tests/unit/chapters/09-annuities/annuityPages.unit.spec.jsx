@@ -126,7 +126,7 @@ describe('annuity list and loop pages', () => {
       uiSchema,
       {
         'va-memorable-date': 1,
-        input: 1,
+        'va-text-input': 1,
       },
       'information',
     );
@@ -134,7 +134,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'information',
     );
     testSubmitsWithoutErrors(
@@ -293,14 +293,14 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-memorable-date': 1, input: 1 },
+      { 'va-memorable-date': 1, 'va-text-input': 1 },
       'added funds',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'added funds',
     );
     testSubmitsWithoutErrors(

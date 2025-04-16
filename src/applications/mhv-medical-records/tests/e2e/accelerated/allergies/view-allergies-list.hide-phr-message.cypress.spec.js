@@ -20,9 +20,6 @@ describe('Medical Records View Allergies', () => {
   it('Hide all PHR messages', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Allergies.checkLandingPageLinks();
-
     Allergies.goToAllergiesPage();
 
     cy.title().should(

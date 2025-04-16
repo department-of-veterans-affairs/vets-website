@@ -133,14 +133,14 @@ describe('unreported asset list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 2, input: 1 },
+      { 'va-text-input': 3 },
       'type',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      2,
+      3,
       'type',
     );
     testSubmitsWithoutErrors(
