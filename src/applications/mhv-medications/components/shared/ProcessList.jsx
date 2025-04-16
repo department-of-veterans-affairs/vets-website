@@ -15,7 +15,7 @@ const ProcessList = ({ stepGuideProps }) => {
   } = stepGuideProps;
 
   const {
-    dispensedDate,
+    sortedDispensedDate,
     prescriptionName,
     refillDate,
     refillSubmitDate,
@@ -104,7 +104,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   status-text="Step 2: Completed"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
-                    {getCompletedDateOrDefaultMessage(dispensedDate)}
+                    {getCompletedDateOrDefaultMessage(sortedDispensedDate)}
                   </p>
                 </va-process-list-item>
                 <va-process-list-item
@@ -275,7 +275,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   status-text="Step 2: Completed"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
-                    {getCompletedDateOrDefaultMessage(dispensedDate)}
+                    {getCompletedDateOrDefaultMessage(sortedDispensedDate)}
                   </p>
                 </va-process-list-item>
                 <va-process-list-item
