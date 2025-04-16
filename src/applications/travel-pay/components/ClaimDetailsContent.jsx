@@ -5,7 +5,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import { STATUSES } from '../constants';
+import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase } from '../util/string-helpers';
 
 const title = 'Your travel reimbursement claim';
@@ -101,7 +101,6 @@ export default function ClaimDetailsContent(props) {
               </p>
             )}
           </va-additional-info>
-          {claimStatus === STATUSES.Denied.name && <AppealContent />}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
         </>
@@ -114,9 +113,7 @@ export default function ClaimDetailsContent(props) {
       <p className="vads-u-margin-top--0">{facilityName}</p>
       {claimsMgmtToggle &&
         reimbursementAmount > 0 && (
-          <p className="vads-u-font-weight--bold">
-            Reimbursement amount of ${reimbursementAmount}
-          </p>
+          <p>Reimbursement amount of ${reimbursementAmount}</p>
         )}
       <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
@@ -124,15 +121,19 @@ export default function ClaimDetailsContent(props) {
       <p className="vads-u-margin-y--0">
         Updated on on {updateDate} at {updateTime}
       </p>
-      {claimsMgmtToggle &&
-        documentCategories.user.length > 0 && (
-          <>
-            <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-              Documents you submitted
-            </p>
-            {getDocLinkList(documentCategories.user)}
-          </>
-        )}
+      {claimsMgmtToggle && (
+        <>
+          {documentCategories.user.length > 0 && (
+            <>
+              <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+                Documents you submitted
+              </p>
+              {getDocLinkList(documentCategories.user)}
+            </>
+          )}
+          {claimStatus === STATUSES.Denied.name && <AppealContent />}
+        </>
+      )}
     </>
   );
 }
@@ -151,28 +152,24 @@ ClaimDetailsContent.propTypes = {
 function AppealContent() {
   return (
     <>
-      <va-link
-        external
+      <h2 className="vads-u-font-size--h3">Appealing a claim decision</h2>
+      <p>If you would like to appeal this decision you can:</p>
+      <ul>
+        <li>Submit an appeal via the Board of Appeals.</li>
+        <li>
+          Send a secure message to the Beneficiary Travel team of the VA
+          facility that provided your care or of you home VA facility.
+        </li>
+        <li>
+          Mail a printed version of{' '}
+          <va-link href={FORM_100998_LINK} text="VA Form 10-0998 (PDF)" /> with
+          the appropriate documentation.
+        </li>
+      </ul>
+      <va-link-action
         text="Appeal the claim decision"
         href="/decision-reviews"
       />
-      <va-additional-info
-        class="vads-u-margin-y--3"
-        trigger="What to expect when you appeal"
-      >
-        When appealing this decision you can:
-        <ul>
-          <li>Submit an appeal via the Board of Appeals.</li>
-          <li>
-            Send a secure message to the Beneficiary Travel team of the VA
-            facility that provided your care or of you home VA facility.
-          </li>
-          <li>
-            Mail a printed version of Form 10-0998 with the appropriate
-            documentation.
-          </li>
-        </ul>
-      </va-additional-info>
     </>
   );
 }
