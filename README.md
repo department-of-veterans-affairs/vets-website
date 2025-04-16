@@ -2,22 +2,25 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-- [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
-- [Supported Browsers](#supported-browsers)
-- [API Keys](#api-keys)
-- [Additional Resources](#additional-resources)
+- [VA.gov ](#vagov-)
+  - [Table of Contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Common commands](#common-commands)
+  - [Building `vets-website`](#building-vets-website)
+    - [Building applications](#building-applications)
+    - [Building static content](#building-static-content)
+    - [Building both together](#building-both-together)
+  - [Working in GitHub Codespaces](#working-in-github-codespaces)
+  - [Running tests](#running-tests)
+    - [Unit tests](#unit-tests)
+    - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+  - [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
+  - [Running a mock API for local development](#running-a-mock-api-for-local-development)
+  - [More commands](#more-commands)
+  - [Supported Browsers](#supported-browsers)
+  - [API Keys](#api-keys)
+  - [Additional Resources](#additional-resources)
+  - [Not a member of the repository and want to be added?](#not-a-member-of-the-repository-and-want-to-be-added)
 
 ## What is this?
 
@@ -314,3 +317,4 @@ Create a .env file in the root of vets-website, and assign the above token to a 
 ## Not a member of the repository and want to be added?
 - If you're on a VA.gov Platform team, contact your Program Manager.
 - If you're on a VFS team, you must complete [Platform Orientation](https://depo-platform-documentation.scrollhelp.site/getting-started/platform-orientation) to be added to this repository. This includes completing your Platform Orientation ticket(s) in GitHub.
+testing...
