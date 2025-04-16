@@ -198,8 +198,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['GIB-learn'],
-    applyNowURL: URLS['GIB-apply'],
+    learnMoreURL: URLS.GIB_LEARN,
+    applyNowURL: URLS.GIB_APPLY,
   },
   {
     name: 'DOD SkillBridge program',
@@ -227,7 +227,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['DBP-learn'],
+    learnMoreURL: URLS.DBP_LEARN,
     applyNowURL: '',
   },
   {
@@ -273,8 +273,8 @@ export const BENEFITS_LIST = [
         mappingTypes.SEPARATION,
       ],
     },
-    learnMoreURL: URLS['ECC-learn'],
-    applyNowURL: URLS['ECC-apply'],
+    learnMoreURL: URLS.ECC_LEARN,
+    applyNowURL: URLS.ECC_APPLY,
   },
   {
     name: "Veterans' Preference in federal hiring",
@@ -302,7 +302,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['FHV-learn'],
+    learnMoreURL: URLS.FHV_LEARN,
     applyNowURL: '',
   },
   {
@@ -322,7 +322,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['SVC-learn'],
+    learnMoreURL: URLS.SVC_LEARN,
     applyNowURL: '',
   },
   {
@@ -342,7 +342,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['TAP-learn'],
+    learnMoreURL: URLS.TAP_LEARN,
     applyNowURL: '',
   },
   {
@@ -373,8 +373,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.STARTED,
       ],
     },
-    learnMoreURL: URLS['VRE-learn'],
-    applyNowURL: URLS['VRE-apply'],
+    learnMoreURL: URLS.VRE_LEARN,
+    applyNowURL: URLS.VRE_APPLY,
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -404,7 +404,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['VSC-learn'],
+    learnMoreURL: URLS.VSC_LEARN,
     applyNowURL: '',
   },
   {
@@ -435,8 +435,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['DHS-learn'],
-    applyNowURL: URLS['DHS-apply'],
+    learnMoreURL: URLS.DHS_LEARN,
+    applyNowURL: URLS.DHS_APPLY,
   },
   {
     name: 'Veterans Pension',
@@ -472,8 +472,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['VAP-learn'],
-    applyNowURL: URLS['VAP-apply'],
+    learnMoreURL: URLS.VAP_LEARN,
+    applyNowURL: URLS.VAP_APPLY,
   },
   {
     name: 'VA mental health services',
@@ -499,7 +499,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['MHC-learn'],
+    learnMoreURL: URLS.MHC_LEARN,
     applyNowURL: '',
   },
   {
@@ -529,8 +529,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.STARTED,
       ],
     },
-    learnMoreURL: URLS['FMP-learn'],
-    applyNowURL: URLS['FMP-apply'],
+    learnMoreURL: URLS.FMP_LEARN,
+    applyNowURL: URLS.FMP_APPLY,
   },
   {
     name: "Veterans' Group Life Insurance (VGLI)",
@@ -558,7 +558,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['VGL-learn'],
+    learnMoreURL: URLS.VGL_LEARN,
     applyNowURL: '',
   },
   {
@@ -593,8 +593,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.APPLIED_AND_RECEIVED,
       ],
     },
-    learnMoreURL: URLS['VAL-learn'],
-    applyNowURL: URLS['VAL-apply'],
+    learnMoreURL: URLS.VAL_LEARN,
+    applyNowURL: URLS.VAL_APPLY,
   },
   {
     name: 'Disability compensation',
@@ -626,8 +626,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['DIS-learn'],
-    applyNowURL: URLS['DIS-apply'],
+    learnMoreURL: URLS.DIS_LEARN,
+    applyNowURL: URLS.DIS_APPLY,
   },
   {
     name: 'VA-backed home loans',
@@ -660,8 +660,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['COE-learn'],
-    applyNowURL: URLS['COE-apply'],
+    learnMoreURL: URLS.COE_LEARN,
+    applyNowURL: URLS.COE_APPLY,
   },
   {
     name: 'VA health care',
@@ -692,8 +692,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['VAH-learn'],
-    applyNowURL: URLS['VAH-apply'],
+    learnMoreURL: URLS.VAH_LEARN,
+    applyNowURL: URLS.VAH_APPLY,
   },
   {
     name: 'VA national cemetery burial',
@@ -720,8 +720,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['BUR-learn'],
-    applyNowURL: URLS['BUR-apply'],
+    learnMoreURL: URLS.BUR_LEARN,
+    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'Transfer your GI Bill benefits',
@@ -743,7 +743,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['TGI-learn'],
+    learnMoreURL: URLS.TGI_LEARN,
     applyNowURL: '',
   },
   {
@@ -769,7 +769,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['DCU-learn'],
+    learnMoreURL: URLS.DCU_LEARN,
     applyNowURL: '',
   },
   {
@@ -789,7 +789,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: URLS['SVB-learn'],
+    learnMoreURL: URLS.SVB_LEARN,
     applyNowURL: '',
   },
 ];

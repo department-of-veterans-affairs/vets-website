@@ -1,46 +1,44 @@
 export const URLS = Object.freeze({
-  'GIB-learn': 'https://www.va.gov/education/about-gi-bill-benefits/',
-  'GIB-apply': 'https://www.va.gov/education/how-to-apply/',
-  'DBP-learn': 'https://skillbridge.osd.mil/program-overview.htm/',
-  'ECC-learn':
+  GIB_LEARN: 'https://www.va.gov/education/about-gi-bill-benefits/',
+  GIB_APPLY: 'https://www.va.gov/education/how-to_APPLY/',
+  DBP_LEARN: 'https://skillbridge.osd.mil/program-overview.htm/',
+  ECC_LEARN:
     'https://www.va.gov/careers-employment/education-and-career-counseling/',
-  'ECC-apply':
+  ECC_APPLY:
     'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-25-8832/introduction/',
-  'FHV-learn': 'https://www.opm.gov/fedshirevets/',
-  'SVC-learn':
+  FHV_LEARN: 'https://www.opm.gov/fedshirevets/',
+  SVC_LEARN:
     'https://www.va.gov/careers-employment/veteran-owned-business-support/',
-  'TAP-learn': 'https://www.dodtap.mil/dodtap/app/home',
-  'VRE-learn':
-    'https://www.va.gov/careers-employment/vocational-rehabilitation/',
-  'VRE-apply':
-    'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
-  'VSC-learn': 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
-  'DHS-learn':
-    'https://www.va.gov/housing-assistance/disability-housing-grants/',
-  'DHS-apply':
-    'https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/',
-  'VAP-learn': 'https://www.va.gov/pension/eligibility/',
-  'VAP-apply': 'https://www.va.gov/pension/how-to-apply/',
-  'MHC-learn':
+  TAP_LEARN: 'https://www.dodtap.mil/dodtap/app/home',
+  VRE_LEARN: 'https://www.va.gov/careers-employment/vocational-rehabilitation/',
+  VRE_APPLY:
+    'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to_APPLY',
+  VSC_LEARN: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
+  DHS_LEARN: 'https://www.va.gov/housing-assistance/disability-housing-grants/',
+  DHS_APPLY:
+    'https://www.va.gov/housing-assistance/disability-housing-grants/how-to_APPLY/',
+  VAP_LEARN: 'https://www.va.gov/pension/eligibility/',
+  VAP_APPLY: 'https://www.va.gov/pension/how-to_APPLY/',
+  MHC_LEARN:
     'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
-  'FMP-learn': 'https://www.va.gov/health-care/foreign-medical-program/',
-  'FMP-apply':
+  FMP_LEARN: 'https://www.va.gov/health-care/foreign-medical-program/',
+  FMP_APPLY:
     'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction/',
-  'VGL-learn': 'https://www.va.gov/life-insurance/options-eligibility/vgli/',
-  'VAL-learn': 'https://www.va.gov/life-insurance/options-eligibility/valife/',
-  'VAL-apply': 'https://insurance.va.gov/VALIFE/Fiduciary/',
-  'DIS-learn': 'https://www.va.gov/disability/',
-  'DIS-apply': 'https://www.va.gov/disability/how-to-file-claim/',
-  'COE-learn': 'https://www.va.gov/housing-assistance/home-loans/',
-  'COE-apply':
+  VGL_LEARN: 'https://www.va.gov/life-insurance/options-eligibility/vgli/',
+  VAL_LEARN: 'https://www.va.gov/life-insurance/options-eligibility/valife/',
+  VAL_APPLY: 'https://insurance.va.gov/VALIFE/Fiduciary/',
+  DIS_LEARN: 'https://www.va.gov/disability/',
+  DIS_APPLY: 'https://www.va.gov/disability/how-to-file-claim/',
+  COE_LEARN: 'https://www.va.gov/housing-assistance/home-loans/',
+  COE_APPLY:
     'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
-  'VAH-learn': 'https://www.va.gov/health-care/',
-  'VAH-apply': 'https://www.va.gov/health-care/how-to-apply/',
-  'BUR-learn': 'https://www.va.gov/burials-memorials/eligibility/',
-  'BUR-apply': 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
-  'TGI-learn':
+  VAH_LEARN: 'https://www.va.gov/health-care/',
+  VAH_APPLY: 'https://www.va.gov/health-care/how-to_APPLY/',
+  BUR_LEARN: 'https://www.va.gov/burials-memorials/eligibility/',
+  BUR_APPLY: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
+  TGI_LEARN:
     'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
-  'DCU-learn': 'https://www.va.gov/discharge-upgrade-instructions/',
-  'SVB-learn':
+  DCU_LEARN: 'https://www.va.gov/discharge-upgrade-instructions/',
+  SVB_LEARN:
     'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office/',
 });
