@@ -101,7 +101,7 @@ export const loggedOutPaymentInfo = (
     </ul>
     <va-additional-info trigger="Learn more about direct deposit payments">
       <va-link
-        href="https://www.va.gov/change-direct-deposit/"
+        href="/change-direct-deposit"
         text="Learn how to change your direct deposit information for your VA benefit payments."
       />
       <br />
