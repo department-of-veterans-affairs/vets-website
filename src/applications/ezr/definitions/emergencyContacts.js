@@ -25,11 +25,10 @@ const { fullName, primaryPhone, relationship, address } = contact.properties;
  * Declare schema attributes for emergency contacts page
  * @returns {PageSchema}
  */
-export const emergencyContactsPage = options => ({
+export const emergencyContactsPage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: content['emergency-contact-title'],
-      nounSingular: options.nounSingular,
     }),
     fullName: fullNameUI(title => `Emergency contact's ${title}`, {
       first: {
@@ -56,9 +55,10 @@ export const emergencyContactsPage = options => ({
         required: content['emergency-contact-relationship-error-message'],
       },
     }),
-    'view:hasEmergencyContactAddress': yesNoUI(
-      content['emergency-contact-address-label'],
-    ),
+    'view:hasEmergencyContactAddress': yesNoUI({
+      title: content['emergency-contact-address-label'],
+      hint: content['emergency-contact-address-hint'],
+    }),
   },
   schema: {
     type: 'object',
@@ -109,8 +109,8 @@ export const summaryPage = (options = {}) => ({
   uiSchema: {
     'view:isEmergencyContactsEnabled': arrayBuilderYesNoUI(options, {
       title: content['emergency-contact-add-contacts-label'],
-      labelHeaderLevel: 'p',
-      hint: ' ',
+      titleHeaderLevel: 'h2',
+      hint: content['emergency-contact-hint-text'],
     }),
   },
   schema: {

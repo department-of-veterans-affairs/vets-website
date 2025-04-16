@@ -40,10 +40,8 @@ const arrayBuilderOptions = {
 
 // build schemas based on declared options
 const summaryPageSchemas = summaryPage(arrayBuilderOptions);
-const emergencyContactsPageSchemas = emergencyContactsPage(arrayBuilderOptions);
-const emergencyContactsAddressPageSchemas = emergencyContactsAddressPage(
-  arrayBuilderOptions,
-);
+const emergencyContactsPageSchemas = emergencyContactsPage();
+const emergencyContactsAddressPageSchemas = emergencyContactsAddressPage();
 
 /**
  * build list of pages to populate in the form config
