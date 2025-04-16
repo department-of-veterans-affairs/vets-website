@@ -68,7 +68,7 @@ describe('Financial information net worth estimation pension page', () => {
     const webComponent = container.querySelector(
       'va-text-input[name="root_netWorthEstimation"]',
     );
-    webComponent.value = '25001';
+    webComponent.value = 25001;
     webComponent.dispatchEvent(
       new CustomEvent('input', { bubbles: true, composed: true }),
     );
