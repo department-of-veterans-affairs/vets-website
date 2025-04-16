@@ -3,10 +3,10 @@ import {
   mockFeatureToggles,
   mockAppointmentsGetApi,
   vaosSetup,
-} from '../vaos-cypress-helpers';
-import appointmentList from '../page-objects/AppointmentList/AppointmentListPageObject';
-import referralsAndRequests from './page-objects/ReferralsAndRequests';
-import { MockAppointmentResponse } from '../fixtures/MockAppointmentResponse';
+} from '../../vaos-cypress-helpers';
+import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
+import { MockAppointmentResponse } from '../../fixtures/MockAppointmentResponse';
 
 describe('VAOS Referral Appointments', () => {
   describe('Navigating to Referrals and Requests', () => {
