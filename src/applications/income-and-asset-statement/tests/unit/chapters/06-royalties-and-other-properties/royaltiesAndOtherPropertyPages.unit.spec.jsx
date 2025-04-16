@@ -179,14 +179,14 @@ describe('royalties list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 2, 'va-text-input': 0, 'va-textarea': 1, input: 2 },
+      { 'va-radio': 2, 'va-text-input': 2, 'va-textarea': 1 },
       'income type',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      2,
+      4,
       'income type',
     );
     testSubmitsWithoutErrors(
