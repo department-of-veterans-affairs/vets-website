@@ -36,17 +36,22 @@ export default function ClaimDetailsContent(props) {
 
   const getDocLinkList = list =>
     // TODO: Replace href with download mechanism (encoded string, blob, etc)
-    list.map(({ href, filename }) => (
+    // NOTE: Specifically not using va-link download to be able to add a click handler for the dl endpoint
+    list.map(({ href, filename, text }) => (
       <div
         key={`claim-attachment-dl-${filename}`}
         className="vads-u-margin-top--1"
       >
-        <a href={href ?? '#'} download>
+        <a
+          href={href ?? '#'}
+          download
+          // onClick={() => {}}
+        >
           <va-icon
             class="vads-u-margin-right--1 travel-pay-claim-download-link-icon"
             icon="file_download"
           />
-          <span className="vads-u-text-decoration--underline">{filename}</span>
+          <span className="vads-u-text-decoration--underline">{text}</span>
         </a>
       </div>
     ));
@@ -56,8 +61,9 @@ export default function ClaimDetailsContent(props) {
       // Do not show clerk note attachments
       if (!doc.mimetype) return acc;
       // TODO: Solidify on pattern match criteria for decision letter, other statically named docs
-      if (doc.filename.includes('DecisionLetter')) acc.clerk.push(doc);
-      else acc.user.push(doc);
+      if (doc.filename.includes('DecisionLetter'))
+        acc.clerk.push({ ...doc, text: 'Download your decision letter' });
+      else acc.user.push({ ...doc, text: doc.filename });
       return acc;
     },
     { clerk: [], user: [] },
@@ -96,17 +102,8 @@ export default function ClaimDetailsContent(props) {
             )}
           </va-additional-info>
           {claimStatus === STATUSES.Denied.name && <AppealContent />}
-          {documentCategories.clerk.length > 0 && (
-            <a href='#' download>
-              <va-icon
-                class="vads-u-margin-right--1 travel-pay-claim-download-link-icon"
-                icon="file_download"
-              />
-              <span className="vads-u-text-decoration--underline">
-                Download your decision letter
-              </span>
-            </a>
-          )}
+          {documentCategories.clerk.length > 0 &&
+            getDocLinkList(documentCategories.clerk)}
         </>
       )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
