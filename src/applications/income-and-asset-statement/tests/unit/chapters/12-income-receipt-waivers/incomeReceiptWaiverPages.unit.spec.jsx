@@ -220,7 +220,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { input: 1 },
+      { 'va-text-input': 1 },
       'amount',
     );
     testSubmitsWithoutErrors(
@@ -309,7 +309,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { input: 1 },
+      { 'va-text-input': 1 },
       'amount',
     );
     testSubmitsWithoutErrors(

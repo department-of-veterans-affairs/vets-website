@@ -1541,7 +1541,8 @@
           }
         },
         "past": true,
-        "pending": false
+        "pending": false,
+        "modality": "claimExamAppointment"
       }
     },
     {
@@ -1637,7 +1638,8 @@
           }
         },
         "past": true,
-        "pending": false
+        "pending": false,
+        "modality": "claimExamAppointment"
       }
     },
     {
@@ -1733,7 +1735,8 @@
           }
         },
         "past": true,
-        "pending": false
+        "pending": false,
+        "modality": "claimExamAppointment"
       }
     },
     {
@@ -1829,7 +1832,8 @@
           }
         },
         "past": true,
-        "pending": false
+        "pending": false,
+        "modality": "claimExamAppointment"
       }
     },
     {
@@ -3249,7 +3253,8 @@
           }
         },
         "past": true,
-        "pending": false
+        "pending": false,
+        "modality": "claimExamAppointment"
       }
     },
     {
@@ -5330,7 +5335,9 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": ["CANCELLED BY PATIENT"],
+          "vistaStatus": [
+            "CANCELLED BY PATIENT"
+          ],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {
@@ -5367,7 +5374,9 @@
               "main": "970-224-1550"
             },
             "physicalAddress": {
-              "line": ["2509 Research Boulevard"],
+              "line": [
+                "2509 Research Boulevard"
+              ],
               "city": "Fort Collins",
               "state": "CO",
               "postalCode": "80526-8108"
