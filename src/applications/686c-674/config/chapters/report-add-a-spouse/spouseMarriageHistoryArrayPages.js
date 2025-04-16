@@ -1,8 +1,6 @@
 import { capitalize } from 'lodash';
 import {
   titleUI,
-  relationshipToVeteranUI,
-  relationshipToVeteranSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -118,14 +116,12 @@ export const formerMarriageEndReasonPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
       return 'Spouse’s former marriage';
     }),
-    reasonMarriageEnded: {
-      ...radioUI({
-        title: 'How did their marriage end?',
-        labels: spouseFormerMarriageLabels,
-        labelHeaderLevel: '3',
-      }),
-    },
-    reasonMarriageEndedOther: {
+    reasonMarriageEnded: radioUI({
+      title: 'How did their marriage end?',
+      labels: spouseFormerMarriageLabels,
+      labelHeaderLevel: '3',
+    }),
+    otherReasonMarriageEnded: {
       'ui:title': 'Briefly describe how their marriage ended',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -135,16 +131,15 @@ export const formerMarriageEndReasonPage = {
         preserveHiddenData: true,
       },
     },
-    testProperty: relationshipToVeteranUI(),
     'ui:options': {
       // Use updateSchema to set
       updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.reasonMarriageEndedOther['ui:collapsed']) {
+        if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
           return { ...formSchema, required: ['reasonMarriageEnded'] };
         }
         return {
           ...formSchema,
-          required: ['reasonMarriageEnded', 'reasonMarriageEndedOther'],
+          required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
         };
       },
     },
@@ -154,10 +149,9 @@ export const formerMarriageEndReasonPage = {
     required: ['reasonMarriageEnded'],
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: {
+      otherReasonMarriageEnded: {
         type: 'string',
       },
-      testProperty: relationshipToVeteranSchema,
     },
   },
 };
