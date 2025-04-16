@@ -1,12 +1,15 @@
 /* eslint-disable camelcase */
 import {
-  mockFeatureToggles,
   mockAppointmentsGetApi,
+  mockFeatureToggles,
+  mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
+import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
-import { MockAppointmentResponse } from '../../fixtures/MockAppointmentResponse';
 
 describe('VAOS Referral Appointments', () => {
   describe('Navigating to Referrals and Requests', () => {
@@ -19,16 +22,19 @@ describe('VAOS Referral Appointments', () => {
         vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
       });
 
-      // Mock the appointments API
-      mockAppointmentsGetApi({
-        response: {
-          data: MockAppointmentResponse.getUpcomingAppointments(),
-          meta: { pagination: { totalEntries: 0 } },
-        },
+      // Mock the appointments API to at least have one appointment
+      const response = new MockAppointmentResponse({
+        cancellable: false,
+        localStartTime: Date(),
+        status: APPOINTMENT_STATUS.booked,
       });
+      mockAppointmentsGetApi({ response: [response] });
 
       // Setup VAOS app
       vaosSetup();
+      mockFeatureToggles({ vaOnlineSchedulingCCDirectScheduling: true });
+      mockVamcEhrApi();
+      cy.login(new MockUser());
 
       // Visit the appointments page
       cy.visit('/my-health/appointments');
@@ -42,6 +48,9 @@ describe('VAOS Referral Appointments', () => {
 
       // Perform accessibility check on the appointments page
       cy.injectAxeThenAxeCheck();
+
+      // Validate we're on the appointments page
+      appointmentList.validate();
 
       // Click the "Review requests and referrals" link
       appointmentList.navigateToReferralsAndRequests();

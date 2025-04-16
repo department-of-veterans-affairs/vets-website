@@ -2,11 +2,11 @@ export class ReferralsAndRequestsPageObject {
   /**
    * Validates that we're on the Referrals and Requests page
    */
-  validatePageLoaded() {
+  validate() {
     // Check for the header
     cy.findByRole('heading', {
       level: 1,
-      name: 'Requests and referrals',
+      name: 'Referrals and requests',
     }).should('exist');
 
     return this;
