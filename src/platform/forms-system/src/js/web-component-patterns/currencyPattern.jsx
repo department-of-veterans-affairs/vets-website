@@ -82,3 +82,8 @@ export const currencySchema = {
   type: 'number',
   pattern: '^\\d+(\\.\\d{1,2})?$',
 };
+
+export const currencyStringSchema = {
+  type: 'string',
+  pattern: '^\\d+(\\.\\d{1,2})?$',
+};

@@ -19,11 +19,6 @@ export function parseCurrencyString(currencyString = '') {
   return Math.round(value * 100) / 100;
 }
 
-/*
-- [ ] Test with min & max values
-- [ ] Update unit tests (are there any for web component patterns?!)
-*/
-
 /**
  * Use a currencyPattern instead of this.
  *
@@ -35,6 +30,7 @@ export function parseCurrencyString(currencyString = '') {
 export default function CurrencyField(fieldProps) {
   const props = vaTextInputFieldMapping(fieldProps);
   const { uiOptions } = fieldProps;
+  const schemaaType = fieldProps.childrenProps?.schema.type || 'number';
 
   const [val, setVal] = useState(parseCurrencyString(props.value));
   const [displayVal, setDisplayVal] = useState(props.value);
@@ -45,12 +41,14 @@ export default function CurrencyField(fieldProps) {
     const parsedValue = parseCurrencyString(value);
     setVal(parsedValue);
     setDisplayVal(value);
+    const dataValue = schemaaType === 'number' ? parsedValue : value;
+
     // Not using props.onInput because in the vaTextInputFieldMapping onInput
     // callback, it uses `value || event.target.value;` and sets the value to
     // undefined. I found that if you enter "--" in the input, the input will
     // highlight like there's an error, but no error message will show.
     // Returning null will show the error message
-    props.onChange(typeof parsedValue === 'undefined' ? null : parsedValue);
+    props.onChange(typeof parsedValue === 'undefined' ? null : dataValue);
   };
 
   const handleBlur = () => {
