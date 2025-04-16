@@ -62,7 +62,9 @@ describe('ClaimDetailsContent', () => {
 
     expect(screen.getByText('Claim status: Denied')).to.exist;
     expect(
-      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
+      $(
+        'va-link-action[text="Appeal the claim decision"][href="/decision-reviews"]',
+      ),
     ).to.exist;
   });
 
@@ -116,26 +118,6 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Reimbursement amount of $46.93')).to.exist;
   });
 
-  it('renders download links for claim attachments', () => {
-    const screen = renderWithStoreAndRouter(
-      <ClaimDetailsContent
-        {...claimDetailsProps}
-        documents={[
-          { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
-          { filename: 'screenshot.png', mimetype: 'image/png' },
-          { filename: 'note-1.txt', mimetype: '' },
-        ]}
-      />,
-      {
-        initialState: getState(),
-      },
-    );
-
-    expect(screen.getByText('Download your decision letter')).to.exist;
-    expect(screen.getByText('screenshot.png')).to.exist;
-    expect(screen.queryByText('note-1.txt')).to.not.exist;
-  });
-
   it('does not render claims management content with flag off', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent
@@ -162,5 +144,63 @@ describe('ClaimDetailsContent', () => {
     expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
     expect(screen.queryByText('Download your decision letter')).to.not.exist;
     expect(screen.queryByText('screenshot.png')).to.not.exist;
+  });
+
+  describe('Documents', () => {
+    it('renders download links for claim attachments from the user and travel clerk', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          documents={[
+            { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+            { filename: 'screenshot.png', mimetype: 'image/png' },
+            { filename: 'note-1.txt', mimetype: '' },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect(screen.getByText('Download your decision letter')).to.exist;
+      expect(screen.getByText('screenshot.png')).to.exist;
+      expect(screen.queryByText('note-1.txt')).to.not.exist;
+    });
+
+    it('renders only user document links', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          documents={[
+            { filename: 'screenshot.png', mimetype: 'image/png' },
+            { filename: 'screenshot-2.png', mimetype: 'image/png' },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect(screen.queryByText('Download your decision letter')).to.not.exist;
+      expect(screen.getByText('screenshot.png')).to.exist;
+      expect(screen.getByText('screenshot-2.png')).to.exist;
+    });
+
+    it('renders only clerk document links', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          documents={[
+            { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect(screen.getByText('Download your decision letter')).to.exist;
+      expect(screen.queryByText('Documents you submitted')).to.not.exist;
+    });
   });
 });
