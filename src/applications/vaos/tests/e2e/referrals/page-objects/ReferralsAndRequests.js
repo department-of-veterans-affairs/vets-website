@@ -1,8 +1,10 @@
-export class ReferralsAndRequestsPageObject {
+import PageObject from '../../page-objects/PageObject';
+
+export class ReferralsAndRequestsPageObject extends PageObject {
   /**
    * Validates that we're on the Referrals and Requests page
    */
-  validate() {
+  validatePageLoaded() {
     // Check for the header
     cy.findByRole('heading', {
       level: 1,
@@ -18,11 +20,14 @@ export class ReferralsAndRequestsPageObject {
    * @param {number} options.count - Expected number of referrals
    * @param {boolean} options.exist - Whether referrals should exist
    */
-  assertPendingReferrals({ count = 0, exist = true } = {}) {
-    if (exist) {
+  assertPendingReferrals({ count = 0 } = {}) {
+    if (count > 0) {
       cy.findAllByTestId('pending-referral-card').should('have.length', count);
     } else {
-      cy.findByText(/You don't have any referrals/i).should('exist');
+      cy.findByRole('heading', {
+        level: 2,
+        name: /You don’t have any referrals/i,
+      }).should('exist');
     }
 
     return this;
@@ -58,7 +63,7 @@ export class ReferralsAndRequestsPageObject {
   _validateHeader() {
     cy.findByRole('heading', {
       level: 1,
-      name: 'Requests and referrals',
+      name: 'Referrals and requests',
     }).should('exist');
     return this;
   }

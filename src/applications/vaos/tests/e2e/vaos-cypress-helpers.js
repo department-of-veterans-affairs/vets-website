@@ -697,3 +697,39 @@ export function mockVamcEhrApi({ isCerner = false } = {}) {
     },
   ).as('drupal-source-of-truth');
 }
+
+/**
+ * Function to mock the 'GET' referrals endpoint.
+ *
+ * @example GET '/vaos/v2/referrals'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockReferralsGetApi({
+  response: data,
+  responseCode = 200,
+} = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/referrals',
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          body: '404 Not Found',
+          statusCode: responseCode,
+        });
+        return;
+      }
+
+      req.reply({
+        statusCode: 200,
+        body: data,
+      });
+    },
+  ).as('v2:get:referrals');
+}
