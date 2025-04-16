@@ -202,5 +202,17 @@ describe('ClaimDetailsContent', () => {
       expect(screen.getByText('Download your decision letter')).to.exist;
       expect(screen.queryByText('Documents you submitted')).to.not.exist;
     });
+
+    it('renders okay with no documents', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent {...claimDetailsProps} documents={[]} />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect(screen.queryByText('Download your decision letter')).to.not.exist;
+      expect(screen.queryByText('Documents you submitted')).to.not.exist;
+    });
   });
 });
