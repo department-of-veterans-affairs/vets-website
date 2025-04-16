@@ -166,14 +166,14 @@ describe('owned asset list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 1, 'va-text-input': 0, input: 2 },
+      { 'va-radio': 1, 'va-text-input': 2 },
       'asset type',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      3,
       'asset type',
     );
     testSubmitsWithoutErrors(
