@@ -14,7 +14,7 @@ const ratedOrNewNextPagePages = arrayBuilderPages(
   (pageBuilder, helpers) => ({
     ...introAndSummaryPages(demo, pageBuilder),
     [`${demo.name}Condition`]: pageBuilder.itemPage({
-      title: 'Select rated disability or new condition',
+      title: 'Type of condition',
       path: `conditions-${demo.label}/:index/condition`,
       depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
