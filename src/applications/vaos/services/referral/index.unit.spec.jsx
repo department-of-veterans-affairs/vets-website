@@ -22,7 +22,7 @@ describe('Referral Services', () => {
     const result = await services.getPatientReferrals();
 
     expect(
-      requestStub.calledWith('/vaos/v2/epsApi/referrals', {
+      await requestStub.calledWith('/vaos/v2/referrals', {
         method: 'GET',
       }),
     ).to.be.true;
@@ -36,7 +36,7 @@ describe('Referral Services', () => {
     const result = await services.getPatientReferralById('abc');
 
     expect(
-      requestStub.calledWith('/vaos/v2/epsApi/referrals/abc', {
+      requestStub.calledWith('/vaos/v2/referrals/abc', {
         method: 'GET',
       }),
     ).to.be.true;

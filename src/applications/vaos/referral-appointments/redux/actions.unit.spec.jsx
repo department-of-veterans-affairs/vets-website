@@ -103,10 +103,10 @@ describe('referral actions', () => {
   describe('fetchReferrals', () => {
     it('should dispatch success flow with filtered referrals', async () => {
       const referrals = [
-        { id: 1, categoryOfCare: 'Physical Therapy' },
-        { id: 2 },
+        { id: 1, attributes: { categoryOfCare: 'Physical Therapy' } },
+        { id: 2, attributes: {} },
       ];
-      const filtered = [{ id: 1, categoryOfCare: 'Physical Therapy' }];
+      const filtered = [referrals[0]];
       sandbox.stub(services, 'getPatientReferrals').resolves(referrals);
       sandbox.stub(referralUtils, 'filterReferrals').returns(filtered);
 
