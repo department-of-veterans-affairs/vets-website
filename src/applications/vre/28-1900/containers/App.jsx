@@ -24,6 +24,7 @@ function App({ location }) {
   return (
     <>
       {content}
+      <div>test change</div>
       <FormFooter formConfig={formConfig} />
     </>
   );
