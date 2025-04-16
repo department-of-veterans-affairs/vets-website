@@ -14,26 +14,30 @@ const PaymentSelectionUI = () => {
 };
 
 export const PaymentReviewScreen = props => {
-  return props.data ? (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {props?.title}
-        </h4>
-        <VaButton secondary onClick={props?.editPage} text="Edit" uswds />
-      </div>
-      <dl className="review">
-        <div className="review-row">
-          <dt>Send payment to:</dt>
-          {props?.data?.sendPayment === 'Veteran' ? (
-            <dd>{props?.data?.sendPayment} bank account or mailing address</dd>
-          ) : (
-            <dd>{props?.data?.sendPayment}</dd>
-          )}
+  return (
+    props.data && (
+      <div className="form-review-panel-page">
+        <div className="form-review-panel-page-header-row">
+          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+            {props?.title}
+          </h4>
+          <VaButton secondary onClick={props?.editPage} text="Edit" uswds />
         </div>
-      </dl>
-    </div>
-  ) : null;
+        <dl className="review">
+          <div className="review-row">
+            <dt>Send payment to:</dt>
+            {props?.data?.sendPayment === 'Veteran' ? (
+              <dd>
+                {props?.data?.sendPayment} bank account or mailing address
+              </dd>
+            ) : (
+              <dd>{props?.data?.sendPayment}</dd>
+            )}
+          </div>
+        </dl>
+      </div>
+    )
+  );
 };
 
 const introText = (
@@ -73,11 +77,10 @@ export const loggedInPaymentInfo = (
       <va-link href="https://www.va.gov" text="VA.gov" /> profile anytime.
       <br />
       <br />
-      <va-link
-        href="https://www.va.gov/my-va/"
-        text="Go to your direct deposit information in your VA.gov profile"
-        external
-      />
+      <a href="https://www.va.gov/my-va/" rel="noreferrer" target="_blank">
+        Go to your direct deposit information in your VA.gov profile (opens in a
+        new tab)
+      </a>
       <br />
       <br />
       {noDirectDeposit}
