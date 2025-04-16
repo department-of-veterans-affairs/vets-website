@@ -303,7 +303,7 @@ describe('discontinued income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { input: 1 },
+      { 'va-text-input': 1 },
       'amount',
     );
     testSubmitsWithoutErrors(
