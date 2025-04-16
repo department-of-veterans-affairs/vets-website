@@ -7,10 +7,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import {
-  selectUnreadCount,
-  selectUserCernerFacilityNames,
-} from '~/applications/personalization/dashboard/selectors';
+import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
@@ -205,7 +202,6 @@ const mapStateToProps = state => {
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     unreadMessagesCount: selectUnreadCount(state)?.count || 0,
-    facilityNames: selectUserCernerFacilityNames(state),
   };
 };
 
@@ -229,7 +225,6 @@ HealthCareContent.propTypes = {
   ),
   authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
-  facilityNames: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
