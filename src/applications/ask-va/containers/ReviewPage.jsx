@@ -114,7 +114,6 @@ const ReviewPage = props => {
   };
 
   const handleEdit = (pageKey, editing, index = null) => {
-    /// /// Test this again !!!!!!!!!
     if (pageKey === 'question' && props.formData.question.length > 10000) {
       focusElement('va-textarea');
     } else {
