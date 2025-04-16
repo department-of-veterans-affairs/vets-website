@@ -192,7 +192,7 @@ const CombinedStatements = () => {
   const copayTotalRow = copay => {
     return (
       <va-table-row>
-        <span> </span>
+        <span className="sr-only">Total row</span>
         <span className="vads-u-text-align--right vads-u-font-weight--bold">
           Total Due:
         </span>
@@ -416,7 +416,7 @@ const CombinedStatements = () => {
             })}
 
             <va-table-row>
-              <span />
+              <span className="sr-only">Total row</span>
               <span className="vads-u-text-align--right vads-u-font-weight--bold">
                 Total Due:
               </span>
