@@ -79,6 +79,10 @@ export const submissionForm = {
     parentGuardianSponsor: 'John Hancock',
     firstSponsor: '9001001080',
     // Updated test data for toeHighSchoolInfoChange scenarios
+    noHighSchoolQuestions: {
+      toeHighSchoolInfoChange: undefined,
+      highSchoolDiplomaLegacy: undefined,
+    },
     highSchoolDiplomaWithChangeFlagTrue: {
       toeHighSchoolInfoChange: true,
       highSchoolDiploma: 'Yes',
