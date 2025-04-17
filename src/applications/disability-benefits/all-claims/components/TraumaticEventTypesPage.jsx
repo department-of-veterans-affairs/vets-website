@@ -16,6 +16,9 @@ import {
   titleWithTag,
 } from '../content/form0781';
 import {
+  deleteMSTEvidenceModaContent,
+  deleteMSTEvidenceModalDescripton,
+  deleteMSTEvidenceModalTitle,
   eventTypesDescription,
   eventTypesHint,
   eventTypesPageTitle,
@@ -25,6 +28,11 @@ import { TRAUMATIC_EVENT_TYPES } from '../constants';
 
 const DELETABLE_MST_EVDIENCE_KEYS = [
   // KEYS FOR INCIDENT REPORT AND CONSENT
+  // Get them from src/applications/disability-benefits/all-claims/config/form0781/index.js
+
+
+
+
 ];
 
 const TraumaticEventTypesPage = ({
@@ -82,7 +90,11 @@ const TraumaticEventTypesPage = ({
   };
 
   const shouldShowDeleteMSTEvidenceModal = () => {
-    // is MST evidence filled out?
+    // console.log("DATA", data);
+    return false;
+    // You can figure these out by going throw the flow, back and checking in the console
+    // events: [militaryReports]
+    // optionIndicator:
   };
 
   const handlers = {
@@ -176,16 +188,25 @@ const TraumaticEventTypesPage = ({
       <p>{eventTypesDescription}</p>
 
       <VaModal
-        visible={showDeleteMSTEvidenceModal}
+        // visible={showDeleteMSTEvidenceModal}
+        visible
         onPrimaryButtonClick={handlers.onConfirmDeleteMSTEvidence}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
-        primaryButtonText="Yes, skip these questions"
+        primaryButtonText="Yes, remove this type trauma"
         secondaryButtonText="No, return to claim"
         status="warning"
       >
-        {/* Static content */}
-        {/* <BehaviorIntroCombatPageModalContent formData={data} ref={modalRef} /> */}
+        <>
+          <h4
+            ref={modalRef}
+            className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0"
+          >
+            {deleteMSTEvidenceModalTitle}
+          </h4>
+          <p>{deleteMSTEvidenceModalDescripton}</p>
+          {deleteMSTEvidenceModaContent}
+        </>
       </VaModal>
 
       <form onSubmit={handlers.onSubmit}>
