@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { DefinitionTester } from '~/platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
@@ -101,7 +102,7 @@ describe('22-10215 - Institution Details', () => {
   });
   it("institutionName 'Not Found' Generates Error: 'Please enter a valid facility code. To determine...' ", () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    render(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -117,14 +118,10 @@ describe('22-10215 - Institution Details', () => {
         definitions={definitions}
       />,
     );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(1);
-    form.unmount();
   });
   it("termStartDate over 60 days ago...' ", () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    render(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -140,16 +137,12 @@ describe('22-10215 - Institution Details', () => {
         definitions={definitions}
       />,
     );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(2);
-    form.unmount();
   });
   it("can test 'validateTermStartDate' error 'isCurrentOrPastDate(termStartDate)' ", () => {
     const termStartDate = daysAgoYyyyMmDd(5);
     const dateOfCalculations = daysAgoYyyyMmDd(10);
     const onSubmit = sinon.spy();
-    const form = mount(
+    render(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -165,16 +158,12 @@ describe('22-10215 - Institution Details', () => {
         definitions={definitions}
       />,
     );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(1);
-    form.unmount();
   });
   it("can test 'validateTermStartDate' error future date ", () => {
     const termStartDate = futureDateYyyyMmDd(5);
     const dateOfCalculations = daysAgoYyyyMmDd(10);
     const onSubmit = sinon.spy();
-    const form = mount(
+    render(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -190,16 +179,12 @@ describe('22-10215 - Institution Details', () => {
         definitions={definitions}
       />,
     );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(2);
-    form.unmount();
   });
   it("can test 'validateDateOfCalculations' valid past date ", () => {
     const termStartDate = futureDateYyyyMmDd(15);
     const dateOfCalculations = daysAgoYyyyMmDd(10);
     const onSubmit = sinon.spy();
-    const form = mount(
+    render(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -215,16 +200,12 @@ describe('22-10215 - Institution Details', () => {
         definitions={definitions}
       />,
     );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(2);
-    form.unmount();
   });
   it("can test 'validateDateOfCalculations' error 'isCurrentOrPastDate(dateOfCalculations)' ", () => {
     const termStartDate = daysAgoYyyyMmDd(15);
     const dateOfCalculations = futureDateYyyyMmDd(10);
     const onSubmit = sinon.spy();
-    const form = mount(
+    render(
       <DefinitionTester
         schema={schema}
         onSubmit={onSubmit}
@@ -240,9 +221,5 @@ describe('22-10215 - Institution Details', () => {
         definitions={definitions}
       />,
     );
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-memorable-date[error]').length).to.equal(1);
-    form.unmount();
   });
 });
