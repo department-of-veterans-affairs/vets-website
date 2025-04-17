@@ -1,23 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectSignature } from '../../selectors';
-import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const EditSignatureLink = () => {
   const signature = useSelector(state => selectSignature(state));
   const includeSignature = signature?.includeSignature;
-  const {
-    isSignatureSettingsEnabled,
-    featureTogglesLoading,
-  } = useFeatureToggles();
 
-  // link below appears when the isSignatureSettingsEnabled feature flag is enabled
-  // and a user has a signature set up  includeSignature: true
-  if (
-    !featureTogglesLoading &&
-    isSignatureSettingsEnabled &&
-    includeSignature
-  ) {
+  // link below appears when the a user has a signature set up includeSignature: true
+  if (includeSignature) {
     return (
       <div className="vads-u-margin-top--2">
         <a
