@@ -17,6 +17,9 @@ const HealthCareCTA = ({
 
   // viewMhvLink will be true if toggle is on
   const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
+  const smocEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
 
   let urls = {
     applyForVAHealthcare: '/health-care/apply-for-health-care-form-10-10ez/',
@@ -38,6 +41,13 @@ const HealthCareCTA = ({
       refillPrescriptions: '/my-health/medications/refill/',
       medicalRecords: '/my-health/medical-records',
       travelReimbursement: 'https://dvagov-btsss.dynamics365portals.us/signin',
+    };
+  }
+
+  if (smocEnabled) {
+    urls = {
+      ...urls,
+      travelReimbursement: '/my-health/travel-pay/claims',
     };
   }
 
@@ -153,12 +163,18 @@ const HealthCareCTA = ({
               <IconCTALink
                 href={urls.travelReimbursement}
                 icon="attach_money"
-                text="Request travel reimbursement"
+                text={
+                  smocEnabled
+                    ? 'Review and file travel claims'
+                    : 'Request travel reimbursement'
+                }
                 testId="request-travel-reimbursement-link-from-cta"
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
-                    'links-list-header': 'Request travel reimbursement"',
+                    'links-list-header': smocEnabled
+                      ? 'Review and file travel claims'
+                      : 'Request travel reimbursement',
                     'links-list-section-header': 'Health care',
                   });
                 }}
@@ -260,12 +276,18 @@ const HealthCareCTA = ({
             <IconCTALink
               href={urls.travelReimbursement}
               icon="work"
-              text="Request travel reimbursement"
+              text={
+                smocEnabled
+                  ? 'Review and file travel claims'
+                  : 'Request travel reimbursement'
+              }
               testId="request-travel-reimbursement-link-from-cta"
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
-                  'links-list-header': 'Request travel reimbursement"',
+                  'links-list-header': smocEnabled
+                    ? 'Review and file travel claims'
+                    : 'Request travel reimbursement',
                   'links-list-section-header': 'Health care',
                 });
               }}
