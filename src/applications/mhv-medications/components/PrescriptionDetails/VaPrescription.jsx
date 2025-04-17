@@ -46,7 +46,9 @@ const VaPrescription = prescription => {
       ],
   );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const mostRecentFill = createMostRecentFillRecord(prescription);
+  const mostRecentFill = prescription?.dispensedDate
+    ? createMostRecentFillRecord(prescription)
+    : null;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
@@ -54,7 +56,9 @@ const VaPrescription = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
-  refillHistory.unshift(mostRecentFill);
+  if (mostRecentFill) {
+    refillHistory.unshift(mostRecentFill);
+  }
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
@@ -688,7 +692,7 @@ const VaPrescription = prescription => {
                       }))}
                   {showGroupingContent &&
                     (refillHistory?.length > 1 ||
-                      refillHistory[0].dispensedDate !== undefined) && (
+                      refillHistory[0]?.dispensedDate !== undefined) && (
                       <>
                         <p
                           className="vads-u-margin-top--2 vads-u-margin-bottom--0"
@@ -888,7 +892,7 @@ const VaPrescription = prescription => {
                       </>
                     )}
                   {refillHistory?.length <= 1 &&
-                    refillHistory[0].dispensedDate === undefined && (
+                    refillHistory[0]?.dispensedDate === undefined && (
                       <p>You haven’t filled this prescription yet.</p>
                     )}
                 </>
