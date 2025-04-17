@@ -26,6 +26,8 @@ describe('BehaviorListPage', () => {
     goBack = () => {},
     goForward = () => {},
     setFormData = () => {},
+    onReviewPage = false,
+    updatePage = () => {},
   } = {}) => {
     return (
       <div>
@@ -34,6 +36,8 @@ describe('BehaviorListPage', () => {
           data={data}
           goBack={goBack}
           goForward={goForward}
+          onReviewPage={onReviewPage}
+          updatePage={updatePage}
         />
       </div>
     );
@@ -460,6 +464,153 @@ describe('BehaviorListPage', () => {
             socialEconomic: 'Details of socialEconomic behavior',
           });
         });
+      });
+    });
+  });
+
+  describe('Review and submit page', () => {
+    it('should render all checkboxes on review & submit in edit mode', () => {
+      const { container } = render(page({ onReviewPage: true }));
+      const checkboxGroups = $$('va-checkbox-group', container);
+      expect(checkboxGroups.length).to.equal(4);
+      checkboxGroups.forEach(group => {
+        const label = group.getAttribute('label');
+        expect(Object.values(BEHAVIOR_LIST_SECTION_SUBTITLES)).to.include(
+          label,
+        );
+      });
+
+      const checkboxes = $$('va-checkbox', container);
+      expect(checkboxes.length).to.equal(16);
+
+      const allCheckBoxDescriptions = [
+        ...Object.values(BEHAVIOR_CHANGES_WORK),
+        ...Object.values(BEHAVIOR_CHANGES_HEALTH),
+        ...Object.values(BEHAVIOR_CHANGES_OTHER),
+      ];
+      allCheckBoxDescriptions.push(behaviorListNoneLabel);
+
+      checkboxes.forEach(checkbox => {
+        const label = checkbox.getAttribute('label');
+        expect(allCheckBoxDescriptions).to.include(label);
+      });
+    });
+    it('should call updatePage on review & submit in edit mode', () => {
+      const updateSpy = sinon.spy();
+      const { container } = render(
+        page({ onReviewPage: true, updatePage: updateSpy }),
+      );
+      fireEvent.click($('va-button[text="Update page"]', container));
+      expect(updateSpy.called).to.be.true;
+    });
+  });
+
+  describe('Modal Content', () => {
+    describe('When less than four behavior details are about to be deleted', () => {
+      const threeSelectedChanges = {
+        workBehaviors: {
+          reassignment: true,
+          performance: false, // this checkbox is unselected
+        },
+        healthBehaviors: {
+          appetite: false, // this checkbox is unselected
+          consultations: true,
+        },
+        otherBehaviors: {
+          socialEconomic: false, // this checkbox is unselected
+        },
+        behaviorsDetails: {
+          performance: 'Details of performance behavior',
+          appetite: 'Details of appetite behavior',
+          socialEconomic: 'Details of socialEconomic behavior',
+        },
+      };
+
+      it('lists all behavior descriptions in the modal content and does not list additional number of behaviors', () => {
+        const { container } = render(page({ data: threeSelectedChanges }));
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        const descriptionBullets = $$('li', modal);
+
+        expect(descriptionBullets.length).to.eq(3);
+        expect(container.textContent).not.to.contain(
+          'And, 0 other behavioral changes',
+        );
+      });
+    });
+
+    describe('When four behavior details are about to be deleted', () => {
+      const fourSelectedChanges = {
+        workBehaviors: {
+          reassignment: false, // this checkbox is unselected
+          performance: false, // this checkbox is unselected
+        },
+        healthBehaviors: {
+          appetite: false, // this checkbox is unselected
+          consultations: true,
+        },
+        otherBehaviors: {
+          socialEconomic: false, // this checkbox is unselected
+        },
+        behaviorsDetails: {
+          reassignment: 'Details of reassignment behavior',
+          performance: 'Details of performance behavior',
+          appetite: 'Details of appetite behavior',
+          socialEconomic: 'Details of socialEconomic behavior',
+        },
+      };
+
+      it('lists all four behavior descriptions in the modal content', () => {
+        const { container } = render(page({ data: fourSelectedChanges }));
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        const descriptionBullets = $$('li', modal);
+
+        expect(descriptionBullets.length).to.eq(4);
+        expect(container.textContent).not.contain(
+          'And, 0 other behavioral changes',
+        );
+      });
+    });
+
+    describe('When five or more behavior details are about to be deleted', () => {
+      const fiveSelectedChanges = {
+        workBehaviors: {
+          reassignment: false, // this checkbox is unselected
+          performance: false, // this checkbox is unselected
+        },
+        healthBehaviors: {
+          appetite: false, // this checkbox is unselected
+          consultations: false, // this checkbox is unselected
+        },
+        otherBehaviors: {
+          socialEconomic: false, // this checkbox is unselected
+        },
+        behaviorsDetails: {
+          reassignment: 'Details of reassignment behavior',
+          performance: 'Details of performance behavior',
+          appetite: 'Details of appetite behavior',
+          consultations: 'Details of consultations behavior',
+          socialEconomic: 'Details of socialEconomic behavior',
+        },
+      };
+
+      it('lists three behavior descriptions in the modal content and a note explaining there are two remaining', () => {
+        const { container } = render(page({ data: fiveSelectedChanges }));
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        const descriptionBullets = $$('li', modal);
+
+        expect(descriptionBullets.length).to.eq(4);
+        expect(descriptionBullets[3].textContent).to.contain(
+          'And, 2 other behavioral changes',
+        );
       });
     });
   });

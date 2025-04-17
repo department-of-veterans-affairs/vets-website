@@ -22,14 +22,13 @@ export function EditAddress() {
 
   return (
     <div className="usa-width-three-fourths letters vads-u-margin-top--2 ">
-      <h2 className="vads-u-margin-bottom--0">Edit mailing address</h2>
+      <h2 className={!showValidationView ? 'vads-u-margin-bottom--3' : null}>
+        Edit mailing address
+      </h2>
 
       {!showValidationView && (
         <>
-          <va-alert
-            status="info"
-            class="vads-u-margin-top--3 vads-u-margin-bottom--3"
-          >
+          <va-alert status="info" class="vads-u-margin-bottom--3">
             <p className="vads-u-margin-y--0">
               Changing your address here will also update it in your VA.gov
               profile and across several VA benefits and services.
@@ -83,6 +82,15 @@ export function EditAddress() {
           cancelButtonText="Cancel edit"
         />
       </InitializeVAPServiceID>
+      <va-need-help>
+        <div slot="content">
+          <p>
+            Call us at <va-telephone contact="8008271000" />. We're here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call <va-telephone contact="711" tty="true" />.
+          </p>
+        </div>
+      </va-need-help>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES } from '../constants';
+import { toPascalCase } from '../util/string-helpers';
 
 const title = 'Your travel reimbursement claim';
 
@@ -44,8 +45,29 @@ export default function ClaimDetailsContent(props) {
         Claim number: {claimNumber}
       </span>
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
-      {claimsMgmtToggle &&
-        claimStatus === STATUSES.Denied.name && <AppealContent />}
+      {claimsMgmtToggle && (
+        <>
+          <va-additional-info
+            class="vads-u-margin-y--3"
+            trigger="What does this status mean?"
+          >
+            {STATUSES[toPascalCase(claimStatus)] ? (
+              <p data-testid="status-definition-text">
+                {STATUSES[toPascalCase(claimStatus)].definition}
+              </p>
+            ) : (
+              <p className="vads-u-margin-top--2">
+                If you need help understanding your claim, call the BTSSS call
+                center at <va-telephone contact="8555747292" /> (
+                <va-telephone tty contact="711" />) Monday through Friday, 8:00
+                a.m. to 8:00 p.m. ET. Have your claim number ready to share when
+                you call.
+              </p>
+            )}
+          </va-additional-info>
+          {claimStatus === STATUSES.Denied.name && <AppealContent />}
+        </>
+      )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">Where</p>
       <p className="vads-u-margin-y--0">

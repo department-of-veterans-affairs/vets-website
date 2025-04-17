@@ -64,10 +64,10 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         });
         const blob = await response.blob();
         handlePdfDownload(blob);
-        recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
+        recordEvent({ event: 'caregivers-pdf-download--success' });
       } catch (error) {
         setErrors(error.errors);
-        recordEvent({ event: 'caregivers-10-10cg-pdf-download--failure' });
+        recordEvent({ event: 'caregivers-pdf-download--failure' });
       } finally {
         setLoading(false);
       }

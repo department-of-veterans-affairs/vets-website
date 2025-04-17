@@ -20,7 +20,6 @@
     "./LoginGovSVG": "./authentication/components/LoginGovSVG.jsx",
     "./LoginHeader": "./authentication/components/LoginHeader.jsx",
     "./LoginInfo": "./authentication/components/LoginInfo.jsx",
-    "./LogoutAlert": "./authentication/components/LogoutAlert.jsx",
     "./ServiceProvidersList": "./authentication/components/ServiceProvidersList.jsx",
     "./ServiceProvidersText": "./authentication/components/ServiceProvidersText.jsx",
     "./SessionTimeoutModal": "./authentication/components/SessionTimeoutModal.jsx",
