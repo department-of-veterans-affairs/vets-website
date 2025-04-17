@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { format, addMonths } from 'date-fns';
 
 /**

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 /**
  * Class to create mock appointment creation responses for Cypress tests
  */
