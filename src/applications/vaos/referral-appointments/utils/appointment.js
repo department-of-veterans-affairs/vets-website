@@ -6,11 +6,15 @@ const appointmentData = {
     status: 'not-booked',
     start: '2024-11-21T18:00:00Z',
     typeOfCare: 'Physical Therapy',
+    isLatest: true,
+    lastRetrieved: '2024-11-21T18:00:00Z',
+    modality: 'Office Visit',
   },
   provider: {
     id: 'test-provider-id',
     name: 'Dr. Bones',
     isActive: true,
+    phoneNumber: '555-555-5555',
     organization: {
       name: 'Meridian Health',
     },
