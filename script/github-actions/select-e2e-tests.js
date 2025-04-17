@@ -33,50 +33,51 @@ function allTests() {
 
 function selectTests(pathsOfChangedFiles) {
   const tests = [];
-  if (RUN_FULL_SUITE) {
-    tests.push(allTests());
-  } else {
-    const applicationNames = pathsOfChangedFiles
-      .filter(
-        filePath =>
-          !filePath.endsWith('.md') &&
-          !filePath.startsWith('.github/workflows'),
-      )
-      .map(filePath => filePath.split('/')[2]);
-    [...new Set(applicationNames)].forEach(app => {
-      const selectedTestsPattern = path.join(
-        __dirname,
-        '../..',
-        'src/applications',
-        `${app}/**/tests/**/*.cypress.spec.js?(x)`,
-      );
-      console.log('selectedTestsPattern: ', selectedTestsPattern);
-
-      tests.push(...glob.sync(selectedTestsPattern));
-    });
-
-    if (IS_CHANGED_APPS_BUILD) {
-      const megaMenuTestPath = path.join(
-        __dirname,
-        '../..',
-        'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
-      );
-
-      // Ensure changed apps have URLs to run header test on
-      if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
-        tests.push(megaMenuTestPath);
+  const filteredChangedFiles = pathsOfChangedFiles.filter(
+    filePath =>
+      !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
+  );
+  if (filteredChangedFiles.length > 0) {
+    if (RUN_FULL_SUITE) {
+      tests.push(allTests());
     } else {
-      const defaultTestsPattern = path.join(
-        __dirname,
-        '../..',
-        'src/platform',
-        '**/tests/**/*.cypress.spec.js?(x)',
+      const applicationNames = filteredChangedFiles.map(
+        filePath => filePath.split('/')[2],
       );
+      [...new Set(applicationNames)].forEach(app => {
+        const selectedTestsPattern = path.join(
+          __dirname,
+          '../..',
+          'src/applications',
+          `${app}/**/tests/**/*.cypress.spec.js?(x)`,
+        );
+        console.log('selectedTestsPattern: ', selectedTestsPattern);
 
-      tests.push(...glob.sync(defaultTestsPattern));
+        tests.push(...glob.sync(selectedTestsPattern));
+      });
+
+      if (IS_CHANGED_APPS_BUILD) {
+        const megaMenuTestPath = path.join(
+          __dirname,
+          '../..',
+          'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
+        );
+
+        // Ensure changed apps have URLs to run header test on
+        if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
+          tests.push(megaMenuTestPath);
+      } else {
+        const defaultTestsPattern = path.join(
+          __dirname,
+          '../..',
+          'src/platform',
+          '**/tests/**/*.cypress.spec.js?(x)',
+        );
+
+        tests.push(...glob.sync(defaultTestsPattern));
+      }
     }
   }
-
   return tests;
 }
 
