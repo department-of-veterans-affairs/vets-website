@@ -38,7 +38,9 @@ const TraumaticEventTypesPage = ({
   updatePage,
 }) => {
   // No validaiton on this page
-  const [showDeleteMSTEvidenceModal, setShowDeleteMSTEvidenceModal] = useState(false);
+  const [showDeleteMSTEvidenceModal, setShowDeleteMSTEvidenceModal] = useState(
+    false,
+  );
   const [
     showDeletedEvidenceConfirmation,
     setShowDeletedEvidenceConfirmation,
@@ -200,7 +202,7 @@ const TraumaticEventTypesPage = ({
                 key={eventType}
                 label={description}
                 value={eventType}
-                checked={data?.eventTypes[eventType] === true}
+                checked={data?.eventTypes?.[eventType] === true}
                 uswds
               />
             ),
