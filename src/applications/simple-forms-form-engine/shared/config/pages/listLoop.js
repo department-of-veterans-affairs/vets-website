@@ -6,17 +6,25 @@ import { employmentHistory } from '.';
 /** @type {Record<string, ArrayBuilderOptions>} */
 const variations = {
   listLoopEmploymentHistory: {
+    maxItems: 4,
     nounPlural: 'employers',
+    nounSingular: 'employer',
+    optional: true,
   },
 };
 
-const setVars = chapter => {
+/**
+ * @param {NormalizedChapter} chapter
+ * @returns {Partial<NormalizedChapter>}
+ */
+const hydrateVariations = chapter => {
+  const attrs = ['maxItems', 'nounPlural', 'nounSingular', 'optional'];
   const variation = variations[camelCase(chapter.type)];
 
-  return {
-    nounPlural: chapter.nounPlural || variation?.nounPlural,
-    optional: chapter.optional,
-  };
+  return attrs.reduce((acc, attr) => {
+    acc[attr] = chapter[attr] || (variation && variation[attr]);
+    return acc;
+  }, {});
 };
 
 /**
@@ -25,7 +33,9 @@ const setVars = chapter => {
  * @returns {FormConfigPages}
  */
 export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
-  const { nounPlural, optional } = setVars(chapter);
+  const { maxItems, nounPlural, nounSingular, optional } = hydrateVariations(
+    chapter,
+  );
 
   /** @type {Array<string>} */
   const requiredProps = ['name', 'address', 'dateRange'];
@@ -33,11 +43,11 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
   /** @type {ArrayBuilderOptions} */
   const options = {
     arrayPath: kebabCase(nounPlural),
-    nounSingular: 'employer',
-    nounPlural: 'employers',
+    nounSingular,
+    nounPlural,
     required: !optional,
     isItemIncomplete: item => requiredProps.some(prop => !item[prop]),
-    maxItems: 4,
+    maxItems,
     text: {
       getItemName: item => item.name,
       cardDescription: item =>
@@ -60,7 +70,7 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
     /** @type {FormConfigPages} */
     const pages = {};
 
-    if (!optional) {
+    if (options.required) {
       pages.employer = pageBuilder.introPage(introPage(options));
     }
 

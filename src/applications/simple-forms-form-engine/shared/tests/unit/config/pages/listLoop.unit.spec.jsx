@@ -37,9 +37,9 @@ describe('listLoopPages', () => {
     const options = arrayBuilderStub.getCall(0).args[0];
 
     expect(options.arrayPath).to.eq(required.nounPlural);
-    expect(options.nounSingular).to.eq('employer');
-    expect(options.nounPlural).to.eq('employers');
-    expect(options.maxItems).to.eq(4);
+    expect(options.nounSingular).to.eq(required.nounSingular);
+    expect(options.nounPlural).to.eq(required.nounPlural);
+    expect(options.maxItems).to.eq(required.maxItems);
   });
 
   it('includes a summary page', () => {
@@ -56,6 +56,10 @@ describe('listLoopPages', () => {
       const options = arrayBuilderStub.getCall(0).args[0];
 
       expect(options.arrayPath).to.eq('employers');
+      expect(options.maxItems).to.eq(4);
+      expect(options.nounSingular).to.eq('employer');
+      expect(options.nounPlural).to.eq('employers');
+      expect(options.required).to.eq(false);
     });
 
     it('includes a name page', () => {
