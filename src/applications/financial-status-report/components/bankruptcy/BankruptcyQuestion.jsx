@@ -30,14 +30,11 @@ const BankruptcyQuestion = ({
   const [error, setError] = useState(null);
 
   // Header ref for setting focus
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   // custom back navigation for review functionality
   const handleBackNavigation = () => {

@@ -74,12 +74,11 @@ export default function ClaimDetailsContent(props) {
         {appointmentDate} at {appointmentTime} appointment
       </p>
       <p className="vads-u-margin-top--0">{facilityName}</p>
-      {claimsMgmtToggle &&
-        reimbursementAmount > 0 && (
-          <p className="vads-u-margin-bottom--0">
-            Reimbursement amount of ${reimbursementAmount}
-          </p>
-        )}
+      {claimsMgmtToggle && reimbursementAmount > 0 && (
+        <p className="vads-u-margin-bottom--0">
+          Reimbursement amount of ${reimbursementAmount}
+        </p>
+      )}
       <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
       </p>

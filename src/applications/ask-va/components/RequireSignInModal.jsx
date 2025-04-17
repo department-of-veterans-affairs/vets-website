@@ -7,17 +7,12 @@ import manifest from '../manifest.json';
 const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
   const navigateToAskVAAndTriggerLoginModal = () => {
     onClose();
-    window.location.href = `${
-      manifest.rootUrl
-    }/introduction?showSignInModal=true`;
+    window.location.href = `${manifest.rootUrl}/introduction?showSignInModal=true`;
   };
 
-  useEffect(
-    () => {
-      focusElement('p.ask-va-modal-content');
-    },
-    [show],
-  );
+  useEffect(() => {
+    focusElement('p.ask-va-modal-content');
+  }, [show]);
 
   const restrictedItemCopy = {
     category: {
@@ -48,9 +43,7 @@ const RequireSignInModal = ({ onClose, show, restrictedItem, message }) => {
       onPrimaryButtonClick={navigateToAskVAAndTriggerLoginModal}
       onSecondaryButtonClick={onClose}
       primaryButtonText="Sign in"
-      secondaryButtonText={`Go back to ${
-        restrictedItemCopy[restrictedItem].buttonText
-      }`}
+      secondaryButtonText={`Go back to ${restrictedItemCopy[restrictedItem].buttonText}`}
     >
       {message ? (
         <p className="ask-va-modal-content">{message}</p>

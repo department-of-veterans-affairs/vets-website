@@ -39,9 +39,7 @@ describe('ElectronicSignature', () => {
     });
   });
 
-  it(`renders a checkbox with the label "${
-    ElectronicSignatureBox.CHECKBOX_LABEL
-  }"`, () => {
+  it(`renders a checkbox with the label "${ElectronicSignatureBox.CHECKBOX_LABEL}"`, () => {
     render(<ElectronicSignature />);
     const checkbox = document.querySelector('va-checkbox');
     expect(checkbox).to.have.attribute(

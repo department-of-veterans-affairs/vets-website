@@ -75,9 +75,7 @@ const renderAndAssertDueDate = (testDate, expectedClass) => {
   );
 
   const expectedText = testDate.isPastDue
-    ? `Needed from you by ${testDate.formattedClaimDate} - Due ${
-        testDate.timeAgoFormatted
-      } ago`
+    ? `Needed from you by ${testDate.formattedClaimDate} - Due ${testDate.timeAgoFormatted} ago`
     : `Needed from you by ${testDate.formattedClaimDate}`;
 
   getByText(expectedText);

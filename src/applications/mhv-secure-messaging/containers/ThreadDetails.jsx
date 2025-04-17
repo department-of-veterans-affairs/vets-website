@@ -39,64 +39,49 @@ const ThreadDetails = props => {
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getFolders());
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (isSending === true) {
-        scrollToTop();
-      }
-    },
-    [isSending],
-  );
+  useEffect(() => {
+    if (isSending === true) {
+      scrollToTop();
+    }
+  }, [isSending]);
 
-  useEffect(
-    () => {
-      if (!folder && drafts?.length > 0) {
-        dispatch(retrieveFolder(threadFolderId));
-      }
-    },
-    [drafts, dispatch, folder, threadFolderId],
-  );
+  useEffect(() => {
+    if (!folder && drafts?.length > 0) {
+      dispatch(retrieveFolder(threadFolderId));
+    }
+  }, [drafts, dispatch, folder, threadFolderId]);
 
-  useEffect(
-    () => {
-      if (threadId) {
-        dispatch(retrieveMessageThread(threadId))
-          .then(() => {
-            setIsLoaded(true);
-          })
-          .catch(() => {
-            navigateToFolderByFolderId(folder?.folderId || 0, history);
-          });
-      }
-      return () => {
-        dispatch(closeAlert());
-      };
-    },
-    [dispatch, threadId, location.pathname],
-  );
+  useEffect(() => {
+    if (threadId) {
+      dispatch(retrieveMessageThread(threadId))
+        .then(() => {
+          setIsLoaded(true);
+        })
+        .catch(() => {
+          navigateToFolderByFolderId(folder?.folderId || 0, history);
+        });
+    }
+    return () => {
+      dispatch(closeAlert());
+    };
+  }, [dispatch, threadId, location.pathname]);
 
-  useEffect(
-    () => {
-      if (!isCreateNewModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folder !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
-        setTimeout(() => {
-          focusElement(document.querySelector(alertSelector));
-        }, 300);
-      }
-    },
-    [alertList, folder, isCreateNewModalVisible, header],
-  );
+  useEffect(() => {
+    if (!isCreateNewModalVisible) {
+      const alertVisible = alertList[alertList?.length - 1];
+      const alertSelector =
+        folder !== undefined && !alertVisible?.isActive
+          ? 'h1'
+          : alertVisible?.isActive && 'va-alert';
+      setTimeout(() => {
+        focusElement(document.querySelector(alertSelector));
+      }, 300);
+    }
+  }, [alertList, folder, isCreateNewModalVisible, header]);
 
   useEffect(() => {
     if (header.current) {

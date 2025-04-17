@@ -38,12 +38,11 @@ export class ConfirmationPage extends React.Component {
             Personalized Career Planning and Guidance application{' '}
             <span className="additional">(VA Form 28-8832)</span>
           </h3>
-          {name.first &&
-            name.last && (
-              <p>
-                FOR: {name.first} {name.last}
-              </p>
-            )}
+          {name.first && name.last && (
+            <p>
+              FOR: {name.first} {name.last}
+            </p>
+          )}
 
           {response && (
             <ul className="claim-list">

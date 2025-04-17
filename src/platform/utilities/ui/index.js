@@ -48,16 +48,16 @@ export function displayFileSize(size) {
 }
 
 /* Converts a percentage decimal number to a percentage number.
-*
-* Returns a string
-* ex. displayPercent(.91) returns "91%"
-* Remember that `toFixed()` rounds, so, if a decimal number such as .9177 is sent in as such:
-* displayPercent(.9177, 1), with "1" being the number of desired places to display
-* the output is: "91.8%"
-*
-* @param decimalNumber - the decimal number to convert
-* @param places (optional) - the number of places after the decimal sign to display
-*/
+ *
+ * Returns a string
+ * ex. displayPercent(.91) returns "91%"
+ * Remember that `toFixed()` rounds, so, if a decimal number such as .9177 is sent in as such:
+ * displayPercent(.9177, 1), with "1" being the number of desired places to display
+ * the output is: "91.8%"
+ *
+ * @param decimalNumber - the decimal number to convert
+ * @param places (optional) - the number of places after the decimal sign to display
+ */
 export function displayPercent(decimalNumber, places = 0) {
   return `${(decimalNumber * 100).toFixed(places)}%`;
 }

@@ -39,44 +39,38 @@ export default function ProviderList({
 
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
-  useEffect(
-    () => {
-      if (
-        showProvidersList &&
-        providersListLength > initialProviderDisplayCount
-      ) {
-        scrollAndFocus(
-          `#${idSchema.$id}_${providersListLength -
-            initialProviderDisplayCount +
-            1}`,
-        );
-      }
-    },
-    [providersListLength],
-  );
+  useEffect(() => {
+    if (
+      showProvidersList &&
+      providersListLength > initialProviderDisplayCount
+    ) {
+      scrollAndFocus(
+        `#${idSchema.$id}_${providersListLength -
+          initialProviderDisplayCount +
+          1}`,
+      );
+    }
+  }, [providersListLength]);
 
-  useEffect(
-    () => {
-      if (showProvidersList && (loadingProviders || loadingLocations)) {
-        scrollAndFocus('.loading-indicator');
-      } else if (
-        showProvidersList &&
-        !loadingProviders &&
-        requestLocationStatus === FETCH_STATUS.failed
-      ) {
-        scrollAndFocus('#providerSelectionBlockedLocation');
-      } else if (
-        showProvidersList &&
-        !loadingProviders &&
-        requestStatus === FETCH_STATUS.failed
-      ) {
-        scrollAndFocus('#providerSelectionFailed');
-      } else if (showProvidersList && !loadingProviders && !loadingLocations) {
-        scrollAndFocus('#providerSelectionHeader');
-      }
-    },
-    [loadingProviders, loadingLocations],
-  );
+  useEffect(() => {
+    if (showProvidersList && (loadingProviders || loadingLocations)) {
+      scrollAndFocus('.loading-indicator');
+    } else if (
+      showProvidersList &&
+      !loadingProviders &&
+      requestLocationStatus === FETCH_STATUS.failed
+    ) {
+      scrollAndFocus('#providerSelectionBlockedLocation');
+    } else if (
+      showProvidersList &&
+      !loadingProviders &&
+      requestStatus === FETCH_STATUS.failed
+    ) {
+      scrollAndFocus('#providerSelectionFailed');
+    } else if (showProvidersList && !loadingProviders && !loadingLocations) {
+      scrollAndFocus('#providerSelectionHeader');
+    }
+  }, [loadingProviders, loadingLocations]);
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
@@ -101,12 +95,11 @@ export default function ProviderList({
         currentlyShownProvidersList={currentlyShownProvidersList}
         notLoading={notLoading}
       />
-      {loadingProviders &&
-        !loadingLocations && (
-          <div className="vads-u-padding-bottom--2">
-            <va-loading-indicator message="Loading the list of providers." />
-          </div>
-        )}
+      {loadingProviders && !loadingLocations && (
+        <div className="vads-u-padding-bottom--2">
+          <va-loading-indicator message="Loading the list of providers." />
+        </div>
+      )}
       {loadingLocations && (
         <div className="vads-u-padding-bottom--2">
           <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />

@@ -36,32 +36,29 @@ const DependentAges = ({
       ? 'Continue to review page'
       : 'Continue';
 
-  useEffect(
-    () => {
-      const shouldInitializeDependents =
-        !stateDependents.length ||
-        stateDependents.length !== parseInt(hasDependents, 10);
+  useEffect(() => {
+    const shouldInitializeDependents =
+      !stateDependents.length ||
+      stateDependents.length !== parseInt(hasDependents, 10);
 
-      if (shouldInitializeDependents) {
-        const addDependents = Array.from(
-          { length: parseInt(hasDependents, 10) },
-          (_, i) => stateDependents[i] || { dependentAge: '' },
-        );
-        setStateDependents(addDependents);
-        setErrors(Array(addDependents.length).fill(null));
-        dispatch(
-          setData({
-            ...formData,
-            personalData: {
-              ...formData.personalData,
-              dependents: addDependents,
-            },
-          }),
-        );
-      }
-    },
-    [dispatch, hasDependents, formData, stateDependents],
-  );
+    if (shouldInitializeDependents) {
+      const addDependents = Array.from(
+        { length: parseInt(hasDependents, 10) },
+        (_, i) => stateDependents[i] || { dependentAge: '' },
+      );
+      setStateDependents(addDependents);
+      setErrors(Array(addDependents.length).fill(null));
+      dispatch(
+        setData({
+          ...formData,
+          personalData: {
+            ...formData.personalData,
+            dependents: addDependents,
+          },
+        }),
+      );
+    }
+  }, [dispatch, hasDependents, formData, stateDependents]);
 
   const updateDependents = useCallback(
     (target, i) => {
@@ -89,11 +86,10 @@ const DependentAges = ({
 
     if (errors.some(error => error !== null) || hasEmptyInput) {
       if (hasEmptyInput) {
-        const newErrors = stateDependents.map(
-          (dependent, i) =>
-            dependent.dependentAge === ''
-              ? 'Please enter your dependent(s) age.'
-              : errors[i],
+        const newErrors = stateDependents.map((dependent, i) =>
+          dependent.dependentAge === ''
+            ? 'Please enter your dependent(s) age.'
+            : errors[i],
         );
         setErrors(newErrors);
       }
@@ -110,11 +106,10 @@ const DependentAges = ({
 
     if (errors.some(error => error !== null) || hasEmptyInput) {
       if (hasEmptyInput) {
-        const newErrors = stateDependents.map(
-          (dependent, i) =>
-            dependent.dependentAge === ''
-              ? 'Please enter your dependent(s) age.'
-              : errors[i],
+        const newErrors = stateDependents.map((dependent, i) =>
+          dependent.dependentAge === ''
+            ? 'Please enter your dependent(s) age.'
+            : errors[i],
         );
         setErrors(newErrors);
       }

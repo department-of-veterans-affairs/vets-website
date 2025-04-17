@@ -25,19 +25,18 @@ export const TaskList = () => {
               {index + 1}. {title}
             </h2>
             <ul className="chapter-list vads-u-padding-left--0">
-              {getChapterPagesFromChapterIndex(index).map(
-                page =>
-                  page.taskListHide ? null : (
-                    <li
-                      key={page.path}
-                      data-path={page?.path.replace(':index', '0')}
-                      className="task-list-link-wrap vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-border-bottom--1px"
-                    >
-                      <Link to={page.path.replace(':index', '0')}>
-                        {page.title}
-                      </Link>
-                    </li>
-                  ),
+              {getChapterPagesFromChapterIndex(index).map(page =>
+                page.taskListHide ? null : (
+                  <li
+                    key={page.path}
+                    data-path={page?.path.replace(':index', '0')}
+                    className="task-list-link-wrap vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-border-bottom--1px"
+                  >
+                    <Link to={page.path.replace(':index', '0')}>
+                      {page.title}
+                    </Link>
+                  </li>
+                ),
               )}
             </ul>
           </li>

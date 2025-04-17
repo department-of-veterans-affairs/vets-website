@@ -23,27 +23,21 @@ const UserNav = ({ isMobile }) => {
 
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
-  useEffect(
-    () => {
-      const handleClickOutside = event => {
-        if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target)
-        ) {
-          setDropdownOpen(false);
-        }
-      };
-
-      if (isDropdownOpen) {
-        document.addEventListener('mousedown', handleClickOutside);
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
       }
+    };
 
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    },
-    [isDropdownOpen],
-  );
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   let content;
   if (isLoading) {

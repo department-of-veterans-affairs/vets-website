@@ -102,9 +102,7 @@ describe('threads actions', () => {
       payload: {
         alertType: Constants.ALERT_TYPE_ERROR,
         header: '',
-        content: `${Constants.Alerts.Thread.GET_THREAD_ERROR} ${
-          mockError.errors[0].detail
-        }`,
+        content: `${Constants.Alerts.Thread.GET_THREAD_ERROR} ${mockError.errors[0].detail}`,
         className: undefined,
         link: undefined,
         title: undefined,

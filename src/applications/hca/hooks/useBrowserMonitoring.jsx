@@ -56,28 +56,25 @@ const useBrowserMonitoring = () => {
   const userProps = useSelector(selectRumUser);
   const { isBrowserMonitoringEnabled, isLoadingFeatureFlags } = featureToggles;
 
-  useEffect(
-    () => {
-      if (isLoadingFeatureFlags || isLoadingUserProfile) return;
-      if (environment.BASE_URL.includes('localhost')) return;
+  useEffect(() => {
+    if (isLoadingFeatureFlags || isLoadingUserProfile) return;
+    if (environment.BASE_URL.includes('localhost')) return;
 
-      // enable browser logging
-      intitalizeBrowserLogging();
+    // enable browser logging
+    intitalizeBrowserLogging();
 
-      // enable RUM if feature flag value is `true`
-      if (isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring(userProps);
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [
-      isBrowserMonitoringEnabled,
-      isLoadingFeatureFlags,
-      isLoadingUserProfile,
-      userProps,
-    ],
-  );
+    // enable RUM if feature flag value is `true`
+    if (isBrowserMonitoringEnabled) {
+      initializeRealUserMonitoring(userProps);
+    } else {
+      delete window.DD_RUM;
+    }
+  }, [
+    isBrowserMonitoringEnabled,
+    isLoadingFeatureFlags,
+    isLoadingUserProfile,
+    userProps,
+  ]);
 };
 
 export { useBrowserMonitoring };

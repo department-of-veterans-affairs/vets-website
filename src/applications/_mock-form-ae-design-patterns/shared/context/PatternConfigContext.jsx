@@ -17,12 +17,9 @@ export const PatternConfigProviderBase = ({ children, router }) => {
   const formConfig = router?.routes?.[1]?.formConfig || fallbackForm;
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
-    },
-    [dispatch, formConfig],
-  );
+  useEffect(() => {
+    dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
+  }, [dispatch, formConfig]);
 
   // we need to get the header element to append the tabs to it
   const header = document.getElementById('header-default');

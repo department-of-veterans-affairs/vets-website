@@ -38,38 +38,42 @@ const ReviewPage = props => {
       <div name="topNavScrollElement" />
       <h1>Review Board Appeal</h1>
       <va-on-this-page uswds />
-      {chapterTitles.filter(title => title !== 'Apply').map((title, index) => {
-        const pages = getChapterPagesFromChapterIndex(index);
-        const editLink =
-          pages.find(page => !page.taskListHide)?.path || '/task-list';
-        return (
-          <div key={index}>
-            <div className={chapterClasses}>
-              <h2 id={index} className="vads-u-margin--0">
-                {title}
-              </h2>
-              <Link to={editLink}>Edit</Link>
+      {chapterTitles
+        .filter(title => title !== 'Apply')
+        .map((title, index) => {
+          const pages = getChapterPagesFromChapterIndex(index);
+          const editLink =
+            pages.find(page => !page.taskListHide)?.path || '/task-list';
+          return (
+            <div key={index}>
+              <div className={chapterClasses}>
+                <h2 id={index} className="vads-u-margin--0">
+                  {title}
+                </h2>
+                <Link to={editLink}>Edit</Link>
+              </div>
+              <ul className="review-pages vads-u-padding--0">
+                {getChapterPagesFromChapterIndex(index).map(page => {
+                  const depends = page.depends
+                    ? page.depends(props.data)
+                    : true;
+                  return page.review && depends
+                    ? Object.entries(page.review(props.data)).map(
+                        ([label, value]) => (
+                          <li key={label}>
+                            <div className="page-title vads-u-margin-top--1 vads-u-color--gray">
+                              {label}
+                            </div>
+                            <div className="page-value">{value}</div>
+                          </li>
+                        ),
+                      )
+                    : null;
+                })}
+              </ul>
             </div>
-            <ul className="review-pages vads-u-padding--0">
-              {getChapterPagesFromChapterIndex(index).map(page => {
-                const depends = page.depends ? page.depends(props.data) : true;
-                return page.review && depends
-                  ? Object.entries(page.review(props.data)).map(
-                      ([label, value]) => (
-                        <li key={label}>
-                          <div className="page-title vads-u-margin-top--1 vads-u-color--gray">
-                            {label}
-                          </div>
-                          <div className="page-value">{value}</div>
-                        </li>
-                      ),
-                    )
-                  : null;
-              })}
-            </ul>
-          </div>
-        );
-      })}
+          );
+        })}
       <p className="vads-u-margin-top--6">
         <strong>Note:</strong> According to federal law, there are criminal
         penalties, including a fine and/or imprisonment for up to 5 years, for

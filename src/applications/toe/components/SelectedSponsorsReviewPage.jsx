@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { getAppData } from '../selectors';
 
 const SelectedSponsorsReviewPage = ({ data, editPage, title }) => {
-  const selectedSponsors = data?.sponsors?.sponsors?.flatMap(
-    (sponsor, index) =>
-      sponsor.selected ? [`Sponsor ${index + 1}: ${sponsor.name}`] : [],
+  const selectedSponsors = data?.sponsors?.sponsors?.flatMap((sponsor, index) =>
+    sponsor.selected ? [`Sponsor ${index + 1}: ${sponsor.name}`] : [],
   );
 
   return (

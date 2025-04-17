@@ -41,9 +41,7 @@ module.exports = function(results) {
           .split('/')
           .splice(6)
           .join('/'); // removes GHA environment in the filepath to only have path from root
-        return `::${
-          msg.type
-        } file=${filePath},line=${msg.line},col=${msg.column}::${filePath}:${msg.line}:${msg.column}:${msg.message}`;
+        return `::${msg.type} file=${filePath},line=${msg.line},col=${msg.column}::${filePath}:${msg.line}:${msg.column}:${msg.message}`;
       })
       .join('\n');
   } else {

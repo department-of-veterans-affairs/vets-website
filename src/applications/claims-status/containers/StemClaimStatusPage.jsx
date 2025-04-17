@@ -96,10 +96,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(StemClaimStatusPage),
+  connect(mapStateToProps, mapDispatchToProps)(StemClaimStatusPage),
 );
 
 StemClaimStatusPage.propTypes = {

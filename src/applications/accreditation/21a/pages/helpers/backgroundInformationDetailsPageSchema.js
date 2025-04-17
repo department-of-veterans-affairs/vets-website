@@ -22,9 +22,7 @@ const backgroundInformationDetails = ({
   const explanationKey = `${key}Explanation`;
   const documentsKey = `${key}Documents`;
   const certificationKey = `${key}Certification`;
-  const url = `${
-    environment.API_URL
-  }/accredited_representative_portal/v0/form21a/${path}`;
+  const url = `${environment.API_URL}/accredited_representative_portal/v0/form21a/${path}`;
 
   return {
     title,

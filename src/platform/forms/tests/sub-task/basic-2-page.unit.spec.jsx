@@ -77,11 +77,11 @@ describe('Basic 2 page Sub-task', () => {
     expect($('form[data-page="start"]', container)).to.exist;
     const vaRadio = $('va-radio', container);
     expect(vaRadio).to.exist;
-    expect(vaRadio.error).to.be.null;
+    expect(vaRadio.getAttribute('error')).to.be.null;
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
-    expect(vaRadio.error).to.contain('choose');
+    expect(vaRadio.getAttribute('error')).to.contain('choose');
   });
   it('should go to the "chose-yes" page when complete', () => {
     const router = { push: sinon.spy() };

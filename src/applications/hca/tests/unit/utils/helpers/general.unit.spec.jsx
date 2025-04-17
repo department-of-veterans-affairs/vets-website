@@ -10,7 +10,10 @@ import {
 
 describe('hca `createLiteralMap` method', () => {
   it('should create an object with correct properties based on array data', () => {
-    const data = [['value1', ['key1', 'key2']], ['value2', ['key3', 'key4']]];
+    const data = [
+      ['value1', ['key1', 'key2']],
+      ['value2', ['key3', 'key4']],
+    ];
     const result = createLiteralMap(data);
     expect(result).to.have.property('key1', 'value1');
     expect(result).to.have.property('key2', 'value1');
@@ -25,14 +28,20 @@ describe('hca `createLiteralMap` method', () => {
   });
 
   it('should correctly handle data with no duplicates', () => {
-    const data = [['value1', ['key1']], ['value2', ['key2']]];
+    const data = [
+      ['value1', ['key1']],
+      ['value2', ['key2']],
+    ];
     const result = createLiteralMap(data);
     expect(result).to.have.property('key1', 'value1');
     expect(result).to.have.property('key2', 'value2');
   });
 
   it('should gracefully handle array data with empty key lists', () => {
-    const data = [['value1', []], ['value2', ['key2', 'key3']]];
+    const data = [
+      ['value1', []],
+      ['value2', ['key2', 'key3']],
+    ];
     const result = createLiteralMap(data);
     expect(result).to.not.have.property('undefined');
     expect(result).to.have.property('key2', 'value2');

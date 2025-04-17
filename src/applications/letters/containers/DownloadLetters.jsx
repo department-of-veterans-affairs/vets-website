@@ -10,9 +10,7 @@ export function DownloadLetters() {
   const currentPageIndex = findIndex(chapters, ['path', location.pathname]);
   const currentStep = currentPageIndex + 1;
   const total = chapters.length;
-  const headerText = `Step ${currentStep} of ${total}: ${
-    chapters[currentPageIndex].name
-  }`;
+  const headerText = `Step ${currentStep} of ${total}: ${chapters[currentPageIndex].name}`;
 
   return (
     <div className="usa-width-three-fourths letters">

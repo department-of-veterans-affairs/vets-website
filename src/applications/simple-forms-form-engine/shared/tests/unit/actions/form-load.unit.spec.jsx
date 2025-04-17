@@ -37,9 +37,7 @@ describe('form-load actions', () => {
         .expects('fetch')
         .once()
         .withArgs(
-          `${
-            environment.BASE_URL
-          }/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
+          `${environment.BASE_URL}/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
         );
 
       await fetchDrupalDigitalForms();

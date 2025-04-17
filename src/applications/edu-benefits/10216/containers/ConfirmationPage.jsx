@@ -26,13 +26,10 @@ export const ConfirmationPage = ({ router, route }) => {
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
-  useEffect(
-    () => {
-      setClaimIdInLocalStage(submission);
-      setClaimID(getClaimIdFromLocalStage());
-    },
-    [submission],
-  );
+  useEffect(() => {
+    setClaimIdInLocalStage(submission);
+    setClaimID(getClaimIdFromLocalStage());
+  }, [submission]);
 
   const goBack = e => {
     e.preventDefault();

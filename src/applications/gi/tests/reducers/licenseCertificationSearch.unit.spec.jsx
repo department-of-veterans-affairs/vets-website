@@ -94,13 +94,11 @@ describe('License Certification Reducer', () => {
     // 1) Stub filterSuggestions so we fully control the "newSuggestions" + "previousMatches"
     const filterSuggestionsStub = sinon.stub(helpers, 'filterSuggestions');
 
-    filterSuggestionsStub
-      .onFirstCall()
-      .returns([
-        { enrichedId: '111', lacNm: 'Alpha' },
-        { enrichedId: '222', lacNm: 'Beta' },
-        { enrichedId: '333', lacNm: 'Charlie' },
-      ]);
+    filterSuggestionsStub.onFirstCall().returns([
+      { enrichedId: '111', lacNm: 'Alpha' },
+      { enrichedId: '222', lacNm: 'Beta' },
+      { enrichedId: '333', lacNm: 'Charlie' },
+    ]);
 
     // The second call returns the "previousMatches"
     filterSuggestionsStub

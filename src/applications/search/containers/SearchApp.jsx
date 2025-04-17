@@ -168,14 +168,11 @@ const SearchApp = ({
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (searchesPerformed) {
-        focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
-      }
-    },
-    [searchIsLoading, searchesPerformed],
-  );
+  useEffect(() => {
+    if (searchesPerformed) {
+      focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
+    }
+  }, [searchIsLoading, searchesPerformed]);
 
   const fetchSuggestions = useCallback(
     async searchValue => {
@@ -188,19 +185,16 @@ const SearchApp = ({
     [setSuggestions],
   );
 
-  useEffect(
-    () => {
-      // We landed on the page with a search term in the URL; fetch suggestions
-      if (userInput) {
-        const initialSuggestions = fetchSuggestions(userInput);
+  useEffect(() => {
+    // We landed on the page with a search term in the URL; fetch suggestions
+    if (userInput) {
+      const initialSuggestions = fetchSuggestions(userInput);
 
-        if (initialSuggestions?.length) {
-          setSuggestions(initialSuggestions);
-        }
+      if (initialSuggestions?.length) {
+        setSuggestions(initialSuggestions);
       }
-    },
-    [fetchSuggestions, setSuggestions],
-  );
+    }
+  }, [fetchSuggestions, setSuggestions]);
 
   const updateURL = options => {
     router.push({
@@ -352,16 +346,15 @@ const SearchApp = ({
           className="vads-u-margin-y--3"
         />
         <div className="vads-u-display--flex vads-u-flex-wrap--wrap results-footer">
-          {results &&
-            results.length > 0 && (
-              <VaPagination
-                class="vads-u-border-top--0"
-                onPageSelect={e => handleSearch(e.detail.page)}
-                page={currentPage}
-                pages={totalPages}
-                maxPageListLength={7}
-              />
-            )}
+          {results && results.length > 0 && (
+            <VaPagination
+              class="vads-u-border-top--0"
+              onPageSelect={e => handleSearch(e.detail.page)}
+              page={currentPage}
+              pages={totalPages}
+              maxPageListLength={7}
+            />
+          )}
           <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
@@ -475,10 +468,7 @@ SearchApp.propTypes = {
 };
 
 const SearchAppContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SearchApp),
+  connect(mapStateToProps, mapDispatchToProps)(SearchApp),
 );
 
 export default SearchAppContainer;

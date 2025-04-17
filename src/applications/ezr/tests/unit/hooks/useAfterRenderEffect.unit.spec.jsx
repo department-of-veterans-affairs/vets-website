@@ -5,9 +5,8 @@ import sinon from 'sinon';
 
 import useAfterRenderEffect from '../../../hooks/useAfterRenderEffect';
 
-const TestComponent = ({ hook }) => {
-  const hookToFire = hook ? hook() : undefined;
-  return <div hook={hookToFire} />;
+const TestComponent = () => {
+  return <div />;
 };
 
 describe('ezr `useAfterRenderEffect` hook', () => {

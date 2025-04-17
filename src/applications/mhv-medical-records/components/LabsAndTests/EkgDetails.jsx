@@ -41,15 +41,12 @@ const EkgDetails = props => {
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
-    },
-    [record.date, record.name],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(
+      `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
+    );
+  }, [record.date, record.name]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -122,7 +119,7 @@ const EkgDetails = props => {
             actionName="[lab and tests - ekg facility]"
           />
           <LabelValue label="Results">
-            <p testId="ekg-results">
+            <p data-testid="ekg-results">
               Your EKG results aren’t available in this tool. To get your EKG
               results, you can request a copy of your complete medical record
               from your VA health facility.

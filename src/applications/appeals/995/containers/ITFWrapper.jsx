@@ -34,49 +34,46 @@ const ITFWrapper = ({
   const itf = useSelector(state => state.itf || {});
 
   // When we first enter the form...
-  useEffect(
-    () => {
-      const hasActiveITF = isActiveITF(itf.currentITF);
-      const createITFCalled =
-        hasActiveITF && itf.creationCallState !== requestStates.notCalled;
-      // ...fetch the ITF
-      if (
-        allowITF &&
-        !isFetching &&
-        !isOutsideForm(pathname) &&
-        itf.fetchCallState === requestStates.notCalled
-      ) {
-        setIsFetching(true);
-        fetchITF({ accountUuid, inProgressFormId })(mockDispatch || dispatch);
-      } else if (
-        allowITF &&
-        !isCreating &&
-        !hasActiveITF &&
-        !createITFCalled &&
-        // If we've already fetched the ITFs, have none active, and haven't already
-        // called createITF, submit a new ITF
-        (itf.fetchCallState === requestStates.succeeded ||
-          itf.fetchCallState === requestStates.failed)
-      ) {
-        setIsCreating(true);
-        createITF({ accountUuid, benefitType, inProgressFormId })(
-          mockDispatch || dispatch,
-        );
-      }
-    },
-    [
-      accountUuid,
-      allowITF,
-      benefitType,
-      dispatch,
-      inProgressFormId,
-      isCreating,
-      isFetching,
-      itf,
-      pathname,
-      mockDispatch,
-    ],
-  );
+  useEffect(() => {
+    const hasActiveITF = isActiveITF(itf.currentITF);
+    const createITFCalled =
+      hasActiveITF && itf.creationCallState !== requestStates.notCalled;
+    // ...fetch the ITF
+    if (
+      allowITF &&
+      !isFetching &&
+      !isOutsideForm(pathname) &&
+      itf.fetchCallState === requestStates.notCalled
+    ) {
+      setIsFetching(true);
+      fetchITF({ accountUuid, inProgressFormId })(mockDispatch || dispatch);
+    } else if (
+      allowITF &&
+      !isCreating &&
+      !hasActiveITF &&
+      !createITFCalled &&
+      // If we've already fetched the ITFs, have none active, and haven't already
+      // called createITF, submit a new ITF
+      (itf.fetchCallState === requestStates.succeeded ||
+        itf.fetchCallState === requestStates.failed)
+    ) {
+      setIsCreating(true);
+      createITF({ accountUuid, benefitType, inProgressFormId })(
+        mockDispatch || dispatch,
+      );
+    }
+  }, [
+    accountUuid,
+    allowITF,
+    benefitType,
+    dispatch,
+    inProgressFormId,
+    isCreating,
+    isFetching,
+    itf,
+    pathname,
+    mockDispatch,
+  ]);
 
   if (!allowITF || isOutsideForm(pathname)) {
     return children;

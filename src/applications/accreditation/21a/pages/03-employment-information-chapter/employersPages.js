@@ -89,11 +89,8 @@ const informationPage = {
 };
 
 const hasPreviouslySelectedPrimary = (formData, currentItemIndex) => {
-  return formData?.employers?.some(
-    (employer, index) =>
-      currentItemIndex === index
-        ? false
-        : employer?.primaryWorkAddress?.selected,
+  return formData?.employers?.some((employer, index) =>
+    currentItemIndex === index ? false : employer?.primaryWorkAddress?.selected,
   );
 };
 

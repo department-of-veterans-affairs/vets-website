@@ -50,7 +50,10 @@ describe('Connected Apps actions', () => {
       const mockResponse = { data: 'data' };
       const getState = () => ({
         connectedApps: {
-          apps: [{ app: '1', deleted: false }, { app: '2', deleted: false }],
+          apps: [
+            { app: '1', deleted: false },
+            { app: '2', deleted: false },
+          ],
         },
       });
       const dispatch = sinon.stub();

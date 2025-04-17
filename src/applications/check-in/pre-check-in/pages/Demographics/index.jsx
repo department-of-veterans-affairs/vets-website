@@ -23,20 +23,14 @@ const Demographics = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics, appointments } = useSelector(selectVeteranData);
 
-  const yesClick = useCallback(
-    async () => {
-      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-      goToNextPage();
-    },
-    [dispatch, goToNextPage],
-  );
-  const noClick = useCallback(
-    async () => {
-      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-      goToNextPage();
-    },
-    [dispatch, goToNextPage],
-  );
+  const yesClick = useCallback(async () => {
+    dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+    goToNextPage();
+  }, [dispatch, goToNextPage]);
+  const noClick = useCallback(async () => {
+    dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+    goToNextPage();
+  }, [dispatch, goToNextPage]);
   // check if appointment is in-person or phone
   const apptType =
     appointments && appointments.length ? appointments[0]?.kind : null;

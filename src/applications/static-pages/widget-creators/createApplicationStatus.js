@@ -7,8 +7,10 @@ export default function createApplicationStatus(store, form) {
     `[data-widget-type="${form.widgetType}"]`,
   );
   if (root) {
-    import(/* webpackChunkName: "application-status" */
-    'platform/forms/save-in-progress/ApplicationStatus').then(module => {
+    import(
+      /* webpackChunkName: "application-status" */
+      'platform/forms/save-in-progress/ApplicationStatus'
+    ).then(module => {
       const ApplicationStatus = module.default;
       ReactDOM.render(
         <Provider store={store}>

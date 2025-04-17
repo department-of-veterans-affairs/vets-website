@@ -59,66 +59,59 @@ const AlertBackgroundBox = props => {
   const replyViewPage = /reply\/\d+/.test(location.pathname);
   const contactListPage = /contact-list/.test(location.pathname);
 
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        if (foldersViewPage && !folder?.name) return;
-        if (
-          (threadViewPage || replyViewPage) &&
-          (threadMessages === undefined || threadMessages?.length < 1)
-        )
-          return;
+  useEffect(() => {
+    if (alertList?.length) {
+      if (foldersViewPage && !folder?.name) return;
+      if (
+        (threadViewPage || replyViewPage) &&
+        (threadMessages === undefined || threadMessages?.length < 1)
+      )
+        return;
 
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert?.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
+      const filteredSortedAlerts = alertList
+        .filter(alert => alert?.isActive)
+        .sort((a, b) => {
+          // Sort chronologically descending.
+          return b.datestamp - a.datestamp;
+        });
 
-        let categoryText = '';
+      let categoryText = '';
 
-        if (threadViewPage || replyViewPage) {
-          categoryText =
-            threadMessages[0]?.category === 'OTHER'
-              ? Categories.OTHER
-              : threadMessages[0]?.category;
-        }
-
-        if (lastPathName === 'Folders') {
-          setAlertAriaLabel('You are in the my folders page.');
-        } else if (foldersViewPage) {
-          setAlertAriaLabel(`You are in ${folder?.name}.`);
-        } else if (threadViewPage) {
-          setAlertAriaLabel(
-            `You are in ${categoryText}: ${
-              threadMessages[0]?.subject
-            } message thread.`,
-          );
-        } else if (replyViewPage) {
-          setAlertAriaLabel(
-            `You are in ${categoryText}: ${
-              threadMessages[0]?.subject
-            } message reply.`,
-          );
-        } else {
-          setAlertAriaLabel(`You are in ${lastPathName}.`);
-        }
-
-        // The activeAlert is the most recent alert marked as active.
-        setActiveAlert(filteredSortedAlerts[0] || null);
+      if (threadViewPage || replyViewPage) {
+        categoryText =
+          threadMessages[0]?.category === 'OTHER'
+            ? Categories.OTHER
+            : threadMessages[0]?.category;
       }
-    },
-    [
-      alertList,
-      folder,
-      foldersViewPage,
-      lastPathName,
-      replyViewPage,
-      threadMessages,
-      threadViewPage,
-    ],
-  );
+
+      if (lastPathName === 'Folders') {
+        setAlertAriaLabel('You are in the my folders page.');
+      } else if (foldersViewPage) {
+        setAlertAriaLabel(`You are in ${folder?.name}.`);
+      } else if (threadViewPage) {
+        setAlertAriaLabel(
+          `You are in ${categoryText}: ${threadMessages[0]?.subject} message thread.`,
+        );
+      } else if (replyViewPage) {
+        setAlertAriaLabel(
+          `You are in ${categoryText}: ${threadMessages[0]?.subject} message reply.`,
+        );
+      } else {
+        setAlertAriaLabel(`You are in ${lastPathName}.`);
+      }
+
+      // The activeAlert is the most recent alert marked as active.
+      setActiveAlert(filteredSortedAlerts[0] || null);
+    }
+  }, [
+    alertList,
+    folder,
+    foldersViewPage,
+    lastPathName,
+    replyViewPage,
+    threadMessages,
+    threadViewPage,
+  ]);
 
   const handleShowIcon = () => {
     if (props.noIcon) {
@@ -132,34 +125,31 @@ const AlertBackgroundBox = props => {
   };
 
   // sets custom server error messages for the landing page and folder view pages
-  useEffect(
-    () => {
-      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
-      const isErrorAlert = activeAlert?.alertType === 'error';
-      let content = activeAlert?.content;
+  useEffect(() => {
+    const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
+    const isErrorAlert = activeAlert?.alertType === 'error';
+    let content = activeAlert?.content;
 
-      if (
-        lastPathName !== 'Messages' &&
-        !foldersViewPage &&
-        !threadViewPage &&
-        !contactListPage &&
-        (isServiceOutage || isErrorAlert)
-      ) {
-        content = SERVER_ERROR_503;
-      }
-      setAlertContent(content);
-    },
-    [
-      SERVER_ERROR_503,
-      SERVICE_OUTAGE,
-      activeAlert,
-      contactListPage,
-      foldersViewPage,
-      lastPathName,
-      location.pathname,
-      threadViewPage,
-    ],
-  );
+    if (
+      lastPathName !== 'Messages' &&
+      !foldersViewPage &&
+      !threadViewPage &&
+      !contactListPage &&
+      (isServiceOutage || isErrorAlert)
+    ) {
+      content = SERVER_ERROR_503;
+    }
+    setAlertContent(content);
+  }, [
+    SERVER_ERROR_503,
+    SERVICE_OUTAGE,
+    activeAlert,
+    contactListPage,
+    foldersViewPage,
+    lastPathName,
+    location.pathname,
+    threadViewPage,
+  ]);
 
   useInterval(() => {
     const shouldRetrieveFolders =
@@ -172,53 +162,49 @@ const AlertBackgroundBox = props => {
     }
   }, 60000); // 1 minute
 
-  const handleAlertFocus = useCallback(
-    () => {
-      setTimeout(() => {
-        focusElement(
-          props.focus
-            ? alertRef.current.shadowRoot.querySelector('button')
-            : alertRef.current,
-        );
-      }, 500);
-    },
-    [props.focus],
-  );
+  const handleAlertFocus = useCallback(() => {
+    setTimeout(() => {
+      focusElement(
+        props.focus
+          ? alertRef.current.shadowRoot.querySelector('button')
+          : alertRef.current,
+      );
+    }, 500);
+  }, [props.focus]);
 
   return (
     <>
-      {activeAlert &&
-        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
-          <VaAlert
-            uswds
-            ref={alertRef}
-            background-only
-            closeable={props.closeable}
-            className="vads-u-margin-bottom--1 va-alert"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            show-icon={handleShowIcon()}
-            status={activeAlert.alertType}
-            onCloseEvent={
-              closeAlertBox // success, error, warning, info, continue
-            }
-            onVa-component-did-load={handleAlertFocus}
-          >
-            <div>
-              <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent}
-                <SrOnlyTag
-                  className="sr-only"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {alertAriaLabel}
-                </SrOnlyTag>
-              </p>
-            </div>
-          </VaAlert>
-        )}
+      {activeAlert && activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
+        <VaAlert
+          uswds
+          ref={alertRef}
+          background-only
+          closeable={props.closeable}
+          className="vads-u-margin-bottom--1 va-alert"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          show-icon={handleShowIcon()}
+          status={activeAlert.alertType}
+          onCloseEvent={
+            closeAlertBox // success, error, warning, info, continue
+          }
+          onVa-component-did-load={handleAlertFocus}
+        >
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="alert-text">
+              {alertContent}
+              <SrOnlyTag
+                className="sr-only"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {alertAriaLabel}
+              </SrOnlyTag>
+            </p>
+          </div>
+        </VaAlert>
+      )}
     </>
   );
 };

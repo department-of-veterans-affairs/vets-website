@@ -37,7 +37,7 @@ const SearchResults = ({ poaRequests }) => {
     <ul
       data-testid="poa-requests-card"
       className="poa-request__list"
-      sort-column={1}
+      data-sort-column={1}
     >
       {poaRequests.map((request, index) => {
         return <POARequestCard poaRequest={request} key={index} />;
@@ -65,12 +65,9 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 };
 
 const POARequestSearchPage = title => {
-  useEffect(
-    () => {
-      document.title = title.title;
-    },
-    [title],
-  );
+  useEffect(() => {
+    document.title = title.title;
+  }, [title]);
   const poaRequests = useLoaderData().data;
   const meta = useLoaderData().meta.page;
   const pageSize = 20;

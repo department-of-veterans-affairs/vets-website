@@ -7,8 +7,10 @@ export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    import(/* webpackChunkName: "medical-copays-cta" */
-    './components/App').then(module => {
+    import(
+      /* webpackChunkName: "medical-copays-cta" */
+      './components/App'
+    ).then(module => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>

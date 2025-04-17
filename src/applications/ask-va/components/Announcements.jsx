@@ -54,12 +54,9 @@ const Announcements = () => {
     [now],
   );
 
-  useEffect(
-    () => {
-      getApiData(`${envUrl}${URL.ANNOUNCEMENTS}`);
-    },
-    [getApiData],
-  );
+  useEffect(() => {
+    getApiData(`${envUrl}${URL.ANNOUNCEMENTS}`);
+  }, [getApiData]);
 
   if (!announcements.length) {
     return null;

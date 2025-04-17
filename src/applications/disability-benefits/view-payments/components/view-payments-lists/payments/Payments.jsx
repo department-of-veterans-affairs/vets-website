@@ -61,14 +61,11 @@ const Payments = ({
 
   const tablePaginationRef = useResizeObserver(onPaginationResize);
 
-  useEffect(
-    () => {
-      const paginatedData = paginateData(data);
-      setCurrentData(paginatedData[currentPage - 1]);
-      totalPages.current = paginatedData.length;
-    },
-    [currentPage, data],
-  );
+  useEffect(() => {
+    const paginatedData = paginateData(data);
+    setCurrentData(paginatedData[currentPage - 1]);
+    totalPages.current = paginatedData.length;
+  }, [currentPage, data]);
 
   if (currentData) {
     return (

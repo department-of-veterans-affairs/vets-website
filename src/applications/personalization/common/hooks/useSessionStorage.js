@@ -16,15 +16,12 @@ export const useSessionStorage = (
   });
 
   // update sessionStorage when sessionStorageValue changes
-  useEffect(
-    () => {
-      const currentValue = sessionStorage.getItem(storageKey);
-      if (sessionStorageValue !== currentValue) {
-        sessionStorage.setItem(storageKey, sessionStorageValue);
-      }
-    },
-    [storageKey, sessionStorageValue, sessionStorage],
-  );
+  useEffect(() => {
+    const currentValue = sessionStorage.getItem(storageKey);
+    if (sessionStorageValue !== currentValue) {
+      sessionStorage.setItem(storageKey, sessionStorageValue);
+    }
+  }, [storageKey, sessionStorageValue, sessionStorage]);
 
   return [sessionStorageValue, setSessionStorageValue];
 };

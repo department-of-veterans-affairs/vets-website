@@ -33,30 +33,27 @@ export default function PensionEntry({ location, children }) {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  useEffect(
-    () => {
-      if (!isLoadingFeatures) {
-        window.sessionStorage.setItem(
-          'showMultiplePageResponse',
-          pensionMultiplePageResponse,
-        );
-        window.sessionStorage.setItem(
-          'showIncomeAndAssetsClarification',
-          pensionIncomeAndAssetsClarification,
-        );
-        window.sessionStorage.setItem(
-          'showPensionEvidenceClarification',
-          !!pensionMedicalEvidenceClarification,
-        );
-      }
-    },
-    [
-      isLoadingFeatures,
-      pensionMultiplePageResponse,
-      pensionIncomeAndAssetsClarification,
-      pensionMedicalEvidenceClarification,
-    ],
-  );
+  useEffect(() => {
+    if (!isLoadingFeatures) {
+      window.sessionStorage.setItem(
+        'showMultiplePageResponse',
+        pensionMultiplePageResponse,
+      );
+      window.sessionStorage.setItem(
+        'showIncomeAndAssetsClarification',
+        pensionIncomeAndAssetsClarification,
+      );
+      window.sessionStorage.setItem(
+        'showPensionEvidenceClarification',
+        !!pensionMedicalEvidenceClarification,
+      );
+    }
+  }, [
+    isLoadingFeatures,
+    pensionMultiplePageResponse,
+    pensionIncomeAndAssetsClarification,
+    pensionMedicalEvidenceClarification,
+  ]);
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
     return <va-loading-indicator message="Loading application..." />;

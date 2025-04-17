@@ -271,7 +271,4 @@ const mapDispatchToProps = {
   getRemainingEntitlement,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);

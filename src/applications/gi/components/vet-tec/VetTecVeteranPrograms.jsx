@@ -47,21 +47,15 @@ export class VetTecVeteranPrograms extends React.Component {
     );
 
     const link =
-      (program.available &&
-        program.link &&
-        program.link.href && (
-          <span>
-            &nbsp;(
-            <a
-              href={program.link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {program.link.text}
-            </a>
-            )
-          </span>
-        )) ||
+      (program.available && program.link && program.link.href && (
+        <span>
+          &nbsp;(
+          <a href={program.link.href} target="_blank" rel="noopener noreferrer">
+            {program.link.text}
+          </a>
+          )
+        </span>
+      )) ||
       '';
     return (
       <div key={index}>

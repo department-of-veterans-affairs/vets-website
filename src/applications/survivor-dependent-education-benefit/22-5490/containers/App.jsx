@@ -26,86 +26,77 @@ function App({
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
 
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
-      }
+  useEffect(() => {
+    if (!user?.login?.currentlyLoggedIn) {
+      return;
+    }
+    if (!fetchedUserInfo) {
+      setFetchedUserInfo(true);
+      getPersonalInformation();
+    }
 
-      // if (
-      //   !sponsors?.loadedFromSavedState &&
-      //   isArray(sponsorsSavedState?.sponsors)
-      // ) {
-      //   setFormData(mapFormSponsors(formData, sponsorsSavedState));
-      // } else if (sponsorsInitial && !sponsors) {
-      //   setFormData(mapFormSponsors(formData, sponsorsInitial));
-      // }
-    },
-    [
-      fetchedUserInfo,
-      formData,
-      getPersonalInformation,
-      user?.login?.currentlyLoggedIn,
-      setFormData,
-    ],
-  );
+    // if (
+    //   !sponsors?.loadedFromSavedState &&
+    //   isArray(sponsorsSavedState?.sponsors)
+    // ) {
+    //   setFormData(mapFormSponsors(formData, sponsorsSavedState));
+    // } else if (sponsorsInitial && !sponsors) {
+    //   setFormData(mapFormSponsors(formData, sponsorsInitial));
+    // }
+  }, [
+    fetchedUserInfo,
+    formData,
+    getPersonalInformation,
+    user?.login?.currentlyLoggedIn,
+    setFormData,
+  ]);
 
-  useEffect(
-    () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [mebDpoAddressOptionEnabled, formData, setFormData],
-  );
+  useEffect(() => {
+    if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+      setFormData({
+        ...formData,
+        mebDpoAddressOptionEnabled,
+      });
+    }
+  }, [mebDpoAddressOptionEnabled, formData, setFormData]);
 
-  useEffect(
-    () => {
-      if (
-        duplicateEmail?.length > 0 &&
-        duplicateEmail !== formData?.duplicateEmail
-      ) {
-        setFormData({
-          ...formData,
-          duplicateEmail,
-        });
-      }
+  useEffect(() => {
+    if (
+      duplicateEmail?.length > 0 &&
+      duplicateEmail !== formData?.duplicateEmail
+    ) {
+      setFormData({
+        ...formData,
+        duplicateEmail,
+      });
+    }
 
-      if (
-        duplicatePhone?.length > 0 &&
-        duplicatePhone !== formData?.duplicatePhone
-      ) {
-        setFormData({
-          ...formData,
-          duplicatePhone,
-        });
-      }
+    if (
+      duplicatePhone?.length > 0 &&
+      duplicatePhone !== formData?.duplicatePhone
+    ) {
+      setFormData({
+        ...formData,
+        duplicatePhone,
+      });
+    }
 
-      if (
-        (formData?.mobilePhone?.phone || formData?.email) &&
-        !formData?.duplicateEmail &&
-        !formData?.duplicatePhone
-      ) {
-        getDuplicateContactInfo(
-          [{ value: formData?.email?.email, dupe: '' }],
-          [
-            {
-              value: formData?.mobilePhone?.phone,
-              dupe: '',
-            },
-          ],
-        );
-      }
-    },
-    [getDuplicateContactInfo, formData],
-  );
+    if (
+      (formData?.mobilePhone?.phone || formData?.email) &&
+      !formData?.duplicateEmail &&
+      !formData?.duplicatePhone
+    ) {
+      getDuplicateContactInfo(
+        [{ value: formData?.email?.email, dupe: '' }],
+        [
+          {
+            value: formData?.mobilePhone?.phone,
+            dupe: '',
+          },
+        ],
+      );
+    }
+  }, [getDuplicateContactInfo, formData]);
 
   return (
     <>
@@ -168,7 +159,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

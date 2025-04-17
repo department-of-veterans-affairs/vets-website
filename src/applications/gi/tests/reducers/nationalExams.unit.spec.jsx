@@ -48,7 +48,10 @@ describe('nationalExamsReducer', () => {
   });
 
   it('should handle FETCH_NATIONAL_EXAMS_SUCCEEDED', () => {
-    const mockData = [{ id: 1, name: 'Exam 1' }, { id: 2, name: 'Exam 2' }];
+    const mockData = [
+      { id: 1, name: 'Exam 1' },
+      { id: 2, name: 'Exam 2' },
+    ];
     const action = {
       type: FETCH_NATIONAL_EXAMS_SUCCEEDED,
       payload: mockData,

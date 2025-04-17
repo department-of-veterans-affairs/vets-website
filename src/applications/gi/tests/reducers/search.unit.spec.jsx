@@ -66,7 +66,10 @@ describe('SearchReducer', () => {
       const nameTwo = 'nameTwo';
       const facets = {
         state: {},
-        provider: [{ name: nameOne, count: 10 }, { name: nameTwo, count: 15 }],
+        provider: [
+          { name: nameOne, count: 10 },
+          { name: nameTwo, count: 15 },
+        ],
       };
 
       const expected = {

@@ -109,17 +109,13 @@ const GiBillBreadcrumbs = () => {
   }
   if (programsTypeMatch) {
     crumbs.push({
-      href: `/institution/${programsTypeMatch.params.facilityCode}/${
-        programsTypeMatch.params.programType
-      }`,
+      href: `/institution/${programsTypeMatch.params.facilityCode}/${programsTypeMatch.params.programType}`,
       label: `${formatedProgramType} programs`,
     });
   }
   if (seProgramsTypeMatch) {
     crumbs.push({
-      href: `/schools-and-employers/institution/${
-        seProgramsTypeMatch.params.facilityCode
-      }/${seProgramsTypeMatch.params.programType}`,
+      href: `/schools-and-employers/institution/${seProgramsTypeMatch.params.facilityCode}/${seProgramsTypeMatch.params.programType}`,
       label: `${formatedProgramType} programs`,
     });
   }
@@ -145,9 +141,7 @@ const GiBillBreadcrumbs = () => {
   }
   if (lcResultInfoMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
-        lcResultInfoMatch.params.type
-      }/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
+      href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${lcResultInfoMatch.params.type}/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
       label: lcResultInfoMatch.params.name,
     });
   }

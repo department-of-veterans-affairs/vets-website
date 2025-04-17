@@ -96,14 +96,16 @@ export function ApplicantAddressCopyPage({
       });
 
     if (data?.applicants)
-      data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
-        allAddresses.push({
-          originatorName: fullName(app.applicantName),
-          originatorAddress: app?.[addressKey],
-          displayText: `${app?.[addressKey].street} ${app?.[addressKey]
-            ?.state ?? ''}`,
-        }),
-      );
+      data.applicants
+        .filter(app => isValidOrigin(app))
+        .forEach(app =>
+          allAddresses.push({
+            originatorName: fullName(app.applicantName),
+            originatorAddress: app?.[addressKey],
+            displayText: `${app?.[addressKey].street} ${app?.[addressKey]
+              ?.state ?? ''}`,
+          }),
+        );
     // Drop any entries with duplicate addresses
     return eliminateDuplicatesByKey(allAddresses, 'originatorAddress');
   }

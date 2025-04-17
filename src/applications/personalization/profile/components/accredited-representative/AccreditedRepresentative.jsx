@@ -12,14 +12,11 @@ const AccreditedRepresentative = ({ powerOfAttorney }) => {
   const hasRepresentative = !!powerOfAttorney?.id;
   const store = useStore();
 
-  useEffect(
-    () => {
-      if (hasRepresentative) {
-        repStatusLoader(store, 'representative-status', 3);
-      }
-    },
-    [hasRepresentative],
-  );
+  useEffect(() => {
+    if (hasRepresentative) {
+      repStatusLoader(store, 'representative-status', 3);
+    }
+  }, [hasRepresentative]);
 
   const renderHasRepresentative = () => {
     return (

@@ -64,13 +64,10 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     [dispatch, formContext.submitted, selectedDebtsAndCopays?.length],
   );
 
-  useEffect(
-    () => {
-      fetchDebts(dispatch);
-      getStatements(dispatch);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    fetchDebts(dispatch);
+    getStatements(dispatch);
+  }, [dispatch]);
 
   if (pending || pendingCopays) {
     return (

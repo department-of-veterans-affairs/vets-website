@@ -19,19 +19,18 @@ const Benefits = ({
           <va-loading-indicator label="Loading" message="Loading results..." />
         )}
 
-        {!results.isLoading &&
-          benefits.length > 0 && (
-            <ul className="benefit-list">
-              {benefits.map(benefit => (
-                <li key={benefit.id}>
-                  <BenefitCard
-                    benefit={benefit}
-                    className="vads-u-margin-bottom--2"
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
+        {!results.isLoading && benefits.length > 0 && (
+          <ul className="benefit-list">
+            {benefits.map(benefit => (
+              <li key={benefit.id}>
+                <BenefitCard
+                  benefit={benefit}
+                  className="vads-u-margin-bottom--2"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
 
         {!queryString.allBenefits &&
           !results.isLoading &&
@@ -39,36 +38,35 @@ const Benefits = ({
             <NoResultsBanner handleBackClick={handleBackClick} />
           )}
       </div>
-      {queryString.allBenefits &&
-        benefitsList.length > 0 && (
-          <ul className="benefit-list">
-            {benefitsList.map(
-              benefit =>
-                !benefitIds[benefit.id] && (
-                  <li key={benefit.id}>
-                    <BenefitCard
-                      benefit={benefit}
-                      className="vads-u-margin-bottom--2"
-                    />
-                  </li>
-                ),
-            )}
-          </ul>
-        )}
+      {queryString.allBenefits && benefitsList.length > 0 && (
+        <ul className="benefit-list">
+          {benefitsList.map(
+            benefit =>
+              !benefitIds[benefit.id] && (
+                <li key={benefit.id}>
+                  <BenefitCard
+                    benefit={benefit}
+                    className="vads-u-margin-bottom--2"
+                  />
+                </li>
+              ),
+          )}
+        </ul>
+      )}
     </>
   );
 };
 
 Benefits.propTypes = {
   handleBackClick: PropTypes.func.isRequired,
+  benefitIds: PropTypes.object || PropTypes.array,
   benefits: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
     }),
   ),
-  benefitsList: PropTypes.array,
 
-  benefitIds: PropTypes.object || PropTypes.array,
+  benefitsList: PropTypes.array,
   queryString: PropTypes.shape({
     allBenefits: PropTypes.string,
   }),

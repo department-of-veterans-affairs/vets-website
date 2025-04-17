@@ -149,9 +149,7 @@ describe('Alert Backround Box component', () => {
       renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.MESSAGE_THREAD}${
-          customState.sm.threadDetails.messages[0].messageId
-        }/`,
+        path: `${Paths.MESSAGE_THREAD}${customState.sm.threadDetails.messages[0].messageId}/`,
       });
 
     const screen = setup(customState);
@@ -203,9 +201,7 @@ describe('Alert Backround Box component', () => {
       renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.REPLY}${
-          customState.sm.threadDetails.messages[0].messageId
-        }/`,
+        path: `${Paths.REPLY}${customState.sm.threadDetails.messages[0].messageId}/`,
       });
 
     const screen = setup(customState);

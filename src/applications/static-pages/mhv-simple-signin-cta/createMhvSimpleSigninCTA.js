@@ -15,9 +15,9 @@ export default async function createMhvSimpleSigninCallToAction(
     document.querySelectorAll(`[data-widget-type="${widgetType}"]`),
   );
   if (widgets.length) {
-    const {
-      default: MhvSimpleSigninCallToAction,
-    } = await import(/* webpackChunkName: "mhv-simple-signin-cta" */ 'applications/static-pages/mhv-simple-signin-cta');
+    const { default: MhvSimpleSigninCallToAction } = await import(
+      /* webpackChunkName: "mhv-simple-signin-cta" */ 'applications/static-pages/mhv-simple-signin-cta'
+    );
 
     widgets.forEach(el => {
       const serviceDescription = el.getAttribute('data-service-description');

@@ -84,19 +84,13 @@ const TopicSelectPage = props => {
       });
   };
 
-  useEffect(
-    () => {
-      getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
-    },
-    [isLoggedIn, categoryID],
-  );
+  useEffect(() => {
+    getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
+  }, [isLoggedIn, categoryID]);
 
-  useEffect(
-    () => {
-      focusElement('h2');
-    },
-    [loading],
-  );
+  useEffect(() => {
+    focusElement('h2');
+  }, [loading]);
 
   // render loading indicator while we fetch
   if (loading) {

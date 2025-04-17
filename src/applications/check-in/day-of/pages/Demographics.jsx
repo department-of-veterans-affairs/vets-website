@@ -33,33 +33,27 @@ const Demographics = props => {
     [dispatch],
   );
 
-  const yesClick = useCallback(
-    () => {
-      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-      setShouldSendDemographicsFlags(window, true);
-      goToNextPage();
-    },
-    [goToNextPage, dispatch, setShouldSendDemographicsFlags],
-  );
+  const yesClick = useCallback(() => {
+    dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+    setShouldSendDemographicsFlags(window, true);
+    goToNextPage();
+  }, [goToNextPage, dispatch, setShouldSendDemographicsFlags]);
 
-  const noClick = useCallback(
-    () => {
-      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-      setShouldSendDemographicsFlags(window, true);
-      const seeStaffMessage = (
-        <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
-      );
-      updateSeeStaffMessage(seeStaffMessage);
-      jumpToPage(URLS.SEE_STAFF);
-    },
-    [
-      updateSeeStaffMessage,
-      jumpToPage,
-      dispatch,
-      t,
-      setShouldSendDemographicsFlags,
-    ],
-  );
+  const noClick = useCallback(() => {
+    dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+    setShouldSendDemographicsFlags(window, true);
+    const seeStaffMessage = (
+      <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
+    );
+    updateSeeStaffMessage(seeStaffMessage);
+    jumpToPage(URLS.SEE_STAFF);
+  }, [
+    updateSeeStaffMessage,
+    jumpToPage,
+    dispatch,
+    t,
+    setShouldSendDemographicsFlags,
+  ]);
 
   return (
     <>

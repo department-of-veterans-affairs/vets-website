@@ -211,20 +211,14 @@ const ResponseInboxPage = ({ router }) => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
   };
 
-  useEffect(
-    () => {
-      if (inquiryId && !showAlertAndHideForm)
-        getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
-    },
-    [inquiryId, getApiData],
-  );
+  useEffect(() => {
+    if (inquiryId && !showAlertAndHideForm)
+      getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
+  }, [inquiryId, getApiData]);
 
-  useEffect(
-    () => {
-      focusElement('h1');
-    },
-    [loading],
-  );
+  useEffect(() => {
+    focusElement('h1');
+  }, [loading]);
 
   if (error) {
     return (
@@ -459,9 +453,7 @@ const ResponseInboxPage = ({ router }) => {
                                 text={file.name}
                                 onClick={() =>
                                   getDownloadData(
-                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                      file.id
-                                    }`,
+                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${file.id}`,
                                   )
                                 }
                               />

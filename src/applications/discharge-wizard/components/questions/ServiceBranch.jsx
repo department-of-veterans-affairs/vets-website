@@ -23,21 +23,15 @@ const ServiceBranch = ({
   const serviceBranch = formResponses[shortName];
   const { ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <RadioGroup
@@ -73,7 +67,4 @@ const mapDispatchToProps = {
   setServiceBranch: updateServiceBranch,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ServiceBranch);
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceBranch);

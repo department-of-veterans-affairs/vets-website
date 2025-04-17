@@ -8,7 +8,10 @@ describe('Add alert action ', () => {
   it('should dispatch an add alerts action', () => {
     const dispatch = sinon.spy();
     const error = new Error('This is an error');
-    return addAlert(Constants.ALERT_TYPE_ERROR, error)(dispatch).then(() => {
+    return addAlert(
+      Constants.ALERT_TYPE_ERROR,
+      error,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Alerts.ADD_ALERT,
       );

@@ -204,7 +204,11 @@ describe('Delete Draft component', () => {
     const initialHistory = Paths.COMPOSE;
     const { getByTestId, queryByTestId, history } = renderWithStoreAndRouter(
       <DeleteDraft {...props} />,
-      { initialState, reducers: reducer, path: initialHistory },
+      {
+        initialState,
+        reducers: reducer,
+        path: initialHistory,
+      },
     );
 
     fireEvent.click(getByTestId('delete-draft-button'));

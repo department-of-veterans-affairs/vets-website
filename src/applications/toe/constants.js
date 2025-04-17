@@ -1,13 +1,9 @@
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 
-export const LETTER_URL = `${
-  environment.API_URL
-}/education/download-letters/letters`;
+export const LETTER_URL = `${environment.API_URL}/education/download-letters/letters`;
 
-export const LETTER_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_claim_letter`;
+export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claim_letter`;
 
 export const SPONSORS_TYPE = PropTypes.shape({
   sponsors: PropTypes.arrayOf(

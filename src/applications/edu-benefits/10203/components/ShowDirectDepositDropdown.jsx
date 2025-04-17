@@ -11,19 +11,14 @@ const useCheckPath = () => {
     false,
   );
   const currentPath = window.location.href;
-  useEffect(
-    () => {
-      const checkPath = () => {
-        const containsReviewAndSubmit = currentPath.includes(
-          'review-and-submit',
-        );
-        setIsEligibleForDirectDeposit(!containsReviewAndSubmit);
-      };
+  useEffect(() => {
+    const checkPath = () => {
+      const containsReviewAndSubmit = currentPath.includes('review-and-submit');
+      setIsEligibleForDirectDeposit(!containsReviewAndSubmit);
+    };
 
-      checkPath();
-    },
-    [currentPath],
-  );
+    checkPath();
+  }, [currentPath]);
 
   return isEligibleForDirectDeposit;
 };

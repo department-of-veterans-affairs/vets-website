@@ -84,70 +84,58 @@ const VerificationReviewWrapper = ({
   useEffect(() => {
     document.title = 'Verify your enrollment | Veterans Affairs';
   }, []);
-  useEffect(
-    () => {
-      if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
-        const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
-        const expandedPendingEnrollments = [];
-        pendingVerifications.forEach(enrollment => {
-          if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
-            const expandedMonths = getDateRangesBetween(
-              enrollment.actBegin,
-              enrollment.actEnd,
-            );
-            expandedMonths.forEach(period => {
-              const [startDate, endDate] = period.split(' - ');
-              expandedPendingEnrollments.push({
-                actBegin: startDate,
-                actEnd: endDate,
-                monthlyRate: enrollment.monthlyRate,
-                numberHours: enrollment.numberHours,
-              });
-            });
-          } else {
+  useEffect(() => {
+    if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
+      const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
+      const expandedPendingEnrollments = [];
+      pendingVerifications.forEach(enrollment => {
+        if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+          const expandedMonths = getDateRangesBetween(
+            enrollment.actBegin,
+            enrollment.actEnd,
+          );
+          expandedMonths.forEach(period => {
+            const [startDate, endDate] = period.split(' - ');
             expandedPendingEnrollments.push({
-              actBegin: enrollment.actBegin,
-              actEnd: enrollment.actEnd,
+              actBegin: startDate,
+              actEnd: endDate,
               monthlyRate: enrollment.monthlyRate,
               numberHours: enrollment.numberHours,
             });
-          }
-        });
+          });
+        } else {
+          expandedPendingEnrollments.push({
+            actBegin: enrollment.actBegin,
+            actEnd: enrollment.actEnd,
+            monthlyRate: enrollment.monthlyRate,
+            numberHours: enrollment.numberHours,
+          });
+        }
+      });
 
-        setEnrollmentPeriodsToVerify(expandedPendingEnrollments);
-        // setEnrollmentPeriodsToVerify(pendingVerifications);
-      }
-    },
-    [enrollmentData, enrollmentVerifications],
-  );
+      setEnrollmentPeriodsToVerify(expandedPendingEnrollments);
+      // setEnrollmentPeriodsToVerify(pendingVerifications);
+    }
+  }, [enrollmentData, enrollmentVerifications]);
 
-  useEffect(
-    () => {
-      const element = document.querySelector('va-radio');
-      if (element && errorStatement != null) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    [errorStatement],
-  );
-  useEffect(
-    () => {
-      focusElement('h1');
-    },
-    [enrollmentData, errorStatement],
-  );
-  useEffect(
-    () => {
-      let timer;
-      if (showError) {
-        timer = setTimeout(() => {
-          focusElement('#enrollmentCheckbox');
-        }, 2500);
-      }
-      return () => clearTimeout(timer);
-    },
-    [showError, enrollmentData],
-  );
+  useEffect(() => {
+    const element = document.querySelector('va-radio');
+    if (element && errorStatement != null) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [errorStatement]);
+  useEffect(() => {
+    focusElement('h1');
+  }, [enrollmentData, errorStatement]);
+  useEffect(() => {
+    let timer;
+    if (showError) {
+      timer = setTimeout(() => {
+        focusElement('#enrollmentCheckbox');
+      }, 2500);
+    }
+    return () => clearTimeout(timer);
+  }, [showError, enrollmentData]);
   return (
     <>
       <div name="topScrollElement" />

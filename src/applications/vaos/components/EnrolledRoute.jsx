@@ -43,8 +43,9 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
       verify={!environment.isLocalhost()}
     >
       <Route {...rest}>
-        {!featureMhvRouteGuards &&
-          !hasRegisteredSystems && <NoRegistrationMessage />}
+        {!featureMhvRouteGuards && !hasRegisteredSystems && (
+          <NoRegistrationMessage />
+        )}
         {hasRegisteredSystems && <RouteComponent />}
       </Route>
     </RequiredLoginView>

@@ -26,9 +26,9 @@ export default async function startAnnouncement(store) {
   const isDisabled = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE) === '*';
   if (isDisabled) return;
 
-  const {
-    default: Announcement,
-  } = await import(/* webpackChunkName: "announcements-widget" */ './containers/Announcement');
+  const { default: Announcement } = await import(
+    /* webpackChunkName: "announcements-widget" */ './containers/Announcement'
+  );
   startReactApp(
     <Provider store={store}>
       <Announcement />

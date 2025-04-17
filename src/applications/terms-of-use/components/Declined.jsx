@@ -9,17 +9,14 @@ export default function Declined() {
   const shouldRedirectToMobile =
     sessionStorage.getItem(COOKIES.CI) === CLIENT_IDS.VAMOBILE;
   const dispatch = useDispatch();
-  const openSignInModal = useCallback(
-    () => {
-      if (shouldRedirectToMobile) {
-        sessionStorage.removeItem(COOKIES.CI);
-        window.location = `vamobile://login-terms-rejected`;
-      } else {
-        dispatch(toggleLoginModal(true));
-      }
-    },
-    [dispatch, shouldRedirectToMobile],
-  );
+  const openSignInModal = useCallback(() => {
+    if (shouldRedirectToMobile) {
+      sessionStorage.removeItem(COOKIES.CI);
+      window.location = `vamobile://login-terms-rejected`;
+    } else {
+      dispatch(toggleLoginModal(true));
+    }
+  }, [dispatch, shouldRedirectToMobile]);
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">

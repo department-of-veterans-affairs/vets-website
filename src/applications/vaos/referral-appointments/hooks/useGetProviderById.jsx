@@ -18,30 +18,24 @@ function useGetProviderById(providerId) {
     providerFetchStatus === FETCH_STATUS.notStarted;
   const failed = providerFetchStatus === FETCH_STATUS.failed;
 
-  useEffect(
-    () => {
-      const isSameProvider = providerId === selectedProviderId;
-      if (!providerId || isSameProvider || failed) {
-        return;
-      }
+  useEffect(() => {
+    const isSameProvider = providerId === selectedProviderId;
+    if (!providerId || isSameProvider || failed) {
+      return;
+    }
 
-      dispatch(setInitReferralFlow());
-    },
-    [dispatch, failed, providerId, selectedProviderId],
-  );
+    dispatch(setInitReferralFlow());
+  }, [dispatch, failed, providerId, selectedProviderId]);
 
-  useEffect(
-    () => {
-      if (!providerId) {
-        return;
-      }
+  useEffect(() => {
+    if (!providerId) {
+      return;
+    }
 
-      if (providerFetchStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchProviderDetails(providerId));
-      }
-    },
-    [dispatch, providerFetchStatus, providerId],
-  );
+    if (providerFetchStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchProviderDetails(providerId));
+    }
+  }, [dispatch, providerFetchStatus, providerId]);
 
   return {
     provider: providerId === provider?.id ? provider : undefined,

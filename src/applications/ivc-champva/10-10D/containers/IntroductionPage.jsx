@@ -9,12 +9,9 @@ const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
 
-  useEffect(
-    () => {
-      focusElement('.va-nav-breadcrumbs-list');
-    },
-    [props],
-  );
+  useEffect(() => {
+    focusElement('.va-nav-breadcrumbs-list');
+  }, [props]);
 
   return (
     <article className="schemaform-intro">

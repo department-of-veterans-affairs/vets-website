@@ -57,85 +57,81 @@ export const Form0996App = ({
     subTaskBenefitType,
   );
 
-  useEffect(
-    () => {
-      if (hasSupportedBenefitType) {
-        // form data is reset after logging in and from the save-in-progress data,
-        // so get it from the session storage
-        if (!formData.benefitType) {
+  useEffect(() => {
+    if (hasSupportedBenefitType) {
+      // form data is reset after logging in and from the save-in-progress data,
+      // so get it from the session storage
+      if (!formData.benefitType) {
+        setFormData({
+          ...formData,
+          benefitType: subTaskBenefitType,
+        });
+      } else if (
+        loggedIn &&
+        // internalTesting is used to test the get contestable issues API call
+        // in unit tests; Setting up the unit test to get RoutedSavableApp to
+        // work properly is overly complicated
+        (!isOutsideForm(pathname) || formData.internalTesting) &&
+        formData.benefitType
+      ) {
+        const areaOfDisagreement = getSelected(formData);
+        if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          // load benefit type contestable issues
+          setIsLoadingIssues(true);
+          getContestableIssues({ benefitType: formData.benefitType });
+        } else if (
+          contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
+          (issuesNeedUpdating(
+            contestableIssues?.issues,
+            formData?.contestedIssues,
+          ) ||
+            contestableIssues.legacyCount !== formData.legacyCount)
+        ) {
+          /** Update dynamic data:
+           * user changed address, phone, email
+           * user changed benefit type
+           * changes to contestable issues (from a backend update)
+           */
           setFormData({
             ...formData,
-            benefitType: subTaskBenefitType,
+            contestedIssues: processContestableIssues(
+              contestableIssues?.issues,
+            ),
+            legacyCount: contestableIssues?.legacyCount,
           });
         } else if (
-          loggedIn &&
-          // internalTesting is used to test the get contestable issues API call
-          // in unit tests; Setting up the unit test to get RoutedSavableApp to
-          // work properly is overly complicated
-          (!isOutsideForm(pathname) || formData.internalTesting) &&
-          formData.benefitType
+          areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+          !areaOfDisagreement.every(
+            (entry, index) =>
+              getIssueNameAndDate(entry) ===
+              getIssueNameAndDate(formData.areaOfDisagreement[index]),
+          )
         ) {
-          const areaOfDisagreement = getSelected(formData);
-          if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
-            // load benefit type contestable issues
-            setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
-          } else if (
-            contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
-            (issuesNeedUpdating(
-              contestableIssues?.issues,
-              formData?.contestedIssues,
-            ) ||
-              contestableIssues.legacyCount !== formData.legacyCount)
-          ) {
-            /** Update dynamic data:
-             * user changed address, phone, email
-             * user changed benefit type
-             * changes to contestable issues (from a backend update)
-             */
-            setFormData({
-              ...formData,
-              contestedIssues: processContestableIssues(
-                contestableIssues?.issues,
-              ),
-              legacyCount: contestableIssues?.legacyCount,
-            });
-          } else if (
-            areaOfDisagreement?.length !==
-              formData.areaOfDisagreement?.length ||
-            !areaOfDisagreement.every(
-              (entry, index) =>
-                getIssueNameAndDate(entry) ===
-                getIssueNameAndDate(formData.areaOfDisagreement[index]),
-            )
-          ) {
-            // Area of Disagreement is created by combining the loaded contestable
-            // issues with the Veteran-added additional issues
-            setFormData({
-              ...formData,
-              // save existing settings
-              areaOfDisagreement: copyAreaOfDisagreementOptions(
-                areaOfDisagreement,
-                formData.areaOfDisagreement,
-              ),
-            });
-          }
+          // Area of Disagreement is created by combining the loaded contestable
+          // issues with the Veteran-added additional issues
+          setFormData({
+            ...formData,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
+            ),
+          });
         }
       }
-    },
-    [
-      contestableIssues,
-      formData,
-      getContestableIssues,
-      hasSupportedBenefitType,
-      isLoadingIssues,
-      legacyCount,
-      loggedIn,
-      setFormData,
-      subTaskBenefitType,
-      pathname,
-    ],
-  );
+    }
+  }, [
+    contestableIssues,
+    formData,
+    getContestableIssues,
+    hasSupportedBenefitType,
+    isLoadingIssues,
+    legacyCount,
+    loggedIn,
+    setFormData,
+    subTaskBenefitType,
+    pathname,
+  ]);
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -211,7 +207,4 @@ const mapDispatchToProps = {
   getContestableIssues: getContestableIssuesAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Form0996App);
+export default connect(mapStateToProps, mapDispatchToProps)(Form0996App);

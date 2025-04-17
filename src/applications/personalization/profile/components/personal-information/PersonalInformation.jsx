@@ -42,61 +42,49 @@ const PersonalInformation = () => {
 
   const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
-  useEffect(
-    () => {
-      document.title = `Personal Information | Veterans Affairs`;
+  useEffect(() => {
+    document.title = `Personal Information | Veterans Affairs`;
 
-      return () => {
-        clearSuccessAlert();
-      };
-    },
-    [clearSuccessAlert],
-  );
+    return () => {
+      clearSuccessAlert();
+    };
+  }, [clearSuccessAlert]);
 
-  useEffect(
-    () => {
-      if (location.hash) {
-        // We will always attempt to focus on the element that matches the
-        // location.hash
-        const focusTarget = document.querySelector(location.hash);
-        // But if the hash starts with `edit` we will scroll a different
-        // element to the top of the viewport
-        const scrollTarget = getScrollTarget(location.hash);
-        if (scrollTarget) {
-          scrollTarget.scrollIntoView?.();
-        }
-        if (focusTarget) {
-          focusElement(focusTarget);
-          return;
-        }
+  useEffect(() => {
+    if (location.hash) {
+      // We will always attempt to focus on the element that matches the
+      // location.hash
+      const focusTarget = document.querySelector(location.hash);
+      // But if the hash starts with `edit` we will scroll a different
+      // element to the top of the viewport
+      const scrollTarget = getScrollTarget(location.hash);
+      if (scrollTarget) {
+        scrollTarget.scrollIntoView?.();
       }
-
-      focusElement('[data-focus-target]');
-    },
-    [location],
-  );
-
-  useEffect(
-    () => {
-      // Show alert when navigating away
-      if (hasUnsavedEdits) {
-        window.onbeforeunload = () => true;
+      if (focusTarget) {
+        focusElement(focusTarget);
         return;
       }
+    }
 
-      window.onbeforeunload = undefined;
-    },
-    [hasUnsavedEdits],
-  );
+    focusElement('[data-focus-target]');
+  }, [location]);
 
-  useEffect(
-    () => {
-      return () => {
-        openEditModal(null);
-      };
-    },
-    [openEditModal],
-  );
+  useEffect(() => {
+    // Show alert when navigating away
+    if (hasUnsavedEdits) {
+      window.onbeforeunload = () => true;
+      return;
+    }
+
+    window.onbeforeunload = undefined;
+  }, [hasUnsavedEdits]);
+
+  useEffect(() => {
+    return () => {
+      openEditModal(null);
+    };
+  }, [openEditModal]);
 
   return (
     <>

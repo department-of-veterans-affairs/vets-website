@@ -33,7 +33,4 @@ const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(PreSubmitNotice);
+export default connect(null, mapDispatchToProps)(PreSubmitNotice);

@@ -9,12 +9,12 @@ This report only includes care summaries and notes from 2013 and later.
 For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.
 
 ${records
-    .map(
-      record =>
-        `${
-          record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
-          record.type === loincCodes.CONSULT_RESULT
-            ? `
+  .map(
+    record =>
+      `${
+        record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
+        record.type === loincCodes.CONSULT_RESULT
+          ? `
 ${record.name}
 ${txtLineDotted}
 
@@ -29,7 +29,7 @@ Details
 Notes
   ${record.note}
 `
-            : `
+          : `
 
 ${record.name}
 ${txtLineDotted}
@@ -43,9 +43,9 @@ Details
 Summary
   ${record.summary}
               `
-        }`,
-    )
-    .join('')}
+      }`,
+  )
+  .join('')}
 
 `;
 };

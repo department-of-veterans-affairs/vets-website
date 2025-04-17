@@ -30,6 +30,7 @@ const SearchResults = ({ poaRequests, searchData }) => {
     <ul
       data-testid="poa-requests-card"
       className="poa-request__list"
+      // eslint-disable-next-line react/no-unknown-property
       sort-column={1}
     >
       {poaRequests.map((request, index) => {

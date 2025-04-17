@@ -14,17 +14,16 @@ const LastFilledInfo = rx => {
   }
   return (
     <>
-      {nonVA &&
-        orderedDate && (
-          <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
-            {dateFormat(
-              orderedDate,
-              'MMMM D, YYYY',
-              'Documented date not available',
-              'Documented on ',
-            )}
-          </p>
-        )}
+      {nonVA && orderedDate && (
+        <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
+          {dateFormat(
+            orderedDate,
+            'MMMM D, YYYY',
+            'Documented date not available',
+            'Documented on ',
+          )}
+        </p>
+      )}
       {showLastFilledDate && (
         <p data-testid="rx-last-filled-date" data-dd-privacy="mask">
           {dateFormat(
@@ -35,12 +34,11 @@ const LastFilledInfo = rx => {
           )}
         </p>
       )}
-      {!nonVA &&
-        !showLastFilledDate && (
-          <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
-            Not filled yet
-          </p>
-        )}
+      {!nonVA && !showLastFilledDate && (
+        <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
+          Not filled yet
+        </p>
+      )}
     </>
   );
 };

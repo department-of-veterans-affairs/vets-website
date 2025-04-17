@@ -33,14 +33,13 @@ function BurialStatus({ facility }) {
           <strong>{statusTitle}</strong>
         </p>
         {statusDescription && <p>{statusDescription}</p>}
-        {descriptionDetails &&
-          descriptionDetails.length > 0 && (
-            <ul className="va-list--disc">
-              {descriptionDetails.map((detail, index) => (
-                <li key={index}>{detail}</li>
-              ))}
-            </ul>
-          )}
+        {descriptionDetails && descriptionDetails.length > 0 && (
+          <ul className="va-list--disc">
+            {descriptionDetails.map((detail, index) => (
+              <li key={index}>{detail}</li>
+            ))}
+          </ul>
+        )}
         {linkOrMemorialDescription}
       </div>
     </div>

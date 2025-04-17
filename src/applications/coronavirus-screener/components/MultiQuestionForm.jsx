@@ -28,44 +28,38 @@ export default function MultiQuestionForm({
 
   // updates formState based on questionState
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
-  useEffect(
-    () => {
-      let { completed } = formState;
-      const newStatus = checkFormStatus({ questionState, customId });
-      if (formState.status !== newStatus) {
-        // record first completion of form
-        if (completed === false) {
-          recordEvent({
-            event: 'covid-screening-tool-result-displayed',
-            'screening-tool-result': newStatus,
-            'time-to-complete': moment().unix() - formState.startTime,
-          });
-          completed = true;
-        }
-        setFormState({
-          ...formState,
-          status: newStatus,
-          completed,
+  useEffect(() => {
+    let { completed } = formState;
+    const newStatus = checkFormStatus({ questionState, customId });
+    if (formState.status !== newStatus) {
+      // record first completion of form
+      if (completed === false) {
+        recordEvent({
+          event: 'covid-screening-tool-result-displayed',
+          'screening-tool-result': newStatus,
+          'time-to-complete': moment().unix() - formState.startTime,
         });
+        completed = true;
       }
-    },
-    [questionState, formState],
-  );
+      setFormState({
+        ...formState,
+        status: newStatus,
+        completed,
+      });
+    }
+  }, [questionState, formState]);
 
   // sets enabled status of questions in state
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
-  useEffect(
-    () => {
-      const newQuestionState = updateEnabledQuestions({
-        questionState,
-        customId,
-      });
-      if (!isEqual(newQuestionState, questionState)) {
-        setQuestionState(newQuestionState);
-      }
-    },
-    [questionState],
-  );
+  useEffect(() => {
+    const newQuestionState = updateEnabledQuestions({
+      questionState,
+      customId,
+    });
+    if (!isEqual(newQuestionState, questionState)) {
+      setQuestionState(newQuestionState);
+    }
+  }, [questionState]);
 
   // records startTime and log to GA
   function recordStart(question) {

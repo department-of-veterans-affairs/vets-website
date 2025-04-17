@@ -16,12 +16,9 @@ const RequestDD214 = ({ router, formResponses, viewedIntroPage }) => {
   const H1 =
     'Your Steps for Getting a DD214 for Your Period of Honorable Service';
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
   useEffect(() => {
     if (!viewedIntroPage) {

@@ -7,8 +7,10 @@ import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "ezr-submission-options" */
-    './components/App').then(module => {
+    import(
+      /* webpackChunkName: "ezr-submission-options" */
+      './components/App'
+    ).then(module => {
       const App = module.default;
       connectFeatureToggle(store.dispatch);
 

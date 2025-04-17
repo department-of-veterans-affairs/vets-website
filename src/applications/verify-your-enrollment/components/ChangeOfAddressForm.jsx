@@ -144,115 +144,110 @@ const ChangeOfAddressForm = ({
     return newObject;
   };
 
-  useEffect(
-    () => {
-      const updateSchema = () => {
-        if (addressFormData) {
-          // if livesOnMilitaryBase is checked
-          if (addressFormData?.['view:livesOnMilitaryBase']) {
-            const filteredRequiredArray = addressFormRequiredData.filter(
-              requiredField => requiredField !== 'countryCodeIso3',
-            );
-            const tempSchemaAddObj = addObjectKeys(
-              createFormSchema(filteredRequiredArray),
-              [city.title, stateCode.title],
-              [city.addressSchema, stateCode.addressSchema],
-              'schema',
-            );
-            setAddressSchema(removeObjectKeys(tempSchemaAddObj, [], 'schema'));
+  useEffect(() => {
+    const updateSchema = () => {
+      if (addressFormData) {
+        // if livesOnMilitaryBase is checked
+        if (addressFormData?.['view:livesOnMilitaryBase']) {
+          const filteredRequiredArray = addressFormRequiredData.filter(
+            requiredField => requiredField !== 'countryCodeIso3',
+          );
+          const tempSchemaAddObj = addObjectKeys(
+            createFormSchema(filteredRequiredArray),
+            [city.title, stateCode.title],
+            [city.addressSchema, stateCode.addressSchema],
+            'schema',
+          );
+          setAddressSchema(removeObjectKeys(tempSchemaAddObj, [], 'schema'));
 
-            const tempUISchemaAddObj = addObjectKeys(
+          const tempUISchemaAddObj = addObjectKeys(
+            getUiSchema(),
+            [countryCode.title, city.title, stateCode.title],
+            [
+              countryCode.addressUISchema,
+              city.addressUISchema,
+              stateCode.addressUISchema,
+            ],
+            'uiSchema',
+          );
+
+          const tempUISchemaRemoveObj = removeObjectKeys(
+            tempUISchemaAddObj,
+            [],
+            'uiSchema',
+          );
+          setAddressUISchema(tempUISchemaRemoveObj);
+        }
+
+        // if livesOnMilitaryBase is unchecked
+        if (!addressFormData?.['view:livesOnMilitaryBase']) {
+          if (
+            formData?.countryCodeIso3 === undefined ||
+            formData?.countryCodeIso3 === 'USA'
+          ) {
+            setAddressSchema(
+              removeObjectKeys(
+                createFormSchema(addressFormRequiredData),
+                [],
+                'schema',
+              ),
+            );
+            const removeCityUI = removeObjectKeys(
               getUiSchema(),
-              [countryCode.title, city.title, stateCode.title],
-              [
-                countryCode.addressUISchema,
-                city.addressUISchema,
-                stateCode.addressUISchema,
-              ],
+              [city.title],
               'uiSchema',
             );
-
-            const tempUISchemaRemoveObj = removeObjectKeys(
-              tempUISchemaAddObj,
-              [],
+            const addNewCityUI = addObjectKeys(
+              removeCityUI,
+              [city.title],
+              [city.addressUISchema],
               'uiSchema',
             );
-            setAddressUISchema(tempUISchemaRemoveObj);
-          }
-
-          // if livesOnMilitaryBase is unchecked
-          if (!addressFormData?.['view:livesOnMilitaryBase']) {
-            if (
-              formData?.countryCodeIso3 === undefined ||
-              formData?.countryCodeIso3 === 'USA'
-            ) {
-              setAddressSchema(
-                removeObjectKeys(
-                  createFormSchema(addressFormRequiredData),
-                  [],
-                  'schema',
-                ),
-              );
-              const removeCityUI = removeObjectKeys(
-                getUiSchema(),
-                [city.title],
+            setAddressUISchema(removeObjectKeys(addNewCityUI, [], 'uiSchema'));
+          } else {
+            // removes stateCode and zipCode as a requiredField
+            const tempAddressRequiredData = addressFormRequiredData.filter(
+              item => {
+                let result = '';
+                if (item !== stateCode.title && item !== ZC.title) {
+                  result = item;
+                }
+                return result;
+              },
+            );
+            // adds province as a requiredField
+            setAddressSchema(
+              removeObjectKeys(
+                createFormSchema(tempAddressRequiredData),
+                [ZC.title, stateCode.title],
+                'schema',
+              ),
+            );
+            const removeCityUI = removeObjectKeys(
+              getUiSchema(),
+              [city.title],
+              'uiSchema',
+            );
+            const addNewCityUI = addObjectKeys(
+              removeCityUI,
+              [city.title],
+              [city.addressUISchema],
+              'uiSchema',
+            );
+            setAddressUISchema(
+              removeObjectKeys(
+                addNewCityUI,
+                [ZC.title, stateCode.title],
                 'uiSchema',
-              );
-              const addNewCityUI = addObjectKeys(
-                removeCityUI,
-                [city.title],
-                [city.addressUISchema],
-                'uiSchema',
-              );
-              setAddressUISchema(
-                removeObjectKeys(addNewCityUI, [], 'uiSchema'),
-              );
-            } else {
-              // removes stateCode and zipCode as a requiredField
-              const tempAddressRequiredData = addressFormRequiredData.filter(
-                item => {
-                  let result = '';
-                  if (item !== stateCode.title && item !== ZC.title) {
-                    result = item;
-                  }
-                  return result;
-                },
-              );
-              // adds province as a requiredField
-              setAddressSchema(
-                removeObjectKeys(
-                  createFormSchema(tempAddressRequiredData),
-                  [ZC.title, stateCode.title],
-                  'schema',
-                ),
-              );
-              const removeCityUI = removeObjectKeys(
-                getUiSchema(),
-                [city.title],
-                'uiSchema',
-              );
-              const addNewCityUI = addObjectKeys(
-                removeCityUI,
-                [city.title],
-                [city.addressUISchema],
-                'uiSchema',
-              );
-              setAddressUISchema(
-                removeObjectKeys(
-                  addNewCityUI,
-                  [ZC.title, stateCode.title],
-                  'uiSchema',
-                ),
-              );
-            }
+              ),
+            );
           }
         }
-      };
+      }
+    };
 
-      updateSchema();
-    },
-    [addressFormData, formData],
-  );
+    updateSchema();
+  }, [addressFormData, formData]);
   return (
     <SchemaForm
       addNameAttribute

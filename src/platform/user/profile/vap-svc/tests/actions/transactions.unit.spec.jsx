@@ -1,3 +1,5 @@
+import sinon from 'sinon';
+import { expect } from 'chai';
 import {
   resetAddressValidation,
   validateAddress,
@@ -7,8 +9,6 @@ import {
   ADDRESS_VALIDATION_RESET,
   ADDRESS_VALIDATION_UPDATE,
 } from '../../actions/transactions';
-import sinon from 'sinon';
-import { expect } from 'chai';
 
 const route = 'foo';
 const method = 'PUT';

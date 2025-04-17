@@ -20,19 +20,16 @@ const withForm = (Component, options = {}) => {
     const { getCurrentToken } = useStorage(appName);
     const { updateError } = useUpdateError();
 
-    useEffect(
-      () => {
-        if (!form || !form.pages || form.pages.length === 0) {
-          const token = getCurrentToken(window)?.token;
-          if (token) {
-            jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
-          } else {
-            updateError('no-token');
-          }
+    useEffect(() => {
+      if (!form || !form.pages || form.pages.length === 0) {
+        const token = getCurrentToken(window)?.token;
+        if (token) {
+          jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
+        } else {
+          updateError('no-token');
         }
-      },
-      [updateError, jumpToPage, form, getCurrentToken],
-    );
+      }
+    }, [updateError, jumpToPage, form, getCurrentToken]);
 
     return (
       <>

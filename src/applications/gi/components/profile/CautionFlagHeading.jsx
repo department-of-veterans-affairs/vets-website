@@ -18,9 +18,8 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
         {validFlags.length > 1 && (
           <ul>
             {validFlags
-              .sort(
-                (a, b) =>
-                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+              .sort((a, b) =>
+                a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
               )
               .map((flag, index) => (
                 <li

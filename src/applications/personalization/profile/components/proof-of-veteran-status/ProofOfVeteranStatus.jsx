@@ -130,15 +130,12 @@ const ProofOfVeteranStatus = ({
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (shouldFocusError && errors?.length > 0) {
-        focusElement('.vet-status-pdf-download-error');
-        setShouldFocusError(false);
-      }
-    },
-    [shouldFocusError, errors],
-  );
+  useEffect(() => {
+    if (shouldFocusError && errors?.length > 0) {
+      focusElement('.vet-status-pdf-download-error');
+      setShouldFocusError(false);
+    }
+  }, [shouldFocusError, errors]);
 
   const createPdf = async () => {
     setErrors(null);

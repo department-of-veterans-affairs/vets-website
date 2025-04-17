@@ -94,9 +94,7 @@ const NonVaPrescription = prescription => {
           </h3>
           <p data-dd-privacy="mask">
             {validateField(
-              `${prescription.providerLastName}, ${
-                prescription.providerFirstName
-              }`,
+              `${prescription.providerLastName}, ${prescription.providerFirstName}`,
             )}
           </p>
         </section>

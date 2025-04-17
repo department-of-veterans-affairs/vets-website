@@ -8,27 +8,24 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
-  const getInput = useCallback(
-    () => {
-      if (formData && formData.widget === 'autosuggest') {
-        return formData.label;
+  const getInput = useCallback(() => {
+    if (formData && formData.widget === 'autosuggest') {
+      return formData.label;
+    }
+
+    if (typeof formData !== 'object' && formData) {
+      const uiOptions = uiSchema['ui:options'];
+
+      if (!uiOptions.labels) {
+        return formData;
       }
 
-      if (typeof formData !== 'object' && formData) {
-        const uiOptions = uiSchema['ui:options'];
-
-        if (!uiOptions.labels) {
-          return formData;
-        }
-
-        if (uiOptions.labels[formData]) {
-          return uiOptions.labels[formData];
-        }
+      if (uiOptions.labels[formData]) {
+        return uiOptions.labels[formData];
       }
-      return '';
-    },
-    [formData, uiSchema],
-  );
+    }
+    return '';
+  }, [formData, uiSchema]);
 
   const getSuggestions = useCallback(
     value => {

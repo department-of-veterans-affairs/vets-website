@@ -32,21 +32,15 @@ const DependentCount = ({
   // Correctly handle the hook to clear spouse data based on marital status
   useClearSpouseData(isMarried, data, setFormData);
 
-  useEffect(
-    () => {
-      if (headerRef.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef.current) {
+      focusElement(headerRef.current);
+    }
+  }, [headerRef]);
 
-  useEffect(
-    () => {
-      setDependents(hasDependents || '');
-    },
-    [hasDependents],
-  );
+  useEffect(() => {
+    setDependents(hasDependents || '');
+  }, [hasDependents]);
 
   const determineNextPath = () => {
     if (dependents === '0' && reviewNavigation && showReviewNavigation) {

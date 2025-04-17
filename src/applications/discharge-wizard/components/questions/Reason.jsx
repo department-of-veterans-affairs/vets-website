@@ -36,21 +36,15 @@ const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
     REASON_DD215_UPDATE_TO_DD214,
   } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <RadioGroup
@@ -96,7 +90,4 @@ const mapDispatchToProps = {
   setReason: updateReason,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Reason);
+export default connect(mapStateToProps, mapDispatchToProps)(Reason);

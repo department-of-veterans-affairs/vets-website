@@ -38,9 +38,7 @@ class PilotEnvPage {
   loadThread = (mockThreadResponse = mockMultiThreadResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockPilotMessages.data[0].attributes.messageId
-      }/thread?full_body=true&requires_oh_messages=1`,
+      `${Paths.SM_API_EXTENDED}/${mockPilotMessages.data[0].attributes.messageId}/thread?full_body=true&requires_oh_messages=1`,
       mockThreadResponse,
     ).as('single-thread');
 

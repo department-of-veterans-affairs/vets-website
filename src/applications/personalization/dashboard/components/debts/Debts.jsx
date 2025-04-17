@@ -79,16 +79,13 @@ const BenefitPaymentsAndDebt = ({
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
 
-  useEffect(
-    () => {
-      if (!showGenericDebtCard) {
-        getDebts();
-      }
+  useEffect(() => {
+    if (!showGenericDebtCard) {
+      getDebts();
+    }
 
-      getCopays();
-    },
-    [getDebts, getCopays, showGenericDebtCard],
-  );
+    getCopays();
+  }, [getDebts, getCopays, showGenericDebtCard]);
 
   const debtsCount = debts?.length || 0;
   const copaysCount = copays?.length || 0;
@@ -140,12 +137,11 @@ const BenefitPaymentsAndDebt = ({
             <GenericDebtCard />
           </DashboardWidgetWrapper>
         )}
-        {debtsCount > 0 &&
-          !showGenericDebtCard && (
-            <DashboardWidgetWrapper>
-              <DebtsCard debts={debts} />
-            </DashboardWidgetWrapper>
-          )}
+        {debtsCount > 0 && !showGenericDebtCard && (
+          <DashboardWidgetWrapper>
+            <DebtsCard debts={debts} />
+          </DashboardWidgetWrapper>
+        )}
         {copaysCount > 0 && (
           <>
             <DashboardWidgetWrapper>

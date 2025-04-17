@@ -11,34 +11,31 @@ export default function useArticleData() {
   const [articles, setArticles] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  useEffect(
-    () => {
-      const getJson = async () => {
-        try {
-          // This is injected here: src/site/stages/build/plugins/create-resources-and-support-section.js
-          const response = await fetch(
-            `${baseUrl}/resources/search/articles.json`,
-          );
-          const json = await response.json();
+  useEffect(() => {
+    const getJson = async () => {
+      try {
+        // This is injected here: src/site/stages/build/plugins/create-resources-and-support-section.js
+        const response = await fetch(
+          `${baseUrl}/resources/search/articles.json`,
+        );
+        const json = await response.json();
 
-          setArticles(json);
-        } catch (error) {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(
-              'Resources and support - failed to load dataset',
-            );
-          });
-          setErrorMessage(
-            'We’re sorry. Something went wrong on our end. Please try again later.',
+        setArticles(json);
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            'Resources and support - failed to load dataset',
           );
-        }
-      };
+        });
+        setErrorMessage(
+          'We’re sorry. Something went wrong on our end. Please try again later.',
+        );
+      }
+    };
 
-      getJson();
-    },
-    [setArticles, setErrorMessage],
-  );
+    getJson();
+  }, [setArticles, setErrorMessage]);
 
   return [articles, errorMessage];
 }

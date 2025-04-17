@@ -55,14 +55,20 @@ describe('Connected Apps reducer', () => {
   it('handles the action type DELETING_CONNECTED_APP', () => {
     const action = { appId: '1', type: DELETING_CONNECTED_APP };
     const prevState = {
-      apps: [{ id: '1', deleting: false }, { id: '2', deleting: false }],
+      apps: [
+        { id: '1', deleting: false },
+        { id: '2', deleting: false },
+      ],
       deleting: false,
       errors: [],
       loading: false,
     };
     const state = reducer(prevState, action);
     expect(state).to.be.deep.equal({
-      apps: [{ id: '1', deleting: true }, { id: '2', deleting: false }],
+      apps: [
+        { id: '1', deleting: true },
+        { id: '2', deleting: false },
+      ],
       deleting: false,
       errors: [],
       loading: false,

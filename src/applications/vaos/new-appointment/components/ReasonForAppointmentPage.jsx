@@ -127,32 +127,21 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   };
   const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      dispatch(
-        openReasonForAppointment(
-          pageKey,
-          pageUISchema,
-          pageInitialSchema,
-          useV2,
-        ),
-      );
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    dispatch(
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
+    );
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (schema) {
-        focusFormHeader();
-      }
-    },
-    [schema],
-  );
+  useEffect(() => {
+    if (schema) {
+      focusFormHeader();
+    }
+  }, [schema]);
 
   return (
     <div

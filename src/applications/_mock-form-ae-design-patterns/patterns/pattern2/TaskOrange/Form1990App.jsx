@@ -6,20 +6,17 @@ import { PatternConfigContext } from '../../../shared/context/PatternConfigConte
 export default function Form1990Entry({ location, children }) {
   /* This useEffect is to add custom class to remove the extra margin-top for radio buttons
    in benefits-selection and review-and-submit pages. */
-  useEffect(
-    () => {
-      const fieldset = document.querySelector('body');
-      if (
-        location.pathname.includes('benefits-selection') ||
-        location.pathname === '/review-and-submit'
-      ) {
-        fieldset.classList.add('fieldset-wrapper');
-      } else {
-        fieldset.classList.remove('fieldset-wrapper');
-      }
-    },
-    [location.pathname],
-  );
+  useEffect(() => {
+    const fieldset = document.querySelector('body');
+    if (
+      location.pathname.includes('benefits-selection') ||
+      location.pathname === '/review-and-submit'
+    ) {
+      fieldset.classList.add('fieldset-wrapper');
+    } else {
+      fieldset.classList.remove('fieldset-wrapper');
+    }
+  }, [location.pathname]);
 
   const formConfig = useContext(PatternConfigContext);
 

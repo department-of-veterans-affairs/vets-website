@@ -40,39 +40,33 @@ export default function CompleteReferral() {
     referralAppointmentInfo,
   } = useSelector(getReferralAppointmentInfo);
 
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('complete'));
-    },
-    [dispatch],
-  );
-  useEffect(
-    () => {
-      if (
-        !appointmentInfoError &&
-        !appointmentInfoTimeout &&
-        !appointmentInfoLoading &&
-        referralAppointmentInfo?.appointment?.status !== 'booked'
-      ) {
-        dispatch(
-          pollFetchAppointmentInfo(appointmentId, {
-            timeOut: 30000,
-            retryCount: 3,
-            retryDelay: 1000,
-          }),
-        );
-      }
-    },
-    [
-      dispatch,
-      appointmentId,
-      referralAppointmentInfo?.appointment?.status,
-      appointmentInfoError,
-      appointmentInfoTimeout,
-      appointmentCreateStatus,
-      appointmentInfoLoading,
-    ],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('complete'));
+  }, [dispatch]);
+  useEffect(() => {
+    if (
+      !appointmentInfoError &&
+      !appointmentInfoTimeout &&
+      !appointmentInfoLoading &&
+      referralAppointmentInfo?.appointment?.status !== 'booked'
+    ) {
+      dispatch(
+        pollFetchAppointmentInfo(appointmentId, {
+          timeOut: 30000,
+          retryCount: 3,
+          retryDelay: 1000,
+        }),
+      );
+    }
+  }, [
+    dispatch,
+    appointmentId,
+    referralAppointmentInfo?.appointment?.status,
+    appointmentInfoError,
+    appointmentInfoTimeout,
+    appointmentCreateStatus,
+    appointmentInfoLoading,
+  ]);
   if (appointmentInfoError || appointmentInfoTimeout) {
     return (
       <ReferralLayout

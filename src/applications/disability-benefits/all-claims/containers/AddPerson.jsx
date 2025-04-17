@@ -51,7 +51,4 @@ const mapDispatchToProps = {
   addPerson: addPersonAction,
 };
 
-export default connect(
-  state => state,
-  mapDispatchToProps,
-)(AddPerson);
+export default connect(state => state, mapDispatchToProps)(AddPerson);

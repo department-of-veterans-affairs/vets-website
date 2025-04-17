@@ -45,8 +45,8 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
 SearchInput.propTypes = {
   formData: PropTypes.object.isRequired,
   setFormData: PropTypes.func.isRequired,
-  error: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -57,7 +57,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchInput);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);

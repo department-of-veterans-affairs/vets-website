@@ -18,20 +18,17 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
-  useEffect(
-    () => {
-      const clearForm = () => {
-        updateDependentsField('');
-        updateYearField('');
-        updateZipCodeField('');
-      };
+  useEffect(() => {
+    const clearForm = () => {
+      updateDependentsField('');
+      updateYearField('');
+      updateZipCodeField('');
+    };
 
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      waitForRenderThenFocus('h1');
-      clearForm();
-    },
-    [router, updateDependentsField, updateYearField, updateZipCodeField],
-  );
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    waitForRenderThenFocus('h1');
+    clearForm();
+  }, [router, updateDependentsField, updateYearField, updateZipCodeField]);
 
   const goToCurrent = event => {
     event.preventDefault();
@@ -122,7 +119,4 @@ HomePage.propTypes = {
   updateZipCodeField: PropTypes.func.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

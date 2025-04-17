@@ -34,21 +34,18 @@ const ReviewPage = ({
     }
   });
 
-  useEffect(
-    () => {
-      redirectIfFormIncomplete(
-        dependentsInput,
-        pastMode,
-        router,
-        yearInput,
-        zipCodeInput,
-      );
+  useEffect(() => {
+    redirectIfFormIncomplete(
+      dependentsInput,
+      pastMode,
+      router,
+      yearInput,
+      zipCodeInput,
+    );
 
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      waitForRenderThenFocus('h1');
-    },
-    [dependentsInput, pastMode, router, yearInput, zipCodeInput],
-  );
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    waitForRenderThenFocus('h1');
+  }, [dependentsInput, pastMode, router, yearInput, zipCodeInput]);
 
   const onContinueClick = async () => {
     const year = yearInput || new Date().getFullYear();
@@ -214,7 +211,4 @@ ReviewPage.propTypes = {
   yearInput: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);

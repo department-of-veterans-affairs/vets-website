@@ -90,33 +90,31 @@ export default function CancelPageLayoutRequest() {
           </Section>
           <Section heading="Facility" level={3}>
             {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-            {!facility &&
-              !facilityId && (
-                <>
-                  <span>Facility details not available</span>
-                  <br />
-                  <NewTabAnchor href="/find-locations">
-                    Find facility information
-                  </NewTabAnchor>
-                  <br />
-                </>
-              )}
+            {!facility && !facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor href="/find-locations">
+                  Find facility information
+                </NewTabAnchor>
+                <br />
+              </>
+            )}
             {/* When the services return a null value for the facility (but receive the facility ID) */}
-            {!facility &&
-              !!facilityId && (
-                <>
-                  <span>Facility details not available</span>
-                  <br />
-                  <NewTabAnchor
-                    href={`/find-locations/facility/vha_${getRealFacilityId(
-                      facilityId,
-                    )}`}
-                  >
-                    View facility information
-                  </NewTabAnchor>
-                  <br />
-                </>
-              )}
+            {!facility && !!facilityId && (
+              <>
+                <span>Facility details not available</span>
+                <br />
+                <NewTabAnchor
+                  href={`/find-locations/facility/vha_${getRealFacilityId(
+                    facilityId,
+                  )}`}
+                >
+                  View facility information
+                </NewTabAnchor>
+                <br />
+              </>
+            )}
             {!!facility && (
               <>
                 {facility?.name}

@@ -294,17 +294,16 @@ function main() {
   );
 
   const changedAppsForStressTest = CHANGED_FILE_PATHS
-    ? CHANGED_FILE_PATHS.map(
-        filePath =>
-          filePath.startsWith('src/applications')
-            ? filePath
-                .split('/')
-                .slice(0, 3)
-                .join('/')
-            : `${filePath
-                .split('/')
-                .slice(0, 3)
-                .join('/')}/`,
+    ? CHANGED_FILE_PATHS.map(filePath =>
+        filePath.startsWith('src/applications')
+          ? filePath
+              .split('/')
+              .slice(0, 3)
+              .join('/')
+          : `${filePath
+              .split('/')
+              .slice(0, 3)
+              .join('/')}/`,
       )
     : [];
 

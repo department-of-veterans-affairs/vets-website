@@ -26,8 +26,8 @@ const GroupCheckboxWidget = props => {
     const checkboxIndex = Number(event.target.dataset.index);
     const isChecked = event.detail.checked;
 
-    const newData = data.map(
-      (val, index) => (index === checkboxIndex ? isChecked : val),
+    const newData = data.map((val, index) =>
+      index === checkboxIndex ? isChecked : val,
     );
 
     const dataArray = labels.reduce((result, label, index) => {

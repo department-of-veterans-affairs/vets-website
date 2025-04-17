@@ -531,9 +531,7 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
     );
 
     if (lastSuccessfulUpdate) {
-      return `Last updated at ${lastSuccessfulUpdate.time} on ${
-        lastSuccessfulUpdate.date
-      }`;
+      return `Last updated at ${lastSuccessfulUpdate.time} on ${lastSuccessfulUpdate.date}`;
     }
   }
   return null;

@@ -28,17 +28,14 @@ const AddressPage = ({
 
   useSetPageTitle(title);
 
-  useEffect(
-    () => {
-      scrollToTop('topScrollElement');
-      if (!address) {
-        focusElement('h1');
-      } else {
-        focusElement('h1', {}, 'va-radio');
-      }
-    },
-    [address],
-  );
+  useEffect(() => {
+    scrollToTop('topScrollElement');
+    if (!address) {
+      focusElement('h1');
+    } else {
+      focusElement('h1', {}, 'va-radio');
+    }
+  }, [address]);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 

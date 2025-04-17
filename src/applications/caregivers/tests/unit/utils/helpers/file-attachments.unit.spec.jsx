@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import { createPayload, parseResponse } from '../../../../utils/helpers';
 
 describe('CG `createPayload` method', () => {

@@ -24,16 +24,15 @@ function FirstSponsorRadioGroup({
   );
 
   const options = sponsors?.sponsors.length
-    ? sponsors?.sponsors?.flatMap(
-        (sponsor, index) =>
-          sponsor.selected
-            ? [
-                {
-                  label: `Sponsor ${index + 1}: ${sponsor.name}`,
-                  value: `sponsor-${sponsor.id}`,
-                },
-              ]
-            : [],
+    ? sponsors?.sponsors?.flatMap((sponsor, index) =>
+        sponsor.selected
+          ? [
+              {
+                label: `Sponsor ${index + 1}: ${sponsor.name}`,
+                value: `sponsor-${sponsor.id}`,
+              },
+            ]
+          : [],
       )
     : [];
 

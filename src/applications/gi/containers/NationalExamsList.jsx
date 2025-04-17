@@ -21,12 +21,9 @@ const NationalExamsList = () => {
   const { loading, error, nationalExams } = useSelector(
     state => state.nationalExams,
   );
-  useEffect(
-    () => {
-      dispatch(fetchNationalExams());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchNationalExams());
+  }, [dispatch]);
 
   useEffect(() => {
     document.title = `National Exams: GI Bill® Comparison Tool | Veterans Affairs`;
@@ -143,9 +140,7 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex} - ${endIndex} of ${
-            nationalExams.length
-          } national exams`}
+          {`Showing ${startIndex} - ${endIndex} of ${nationalExams.length} national exams`}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="remove-bullets" role="list">
@@ -185,8 +180,8 @@ const NationalExamsList = () => {
 };
 
 NationalExamsList.propTypes = {
-  loading: PropTypes.bool,
   error: PropTypes.string,
+  loading: PropTypes.bool,
   nationalExams: PropTypes.arrayOf(
     PropTypes.shape({
       enrichedId: PropTypes.string.isRequired,

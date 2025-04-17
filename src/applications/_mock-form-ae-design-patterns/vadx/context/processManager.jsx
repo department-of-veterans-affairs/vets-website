@@ -94,38 +94,33 @@ export const ProcessManagerProvider = ({ children }) => {
     [handleSSEMessage],
   );
 
-  const fetchStatus = useCallback(
-    async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/status`);
-        const { processes: processStatus, apps } = await response.json();
-        setProcesses(processStatus);
-        setActiveApps(apps);
+  const fetchStatus = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/status`);
+      const { processes: processStatus, apps } = await response.json();
+      setProcesses(processStatus);
+      setActiveApps(apps);
 
-        // Setup or tear down event sources based on process status
-        Object.keys(processStatus).forEach(processName => {
-          if (
-            processStatus[processName] &&
-            !eventSourcesRef.current[processName]
-          ) {
-            eventSourcesRef.current[processName] = setupEventSource(
-              processName,
-            );
-          } else if (
-            !processStatus[processName] &&
-            eventSourcesRef.current[processName]
-          ) {
-            eventSourcesRef.current[processName].close();
-            delete eventSourcesRef.current[processName];
-          }
-        });
-      } catch (error) {
-        setProcesses({});
-        setActiveApps([]);
-      }
-    },
-    [setupEventSource],
-  ); // Empty dependency array since it only uses stable references
+      // Setup or tear down event sources based on process status
+      Object.keys(processStatus).forEach(processName => {
+        if (
+          processStatus[processName] &&
+          !eventSourcesRef.current[processName]
+        ) {
+          eventSourcesRef.current[processName] = setupEventSource(processName);
+        } else if (
+          !processStatus[processName] &&
+          eventSourcesRef.current[processName]
+        ) {
+          eventSourcesRef.current[processName].close();
+          delete eventSourcesRef.current[processName];
+        }
+      });
+    } catch (error) {
+      setProcesses({});
+      setActiveApps([]);
+    }
+  }, [setupEventSource]); // Empty dependency array since it only uses stable references
 
   const fetchManifests = useCallback(async () => {
     try {

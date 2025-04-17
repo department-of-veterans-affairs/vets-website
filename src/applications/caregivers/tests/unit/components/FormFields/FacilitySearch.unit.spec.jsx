@@ -2,6 +2,7 @@ import React from 'react';
 import '../../../test-helpers';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as Sentry from '@sentry/browser';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -46,6 +47,7 @@ describe('CG <FacilitySearch>', () => {
   const goForward = sinon.spy();
   const goToPath = sinon.spy();
   const dispatch = sinon.spy();
+  let sentrySpy;
 
   const getData = ({ reviewMode = false, submitted = false, data = {} }) => ({
     props: {
@@ -92,11 +94,16 @@ describe('CG <FacilitySearch>', () => {
     return { container, selectors, getByText, queryByText };
   };
 
+  beforeEach(() => {
+    sentrySpy = sinon.spy(Sentry, 'captureMessage');
+  });
+
   afterEach(() => {
     goBack.reset();
     goForward.reset();
     dispatch.reset();
     goToPath.reset();
+    sentrySpy.restore();
   });
 
   context('when the component renders on the form page', () => {

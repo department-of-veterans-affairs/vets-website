@@ -11,8 +11,6 @@ export {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/contacts';
+export { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export { FULL_SCHEMA, STATES_50_AND_DC, STATES_USA };

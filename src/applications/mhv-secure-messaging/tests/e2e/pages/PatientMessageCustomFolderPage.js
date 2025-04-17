@@ -26,17 +26,13 @@ class PatientMessageCustomFolderPage {
   loadCustomFolderWithNoMessages = () => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }*`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}*`,
       createdFolderResponse,
     ).as(`loadedFolderResponse`);
 
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }/threads*`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}/threads*`,
       { data: [] },
     ).as(`emptyFolderThread`);
 
@@ -106,17 +102,13 @@ class PatientMessageCustomFolderPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}/thread`,
       mockSingleThreadResponse,
     ).as('threadResponse');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}`,
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
@@ -186,9 +178,7 @@ class PatientMessageCustomFolderPage {
   deleteCustomFolder = () => {
     cy.intercept(
       'DELETE',
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}`,
       {
         statusCode: 204,
       },

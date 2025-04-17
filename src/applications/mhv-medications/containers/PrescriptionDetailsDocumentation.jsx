@@ -50,39 +50,31 @@ const PrescriptionDetailsDocumentation = () => {
   const [isLoadingRx, setIsLoadingRx] = useState(false);
 
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
-  useEffect(
-    () => {
-      if (prescriptionId) {
-        setIsLoadingDoc(true);
-        getDocumentation(prescriptionId)
-          .then(response => {
-            setHasDocApiError(false);
-            setHtmlContent(
-              sanitizeKramesHtmlStr(response.data.attributes.html),
-            );
-          })
-          .catch(() => {
-            setHasDocApiError(true);
-          })
-          .finally(() => {
-            setIsLoadingDoc(false);
-          });
-      }
-    },
-    [prescriptionId],
-  );
+  useEffect(() => {
+    if (prescriptionId) {
+      setIsLoadingDoc(true);
+      getDocumentation(prescriptionId)
+        .then(response => {
+          setHasDocApiError(false);
+          setHtmlContent(sanitizeKramesHtmlStr(response.data.attributes.html));
+        })
+        .catch(() => {
+          setHasDocApiError(true);
+        })
+        .finally(() => {
+          setIsLoadingDoc(false);
+        });
+    }
+  }, [prescriptionId]);
 
-  useEffect(
-    () => {
-      if (!prescription && prescriptionId && !isLoadingRx) {
-        setIsLoadingRx(true);
-        dispatch(getPrescriptionDetails(prescriptionId));
-      } else if (prescription && prescriptionId && isLoadingRx) {
-        setIsLoadingRx(false);
-      }
-    },
-    [prescriptionId, prescription, dispatch, isLoadingRx],
-  );
+  useEffect(() => {
+    if (!prescription && prescriptionId && !isLoadingRx) {
+      setIsLoadingRx(true);
+      dispatch(getPrescriptionDetails(prescriptionId));
+    } else if (prescription && prescriptionId && isLoadingRx) {
+      setIsLoadingRx(false);
+    }
+  }, [prescriptionId, prescription, dispatch, isLoadingRx]);
 
   const buildMedicationInformationTxt = useCallback(
     information => {
@@ -162,15 +154,12 @@ const PrescriptionDetailsDocumentation = () => {
 
   const printPage = () => window.print();
 
-  useEffect(
-    () => {
-      if (!isLoadingDoc && !hasDocApiError && !isLoadingRx) {
-        contentRef.current.innerHTML = htmlContent || '';
-      }
-      focusElement(document.querySelector('h1'));
-    },
-    [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
-  );
+  useEffect(() => {
+    if (!isLoadingDoc && !hasDocApiError && !isLoadingRx) {
+      contentRef.current.innerHTML = htmlContent || '';
+    }
+    focusElement(document.querySelector('h1'));
+  }, [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent]);
 
   if (!isDisplayingDocumentation) {
     return <PageNotFound />;

@@ -57,21 +57,21 @@ const formConfigToMarkdown = formConfig =>
     .map(
       chapter => `# ${chapter.title}
 ${Object.values(chapter.pages)
-        .map(
-          page => `## ${
-            typeof page.title === 'function'
-              ? page.title({
-                  fullName: {
-                    first: 'Firstname',
-                    last: 'Lastname',
-                  },
-                })
-              : page.title
-          }
+  .map(
+    page => `## ${
+      typeof page.title === 'function'
+        ? page.title({
+            fullName: {
+              first: 'Firstname',
+              last: 'Lastname',
+            },
+          })
+        : page.title
+    }
 Path: ${page.path}
 ${page.depends?.name ? `\nDepends: ${page.depends.name}\n` : ''}`,
-        )
-        .join('\n')}`,
+  )
+  .join('\n')}`,
     )
     .join('\n');
 

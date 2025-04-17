@@ -53,13 +53,10 @@ const HealthConditions = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+  }, [dispatch]);
 
   return (
     <>

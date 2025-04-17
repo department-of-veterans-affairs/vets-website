@@ -1,0 +1,33 @@
+{
+  "pages": {},
+  "formData": {
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "address": {
+      "postalCode": "12345"
+    },
+    "phoneNumber": "1231231234",
+    "email": "john@veteran.com",
+    "idNumber": {
+      "ssn": "234232345",
+      "vaFileNumber": "456454567"
+    },
+    "loa": 3
+  },
+  "metadata": {},
+  "state": {
+    "user": {
+      "profile": {
+        "loa": {
+          "current": 3
+        },
+        "userFullName": {
+          "first": "John",
+          "last": "Veteran"
+        }
+      }
+    }
+  }
+}

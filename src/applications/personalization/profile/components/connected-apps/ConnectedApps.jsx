@@ -254,7 +254,4 @@ ConnectedApps.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConnectedApps);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedApps);

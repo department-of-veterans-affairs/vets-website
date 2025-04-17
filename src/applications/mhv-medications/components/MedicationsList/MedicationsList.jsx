@@ -96,9 +96,7 @@ const MedicationsList = props => {
         id="showingRx"
       >
         <span className="no-print">
-          {`Showing ${displayNums[0]} - ${
-            displayNums[1]
-          } of ${totalMedications}`}
+          {`Showing ${displayNums[0]} - ${displayNums[1]} of ${totalMedications}`}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
@@ -116,15 +114,14 @@ const MedicationsList = props => {
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
-          rxList.map(
-            (rx, idx) =>
-              rx.prescriptionId === prescriptionId ? (
-                <div ref={scrollLocation} key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </div>
-              ) : (
-                <MedicationsListCard key={idx} rx={rx} />
-              ),
+          rxList.map((rx, idx) =>
+            rx.prescriptionId === prescriptionId ? (
+              <div ref={scrollLocation} key={idx}>
+                <MedicationsListCard rx={rx} />
+              </div>
+            ) : (
+              <MedicationsListCard key={idx} rx={rx} />
+            ),
           )}
       </div>
       <VaPagination

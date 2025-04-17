@@ -34,23 +34,17 @@ const MoveMessageToFolderBtn = props => {
   const [folderInputError, setFolderInputError] = useState(null);
   const [updatedFoldersList, setUpdatedFolderList] = useState([]);
 
-  useEffect(
-    () => {
-      dispatch(getFolders);
-      const abortCont = new AbortController();
-      return () => abortCont.abort();
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getFolders);
+    const abortCont = new AbortController();
+    return () => abortCont.abort();
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (folderInputError) {
-        focusOnErrorField();
-      }
-    },
-    [folderInputError],
-  );
+  useEffect(() => {
+    if (folderInputError) {
+      focusOnErrorField();
+    }
+  }, [folderInputError]);
 
   const getDDRadioButtonLabel = folderId => {
     const sortRadioMap = {
@@ -117,19 +111,16 @@ const MoveMessageToFolderBtn = props => {
     }
   };
 
-  useEffect(
-    () => {
-      setUpdatedFolderList(
-        allFolders.filter(
-          folder =>
-            folder.id !== activeFolder?.folderId &&
-            folder.id !== Constants.DefaultFolders.DRAFTS.id &&
-            folder.id !== Constants.DefaultFolders.SENT.id,
-        ),
-      );
-    },
-    [allFolders, activeFolder],
-  );
+  useEffect(() => {
+    setUpdatedFolderList(
+      allFolders.filter(
+        folder =>
+          folder.id !== activeFolder?.folderId &&
+          folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+          folder.id !== Constants.DefaultFolders.SENT.id,
+      ),
+    );
+  }, [allFolders, activeFolder]);
 
   const moveToFolderModal = () => {
     return (

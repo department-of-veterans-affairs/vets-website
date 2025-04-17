@@ -12,16 +12,13 @@ export const FormSignatureCheckbox = ({
 }) => {
   const [checkboxError, setCheckboxError] = useState(null);
 
-  useEffect(
-    () => {
-      setCheckboxError(
-        required && !checked
-          ? 'Please check the box to certify the information is correct'
-          : null,
-      );
-    },
-    [required, checked],
-  );
+  useEffect(() => {
+    setCheckboxError(
+      required && !checked
+        ? 'Please check the box to certify the information is correct'
+        : null,
+    );
+  }, [required, checked]);
 
   return (
     <VaCheckbox

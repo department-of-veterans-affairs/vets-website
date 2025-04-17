@@ -41,16 +41,13 @@ const Footer = ({
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  useEffect(
-    () => {
-      setIsMinimalFooter(
-        typeof showMinimalFooter === 'function'
-          ? showMinimalFooter(path)
-          : showMinimalFooter,
-      );
-    },
-    [showMinimalFooter, path],
-  );
+  useEffect(() => {
+    setIsMinimalFooter(
+      typeof showMinimalFooter === 'function'
+        ? showMinimalFooter(path)
+        : showMinimalFooter,
+    );
+  }, [showMinimalFooter, path]);
 
   return (
     <div>
@@ -65,14 +62,13 @@ const Footer = ({
           }}
           minimalFooter={isMinimalFooter}
         />
-        {!isMinimalFooter &&
-          !isMobile && (
-            <LanguageSupport
-              isDesktop
-              dispatchLanguageSelection={dispatchLanguageSelection}
-              languageCode={languageCode}
-            />
-          )}
+        {!isMinimalFooter && !isMobile && (
+          <LanguageSupport
+            isDesktop
+            dispatchLanguageSelection={dispatchLanguageSelection}
+            languageCode={languageCode}
+          />
+        )}
 
         <div className="usa-grid usa-grid-full footer-banner">
           <a href="/" title="Go to VA.gov">
@@ -113,7 +109,4 @@ Footer.propTypes = {
   onFooterLoad: PropTypes.func,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

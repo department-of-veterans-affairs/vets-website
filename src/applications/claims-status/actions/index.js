@@ -340,9 +340,7 @@ export function submitFiles(claimId, trackedItem, files) {
         const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
-            endpoint: `${
-              environment.API_URL
-            }/v0/evss_claims/${claimId}/documents`,
+            endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
             inputName: 'file',
             customHeaders: {
               'Source-App-Name': manifest.entryName,
@@ -521,9 +519,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
         const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
-            endpoint: `${
-              environment.API_URL
-            }/v0/benefits_claims/${claimId}/benefits_documents`,
+            endpoint: `${environment.API_URL}/v0/benefits_claims/${claimId}/benefits_documents`,
             inputName: 'file',
             customHeaders: {
               'Source-App-Name': manifest.entryName,

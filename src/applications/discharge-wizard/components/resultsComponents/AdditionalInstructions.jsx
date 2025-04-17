@@ -113,19 +113,17 @@ const AdditionalInstructions = ({ formResponses }) => {
               </a>
             </li>
           )}
-        {serviceBranch === RESPONSES.ARMY &&
-          abbr === BCMR && (
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://arba.army.pentagon.mil/abcmr-overview.html"
-              >
-                Army Board for Correction of Military Records (opens in a new
-                tab)
-              </a>
-            </li>
-          )}
+        {serviceBranch === RESPONSES.ARMY && abbr === BCMR && (
+          <li>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="http://arba.army.pentagon.mil/abcmr-overview.html"
+            >
+              Army Board for Correction of Military Records (opens in a new tab)
+            </a>
+          </li>
+        )}
         {[RESPONSES.NAVY, RESPONSES.MARINE_CORPS].includes(serviceBranch) && (
           <li>
             <a
@@ -137,44 +135,41 @@ const AdditionalInstructions = ({ formResponses }) => {
             </a>
           </li>
         )}
-        {serviceBranch === RESPONSES.AIR_FORCE &&
-          abbr === BCMR && (
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://www.afpc.af.mil/Board-for-Correction-of-Military-Records/"
-              >
-                Air Force Board for Correction of Military Records (opens in a
-                new tab)
-              </a>
-            </li>
-          )}
-        {serviceBranch === RESPONSES.COAST_GUARD &&
-          abbr === BCMR && (
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.uscg.mil/Resources/legal/BCMR/"
-              >
-                Coast Guard Board for Correction of Military Records (opens in a
-                new tab)
-              </a>
-            </li>
-          )}
-        {serviceBranch === RESPONSES.COAST_GUARD &&
-          abbr === DRB && (
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.uscg.mil/Resources/Legal/DRB.aspx/"
-              >
-                Coast Guard Discharge Review Board (opens in a new tab)
-              </a>
-            </li>
-          )}
+        {serviceBranch === RESPONSES.AIR_FORCE && abbr === BCMR && (
+          <li>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="http://www.afpc.af.mil/Board-for-Correction-of-Military-Records/"
+            >
+              Air Force Board for Correction of Military Records (opens in a new
+              tab)
+            </a>
+          </li>
+        )}
+        {serviceBranch === RESPONSES.COAST_GUARD && abbr === BCMR && (
+          <li>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.uscg.mil/Resources/legal/BCMR/"
+            >
+              Coast Guard Board for Correction of Military Records (opens in a
+              new tab)
+            </a>
+          </li>
+        )}
+        {serviceBranch === RESPONSES.COAST_GUARD && abbr === DRB && (
+          <li>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.uscg.mil/Resources/Legal/DRB.aspx/"
+            >
+              Coast Guard Discharge Review Board (opens in a new tab)
+            </a>
+          </li>
+        )}
       </ul>
       <p>
         <strong>Note:</strong> This information was created based on how you

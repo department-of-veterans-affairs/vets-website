@@ -644,8 +644,8 @@ describe('careSummariesAndNotesReducer', () => {
       {},
       { type: Actions.CareSummariesAndNotes.GET_LIST, response },
     );
-    expect(newState.careSummariesAndNotesList.map(rec => rec.id)).to.deep.equal(
-      [3, 2, 1, 'NULL1', 'NULL2'],
-    );
+    expect(
+      newState.careSummariesAndNotesList.map(rec => rec.id),
+    ).to.deep.equal([3, 2, 1, 'NULL1', 'NULL2']);
   });
 });

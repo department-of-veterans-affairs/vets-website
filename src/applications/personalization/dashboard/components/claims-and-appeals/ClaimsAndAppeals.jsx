@@ -124,23 +124,17 @@ const ClaimsAndAppeals = ({
   shouldLoadClaims,
   shouldShowLoadingIndicator,
 }) => {
-  React.useEffect(
-    () => {
-      if (!dataLoadingDisabled && shouldLoadAppeals) {
-        getAppeals();
-      }
-    },
-    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
-  );
+  React.useEffect(() => {
+    if (!dataLoadingDisabled && shouldLoadAppeals) {
+      getAppeals();
+    }
+  }, [dataLoadingDisabled, getAppeals, shouldLoadAppeals]);
 
-  React.useEffect(
-    () => {
-      if (!dataLoadingDisabled && shouldLoadClaims) {
-        getClaims();
-      }
-    },
-    [dataLoadingDisabled, getClaims, shouldLoadClaims],
-  );
+  React.useEffect(() => {
+    if (!dataLoadingDisabled && shouldLoadClaims) {
+      getClaims();
+    }
+  }, [dataLoadingDisabled, getClaims, shouldLoadClaims]);
 
   // the most recently updated open claim or appeal or
   // the latest closed claim or appeal that has been updated in the past 60 days
@@ -184,13 +178,11 @@ const ClaimsAndAppeals = ({
             </>
           )}
         </DashboardWidgetWrapper>
-        {highlightedClaimOrAppeal &&
-          !hasAPIError &&
-          !isLOA1 && (
-            <DashboardWidgetWrapper>
-              <PopularActionsForClaimsAndAppeals />
-            </DashboardWidgetWrapper>
-          )}
+        {highlightedClaimOrAppeal && !hasAPIError && !isLOA1 && (
+          <DashboardWidgetWrapper>
+            <PopularActionsForClaimsAndAppeals />
+          </DashboardWidgetWrapper>
+        )}
       </div>
     </div>
   );
@@ -262,7 +254,4 @@ const mapDispatchToProps = {
   getClaims: getClaimsAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ClaimsAndAppeals);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimsAndAppeals);
