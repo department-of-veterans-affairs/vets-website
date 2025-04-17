@@ -275,7 +275,7 @@ const CombinedStatements = () => {
             Copay charges
           </h2>
           <p className="vads-u-margin-top--0">
-            You are receiving this billing statement because you are currently
+            You’re receiving this billing statement because you are currently
             enrolled in a priority group requiring copayments for treatment of
             non-service connected conditions.
           </p>
@@ -363,7 +363,7 @@ const CombinedStatements = () => {
           />
 
           <p className="vads-u-margin-bottom--3">
-            Most recent payments may not be reflected here{' '}
+            Most recent payment may not be reflected here.
           </p>
 
           <va-table
