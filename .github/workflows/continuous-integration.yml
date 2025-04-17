@@ -658,6 +658,8 @@ jobs:
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
+    outputs:
+      e2e_report: ${{ steps.e2e_report_check.outputs.e2e_report }}
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
@@ -796,6 +798,14 @@ jobs:
           name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
+
+      - name: Set env variable for e2e test reporting
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
+        id: e2e_report_check
+        run: |
+          if [ -f cypress-mochawesome-rests-results-${{ matrix.ci_node_index }}]; then
+            echo "e2e_report=true" >> $GITHUB_ENV
+          fi
 
   stress-test-cypress-tests:
     name: E2E Test Stability Review
@@ -1365,7 +1375,7 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
-    if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.cypress-tests.outputs.e2e_report == 'true' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
