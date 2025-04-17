@@ -72,8 +72,30 @@ export class ConfirmationPage extends React.Component {
           If we have any questions or need additional information, we’ll contact
           you.
         </p>
-        <h3>If we decide we can cover this claim under FMP</h3>
-        <p>We’ll send a U.S. Treasury check for the claim amount.</p>
+        <h3>If we approve this claim</h3>
+
+        {this.props.isLoggedIn ? (
+          <>
+            <p>
+              We’ll pay you by direct deposit into the bank account listed in
+              your <va-link href="/profile" text="VA.gov profile" /> if you have
+              it set up.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              We’ll pay you by direct deposit if you have it set up for your VA
+              benefit payments.
+            </p>
+          </>
+        )}
+
+        <p>
+          If you don’t have direct deposit set up, or if you don’t have a U.S.
+          bank account, we’ll send you a U.S. Treasury check.
+        </p>
+
         <p>
           <b>Note:</b> We’ll convert the claim amount into U.S. dollars when we
           pay your claim. We’ll use the conversion rate from the date you
@@ -132,12 +154,14 @@ ConfirmationPage.propTypes = {
       timestamp: PropTypes.string,
     }),
   }),
+  isLoggedIn: PropTypes.bool,
   name: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
     form: state.form,
+    isLoggedIn: state.user.login.currentlyLoggedIn,
   };
 }
 

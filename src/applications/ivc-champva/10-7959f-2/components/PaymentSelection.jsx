@@ -61,14 +61,18 @@ const noDirectDeposit = (
   </p>
 );
 
+const alreadyPaid = (
+  <p>
+    <b>If you already paid the provider,</b> select <b>Veteran</b>. If we
+    approve your claim, we’ll pay you by direct deposit if you have it set up
+    for your VA benefit payments. Or, we’ll mail you a check.
+  </p>
+);
+
 export const loggedInPaymentInfo = (
   <>
     {introText}
-    <p>
-      <b>If you’ve already paid the provider,</b> select <b>Veteran</b>. We’ll
-      send any payments to you by direct deposit (if you have it set up) or a
-      mailed check.
-    </p>
+    {alreadyPaid}
     {providerText}
 
     <va-additional-info trigger="Learn more about direct deposit payments">
@@ -92,11 +96,7 @@ export const loggedOutPaymentInfo = (
   <>
     {introText}
     <ul>
-      <li>
-        <b>If you already paid the provider,</b> select <b>Veteran</b>. If we
-        approve your claim, we’ll pay you by direct deposit if you have it set
-        up for your VA benefit payments. Or we’ll mail you a check.
-      </li>
+      <li>{alreadyPaid}</li>
       <li>{providerText}</li>
     </ul>
     <va-additional-info trigger="Learn more about direct deposit payments">
