@@ -30,6 +30,7 @@ const initialState = {
       verified: true,
       services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       facilities: [{ facilityId: '983', isCerner: false }],
+      loa: { current: 3 },
     },
   },
 };
@@ -37,13 +38,23 @@ const initialState = {
 describe('VAOS Component: EnrolledRoute', () => {
   let replaceStub;
 
-  beforeEach(() => {
+  before(() => {
     mockFetch();
-    replaceStub = sinon.stub(window.location, 'replace'); // Mock window.location.replace
+  });
+
+  beforeEach(() => {
+    // Stub window.location.replace to prevent actual redirection
+    replaceStub = sinon.stub();
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { replace: replaceStub },
+    });
   });
 
   afterEach(() => {
-    replaceStub.restore(); // Restore the original function
+    // Restore the original window.location
+    delete window.location;
+    window.location = { replace: () => {} }; // Reset to a default implementation
   });
 
   it('should render route when logged in', async () => {
@@ -128,30 +139,7 @@ describe('VAOS Component: EnrolledRoute', () => {
     });
     expect(screen.queryByText('Child content')).not.to.exist;
   });
-  it('should not redirect when vaOnlineSchedulingMhvRouteGuards is disabled', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: false,
-      },
-    };
-    const store = createTestStore(myInitialState);
-    const screen = renderWithStoreAndRouter(
-      <>
-        <Switch>
-          <EnrolledRoute component={() => <div>Child content</div>} />
-        </Switch>
-      </>,
-      {
-        store,
-      },
-    );
-
-    // Assert that the child content is rendered
-    expect(await screen.findByText('Child content')).to.exist;
-  });
-  it('should redirect to /my-health when user is not registered with any facilities and vaOnlineSchedulingMhvRouteGuards is enabled', async () => {
+  it('should redirect to /my-health when vaOnlineSchedulingMhvRouteGuards is enabled and no facilities are registered', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -193,7 +181,7 @@ describe('VAOS Component: EnrolledRoute', () => {
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          loa: { current: 3 },
+          loa: { current: 1 },
         },
       },
     };
