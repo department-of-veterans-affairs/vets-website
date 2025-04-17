@@ -1,7 +1,12 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const find = require('find');
 const path = require('path');
+
+const nodeMdodulesPath = require.resolve('find', {
+  paths: [path.join(__dirname, '../node_modules')],
+});
+// eslint-disable-next-line import/no-dynamic-require
+const find = require(nodeMdodulesPath);
 const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/changed-apps-build.json');
