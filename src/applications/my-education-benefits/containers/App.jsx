@@ -11,11 +11,19 @@ import {
   fetchExclusionPeriods,
   fetchDuplicateContactInfo,
   fetchDirectDeposit,
+  validateAddress,
 } from '../actions';
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
+
+// Helper function to check if a US address is complete
+const isAddressComplete = address => {
+  if (!address || address.country !== 'USA') return false;
+  const { street, city, state, postalCode } = address;
+  return Boolean(street && city && state && postalCode);
+};
 
 export const App = ({
   children,
@@ -47,12 +55,15 @@ export const App = ({
   duplicatePhone,
   meb160630Automation,
   mebAddressValidationApi,
+  addressValidation,
+  validateAddress: validateAddressAction,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
   const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const previousChosenBenefit = useRef();
+  const previousAddressString = useRef('');
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
@@ -433,6 +444,65 @@ export const App = ({
     ],
   );
 
+  // useEffect for automatic address validation
+  useEffect(
+    () => {
+      const mailingAddressData =
+        formData?.[formFields.viewMailingAddress] || {};
+      const address = mailingAddressData[formFields.address];
+      const livesOnMilitaryBase =
+        mailingAddressData[formFields.livesOnMilitaryBase];
+      const addressValidated = addressValidation?.validated;
+      const isValidating = addressValidation?.isValidating;
+
+      // Create a string representation of the address to detect changes
+      const currentAddressString = JSON.stringify(address);
+
+      // Check conditions for triggering validation
+      if (
+        isLoggedIn &&
+        isLOA3 &&
+        mebAddressValidationApi &&
+        address &&
+        address.country === 'USA' &&
+        !livesOnMilitaryBase &&
+        isAddressComplete(address) &&
+        !addressValidated &&
+        !isValidating &&
+        currentAddressString !== previousAddressString.current
+      ) {
+        // Update the ref to prevent immediate re-triggering
+        previousAddressString.current = currentAddressString;
+
+        // Format address for API
+        const formattedAddress = {
+          addressLine1: address.street,
+          addressLine2: address.street2 || '',
+          addressLine3: address.street3 || '',
+          city: address.city,
+          stateCode: address.state,
+          countryCode: address.country,
+          zipCode: address.postalCode,
+        };
+        // Dispatch validation action
+        validateAddressAction(formattedAddress);
+      } else if (currentAddressString !== previousAddressString.current) {
+        // If the address changed but didn't meet validation criteria, update the ref
+        previousAddressString.current = currentAddressString;
+      }
+    },
+    [
+      formData,
+      addressValidation?.validated,
+      addressValidation?.isValidating,
+      isLoggedIn,
+      isLOA3,
+      mebAddressValidationApi,
+      validateAddressAction,
+      setFormData,
+    ],
+  );
+
   return (
     <>
       <div className="row">
@@ -496,6 +566,8 @@ App.propTypes = {
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
+  addressValidation: PropTypes.object,
+  validateAddress: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -505,7 +577,6 @@ const mapStateToProps = state => {
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
   const exclusionPeriods = state?.data?.exclusionPeriods;
-
   return {
     ...getAppData(state),
     formData,
@@ -513,6 +584,7 @@ const mapStateToProps = state => {
     claimantInfo,
     email,
     exclusionPeriods,
+    addressValidation: state.data.addressValidation,
   };
 };
 
@@ -522,6 +594,7 @@ const mapDispatchToProps = {
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,
+  validateAddress,
 };
 
 export default connect(

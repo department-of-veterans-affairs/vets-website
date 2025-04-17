@@ -228,18 +228,26 @@ export default {
             ...state.addressValidation,
             isValidating: true,
             validationError: null,
+            suggestedAddresses: [],
+            originalAddress: null,
           },
         };
-      case ADDRESS_VALIDATION_SUCCESS:
+      case ADDRESS_VALIDATION_SUCCESS: {
+        const suggestedAddresses = action.response.addresses || [];
+        const openModalOnSuccess = suggestedAddresses.length > 0;
+
         return {
           ...state,
           addressValidation: {
             ...state.addressValidation,
             isValidating: false,
-            suggestedAddresses: action.response.addresses || [],
+            suggestedAddresses,
             originalAddress: action.address,
+            modalOpen: openModalOnSuccess,
+            validated: !openModalOnSuccess,
           },
         };
+      }
       case ADDRESS_VALIDATION_FAILURE:
         return {
           ...state,
@@ -247,6 +255,7 @@ export default {
             ...state.addressValidation,
             isValidating: false,
             validationError: action.error,
+            modalOpen: true,
           },
         };
       case ADDRESS_VALIDATION_MODAL_TOGGLE:

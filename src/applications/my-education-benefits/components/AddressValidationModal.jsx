@@ -29,6 +29,8 @@ function AddressValidationModal(props) {
     modalOpen,
     suggestedAddresses = [],
     isValidating,
+    validationError,
+    originalAddress,
   } = addressValidation;
 
   const userEnteredAddress =
@@ -66,11 +68,6 @@ function AddressValidationModal(props) {
       };
 
       selectEl.addEventListener('vaSelect', handleVaSelect);
-
-      /* eslint-disable-next-line consistent-return */
-      return () => {
-        selectEl.removeEventListener('vaSelect', handleVaSelect);
-      };
     },
     [handleAddressChange],
   );
@@ -126,18 +123,29 @@ function AddressValidationModal(props) {
     }
   };
 
-  const handleAcceptAddress = selectedAddress => {
+  const handleAcceptAddress = (selectedAddress, isSuggestion = false) => {
+    const addressToSave = isSuggestion
+      ? {
+          street: selectedAddress.addressLine1,
+          street2: selectedAddress.addressLine2,
+          street3: selectedAddress.addressLine3,
+          city: selectedAddress.city,
+          state: selectedAddress.stateCode,
+          country: selectedAddress.countryName || 'USA',
+          postalCode: selectedAddress.zipCode,
+        }
+      : selectedAddress;
+
     const updatedFormData = {
       ...formData,
       [formFields.viewMailingAddress]: {
         ...formData[formFields.viewMailingAddress],
-        [formFields.address]: selectedAddress,
-        addressValidated: true,
+        [formFields.address]: addressToSave,
       },
     };
     setFormData(updatedFormData);
 
-    acceptAddress(selectedAddress);
+    acceptAddress(addressToSave);
     setValidated(true);
     setModalOpen(false);
   };
@@ -148,7 +156,12 @@ function AddressValidationModal(props) {
 
   const formatAddress = address => {
     if (!address) return '';
-    const { street, street2, city, state, postalCode } = address;
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const postalCode = address.postalCode || address.zipCode;
+
     const parts = [
       street,
       street2,
@@ -211,13 +224,30 @@ function AddressValidationModal(props) {
           onInput={e => handleAddressChange({ postalCode: e.target.value })}
           required={userEnteredAddress?.country === 'USA'}
         />
+        {validationError && (
+          <va-alert status="error" visible>
+            <h3 slot="headline">Address validation failed</h3>
+            <p>
+              We couldn’t validate your address. Please review and correct it,
+              or continue with the address as entered.
+            </p>
+          </va-alert>
+        )}
       </div>
       <div className="vads-u-margin-top--2">
         <va-button
           onClick={validateAddressData}
           text="Validate Address"
-          disabled={!isAddressComplete(userEnteredAddress)}
+          disabled={!isAddressComplete(userEnteredAddress) || isValidating}
+          class="vads-u-margin-right--1"
         />
+        {validationError && (
+          <va-button
+            onClick={() => handleAcceptAddress(userEnteredAddress, false)}
+            text="Use address as entered"
+            secondary
+          />
+        )}
       </div>
     </div>
   );
@@ -231,26 +261,29 @@ function AddressValidationModal(props) {
 
       <div className="vads-u-margin-y--2">
         <strong>Address as entered:</strong>
-        <p className="vads-u-margin-top--0">
-          {formatAddress(userEnteredAddress)}
-        </p>
+        <p className="vads-u-margin-top--0">{formatAddress(originalAddress)}</p>
         <va-button
-          onClick={() => handleAcceptAddress(userEnteredAddress)}
+          onClick={() => handleAcceptAddress(originalAddress, false)}
           text="Use address as entered"
           class="vads-u-margin-top--1"
         />
       </div>
 
       <div className="vads-u-margin-y--2">
-        <strong>Suggested address:</strong>
-        <p className="vads-u-margin-top--0">
-          {formatAddress(suggestedAddresses[0])}
-        </p>
-        <va-button
-          onClick={() => handleAcceptAddress(suggestedAddresses[0])}
-          text="Use suggested address"
-          class="vads-u-margin-top--1"
-        />
+        <strong>
+          Suggested address
+          {suggestedAddresses.length > 1 && 'es'}:
+        </strong>
+        {suggestedAddresses.map((suggestion, index) => (
+          <div key={index} className="vads-u-margin-bottom--1">
+            <p className="vads-u-margin-top--0">{formatAddress(suggestion)}</p>
+            <va-button
+              onClick={() => handleAcceptAddress(suggestion, true)}
+              text="Use suggested address"
+              class="vads-u-margin-top--1"
+            />
+          </div>
+        ))}
       </div>
     </>
   );
@@ -267,20 +300,33 @@ function AddressValidationModal(props) {
     }
 
     if (suggestedAddresses.length > 0) {
-      return renderValidationResults();
+      if (originalAddress) {
+        return renderValidationResults();
+      }
+      return renderAddressForm();
     }
 
-    return renderAddressForm();
+    if (validationError || !isValidating) {
+      return renderAddressForm();
+    }
+
+    return null;
   };
 
   return (
     <div>
       <VaModal
-        modalTitle="Enter your mailing address"
+        modalTitle={
+          suggestedAddresses.length > 0
+            ? 'Confirm your mailing address'
+            : 'Enter your mailing address'
+        }
         visible={modalOpen}
         onCloseEvent={handleCancel}
-        primaryButtonText="Cancel"
-        status="info"
+        uswds={false}
+        primaryButtonText=""
+        secondaryButtonText=""
+        status={validationError ? 'error' : 'info'}
       >
         {renderModalContent()}
       </VaModal>
@@ -293,6 +339,8 @@ AddressValidationModal.propTypes = {
     modalOpen: PropTypes.bool,
     suggestedAddresses: PropTypes.array,
     isValidating: PropTypes.bool,
+    validationError: PropTypes.object,
+    originalAddress: PropTypes.object,
   }),
   formData: PropTypes.object,
   setFormData: PropTypes.func,
