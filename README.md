@@ -316,4 +316,3 @@ Create a .env file in the root of vets-website, and assign the above token to a 
 
 - If you're on a VA.gov Platform team, contact your Program Manager.
 - If you're on a VFS team, you must complete [Platform Orientation](https://depo-platform-documentation.scrollhelp.site/getting-started/platform-orientation) to be added to this repository. This includes completing your Platform Orientation ticket(s) in GitHub.
-  change
