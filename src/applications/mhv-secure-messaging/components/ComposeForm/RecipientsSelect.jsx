@@ -288,6 +288,7 @@ RecipientsSelect.propTypes = {
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
   setCheckboxMarked: PropTypes.func,
+  setComboBoxInputValue: PropTypes.func,
   setElectronicSignature: PropTypes.func,
 };
 
