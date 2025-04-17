@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-// import { validateFacilityCode } from '../utilities';
+import { validateFacilityCode } from '../utilities';
 import { transform } from './submit-transformer';
 
 // Components
@@ -108,16 +108,14 @@ const formConfig = {
         institutionDetails: {
           path: 'identifying-details-1',
           title: 'Institution details',
-          onNavForward: async ({ goPath }) => {
-            // onNavForward: async ({ formData, goPath }) => {
-            //   const isAccredited = await validateFacilityCode(formData);
-            //   localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
-            //   if (isAccredited) {
-            //     goPath('/student-ratio-calculation');
-            //   } else {
-            //     goPath('/additional-form');
-            //   }
-            goPath('/student-ratio-calculation');
+          onNavForward: async ({ formData, goPath }) => {
+            const isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
+            if (isAccredited) {
+              goPath('/student-ratio-calculation');
+            } else {
+              goPath('/additional-form');
+            }
           },
           uiSchema: InstitutionDetails().uiSchema,
           schema: InstitutionDetails().schema,
