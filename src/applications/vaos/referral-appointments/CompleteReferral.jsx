@@ -161,7 +161,7 @@ export default function CompleteReferral() {
                   size={3}
                 />
               </span>
-              {attributes?.modality || 'In Person'} at {provider.location.name}
+              {attributes.modality} at {provider.location.name}
             </p>
             <p
               className="vads-u-margin-left--4 vads-u-margin-top--0p5"
