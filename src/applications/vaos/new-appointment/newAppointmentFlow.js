@@ -287,7 +287,7 @@ const flow = {
   selectProvider: {
     url: '/new-appointment/provider',
     label: 'Which provider do you want to schedule with?',
-    next: null,
+    next: 'preferredDate',
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
