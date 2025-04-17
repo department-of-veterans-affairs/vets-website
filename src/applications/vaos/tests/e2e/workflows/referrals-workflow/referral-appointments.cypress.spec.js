@@ -14,9 +14,9 @@ import MockUser from '../../fixtures/MockUser';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
 import MockReferralDetailResponse from '../../fixtures/MockReferralDetailResponse';
-import MockDraftReferralAppointmentResponse from '../../fixtures/MockDraftReferralAppointmentResponse';
-import MockCreateAppointmentResponse from '../../fixtures/MockCreateAppointmentResponse';
-import MockAppointmentDetailsResponse from '../../fixtures/MockAppointmentDetailsResponse';
+import MockReferralDraftAppointmentResponse from '../../fixtures/MockReferralDraftAppointmentResponse';
+import MockReferralCreateAppointmentResponse from '../../fixtures/MockReferralCreateAppointmentResponse';
+import MockReferralAppointmentDetailsResponse from '../../fixtures/MockReferralAppointmentDetailsResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
@@ -100,7 +100,7 @@ describe('VAOS Referral Appointments', () => {
       });
 
       // Mock draft referral appointment response
-      const draftReferralAppointment = new MockDraftReferralAppointmentResponse(
+      const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
         {
           referralId,
           categoryOfCare: 'Physical Therapy',
@@ -112,23 +112,27 @@ describe('VAOS Referral Appointments', () => {
       });
 
       // Mock appointment creation response
-      const createAppointmentResponse = new MockCreateAppointmentResponse({
-        appointmentId,
-        success: true,
-      }).toJSON();
+      const createAppointmentResponse = new MockReferralCreateAppointmentResponse(
+        {
+          appointmentId,
+          success: true,
+        },
+      ).toJSON();
       mockCreateAppointmentApi({
         response: createAppointmentResponse,
       });
 
       // Mock appointment details response
-      const appointmentDetailsResponse = new MockAppointmentDetailsResponse({
-        appointmentId,
-        referralId,
-        typeOfCare: 'Physical Therapy',
-        providerName: 'Dr. Bones',
-        organizationName: 'Meridian Health',
-        success: true,
-      }).toJSON();
+      const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
+        {
+          appointmentId,
+          referralId,
+          typeOfCare: 'Physical Therapy',
+          providerName: 'Dr. Bones',
+          organizationName: 'Meridian Health',
+          success: true,
+        },
+      ).toJSON();
       mockAppointmentDetailsApi({
         id: appointmentId,
         response: appointmentDetailsResponse,

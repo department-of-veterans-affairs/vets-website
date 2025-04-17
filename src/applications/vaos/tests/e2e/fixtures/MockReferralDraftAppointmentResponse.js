@@ -4,7 +4,7 @@ import { addDays } from 'date-fns';
 /**
  * Class to create mock draft referral appointment responses for Cypress tests
  */
-class MockDraftReferralAppointmentResponse {
+class MockReferralDraftAppointmentResponse {
   constructor(options = {}) {
     this.options = {
       referralId: 'PmDYsBz-egEtG13flMnHUQ==',
@@ -206,7 +206,7 @@ class MockDraftReferralAppointmentResponse {
       const slotDate = addDays(new Date(), i + 3);
       slotDate.setHours(startHour + i, 0, 0, 0);
       slotsArray.push(
-        MockDraftReferralAppointmentResponse.createSlot({
+        MockReferralDraftAppointmentResponse.createSlot({
           startDate: slotDate,
           index: i,
         }),
@@ -214,7 +214,7 @@ class MockDraftReferralAppointmentResponse {
     }
 
     // Create provider
-    const provider = MockDraftReferralAppointmentResponse.createProvider();
+    const provider = MockReferralDraftAppointmentResponse.createProvider();
 
     // Return complete response matching the expected format
     return {
@@ -250,4 +250,4 @@ class MockDraftReferralAppointmentResponse {
   }
 }
 
-export default MockDraftReferralAppointmentResponse;
+export default MockReferralDraftAppointmentResponse;

@@ -3,7 +3,7 @@
 /**
  * Class to create mock appointment details responses for Cypress tests
  */
-class MockAppointmentDetailsResponse {
+class MockReferralAppointmentDetailsResponse {
   constructor(options = {}) {
     this.options = {
       appointmentId: 'EEKoGzEf',
@@ -138,11 +138,11 @@ class MockAppointmentDetailsResponse {
 
     // Return error response if success is false
     if (!success) {
-      return MockAppointmentDetailsResponse.createErrorResponse();
+      return MockReferralAppointmentDetailsResponse.createErrorResponse();
     }
 
     // Return successful response
-    return MockAppointmentDetailsResponse.createSuccessResponse({
+    return MockReferralAppointmentDetailsResponse.createSuccessResponse({
       appointmentId,
       referralId,
       typeOfCare,
@@ -152,4 +152,4 @@ class MockAppointmentDetailsResponse {
   }
 }
 
-export default MockAppointmentDetailsResponse;
+export default MockReferralAppointmentDetailsResponse;
