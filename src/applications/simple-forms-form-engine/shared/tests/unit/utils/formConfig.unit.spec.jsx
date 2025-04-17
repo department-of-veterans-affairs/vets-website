@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
 import * as submitTransform from '../../../config/submitTransformer';
+import * as listLoopPatterns from '../../../config/pages/listLoop';
 import { normalizedForm } from '../../../config/formConfig';
 import {
   createFormConfig,
@@ -176,7 +177,7 @@ describe('formatPages', () => {
 
   context('when digital_form_list_loop', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+      spy = sinon.spy(listLoopPatterns, 'listLoopPages');
     });
 
     it('calls listLoopPages', () => {
@@ -188,7 +189,7 @@ describe('formatPages', () => {
 
   context('when list_loop_employment_history', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+      spy = sinon.spy(listLoopPatterns, 'listLoopPages');
     });
 
     it('calls listLoopPages', () => {
