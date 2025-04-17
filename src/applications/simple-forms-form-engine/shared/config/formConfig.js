@@ -88,13 +88,98 @@ export const normalizedForm = {
       },
     },
     {
-      id: 162026,
+      id: 176042,
       type: 'digital_form_list_loop',
-      additionalFields: {
-        optional: false,
-      },
-      chapterTitle: 'Generated List & Loop',
-      pageTitle: 'List & Loop',
+      chapterTitle: 'Film History',
+      itemNameLabel: 'Name of film',
+      maxItems: 9,
+      nounPlural: 'Films',
+      nounSingular: 'Film',
+      optional: false,
+      pages: [
+        {
+          bodyText:
+            "Yes, we can probably look this up somewhere else, but we want to make sure you're paying attention.",
+          components: [
+            {
+              hint: 'The date it was released in theatres.',
+              id: '176030',
+              label: 'Release date',
+              required: true,
+              type: 'digital_form_date_component',
+              dateFormat: 'month_year',
+            },
+          ],
+          id: '176031',
+          pageTitle: 'When was this film released?',
+        },
+        {
+          bodyText: null,
+          components: [
+            {
+              hint: 'As listed in the credits',
+              id: '176032',
+              label: 'Name',
+              required: true,
+              type: 'digital_form_text_input',
+            },
+          ],
+          id: '176033',
+          pageTitle: "What was your character's name?",
+        },
+        {
+          bodyText:
+            'Briefly describe what happened to your character in this film.',
+          components: [
+            {
+              hint: null,
+              id: '176034',
+              label: 'My role',
+              required: true,
+              type: 'digital_form_text_area',
+            },
+          ],
+          id: '176035',
+          pageTitle: 'What did you do in this film?',
+        },
+        {
+          bodyText: null,
+          components: [
+            {
+              hint: null,
+              id: '176040',
+              label: 'Select the characters you interacted with',
+              required: false,
+              type: 'digital_form_checkbox',
+              responseOptions: [
+                {
+                  id: '176036',
+                  label: 'Luke Skywalker',
+                  description: 'The hero of the original trilogy',
+                },
+                {
+                  id: '176037',
+                  label: 'Darth Vader/Anakin Skywalker',
+                  description: 'SPOILERS!',
+                },
+                {
+                  id: '176038',
+                  label: 'Princess Leia',
+                  description: null,
+                },
+                {
+                  id: '176039',
+                  label: 'Kylo Ren',
+                  description: 'Mopey kid',
+                },
+              ],
+            },
+          ],
+          id: '176041',
+          pageTitle: 'Who did you interact with?',
+        },
+      ],
+      sectionIntro: null,
     },
     {
       id: 176029,

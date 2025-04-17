@@ -84,7 +84,7 @@ export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
 
 /** @returns {FormConfigPages} */
 export const listLoopPages = (
-  { additionalFields: { optional } },
+  { optional },
   arrayBuilder = arrayBuilderPages,
 ) => {
   /** @type {Array<string>} */

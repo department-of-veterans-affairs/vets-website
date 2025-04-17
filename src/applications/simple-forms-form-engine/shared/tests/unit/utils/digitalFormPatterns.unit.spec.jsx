@@ -143,9 +143,7 @@ describe('listLoopPages', () => {
   const optional = {
     id: 162032,
     type: 'digital_form_list_loop',
-    additionalFields: {
-      optional: true,
-    },
+    optional: true,
     chapterTitle: "Veteran's employment history",
     pageTitle: 'List & Loop',
   };
