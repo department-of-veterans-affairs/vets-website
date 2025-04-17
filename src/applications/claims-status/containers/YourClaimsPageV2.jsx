@@ -189,7 +189,9 @@ class YourClaimsPageV2 extends React.Component {
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <va-loading-indicator message="Loading your claims and appeals..." />
+        <div className="claims-list-container" aria-busy="true">
+          <va-loading-indicator message="Loading your claims and appeals..." />
+        </div>
       );
     } else if (!emptyList) {
       const listLen = list.length;
@@ -212,7 +214,9 @@ class YourClaimsPageV2 extends React.Component {
           {pageInfo}
           <div className="claim-list">
             {atLeastOneRequestLoading && (
-              <va-loading-indicator message="Loading your claims and appeals..." />
+              <div className="claims-list-container" aria-busy="true">
+                <va-loading-indicator message="Loading your claims and appeals..." />
+              </div>
             )}
             {pageItems.map(claim => this.renderListItem(claim))}
             {shouldPaginate && (
@@ -249,8 +253,8 @@ class YourClaimsPageV2 extends React.Component {
               trigger="Find out why we sometimes combine claims."
             >
               <div>
-                If you turn in a new claim while we’re reviewing another one
-                from you, we’ll add any new information to the original claim
+                If you turn in a new claim while we're reviewing another one
+                from you, we'll add any new information to the original claim
                 and close the new claim, with no action required from you.
               </div>
             </va-additional-info>
