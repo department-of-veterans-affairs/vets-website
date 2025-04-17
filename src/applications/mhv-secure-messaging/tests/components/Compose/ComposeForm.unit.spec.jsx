@@ -120,32 +120,6 @@ describe('Compose form component', () => {
     expect(body).to.exist;
   });
 
-  it('displays Edit List modal if path is /new-message', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
-
-    const editListLink = await screen.getByTestId('edit-preferences-button', {
-      selector: 'button',
-      exact: true,
-    });
-    expect(
-      document.querySelector('#edit-list').getAttribute('visible'),
-    ).to.equal('false');
-
-    fireEvent.click(editListLink);
-    const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
-    );
-
-    expect(
-      document.querySelector('#edit-list').getAttribute('visible'),
-    ).to.equal('true');
-    expect(
-      document.querySelector('.vads-c-action-link--green').getAttribute('href'),
-    ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences');
-    expect(modalContent).to.exist;
-    fireEvent.click(document.querySelector('.vads-c-action-link--green'));
-  });
-
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 

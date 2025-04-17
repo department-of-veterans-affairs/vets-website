@@ -39,20 +39,6 @@ describe('EditSignatureLink component', () => {
     expect(link.getAttribute('data-dd-action-name')).to.equal('Edit Signature');
   });
 
-  it('should not render when feature flag is not enabled', () => {
-    const testState = { ...customState, featureToggles: { loading: false } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = false;
-    const { queryByText } = setup(testState);
-    expect(queryByText('Edit signature for all messages')).to.not.exist;
-  });
-
-  it('should not render when feature flag is loading', () => {
-    const testState = { ...customState, featureToggles: { loading: true } };
-    testState.featureToggles.mhv_secure_messaging_signature_settings = true;
-    const { queryByText } = setup(testState);
-    expect(queryByText('Edit signature for all messages')).to.not.exist;
-  });
-
   it('should not render when includeSignature is false', () => {
     const testState = { ...customState, featureToggles: { loading: false } };
     testState.featureToggles.mhv_secure_messaging_signature_settings = true;

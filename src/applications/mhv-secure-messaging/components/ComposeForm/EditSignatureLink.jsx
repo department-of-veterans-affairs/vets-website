@@ -13,6 +13,7 @@ const EditSignatureLink = () => {
         <a
           href="/profile/personal-information#messaging-signature"
           data-dd-action-name="Edit Signature"
+          data-testid="edit-signature-link"
         >
           Edit signature for all messages
         </a>
