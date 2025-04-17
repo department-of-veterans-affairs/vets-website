@@ -25,7 +25,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       show_new_schedule_view_appointments_page: true,
-      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       vaOnlineSchedulingCancel: true,
       vaOnlineSchedulingPast: true,
       vaOnlineSchedulingRequests: true,
