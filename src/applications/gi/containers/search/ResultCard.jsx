@@ -20,6 +20,7 @@ import {
   createId,
   convertRatingToStars,
   showSchoolContentBasedOnType,
+  capitalizeFirstLetter,
 } from '../../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
@@ -170,7 +171,7 @@ export function ResultCard({
               })
             }
           >
-            {name}
+            {capitalizeFirstLetter(name)}
             <span className="vads-u-visibility--screen-reader">
               {city}
               {state && `, ${state}`}
