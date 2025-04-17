@@ -167,14 +167,14 @@ describe('unassociated income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 1, 'va-text-input': 1, input: 1 },
+      { 'va-radio': 1, 'va-text-input': 2 },
       'income type',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      2,
+      3,
       'income type',
     );
     testSubmitsWithoutErrors(
