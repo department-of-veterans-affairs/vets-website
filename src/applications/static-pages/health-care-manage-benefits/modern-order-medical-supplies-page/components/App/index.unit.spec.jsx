@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { App, linkText } from './index';
 
-describe('Modern Get Medical Records Page', () => {
+describe('Modern Order Medical Supplies Page', () => {
   describe('<App>', () => {
     const mockStore = configureStore([]);
 
