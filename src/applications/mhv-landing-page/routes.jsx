@@ -1,72 +1,69 @@
 /* eslint-disable @department-of-veterans-affairs/no-cross-app-imports */
-import React, { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom-v5-compat';
+import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import AppConfig from './containers/AppConfig';
+import LandingPageContainer from './containers/LandingPageContainer';
 
-// Lazy-loaded components
-const LandingPageContainer = lazy(() =>
-  import('./containers/LandingPageContainer'),
-);
-const MhvMedcationsRoutes = lazy(() => import('../mhv-medications/routes'));
-const MhvMedicalRecordsRoutes = lazy(() =>
-  import('../mhv-medical-records/routes'),
-);
-const MhvSecureMessagingRoutes = lazy(() =>
-  import('../mhv-secure-messaging/routes'),
-);
-const AppointmentsRoutes = lazy(() => import('../vaos/routes'));
-
-// Loading component to display while lazy-loaded components are being fetched
-const Loading = () => (
-  <va-loading-indicator
-    message="Loading..."
-    set-focus
-    data-testid="loading-indicator"
-  />
+const AsyncSecureMessagingRoutes = asyncLoader(() =>
+  import('../mhv-secure-messaging/routes').then(
+    ({ default: MhvSecureMessagingRoutes }) => {
+      return MhvSecureMessagingRoutes;
+    },
+  ),
 );
 
-const routes = (
+const AsyncAppointmentsRoutes = asyncLoader(() =>
+  import('../vaos/routes').then(({ default: AppointmentsRoutes }) => {
+    return AppointmentsRoutes;
+  }),
+);
+
+const AsyncMhvMedicationsRoutes = asyncLoader(() =>
+  import('../mhv-medications/routes').then(
+    ({ default: MhvMedicationsRoutes }) => {
+      return MhvMedicationsRoutes;
+    },
+  ),
+);
+
+const AsyncMhvMedicalRecordsRoutes = asyncLoader(() =>
+  import('../mhv-medical-records/routes').then(
+    ({ default: MhvMedicalRecordsRoutes }) => {
+      return MhvMedicalRecordsRoutes;
+    },
+  ),
+);
+
+const routes = () => (
   <AppConfig>
-    <Suspense fallback={<Loading />}>
-      <Switch>
-        <Route exact path="/" key="mhvLandingPage">
-          <LandingPageContainer />
-        </Route>
-        <Route
-          exact
-          path={['/my-medications', '/my-medications/*']}
-          key="mhvMedications"
-        >
-          <MhvMedcationsRoutes />
-        </Route>
-        <Route
-          exact
-          path={['/my-medical-records', '/my-medical-records/*']}
-          key="mhvMedicalRecords"
-        >
-          <MhvMedicalRecordsRoutes />
-        </Route>
-        <Route
-          exact
-          path={['/my-secure-messages', '/my-secure-messages/*']}
-          key="mhvSecureMessages"
-        >
-          <MhvSecureMessagingRoutes />
-        </Route>
-        <Route
-          exact
-          path={['/my-appointments', '/my-appointments/*']}
-          key="appointments"
-        >
-          <AppointmentsRoutes />
-        </Route>
-
-        <Route>
-          <PageNotFound />
-        </Route>
-      </Switch>
-    </Suspense>
+    <Routes>
+      <Route path="/" element={<LandingPageContainer />} />
+      <Route
+        exact
+        path={'/my-medications/*'}
+        element={<AsyncMhvMedicationsRoutes />}
+        key="mhvMedications"
+      />
+      <Route
+        exact
+        path={'/my-medical-records/*'}
+        element={<AsyncMhvMedicalRecordsRoutes />}
+        key="mhvMedicalRecords"
+      />
+      <Route
+        path="/my-secure-messages/*"
+        element={<AsyncSecureMessagingRoutes />}
+        key="mhvSecureMessages"
+      />
+      <Route
+        path="/my-appointments/*"
+        element={<AsyncAppointmentsRoutes />}
+        key="appointments"
+      />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   </AppConfig>
 );
 

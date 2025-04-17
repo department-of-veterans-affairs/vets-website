@@ -3,13 +3,13 @@ import './sass/mhv-landing-page.scss';
 import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 import startApp from '@department-of-veterans-affairs/platform-startup/router';
 
-import routes from './routes';
+import createRoutesWithStore from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
   entryName: manifest.entryName,
   reducer,
-  routes,
+  createRoutesWithStore,
   url: manifest.rootUrl,
 });
