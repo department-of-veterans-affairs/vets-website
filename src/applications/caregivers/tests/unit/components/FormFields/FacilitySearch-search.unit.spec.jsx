@@ -30,6 +30,7 @@ describe('CG <FacilitySearch>', () => {
   const radius = 500;
   const query = 'Tampa';
   const mapBoxSuccessResponse = { center: [long, lat] };
+  let mockLogger;
   let dispatch;
   let mapboxStub;
   let facilitiesStub;
@@ -57,13 +58,20 @@ describe('CG <FacilitySearch>', () => {
   };
 
   beforeEach(() => {
+    mockLogger = { warn: sinon.spy() };
     dispatch = sinon.spy();
+
     mapboxStub = sinon
       .stub(bboxFetch, 'fetchMapBoxGeocoding')
       .resolves(mapBoxSuccessResponse);
     facilitiesStub = sinon
       .stub(facilitiesFetch, 'fetchFacilities')
       .resolves(mockFetchFacilitiesResponse);
+
+    Object.defineProperty(window, 'DD_LOGS', {
+      value: { logger: mockLogger },
+      configurable: true,
+    });
   });
 
   afterEach(() => {
@@ -440,6 +448,7 @@ describe('CG <FacilitySearch>', () => {
         expect(vaRadio).to.have.attr('error', ERROR_MSG_PARENT);
       });
 
+      sinon.assert.calledOnce(mockLogger.warn);
       sinon.assert.calledWithExactly(dispatch, {
         type: 'SET_DATA',
         data: {
@@ -503,6 +512,7 @@ describe('CG <FacilitySearch>', () => {
         expect(vaRadio).to.have.attr('error', ERROR_MSG_PARENT);
       });
 
+      sinon.assert.calledOnce(mockLogger.warn);
       sinon.assert.calledOnceWithExactly(dispatch, {
         type: 'SET_DATA',
         data: {
