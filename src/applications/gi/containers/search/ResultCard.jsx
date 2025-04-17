@@ -173,14 +173,14 @@ export function ResultCard({
           >
             {capitalizeFirstLetter(name)}
             <span className="vads-u-visibility--screen-reader">
-              {city}
+              {capitalizeFirstLetter(city)}
               {state && `, ${state}`}
             </span>
           </Link>
         </h3>
       </div>
       <p className="vads-u-padding--0">
-        {city}
+        {capitalizeFirstLetter(city)}
         {state && `, ${state}`}
       </p>
     </>
