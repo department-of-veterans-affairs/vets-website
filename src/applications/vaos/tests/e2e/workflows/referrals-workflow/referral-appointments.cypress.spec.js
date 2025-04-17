@@ -5,16 +5,19 @@ import {
   mockVamcEhrApi,
   mockReferralsGetApi,
   mockReferralDetailGetApi,
+  mockDraftReferralAppointmentApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import MockUser from '../../fixtures/MockUser';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
 import MockReferralDetailResponse from '../../fixtures/MockReferralDetailResponse';
+import MockDraftReferralAppointmentResponse from '../../fixtures/MockDraftReferralAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
+import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -88,6 +91,18 @@ describe('VAOS Referral Appointments', () => {
         id: referralId,
         response: referralDetailResponse,
       });
+
+      // Mock draft referral appointment response
+      const draftReferralAppointment = new MockDraftReferralAppointmentResponse(
+        {
+          referralId,
+          categoryOfCare: 'Physical Therapy',
+          numberOfSlots: 3,
+        },
+      );
+      mockDraftReferralAppointmentApi({
+        response: draftReferralAppointment,
+      });
     });
 
     it('should navigate through the referral scheduling flow', () => {
@@ -118,6 +133,19 @@ describe('VAOS Referral Appointments', () => {
 
       // Click the schedule appointment button
       scheduleReferral.clickScheduleAppointment();
+
+      // Wait for draft referral appointment to load
+      cy.wait('@v2:post:draftReferralAppointment');
+      cy.injectAxeThenAxeCheck();
+
+      // Validate we've reached the choose date and time page
+      chooseDateAndTime.validate();
+      chooseDateAndTime.assertProviderInfo();
+      chooseDateAndTime.assertAppointmentSlots({ count: 3 });
+
+      // Select the first appointment slot
+      chooseDateAndTime.selectAppointmentSlot(0);
+      chooseDateAndTime.clickContinue();
     });
   });
 });

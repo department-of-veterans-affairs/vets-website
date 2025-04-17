@@ -781,3 +781,39 @@ export function mockReferralDetailGetApi({
     },
   ).as('v2:get:referral:detail');
 }
+
+/**
+ * Function to mock the 'POST' draft referral appointment endpoint.
+ *
+ * @example POST '/vaos/v2/epsApi/draftReferralAppointment'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockDraftReferralAppointmentApi({
+  response: data,
+  responseCode = 200,
+} = {}) {
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/vaos/v2/epsApi/draftReferralAppointment',
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          statusCode: responseCode,
+          body: data,
+        });
+        return;
+      }
+
+      req.reply({
+        statusCode: 200,
+        body: data,
+      });
+    },
+  ).as('v2:post:draftReferralAppointment');
+}
