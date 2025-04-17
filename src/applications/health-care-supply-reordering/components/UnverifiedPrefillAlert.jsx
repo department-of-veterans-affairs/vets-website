@@ -43,7 +43,4 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(UnverifiedPrefillAlert);
+export default connect(null, mapDispatchToProps)(UnverifiedPrefillAlert);

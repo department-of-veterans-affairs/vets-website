@@ -266,10 +266,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(DocumentRequestPage),
+  connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage),
 );
 
 DocumentRequestPage.propTypes = {

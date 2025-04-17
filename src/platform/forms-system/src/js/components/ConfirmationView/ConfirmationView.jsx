@@ -75,14 +75,11 @@ export const ConfirmationView = props => {
   );
   const [submitDate, setSubmitDate] = useState(props.submitDate || null);
 
-  useEffect(
-    () => {
-      setPdfUrl(props.pdfUrl);
-      setConfirmationNumber(props.confirmationNumber);
-      setSubmitDate(props.submitDate || null);
-    },
-    [props.pdfUrl, props.confirmationNumber, props.submitDate],
-  );
+  useEffect(() => {
+    setPdfUrl(props.pdfUrl);
+    setConfirmationNumber(props.confirmationNumber);
+    setSubmitDate(props.submitDate || null);
+  }, [props.pdfUrl, props.confirmationNumber, props.submitDate]);
 
   const DevOnlyButtons = useDevOnlyButtons({
     formData: form.data,

@@ -26,16 +26,13 @@ const IntroductionPage = props => {
 
   const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
-  useEffect(
-    () => {
-      focusElement('.va-nav-breadcrumbs-list');
-      // if (isUserLOA3) {
-      //   console.log('user is LOA3');
-      // }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [isUserLOA3],
-  );
+  useEffect(() => {
+    focusElement('.va-nav-breadcrumbs-list');
+    // if (isUserLOA3) {
+    //   console.log('user is LOA3');
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUserLOA3]);
 
   return (
     <>

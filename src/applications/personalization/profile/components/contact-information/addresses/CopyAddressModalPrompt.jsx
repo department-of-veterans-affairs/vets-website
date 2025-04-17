@@ -23,12 +23,9 @@ const CopyAddressModalPrompt = ({
     };
   }, []);
 
-  useEffect(
-    () => {
-      onMountCb()();
-    },
-    [onMountCb],
-  );
+  useEffect(() => {
+    onMountCb()();
+  }, [onMountCb]);
 
   // content to show based on whether a mailAddress is present or not
   // this edge base may never present itself, but figured it is better to handle the 'what if'

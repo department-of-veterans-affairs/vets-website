@@ -74,35 +74,29 @@ const ContactInfo = ({
     },
   };
 
-  useEffect(
-    () => {
-      if (editState) {
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const target =
-            returnState === 'canceled'
-              ? `#edit-${lastEdited}`
-              : `#updated-${lastEdited}`;
-          scrollTo('topScrollElement');
-          focusElement(target);
-        });
-      } else {
-        scrollTo('h3');
-        focusElement('topScrollElement');
-      }
-    },
-    [editState],
-  );
+  useEffect(() => {
+    if (editState) {
+      const [lastEdited, returnState] = editState.split(',');
+      setTimeout(() => {
+        const target =
+          returnState === 'canceled'
+            ? `#edit-${lastEdited}`
+            : `#updated-${lastEdited}`;
+        scrollTo('topScrollElement');
+        focusElement(target);
+      });
+    } else {
+      scrollTo('h3');
+      focusElement('topScrollElement');
+    }
+  }, [editState]);
 
-  useEffect(
-    () => {
-      if (missingInfo.length) {
-        // page had an error flag, so we know when to show a success alert
-        setHadError(true);
-      }
-    },
-    [missingInfo],
-  );
+  useEffect(() => {
+    if (missingInfo.length) {
+      // page had an error flag, so we know when to show a success alert
+      setHadError(true);
+    }
+  }, [missingInfo]);
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
@@ -201,16 +195,15 @@ const ContactInfo = ({
         {content.description}
 
         <div ref={wrapRef}>
-          {hadError &&
-            missingInfo.length === 0 && (
-              <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only>
-                  <div className="vads-u-font-size--base">
-                    {content.alertContent}
-                  </div>
-                </va-alert>
-              </div>
-            )}
+          {hadError && missingInfo.length === 0 && (
+            <div className="vads-u-margin-top--1p5">
+              <va-alert status="success" background-only>
+                <div className="vads-u-font-size--base">
+                  {content.alertContent}
+                </div>
+              </va-alert>
+            </div>
+          )}
           {missingInfo.length > 0 && (
             <>
               <p className="vads-u-margin-top--1p5">

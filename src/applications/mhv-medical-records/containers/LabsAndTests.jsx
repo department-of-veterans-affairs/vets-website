@@ -16,7 +16,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -54,13 +54,10 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+  }, [dispatch]);
 
   return (
     <div id="labs-and-tests">
@@ -76,7 +73,7 @@ const LabsAndTests = () => {
         confirm.{' '}
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

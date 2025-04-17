@@ -100,14 +100,17 @@ describe('processList', () => {
   it('returns EMPTY_FIELD value if there are no items in the list', () => {
     const list = [];
     const result = processList(list);
-    expect(result).to.eq('None noted');
+    expect(result).to.eq('None recorded');
   });
 });
 
 describe('extractContainedResource', () => {
   it('should extract the contained resource when provided a valid reference ID', () => {
     const resource = {
-      contained: [{ id: 'a1', type: 'TypeA' }, { id: 'b2', type: 'TypeB' }],
+      contained: [
+        { id: 'a1', type: 'TypeA' },
+        { id: 'b2', type: 'TypeB' },
+      ],
     };
 
     const result = extractContainedResource(resource, '#a1');

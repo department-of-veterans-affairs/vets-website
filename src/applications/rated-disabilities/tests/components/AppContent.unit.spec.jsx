@@ -23,9 +23,7 @@ const mockError = {
 };
 
 const headlines = {
-  combinedRating: `Your combined disability rating is ${
-    mockResponse.combinedDisabilityRating
-  }%`,
+  combinedRating: `Your combined disability rating is ${mockResponse.combinedDisabilityRating}%`,
   noCombinedRating:
     'We don’t have a combined disability rating on file for you',
   noRatings: 'We don’t have any rated disabilities on file for you',

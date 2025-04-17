@@ -262,6 +262,11 @@ describe('CG <FacilitySearch>', () => {
         facilitiesStub.resolves(
           mockFetchFacilitiesResponseWithoutCaregiverSupport,
         );
+        const mockLogger = { warn: sinon.spy() };
+        Object.defineProperty(window, 'DD_LOGS', {
+          value: { logger: mockLogger },
+          configurable: true,
+        });
 
         await waitFor(() => {
           inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -292,13 +297,11 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'No selected facility offers caregiver services - loaded parent',
-          );
           expect(selectors().radioList).to.have.attr(
             'error',
             content['error--facilities-parent-facility'],
           );
+          expect(mockLogger.warn.calledOnce).to.be.true;
         });
       });
 
@@ -343,6 +346,11 @@ describe('CG <FacilitySearch>', () => {
       it('calls dispatch callback with facility object whose parent is not loaded and does not offer CaregiverSupport', async () => {
         const { props, mockStore } = getData({});
         const { container, selectors } = subject({ props, mockStore });
+        const mockLogger = { warn: sinon.spy() };
+        Object.defineProperty(window, 'DD_LOGS', {
+          value: { logger: mockLogger },
+          configurable: true,
+        });
         mapboxStub.resolves(mapBoxSuccessResponse);
         facilitiesStub.onFirstCall().resolves(mockFetchChildFacilityResponse);
 
@@ -378,14 +386,11 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(sentrySpy.called).to.be.true;
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'No selected facility offers caregiver services - fetch parent',
-          );
           expect(selectors().radioList).to.have.attr(
             'error',
             content['error--facilities-parent-facility'],
           );
+          expect(mockLogger.warn.calledOnce).to.be.true;
         });
       });
 
@@ -827,7 +832,10 @@ describe('CG <FacilitySearch>', () => {
 
     context('review mode', () => {
       beforeEach(() => {
-        global.window.location = { search: '?review=true' };
+        Object.defineProperty(window, 'location', {
+          value: { search: '?review=true' },
+          configurable: true,
+        });
       });
 
       it('calls goToPath to review page on back click', () => {

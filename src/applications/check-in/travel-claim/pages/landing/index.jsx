@@ -57,74 +57,71 @@ const Landing = props => {
 
   const { updateError } = useUpdateError();
 
-  useEffect(
-    () => {
-      const token = getTokenFromLocation(router.location);
-      if (!token) {
-        updateError('no-token');
-      } else if (!isUUID(token)) {
-        updateError('bad-token');
-      }
+  useEffect(() => {
+    const token = getTokenFromLocation(router.location);
+    if (!token) {
+      updateError('no-token');
+    } else if (!isUUID(token)) {
+      updateError('bad-token');
+    }
 
-      const travelPaySent = getTravelPaySent(window);
-      if (differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0) {
-        updateError('already-filed-claim');
-      }
+    const travelPaySent = getTravelPaySent(window);
+    if (differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0) {
+      updateError('already-filed-claim');
+    }
 
-      if (token && isUUID(token)) {
-        // call the sessions api
-        const checkInType = APP_NAMES.TRAVEL_CLAIM;
+    if (token && isUUID(token)) {
+      // call the sessions api
+      const checkInType = APP_NAMES.TRAVEL_CLAIM;
 
-        if (token && !sessionCallMade) {
-          setSessionCallMade(true);
-          api.v2
-            .getSession({ token, checkInType, facilityType: 'oh' })
-            .then(session => {
-              // if successful, dispatch session data  into redux and current window
+      if (token && !sessionCallMade) {
+        setSessionCallMade(true);
+        api.v2
+          .getSession({ token, checkInType, facilityType: 'oh' })
+          .then(session => {
+            // if successful, dispatch session data  into redux and current window
 
-              if (session.error || session.errors) {
-                clearCurrentStorage(window);
-                updateError('session-error');
-              } else {
-                setCurrentToken(window, token);
-                const pages = createForm();
-                const firstPage = pages[0];
-                initForm(pages, firstPage);
-                setSession(token, session.permissions);
-                if (session.permissions === SCOPES.READ_FULL) {
-                  // redirect if already full access
-                  jumpToPage(URLS.LOADING);
-                } else {
-                  // TODO: dispatch to redux
-                  jumpToPage(URLS.VERIFY);
-                }
-              }
-            })
-            .catch(e => {
-              // @TODO move clear current session to hook or HOC
+            if (session.error || session.errors) {
               clearCurrentStorage(window);
-              if (e?.errors[0]?.status === '404') {
-                updateError('uuid-not-found');
+              updateError('session-error');
+            } else {
+              setCurrentToken(window, token);
+              const pages = createForm();
+              const firstPage = pages[0];
+              initForm(pages, firstPage);
+              setSession(token, session.permissions);
+              if (session.permissions === SCOPES.READ_FULL) {
+                // redirect if already full access
+                jumpToPage(URLS.LOADING);
               } else {
-                updateError('session-error');
+                // TODO: dispatch to redux
+                jumpToPage(URLS.VERIFY);
               }
-            });
-        }
+            }
+          })
+          .catch(e => {
+            // @TODO move clear current session to hook or HOC
+            clearCurrentStorage(window);
+            if (e?.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              updateError('session-error');
+            }
+          });
       }
-    },
-    [
-      clearCurrentStorage,
-      dispatch,
-      initForm,
-      jumpToPage,
-      router,
-      sessionCallMade,
-      setCurrentToken,
-      setSession,
-      updateError,
-      getTravelPaySent,
-    ],
-  );
+    }
+  }, [
+    clearCurrentStorage,
+    dispatch,
+    initForm,
+    jumpToPage,
+    router,
+    sessionCallMade,
+    setCurrentToken,
+    setSession,
+    updateError,
+    getTravelPaySent,
+  ]);
   return (
     <div>
       <va-loading-indicator message={loadMessage} />

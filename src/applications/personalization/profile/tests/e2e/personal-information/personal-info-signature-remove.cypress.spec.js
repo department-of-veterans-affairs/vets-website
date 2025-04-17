@@ -37,6 +37,8 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .shadow()
       .find(`button`)
       .should(`have.text`, Data.SIGNATURE.ALERTS.CANCEL_REMOVE_BTN);
+
+    cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can cancel remove signature', () => {

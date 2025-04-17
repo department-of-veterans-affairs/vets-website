@@ -18,17 +18,14 @@ const DebtSelection = ({ formContext }) => {
 
   const [selectionError, setSelectionError] = useState(null);
 
-  useEffect(
-    () => {
-      if (formContext.submitted && !selectedDebts?.length) {
-        setSelectionError('Choose at least one debt');
-        setFocus('va-checkbox-group');
-        return;
-      }
-      setSelectionError(null);
-    },
-    [dispatch, formContext.submitted, selectedDebts?.length],
-  );
+  useEffect(() => {
+    if (formContext.submitted && !selectedDebts?.length) {
+      setSelectionError('Choose at least one debt');
+      setFocus('va-checkbox-group');
+      return;
+    }
+    setSelectionError(null);
+  }, [dispatch, formContext.submitted, selectedDebts?.length]);
 
   // nothing to actually display so we short circuit and return just the error (no question info)
   if (isDebtError || !availableDebts.length) {

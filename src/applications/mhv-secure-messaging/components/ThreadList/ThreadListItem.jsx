@@ -87,17 +87,16 @@ const ThreadListItem = props => {
       data-testid="thread-list-item"
     >
       <div className="unread-column vads-l-col">
-        {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (unreadMessages && (
-            <span>
-              <span
-                aria-hidden="true"
-                role="img"
-                className="unread-icon vads-u-margin-right--1 unread-bubble"
-                data-testid="thread-list-unread-icon"
-              />
-            </span>
-          ))}
+        {activeFolder.folderId !== DefaultFolders.DRAFTS.id && unreadMessages && (
+          <span>
+            <span
+              aria-hidden="true"
+              role="img"
+              className="unread-icon vads-u-margin-right--1 unread-bubble"
+              data-testid="thread-list-unread-icon"
+            />
+          </span>
+        )}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <Link
@@ -163,10 +162,9 @@ const ThreadListItem = props => {
           )}
           {unsentDrafts && (
             <>
-              {location.pathname !== Paths.DRAFTS &&
-                messageCount > 0 && (
-                  <span className="vads-u-color--gray-medium">, </span>
-                )}
+              {location.pathname !== Paths.DRAFTS && messageCount > 0 && (
+                <span className="vads-u-color--gray-medium">, </span>
+              )}
               <span className="vads-u-color--secondary-darkest">[Draft]</span>
             </>
           )}

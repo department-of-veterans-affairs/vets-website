@@ -81,87 +81,86 @@ const VerificationRequiredAlert = () => (
   </va-alert>
 );
 
-const LoggedOutContent = connect(
-  null,
-  { toggleLoginModal },
-)(({ route, showLoginAlert, toggleLoginModal: showLoginModal }) => (
-  <>
-    {showLoginAlert ? (
-      <va-alert background-only status="info">
-        <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
-          Have you applied for VA health care before?
-        </h2>
-        <button
-          type="button"
-          className="usa-button vads-u-margin-top--2"
-          onClick={() => showLoginModal(true, 'hcainfo')}
-        >
-          Sign in to check your application status
-        </button>
-      </va-alert>
-    ) : (
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        downtime={route.formConfig.downtime}
-        pageList={route.pageList}
-        startText="Start the health care application"
-      />
-    )}
-    <HCASubwayMap />
-    {showLoginAlert ? (
-      <div className="usa-alert usa-alert-info schemaform-sip-alert vads-u-margin-bottom--5">
-        <div className="usa-alert-body">
-          <h2 className="usa-alert-heading">
-            Save time and save your work in progress
+const LoggedOutContent = connect(null, { toggleLoginModal })(
+  ({ route, showLoginAlert, toggleLoginModal: showLoginModal }) => (
+    <>
+      {showLoginAlert ? (
+        <va-alert background-only status="info">
+          <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
+            Have you applied for VA health care before?
           </h2>
-          <div className="usa-alert-text">
-            <p>Here’s how signing in now helps you:</p>
-            <ul>
-              <li>
-                We can fill in some of your information for you to save you
-                time.
-              </li>
-              <li>
-                You can save your work in progress. You’ll have 60 days from
-                when you start or make updates to your application to come back
-                and finish it.
-              </li>
-            </ul>
-            <p>
-              <strong>Note:</strong> You can sign in after you start your
-              application. But you’ll lose any information you already filled
-              in.
-            </p>
-            <SaveInProgressIntro
-              buttonOnly
-              prefillEnabled={route.formConfig.prefillEnabled}
-              messages={route.formConfig.savedFormMessages}
-              pageList={route.pageList}
-              startText="Start the health care application"
-              downtime={route.formConfig.downtime}
-            />
-          </div>
-        </div>
-      </div>
-    ) : (
-      <div className="vads-u-margin-y--3">
+          <button
+            type="button"
+            className="usa-button vads-u-margin-top--2"
+            onClick={() => showLoginModal(true, 'hcainfo')}
+          >
+            Sign in to check your application status
+          </button>
+        </va-alert>
+      ) : (
         <SaveInProgressIntro
-          buttonOnly
+          headingLevel={2}
           prefillEnabled={route.formConfig.prefillEnabled}
           messages={route.formConfig.savedFormMessages}
           downtime={route.formConfig.downtime}
           pageList={route.pageList}
           startText="Start the health care application"
         />
+      )}
+      <HCASubwayMap />
+      {showLoginAlert ? (
+        <div className="usa-alert usa-alert-info schemaform-sip-alert vads-u-margin-bottom--5">
+          <div className="usa-alert-body">
+            <h2 className="usa-alert-heading">
+              Save time and save your work in progress
+            </h2>
+            <div className="usa-alert-text">
+              <p>Here’s how signing in now helps you:</p>
+              <ul>
+                <li>
+                  We can fill in some of your information for you to save you
+                  time.
+                </li>
+                <li>
+                  You can save your work in progress. You’ll have 60 days from
+                  when you start or make updates to your application to come
+                  back and finish it.
+                </li>
+              </ul>
+              <p>
+                <strong>Note:</strong> You can sign in after you start your
+                application. But you’ll lose any information you already filled
+                in.
+              </p>
+              <SaveInProgressIntro
+                buttonOnly
+                prefillEnabled={route.formConfig.prefillEnabled}
+                messages={route.formConfig.savedFormMessages}
+                pageList={route.pageList}
+                startText="Start the health care application"
+                downtime={route.formConfig.downtime}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="vads-u-margin-y--3">
+          <SaveInProgressIntro
+            buttonOnly
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            downtime={route.formConfig.downtime}
+            pageList={route.pageList}
+            startText="Start the health care application"
+          />
+        </div>
+      )}
+      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <HcaOMBInfo />
       </div>
-    )}
-    <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-      <HcaOMBInfo />
-    </div>
-  </>
-));
+    </>
+  ),
+);
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

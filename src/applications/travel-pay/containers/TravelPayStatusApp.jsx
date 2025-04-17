@@ -164,15 +164,12 @@ export default function TravelPayStatusApp({ children }) {
     TOGGLE_NAMES.travelPayViewClaimDetails,
   );
 
-  useEffect(
-    () => {
-      if (data.length === 0 && !hasFetchedClaims) {
-        dispatch(getTravelClaims());
-        setHasFetchedClaims(true);
-      }
-    },
-    [dispatch, data, error, hasFetchedClaims],
-  );
+  useEffect(() => {
+    if (data.length === 0 && !hasFetchedClaims) {
+      dispatch(getTravelClaims());
+      setHasFetchedClaims(true);
+    }
+  }, [dispatch, data, error, hasFetchedClaims]);
 
   const CLAIMS_PER_PAGE = 10;
 
@@ -299,22 +296,21 @@ export default function TravelPayStatusApp({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
-          {!error &&
-            !isLoading && (
-              <va-additional-info
-                class="vads-u-margin-y--3"
-                trigger="How to manage your claims or get more information"
-              >
-                <>
-                  <HelpTextManage />
-                  <va-link
-                    data-testid="status-explainer-link"
-                    href="/my-health/travel-pay/help"
-                    text="What does my claim status mean?"
-                  />
-                </>
-              </va-additional-info>
-            )}
+          {!error && !isLoading && (
+            <va-additional-info
+              class="vads-u-margin-y--3"
+              trigger="How to manage your claims or get more information"
+            >
+              <>
+                <HelpTextManage />
+                <va-link
+                  data-testid="status-explainer-link"
+                  href="/my-health/travel-pay/help"
+                  text="What does my claim status mean?"
+                />
+              </>
+            </va-additional-info>
+          )}
 
           {isLoading && (
             <va-loading-indicator
@@ -322,83 +318,81 @@ export default function TravelPayStatusApp({ children }) {
               message="Loading Travel Claims..."
             />
           )}
-          {!isLoading &&
-            data.length > 0 && (
-              <>
-                <div className="btsss-claims-sort-and-filter-container">
-                  <h2 className="vads-u-font-size--h4">Your travel claims</h2>
-                  <p>
-                    This list shows all the appointments you've filed a travel
-                    claim for.
-                  </p>
-                  <label
-                    htmlFor="claimsOrder"
-                    className="vads-u-margin-bottom--0 vads-u-margin-top--0"
+          {!isLoading && data.length > 0 && (
+            <>
+              <div className="btsss-claims-sort-and-filter-container">
+                <h2 className="vads-u-font-size--h4">Your travel claims</h2>
+                <p>
+                  This list shows all the appointments you've filed a travel
+                  claim for.
+                </p>
+                <label
+                  htmlFor="claimsOrder"
+                  className="vads-u-margin-bottom--0 vads-u-margin-top--0"
+                >
+                  Show appointments with travel claims in this order
+                </label>
+                <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                  <select
+                    className="vads-u-margin-bottom--0"
+                    title="Show appointments with travel claims in this order"
+                    name="claimsOrder"
+                    id="claimsOrder"
+                    value={selectedClaimsOrder}
+                    onChange={e => setSelectedClaimsOrder(e.target.value)}
                   >
-                    Show appointments with travel claims in this order
-                  </label>
-                  <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                    <select
-                      className="vads-u-margin-bottom--0"
-                      hint={null}
-                      title="Show appointments with travel claims in this order"
-                      name="claimsOrder"
-                      id="claimsOrder"
-                      value={selectedClaimsOrder}
-                      onChange={e => setSelectedClaimsOrder(e.target.value)}
-                    >
-                      <option value="mostRecent">Most Recent</option>
-                      <option value="oldest">Oldest</option>
-                    </select>
-                    <va-button
-                      onClick={() => onSortClick()}
-                      data-testid="Sort travel claims"
-                      secondary
-                      text="Sort"
-                      label="Sort"
-                    />
-                  </div>
-
-                  <TravelPayClaimFilters
-                    statusesToFilterBy={statusesToFilterBy}
-                    checkedStatusFilters={checkedStatusFilters}
-                    onStatusFilterChange={onStatusFilterChange}
-                    applyFilters={applyFilters}
-                    resetSearch={resetSearch}
-                    selectedDateFilter={selectedDateFilter}
-                    datesToFilterBy={datesToFilterBy}
-                    onDateFilterChange={onDateFilterChange}
+                    <option value="mostRecent">Most Recent</option>
+                    <option value="oldest">Oldest</option>
+                  </select>
+                  <va-button
+                    onClick={() => onSortClick()}
+                    data-testid="Sort travel claims"
+                    secondary
+                    text="Sort"
+                    label="Sort"
                   />
                 </div>
 
-                <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
-                  {resultsText()}
-                </h2>
+                <TravelPayClaimFilters
+                  statusesToFilterBy={statusesToFilterBy}
+                  checkedStatusFilters={checkedStatusFilters}
+                  onStatusFilterChange={onStatusFilterChange}
+                  applyFilters={applyFilters}
+                  resetSearch={resetSearch}
+                  selectedDateFilter={selectedDateFilter}
+                  datesToFilterBy={datesToFilterBy}
+                  onDateFilterChange={onDateFilterChange}
+                />
+              </div>
 
-                <section
-                  id="travel-claims-list"
-                  className="travel-claim-list-container"
-                >
-                  {displayedClaims.map(travelClaim => (
-                    <TravelClaimCard
-                      key={travelClaim.id}
-                      {...travelClaim}
-                      canViewClaimDetails={canViewClaimDetails}
-                    />
-                  ))}
-                </section>
-                {shouldPaginate && (
-                  <VaPagination
-                    onPageSelect={e => onPageSelect(e.detail.page)}
-                    page={currentPage}
-                    pages={numPages}
+              <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
+                {resultsText()}
+              </h2>
+
+              <section
+                id="travel-claims-list"
+                className="travel-claim-list-container"
+              >
+                {displayedClaims.map(travelClaim => (
+                  <TravelClaimCard
+                    key={travelClaim.id}
+                    {...travelClaim}
+                    canViewClaimDetails={canViewClaimDetails}
                   />
-                )}
-              </>
-            )}
-          {!isLoading &&
-            !error &&
-            data.length === 0 && <p>No travel claims to show.</p>}
+                ))}
+              </section>
+              {shouldPaginate && (
+                <VaPagination
+                  onPageSelect={e => onPageSelect(e.detail.page)}
+                  page={currentPage}
+                  pages={numPages}
+                />
+              )}
+            </>
+          )}
+          {!isLoading && !error && data.length === 0 && (
+            <p>No travel claims to show.</p>
+          )}
           <VaBackToTop />
         </div>
       </article>

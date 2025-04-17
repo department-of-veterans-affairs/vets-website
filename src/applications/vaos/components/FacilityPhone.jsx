@@ -35,18 +35,16 @@ export default function FacilityPhone({
 
   return (
     <>
-      {!!icon === false &&
-        level && (
-          <>
-            <Heading className={`vads-u-display--inline ${className}`}>
-              {heading}
-            </Heading>{' '}
-          </>
-        )}
-      {typeof icon === 'undefined' &&
-        typeof level === 'undefined' && (
-          <span className={className}>{heading}</span>
-        )}
+      {!!icon === false && level && (
+        <>
+          <Heading className={`vads-u-display--inline ${className}`}>
+            {heading}
+          </Heading>{' '}
+        </>
+      )}
+      {typeof icon === 'undefined' && typeof level === 'undefined' && (
+        <span className={className}>{heading}</span>
+      )}
       <VaTelephone
         contact={number}
         extension={numberExtension}

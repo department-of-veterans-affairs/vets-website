@@ -14,27 +14,21 @@ const CernerFacilityAlert = ({ className = '' }) => {
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
   );
-  const cernerFacilities = useMemo(
-    () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
+  const cernerFacilities = useMemo(() => {
+    return userFacilities?.filter(facility =>
+      drupalCernerFacilities.some(
+        f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+      ),
+    );
+  }, [userFacilities, drupalCernerFacilities]);
+  const cernerFacilitiesNames = useMemo(() => {
+    if (ehrDataByVhaId) {
+      return cernerFacilities?.map(facility =>
+        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
       );
-    },
-    [userFacilities, drupalCernerFacilities],
-  );
-  const cernerFacilitiesNames = useMemo(
-    () => {
-      if (ehrDataByVhaId) {
-        return cernerFacilities?.map(facility =>
-          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
-        );
-      }
-      return [];
-    },
-    [cernerFacilities, ehrDataByVhaId],
-  );
+    }
+    return [];
+  }, [cernerFacilities, ehrDataByVhaId]);
   const detailsText = () => {
     if (!cernerFacilitiesNames) return '';
     if (cernerFacilitiesNames?.length > 1) return 'these facilities';

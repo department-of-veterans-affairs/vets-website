@@ -24,21 +24,15 @@ const ServicePeriod = ({
     NINETY_OR_LATER,
   } = RESPONSES;
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <TernaryRadios
@@ -74,7 +68,4 @@ ServicePeriod.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ServicePeriod);
+export default connect(mapStateToProps, mapDispatchToProps)(ServicePeriod);

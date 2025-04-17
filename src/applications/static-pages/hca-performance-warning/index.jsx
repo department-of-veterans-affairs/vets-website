@@ -6,8 +6,10 @@ import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "hca-performance-warning" */
-    './components/App').then(module => {
+    import(
+      /* webpackChunkName: "hca-performance-warning" */
+      './components/App'
+    ).then(module => {
       const App = module.default;
       connectFeatureToggle(store.dispatch);
 

@@ -4,12 +4,9 @@ import EmergencyNote from './EmergencyNote';
 
 const ReplyHeader = () => {
   const header = useRef();
-  useEffect(
-    () => {
-      focusElement(header.current);
-    },
-    [header],
-  );
+  useEffect(() => {
+    focusElement(header.current);
+  }, [header]);
 
   return (
     <header>

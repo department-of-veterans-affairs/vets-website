@@ -7,12 +7,9 @@ import { veteranPathPageNames } from '../pageList';
 
 const YesDisabilityRating = props => {
   const { setWizardStatus } = props;
-  useEffect(
-    () => {
-      setWizardStatus(WIZARD_STATUS_COMPLETE);
-    },
-    [setWizardStatus],
-  );
+  useEffect(() => {
+    setWizardStatus(WIZARD_STATUS_COMPLETE);
+  }, [setWizardStatus]);
   return (
     <div
       id={veteranPathPageNames.yesDisabilityRating}

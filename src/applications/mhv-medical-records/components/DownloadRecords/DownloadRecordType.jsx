@@ -30,6 +30,8 @@ const DownloadRecordType = () => {
   const [milServCheck, setMilServCheck] = useState(false);
 
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
+  const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
+
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
   const [selectedRecords, setSelectedRecords] = useState([]);
@@ -40,18 +42,35 @@ const DownloadRecordType = () => {
 
   useFocusOutline(progressBarRef);
 
-  useEffect(
-    () => {
-      setTimeout(() => {
-        const heading = progressBarRef?.current?.shadowRoot?.querySelector(
-          'h2',
-        );
-        focusElement(heading);
-      }, 400);
-      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
-    },
-    [progressBarRef],
-  );
+  useEffect(() => {
+    setTimeout(() => {
+      const heading = progressBarRef?.current?.shadowRoot?.querySelector('h2');
+      focusElement(heading);
+    }, 400);
+    updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
+  }, [progressBarRef]);
+
+  // Pre-populate local state from Redux recordFilter
+  useEffect(() => {
+    if (recordFilter && recordFilter.length > 0) {
+      setSelectedRecords(recordFilter);
+      setLabTestCheck(recordFilter.includes('labTests'));
+      setCareSummariesCheck(recordFilter.includes('careSummaries'));
+      setVaccineCheck(recordFilter.includes('vaccines'));
+      setAllergiesCheck(recordFilter.includes('allergies'));
+      setConditionsCheck(recordFilter.includes('conditions'));
+      setVitalsCheck(recordFilter.includes('vitals'));
+      setMedicationsCheck(recordFilter.includes('medications'));
+      setUpcomingAppCheck(recordFilter.includes('upcomingAppts'));
+      setPastAppCheck(recordFilter.includes('pastAppts'));
+      setDemoCheck(recordFilter.includes('demographics'));
+      setMilServCheck(recordFilter.includes('militaryService'));
+
+      if (recordFilter.length === 11) {
+        setCheckAll(true);
+      }
+    }
+  }, [recordFilter]);
 
   const handleCheckAll = () => {
     setSelectionError(null);
@@ -95,39 +114,37 @@ const DownloadRecordType = () => {
     setCheckAll(false);
     setSelectionError(null);
 
-    const newArray = selectedRecords;
-    if (checked === true) {
-      newArray.push(recordType);
-    } else if (checked === false) {
-      newArray.splice(newArray.indexOf(recordType), 1);
+    let newRecords = [...selectedRecords];
+    if (checked) {
+      if (!newRecords.includes(recordType)) {
+        newRecords.push(recordType);
+      }
+    } else {
+      newRecords = newRecords.filter(record => record !== recordType);
     }
-    setSelectedRecords(newArray);
+    setSelectedRecords(newRecords);
     sendDataDogAction(`${e.target.label} - Record type`);
   };
 
-  useEffect(
-    () => {
-      if (!dateFilterOption) {
-        history.push('/download/date-range');
-      }
-    },
-    [dateFilterOption, history],
-  );
+  useEffect(() => {
+    if (!dateFilterOption) {
+      history.push('/download/date-range');
+    }
+  }, [dateFilterOption, history]);
 
-  const selectedDateRange = useMemo(
-    () => {
-      if (dateFilterOption === 'any') {
-        return 'All time';
-      }
-      if (dateFilterOption === 'custom') {
-        return 'Custom';
-      }
-      return `Last ${dateFilterOption} months`;
-    },
-    [dateFilterOption],
-  );
+  const selectedDateRange = useMemo(() => {
+    if (dateFilterOption === 'any') {
+      return 'All time';
+    }
+    if (dateFilterOption === 'custom') {
+      return 'Custom';
+    }
+    return `Last ${dateFilterOption} months`;
+  }, [dateFilterOption]);
 
   const handleBack = () => {
+    dispatch(updateReportRecordType(selectedRecords));
+
     history.push('/download/date-range');
     sendDataDogAction('Record type - Back - Record type');
   };

@@ -45,14 +45,11 @@ function CommunityCareLanguagePage({
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const history = useHistory();
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-      openFormPage(pageKey, uiSchema, initialSchema);
-    },
-    [openFormPage],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    openFormPage(pageKey, uiSchema, initialSchema);
+  }, [openFormPage]);
 
   return (
     <div>

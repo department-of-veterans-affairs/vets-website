@@ -24,6 +24,7 @@ import {
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
+import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -33,9 +34,7 @@ export default class ArrayField extends React.Component {
     // Throw an error if there’s no viewField (should be React component)
     if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
-        `No viewField found in uiSchema for ArrayField ${
-          this.props.idSchema.$id
-        }.`,
+        `No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`,
       );
     }
 
@@ -133,8 +132,8 @@ export default class ArrayField extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map(
-        (val, index) => (index + 1 === this.state.editing.length ? false : val),
+      const newEditing = this.state.editing.map((val, index) =>
+        index + 1 === this.state.editing.length ? false : val,
       );
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = {
@@ -344,6 +343,8 @@ export default class ArrayField extends React.Component {
     const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
     const { generateIndividualItemHeaders, useVaCards } = uiOptions;
+    const isMinimalHeader = isMinimalHeaderPath();
+    const Heading = isMinimalHeader ? 'h2' : 'h3';
 
     const modalPrimaryButtonText =
       uiOptions.modalPrimaryButtonText || `Yes, remove this ${uiItemName}`;
@@ -425,16 +426,16 @@ export default class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
-                        <h3 className="vads-u-font-size--h5">
+                        <Heading className="vads-u-font-size--h5">
                           New {uiItemName}
-                        </h3>
+                        </Heading>
                       ) : null}
                       {!isLast &&
                       multipleRows &&
                       generateIndividualItemHeaders ? (
-                        <h3 className="vads-u-font-size--h5">
+                        <Heading className="vads-u-font-size--h5">
                           {uiItemNameOriginal}
-                        </h3>
+                        </Heading>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -460,8 +461,7 @@ export default class ArrayField extends React.Component {
                             {(!isLast || showSave) && (
                               <VaButton
                                 className="float-left"
-                                label={`${updateText} ${ariaItemName} ${index +
-                                  1}`}
+                                label={`${updateText} ${ariaItemName}`}
                                 onClick={() => this.handleUpdate(index)}
                                 text={updateText}
                               />
@@ -472,7 +472,7 @@ export default class ArrayField extends React.Component {
                               <VaButton
                                 secondary
                                 className="float-right"
-                                label={`Remove ${ariaItemName} ${index + 1}`}
+                                label={`Remove ${ariaItemName}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -538,7 +538,7 @@ export default class ArrayField extends React.Component {
                   </div>
                   <VaButton
                     secondary
-                    label={`Edit ${ariaItemName} ${index + 1}`}
+                    label={`Edit ${ariaItemName}`}
                     onClick={() => this.handleEdit(index)}
                     text="Edit"
                   />
@@ -577,14 +577,11 @@ export default class ArrayField extends React.Component {
 
 ArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
-  formData: PropTypes.array,
   disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formData: PropTypes.array,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
@@ -594,4 +591,7 @@ ArrayField.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

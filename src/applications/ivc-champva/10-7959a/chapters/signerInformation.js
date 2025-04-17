@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   addressUI,
@@ -13,7 +14,10 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -42,6 +46,44 @@ export const certifierRoleSchema = {
   },
 };
 
+export const certifierReceivedPacketSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA benefit status`;
+    }),
+
+    certifierReceivedPacket: {
+      ...yesNoUI({
+        type: 'radio',
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `${
+              formData?.certifierRole === 'applicant'
+                ? 'Do you'
+                : 'Does the beneficiary'
+            } receive CHAMPVA benefits now?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierReceivedPacket'],
+    properties: {
+      titleSchema,
+      certifierReceivedPacket: yesNoSchema,
+    },
+  },
+};
+
+export const certifierNotEnrolledChampvaSchema = {
+  uiSchema: {},
+  schema: blankSchema,
+};
+
 export const certifierNameSchema = {
   uiSchema: {
     ...titleUI('Your name'),
@@ -62,7 +104,13 @@ export const certifierAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
+        },
+      },
+    }),
   },
   schema: {
     type: 'object',

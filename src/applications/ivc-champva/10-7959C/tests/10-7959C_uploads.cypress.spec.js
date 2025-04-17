@@ -31,9 +31,7 @@ import {
 import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
 
 // For intercepting file uploads:
-const UPLOAD_URL = `${
-  environment.API_URL
-}/ivc_champva/v1/forms/submit_supporting_documents`;
+const UPLOAD_URL = `${environment.API_URL}/ivc_champva/v1/forms/submit_supporting_documents`;
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}

@@ -76,9 +76,7 @@ export const introPage = options => ({
   uiSchema: {
     ...webComponentPatterns.titleUI(
       `Treatment records`,
-      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
-        options.maxItems
-      }.`,
+      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${options.maxItems}.`,
     ),
   },
   schema: {

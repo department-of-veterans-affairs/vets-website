@@ -18,6 +18,7 @@ export const generateSelfEnteredData = ({
   activityJournal,
   allergies,
   demographics,
+  emergencyContacts,
   familyHistory,
   foodJournal,
   providers,
@@ -57,13 +58,16 @@ export const generateSelfEnteredData = ({
     });
   }
 
-  if (demographics) {
+  if (demographics && emergencyContacts) {
     data.push({
       type: selfEnteredTypes.DEMOGRAPHICS,
       title: `Self-entered ${selfEnteredTypes.DEMOGRAPHICS}`,
       titleMoveDownAmount: 0,
       titleParagraphGap: 0,
-      records: generateDemographicsContent(demographics),
+      records: generateDemographicsContent({
+        ...demographics,
+        emergencyContacts,
+      }),
     });
   }
 
@@ -72,9 +76,7 @@ export const generateSelfEnteredData = ({
       type: selfEnteredTypes.FAMILY_HISTORY,
       title: `Self-entered ${selfEnteredTypes.FAMILY_HISTORY}`,
       subtitles: [
-        `Showing ${
-          familyHistory.length
-        } records, alphabetically by relationship`,
+        `Showing ${familyHistory.length} records, alphabetically by relationship`,
       ],
       records: familyHistory.map(record =>
         generateFamilyHistoryContent(record),
@@ -133,9 +135,7 @@ export const generateSelfEnteredData = ({
       type: selfEnteredTypes.MEDICAL_EVENTS,
       title: `Self-entered ${selfEnteredTypes.MEDICAL_EVENTS}`,
       subtitles: [
-        `Showing ${
-          medicalEvents.length
-        } records, from newest to oldest start date`,
+        `Showing ${medicalEvents.length} records, from newest to oldest start date`,
       ],
       records: medicalEvents.map(record =>
         generateMedicalEventsContent(record),

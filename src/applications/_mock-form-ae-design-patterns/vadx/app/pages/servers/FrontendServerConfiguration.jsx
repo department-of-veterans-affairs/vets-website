@@ -44,31 +44,28 @@ export const FrontendServerConfiguration = ({
   const [selectedManifests, setSelectedManifests] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [startError, setStartError] = useState(null);
-  const filteredManifests = useMemo(
-    () => {
-      const searchLower = searchQuery.toLowerCase();
-      return manifests
-        .filter(
-          manifest =>
-            manifest.appName.toLowerCase().includes(searchLower) ||
-            manifest.entryName.toLowerCase().includes(searchLower) ||
-            (manifest.rootUrl &&
-              manifest.rootUrl.toLowerCase().includes(searchLower)),
-        )
-        .sort((a, b) => {
-          const aSelected = selectedManifests.some(
-            m => m.entryName === a.entryName,
-          );
-          const bSelected = selectedManifests.some(
-            m => m.entryName === b.entryName,
-          );
-          if (aSelected && !bSelected) return -1;
-          if (!aSelected && bSelected) return 1;
-          return a.appName.localeCompare(b.appName);
-        });
-    },
-    [manifests, searchQuery, selectedManifests],
-  );
+  const filteredManifests = useMemo(() => {
+    const searchLower = searchQuery.toLowerCase();
+    return manifests
+      .filter(
+        manifest =>
+          manifest.appName.toLowerCase().includes(searchLower) ||
+          manifest.entryName.toLowerCase().includes(searchLower) ||
+          (manifest.rootUrl &&
+            manifest.rootUrl.toLowerCase().includes(searchLower)),
+      )
+      .sort((a, b) => {
+        const aSelected = selectedManifests.some(
+          m => m.entryName === a.entryName,
+        );
+        const bSelected = selectedManifests.some(
+          m => m.entryName === b.entryName,
+        );
+        if (aSelected && !bSelected) return -1;
+        if (!aSelected && bSelected) return 1;
+        return a.appName.localeCompare(b.appName);
+      });
+  }, [manifests, searchQuery, selectedManifests]);
 
   const handleManifestToggle = (manifest, isSelected) => {
     setSelectedManifests(prev => {
@@ -103,14 +100,11 @@ export const FrontendServerConfiguration = ({
     }
   };
 
-  useEffect(
-    () => {
-      if (visible && activeApps.length > 0) {
-        setSelectedManifests(activeApps);
-      }
-    },
-    [visible, activeApps],
-  );
+  useEffect(() => {
+    if (visible && activeApps.length > 0) {
+      setSelectedManifests(activeApps);
+    }
+  }, [visible, activeApps]);
 
   return visible ? (
     <div>
@@ -127,72 +121,69 @@ export const FrontendServerConfiguration = ({
           {starting && (
             <va-loading-indicator message="Starting frontend dev server 🚀" />
           )}
-          {manifests.length > 0 &&
-            !starting && (
-              <>
-                <h2 className="vads-u-font-size--md vads-u-margin-top--neg2">
-                  Select the applications you want dev server to watch
-                </h2>
+          {manifests.length > 0 && !starting && (
+            <>
+              <h2 className="vads-u-font-size--md vads-u-margin-top--neg2">
+                Select the applications you want dev server to watch
+              </h2>
 
-                <div className="vads-u-margin-y--0">
-                  <VaSearchInput
-                    label="Search applications by name or entry"
-                    value={searchQuery}
-                    onInput={e => setSearchQuery(e.target.value)}
-                    buttonText="Search"
-                    name="manifest-search"
-                    small
-                    disableAnalytics
-                  />
-                </div>
+              <div className="vads-u-margin-y--0">
+                <VaSearchInput
+                  label="Search applications by name or entry"
+                  value={searchQuery}
+                  onInput={e => setSearchQuery(e.target.value)}
+                  buttonText="Search"
+                  name="manifest-search"
+                  small
+                  disableAnalytics
+                />
+              </div>
 
-                <div className="vads-u-margin--0 vads-u-margin-bottom--0p5">
-                  <va-additional-info
-                    trigger={`Selected ${selectedManifests.length} of ${
-                      manifests.length
-                    } applications`}
-                  >
-                    <ul className="vads-u-margin-top--1">
-                      {selectedManifests.length > 0 ? (
-                        selectedManifests.map(manifest => (
-                          <li key={manifest.entryName}>
-                            {manifest.appName} ({manifest.entryName})
-                            {manifest.rootUrl && ` - ${manifest.rootUrl}`}
-                          </li>
-                        ))
-                      ) : (
-                        <li>No applications selected</li>
+              <div className="vads-u-margin--0 vads-u-margin-bottom--0p5">
+                <va-additional-info
+                  trigger={`Selected ${selectedManifests.length} of ${manifests.length} applications`}
+                >
+                  <ul className="vads-u-margin-top--1">
+                    {selectedManifests.length > 0 ? (
+                      selectedManifests.map(manifest => (
+                        <li key={manifest.entryName}>
+                          {manifest.appName} ({manifest.entryName})
+                          {manifest.rootUrl && ` - ${manifest.rootUrl}`}
+                        </li>
+                      ))
+                    ) : (
+                      <li>No applications selected</li>
+                    )}
+                  </ul>
+                </va-additional-info>
+              </div>
+
+              <div>
+                <div style={scrollableCheckboxStyles}>
+                  {filteredManifests.map(manifest => (
+                    <ManifestOption
+                      key={manifest.entryName}
+                      manifest={manifest}
+                      selected={selectedManifests.some(
+                        m => m.entryName === manifest.entryName,
                       )}
-                    </ul>
-                  </va-additional-info>
+                      onToggle={handleManifestToggle}
+                    />
+                  ))}
                 </div>
+              </div>
 
-                <div>
-                  <div style={scrollableCheckboxStyles}>
-                    {filteredManifests.map(manifest => (
-                      <ManifestOption
-                        key={manifest.entryName}
-                        manifest={manifest}
-                        selected={selectedManifests.some(
-                          m => m.entryName === manifest.entryName,
-                        )}
-                        onToggle={handleManifestToggle}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {startError && (
-                  <va-alert
-                    status="error"
-                    slim
-                    class="vads-u-margin-top--0p5 vads-u-margin-bottom--neg2"
-                  >
-                    {`Error Starting Server: ${startError}`}
-                  </va-alert>
-                )}
-              </>
-            )}
+              {startError && (
+                <va-alert
+                  status="error"
+                  slim
+                  class="vads-u-margin-top--0p5 vads-u-margin-bottom--neg2"
+                >
+                  {`Error Starting Server: ${startError}`}
+                </va-alert>
+              )}
+            </>
+          )}
         </div>
       </VaModal>
     </div>

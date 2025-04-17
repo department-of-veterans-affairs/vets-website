@@ -9,18 +9,15 @@ import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
-  const { currentReferral } = props;
+  const { attributes: currentReferral } = props.currentReferral;
   const location = useLocation();
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('scheduleReferral'));
-      dispatch(setInitReferralFlow());
-      sessionStorage.removeItem(selectedSlotKey);
-    },
-    [location, dispatch, selectedSlotKey],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('scheduleReferral'));
+    dispatch(setInitReferralFlow());
+    sessionStorage.removeItem(selectedSlotKey);
+  }, [location, dispatch, selectedSlotKey]);
   return (
     <ReferralLayout
       hasEyebrow
@@ -85,7 +82,7 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacilityInfo.facilityName}
+          {currentReferral.referringFacilityInfo.name}
           <br />
           <strong>Phone: </strong>
           {currentReferral.referringFacilityInfo.phone}

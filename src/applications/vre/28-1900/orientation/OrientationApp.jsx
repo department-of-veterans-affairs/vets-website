@@ -11,17 +11,14 @@ const OrientationApp = props => {
   const { wizardStateHandler } = props;
 
   // do this to prevent focus skip on prior link tag
-  useEffect(
-    () => {
-      if (isFirstRender && step === 0) {
-        setIsFirstRender(false);
-      } else {
-        focusElement('#StepTitle');
-        scrollTo(document.getElementById('StepTitle'));
-      }
-    },
-    [step],
-  );
+  useEffect(() => {
+    if (isFirstRender && step === 0) {
+      setIsFirstRender(false);
+    } else {
+      focusElement('#StepTitle');
+      scrollTo(document.getElementById('StepTitle'));
+    }
+  }, [step]);
 
   return (
     <>

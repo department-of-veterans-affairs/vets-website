@@ -1,29 +1,64 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
+  VaCard,
+  VaIcon,
   VaTelephone,
-  VaFileInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getFormNumber, mask, formattedPhoneNumber } from '../helpers';
+import {
+  getFileSize,
+  getFormNumber,
+  mask,
+  formattedPhoneNumber,
+} from '../helpers';
 import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
-  const { data: formData } = useSelector(state => state?.form || {});
+  const { form } = useSelector(state => state || {});
   const {
     uploadedFile,
-    idNumber,
+    veteranSsn,
     address,
-    fullName,
+    veteranFullName,
     phoneNumber,
     email,
-  } = formData;
+  } = form?.data;
+
+  const renderFileInfo = file => (
+    <div className="vads-l-col--12 medium-screen:vads-l-col--12 small-desktop-screen:vads-l-col--8">
+      <VaCard>
+        <div className="vads-u-display--flex vads-u-flex-direction--row">
+          <span className="vads-u-color--primary">
+            <VaIcon
+              size={6}
+              icon="file_present"
+              className="vads-u-margin-right--1"
+              srtext="icon representing a file"
+              aria-hidden="true"
+            />
+          </span>
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
+            <span
+              className="vads-u-font-weight--bold"
+              style={{ 'word-break': 'break-all' }}
+            >
+              {file.name}
+            </span>
+            <span className="vads-u-color--gray-darker">
+              {getFileSize(file.size)}
+            </span>
+          </div>
+        </div>
+      </VaCard>
+    </div>
+  );
 
   const renderPersonalInfo = () => (
     <div>
       <div>
         <p className="usa-hint">Name</p>
         <p>
-          {fullName.first} {fullName.last}
+          {veteranFullName.first} {veteranFullName.last}
         </p>
       </div>
       <div>
@@ -32,7 +67,7 @@ const CustomReviewTopContent = () => {
       </div>
       <div>
         <p className="usa-hint">Social security number</p>
-        <p>{mask(idNumber?.ssn)}</p>
+        <p>{mask(veteranSsn)}</p>
       </div>
     </div>
   );
@@ -52,19 +87,12 @@ const CustomReviewTopContent = () => {
     </div>
   );
 
-  const formNumber = getFormNumber().toLowerCase();
-  const filePayload = {
-    name: uploadedFile?.name,
-    size: uploadedFile?.size,
-    type: '',
-  };
-
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Personal information</h3>
         <EditLink
-          href={`/${formNumber}/name-and-zip-code`}
+          href={`/${getFormNumber()}/name-and-zip-code`}
           label="Edit Personal information"
         />
       </div>
@@ -79,16 +107,19 @@ const CustomReviewTopContent = () => {
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Contact information</h3>
         <EditLink
-          href={`/${formNumber}/phone-number-and-email`}
+          href={`/${getFormNumber()}/phone-number-and-email`}
           label="Edit Contact information"
         />
       </div>
       {renderContactInfo()}
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Uploaded file</h3>
-        <EditLink href={`/${formNumber}/upload`} label="Edit Uploaded file" />
+        <EditLink
+          href={`/${getFormNumber()}/upload`}
+          label="Edit Uploaded file"
+        />
       </div>
-      {uploadedFile && <VaFileInput value={filePayload} readOnly uswds />}
+      {uploadedFile && renderFileInfo(uploadedFile)}
     </>
   );
 };

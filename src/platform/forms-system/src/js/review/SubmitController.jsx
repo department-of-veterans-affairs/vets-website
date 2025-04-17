@@ -246,10 +246,7 @@ SubmitController.propTypes = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SubmitController),
+  connect(mapStateToProps, mapDispatchToProps)(SubmitController),
 );
 
 // for tests

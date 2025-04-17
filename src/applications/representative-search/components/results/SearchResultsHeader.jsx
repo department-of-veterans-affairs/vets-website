@@ -83,7 +83,6 @@ export const SearchResultsHeader = props => {
           id="test-button"
           label="test-button"
           type="button"
-          text-label="button"
           onClick={onClickApplyButton}
         />
       ) : null}
@@ -166,7 +165,9 @@ export const SearchResultsHeader = props => {
                   name="sort"
                   value={selectedSortType}
                   label="Sort by"
-                  onVaSelect={e => setSelectedSortType(e.target.value)}
+                  onVaSelect={e => {
+                    setSelectedSortType(e.target.value || options[0].key);
+                  }}
                   uswds
                 >
                   {options}

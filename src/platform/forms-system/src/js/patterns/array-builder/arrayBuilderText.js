@@ -14,20 +14,12 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       : `${props.nounSingular} information has been deleted`;
   },
   alertMaxItems: props =>
-    `You have added the maximum number of allowed ${
-      props.nounPlural
-    } for this application. You may edit or delete a ${
-      props.nounSingular
-    } or choose to continue on in the application.`,
+    `You have added the maximum number of allowed ${props.nounPlural} for this application. You may edit or delete a ${props.nounSingular} or choose to continue on in the application.`,
   cancelAddButtonText: props => `Cancel adding this ${props.nounSingular}`,
   cancelAddDescription: props =>
-    `If you cancel, you’ll lose the information you entered about this ${
-      props.nounSingular
-    }.`,
+    `If you cancel, you’ll lose the information you entered about this ${props.nounSingular}.`,
   cancelAddReviewDescription: props =>
-    `If you cancel, you’ll lose the information you entered about this ${
-      props.nounSingular
-    } and you will be returned to the form review page.`,
+    `If you cancel, you’ll lose the information you entered about this ${props.nounSingular} and you will be returned to the form review page.`,
   cancelAddYes: props => `Yes, cancel`,
   cancelAddNo: props => `No, continue adding this ${props.nounSingular}`,
   cancelAddTitle: props => {
@@ -38,9 +30,7 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   },
   cancelEditButtonText: props => `Cancel`,
   cancelEditDescription: props =>
-    `If you cancel, you’ll lose any changes you made on this screen and you will be returned to the ${
-      props.nounPlural
-    } review page.`,
+    `If you cancel, you’ll lose any changes you made on this screen and you will be returned to the ${props.nounPlural} review page.`,
   cancelEditReviewDescription: props =>
     `If you cancel, you’ll lose any changes you made on this screen and you will be returned to the form review page.`,
   cancelEditYes: props => `Yes, cancel`,
@@ -53,31 +43,17 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   },
   cardDescription: itemData => '',
   cardItemMissingInformation: props =>
-    `This ${
-      props.nounSingular
-    } is missing information. Edit and complete this ${
-      props.nounSingular
-    }’s information before continuing.`,
+    `This ${props.nounSingular} is missing information. Edit and complete this ${props.nounSingular}’s information before continuing.`,
   editSaveButtonText: props => `Save and continue`,
   getItemName: (itemData, index) => itemData?.name,
   deleteDescription: props => {
     const itemName = props.getItemName(props.itemData, props.index);
     return itemName
-      ? `This will delete ${itemName} and all the information from your list of ${
-          props.nounPlural
-        }.`
-      : `This will delete this ${
-          props.nounSingular
-        } and all the information from your list of ${props.nounPlural}.`;
+      ? `This will delete ${itemName} and all the information from your list of ${props.nounPlural}.`
+      : `This will delete this ${props.nounSingular} and all the information from your list of ${props.nounPlural}.`;
   },
   deleteNeedAtLeastOneDescription: props =>
-    `If you delete this ${
-      props.nounSingular
-    }, we’ll take you to a screen where you can add another ${
-      props.nounSingular
-    }. You’ll need to list at least one ${
-      props.nounSingular
-    } for us to process this form.`,
+    `If you delete this ${props.nounSingular}, we’ll take you to a screen where you can add another ${props.nounSingular}. You’ll need to list at least one ${props.nounSingular} for us to process this form.`,
   deleteNo: props => `No, keep this ${props.nounSingular}`,
   deleteTitle: props => {
     const itemName = props.getItemName(props.itemData, props.index);

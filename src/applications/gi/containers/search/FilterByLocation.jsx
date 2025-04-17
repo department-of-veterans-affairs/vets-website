@@ -149,7 +149,4 @@ FilterByLocation.propTypes = {
   smallScreen: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilterByLocation);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterByLocation);

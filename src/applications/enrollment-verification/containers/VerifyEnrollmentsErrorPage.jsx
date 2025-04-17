@@ -19,20 +19,17 @@ export const VerifyEnrollmentsErrorPage = ({
 }) => {
   const history = useHistory();
 
-  useEffect(
-    () => {
-      if (hasCheckedKeepAlive && !isLoggedIn) {
-        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
-      }
-    },
-    [
-      enrollmentVerification,
-      getPost911GiBillEligibility,
-      hasCheckedKeepAlive,
-      history,
-      isLoggedIn,
-    ],
-  );
+  useEffect(() => {
+    if (hasCheckedKeepAlive && !isLoggedIn) {
+      window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
+    }
+  }, [
+    enrollmentVerification,
+    getPost911GiBillEligibility,
+    hasCheckedKeepAlive,
+    history,
+    isLoggedIn,
+  ]);
 
   useEffect(() => {
     scrollToTop();

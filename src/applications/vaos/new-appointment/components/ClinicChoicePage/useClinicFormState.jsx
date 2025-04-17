@@ -116,9 +116,7 @@ export default function useClinicFormState(pageTitle) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${
-                clinic.serviceName
-              }?`,
+              title: `Would you like to make an appointment at ${clinic.serviceName}?`,
               enum: [clinic.id, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',

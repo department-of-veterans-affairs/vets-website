@@ -49,15 +49,15 @@ const CreditCardBill = props => {
 
   const unpaidBalanceError =
     !isValidCurrency(creditCardBillRecord.unpaidBalance) ||
-    (creditCardBillRecord.unpaidBalance > MAXIMUM_BILL_AMOUNT ||
-      creditCardBillRecord.unpaidBalance < 0)
+    creditCardBillRecord.unpaidBalance > MAXIMUM_BILL_AMOUNT ||
+    creditCardBillRecord.unpaidBalance < 0
       ? 'Please enter an unpaid balance amount less than $100,000'
       : null;
 
   const minMonthlyPaymentError =
     !isValidCurrency(creditCardBillRecord.amountDueMonthly) ||
-    (creditCardBillRecord.amountDueMonthly > MAXIMUM_BILL_AMOUNT ||
-      creditCardBillRecord.amountDueMonthly < 0)
+    creditCardBillRecord.amountDueMonthly > MAXIMUM_BILL_AMOUNT ||
+    creditCardBillRecord.amountDueMonthly < 0
       ? 'Please enter a minimum monthly payment amount less than $100,000'
       : null;
 
@@ -301,7 +301,4 @@ CreditCardBill.propTypes = {
   setFormData: PropTypes.func.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreditCardBill);
+export default connect(mapStateToProps, mapDispatchToProps)(CreditCardBill);

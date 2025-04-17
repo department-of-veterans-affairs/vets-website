@@ -138,11 +138,10 @@ const addNewArrayItem = $form => {
 const getFieldSelectors = () => {
   return cy
     .get('@useWebComponentFields', NO_LOG_OPTION)
-    .then(
-      useWebComponentFields =>
-        useWebComponentFields
-          ? `${FIELD_SELECTOR}, ${WEB_COMPONENT_SELECTORS}`
-          : FIELD_SELECTOR,
+    .then(useWebComponentFields =>
+      useWebComponentFields
+        ? `${FIELD_SELECTOR}, ${WEB_COMPONENT_SELECTORS}`
+        : FIELD_SELECTOR,
     );
 };
 
@@ -378,12 +377,11 @@ function enterData(field) {
     }
 
     case 'date': {
-      const [year, month, day] = field.data.split('-').map(
-        dateComponent =>
-          // eslint-disable-next-line no-restricted-globals
-          isFinite(dateComponent)
-            ? parseInt(dateComponent, 10).toString()
-            : dateComponent,
+      const [year, month, day] = field.data.split('-').map(dateComponent =>
+        // eslint-disable-next-line no-restricted-globals
+        isFinite(dateComponent)
+          ? parseInt(dateComponent, 10).toString()
+          : dateComponent,
       );
 
       // Escape non-standard characters like dots and colons.

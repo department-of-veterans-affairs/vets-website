@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 // use this file to mock api responses for local development
-// yarn mock-api --responses ./src/applications/simple-forms/21-0845/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockUser = require('./loa1-user.json');
 const mockFeatureToggles = require('./featureToggles.json');
 const mockSipPut = require('./sip-put.json');

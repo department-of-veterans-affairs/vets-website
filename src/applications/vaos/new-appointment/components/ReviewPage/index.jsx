@@ -38,14 +38,11 @@ export default function ReviewPage() {
     scrollAndFocus();
   }, []);
 
-  useEffect(
-    () => {
-      if (submitStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('.info-alert');
-      }
-    },
-    [submitStatus],
-  );
+  useEffect(() => {
+    if (submitStatus === FETCH_STATUS.failed) {
+      scrollAndFocus('.info-alert');
+    }
+  }, [submitStatus]);
 
   if (!data?.typeOfCareId) {
     return <Redirect to="/new-appointment" />;
@@ -103,14 +100,13 @@ export default function ReviewPage() {
                   {submissionType}. Please schedule for a different day.
                 </p>
               )}
-              {submitStatusVaos400 &&
-                !submitStatusVaos409 && (
-                  <p>
-                    We’re sorry. Something went wrong when we tried to submit
-                    your {submissionType}. Call your VA medical center to
-                    schedule this {submissionType}.
-                  </p>
-                )}
+              {submitStatusVaos400 && !submitStatusVaos409 && (
+                <p>
+                  We’re sorry. Something went wrong when we tried to submit your{' '}
+                  {submissionType}. Call your VA medical center to schedule this{' '}
+                  {submissionType}.
+                </p>
+              )}
               {!submitStatusVaos400 && (
                 <p>
                   We’re sorry. Something went wrong when we tried to submit your{' '}

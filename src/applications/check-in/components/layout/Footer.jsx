@@ -53,23 +53,21 @@ const Footer = ({ router }) => {
       >
         {t('need-help')}
       </h2>
-      {showDayOfTravelHelp() &&
-        !showTravelClaimHelp && (
-          <div data-testid="check-in-message">
-            <HelpBlock dayOfTravel />
-          </div>
-        )}
+      {showDayOfTravelHelp() && !showTravelClaimHelp && (
+        <div data-testid="check-in-message">
+          <HelpBlock dayOfTravel />
+        </div>
+      )}
       {showTravelClaimHelp && (
         <div data-testid="check-in-message">
           <HelpBlock travelClaim />
         </div>
       )}
-      {!showDayOfTravelHelp() &&
-        !showTravelClaimHelp && (
-          <div data-testid="check-in-message">
-            <HelpBlock />
-          </div>
-        )}
+      {!showDayOfTravelHelp() && !showTravelClaimHelp && (
+        <div data-testid="check-in-message">
+          <HelpBlock />
+        </div>
+      )}
       <BackToHome />
     </footer>
   );

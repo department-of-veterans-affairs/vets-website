@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
 import { normalizeFullName } from '../../utils/helpers';
-import { REACT_BINDINGS } from '../../utils/imports';
+import { VaModal } from '../../utils/imports';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-
-// expose React binding for web components
-const { VaModal } = REACT_BINDINGS;
 
 // declare shared routes from the form & default states
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -58,30 +55,24 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
   };
 
   // call onDelete and close modal when dependents list updates on modal confirmation
-  useAfterRenderEffect(
-    () => {
-      onDelete(dependents);
-      setModal(DEFAULT_STATE.modal);
-      setTimeout(() => {
-        focusElement('#root__title');
-      }, 5);
-    },
-    [dependents],
-  );
+  useAfterRenderEffect(() => {
+    onDelete(dependents);
+    setModal(DEFAULT_STATE.modal);
+    setTimeout(() => {
+      focusElement('#root__title');
+    }, 5);
+  }, [dependents]);
 
   // apply focus to specific list item when coming back from edit flow
-  useEffect(
-    () => {
-      if (listItemsRef.current.length) {
-        const elRef = listItemsRef.current.find(item => scrollId === item?.id);
-        if (elRef) {
-          focusElement(elRef);
-          window.sessionStorage.removeItem(SESSION_ITEM_NAME);
-        }
+  useEffect(() => {
+    if (listItemsRef.current.length) {
+      const elRef = listItemsRef.current.find(item => scrollId === item?.id);
+      if (elRef) {
+        focusElement(elRef);
+        window.sessionStorage.removeItem(SESSION_ITEM_NAME);
       }
-    },
-    [scrollId, listItemsRef],
-  );
+    }
+  }, [scrollId, listItemsRef]);
 
   // create dependent list items
   const listItems = dependents.map((item, index) => {

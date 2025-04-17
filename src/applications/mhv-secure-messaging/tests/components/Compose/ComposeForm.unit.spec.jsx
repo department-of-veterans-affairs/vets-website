@@ -954,9 +954,7 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, tgRecipient);
 
-    const checkboxSelector = `va-checkbox[label="${
-      ElectronicSignatureBox.CHECKBOX_LABEL
-    }"]`;
+    const checkboxSelector = `va-checkbox[label="${ElectronicSignatureBox.CHECKBOX_LABEL}"]`;
 
     await waitFor(() => {
       const sendButton = screen.getByTestId('send-button');
@@ -973,6 +971,41 @@ describe('Compose form component', () => {
       checkVaCheckbox(checkbox, true);
       expect(checkbox).to.have.attribute('error', '');
     });
+  });
+
+  it('displays modal on attempt to manual save with electronic signature populated', async () => {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, val);
+
+    const electronicSignature = await screen.findByText(
+      ElectronicSignatureBox.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+    let modal = null;
+
+    fireEvent.click(screen.getByTestId('save-draft-button'));
+    await waitFor(() => {
+      modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+    });
+    expect(modal).to.have.attribute(
+      'modal-title',
+      "We can't save your signature in a draft message",
+    );
   });
 
   it('should display an error message when a file is 0B', async () => {

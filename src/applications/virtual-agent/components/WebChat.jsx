@@ -138,9 +138,9 @@ const WebChat = ({
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
-        {...isRXSkill === 'true' && {
+        {...(isRXSkill === 'true' && {
           webSpeechPonyfillFactory: speechPonyfill,
-        }}
+        })}
       >
         <BasicWebChat />
       </Composer>

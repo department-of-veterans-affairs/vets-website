@@ -37,14 +37,11 @@ const DetailPage = ({ match }) => {
     setPageFocus('h1');
   }, []);
 
-  useEffect(
-    () => {
-      if (!isCurrentBalance) {
-        setAlert('past-due-balance');
-      }
-    },
-    [isCurrentBalance],
-  );
+  useEffect(() => {
+    if (!isCurrentBalance) {
+      setAlert('past-due-balance');
+    }
+  }, [isCurrentBalance]);
 
   return (
     <>

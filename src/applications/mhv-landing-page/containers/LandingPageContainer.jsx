@@ -16,7 +16,7 @@ import {
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  hasMhvAccount,
+  hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
 
@@ -31,44 +31,35 @@ const LandingPageContainer = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const userHasMhvAccount = useSelector(hasMhvAccount);
+  const userHasMessagingAccess = useSelector(hasMessagingAccess);
 
-  const data = useMemo(
-    () => {
-      return resolveLandingPageLinks(
-        ssoe,
-        featureToggles,
-        unreadMessageAriaLabel,
-        registered,
-      );
-    },
-    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
-  );
+  const data = useMemo(() => {
+    return resolveLandingPageLinks(
+      ssoe,
+      featureToggles,
+      unreadMessageAriaLabel,
+      registered,
+    );
+  }, [featureToggles, ssoe, unreadMessageAriaLabel, registered]);
 
   const loading =
     featureToggles.loading || profile.loading || mhvAccountStatusIsLoading;
 
-  useEffect(
-    () => {
-      async function loadMessages() {
-        const folders = await getFolderList();
-        const unreadMessages = countUnreadMessages(folders);
-        setUnreadMessageCount(unreadMessages);
-      }
-      if (userHasMhvAccount) {
-        loadMessages();
-      }
-    },
-    [userHasMhvAccount, loading],
-  );
+  useEffect(() => {
+    async function loadMessages() {
+      const folders = await getFolderList();
+      const unreadMessages = countUnreadMessages(folders);
+      setUnreadMessageCount(unreadMessages);
+    }
+    if (userHasMessagingAccess) {
+      loadMessages();
+    }
+  }, [userHasMessagingAccess, loading]);
 
-  useEffect(
-    () => {
-      // For accessibility purposes.
-      focusElement('h1');
-    },
-    [loading],
-  );
+  useEffect(() => {
+    // For accessibility purposes.
+    focusElement('h1');
+  }, [loading]);
 
   useAccountCreationApi();
 

@@ -28,9 +28,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     options,
     customTitle: `${bp.relativePossessive}
      other health insurance status`,
-    description: `Does ${
-      bp.applicant
-    } have other health insurance (other than Medicare)?`,
+    description: `Does ${bp.applicant} have other health insurance (other than Medicare)?`,
   };
 }
 

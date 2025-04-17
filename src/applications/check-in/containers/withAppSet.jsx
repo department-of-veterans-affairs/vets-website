@@ -10,14 +10,11 @@ export const withAppSet = (Component, options = {}) => {
     const { app } = useSelector(selectApp);
     const { appName } = options;
     const dispatch = useDispatch();
-    useEffect(
-      () => {
-        if (!app) {
-          dispatch(setApp(appName));
-        }
-      },
-      [app, appName, dispatch],
-    );
+    useEffect(() => {
+      if (!app) {
+        dispatch(setApp(appName));
+      }
+    }, [app, appName, dispatch]);
     // Allowing for HOC
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...props} />;

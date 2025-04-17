@@ -58,7 +58,6 @@ import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 
-const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
 
@@ -121,17 +120,14 @@ const VitalDetails = props => {
     [dispatch],
   );
 
-  const updatedRecordType = useMemo(
-    () => {
-      const typeMap = {
-        'heart-rate': 'PULSE',
-        'breathing-rate': 'RESPIRATION',
-        'blood-oxygen-level': 'PULSE_OXIMETRY',
-      };
-      return typeMap[vitalType] || vitalType;
-    },
-    [vitalType],
-  );
+  const updatedRecordType = useMemo(() => {
+    const typeMap = {
+      'heart-rate': 'PULSE',
+      'breathing-rate': 'RESPIRATION',
+      'blood-oxygen-level': 'PULSE_OXIMETRY',
+    };
+    return typeMap[vitalType] || vitalType;
+  }, [vitalType]);
 
   const onPageChange = page => {
     setCurrentVitals(paginatedVitals.current[page - 1]);
@@ -139,35 +135,29 @@ const VitalDetails = props => {
     setHasUsedPagination(true);
   };
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearVitalDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearVitalDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (records?.length) {
-        updatePageTitle(
-          `${vitalTypeDisplayNames[records[0].type]} Details - ${
-            pageTitles.MEDICAL_RECORDS_PAGE_TITLE
-          }`,
-        );
+  useEffect(() => {
+    if (records?.length) {
+      updatePageTitle(
+        `${vitalTypeDisplayNames[records[0].type]} Details - ${
+          pageTitles.MEDICAL_RECORDS_PAGE_TITLE
+        }`,
+      );
 
-        if (!hasUsedPagination) {
-          // If pagination is not present, focus on the main heading (h1)
-          focusElement(document.querySelector('h1'));
-        } else {
-          focusElement(document.querySelector('#showingRecords'));
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-        }
+      if (!hasUsedPagination) {
+        // If pagination is not present, focus on the main heading (h1)
+        focusElement(document.querySelector('h1'));
+      } else {
+        focusElement(document.querySelector('#showingRecords'));
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
-    },
-    [currentPage, records, hasUsedPagination],
-  );
+    }
+  }, [currentPage, records, hasUsedPagination]);
 
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,
@@ -186,39 +176,33 @@ const VitalDetails = props => {
     return [from, to];
   };
 
-  useEffect(
-    () => {
-      if (records?.length) {
-        paginatedVitals.current = paginateData(records);
-        setCurrentVitals(paginatedVitals.current[currentPage - 1]);
-      }
-    },
-    [records],
-  );
+  useEffect(() => {
+    if (records?.length) {
+      paginatedVitals.current = paginateData(records);
+      setCurrentVitals(paginatedVitals.current[currentPage - 1]);
+    }
+  }, [records]);
 
   const displayNums = fromToNums(currentPage, records?.length);
 
-  useEffect(
-    () => {
-      if (updatedRecordType && !isLoading) {
-        const formattedVitalType = macroCase(updatedRecordType);
+  useEffect(() => {
+    if (updatedRecordType && !isLoading) {
+      const formattedVitalType = macroCase(updatedRecordType);
 
-        if (isAcceleratingVitals && vitalsList?.length) {
-          dispatch(setVitalsList(formattedVitalType));
-        } else {
-          dispatch(getVitalDetails(formattedVitalType, vitalsList));
-        }
+      if (isAcceleratingVitals && vitalsList?.length) {
+        dispatch(setVitalsList(formattedVitalType));
+      } else {
+        dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
-    },
-    [
-      vitalType,
-      vitalsList,
-      dispatch,
-      updatedRecordType,
-      isAcceleratingVitals,
-      isLoading,
-    ],
-  );
+    }
+  }, [
+    vitalType,
+    vitalsList,
+    dispatch,
+    updatedRecordType,
+    isAcceleratingVitals,
+    isLoading,
+  ]);
 
   const lastUpdatedText = getLastUpdatedText(
     refresh.status,
@@ -252,14 +236,14 @@ Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Showing ${records.length} records from newest to oldest
 ${records
-      .map(
-        vital => `${txtLine}\n\n
+  .map(
+    vital => `${txtLine}\n\n
 ${vital.date}\n
 Result: ${vital.measurement}\n
 Location: ${vital.location}\n
 Provider notes: ${vital.notes}\n\n`,
-      )
-      .join('')}`;
+  )
+  .join('')}`;
     generateTextFile(content, `VA-Vitals-details-${getNameDateAndTime(user)}`);
   };
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -317,9 +301,7 @@ Provider notes: ${vital.notes}\n\n`,
           />
 
           <HeaderSection
-            header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
-              records.length
-            } records from newest to oldest`}
+            header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${records.length} records from newest to oldest`}
             className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
           vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
           vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4"
@@ -376,7 +358,6 @@ Provider notes: ${vital.notes}\n\n`,
             }}
             page={currentPage}
             pages={paginatedVitals.current.length}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
             showLastPage
             uswds
           />

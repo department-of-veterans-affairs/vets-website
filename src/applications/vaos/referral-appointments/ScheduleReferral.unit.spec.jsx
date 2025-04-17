@@ -16,7 +16,7 @@ describe('VAOS Component: ScheduleReferral', () => {
   const referralDate = '2024-09-09';
 
   it('should render with default data', async () => {
-    const referral = createReferralById(referralDate, '111');
+    const referral = createReferralById('111', referralDate);
 
     const store = createTestStore();
 
@@ -35,7 +35,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     );
 
     const expectedDate = format(
-      new Date(referral.expirationDate),
+      new Date(referral.attributes.expirationDate),
       'MMMM d, yyyy',
     );
 
@@ -46,9 +46,9 @@ describe('VAOS Component: ScheduleReferral', () => {
 
     expect(facility).to.exist;
   });
-  it.skip('should reset slot selection', async () => {
-    const referral = createReferralById(referralDate, '222');
-    const selectedSlotKey = getReferralSlotKey(referral.uuid);
+  it('should reset slot selection', async () => {
+    const referral = createReferralById('222', referralDate);
+    const selectedSlotKey = getReferralSlotKey(referral.attributes.uuid);
     sessionStorage.setItem(selectedSlotKey, '0');
     const initialState = {
       featureToggles: {

@@ -10,7 +10,7 @@ import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/introduction';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const props = {
   route: {
@@ -55,7 +55,6 @@ const mockStore = (loggedIn, dispatchSpy) => ({
     user: {
       login: loggedIn ? loggedInUser : { currentlyLoggedIn: false },
       profile: {
-        savedForms: [],
         prefillsAvailable: ['FORM-UPLOAD-FLOW'],
         dob: '2000-01-01',
         loa: {

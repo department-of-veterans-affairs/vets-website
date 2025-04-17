@@ -13,12 +13,9 @@ const FacilityCheckboxGroup = props => {
 
   const [selectAll, setSelectAll] = useState(false);
 
-  useEffect(
-    () => {
-      setSelectAll(triageTeams.every(team => team.preferredTeam));
-    },
-    [triageTeams],
-  );
+  useEffect(() => {
+    setSelectAll(triageTeams.every(team => team.preferredTeam));
+  }, [triageTeams]);
 
   const handleSelectAllChange = () => {
     const newSelectAll = !selectAll;

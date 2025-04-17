@@ -28,38 +28,32 @@ const SmBreadcrumbs = () => {
 
   const previousPath = useRef(null);
 
-  const [locationBasePath, locationChildPath] = useMemo(
-    () => {
-      const pathElements = location.pathname.split('/');
-      if (pathElements[0] === '') pathElements.shift();
-      return pathElements;
-    },
-    [location],
-  );
+  const [locationBasePath, locationChildPath] = useMemo(() => {
+    const pathElements = location.pathname.split('/');
+    if (pathElements[0] === '') pathElements.shift();
+    return pathElements;
+  }, [location]);
 
-  const newCrumbsList = useMemo(
-    () => {
-      let updatedCrumbsList = crumbsList;
+  const newCrumbsList = useMemo(() => {
+    let updatedCrumbsList = crumbsList;
 
-      if (removeLandingPageFF) {
-        updatedCrumbsList = updatedCrumbsList?.filter(
-          item => item.label !== 'Messages',
-        );
-      }
+    if (removeLandingPageFF) {
+      updatedCrumbsList = updatedCrumbsList?.filter(
+        item => item.label !== 'Messages',
+      );
+    }
 
-      return updatedCrumbsList?.map(item => ({
-        ...item,
-        ...(removeLandingPageFF
-          ? {
-              label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
-                item?.label
-              }`,
-            }
-          : {}),
-      }));
-    },
-    [crumbsList, removeLandingPageFF],
-  );
+    return updatedCrumbsList?.map(item => ({
+      ...item,
+      ...(removeLandingPageFF
+        ? {
+            label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
+              item?.label
+            }`,
+          }
+        : {}),
+    }));
+  }, [crumbsList, removeLandingPageFF]);
 
   const pathsWithShortBreadcrumb = [
     Constants.Paths.MESSAGE_THREAD,
@@ -96,141 +90,127 @@ const SmBreadcrumbs = () => {
   const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
   const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
 
-  const navigateBack = useCallback(
-    () => {
-      const isContactList =
-        `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
+  const navigateBack = useCallback(() => {
+    const isContactList =
+      `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
 
-      const isCompose = previousUrl === Constants.Paths.COMPOSE;
-      const isSentFolder =
-        crumb?.href ===
-        `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.SENT.id}`;
-      const isInboxFolder =
-        crumb?.href ===
-        `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
-      const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
+    const isCompose = previousUrl === Constants.Paths.COMPOSE;
+    const isSentFolder =
+      crumb?.href ===
+      `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.SENT.id}`;
+    const isInboxFolder =
+      crumb?.href ===
+      `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
+    const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
 
-      if (isContactList && isCompose && activeDraftId) {
-        history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (
-        removeLandingPageFF &&
-        crumb.href === Constants.Paths.FOLDERS
-      ) {
-        history.push(Constants.Paths.FOLDERS);
-      } else if (removeLandingPageFF && isSentFolder && !isReplyPath) {
-        history.push(Constants.Paths.SENT);
-      } else if (removeLandingPageFF && isInboxFolder && !isReplyPath) {
-        history.push(Constants.Paths.INBOX);
-      } else {
-        history.push(
-          previousUrl !== Constants.Paths.CONTACT_LIST
-            ? previousUrl
-            : Constants.Paths.INBOX,
-        );
-      }
-    },
-    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
-  );
+    if (isContactList && isCompose && activeDraftId) {
+      history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
+    } else if (removeLandingPageFF && crumb.href === Constants.Paths.FOLDERS) {
+      history.push(Constants.Paths.FOLDERS);
+    } else if (removeLandingPageFF && isSentFolder && !isReplyPath) {
+      history.push(Constants.Paths.SENT);
+    } else if (removeLandingPageFF && isInboxFolder && !isReplyPath) {
+      history.push(Constants.Paths.INBOX);
+    } else {
+      history.push(
+        previousUrl !== Constants.Paths.CONTACT_LIST
+          ? previousUrl
+          : Constants.Paths.INBOX,
+      );
+    }
+  }, [activeDraftId, crumb?.href, history, locationBasePath, previousUrl]);
 
-  useEffect(
-    () => {
-      if (
-        `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
-        parseInt(locationChildPath, 10) < 1
-      ) {
-        navigateToFolderByFolderId(locationChildPath, history);
-      }
-    },
-    [locationBasePath, locationChildPath, history],
-  );
+  useEffect(() => {
+    if (
+      `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
+      parseInt(locationChildPath, 10) < 1
+    ) {
+      navigateToFolderByFolderId(locationChildPath, history);
+    }
+  }, [locationBasePath, locationChildPath, history]);
 
-  useEffect(
-    () => {
-      const path = locationBasePath ? `/${locationBasePath}/` : '/';
+  useEffect(() => {
+    const path = locationBasePath ? `/${locationBasePath}/` : '/';
 
-      if (
-        (path === Constants.Paths.MESSAGE_THREAD ||
-          path === Constants.Paths.REPLY) &&
-        !activeFolder
-      ) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              ...Constants.Breadcrumbs.INBOX,
-              label: 'inbox',
-            },
-          ]),
-        );
-      } else if (
-        [Constants.Paths.INBOX, Constants.Paths.SENT].includes(path) ||
-        (path === Constants.Paths.FOLDERS && !locationChildPath)
-      ) {
-        dispatch(
-          setBreadcrumbs([
-            Constants.Breadcrumbs[locationBasePath.toUpperCase()],
-          ]),
-        );
-      } else if (
-        [Constants.Paths.DELETED, Constants.Paths.DRAFTS].includes(path) ||
-        (path === Constants.Paths.FOLDERS && !locationChildPath)
-      ) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              href: Constants.Paths.FOLDERS,
-              label: Constants.Breadcrumbs.FOLDERS.label,
-              isRouterLink: true,
-            },
-          ]),
-        );
-      } else if (
-        path === Constants.Paths.FOLDERS &&
-        locationChildPath &&
-        activeFolder &&
-        folderList
-      ) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              href: Constants.Paths.FOLDERS,
-              label: Constants.Breadcrumbs.FOLDERS.label,
-              isRouterLink: true,
-            },
-            {
-              href: `/${locationBasePath}/${locationChildPath}`,
-              label: folderList.find(
-                item => item.id === parseInt(locationChildPath, 10),
-              ).name,
-              isRouterLink: true,
-            },
-          ]),
-        );
-      } else if (
-        activeFolder &&
-        (path === Constants.Paths.MESSAGE_THREAD ||
-          path === Constants.Paths.REPLY)
-      ) {
-        dispatch(
-          setBreadcrumbs([
-            {
-              href: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
-              label: `${
-                activeFolder.folderId < 1
-                  ? activeFolder.name.toLowerCase()
-                  : activeFolder.name
-              }`,
-              isRouterLink: true,
-            },
-          ]),
-        );
-      } else {
-        dispatch(setBreadcrumbs([]));
-      }
+    if (
+      (path === Constants.Paths.MESSAGE_THREAD ||
+        path === Constants.Paths.REPLY) &&
+      !activeFolder
+    ) {
+      dispatch(
+        setBreadcrumbs([
+          {
+            ...Constants.Breadcrumbs.INBOX,
+            label: 'inbox',
+          },
+        ]),
+      );
+    } else if (
+      [Constants.Paths.INBOX, Constants.Paths.SENT].includes(path) ||
+      (path === Constants.Paths.FOLDERS && !locationChildPath)
+    ) {
+      dispatch(
+        setBreadcrumbs([Constants.Breadcrumbs[locationBasePath.toUpperCase()]]),
+      );
+    } else if (
+      [Constants.Paths.DELETED, Constants.Paths.DRAFTS].includes(path) ||
+      (path === Constants.Paths.FOLDERS && !locationChildPath)
+    ) {
+      dispatch(
+        setBreadcrumbs([
+          {
+            href: Constants.Paths.FOLDERS,
+            label: Constants.Breadcrumbs.FOLDERS.label,
+            isRouterLink: true,
+          },
+        ]),
+      );
+    } else if (
+      path === Constants.Paths.FOLDERS &&
+      locationChildPath &&
+      activeFolder &&
+      folderList
+    ) {
+      dispatch(
+        setBreadcrumbs([
+          {
+            href: Constants.Paths.FOLDERS,
+            label: Constants.Breadcrumbs.FOLDERS.label,
+            isRouterLink: true,
+          },
+          {
+            href: `/${locationBasePath}/${locationChildPath}`,
+            label: folderList.find(
+              item => item.id === parseInt(locationChildPath, 10),
+            ).name,
+            isRouterLink: true,
+          },
+        ]),
+      );
+    } else if (
+      activeFolder &&
+      (path === Constants.Paths.MESSAGE_THREAD ||
+        path === Constants.Paths.REPLY)
+    ) {
+      dispatch(
+        setBreadcrumbs([
+          {
+            href: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
+            label: `${
+              activeFolder.folderId < 1
+                ? activeFolder.name.toLowerCase()
+                : activeFolder.name
+            }`,
+            isRouterLink: true,
+          },
+        ]),
+      );
+    } else {
+      dispatch(setBreadcrumbs([]));
+    }
 
-      previousPath.current = path;
-    },
-    [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
-  );
+    previousPath.current = path;
+  }, [activeFolder, dispatch, locationBasePath, locationChildPath, folderList]);
 
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;

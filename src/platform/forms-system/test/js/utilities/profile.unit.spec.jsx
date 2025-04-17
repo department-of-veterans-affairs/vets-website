@@ -171,12 +171,12 @@ describe('profile utilities', () => {
       expect(getMissingInfo({ requiredKeys: ['m'], ...props })).to.deep.equal([
         'mobile',
       ]);
-      expect(getMissingInfo({ requiredKeys: ['h|m'], ...props })).to.deep.equal(
-        ['home or mobile'],
-      );
-      expect(getMissingInfo({ requiredKeys: ['m|h'], ...props })).to.deep.equal(
-        ['home or mobile'],
-      );
+      expect(
+        getMissingInfo({ requiredKeys: ['h|m'], ...props }),
+      ).to.deep.equal(['home or mobile']);
+      expect(
+        getMissingInfo({ requiredKeys: ['m|h'], ...props }),
+      ).to.deep.equal(['home or mobile']);
       expect(
         getMissingInfo({
           data: getData({ m: false }),

@@ -19,23 +19,20 @@ export default function CreateAccountLink({
 }) {
   const [href, setHref] = useState('');
 
-  useEffect(
-    () => {
-      async function generateURL() {
-        const url = await authUtilities.signupOrVerify({
-          clientId,
-          policy,
-          isLink: true,
-          allowVerification: false,
-          useOAuth,
-          config: externalApplication,
-        });
-        setHref(url);
-      }
-      generateURL();
-    },
-    [policy, useOAuth, externalApplication, clientId],
-  );
+  useEffect(() => {
+    async function generateURL() {
+      const url = await authUtilities.signupOrVerify({
+        clientId,
+        policy,
+        isLink: true,
+        allowVerification: false,
+        useOAuth,
+        config: externalApplication,
+      });
+      setHref(url);
+    }
+    generateURL();
+  }, [policy, useOAuth, externalApplication, clientId]);
 
   return (
     <a

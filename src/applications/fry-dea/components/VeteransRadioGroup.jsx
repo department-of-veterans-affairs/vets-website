@@ -81,7 +81,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VeteransRadioGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(VeteransRadioGroup);

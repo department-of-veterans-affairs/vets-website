@@ -117,11 +117,10 @@ export function ApplicantRelationshipReviewPage(props) {
         <div className="review-row">
           <dt>{description}</dt>
           <dd>
-            {options.map(
-              opt =>
-                opt.value === currentListItem?.[keyname]?.[primary]
-                  ? opt.label
-                  : '',
+            {options.map(opt =>
+              opt.value === currentListItem?.[keyname]?.[primary]
+                ? opt.label
+                : '',
             )}
           </dd>
         </div>

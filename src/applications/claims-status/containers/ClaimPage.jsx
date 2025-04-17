@@ -26,10 +26,7 @@ const mapDispatchToProps = {
   clearClaim: clearClaimAction,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ClaimPage);
+export default connect(null, mapDispatchToProps)(ClaimPage);
 
 ClaimPage.propTypes = {
   clearClaim: PropTypes.func,

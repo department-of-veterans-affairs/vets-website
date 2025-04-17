@@ -37,12 +37,9 @@ const HomeAcreageValueInput = props => {
   });
   const [error, setError] = useState(null);
 
-  useEffect(
-    () => {
-      validateCurrency(homeAcreageValue.value, setError);
-    },
-    [homeAcreageValue],
-  );
+  useEffect(() => {
+    validateCurrency(homeAcreageValue.value, setError);
+  }, [homeAcreageValue]);
 
   const handleInputChange = event => {
     setHomeAcreageValue({ value: event.target.value, dirty: true });

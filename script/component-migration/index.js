@@ -13,11 +13,7 @@ const optionDefinitions = [
 ];
 const options = commandLineArgs(optionDefinitions);
 
-const legacyImport = `import ${
-  options.component
-} from '@department-of-veterans-affairs/component-library/${
-  options.component
-}'`;
+const legacyImport = `import ${options.component} from '@department-of-veterans-affairs/component-library/${options.component}'`;
 
 function handleError(error) {
   console.log(error);
@@ -61,9 +57,7 @@ function translateProps(componentString, propMap) {
 function replaceTags(fileContents, newTag) {
   const unnamedClosingTags = fileContents.matchAll(
     new RegExp(
-      `(<${options.component}(?!.*<\\/${
-        options.component
-      }>).*?(^\\s+)?\\/>;?$)`,
+      `(<${options.component}(?!.*<\\/${options.component}>).*?(^\\s+)?\\/>;?$)`,
       'gsm',
     ),
   );
@@ -127,7 +121,7 @@ function migrateFile(fname, data) {
 function main() {
   // If the --help arg was passed or the dir + component args weren't passed
   // print the help and exit
-  if (options.help || (!options.dir || !options.component)) {
+  if (options.help || !options.dir || !options.component) {
     printMigrationHelp();
     process.exit(0);
   }

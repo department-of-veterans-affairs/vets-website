@@ -130,15 +130,12 @@ const ProofOfVeteranStatus = ({
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (shouldFocusError && errors?.length > 0) {
-        focusElement('.vet-status-pdf-download-error');
-        setShouldFocusError(false);
-      }
-    },
-    [shouldFocusError, errors],
-  );
+  useEffect(() => {
+    if (shouldFocusError && errors?.length > 0) {
+      focusElement('.vet-status-pdf-download-error');
+      setShouldFocusError(false);
+    }
+  }, [shouldFocusError, errors]);
 
   const createPdf = async () => {
     setErrors(null);
@@ -257,7 +254,7 @@ const ProofOfVeteranStatus = ({
 
         {isLoading ? (
           <va-loading-indicator
-            setFocus
+            set-focus
             message="Checking your eligibility..."
             data-testid="proof-of-status-loading-indicator"
           />

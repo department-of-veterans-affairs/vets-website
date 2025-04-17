@@ -79,8 +79,8 @@ const SpouseEmploymentWorkDates = props => {
 
     // If editing existing record
     if (isEditing) {
-      const updatedRecords = spEmploymentRecords.map(
-        (item, idx) => (idx === index ? employmentRecord : item),
+      const updatedRecords = spEmploymentRecords.map((item, idx) =>
+        idx === index ? employmentRecord : item,
       );
       setFormData({
         ...data,

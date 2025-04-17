@@ -24,20 +24,17 @@ const RxBreadcrumbs = () => {
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
-  useEffect(
-    () => {
-      setBreadcrumbs(
-        // TODO: remove removeLandingPage part once mhvMedicationsRemoveLandingPage is turned on in prod
-        createBreadcrumbs(
-          location,
-          prescription,
-          pagination?.currentPage,
-          removeLandingPage,
-        ),
-      );
-    },
-    [location, prescription, pagination?.currentPage, removeLandingPage],
-  );
+  useEffect(() => {
+    setBreadcrumbs(
+      // TODO: remove removeLandingPage part once mhvMedicationsRemoveLandingPage is turned on in prod
+      createBreadcrumbs(
+        location,
+        prescription,
+        pagination?.currentPage,
+        removeLandingPage,
+      ),
+    );
+  }, [location, prescription, pagination?.currentPage, removeLandingPage]);
 
   let content = null;
 
@@ -54,9 +51,7 @@ const RxBreadcrumbs = () => {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
         <va-link
-          href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${
-            prescription?.prescriptionId
-          }`}
+          href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${prescription?.prescriptionId}`}
           text="Back"
           data-testid="rx-breadcrumb-link"
         />

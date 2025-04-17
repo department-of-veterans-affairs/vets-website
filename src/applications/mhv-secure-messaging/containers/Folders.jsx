@@ -38,50 +38,41 @@ const Folders = () => {
   );
 
   // clear out alerts if user navigates away from this component
-  useEffect(
-    () => {
-      return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [location.pathname, dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch, location, isModalVisible],
-  );
-
-  useEffect(
-    () => {
-      if (!isModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folders !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
-
-        const pageTitleTag = getPageTitle({
-          removeLandingPageFF,
-          pathname: location.pathname,
-        });
-
-        focusElement(document.querySelector(alertSelector));
-        updatePageTitle(pageTitleTag);
+  useEffect(() => {
+    return () => {
+      if (location.pathname) {
+        dispatch(closeAlert());
       }
-    },
-    [
-      alertList,
-      folders,
-      isModalVisible,
-      location.pathname,
-      removeLandingPageFF,
-    ],
-  );
+    };
+  }, [location.pathname, dispatch]);
+
+  useEffect(() => {
+    dispatch(getFolders());
+  }, [dispatch, location, isModalVisible]);
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      const alertVisible = alertList[alertList?.length - 1];
+      const alertSelector =
+        folders !== undefined && !alertVisible?.isActive
+          ? 'h1'
+          : alertVisible?.isActive && 'va-alert';
+
+      const pageTitleTag = getPageTitle({
+        removeLandingPageFF,
+        pathname: location.pathname,
+      });
+
+      focusElement(document.querySelector(alertSelector));
+      updatePageTitle(pageTitleTag);
+    }
+  }, [
+    alertList,
+    folders,
+    isModalVisible,
+    location.pathname,
+    removeLandingPageFF,
+  ]);
 
   const openNewModal = () => {
     dispatch(closeAlert());

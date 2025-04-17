@@ -46,19 +46,20 @@ const NavItem = ({
       <NavItemRow depth={depth} item={item} trackEvents={trackEvents} />
 
       {/* Child Items */}
-      {(expanded || depth >= 3) &&
-        hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
+      {(expanded || depth >= 3) && hasChildren && (
+        <ul>{renderChildItems(id, depth + 1)}</ul>
+      )}
     </li>
   );
 };
 
 NavItem.propTypes = {
   depth: PropTypes.number.isRequired,
-  item: NavItemPropTypes,
   index: PropTypes.number.isRequired,
   renderChildItems: PropTypes.func.isRequired,
   sortedNavItems: PropTypes.arrayOf(NavItemPropTypes).isRequired,
   trackEvents: PropTypes.func.isRequired,
+  item: NavItemPropTypes,
   navExpanded: PropTypes.bool,
 };
 

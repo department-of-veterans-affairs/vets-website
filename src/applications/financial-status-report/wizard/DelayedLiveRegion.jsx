@@ -9,28 +9,25 @@ const DelayedLiveRegion = ({ children, delay = 100 }) => {
   const [showContent, setShowContent] = useState(false);
   const shouldRenderContent = showContent;
 
-  useEffect(
-    () => {
-      let interval = null;
+  useEffect(() => {
+    let interval = null;
 
-      if (interval === null) {
-        interval = setInterval(() => {
-          setTimer(milliseconds => milliseconds + 1);
-        }, 1);
-      }
+    if (interval === null) {
+      interval = setInterval(() => {
+        setTimer(milliseconds => milliseconds + 1);
+      }, 1);
+    }
 
-      if (delay + 1 === timer) {
-        setShowContent(true);
-        clearInterval(interval);
-      }
+    if (delay + 1 === timer) {
+      setShowContent(true);
+      clearInterval(interval);
+    }
 
-      return () => {
-        clearInterval(interval);
-        setShowContent(false);
-      };
-    },
-    [timer, delay],
-  );
+    return () => {
+      clearInterval(interval);
+      setShowContent(false);
+    };
+  }, [timer, delay]);
 
   return (
     <section

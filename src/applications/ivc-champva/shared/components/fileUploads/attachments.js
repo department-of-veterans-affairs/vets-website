@@ -11,8 +11,8 @@ export const fileWithMetadataSchema = (possibleFiles, minItems = 1) => {
   let enu = possibleFiles || [];
   // If we have nested elements in format [{text: 'File Name', ...}]
   // grab the content we care about rendering:
-  enu = enu.map(
-    el => (typeof el === 'string' || el.text ? el.text || el : undefined),
+  enu = enu.map(el =>
+    typeof el === 'string' || el.text ? el.text || el : undefined,
   );
   return {
     type: 'array',

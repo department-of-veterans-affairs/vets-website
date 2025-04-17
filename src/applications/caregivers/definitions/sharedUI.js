@@ -68,13 +68,17 @@ export const emailUI = label =>
   platformEmailUI(replaceStrValues(content['form-email-label'], label));
 
 export const fullNameUI = ({ label, labelAlt }) =>
-  merge({}, fullNameWithSuffixUI(title => `${label} ${title}`), {
-    first: {
-      'ui:options': {
-        hint: replaceStrValues(content['form-name-hint'], labelAlt || label),
+  merge(
+    {},
+    fullNameWithSuffixUI(title => `${label} ${title}`),
+    {
+      first: {
+        'ui:options': {
+          hint: replaceStrValues(content['form-name-hint'], labelAlt || label),
+        },
       },
     },
-  });
+  );
 
 export const genderUI = label =>
   radioUI({

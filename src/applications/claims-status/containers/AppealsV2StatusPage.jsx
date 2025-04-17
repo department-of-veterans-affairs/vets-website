@@ -82,15 +82,17 @@ export default function AppealsV2StatusPage() {
   );
   const afterNextAlerts = (
     <div>
-      {alerts.filter(a => afterNextAlertTypes.includes(a.type)).map((a, i) => {
-        const alert = getAlertContent(a, appealIsActive);
-        return (
-          <div key={`after-next-alert-${i}`}>
-            <h2>{alert.title}</h2>
-            <div>{alert.description}</div>
-          </div>
-        );
-      })}
+      {alerts
+        .filter(a => afterNextAlertTypes.includes(a.type))
+        .map((a, i) => {
+          const alert = getAlertContent(a, appealIsActive);
+          return (
+            <div key={`after-next-alert-${i}`}>
+              <h2>{alert.title}</h2>
+              <div>{alert.description}</div>
+            </div>
+          );
+        })}
     </div>
   );
 

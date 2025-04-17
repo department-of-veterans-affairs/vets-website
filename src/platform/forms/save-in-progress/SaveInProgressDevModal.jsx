@@ -40,14 +40,11 @@ const SipsDevModal = props => {
   checkHash();
   const showLink = localStorage.getItem('DEV_MODE') === 'true';
 
-  useEffect(
-    () => {
-      if (showLink && isModalVisible && pageList?.length) {
-        setAvailablePaths(getAvailablePaths(pageList, sipsData));
-      }
-    },
-    [pageList, sipsData, showLink, isModalVisible],
-  );
+  useEffect(() => {
+    if (showLink && isModalVisible && pageList?.length) {
+      setAvailablePaths(getAvailablePaths(pageList, sipsData));
+    }
+  }, [pageList, sipsData, showLink, isModalVisible]);
 
   if (!showLink || (pageList || []).length === 0) {
     return null;
@@ -188,4 +185,4 @@ SipsDevModal.propTypes = {
   }),
 };
 
-export default (environment.isProduction() ? () => null : SipsDevModal);
+export default environment.isProduction() ? () => null : SipsDevModal;

@@ -49,8 +49,8 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
   const resaleValueError =
     !vehicleRecord.resaleValue ||
     !isValidCurrency(vehicleRecord.resaleValue) ||
-    (vehicleRecord.resaleValue > MAXIMUM_RESALE_VALUE ||
-      vehicleRecord.resaleValue < 0)
+    vehicleRecord.resaleValue > MAXIMUM_RESALE_VALUE ||
+    vehicleRecord.resaleValue < 0
       ? 'Please enter an estimated value less than $1,000,000'
       : null;
 

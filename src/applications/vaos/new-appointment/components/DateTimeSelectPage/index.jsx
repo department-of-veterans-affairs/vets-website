@@ -140,24 +140,21 @@ export default function DateTimeSelectPage() {
   const clinic = useSelector(state => getChosenClinicInfo(state));
   const upcomingAppointments = useSelector(selectUpcomingAppointments);
 
-  useEffect(
-    () => {
-      dispatch(
-        getAppointmentSlots(
-          moment(preferredDate)
-            .startOf('month')
-            .format('YYYY-MM-DD'),
-          moment(preferredDate)
-            .add(1, 'months')
-            .endOf('month')
-            .format('YYYY-MM-DD'),
-          true,
-        ),
-      );
-      document.title = `${pageTitle} | Veterans Affairs`;
-    },
-    [dispatch, preferredDate],
-  );
+  useEffect(() => {
+    dispatch(
+      getAppointmentSlots(
+        moment(preferredDate)
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment(preferredDate)
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        true,
+      ),
+    );
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }, [dispatch, preferredDate]);
 
   useEffect(
     () => {

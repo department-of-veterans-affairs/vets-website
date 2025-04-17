@@ -29,26 +29,30 @@ export function getEnrollmentData(apiVersion) {
           response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
           if (error.status === '503') {
-            // LTS Service Downtime Error
-            return dispatch({ type: SERVICE_DOWNTIME_ERROR });
+            // Lighthouse (LTS) Service Downtime Error
+            return dispatch({
+              type: SERVICE_DOWNTIME_ERROR,
+            });
           }
           if (error.status === '504') {
-            // Either EVSS or a partner service is down or EVSS times out
-            return dispatch({ type: BACKEND_SERVICE_ERROR });
+            // Either Lighthouse (LTS) or a partner service is down or Lighthouse times out
+            return dispatch({
+              type: BACKEND_SERVICE_ERROR,
+            });
           }
           if (error.status === '403') {
             // Backend authentication problem
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
           }
           if (error.status === '404') {
-            // EVSS partner service has no record of this user
-            return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
+            // Lighthouse (LTS) partner service has no record of this user
+            return dispatch({
+              type: NO_CHAPTER33_RECORD_AVAILABLE,
+            });
           }
           return Promise.reject(
             new Error(
-              `post-911-gib-status getEnrollmentData() received unexpected error: ${
-                error.status
-              }: ${error.title}: ${error.detail}`,
+              `post-911-gib-status getEnrollmentData() received unexpected error: ${error.status}: ${error.title}: ${error.detail}`,
             ),
           );
         }

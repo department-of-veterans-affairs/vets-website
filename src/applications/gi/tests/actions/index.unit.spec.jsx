@@ -225,9 +225,10 @@ describe('actionCreators', () => {
       const dispatchedActions = [];
       const mockDispatch = action => dispatchedActions.push(action);
 
-      actions.updateEligibilityAndFilters(mockEligibility, mockFilters)(
-        mockDispatch,
-      );
+      actions.updateEligibilityAndFilters(
+        mockEligibility,
+        mockFilters,
+      )(mockDispatch);
 
       expect(dispatchedActions).to.deep.equal(expectedActions);
     });
@@ -518,9 +519,12 @@ describe('actionCreators', () => {
       const filters = { filter1: 'value1', excludedSchoolTypes: 'value2' };
       const version = 'v1';
 
-      await actions.fetchSearchByNameResults(name, page, filters, version)(
-        dispatch,
-      );
+      await actions.fetchSearchByNameResults(
+        name,
+        page,
+        filters,
+        version,
+      )(dispatch);
       expect(dispatch.calledTwice).to.be.true;
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: 'SEARCH_STARTED',
@@ -624,9 +628,11 @@ describe('actionCreators', () => {
       const filters = { filter1: 'value1', excludedSchoolTypes: 'value2' };
       const version = 'v1';
 
-      await actions.fetchCompareDetails(facilityCodes, filters, version)(
-        dispatch,
-      );
+      await actions.fetchCompareDetails(
+        facilityCodes,
+        filters,
+        version,
+      )(dispatch);
 
       expect(fetchStub.calledOnce).to.be.true;
       expect(dispatch.calledOnce).to.be.true;
@@ -651,9 +657,11 @@ describe('actionCreators', () => {
       const filters = { filter1: 'value1', excludedSchoolTypes: 'value2' };
       const version = 'v1';
 
-      await actions.fetchCompareDetails(facilityCodes, filters, version)(
-        dispatch,
-      );
+      await actions.fetchCompareDetails(
+        facilityCodes,
+        filters,
+        version,
+      )(dispatch);
       expect(fetchStub.calledOnce).to.be.true;
       expect(dispatch.calledOnce).to.be.true;
       expect(dispatch.firstCall.args[0]).to.have.property(
@@ -729,9 +737,12 @@ describe('actionCreators', () => {
   describe('fetchSearchByLocationResults', () => {
     const dispatchSpy = sinon.spy();
     it('should handle geocode success', async () => {
-      await fetchSearchByLocationResults('12345', 'distance', {}, 'version')(
-        dispatchSpy,
-      );
+      await fetchSearchByLocationResults(
+        '12345',
+        'distance',
+        {},
+        'version',
+      )(dispatchSpy);
       expect(
         dispatchSpy.calledWith({
           type: 'GEOCODE_STARTED',
@@ -922,7 +933,10 @@ describe('actionCreators', () => {
       mockFetch.resolves(mockResponse);
 
       return actions
-        .fetchInstitutionPrograms('1234', 'someProgramType')(mockDispatch)
+        .fetchInstitutionPrograms(
+          '1234',
+          'someProgramType',
+        )(mockDispatch)
         .then(() => {
           expect(
             mockDispatch.calledWith({
@@ -945,7 +959,10 @@ describe('actionCreators', () => {
       mockFetch.rejects(error);
 
       return actions
-        .fetchInstitutionPrograms('1234', 'someProgramType')(mockDispatch)
+        .fetchInstitutionPrograms(
+          '1234',
+          'someProgramType',
+        )(mockDispatch)
         .catch(() => {
           expect(
             mockDispatch.calledWith({
@@ -968,7 +985,10 @@ describe('actionCreators', () => {
       mockFetch.resolves(mockResponse);
 
       return actions
-        .fetchInstitutionPrograms('1234', 'someProgramType')(mockDispatch)
+        .fetchInstitutionPrograms(
+          '1234',
+          'someProgramType',
+        )(mockDispatch)
         .then(() => {
           expect(
             mockDispatch.calledWith({

@@ -13,14 +13,11 @@ const Search = ({ isDesktop, searchIsOpen }) => {
     'search-header-dropdown-input-field',
   );
 
-  useEffect(
-    () => {
-      if (searchInput && searchIsOpen) {
-        searchInput.focus();
-      }
-    },
-    [searchInput, searchIsOpen],
-  );
+  useEffect(() => {
+    if (searchInput && searchIsOpen) {
+      searchInput.focus();
+    }
+  }, [searchInput, searchIsOpen]);
 
   const handleInputChange = event => {
     setInputValue(event.target.value);

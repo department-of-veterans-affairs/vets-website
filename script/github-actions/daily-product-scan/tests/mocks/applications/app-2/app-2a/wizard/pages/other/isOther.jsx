@@ -5,12 +5,9 @@ import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
 const AmOther = props => {
   const { setWizardStatus } = props;
-  useEffect(
-    () => {
-      setWizardStatus(false);
-    },
-    [setWizardStatus],
-  );
+  useEffect(() => {
+    setWizardStatus(false);
+  }, [setWizardStatus]);
   recordNotificationEvent('ineligibility - is not a Veteran or Service Member');
   return (
     <va-card

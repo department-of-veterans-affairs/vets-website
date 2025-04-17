@@ -50,7 +50,7 @@ export const RouteLeavingGuard = ({
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
-      saveDraftHandler('manual');
+      saveDraftHandler('auto');
     }
     closeModal();
     if (lastLocation) {
@@ -74,24 +74,18 @@ export const RouteLeavingGuard = ({
     }
   };
 
-  useEffect(
-    () => {
-      if (confirmedNavigation) {
-        navigate(lastLocation.pathname);
-        updateConfirmedNavigation(false);
-      }
-    },
-    [confirmedNavigation],
-  );
+  useEffect(() => {
+    if (confirmedNavigation) {
+      navigate(lastLocation.pathname);
+      updateConfirmedNavigation(false);
+    }
+  }, [confirmedNavigation]);
 
-  useEffect(
-    () => {
-      if (savedDraft && !!saveError) {
-        updateModalVisible(true);
-      }
-    },
-    [saveError, savedDraft],
-  );
+  useEffect(() => {
+    if (savedDraft && !!saveError) {
+      updateModalVisible(true);
+    }
+  }, [saveError, savedDraft]);
 
   return (
     <>

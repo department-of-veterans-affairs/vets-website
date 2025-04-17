@@ -40,17 +40,14 @@ const AreaOfDisagreement = ({
   const [inputErrorMessage, setInputErrorMessage] = useState(null);
   const [maxLength, setMaxLength] = useState(MAX_LENGTH.DISAGREEMENT_REASON);
 
-  useEffect(
-    () => {
-      // clear error state between pages
-      setCheckboxErrorMessage(null);
-      setInputErrorMessage(null);
-      if (onReviewPage) {
-        waitForRenderThenFocus(`#disagreement-title-${pagePerItemIndex}`);
-      }
-    },
-    [pagePerItemIndex, onReviewPage],
-  );
+  useEffect(() => {
+    // clear error state between pages
+    setCheckboxErrorMessage(null);
+    setInputErrorMessage(null);
+    if (onReviewPage) {
+      waitForRenderThenFocus(`#disagreement-title-${pagePerItemIndex}`);
+    }
+  }, [pagePerItemIndex, onReviewPage]);
 
   const setMaxError = (disagreement = {}) => {
     const max = calculateOtherMaxLength(disagreement);
@@ -138,18 +135,17 @@ const AreaOfDisagreement = ({
         required
         uswds
       >
-        {Object.entries(DISAGREEMENT_TYPES).map(
-          ([key, label]) =>
-            key === 'otherEntry' ? null : (
-              <va-checkbox
-                key={key}
-                name={key}
-                label={label}
-                checked={options[key]}
-                message-aria-describedby={titlePlainText}
-                uswds
-              />
-            ),
+        {Object.entries(DISAGREEMENT_TYPES).map(([key, label]) =>
+          key === 'otherEntry' ? null : (
+            <va-checkbox
+              key={key}
+              name={key}
+              label={label}
+              checked={options[key]}
+              message-aria-describedby={titlePlainText}
+              uswds
+            />
+          ),
         )}
         <VaTextInput
           label={content.otherEntry}

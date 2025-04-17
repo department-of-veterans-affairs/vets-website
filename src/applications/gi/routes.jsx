@@ -22,9 +22,6 @@ const BuildRoutes = () => {
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
-  const toggleGiProgramsFlag = useToggleValue(
-    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
-  );
 
   return (
     <>
@@ -57,12 +54,10 @@ const BuildRoutes = () => {
                 from="/institution/:facilityCode"
                 to="/schools-and-employers/institution/:facilityCode"
               />
-              {toggleGiProgramsFlag && (
-                <Route
-                  path="/schools-and-employers/institution/:facilityCode/:programType"
-                  render={({ match }) => <ProgramsList match={match} />}
-                />
-              )}
+              <Route
+                path="/schools-and-employers/institution/:facilityCode/:programType"
+                render={({ match }) => <ProgramsList match={match} />}
+              />
               <Route
                 path="/schools-and-employers/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}
@@ -104,60 +99,57 @@ const BuildRoutes = () => {
           </GiBillApp>
         </Switch>
       )}
-      {!giCtCollab &&
-        !isUpdatedGi && (
-          <GiBillApp>
-            <Switch>
-              <Redirect
-                from="/profile/:facilityCode"
-                to="/institution/:facilityCode"
-              />
-              {toggleGiProgramsFlag && (
-                <Route
-                  path="/institution/:facilityCode/:programType"
-                  render={({ match }) => <ProgramsList match={match} />}
-                />
-              )}
+      {!giCtCollab && !isUpdatedGi && (
+        <GiBillApp>
+          <Switch>
+            <Redirect
+              from="/profile/:facilityCode"
+              to="/institution/:facilityCode"
+            />
+            <Route
+              path="/institution/:facilityCode/:programType"
+              render={({ match }) => <ProgramsList match={match} />}
+            />
+            <Route
+              path="/institution/:facilityCode"
+              render={({ match }) => <ProfilePage match={match} />}
+            />
+            {lcToggleValue && (
               <Route
-                path="/institution/:facilityCode"
-                render={({ match }) => <ProfilePage match={match} />}
+                exact
+                path="/licenses-certifications-and-prep-courses"
+                component={LicenseCertificationSearchPage}
               />
-              {lcToggleValue && (
-                <Route
-                  exact
-                  path="/licenses-certifications-and-prep-courses"
-                  component={LicenseCertificationSearchPage}
-                />
-              )}
-              {lcToggleValue && (
-                <Route
-                  exact
-                  path="/licenses-certifications-and-prep-courses/results"
-                  component={LicenseCertificationSearchResults}
-                />
-              )}
-              {lcToggleValue && (
-                <Route
-                  path="/licenses-certifications-and-prep-courses/results/:id/:name"
-                  component={LicenseCertificationSearchResult}
-                />
-              )}
+            )}
+            {lcToggleValue && (
               <Route
-                path="/national-exams/:examId"
-                component={NationalExamDetails}
+                exact
+                path="/licenses-certifications-and-prep-courses/results"
+                component={LicenseCertificationSearchResults}
               />
-              <Route path="/national-exams" component={NationalExamsList} />
+            )}
+            {lcToggleValue && (
               <Route
-                path="/compare"
-                render={({ match }) => <ComparePage match={match} />}
+                path="/licenses-certifications-and-prep-courses/results/:id/:name"
+                component={LicenseCertificationSearchResult}
               />
-              <Route
-                path="/"
-                render={({ match }) => <SearchPage match={match} />}
-              />
-            </Switch>
-          </GiBillApp>
-        )}
+            )}
+            <Route
+              path="/national-exams/:examId"
+              component={NationalExamDetails}
+            />
+            <Route path="/national-exams" component={NationalExamsList} />
+            <Route
+              path="/compare"
+              render={({ match }) => <ComparePage match={match} />}
+            />
+            <Route
+              path="/"
+              render={({ match }) => <SearchPage match={match} />}
+            />
+          </Switch>
+        </GiBillApp>
+      )}
     </>
   );
 };

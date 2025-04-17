@@ -32,43 +32,34 @@ const PeriodsToVerify = ({
         enrollmentVerifications,
       ) && isVerificationEndDateValid(verification.verificationEndDate),
   );
-  useEffect(
-    () => {
-      if (
-        enrollmentData?.verifications &&
-        enrollmentData?.pendingVerifications
-      ) {
-        const { pendingVerifications } = enrollmentData;
-        // add all data to be verified into single array
-        setPendingEnrollments(pendingVerifications);
-      }
-    },
-    [enrollmentData],
-  );
-  useEffect(
-    () => {
-      if (error) {
-        idRef.current = '#error-alert';
-        setTimeout(() => {
-          focusElement(idRef.current);
-        }, 100); // Delay to ensure element is rendered
-      } else if (
-        enrollmentData?.pendingVerifications?.length === 0 &&
-        justVerified
-      ) {
-        idRef.current = '#success-alert';
+  useEffect(() => {
+    if (enrollmentData?.verifications && enrollmentData?.pendingVerifications) {
+      const { pendingVerifications } = enrollmentData;
+      // add all data to be verified into single array
+      setPendingEnrollments(pendingVerifications);
+    }
+  }, [enrollmentData]);
+  useEffect(() => {
+    if (error) {
+      idRef.current = '#error-alert';
+      setTimeout(() => {
         focusElement(idRef.current);
-      } else if (
-        enrollmentData?.pendingVerifications?.length !== 0 &&
-        !justVerified &&
-        !error
-      ) {
-        idRef.current = 'h1';
-        focusElement(idRef.current);
-      }
-    },
-    [error, enrollmentData, justVerified, pendingEnrollments],
-  );
+      }, 100); // Delay to ensure element is rendered
+    } else if (
+      enrollmentData?.pendingVerifications?.length === 0 &&
+      justVerified
+    ) {
+      idRef.current = '#success-alert';
+      focusElement(idRef.current);
+    } else if (
+      enrollmentData?.pendingVerifications?.length !== 0 &&
+      !justVerified &&
+      !error
+    ) {
+      idRef.current = 'h1';
+      focusElement(idRef.current);
+    }
+  }, [error, enrollmentData, justVerified, pendingEnrollments]);
 
   return (
     <>
@@ -81,26 +72,25 @@ const PeriodsToVerify = ({
         />
       )}
       <div id="verifications-pending-alert">
-        {enrollmentVerifications?.length > 0 &&
-          showEnrollmentVerifications && (
-            <>
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="info"
-                visible
+        {enrollmentVerifications?.length > 0 && showEnrollmentVerifications && (
+          <>
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              visible
+            >
+              <h2
+                id="vye-periods-to-verify-container"
+                slot="headline"
+                className="vads-u-font-size--h3 vads-u-font-weight--bold"
               >
-                <h2
-                  id="vye-periods-to-verify-container"
-                  slot="headline"
-                  className="vads-u-font-size--h3 vads-u-font-weight--bold"
-                >
-                  You have enrollment periods to verify
-                </h2>
-                {getPeriodsToVerifyDGIB(enrollmentVerifications, true)}
-                {link && <>{link()}</>}
-              </va-alert>
-            </>
-          )}
+                You have enrollment periods to verify
+              </h2>
+              {getPeriodsToVerifyDGIB(enrollmentVerifications, true)}
+              {link && <>{link()}</>}
+            </va-alert>
+          </>
+        )}
         {enrollmentData.pendingVerifications?.length > 0 && (
           <va-alert
             close-btn-aria-label="Close notification"

@@ -23,33 +23,30 @@ export function useGetPatientRelationships() {
     shallowEqual,
   );
 
-  useEffect(
-    () => {
-      if (
-        featureOHDirectSchedule &&
-        patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
-      ) {
-        dispatch(getPatientRelationships());
-      }
+  useEffect(() => {
+    if (
+      featureOHDirectSchedule &&
+      patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
+    ) {
+      dispatch(getPatientRelationships());
+    }
 
-      if (
-        patientProviderRelationshipsStatus === FETCH_STATUS.succeeded ||
-        patientProviderRelationshipsStatus === FETCH_STATUS.failed
-      ) {
-        setLoading(false);
-      }
+    if (
+      patientProviderRelationshipsStatus === FETCH_STATUS.succeeded ||
+      patientProviderRelationshipsStatus === FETCH_STATUS.failed
+    ) {
+      setLoading(false);
+    }
 
-      if (patientProviderRelationshipsStatus === FETCH_STATUS.failed) {
-        setPatientRelationshipsError(true);
-      }
-    },
-    [
-      dispatch,
-      featureOHDirectSchedule,
-      patientProviderRelationshipsStatus,
-      patientProviderRelationships,
-    ],
-  );
+    if (patientProviderRelationshipsStatus === FETCH_STATUS.failed) {
+      setPatientRelationshipsError(true);
+    }
+  }, [
+    dispatch,
+    featureOHDirectSchedule,
+    patientProviderRelationshipsStatus,
+    patientProviderRelationships,
+  ]);
 
   return {
     loading,

@@ -38,20 +38,17 @@ const setRumUser = user => {
 };
 
 const useDatadogRum = config => {
-  useEffect(
-    () => {
-      if (
-        // Prevent RUM from running on local/CI environments.
-        environment.BASE_URL.indexOf('localhost') < 0 &&
-        // Prevent re-initializing the SDK.
-        !window.DD_RUM?.getInitConfiguration() &&
-        !window.Mocha
-      ) {
-        initializeDatadogRum(config);
-      }
-    },
-    [config],
-  );
+  useEffect(() => {
+    if (
+      // Prevent RUM from running on local/CI environments.
+      environment.BASE_URL.indexOf('localhost') < 0 &&
+      // Prevent re-initializing the SDK.
+      !window.DD_RUM?.getInitConfiguration() &&
+      !window.Mocha
+    ) {
+      initializeDatadogRum(config);
+    }
+  }, [config]);
 };
 
 // REMINDER: Always be conscience of PII and Datadog

@@ -12,9 +12,9 @@ export default async () => {
 
   // Create the maintenance banner component.
   if (maintenanceBanner) {
-    const {
-      default: MaintenanceBanner,
-    } = await import(/* webpackChunkName: "maintenance-banner-widget" */ './components/MaintenanceBanner');
+    const { default: MaintenanceBanner } = await import(
+      /* webpackChunkName: "maintenance-banner-widget" */ './components/MaintenanceBanner'
+    );
 
     startReactApp(
       <MaintenanceBanner {...maintenanceBanner.dataset} />,

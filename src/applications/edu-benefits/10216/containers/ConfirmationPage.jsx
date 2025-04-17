@@ -26,13 +26,10 @@ export const ConfirmationPage = ({ router, route }) => {
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
-  useEffect(
-    () => {
-      setClaimIdInLocalStage(submission);
-      setClaimID(getClaimIdFromLocalStage());
-    },
-    [submission],
-  );
+  useEffect(() => {
+    setClaimIdInLocalStage(submission);
+    setClaimID(getClaimIdFromLocalStage());
+  }, [submission]);
 
   const goBack = e => {
     e.preventDefault();
@@ -40,7 +37,7 @@ export const ConfirmationPage = ({ router, route }) => {
   };
   const childContent = (
     <div>
-      <Alert router={router} />
+      <Alert />
 
       <h2
         className="vads-u-font-size--h3 vads-u-margin-bottom--2"

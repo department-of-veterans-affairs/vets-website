@@ -22,7 +22,4 @@ export const Form = ({ setData, ...rest }) => {
 
 const mapDispatchToProps = { setData: setDataAction };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Form);
+export default connect(null, mapDispatchToProps)(Form);

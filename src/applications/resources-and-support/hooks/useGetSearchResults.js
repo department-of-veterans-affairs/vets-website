@@ -161,34 +161,31 @@ export default function useGetSearchResults(articles, query, page) {
   const [results, setResults] = useState([]);
 
   // Refresh the results list when the query is submitted or the page is changed.
-  useEffect(
-    () => {
-      if (!articles || !query) {
-        return;
-      }
+  useEffect(() => {
+    if (!articles || !query) {
+      return;
+    }
 
-      const orderedResults = createOrderedResults(articles, query);
+    const orderedResults = createOrderedResults(articles, query);
 
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': query,
-        'search-results-total-count': orderedResults.length,
-        'search-results-total-pages': Math.ceil(orderedResults.length / 10),
-        'search-selection': 'Resources and support',
-        'search-typeahead-enabled': false,
-        'search-location': 'Resources And Support',
-        'sitewide-search-app-used': false, // this is not the sitewide search app
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
-      });
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-query': query,
+      'search-results-total-count': orderedResults.length,
+      'search-results-total-pages': Math.ceil(orderedResults.length / 10),
+      'search-selection': 'Resources and support',
+      'search-typeahead-enabled': false,
+      'search-location': 'Resources And Support',
+      'sitewide-search-app-used': false, // this is not the sitewide search app
+      'type-ahead-option-keyword-selected': undefined,
+      'type-ahead-option-position': undefined,
+      'type-ahead-options-list': undefined,
+      'type-ahead-options-count': undefined,
+    });
 
-      setResults(orderedResults);
-    },
-    [articles, setResults, query, page],
-  );
+    setResults(orderedResults);
+  }, [articles, setResults, query, page]);
 
   return [results];
 }

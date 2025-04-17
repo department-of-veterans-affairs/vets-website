@@ -59,14 +59,11 @@ const ContestableIssues = props => {
   const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
 
-  useEffect(
-    () => {
-      if (editState) {
-        focusIssue();
-      }
-    },
-    [editState],
-  );
+  useEffect(() => {
+    if (editState) {
+      focusIssue();
+    }
+  }, [editState]);
 
   const onReviewPage = formContext?.onReviewPage || false;
   window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
@@ -97,15 +94,12 @@ const ContestableIssues = props => {
   const showEditModeError =
     !showNoneSelected && !hasSelected && (onReviewPage || submitted);
 
-  useEffect(
-    () => {
-      if (showEditModeError) {
-        focusElement(`va-alert[status="error"] h${onReviewPage ? 4 : 3}`);
-        scrollTo('va-alert[status="error"]');
-      }
-    },
-    [onReviewPage, showEditModeError, submitted],
-  );
+  useEffect(() => {
+    if (showEditModeError) {
+      focusElement(`va-alert[status="error"] h${onReviewPage ? 4 : 3}`);
+      scrollTo('va-alert[status="error"]');
+    }
+  }, [onReviewPage, showEditModeError, submitted]);
 
   if (onReviewPage && inReviewMode && hasIssues && !hasSelected) {
     return (
@@ -296,7 +290,4 @@ const mapDispatchToProps = {
 
 export { ContestableIssues };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContestableIssues);
+export default connect(mapStateToProps, mapDispatchToProps)(ContestableIssues);

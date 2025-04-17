@@ -105,35 +105,32 @@ export default function FormNav(props) {
   // we want to force react to remove the <h2> and re-render it. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
-  useEffect(
-    () => {
-      if (current > index + 1) {
-        setIndex(index + 1);
-      } else if (current === index) {
-        setIndex(index - 1);
-      }
+  useEffect(() => {
+    if (current > index + 1) {
+      setIndex(index + 1);
+    } else if (current === index) {
+      setIndex(index - 1);
+    }
 
-      // Focus on review & submit header
-      if (
-        page.chapterKey === 'review' ||
-        window.location.pathname.endsWith('review-and-submit')
-      ) {
-        scrollTo('topScrollElement');
-        if (hideFormNavProgress || isMinimalHeaderApp()) {
-          focusElement('h1');
-        } else {
-          // Focus on review & submit page h2 in stepper
-          focusAfterRender(
-            'va-segmented-progress-bar',
-            document,
-            250,
-            `h${PROGRESS_BAR_HEADER_LEVEL}`,
-          );
-        }
+    // Focus on review & submit header
+    if (
+      page.chapterKey === 'review' ||
+      window.location.pathname.endsWith('review-and-submit')
+    ) {
+      scrollTo('topScrollElement');
+      if (hideFormNavProgress || isMinimalHeaderApp()) {
+        focusElement('h1');
+      } else {
+        // Focus on review & submit page h2 in stepper
+        focusAfterRender(
+          'va-segmented-progress-bar',
+          document,
+          250,
+          `h${PROGRESS_BAR_HEADER_LEVEL}`,
+        );
       }
-    },
-    [current, hideFormNavProgress, index, page.chapterKey, focusAfterRender],
-  );
+    }
+  }, [current, hideFormNavProgress, index, page.chapterKey, focusAfterRender]);
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
   const stepLabels = formConfig?.stepLabels;

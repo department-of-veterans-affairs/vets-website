@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-
 import { shallow } from 'enzyme';
-
+import sinon from 'sinon';
 import {
   formatPercent,
   formatVAFileNumber,
   formatMonthDayFields,
   benefitEndDateExplanation,
   notQualifiedWarning,
+  genericErrorMessage,
 } from '../../utils/helpers';
 
 describe('helpers', () => {
@@ -80,5 +80,19 @@ describe('helpers', () => {
   });
   it('should return not qualified warning component', () => {
     expect(notQualifiedWarning()).not.to.be.undefined;
+  });
+  it('renders the button with correct text and calls window.history.back on click', () => {
+    const wrapper = shallow(genericErrorMessage);
+    const button = wrapper.find('va-button');
+    expect(button.prop('text')).to.equal(' Back to Post-9/11 GI Bill');
+
+    // Stub window.history.back to test if it is called on click
+    const backStub = sinon.stub(window.history, 'back');
+    // Simulate the button click by calling the onClick prop with an event that has preventDefault
+    button.prop('onClick')({ preventDefault: () => {} });
+    expect(backStub.calledOnce).to.be.true;
+    backStub.restore();
+
+    wrapper.unmount();
   });
 });

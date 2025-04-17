@@ -31,7 +31,10 @@ const WelcomeVAContactAdditionalInfo = (
           </li>
         </ul>
         <p>
-          <a href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact">
+          <a
+            href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact"
+            target="_blank"
+          >
             Find out how to change your contact information for other VA
             benefits{' '}
           </a>

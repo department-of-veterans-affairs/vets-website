@@ -292,7 +292,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updatePaginationAction(page, startIndex)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchResults);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

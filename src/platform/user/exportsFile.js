@@ -61,7 +61,6 @@ export {
 export { default as LoginGovSVG } from './authentication/components/LoginGovSVG';
 export { default as LoginHeader } from './authentication/components/LoginHeader';
 export { default as LoginInfo } from './authentication/components/LoginInfo';
-export { default as LogoutAlert } from './authentication/components/LogoutAlert';
 export { default as ServiceProvidersList } from './authentication/components/ServiceProvidersList';
 export {
   default as ServiceProviders,

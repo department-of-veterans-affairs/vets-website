@@ -247,9 +247,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.PREV_APPLICATION_YEAR
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PREV_APPLICATION_YEAR}"]`,
     )
       .shadow()
       .find('a')
@@ -262,9 +260,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.PREV_APPLICATION_YEAR
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PREV_APPLICATION_YEAR}"]`,
     )
       .shadow()
       .find('a')
@@ -277,9 +273,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.PREV_APPLICATION_TYPE
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PREV_APPLICATION_TYPE}"]`,
     )
       .shadow()
       .find('a')
@@ -292,9 +286,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.FAILURE_TO_EXHAUST}"]`,
     )
       .shadow()
       .find('a')
@@ -306,9 +298,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.FAILURE_TO_EXHAUST
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.FAILURE_TO_EXHAUST}"]`,
     )
       .shadow()
       .find('a')
@@ -812,9 +802,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.PREV_APPLICATION_TYPE
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PREV_APPLICATION_TYPE}"]`,
     )
       .shadow()
       .find('a')
@@ -900,9 +888,7 @@ describe('Review edit flows', () => {
     // REVIEW
     h.verifyUrl(ROUTES.REVIEW);
     cy.get(
-      `va-link[data-testid="duw-edit-link-${
-        SHORT_NAME_MAP.PREV_APPLICATION_YEAR
-      }"]`,
+      `va-link[data-testid="duw-edit-link-${SHORT_NAME_MAP.PREV_APPLICATION_YEAR}"]`,
     )
       .shadow()
       .find('a')

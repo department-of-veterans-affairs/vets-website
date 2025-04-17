@@ -17,21 +17,15 @@ import { NeedHelp } from './NeedHelp';
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <article className="dw-guidance" data-testid="duw-results">

@@ -15,6 +15,7 @@ import {
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
+  FORM_UPDATE_SELECTED_PROVIDER,
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
@@ -286,6 +287,15 @@ export default function formReducer(state = initialState, action) {
         data: {
           ...state.data,
           facilityType: action.facilityType,
+        },
+      };
+    }
+    case FORM_UPDATE_SELECTED_PROVIDER: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          selectedProvider: action.provider.providerId,
         },
       };
     }
@@ -841,9 +851,7 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
-        `Do you have a preferred VA-approved community care provider for this ${
-          typeOfCare.name
-        } appointment?`,
+        `Do you have a preferred VA-approved community care provider for this ${typeOfCare.name} appointment?`,
         action.schema,
       );
 

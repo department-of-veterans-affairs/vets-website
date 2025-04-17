@@ -17,43 +17,34 @@ const ResourcesAndSupportSearchApp = () => {
   const [results] = useGetSearchResults(articles, query, page);
   const [previousValue, setPreviousValue] = useState('');
 
-  useEffect(
-    () => {
-      setPreviousValue(userInput);
-    },
-    [userInput],
-  );
+  useEffect(() => {
+    setPreviousValue(userInput);
+  }, [userInput]);
 
   const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
 
   // Initialize the query via the URL params
-  useEffect(
-    () => {
-      if (!articles) {
-        return;
-      }
+  useEffect(() => {
+    if (!articles) {
+      return;
+    }
 
-      const searchParams = new URLSearchParams(window.location.search);
-      const queryFromUrl = searchParams.get('query');
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryFromUrl = searchParams.get('query');
 
-      if (queryFromUrl) {
-        setUserInput(queryFromUrl);
-        setQuery(queryFromUrl);
-      } else {
-        window.location.replace('/resources/');
-      }
-    },
-    [articles, setUserInput, setQuery],
-  );
+    if (queryFromUrl) {
+      setUserInput(queryFromUrl);
+      setQuery(queryFromUrl);
+    } else {
+      window.location.replace('/resources/');
+    }
+  }, [articles, setUserInput, setQuery]);
 
-  const setSearchData = useCallback(
-    () => {
-      setPage(1);
-      setQuery(userInput);
-      focusElement('#pagination-summary');
-    },
-    [userInput, setQuery],
-  );
+  const setSearchData = useCallback(() => {
+    setPage(1);
+    setQuery(userInput);
+    focusElement('#pagination-summary');
+  }, [userInput, setQuery]);
 
   const onPageSelect = useCallback(
     selectedPage => {
@@ -138,10 +129,9 @@ const ResourcesAndSupportSearchApp = () => {
           </>
         )}
 
-        {!errorMessage &&
-          !articles && (
-            <va-loading-indicator message="Please wait while we load the application for you." />
-          )}
+        {!errorMessage && !articles && (
+          <va-loading-indicator message="Please wait while we load the application for you." />
+        )}
       </div>
     </div>
   );

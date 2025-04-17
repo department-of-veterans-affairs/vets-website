@@ -39,14 +39,11 @@ const EmploymentQuestion = props => {
   const hasJobs =
     data.personalData?.employmentHistory?.veteran?.employmentRecords;
 
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   useEffect(() => {
     clearJobIndex();

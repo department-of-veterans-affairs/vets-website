@@ -1,22 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-export const PrimaryActionLink = ({ href, children, onClick }) => (
-  <div className="action-bar-arrow">
-    <div className="vads-u-background-color--primary vads-u-padding--1">
-      <a className="vads-c-action-link--white" href={href} onClick={onClick}>
-        {children}
-      </a>
-    </div>
-  </div>
-);
-PrimaryActionLink.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
-    .isRequired,
-  href: PropTypes.string,
-  onClick: PropTypes.func,
-};
+import * as USIP from './usip';
+import * as SIS from './sis';
 
 export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   const isLoa3 = formData?.loa === 3;
@@ -67,15 +52,6 @@ export const UPLOAD_DESCRIPTION = Object.freeze(
     leave before you submit it, you’ll need to upload it again.
   </>,
 );
-
-export const SAVE_IN_PROGRESS_CONFIG = {
-  messages: {
-    inProgress: 'Your form upload is in progress.',
-    expired:
-      'Your form upload has expired. If you want to upload a form, please start a new request.',
-    saved: 'Your form upload has been saved.',
-  },
-};
 
 export const FORM_UPLOAD_OCR_ALERT = (
   formNumber,
@@ -152,3 +128,19 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
     File upload must be complete to continue.
   </VaAlert>
 );
+
+export const SIGN_IN_URL = (() => {
+  const url = new URL(USIP.PATH, USIP.BASE_URL);
+  url.searchParams.set(USIP.QUERY_PARAMS.application, USIP.APPLICATIONS.ARP);
+  url.searchParams.set(USIP.QUERY_PARAMS.OAuth, true);
+  return url;
+})();
+
+export const SIGN_OUT_URL = (() => {
+  const url = new URL(SIS.API_URL({ endpoint: 'logout' }));
+  url.searchParams.set(
+    SIS.QUERY_PARAM_KEYS.CLIENT_ID,
+    sessionStorage.getItem('ci'),
+  );
+  return url;
+})();

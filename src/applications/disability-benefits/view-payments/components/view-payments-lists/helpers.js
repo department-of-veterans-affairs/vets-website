@@ -178,27 +178,24 @@ export const alertMessage = (
 export const useResizeObserver = callbackFn => {
   const ref = useRef(null);
 
-  useLayoutEffect(
-    () => {
-      const element = ref?.current;
+  useLayoutEffect(() => {
+    const element = ref?.current;
 
-      if (!window.ResizeObserver && element) return;
+    if (!window.ResizeObserver && element) return;
 
-      const observer = new ResizeObserver(entries => {
-        for (const entry of entries) {
-          callbackFn(element, entry);
-        }
-      });
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        callbackFn(element, entry);
+      }
+    });
 
-      observer.observe(element);
+    observer.observe(element);
 
-      /* eslint-disable-next-line consistent-return */
-      return () => {
-        observer.disconnect();
-      };
-    },
-    [callbackFn, ref],
-  );
+    /* eslint-disable-next-line consistent-return */
+    return () => {
+      observer.disconnect();
+    };
+  }, [callbackFn, ref]);
 
   return ref;
 };

@@ -26,9 +26,7 @@ function FlipperClient({
         },
       });
       if (!response.ok) {
-        const errorMessage = `Failed to fetch toggle values with status ${
-          response.status
-        } ${response.statusText}`;
+        const errorMessage = `Failed to fetch toggle values with status ${response.status} ${response.statusText}`;
         return { error: errorMessage };
       }
 

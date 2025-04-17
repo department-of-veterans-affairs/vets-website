@@ -138,7 +138,7 @@ export class ConnectedApps extends Component {
 
         {loading && (
           <va-loading-indicator
-            setFocus
+            set-focus
             message="Loading your connected apps..."
             data-testid="connected-apps-loading-indicator"
           />
@@ -254,7 +254,4 @@ ConnectedApps.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConnectedApps);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedApps);

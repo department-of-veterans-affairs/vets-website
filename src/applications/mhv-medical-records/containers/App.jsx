@@ -8,6 +8,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -29,7 +30,7 @@ import { downtimeNotificationParams } from '../util/constants';
 const App = ({ children }) => {
   const user = useSelector(selectUser);
 
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const { featureTogglesLoading } = useSelector(
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
@@ -54,34 +55,25 @@ const App = ({ children }) => {
     state => state.mr.refresh.statusPollBeginDate,
   );
 
-  useEffect(
-    () => {
-      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-    },
-    [mhvMockSessionFlag],
-  );
+  useEffect(() => {
+    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+  }, [mhvMockSessionFlag]);
 
-  const mhvMrDown = useMemo(
-    () => {
-      if (scheduledDowntimes.size > 0) {
-        return (
-          scheduledDowntimes?.get(externalServices.mhvMr)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
-          scheduledDowntimes?.get(externalServices.global)?.status ||
-          globalDowntime
-        );
-      }
-      return 'downtime status: ok';
-    },
-    [scheduledDowntimes, globalDowntime],
-  );
+  const mhvMrDown = useMemo(() => {
+    if (scheduledDowntimes.size > 0) {
+      return (
+        scheduledDowntimes?.get(externalServices.mhvMr)?.status ||
+        scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
+        scheduledDowntimes?.get(externalServices.global)?.status ||
+        globalDowntime
+      );
+    }
+    return 'downtime status: ok';
+  }, [scheduledDowntimes, globalDowntime]);
 
-  useEffect(
-    () => {
-      dispatch(getScheduledDowntime());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getScheduledDowntime());
+  }, [dispatch]);
 
   const handleDdRumBeforeSend = event => {
     const customEvent = { ...event };
@@ -111,6 +103,11 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
+  // Add unique user tracking
+  useEffect(() => {
+    setDatadogRumUser({ id: user?.profile?.accountUuid });
+  }, [user]);
+
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
@@ -124,11 +121,6 @@ const App = ({ children }) => {
         </div>
       </>
     );
-  }
-
-  if (appEnabled !== true) {
-    // If the user is not whitelisted or feature flag is disabled, return nothing.
-    return <></>;
   }
 
   return (

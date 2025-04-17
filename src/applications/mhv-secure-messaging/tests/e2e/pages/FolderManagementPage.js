@@ -124,9 +124,7 @@ class FolderManagementPage {
     );
     cy.intercept(
       `PATCH`,
-      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${
-        createdFolderResponse.data.attributes.folderId
-      }`,
+      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${createdFolderResponse.data.attributes.folderId}`,
       { statusCode: 204 },
     ).as(`threadNoContent`);
 
@@ -140,16 +138,12 @@ class FolderManagementPage {
   backToCreatedFolder = threadData => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }*`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}*`,
       createdFolderResponse,
     ).as(`updatedFolder`);
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }/threads*`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}/threads*`,
       threadData,
     ).as(`updatedThread`);
 

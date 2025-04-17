@@ -94,39 +94,30 @@ const FileInput = props => {
     }
   };
 
-  useEffect(
-    () => {
-      const errorElement = document.getElementById(`error-${selectedFileId}`);
-      if (errorElement) {
-        errorElement.focus();
-      }
-    },
-    [selectedFileId],
-  );
+  useEffect(() => {
+    const errorElement = document.getElementById(`error-${selectedFileId}`);
+    if (errorElement) {
+      errorElement.focus();
+    }
+  }, [selectedFileId]);
 
   const useFileInput = () => {
     fileInputRef.current.click();
     setAttachFileSuccess(false);
   };
 
-  const draftText = useMemo(
-    () => {
-      if (draftSequence) {
-        return ` to draft ${draftSequence}`;
-      }
-      return '';
-    },
-    [draftSequence],
-  );
-  const attachText = useMemo(
-    () => {
-      if (attachments.length > 0) {
-        return 'Attach additional file';
-      }
-      return 'Attach file';
-    },
-    [attachments.length],
-  );
+  const draftText = useMemo(() => {
+    if (draftSequence) {
+      return ` to draft ${draftSequence}`;
+    }
+    return '';
+  }, [draftSequence]);
+  const attachText = useMemo(() => {
+    if (attachments.length > 0) {
+      return 'Attach additional file';
+    }
+    return 'Attach file';
+  }, [attachments.length]);
 
   return (
     <div

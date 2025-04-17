@@ -15,11 +15,11 @@ import { getYellowRibbonAppState } from '../../helpers/selectors';
 
 export class SearchForm extends Component {
   static propTypes = {
+    // From mapDispatchToProps.
+    fetchResultsThunk: PropTypes.func.isRequired,
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
     showMobileForm: PropTypes.bool.isRequired,
-    // From mapDispatchToProps.
-    fetchResultsThunk: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -240,7 +240,4 @@ const mapDispatchToProps = {
   fetchResultsThunk,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

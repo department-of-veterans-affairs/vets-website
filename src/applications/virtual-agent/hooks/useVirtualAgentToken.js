@@ -72,25 +72,22 @@ export default function useVirtualAgentToken(props) {
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
   const isDatadogLoggingEnabled = useDatadogLogging();
 
-  useEffect(
-    () => {
-      if (csrfTokenLoadingError) {
-        setLoadingStatus(ERROR);
-      }
-      if (csrfTokenLoading) return;
+  useEffect(() => {
+    if (csrfTokenLoadingError) {
+      setLoadingStatus(ERROR);
+    }
+    if (csrfTokenLoading) return;
 
-      clearBotSessionStorage();
+    clearBotSessionStorage();
 
-      getToken(
-        props,
-        setToken,
-        setApiSession,
-        setLoadingStatus,
-        isDatadogLoggingEnabled,
-      );
-    },
-    [csrfTokenLoading, csrfTokenLoadingError, props, isDatadogLoggingEnabled],
-  );
+    getToken(
+      props,
+      setToken,
+      setApiSession,
+      setLoadingStatus,
+      isDatadogLoggingEnabled,
+    );
+  }, [csrfTokenLoading, csrfTokenLoadingError, props, isDatadogLoggingEnabled]);
 
   return { token, loadingStatus, apiSession };
 }

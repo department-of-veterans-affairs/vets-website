@@ -7,12 +7,9 @@ import { serviceMemberPathPageNames } from '../pageList';
 
 const YesIDES = props => {
   const { setWizardStatus } = props;
-  useEffect(
-    () => {
-      setWizardStatus(WIZARD_STATUS_COMPLETE);
-    },
-    [setWizardStatus],
-  );
+  useEffect(() => {
+    setWizardStatus(WIZARD_STATUS_COMPLETE);
+  }, [setWizardStatus]);
   return (
     <div
       id={serviceMemberPathPageNames.yesIDES}

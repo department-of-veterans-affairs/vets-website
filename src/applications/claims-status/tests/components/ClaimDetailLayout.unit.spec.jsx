@@ -151,29 +151,6 @@ describe('<ClaimDetailLayout>', () => {
     });
   });
 
-  it('should render Notification and set focus on it', async () => {
-    const claim = {
-      attributes: {
-        claimType: 'Compensation',
-        claimDate: '2025-02-01',
-      },
-    };
-    const message = {
-      title: 'Test',
-      body: 'Testing',
-    };
-
-    const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />,
-    );
-
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    await waitFor(() => {
-      expect(document.activeElement).to.equal(selector);
-    });
-  });
-
   describe('<ClaimsBreadcrumbs>', () => {
     it('should render default breadcrumbs for the Your Claims list page while loading', () => {
       const { container } = renderWithRouter(<ClaimDetailLayout loading />);

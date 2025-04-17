@@ -323,10 +323,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    getSaveInProgressState,
-    mapDispatchToProps,
-  )(RoutedSavableApp),
+  connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp),
 );
 
 RoutedSavableApp.propTypes = {

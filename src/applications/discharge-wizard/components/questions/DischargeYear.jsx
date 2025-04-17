@@ -22,21 +22,15 @@ const DischargeYear = ({
   const shortName = SHORT_NAME_MAP.DISCHARGE_YEAR;
   const H1 = QUESTION_MAP[shortName];
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const dischargeYear = formResponses[shortName];
 
@@ -73,7 +67,4 @@ const mapDispatchToProps = {
   setDischargeYear: updateDischargeYear,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DischargeYear);
+export default connect(mapStateToProps, mapDispatchToProps)(DischargeYear);

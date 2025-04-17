@@ -17,7 +17,7 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateShort } from 'platform/utilities/date';
 import { relationshipLabels, transferMethodLabels } from '../../../labels';
@@ -26,31 +26,32 @@ import {
   formatCurrency,
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
+  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'assetTransfers',
   nounSingular: 'asset transfer',
   nounPlural: 'asset transfers',
   required: false,
   isItemIncomplete: item =>
-    !item?.originalOwnerRelationship ||
-    !item.transferMethod ||
-    !item.assetType ||
-    !item.newOwnerName ||
-    !item.newOwnerRelationship ||
+    !isDefined(item?.originalOwnerRelationship) ||
+    !isDefined(item.transferMethod) ||
+    !isDefined(item.assetType) ||
+    !isDefined(item.newOwnerName) ||
+    !isDefined(item.newOwnerRelationship) ||
     typeof item.saleReportedToIrs !== 'boolean' ||
-    !item.transferDate ||
+    !isDefined(item.transferDate) ||
     typeof item.assetTransferredUnderFairMarketValue !== 'boolean' ||
-    !item.fairMarketValue ||
-    !item.capitalGainValue, // include all required fields here
+    !isDefined(item.fairMarketValue) ||
+    !isDefined(item.capitalGainValue), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => item.assetType,
     cardDescription: item =>
-      item?.fairMarketValue &&
-      item?.capitalGainValue && (
+      isDefined(item?.fairMarketValue) &&
+      isDefined(item?.capitalGainValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Transfer Method:{' '}
@@ -270,25 +271,11 @@ const valuePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Asset transfer value information',
     ),
-    fairMarketValue: merge(
-      {},
-      currencyUI('What was the fair market value when transferred?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
-    saleValue: merge({}, currencyUI('What was the sale price?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
+    fairMarketValue: currencyUI({
+      title: 'What was the fair market value when transferred?',
     }),
-    capitalGainValue: merge({}, currencyUI('What was the gain?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    saleValue: currencyUI({ title: 'What was the sale price?' }),
+    capitalGainValue: currencyUI({ title: 'What was the gain?' }),
   },
   schema: {
     type: 'object',

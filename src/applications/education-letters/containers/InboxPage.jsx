@@ -19,34 +19,28 @@ const InboxPage = ({
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
   const isLoggedIn = useRef(user?.login?.currentlyLoggedIn);
 
-  useEffect(
-    () => {
-      if (!fetchedClaimStatus) {
-        getClaimStatus('MEB');
-        getClaimStatus('TOE');
-        setFetchedClaimStatus(true);
-      }
-    },
-    [fetchedClaimStatus, getClaimStatus],
-  );
+  useEffect(() => {
+    if (!fetchedClaimStatus) {
+      getClaimStatus('MEB');
+      getClaimStatus('TOE');
+      setFetchedClaimStatus(true);
+    }
+  }, [fetchedClaimStatus, getClaimStatus]);
 
-  useEffect(
-    () => {
-      if (user?.login?.currentlyLoggedIn) {
-        isLoggedIn.current = true;
-      }
-      if (
-        (MEBClaimStatusFetchInProgress ||
-          TOEClaimStatusFetchInProgress ||
-          MEBClaimStatusFetchComplete ||
-          TOEClaimStatusFetchComplete) &&
-        !isLoggedIn.current
-      ) {
-        window.location.href = '/education/download-letters/';
-      }
-    },
-    [isLoggedIn, user?.login],
-  );
+  useEffect(() => {
+    if (user?.login?.currentlyLoggedIn) {
+      isLoggedIn.current = true;
+    }
+    if (
+      (MEBClaimStatusFetchInProgress ||
+        TOEClaimStatusFetchInProgress ||
+        MEBClaimStatusFetchComplete ||
+        TOEClaimStatusFetchComplete) &&
+      !isLoggedIn.current
+    ) {
+      window.location.href = '/education/download-letters/';
+    }
+  }, [isLoggedIn, user?.login]);
 
   const renderInbox = () => {
     if (
@@ -100,13 +94,13 @@ const InboxPage = ({
 };
 
 InboxPage.propTypes = {
+  MEBClaimStatusFetchComplete: PropTypes.bool,
+  MEBClaimStatusFetchInProgress: PropTypes.bool,
+  TOEClaimStatusFetchComplete: PropTypes.bool,
+  TOEClaimStatusFetchInProgress: PropTypes.bool,
   claimStatus: PropTypes.object,
   getClaimStatus: PropTypes.func,
-  MEBClaimStatusFetchInProgress: PropTypes.bool,
-  MEBClaimStatusFetchComplete: PropTypes.bool,
   showMebLettersMaintenanceAlert: PropTypes.bool,
-  TOEClaimStatusFetchInProgress: PropTypes.bool,
-  TOEClaimStatusFetchComplete: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -145,7 +139,4 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(InboxPage);
+export default connect(mapStateToProps, mapDispatchToProps)(InboxPage);

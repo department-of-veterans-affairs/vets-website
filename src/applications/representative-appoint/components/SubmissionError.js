@@ -6,15 +6,12 @@ import { scrollTo, focusElement } from 'platform/utilities/ui';
 const SubmissionError = () => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo(alertRef.current);
-        focusElement('h3', {}, alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo(alertRef.current);
+      focusElement('h3', {}, alertRef.current);
+    }
+  }, [alertRef]);
 
   return (
     <va-alert

@@ -64,17 +64,11 @@ export const mockMessagesResponse = {
     },
   ],
   links: {
-    self: `${
-      environment.API_URL
-    }/my_health/v1/messaging/folders/0/messages?page=1&sort=-sent_date`,
-    first: `${
-      environment.API_URL
-    }/my_health/v1/messaging/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
+    self: `${environment.API_URL}/my_health/v1/messaging/folders/0/messages?page=1&sort=-sent_date`,
+    first: `${environment.API_URL}/my_health/v1/messaging/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
     prev: null,
     next: null,
-    last: `${
-      environment.API_URL
-    }/my_health/v1/messaging/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
+    last: `${environment.API_URL}/my_health/v1/messaging/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
   },
   meta: {
     sort: { sentDate: 'DESC' },

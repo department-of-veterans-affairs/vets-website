@@ -64,63 +64,47 @@ const ReplyForm = props => {
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  useEffect(
-    () => {
-      const draftToEdit = drafts?.[0];
-      if (draftToEdit) {
-        const tempRecipient = {
-          recipientId: draftToEdit.recipientId,
-          name:
-            messages.find(
-              m => m.triageGroupName === draftToEdit.triageGroupName,
-            )?.triageGroupName || draftToEdit.triageGroupName,
-          type: Recipients.CARE_TEAM,
-          status: RecipientStatus.ALLOWED,
-        };
-
-        setCurrentRecipient(tempRecipient);
-      }
-      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-    },
-    [drafts, recipients],
-  );
-
-  useEffect(
-    () => {
-      const pageTitleTag = getPageTitle({ removeLandingPageFF });
-      setSubject(replyMessage.subject);
-      setCategory(Categories[replyMessage.category]);
-      updatePageTitle(pageTitleTag);
-    },
-    [removeLandingPageFF, replyMessage],
-  );
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearThread());
+  useEffect(() => {
+    const draftToEdit = drafts?.[0];
+    if (draftToEdit) {
+      const tempRecipient = {
+        recipientId: draftToEdit.recipientId,
+        name:
+          messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
+            ?.triageGroupName || draftToEdit.triageGroupName,
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
       };
-    },
-    [dispatch],
-  );
 
-  useEffect(
-    () => {
-      if (!signature) {
-        dispatch(getPatientSignature());
-      }
-    },
-    [signature, dispatch],
-  );
+      setCurrentRecipient(tempRecipient);
+    }
+    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+  }, [drafts, recipients]);
 
-  useEffect(
-    () => {
-      if (alertStatus) {
-        focusElement(lastFocusableElement);
-      }
-    },
-    [alertStatus],
-  );
+  useEffect(() => {
+    const pageTitleTag = getPageTitle({ removeLandingPageFF });
+    setSubject(replyMessage.subject);
+    setCategory(Categories[replyMessage.category]);
+    updatePageTitle(pageTitleTag);
+  }, [removeLandingPageFF, replyMessage]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearThread());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!signature) {
+      dispatch(getPatientSignature());
+    }
+  }, [signature, dispatch]);
+
+  useEffect(() => {
+    if (alertStatus) {
+      focusElement(lastFocusableElement);
+    }
+  }, [alertStatus]);
 
   useEffect(() => {
     if (header.current) {
@@ -128,18 +112,15 @@ const ReplyForm = props => {
     }
   }, []);
 
-  const messageTitle = useMemo(
-    () => {
-      const casedCategory =
-        category === 'COVID' ? category : capitalize(category);
-      return `${
-        removeLandingPageFF
-          ? `Messages: ${casedCategory} - ${subject}`
-          : `${casedCategory}: ${subject}`
-      }`;
-    },
-    [category, removeLandingPageFF, subject],
-  );
+  const messageTitle = useMemo(() => {
+    const casedCategory =
+      category === 'COVID' ? category : capitalize(category);
+    return `${
+      removeLandingPageFF
+        ? `Messages: ${casedCategory} - ${subject}`
+        : `${casedCategory}: ${subject}`
+    }`;
+  }, [category, removeLandingPageFF, subject]);
 
   return (
     replyMessage && (
@@ -193,8 +174,9 @@ const ReplyForm = props => {
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
           >
-            {!cannotReply &&
-              !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
+            {!cannotReply && !showBlockedTriageGroupAlert && (
+              <EmergencyNote dropDownFlag />
+            )}
             {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
             {!hideDraft && (
               <>

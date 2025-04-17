@@ -26,9 +26,9 @@ export const FOCUSABLE_ELEMENTS = [
   /* focusable, but not tabbable */
   '[tabindex]:not([tabindex="-1"])',
   /* label removed from list, because you can't programmically focus it
-    * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
-    * associated focusable form element
-    */
+   * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
+   * associated focusable form element
+   */
   // 'label[for]',
   /* focusable elements not used in our form system */
   // 'audio[controls]',

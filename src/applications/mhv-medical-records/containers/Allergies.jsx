@@ -43,7 +43,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -96,13 +96,10 @@ const Allergies = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+  }, [dispatch]);
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -187,7 +184,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         team at your next appointment.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection

@@ -126,9 +126,12 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
     expect(screen.getAllByTestId('facility-telephone')).to.exist;
     expect(screen.getAllByTestId('tty-telephone')).to.exist;
     expect(screen.queryByText(/Facility that is furthest away/i)).to.be.ok;
-    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-      ['Facility that is enabled', 'Facility that is furthest away'],
-    );
+    expect(
+      screen.getAllByRole('link').map(el => el.textContent),
+    ).to.deep.equal([
+      'Facility that is enabled',
+      'Facility that is furthest away',
+    ]);
   });
 
   it('should show five facilities in alpha order when no residential address', async () => {
@@ -163,9 +166,9 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
       store,
     });
     expect(await screen.findByRole('link', { name: /A facility/i })).to.be.ok;
-    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-      ['A facility', 'B facility'],
-    );
+    expect(
+      screen.getAllByRole('link').map(el => el.textContent),
+    ).to.deep.equal(['A facility', 'B facility']);
     expect(screen.getAllByTestId('tty-telephone')).to.exist;
   });
 
@@ -258,9 +261,12 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         level: 1,
       }),
     ).to.be.ok;
-    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-      ['Facility that is enabled', 'Facility that is furthest away'],
-    );
+    expect(
+      screen.getAllByRole('link').map(el => el.textContent),
+    ).to.deep.equal([
+      'Facility that is enabled',
+      'Facility that is furthest away',
+    ]);
     expect(screen.getByText(/Find a vaccine walk-in clinic near you/i)).to.be
       .ok;
     expect(

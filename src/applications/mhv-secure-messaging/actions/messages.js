@@ -63,11 +63,10 @@ export const retrieveMessageThread = messageId => async (
 
     const drafts = response.data
       .filter(m => m.attributes.draftDate !== null)
-      .sort(
-        (a, b) =>
-          moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
-            ? 1
-            : -1,
+      .sort((a, b) =>
+        moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
+          ? 1
+          : -1,
       );
     const messages = response.data.filter(m => m.attributes.sentDate !== null);
 

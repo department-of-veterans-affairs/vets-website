@@ -63,35 +63,29 @@ export function ComparePage({
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
 
-  useEffect(
-    () => {
-      if (!allLoaded) {
-        dispatchFetchCompareDetails(selected, filters, version);
-      }
-    },
-    [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
-  );
+  useEffect(() => {
+    if (!allLoaded) {
+      dispatchFetchCompareDetails(selected, filters, version);
+    }
+  }, [allLoaded, dispatchFetchCompareDetails, filters, selected, version]);
 
-  useEffect(
-    () => {
-      if (hasScrollTo) {
-        scrollPageRef.current.scroll({
+  useEffect(() => {
+    if (hasScrollTo) {
+      scrollPageRef.current.scroll({
+        left: scrollTo,
+        behavior: 'smooth',
+      });
+
+      if (headerFixed) {
+        scrollHeaderRef.current.scroll({
           left: scrollTo,
           behavior: 'smooth',
         });
-
-        if (headerFixed) {
-          scrollHeaderRef.current.scroll({
-            left: scrollTo,
-            behavior: 'smooth',
-          });
-        }
-
-        setScrollTo(null);
       }
-    },
-    [scrollTo],
-  );
+
+      setScrollTo(null);
+    }
+  }, [scrollTo]);
 
   useEffect(() => {
     const checkSize = () => {
@@ -102,46 +96,42 @@ export function ComparePage({
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  const handleScroll = useCallback(
-    () => {
-      if (
-        !initialTop &&
-        headerRef.current &&
-        headerRef.current.offsetTop &&
-        placeholderRef.current
-      ) {
-        setInitialTop(headerRef.current.offsetTop);
+  const handleScroll = useCallback(() => {
+    if (
+      !initialTop &&
+      headerRef.current &&
+      headerRef.current.offsetTop &&
+      placeholderRef.current
+    ) {
+      setInitialTop(headerRef.current.offsetTop);
+    }
+
+    if (initialTop) {
+      const offset = window.pageYOffset;
+      const footer = document.getElementById('footerNav');
+
+      const visibleFooterHeight = footer
+        ? window.innerHeight - footer.getBoundingClientRect().top
+        : 0;
+      const tooTall = headerRef.current.offsetHeight >= window.innerHeight / 2;
+
+      if (offset > initialTop && !headerFixed && !tooTall) {
+        setHeaderFixed(true);
+        scrollHeaderRef.current.scroll({
+          left: scrollPageRef.current.scrollLeft,
+        });
+        placeholderRef.current.style.height = `${
+          headerRef.current.getBoundingClientRect().height
+        }px`;
+      } else if (offset < initialTop && headerFixed) {
+        setHeaderFixed(false);
+        placeholderRef.current.style.height = '0px';
+      } else if (headerFixed) {
+        headerRef.current.style.top =
+          visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
       }
-
-      if (initialTop) {
-        const offset = window.pageYOffset;
-        const footer = document.getElementById('footerNav');
-
-        const visibleFooterHeight = footer
-          ? window.innerHeight - footer.getBoundingClientRect().top
-          : 0;
-        const tooTall =
-          headerRef.current.offsetHeight >= window.innerHeight / 2;
-
-        if (offset > initialTop && !headerFixed && !tooTall) {
-          setHeaderFixed(true);
-          scrollHeaderRef.current.scroll({
-            left: scrollPageRef.current.scrollLeft,
-          });
-          placeholderRef.current.style.height = `${
-            headerRef.current.getBoundingClientRect().height
-          }px`;
-        } else if (offset < initialTop && headerFixed) {
-          setHeaderFixed(false);
-          placeholderRef.current.style.height = '0px';
-        } else if (headerFixed) {
-          headerRef.current.style.top =
-            visibleFooterHeight > 0 ? `${-visibleFooterHeight}px` : '0px';
-        }
-      }
-    },
-    [scrollHeaderRef, scrollPageRef, headerFixed, initialTop, placeholderRef],
-  );
+    }
+  }, [scrollHeaderRef, scrollPageRef, headerFixed, initialTop, placeholderRef]);
 
   const handleBodyScrollReact = () => {
     if (
@@ -179,15 +169,12 @@ export function ComparePage({
     scrollToTop();
   }, []);
 
-  useLayoutEffect(
-    () => {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    },
-    [handleScroll],
-  );
+  useLayoutEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   if (error) {
     return <ServiceError />;
@@ -341,7 +328,4 @@ ComparePage.propTypes = {
   gibctSchoolRatings: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ComparePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ComparePage);

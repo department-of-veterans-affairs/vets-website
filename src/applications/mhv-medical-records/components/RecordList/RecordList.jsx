@@ -11,7 +11,6 @@ import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
   const { records, type, perPage = 10, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
@@ -32,14 +31,11 @@ const RecordList = props => {
   };
 
   // tracks url param
-  useEffect(
-    () => {
-      const historyParamVal = getParamValue(history.location.search, 'page');
-      setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
-      setCurrentPage(historyParamVal);
-    },
-    [history.location.search],
-  );
+  useEffect(() => {
+    const historyParamVal = getParamValue(history.location.search, 'page');
+    setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
+    setCurrentPage(historyParamVal);
+  }, [history.location.search]);
 
   const fromToNums = (page, total) => {
     const from = (page - 1) * perPage + 1;
@@ -47,25 +43,19 @@ const RecordList = props => {
     return [from, to];
   };
 
-  useEffect(
-    () => {
-      if (records?.length) {
-        paginatedRecords.current = chunk(records, perPage);
-        setCurrentRecords(paginatedRecords.current[currentPage - 1]);
-      }
-    },
-    [records, perPage, currentPage],
-  );
+  useEffect(() => {
+    if (records?.length) {
+      paginatedRecords.current = chunk(records, perPage);
+      setCurrentRecords(paginatedRecords.current[currentPage - 1]);
+    }
+  }, [records, perPage, currentPage]);
 
-  useEffect(
-    () => {
-      if (currentPage > 1 && records?.length) {
-        focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      }
-    },
-    [currentPage, records],
-  );
+  useEffect(() => {
+    if (currentPage > 1 && records?.length) {
+      focusElement(document.querySelector('#showingRecords'));
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  }, [currentPage, records]);
 
   const displayNums = fromToNums(currentPage, records?.length);
 
@@ -82,9 +72,7 @@ const RecordList = props => {
         data-dd-action-name
       >
         <span>
-          {`Showing ${displayNums[0]} to ${
-            displayNums[1]
-          } of ${totalEntries} records from newest to oldest`}
+          {`Showing ${displayNums[0]} to ${displayNums[1]} of ${totalEntries} records from newest to oldest`}
         </span>
       </p>
       <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
@@ -114,7 +102,6 @@ const RecordList = props => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
               uswds
             />

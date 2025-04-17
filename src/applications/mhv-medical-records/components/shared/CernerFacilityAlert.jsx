@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getCernerURL } from 'platform/utilities/cerner';
-import useAcceleratedData from '../../hooks/useAcceleratedData';
 
 const CernerFacilityAlert = ({ linkPath, pageName }) => {
   const ehrDataByVhaId = useSelector(
@@ -14,34 +13,22 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
-  const { isAccelerating } = useAcceleratedData();
+  const cernerFacilities = useMemo(() => {
+    return userFacilities?.filter(facility =>
+      drupalCernerFacilities?.some(
+        f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+      ),
+    );
+  }, [userFacilities, drupalCernerFacilities]);
 
-  const cernerFacilities = useMemo(
-    () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities?.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
+  const cernerFacilitiesNames = useMemo(() => {
+    if (ehrDataByVhaId) {
+      return cernerFacilities?.map(facility =>
+        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
       );
-    },
-    [userFacilities, drupalCernerFacilities],
-  );
-
-  const cernerFacilitiesNames = useMemo(
-    () => {
-      if (ehrDataByVhaId) {
-        return cernerFacilities?.map(facility =>
-          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
-        );
-      }
-      return [];
-    },
-    [cernerFacilities, ehrDataByVhaId],
-  );
-
-  if (isAccelerating) {
-    return <></>;
-  }
+    }
+    return [];
+  }, [cernerFacilities, ehrDataByVhaId]);
 
   return (
     <>

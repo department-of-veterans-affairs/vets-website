@@ -6,8 +6,6 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 export default function NewFeatureProgramsYRTAlert({
   institution,
-  toggleValue,
-  toggleGiProgramsFlag,
   programTypes,
   visible,
   onClose,
@@ -38,10 +36,7 @@ export default function NewFeatureProgramsYRTAlert({
         </h2>
       ) : (
         <h2 id="track-your-status-on-mobile" slot="headline">
-          {institution.yr === true &&
-          toggleValue &&
-          programTypes.length > 0 &&
-          toggleGiProgramsFlag
+          {institution.yr === true && programTypes.length > 0
             ? 'New features'
             : 'New feature'}
         </h2>
@@ -51,26 +46,24 @@ export default function NewFeatureProgramsYRTAlert({
       ) : (
         <p className="vads-u-margin-y--0">
           Go to the “On this page” directory or click{' '}
-          {institution.yr === true &&
-            toggleValue && (
-              <>
-                <a
-                  href="#yellow-ribbon-program-information"
-                  onClick={e =>
-                    handleLinkClick(e, 'yellow-ribbon-program-information')
-                  }
-                >
-                  Yellow Ribbon Program information
-                </a>
-                {programTypes.length > 0 && toggleGiProgramsFlag && ' and '}
-              </>
-            )}{' '}
-          {programTypes.length > 0 &&
-            toggleGiProgramsFlag && (
-              <a href="#programs" onClick={e => handleLinkClick(e, 'programs')}>
-                Programs
+          {institution.yr === true && (
+            <>
+              <a
+                href="#yellow-ribbon-program-information"
+                onClick={e =>
+                  handleLinkClick(e, 'yellow-ribbon-program-information')
+                }
+              >
+                Yellow Ribbon Program information
               </a>
-            )}
+              {programTypes.length > 0 && ' and '}
+            </>
+          )}{' '}
+          {programTypes.length > 0 && (
+            <a href="#programs" onClick={e => handleLinkClick(e, 'programs')}>
+              Programs
+            </a>
+          )}
         </p>
       )}
     </VaAlert>
@@ -78,20 +71,16 @@ export default function NewFeatureProgramsYRTAlert({
 }
 
 NewFeatureProgramsYRTAlert.propTypes = {
-  institution: PropTypes.object,
-  toggleValue: PropTypes.bool,
-  toggleGiProgramsFlag: PropTypes.bool,
-  programTypes: PropTypes.array,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   customHeadline: PropTypes.node,
   customParagraph: PropTypes.node,
+  institution: PropTypes.object,
+  programTypes: PropTypes.array,
 };
 
 NewFeatureProgramsYRTAlert.defaultProps = {
   institution: {},
-  toggleValue: false,
-  toggleGiProgramsFlag: false,
   programTypes: [],
   customHeadline: null,
   customParagraph: null,

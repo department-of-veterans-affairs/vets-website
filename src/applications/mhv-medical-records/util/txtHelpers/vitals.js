@@ -27,10 +27,10 @@ export const parseVitals = (records, index = 6) => {
   return `
 ${index}) Vitals
 
-This list includes vitals and other basic health numbers your providers check at your appointments.
+Vitals are basic health numbers your providers check at your appointments.
 ${vitalTypes
-    .map(
-      vitalType => `
+  .map(
+    vitalType => `
 ${vitalNameParse(vitalType)}
 ${txtLineDotted}
   ${records
@@ -45,7 +45,7 @@ Provider Notes: ${record.notes}
     )
     .join('')}
 `,
-    )
-    .join('')}
+  )
+  .join('')}
 `;
 };

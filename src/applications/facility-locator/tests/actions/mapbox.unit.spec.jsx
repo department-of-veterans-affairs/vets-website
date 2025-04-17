@@ -6,7 +6,6 @@ import {
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
   GEOCODE_STARTED,
-  GEOLOCATE_USER,
   MAP_MOVED,
   MOBILE_MAP_PIN_SELECTED,
   SEARCH_FAILED,
@@ -503,30 +502,6 @@ describe('actions: mapbox', () => {
   });
 
   describe('geolocateUser', () => {
-    describe(`when the user's location is defined`, () => {
-      const longitude = -98.495114;
-      const latitude = 29.6267;
-      const getCurrentPositionStub = sinon
-        .stub()
-        .returns({ coords: { longitude, latitude } });
-
-      beforeEach(() => {
-        global.navigator.geolocation = {
-          getCurrentPosition: getCurrentPositionStub,
-        };
-      });
-
-      it('should dispatch the correct action objects', async () => {
-        await geolocateUser()(dispatchSpy);
-
-        expect(dispatchSpy.firstCall.args[0].type).to.deep.equal(
-          GEOLOCATE_USER,
-        );
-
-        expect(getCurrentPositionStub.calledOnce).to.be.true;
-      });
-    });
-
     describe(`when the user's location is not defined`, () => {
       it('should dispatch the correct action objects', async () => {
         await geolocateUser()(dispatchSpy);

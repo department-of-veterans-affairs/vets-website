@@ -26,9 +26,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/^start your intent to file/i, { selector: 'a' }).click(
-            { force: true },
-          );
+          cy.findByText(/^start your intent to file/i, {
+            selector: 'a',
+          }).click({ force: true });
         });
       },
       [formConfig.additionalRoutes[0].path]: ({ afterHook }) => {

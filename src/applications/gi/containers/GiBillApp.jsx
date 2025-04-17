@@ -45,18 +45,15 @@ export function GiBillApp({
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (shouldExitPreviewMode) {
-        dispatchExitPreviewMode();
-      } else if (shouldEnterPreviewMode) {
-        dispatchEnterPreviewMode(version);
-      } else {
-        dispatchFetchConstants();
-      }
-    },
-    [shouldExitPreviewMode, shouldEnterPreviewMode],
-  );
+  useEffect(() => {
+    if (shouldExitPreviewMode) {
+      dispatchExitPreviewMode();
+    } else if (shouldEnterPreviewMode) {
+      dispatchEnterPreviewMode(version);
+    } else {
+      dispatchFetchConstants();
+    }
+  }, [shouldExitPreviewMode, shouldEnterPreviewMode]);
 
   useEffect(() => {
     const params = {};
@@ -108,8 +105,9 @@ export function GiBillApp({
               </>
             </div>
           )}
-          {!onComparePage &&
-            !onProgramPage && <CompareDrawer alwaysDisplay={onProfilePage} />}
+          {!onComparePage && !onProgramPage && (
+            <CompareDrawer alwaysDisplay={onProfilePage} />
+          )}
           <Modals />
         </div>
       </div>
@@ -143,7 +141,4 @@ const mapDispatchToProps = {
   dispatchUpdateQueryParams: updateQueryParams,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(GiBillApp);
+export default connect(mapStateToProps, mapDispatchToProps)(GiBillApp);

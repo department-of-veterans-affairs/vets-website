@@ -725,6 +725,19 @@ class MedicationsDetailsPage {
       expect(fileContent).to.contain(text);
     });
   };
+
+  verifyTrackingAlertHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="track-package"]').should('contain', text);
+  };
+
+  verifyTrackingNumberForShippedPrescriptionOnDetailsPage = text => {
+    cy.get('[data-testid="tracking-number"]').should('contain', text);
+  };
+
+  verifyPrescriptionInformationInTrackingAlertOnDetailsPage = (text, name) => {
+    cy.get('[data-testid="prescription-info"]').should('contain', text);
+    cy.get('[data-testid="rx-name"]').should('contain', name);
+  };
 }
 
 export default MedicationsDetailsPage;

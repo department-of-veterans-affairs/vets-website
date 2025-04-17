@@ -47,8 +47,9 @@ export default function ReasonForAppointmentSection({ data }) {
                 <br />
               </>
             )}
-            {!reasonForAppointment &&
-              !reasonAdditionalInfo && <span>No details shared</span>}
+            {!reasonForAppointment && !reasonAdditionalInfo && (
+              <span>No details shared</span>
+            )}
             <span
               className="vaos-u-word-break--break-word"
               data-dd-privacy="mask"

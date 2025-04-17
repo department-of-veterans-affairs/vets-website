@@ -265,9 +265,9 @@ describe('getEvidence', () => {
       [EVIDENCE_OTHER]: true,
       additionalDocuments: [{}],
     };
-    expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
-      ['retrieval', 'upload'],
-    );
+    expect(
+      getEvidence(evidence).evidenceSubmission.evidenceType,
+    ).to.deep.equal(['retrieval', 'upload']);
   });
   it('should only include "upload" when documents were uploaded with no VA evidence', () => {
     const { data } = getData({ hasVa: false });
@@ -276,9 +276,9 @@ describe('getEvidence', () => {
       [EVIDENCE_OTHER]: true,
       additionalDocuments: [{}],
     };
-    expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
-      ['upload'],
-    );
+    expect(
+      getEvidence(evidence).evidenceSubmission.evidenceType,
+    ).to.deep.equal(['upload']);
   });
   it('should combine duplicate VA locations & dates', () => {
     const evidence = getData();

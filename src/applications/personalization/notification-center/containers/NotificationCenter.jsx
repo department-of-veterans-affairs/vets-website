@@ -16,12 +16,9 @@ export const NotificationCenter = ({
   notifications,
   notificationsError,
 }) => {
-  useEffect(
-    () => {
-      getNotifications();
-    },
-    [getNotifications],
-  );
+  useEffect(() => {
+    getNotifications();
+  }, [getNotifications]);
 
   // empty state for no notifications, or error fetching
   if (!notifications.length || notificationsError) {
@@ -32,21 +29,20 @@ export const NotificationCenter = ({
     <div data-testid="notification-center">
       <h1>Notification Center</h1>
       {/* can convert this into switch cases when we have at least 3 types */}
-      {Object.keys(notifications).map(
-        n =>
-          notifications[n].attributes.templateId === debtTemplateId ? (
-            <DebtNotification
-              key={notifications[n].id}
-              hasError={notificationsError}
-              notification={notifications[n]}
-            />
-          ) : (
-            <OtherNotification
-              key={notifications[n].id}
-              hasError={notificationsError}
-              notification={notifications[n]}
-            />
-          ),
+      {Object.keys(notifications).map(n =>
+        notifications[n].attributes.templateId === debtTemplateId ? (
+          <DebtNotification
+            key={notifications[n].id}
+            hasError={notificationsError}
+            notification={notifications[n]}
+          />
+        ) : (
+          <OtherNotification
+            key={notifications[n].id}
+            hasError={notificationsError}
+            notification={notifications[n]}
+          />
+        ),
       )}
     </div>
   );
@@ -81,7 +77,4 @@ const mapDispatchToProps = {
   getNotifications: fetchNotifications,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NotificationCenter);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationCenter);

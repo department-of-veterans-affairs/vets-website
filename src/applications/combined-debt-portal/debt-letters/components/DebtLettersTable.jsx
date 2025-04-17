@@ -114,9 +114,7 @@ const DebtLettersTable = ({
                     }
                     download={`${debt.typeDescription} dated ${recvDate}`}
                     href={encodeURI(
-                      `${environment.API_URL}/v0/debt_letters/${
-                        debt.documentId
-                      }`,
+                      `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
                     )}
                   >
                     <va-icon

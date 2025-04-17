@@ -57,6 +57,7 @@ import {
   maskSocial,
   scrollToElement,
 } from '../utils/reviewPageUtils';
+import { relationshipOptionsSomeoneElse } from '../constants';
 
 const { scroller } = Scroll;
 
@@ -1035,7 +1036,11 @@ const ReviewPage = props => {
                       items={[
                         {
                           name: 'Phone number',
-                          data: props.formData.phoneNumber,
+                          data:
+                            props.formData.relationshipToVeteran ===
+                            relationshipOptionsSomeoneElse.WORK
+                              ? props.formData.businessPhone
+                              : props.formData.phoneNumber,
                           key: 'yourContactInformation',
                         },
                         {

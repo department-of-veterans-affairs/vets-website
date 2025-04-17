@@ -27,13 +27,12 @@ export const scrollTo = async (el, scrollOptions) => {
     });
     resolve();
   };
-  return new Promise(
-    resolve =>
-      options.delay
-        ? setTimeout(() => {
-            scroll(resolve);
-          }, options.delay)
-        : scroll(resolve),
+  return new Promise(resolve =>
+    options.delay
+      ? setTimeout(() => {
+          scroll(resolve);
+        }, options.delay)
+      : scroll(resolve),
   );
 };
 

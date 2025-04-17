@@ -19,9 +19,7 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
   const downloadFileName = `${fullName} Veterans Medical copay statement dated ${formattedStatementDate}.pdf`;
 
   const pdfStatementUri = encodeURI(
-    `${
-      environment.API_URL
-    }/v0/medical_copays/get_pdf_statement_by_id/${statementId}?file_name=${downloadFileName}`,
+    `${environment.API_URL}/v0/medical_copays/get_pdf_statement_by_id/${statementId}?file_name=${downloadFileName}`,
   );
 
   return (

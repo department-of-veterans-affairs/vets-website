@@ -25,29 +25,26 @@ const EmailSignup = () => {
     }
   });
 
-  useEffect(
-    () => {
-      const textInput = document?.querySelector('va-text-input');
-      const shadowRoot = textInput?.shadowRoot;
+  useEffect(() => {
+    const textInput = document?.querySelector('va-text-input');
+    const shadowRoot = textInput?.shadowRoot;
 
-      if (shadowRoot && !headerHasFocused) {
-        const inputHeader = shadowRoot?.querySelector('h2');
+    if (shadowRoot && !headerHasFocused) {
+      const inputHeader = shadowRoot?.querySelector('h2');
 
-        if (inputHeader) {
-          inputHeader.addEventListener('focus', () => {
-            inputHeader.style.outline = 'none';
-          });
-        }
-
-        if (inputHeader && inputError) {
-          inputHeader.setAttribute('tabindex', '-1');
-          inputHeader.focus();
-          setHeaderHasFocused(true);
-        }
+      if (inputHeader) {
+        inputHeader.addEventListener('focus', () => {
+          inputHeader.style.outline = 'none';
+        });
       }
-    },
-    [inputError],
-  );
+
+      if (inputHeader && inputError) {
+        inputHeader.setAttribute('tabindex', '-1');
+        inputHeader.focus();
+        setHeaderHasFocused(true);
+      }
+    }
+  }, [inputError]);
 
   const setInputErrorState = () => {
     if (!email || !email?.length || !isValidEmail(email)) {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import { normalizeFullName, replaceStrValues } from '../../utils/helpers';
 import { VaCheckbox } from '../../utils/imports';
 import SignatureInput from './SignatureInput';
@@ -34,25 +33,13 @@ const SignatureCheckbox = props => {
   const handleCheck = event => {
     const value = event.target.checked;
     setIsChecked(value);
-    recordEvent({
-      'caregivers-poa-certification-checkbox-checked': value,
-      fullName,
-      label,
-      isRepresentative,
-    });
   };
 
-  useEffect(
-    () => {
-      const hasError =
-        isChecked === true || hasSubmittedForm ? false : showError;
-      const message = hasError
-        ? content['validation-signature-required']
-        : null;
-      setError(message);
-    },
-    [showError, isChecked, hasSubmittedForm],
-  );
+  useEffect(() => {
+    const hasError = isChecked === true || hasSubmittedForm ? false : showError;
+    const message = hasError ? content['validation-signature-required'] : null;
+    setError(message);
+  }, [showError, isChecked, hasSubmittedForm]);
 
   return (
     <fieldset

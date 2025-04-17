@@ -27,14 +27,11 @@ const PreSubmitNotice = props => {
   );
 
   // set error message status
-  useEffect(
-    () => {
-      const hasError = accepted === true || formSubmitted ? false : showError;
-      const message = hasError ? content['presubmit-error-message'] : undefined;
-      setError(message);
-    },
-    [accepted, showError, formSubmitted],
-  );
+  useEffect(() => {
+    const hasError = accepted === true || formSubmitted ? false : showError;
+    const message = hasError ? content['presubmit-error-message'] : undefined;
+    setError(message);
+  }, [accepted, showError, formSubmitted]);
 
   return (
     <>

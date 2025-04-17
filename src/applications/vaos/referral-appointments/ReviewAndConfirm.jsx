@@ -31,7 +31,7 @@ import {
 import ProviderAddress from './components/ProviderAddress';
 
 const ReviewAndConfirm = props => {
-  const { currentReferral } = props;
+  const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlot(state));
@@ -48,7 +48,7 @@ const ReviewAndConfirm = props => {
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.facilityCode,
+    currentReferral.referringFacilityInfo.code,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -189,7 +189,7 @@ const ReviewAndConfirm = props => {
                 'h:mm aaaa',
               )}{' '}
               {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacilityInfo.facilityCode,
+                currentReferral.referringFacilityInfo.code,
               )}`}
             </>
           </p>

@@ -22,21 +22,15 @@ const Radiation23B = ({
   const H1 = QUESTION_MAP[shortName];
   const radiation23B = formResponses[shortName];
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const locations = [
     RESPONSES.ENEWETAK_ATOLL,
@@ -78,7 +72,4 @@ Radiation23B.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Radiation23B);
+export default connect(mapStateToProps, mapDispatchToProps)(Radiation23B);

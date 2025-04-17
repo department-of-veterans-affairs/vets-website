@@ -317,25 +317,19 @@ describe('NotificationGroup component', () => {
 
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging}]`,
       false,
     );
 
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment}]`,
       false,
     );
 
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages}]`,
       false,
     );
 
@@ -359,9 +353,7 @@ describe('NotificationGroup component', () => {
     const initialState = cloneDeep(baseState);
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages}]`,
       true,
     );
 
@@ -384,9 +376,7 @@ describe('NotificationGroup component', () => {
     const initialState = cloneDeep(baseState);
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging}]`,
       true,
     );
 
@@ -410,9 +400,7 @@ describe('NotificationGroup component', () => {
     const initialState = cloneDeep(baseState);
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment}]`,
       true,
     );
 
@@ -436,33 +424,25 @@ describe('NotificationGroup component', () => {
     const initialState = cloneDeep(baseState);
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages}]`,
       true,
     );
 
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging}]`,
       true,
     );
 
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment}]`,
       true,
     );
 
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders}]`,
       true,
     );
 
@@ -496,9 +476,7 @@ describe('NotificationGroup component', () => {
     );
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting}]`,
       true,
     );
 
@@ -525,9 +503,7 @@ describe('NotificationGroup component', () => {
     );
     set(
       initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting
-      }]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting}]`,
       true,
     );
 

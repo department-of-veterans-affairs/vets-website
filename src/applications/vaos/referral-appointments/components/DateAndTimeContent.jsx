@@ -26,7 +26,7 @@ export const DateAndTimeContent = props => {
   const [error, setError] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.facilityCode,
+    currentReferral.referringFacilityInfo.code,
   );
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
@@ -37,30 +37,24 @@ export const DateAndTimeContent = props => {
       }),
     ),
   );
-  useEffect(
-    () => {
-      if (selectedSlot) {
-        setSelectedDate(
-          getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
-        );
-      }
-    },
-    [draftAppointmentInfo.slots.slots, selectedSlot],
-  );
-  useEffect(
-    () => {
-      const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(
-        draftAppointmentInfo.slots.slots,
-        savedSelectedSlot,
+  useEffect(() => {
+    if (selectedSlot) {
+      setSelectedDate(
+        getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
       );
-      if (!savedSlot) {
-        return;
-      }
-      dispatch(setSelectedSlot(savedSlot.id));
-    },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.slots],
-  );
+    }
+  }, [draftAppointmentInfo.slots.slots, selectedSlot]);
+  useEffect(() => {
+    const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
+    const savedSlot = getSlotById(
+      draftAppointmentInfo.slots.slots,
+      savedSelectedSlot,
+    );
+    if (!savedSlot) {
+      return;
+    }
+    dispatch(setSelectedSlot(savedSlot.id));
+  }, [dispatch, selectedSlotKey, draftAppointmentInfo.slots]);
   const onChange = useCallback(
     value => {
       const newSlot = getSlotByDate(draftAppointmentInfo.slots.slots, value[0]);
@@ -129,7 +123,7 @@ export const DateAndTimeContent = props => {
         <ProviderAddress
           address={currentReferral.referringFacilityInfo.address}
           showDirections
-          directionsName={currentReferral.referringFacilityInfo.facilityName}
+          directionsName={currentReferral.referringFacilityInfo.name}
           phone={currentReferral.referringFacilityInfo.phone}
         />
         {driveTimeString && <p>{driveTimeString}</p>}
@@ -139,7 +133,7 @@ export const DateAndTimeContent = props => {
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacilityInfo.facilityCode,
+              currentReferral.referringFacilityInfo.code,
             )}`}
             .
           </p>

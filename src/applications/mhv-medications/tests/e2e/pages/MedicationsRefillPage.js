@@ -45,10 +45,9 @@ class MedicationsRefillPage {
 
   verifyRefillCheckBoxesClicked = numberOfCheckboxes => {
     for (let i = 0; i < `${numberOfCheckboxes}`; i++) {
-      cy.get(`[data-testid="refill-prescription-checkbox-${i}"]`).should(
-        'be.visible',
-        { force: true },
-      );
+      cy.get(
+        `[data-testid="refill-prescription-checkbox-${i}"]`,
+      ).should('be.visible', { force: true });
     }
   };
 
@@ -485,6 +484,12 @@ class MedicationsRefillPage {
   verifyRefillDelayAlertBannerOnRefillPage = text => {
     cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
   };
+
+  verifyRefillDelayAlertNotVisibleOnRefillPage(text) {
+    cy.get('[data-testid="rxDelay-alert-message"]')
+      .should('have.text', text)
+      .and('not.be.visible');
+  }
 
   verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
     cy.get('[data-testid="alert-banner"]').should('contain', rxName);

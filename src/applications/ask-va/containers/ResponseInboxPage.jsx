@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import BreadCrumbs from '../components/BreadCrumbs';
 import FileUpload from '../components/FileUpload';
 import NeedHelpFooter from '../components/NeedHelpFooter';
@@ -54,6 +55,18 @@ const ResponseInboxPage = ({ router }) => {
     return pathArray[pathArray.length - 1];
   };
   const inquiryId = getLastSegment();
+
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
+
+  const toggleOldPortalAlert = TOGGLE_NAMES.askVaAlertLinkToOldPortal;
+  const isOldPortalAlertEnabled = useToggleValue(toggleOldPortalAlert);
+  const isLoadingFeatureFlags = useToggleLoadingValue(toggleOldPortalAlert);
+  const showAlertAndHideForm =
+    !isLoadingFeatureFlags && isOldPortalAlertEnabled;
 
   const postApiData = useCallback(
     async url => {
@@ -198,19 +211,14 @@ const ResponseInboxPage = ({ router }) => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
   };
 
-  useEffect(
-    () => {
-      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
-    },
-    [inquiryId, getApiData],
-  );
+  useEffect(() => {
+    if (inquiryId && !showAlertAndHideForm)
+      getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
+  }, [inquiryId, getApiData]);
 
-  useEffect(
-    () => {
-      focusElement('h1');
-    },
-    [loading],
-  );
+  useEffect(() => {
+    focusElement('h1');
+  }, [loading]);
 
   if (error) {
     return (
@@ -231,6 +239,26 @@ const ResponseInboxPage = ({ router }) => {
     return (
       <VaAlert status="info" className="vads-u-margin-y--4">
         No inquiry data available.
+      </VaAlert>
+    );
+  }
+
+  if (showAlertAndHideForm) {
+    return (
+      <VaAlert
+        className="vads-u-margin-x--2 vads-u-margin-top--3  vads-u-margin-bottom--9"
+        close-btn-aria-label="Close notification"
+        status="warning"
+        uswds
+      >
+        <h2 id="track-your-status-on-mobile" slot="headline">
+          This version of Ask VA isn’t working right now
+        </h2>
+        <p className="vads-u-margin-y--0">
+          We’re making some updates to Ask VA on VA.gov. We’re sorry it’s not
+          working right now. You can still use the{' '}
+          <a href="https://ask.va.gov/">previous version of Ask VA</a>
+        </p>
       </VaAlert>
     );
   }
@@ -425,9 +453,7 @@ const ResponseInboxPage = ({ router }) => {
                                 text={file.name}
                                 onClick={() =>
                                   getDownloadData(
-                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                      file.id
-                                    }`,
+                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${file.id}`,
                                   )
                                 }
                               />

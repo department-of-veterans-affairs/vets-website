@@ -157,15 +157,15 @@ export default class DateWidget extends React.Component {
 
 DateWidget.propTypes = {
   id: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   /**
    * ui:options from uiSchema
    */
   options: PropTypes.shape({
     /*
-    * input's autocomplete attribute value
-    */
+     * input's autocomplete attribute value
+     */
     autocomplete: PropTypes.string,
   }),
   value: PropTypes.string,

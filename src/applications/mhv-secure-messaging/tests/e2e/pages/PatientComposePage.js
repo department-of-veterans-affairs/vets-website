@@ -169,7 +169,6 @@ class PatientComposePage {
     cy.get(Locators.FIELDS.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
-    cy.wait('@draft_message');
   };
 
   clickSaveDraftBtn = () => {
@@ -183,9 +182,7 @@ class PatientComposePage {
   saveDraft = draftMessage => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/message_drafts/${draftMessage.data.attributes.messageId}`,
       { ok: true },
     ).as('draft_message');
 
@@ -339,9 +336,7 @@ class PatientComposePage {
   clickTrashButton = () => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageResponse.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageResponse.data.attributes.messageId}`,
       mockMessageResponse,
     ).as('mockMessageResponse');
     cy.intercept(
@@ -359,9 +354,7 @@ class PatientComposePage {
   clickConfirmDeleteButton = mockResponse => {
     cy.intercept(
       'PATCH',
-      `${Paths.INTERCEPT.MESSAGE_THREADS}${
-        mockResponse.data.attributes.threadId
-      }/move?folder_id=-3`,
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${mockResponse.data.attributes.threadId}/move?folder_id=-3`,
       {},
     ).as('deleteMessageWithAttachment');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)

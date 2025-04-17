@@ -30,23 +30,17 @@ function App({ location, children, formData }) {
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
 
-  useEffect(
-    () => {
-      if (!pathname?.includes('introduction')) {
-        scrollTo('topScrollElement');
-      }
-    },
-    [pathname],
-  );
+  useEffect(() => {
+    if (!pathname?.includes('introduction')) {
+      scrollTo('topScrollElement');
+    }
+  }, [pathname]);
 
   // dynamically updates the form subtitle to 21-22 or 21-22A
-  useEffect(
-    () => {
-      configService.setFormConfig({ subTitle });
-      setUpdatedFormConfig(configService.getFormConfig());
-    },
-    [subTitle],
-  );
+  useEffect(() => {
+    configService.setFormConfig({ subTitle });
+    setUpdatedFormConfig(configService.getFormConfig());
+  }, [subTitle]);
 
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
@@ -89,7 +83,4 @@ App.propTypes = {
   setFormData: PropTypes.func,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

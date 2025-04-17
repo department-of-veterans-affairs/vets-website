@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import {
+  createIsServiceAvailableSelector,
   isLOA1,
   isLOA3,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
-
-import { Unauth } from '../States/Unauth';
-import { Auth } from '../States/Auth';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
+import { NoRep } from '../cards';
+import { Unauth } from '../alerts';
+import { CheckUsersRep } from '../CheckUsersRep';
 import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const App = ({
@@ -21,36 +22,34 @@ export const App = ({
   isUserLOA1,
   isUserLOA3,
 }) => {
+  // Based on user.icn.present? && user.participant_id.present? in vets-api policy
+  // From src/applications/personalization/profile/hooks/useDirectDeposit.js
+  const isUserLOA3WithParticipantId = useSelector(
+    createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
+  );
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
 
-  if (isUserLOA1) {
+  if (isUserLOA3WithParticipantId) {
     return (
-      <>
-        <VerifyAlert />
-      </>
+      <CheckUsersRep
+        DynamicHeader={DynamicHeader}
+        DynamicSubheader={DynamicSubheader}
+        useRepresentativeStatus={useRepresentativeStatus}
+      />
     );
   }
 
   if (isUserLOA3) {
-    return (
-      <>
-        <Auth
-          DynamicHeader={DynamicHeader}
-          DynamicSubheader={DynamicSubheader}
-          useRepresentativeStatus={useRepresentativeStatus}
-        />
-      </>
-    );
+    return <NoRep DynamicHeader={DynamicHeader} />;
+  }
+
+  if (isUserLOA1) {
+    return <VerifyAlert />;
   }
 
   return (
-    <>
-      <Unauth
-        toggleLoginModal={toggleLoginModal}
-        DynamicHeader={DynamicHeader}
-      />
-    </>
+    <Unauth toggleLoginModal={toggleLoginModal} DynamicHeader={DynamicHeader} />
   );
 };
 

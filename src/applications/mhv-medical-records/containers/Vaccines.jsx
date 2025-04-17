@@ -44,7 +44,7 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -87,13 +87,10 @@ const Vaccines = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+  }, [dispatch]);
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,
@@ -170,7 +167,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         </Link>
       </div>
 
-      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection

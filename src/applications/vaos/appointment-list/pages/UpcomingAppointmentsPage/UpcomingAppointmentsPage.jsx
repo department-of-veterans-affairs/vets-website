@@ -38,18 +38,15 @@ export default function UpcomingAppointmentsPage() {
     });
   }, []);
 
-  useEffect(
-    () => {
-      if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments());
-      } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('h3');
-      }
-    },
-    [dispatch, futureStatus, hasTypeChanged],
-  );
+  useEffect(() => {
+    if (futureStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchFutureAppointments());
+    } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
+      scrollAndFocus('#type-dropdown');
+    } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {
+      scrollAndFocus('h3');
+    }
+  }, [dispatch, futureStatus, hasTypeChanged]);
 
   if (
     futureStatus === FETCH_STATUS.loading ||

@@ -31,16 +31,13 @@ ConfirmationTitle.propTypes = {
 export const ConfirmationAlert = ({ alertTitle, children }) => {
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo('topScrollElement');
-        // delay focus for Safari
-        waitForRenderThenFocus('va-alert h2', alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo('topScrollElement');
+      // delay focus for Safari
+      waitForRenderThenFocus('va-alert h2', alertRef.current);
+    }
+  }, [alertRef]);
 
   return (
     <div>

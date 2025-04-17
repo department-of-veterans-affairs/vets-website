@@ -66,9 +66,7 @@ describe('Burial Widget <App>', () => {
     wrapper.find('va-button').simulate('click');
 
     expect(sessionStorage.getItem('authReturnUrl')).to.equal(
-      `${
-        window.location.origin
-      }/burials-and-memorials/application/530/introduction/`,
+      `${window.location.origin}/burials-and-memorials/application/530/introduction/`,
     );
 
     wrapper.unmount();

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../components/ConfirmationPageView';
+import { getFormContent } from '../helpers';
 
 const content = {
   headlineText: 'You’ve submitted your form',
@@ -14,17 +15,18 @@ const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
-  const submitterFullName = form.data?.fullName;
+  const confirmationNumber = submission.response?.confirmation_number;
+
+  const { formNumber } = getFormContent();
 
   return (
     <ConfirmationPageView
       formType="submission"
       submitterHeader="Who submitted this form"
-      submitterName={submitterFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}
+      formNumber={formNumber}
       childContent={<></>}
     />
   );

@@ -217,18 +217,18 @@ export default class AutosuggestField extends React.Component {
     const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
       if (value.length > 2) {
-        return query
-          .split(caseInsensitiveMatch)
-          .map(
-            str =>
-              str.toLowerCase() === value ? (
-                <span className="vads-u-background-color--gold autosuggest-highlight">
-                  {str}
-                </span>
-              ) : (
-                str
-              ),
-          );
+        return query.split(caseInsensitiveMatch).map((str, idx) =>
+          str.toLowerCase() === value ? (
+            <span
+              key={`${str}-${idx}`}
+              className="vads-u-background-color--gold autosuggest-highlight"
+            >
+              {str}
+            </span>
+          ) : (
+            str
+          ),
+        );
       }
       return query;
     };

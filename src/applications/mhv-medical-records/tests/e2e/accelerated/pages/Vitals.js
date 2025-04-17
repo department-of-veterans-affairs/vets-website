@@ -21,25 +21,6 @@ class Vitals {
     }).as('vitals-list');
   };
 
-  checkLandingPageLinks = () => {
-    cy.get('[data-testid="labs-and-tests-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="summary-and-notes-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vaccines-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="health-conditions-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-
-    cy.get('[data-testid="allergies-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-  };
-
   goToVitalPage = () => {
     cy.get('[data-testid="vitals-landing-page-link"]')
       .should('be.visible')

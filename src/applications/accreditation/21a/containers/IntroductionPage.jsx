@@ -20,7 +20,7 @@ function StartLink({ children, ...props }) {
     <a
       className="usa-button usa-button-primary"
       {...props}
-      {...isLoggedIn || SIGN_IN_LINK_PROPS}
+      {...(isLoggedIn || SIGN_IN_LINK_PROPS)}
     >
       {children}
     </a>
