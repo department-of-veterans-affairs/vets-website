@@ -60,6 +60,11 @@ const CombinedStatements = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
 
+  // Check if data is still loading
+  const billsLoading = mcp.loading;
+  const debtsLoading = debtLetters.loading;
+  const dataLoading = billsLoading || debtsLoading;
+
   const debts = debtLetters.debts || [];
   const bills = mcp.statements;
 
@@ -131,8 +136,13 @@ const CombinedStatements = () => {
     [billError, debtError, showOneVADebtLetterDownload],
   );
 
-  // If the feature flag is not enabled, redirect to the summary page
-  if (!showOneVADebtLetterDownload) {
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading || dataLoading) {
+    return <VaLoadingIndicator message="Loading features and data..." />;
+  }
+
+  // If the feature flag is not enabled or there are errors, redirect to the summary page
+  if (!showOneVADebtLetterDownload || debtError || billError) {
     window.location.replace('/manage-va-debt/summary');
     return (
       <div className="vads-u-margin--5">
@@ -142,11 +152,6 @@ const CombinedStatements = () => {
         />
       </div>
     );
-  }
-
-  // give features a chance to fully load before we conditionally render
-  if (togglesLoading) {
-    return <VaLoadingIndicator message="Loading features..." />;
   }
 
   const getMostRecentPaymentDate = () => {
