@@ -4,14 +4,17 @@ import {
   mockFeatureToggles,
   mockVamcEhrApi,
   mockReferralsGetApi,
+  mockReferralDetailGetApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import MockUser from '../../fixtures/MockUser';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
+import MockReferralDetailResponse from '../../fixtures/MockReferralDetailResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
+import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -23,7 +26,7 @@ describe('VAOS Referral Appointments', () => {
       vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
     });
 
-    // Mock the appointments API
+    // Mock the appointments API to at least have one appointment
     const response = new MockAppointmentResponse({
       cancellable: false,
       localStartTime: Date(),
@@ -65,17 +68,29 @@ describe('VAOS Referral Appointments', () => {
     });
   });
 
-  describe('Viewing the Referrals and Requests page with referrals', () => {
+  describe('Creating an appointment from a referral', () => {
     const numberOfReferrals = 2;
+
     beforeEach(() => {
-      // Mock empty referrals response
+      // Mock referrals list response
       const referralsResponse = new MockReferralListResponse({
         numberOfReferrals,
       }).toJSON();
       mockReferralsGetApi({ response: referralsResponse });
+      const referralId = referralsResponse.data[0].id;
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
     });
 
-    it('should show a list of referrals', () => {
+    it('should navigate through the referral scheduling flow', () => {
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
 
@@ -89,10 +104,20 @@ describe('VAOS Referral Appointments', () => {
       // Verify that referrals are displayed
       referralsAndRequests.assertPendingReferrals({ count: numberOfReferrals });
 
-      // Select the first referral
+      // Select the referral
       referralsAndRequests.selectReferral(0);
 
-      // Verify that the referral details are displayed
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+      cy.injectAxeThenAxeCheck();
+
+      // Validate we've reached the Schedule Referral page
+      scheduleReferral.validate();
+      scheduleReferral.assertReferralDetails();
+      scheduleReferral.assertReferringFacilityInfo();
+
+      // Click the schedule appointment button
+      scheduleReferral.clickScheduleAppointment();
     });
   });
 });

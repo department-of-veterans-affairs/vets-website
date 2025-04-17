@@ -733,3 +733,51 @@ export function mockReferralsGetApi({
     },
   ).as('v2:get:referrals');
 }
+
+/**
+ * Function to mock the 'GET' referral detail endpoint.
+ *
+ * @example GET '/vaos/v2/referrals/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {string} [arguments.id] - The id of the referral to mock.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockReferralDetailGetApi({
+  id = '*',
+  response: data,
+  responseCode = 200,
+} = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/referrals/${id}`,
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          statusCode: responseCode,
+          body:
+            responseCode === 404
+              ? { errors: [{ title: 'Referral not found', status: '404' }] }
+              : {
+                  errors: [
+                    {
+                      title: 'Error retrieving referral',
+                      status: responseCode.toString(),
+                    },
+                  ],
+                },
+        });
+        return;
+      }
+
+      req.reply({
+        statusCode: 200,
+        body: data,
+      });
+    },
+  ).as('v2:get:referral:detail');
+}
