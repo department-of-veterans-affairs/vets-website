@@ -262,6 +262,11 @@ describe('CG <FacilitySearch>', () => {
         facilitiesStub.resolves(
           mockFetchFacilitiesResponseWithoutCaregiverSupport,
         );
+        const mockLogger = { warn: sinon.spy() };
+        Object.defineProperty(window, 'DD_LOGS', {
+          value: { logger: mockLogger },
+          configurable: true,
+        });
 
         await waitFor(() => {
           inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -296,6 +301,7 @@ describe('CG <FacilitySearch>', () => {
             'error',
             content['error--facilities-parent-facility'],
           );
+          expect(mockLogger.warn.calledOnce).to.be.true;
         });
       });
 
@@ -340,6 +346,11 @@ describe('CG <FacilitySearch>', () => {
       it('calls dispatch callback with facility object whose parent is not loaded and does not offer CaregiverSupport', async () => {
         const { props, mockStore } = getData({});
         const { container, selectors } = subject({ props, mockStore });
+        const mockLogger = { warn: sinon.spy() };
+        Object.defineProperty(window, 'DD_LOGS', {
+          value: { logger: mockLogger },
+          configurable: true,
+        });
         mapboxStub.resolves(mapBoxSuccessResponse);
         facilitiesStub.onFirstCall().resolves(mockFetchChildFacilityResponse);
 
@@ -379,6 +390,7 @@ describe('CG <FacilitySearch>', () => {
             'error',
             content['error--facilities-parent-facility'],
           );
+          expect(mockLogger.warn.calledOnce).to.be.true;
         });
       });
 

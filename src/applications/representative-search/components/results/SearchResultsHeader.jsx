@@ -165,7 +165,9 @@ export const SearchResultsHeader = props => {
                   name="sort"
                   value={selectedSortType}
                   label="Sort by"
-                  onVaSelect={e => setSelectedSortType(e.target.value)}
+                  onVaSelect={e => {
+                    setSelectedSortType(e.target.value || options[0].key);
+                  }}
                   uswds
                 >
                   {options}
