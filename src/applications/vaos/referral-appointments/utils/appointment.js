@@ -5,11 +5,7 @@ const appointmentData = {
     id: 'qdm61cJ5',
     status: 'not-booked',
     start: '2024-11-21T18:00:00Z',
-    end: '2024-11-21T19:00:00Z',
-    isLatest: true,
-    lastRetrieved: '2024-11-21T18:00:00Z',
     typeOfCare: 'Physical Therapy',
-    modality: 'In Person',
   },
   provider: {
     id: 'test-provider-id',
