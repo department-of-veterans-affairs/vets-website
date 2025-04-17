@@ -18,6 +18,7 @@ import appointmentList from '../../page-objects/AppointmentList/AppointmentListP
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
+import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -145,7 +146,26 @@ describe('VAOS Referral Appointments', () => {
 
       // Select the first appointment slot
       chooseDateAndTime.selectAppointmentSlot(0);
+      cy.findAllByRole('radio')
+        .eq(0)
+        .click();
+
+      // Click continue to proceed with scheduling
       chooseDateAndTime.clickContinue();
+      cy.injectAxeThenAxeCheck();
+
+      // Validate we've reached the review and confirm page
+      reviewAndConfirm.validate();
+
+      // Verify provider and appointment information
+      reviewAndConfirm.assertProviderInfo();
+      reviewAndConfirm.assertDateTimeInfo();
+
+      // Verify the edit link is available
+      reviewAndConfirm.assertEditDateTimeLink();
+
+      // Click the continue button to finalize the appointment
+      reviewAndConfirm.clickContinue();
     });
   });
 });
