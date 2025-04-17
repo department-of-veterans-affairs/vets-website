@@ -357,12 +357,7 @@ describe('686 current marriage information: Former spouse name ', () => {
 
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(4);
-
-    const textInput = container.querySelector(
-      'input[name="root_reasonMarriageEndedOther"]',
-    );
-
-    expect(textInput).to.not.be.null;
+    expect($$('va-text-input', container).length).to.equal(1);
   });
 });
 
