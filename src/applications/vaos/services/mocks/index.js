@@ -406,7 +406,7 @@ const responses = {
       data: referral,
     });
   },
-  'POST /vaos/v2/appointments/create_draft': (req, res) => {
+  'POST /vaos/v2/appointments/draft': (req, res) => {
     // referralId is the referralNumber of the referral
     const { referralId } = req.body;
     // Provider 3 throws error
@@ -464,7 +464,7 @@ const responses = {
       data: mockAppointment,
     });
   },
-  'POST /vaos/v2/appointments/submit_referral_appointment': (req, res) => {
+  'POST /vaos/v2/appointments/submit': (req, res) => {
     const { slotId, draftApppointmentId, referralNumber } = req.body;
 
     if (!referralNumber || !slotId || !draftApppointmentId) {
