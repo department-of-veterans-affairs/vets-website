@@ -22,7 +22,8 @@ extract_deps_from_file() {
     local deps=""
     
     # Find webpack require.e patterns: __webpack_require__.e("chunk-name")
-    local webpackRequireChunks=$(grep -o '__webpack_require__\.e([^)]*' "$file" 2>/dev/null | grep -o '"[^"]*"' | tr -d '"' || echo "")
+    # Also finds minified patterns: n.e("chunk-name")
+    local webpackRequireChunks=$(grep -o "[a-zA-Z0-9_]*\.[a-z]([\"']\{1\}[^\" ]*[\"']\{1\})" "$file" 2>/dev/null | grep -o '"[^"]*"' | tr -d '"' || echo "")
     
     # Find webpack comment patterns: /*! import() | chunk-name */
     local webpackCommentChunks=$(grep -o '/\*!.*import().*|.*\*/' "$file" 2>/dev/null | grep -o '|[^*]*\*/' | sed 's/|//g' | sed 's/\*\///g' | tr -d ' ' || echo "")
