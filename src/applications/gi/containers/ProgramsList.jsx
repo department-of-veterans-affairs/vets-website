@@ -51,6 +51,12 @@ const ProgramsList = ({ match }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (formattedProgramType) {
+      document.title = `${formattedProgramType}: GI Bill® Comparison Tool | Veterans Affairs`;
+    }
+  }, [formattedProgramType]);
+
+  useEffect(() => {
     if (submittedQuery && !filteredPrograms.length) {
       setTimeout(() => {
         noResultsMessageRef.current?.focus();

@@ -15,7 +15,6 @@ import {
   createCheckboxes,
   updateStateDropdown,
   handleZoom,
-  focusElement,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
 
@@ -74,6 +73,10 @@ export default function LicenseCertificationSearchResults() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  useEffect(() => {
+    document.title = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
 
   useEffect(() => {
     if (!hasFetchedOnce) {
@@ -161,7 +164,6 @@ export default function LicenseCertificationSearchResults() {
       state,
       initialCategoryParam,
     );
-    focusElement(searchInfoWrapperRef.current, 0);
   };
 
   const updateResults = () => {
@@ -194,7 +196,6 @@ export default function LicenseCertificationSearchResults() {
       page,
     );
     setCurrentPage(page);
-    focusElement(searchInfoWrapperRef.current, 500);
   };
 
   const handleGoToDetails = (e, id, name) => {
@@ -269,7 +270,6 @@ export default function LicenseCertificationSearchResults() {
       'all',
       initialCategoryParam,
     );
-    focusElement(searchInfoWrapperRef.current, 0);
   };
 
   if (fetchingLc) {
@@ -342,6 +342,9 @@ export default function LicenseCertificationSearchResults() {
 
             <div className="lc-result-info-wrapper row">
               <LicenseCertificationSearchInfo
+                key={`${activeCategories.join(
+                  '-',
+                )}-${nameParam}-${stateParam}-${currentPage}`}
                 filteredResults={filteredResults}
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}
