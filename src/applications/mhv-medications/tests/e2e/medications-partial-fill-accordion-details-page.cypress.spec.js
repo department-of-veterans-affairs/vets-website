@@ -6,21 +6,24 @@ import partialRxDetails from './fixtures/partial-prescription-details.json';
 import { Data } from './utils/constants';
 
 describe('Medications Partial Fill on Details Page', () => {
-  it('visits prescription partial fill refill accordion details page', () => {
-    const site = new MedicationsSite();
-    const listPage = new MedicationsListPage();
-    const detailsPage = new MedicationsDetailsPage();
-    const cardNumber = 2;
+  const site = new MedicationsSite();
+  const listPage = new MedicationsListPage();
+  const detailsPage = new MedicationsDetailsPage();
+  const cardNumber = 2;
+
+  beforeEach(() => {
     site.login();
     listPage.visitMedicationsListPageURL(partialRxList);
-    cy.injectAxe();
-    cy.axeCheck('main');
     detailsPage.clickMedicationDetailsLink(partialRxDetails, cardNumber);
     detailsPage.clickRefillHistoryAccordionOnDetailsPage();
+  });
+  it('visits prescription partial fill refill accordion details page', () => {
     detailsPage.verifyRefillAccordionHeaderForPartialFillOnDetailsPage(
       'Partial fill',
       Data.DATE_EMPTY,
     );
+    cy.injectAxe();
+    cy.axeCheck('main');
     detailsPage.verifyPartialFillTextInRefillAccordionOnDetailsPage(
       Data.PARTIAL_FILL_TEXT,
     );
@@ -32,5 +35,14 @@ describe('Medications Partial Fill on Details Page', () => {
       Data.MED_DESCRIPTION,
     );
     detailsPage.verifyNoImageFieldMessageOnDetailsPage(Data.IMAGE_EMPTY);
+  });
+
+  it('visits last filled refill accordion details page', () => {
+    detailsPage.verifyLastFilledDateInAccordionOnDetailsPage(
+      Data.FILLED_ON_DATE,
+    );
+    detailsPage.verifyLastFilledDateOnDetailsPage(Data.FILLED_ON_DATE);
+    cy.injectAxe();
+    cy.axeCheck('main');
   });
 });

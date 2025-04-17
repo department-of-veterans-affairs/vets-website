@@ -725,6 +725,7 @@ const VaPrescription = prescription => {
                             );
                             return (
                               <va-accordion-item
+                                data-testid="accordion-fill-date-info"
                                 bordered="true"
                                 key={i}
                                 subHeader={dateFormat(

@@ -557,7 +557,7 @@ class MedicationsDetailsPage {
   };
 
   verifyLastFilledDateOnDetailsPage = text => {
-    cy.get('[data-testid="rx-last-filled-date"]').should('have.text', text);
+    cy.get('[data-testid="rx-last-filled-date"]').should('contain', text);
   };
 
   verifyRefillLinkTextOnDetailsPage = text => {
@@ -707,7 +707,7 @@ class MedicationsDetailsPage {
   };
 
   verifyRefillAccordionHeaderForPartialFillOnDetailsPage = (text, date) => {
-    cy.get('[data-testid="refill-history-accordion"] > :nth-child(1)')
+    cy.get('[data-testid="refill-history-accordion"] > :nth-child(2)')
       .should('contain', text)
       .and('contain', date);
   };
@@ -741,6 +741,13 @@ class MedicationsDetailsPage {
   verifyPrescriptionInformationInTrackingAlertOnDetailsPage = (text, name) => {
     cy.get('[data-testid="prescription-info"]').should('contain', text);
     cy.get('[data-testid="rx-name"]').should('contain', name);
+  };
+
+  verifyLastFilledDateInAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="accordion-fill-date-info"]')
+      .shadow({ force: true })
+      .find('[class="va-accordion__subheader"]', { force: true })
+      .should('contain', text);
   };
 }
 

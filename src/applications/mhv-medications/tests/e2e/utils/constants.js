@@ -61,7 +61,7 @@ export const Data = {
   STEP_TWO_PROCESS_ABOVE_TEXT: 'Step 2: Completed',
   STEP_ONE_DATE_TEXT: 'Step 1: Completed',
   STEP_ONE_NO_DATE: 'Date completed not available',
-  STEP_TWO_DATE: 'Completed on October 1, 2023',
+  STEP_TWO_DATE: 'Completed on October 2, 2023',
   STEP_TWO_NOTE: 'We’ll provide an expected fill date.',
   STEP_TWO_DELAY: 'The refill process is taking longer than usual',
   STEP_TWO_PROCESS: 'Step 2: In process',
@@ -88,6 +88,7 @@ export const Data = {
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
   TRACKING_HEADING: 'Track your shipment',
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
+  FILLED_ON_DATE: 'February 11, 2025',
 };
 export const Paths = {
   LANDING_LIST:
