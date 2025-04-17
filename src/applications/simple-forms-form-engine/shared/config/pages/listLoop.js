@@ -1,18 +1,38 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
+import { camelCase, kebabCase } from 'lodash';
 import { employmentHistory } from '.';
 
-/** @returns {FormConfigPages} */
-export const listLoopPages = (
-  { optional },
-  arrayBuilder = arrayBuilderPages,
-) => {
+/** @type {Record<string, ArrayBuilderOptions>} */
+const variations = {
+  listLoopEmploymentHistory: {
+    nounPlural: 'employers',
+  },
+};
+
+const setVars = chapter => {
+  const variation = variations[camelCase(chapter.type)];
+
+  return {
+    nounPlural: chapter.nounPlural || variation?.nounPlural,
+    optional: chapter.optional,
+  };
+};
+
+/**
+ * @param {NormalizedChapter} chapter
+ * @param {Function} arrayBuilder
+ * @returns {FormConfigPages}
+ */
+export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
+  const { nounPlural, optional } = setVars(chapter);
+
   /** @type {Array<string>} */
   const requiredProps = ['name', 'address', 'dateRange'];
 
   /** @type {ArrayBuilderOptions} */
   const options = {
-    arrayPath: 'employers',
+    arrayPath: kebabCase(nounPlural),
     nounSingular: 'employer',
     nounPlural: 'employers',
     required: !optional,

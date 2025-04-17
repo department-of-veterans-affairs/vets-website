@@ -93,8 +93,8 @@ export const normalizedForm = {
       chapterTitle: 'Film History',
       itemNameLabel: 'Name of film',
       maxItems: 9,
-      nounPlural: 'Films',
-      nounSingular: 'Film',
+      nounPlural: 'films',
+      nounSingular: 'film',
       optional: false,
       pages: [
         {

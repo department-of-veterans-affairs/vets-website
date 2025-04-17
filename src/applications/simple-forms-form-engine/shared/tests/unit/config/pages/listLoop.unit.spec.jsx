@@ -3,6 +3,9 @@ import sinon from 'sinon';
 import { normalizedForm } from 'applications/simple-forms-form-engine/shared/config/formConfig';
 import { listLoopPages } from 'applications/simple-forms-form-engine/shared/config/pages/listLoop';
 
+const findChapterByType = type =>
+  normalizedForm.chapters.find(chapter => chapter.type === type);
+
 describe('listLoopPages', () => {
   const optional = {
     id: 162032,
@@ -16,9 +19,7 @@ describe('listLoopPages', () => {
     itemPage: pageConfig => pageConfig,
     summaryPage: pageConfig => pageConfig,
   };
-  const required = normalizedForm.chapters.find(
-    chapter => chapter.type === 'digital_form_list_loop',
-  );
+  const required = findChapterByType('digital_form_list_loop');
 
   let arrayBuilderStub;
 
@@ -31,11 +32,11 @@ describe('listLoopPages', () => {
   });
 
   it('includes the right options', () => {
-    listLoopPages(optional, arrayBuilderStub);
+    listLoopPages(required, arrayBuilderStub);
 
     const options = arrayBuilderStub.getCall(0).args[0];
 
-    expect(options.arrayPath).to.eq('employers');
+    expect(options.arrayPath).to.eq(required.nounPlural);
     expect(options.nounSingular).to.eq('employer');
     expect(options.nounPlural).to.eq('employers');
     expect(options.maxItems).to.eq(4);
@@ -48,23 +49,41 @@ describe('listLoopPages', () => {
   });
 
   context('when the variation is employment history', () => {
-    const {
-      employerDatePage,
-      employerDetailPage,
-      employerNamePage,
-    } = listLoopPages(optional, arrayBuilderStub);
+    const employmentHistory = findChapterByType('list_loop_employment_history');
+
+    it('includes the correct option values', () => {
+      listLoopPages(employmentHistory, arrayBuilderStub);
+      const options = arrayBuilderStub.getCall(0).args[0];
+
+      expect(options.arrayPath).to.eq('employers');
+    });
 
     it('includes a name page', () => {
+      const { employerNamePage } = listLoopPages(
+        employmentHistory,
+        arrayBuilderStub,
+      );
+
       expect(employerNamePage.title).to.eq(
         'Name and address of employer or unit',
       );
     });
 
     it('includes a date page', () => {
+      const { employerDatePage } = listLoopPages(
+        employmentHistory,
+        arrayBuilderStub,
+      );
+
       expect(employerDatePage.title).to.eq('Dates you were employed');
     });
 
     it('includes a details page', () => {
+      const { employerDetailPage } = listLoopPages(
+        employmentHistory,
+        arrayBuilderStub,
+      );
+
       expect(employerDetailPage.title).to.eq('Employment detail for employer');
     });
   });

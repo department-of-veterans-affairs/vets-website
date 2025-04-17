@@ -18,8 +18,23 @@
  */
 
 /**
+ * @typedef {Object} NormalizedChapter
+ * @property {number} id
+ * @property {string} type
+ * @property {string} chapterTitle
+ * @property {Object} [additionalFields]
+ * @property {string} [pageTitle]
+ * @property {Array<Object>} [pages]
+ * @property {string} [itemNameLabel]
+ * @property {number} [maxItems]
+ * @property {boolean} [optional]
+ * @property {string} [nounSingular]
+ * @property {string} [nounPlural]
+ */
+
+/**
  * @typedef {Object} NormalizedForm
- * @property {Object} chapters
+ * @property {Array<NormalizedChapter>} chapters
  * @property {number} cmsId
  * @property {string} formId
  * @property {string} introParagraph
