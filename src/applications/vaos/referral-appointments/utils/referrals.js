@@ -140,6 +140,7 @@ const filterReferrals = referrals => {
   if (!referrals?.length) {
     return [];
   }
+
   return referrals.filter(
     referral => referral.attributes.categoryOfCare === 'Physical Therapy',
   );

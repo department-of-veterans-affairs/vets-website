@@ -19,6 +19,7 @@ import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionError
 import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
+import { stripTZOffset } from '../util/dates';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -68,12 +69,21 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
+    const apptData = {
+      appointmentDateTime: stripTZOffset(appointmentData.localStartTime),
+      facilityStationNumber: appointmentData.location.id,
+      appointmentType: appointmentData.isCompAndPen
+        ? 'CompensationAndPensionExamination'
+        : 'Other',
+      isComplete: false,
+    };
+
     recordEvent({
       event: 'smoc-questions',
       'smoc-page': 'review',
       'smoc-action': 'file-claim',
     });
-    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
+    dispatch(submitMileageOnlyClaim(apptData));
     setPageIndex(pageIndex + 1);
   };
 
