@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import React from 'react';
 
@@ -17,6 +18,8 @@ import {
   emailUI,
   emailSchema,
   radioSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -27,10 +30,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../../shared/components/InternationalPhone';
 import PaymentSelectionUI, {
   PaymentReviewScreen,
 } from '../components/PaymentSelection';
@@ -159,9 +158,11 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your claim to this address.",
-            veteranAddress: addressUI({
-              required: {
-                state: () => true,
+            veteranAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
+                },
               },
             }),
           },
@@ -207,13 +208,13 @@ const formConfig = {
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
-            physicalAddress: {
-              ...addressUI({
-                required: {
-                  state: () => true,
+            physicalAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
                 },
-              }),
-            },
+              },
+            }),
           },
           schema: {
             type: 'object',
@@ -239,7 +240,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Include a country code for foreign phone numbers',
-            veteranPhoneNumber: internationalPhoneUI(),
+            veteranPhoneNumber: phoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -247,7 +248,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },
@@ -300,10 +301,7 @@ const formConfig = {
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Veteran',
           uiSchema: {
-            ...titleUI({
-              title: 'Upload billing statements and supporting documents',
-              headerLevel: 2,
-            }),
+            ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsVeteran,
             },
@@ -341,10 +339,7 @@ const formConfig = {
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Provider',
           uiSchema: {
-            ...titleUI({
-              title: 'Upload billing statements and supporting documents',
-              headerLevel: 2,
-            }),
+            ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsProvider,
             },
