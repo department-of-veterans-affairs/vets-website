@@ -566,10 +566,12 @@ const WorkflowChoicePage = props => {
       >
         {alertContent}
         <p>
-          <va-link
-            text="Continue with your claim"
-            onClick={handlers.onSubmit}
-          />
+          {!onReviewPage ? (
+            <va-link
+              text="Continue with your claim"
+              onClick={handlers.onSubmit}
+            />
+          ) : null}
         </p>
       </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
@@ -632,8 +634,12 @@ const WorkflowChoicePage = props => {
               />
             </VaRadio>
           </div>
-          {traumaticEventsExamples}
-          {mstAlert()}
+          {!onReviewPage ? (
+            <>
+              {traumaticEventsExamples}
+              {mstAlert()}
+            </>
+          ) : null}
         </div>
         <VaModal
           clickToClose
