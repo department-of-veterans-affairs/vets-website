@@ -6,6 +6,8 @@ import {
   mockReferralsGetApi,
   mockReferralDetailGetApi,
   mockDraftReferralAppointmentApi,
+  mockCreateAppointmentApi,
+  mockAppointmentDetailsApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import MockUser from '../../fixtures/MockUser';
@@ -13,12 +15,15 @@ import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
 import MockReferralDetailResponse from '../../fixtures/MockReferralDetailResponse';
 import MockDraftReferralAppointmentResponse from '../../fixtures/MockDraftReferralAppointmentResponse';
+import MockCreateAppointmentResponse from '../../fixtures/MockCreateAppointmentResponse';
+import MockAppointmentDetailsResponse from '../../fixtures/MockAppointmentDetailsResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
+import completeReferral from '../../referrals/page-objects/CompleteReferral';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -74,6 +79,7 @@ describe('VAOS Referral Appointments', () => {
 
   describe('Creating an appointment from a referral', () => {
     const numberOfReferrals = 2;
+    const appointmentId = 'EEKoGzEf';
 
     beforeEach(() => {
       // Mock referrals list response
@@ -103,6 +109,29 @@ describe('VAOS Referral Appointments', () => {
       );
       mockDraftReferralAppointmentApi({
         response: draftReferralAppointment,
+      });
+
+      // Mock appointment creation response
+      const createAppointmentResponse = new MockCreateAppointmentResponse({
+        appointmentId,
+        success: true,
+      }).toJSON();
+      mockCreateAppointmentApi({
+        response: createAppointmentResponse,
+      });
+
+      // Mock appointment details response
+      const appointmentDetailsResponse = new MockAppointmentDetailsResponse({
+        appointmentId,
+        referralId,
+        typeOfCare: 'Physical Therapy',
+        providerName: 'Dr. Bones',
+        organizationName: 'Meridian Health',
+        success: true,
+      }).toJSON();
+      mockAppointmentDetailsApi({
+        id: appointmentId,
+        response: appointmentDetailsResponse,
       });
     });
 
@@ -156,16 +185,27 @@ describe('VAOS Referral Appointments', () => {
 
       // Validate we've reached the review and confirm page
       reviewAndConfirm.validate();
-
-      // Verify provider and appointment information
       reviewAndConfirm.assertProviderInfo();
       reviewAndConfirm.assertDateTimeInfo();
 
-      // Verify the edit link is available
-      reviewAndConfirm.assertEditDateTimeLink();
-
       // Click the continue button to finalize the appointment
       reviewAndConfirm.clickContinue();
+
+      // Wait for appointment creation response
+      cy.wait('@v2:post:createAppointment');
+
+      // Wait for appointment details to load
+      cy.wait('@v2:get:appointmentDetails');
+      cy.injectAxeThenAxeCheck();
+
+      // Verify we're redirected to the confirmation page
+      completeReferral.validate();
+      completeReferral.assertAppointmentDetails();
+      completeReferral.assertProviderInfo();
+      completeReferral.assertReferralsLink();
+
+      // Click the details link
+      completeReferral.clickDetailsLink();
     });
   });
 });
