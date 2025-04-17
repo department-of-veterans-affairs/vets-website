@@ -20,6 +20,7 @@ const [
   address,
   phoneAndEmail,
   listLoop,
+  employmentHistory,
   customStep,
 ] = normalizedForm.chapters;
 
@@ -133,6 +134,10 @@ describe('createFormConfig', () => {
 describe('formatPages', () => {
   let spy;
 
+  afterEach(() => {
+    spy.restore();
+  });
+
   context('when digital_form_address', () => {
     beforeEach(() => {
       spy = sinon.spy(digitalFormPatterns, 'addressPages');
@@ -178,6 +183,18 @@ describe('formatPages', () => {
       formatPages(listLoop);
 
       expect(spy.calledWith(listLoop)).to.eq(true);
+    });
+  });
+
+  context('when list_loop_employment_history', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+    });
+
+    it('calls listLoopPages', () => {
+      formatPages(employmentHistory);
+
+      expect(spy.calledWith(employmentHistory)).to.eq(true);
     });
   });
 

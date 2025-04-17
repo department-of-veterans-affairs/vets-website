@@ -249,6 +249,37 @@ describe('listLoopPages', () => {
       });
     });
   });
+
+  describe('isItemIncomplete', () => {
+    context('when a required attribute is missing', () => {
+      const item = {
+        name: 'Test name',
+        address: '1234 Main St',
+      };
+
+      it('returns true', () => {
+        listLoopPages(optional, arrayBuilderStub);
+        const options = arrayBuilderStub.getCall(0).args[0];
+
+        expect(options.isItemIncomplete(item)).to.eq(true);
+      });
+    });
+
+    context('when all required items are present', () => {
+      const item = {
+        name: 'Test name',
+        address: '1234 Main St',
+        dateRange: '2020-01-02 to 2024-03-04',
+      };
+
+      it('returns false', () => {
+        listLoopPages(optional, arrayBuilderStub);
+        const options = arrayBuilderStub.getCall(0).args[0];
+
+        expect(options.isItemIncomplete(item)).to.eq(false);
+      });
+    });
+  });
 });
 
 describe('personalInfoPages', () => {

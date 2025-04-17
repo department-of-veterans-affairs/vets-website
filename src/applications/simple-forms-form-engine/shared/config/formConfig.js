@@ -97,6 +97,13 @@ export const normalizedForm = {
       pageTitle: 'List & Loop',
     },
     {
+      id: 176029,
+      type: 'list_loop_employment_history',
+      additionalFields: {},
+      chapterTitle: "Veteran's employment history",
+      pageTitle: 'List & Loop: Employment History',
+    },
+    {
       id: 172736,
       type: 'digital_form_custom_step',
       chapterTitle: 'My custom step',

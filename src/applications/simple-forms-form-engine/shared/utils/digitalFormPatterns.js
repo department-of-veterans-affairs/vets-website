@@ -87,13 +87,16 @@ export const listLoopPages = (
   { additionalFields: { optional } },
   arrayBuilder = arrayBuilderPages,
 ) => {
+  /** @type {Array<string>} */
+  const requiredProps = ['name', 'address', 'dateRange'];
+
   /** @type {ArrayBuilderOptions} */
   const options = {
     arrayPath: 'employers',
     nounSingular: 'employer',
     nounPlural: 'employers',
     required: !optional,
-    isItemIncomplete: item => !item?.name || !item.address || !item.dateRange,
+    isItemIncomplete: item => requiredProps.some(prop => !item[prop]),
     maxItems: 4,
     text: {
       getItemName: item => item.name,
