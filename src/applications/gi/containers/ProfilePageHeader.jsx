@@ -59,7 +59,7 @@ const ProfilePageHeader = ({
 
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
-    capitalizeFirstLetter(physicalCity),
+    physicalCity,
     physicalState,
     physicalCountry,
   );
