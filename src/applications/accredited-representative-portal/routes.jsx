@@ -9,6 +9,9 @@ import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
+import LoginContainer from './containers/LoginContainer';
+import AuthCallbackHandler from './containers/AuthCallbackHandler';
+
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
@@ -29,7 +32,6 @@ const addSignInRedirection = route => {
         return await loader({ params, request });
       } catch (e) {
         // Only rethrow non-401 errors
-        // this can most likely be removed considering we added it to the api client
         if (!(e instanceof Response) || e.status !== 401) {
           throw e;
         }
@@ -61,6 +63,22 @@ const routes = [
         element: (
           <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
         ),
+      },
+      {
+        path: 'sign-in',
+        element: <LoginContainer />,
+        loader: async () => {
+          // If authenticated, redirect to POA requests
+          if (await userPromise) {
+            throw redirect('/poa-requests');
+          }
+          return null;
+        },
+      },
+      {
+        path: 'auth/login/callback',
+        element: <AuthCallbackHandler />,
+        loader: AuthCallbackHandler.loader,
       },
       forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
