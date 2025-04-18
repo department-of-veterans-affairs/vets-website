@@ -1,7 +1,5 @@
 import { capitalize } from 'lodash';
 import {
-  textUI,
-  textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -121,30 +119,28 @@ export const vetFormerMarriageEndReasonPage = {
     reasonMarriageEnded: {
       ...radioUI({
         title: 'How did your marriage end?',
-        required: () => true,
         labels: veteranFormerMarriageLabels,
       }),
     },
-    reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how your marriage ended'),
-      'ui:required': (formData, index) => {
-        const isEditMode = formData?.reasonMarriageEnded === 'Other';
-        const isAddMode =
-          formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
-          'Other';
-
-        return isEditMode || isAddMode;
-      },
+    otherReasonMarriageEnded: {
+      'ui:title': 'Briefly describe how your marriage ended',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        expandedContentFocus: true,
         preserveHiddenData: true,
-        hideIf: (formData, index) =>
-          !(
-            formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
-              'Other' || formData?.reasonMarriageEnded === 'Other'
-          ),
-        keepInPageOnReview: true,
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonMarriageEnded'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
+        };
       },
     },
   },
@@ -152,8 +148,11 @@ export const vetFormerMarriageEndReasonPage = {
     type: 'object',
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: textSchema,
+      otherReasonMarriageEnded: {
+        type: 'string',
+      },
     },
+    required: ['reasonMarriageEnded'],
   },
 };
 

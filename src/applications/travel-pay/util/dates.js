@@ -24,6 +24,13 @@ export function formatDateTime(datetimeString, stripUTCIndicator = false) {
   return [formattedDate, formattedTime];
 }
 
+export function stripTZOffset(datetimeString) {
+  // We need the local time with no TZ indicators for the external API
+  // There are 19 characters in the string required by the external API
+  // i.e. 2024-06-25T08:00:00
+  return datetimeString.slice(0, 19);
+}
+
 /**
  * Returns an array of the following date range filters:
  *  - The past 3 months from today's date
