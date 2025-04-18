@@ -92,9 +92,11 @@ const responses = {
     let reasonForAppointment;
     let patientComments;
     let type;
+    let modality;
     if (req.body.kind === 'cc') {
       patientComments = req.body.reasonCode?.text;
       type = pending ? 'COMMUNITY_CARE_REQUEST' : 'COMMUNITY_CARE_APPOINTMENT';
+      modality = 'communityCare';
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
@@ -106,6 +108,7 @@ const responses = {
         }
       }
       type = pending ? 'REQUEST' : 'VA';
+      modality = 'vaInPerson';
     }
 
     const submittedAppt = {
@@ -115,6 +118,7 @@ const responses = {
         created: new Date().toISOString(),
         kind,
         type,
+        modality,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {

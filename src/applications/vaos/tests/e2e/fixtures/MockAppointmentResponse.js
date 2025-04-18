@@ -42,6 +42,7 @@ export default class MockAppointmentResponse {
     cancellable = true,
     kind = TYPE_OF_VISIT_ID.clinic,
     type = 'VA',
+    modality = 'vaInPerson',
     patientHasMobileGfe = false,
     serviceType = 'primaryCare',
     status = 'booked',
@@ -77,6 +78,7 @@ export default class MockAppointmentResponse {
       },
       kind,
       type,
+      modality,
       localStartTime: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
       preferredDates: [
         moment()
@@ -138,6 +140,7 @@ export default class MockAppointmentResponse {
             id: index,
             kind: 'cc',
             type: 'COMMUNITY_CARE_APPOINTMENT',
+            modality: 'communityCare',
             localStartTime,
             future,
           }),
@@ -157,6 +160,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'inPerson',
             localStartTime,
             vvsKind: VIDEO_TYPES.clinic,
             future,
@@ -251,6 +256,7 @@ export default class MockAppointmentResponse {
   static createCCResponse({ serviceType }) {
     return new MockAppointmentResponse({
       kind: 'cc',
+      modality: 'communityCare',
       status: APPOINTMENT_STATUS.proposed,
       serviceType,
     });

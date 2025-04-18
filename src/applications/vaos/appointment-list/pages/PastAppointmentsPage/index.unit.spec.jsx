@@ -444,7 +444,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      kind: 'clinic',
       type: 'VA',
+      modality: 'vaInPerson',
       minutesDuration: 30,
       status: 'booked',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
@@ -500,7 +502,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      kind: 'clinic',
       type: 'VA',
+      modality: 'vaInPerson',
       minutesDuration: 30,
       status: 'cancelled',
       localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
