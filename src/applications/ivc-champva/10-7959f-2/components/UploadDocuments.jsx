@@ -16,7 +16,7 @@ export const supportingDocsInfo = (
       <li>COVID-19 vaccines</li>
     </ul>
     <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w">
-      Find out which documents you need
+      Find out which supporting documents you need (opens in a new tab)
     </a>
     <div className="vads-u-margin-top--2">
       {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
