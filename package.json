@@ -372,7 +372,7 @@
     "**/ua-parser-js": "^0.7.24",
     "**/underscore": "^1.12.1",
     "**/url-parse": "^1.5.0",
-    "tar-fs/tar-stream/bl": "^4.0.3",
+    "tar-fs/tar-stream/bl": "2.1.2",
     "**/meow": "^9.0.0",
     "**/set-value": "^2.0.1",
     "**/tar": "^4.4.18",
