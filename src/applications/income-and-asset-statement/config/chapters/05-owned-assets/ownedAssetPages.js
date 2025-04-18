@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -10,7 +10,7 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -198,20 +198,10 @@ const ownedAssetTypePage = {
         expandUnderCondition: 'FARM',
       },
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
+    grossMonthlyIncome: currencyUI({ title: 'Gross monthly income' }),
+    ownedPortionValue: currencyUI({
+      title: 'Value of your portion of the property',
     }),
-    ownedPortionValue: merge(
-      {},
-      currencyUI('Value of your portion of the property'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
   },
   schema: {
     type: 'object',
