@@ -1200,7 +1200,6 @@ describe('Compose form component', () => {
   it('should contain Edit Signature Link', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     // eslint-disable-next-line camelcase
-    customState.featureToggles.mhv_secure_messaging_signature_settings = true;
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
     expect(screen.getByText('Edit signature for all messages')).to.exist;
