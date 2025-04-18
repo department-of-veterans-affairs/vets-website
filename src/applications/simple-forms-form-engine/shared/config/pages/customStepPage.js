@@ -10,6 +10,12 @@ import {
 
 /**
  * @param {DigitalFormComponent} component
+ * @returns {string}
+ */
+export const componentKey = component => `component${component.id}`;
+
+/**
+ * @param {DigitalFormComponent} component
  * @returns {[SchemaOptions, UISchemaOptions]}
  */
 const selectSchemas = component => {
@@ -35,8 +41,7 @@ export default ({ components, bodyText, pageTitle }) => {
   };
 
   components.forEach(component => {
-    // This assumes every component on a page will have a unique label.
-    const key = `component${component.id}`;
+    const key = componentKey(component);
 
     const [componentSchema, componentUiSchema] = selectSchemas(component);
 

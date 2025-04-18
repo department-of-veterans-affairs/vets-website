@@ -2,16 +2,24 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
 import { camelCase, kebabCase } from 'lodash';
 import { employmentHistory } from '.';
+import { componentKey } from './customStepPage';
 
-/** @type {Record<string, ArrayBuilderOptions>} */
+/** @type {Record<string, ListLoopVariation>} */
 const variations = {
   listLoopEmploymentHistory: {
     maxItems: 4,
     nounPlural: 'employers',
     nounSingular: 'employer',
     optional: true,
+    requiredFields: ['name', 'address', 'dateRange'],
   },
 };
+
+/**
+ * @param {NormalizedChapter} chapter
+ * @returns {string}
+ */
+const findVariation = chapter => variations[camelCase(chapter.type)];
 
 /**
  * @param {NormalizedChapter} chapter
@@ -19,12 +27,35 @@ const variations = {
  */
 const hydrateVariations = chapter => {
   const attrs = ['maxItems', 'nounPlural', 'nounSingular', 'optional'];
-  const variation = variations[camelCase(chapter.type)];
+  const variation = findVariation(chapter);
 
   return attrs.reduce((acc, attr) => {
     acc[attr] = chapter[attr] || (variation && variation[attr]);
     return acc;
   }, {});
+};
+
+/**
+ *
+ * @param {NormalizedChapter} chapter
+ * @returns {Array<string>}
+ */
+const hydrateComponentLists = chapter => {
+  if (chapter.type !== 'digital_form_list_loop') {
+    return findVariation(chapter).requiredFields;
+  }
+
+  const requiredComponents = [];
+
+  chapter.pages.forEach(page =>
+    page.components.forEach(component => {
+      if (component.required) {
+        requiredComponents.push(componentKey(component));
+      }
+    }),
+  );
+
+  return requiredComponents;
 };
 
 /**
@@ -38,7 +69,7 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
   );
 
   /** @type {Array<string>} */
-  const requiredProps = ['name', 'address', 'dateRange'];
+  const requiredProps = hydrateComponentLists(chapter);
 
   /** @type {ArrayBuilderOptions} */
   const options = {

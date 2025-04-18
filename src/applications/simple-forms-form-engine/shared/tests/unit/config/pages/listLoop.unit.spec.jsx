@@ -13,6 +13,7 @@ describe('listLoopPages', () => {
     optional: true,
     chapterTitle: "Veteran's employment history",
     pageTitle: 'List & Loop',
+    pages: [],
   };
   const pageBuilder = {
     introPage: pageConfig => pageConfig,
@@ -90,6 +91,37 @@ describe('listLoopPages', () => {
 
       expect(employerDetailPage.title).to.eq('Employment detail for employer');
     });
+
+    describe('isItemIncomplete', () => {
+      context('when a required attribute is missing', () => {
+        const item = {
+          name: 'Test name',
+          address: '1234 Main St',
+        };
+
+        it('returns true', () => {
+          listLoopPages(employmentHistory, arrayBuilderStub);
+          const options = arrayBuilderStub.getCall(0).args[0];
+
+          expect(options.isItemIncomplete(item)).to.eq(true);
+        });
+      });
+
+      context('when all required items are present', () => {
+        const item = {
+          name: 'Test name',
+          address: '1234 Main St',
+          dateRange: '2020-01-02 to 2024-03-04',
+        };
+
+        it('returns false', () => {
+          listLoopPages(employmentHistory, arrayBuilderStub);
+          const options = arrayBuilderStub.getCall(0).args[0];
+
+          expect(options.isItemIncomplete(item)).to.eq(false);
+        });
+      });
+    });
   });
 
   describe('additionalFields', () => {
@@ -140,12 +172,13 @@ describe('listLoopPages', () => {
   describe('isItemIncomplete', () => {
     context('when a required attribute is missing', () => {
       const item = {
-        name: 'Test name',
-        address: '1234 Main St',
+        name: 'Test Film',
+        component176030: '1970-06-23',
+        component176032: 'Test Character',
       };
 
       it('returns true', () => {
-        listLoopPages(optional, arrayBuilderStub);
+        listLoopPages(required, arrayBuilderStub);
         const options = arrayBuilderStub.getCall(0).args[0];
 
         expect(options.isItemIncomplete(item)).to.eq(true);
@@ -154,13 +187,14 @@ describe('listLoopPages', () => {
 
     context('when all required items are present', () => {
       const item = {
-        name: 'Test name',
-        address: '1234 Main St',
-        dateRange: '2020-01-02 to 2024-03-04',
+        name: 'Test Film',
+        component176030: '1970-06-23',
+        component176032: 'Test Character',
+        component176034: 'An example of a longer response. Sorta.',
       };
 
       it('returns false', () => {
-        listLoopPages(optional, arrayBuilderStub);
+        listLoopPages(required, arrayBuilderStub);
         const options = arrayBuilderStub.getCall(0).args[0];
 
         expect(options.isItemIncomplete(item)).to.eq(false);
