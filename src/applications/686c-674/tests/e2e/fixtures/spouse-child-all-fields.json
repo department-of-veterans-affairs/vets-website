@@ -1,6 +1,5 @@
 {
   "data": {
-    "householdIncome": true,
     "childrenToAdd": [
       {
         "incomeInLastYear": "Y",
@@ -186,7 +185,7 @@
     "childStoppedAttendingSchool": [{ "fullName": {} }],
     "veteranInformation": {
       "fullName": {
-        "first": "Greg",
+        "first": "Gregory",
         "middle": "A",
         "last": "Anderson"
       },

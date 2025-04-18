@@ -1,6 +1,5 @@
 {
   "data": {
-    "householdIncome": true,
     "childrenToAdd": [
       {
         "incomeInLastYear": "Y",
@@ -93,7 +92,7 @@
     },
     "veteranInformation": {
       "fullName": {
-        "first": "Greg",
+        "first": "Gregory",
         "middle": "A",
         "last": "Anderson"
       },

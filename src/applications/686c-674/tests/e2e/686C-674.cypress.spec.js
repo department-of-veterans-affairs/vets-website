@@ -217,6 +217,15 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.tabToElementAndPressSpace('va-text-input');
+          cy.typeInFocused('Gregory A Anderson');
+          cy.tabToElementAndPressSpace('va-checkbox');
+          cy.tabToSubmitForm();
+        });
+      },
     },
   },
 
