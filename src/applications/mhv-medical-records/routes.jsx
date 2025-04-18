@@ -6,7 +6,7 @@ import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGu
 import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import AppRoute from './components/shared/AppRoute';
 
-// Lazy-loaded components
+// Lazy-loaded components.
 const HealthConditions = lazy(() => import('./containers/HealthConditions'));
 const VaccineDetails = lazy(() => import('./containers/VaccineDetails'));
 const Vaccines = lazy(() => import('./containers/Vaccines'));
@@ -44,7 +44,7 @@ const DownloadFileType = lazy(() =>
   import('./components/DownloadRecords/DownloadFileType'),
 );
 
-// Loading component to display while lazy-loaded components are being fetched
+// Loading component to display while lazy-loaded components are being fetched.
 const Loading = () => (
   <va-loading-indicator
     message="Loading..."
