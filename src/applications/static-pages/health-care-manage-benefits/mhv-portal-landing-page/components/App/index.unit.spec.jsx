@@ -9,7 +9,7 @@ describe('MHV Portal Landing Page', () => {
   describe('<App>', () => {
     const mockStore = configureStore([]);
 
-    it('renders unanthenticated user', async () => {
+    it('renders unauthenticated user', async () => {
       const initialState = {
         user: {
           login: { currentlyLoggedIn: false },
