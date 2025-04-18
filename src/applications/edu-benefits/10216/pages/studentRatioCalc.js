@@ -41,6 +41,19 @@ export default {
             required: 'Please enter the total number of students',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            const numOfStudent = Number(fieldData);
+            const beneficiaryStudent = Number(
+              formData?.studentRatioCalcChapter?.beneficiaryStudent,
+            );
+            if (numOfStudent < beneficiaryStudent) {
+              errors.addError(
+                'Number of VA beneficiaries cannot surpass the total number of students',
+              );
+            }
+          },
+        ],
       },
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',

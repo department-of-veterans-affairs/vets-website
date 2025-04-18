@@ -122,4 +122,45 @@ describe('Student Ratio Calculation page', () => {
       expect($('va-alert[status="error"]', container)).to.exist;
     });
   });
+  it('Shows correct validation message when number of students is more than beneficiary students', async () => {
+    const data = {
+      institutionDetails: {
+        institutionName: 'Example',
+        facilityCode: '12345678',
+        termStartDate: '2025-01-01',
+      },
+      studentRatioCalcChapter: {
+        beneficiaryStudent: 100,
+        numOfStudent: 25,
+        dateOfCalculation: '2025-01-02',
+      },
+    };
+    const errors = {
+      messages: [],
+      addError: message => {
+        errors.messages.push(message);
+      },
+    };
+    const validateNumOfStudents =
+      formConfig.chapters.studentRatioCalcChapter.pages.studentRatioCalc
+        .uiSchema.studentRatioCalcChapter.numOfStudent['ui:validations'][0];
+    validateNumOfStudents(errors, '25', data);
+
+    const { container } = renderWithStore(data);
+    const input = $(
+      'va-text-input[name="root_studentRatioCalcChapter_numOfStudent"]',
+      container,
+    );
+    fireEvent.blur(input);
+
+    waitFor(() => {
+      expect($$('va-text-input[error]', container).length).to.equal(1);
+      expect(input.error).to.contain(
+        'Number of VA beneficiaries cannot surpass the total number of students',
+      );
+      expect(errors.messages).to.contain(
+        'Number of VA beneficiaries cannot surpass the total number of students',
+      );
+    });
+  });
 });
