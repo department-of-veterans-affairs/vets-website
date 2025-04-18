@@ -31,7 +31,7 @@ import {
 import ProviderAddress from './components/ProviderAddress';
 
 const ReviewAndConfirm = props => {
-  const { attributes: currentReferral } = props.currentReferral;
+  const { currentReferral } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlot(state));
@@ -48,7 +48,7 @@ const ReviewAndConfirm = props => {
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.code,
+    currentReferral.referringFacilityInfo.facilityCode,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -72,7 +72,9 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.uuid));
+        dispatch(
+          createDraftReferralAppointment(currentReferral.referralNumber),
+        );
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
@@ -82,7 +84,7 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.uuid, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.referralNumber, dispatch, draftAppointmentCreateStatus],
   );
 
   useEffect(
@@ -127,17 +129,17 @@ const ReviewAndConfirm = props => {
     () => {
       if (
         appointmentCreateStatus === FETCH_STATUS.succeeded &&
-        draftAppointmentInfo?.appointment?.id
+        draftAppointmentInfo?.id
       ) {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
           null,
-          draftAppointmentInfo.appointment.id,
+          draftAppointmentInfo.id,
         );
       }
     },
-    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
+    [appointmentCreateStatus, draftAppointmentInfo.id, history],
   );
 
   const headingStyles =
@@ -206,7 +208,7 @@ const ReviewAndConfirm = props => {
                 'h:mm aaaa',
               )}{' '}
               {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacilityInfo.code,
+                currentReferral.referringFacilityInfo.facilityCode,
               )}`}
             </>
           </p>
@@ -232,9 +234,9 @@ const ReviewAndConfirm = props => {
               e.preventDefault();
               dispatch(
                 createReferralAppointment({
-                  referralId: currentReferral.uuid,
+                  referralNumber: currentReferral.referralNumber,
                   slotId: selectedSlot,
-                  draftApppointmentId: draftAppointmentInfo.appointment.id,
+                  draftApppointmentId: draftAppointmentInfo.id,
                 }),
               );
             }}

@@ -26,17 +26,17 @@ export async function getProviderById(providerId) {
 }
 
 export async function postReferralAppointment({
-  referralId,
+  referralNumber,
   slotId,
   draftApppointmentId,
 }) {
-  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/appointments`, {
+  const response = await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      referralId,
+      referralNumber,
       slotId,
       draftApppointmentId,
     }),
@@ -44,23 +44,20 @@ export async function postReferralAppointment({
   return response.data;
 }
 
-export async function postDraftReferralAppointment(referralId) {
-  const response = await apiRequestWithUrl(
-    `/vaos/v2/epsApi/draftReferralAppointment`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ referralId }),
+export async function postDraftReferralAppointment(referralNumber) {
+  const response = await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({ referralId: referralNumber }),
+  });
   return response.data;
 }
 
 export async function getAppointmentInfo(appointmentId) {
   const response = await apiRequestWithUrl(
-    `/vaos/v2/epsApi/appointments/${appointmentId}`,
+    `/vaos/v2/eps_appointments/${appointmentId}`,
     {
       method: 'GET',
     },

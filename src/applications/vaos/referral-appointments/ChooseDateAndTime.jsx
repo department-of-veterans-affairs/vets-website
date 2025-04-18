@@ -17,7 +17,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
-  const { attributes: currentReferral } = props.currentReferral;
+  const { currentReferral } = props;
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -39,7 +39,9 @@ export const ChooseDateAndTime = props => {
         futureStatus === FETCH_STATUS.notStarted
       ) {
         if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(createDraftReferralAppointment(currentReferral.uuid));
+          dispatch(
+            createDraftReferralAppointment(currentReferral.referralNumber),
+          );
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
