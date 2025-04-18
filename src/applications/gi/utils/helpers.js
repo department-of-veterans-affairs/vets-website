@@ -555,13 +555,34 @@ export const getGIBillHeaderText = (automatedTest = false) => {
 export function capitalizeFirstLetter(string, customExceptions = []) {
   if (!string) return null;
 
-  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and', ...customExceptions];
+  const exceptions = [
+    'NW',
+    'SW',
+    'NE',
+    'SE',
+    'NYC',
+    'of',
+    'and',
+    ...customExceptions,
+  ];
 
   return string
     .split(' ')
     .map(word => {
       if (exceptions.includes(word)) {
         return word;
+      }
+
+      if (word.includes('-')) {
+        return word
+          .split('-')
+          .map(w => {
+            if (exceptions.includes(w)) {
+              return w;
+            }
+            return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+          })
+          .join('-');
       }
 
       if (word === 'OF') {
