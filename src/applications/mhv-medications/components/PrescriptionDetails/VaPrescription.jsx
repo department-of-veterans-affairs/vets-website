@@ -704,7 +704,7 @@ const VaPrescription = prescription => {
                               : ''
                           }`}
                         </p>
-                        <VaAccordion //
+                        <VaAccordion
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
@@ -733,7 +733,7 @@ const VaPrescription = prescription => {
                                 bordered="true"
                                 key={i}
                                 subHeader={dateFormat(
-                                  entry.sortedDispensedDate,
+                                  entry.dispensedDate,
                                   'MMMM D, YYYY',
                                   'Date not available',
                                   'Filled on ',
