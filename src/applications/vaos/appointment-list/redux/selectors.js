@@ -386,6 +386,7 @@ export function selectIsCancelledAppointment(appt) {
 
 export function selectAppointmentLocality(
   appointment,
+  useFeSourceOfTruthModality,
   isPendingAppointment = false,
 ) {
   const practitioner = selectPractitionerName(appointment);
@@ -393,7 +394,10 @@ export function selectAppointmentLocality(
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
-  const isInPerson = isInPersonVAAppointment(appointment);
+  const isInPerson = isInPersonVAAppointment(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
 
   if (isPendingAppointment) {
     const { name: facilityName } = appointment.vaos.facilityData || {
@@ -456,9 +460,16 @@ export function selectIsHomeVideo(appointment) {
   );
 }
 
-export function selectModalityText(appointment, isPendingAppointment = false) {
+export function selectModalityText(
+  appointment,
+  useFeSourceOfTruthModality,
+  isPendingAppointment = false,
+) {
   const isCommunityCare = selectIsCommunityCare(appointment);
-  const isInPerson = isInPersonVAAppointment(appointment);
+  const isInPerson = isInPersonVAAppointment(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -501,7 +512,11 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
   return '';
 }
 
-export function selectApptDetailAriaText(appointment, isRequest = false) {
+export function selectApptDetailAriaText(
+  appointment,
+  useFeSourceOfTruthModality,
+  isRequest = false,
+) {
   const appointmentDate = selectStartDate(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -509,7 +524,10 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
   const isVideo = selectIsVideo(appointment);
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
   const typeOfCareName = selectTypeOfCareName(appointment);
-  const modalityText = selectModalityText(appointment);
+  const modalityText = selectModalityText(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
   const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
   let fillin2 =
     typeOfCareName && typeof typeOfCareName !== 'undefined'
@@ -546,20 +564,35 @@ export function selectApptDateAriaText(appointment) {
   return `${appointmentDate.format(`dddd, MMMM D h:mm a, [${timezoneName}]`)}`;
 }
 
-export function selectTypeOfCareAriaText(appointment) {
-  const typeOfCareText = selectAppointmentLocality(appointment);
+export function selectTypeOfCareAriaText(
+  appointment,
+  useFeSourceOfTruthModality,
+) {
+  const typeOfCareText = selectAppointmentLocality(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
   const isCanceled = selectIsCanceled(appointment);
   return `${isCanceled ? 'canceled ' : ''}${typeOfCareText}`;
 }
 
-export function selectModalityAriaText(appointment) {
-  const modalityText = selectModalityText(appointment);
+export function selectModalityAriaText(
+  appointment,
+  useFeSourceOfTruthModality,
+) {
+  const modalityText = selectModalityText(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
   const isCanceled = selectIsCanceled(appointment);
   return `${isCanceled ? 'canceled ' : ''}${modalityText} appointment`;
 }
 
-export function selectModalityIcon(appointment) {
-  const isInPerson = isInPersonVAAppointment(appointment);
+export function selectModalityIcon(appointment, useFeSourceOfTruthModality) {
+  const isInPerson = isInPersonVAAppointment(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -586,10 +619,13 @@ export function selectAppointmentTravelClaim(appointment) {
   return appointment?.vaos?.apiData?.travelPayClaim;
 }
 
-export function selectIsEligibleForTravelClaim(appointment) {
+export function selectIsEligibleForTravelClaim(
+  appointment,
+  useFeSourceOfTruthModality,
+) {
   return (
     selectIsPast(appointment) &&
-    (isInPersonVAAppointment(appointment) ||
+    (isInPersonVAAppointment(appointment, useFeSourceOfTruthModality) ||
       selectIsClinicVideo(appointment)) &&
     selectAppointmentTravelClaim(appointment)
   );

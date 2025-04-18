@@ -693,12 +693,18 @@ export async function cancelAppointment({
   }
 }
 
-export function isInPersonVAAppointment(appointment) {
-  return appointment?.modality === 'vaInPerson';
-  // const { isCommunityCare, isVideo } = appointment?.vaos || {};
-  // const isPhone = isVAPhoneAppointment(appointment);
+export function isInPersonVAAppointment(
+  appointment,
+  useFeSourceOfTruthModality,
+) {
+  if (useFeSourceOfTruthModality) {
+    return appointment?.modality === 'vaInPerson';
+  }
 
-  // return !isVideo && !isCommunityCare && !isPhone;
+  const { isCommunityCare, isVideo } = appointment?.vaos || {};
+  const isPhone = isVAPhoneAppointment(appointment);
+
+  return !isVideo && !isCommunityCare && !isPhone;
 }
 
 /**
@@ -710,7 +716,11 @@ export function isInPersonVAAppointment(appointment) {
  * @param {Facility} Facility object
  * @returns An object containing appointment information.
  */
-export function getCalendarData({ appointment, facility }) {
+export function getCalendarData({
+  appointment,
+  facility,
+  useFeSourceOfTruthModality,
+}) {
   let data = {};
   const isAtlas = appointment?.videoData.isAtlas;
   const isHome = isVideoHome(appointment);
@@ -731,7 +741,7 @@ export function getCalendarData({ appointment, facility }) {
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
-  } else if (isInPersonVAAppointment(appointment)) {
+  } else if (isInPersonVAAppointment(appointment, useFeSourceOfTruthModality)) {
     data = {
       summary: `Appointment at ${facility?.name || 'the VA'}`,
       location: formatFacilityAddress(facility),
