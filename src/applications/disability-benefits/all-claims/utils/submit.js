@@ -365,80 +365,100 @@ export const addForm4142 = formData => {
 };
 
 export const delete0781FormData = formData => {
-  // Workaround to avoid eslint rule around mutating params/args
-  const data = formData;
-  delete data.eventTypes;
-  delete data.supportingEvidenceRecords;
-  delete data.supportingEvidenceReports;
-  delete data.supportingEvidenceUnlisted;
-  delete data.supportingEvidenceWitness;
-  delete data.supportingEvidenceOther;
-  delete data.supportingEvidenceNoneCheckbox;
-  delete data.optionIndicator;
-  delete data.treatmentReceivedNonVaProvider;
-  delete data.treatmentReceivedVaProvider;
-  delete data.treatmentNoneCheckbox;
-  delete data.additionalInformation;
-  if (data.vaTreatmentFacilities) {
-    data.vaTreatmentFacilities.forEach(item => {
-      // Workaround to avoid eslint rule around mutating params/args
-      const facility = item;
-      if ('treatmentLocation0781Related' in facility)
-        delete facility.treatmentLocation0781Related;
-    });
-  }
+  const clonedData = _.cloneDeep(formData);
+
+  // Remove top-level keys
+  [
+    'events',
+    'eventTypes',
+    'supportingEvidenceRecords',
+    'supportingEvidenceReports',
+    'supportingEvidenceUnlisted',
+    'supportingEvidenceWitness',
+    'supportingEvidenceOther',
+    'supportingEvidenceNoneCheckbox',
+    'optionIndicator',
+    'treatmentReceivedNonVaProvider',
+    'treatmentReceivedVaProvider',
+    'treatmentNoneCheckbox',
+    'additionalInformation',
+  ].forEach(key => {
+    delete clonedData[key];
+  });
+
+  // Remove nested treatmentLocation0781Related from facility arrays
+  ['vaTreatmentFacilities', 'providerFacility'].forEach(key => {
+    if (Array.isArray(clonedData[key])) {
+      clonedData[key] = clonedData[key].map(facility => {
+        const updatedFacility = { ...facility };
+        delete updatedFacility.treatmentLocation0781Related;
+        return updatedFacility;
+      });
+    }
+  });
+
+  return clonedData;
 };
 
 // This function is a failsafe redundancy to BehaviorIntroCombatPage.jsx > deleteBehavioralAnswers()
 export const delete0781BehavioralData = formData => {
-  // Workaround to avoid eslint rule around mutating params/args
-  const data = formData;
-  delete data.workBehaviors;
-  delete data.otherBehaviors;
-  delete data.healthBehaviors;
-  delete data.behaviorsDetails;
+  const clonedData = _.cloneDeep(formData);
+
+  delete clonedData.workBehaviors;
+  delete clonedData.otherBehaviors;
+  delete clonedData.healthBehaviors;
+  delete clonedData.behaviorsDetails;
+
+  return clonedData;
 };
 
 export const audit0781EventData = formData => {
-  const data = formData;
-  if (data.events) {
-    data.events.forEach(item => {
-      // Workaround to avoid eslint rule around mutating params/args
-      const event = item;
-      // If otherReports exists (assume not falsey) but reports['police'] is false,
-      // or if otherReports is absent, remove event location data
-      if (
-        (event.otherReports && event.reports.police === false) ||
-        !('otherReports' in event)
-      ) {
+  const clonedData = _.cloneDeep(formData);
+
+  if (Array.isArray(clonedData.events)) {
+    for (let i = 0; i < clonedData.events.length; i++) {
+      const event = clonedData.events[i];
+      // If otherReports is missing or police is explicitly false, remove location fields
+      if (!event.otherReports || event.otherReports.police === false) {
         delete event.agency;
         delete event.city;
         delete event.country;
         delete event.state;
         delete event.township;
       }
-    });
+    }
   }
+
+  return clonedData;
 };
 
 // This function is a failsafe redundancy for BehaviorListPage.jsx > deleteBehaviorDetails()
 export const audit0781BehaviorDetailsList = formData => {
-  // Workaround to avoid eslint rule around mutating params/args
-  const data = formData;
-  if (data.behaviorsDetails) {
-    Object.keys(data.behaviorsDetails).forEach(key => {
-      // Compare the selected behavior types (workBehaviors, healthBehaviors, and otherBehaviors)
-      // to the existing formData.behaviorsDetails object. Any of the 15 possible behaviorsDetails
-      // that do not have a corresponding selected behaviorType should be deleted.
-      if (
-        !(key in data.workBehaviors) &&
-        !(key in data.healthBehaviors) &&
-        !(key in data.otherBehaviors)
-      ) {
-        delete data.behaviorsDetails[key];
-      }
-    });
+  const clonedData = _.cloneDeep(formData);
+
+  if (clonedData.behaviorsDetails) {
+    const work = clonedData.workBehaviors || {};
+    const health = clonedData.healthBehaviors || {};
+    const other = clonedData.otherBehaviors || {};
+
+    const noChange = clonedData.noBehavioralChange?.noChange === true;
+
+    if (noChange) {
+      // Clear all behaviorsDetails if "no change" is explicitly selected
+      clonedData.behaviorsDetails = {};
+    } else {
+      Object.keys(clonedData.behaviorsDetails).forEach(key => {
+        const isSelected =
+          work[key] === true || health[key] === true || other[key] === true;
+
+        if (!isSelected) {
+          delete clonedData.behaviorsDetails[key];
+        }
+      });
+    }
   }
+
+  return clonedData;
 };
 
 export const addForm0781 = formData => {
@@ -582,21 +602,35 @@ export const addForm0781V2 = formData => {
   }
 
   // If a user selected any workflow option outside of submitting the online form,
-  // we want to remove 0781-related data
+  // we want to remove all 0781-related data
   if (
     formData.mentalHealthWorkflowChoice !==
     form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   ) {
-    delete0781FormData(formData);
-    delete0781BehavioralData(formData);
     audit0781EventData(formData);
+    delete0781BehavioralData(formData);
+    delete0781FormData(formData);
+    return formData;
   }
+
+  if (formData.answerCombatBehaviorQuestions === 'false') {
+    delete0781BehavioralData(formData);
+  }
+
+  audit0781EventData(formData);
+  audit0781BehaviorDetailsList(formData);
 
   const clonedData = _.cloneDeep(formData);
 
   clonedData.form0781 = {
+    ...(clonedData.mentalHealthWorkflowChoice && {
+      mentalHealthWorkflowChoice: clonedData.mentalHealthWorkflowChoice,
+    }),
     ...(clonedData.eventTypes && { eventTypes: clonedData.eventTypes }),
     ...(clonedData.events && { events: clonedData.events }),
+    ...(clonedData.noBehavioralChange && {
+      noBehavioralChange: clonedData.noBehavioralChange,
+    }),
     ...(clonedData.workBehaviors && {
       workBehaviors: clonedData.workBehaviors,
     }),
@@ -652,8 +686,10 @@ export const addForm0781V2 = formData => {
     }),
   };
 
+  delete clonedData.mentalHealthWorkflowChoice;
   delete clonedData.eventTypes;
   delete clonedData.events;
+  delete clonedData.noBehavioralChange;
   delete clonedData.workBehaviors;
   delete clonedData.healthBehaviors;
   delete clonedData.otherBehaviors;
