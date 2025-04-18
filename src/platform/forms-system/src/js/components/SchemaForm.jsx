@@ -17,7 +17,7 @@ import ReadOnlyArrayField from '../review/ReadOnlyArrayField';
 import BasicArrayField from '../fields/BasicArrayField';
 import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
-import { scrollToFirstError } from '../utilities/ui';
+import { scrollToFirstError } from '../../../../utilities/scroll';
 import getFormDataFromSchemaId from '../utilities/data/getFormDataFromSchemaId';
 
 /*

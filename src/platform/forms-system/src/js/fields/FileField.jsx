@@ -2,22 +2,17 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { isLoggedIn } from 'platform/user/selectors';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
-import unset from '../../../../utilities/data/unset';
-import {
-  displayFileSize,
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from '../../../../utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
+import unset from 'platform/utilities/data/unset';
+import { displayFileSize, focusElement, scrollTo } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/scroll';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
-import { ERROR_ELEMENTS } from '../../../../utilities/constants';
 import { $ } from '../utilities/ui';
 import {
   ShowPdfPassword,
@@ -612,8 +607,8 @@ const FileField = props => {
             const fileNameId = `${idSchema.$id}_file_name_${index}`;
 
             if (hasVisibleError) {
-              setTimeout(() => {
-                scrollToFirstError();
+              setTimeout(async () => {
+                await scrollToFirstError();
                 if (enableShortWorkflow) {
                   const retryButton = $(`[name="retry_upload_${index}"]`);
                   if (retryButton) {
@@ -621,8 +616,6 @@ const FileField = props => {
                   }
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
-                } else {
-                  focusElement(ERROR_ELEMENTS.join(','));
                 }
               }, 250);
             } else if (showPasswordInput) {
