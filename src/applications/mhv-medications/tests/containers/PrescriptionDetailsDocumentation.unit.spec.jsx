@@ -6,7 +6,7 @@ import {
   mockApiRequest,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -62,9 +62,12 @@ describe('Prescription details documentation container', () => {
         <MemoryRouter
           initialEntries={['/prescriptions/1234567891/documentation']}
         >
-          <Route path="/prescriptions/:prescriptionId/documentation">
-            <PrescriptionDetailsDocumentation />
-          </Route>
+          <Routes>
+            <Route
+              path="/prescriptions/:prescriptionId/documentation"
+              element={<PrescriptionDetailsDocumentation />}
+            />
+          </Routes>
         </MemoryRouter>
       </Provider>,
     );
