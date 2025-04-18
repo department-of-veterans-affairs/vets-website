@@ -25,6 +25,7 @@ describe('Fill Refill Button component', () => {
       initialState: {},
       reducers: reducer,
       path: '/1234567890',
+      routerVersion: 6,
     });
   };
 
@@ -85,6 +86,7 @@ describe('Fill Refill Button component', () => {
         initialState: {},
         reducers: reducer,
         path: '/1234567890',
+        routerVersion: 6,
       },
     );
     expect(screen.queryByTestId('refill-request-button')).to.not.exist;
@@ -97,6 +99,7 @@ describe('Fill Refill Button component', () => {
         initialState: {},
         reducers: reducer,
         path: '/1234567890',
+        routerVersion: 6,
       },
     );
     const button = screen.getByTestId('refill-request-button');
@@ -108,6 +111,7 @@ describe('Fill Refill Button component', () => {
       initialState: {},
       reducers: reducer,
       path: '/1234567890',
+      routerVersion: 6,
     });
     const button = screen.getByTestId('refill-request-button');
     expect(button).to.have.property('text', 'Request a refill');

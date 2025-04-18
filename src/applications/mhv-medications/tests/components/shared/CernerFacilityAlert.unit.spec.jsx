@@ -28,6 +28,7 @@ describe('Cerner Facility Alert', () => {
       initialState: { ...state, user: { ...state.user, profile: facilities } },
       reducers: reducer,
       path: '/about',
+      routerVersion: 6,
     });
   };
 

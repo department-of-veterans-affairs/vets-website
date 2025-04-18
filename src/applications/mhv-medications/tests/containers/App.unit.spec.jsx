@@ -58,6 +58,7 @@ describe('Medications <App>', () => {
       },
       path: `/`,
       reducers: reducer,
+      routerVersion: 6,
     };
   };
 
@@ -134,6 +135,7 @@ describe('Medications <App>', () => {
             dismissedDowntimeWarnings: [],
           },
         },
+        routerVersion: 6,
       },
     );
     await waitFor(() => {
@@ -180,6 +182,7 @@ describe('Medications <App>', () => {
             dismissedDowntimeWarnings: [],
           },
         },
+        routerVersion: 6,
       },
     );
     await waitFor(() => {
@@ -226,6 +229,7 @@ describe('Medications <App>', () => {
             dismissedDowntimeWarnings: [],
           },
         },
+        routerVersion: 6,
       },
     );
     await waitFor(() => {
@@ -272,6 +276,7 @@ describe('Medications <App>', () => {
             dismissedDowntimeWarnings: [],
           },
         },
+        routerVersion: 6,
       },
     );
     await waitFor(() => {
@@ -318,6 +323,7 @@ describe('Medications <App>', () => {
             dismissedDowntimeWarnings: [],
           },
         },
+        routerVersion: 6,
       },
     );
     const downtimeComponent = screen.queryByText(
@@ -363,6 +369,7 @@ describe('Medications <App>', () => {
             dismissedDowntimeWarnings: [],
           },
         },
+        routerVersion: 6,
       },
     );
 

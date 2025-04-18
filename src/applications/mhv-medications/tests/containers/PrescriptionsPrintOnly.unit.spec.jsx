@@ -26,6 +26,7 @@ describe('Medications List Print Page', () => {
       reducers,
       path: '/?page=1',
       ...params,
+      routerVersion: 6,
     });
   };
 

@@ -51,6 +51,7 @@ describe('Prescription details documentation container', () => {
       initialState: state,
       reducers: reducer,
       path: 'prescription/23991135/documentation',
+      routerVersion: 6,
     });
   };
 

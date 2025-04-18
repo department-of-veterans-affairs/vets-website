@@ -20,6 +20,7 @@ describe('vaPrescription details container', () => {
       },
       reducers: {},
       path: '/prescriptions/1234567891',
+      routerVersion: 6,
     });
   };
 
@@ -241,6 +242,7 @@ describe('vaPrescription details container', () => {
         },
         reducers: {},
         path: '/prescriptions/1234567891',
+        routerVersion: 6,
       });
     };
     const screen = setupWithPartialFill({

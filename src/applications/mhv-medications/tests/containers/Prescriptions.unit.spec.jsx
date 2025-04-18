@@ -34,6 +34,7 @@ const allergyErrorState = {
   },
   reducers: reducer,
   path: '/',
+  routerVersion: 6,
 };
 
 describe('Medications Prescriptions container', () => {
@@ -71,6 +72,7 @@ describe('Medications Prescriptions container', () => {
       initialState: state,
       reducers: reducer,
       path: '/',
+      routerVersion: 6,
     });
   };
 
@@ -147,6 +149,7 @@ describe('Medications Prescriptions container', () => {
       },
       reducers: reducer,
       path: '/',
+      routerVersion: 6,
     });
     expect(
       screen.getByText(
@@ -184,6 +187,7 @@ describe('Medications Prescriptions container', () => {
       },
       reducers: reducer,
       path: '/',
+      routerVersion: 6,
     });
     const pdfButton = screen.getByTestId('download-pdf-button');
     fireEvent.click(pdfButton);

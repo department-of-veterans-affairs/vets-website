@@ -37,6 +37,7 @@ describe('Medicaitons List component', () => {
         initialState: state,
         reducers: reducer,
         path: '/',
+        routerVersion: 6,
       },
     );
   };
@@ -86,6 +87,7 @@ describe('Medicaitons List component', () => {
         },
         reducers: reducer,
         path: '/',
+        routerVersion: 6,
       },
     );
     const numToNums = screen.getByTestId('page-total-info');

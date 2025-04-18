@@ -49,6 +49,7 @@ describe('Refill Prescriptions Component', () => {
         initialState: state,
         reducers: reducer,
         path: '/refill',
+        routerVersion: 6,
       },
     );
   };

@@ -29,6 +29,7 @@ describe('Medicaitons Print/Download button component', () => {
       />,
       {
         path: '/',
+        routerVersion: 6,
       },
     );
   };

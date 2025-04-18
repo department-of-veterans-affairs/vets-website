@@ -24,6 +24,7 @@ const allergyErrorState = {
   },
   reducers: reducer,
   path: '/',
+  routerVersion: 6,
 };
 
 describe('Prescription details container', () => {
@@ -41,6 +42,7 @@ describe('Prescription details container', () => {
       initialState: state,
       reducers: reducer,
       path: '/1234567891',
+      routerVersion: 6,
     });
   };
 
@@ -151,6 +153,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       path: '/medication/21142496',
+      routerVersion: 6,
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
@@ -209,6 +212,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       path: '/21142496',
+      routerVersion: 6,
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
@@ -233,6 +237,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       path: '/21142496',
+      routerVersion: 6,
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.prescriptionName,
@@ -253,6 +258,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       path: '/21142496',
+      routerVersion: 6,
     });
     await waitFor(() => {
       const errorMessageH2 = screen.getByTestId('no-medications-list');

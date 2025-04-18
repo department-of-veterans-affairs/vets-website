@@ -27,6 +27,7 @@ describe('Alert if refill is taking longer than expected', () => {
       initialState,
       reducers: reducer,
       path: '/',
+      routerVersion: 6,
     });
   };
 

@@ -12,6 +12,7 @@ describe('Medication card component', () => {
       path: '/',
       state: initialState,
       reducers,
+      routerVersion: 6,
     });
   };
 

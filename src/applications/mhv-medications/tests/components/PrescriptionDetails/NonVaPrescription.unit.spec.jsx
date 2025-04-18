@@ -11,6 +11,7 @@ describe('nonVaPrescription details container', () => {
       initialState: {},
       reducers: {},
       path: '/prescriptions/1234567891',
+      routerVersion: 6,
     });
   };
 

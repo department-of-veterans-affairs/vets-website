@@ -16,6 +16,7 @@ describe('Medicaitons List Sort component', () => {
       {
         path: '/',
         state: initialState,
+        routerVersion: 6,
       },
     );
   };

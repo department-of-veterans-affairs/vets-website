@@ -37,6 +37,7 @@ describe('Medications Breadcrumbs', () => {
         },
         reducers,
         path: '/medications/prescription/000',
+        routerVersion: 6,
       },
     );
   };

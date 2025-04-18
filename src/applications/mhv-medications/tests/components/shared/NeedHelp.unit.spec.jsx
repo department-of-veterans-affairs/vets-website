@@ -11,6 +11,7 @@ describe('Need Help shared component', () => {
       path: '/',
       state: {},
       reducers,
+      routerVersion: 6,
     });
   };
 

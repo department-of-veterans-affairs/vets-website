@@ -14,6 +14,7 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
       path: '/',
       state: {},
       reducers,
+      routerVersion: 6,
     });
   };
 
@@ -37,6 +38,7 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
       path: '/',
       state: {},
       reducers,
+      routerVersion: 6,
     });
     expect(
       screen.getByText(
@@ -55,6 +57,7 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
       path: '/',
       state: {},
       reducers,
+      routerVersion: 6,
     });
     expect(
       screen.queryByText(

@@ -14,6 +14,7 @@ describe('Medications List Card Extra Details', () => {
       path: '/',
       state: {},
       reducers,
+      routerVersion: 6,
     });
   };
 

@@ -17,6 +17,7 @@ describe('Medications List Print Page', () => {
         reducers,
         path: '/1',
         ...params,
+        routerVersion: 6,
       },
     );
   };
@@ -58,6 +59,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
         initialState: {},
         reducers: {},
         path: '/prescriptions/1234567891',
+        routerVersion: 6,
       },
     );
   };

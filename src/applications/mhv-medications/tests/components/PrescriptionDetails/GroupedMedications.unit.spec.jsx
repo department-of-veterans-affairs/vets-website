@@ -13,6 +13,7 @@ describe('Grouped medications component', () => {
         initialState: {},
         reducers: {},
         path: '/prescriptions/1234567891',
+        routerVersion: 6,
       },
     );
   };

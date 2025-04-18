@@ -30,6 +30,7 @@ describe('Refill Notification Component', () => {
         initialState: state,
         reducers: reducer,
         path: '/refill',
+        routerVersion: 6,
       },
     );
   };

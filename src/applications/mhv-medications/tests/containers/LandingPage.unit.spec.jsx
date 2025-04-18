@@ -39,6 +39,7 @@ describe('Medications Landing page container', () => {
       initialState: state,
       reducers: reducer,
       path,
+      routerVersion: 6,
     });
   };
 
@@ -108,6 +109,7 @@ describe('Medications Landing page container', () => {
         initialState: state,
         reducers: reducer,
         path: '#accordion-renew-rx',
+        routerVersion: 6,
       });
     };
     const newScreen = setupWithSpecificPathState();
@@ -141,6 +143,7 @@ describe('Medications Landing page container', () => {
         initialState: state,
         reducers: reducer,
         path: '#accordion-renew-rx',
+        routerVersion: 6,
       });
     };
     const newScreen = setupWithSpecificFeatureToggleState();
@@ -169,6 +172,7 @@ describe('App-level feature flag functionality', () => {
       },
       path: `/`,
       reducers: reducer,
+      routerVersion: 6,
     };
   };
 
@@ -238,6 +242,7 @@ describe('App-level feature flag functionality', () => {
       },
       reducers: reducer,
       path: '/',
+      routerVersion: 6,
     });
     expect(
       screenFeatureToggle
@@ -270,6 +275,7 @@ describe('App-level feature flag functionality', () => {
       },
       reducers: reducer,
       path: '/',
+      routerVersion: 6,
     });
     expect(
       screenFeatureToggle.getByText(
@@ -310,6 +316,7 @@ describe('App-level feature flag functionality', () => {
         initialState: state,
         reducers: reducer,
         path,
+        routerVersion: 6,
       });
     };
 

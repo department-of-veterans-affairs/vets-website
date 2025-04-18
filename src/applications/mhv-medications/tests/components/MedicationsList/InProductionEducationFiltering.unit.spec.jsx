@@ -23,6 +23,7 @@ describe('In Production Education Filtering component', () => {
       path: '/',
       initialState: state,
       reducers,
+      routerVersion: 6,
     });
   };
 

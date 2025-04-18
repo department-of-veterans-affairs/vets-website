@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
+import { BrowserRouter as RouterV6 } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -71,11 +72,19 @@ export function renderInReduxProvider(
  * @param {ReduxStore} [renderParams.store=null] Redux store to use for the rendered page or section of the app
  * @param {string} [renderParams.path='/'] Url path to start from
  * @param {History} [renderParams.history=null] Custom history object to use, will create one if not passed
+ * @param {routerVersion} [renderParams.routerVersion=null] Router version to use, pass 6 to override the default
  * @returns {Object} Return value of the React Testing Library render function, plus the history object used
  */
 export function renderWithStoreAndRouter(
   ui,
-  { initialState, reducers = {}, store = null, path = '/', history = null },
+  {
+    initialState,
+    reducers = {},
+    store = null,
+    path = '/',
+    history = null,
+    routerVersion = null,
+  },
 ) {
   const testStore =
     store ||
@@ -87,7 +96,12 @@ export function renderWithStoreAndRouter(
 
   const historyObject = history || createTestHistory(path);
   const screen = renderInReduxProvider(
-    <Router history={historyObject}>{ui}</Router>,
+    // Use the correct Router based on the routerVersion passed in
+    routerVersion === 6 ? (
+      <RouterV6 history={historyObject}>{ui}</RouterV6>
+    ) : (
+      <Router history={historyObject}>{ui}</Router>
+    ),
     {
       store: testStore,
       initialState,
