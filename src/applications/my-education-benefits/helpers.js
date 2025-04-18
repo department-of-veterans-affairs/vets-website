@@ -46,6 +46,7 @@ export const post911GiBillNote = (
 export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
+
 export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
   if (!str) {
     return '';
@@ -60,6 +61,23 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
     str.substring(str.length - numVisibleChars, str.length)
   );
 }
+
+export function obfuscateAriaLabel(str, numVisibleChars = 4) {
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  const charsAria = obfuscate(str, numVisibleChars, '')
+    .split('')
+    .join(',');
+
+  return `Ending in ${charsAria}`;
+}
+
 /**
  * Converts a number to a string, preserving a minimum number of integer
  * digits.

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { obfuscate } from '../helpers';
+import { obfuscate, obfuscateAriaLabel } from '../helpers';
 
 function ObfuscateReviewField({ children, uiSchema }) {
   return (
     <div className="review-row">
       <dt>{uiSchema['ui:title']}</dt>
-      <dd>{obfuscate(children.props.formData)}</dd>
+      <dd>
+        <span aria-hidden="true">{obfuscate(children.props.formData)}</span>
+        <span className="sr-only">
+          {obfuscateAriaLabel(children.props.formData)}
+        </span>
+      </dd>
     </div>
   );
 }
