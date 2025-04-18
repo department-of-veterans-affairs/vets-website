@@ -98,7 +98,7 @@ export const addStudentsIntroPage = {
       description: () => {
         return (
           <>
-            {AddStudentsIntro()}
+            {AddStudentsIntro}
             <CancelButton dependentType="students" isAddChapter />
           </>
         );

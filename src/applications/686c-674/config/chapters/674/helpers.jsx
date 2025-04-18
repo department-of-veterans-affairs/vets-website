@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AddStudentsIntro = () => (
+export const AddStudentsIntro = (
   <>
     <p className="vads-u-margin-top--0">
       In the next few questions, we’ll ask you about your{' '}
