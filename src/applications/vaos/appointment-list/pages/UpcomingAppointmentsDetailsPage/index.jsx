@@ -12,6 +12,7 @@ import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
   isVAPhoneAppointment,
+  isInPersonVAAppointment,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -23,7 +24,6 @@ import {
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
-  selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
@@ -44,7 +44,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVAAppointment(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
