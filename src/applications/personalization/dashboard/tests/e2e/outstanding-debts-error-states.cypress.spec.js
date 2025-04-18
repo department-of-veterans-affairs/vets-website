@@ -11,12 +11,9 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
+import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import { paymentsSuccessEmpty } from '../fixtures/test-payments-response';
-import {
-  debtsError,
-  debtsSuccess,
-  debtsSuccessEmpty,
-} from '../fixtures/test-debts-response';
+import { debtsError, debtsSuccess } from '../fixtures/test-debts-response';
 import {
   copaysError,
   copaysSuccess,
@@ -24,12 +21,21 @@ import {
 } from '../fixtures/test-copays-response';
 import appointmentsEmpty from '../fixtures/appointments-empty';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('My VA - Outstanding debts error-states', () => {
   Cypress.config({ defaultCommandTimeout: 12000, requestTimeout: 20000 });
   beforeEach(() => {
     mockLocalStorage();
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          {
+            name: 'showGenericDebtCard',
+            value: false,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/benefits_claims', claimsSuccess());
@@ -48,7 +54,7 @@ describe('My VA - Outstanding debts error-states', () => {
 
   describe('Debts API-error', () => {
     beforeEach(() => {
-      cy.intercept('/v0/debts', debtsError()).as('debtsErrorA');
+      cy.intercept('/v0/debts?countOnly=true', debtsError()).as('debtsErrorA');
     });
 
     it('shows error - user has copays - C30235', () => {
@@ -96,10 +102,14 @@ describe('My VA - Outstanding debts error-states', () => {
     });
 
     it('shows error - User has debts - C30247', () => {
+      cy.intercept('/v0/debts?countOnly=true', {
+        debtsCount: 8,
+        hasDependentDebts: false,
+      }).as('debtsCount');
       cy.intercept('/v0/debts', debtsSuccess(true)).as('recentDebts1');
 
       cy.visit('my-va/');
-      cy.wait(['@copaysErrorA', '@recentDebts1']);
+      cy.wait(['@copaysErrorA', '@debtsCount']);
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
@@ -115,7 +125,10 @@ describe('My VA - Outstanding debts error-states', () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('shows error - User has no debts - C30251', () => {
-      cy.intercept('/v0/debts', debtsSuccessEmpty(true)).as('noDebts1');
+      cy.intercept('/v0/debts?countOnly=true', {
+        debtsCount: 0,
+        hasDependentDebts: false,
+      }).as('noDebts1');
 
       cy.visit('my-va/');
       cy.wait(['@copaysErrorA', '@noDebts1']);
@@ -134,7 +147,7 @@ describe('My VA - Outstanding debts error-states', () => {
 
   describe('Debts & Copays API-errors', () => {
     beforeEach(() => {
-      cy.intercept('/v0/debts', debtsError()).as('debtsErrorB');
+      cy.intercept('/v0/debts?countOnly=true', debtsError()).as('debtsErrorB');
       cy.intercept('/v0/medical_copays', copaysError()).as('copaysErrorB');
     });
 

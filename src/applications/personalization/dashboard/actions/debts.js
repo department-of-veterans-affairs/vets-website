@@ -21,7 +21,7 @@ export const deductionCodes = Object.freeze({
   '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
 });
 
-export const fetchDebts = () => async dispatch => {
+export const fetchDebts = (debtsCount = false) => async dispatch => {
   dispatch({ type: DEBTS_FETCH_INITIATED });
   const getDebts = () => {
     const options = {
@@ -34,11 +34,14 @@ export const fetchDebts = () => async dispatch => {
       },
     };
 
-    return apiRequest(`${environment.API_URL}/v0/debts`, options);
+    const queryParams = debtsCount ? '?countOnly=true' : '';
+    return apiRequest(`${environment.API_URL}/v0/debts${queryParams}`, options);
   };
 
   try {
-    const { errors, debts } = await getDebts();
+    const response = await getDebts();
+    const { errors } = response;
+
     if (errors) {
       recordEvent({
         event: `api_call`,
@@ -51,6 +54,21 @@ export const fetchDebts = () => async dispatch => {
         errors,
       });
     }
+
+    if (debtsCount) {
+      recordEvent({
+        event: `api_call`,
+        'api-name': 'GET debts',
+        'api-status': 'successful',
+      });
+      return dispatch({
+        type: DEBTS_FETCH_SUCCESS,
+        debts: [],
+        debtsCount: response.debtsCount,
+      });
+    }
+
+    const { debts } = response;
     const approvedDeductionCodes = Object.keys(deductionCodes);
     // filter approved deductionCodes &&
     // remove debts that have a current amount owed of 0
