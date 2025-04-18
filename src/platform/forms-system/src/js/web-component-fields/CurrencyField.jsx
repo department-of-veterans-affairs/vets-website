@@ -30,7 +30,7 @@ export function parseCurrencyString(currencyString = '') {
 export default function CurrencyField(fieldProps) {
   const props = vaTextInputFieldMapping(fieldProps);
   const { uiOptions } = fieldProps;
-  const schemaaType = fieldProps.childrenProps?.schema.type || 'number';
+  const schemaType = fieldProps.childrenProps?.schema.type || 'number';
 
   const [val, setVal] = useState(parseCurrencyString(props.value));
   const [displayVal, setDisplayVal] = useState(props.value);
@@ -41,7 +41,7 @@ export default function CurrencyField(fieldProps) {
     const parsedValue = parseCurrencyString(value);
     setVal(parsedValue);
     setDisplayVal(value);
-    const dataValue = schemaaType === 'number' ? parsedValue : value;
+    const dataValue = schemaType === 'number' ? parsedValue : value;
 
     // Not using props.onInput because in the vaTextInputFieldMapping onInput
     // callback, it uses `value || event.target.value;` and sets the value to
