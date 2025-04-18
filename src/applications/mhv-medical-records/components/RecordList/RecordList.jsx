@@ -68,7 +68,10 @@ const RecordList = props => {
   );
 
   const displayNums = fromToNums(currentPage, records?.length);
-
+  // This feels wrong and would love feedback on how to improve this.
+  const filterDisplayMessage = domainOptions?.isAccelerating
+    ? domainOptions.displayTimeFrame
+    : 'newest to oldest';
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
       <h2 className="sr-only" data-dd-privacy="mask" data-dd-action-name>
@@ -84,11 +87,18 @@ const RecordList = props => {
         <span>
           {`Showing ${displayNums[0]} to ${
             displayNums[1]
-          } of ${totalEntries} records from newest to oldest`}
+          } of ${totalEntries} records from `}
+          <span
+            className={
+              domainOptions?.isAccelerating ? 'vads-u-font-weight--bold' : ''
+            }
+          >
+            {filterDisplayMessage}
+          </span>{' '}
         </span>
       </p>
       <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
-        Showing {totalEntries} records from newest to oldest
+        Showing {totalEntries} records from ${filterDisplayMessage}
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&
@@ -128,7 +138,11 @@ const RecordList = props => {
 export default RecordList;
 
 RecordList.propTypes = {
-  domainOptions: PropTypes.object,
+  domainOptions: PropTypes.shape({
+    isAccelerating: PropTypes.bool,
+    displayTimeFrame: PropTypes.string,
+    timeFrame: PropTypes.string,
+  }),
   hidePagination: PropTypes.bool,
   perPage: PropTypes.number,
   records: PropTypes.array,

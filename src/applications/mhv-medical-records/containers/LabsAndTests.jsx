@@ -187,20 +187,6 @@ const LabsAndTests = () => {
                 }}
               />
             </div>
-            <div className="vads-u-margin-top--2 ">
-              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
-              <p className="vads-u-margin--0">
-                Showing labs and tests from{' '}
-                <span
-                  className="vads-u-font-weight--bold"
-                  data-testid="current-date-display"
-                >
-                  {getMonthFromSelectedDate({ date: displayDate })}
-                </span>
-                .
-              </p>
-              <hr className="vads-u-margin-y--1 vads-u-padding-0" />
-            </div>
           </>
         )}
         {isLoadingAcceleratedData && (
@@ -225,6 +211,7 @@ const LabsAndTests = () => {
             domainOptions={{
               isAccelerating: isAcceleratingLabsAndTests,
               timeFrame: acceleratedLabsAndTestDate,
+              displayTimeFrame: getMonthFromSelectedDate({ date: displayDate }),
             }}
           />
         )}
