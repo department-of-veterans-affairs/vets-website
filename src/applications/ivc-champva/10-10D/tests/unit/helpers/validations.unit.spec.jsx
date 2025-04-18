@@ -1,9 +1,9 @@
 import { expect } from 'chai';
+import { fieldsMustMatchValidation } from '../../../helpers/validations';
 import {
-  fieldsMustMatchValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
-} from '../../../helpers/validations';
+} from '../../../../shared/validations';
 
 const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
