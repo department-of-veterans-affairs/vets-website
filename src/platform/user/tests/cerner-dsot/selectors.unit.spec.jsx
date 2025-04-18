@@ -104,59 +104,59 @@ describe('cerner-dsot user selectors', () => {
     });
   });
 
-  describe('selectPatientCernerFacilities', () => {
-    it('returns empty array when Cerner facilities not set on state', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '984' },
-              { facilityId: '687' },
-              { facilityId: '757' },
-            ],
-          },
-        },
-      };
-      expect(selectors.selectPatientCernerFacilities(state)).to.deep.equal([]);
-    });
-    it('pulls out patient facilities that are indicated as Cerner facilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '984' },
-              { facilityId: '687' },
-              { facilityId: '757' },
-            ],
-          },
-        },
-        drupalStaticData,
-      };
-      const expected = [
-        {
-          facilityId: '687',
-          isCerner: true,
-          usesCernerAppointments: true,
-          usesCernerMedicalRecords: true,
-          usesCernerMessaging: true,
-          usesCernerRx: true,
-          usesCernerTestResults: true,
-        },
-        {
-          facilityId: '757',
-          isCerner: true,
-          usesCernerAppointments: true,
-          usesCernerMedicalRecords: true,
-          usesCernerMessaging: true,
-          usesCernerRx: true,
-          usesCernerTestResults: true,
-        },
-      ];
-      expect(selectors.selectPatientCernerFacilities(state)).to.deep.equal(
-        expected,
-      );
-    });
-  });
+  // describe('selectPatientCernerFacilities', () => {
+  //   it('returns empty array when Cerner facilities not set on state', () => {
+  //     const state = {
+  //       user: {
+  //         profile: {
+  //           facilities: [
+  //             { facilityId: '984' },
+  //             { facilityId: '687' },
+  //             { facilityId: '757' },
+  //           ],
+  //         },
+  //       },
+  //     };
+  //     expect(selectors.selectPatientCernerFacilities(state)).to.deep.equal([]);
+  //   });
+  //   it('pulls out patient facilities that are indicated as Cerner facilities', () => {
+  //     const state = {
+  //       user: {
+  //         profile: {
+  //           facilities: [
+  //             { facilityId: '984' },
+  //             { facilityId: '687' },
+  //             { facilityId: '757' },
+  //           ],
+  //         },
+  //       },
+  //       drupalStaticData,
+  //     };
+  //     const expected = [
+  //       {
+  //         facilityId: '687',
+  //         isCerner: true,
+  //         usesCernerAppointments: true,
+  //         usesCernerMedicalRecords: true,
+  //         usesCernerMessaging: true,
+  //         usesCernerRx: true,
+  //         usesCernerTestResults: true,
+  //       },
+  //       {
+  //         facilityId: '757',
+  //         isCerner: true,
+  //         usesCernerAppointments: true,
+  //         usesCernerMedicalRecords: true,
+  //         usesCernerMessaging: true,
+  //         usesCernerRx: true,
+  //         usesCernerTestResults: true,
+  //       },
+  //     ];
+  //     expect(selectors.selectPatientCernerFacilities(state)).to.deep.equal(
+  //       expected,
+  //     );
+  //   });
+  // });
 
   describe('selectIsCernerOnlyPatient', () => {
     it('returns true when all patient facilities are indicated as Cerner facilities', () => {

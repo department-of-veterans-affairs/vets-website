@@ -40,8 +40,8 @@ export const selectPatientFacilities = state => {
   );
 };
 
-export const selectPatientCernerFacilities = state =>
-  selectPatientFacilities(state)?.filter(f => f.isCerner) || [];
+// export const selectPatientCernerFacilities = state =>
+//   selectPatientFacilities(state)?.filter(f => f.isCerner) || [];
 
 export const selectIsCernerOnlyPatient = state =>
   !!selectPatientFacilities(state)?.every(f => f.isCerner);

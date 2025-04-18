@@ -2,16 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import {
-  selectUnreadCount,
-  selectUserCernerFacilityNames,
-} from '~/applications/personalization/dashboard/selectors';
+import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
@@ -28,7 +23,6 @@ const HealthCareContent = ({
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
-  facilityNames,
   fetchUnreadMessages,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
@@ -38,7 +32,6 @@ const HealthCareContent = ({
   hasAppointmentsError,
   isVAPatient,
   isLOA1,
-  isCernerPatient,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -133,18 +126,6 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (isCernerPatient && facilityNames?.length > 0) {
-    return (
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <CernerWidget
-            facilityLocations={facilityNames}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-          />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="vads-l-row">
@@ -156,8 +137,7 @@ const HealthCareContent = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
-          !isLOA1 &&
-          !isCernerPatient && <NoUpcomingAppointmentsText />}
+          !isLOA1 && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
             viewMhvLink={viewMhvLink}
@@ -207,7 +187,6 @@ const mapStateToProps = state => {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
-    isCernerPatient: selectIsCernerPatient(state),
     shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
@@ -219,7 +198,6 @@ const mapStateToProps = state => {
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     unreadMessagesCount: selectUnreadCount(state)?.count || 0,
-    facilityNames: selectUserCernerFacilityNames(state),
   };
 };
 
@@ -243,12 +221,10 @@ HealthCareContent.propTypes = {
   ),
   authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
-  facilityNames: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
-  isCernerPatient: PropTypes.bool,
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
