@@ -10,6 +10,7 @@ import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
+import AuthCallbackHandler from './containers/AuthCallbackHandler';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -31,7 +32,6 @@ const addSignInRedirection = route => {
         return await loader({ params, request });
       } catch (e) {
         // Only rethrow non-401 errors
-        // this can most likely be removed considering we added it to the api client
         if (!(e instanceof Response) || e.status !== 401) {
           throw e;
         }
@@ -73,6 +73,51 @@ const routes = [
             throw redirect('/poa-requests');
           }
           return null;
+        },
+      },
+      {
+        path: 'auth/login/callback',
+        element: <AuthCallbackHandler />,
+        loader: async () => {
+          // Get OAuth callback parameters
+          const searchParams = new URLSearchParams(window.location.search);
+          const code = searchParams.get('code');
+          const state = searchParams.get('state');
+          const to = searchParams.get('to') || '/poa-requests';
+
+          // If we have code and state, process the OAuth callback
+          if (code && state) {
+            try {
+              // Import the platform's auth handling utility
+              const {
+                handleTokenRequest,
+              } = await import('applications/auth/helpers');
+
+              // Exchange the code for a token
+              await handleTokenRequest({
+                code,
+                state,
+                csp: 'logingov',
+                generateOAuthError: error => {
+                  throw new Error(error);
+                },
+              });
+
+              // After successful token exchange, redirect to the target URL
+              throw redirect(to);
+            } catch (error) {
+              // Redirect to sign-in with error
+              throw redirect('/sign-in?error=auth_failed');
+            }
+          }
+
+          // Check if already authenticated (might happen on page refresh)
+          if (await userPromise) {
+            throw redirect(to);
+          }
+
+          // If not authenticated yet, return data for loading state
+          return { to };
         },
       },
       forEachRoute(addSignInRedirection, {

@@ -9,16 +9,15 @@ import {
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isCustomLoginEnabled } from './featureToggles';
 
 const PLATFORM_SIGN_IN_URL = '/sign-in';
 const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
 
 export const getSignInUrl = ({ returnUrl } = {}) => {
-  // Get feature toggle value from Redux store
-  const toggles = toggleValues(window.__REDUX_STATE__);
-  const useNewLogin = toggles.accreditedRepresentativePortalCustomLogin;
+  // Get feature toggle with safe fallback
+  const useNewLogin = isCustomLoginEnabled();
 
   const signInPath = useNewLogin ? ARP_SIGN_IN_URL : PLATFORM_SIGN_IN_URL;
   const url = new URL(signInPath, USIP_BASE_URL);
