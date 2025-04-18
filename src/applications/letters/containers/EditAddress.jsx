@@ -77,11 +77,26 @@ export function EditAddress() {
           fieldName={FIELD_NAMES.MAILING_ADDRESS}
           isDeleteDisabled
           cancelCallback={() => navigate('/letter-page')}
-          successCallback={() => navigate('/letter-page')}
+          successCallback={() =>
+            navigate('/letter-page', {
+              state: {
+                success: true,
+              },
+            })
+          }
           saveButtonText="Save address"
           cancelButtonText="Cancel edit"
         />
       </InitializeVAPServiceID>
+      <va-need-help>
+        <div slot="content">
+          <p>
+            Call us at <va-telephone contact="8008271000" />. We're here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call <va-telephone contact="711" tty="true" />.
+          </p>
+        </div>
+      </va-need-help>
     </div>
   );
 }

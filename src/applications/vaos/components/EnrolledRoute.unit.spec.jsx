@@ -3,13 +3,14 @@ import { Switch } from 'react-router-dom';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import sinon from 'sinon';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../tests/mocks/setup.js';
-import EnrolledRoute from './EnrolledRoute.jsx';
+} from '../tests/mocks/setup';
+import EnrolledRoute from './EnrolledRoute';
 
 const initialState = {
   featureToggles: {
@@ -18,6 +19,7 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingMhvRouteGuards: false,
   },
   user: {
     login: {
@@ -28,13 +30,31 @@ const initialState = {
       verified: true,
       services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       facilities: [{ facilityId: '983', isCerner: false }],
+      loa: { current: 3 },
     },
   },
 };
 
 describe('VAOS Component: EnrolledRoute', () => {
-  beforeEach(() => {
+  let replaceStub;
+
+  before(() => {
     mockFetch();
+  });
+
+  beforeEach(() => {
+    // Stub window.location.replace to prevent actual redirection
+    replaceStub = sinon.stub();
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { replace: replaceStub },
+    });
+  });
+
+  afterEach(() => {
+    // Restore the original window.location
+    delete window.location;
+    window.location = { replace: () => {} }; // Reset to a default implementation
   });
 
   it('should render route when logged in', async () => {
@@ -118,5 +138,68 @@ describe('VAOS Component: EnrolledRoute', () => {
       ).to.be.ok;
     });
     expect(screen.queryByText('Child content')).not.to.exist;
+  });
+  it('should redirect to /my-health when vaOnlineSchedulingMhvRouteGuards is enabled and no facilities are registered', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMhvRouteGuards: true, // Enable the feature flag
+      },
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          facilities: [], // No facilities registered
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      {
+        store,
+      },
+    );
+    // Assert that the user is redirected to /my-health
+    await waitFor(() => {
+      expect(replaceStub.calledWith('/my-health')).to.be.true;
+    });
+  });
+  it('should redirect to /my-health when vaOnlineSchedulingMhvRouteGuards is enabled and user is not LOA3', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMhvRouteGuards: true, // Enable the feature flag
+      },
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          loa: { current: 1 },
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      {
+        store,
+      },
+    );
+
+    // Assert that the user is redirected to /my-health
+    await waitFor(() => {
+      expect(replaceStub.calledWith('/my-health')).to.be.true;
+    });
   });
 });
