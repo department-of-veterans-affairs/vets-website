@@ -28,17 +28,17 @@ const MrBreadcrumbs = () => {
   const allowMarchUpdates = useSelector(
     state =>
       state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
       ],
   );
 
   const textContent = document.querySelector('h1')?.textContent;
-  const searchIndex = new URLSearchParams(location.search);
-  const page = searchIndex.get('page');
+  const searchParams = new URLSearchParams(location.search);
+  const page = searchParams.get('page');
+  const urlVitalsDate = searchParams.get('timeFrame');
   const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
 
-  const urlVitalsDate = searchIndex.get('timeFrame');
-
+  // Set page number when it's present in the URL
   useEffect(
     () => {
       if (page) dispatch(setPageNumber(+page));
@@ -46,6 +46,7 @@ const MrBreadcrumbs = () => {
     [page, dispatch],
   );
 
+  // Handle breadcrumb setup based on location
   useEffect(
     () => {
       const path = locationBasePath ? `/${locationBasePath}/` : '/';
@@ -97,6 +98,7 @@ const MrBreadcrumbs = () => {
       textContent,
       pageNumber,
       urlVitalsDate,
+      allowMarchUpdates,
     ],
   );
 
@@ -106,24 +108,35 @@ const MrBreadcrumbs = () => {
     handleDataDogAction({ locationBasePath, locationChildPath });
   };
 
-  const backToImagesBreadcrumb = location.pathname.includes('/images')
-    ? crumbsList[crumbsList.length - 1].href
-    : `/${locationBasePath}`;
+  // Build back URL with appropriate query parameters
+  const getBackUrl = () => {
+    const basePath = `/${locationBasePath}`;
+    const queryParams = new URLSearchParams();
 
-  const backToAllergiesBreadcrumb = () =>
-    location.pathname.includes(`/allergies/${allergyId}`)
-      ? history.goBack()
-      : `/${locationBasePath}`;
+    // Preserve page number when returning to list view
+    if (pageNumber) {
+      queryParams.set('page', pageNumber);
+    }
 
-  if (
-    location.pathname.includes(
-      `/${locationBasePath}/${labId ||
-        vaccineId ||
-        summaryId ||
-        allergyId ||
-        conditionId}`,
-    )
-  ) {
+    // Preserve timeFrame for vitals
+    if (urlVitalsDate) {
+      queryParams.set('timeFrame', urlVitalsDate);
+    }
+
+    const queryString = queryParams.toString();
+    return `${basePath}${queryString ? `?${queryString}` : ''}`;
+  };
+
+  // Determine if we're on a detail page that needs a back button
+  const isDetailPage = !!labId || !!vaccineId || !!summaryId || !!allergyId || !!conditionId || location.pathname.includes('/vitals/');
+
+  // Handle back action with analytics
+  const handleBackClick = () => {
+    handleDataDogAction({ locationBasePath, locationChildPath });
+  };
+
+  // Render back button for detail pages
+  if (isDetailPage) {
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
@@ -134,35 +147,8 @@ const MrBreadcrumbs = () => {
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
-          to={backToImagesBreadcrumb}
-          onClick={() => {
-            handleDataDogAction({ locationBasePath, locationChildPath });
-            backToAllergiesBreadcrumb();
-          }}
-        >
-          Back
-        </Link>
-      </div>
-    );
-  }
-  if (location.pathname.includes('/vitals/')) {
-    return (
-      <div
-        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
-        label="Breadcrumb"
-        data-testid="mr-breadcrumbs"
-      >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5">
-          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
-        </span>
-        <Link
-          to={`${backToImagesBreadcrumb}${
-            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
-          }`}
-          onClick={() => {
-            handleDataDogAction({ locationBasePath, locationChildPath });
-            backToAllergiesBreadcrumb();
-          }}
+          to={getBackUrl()}
+          onClick={handleBackClick}
         >
           Back
         </Link>
@@ -170,6 +156,7 @@ const MrBreadcrumbs = () => {
     );
   }
 
+  // Render standard breadcrumbs for non-detail pages
   return (
     <VaBreadcrumbs
       breadcrumbList={crumbsList}
