@@ -48,6 +48,7 @@ export const Paths = {
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
+    DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
   },
 };
 
@@ -221,6 +222,8 @@ export const Locators = {
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
     NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
+    EL_SIGN_NAME: '#input-error-message .usa-error-message',
+    EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
