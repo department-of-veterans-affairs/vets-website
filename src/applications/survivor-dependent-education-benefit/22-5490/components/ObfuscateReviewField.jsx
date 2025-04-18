@@ -5,7 +5,7 @@ import { obfuscate } from '../helpers';
 function ObfuscateReviewField({ children, uiSchema }) {
   const { formData } = children.props; // Extract form data
   const maskedValue = obfuscate(formData); // Generate obfuscated value
-  const visibleLastDigits = formData.slice(-4); // Extract last 4 digits for accessibility
+  const visibleLastDigits = formData?.slice(-4); // Extract last 4 digits for accessibility
 
   return (
     <dl
