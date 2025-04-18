@@ -9,7 +9,7 @@ import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 import { getReferralSlotKey } from './utils/referrals';
 
 export default function ScheduleReferral(props) {
-  const { attributes: currentReferral } = props.currentReferral;
+  const { currentReferral } = props;
   const location = useLocation();
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
@@ -85,7 +85,7 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacilityInfo.name}
+          {currentReferral.referringFacilityInfo.facilityName}
           <br />
           <strong>Phone: </strong>
           {currentReferral.referringFacilityInfo.phone}

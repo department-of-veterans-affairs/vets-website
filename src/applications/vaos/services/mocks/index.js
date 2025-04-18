@@ -382,9 +382,11 @@ const responses = {
   'GET /vaos/v2/relationships': (req, res) => {
     return res.json(patientProviderRelationships);
   },
+
+  // EPS api
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4),
+      data: referralUtils.createReferrals(4, '2024-12-02'),
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
@@ -393,20 +395,34 @@ const responses = {
     }
 
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
+      const yesterday = moment()
+        .subtract(1, 'days')
+        .format('YYYY-MM-DD');
       const expiredReferral = referralUtils.createReferralById(
-        req.params.referralId,
         '2024-12-02',
+        req.params.referralId,
+        '111',
+        yesterday,
       );
       return res.json({
         data: expiredReferral,
       });
     }
-    const referral = referralUtils.createReferralById(req.params.referralId);
+    const tomorrow = moment()
+      .add(2, 'days')
+      .format('YYYY-MM-DD');
+    const referral = referralUtils.createReferralById(
+      '2024-12-02',
+      req.params.referralId,
+      '111',
+      tomorrow,
+    );
+
     return res.json({
       data: referral,
     });
   },
-  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
+  'POST /vaos/v2/appointments/draft': (req, res) => {
     // referralId is the referralNumber of the referral
     const { referralId } = req.body;
     // Provider 3 throws error
@@ -431,7 +447,7 @@ const responses = {
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
@@ -456,7 +472,7 @@ const responses = {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
       // reassign status of mocked appointment to booked to simulate success
-      mockAppointment.appointment.status = 'booked';
+      mockAppointment.attributes.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
@@ -464,7 +480,7 @@ const responses = {
       data: mockAppointment,
     });
   },
-  'POST /vaos/v2/epsApi/appointments': (req, res) => {
+  'POST /vaos/v2/appointments/submit': (req, res) => {
     const { slotId, draftApppointmentId, referralNumber } = req.body;
 
     if (!referralNumber || !slotId || !draftApppointmentId) {

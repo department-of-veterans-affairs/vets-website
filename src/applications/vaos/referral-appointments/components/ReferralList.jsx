@@ -39,11 +39,7 @@ const ReferralList = ({ referrals, referralsError }) => {
     >
       {referrals.map((referral, index) => {
         return (
-          <PendingReferralCard
-            key={index}
-            index={index}
-            referral={referral.attributes}
-          />
+          <PendingReferralCard key={index} index={index} referral={referral} />
         );
       })}
     </ul>
