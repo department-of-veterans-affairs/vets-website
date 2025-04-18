@@ -65,6 +65,7 @@ const wrapApiRequest = fn => {
           manifest.rootUrl,
           `${manifest.rootUrl}/`,
           `${manifest.rootUrl}/sign-in`,
+          `${manifest.rootUrl}/auth/login/callback`,
         ].includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
