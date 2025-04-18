@@ -13,6 +13,10 @@ import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Review your travel claim';
 
@@ -26,6 +30,7 @@ const ReviewPage = ({
   setIsAgreementChecked,
 }) => {
   useEffect(() => {
+    recordSmocPageview('review');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
@@ -37,6 +42,7 @@ const ReviewPage = ({
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
+    recordSmocButtonClick('review', 'start-over');
     setYesNo({
       mileage: '',
       vehicle: '',
@@ -129,6 +135,7 @@ const ReviewPage = ({
       <VaButtonPair
         className="vads-u-margin-top--2"
         continue
+        disable-analytics
         rightButtonText="File claim"
         leftButtonText="Start over"
         onPrimaryClick={onSubmit}
