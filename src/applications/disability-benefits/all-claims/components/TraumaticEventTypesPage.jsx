@@ -159,16 +159,15 @@ const TraumaticEventTypesPage = ({
   return (
     <div className="vads-u-margin-y--2">
       <div className="vads-u-margin-bottom--1">
-        {/* <VaAlert
-          // ref={deletedEvidenceConfirmationRef}
+        <VaAlert
+          ref={deletedEvidenceConfirmationRef}
           closeBtnAriaLabel="Deleted MST evidence confirmation"
           closeable
           onCloseEvent={handlers.onCloseDeletedEvidenceAlert}
           fullWidth="false"
           slim
           status="warning"
-          // visible={showDeletedEvidenceConfirmation}
-          visible={false}
+          visible={showDeletedEvidenceConfirmation}
           uswds
           tabIndex="-1"
         >
@@ -182,7 +181,7 @@ const TraumaticEventTypesPage = ({
               Continue with your claim
             </button>{' '}
           </p>
-        </VaAlert> */}
+        </VaAlert>
       </div>
 
       {titleWithTag(eventTypesPageTitle, form0781HeadingTag)}

@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { TRAUMATIC_EVENT_TYPES } from '../../constants';
 import TraumaticEventTypesPage from '../../components/TraumaticEventTypesPage';
-import { deletedEvidenceAlertConfirmationContent } from '../../content/traumaticEventTypes';
 
 describe('TraumaticEventTypesPage', () => {
   const page = ({
@@ -274,7 +273,7 @@ describe('TraumaticEventTypesPage', () => {
 
   describe('modal delete action selection', () => {
     const confirmationAlertSelector =
-      'va-alert[status="success"][visible="true"][close-btn-aria-label="Deleted MST evidence confirmation"]';
+      'va-alert[status="warning"][visible="true"][close-btn-aria-label="Deleted MST evidence confirmation"]';
 
     const deselectedMSTWithExistingEvidence = {
       eventTypes: {
@@ -359,7 +358,9 @@ describe('TraumaticEventTypesPage', () => {
         expect($(confirmationAlertSelector), container).to.exist;
 
         expect($(confirmationAlertSelector, container).innerHTML).to.contain(
-          deletedEvidenceAlertConfirmationContent,
+          'You’ve removed sexual assault or harassment as a type of trauma you experienced.',
+          'Review your traumatic events, behavioral changes and supporting documents to remove any information you don’t want to include.',
+          'Continue with your claim',
         );
 
         expect($(confirmationAlertSelector, container).innerHTML).to.contain(
