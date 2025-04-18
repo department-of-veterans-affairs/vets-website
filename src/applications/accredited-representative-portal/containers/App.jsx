@@ -10,7 +10,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function App() {
-  const isPublicRoute = useLocation().pathname === '/sign-in';
+  const { pathname } = useLocation();
+  const isPublicRoute =
+    pathname === '/sign-in' || pathname === '/auth/login/callback';
 
   const {
     TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },

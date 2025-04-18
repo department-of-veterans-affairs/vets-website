@@ -78,47 +78,7 @@ const routes = [
       {
         path: 'auth/login/callback',
         element: <AuthCallbackHandler />,
-        loader: async () => {
-          // Get OAuth callback parameters
-          const searchParams = new URLSearchParams(window.location.search);
-          const code = searchParams.get('code');
-          const state = searchParams.get('state');
-          const to = searchParams.get('to') || '/poa-requests';
-
-          // If we have code and state, process the OAuth callback
-          if (code && state) {
-            try {
-              // Import the platform's auth handling utility
-              const {
-                handleTokenRequest,
-              } = await import('applications/auth/helpers');
-
-              // Exchange the code for a token
-              await handleTokenRequest({
-                code,
-                state,
-                csp: 'logingov',
-                generateOAuthError: error => {
-                  throw new Error(error);
-                },
-              });
-
-              // After successful token exchange, redirect to the target URL
-              throw redirect(to);
-            } catch (error) {
-              // Redirect to sign-in with error
-              throw redirect('/sign-in?error=auth_failed');
-            }
-          }
-
-          // Check if already authenticated (might happen on page refresh)
-          if (await userPromise) {
-            throw redirect(to);
-          }
-
-          // If not authenticated yet, return data for loading state
-          return { to };
-        },
+        loader: AuthCallbackHandler.loader,
       },
       forEachRoute(addSignInRedirection, {
         element: <SignedInLayout />,
