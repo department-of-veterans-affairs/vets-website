@@ -71,10 +71,7 @@ class ContactListPage {
   };
 
   verifySaveAlert = () => {
-    cy.get(Locators.ALERTS.HEADER).should(
-      `include.text`,
-      Alerts.CONTACT_LIST.SAVE,
-    );
+    cy.contains(Alerts.CONTACT_LIST.SAVE).should(`be.visible`);
 
     cy.get(Locators.ALERTS.CL_SAVE)
       .shadow()
