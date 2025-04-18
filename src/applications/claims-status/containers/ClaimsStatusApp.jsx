@@ -7,11 +7,11 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import CustomRequiredLoginView from '../components/CustomRequiredLoginView';
 import { isLoadingFeatures } from '../selectors';
 import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
@@ -27,7 +27,7 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
       <div className="vads-u-margin-y--5">
         <va-loading-indicator
           data-testid="feature-flags-loading"
-          message="Loading your information..."
+          message="Loading VA Claim Status..."
         />
       </div>
     );
@@ -70,7 +70,7 @@ function ClaimsStatusApp({
   });
 
   return (
-    <RequiredLoginView
+    <CustomRequiredLoginView
       verify
       serviceRequired={[
         backendServices.EVSS_CLAIMS,
@@ -93,7 +93,7 @@ function ClaimsStatusApp({
           <AppContent featureFlagsLoading={featureFlagsLoading} />
         </DowntimeNotification>
       </div>
-    </RequiredLoginView>
+    </CustomRequiredLoginView>
   );
 }
 
