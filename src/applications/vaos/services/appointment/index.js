@@ -941,14 +941,9 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
+export function getLink({ appointment }) {
+  const { isPastAppointment } = appointment.vaos;
 
-  if (!featureBreadcrumbUrlUpdate) {
-    return isCommunityCare
-      ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
-      : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
-  }
   return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
 }
 

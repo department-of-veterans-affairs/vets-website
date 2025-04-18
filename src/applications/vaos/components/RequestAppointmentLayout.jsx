@@ -10,10 +10,7 @@ import {
   selectModalityIcon,
   selectTypeOfCareName,
 } from '../appointment-list/redux/selectors';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureCCDirectScheduling,
-} from '../redux/selectors';
+import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import AppointmentRow from './AppointmentRow';
@@ -36,18 +33,13 @@ export default function RequestAppointmentLayout({ appointment, index }) {
   const detailAriaLabel = useSelector(() =>
     selectApptDetailAriaText(appointment, true),
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
   );
 
   const displayNewTypeOfCareHeading = `${typeOfCareName} request`;
-  const link = `${featureBreadcrumbUrlUpdate ? 'pending' : 'requests'}/${
-    appointment.id
-  }`;
+  const link = `pending/${appointment.id}`;
 
   return (
     <ListItem

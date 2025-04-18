@@ -7,10 +7,7 @@ import moment from 'moment';
 import { format, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeaturePastApptDateRange,
-} from '../../../redux/selectors';
+import { selectFeaturePastApptDateRange } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -145,10 +142,6 @@ export default function PastAppointmentsPage() {
     pastSelectedIndex,
     hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
-
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
@@ -285,7 +278,6 @@ export default function PastAppointmentsPage() {
               role="list"
             >
               {UpcomingAppointmentLayout({
-                featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
               })}

@@ -92,9 +92,7 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     await waitFor(() => {
@@ -159,9 +157,7 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
