@@ -9,13 +9,19 @@ const mockUser = {
           service_name: 'idme',
         },
         email: 'vets.gov.user+71@gmail.com',
-        loa: { current: 3 },
+        loa: { current: 3, highest: 3 },
         first_name: 'Julio',
         middle_name: 'E',
         last_name: 'Hunter',
         gender: 'M',
         birth_date: '1951-11-18',
         verified: true,
+        facilities: [
+          {
+            facility_id: '668QE',
+            is_cerner: false,
+          },
+        ],
       },
       veteran_status: {
         status: 'OK',
@@ -38,6 +44,15 @@ const mockUser = {
         family_name: 'Hunter',
         gender: 'M',
         given_names: ['Julio', 'E'],
+        va_patient: true,
+        is_cerner_patient: false,
+        facilities: [
+          {
+            facility_id: '668QE',
+            is_cerner: false,
+          },
+        ],
+        mhv_account_state: 'NONE',
       },
       vet360ContactInformation: {
         email: null,
