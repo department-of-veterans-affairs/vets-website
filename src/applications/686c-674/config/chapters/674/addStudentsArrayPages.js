@@ -205,7 +205,7 @@ export const studentAddressPage = {
     address: addressUI({
       labels: {
         militaryCheckbox:
-          'They receive mail outside of the United States on a U.S. military base.',
+          'The student receives mail outside of the United States on a U.S. military base.',
       },
     }),
   },
