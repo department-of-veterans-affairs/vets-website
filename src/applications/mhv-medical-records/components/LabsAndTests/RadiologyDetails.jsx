@@ -221,6 +221,18 @@ ${record.results}`;
     setIsImageRequested(true);
   };
 
+  /**
+   * Determines whether image requests should be disabled for a given study job.
+   */
+  const disableRequestImages = imageStudyJob => {
+    return (
+      imageStudyJob &&
+      (imageStudyJob.status === studyJobStatus.NEW ||
+        imageStudyJob.status === studyJobStatus.PROCESSING) &&
+      imageStudyJob.percentComplete < 100
+    );
+  };
+
   const notificationContent = () => (
     <>
       {notificationStatus ? (
@@ -284,7 +296,7 @@ ${record.results}`;
       {requestNote()}
       <va-button
         onClick={() => makeImageRequest()}
-        disabled={imageRequest?.percentComplete < 100}
+        disabled={disableRequestImages(imageRequest)}
         ref={elementRef}
         text="Request Images"
         uswds
@@ -377,7 +389,7 @@ ${record.results}`;
         class="vads-u-margin-top--2"
         onClick={() => makeImageRequest()}
         data-testid="radiology-request-images-button"
-        disabled={imageRequest?.percentComplete < 100}
+        disabled={disableRequestImages(imageRequest)}
         ref={elementRef}
         text="Request Images"
         uswds
