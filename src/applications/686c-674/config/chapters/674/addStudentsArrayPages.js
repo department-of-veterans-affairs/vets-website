@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -35,7 +36,7 @@ import {
   ProgramExamples,
   TermDateHint,
 } from './helpers';
-import { generateHelpText } from '../../helpers';
+import { CancelButton, generateHelpText } from '../../helpers';
 
 const numberSchema = {
   type: 'string',
@@ -92,8 +93,17 @@ export const addStudentsOptions = {
 
 export const addStudentsIntroPage = {
   uiSchema: {
-    ...titleUI('Your students'),
-    'ui:description': AddStudentsIntro,
+    ...titleUI({
+      title: 'Your students',
+      description: () => {
+        return (
+          <>
+            {AddStudentsIntro}
+            <CancelButton dependentType="students" isAddChapter />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',
