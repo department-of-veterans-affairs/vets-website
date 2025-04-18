@@ -1,9 +1,9 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-// import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
-import { AXE_CONTEXT } from './utils/constants';
+import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
-// import mockFolders from './fixtures/folder-response.json';
+import mockFolders from './fixtures/folder-response.json';
 
 describe('SM DELETE CUSTOM FOLDER', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('SM DELETE CUSTOM FOLDER', () => {
     PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
     PatientMessageCustomFolderPage.clickOnCloseIcon();
     PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
-    
+
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
