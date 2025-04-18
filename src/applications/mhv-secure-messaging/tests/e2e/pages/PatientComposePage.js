@@ -460,16 +460,9 @@ class PatientComposePage {
   };
 
   verifyAdditionalInfoDropdownLinks = () => {
-    // verify `find-locations` link
     cy.get(Locators.DROPDOWN.ADD_INFO)
-      .find(`a[href*="preferences"]`)
+      .find(`a[href*="contact-list"]`)
       .should(`be.visible`);
-
-    // verify `preferences` link
-    cy.get(Locators.DROPDOWN.ADD_INFO)
-      .find(`a[href*="locations"]`)
-      .should(`be.visible`)
-      .and('not.have.attr', `target`, `_blank`);
   };
 
   openRecipientsDropdown = () => {

@@ -5,15 +5,9 @@ import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
-describe('SM Single Facility Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
-    {
-      name: 'mhv_secure_messaging_edit_contact_list',
-      value: true,
-    },
-  ]);
+describe('SM MULTI FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   beforeEach(() => {
-    SecureMessagingSite.login(updatedFeatureToggle);
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList();
     ContactListPage.selectAllCheckBox();
@@ -35,8 +29,7 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyEmptyContactListAlert();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`user won't see the alert after saving changes`, () => {
@@ -52,8 +45,7 @@ describe('SM Single Facility Contact list', () => {
     GeneralFunctionsPage.verifyUrl(`inbox`);
     GeneralFunctionsPage.verifyPageHeader(`Inbox`);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify single contact selected', () => {
@@ -85,8 +77,7 @@ describe('SM Single Facility Contact list', () => {
         });
       });
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify few contacts selected`, () => {
@@ -124,8 +115,7 @@ describe('SM Single Facility Contact list', () => {
           expect(el.preferredTeam).to.eq(true);
         });
 
-        cy.injectAxe();
-        cy.axeCheck(AXE_CONTEXT);
+        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
       });
   });
 });

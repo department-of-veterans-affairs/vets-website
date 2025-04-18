@@ -2,25 +2,17 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
-import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('SM Single Facility Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
-    {
-      name: 'mhv_secure_messaging_edit_contact_list',
-      value: true,
-    },
-  ]);
+describe('SM SINGLE FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   beforeEach(() => {
-    SecureMessagingSite.login(updatedFeatureToggle);
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList();
     ContactListPage.selectAllCheckBox();
   });
 
   it('navigate away using secondary navigation', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     cy.window().then(win => {
       const beforeUnloadStub = cy.stub();
@@ -39,8 +31,7 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`navigate away using navbar`, () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     cy.window().then(win => {
       const beforeUnloadStub = cy.stub();
@@ -59,8 +50,7 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`navigate away using browser back button`, () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     cy.window().then(win => {
       const beforeUnloadStub = cy.stub();
@@ -79,8 +69,7 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`navigate away using browser reload`, () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     cy.window().then(win => {
       const beforeUnloadStub = cy.stub();

@@ -2,22 +2,17 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT } from '../utils/constants';
+import mockToggles from '../fixtures/toggles-response.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('SM Multi Facility Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
-    {
-      name: 'mhv_secure_messaging_edit_contact_list',
-      value: true,
-    },
-  ]);
+describe('SM MULTI FACILITY CONTACT LIST', () => {
   beforeEach(() => {
     SecureMessagingSite.login(
-      updatedFeatureToggle,
+      mockToggles,
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,
@@ -45,8 +40,7 @@ describe('SM Multi Facility Contact list', () => {
     ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyEmptyContactListAlert();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`user won't see the alert after saving changes`, () => {
@@ -63,8 +57,7 @@ describe('SM Multi Facility Contact list', () => {
     GeneralFunctionsPage.verifyUrl(`inbox`);
     GeneralFunctionsPage.verifyPageHeader(`Inbox`);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify single contact selected', () => {
@@ -97,8 +90,7 @@ describe('SM Multi Facility Contact list', () => {
         });
       });
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify few contacts selected`, () => {
@@ -136,8 +128,7 @@ describe('SM Multi Facility Contact list', () => {
           expect(el.preferredTeam).to.eq(true);
         });
 
-        cy.injectAxe();
-        cy.axeCheck(AXE_CONTEXT);
+        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
       });
   });
 });
