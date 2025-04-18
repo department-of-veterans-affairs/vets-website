@@ -61,6 +61,10 @@ export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
 const CONFIRMATION_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/send_confirmation_email`;
+const ADDRESS_VALIDATION_ENDPOINT = `${
+  environment.API_URL
+}/v0/profile/address_validation`;
+
 export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
 export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
 export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
@@ -303,7 +307,7 @@ export function validateAddress(address) {
 
     try {
       // Make API request to validate address
-      const response = await apiRequest('/v0/profile/address_validation', {
+      const response = await apiRequest(ADDRESS_VALIDATION_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ address }),

@@ -22,7 +22,7 @@ import { duplicateArrays } from '../utils/validation';
 const isAddressComplete = address => {
   if (!address || address.country !== 'USA') return false;
   const { street, city, state, postalCode } = address;
-  return Boolean(street && city && state && postalCode);
+  return Boolean(street && city && state && postalCode?.length >= 5);
 };
 
 export const App = ({
@@ -461,7 +461,6 @@ export const App = ({
       // Check conditions for triggering validation
       if (
         isLoggedIn &&
-        isLOA3 &&
         mebAddressValidationApi &&
         address &&
         address.country === 'USA' &&
@@ -496,7 +495,6 @@ export const App = ({
       addressValidation?.validated,
       addressValidation?.isValidating,
       isLoggedIn,
-      isLOA3,
       mebAddressValidationApi,
       validateAddressAction,
       setFormData,
