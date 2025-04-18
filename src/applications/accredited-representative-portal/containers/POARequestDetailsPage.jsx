@@ -495,7 +495,10 @@ POARequestDetailsPage.loader = ({ params, request }) => {
 
 POARequestDetailsPage.createDecisionAction = async ({ params, request }) => {
   const key = (await request.formData()).get('decision');
-  const decision = DECISION_OPTIONS[key];
+  const decision = {
+    ...DECISION_OPTIONS[key], // Spread the existing decision object
+    key, // Add the key field with the value of the key
+  };
 
   await api.createPOARequestDecision(params.id, decision, {
     signal: request.signal,
