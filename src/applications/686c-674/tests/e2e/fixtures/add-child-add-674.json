@@ -11,6 +11,15 @@
     "report674": true
   },
   "view:removeDependentOptions": {},
+  "veteranInformation": {
+      "fullName": {
+        "first": "Gregory",
+        "middle": "A",
+        "last": "Anderson"
+      },
+      "ssn": "796121200",
+      "birthDate": "1933-05-04"
+    },
   "veteranContactInformation": {
     "phoneNumber": "4324324322",
     "emailAddress": "test@test.com",
