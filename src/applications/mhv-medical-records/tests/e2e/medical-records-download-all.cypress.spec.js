@@ -36,27 +36,26 @@ describe('Test download all page', () => {
       'End date must be on or after start date.',
     );
 
-    // Verify "valid year" error
-    DownloadAllPage.clearCustomStartYear();
-    DownloadAllPage.selectCustomStartYear('1895');
-    DownloadAllPage.blurCustomStartYear();
-    // // Previously this error was flaky
+    // // Verify "valid year" error
+    // DownloadAllPage.clearCustomStartYear();
+    // DownloadAllPage.selectCustomStartYear('1895');
+    // DownloadAllPage.blurCustomStartYear();
+    // // Previously this error was FLAKY
     // DownloadAllPage.verifyErrorValidYear(
     //   'Please enter a year between 1900 and 2125',
     // );
 
-    // THIS SECTION IS FLAKY... COMMENTING OUT FOR NOW
-    // // Verify dates are selected correctly on the next page
-    // DownloadAllPage.clearCustomStartYear();
-    // DownloadAllPage.clearCustomEndYear();
-    // DownloadAllPage.selectCustomStartYear('2015');
-    // DownloadAllPage.selectCustomEndYear('2024');
-    // DownloadAllPage.clickContinueOnDownloadAllPage();
-    // DownloadAllPage.verifyDateRangeOnPageTwo(
-    //   'January 12, 2015 to January 1, 2024',
-    // );
-    // DownloadAllPage.clickBackOnDownloadAllPage();
+    // Verify dates are selected correctly on the next page
+    DownloadAllPage.clearCustomStartYear();
+    DownloadAllPage.selectCustomStartYear('2015');
+    DownloadAllPage.clearCustomEndYear();
+    DownloadAllPage.selectCustomEndYear('2024');
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyDateRangeOnPageTwo(
+      'January 12, 2015 to January 1, 2024',
+    );
 
+    DownloadAllPage.clickBackOnDownloadAllPage();
     DownloadAllPage.selectDateRangeDropdown('All time');
     DownloadAllPage.clickContinueOnDownloadAllPage();
 

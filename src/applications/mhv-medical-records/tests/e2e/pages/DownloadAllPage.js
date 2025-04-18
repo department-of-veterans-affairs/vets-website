@@ -71,9 +71,7 @@ class DownloadAllPage {
   };
 
   verifyDateRangeOnPageTwo = dateRange => {
-    cy.get('legend')
-      .first()
-      .should('contain', dateRange); // .should('contain', `Date range: Custom (${dateRange})`);
+    cy.get('[data-testid="date-range-legend"]').should('contain', dateRange);
   };
 
   selectDateRangeDropdown = option => {
