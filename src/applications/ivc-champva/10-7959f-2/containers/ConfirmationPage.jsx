@@ -96,12 +96,17 @@ export class ConfirmationPage extends React.Component {
           bank account, we’ll send you a U.S. Treasury check.
         </p>
 
+        <va-link
+          href="/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-"
+          text="Learn more about what to expect after you file your claim"
+        />
+
         <p>
           <b>Note:</b> We’ll convert the claim amount into U.S. dollars when we
           pay your claim. We’ll use the conversion rate from the date you
           received care.
         </p>
-        <h3>If we decide we can’t cover your claim under FMP</h3>
+        <h3>If we don’t approve this claim</h3>
         <p>
           If you disagree with our decision, you can ask us to reconsider our
           decision. We call this an appeal. You must request the appeal within{' '}
@@ -112,9 +117,6 @@ export class ConfirmationPage extends React.Component {
         {IVC_APPEALS_ADDRESS}
 
         <p>Include any new information or documents that support your claim.</p>
-        <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-">
-          Learn more about what to expect after you file your claim
-        </a>
         <h2>How to contact us about FMP claims</h2>
         <p>
           If you have any questions about your claim, call us at{' '}

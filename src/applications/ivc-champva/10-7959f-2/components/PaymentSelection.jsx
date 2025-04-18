@@ -100,10 +100,10 @@ export const loggedOutPaymentInfo = (
       <li>{providerText}</li>
     </ul>
     <va-additional-info trigger="Learn more about direct deposit payments">
-      <va-link
-        href="/change-direct-deposit"
-        text="Learn how to change your direct deposit information for your VA benefit payments."
-      />
+      <a href="/profile/direct-deposit" rel="noreferrer" target="_blank">
+        Learn how to change your direct deposit information for your VA benefit
+        payments (opens in a new tab)
+      </a>
       <br />
       <br />
       {noDirectDeposit}
