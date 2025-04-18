@@ -71,6 +71,9 @@ export function ComparePage({
     },
     [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
   );
+  useEffect(() => {
+    document.title = `Institution comparison: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {

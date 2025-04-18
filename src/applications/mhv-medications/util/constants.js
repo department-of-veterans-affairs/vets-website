@@ -76,7 +76,7 @@ export const filterOptions = {
     label: 'Non-active',
     name: 'filter option',
     description:
-      'Prescriptions that are discontinued, expired, or have an unkown status',
+      'Prescriptions that are discontinued, expired, or have an unknown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
