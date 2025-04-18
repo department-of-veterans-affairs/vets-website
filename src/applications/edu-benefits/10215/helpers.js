@@ -118,6 +118,7 @@ export const childContent = (downloadLink, goBack) => (
     </va-process-list>
     <p>
       <va-button
+        className="custom-classname"
         secondary
         text="Print this page"
         data-testid="print-page"
