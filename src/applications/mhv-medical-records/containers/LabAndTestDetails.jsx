@@ -19,6 +19,8 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAcceleratedData from '../hooks/useAcceleratedData';
+import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -29,8 +31,11 @@ const LabAndTestDetails = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const fullState = useSelector(state => state);
+  const user = useSelector(state => state.user.profile);
+
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
   useEffect(
     () => {
@@ -44,11 +49,17 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId, labAndTestList));
+        dispatch(
+          getlabsAndTestsDetails(
+            labId,
+            labAndTestList,
+            isAcceleratingLabsAndTests,
+          ),
+        );
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
-    [labId, labAndTestList, dispatch],
+    [labId, labAndTestList, dispatch, isAcceleratingLabsAndTests],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -61,6 +72,10 @@ const LabAndTestDetails = () => {
       />
     );
   }
+  if (isAcceleratingLabsAndTests && labAndTestDetails) {
+    return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
+  }
+  // TODO: Delete this with the feature toggle
   if (labAndTestDetails?.type === labTypes.CHEM_HEM) {
     return <ChemHemDetails record={labAndTestDetails} fullState={fullState} />;
   }
