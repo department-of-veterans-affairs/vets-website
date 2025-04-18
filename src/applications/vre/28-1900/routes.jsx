@@ -5,17 +5,21 @@ import FormApp from './containers/FormApp.jsx';
 
 const routes = [
   {
-    path: '/start',
+    path: '/',
     component: App,
   },
-  {
-    path: '/',
-    component: FormApp,
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
-    indexRoute: {
-      onEnter: (nextState, replace) => replace('/introduction'),
-    },
-  },
+  // {
+  //   path: '/start',
+  //   component: App,
+  // },
+  // {
+  //   path: '/',
+  //   component: FormApp,
+  //   childRoutes: createRoutesWithSaveInProgress(formConfig),
+  //   indexRoute: {
+  //     onEnter: (nextState, replace) => replace('/introduction'),
+  //   },
+  // },
 ];
 
 export default routes;
