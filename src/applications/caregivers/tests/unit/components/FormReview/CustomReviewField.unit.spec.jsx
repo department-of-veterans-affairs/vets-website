@@ -6,18 +6,15 @@ import CustomReviewField from '../../../../components/FormReview/CustomReviewFie
 describe('CG <CustomReviewField>', () => {
   const uiTitle = 'Review Field Title';
   const subject = ({ formData }) => {
-    const props = {
-      uiSchema: { 'ui:title': uiTitle },
-      formData,
-    };
+    const props = { uiSchema: { 'ui:title': uiTitle }, formData };
     const { container } = render(
       <CustomReviewField>
         <div {...props} />
       </CustomReviewField>,
     );
     const selectors = () => ({
-      title: container.querySelector('dt', '.review-row'),
-      value: container.querySelector('dd', '.review-row'),
+      title: container.querySelector('dt'),
+      value: container.querySelector('dd'),
     });
     return { selectors };
   };
