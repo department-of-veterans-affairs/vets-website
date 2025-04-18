@@ -114,6 +114,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtAnAtlasLocation',
             localStartTime,
             atlas: {
               confirmationCode: '7VBBCA',
@@ -161,7 +163,7 @@ export default class MockAppointmentResponse {
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
             type: 'VA',
-            modality: 'inPerson',
+            modality: 'vaVideoCareAtAVaLocation',
             localStartTime,
             vvsKind: VIDEO_TYPES.clinic,
             future,
@@ -183,6 +185,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
             patientHasMobileGfe: true,
@@ -200,6 +204,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
             future,
@@ -215,6 +221,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.phone,
+            type: 'VA',
+            modality: 'vaPhone',
             localStartTime,
             future,
           }),
@@ -233,6 +241,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.storeForward,
             future,
