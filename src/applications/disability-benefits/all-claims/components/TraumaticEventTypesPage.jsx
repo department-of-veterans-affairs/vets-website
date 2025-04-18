@@ -87,13 +87,13 @@ const TraumaticEventTypesPage = ({
   };
 
   const deleteMSTEvidence = () => {
-    // const deepClone = cloneDeep(data);
+    const deepClone = cloneDeep(data);
+    // Confirm this is works as expected in the UI?
+    // Maybe delete the key entirely?
+    deepClone.optionIndicator = undefined;
+    deepClone.militaryReports = {};
 
-    // DELETABLE_MST_EVDIENCE_KEYS.forEach(key => {
-    //   deepClone[key] = {};
-    // });
-
-    // setFormData(deepClone);
+    setFormData(deepClone);
   };
 
   const shouldShowDeleteMSTEvidenceModal = () => {
@@ -159,7 +159,7 @@ const TraumaticEventTypesPage = ({
   return (
     <div className="vads-u-margin-y--2">
       <div className="vads-u-margin-bottom--1">
-        <VaAlert
+        {/* <VaAlert
           // ref={deletedEvidenceConfirmationRef}
           closeBtnAriaLabel="Deleted MST evidence confirmation"
           closeable
@@ -182,7 +182,7 @@ const TraumaticEventTypesPage = ({
               Continue with your claim
             </button>{' '}
           </p>
-        </VaAlert>
+        </VaAlert> */}
       </div>
 
       {titleWithTag(eventTypesPageTitle, form0781HeadingTag)}

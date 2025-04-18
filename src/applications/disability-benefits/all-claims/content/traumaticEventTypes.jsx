@@ -30,10 +30,12 @@ export const deleteMSTEvidenceModaContent = (
 export const deletedEvidenceAlertConfirmationContent = (
   <>
     <p className="vads-u-margin-y--0">
-      You’ve removed sexual assault or harassment as a type of trauma you experienced.
+      You’ve removed sexual assault or harassment as a type of trauma you
+      experienced.
     </p>
     <p className="vads-u-margin-y--0">
-      Review your traumatic events, behavioral changes and supporting documents to remove any information you don’t want to include.
+      Review your traumatic events, behavioral changes and supporting documents
+      to remove any information you don’t want to include.
     </p>
   </>
-)
+);

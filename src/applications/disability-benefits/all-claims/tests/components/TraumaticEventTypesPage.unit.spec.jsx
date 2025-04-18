@@ -8,6 +8,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { TRAUMATIC_EVENT_TYPES } from '../../constants';
 import TraumaticEventTypesPage from '../../components/TraumaticEventTypesPage';
+import { deletedEvidenceAlertConfirmationContent } from '../../content/traumaticEventTypes';
 
 describe('TraumaticEventTypesPage', () => {
   const page = ({
@@ -92,7 +93,7 @@ describe('TraumaticEventTypesPage', () => {
     });
   });
 
-  describe('Delete already entered MST-related evidence modal', () => {
+  describe('Display modal for deleting already entered MST-related evidence', () => {
     describe('when MST events were not selected', () => {
       it('does not show the modal', () => {
         const data = {
@@ -267,6 +268,103 @@ describe('TraumaticEventTypesPage', () => {
             expect($('va-modal[visible="true"]', container)).not.to.exist;
           });
         });
+      });
+    });
+  });
+
+  describe('modal delete action selection', () => {
+    const confirmationAlertSelector =
+      'va-alert[status="success"][visible="true"][close-btn-aria-label="Deleted MST evidence confirmation"]';
+
+    const deselectedMSTWithExistingEvidence = {
+      eventTypes: {
+        combat: true,
+        mst: false,
+        nonMst: true,
+        other: true,
+      },
+      optionIndicator: 'no',
+      events: [
+        {
+          militaryReports: {
+            restricted: true,
+          },
+        },
+      ],
+    };
+
+    describe('When the close button is clicked', () => {
+      it('closes the modal', () => {
+        const { container } = render(
+          page({ data: deselectedMSTWithExistingEvidence }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+
+        modal.__events.closeEvent();
+        expect($('va-modal[visible="true"]', container)).not.to.exist;
+      });
+    });
+
+    describe('When the confirm button is clicked', () => {
+      it('closes the modal', () => {
+        const { container } = render(
+          page({ data: deselectedMSTWithExistingEvidence }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+
+        modal.__events.primaryButtonClick();
+        expect($('va-modal[visible="true"]', container)).not.to.exist;
+      });
+
+      it('deletes answered questions and checkboxes', () => {
+        const setFormDataSpy = sinon.spy();
+        const { container } = render(
+          page({ data: deselectedMSTWithExistingEvidence }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        modal.__events.primaryButtonClick();
+
+        expect(
+          setFormDataSpy.calledWith({
+            // Confirm this works as expected
+            optionIndicator: undefined,
+            militaryReports: {},
+          }),
+        );
+      });
+
+      it('does not advance the page and displays a deletion confirmation alert', async () => {
+        const goForwardSpy = sinon.spy();
+        const { container } = render(
+          page({
+            data: deselectedMSTWithExistingEvidence,
+            goForward: goForwardSpy,
+          }),
+        );
+
+        fireEvent.click($('button[type="submit"]', container));
+
+        const modal = container.querySelector('va-modal');
+        modal.__events.primaryButtonClick();
+
+        expect($(confirmationAlertSelector), container).to.exist;
+
+        expect($(confirmationAlertSelector, container).innerHTML).to.contain(
+          deletedEvidenceAlertConfirmationContent,
+        );
+
+        expect($(confirmationAlertSelector, container).innerHTML).to.contain(
+          'Continue with your claim',
+        );
       });
     });
   });
