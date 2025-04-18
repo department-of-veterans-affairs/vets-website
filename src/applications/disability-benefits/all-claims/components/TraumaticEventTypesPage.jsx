@@ -1,4 +1,5 @@
 import {
+  VaAlert,
   // VaAlert,
   VaCheckboxGroup,
   VaModal,
@@ -16,6 +17,7 @@ import {
   titleWithTag,
 } from '../content/form0781';
 import {
+  deletedEvidenceAlertConfirmationContent,
   deleteMSTEvidenceModaContent,
   deleteMSTEvidenceModalDescripton,
   deleteMSTEvidenceModalTitle,
@@ -25,15 +27,6 @@ import {
   eventTypesQuestion,
 } from '../content/traumaticEventTypes';
 import { TRAUMATIC_EVENT_TYPES } from '../constants';
-
-const DELETABLE_MST_EVDIENCE_KEYS = [
-  // KEYS FOR INCIDENT REPORT AND CONSENT
-  // Get them from src/applications/disability-benefits/all-claims/config/form0781/index.js
-
-
-
-
-];
 
 const TraumaticEventTypesPage = ({
   goBack,
@@ -79,22 +72,32 @@ const TraumaticEventTypesPage = ({
     [showDeleteMSTEvidenceModal],
   );
 
+  const claimedIncidentReportsForEvents = () => {
+    if (data.events) {
+      return data.events.some(event => {
+        // NOTE: we need to account for undefined values
+        // This is the behavior of the Forms Library when the user visits the a page but doesn't make a selection
+        return Object.values(event?.militaryReports || {}).some(
+          report => report === true,
+        );
+      });
+    }
+
+    return false;
+  };
+
   const deleteMSTEvidence = () => {
-    const deepClone = cloneDeep(data);
+    // const deepClone = cloneDeep(data);
 
-    DELETABLE_MST_EVDIENCE_KEYS.forEach(key => {
-      deepClone[key] = {};
-    });
+    // DELETABLE_MST_EVDIENCE_KEYS.forEach(key => {
+    //   deepClone[key] = {};
+    // });
 
-    setFormData(deepClone);
+    // setFormData(deepClone);
   };
 
   const shouldShowDeleteMSTEvidenceModal = () => {
-    // console.log("DATA", data);
-    return false;
-    // You can figure these out by going throw the flow, back and checking in the console
-    // events: [militaryReports]
-    // optionIndicator:
+    return data.optionIndicator || claimedIncidentReportsForEvents();
   };
 
   const handlers = {
@@ -136,7 +139,7 @@ const TraumaticEventTypesPage = ({
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
     },
-    onCloseDeletedAnswersAlert: () => {
+    onCloseDeletedEvidenceAlert: () => {
       setShowDeletedEvidenceConfirmation(false);
     },
     onClickConfirmationLink: () => {
@@ -155,22 +158,21 @@ const TraumaticEventTypesPage = ({
 
   return (
     <div className="vads-u-margin-y--2">
-      {/* <div className="vads-u-margin-bottom--1"> */}
-        {/* <VaAlert
-          ref={deletedEvidenceConfirmationRef}
-          closeBtnAriaLabel="Deleted answers confirmation"
+      <div className="vads-u-margin-bottom--1">
+        <VaAlert
+          // ref={deletedEvidenceConfirmationRef}
+          closeBtnAriaLabel="Deleted MST evidence confirmation"
           closeable
-          onCloseEvent={handlers.onCloseDeletedAnswersAlert}
+          onCloseEvent={handlers.onCloseDeletedEvidenceAlert}
           fullWidth="false"
           slim
-          status="success"
-          visible={showDeletedEvidenceConfirmation}
+          status="warning"
+          // visible={showDeletedEvidenceConfirmation}
+          visible={false}
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">
-            We’ve removed information about your behavioral changes.
-          </p>
+          {deletedEvidenceAlertConfirmationContent}
           <p>
             <button
               type="button"
@@ -181,15 +183,14 @@ const TraumaticEventTypesPage = ({
             </button>{' '}
           </p>
         </VaAlert>
-      </div> */}
+      </div>
 
       {titleWithTag(eventTypesPageTitle, form0781HeadingTag)}
 
       <p>{eventTypesDescription}</p>
 
       <VaModal
-        // visible={showDeleteMSTEvidenceModal}
-        visible
+        visible={showDeleteMSTEvidenceModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteMSTEvidence}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
