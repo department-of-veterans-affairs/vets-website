@@ -61,9 +61,7 @@ export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
 const CONFIRMATION_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/send_confirmation_email`;
-const ADDRESS_VALIDATION_ENDPOINT = `${
-  environment.API_URL
-}/v0/profile/address_validation`;
+// const ADDRESS_VALIDATION_ENDPOINT = `${environment.API_URL}/v0/profile/address_validation`; // Commented out as it's not used in mocked version
 
 export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
 export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
@@ -305,17 +303,43 @@ export function validateAddress(address) {
   return async dispatch => {
     dispatch({ type: ADDRESS_VALIDATION_START });
 
+    // Mocking the API call for local development
+    const mockedResponse = { addresses: [] }; // Simulate successful validation with no suggestions
+    dispatch({
+      type: ADDRESS_VALIDATION_SUCCESS,
+      response: mockedResponse,
+      address, // Keep the original address for context if needed by the reducer/component
+    });
+    return Promise.resolve(mockedResponse); // Return a resolved promise with the mock
+
+    /* Original API call - commented out
     try {
+      // Map country code to ISO3 - Simple mapping for now
+      const countryCodeIso3 = address.countryCode === 'USA' ? 'USA' : address.countryCode; // Add more mappings if needed
+
+      const payload = {
+        addressPou: 'CORRESPONDENCE', // Add purpose of use
+        addressType: 'DOMESTIC', // Add address type (adjust if international needed)
+        addressLine1: address.addressLine1,
+        addressLine2: address.addressLine2,
+        addressLine3: address.addressLine3,
+        city: address.city,
+        countryCodeIso3, // Use ISO3 code
+        stateCode: address.stateCode,
+        zipCode: address.zipCode,
+      };
+
       // Make API request to validate address
       const response = await apiRequest(ADDRESS_VALIDATION_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address }),
+        body: JSON.stringify(payload), // Send the corrected payload
       });
 
       dispatch({
         type: ADDRESS_VALIDATION_SUCCESS,
         response,
+        address, // Pass original address for context
       });
 
       return response;
@@ -327,6 +351,7 @@ export function validateAddress(address) {
 
       throw error;
     }
+    */
   };
 }
 
