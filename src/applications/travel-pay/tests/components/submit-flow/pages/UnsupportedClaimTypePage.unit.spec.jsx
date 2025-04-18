@@ -27,12 +27,21 @@ describe('Unsupported claim type page', () => {
     recordEventStub.restore();
   });
 
-  it('should render with back button', () => {
+  it('should render with back button and record pageview', () => {
     const screen = render(<UnsupportedClaimTypePage {...props} />);
 
     expect(
       screen.getByText(`We can’t file this claim in this tool at this time`),
     ).to.exist;
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'unsupported',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(screen.getByText(/You can still file a claim/i)).to.exist;
     expect(screen.getByText(/Call the BTSSS call center/i)).to.exist;
     expect($('va-button[text="Back"]')).to.exist;
@@ -40,9 +49,12 @@ describe('Unsupported claim type page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'unsupported',
-        'smoc-action': 'back',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'unsupported',
+        link_text: 'back',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;

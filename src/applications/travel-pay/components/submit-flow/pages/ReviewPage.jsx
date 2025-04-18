@@ -8,12 +8,15 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Review your travel claim';
 
@@ -27,6 +30,7 @@ const ReviewPage = ({
   setIsAgreementChecked,
 }) => {
   useEffect(() => {
+    recordSmocPageview('review');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
@@ -38,11 +42,7 @@ const ReviewPage = ({
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
-    recordEvent({
-      event: 'smoc-questions',
-      'smoc-page': 'review',
-      'smoc-action': 'start-over',
-    });
+    recordSmocButtonClick('review', 'start-over');
     setYesNo({
       mileage: '',
       vehicle: '',

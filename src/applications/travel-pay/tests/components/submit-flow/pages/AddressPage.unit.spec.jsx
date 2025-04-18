@@ -62,7 +62,7 @@ describe('Address page', () => {
     recordEventStub.restore();
   });
 
-  it('should render with user home address', () => {
+  it('should render with user home address and records the pageview', () => {
     const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
       initialState: getData({
         homeAddress: home,
@@ -74,6 +74,15 @@ describe('Address page', () => {
       'label',
       'Did you travel from your home address?',
     );
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect($('va-radio')).to.not.have.attribute('error');
 
     expect(screen.getByText(/345 Home Address St/i)).to.exist;
@@ -90,7 +99,7 @@ describe('Address page', () => {
       .exist;
   });
 
-  it('should show an alert if no address', () => {
+  it('should show an alert if no address and records the pageview', () => {
     const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
       initialState: getData(),
     });
@@ -101,6 +110,15 @@ describe('Address page', () => {
     expect(
       screen.getByText(`We can’t file this claim in this tool at this time`),
     ).to.exist;
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(screen.getByText('We need your home address')).to.exist;
     expect($('va-link[href="/profile/contact-information"]')).to.exist;
   });
@@ -131,9 +149,12 @@ describe('Address page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'address',
-        'smoc-action': 'unsupported',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
@@ -152,9 +173,12 @@ describe('Address page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'address',
-        'smoc-action': 'answered',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
@@ -171,9 +195,12 @@ describe('Address page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'address',
-        'smoc-action': 'back',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        link_text: 'back',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;

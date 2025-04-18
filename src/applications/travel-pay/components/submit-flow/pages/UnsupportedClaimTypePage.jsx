@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'We can’t file this claim in this tool at this time';
 
@@ -15,6 +18,7 @@ const UnsupportedClaimTypePage = ({
   setPageIndex,
 }) => {
   useEffect(() => {
+    recordSmocPageview('unsupported');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
@@ -22,11 +26,7 @@ const UnsupportedClaimTypePage = ({
   useSetPageTitle(title);
 
   const onBack = () => {
-    recordEvent({
-      event: 'smoc-questions',
-      'smoc-page': 'unsupported',
-      'smoc-action': 'back',
-    });
+    recordSmocButtonClick('unsupported', 'back');
     setIsUnsupportedClaimType(false);
     setPageIndex(pageIndex);
   };

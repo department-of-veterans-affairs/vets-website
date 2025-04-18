@@ -4,20 +4,18 @@ import { useSelector } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Are you only claiming mileage?';
-
-const mileageEvent = {
-  event: 'smoc-questions',
-  'smoc-page': 'mileage',
-};
 
 const MileagePage = ({
   pageIndex,
@@ -27,6 +25,7 @@ const MileagePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('mileage');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
@@ -41,28 +40,18 @@ const MileagePage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('mileage', 'continue');
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
-        recordEvent({
-          ...mileageEvent,
-          'smoc-action': 'unsupported',
-        });
         setIsUnsupportedClaimType(true);
       } else {
-        recordEvent({
-          ...mileageEvent,
-          'smoc-action': 'answered',
-        });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
     onBack: () => {
-      recordEvent({
-        ...mileageEvent,
-        'smoc-action': 'back',
-      });
+      recordSmocButtonClick('mileage', 'back');
       setPageIndex(pageIndex - 1);
     },
   };

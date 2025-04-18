@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { scrollToFirstError } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -20,6 +19,10 @@ import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 import { stripTZOffset } from '../util/dates';
+import {
+  recordSmocButtonClick,
+  recordSmocLinkClick,
+} from '../util/events-helpers';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -77,12 +80,8 @@ const SubmitFlowWrapper = () => {
         : 'Other',
       isComplete: false,
     };
+    recordSmocButtonClick('review', 'file-claim');
 
-    recordEvent({
-      event: 'smoc-questions',
-      'smoc-page': 'review',
-      'smoc-action': 'file-claim',
-    });
     dispatch(submitMileageOnlyClaim(apptData));
     setPageIndex(pageIndex + 1);
   };
@@ -182,11 +181,11 @@ const SubmitFlowWrapper = () => {
             href={`/my-health/appointments/past/${apptId}`}
             text="Back to your appointment"
             onClick={() => {
-              recordEvent({
-                event: 'smoc-questions',
-                'smoc-page': `${pageList[pageIndex].page}`,
-                'smoc-action': 'abandon',
-              });
+              recordSmocLinkClick(
+                `${pageList[pageIndex].page}`,
+                'Back to your appointment',
+                undefined, // per anaylitics request don't use actual URL
+              );
             }}
           />
         </div>

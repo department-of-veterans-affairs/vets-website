@@ -85,7 +85,7 @@ describe('Review page', () => {
     recordEventStub.restore();
   });
 
-  it('should render properly with all data', () => {
+  it('should render properly with all data and record pageview', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -99,6 +99,16 @@ describe('Review page', () => {
     expect(screen.getByText(/Apt. 3B/i)).to.exist;
     // Check that text from the travel agreement is rendering
     expect(screen.getByText(/I have incurred a cost/i)).to.exist;
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'review',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
 
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
@@ -153,9 +163,12 @@ describe('Review page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'review',
-        'smoc-action': 'start-over',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'review',
+        link_text: 'start-over',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;

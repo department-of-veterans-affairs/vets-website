@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
@@ -15,6 +14,10 @@ import {
   HelpTextModalities,
 } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const AddressPage = ({
   address,
@@ -28,15 +31,11 @@ const AddressPage = ({
     ? 'We can’t file this claim in this tool at this time'
     : 'Did you travel from your home address?';
 
-  const addressEvent = {
-    event: 'smoc-questions',
-    'smoc-page': 'address',
-  };
-
   useSetPageTitle(title);
 
   useEffect(
     () => {
+      recordSmocPageview('address');
       scrollToTop('topScrollElement');
       if (!address) {
         focusElement('h1');
@@ -51,28 +50,18 @@ const AddressPage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('address', 'continue');
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
-        recordEvent({
-          ...addressEvent,
-          'smoc-action': 'unsupported',
-        });
         setIsUnsupportedClaimType(true);
       } else {
-        recordEvent({
-          ...addressEvent,
-          'smoc-action': 'answered',
-        });
         setIsUnsupportedClaimType(false);
         setPageIndex(pageIndex + 1);
       }
     },
     onBack: () => {
-      recordEvent({
-        ...addressEvent,
-        'smoc-action': 'back',
-      });
+      recordSmocButtonClick('address', 'back');
       setPageIndex(pageIndex - 1);
     },
   };

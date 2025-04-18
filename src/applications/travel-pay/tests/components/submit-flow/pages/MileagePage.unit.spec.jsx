@@ -58,7 +58,7 @@ describe('Mileage page', () => {
     recordEventStub.restore();
   });
 
-  it('should render correctly', () => {
+  it('should render correctly and record pageview', () => {
     const screen = renderWithStoreAndRouter(<MileagePage {...props} />, {
       initialState: {
         travelPay: {
@@ -78,6 +78,15 @@ describe('Mileage page', () => {
       'label',
       'Are you only claiming mileage?',
     );
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'mileage',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect($('va-radio')).to.not.have.attribute('error');
 
     expect($('va-button-pair')).to.exist;
@@ -96,9 +105,12 @@ describe('Mileage page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'mileage',
-        'smoc-action': 'answered',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'mileage',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setPageIndexSpy.calledWith(2)).to.be.true;
@@ -156,9 +168,12 @@ describe('Mileage page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'mileage',
-        'smoc-action': 'unsupported',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'mileage',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setCantFileSpy.calledWith(true)).to.be.true;
@@ -182,9 +197,12 @@ describe('Mileage page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'mileage',
-        'smoc-action': 'back',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'mileage',
+        link_text: 'back',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setCantFileSpy.calledWith(false)).to.be.true;

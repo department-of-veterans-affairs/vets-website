@@ -33,7 +33,7 @@ describe('Vehicle page', () => {
     recordEventStub.restore();
   });
 
-  it('should render correctly', () => {
+  it('should render correctly and record pageview', () => {
     const screen = render(<VehiclePage {...props} />);
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
@@ -41,6 +41,15 @@ describe('Vehicle page', () => {
       'label',
       'Did you travel in your own vehicle?',
     );
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect($('va-radio')).to.not.have.attribute('error');
     expect($('va-button-pair')).to.exist;
 
@@ -75,9 +84,12 @@ describe('Vehicle page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'vehicle',
-        'smoc-action': 'unsupported',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
@@ -91,9 +103,12 @@ describe('Vehicle page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'vehicle',
-        'smoc-action': 'answered',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
@@ -106,9 +121,12 @@ describe('Vehicle page', () => {
 
     expect(
       recordEventStub.calledWith({
-        event: 'smoc-questions',
-        'smoc-page': 'vehicle',
-        'smoc-action': 'back',
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'back',
+        /* eslint-enable camelcase */
       }),
     ).to.be.true;
     expect(setPageIndex.calledWith(1)).to.be.true;
