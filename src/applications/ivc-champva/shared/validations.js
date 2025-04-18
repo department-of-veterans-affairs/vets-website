@@ -20,11 +20,28 @@ export function validateText(value) {
 }
 
 /**
+ * Wrapper around validateText that can be used on any string field.
+ *
+ * @param {Object} errors Formlib error objects corresponding to the address fields
+ * @param {Object} _page Form data accessible on the current page (when in list loop)
+ * @param {Object} formData All form fields and their data, or the current list loop item data
+ * @param {String} propName Keyname of property in formData we want to validate
+ */
+export function validFieldCharsOnly(errors, _page, formData, propName) {
+  if (typeof formData[propName] === 'string') {
+    const res = validateText(formData[propName]);
+    if (res) {
+      errors[propName].addError(res);
+    }
+  }
+}
+
+/**
  * Runs `validateText` against all properties in an address object
  * to make sure they don't contain illegal characters (as defined in `validateText`).
  *
  * @param {Object} errors Formlib error objects corresponding to the address fields
- * @param {Object} page Form data accessible on the current page
+ * @param {Object} page Form data accessible on the current page (when in list loop)
  * @param {Object} formData All form fields and their data, or the current list loop item data
  * @param {String} addressProp keyname for the address property in
  * `formData` we want to access - can be omitted when checking an address prop in
@@ -46,6 +63,13 @@ export const validAddressCharsOnly = (errors, page, formData, addressProp) => {
     }
   });
 };
+
+// Wrapper around the address validator function with more generic naming.
+// Enables running `validateText` on all fields in a multi-field form data element,
+// e.g. the full name UI or other such inputs.
+export function validObjectCharsOnly(errors, page, formData, propName) {
+  return validAddressCharsOnly(errors, page, formData, propName);
+}
 
 export const sponsorAddressCleanValidation = (errors, page, formData) => {
   return validAddressCharsOnly(errors, page, formData, 'sponsorAddress');
