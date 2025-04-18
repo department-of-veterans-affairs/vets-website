@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui/';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';
@@ -24,7 +24,8 @@ const IntroductionPage = props => {
     if (hasSession()) {
       dispatch(verifyVaFileNumber());
     }
-    focusElement('.va-nav-breadcrumbs-list');
+    waitForRenderThenFocus('.schemaform-title > h1');
+    scrollTo('topContentElement');
   }, []);
 
   const getStatus = () => {
@@ -56,35 +57,32 @@ const IntroductionPage = props => {
     return null;
   };
 
-  const SIP_COMPONENT = (
-    <SaveInProgressIntro
-      {...props}
-      hideUnauthedStartLink
-      verifiedPrefillAlert={VerifiedAlert}
-      prefillEnabled={props.route.formConfig.prefillEnabled}
-      messages={props.route.formConfig.savedFormMessages}
-      downtime={props.route.formConfig.downtime}
-      pageList={props.route.pageList}
-      startText="Add or remove a dependent"
-      headingLevel={2}
-    >
-      <p className="vads-u-margin-bottom--4">
-        You should also know that we updated our online form.{' '}
-        <strong>If you started applying online before {V2_LAUNCH_DATE},</strong>{' '}
-        you’ll need to review the information in your application.Select
-        Continue your application to use our updated form.
-      </p>
-    </SaveInProgressIntro>
-  );
-
   return getStatus() !== '' && hasSession() ? (
     renderLoadingOrError(getStatus())
   ) : (
     <div className="schemaform-intro">
       <IntroductionPageHeader />
-      {hasSession() ? SIP_COMPONENT : <></>}
       <IntroductionPageFormProcess />
-      {!hasSession() ? SIP_COMPONENT : <></>}
+      <SaveInProgressIntro
+        {...props}
+        hideUnauthedStartLink
+        verifiedPrefillAlert={VerifiedAlert}
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        messages={props.route.formConfig.savedFormMessages}
+        downtime={props.route.formConfig.downtime}
+        pageList={props.route.pageList}
+        startText="Add or remove a dependent"
+        headingLevel={2}
+      >
+        <p className="vads-u-margin-bottom--4">
+          You should also know that we updated our online form.{' '}
+          <strong>
+            If you started applying online before {V2_LAUNCH_DATE},
+          </strong>{' '}
+          you’ll need to review the information in your application.Select
+          Continue your application to use our updated form.
+        </p>
+      </SaveInProgressIntro>
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
