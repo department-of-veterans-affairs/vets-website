@@ -15,6 +15,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   labTypes,
+  loadStates,
   pageTitles,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
@@ -31,6 +32,10 @@ const LabAndTestDetails = () => {
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  const loading =
+    useSelector(state => state.mr.labsAndTests.listState) !==
+    loadStates.FETCHED;
+  const testType = labAndTestDetails?.type;
 
   useEffect(
     () => {
@@ -38,7 +43,7 @@ const LabAndTestDetails = () => {
         dispatch(clearLabsAndTestDetails());
       };
     },
-    [dispatch],
+    [dispatch, loading],
   );
 
   useEffect(
@@ -48,7 +53,7 @@ const LabAndTestDetails = () => {
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
-    [labId, labAndTestList, dispatch],
+    [labId, labAndTestList, dispatch, loading],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -61,36 +66,36 @@ const LabAndTestDetails = () => {
       />
     );
   }
-  if (labAndTestDetails?.type === labTypes.CHEM_HEM) {
-    return <ChemHemDetails record={labAndTestDetails} fullState={fullState} />;
-  }
-  if (labAndTestDetails?.type === labTypes.MICROBIOLOGY) {
-    return <MicroDetails record={labAndTestDetails} fullState={fullState} />;
-  }
-  if (labAndTestDetails?.type === labTypes.PATHOLOGY) {
+
+  if (loading) {
     return (
-      <PathologyDetails record={labAndTestDetails} fullState={fullState} />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          set-focus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   }
-  if (labAndTestDetails?.type === labTypes.EKG) {
-    return <EkgDetails record={labAndTestDetails} />;
-  }
-  if (
-    labAndTestDetails?.type === labTypes.RADIOLOGY ||
-    labAndTestDetails?.type === labTypes.CVIX_RADIOLOGY
-  ) {
-    return (
-      <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
-    );
-  }
+
   return (
-    <div className="vads-u-margin-y--8">
-      <va-loading-indicator
-        message="Loading..."
-        set-focus
-        data-testid="loading-indicator"
-      />
-    </div>
+    <>
+      {testType === labTypes.CHEM_HEM && (
+        <ChemHemDetails record={labAndTestDetails} fullState={fullState} />
+      )}
+      {testType === labTypes.MICROBIOLOGY && (
+        <MicroDetails record={labAndTestDetails} fullState={fullState} />
+      )}
+      {testType === labTypes.PATHOLOGY && (
+        <PathologyDetails record={labAndTestDetails} fullState={fullState} />
+      )}
+      {testType === labTypes.EKG && <EkgDetails record={labAndTestDetails} />}
+      {(testType === labTypes.RADIOLOGY ||
+        testType === labTypes.CVIX_RADIOLOGY) && (
+        <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
+      )}
+    </>
   );
 };
 
