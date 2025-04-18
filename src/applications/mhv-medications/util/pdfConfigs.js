@@ -1,6 +1,6 @@
 import {
   createNoDescriptionText,
-  createOriginalFillRecord,
+  createMostRecentFillRecord,
   dateFormat,
   processList,
   validateField,
@@ -349,8 +349,8 @@ export const buildAllergiesPDFList = allergies => {
  */
 export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
-  refillHistory.push(originalFill);
+  const originalFill = createMostRecentFillRecord(prescription);
+  refillHistory.unshift(originalFill);
 
   const VAPrescriptionPDFList = [
     {
@@ -468,7 +468,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
             return {
               header: `${
                 index === 0 ? 'Original fill' : `Refill`
-              }: ${dateFormat(entry.dispensedDate)}`,
+              }: ${dateFormat(entry.sortedDispensedDate)}`,
               indent: 32,
               headerSize: 'H5',
               items: [
