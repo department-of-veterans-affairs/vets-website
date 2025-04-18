@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
@@ -18,8 +18,6 @@ const PageNotFoundContainer = () => {
   const isVerified = useSelector(isLOA3);
   const isAPatient = useSelector(isVAPatient);
   const loading = useSelector(isProfileLoading);
-
-  useEffect(() => {}, [loading]);
 
   if (loading) {
     return (
