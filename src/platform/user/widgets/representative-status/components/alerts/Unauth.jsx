@@ -5,8 +5,7 @@ export function Unauth({ toggleLoginModal, DynamicHeader }) {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
       <DynamicHeader
-        className="vads-u-margin-bottom--2"
-        id="track-your-status-on-mobile"
+        className="vads-u-font-size--h3 vads-u-margin-top--0"
         slot="headline"
       >
         Sign in with a verified account to check if you have an accredited

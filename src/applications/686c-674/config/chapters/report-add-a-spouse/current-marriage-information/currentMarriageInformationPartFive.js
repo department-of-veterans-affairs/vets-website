@@ -1,9 +1,8 @@
 import {
-  textUI,
-  textSchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { separationLabelArr, separationLabels } from './helpers';
 
 export const schema = {
@@ -15,8 +14,11 @@ export const schema = {
         currentSpouseReasonForSeparation: {
           ...radioSchema(separationLabelArr),
         },
-        other: textSchema,
+        other: {
+          type: 'string',
+        },
       },
+      required: ['currentSpouseReasonForSeparation'],
     },
   },
 };
@@ -27,23 +29,30 @@ export const uiSchema = {
       title: 'Reason you live separately from your spouse',
       labelHeaderLevel: '3',
       labels: separationLabels,
-      required: () => true,
       classNames: 'vads-u-margin-top--4',
     }),
-    other: textUI({
-      title: 'Briefly describe why you live separately from your spouse',
-      required: formData =>
-        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation ===
-        'OTHER',
-      expandUnder: 'currentSpouseReasonForSeparation',
-      expandUnderCondition: 'OTHER',
-      preserveHiddenData: true,
-      hideIf: formData =>
-        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
-        'OTHER',
-      showFieldLabel: true,
-      keepInPageOnReview: true,
-      classNames: 'vads-u-margin-top--2',
-    }),
+    other: {
+      'ui:title': 'Briefly describe why you live separately from your spouse',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'currentSpouseReasonForSeparation',
+        expandUnderCondition: 'OTHER',
+        preserveHiddenData: true,
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.other['ui:collapsed']) {
+          return {
+            ...formSchema,
+            required: ['currentSpouseReasonForSeparation'],
+          };
+        }
+        return {
+          ...formSchema,
+          required: ['currentSpouseReasonForSeparation', 'other'],
+        };
+      },
+    },
   },
 };

@@ -15,12 +15,7 @@ export default function Breadcrumbs() {
   ).test(pathname);
   const isStatusExplainer = pathname.includes('/help');
 
-  const { apptId, id: claimId } = useParams();
-
-  const isSubmitWrapper = new RegExp(
-    /\/file-new-claim\//.source + apptId,
-    'i',
-  ).test(pathname);
+  const { id: claimId } = useParams();
 
   const breadcrumbList = [
     {
@@ -61,16 +56,7 @@ export default function Breadcrumbs() {
     history.push(href);
   };
 
-  return isSubmitWrapper ? (
-    <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
-      <va-link
-        data-testid="submit-back-link"
-        back
-        href={`/my-health/appointments/past/${apptId}`}
-        text="Back to your appointment"
-      />
-    </div>
-  ) : (
+  return (
     <VaBreadcrumbs
       breadcrumbList={breadcrumbList}
       className="vads-u-padding-0"
