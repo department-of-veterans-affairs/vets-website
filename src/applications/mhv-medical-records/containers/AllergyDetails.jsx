@@ -45,6 +45,7 @@ const AllergyDetails = props => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
+
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -109,13 +110,17 @@ const AllergyDetails = props => {
   );
 
   const generateAllergyPdf = async () => {
+    const domain = 'Allergy details';
     setDownloadStarted(true);
     const title = allergyData.name;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
-    const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
+    const pdfData = {
+      ...scaffold,
+      details: generateAllergyItem(allergyData, domain),
+    };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
+    makePdf(pdfName, pdfData, domain, runningUnitTest);
   };
 
   const generateAllergyTextContent = () => {
