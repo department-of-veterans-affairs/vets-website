@@ -52,12 +52,13 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(
     () => {
       if (appointment) {
-        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+        let title = `${isCanceled ? 'Canceled ' : 'Pending '}${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
 
-        title = `${isCanceled ? 'Canceled Request For' : 'Pending Request For'}
-            ${isCC ? 'Community Care Appointment' : 'Appointment'}`;
+        title = `${
+          isCanceled ? 'Canceled Request For ' : 'Pending Request For '
+        }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
         title = title.concat(` | Veterans Affairs`);
 
         document.title = title;
