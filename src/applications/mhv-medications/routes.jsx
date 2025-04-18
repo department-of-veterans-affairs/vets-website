@@ -3,6 +3,9 @@ import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
+
+import manifest from './manifest.json';
+
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 
@@ -52,35 +55,34 @@ AppWrapper.propTypes = {
   children: PropTypes.node,
 };
 
-// Route definitions in React Router v6 object format
 const routes = [
   // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   {
-    path: '/my-health/medications/about/*',
+    path: 'about/*',
     element: <AppWrapper Component={LandingPage} />,
   },
   {
-    path: '/my-health/medications/about',
+    path: 'about',
     element: <AppWrapper Component={LandingPage} />,
   },
   {
-    path: '/my-health/medications/refill',
+    path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,
   },
   {
-    path: '/my-health/medications/:page',
+    path: ':page',
     element: <AppWrapper Component={Prescriptions} />,
   },
   {
-    path: '/my-health/medications',
+    path: '/',
     element: <AppWrapper Component={Prescriptions} />,
   },
   {
-    path: '/my-health/medications/prescription/:prescriptionId/documentation',
+    path: 'prescription/:prescriptionId/documentation',
     element: <AppWrapper Component={PrescriptionDetailsDocumentation} />,
   },
   {
-    path: '/my-health/medications/prescription/:prescriptionId',
+    path: 'prescription/:prescriptionId',
     element: <AppWrapper Component={PrescriptionDetails} />,
   },
   {
@@ -89,7 +91,8 @@ const routes = [
   },
 ];
 
-// Create the router instance
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+  basename: manifest.rootUrl,
+});
 
 export { routes, router as default };

@@ -270,7 +270,7 @@ const VaPrescription = prescription => {
                         className={`${
                           !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
                         }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                        to="refill"
+                        to="/refill"
                         data-testid="refill-nav-link"
                         data-dd-action-name={
                           dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
