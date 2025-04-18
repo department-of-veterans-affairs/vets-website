@@ -10,13 +10,8 @@ export const generateAllergiesIntro = (records, lastUpdated) => {
   };
 };
 
-export const generateAllergyItem = (record, domain) => {
+export const generateAllergyItem = record => {
   const multipleReactions = record.reaction.length > 1;
-
-  const reactions =
-    domain === 'Allergy details'
-      ? record.reaction.map(react => `      •  ${react}\n`).join('')
-      : [{ value: record.reaction }];
 
   if (record.isOracleHealthData) {
     return {
@@ -28,7 +23,9 @@ export const generateAllergyItem = (record, domain) => {
         },
         {
           title: `Signs and symptoms${multipleReactions ? ':' : ''}`,
-          value: multipleReactions ? reactions : record.reaction[0],
+          value: multipleReactions
+            ? [{ value: record.reaction, indent: 15, paragraphGap: 0 }]
+            : record.reaction[0],
           isRich: multipleReactions,
           inline: !multipleReactions,
         },
@@ -60,7 +57,9 @@ export const generateAllergyItem = (record, domain) => {
       },
       {
         title: `Signs and symptoms${multipleReactions ? ':' : ''}`,
-        value: multipleReactions ? reactions : record.reaction[0],
+        value: multipleReactions
+          ? [{ value: record.reaction, indent: 15, paragraphGap: 0 }]
+          : record.reaction[0],
         isRich: multipleReactions,
         inline: !multipleReactions,
       },
