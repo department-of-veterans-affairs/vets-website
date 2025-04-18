@@ -406,7 +406,7 @@ const responses = {
       data: referral,
     });
   },
-  'POST /vaos/v2/appointments/draft': (req, res) => {
+  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
     // referralId is the referralNumber of the referral
     const { referralId } = req.body;
     // Provider 3 throws error
@@ -431,7 +431,7 @@ const responses = {
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
@@ -456,7 +456,7 @@ const responses = {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
       // reassign status of mocked appointment to booked to simulate success
-      mockAppointment.attributes.status = 'booked';
+      mockAppointment.appointment.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
@@ -464,7 +464,7 @@ const responses = {
       data: mockAppointment,
     });
   },
-  'POST /vaos/v2/appointments/submit': (req, res) => {
+  'POST /vaos/v2/epsApi/appointments': (req, res) => {
     const { slotId, draftApppointmentId, referralNumber } = req.body;
 
     if (!referralNumber || !slotId || !draftApppointmentId) {
