@@ -117,9 +117,8 @@ const OfficialReport = props => {
     () => {
       if (showModal && modalRef.current) {
         setTimeout(() => {
-          const modalHeading = modalRef.current.shadowRoot?.querySelector(
-            '#heading',
-          );
+          const modalEl = modalRef.current;
+          const modalHeading = modalEl?.shadowRoot?.querySelector('#heading');
           if (modalHeading) {
             modalHeading.focus({ preventScroll: true });
           }

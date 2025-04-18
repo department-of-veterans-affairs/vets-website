@@ -34,11 +34,3 @@ export function getReferrals(state) {
     referralsFetchStatus: state.referral.referralsFetchStatus,
   };
 }
-
-export function getReferral(state, id) {
-  const referral = state.referral.referralDetails.find(ref => ref.uuid === id);
-  return {
-    referral,
-    referralFetchStatus: state.referral.referralFetchStatus,
-  };
-}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -13,6 +13,7 @@ import {
 import {
   MHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -23,10 +24,8 @@ import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const App = ({ children }) => {
   const location = useLocation();
-  console.log(location);
   const { measuredRef, isHidden } = useBackToTop(location);
   const user = useSelector(selectUser);
-  console.log(user);
   const contentClasses =
     'main-content usa-width-two-thirds medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
   const { featureTogglesLoading, appEnabled } = useSelector(
@@ -56,6 +55,12 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading) {
     return (
@@ -79,7 +84,6 @@ const App = ({ children }) => {
     return <></>;
   }
 
-  console.log(backendServices.RX);
   return (
     <RequiredLoginView user={user} serviceRequired={[backendServices.RX]}>
       <MhvServiceRequiredGuard

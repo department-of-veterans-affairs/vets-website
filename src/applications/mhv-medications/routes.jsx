@@ -6,9 +6,8 @@ import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGu
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 
-import Prescriptions from './containers/Prescriptions';
-
 // Lazy-loaded components
+const Prescriptions = lazy(() => import('./containers/Prescriptions'));
 const LandingPage = lazy(() => import('./containers/LandingPage'));
 const RefillPrescriptions = lazy(() =>
   import('./containers/RefillPrescriptions'),
@@ -31,7 +30,6 @@ const Loading = () => (
 
 // Wrapper component that provides both access guard and App container
 const AppWrapper = props => {
-  console.log('AppWrapper props:', props);
   useMyHealthAccessGuard();
   const { id, prescriptionId } = useParams();
 

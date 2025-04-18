@@ -564,6 +564,116 @@
         "future": false,
         "pending": true
       }
+    },
+    {
+      "id": "c519b084f2200496454ac11c2a24a101118592ae37587ccb1f57033e75ed6190",
+      "type": "appointments",
+      "attributes": {
+        "id": "c519b084f2200496454ac11c2a24a101118592ae37587ccb1f57033e75ed6190",
+        "identifier": [
+          { "system": "Appointment/", "value": "523938333234333131" },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_85",
+            "value": "983:24311"
+          }
+        ],
+        "kind": "phone",
+        "status": "cancelled",
+        "serviceType": "outpatientMentalHealth",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "outpatientMentalHealth"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "station id: 983GC|preferred modality: TELEPHONE|phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:03/27/2025 AM|reason code:QUESTIONMEDS|comments:testing"
+        },
+        "patientIcn": "1013124304V115761",
+        "locationId": "983GC",
+        "start": "2025-03-27T00:00:00Z",
+        "minutesDuration": 0,
+        "created": "2025-03-16T19:41:00Z",
+        "requestedPeriods": [
+          { "start": "2025-03-27T00:00:00Z", "end": "2025-03-27T00:00:00Z" }
+        ],
+        "cancelationReason": {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409.853",
+              "code": "pat",
+              "display": "The appointment was cancelled by the patient"
+            }
+          ]
+        },
+        "cancellable": false,
+        "extension": { "ccLocation": { "address": {} } },
+        "localStartTime": "2025-03-26T18:00:00.000-06:00",
+        "station": "983",
+        "ien": "24311",
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "7036753607" },
+            { "type": "email", "value": "marcy.nadedau@va.gov" }
+          ]
+        },
+        "patientComments": "testing",
+        "reasonForAppointment": "Medication concern",
+        "preferredDates": ["Thu, March 27, 2025 in the morning"],
+        "preferredModality": "Phone",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": { "timeZoneId": "America/Denver" },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": { "main": "970-224-1550" },
+            "physicalAddress": {
+              "line": ["2509 Research Boulevard"],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ],
+            "ehrSystem": "VistA"
+          }
+        },
+        "type": "REQUEST",
+        "modality": "vaPhone",
+        "pending": true,
+        "past": true,
+        "future": false
+      }
     }
   ]
 }
