@@ -31,6 +31,10 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 import PaymentSelectionUI, {
   PaymentReviewScreen,
   loggedInPaymentInfo,
@@ -109,6 +113,10 @@ const formConfig = {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            'ui:validations': [
+              (errors, formData) =>
+                validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
+            ],
           },
           schema: {
             type: 'object',
@@ -166,6 +174,10 @@ const formConfig = {
                 state: () => true,
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(errors, null, formData, 'veteranAddress'),
+            ],
           },
           schema: {
             type: 'object',
@@ -216,6 +228,15 @@ const formConfig = {
                 },
               }),
             },
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(
+                  errors,
+                  null,
+                  formData,
+                  'physicalAddress',
+                ),
+            ],
           },
           schema: {
             type: 'object',
