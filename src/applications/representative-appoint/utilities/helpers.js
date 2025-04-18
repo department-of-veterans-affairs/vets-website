@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DATE_FORMAT } from '../definitions/constants';
 
 export const representativeTypeMap = {
@@ -314,4 +315,12 @@ export const filterOrganizations = formData => {
   }
 
   return organizations;
+};
+
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
 };
