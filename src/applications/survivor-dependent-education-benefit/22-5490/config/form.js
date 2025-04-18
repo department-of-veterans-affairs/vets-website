@@ -826,32 +826,13 @@ const formConfig = {
               'ui:widget': CustomEmailField,
               'ui:reviewField': EmailReviewField,
             },
-            confirmEmail: {
-              ...emailUI('Confirm email address'),
-              'ui:options': {
-                ...emailUI()['ui:options'],
-                hideOnReview: true,
-              },
-            },
-            'ui:validations': [
-              (errors, field) => {
-                if (
-                  field?.email?.toLowerCase() !==
-                  field?.confirmEmail?.toLowerCase()
-                ) {
-                  errors.confirmEmail?.addError(
-                    'Sorry, your emails must match',
-                  );
-                }
-              },
-            ],
             'view:confirmDuplicateData': {
               'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
             type: 'object',
-            required: ['email', 'confirmEmail'],
+            required: ['email'],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -864,10 +845,6 @@ const formConfig = {
               mobilePhone: phoneSchema(),
               homePhone: phoneSchema(),
               email: {
-                type: 'string',
-                format: 'email',
-              },
-              confirmEmail: {
                 type: 'string',
                 format: 'email',
               },

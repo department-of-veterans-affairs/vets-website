@@ -444,7 +444,6 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     fillData(form, 'input#root_mobilePhone_phone', '555-555-5555');
     fillData(form, 'input#root_homePhone_phone', '444-444-4444');
     fillData(form, 'input#root_email', 'test@test.com');
-    fillData(form, 'input#root_confirmEmail', 'test@test.com');
     expect(form.find('input#root_mobilePhone_phone').prop('value')).to.equal(
       '555-555-5555',
     );
