@@ -19,6 +19,7 @@ import createModernGetMedicalRecordsPage from './health-care-manage-benefits/mod
 import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
 import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
 import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
+import createModernOrderMedicalSuppliesPage from './health-care-manage-benefits/modern-order-medical-supplies-page';
 import createMhvPortalLandingPage from './health-care-manage-benefits/mhv-portal-landing-page';
 // Health care facility widgets.
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
@@ -207,6 +208,10 @@ createModernScheduleViewVAAppointmentsPage(
 createModernSecureMessagingPage(
   store,
   widgetTypes.MODERN_SECURE_MESSAGING_PAGE,
+);
+createModernOrderMedicalSuppliesPage(
+  store,
+  widgetTypes.MODERN_ORDER_MEDICAL_SUPPLIES_PAGE,
 );
 createMhvPortalLandingPage(store, widgetTypes.MHV_PORTAL_LANDING_PAGE);
 createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);

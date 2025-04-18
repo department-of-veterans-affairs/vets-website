@@ -338,6 +338,10 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setModality(value) {
+    this.attributes.modality = value;
+  }
+
   setPractitioner({ id }) {
     this.attributes.practitioners = [
       {
