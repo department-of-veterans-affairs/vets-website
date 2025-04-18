@@ -33,7 +33,7 @@ class LabsAndTestsListPage extends BaseListPage {
       { flag: true },
     ).as('BbmiNotificationStatus');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
-    cy.visit('my-health/medical-records/labs-and-tests');
+    cy.visit('/my-health/medical-records/labs-and-tests');
     if (waitForLabsAndTests) {
       cy.wait('@LabsAndTestsList');
       cy.wait('@RadiologyRecordsMhv');
