@@ -804,7 +804,7 @@ jobs:
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
         id: e2e_report_check
         run: |
-          REPORT ="cypress/results/cypress-mochawesome-tests-results-${{ matrix.ci_node_index }}.json"
+          REPORT="cypress/results/cypress-mochawesome-tests-results-${{ matrix.ci_node_index }}.json"
           if [ -f "$REPORT" ]; then
             echo "e2e_report=true" >> $GITHUB_ENV
           fi
