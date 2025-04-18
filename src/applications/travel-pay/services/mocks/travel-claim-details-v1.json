@@ -48,10 +48,16 @@
   ],
   "documents": [
     {
-      "documentId": "8993d98f-40de-4a96-b64b-9a217341a804",
-      "filename": "DecisionLetter.pdf",
+      "documentId": "4f6f751b-87ff-ef11-9341-001dd809b68c",
+      "filename": "Rejection Letter.docx",
+      "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "createdon": "2025-03-12T21:15:27Z"
+    },
+    {
+      "documentId": "a5137021-87ff-ef11-9341-001dd809b68c",
+      "filename": "VA Form 10-0998 Your Rights to Appeal Our Decision.pdf",
       "mimetype": "application/pdf",
-      "createdon": "2025-03-24T14:00:52.893Z"
+      "createdon": "2025-03-12T21:15:33Z"
     },
     {
       "documentId": "cc832f7d-2217-48fb-a11c-5c3212dd0f8a",
