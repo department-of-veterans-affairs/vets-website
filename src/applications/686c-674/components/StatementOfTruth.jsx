@@ -17,9 +17,9 @@ export function capitalizeFirstLetter(string) {
  * @returns Either a string representing an error, or undefined (representing a match)
  */
 export function signatureValidator(signatureName, formData) {
-  const firstName = formData?.veteranInformation?.fullName?.first || 'Gregory';
-  const middle = formData?.veteranInformation?.fullName?.middle || 'A';
-  const lastName = formData?.veteranInformation?.fullName?.last || 'Anderson';
+  const firstName = formData?.veteranInformation?.fullName?.first || '';
+  const middle = formData?.veteranInformation?.fullName?.middle || '';
+  const lastName = formData?.veteranInformation?.fullName?.last || '';
 
   const fullName = `${firstName} ${middle} ${lastName}`;
   const name = fullName.replace(/\s+/g, '').toLowerCase();

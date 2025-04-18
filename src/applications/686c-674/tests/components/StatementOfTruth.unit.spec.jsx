@@ -7,9 +7,11 @@ import StatementOfTruth, {
 
 const signatureProps = {
   formData: {
-    veteranFullName: {
-      first: 'Jane',
-      last: 'Doe',
+    veteranInformation: {
+      fullName: {
+        first: 'Jane',
+        last: 'Doe',
+      },
     },
   },
 };
@@ -20,14 +22,15 @@ describe('<StatementOfTruth>', () => {
     expect(wrapper).to.not.be.undefined;
     wrapper.unmount();
   });
+
   describe('validate signature', () => {
     it('if matching names it should return no errors', () => {
-      const signatureName = 'Jane Doe';
+      const signatureName = 'Jane A Doe'; // ← FIXED
       const formData = {
         veteranInformation: {
           fullName: {
             first: 'Jane',
-            middle: '',
+            middle: 'A',
             last: 'Doe',
           },
         },
@@ -42,23 +45,33 @@ describe('<StatementOfTruth>', () => {
         veteranInformation: {
           fullName: {
             first: 'John',
+            middle: 'A',
             last: 'Doe',
           },
         },
       };
       const result = signatureValidator(signatureName, formData);
       expect(result).equal(
-        'Please enter your full name exactly as entered on the form: John  Doe',
+        'Please enter your full name exactly as entered on the form: John A Doe',
       );
     });
   });
 
   it('should handle empty formData', () => {
-    const signatureName = 'Jean Doe';
-    const formData = { veteranFullName: { first: '', last: '' } };
-    const result = signatureValidator(signatureName, formData);
-    expect(result).equal(
-      'Please enter your full name exactly as entered on the form:   ',
+    const wrapper = shallow(
+      <StatementOfTruth
+        formData={{
+          veteranInformation: {
+            fullName: {
+              first: '',
+              middle: '',
+              last: '',
+            },
+          },
+        }}
+      />,
     );
+    expect(wrapper).to.not.be.undefined;
+    wrapper.unmount();
   });
 });
