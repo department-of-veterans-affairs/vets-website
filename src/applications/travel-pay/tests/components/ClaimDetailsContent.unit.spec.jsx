@@ -125,7 +125,11 @@ describe('ClaimDetailsContent', () => {
         claimStatus="Denied"
         reimbursementAmount={1.0}
         documents={[
-          { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+          {
+            filename: 'Decision Letter.docx',
+            mimetype:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          },
           { filename: 'screenshot.png', mimetype: 'image/png' },
           { filename: 'note-1.txt', mimetype: '' },
         ]}
@@ -142,17 +146,21 @@ describe('ClaimDetailsContent', () => {
     expect($(`va-additional-info[trigger="What does this status mean?"]`)).to
       .not.exist;
     expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
-    expect(screen.queryByText('Download your decision letter')).to.not.exist;
-    expect(screen.queryByText('screenshot.png')).to.not.exist;
+    expect($('va-link[text="Download your decision letter"]')).to.not.exist;
+    expect($('va-link[text="screenshot.png"]')).to.not.exist;
   });
 
   describe('Documents', () => {
     it('renders download links for claim attachments from the user and travel clerk', () => {
-      const screen = renderWithStoreAndRouter(
+      renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
           documents={[
-            { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+            {
+              filename: 'Rejection Letter.docx',
+              mimetype:
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            },
             { filename: 'screenshot.png', mimetype: 'image/png' },
             { filename: 'note-1.txt', mimetype: '' },
           ]}
@@ -162,13 +170,13 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect(screen.getByText('Download your decision letter')).to.exist;
-      expect(screen.getByText('screenshot.png')).to.exist;
-      expect(screen.queryByText('note-1.txt')).to.not.exist;
+      expect($('va-link[text="Download your decision letter"]')).to.exist;
+      expect($('va-link[text="screenshot.png"]')).to.exist;
+      expect($('va-link[text="note-1.txt"]')).to.not.exist;
     });
 
     it('renders only user document links', () => {
-      const screen = renderWithStoreAndRouter(
+      renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
           documents={[
@@ -181,9 +189,9 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect(screen.queryByText('Download your decision letter')).to.not.exist;
-      expect(screen.getByText('screenshot.png')).to.exist;
-      expect(screen.getByText('screenshot-2.png')).to.exist;
+      expect($('va-link[text="Download your decision letter"]')).to.not.exist;
+      expect($('va-link[text="screenshot.png"]')).to.exist;
+      expect($('va-link[text="screenshot-2.png"]')).to.exist;
     });
 
     it('renders only clerk document links', () => {
@@ -191,7 +199,11 @@ describe('ClaimDetailsContent', () => {
         <ClaimDetailsContent
           {...claimDetailsProps}
           documents={[
-            { filename: 'DecisionLetter.pdf', mimetype: 'application/pdf' },
+            {
+              filename: 'Decision Letter.docx',
+              mimetype:
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            },
           ]}
         />,
         {
@@ -199,7 +211,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect(screen.getByText('Download your decision letter')).to.exist;
+      expect($('va-link[text="Download your decision letter"]')).to.exist;
       expect(screen.queryByText('Documents you submitted')).to.not.exist;
     });
 
@@ -211,7 +223,30 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect(screen.queryByText('Download your decision letter')).to.not.exist;
+      expect($('va-link[text="Download your decision letter"]')).to.not.exist;
+      expect(screen.queryByText('Documents you submitted')).to.not.exist;
+    });
+
+    it('renders direct download link for 10-0998 form if a document is available for it', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          claimStatus="Denied"
+          documents={[
+            {
+              filename:
+                'VA Form 10-0998 Your Rights to Appeal Our Decision.pdf',
+              mimetype: 'application/pdf',
+            },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect($('va-link[download="true"][text="VA Form 10-0998 (PDF)"]')).to
+        .exist;
       expect(screen.queryByText('Documents you submitted')).to.not.exist;
     });
   });
