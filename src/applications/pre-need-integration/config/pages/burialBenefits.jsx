@@ -18,32 +18,37 @@ export const desiredCemeteryNoteTitleWrapper = (
   </a>
 );
 
-export const uiSchema = {
-  application: {
-    'ui:title': ' ',
-    hasCurrentlyBuried: {
-      'ui:widget': 'radio',
-      'ui:options': {
-        updateSchema: formData => {
-          let title = '';
-          if (isVeteran(formData)) {
-            title =
-              'Is there anyone currently buried in a VA national cemetery under the applicant’s eligibility?';
-          } else {
-            title =
-              'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
-          }
-          return { title };
-        },
-        labels: {
-          1: 'Yes',
-          2: 'No',
-          3: 'I don’t know',
+export function uiSchema(ariaLabel) {
+  return {
+    application: {
+      'ui:title': ' ',
+      hasCurrentlyBuried: {
+        'ui:widget': 'radio',
+        'ui:options': {
+          updateSchema: formData => {
+            let title = '';
+            if (isVeteran(formData)) {
+              title =
+                'Is there anyone currently buried in a VA national cemetery under the applicant’s eligibility?';
+            } else {
+              title =
+                'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
+            }
+            return { title };
+          },
+          labels: {
+            1: 'Yes',
+            2: 'No',
+            3: 'I don’t know',
+          },
         },
       },
     },
-  },
-};
+    'ui:options': {
+      itemName: ariaLabel,
+    },
+  };
+}
 export const schema = {
   type: 'object',
   properties: {

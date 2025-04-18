@@ -31,6 +31,9 @@ export function uiSchema(
         },
       },
     },
+    'ui:options': {
+      itemName: 'relationship to Veteran',
+    },
   };
 }
 

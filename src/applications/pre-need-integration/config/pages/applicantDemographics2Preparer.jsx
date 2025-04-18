@@ -30,6 +30,9 @@ export const uiSchema = {
       },
     }),
   },
+  'ui:options': {
+    itemName: 'ethnicity and race',
+  },
 };
 
 export const schema = {

@@ -598,6 +598,7 @@ const formConfig = {
             isVeteran(formData) && !isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryName.uiSchema(
             'Did you serve under another name?',
+            'your service name',
           ),
           schema: applicantMilitaryName.schema,
         },
@@ -607,6 +608,7 @@ const formConfig = {
             isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryName.uiSchema(
             'Did the applicant serve under another name?',
+            'applicant’s service name',
           ),
           schema: applicantMilitaryName.schema,
         },
@@ -675,7 +677,22 @@ const formConfig = {
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
-          uiSchema: burialBenefits.uiSchema,
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('decedents'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsPreparer: {
+          path: 'burial-benefits-preparer',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('applicant’s cemetery'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsSponsor: {
+          path: 'burial-benefits-sponsor',
+          depends: formData => !isVeteran(formData),
+          uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
           schema: burialBenefits.schema,
         },
         currentlyBuriedPersons: {

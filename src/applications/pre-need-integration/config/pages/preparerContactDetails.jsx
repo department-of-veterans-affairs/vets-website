@@ -115,6 +115,9 @@ export const uiSchema = {
       },
     },
   },
+  'ui:options': {
+    itemName: 'Your Contact Details',
+  },
 };
 export const schema = {
   type: 'object',

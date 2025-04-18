@@ -1,4 +1,4 @@
-export function uiSchema(title) {
+export function uiSchema(title, ariaLabel) {
   return {
     application: {
       veteran: {
@@ -7,6 +7,9 @@ export function uiSchema(title) {
           'ui:widget': 'yesNo',
         },
       },
+    },
+    'ui:options': {
+      itemName: ariaLabel,
     },
   };
 }
