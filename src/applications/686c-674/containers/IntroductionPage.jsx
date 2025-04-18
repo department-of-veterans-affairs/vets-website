@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui/';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';
@@ -24,18 +24,8 @@ const IntroductionPage = props => {
     if (hasSession()) {
       dispatch(verifyVaFileNumber());
     }
-
+    waitForRenderThenFocus('.schemaform-title > h1');
     scrollTo('topContentElement');
-
-    const timeout = setTimeout(() => {
-      const title = document.querySelector('.schemaform-title > h1');
-      if (title) {
-        title.setAttribute('tabindex', '-1');
-        title.focus();
-      }
-    }, 100); // useEffect is firing before title renders
-
-    return () => clearTimeout(timeout);
   }, []);
 
   const getStatus = () => {
