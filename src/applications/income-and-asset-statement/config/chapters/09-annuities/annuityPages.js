@@ -5,12 +5,13 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateShort } from 'platform/utilities/date';
 import {
@@ -113,15 +114,15 @@ const informationPage = {
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the annuity established?'),
-    marketValueAtEstablishment: currencyUI({
-      title: 'What was the market value of the asset at the time of purchase?',
-    }),
+    marketValueAtEstablishment: currencyUI(
+      'What was the market value of the asset at the time of purchase?',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
       establishedDate: currentOrPastDateSchema,
-      marketValueAtEstablishment: { type: 'number' },
+      marketValueAtEstablishment: currencySchema,
     },
     required: ['establishedDate', 'marketValueAtEstablishment'],
   },
@@ -155,18 +156,20 @@ const incomePage = {
     receivingIncomeFromAnnuity: yesNoUI(
       'Do you receive income from the annuity?',
     ),
-    annualReceivedIncome: currencyUI({
-      title: 'How much is the annual amount received?',
-      expandUnder: 'receivingIncomeFromAnnuity',
-      expandUnderCondition: true,
-      required: annualReceivedIncomeFromAnnuityRequired,
-    }),
+    annualReceivedIncome: {
+      ...currencyUI({
+        title: 'How much is the annual amount received?',
+        expandUnder: 'receivingIncomeFromAnnuity',
+        expandUnderCondition: true,
+      }),
+      'ui:required': annualReceivedIncomeFromAnnuityRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       receivingIncomeFromAnnuity: yesNoSchema,
-      annualReceivedIncome: { type: 'number' },
+      annualReceivedIncome: currencySchema,
     },
     required: ['receivingIncomeFromAnnuity'],
   },
@@ -177,18 +180,20 @@ const liquidationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
     canBeLiquidated: yesNoUI('Can the annuity be liquidated?'),
-    surrenderValue: currencyUI({
-      title: 'What is the surrender value?',
-      expandUnder: 'canBeLiquidated',
-      expandUnderCondition: true,
-      required: surrenderValueRequired,
-    }),
+    surrenderValue: {
+      ...currencyUI({
+        title: 'What is the surrender value?',
+        expandUnder: 'canBeLiquidated',
+        expandUnderCondition: true,
+      }),
+      'ui:required': surrenderValueRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       canBeLiquidated: yesNoSchema,
-      surrenderValue: { type: 'number' },
+      surrenderValue: currencySchema,
     },
     required: ['canBeLiquidated'],
   },
@@ -216,13 +221,13 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: currencyUI({ title: 'How much did you add?' }),
+    addedFundsAmount: currencyUI('How much did you add?'),
   },
   schema: {
     type: 'object',
     properties: {
       addedFundsDate: currentOrPastDateSchema,
-      addedFundsAmount: { type: 'number' },
+      addedFundsAmount: currencySchema,
     },
     required: ['addedFundsDate', 'addedFundsAmount'],
   },
