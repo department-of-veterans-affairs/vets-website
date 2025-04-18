@@ -384,6 +384,10 @@ const WorkflowChoicePage = props => {
   const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
     data?.['view:previousMentalHealthWorkflowChoice'] ?? null,
   );
+  const [
+    selectedMentalHealthWorkflowChoice,
+    setSelectedMentalHealthWorkflowChoice,
+  ] = useState(data?.mentalHealthWorkflowChoice ?? null);
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -396,6 +400,19 @@ const WorkflowChoicePage = props => {
       }
     },
     [showAlert],
+  );
+
+  useEffect(
+    () => {
+      if (
+        shouldGoForward &&
+        data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
+      ) {
+        setShouldGoForward(false);
+        goForward(data);
+      }
+    },
+    [data?.mentalHealthWorkflowChoice, shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
@@ -460,8 +477,8 @@ const WorkflowChoicePage = props => {
   const setPreviousData = () => {
     const formData = {
       ...data,
-      'view:previousMentalHealthWorkflowChoice':
-        data?.['view:mentalHealthWorkflowChoice'],
+      'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+      mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
     };
     setPreviousWorkflowChoice(data?.['view:mentalHealthWorkflowChoice']);
     setFormData(formData);
@@ -492,6 +509,29 @@ const WorkflowChoicePage = props => {
       } else {
         setShowAlert(false);
         setPreviousData();
+      }
+    },
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
+        checkMentalHealthData(data)
+      ) {
+        setShowModal(true);
+      } else {
+        setShowAlert(false);
+        const formData = {
+          ...data,
+          'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+          mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
+        };
+        setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
+        setFormData(formData);
+        setTimeout(() => {
+          updatePage(event);
+        }, 100);
       }
     },
     onCloseModal: () => {
