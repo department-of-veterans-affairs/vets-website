@@ -17,7 +17,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
-  const { attributes: currentReferral } = props.currentReferral;
+  const { currentReferral } = props;
   const dispatch = useDispatch();
   const location = useLocation();
 
