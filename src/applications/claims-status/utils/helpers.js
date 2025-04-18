@@ -420,7 +420,8 @@ export const DOC_TYPES = [
   },
   {
     value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+    label:
+      'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   },
   {
     value: 'L229',
@@ -1190,10 +1191,11 @@ export const generateClaimTitle = (claim, placement, tab) => {
 };
 
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
+// It is also used to set the Document Request Page breadcrumb text
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
     ? 'Review evidence list (5103 notice)'
-    : `Request for ${displayName}`;
+    : displayName;
 }
 
 // Used to set page title for the CST Tabs

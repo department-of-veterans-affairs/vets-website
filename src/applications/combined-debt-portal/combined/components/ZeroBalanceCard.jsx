@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { APP_TYPES } from '../utils/helpers';
 
 const ZeroBalanceCard = ({ appType }) => {
@@ -12,14 +13,14 @@ const ZeroBalanceCard = ({ appType }) => {
     appType === APP_TYPES.DEBT ? (
       <p className="vads-u-margin-y--0">
         If you think this is incorrect, call the Debt Management Center (DMC) at{' '}
-        <va-telephone contact="8008270648" /> (
+        <va-telephone contact={CONTACTS.DMC} /> (
         <va-telephone tty contact="711" />
         ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
     ) : (
       <p className="vads-u-margin-y--0">
         If you think this is incorrect, contact the VA Health Resource Center at{' '}
-        <va-telephone contact="8664001238" /> (
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
         <va-telephone tty contact="711" />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>

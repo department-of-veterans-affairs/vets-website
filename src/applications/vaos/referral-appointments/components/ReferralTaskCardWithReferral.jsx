@@ -1,16 +1,14 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { isAfter } from 'date-fns';
-
-import { useGetReferralById } from '../hooks/useGetReferralById';
 import ReferralTaskCard from './ReferralTaskCard';
-import { FETCH_STATUS } from '../../utils/constants';
+import { useGetReferralByIdQuery } from '../../redux/api/vaosApi';
 
 const isExpired = referral => {
-  if (!referral?.ReferralExpirationDate) {
+  if (!referral?.attributes?.expirationDate) {
     return false;
   }
-  const expirationDate = referral.ReferralExpirationDate;
+  const { expirationDate } = referral.attributes;
   const now = new Date();
   const expiration = new Date(expirationDate);
   return isAfter(now, expiration);
@@ -21,14 +19,21 @@ export default function ReferralTaskCardWithReferral() {
 
   const params = new URLSearchParams(search);
   const id = params.get('id');
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
 
-  const { currentReferral, referralFetchStatus } = useGetReferralById(id);
+  if (id && isLoading) {
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        set-focus
+        message="Loading your data..."
+      />
+    );
+  }
 
-  if (
-    !currentReferral &&
-    (referralFetchStatus === FETCH_STATUS.succeeded ||
-      referralFetchStatus === FETCH_STATUS.failed)
-  ) {
+  if (id && error) {
     return (
       <va-alert
         data-testid="referral-error"
@@ -44,7 +49,7 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  if (isExpired(currentReferral)) {
+  if (isExpired(referral)) {
     return (
       <va-alert-expandable
         status="warning"
@@ -67,5 +72,5 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  return <ReferralTaskCard data={currentReferral} />;
+  return <ReferralTaskCard data={referral} />;
 }

@@ -56,7 +56,7 @@ export class FacilityMapWidgetDynamic extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { facilities } = this.props;
     const { facilityID } = this.state;
-    const facilityDetail = facilities ? facilities[facilityID] : '';
+    const facilityDetail = facilities ? facilities[facilityID]?.[0] : '';
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
 

@@ -12,7 +12,7 @@ const defaultStore = createCommonStore();
 const formData = (
   isMilitary = false,
   outsideUsa = false,
-  type = undefined,
+  typeOfMarriage = undefined,
   currentSpouseReasonForSeparation = undefined,
 ) => {
   return {
@@ -28,7 +28,7 @@ const formData = (
     },
     currentMarriageInformation: {
       outsideUsa,
-      type,
+      typeOfMarriage,
     },
   };
 };
@@ -93,7 +93,7 @@ describe('686 current marriage information: Spouse income', () => {
     );
 
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 });
 
@@ -124,7 +124,7 @@ describe('686 current marriage information: Marriage start location', () => {
     expect($$('option', container).length).to.equal(59);
   });
 
-  it('should render w/o select field if Outside US is checked', () => {
+  it('should render country select field if Outside US is checked', () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -140,8 +140,8 @@ describe('686 current marriage information: Marriage start location', () => {
 
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(1);
-    expect($$('va-select', container).length).to.equal(0);
-    expect($$('option', container).length).to.equal(0);
+    expect($$('va-select', container).length).to.equal(1);
+    expect($$('option', container).length).to.equal(227);
   });
 });
 

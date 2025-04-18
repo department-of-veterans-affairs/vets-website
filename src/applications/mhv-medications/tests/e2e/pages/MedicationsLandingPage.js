@@ -113,11 +113,24 @@ class MedicationsLandingPage {
     );
   };
 
-  verifyCernerUserMyVAHealthAlertOnAboutMedicationsPage = () => {
-    cy.get('[data-testid="cerner-facilities-alert"]').should(
+  verifyCernerUserMyVAHealthAlertOnAboutMedicationsPage = text => {
+    cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
+  };
+
+  verifyMultipleCernerAlertTextOnABoutMedicationsPage = text => {
+    cy.get('[data-testid="single-cerner-facility-text"]').should(
       'contain',
-      'Make sure you’re in the right health portal',
+      text,
     );
+  };
+
+  verifyMultipleCernerFacilityNamesAlertOnAboutMedicationsPage = (
+    facilityName1,
+    facilityName2,
+  ) => {
+    cy.get('[data-testid="cerner-facilities-alert"]')
+      .should('contain', facilityName1)
+      .and('contain', facilityName2);
   };
 
   verifyGoToYourAllergiesAndReactionsLinkOnAboutMedicationsPage = () => {
@@ -133,6 +146,9 @@ class MedicationsLandingPage {
   };
 
   visitMedicationsListPage = prescriptionsList => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptionsList).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',

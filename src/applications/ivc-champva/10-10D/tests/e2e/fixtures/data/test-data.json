@@ -11,9 +11,7 @@
           "state": "AS",
           "postalCode": "56790"
         },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
+        "applicantSSN": "345345345",
         "applicantPhone": "555-555-1234",
         "applicantGender": { "gender": "male" },
         "applicantRelationshipToSponsor": {

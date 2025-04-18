@@ -21,7 +21,7 @@ import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
-import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
+import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
 
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
@@ -38,6 +38,7 @@ import ClosestCityStatePage from '../../new-appointment/components/ClosestCitySt
 import { createMockFacility } from './data';
 import { mockFacilitiesFetch } from './fetch';
 import { getSchedulingConfigurationMock } from './mock';
+import { vaosApi } from '../../redux/api/vaosApi';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -53,9 +54,10 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       covid19Vaccine: covid19VaccineReducer,
+      [vaosApi.reducerPath]: vaosApi.reducer,
     }),
     initialState,
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, vaosApi.middleware),
   );
 }
 
@@ -353,22 +355,17 @@ export async function setVaccineClinic(store, label) {
  */
 export async function setPreferredDate(store, preferredDate) {
   const screen = renderWithStoreAndRouter(
-    <Route component={PreferredDatePage} />,
+    <Route component={PreferredDatePageVaDate} />,
     {
       store,
     },
   );
 
-  await screen.findByText(/earliest day/);
-  fireEvent.change(screen.getByLabelText('Month'), {
-    target: { value: preferredDate.month() + 1 },
+  const vaDate = screen.container.querySelector('va-date');
+  vaDate.__events.dateChange({
+    target: { value: preferredDate.format('YYYY-MM-DD') },
   });
-  fireEvent.change(screen.getByLabelText('Day'), {
-    target: { value: preferredDate.date() },
-  });
-  fireEvent.change(screen.getByLabelText('Year'), {
-    target: { value: preferredDate.year() },
-  });
+
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();

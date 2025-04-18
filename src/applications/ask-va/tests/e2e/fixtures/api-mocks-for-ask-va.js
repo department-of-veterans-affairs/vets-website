@@ -33,6 +33,9 @@ import responseVeteranHealthIdentificationCard from './ask_va_api/v0/contents/su
 import responseVeteranIdCardForDiscount from './ask_va_api/v0/contents/subtopics/veteran-id-card-for-discounts.json';
 import responseWorkStudy from './ask_va_api/v0/contents/subtopics/work-study.json';
 
+import responseHealthFacilities from './ask_va_api/v0/health-facilities.json';
+import responseEducationFacilities from './ask_va_api/v0/education-facilities.json';
+
 // Helper function to create cy.intercept for multiple endpoints
 const interceptTopics = [
   {
@@ -163,14 +166,14 @@ const interceptSubtopics = [
 export const interceptAskVaResponses = () => {
   cy.intercept(
     'GET',
-    `/ask_va_api/v0/contents?type=category`,
+    `http://localhost:3000/ask_va_api/v0/contents?type=category*`,
     responseCategory,
   );
 
   interceptTopics.forEach(({ parentId, response }) => {
     cy.intercept(
       'GET',
-      `/ask_va_api/v0/contents?type=topic&parent_id=${parentId}`,
+      `http://localhost:3000/ask_va_api/v0/contents?type=topic&parent_id=${parentId}*`,
       response,
     );
   });
@@ -178,10 +181,22 @@ export const interceptAskVaResponses = () => {
   interceptSubtopics.forEach(({ parentId, response }) => {
     cy.intercept(
       'GET',
-      `/ask_va_api/v0/contents?type=subtopic&parent_id=${parentId}`,
+      `http://localhost:3000/ask_va_api/v0/contents?type=subtopic&parent_id=${parentId}*`,
       response,
     );
   });
+
+  cy.intercept(
+    'POST',
+    `http://localhost:3000/ask_va_api/v0/health_facilities*`,
+    responseHealthFacilities,
+  );
+
+  cy.intercept(
+    'GET',
+    `http://localhost:3000/ask_va_api/v0/education_facilities/search?name=austin*`,
+    responseEducationFacilities,
+  );
 };
 
 export default interceptAskVaResponses;

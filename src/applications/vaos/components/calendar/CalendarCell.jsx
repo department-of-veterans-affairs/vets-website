@@ -122,12 +122,6 @@ const CalendarCell = ({
         {inSelectedArray &&
           !!renderIndicator &&
           renderIndicator({ date, id, selectedDates })}
-        {inSelectedArray &&
-          !renderIndicator && (
-            <span className="vads-u-color--white vaos-calendar__fa-check-position">
-              <va-icon icon="check" size="3" aria-hidden="true" />
-            </span>
-          )}
         {dateDay}
         {isCurrentlySelected && (
           <span className="vaos-calendar__day--selected-triangle" />
@@ -147,6 +141,9 @@ const CalendarCell = ({
           id={id}
           timezone={timezone}
           showWeekends={showWeekends}
+          optionsHeight={optionsHeight}
+          setOptionsHeight={setOptionsHeight}
+          buttonRef={buttonRef}
         />
       )}
     </div>

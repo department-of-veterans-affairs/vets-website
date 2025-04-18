@@ -1,9 +1,5 @@
 {
     "unauthenticated": [
-        "1a.yml",
-        "healthcare-child.yml",
-        "healthcare-prosthetics-veteran.yml",
-        "life-insurance.yml"
     ],
     "authenticated": [
     ]

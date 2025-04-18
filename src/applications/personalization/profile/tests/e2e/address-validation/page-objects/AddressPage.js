@@ -298,7 +298,7 @@ class AddressPage {
   };
 
   editAddress = (labels, fields) => {
-    cy.findByText('Go back to edit').click();
+    cy.findByText('Edit address').click();
     this.confirmAddressFields(labels, fields);
     cy.findByTestId('save-edit-button').click({
       force: true,

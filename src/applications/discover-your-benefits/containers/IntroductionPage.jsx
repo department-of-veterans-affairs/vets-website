@@ -11,14 +11,11 @@ const IntroductionPage = ({ router }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subtitle="" />
-      <div role="heading" aria-level="2">
+      <div>
         <p>
           If you’re a Veteran or transitioning service member, answer a few
-          questions
-          <br />
-          about your goals and experiences. We’ll help you find benefits
-          <br />
-          you may want to apply for.
+          questions about your goals and experiences. We’ll help you find
+          benefits you may want to apply for.
         </p>
       </div>
 
@@ -30,7 +27,7 @@ const IntroductionPage = ({ router }) => {
         data-testid="get-started"
       />
 
-      <div role="heading" aria-level="2">
+      <div>
         <p>
           <b>Note:</b> This tool is not an application for VA benefits and it
           doesn’t confirm your eligibility. On the results page, we’ll help you

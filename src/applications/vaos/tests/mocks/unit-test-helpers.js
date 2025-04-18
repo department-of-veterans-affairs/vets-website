@@ -144,4 +144,12 @@ export class MockAppointment {
   setCancelationReason(value) {
     this.cancelationReason = value;
   }
+
+  setCreated(value) {
+    this.created = value;
+  }
+
+  setModality(value) {
+    this.modality = value;
+  }
 }

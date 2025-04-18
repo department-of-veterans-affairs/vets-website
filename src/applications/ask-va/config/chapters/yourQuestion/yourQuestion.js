@@ -6,7 +6,6 @@ import { CategoryEducation, CHAPTER_2 } from '../../../constants';
 
 export const fileSchema = {
   type: 'array',
-  minItems: 1,
   items: {
     type: 'object',
     properties: {
@@ -55,6 +54,7 @@ const yourQuestionPage = {
       },
       'ui:options': {
         required: true,
+        charcount: true,
         useFormsPattern: 'single',
       },
     },
@@ -72,9 +72,11 @@ const yourQuestionPage = {
     properties: {
       subject: {
         type: 'string',
+        maxLength: 140,
       },
       question: {
         type: 'string',
+        maxLength: 10000,
       },
       fileUpload: fileSchema,
     },

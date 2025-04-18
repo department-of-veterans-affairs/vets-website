@@ -83,8 +83,8 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         uswds
       >
         <p className="vads-u-padding-bottom--1">
-          If you don’t think this is the right form for you, find out about
-          other decision review options.
+          If you don’t think this is the right form for you, there other
+          decision review options.
         </p>
         <a href="/resources/choosing-a-decision-review-option/">
           Learn about choosing a decision review option

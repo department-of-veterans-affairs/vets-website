@@ -54,6 +54,16 @@
                     }
                 },
                 {
+                    "title": "Roseburg VA Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_653",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Roseburg health care",
+                            "fieldVamcEhrSystem": "cerner"
+                        }
+                    }
+                },
+                {
                     "title": "Ioannis A. Lougaris Veterans' Administration Medical Center",
                     "fieldFacilityLocatorApiId": "vha_654",
                     "fieldRegionPage": {

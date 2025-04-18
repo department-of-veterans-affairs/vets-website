@@ -12,7 +12,7 @@ describe('My HealtheVet Access Page', () => {
       .should('exist')
       .and(
         'contain',
-        'Get temporary access to the My HealtheVet sign-in option. This sign-in process may change in the future.',
+        "If you received confirmation from VA that we've given you temporary access to My HealtheVet, you can sign in here.",
       );
   });
 

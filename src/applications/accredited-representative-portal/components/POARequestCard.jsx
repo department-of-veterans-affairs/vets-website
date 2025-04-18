@@ -1,60 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { differenceInDays } from 'date-fns';
-
 import {
-  formatDateParsedZoneLong,
-  timeFromNow,
-} from 'platform/utilities/date/index';
+  expiresSoon,
+  formatStatus,
+  resolutionDate,
+  formSubmissionStatus,
+  hideStatus,
+} from '../utilities/poaRequests';
 
-const expiresSoon = expDate => {
-  const EXPIRES_SOON_THRESHOLD_DURATION = 7 * 24 * 60 * 60 * 1000;
-  const now = new Date();
-  const expiresAt = new Date(expDate);
-  const daysLeft = timeFromNow(expiresAt, now);
-  if (
-    differenceInDays(expiresAt, now) > 0 &&
-    differenceInDays(expiresAt, now) < EXPIRES_SOON_THRESHOLD_DURATION
-  ) {
-    return `(in ${daysLeft})`;
-  }
-  return null;
-};
-
-const POARequestCard = ({ poaRequest, id }) => {
+const POARequestCard = ({ poaRequest }) => {
+  const lastName = poaRequest?.powerOfAttorneyForm?.claimant?.name?.last;
+  const firstName = poaRequest?.powerOfAttorneyForm?.claimant?.name?.first;
+  const city = poaRequest?.powerOfAttorneyForm?.claimant?.address.city;
+  const state = poaRequest?.powerOfAttorneyForm?.claimant?.address.stateCode;
+  const zipCode = poaRequest?.powerOfAttorneyForm?.claimant?.address.zipCode;
+  const poaStatus =
+    poaRequest.resolution?.decisionType || poaRequest.resolution?.type;
+  const poaRequestSubmission =
+    poaRequest?.powerOfAttorneyFormSubmission?.status;
   return (
     <li>
       <va-card class="poa-request__card">
         <span
-          data-testid={`poa-request-card-${id}-status`}
-          className="usa-label poa-request__card-field poa-request__card-field--status"
+          data-testid={`poa-request-card-${poaRequest.id}-status`}
+          className={`usa-label poa-request__card-field poa-request__card-field--status status status--processing ${hideStatus(
+            poaRequestSubmission,
+          )}`}
         >
-          {poaRequest.status}
+          {formatStatus(poaStatus)}
         </span>
-        <Link to={id.toString()}>
-          <span className="sr-only">View details for </span>
-          <h3
-            data-testid={`poa-request-card-${id}-name`}
-            className="poa-request__card-title vads-u-font-size--h4"
-          >
-            {`${poaRequest.claimant.lastName}, ${
-              poaRequest.claimant.firstName
-            }`}
-          </h3>
+        <Link
+          to={`/poa-requests/${poaRequest.id}`}
+          data-testid={`poa-request-card-${poaRequest.id}-name`}
+          className="poa-request__card-title vads-u-font-size--h4 vads-u-font-family--serif"
+        >
+          {`${lastName}, ${firstName}`}
         </Link>
 
         <p className="poa-request__card-field poa-request__card-field--location">
-          <span data-testid={`poa-request-card-${id}-city`}>
-            {poaRequest.claimantAddress.city}
+          <span data-testid={`poa-request-card-${poaRequest.id}-city`}>
+            {city}
           </span>
           {', '}
-          <span data-testid={`poa-request-card-${id}-state`}>
-            {poaRequest.claimantAddress.state}
+          <span data-testid={`poa-request-card-${poaRequest.id}-state`}>
+            {state}
           </span>
           {', '}
-          <span data-testid={`poa-request-card-${id}-zip`}>
-            {poaRequest.claimantAddress.zip}
+          <span data-testid={`poa-request-card-${poaRequest.id}-zip`}>
+            {zipCode}
           </span>
         </p>
 
@@ -62,28 +56,51 @@ const POARequestCard = ({ poaRequest, id }) => {
           data-testid="poa-request-card-field-received"
           className="poa-request__card-field poa-request__card-field--request"
         >
-          {poaRequest.status === 'Declined' && (
-            <>
-              <span className="poa-request__card-field--label">
-                POA request declined on:
-              </span>
-              <span data-testid={`poa-request-card-${id}-declined`}>
-                {formatDateParsedZoneLong(poaRequest.acceptedOrDeclinedAt)}
-              </span>
-            </>
+          {poaStatus === 'declination' && (
+            <span
+              className={`poa-request__card-field--label ${hideStatus(
+                poaRequestSubmission,
+              )}`}
+            >
+              POA request declined on:
+              {resolutionDate(poaRequest.resolution?.createdAt, poaRequest.id)}
+            </span>
           )}
-          {poaRequest.status === 'Accepted' && (
-            <>
-              <span className="poa-request__card-field--label">
-                POA request accepted on:
+          {poaStatus === 'acceptance' && (
+            <span
+              className={`poa-request__card-field--label ${hideStatus(
+                poaRequestSubmission,
+              )}`}
+            >
+              POA request accepted on:
+              <span>
+                {resolutionDate(
+                  poaRequest.resolution?.createdAt,
+                  poaRequest.id,
+                )}
               </span>
-              <span data-testid={`poa-request-card-${id}-accepted`}>
-                {formatDateParsedZoneLong(poaRequest.acceptedOrDeclinedAt)}
-              </span>
-            </>
+            </span>
           )}
 
-          {poaRequest.status === 'Pending' && (
+          {poaStatus === 'expiration' && (
+            <span
+              className={`poa-request__card-field--label ${hideStatus(
+                poaRequestSubmission,
+              )}`}
+            >
+              POA request expired on:
+              <span>
+                {resolutionDate(
+                  poaRequest.resolution?.createdAt,
+                  poaRequest.id,
+                )}
+              </span>
+            </span>
+          )}
+
+          {formSubmissionStatus(poaRequestSubmission)}
+
+          {!poaRequest.resolution && (
             <>
               {expiresSoon(poaRequest.expiresAt) && (
                 <va-icon
@@ -97,9 +114,7 @@ const POARequestCard = ({ poaRequest, id }) => {
               <span className="poa-request__card-field--label">
                 POA request expires on:
               </span>
-              <span data-testid={`poa-request-card-${id}-received`}>
-                {formatDateParsedZoneLong(poaRequest.expiresAt)}
-              </span>
+              {resolutionDate(poaRequest.expiresAt, poaRequest.id)}
               <span className="poa-request__card-field--expiry">
                 {expiresSoon(poaRequest.expiresAt)}
               </span>
@@ -113,6 +128,8 @@ const POARequestCard = ({ poaRequest, id }) => {
 
 POARequestCard.propTypes = {
   cssClass: PropTypes.string,
+  id: PropTypes.string,
+  poaRequest: PropTypes.object,
 };
 
 export default POARequestCard;

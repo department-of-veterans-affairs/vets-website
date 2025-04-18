@@ -1,5 +1,5 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import MedicationsLandingPage from './pages/MedicationsLandingPage';
+import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import { Data, Paths } from './utils/constants';
 import renewRx from './fixtures/filter-prescriptions.json';
@@ -8,13 +8,10 @@ describe('Medications List Page Renewal Filter Option', () => {
   it('visits Medications List Page Filter Option Renewal', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    const landingPage = new MedicationsLandingPage();
-
     site.login();
-    landingPage.visitLandingPageURL();
+    listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink();
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterOptionsOnListPage(
       'Renewal needed before refill',

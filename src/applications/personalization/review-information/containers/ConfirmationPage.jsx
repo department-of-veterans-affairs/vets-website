@@ -25,22 +25,21 @@ export const ConfirmationPage = () => {
             profile.
           </p>
           <va-link-action
-            href="https://www.va.gov/profile/notifications"
-            label="Notification settings link"
+            href="/profile/notifications/"
             text="Go to your notification settings in your VA.gov profile"
           />
         </va-alert>
       </div>
       <div className="vads-u-display--block">
         <va-link-action
-          href="https://www.va.gov/my-va/"
+          href="/my-va/"
           text="Go back to My VA"
           type="secondary"
         />
       </div>
       <div className="vads-u-display--block vads-u-margin-bottom--9">
         <va-link-action
-          href="https://www.va.gov/profile"
+          href="/profile/"
           text="Go back to your profile"
           type="secondary"
         />

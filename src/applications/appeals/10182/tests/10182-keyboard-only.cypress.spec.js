@@ -2,11 +2,7 @@ import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import {
-  CONTESTABLE_ISSUES_API,
-  SUBMIT_URL,
-  SUBMIT_URL_NEW,
-} from '../constants/apis';
+import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
 import mockData from './fixtures/data/maximal-test.json';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';
@@ -21,7 +17,6 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
     cy.intercept('PUT', '/v0/in_progress_forms/10182', mockInProgress);
     cy.intercept('POST', SUBMIT_URL, mockSubmit);
-    cy.intercept('POST', SUBMIT_URL_NEW, mockSubmit);
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
@@ -151,7 +146,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('va-button.screen-only').should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

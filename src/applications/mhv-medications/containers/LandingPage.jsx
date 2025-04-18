@@ -1,6 +1,7 @@
+// TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Redirect } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -25,6 +26,7 @@ import {
   selectFilterFlag,
   selectGroupingFlag,
   selectRefillContentFlag,
+  selectRemoveLandingPageFlag,
 } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
@@ -61,6 +63,7 @@ const LandingPage = () => {
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showFilterContent = useSelector(selectFilterFlag);
   const showGroupingFlag = useSelector(selectGroupingFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -686,6 +689,10 @@ const LandingPage = () => {
   ) {
     window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
+  }
+
+  if (removeLandingPage) {
+    return <Redirect to="/" />;
   }
 
   return (

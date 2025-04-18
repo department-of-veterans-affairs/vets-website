@@ -6,6 +6,7 @@ const prefill = {
     gender: USER.GENDER,
     veteranDateOfBirth: USER.BIRTH_DATE,
     veteranSocialSecurityNumber: USER.SSN_LAST_FOUR,
+    veteranVAFileNumber: '2345',
     homePhone: HOME_PHONE_FULL,
     email: USER.EMAIL,
     'view:maritalStatus': { maritalStatus: 'MARRIED' },

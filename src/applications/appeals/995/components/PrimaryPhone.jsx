@@ -90,7 +90,7 @@ export const PrimaryPhone = ({
       <form onSubmit={handlers.onSubmit}>
         <div name="topScrollElement" />
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-top--2 vads-u-margin-bottom--4"
           label={content.label}
           label-header-level={onReviewPage ? 4 : 3}
           hint="We may need to contact you if we have questions about your Supplemental Claim."

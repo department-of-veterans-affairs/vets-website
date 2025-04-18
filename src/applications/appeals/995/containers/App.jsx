@@ -8,6 +8,7 @@ import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from '~/platform/user/selectors';
 import { setData } from '~/platform/forms-system/src/js/actions';
+import { useFormFeatureToggleSync } from 'platform/utilities/feature-toggles';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -23,10 +24,9 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
-  SC_NEW_FORM_TOGGLE,
+  SC_NEW_FORM_KEY,
   SC_NEW_FORM_DATA,
 } from '../constants';
-import { NEW_API } from '../constants/apis';
 
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
@@ -52,7 +52,6 @@ export const App = ({
   legacyCount,
   accountUuid,
   inProgressFormId,
-  toggles,
 }) => {
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see
@@ -87,10 +86,7 @@ export const App = ({
           if (!isLoadingIssues && (contestableIssues.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({
-              benefitType: formData.benefitType,
-              [NEW_API]: toggles[NEW_API],
-            });
+            getContestableIssues({ benefitType: formData.benefitType });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             (issuesNeedUpdating(
@@ -125,31 +121,15 @@ export const App = ({
       pathname,
       setFormData,
       subTaskBenefitType,
-      toggles,
     ],
   );
 
-  useEffect(
-    () => {
-      const isUpdated = toggles[SC_NEW_FORM_TOGGLE] || false;
-      const isUpdatedApi = toggles[NEW_API] || false;
-      if (
-        !toggles.loading &&
-        (typeof formData[SC_NEW_FORM_DATA] === 'undefined' ||
-          formData[SC_NEW_FORM_DATA] !== isUpdated ||
-          typeof formData[NEW_API] === 'undefined' ||
-          formData[NEW_API] !== isUpdatedApi)
-      ) {
-        setFormData({
-          ...formData,
-          [SC_NEW_FORM_DATA]: isUpdated,
-          [NEW_API]: toggles[NEW_API],
-        });
-      }
+  useFormFeatureToggleSync([
+    {
+      toggleName: SC_NEW_FORM_KEY,
+      formKey: SC_NEW_FORM_DATA,
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData[SC_NEW_FORM_DATA], formData[NEW_API]],
-  );
+  ]);
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -223,10 +203,6 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  toggles: PropTypes.shape({
-    [SC_NEW_FORM_TOGGLE]: PropTypes.bool,
-    loading: PropTypes.bool,
-  }),
 };
 
 const mapStateToProps = state => ({
@@ -237,7 +213,6 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
-  toggles: state.featureToggles || {},
 });
 
 const mapDispatchToProps = {

@@ -1,4 +1,4 @@
-describe.skip('ConfirmationPage', () => {
+describe.skip('ConfirmationPrintSign', () => {
   beforeEach(() => {
     cy.visit(
       '/get-help-from-accredited-representative/appoint-rep/confirmation',

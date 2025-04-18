@@ -5,11 +5,7 @@ import {
   EvidenceUploadDescription,
 } from '../content/EvidenceUpload';
 
-import {
-  NEW_API,
-  EVIDENCE_UPLOAD_API,
-  EVIDENCE_UPLOAD_API_NEW,
-} from '../constants/apis';
+import { EVIDENCE_UPLOAD_API } from '../constants/apis';
 
 import {
   SUPPORTED_UPLOAD_TYPES,
@@ -32,13 +28,6 @@ export const evidenceUploadUI = {
     keepInPageOnReview: true,
     attachmentName: false,
     classNames: '',
-    updateUiSchema: formData => ({
-      'ui:options': {
-        fileUploadUrl: `${environment.API_URL}${
-          formData[NEW_API] ? EVIDENCE_UPLOAD_API_NEW : EVIDENCE_UPLOAD_API
-        }`,
-      },
-    }),
   }),
   'ui:field': FileField,
   'ui:description': EvidenceUploadDescription,

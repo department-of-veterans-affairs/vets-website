@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
 
 export const VerifiedAlert = (
-  <div>
-    <div className="usa-alert usa-alert-info schemaform-sip-alert">
-      <div className="usa-alert-body">
-        <strong>Note:</strong> Since you’re signed in to your account and your
-        account is verified, we can prefill part of your application based on
-        your account details. You can also save your form in progress and come
-        back later to finish filling it out.
-      </div>
-    </div>
-    <br />
+  <div className="vads-u-margin-bottom--2">
+    <va-alert status="info" visible>
+      <h3 id="track-your-status-on-mobile" slot="headline">
+        We’ve prefilled some of your information
+      </h3>
+      <p className="vads-u-margin-y--0">
+        Since you’re signed in, we can prefill part of your application based on
+        your profile details. You can also save your application in progress and
+        come back later to finish filling it out.{' '}
+      </p>
+    </va-alert>
   </div>
 );
 
@@ -68,134 +71,72 @@ export const certificateNotice = () => (
   </p>
 );
 
-export const isInsideListLoopReturn = (
-  chapter,
-  outerField,
-  uiTitle,
-  formChapter,
-  countryUiLabel,
-  stateUiLabel,
-  cityUiLabel,
-) => {
-  return {
-    'ui:title': uiTitle,
-    isOutsideUs: {
-      'ui:title': 'This occurred outside the U.S.',
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
-    },
-    country: {
-      'ui:title': countryUiLabel,
-      'ui:required': (formData, index) =>
-        formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: (formData, index) => {
-          if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    state: {
-      'ui:title': stateUiLabel,
-      'ui:required': (formData, index) =>
-        !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: (formData, index) => {
-          if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    city: {
-      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': cityUiLabel,
-    },
-  };
-};
+export const CancelButton = withRouter(
+  ({
+    isAddChapter = false,
+    dependentType = 'dependents',
+    altMessage = false,
+    router,
+  }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const closeModal = () => setIsVisible(false);
 
-export const isOutsideListLoopReturn = (
-  chapter,
-  outerField,
-  uiTitle,
-  formChapter,
-  countryUiLabel,
-  stateUiLabel,
-  cityUiLabel,
-) => {
-  return {
-    'ui:title': uiTitle,
-    isOutsideUs: {
-      'ui:title': 'This occurred outside the U.S.',
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
-    },
-    country: {
-      'ui:title': countryUiLabel,
-      'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: formData => {
-          if (!formData?.[chapter]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    state: {
-      'ui:title': stateUiLabel,
-      'ui:required': formData =>
-        !formData?.[chapter]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: formData => {
-          if (formData?.[chapter]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    city: {
-      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': cityUiLabel,
-    },
-  };
-};
+    const cancelText =
+      dependentType && typeof dependentType === 'string'
+        ? `Cancel ${isAddChapter ? 'adding' : 'removing'} ${dependentType}`
+        : 'Cancel';
 
-export const hoursPerWeekUiSchema = {
-  'ui:title': 'Hours a week',
-  'ui:options': {
-    widgetClassNames: 'form-select-medium',
+    const modalText = `Cancel ${
+      isAddChapter ? 'adding' : 'removing'
+    } ${dependentType}?`;
+
+    const secondaryText = `No, continue ${
+      isAddChapter ? 'adding' : 'removing'
+    } ${dependentType}`;
+
+    return (
+      <>
+        <va-button
+          data-testid="cancel-btn"
+          aria-label={cancelText}
+          onClick={() => setIsVisible(true)}
+          secondary
+          text={cancelText}
+        />
+
+        <VaModal
+          large
+          data-testid="cancel-modal"
+          modalTitle={modalText}
+          primaryButtonText="Yes, cancel"
+          secondaryButtonText={secondaryText}
+          visible={isVisible}
+          status="warning"
+          onPrimaryButtonClick={() => {
+            const route = isAddChapter
+              ? '/options-selection/add-dependents'
+              : '/options-selection/remove-dependents';
+            router?.push(route);
+          }}
+          onSecondaryButtonClick={closeModal}
+          onCloseEvent={closeModal}
+          clickToClose
+        >
+          {altMessage ? (
+            <p>
+              If you cancel, the information entered won’t be saved and you’ll
+              be taken to step 1, to update your selection.
+            </p>
+          ) : (
+            <p>
+              If you cancel, you’ll be taken to step 1 to update your selection.
+            </p>
+          )}
+        </VaModal>
+      </>
+    );
   },
-  'ui:errorMessages': { required: 'Enter a number' },
-  'ui:validations': [
-    (errors, fieldData) => {
-      if (fieldData > 168) {
-        errors.addError('Enter a number less than 169');
-      }
-    },
-  ],
-};
-
-export const classesPerWeekUiSchema = {
-  'ui:title': 'Number of sessions a week',
-  'ui:options': {
-    widgetClassNames: 'form-select-medium',
-  },
-  'ui:errorMessages': { required: 'Enter a number' },
-  'ui:validations': [
-    (errors, fieldData) => {
-      if (fieldData > 999) {
-        errors.addError('Enter a number less than 1000');
-      }
-    },
-  ],
-};
+);
 
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
   state => state.value,
@@ -206,6 +147,13 @@ const filteredStates = constants.states.USA.filter(
 
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
+const COUNTRY_VALUES = constants.countries
+  .filter(country => country.value !== 'USA')
+  .map(country => country.value);
+
+const COUNTRY_NAMES = constants.countries
+  .filter(country => country.label !== 'United States')
+  .map(country => country.label);
 
 export const customLocationSchema = {
   type: 'object',
@@ -224,6 +172,11 @@ export const customLocationSchema = {
           enum: STATE_VALUES,
           enumNames: STATE_NAMES,
         },
+        country: {
+          type: 'string',
+          enum: COUNTRY_VALUES,
+          enumNames: COUNTRY_NAMES,
+        },
       },
     },
   },
@@ -238,10 +191,18 @@ export const customLocationSchemaStatePostal = {
     location: {
       type: 'object',
       properties: {
+        city: {
+          type: 'string',
+        },
         state: {
           type: 'string',
           enum: STATE_VALUES,
           enumNames: STATE_NAMES,
+        },
+        country: {
+          type: 'string',
+          enum: COUNTRY_VALUES,
+          enumNames: COUNTRY_NAMES,
         },
         postalCode: {
           type: 'string',
@@ -250,14 +211,6 @@ export const customLocationSchemaStatePostal = {
     },
   },
 };
-
-export const PensionIncomeRemovalQuestionTitle = (
-  <p>
-    Did this dependent earn an income in the last 365 days? Answer this question{' '}
-    <strong>only</strong> if you are removing this dependent from your{' '}
-    <strong>pension</strong>.
-  </p>
-);
 
 export const generateHelpText = (text, className = 'vads-u-color--gray') => {
   return <span className={className}>{text}</span>;

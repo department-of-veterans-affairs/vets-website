@@ -1,62 +1,150 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { useRouteLoaderData } from 'react-router';
-import { getSignInUrl } from '../utilities/constants';
-
-const LandingPage = () => {
-  const user = useRouteLoaderData('root');
-  const firstName = user && user.profile.firstName;
-
+const LandingPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
   return (
-    <div className="homepage-hero__wrapper homepage-hero__look-and-feel">
-      <div className="vads-l-grid-container vads-u-padding-x--0 homepage-hero">
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-            <div
-              className="vads-u-padding-left--2 vads-u-padding-right--3 vads-u-padding-top--5
-        vads-u-padding-bottom--3
-        small-desktop-screen:vads-u-padding-bottom--8"
+    <section className="home">
+      <div className="home__hero">
+        <div className="home__hero-container">
+          <div className="home__hero-bg">
+            <h1
+              className="home__hero-header"
+              data-testid="landing-page-heading"
             >
-              <h1
-                data-testid="landing-page-heading"
-                className="homepage-hero__welcome-headline vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-y--1 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-font-size--lg vads-u-font-family--serif"
-              >
-                Welcome to the Accredited Representative Portal
-                {firstName && `, ${firstName}`}
-              </h1>
-              <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl desktop:vads-u-font-size--2xl">
-                Manage power of attorney requests
-              </h2>
-              <p className="vads-u-color--white vads-u-padding-right--5">
-                A system to help you get power of attorney and then support
-                Veterans by acting on their behalf.
-              </p>
-            </div>
+              Welcome to the Accredited Representative Portal
+            </h1>
+            <p
+              className="home__hero-sub-header"
+              data-testid="landing-page-hero-text"
+            >
+              A secure, user-friendly system that streamlines the power of
+              attorney and claims process for representatives and the Veterans
+              they support
+            </p>
           </div>
-          {!user && (
-            <div className="vads-l-col--12 medium-screen:vads-l-col--6 homepage-hero__container">
-              <div className="vads-u-display--flex vads-u-width--full vads-u-align-items--center vars-u-justify-content--center">
-                <div className="va-flex vads-u-flex-direction--column vads-u-align-items--flex-start vads-u-background-color--white vads-u-margin-top--6 vads-u-margin-bottom--6 vads-u-padding-x--3 vads-u-padding-y--2 vads-u-width--full homepage-hero__create-account">
-                  <h2
-                    className="vads-u-font-size--md vads-u-line-height--5 vads-u-color--gray vads-u-margin-top--0 vads-u-padding-right--2 vads-u-font-family--sans vads-u-font-weight--normal"
-                    data-testid="landing-page-create-account-text"
-                  >
-                    Create an account to start managing power of attorney.
-                  </h2>
-                  <a
-                    data-testid="landing-page-sign-in-link"
-                    className="usa-button usa-button-primary"
-                    href={getSignInUrl()}
-                  >
-                    Sign in or create account
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
-    </div>
+      <div className="home__container">
+        <div className="home__content">
+          <div className="home__content-copy">
+            <h2 data-testid="landing-page-portal-hdr">
+              What the portal can do
+            </h2>
+            <p data-testid="landing-page-portal-text">
+              You can use the portal to accept power of attorney (POA) requests
+              for any of your accredited organizations. If you have access to
+              the Veterans Benefits Management System (VBMS), you’ll be able to
+              access a Veteran’s information in VBMS within minutes of accepting
+              their POA request in the portal.
+            </p>
+            <p>
+              <strong>Note</strong>: POA requests need to be submitted using the
+              online{' '}
+              <va-link
+                href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+                text="VA Form 21-22 (on VA.gov)"
+              />
+              .
+            </p>
+          </div>
+          <div className="home__content-copy">
+            <h2 data-testid="landing-page-portal-for-hdr">
+              Who the portal is for
+            </h2>
+            <p data-testid="landing-page-portal-for-text">
+              Currently, the portal is only for Veterans Service Organization
+              (VSO) representatives who accept POA requests on behalf of their
+              organizations. In the future, the portal will support accredited
+              VSOs, attorneys, and claims agents.
+            </p>
+            <va-link
+              href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+              text="Learn more about accredited representatives"
+            />
+          </div>
+
+          <va-banner
+            data-label="Info banner"
+            headline="Get early access to the portal for your organization"
+            type="info"
+            class="home__banner"
+            visible
+          >
+            <p>
+              If you’re a Veterans Service Organization (VSO) manager, you may
+              be able to get early access to the portal for your organization by
+              joining our test program. Once you start using the portal, we’ll
+              ask you to give us feedback on your experience.
+            </p>
+            <p className="home__banner-email">
+              If you’re interested in having your organization join our test
+              program, email us at{' '}
+            </p>
+            <va-link
+              class="home__link--email"
+              href="mailto:RepresentativePortalHelp@va.gov"
+              text="RepresentativePortalHelp@va.gov"
+            />
+            .
+          </va-banner>
+        </div>
+      </div>
+      <div className="home__full-width is--lighter">
+        <div className="home__container">
+          <div className="home__content">
+            <h2 className="home__sub-header">
+              Are you a Veteran looking for help with a claim?
+            </h2>
+            <p>
+              An accredited attorney, claims agent, or Veterans Service
+              Organization (VSO) representative can help you file a claim or
+              request a decision review.
+            </p>
+            <va-link
+              class="home__link"
+              href="https://www.va.gov/get-help-from-accredited-representative"
+              text="Get help from an accredited representative"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="home__full-width home__full-width--portal vads-u-background-color--primary">
+        <div className="home__container">
+          <div className="home__overlay">
+            <img
+              src="/img/arp-hp-help-us-improve-experience.jpg"
+              className="home__portal-img desktop"
+              alt="user filling out form"
+            />
+            <img
+              src="/img/arp-hp-hero.jpg"
+              className="home__portal-img mobile"
+              alt="user filling out form"
+            />
+          </div>
+          <div className="home__content">
+            <h2>Help us improve your portal experience</h2>
+            <p>
+              Your input is valuable and helps us plan future enhancements for
+              the portal. If you’d like to give us feedback, you can sign up to
+              be invited to future feedback sessions with our VA research team.
+            </p>
+            <va-link
+              class="home__link"
+              reverse
+              href="https://docs.google.com/forms/d/1VvExHYQWsNgSho5zu9nCgF_l7AYFyun-B6-2EHOr8MA/edit?ts=6759c5e9"
+              text="Sign up to participate in feedback sessions"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

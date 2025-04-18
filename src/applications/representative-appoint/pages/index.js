@@ -20,6 +20,7 @@ import * as selectAccreditedRepresentative from './representative/selectAccredit
 import * as replaceAccreditedRepresentative from './representative/replaceAccreditedRepresentative';
 import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
 import * as contactAccreditedRepresentative from './representative/contactAccreditedRepresentative';
+import * as representativeSubmissionMethod from './representative/representativeSubmissionMethod';
 
 export {
   authorizeMedical,
@@ -44,4 +45,5 @@ export {
   replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
+  representativeSubmissionMethod,
 };

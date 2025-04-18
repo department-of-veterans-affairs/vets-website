@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import SearchByName from '../components/SearchByName';
-import SearchByProgram from '../components/SearchByProgram';
+import SearchByName from './SearchByName';
+import SearchByProgram from './SearchByProgram';
 
 const SchoolAndEmployers = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const tabPanelClassList =
     'vads-u-border-bottom--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-border-color--primary medium-screen:vads-u-padding--4 mobile:vads-u-padding--2';
   const baseTabClassList =
-    'vads-l-col vads-u-display--flex vads-u-justify-content--center vads-u-align-items--center vads-u-margin-bottom--0 vads-u-text-align--center vads-u-border-top--5px vads-u-border-left--1px vads-u-border-right--1px';
+    'vads-u-font-family--serif vads-u-font-size--h3 vads-l-col vads-u-display--flex vads-u-justify-content--center vads-u-align-items--center vads-u-margin-bottom--0 vads-u-text-align--center vads-u-border-top--5px vads-u-border-left--1px vads-u-border-right--1px';
   const inactiveTabClassList = `${baseTabClassList} vads-u-background-color--base-lightest vads-u-border-color--base-lightest vads-u-border-bottom--1px`;
   const activeTabClassList = `${baseTabClassList} vads-u-border-color--primary`;
   const inactiveTabText = 'vads-u-color--gray-dark vads-u-margin--0';
@@ -27,30 +27,36 @@ const SchoolAndEmployers = () => {
             style={{ listStyle: 'none', cursor: 'pointer' }}
           >
             <Tab
+              tabIndex="0"
               className={
                 currentTab === 0 ? activeTabClassList : inactiveTabClassList
               }
             >
-              <h3
-                className={
-                  currentTab === 1 ? inactiveTabText : 'vads-u-margin--0'
-                }
-              >
-                Search by name
-              </h3>
+              <strong>
+                <span
+                  className={
+                    currentTab === 1 ? inactiveTabText : 'vads-u-margin--0'
+                  }
+                >
+                  Search by name
+                </span>
+              </strong>
             </Tab>
             <Tab
+              tabIndex="0"
               className={
                 currentTab === 1 ? activeTabClassList : inactiveTabClassList
               }
             >
-              <h3
-                className={
-                  currentTab === 0 ? inactiveTabText : 'vads-u-margin--0'
-                }
-              >
-                Search by program
-              </h3>
+              <strong>
+                <span
+                  className={
+                    currentTab === 0 ? inactiveTabText : 'vads-u-margin--0'
+                  }
+                >
+                  Search by program
+                </span>
+              </strong>
             </Tab>
           </TabList>
           <TabPanel className={currentTab === 0 ? tabPanelClassList : null}>

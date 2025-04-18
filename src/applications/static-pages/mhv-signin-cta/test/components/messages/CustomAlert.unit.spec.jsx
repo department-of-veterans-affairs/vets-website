@@ -15,10 +15,25 @@ describe('Custom Alert component', () => {
           <p>{contentText}</p>
         </CustomAlert>,
       );
-      expect(getByRole('heading', { level: 2, name: headline })).to.exist;
+      expect(getByRole('heading', { level: 3, name: headline })).to.exist;
       expect(getByText(contentText)).to.exist;
       const alertEl = getByTestId('mhv-custom-alert');
       expect(alertEl.className).to.include('mhv-u-reg-alert-info');
+    });
+
+    it('renders info alert with header level = 4', () => {
+      const contentText = 'Some text for content';
+      const { getByRole, getByText, getByTestId } = render(
+        <CustomAlert headline={headline} headerLevel={4}>
+          <p>{contentText}</p>
+        </CustomAlert>,
+      );
+      expect(getByRole('heading', { level: 4, name: headline })).to.exist;
+      expect(getByText(contentText)).to.exist;
+      const alertEl = getByTestId('mhv-custom-alert');
+      expect(alertEl.className).to.include('mhv-u-reg-alert-info');
+      const headingEl = getByRole('heading', { level: 4, name: headline });
+      expect(headingEl.className).to.include('vads-u-font-size--h3');
     });
 
     it('renders warning alert', () => {

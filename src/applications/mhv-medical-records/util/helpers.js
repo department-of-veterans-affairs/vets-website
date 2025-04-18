@@ -2,7 +2,6 @@ import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
@@ -25,6 +24,10 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+export const dateFormatWithoutTime = str => {
+  return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
 
 /**
@@ -66,6 +69,7 @@ export const dateFormatWithoutTimezone = (
 
   return null;
 };
+
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
@@ -169,6 +173,12 @@ export const macroCase = str => {
 };
 
 /**
+ * Cache the dynamic import promise to avoid redundant network requests
+ * and improve performance when makePdf is called multiple times.
+ */
+let pdfModulePromise = null;
+
+/**
  * Create a pdf using the platform pdf generator tool
  * @param {Boolean} pdfName what the pdf file should be named
  * @param {Object} pdfData data to be passed to pdf generator
@@ -184,10 +194,21 @@ export const makePdf = async (
   templateId,
 ) => {
   try {
+    // Use cached module promise if available, otherwise create a new one
+    if (!pdfModulePromise) {
+      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+    }
+
+    // Wait for the module to load and extract the generatePdf function
+    const { generatePdf } = await pdfModulePromise;
+
     if (!runningUnitTest) {
       await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
     }
   } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
+
     sendErrorToSentry(error, sentryError);
   }
 };

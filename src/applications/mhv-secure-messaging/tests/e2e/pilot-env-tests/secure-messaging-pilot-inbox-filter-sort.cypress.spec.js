@@ -43,7 +43,7 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.verifyFilterResults('OH', filteredData);
 
-    cy.contains('Clear Filters').click({ force: true });
+    cy.contains('Clear filters').click({ force: true });
 
     PilotEnvPage.verifyThreadLength(updatedMockMessages);
 

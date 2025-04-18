@@ -144,33 +144,6 @@ export function createPageList(formConfig, formPages) {
     );
 }
 
-export function hideFormTitle(formConfig, pathName) {
-  if (
-    !formConfig?.chapters ||
-    typeof formConfig.chapters !== 'object' ||
-    formConfig.chapters.length === 0
-  )
-    return false;
-
-  const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-  const page = pageList.find(p => p.path === pathName);
-
-  if (pathName === '/confirmation') {
-    return formConfig.hideFormTitle ?? false;
-  }
-
-  if (!page || !page.chapterKey) {
-    return false;
-  }
-
-  return (
-    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
-    formConfig.hideFormTitle ??
-    false
-  );
-}
-
 function formatDayMonth(val) {
   if (val) {
     const dayOrMonth = val.toString();
@@ -666,6 +639,40 @@ export function getActiveChapters(formConfig, formData) {
   );
 }
 
+export function hideFormTitle(formConfig, pathName, formData) {
+  if (
+    !formConfig?.chapters ||
+    typeof formConfig.chapters !== 'object' ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
+  const formPages = createFormPageList(formConfig);
+  let pageList = createPageList(formConfig, formPages);
+  try {
+    pageList = getActiveExpandedPages(pageList, formData);
+  } catch {
+    // If we can't get active expanded pages, just use the default pageList
+  }
+  const page = pageList.find(p => p.path === pathName);
+
+  if (pathName === '/confirmation') {
+    return !!(formConfig.hideFormTitleConfirmation === undefined
+      ? formConfig.hideFormTitle
+      : formConfig.hideFormTitleConfirmation);
+  }
+
+  if (!page || !page.chapterKey) {
+    return false;
+  }
+
+  return (
+    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
+    formConfig.hideFormTitle ??
+    false
+  );
+}
+
 /**
  * Returns the schema, omitting all `required` arrays.
  *
@@ -801,4 +808,44 @@ export function getUrlPathIndex(url) {
     .reverse()
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
+}
+
+/**
+ * Converts a url path to a formConfig's page path, which for arrays will include `:index`
+ *
+ * @param {string} urlPath for example `window.location.pathname` is a valid urlPath
+ * @param {string} [rootUrl] Optional - First part of the url path to remove
+ * @returns {string}
+ */
+export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
+  if (!urlPath) {
+    return urlPath;
+  }
+
+  try {
+    let pageConfigPath = urlPath;
+    let root = rootUrl;
+
+    pageConfigPath = pageConfigPath.split('/').filter(Boolean);
+
+    if (root) {
+      root = root.split('/').filter(Boolean);
+
+      pageConfigPath = pageConfigPath.reduce((acc, _, index) => {
+        if (pageConfigPath[index] !== root[index]) {
+          acc.push(pageConfigPath[index]);
+        }
+        return acc;
+      }, []);
+    }
+
+    pageConfigPath = pageConfigPath.join('/');
+
+    // change path/0/name to path/:index/name
+    // change path/0 to path/:index
+    // keep path/name as path/name
+    return pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
+  } catch {
+    return urlPath;
+  }
 }

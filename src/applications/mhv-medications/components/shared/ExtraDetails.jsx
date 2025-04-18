@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { useSelector } from 'react-redux';
 import { dateFormat, pharmacyPhoneNumber } from '../../util/helpers';
 import { dispStatusObj, medicationsUrls } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { selectRemoveLandingPageFlag } from '../../util/selectors';
 
 const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
@@ -85,7 +88,11 @@ const ExtraDetails = rx => {
             renewal.
           </p>
           <va-link
-            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+            href={
+              removeLandingPage
+                ? '/resources/how-to-renew-a-va-prescription'
+                : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
+            }
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
             data-dd-action-name={
@@ -150,7 +157,11 @@ const ExtraDetails = rx => {
               You have no refills left. If you need more, request a renewal.
             </p>
             <va-link
-              href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+              href={
+                removeLandingPage
+                  ? '/resources/how-to-renew-a-va-prescription'
+                  : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
+              }
               text="Learn how to renew prescriptions"
               data-testid="learn-to-renew-prescriptions-link"
             />

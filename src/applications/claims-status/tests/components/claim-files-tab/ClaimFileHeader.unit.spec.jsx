@@ -10,7 +10,7 @@ describe('<ClaimFileHeader>', () => {
     it('should render a ClaimFileHeader section with is open text', () => {
       const { container, getByText } = render(<ClaimFileHeader isOpen />);
       const text =
-        'If you need to add evidence, you can do that here. You can also see the files associated with this claim.';
+        'If you need to add evidence, you can do that here. You can also review the files associated with this claim.';
       expect($('.claim-file-header-container', container)).to.exist;
       expect(getByText(text)).to.exist;
     });

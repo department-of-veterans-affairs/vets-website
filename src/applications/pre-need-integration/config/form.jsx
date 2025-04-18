@@ -106,7 +106,9 @@ import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
-import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
+import ApplicantSuggestedAddress from './pages/applicantSuggestedAddress';
+import SponsorSuggestedAddress from './pages/sponsorSuggestedAddress';
+import preparerSuggestedAddress from './pages/preparerSuggestedAddress';
 
 const {
   preneedAttachments,
@@ -205,16 +207,16 @@ const formConfig = {
           uiSchema: preparerContactDetails.uiSchema,
           schema: preparerContactDetails.schema,
         },
-        validatePreparerContactDetails: {
+        preparerSuggestedAddress: {
           title: 'Validate Address',
-          path: 'validate-preparer-contact-details',
+          path: 'preparer-suggested-address',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
             application: {
               applicant: {
-                'view:validateAddress': {
+                'view:preparerSuggestedAddress': {
                   'ui:title': 'Validate Address',
-                  'ui:field': preparerContactDetailsCustom,
+                  'ui:field': preparerSuggestedAddress,
                 },
               },
             },
@@ -228,7 +230,7 @@ const formConfig = {
                   applicant: {
                     type: 'object',
                     properties: {
-                      'view:validateAddress': {
+                      'view:preparerSuggestedAddress': {
                         type: 'object',
                         properties: {},
                       },
@@ -335,6 +337,40 @@ const formConfig = {
           ),
           schema: applicantContactInformation.schema,
         },
+        applicantSuggestedAddress: {
+          title: 'Validate Address',
+          path: 'applicant-suggested-address',
+          depends: formData => !isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantSuggestedAddress': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': ApplicantSuggestedAddress,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:applicantSuggestedAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         applicantContactInformationPreparer: {
           title: applicantContactInfoPreparerAddressTitle,
           path: 'applicant-contact-information-preparer',
@@ -345,6 +381,40 @@ const formConfig = {
             applicantContactInfoPreparerDescription,
           ),
           schema: applicantContactInformation.schema,
+        },
+        applicantSuggestedAddressPreparer: {
+          title: 'Validate Address',
+          path: 'preparer-suggested-address-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantSuggestedAddressPreparer': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': ApplicantSuggestedAddress,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:applicantSuggestedAddressPreparer': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         applicantDemographics: {
           title: 'Your demographics',
@@ -429,6 +499,45 @@ const formConfig = {
               isApplicantTheSponsor(formData)),
           uiSchema: sponsorContactInformation.uiSchema,
           schema: sponsorContactInformation.schema,
+        },
+        sponsorSuggestedAddress: {
+          title: 'Validate Address',
+          path: 'sponsor-suggested-address',
+          depends: formData =>
+            !isVeteran(formData) &&
+            ((!isApplicantTheSponsor(formData) &&
+              !isSponsorDeceased(formData)) ||
+              isApplicantTheSponsor(formData)) &&
+            formData?.application?.veteran?.address.street !== undefined,
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:sponsorSuggestedAddress': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': SponsorSuggestedAddress,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:sponsorSuggestedAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         sponsorDemographics: {
           title: 'Sponsor demographics',

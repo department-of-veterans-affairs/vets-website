@@ -15,7 +15,6 @@ import {
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
-import { NEW_API } from '../constants/apis';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -43,7 +42,6 @@ export const Form0996App = ({
   router,
   getContestableIssues,
   contestableIssues,
-  toggles,
 }) => {
   const { pathname } = location || {};
 
@@ -80,10 +78,7 @@ export const Form0996App = ({
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({
-              benefitType: formData.benefitType,
-              [NEW_API]: toggles[NEW_API],
-            });
+            getContestableIssues({ benefitType: formData.benefitType });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             issuesNeedUpdating(
@@ -135,26 +130,7 @@ export const Form0996App = ({
       pathname,
       setFormData,
       subTaskBenefitType,
-      toggles,
     ],
-  );
-
-  useEffect(
-    () => {
-      const isUpdatedApi = toggles[NEW_API] || false;
-      if (
-        !toggles.loading &&
-        (typeof formData[NEW_API] === 'undefined' ||
-          formData[NEW_API] !== isUpdatedApi)
-      ) {
-        setFormData({
-          ...formData,
-          [NEW_API]: toggles[NEW_API],
-        });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData[NEW_API]],
   );
 
   let content = (
@@ -213,10 +189,6 @@ Form0996App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  toggles: PropTypes.shape({
-    [NEW_API]: PropTypes.bool,
-    loading: PropTypes.bool,
-  }),
 };
 
 const mapStateToProps = state => ({
@@ -225,7 +197,6 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
-  toggles: state.featureToggles,
 });
 
 const mapDispatchToProps = {

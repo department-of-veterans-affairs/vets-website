@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
 import {
   getPeriodsToVerify,
   getPeriodsToVerifyDGIB,
+  isVerificationDateValid,
   isVerificationEndDateValid,
 } from '../helpers';
 import Alert from './Alert';
@@ -20,13 +21,16 @@ const PeriodsToVerify = ({
   claimantId,
 }) => {
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
+  const response = useSelector(state => state.personalInfo);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
   const idRef = useRef();
   const showEnrollmentVerifications = enrollmentVerifications?.some(
     verification =>
-      !verification.verificationMethod &&
-      isVerificationEndDateValid(verification.verificationEndDate),
+      !isVerificationDateValid(
+        verification.verificationEndDate,
+        enrollmentVerifications,
+      ) && isVerificationEndDateValid(verification.verificationEndDate),
   );
   useEffect(
     () => {
@@ -118,7 +122,7 @@ const PeriodsToVerify = ({
           </va-alert>
         )}
         {(enrollmentData?.pendingVerifications?.length === 0 ||
-          !showEnrollmentVerifications) &&
+          (!showEnrollmentVerifications && claimantId)) &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />
@@ -126,9 +130,9 @@ const PeriodsToVerify = ({
           )}
         {((enrollmentData?.pendingVerifications?.length === 0 &&
           enrollmentData?.verifications.length !== 0) ||
-          (!showEnrollmentVerifications &&
+          (response.personalInfo?.verificationRecord?.status !== 204 &&
+            !showEnrollmentVerifications &&
             claimantId &&
-            error &&
             enrollmentVerifications?.length !== 0)) &&
           !justVerified && (
             <div className="vads-u-margin-top--2">

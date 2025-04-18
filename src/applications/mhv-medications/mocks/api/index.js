@@ -14,6 +14,7 @@ const prescriptions = require('./mhv-api/prescriptions/index');
 // const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 // const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 const allergiesFixture = require('../../tests/e2e/fixtures/allergies.json');
+const tooltips = require('./tooltips/index');
 
 const responses = {
   ...commonResponses,
@@ -66,6 +67,9 @@ const responses = {
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
   'GET /my_health/v1/medical_records/allergies': allergiesFixture,
+  'GET /my_health/v1/tooltips': (_req, res) => {
+    return res.json(tooltips.getMockTooltips());
+  },
 };
 
 module.exports = delay(responses, 1000);

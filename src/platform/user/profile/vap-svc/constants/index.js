@@ -76,6 +76,7 @@ export const PERSONAL_INFO_FIELD_NAMES = {
   PRONOUNS: 'pronouns',
   GENDER_IDENTITY: 'genderIdentity',
   SEXUAL_ORIENTATION: 'sexualOrientation',
+  MESSAGING_SIGNATURE: 'messagingSignature',
 };
 
 export const FIELD_NAMES = {
@@ -93,6 +94,7 @@ export const FIELD_TITLES = Object.freeze({
   [FIELD_NAMES.PRONOUNS]: 'Pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
   [FIELD_NAMES.SEXUAL_ORIENTATION]: 'Sexual orientation',
+  [FIELD_NAMES.MESSAGING_SIGNATURE]: 'Messages signature',
   [FIELD_NAMES.HOME_PHONE]: 'Home phone number',
   [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number',
   [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
@@ -115,6 +117,7 @@ export const FIELD_IDS = {
   [FIELD_NAMES.PRONOUNS]: 'pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'gender-identity',
   [FIELD_NAMES.SEXUAL_ORIENTATION]: 'sexual-orientation',
+  [FIELD_NAMES.MESSAGING_SIGNATURE]: 'messaging-signature',
   [FIELD_NAMES.HOME_PHONE]: 'home-phone-number',
   [FIELD_NAMES.MOBILE_PHONE]: 'mobile-phone-number',
   [FIELD_NAMES.WORK_PHONE]: 'work-phone-number',
@@ -138,6 +141,7 @@ export const ANALYTICS_FIELD_MAP = {
   [FIELD_NAMES.PRONOUNS]: 'pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'gender-identity',
   [FIELD_NAMES.SEXUAL_ORIENTATION]: 'sexual-orientation',
+  [FIELD_NAMES.MESSAGING_SIGNATURE]: 'messaging-signature',
   [FIELD_NAMES.HOME_PHONE]: 'home-telephone',
   [FIELD_NAMES.MOBILE_PHONE]: 'mobile-telephone',
   [FIELD_NAMES.WORK_PHONE]: 'work-telephone',
@@ -155,6 +159,7 @@ export const API_ROUTES = {
   ADDRESSES: '/profile/addresses',
   PREFERRED_NAME: '/profile/preferred_names',
   GENDER_IDENTITY: '/profile/gender_identities',
+  MESSAGING_SIGNATURE: '/messaging/preferences/signature',
 };
 
 export const VAP_SERVICE_INITIALIZATION_STATUS = {

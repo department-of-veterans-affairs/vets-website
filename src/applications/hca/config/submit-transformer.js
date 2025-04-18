@@ -65,7 +65,7 @@ export const submitTransformer = (formConfig, form) => {
   }
 
   // map dependents
-  const { dependents } = form.data;
+  const { dependents } = dataToMap;
   if (dependents?.length) {
     const sanitizedDependents = sanitizeDependents(dependents);
     dataToMap = set('dependents', sanitizedDependents, dataToMap);
@@ -82,13 +82,6 @@ export const submitTransformer = (formConfig, form) => {
   if (isDischargeAfterToday) {
     recordEvent({
       event: 'hca-future-discharge-date-submission',
-    });
-  }
-
-  const { sigiGenders } = form.data;
-  if (sigiGenders && sigiGenders !== 'NA') {
-    recordEvent({
-      event: 'hca-submission-with-sigi-value',
     });
   }
 

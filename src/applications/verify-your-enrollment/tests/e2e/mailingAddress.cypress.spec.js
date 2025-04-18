@@ -15,7 +15,13 @@ describe('Contact information', () => {
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.login(mockUserWithOutIDME);
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
     cy.wait('@mockUser');
   });
   const fillForm = () => {
@@ -124,10 +130,9 @@ describe('Contact information', () => {
     cy.get('va-button')
       .last()
       .click({ force: true });
-    cy.get('[class="usa-checkbox__label"]').should(
-      'contain',
+    cy.contains(
       'I live on a United States military base outside of the U.S.',
-    );
+    ).should('be.visible');
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();

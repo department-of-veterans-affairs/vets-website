@@ -27,6 +27,7 @@ import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 import { getPageTitle } from '../../newAppointmentFlow';
+import { selectUpcomingAppointments } from '../../../appointment-list/redux/selectors';
 
 const pageKey = 'selectDateTime';
 
@@ -94,10 +95,16 @@ ErrorMessage.propTypes = {
   history: PropTypes.object,
 };
 
-function goForward({ dispatch, data, history, setSubmitted }) {
+function goForward({
+  dispatch,
+  data,
+  history,
+  setSubmitted,
+  isAppointmentSelectionError,
+}) {
   setSubmitted(true);
 
-  if (data.selectedDates?.length) {
+  if (data.selectedDates?.length && !isAppointmentSelectionError) {
     dispatch(routeToNextAppointmentPage(history, pageKey));
   } else {
     scrollAndFocus('.usa-input-error-message');
@@ -117,6 +124,7 @@ export default function DateTimeSelectPage() {
     preferredDate,
     timezone,
     timezoneDescription,
+    isAppointmentSelectionError,
   } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
 
   const dispatch = useDispatch();
@@ -130,6 +138,7 @@ export default function DateTimeSelectPage() {
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
   const clinic = useSelector(state => getChosenClinicInfo(state));
+  const upcomingAppointments = useSelector(selectUpcomingAppointments);
 
   useEffect(
     () => {
@@ -178,7 +187,12 @@ export default function DateTimeSelectPage() {
 
   return (
     <div>
-      <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!loadingSlots && (
         <WaitTimeAlert
           eligibleForRequests={eligibleForRequests}
@@ -233,11 +247,14 @@ export default function DateTimeSelectPage() {
             maxDate={moment()
               .add(395, 'days')
               .format('YYYY-MM-DD')}
+            renderIndicator={_ => undefined}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
             startMonth={startMonth}
             showValidation={submitted && !selectedDates?.length}
             showWeekends
+            upcomingAppointments={upcomingAppointments}
+            isAppointmentSelectionError={isAppointmentSelectionError}
           />
         </>
       )}
@@ -251,6 +268,7 @@ export default function DateTimeSelectPage() {
             data,
             history,
             setSubmitted,
+            isAppointmentSelectionError,
           })
         }
         disabled={loadingSlots || fetchFailed}

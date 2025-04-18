@@ -50,12 +50,14 @@ import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMess
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
     const { getInitialFormValues } = this.props;
+
     this.onChangeFormDataAndSchemas(
       getInitialFormValues(),
       this.props.formSchema,
@@ -175,6 +177,12 @@ export class ProfileInformationEditView extends Component {
         );
         return;
       }
+
+      if (fieldName === PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE) {
+        this.props.updateMessagingSignature(payload, fieldName, 'POST');
+        return;
+      }
+
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
         method: 'PUT',
@@ -395,6 +403,7 @@ ProfileInformationEditView.propTypes = {
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  updateMessagingSignature: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -414,12 +423,12 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     /*
-    This ternary is to deal with an edge case: if the user is currently viewing
-    the address validation view we need to handle things differently or text in
-    the modal would be inaccurate. This is an unfortunate hack to get around an
-    existing hack we've been using to determine if we need to show the address
-    validation view or not.
-    */
+        This ternary is to deal with an edge case: if the user is currently viewing
+        the address validation view we need to handle things differently or text in
+        the modal would be inaccurate. This is an unfortunate hack to get around an
+        existing hack we've been using to determine if we need to show the address
+        validation view or not.
+        */
     activeEditView:
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
@@ -443,6 +452,7 @@ const mapDispatchToProps = {
   validateAddress,
   refreshTransaction,
   createPersonalInfoUpdate,
+  updateMessagingSignature,
 };
 
 export default connect(

@@ -30,6 +30,13 @@ const testConfig = createTestConfig(
           ],
         },
       });
+      cy.intercept('POST', '/v0/claim_attachments', {
+        data: {
+          attributes: {
+            confirmationCode: '5',
+          },
+        },
+      });
       cy.intercept(
         'GET',
         '/v0/profile/valid_va_file_number',
@@ -73,12 +80,18 @@ const testConfig = createTestConfig(
         });
       },
 
-      'current-marriage-information': ({ afterHook }) => {
+      'current-marriage-information/location-of-marriage': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('#root_currentMarriageInformation_location_country').select(
-            'Argentina',
-          );
+          cy.get(
+            'select#options[name="root_currentMarriageInformation_location_country"]',
+            { timeout: 1000 },
+          )
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get(
+            'select#options[name="root_currentMarriageInformation_location_country"]',
+          ).select('AUS');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -99,6 +112,22 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-child-stopped-attending-school/0/date-child-left-school': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-stepchild-no-longer-part-of-household/0/child-address': ({
         afterHook,
       }) => {
@@ -112,11 +141,19 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-button-primary').click();
         });
       },
+
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();

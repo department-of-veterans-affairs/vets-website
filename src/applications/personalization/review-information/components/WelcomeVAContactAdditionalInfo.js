@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WelcomeVAContactAdditionalInfo = (
-  <>
+  <div>
     <va-additional-info
       trigger="Which benefits and services does VA use this contact information for?"
       uswds
@@ -31,14 +31,17 @@ const WelcomeVAContactAdditionalInfo = (
           </li>
         </ul>
         <p>
-          <a href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact">
+          <a
+            href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact"
+            target="_blank"
+          >
             Find out how to change your contact information for other VA
             benefits{' '}
           </a>
         </p>
       </div>
     </va-additional-info>
-  </>
+  </div>
 );
 
 export default WelcomeVAContactAdditionalInfo;

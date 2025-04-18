@@ -4,13 +4,7 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
-export const renderPhoneNumber = (
-  title,
-  subTitle = null,
-  phone,
-  from,
-  location,
-) => {
+export const renderPhoneNumber = (title, subTitle = null, phone, location) => {
   if (!phone) {
     return null;
   }
@@ -31,8 +25,7 @@ export const renderPhoneNumber = (
   const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
 
   return (
-    <p>
-      {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
+    <p data-testid={title}>
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
       {processed ? (
@@ -61,7 +54,6 @@ export const renderPhoneNumber = (
 
 const LocationPhoneLink = ({
   location,
-  from,
   query,
   showHealthConnectNumber = false,
 }) => {
@@ -80,22 +72,24 @@ const LocationPhoneLink = ({
 
   return (
     <div className="facility-phone-group">
-      {renderPhoneNumber('Main number', null, phone.main, from, location)}
+      {renderPhoneNumber('Main phone', null, phone.main, location)}
       {showHealthConnectNumber &&
         renderPhoneNumber(
           'VA health connect',
           null,
           phone.healthConnect,
-          from,
           location,
         )}
       {renderPhoneNumber(
         'Mental health',
         null,
         phone.mentalHealthClinic,
-        from,
         location,
       )}
+      <p>
+        <strong>Telecommunications Relay Services (using TTY):</strong>{' '}
+        <va-telephone tty contact="711" />
+      </p>
     </div>
   );
 };

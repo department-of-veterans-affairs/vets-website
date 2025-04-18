@@ -178,6 +178,9 @@ export const setup = (cy, testOptions = {}) => {
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
+    }
 
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
@@ -197,14 +200,21 @@ export const reviewAndSubmitPageFlow = (
     ? `${first} ${middle} ${last}`
     : `${first} ${last}`;
 
-  cy.fillVaTextInput('veteran-signature', veteranSignature);
-  cy.selectVaCheckbox('veteran-certify', true);
+  cy.get('#veteran-signature')
+    .shadow()
+    .get('#inputField')
+    .type(veteranSignature);
+
+  cy.get(`va-checkbox[id="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .click({ force: true });
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();
 };
 
-export const pageHooks = cy => ({
+export const pageHooks = (cy, testOptions) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -265,6 +275,14 @@ export const pageHooks = cy => ({
     });
   },
 
+  'mental-health-form-0781/workflow': () => {
+    cy.get('va-radio-option[value="optForOnlineForm0781"]')
+      .find('input[type="radio"]')
+      .check({ force: true });
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
   'review-veteran-details/separation-location': () => {
     cy.get('@testData').then(data => {
       cy.get('input[name="root_serviceInformation_separationLocation"]').type(
@@ -273,10 +291,16 @@ export const pageHooks = cy => ({
     });
   },
 
+  'new-disabilities/ptsd-intro': () => {
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      throw new Error(`Unexpectedly showing old 0781 page`);
+    }
+  },
+
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
+        const autocomplete = `[id="root_newDisabilities_${index}_condition"]`;
         const input = '#inputField';
         const option = '[role="option"]';
 
@@ -284,11 +308,11 @@ export const pageHooks = cy => ({
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
 
-          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
+          cy.get('va-button[text="Remove"]').should('be.visible');
         }
 
         // click on input and type search text
-        cy.get(comboBox)
+        cy.get(autocomplete)
           .shadow()
           .find(input)
           .type(disability.condition, { force: true });
@@ -299,7 +323,7 @@ export const pageHooks = cy => ({
             .first()
             .click();
 
-          cy.get(comboBox)
+          cy.get(autocomplete)
             .shadow()
             .find(input)
             .should('have.value', disability.condition);
@@ -312,7 +336,7 @@ export const pageHooks = cy => ({
                 .eq(1)
                 .click();
 
-              cy.get(comboBox)
+              cy.get(autocomplete)
                 .shadow()
                 .find(input)
                 .should('have.value', selectedOption);
@@ -320,7 +344,7 @@ export const pageHooks = cy => ({
         }
 
         // click save
-        cy.findByText(/save/i, { selector: 'button' }).click();
+        cy.get('va-button[text="Save"]').click();
       });
     });
   },
@@ -348,15 +372,11 @@ export const pageHooks = cy => ({
       }
     });
   },
-  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
-  // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
-  // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
-  // locally. this will be uncommented for launch.
-  // 'review-and-submit': ({ afterHook }) => {
-  //   afterHook(() => {
-  //     cy.get('@testData').then(() => {
-  //       reviewAndSubmitPageFlow();
-  //     });
-  //   });
-  // },
+  'review-and-submit': ({ afterHook }) => {
+    afterHook(() => {
+      cy.get('@testData').then(() => {
+        reviewAndSubmitPageFlow();
+      });
+    });
+  },
 });

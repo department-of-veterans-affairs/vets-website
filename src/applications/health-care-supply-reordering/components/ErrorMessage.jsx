@@ -1,15 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
-  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
-  const supplyDescription = isSupplyReorderingSleepApneaEnabled
-    ? 'hearing aid or CPAP supplies'
-    : 'hearing aid batteries and accessories';
+  const supplyDescription = 'hearing aid or CPAP supplies';
 
   let content;
   switch (errorCode) {

@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { chunk } from 'lodash';
 import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
-import { clientServerErrorContent } from '../helpers';
+import { clientServerErrorContent, useResizeObserver } from '../helpers';
 
-const MAX_PAGE_LIST_LENGTH = 10;
+const MAX_PAGES_CONTAINER_WIDTH = 640; // USWDS width-tablet setting
 const MAX_ROWS = 6;
 
 const paginateData = data => {
@@ -27,21 +27,19 @@ const Payments = ({
   textContent,
   alertMessage,
 }) => {
+  // Page navigation
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentData, setCurrentData] = useState([]);
   const currentPage = new URLSearchParams(location.search).get('page') || 1;
-  const totalPages = useRef(0);
-  const tableHeadingRef = useRef(null);
 
-  useEffect(
-    () => {
-      const paginatedData = paginateData(data);
-      setCurrentData(paginatedData[currentPage - 1]);
-      totalPages.current = paginatedData.length;
-    },
-    [currentPage, data],
-  );
+  // State
+  const [currentData, setCurrentData] = useState([]);
+  const [maxPageLength, setMaxPageLength] = useState(10);
+  const [from, to] = getFromToNums(currentPage, data.length);
+
+  // Refs
+  const tableHeadingRef = useRef(null);
+  const totalPages = useRef(0);
 
   const onPageChange = page => {
     const newURL = `${location.pathname}?page=${page}`;
@@ -51,7 +49,26 @@ const Payments = ({
     navigate(newURL);
   };
 
-  const [from, to] = getFromToNums(currentPage, data.length);
+  const onPaginationResize = useCallback((target, element) => {
+    if (element.contentRect.width < MAX_PAGES_CONTAINER_WIDTH) {
+      setMaxPageLength(5);
+    }
+
+    if (element.contentRect.width >= MAX_PAGES_CONTAINER_WIDTH) {
+      setMaxPageLength(10);
+    }
+  }, []);
+
+  const tablePaginationRef = useResizeObserver(onPaginationResize);
+
+  useEffect(
+    () => {
+      const paginatedData = paginateData(data);
+      setCurrentData(paginatedData[currentPage - 1]);
+      totalPages.current = paginatedData.length;
+    },
+    [currentPage, data],
+  );
 
   if (currentData) {
     return (
@@ -84,13 +101,15 @@ const Payments = ({
             );
           })}
         </va-table>
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={currentPage}
-          pages={totalPages.current}
-          maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
+        <div ref={tablePaginationRef}>
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={totalPages.current}
+            maxPageListLength={maxPageLength}
+            showLastPage
+          />
+        </div>
       </>
     );
   }

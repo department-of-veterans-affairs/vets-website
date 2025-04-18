@@ -418,9 +418,13 @@ export const confirmationPageAlertParagraphV2 = ({
       );
     }
     if (submissionApi === submissionApis.INTENT_TO_FILE) {
-      return `You have until ${formatDate(
-        expirationDate,
-      )} to file for ${benefitSelectionStr}`;
+      if (expirationDate) {
+        return `You have until ${formatDate(
+          expirationDate,
+        )} to file for ${benefitSelectionStr}`;
+      }
+
+      return `You have one year to file for ${benefitSelectionStr}`;
     }
   }
 

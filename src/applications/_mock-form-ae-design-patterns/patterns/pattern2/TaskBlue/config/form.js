@@ -4,11 +4,12 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
-import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+
+// import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
 
 // page level imports
 import IntroductionPage from '../IntroductionPage';
-import veteranInfo from './veteranInfo';
+import personalInfo from './personalInfo';
 import { contactInfo } from './contactInfo';
 
 const formConfig = {
@@ -32,8 +33,8 @@ const formConfig = {
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
-      veteranSocialSecurityNumber:
-        formData?.veteranSocialSecurityNumber || null,
+      ssn: formData?.veteranSocialSecurityNumber || null,
+      vaFileNumber: formData?.veteranVAFileNumber || null,
     };
     return {
       metadata,
@@ -59,14 +60,8 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-details',
-          uiSchema: veteranInfo.uiSchema,
-          schema: veteranInfo.schema,
-        },
+        ...personalInfo,
         ...contactInfo,
-        taskCompletePagePattern2,
       },
     },
   },

@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const YourSchool = props => {
-  const { school } = props;
+  const { schoolInfo } = props;
 
-  const facilityCode = school?.schoolFacilityCode
-    ? school.schoolFacilityCode
-    : 'No school code found';
-  const facilityName = school?.schoolName
-    ? school.schoolName
-    : 'No school name found';
+  const facilityCode = schoolInfo?.schoolFacilityCode;
+  const facilityName = schoolInfo?.schoolName;
   return (
     <div>
       <p className="vads-u-margin-top--0">
@@ -24,11 +20,11 @@ const YourSchool = props => {
 };
 
 YourSchool.propTypes = {
-  school: PropTypes.object,
+  schoolInfo: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  school: state.form.data.schoolInfo,
+  schoolInfo: state.form.data.schoolInfo,
 });
 
 export default connect(mapStateToProps)(YourSchool);

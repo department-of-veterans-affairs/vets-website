@@ -26,7 +26,6 @@ export default function TravelReimbursementSection({ appointment }) {
         !claimData.claim)) &&
     daysRemainingToFileClaim > 0
   ) {
-    // TODO: change the link for submitting a travel claim once it's available
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
@@ -36,7 +35,7 @@ export default function TravelReimbursementSection({ appointment }) {
           <va-link
             data-testid="file-claim-link"
             className="vads-u-margin-y--0p5"
-            href={`/appointments/claims/?date=${appointment.start}`}
+            href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
             text="File a travel reimbursement claim"
           />
         </p>

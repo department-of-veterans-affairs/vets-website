@@ -106,19 +106,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'gi-bill': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const fieldName = 'giBillStatus';
-            const fieldData = data[fieldName];
-            cy.get(
-              `input[name="root_${fieldName}"][value="${fieldData}"]`,
-            ).click();
-            cy.injectAxeThenAxeCheck();
-            goToNextPage();
-          });
-        });
-      },
       'review-and-submit': () => {
         cy.get("va-privacy-agreement[name='privacyAgreementAccepted']")
           .find('#checkbox')

@@ -6,7 +6,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import { APP_NAME } from '../constants';
-import { NEW_API } from '../constants/apis';
 import { getEligibleContestableIssues } from '../../shared/utils/issues';
 
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../shared/actions';
@@ -42,20 +41,18 @@ const ContestableIssuesWidget = props => {
   } = props;
 
   const hasAttempted = useRef(false);
-  const newApi = formData[NEW_API];
 
   useEffect(
     () => {
       if (
         !hasAttempted.current &&
-        typeof newApi !== 'undefined' &&
         contestableIssues.status === FETCH_CONTESTABLE_ISSUES_FAILED
       ) {
         hasAttempted.current = true; // only call API once if previously failed
-        getContestableIssues({ [NEW_API]: newApi });
+        getContestableIssues();
       }
     },
-    [contestableIssues.status, newApi, getContestableIssues],
+    [contestableIssues.status, getContestableIssues],
   );
 
   useEffect(() => {

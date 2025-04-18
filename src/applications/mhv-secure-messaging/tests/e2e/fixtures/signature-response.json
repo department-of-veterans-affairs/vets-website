@@ -1,9 +1,11 @@
 {
   "data": {
-    "signatureName": "Name",
-    "includeSignature": true,
-    "signatureTitle": "TitleTest"
-  },
-  "errors": {},
-  "metadata": {}
+    "id": "",
+    "type": "message_signature",
+    "attributes": {
+      "signatureName": "Name",
+      "signatureTitle": "TitleTest",
+      "includeSignature": true
+    }
+  }
 }

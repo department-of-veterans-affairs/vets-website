@@ -37,7 +37,8 @@ ComboAlert.Error = () => {
       </p>
       <p>
         If you need immediate assistance with copay bills, call the VA Health
-        Resource Center at <va-telephone contact="8664001238" /> (
+        Resource Center at{' '}
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
         <va-telephone contact={CONTACTS[711]} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
@@ -68,13 +69,13 @@ ComboAlert.Zero = () => {
       <ul>
         <li>
           <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact="8008270648" />(
+          (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
           <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </li>
         <li>
           <strong>For medical copay bills</strong>, call the VA Health Resource
-          Center at <va-telephone contact="8664001238" />(
+          Center at <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />(
           <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>

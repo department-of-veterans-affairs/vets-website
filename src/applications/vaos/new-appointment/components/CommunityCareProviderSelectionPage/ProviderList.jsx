@@ -13,6 +13,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
 import ProviderSortVariant from './ProviderSortVariant';
+import { aOrAn } from '../../../utils/formatters';
 
 export default function ProviderList({
   checkedProvider,
@@ -125,7 +126,11 @@ export default function ProviderList({
             />
           )}
           {currentlyShownProvidersList.length > 0 && (
-            <>
+            <fieldset>
+              <legend className="sr-only">
+                Choose {aOrAn(typeOfCareName)} {typeOfCareName} provider
+              </legend>
+
               {currentlyShownProvidersList.map((provider, providerIndex) => {
                 const { name } = provider;
                 const checked = provider.id === checkedProvider;
@@ -177,7 +182,7 @@ export default function ProviderList({
                   </div>
                 );
               })}
-            </>
+            </fieldset>
           )}
           <div className="vads-u-display--flex">
             {providersListLength < communityCareProviderList?.length && (

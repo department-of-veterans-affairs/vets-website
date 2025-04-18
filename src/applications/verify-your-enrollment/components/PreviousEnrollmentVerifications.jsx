@@ -100,15 +100,18 @@ const PreviousEnrollmentVerifications = ({
       ? pastAndCurrentAwards
       : combinedEnrollmentsObj;
     Object.values(enrollmentsToProcess).forEach(month => {
+      const verificationEndDateArr = month.filter(m =>
+        isVerificationEndDateValid(m.verificationEndDate),
+      );
       if (month.length > 1) {
         const tempGroupEnrollment = !claimantId
           ? getGroupedPreviousEnrollments(month)
-          : getGroupedPreviousEnrollmentsDGIB(month);
+          : getGroupedPreviousEnrollmentsDGIB(verificationEndDateArr);
         enrollments.push(tempGroupEnrollment);
       }
       if (month.length === 1) {
         const tempSingleEnrollment = claimantId
-          ? getSignlePreviousEnrollmentsDGIB(month[0])
+          ? getSignlePreviousEnrollmentsDGIB(month[0], enrollmentVerifications)
           : getSignlePreviousEnrollments(month[0]);
         enrollments.push(tempSingleEnrollment);
       }
@@ -288,7 +291,14 @@ const PreviousEnrollmentVerifications = ({
           start={subsetStart}
           end={subsetEnd}
           total={totalEnrollmentCount}
-          dontHaveEnrollment={response?.error?.error === 'Forbidden'}
+          dontHaveEnrollment={
+            response?.error?.error === 'Forbidden' ||
+            !response.personalInfo ||
+            [
+              response.personalInfo?.verificationRecord?.status,
+              response.personalInfo?.status,
+            ].includes(204)
+          }
         />
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}

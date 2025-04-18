@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -15,18 +12,20 @@ import formConfig from '../config/form';
 import configService from '../utilities/configService';
 import { getFormSubtitle } from '../utilities/helpers';
 
-function App({ loggedIn, location, children, formData, setFormData }) {
+import { useDefaultFormData } from '../hooks/useDefaultFormData';
+
+import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
+
+import { selectAuthStatus } from '../utilities/selectors/authStatus';
+
+function App({ location, children, formData }) {
   const subTitle = getFormSubtitle(formData);
+  const { isLoadingFeatureFlags } = useSelector(selectFeatureToggles);
+  const { isLoadingProfile } = useSelector(selectAuthStatus);
+  const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
 
-  const {
-    TOGGLE_NAMES: { appointARepresentativeEnableFrontend: appToggleKey },
-    useToggleLoadingValue,
-    useToggleValue,
-  } = useFeatureToggle();
-
-  const appIsEnabled = useToggleValue(appToggleKey);
-  const isProduction = window.Cypress || environment.isProduction();
-  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+  // Set default view fields within the form data
+  useDefaultFormData();
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
@@ -40,6 +39,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [pathname],
   );
 
+  // dynamically updates the form subtitle to 21-22 or 21-22A
   useEffect(
     () => {
       configService.setFormConfig({ subTitle });
@@ -48,46 +48,21 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [subTitle],
   );
 
-  useEffect(
-    () => {
-      const defaultViewFields = {
-        'view:isLoggedIn': loggedIn,
-      };
-      setFormData({
-        ...formData,
-        ...defaultViewFields,
-      });
-    },
-    [loggedIn],
-  );
-
-  // resetting user query between sessions
-  useEffect(() => {
-    setFormData({
-      ...formData,
-      'view:representativeQueryInput': '',
-      'view:representativeSearchResults': [],
-    });
-  }, []);
-
-  if (isAppToggleLoading) {
-    return (
-      <div className="vads-u-margin-y--5">
-        <VaLoadingIndicator message="Loading..." />
-      </div>
-    );
-  }
-
-  if (isProduction && !appIsEnabled) {
-    window.location.replace('/');
-    return null;
-  }
-
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
+
+  if (isAppLoading) {
+    return (
+      <va-loading-indicator
+        message={content['load-app']}
+        class="vads-u-margin-y--4"
+        set-focus
+      />
+    );
+  }
 
   return wrapWithBreadcrumb(
     <article id="form-21-22" data-location={`${pathname?.slice(1)}`}>

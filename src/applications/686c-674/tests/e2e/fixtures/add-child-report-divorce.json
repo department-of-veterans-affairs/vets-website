@@ -15,8 +15,9 @@
           "city": "test city",
           "postalCode": "43242"
         },
-        "doesChildLiveWithYou": "N",
-        "hasChildEverBeenMarried": "N",
+        "doesChildHaveDisability": false,
+        "doesChildLiveWithYou": false,
+        "hasChildEverBeenMarried": false,
         "isBiologicalChild": true,
         "dateEnteredHousehold": "2023-02-01",
         "biologicalParentName": {
@@ -30,6 +31,7 @@
         },
         "birthLocation": {
           "location": {
+            "city": "Fakesville",
             "state": "AK",
             "postalCode": "43222"
           }
@@ -66,6 +68,12 @@
       "addChild": true,
       "reportDivorce": true
     },
+    "view:addDependentOptions": {
+    "addChild": true
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true
+  },
     "reportDivorce": {
       "fullName": {
         "first": "john",
@@ -91,6 +99,22 @@
       },
       "ssn": "796121200",
       "birthDate": "1933-05-04"
-    }
+    },
+    "childSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "spouseSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ]
   }
 }

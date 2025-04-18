@@ -2,8 +2,11 @@ import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
 import React from 'react';
+import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
+  branchOfServiceRuleforCategories,
+  CategoryBenefitsIssuesOutsidetheUS,
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
   CategoryHealthCare,
@@ -16,6 +19,8 @@ import {
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
+  TopicDisabilityCompensation,
+  TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
@@ -225,21 +230,24 @@ export const contactRules = {
   },
 };
 
-export const getContactMethods = (category, topic) => {
-  // const contactRules = initializeContactRules();
-  const allContactMethods = {
-    PHONE: 'Phone call',
-    EMAIL: 'Email',
-    US_MAIL: 'U.S. mail',
-  };
+export const getContactMethods = (contactPreferences = []) => {
+  let contactMethods = {};
 
-  if (contactRules[category] && contactRules[category][topic]) {
-    return contactRules[category][topic].reduce((acc, method) => {
-      acc[method] = allContactMethods[method];
-      return acc;
-    }, {});
+  if (contactPreferences.length > 0) {
+    contactPreferences.forEach(item => {
+      if (item === 'Phone') contactMethods.PHONE = 'Phone call';
+      if (item === 'Email') contactMethods.EMAIL = 'Email';
+      if (item === 'USMail') contactMethods.US_MAIL = 'U.S. mail';
+    });
+  } else {
+    contactMethods = {
+      PHONE: 'Phone call',
+      EMAIL: 'Email',
+      US_MAIL: 'U.S. mail',
+    };
   }
-  return allContactMethods;
+
+  return contactMethods;
 };
 
 export const isEqualToOnlyEmail = obj => {
@@ -339,9 +347,7 @@ export const isLocationOfResidenceRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK)
   ) {
     return true;
   }
@@ -497,9 +503,7 @@ export const isPostalCodeRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK) &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
@@ -550,19 +554,12 @@ export const isStateOfPropertyRequired = data => {
 
 // List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
 export const isBranchOfServiceRequired = data => {
-  const { selectCategory, whoIsYourQuestionAbout } = data;
-
-  const branchOfServiceRuleforCategories = [
-    'Veteran ID Card (VIC)',
-    'Disability compensation',
-    'Survivor benefits',
-    'Burials and memorials',
-    'Center for Women Veterans',
-    'Benefits issues outside the U.S.',
-  ];
+  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
 
   return (
-    branchOfServiceRuleforCategories.includes(selectCategory) &&
+    (branchOfServiceRuleforCategories.includes(selectCategory) ||
+      (selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+        selectTopic === TopicDisabilityCompensation)) &&
     whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
   );
 };
@@ -655,11 +652,9 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
-    case 'Solved':
-    case 'Replied':
+    case 'replied':
       return 'Replied';
     case 'reopened':
-    case 'Reopened':
       return 'Reopened';
     case 'closed':
       return 'Closed';
@@ -672,8 +667,37 @@ export const getVAStatusFromCRM = status => {
   }
 };
 
+export const getVAStatusIconAndMessage = {
+  New: {
+    icon: starIcon,
+    message: "We received your question. We'll review it soon.",
+    color: 'vads-u-border-color--primary',
+  },
+  'In progress': {
+    icon: clockIcon,
+    message: "We're reviewing your question.",
+    color: 'vads-u-border-color--grey',
+  },
+  Replied: {
+    icon: successIcon,
+    message:
+      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
+    color: 'vads-u-border-color--green',
+  },
+  Reopened: {
+    icon: clockIcon,
+    message: "We received your reply. We'll respond soon.",
+    color: 'vads-u-border-color--grey',
+  },
+  Closed: {
+    icon: folderIcon,
+    message: 'We closed this question after 60 days without any updates.',
+    color: 'vads-u-border-color--grey',
+  },
+};
+
 export const getDescriptiveTextFromCRM = status => {
-  switch (status.toLowerCase()) {
+  switch ((status ?? '').toLowerCase()) {
     case 'new':
       return 'Your inquiry is current in queue to be reviewed.';
     case 'in progress':
@@ -704,11 +728,13 @@ export const convertDateForInquirySubheader = dateString => {
     utcDate.setUTCMinutes(utcDate.getMinutes());
     utcDate.setUTCSeconds(utcDate.getSeconds());
   } catch (error) {
+    // TODO: This catch block doesn't seem to be hit in testing. johall-tw
+    // istanbul ignore next
     return 'Invalid Date';
   }
 
   // Ensure the date is valid
-  if (isNaN(utcDate.getTime())) {
+  if (Number.isNaN(utcDate.getTime())) {
     return 'Invalid Date';
   }
 
@@ -718,7 +744,8 @@ export const convertDateForInquirySubheader = dateString => {
     'America/New_York',
     "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
     { locale: enUS },
-  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+    // ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  ).replace(/[AaPp]\.{0,1}[Mm]\.{0,1}/, match => `${match.toLowerCase()}`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -754,6 +781,43 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const getFileSizeMB = size => size * 0.00000095367432;
+
+export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
+  const fileSizeText = fileSize
+    ? ` (${getFileSizeMB(fileSize).toFixed(2)} MB)`
+    : '';
+
+  return (
+    <a href={fileUrl} download={fileName}>
+      {`${fileName}${fileSizeText}`}
+    </a>
+  );
+};
+
+export const isEducationNonVRE = formData =>
+  formData.selectCategory === CategoryEducation &&
+  formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31;
+
+export const isOutsideUSEducation = formData =>
+  formData.selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+  formData.selectTopic === TopicEducationBenefitsAndWorkStudy;
+
+// Who is your question about? rules:
+// CATEGORY = EDUCATION BENEFITS AND WORK STUDY
+// AND
+// TOPIC =/ VETERAN READINESS & EMPLOYMENT
+//
+// ALSO HIDDEN IF:
+// CATEGORY =  BENEFITS ISSUES OUTSIDE THE US
+// AND
+// TOPIC = EDUCATION BENEFITS AND WORK STUDY
+//
+// BECAUSE 'EDU' QUESTIONS ARE SENT AS "GENERAL QUESTIONS" TO CRM. BUT SHOULD CONTINUE DOWN THE 'SOMEONE ELSE' FLOW.
+export const whoIsYourQuestionAboutCondition = formData => {
+  return !(isEducationNonVRE(formData) || isOutsideUSEducation(formData));
 };
 
 export const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -832,16 +896,14 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formDat
 export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
     formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-    formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+    (isEducationNonVRE(formData) || isOutsideUSEducation(formData))
   );
 };
 
 export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
   return (
     formData.relationshipToVeteran !== relationshipOptionsSomeoneElse.WORK &&
-    formData.selectCategory === CategoryEducation &&
-    formData.selectTopic !== TopicVeteranReadinessAndEmploymentChapter31
+    (isEducationNonVRE(formData) || isOutsideUSEducation(formData))
   );
 };
 
@@ -850,3 +912,6 @@ export const generalQuestionCondition = formData => {
     formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
   );
 };
+
+export const formatDateTimeForAnnouncements = date =>
+  format(date, "EEEE, MMMM d, yyyy 'at' h:mm a 'ET'");

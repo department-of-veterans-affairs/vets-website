@@ -46,27 +46,4 @@ describe('Pre-need applicant non veteran applicant details', () => {
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
-
-  // it('should submit with required information', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       definitions={formConfig.defaultDefinitions}
-  //       onSubmit={onSubmit}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
-  //   fillData(form, 'input#root_application_claimant_name_first', 'test');
-  //   fillData(form, 'input#root_application_claimant_name_last', 'test2');
-  //   fillData(form, 'input#root_application_claimant_ssn', '234443344');
-  //   fillData(form, 'select#root_application_claimant_dateOfBirthMonth', '2');
-  //   fillData(form, 'select#root_application_claimant_dateOfBirthDay', '2');
-  //   fillData(form, 'input#root_application_claimant_dateOfBirthYear', '2001');
-
-  //   form.find('form').simulate('submit');
-
-  //   expect(onSubmit.called).to.be.true;
-  //   form.unmount();
-  // });
 });

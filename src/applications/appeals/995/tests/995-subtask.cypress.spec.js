@@ -1,6 +1,6 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { BASE_URL } from '../constants';
+import { BASE_URL, BENEFIT_OFFICES_URL } from '../constants';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
 import { title995 } from '../content/title';
@@ -53,10 +53,7 @@ describe('995 subtask', () => {
     cy.get('h2').contains('Claim isn’t for a disability');
     cy.findByText('Find the address for mailing your form', { selector: 'a' })
       .should('have.attr', 'href')
-      .and(
-        'contain',
-        '/decision-reviews/supplemental-claim#find-addresses-for-other-benef-8804',
-      );
+      .and('contain', BENEFIT_OFFICES_URL);
     cy.contains('Download VA Form 20-0995')
       .should('have.attr', 'href')
       .and('contain', 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf');

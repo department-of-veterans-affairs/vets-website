@@ -1,11 +1,8 @@
 import {
-  CategoryEducation,
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
   requiredForSubtopicPage,
-  TopicEducationBenefitsAndWorkStudy,
-  TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
 import manifest from '../manifest.json';
@@ -14,12 +11,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 // Category and Topic pages
-import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
-import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
-import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 
 // Your Question
-import whoIsYourQuestionAboutPage from './chapters/yourQuestion/whoIsYourQuestionAbout';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // Your Personal Information - Authenticated
@@ -49,6 +42,7 @@ import TopicSelectPage from '../containers/TopicSelectPage';
 import WhoIsYourQuestionAboutCustomPage from '../containers/WhoIsYourQuestionAboutCustomPage';
 
 import CustomPageReviewField from '../components/CustomPageReviewField';
+import SignInInterruptPage from '../containers/SignInInterruptPage';
 import {
   aboutMyselfRelationshipFamilyMemberCondition,
   aboutMyselfRelationshipVeteranCondition,
@@ -60,6 +54,7 @@ import {
   aboutSomeoneElseRelationshipVeteranCondition,
   aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition,
   generalQuestionCondition,
+  whoIsYourQuestionAboutCondition,
 } from './helpers';
 import prefillTransformer from './prefill-transformer';
 
@@ -120,28 +115,66 @@ const formConfig = {
           title: CHAPTER_1.PAGE_1.TITLE,
           CustomPage: CategorySelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: selectCategoryPage.uiSchema,
-          schema: selectCategoryPage.schema,
           editModeOnReviewPage: false,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
+        },
+        selectCategorySignInInterrupt: {
+          path: 'category-requires-sign-in',
+          title: 'Ask VA Sign In',
+          CustomPage: SignInInterruptPage,
+          CustomPageReview: null,
+          editModeOnReviewPage: false,
+          depends: formData => formData.categoryRequiresSignIn === true,
+          schema: {
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
         selectTopic: {
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
           CustomPage: TopicSelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: selectTopicPage.uiSchema,
-          schema: selectTopicPage.schema,
           editModeOnReviewPage: false,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
+        },
+        selectTopicSignInInterrupt: {
+          path: 'topic-requires-sign-in',
+          title: 'Ask VA Sign In',
+          CustomPage: SignInInterruptPage,
+          CustomPageReview: null,
+          editModeOnReviewPage: false,
+          depends: formData => formData.topicRequiresSignIn === true,
+          schema: {
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
         selectSubtopic: {
           path: CHAPTER_1.PAGE_3.PATH,
           title: CHAPTER_1.PAGE_3.TITLE,
           CustomPage: SubTopicSelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: selectSubtopicPage.uiSchema,
-          schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
           editModeOnReviewPage: false,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
       },
     },
@@ -155,17 +188,28 @@ const formConfig = {
           title: CHAPTER_2.PAGE_1.TITLE,
           CustomPage: WhoIsYourQuestionAboutCustomPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: whoIsYourQuestionAboutPage.uiSchema,
-          schema: whoIsYourQuestionAboutPage.schema,
-          // Hidden - EDU Question are always 'General Question' unless topic is VR&E
-          depends: form => {
-            if (form.selectCategory !== CategoryEducation) {
-              return form.selectTopic !== TopicEducationBenefitsAndWorkStudy;
-            }
-            return (
-              form.selectTopic === TopicVeteranReadinessAndEmploymentChapter31
-            );
+          depends: formData => {
+            return whoIsYourQuestionAboutCondition(formData);
           },
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
+        },
+        yourQuestionSignInInterrupt: {
+          path: 'your-question-requires-sign-in',
+          title: 'Ask VA Sign In',
+          CustomPage: SignInInterruptPage,
+          CustomPageReview: null,
+          editModeOnReviewPage: false,
+          depends: formData => formData.yourQuestionRequiresSignIn === true,
+          schema: {
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {},
         },
         relationshipToVeteran: {
           editModeOnReviewPage: false,

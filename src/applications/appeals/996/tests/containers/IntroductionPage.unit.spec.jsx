@@ -51,6 +51,7 @@ const getData = ({
             // },
           ],
           prefillsAvailable: [],
+          signIn: { serviceName: 'mhv' },
           verified: isVerified,
         },
       },
@@ -109,7 +110,7 @@ describe('IntroductionPage', () => {
     );
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('va-alert[status="info"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
   });
 
   it('should render start action links', () => {
@@ -130,6 +131,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="signInEither"]', container)).to.exist;
   });
 });

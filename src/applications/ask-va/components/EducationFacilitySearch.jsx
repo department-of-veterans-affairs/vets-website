@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { URL, envUrl } from '../constants';
-import EducationSearchItem from './search/EducationSearchItem';
 import { convertLocation } from '../utils/mapbox';
+import EducationSearchItem from './search/EducationSearchItem';
 import SearchControls from './search/SearchControls';
 
 const facilities = {
@@ -18,22 +18,31 @@ const EducationFacilitySearch = ({ onChange }) => {
 
   const getApiData = url => {
     const searchURL = url.split('?');
+    const isCodeSearch = searchURL.length === 1;
     setIsSearching(true);
     return apiRequest(url)
       .then(res => {
         if (!Array.isArray(res.data)) res.data = [res.data];
         setApiData(res);
         setIsSearching(false);
-        setFetchDataError({ hasError: false, errorMessage: '' });
+        if (res.data.length === 0) {
+          setFetchDataError({
+            hasError: true,
+            errorMessage: isCodeSearch
+              ? 'Check the school code you entered and try searching again'
+              : "Check the spelling of the school's name or city you entered",
+          });
+        } else {
+          setFetchDataError({ hasError: false, errorMessage: '' });
+        }
       })
       .catch(() => {
         setIsSearching(false);
         setFetchDataError({
           hasError: true,
-          errorMessage:
-            searchURL > 1
-              ? "Check the spelling of the school's name or city you entered"
-              : 'Check the school code you entered and try searching again',
+          errorMessage: isCodeSearch
+            ? 'Check the school code you entered and try searching again'
+            : "Check the spelling of the school's name or city you entered",
         });
       });
   };

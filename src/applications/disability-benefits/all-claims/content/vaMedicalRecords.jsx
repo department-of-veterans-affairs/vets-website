@@ -7,9 +7,9 @@ const MONTH_YEAR = 'MMMM YYYY';
 const replaceDay = date => date.replace('XX', '01');
 
 export const treatmentView = ({ formData }) => {
-  const { from } = formData.treatmentDateRange;
+  const from = formData?.treatmentDateRange?.from;
 
-  const name = formData.treatmentCenterName;
+  const name = formData?.treatmentCenterName;
   let treatmentPeriod = '';
   if (from) {
     treatmentPeriod = formatDate(replaceDay(from), MONTH_YEAR);

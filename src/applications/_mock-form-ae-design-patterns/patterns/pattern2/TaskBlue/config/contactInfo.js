@@ -12,12 +12,7 @@ export const contactInfo = profileContactInfo({
   content,
   contactInfoPageKey: 'confirmContactInfo3',
   contactPath: 'veteran-information',
-  contactInfoRequiredKeys: [
-    'mailingAddress',
-    'email',
-    'homePhone',
-    'mobilePhone',
-  ],
+  contactInfoRequiredKeys: ['mailingAddress'],
   included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
   disableMockContactInfo: true,
   prefillPatternEnabled: true,

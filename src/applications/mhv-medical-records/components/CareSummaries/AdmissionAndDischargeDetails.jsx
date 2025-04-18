@@ -58,9 +58,13 @@ const AdmissionAndDischargeDetails = props => {
 
   const generateCareNotesPDF = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateNotesIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
+    const { title, subject, subtitles } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateDischargeSummaryContent(record),
+    };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Admission/discharge details', runningUnitTest);
   };
@@ -76,8 +80,8 @@ ${reportGeneratedBy}\n
 Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
 ${txtLine}\n\n
 Details\n
-Location: ${record.location}\n
 Date admitted: ${record.admissionDate}\n
+Location: ${record.location}\n
 Date discharged: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n

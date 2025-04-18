@@ -1,10 +1,10 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { emailUI, phoneUI } from '../../../definitions/sharedUI';
 import CaregiverContactInfoDescription from '../../../components/FormDescriptions/CaregiverContactInfoDescription';
-import { fullSchema } from '../../../utils/imports';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { email, phone } = fullSchema.definitions;
+const { email, phone } = FULL_SCHEMA.definitions;
 const inputLabel = content['primary-input-label'];
 
 const primaryContactInformation = {

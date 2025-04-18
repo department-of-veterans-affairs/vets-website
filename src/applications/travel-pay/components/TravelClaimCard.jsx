@@ -24,6 +24,7 @@ export default function TravelClaimCard(props) {
   } else {
     const [appointmentDate, appointmentTime] = formatDateTime(
       appointmentDateTime,
+      true,
     );
     appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
   }
@@ -55,7 +56,6 @@ export default function TravelClaimCard(props) {
         <Link
           to={{
             pathname: `/claims/${id}`,
-            state: { claimDetailsProps: props },
           }}
           className="vads-u-display--flex vads-u-align-items--center"
         >

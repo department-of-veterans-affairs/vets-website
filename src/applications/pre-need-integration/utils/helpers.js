@@ -14,6 +14,9 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { countries } from 'platform/forms/address';
+
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import {
   stringifyFormReplacer,
@@ -31,6 +34,8 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 import { rankLabels } from './rankLabels';
+
+export const envUrl = environment.API_URL;
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -288,7 +293,7 @@ export const nonVeteranApplicantDetailsDescriptionPreparer =
 export const applicantContactInfoAddressTitle = 'Your mailing address';
 
 export const applicantContactInfoPreparerAddressTitle =
-  'Applicant’s mailing address';
+  'Applicant mailing address';
 
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
@@ -1364,3 +1369,88 @@ export function MailingAddressStateTitle(props) {
   }
   return 'State or territory';
 }
+
+export const formatSuggestedAddress = address => {
+  if (address) {
+    let displayAddress = '';
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const zip = address.postalCode || address.zipCode;
+    const country = address.country || address.countryCodeIso3;
+
+    if (street) displayAddress += street;
+    if (street2) displayAddress += `, ${street2}`;
+    if (city) displayAddress += `, ${city}`;
+    if (state) displayAddress += `, ${state}`;
+    if (zip) displayAddress += ` ${zip}`;
+    if (country && country !== 'USA')
+      displayAddress += `, ${countries.find(c => c.value === country).label ||
+        country}`;
+
+    return displayAddress.trim();
+  }
+  return '';
+};
+
+/* eslint-disable camelcase */
+export const prepareAddressForAPI = address => ({
+  address_line1: address.street,
+  address_line2: address.street2,
+  address_pou: 'RESIDENCE',
+  address_type: 'DOMESTIC',
+  city: address.city,
+  country_code_iso3: address.country,
+  state_code: address.state,
+  zip_code: address.postalCode,
+});
+
+export const fetchSuggestedAddress = async userAddress => {
+  const options = {
+    body: JSON.stringify({
+      address: { ...prepareAddressForAPI(userAddress) },
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await apiRequest(
+      `${envUrl}/v0/profile/address_validation`,
+      options,
+    );
+
+    if (res?.addresses && res?.addresses.length > 0) {
+      const suggested = res.addresses[0]?.address;
+      return {
+        fetchedSuggestedAddress: {
+          addressLine1: suggested.addressLine1,
+          addressLine2: suggested.addressLine2,
+          city: suggested.city,
+          country: suggested.countryCodeIso3,
+          state: suggested.stateCode,
+          zipCode: suggested.zipCode,
+        },
+        fetchedShowSuggestions:
+          res?.addresses[0]?.addressMetaData?.confidenceScore !== 100,
+      };
+    }
+  } catch (error) {
+    return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+  }
+
+  return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+};
+
+// Helper function to conditionally return a line with a break
+export const addressConfirmationRenderLine = content => {
+  return content ? (
+    <>
+      {content}
+      <br />
+    </>
+  ) : null;
+};

@@ -11,7 +11,6 @@ import RecordListItem from './RecordListItem';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
   const { records, type, perPage = 10, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
@@ -24,6 +23,7 @@ const RecordList = props => {
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
+    sendDataDogAction(`Pagination - ${type}`);
     const newURL = `${history.location.pathname}?page=${page}`;
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
@@ -110,13 +110,9 @@ const RecordList = props => {
         (paginatedRecords.current.length > 1 ? (
           <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
-              onClick={() => {
-                sendDataDogAction(`Pagination - ${type}`);
-              }}
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
               uswds
             />

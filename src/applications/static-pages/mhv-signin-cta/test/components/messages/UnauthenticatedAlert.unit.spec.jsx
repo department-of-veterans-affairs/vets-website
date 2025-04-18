@@ -17,7 +17,7 @@ describe('Unauthenticated Alert component', () => {
         <UnauthenticatedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 2, name: headingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
   });
 
   it('with service description', () => {

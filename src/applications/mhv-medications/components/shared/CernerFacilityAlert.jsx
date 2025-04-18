@@ -55,11 +55,16 @@ const CernerFacilityAlert = ({ className = '' }) => {
       data-testid="cerner-facilities-alert"
     >
       <h2 className="vads-u-font-size--md">
-        Make sure you’re in the right health portal
+        To manage medications at{' '}
+        {cernerFacilitiesNames?.length > 1
+          ? 'these facilities'
+          : 'this facility'}
+        , go to My VA Health
       </h2>
       <div>
         <p data-testid="single-cerner-facility-text">
-          To manage medications at{' '}
+          Some of your medications may be in a different portal. To view or
+          manage medications at{' '}
           <span
             className={
               cernerFacilitiesNames?.length === 1
@@ -85,25 +90,13 @@ const CernerFacilityAlert = ({ className = '' }) => {
           className="vads-c-action-link--blue"
           href={getCernerURL('/pages/medications/current', true)}
         >
-          Go to My VA Health
+          Go to My VA Health (opens in new tab)
         </a>
-
-        <va-additional-info
-          trigger="Having trouble opening My VA Health?"
-          uswds
-          class="vads-u-margin-top--2p5 vads-u-margin-bottom--0p5"
-        >
-          <div>
-            <p className="vads-u-margin-top--0">Try these steps:</p>
-            <ul className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-              <li>Disable your browser’s pop-up blocker</li>
-              <li>
-                Sign in to My VA Health with the same account you used to sign
-                in to VA.gov
-              </li>
-            </ul>
-          </div>
-        </va-additional-info>
+        <p className="vads-u-margin-bottom--0">
+          <strong>Note:</strong> Having trouble opening up My VA Health? Try
+          disabling your browser’s pop-up blocker or signing in to My VA Health
+          with the same account you used to sign in to VA.gov.
+        </p>
       </div>
     </va-alert>
   );

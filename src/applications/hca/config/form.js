@@ -9,7 +9,6 @@ import { prefillTransformer } from './prefill-transformer';
 import { submitTransformer } from './submit-transformer';
 import {
   isLoggedOut,
-  isSigiEnabled,
   isMissingVeteranDob,
   hasDifferentHomeAddress,
   hasLowDisabilityRating,
@@ -62,7 +61,6 @@ import maidenNameInformation from './chapters/veteranInformation/maidenNameInfor
 import birthSex from './chapters/veteranInformation/birthSex';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
-import veteranGender from './chapters/veteranInformation/veteranGender';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
 
@@ -194,6 +192,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
@@ -226,14 +225,6 @@ const formConfig = {
           initialData: {},
           uiSchema: birthSex.uiSchema,
           schema: birthSex.schema,
-        },
-        veteranGender: {
-          path: 'veteran-information/veteran-gender',
-          title: 'Gender',
-          initialData: {},
-          depends: isSigiEnabled,
-          uiSchema: veteranGender.uiSchema,
-          schema: veteranGender.schema,
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',

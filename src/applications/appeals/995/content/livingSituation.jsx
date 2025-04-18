@@ -42,6 +42,20 @@ export const livingSituationChoicesShortened = {
   none: 'None of these situations apply to me',
 };
 
+// Submission data
+export const livingSituationSubmissionChoices = {
+  notRegular:
+    'I LIVE OR SLEEP IN A PLACE THAT IS NOT MEANT FOR REGULAR SLEEPING',
+  shelter: 'I LIVE IN A SHELTER',
+  friendOrFamily:
+    'I AM STAYING WITH A FRIEND OR FAMILY MEMBER, BECAUSE I AM UNABLE TO OWN A HOME RIGHT NOW',
+  facility30Days:
+    'IN THE NEXT 30 DAYS, I WILL HAVE TO LEAVE A FACILITY, LIKE A HOMELESS SHELTER',
+  home30Days: 'IN THE NEXT 30 DAYS, I WILL LOSE MY HOME',
+  other: 'OTHER',
+  none: 'NONE OF THESE SITUATIONS APPLY TO ME',
+};
+
 export const livingSituationError =
   'If none of these situations apply to you, unselect the other options you selected';
 
@@ -81,7 +95,7 @@ livingSituationReviewField.propTypes = {
 export const domesticViolenceInfo = (
   <va-additional-info
     trigger="Are you experiencing domestic violence?"
-    class="vads-u-margin-bottom--4"
+    class="vads-u-margin-y--4"
   >
     If you need help because of domestic violence, call the National Domestic
     Violence hotline <va-telephone contact="8007997233" /> (
@@ -124,5 +138,7 @@ export const pointOfContactTitle = (
 );
 
 export const pointOfContactNameLabel = 'Name of your point of contact';
+export const pointOfContactCheckboxLabel =
+  'This is an international phone number';
 export const pointOfContactPhoneLabel =
   'Telephone number of your point of contact';

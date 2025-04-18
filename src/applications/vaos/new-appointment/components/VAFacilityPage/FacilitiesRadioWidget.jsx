@@ -21,6 +21,7 @@ export default function FacilitiesRadioWidget({
   value,
   onChange,
   formContext,
+  required,
 }) {
   const { requestLocationStatus, sortMethod, loadingEligibility } = useSelector(
     state => selectFacilitiesRadioWidget(state),
@@ -115,50 +116,57 @@ export default function FacilitiesRadioWidget({
           </div>
         )}
       </>
-      {!requestingLocationFailed &&
-        displayedOptions.map((option, i) => {
-          const { name, address, legacyVAR } = option?.label;
-          const checked = option.value === value;
-          let distance;
 
-          if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-            distance = legacyVAR?.distanceFromResidentialAddress;
-          } else if (
-            sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-          ) {
-            distance = legacyVAR?.distanceFromCurrentLocation;
-          } else {
-            distance = legacyVAR?.distanceFromResidentialAddress;
-          }
-          const facilityPosition = i + 1;
+      {!requestingLocationFailed && (
+        <fieldset>
+          <legend className="sr-only">
+            {options.title} {required ? 'required' : ''}
+          </legend>
+          {displayedOptions.map((option, i) => {
+            const { name, address, legacyVAR } = option?.label;
+            const checked = option.value === value;
+            let distance;
 
-          return (
-            <div className="form-radio-buttons" key={option.value}>
-              <input
-                type="radio"
-                checked={checked}
-                id={`${id}_${facilityPosition}`}
-                name={`${id}`}
-                value={option.value}
-                onChange={_ => onChange(option.value)}
-                disabled={loadingEligibility}
-              />
-              <label htmlFor={`${id}_${facilityPosition}`}>
-                <span className="vads-u-display--block vads-u-font-weight--bold">
-                  {name}
-                </span>
-                <span className="vads-u-display--block">
-                  {address?.city}, <State state={address?.state} />
-                </span>
-                {!!distance && (
-                  <span className="vads-u-display--block">
-                    {distance} miles
+            if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+              distance = legacyVAR?.distanceFromResidentialAddress;
+            } else if (
+              sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+            ) {
+              distance = legacyVAR?.distanceFromCurrentLocation;
+            } else {
+              distance = legacyVAR?.distanceFromResidentialAddress;
+            }
+            const facilityPosition = i + 1;
+
+            return (
+              <div className="form-radio-buttons" key={option.value}>
+                <input
+                  type="radio"
+                  checked={checked}
+                  id={`${id}_${facilityPosition}`}
+                  name={`${id}`}
+                  value={option.value}
+                  onChange={_ => onChange(option.value)}
+                  disabled={loadingEligibility}
+                />
+                <label htmlFor={`${id}_${facilityPosition}`}>
+                  <span className="vads-u-display--block vads-u-font-weight--bold">
+                    {name}
                   </span>
-                )}
-              </label>
-            </div>
-          );
-        })}
+                  <span className="vads-u-display--block">
+                    {address?.city}, <State state={address?.state} />
+                  </span>
+                  {!!distance && (
+                    <span className="vads-u-display--block">
+                      {distance} miles
+                    </span>
+                  )}
+                </label>
+              </div>
+            );
+          })}
+        </fieldset>
+      )}
       {!displayAll &&
         !requestingLocationFailed &&
         hiddenCount > 0 && (
@@ -184,6 +192,7 @@ FacilitiesRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
+  required: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };

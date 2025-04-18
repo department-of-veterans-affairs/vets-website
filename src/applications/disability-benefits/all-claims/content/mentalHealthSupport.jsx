@@ -8,8 +8,8 @@ export const mentalHealthSupportDescription = () => {
     <>
       <p>
         On the next screen, we’ll ask you about your mental health conditions.
-        <br />
-        <br />
+      </p>
+      <p>
         First, we want you to know that you can get support for your mental
         health any time, day or night.
       </p>

@@ -323,6 +323,12 @@ export const VACCINE_REACTION = {
   RSH: 'Rash',
 };
 
+/** from OnboardShipEnumeration.java */
+export const MILITARY_HISTORY_ONBOARD_SHIP = {
+  Y: 'Yes',
+  N: 'No',
+};
+
 /** from BranchEnumeration.java */
 export const MILITARY_HISTORY_BRANCH = {
   AF: 'Air Force',

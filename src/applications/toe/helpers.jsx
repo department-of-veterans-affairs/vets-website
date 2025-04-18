@@ -315,9 +315,9 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
+        street: address?.addressLine1 ?? '',
+        street2: address?.addressLine2 ?? '',
+        city: address?.city ?? '',
         state: address?.stateCode || address?.province,
         postalCode:
           address?.zipCode ||

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import repStatusLoader from 'applications/static-pages/representative-status';
+import repStatusLoader from 'platform/user/widgets/representative-status';
 import { useStore, connect } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 
@@ -18,14 +18,14 @@ const IntroductionPage = props => {
 
   // search from query params on page load
   useEffect(() => {
-    repStatusLoader(store, 'representative-status', 3, false);
+    repStatusLoader(store, 'representative-status', 2, false);
   }, []);
 
   return (
     <article className="schemaform-intro">
       <div className="title-section">
         <FormTitle
-          title="Get help from a VA accredited representative or VSO"
+          title="Request help from a VA accredited representative or VSO"
           subTitle="VA Form 21-22 and VA Form 21-22a"
         />
         <p>

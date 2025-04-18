@@ -70,6 +70,8 @@ export const FETCH_LC_RESULTS_SUCCEEDED = 'FETCH_LC_RESULTS_SUCCEEDED';
 export const FETCH_LC_RESULT_FAILED = 'FETCH_LC_RESULT_FAILED';
 export const FETCH_LC_RESULT_STARTED = 'FETCH_LC_RESULT_STARTED';
 export const FETCH_LC_RESULT_SUCCEEDED = 'FETCH_LC_RESULT_SUCCEEDED';
+export const FILTER_LC_RESULTS = 'FILTER_LC_RESULTS';
+
 export const FETCH_INSTITUTION_PROGRAMS_FAILED =
   'FETCH_INSTITUTION_PROGRAMS_FAILED';
 export const FETCH_INSTITUTION_PROGRAMS_STARTED =
@@ -85,6 +87,24 @@ export const FETCH_NATIONAL_EXAM_DETAILS_STARTED =
   'FETCH_NATIONAL_EXAM_DETAILS_STARTED';
 export const FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED =
   'FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED';
+
+const getSearchByLocationParams = (filters, description, name) => {
+  if (description) {
+    return {
+      description,
+    };
+  }
+
+  if (name) {
+    return {
+      name,
+    };
+  }
+
+  return {
+    ...rubyifyKeys(filters && buildSearchFilters(filters)),
+  };
+};
 
 export const fetchNationalExamDetails = id => {
   const url = `${api.url}/lcpe/exams/${id}`;
@@ -164,60 +184,75 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
+export function filterLcResults(
+  name,
+  categories,
+  location = 'all',
+  previousResults = [],
+) {
+  return {
+    type: FILTER_LC_RESULTS,
+    payload: { name, categories, location, previousResults },
+  };
+}
+
 export function fetchLicenseCertificationResults() {
   const url = `${api.url}/lcpe/lacs`;
 
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
-    return fetch(url, api.settings)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(res.statusText);
-      })
-      .then(results => {
-        const { lacs } = results;
+    try {
+      const res = await fetch(url, {
+        ...api.settings,
+      });
 
-        dispatch({
-          type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: lacs,
-        });
-      })
-      .catch(err => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
+      const { lacs } = await res.json();
+      dispatch({
+        type: FETCH_LC_RESULTS_SUCCEEDED,
+        payload: lacs,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') {
         dispatch({
           type: FETCH_LC_RESULTS_FAILED,
           payload: err.message,
         });
-      });
+      }
+    }
   };
 }
 
 export function fetchLcResult(id) {
-  return dispatch => {
+  return async dispatch => {
     const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
-    return fetch(url, api.settings)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+    try {
+      const res = await fetch(url, {
+        ...api.settings,
+      });
+
+      if (!res.ok) {
         throw new Error(res.statusText);
-      })
-      .then(result => {
-        dispatch({
-          type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: result.lac,
-        });
-      })
-      .catch(err => {
+      }
+      const { lac } = await res.json();
+      dispatch({
+        type: FETCH_LC_RESULT_SUCCEEDED,
+        payload: lac,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') {
         dispatch({
           type: FETCH_LC_RESULT_FAILED,
           payload: err.message,
         });
-      });
+      }
+    }
   };
 }
 
@@ -507,15 +542,22 @@ export function fetchSearchByLocationCoords(
   distance,
   filters,
   version,
+  description,
+  name,
 ) {
   const [longitude, latitude] = coordinates;
-
+  /**
+   * description - search by program
+   * name - search by name
+   * else - search by location w/ filters
+   */
   const params = {
     latitude,
     longitude,
     distance,
-    ...rubyifyKeys(buildSearchFilters(filters)),
+    ...getSearchByLocationParams(filters, description, name),
   };
+
   if (version) {
     params.version = version;
   }
@@ -523,7 +565,7 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude, distance },
+      payload: { location, latitude, longitude, distance, description },
     });
 
     return fetch(url, api.settings)
@@ -563,6 +605,8 @@ export function fetchSearchByLocationResults(
   distance,
   filters,
   version,
+  description,
+  name,
 ) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -593,6 +637,8 @@ export function fetchSearchByLocationResults(
             distance,
             filters,
             version,
+            description,
+            name,
           ),
         );
       })
@@ -693,12 +739,14 @@ export function mapChanged(mapState) {
     dispatch({ type: MAP_CHANGED, payload: mapState });
   };
 }
+
 export const setError = error => {
   return {
     type: SET_ERROR,
     payload: error,
   };
 };
+
 export const filterBeforeResultFlag = () => {
   return {
     type: FILTER_BEFORE_RESULTS,

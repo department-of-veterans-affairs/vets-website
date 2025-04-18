@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { getRatedDisabilities } from '../actions';
 import CombinedRating from './CombinedRating';
-import NeedHelp from './NeedHelp';
 import Learn from './Learn';
+import NeedHelp from './NeedHelp';
+import NoRatings from './NoRatings';
 import OnThisPage from './OnThisPage';
 import RatingLists from './RatingLists';
 import ServerError from './ServerError';
@@ -13,7 +14,7 @@ const loadingIndicator = (
 );
 
 export default function AppContent() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const [hasError, setHasError] = useState(false);
   const [isRequestDone, setIsRequestDone] = useState(false);
 
@@ -37,7 +38,7 @@ export default function AppContent() {
   const hasRatedDisabilities = individualRatings?.length > 0;
 
   let contentOrError;
-  if (hasError) {
+  if (hasError || data?.errors) {
     contentOrError = <ServerError />;
   } else {
     contentOrError = (
@@ -50,7 +51,11 @@ export default function AppContent() {
         <h2 id="individual-ratings" className="vads-u-margin-y--2">
           Your individual ratings
         </h2>
-        <RatingLists ratings={individualRatings} />
+        {hasRatedDisabilities ? (
+          <RatingLists ratings={individualRatings} />
+        ) : (
+          <NoRatings />
+        )}
       </>
     );
   }

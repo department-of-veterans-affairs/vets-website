@@ -58,7 +58,7 @@ export const SERVICE_PROVIDERS = {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
-    altImage: <IDMeSVG toggleWhite />,
+    altImage: <IDMeSVG />,
     policy: 'idme',
     className: 'idme-button',
   },
@@ -92,6 +92,10 @@ export const EXTERNAL_APPS = {
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
   SMHD: 'smhdweb',
+};
+
+export const TEST_APPS = {
+  OKTA: 'okta_test',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -164,4 +168,5 @@ export const AUTH_PARAMS = {
   scope: 'scope',
   verification: 'verification',
   operation: 'operation',
+  state: 'state',
 };

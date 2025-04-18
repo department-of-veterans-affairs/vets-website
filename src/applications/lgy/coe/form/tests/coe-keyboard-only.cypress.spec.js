@@ -30,7 +30,7 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       chapters.applicantInformationChapter.pages.applicantInformationSummary
         .path,
     );
-    cy.typeInFullName('root_fullName_', data.fullName);
+    cy.typeInFullName('root_fullName', data.fullName);
     cy.typeInDate('root_dateOfBirth', data.dateOfBirth);
     cy.tabToContinueForm();
 

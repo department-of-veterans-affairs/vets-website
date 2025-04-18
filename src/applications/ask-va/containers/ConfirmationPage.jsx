@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
+import manifest from '../manifest.json';
 
 const contactPrefrencesMap = {
   Email: 'email',
@@ -11,7 +12,7 @@ const contactPrefrencesMap = {
 };
 
 const ConfirmationPage = ({ location }) => {
-  const inquiryNumber = location.state?.inquiryNumber || 'A-123456-7890';
+  const inquiryNumber = location.state?.inquiryNumber;
   const contactPreference =
     contactPrefrencesMap[location.state?.contactPreference || 'email'];
   const alertRef = useRef(null);
@@ -54,7 +55,7 @@ const ConfirmationPage = ({ location }) => {
   const actionLink = currentlyLoggedIn && (
     <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
       <va-link-action
-        href="/contact-us/ask-va-too"
+        href={`${manifest.rootUrl}`}
         text="Return to Ask VA"
         type="secondary"
       />
@@ -106,7 +107,7 @@ const ConfirmationPage = ({ location }) => {
   return (
     <>
       {alert}
-      {confirmationNumber}
+      {inquiryNumber && confirmationNumber}
       {contactMethod()}
       {actionLink}
     </>

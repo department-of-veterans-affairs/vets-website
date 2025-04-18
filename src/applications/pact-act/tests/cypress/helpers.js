@@ -92,6 +92,12 @@ export const verifyFormErrorNotShown = selector =>
     .get('span[role="alert"]')
     .should('have.text', '');
 
+export const verifyFormErrorDoesNotExist = selector =>
+  cy
+    .findByTestId(selector)
+    .get('span[role="alert"]')
+    .should('not.exist');
+
 export const checkFormAlertText = (selector, expectedValue) =>
   cy
     .findByTestId(selector)

@@ -16,6 +16,8 @@ import {
   getCurrentChapterDisplay,
 } from '../helpers';
 
+import { isMinimalHeaderApp } from '../patterns/minimal-header';
+
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
@@ -73,7 +75,10 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn && index === 0) {
+  const pageIndex = eligiblePageList.findIndex(p => p === page);
+  // Only display the helper text if the user is logged in and on the first page of the first chapter
+  // skip introduction page at index 0
+  if (isLoggedIn && index === 0 && pageIndex === 1) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         We&rsquo;ll save your application on every change.{' '}
@@ -117,7 +122,7 @@ export default function FormNav(props) {
         window.location.pathname.endsWith('review-and-submit')
       ) {
         scrollTo('topScrollElement');
-        if (hideFormNavProgress) {
+        if (hideFormNavProgress || isMinimalHeaderApp()) {
           focusElement('h1');
         } else {
           // Focus on review & submit page h2 in stepper
@@ -177,7 +182,6 @@ FormNav.propTypes = {
       reviewPageTitle: PropTypes.string,
     }),
     urlPrefix: PropTypes.string,
-    useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
   currentPath: PropTypes.string,
   formData: PropTypes.shape({}),

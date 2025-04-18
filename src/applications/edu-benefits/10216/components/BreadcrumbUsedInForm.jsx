@@ -12,14 +12,15 @@ const BreadcrumbUsedInForm = () => {
       label: 'Resources for schools',
     },
     {
-      href:
-        '/education/apply-for-education-benefits/application/10216/introduction',
+      href: '/school-administrators/35-percent-exemption/introduction',
       label: 'Request exemption from the 85/15 Rule reporting requirement',
     },
   ];
   return (
     <div className="row">
-      <VaBreadcrumbs uswds breadcrumbList={crumbs} />
+      <div className="vads-u-margin-left--2 mobile-lg:vads-u-margin-left--1">
+        <VaBreadcrumbs uswds breadcrumbList={crumbs} />
+      </div>
     </div>
   );
 };

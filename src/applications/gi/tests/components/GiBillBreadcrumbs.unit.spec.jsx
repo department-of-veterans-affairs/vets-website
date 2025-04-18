@@ -1,27 +1,22 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import sinon from 'sinon';
-import * as reactRouterDom from 'react-router-dom';
+import { render } from '@testing-library/react';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import GiBillBreadcrumbs from '../../components/GiBillBreadcrumbs';
-import * as helpers from '../../utils/helpers';
 
-const mockUseRouteMatch = sinon.stub(reactRouterDom, 'useRouteMatch');
-const mockUseQueryParams = sinon.stub(helpers, 'useQueryParams');
+const defaultStore = createCommonStore();
 
-describe('<GiBillBreadcrumbs>', () => {
-  it('should render default breadcrumb structure', () => {
-    mockUseRouteMatch.returns(null);
-    mockUseQueryParams.returns(new URLSearchParams());
-
-    const wrapper = mount(
-      <MemoryRouter>
-        <GiBillBreadcrumbs />
-      </MemoryRouter>,
+describe('CT Breadcrumbs', () => {
+  it('Renders', () => {
+    const { findByText } = render(
+      <Provider store={defaultStore}>
+        <MemoryRouter>
+          <GiBillBreadcrumbs />
+        </MemoryRouter>
+      </Provider>,
     );
-
-    expect(wrapper.find('va-breadcrumbs')).to.not.be.null;
-    wrapper.unmount();
+    expect(findByText('GI Bill® Comparison Tool')).to.exist;
   });
 });

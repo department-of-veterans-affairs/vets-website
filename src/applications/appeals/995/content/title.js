@@ -14,8 +14,9 @@ export const title4142WithId = `${title4142} (21-4142)`;
 
 const paths4142 = [
   '/private-medical-records-authorization',
+  '/add-limitation',
+  '/limitation',
   '/private-medical-records',
-  '/add-private-record-limitations',
 ];
 
 const isNonVaEvidencePage = currentPath =>

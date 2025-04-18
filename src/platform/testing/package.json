@@ -23,7 +23,7 @@
     "@cypress/code-coverage": "^3.10.0",
     "@testing-library/cypress": "^8.0.3",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "cy-mobile-commands": "^0.3.0",
     "cypress-axe": "^1.0.0",

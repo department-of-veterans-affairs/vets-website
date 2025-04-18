@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import {
-  VaRadio,
   VaPagination,
+  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 const EducationSearchItem = ({
@@ -36,11 +36,9 @@ const EducationSearchItem = ({
     numberOfPages > 5 ? 5 : Math.round(numberOfPages);
 
   const currentPage = url => {
-    const splitURL = url?.split('page')[1];
-    if (splitURL) {
-      return parseInt(splitURL.split('')[1], 10);
-    }
-    return 1;
+    if (!url) return 1;
+    const match = url.match(/page=(\d+)/);
+    return match ? parseInt(match[1], 10) : 1;
   };
 
   if (dataError.hasError) {
@@ -68,7 +66,7 @@ const EducationSearchItem = ({
         <hr />
         <VaRadio
           class="vads-u-margin-y--2"
-          label="Select VA health facility"
+          label="Select school facility"
           onVaValueChange={handleChange}
           required
           uswds

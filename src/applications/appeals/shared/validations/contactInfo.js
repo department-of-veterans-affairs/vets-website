@@ -36,5 +36,7 @@ export const contactInfo995Validation = (errors = {}, _fieldData, formData) => {
   validateValue(errors, veteran.homePhone?.phoneNumber, 'missingHomePhone');
   validateValue(errors, veteran.mobilePhone?.phoneNumber, 'missingMobilePhone');
 
-  validateAddress(errors, veteran.address || {});
+  if (!formData?.housingRisk) {
+    validateAddress(errors, veteran.address || {});
+  }
 };

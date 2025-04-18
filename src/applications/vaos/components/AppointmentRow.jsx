@@ -9,18 +9,14 @@ export default function AppointmentRow({
   ...props
 }) {
   return (
-    <div role="grid">
-      <div role="rowgroup">
-        <div
-          id={id}
-          className={`vads-u-display--flex vads-u-flex-direction--column ${className}`}
-          style={{ ...style }}
-          {...props}
-          role="row"
-        >
-          {children}
-        </div>
-      </div>
+    <div
+      id={id}
+      className={`vads-u-display--flex vads-u-flex-direction--column ${className}`}
+      style={{ ...style }}
+      data-testid="row"
+      {...props}
+    >
+      {children}
     </div>
   );
 }

@@ -11,7 +11,8 @@
         "startLocation": {
           "outsideUsa": true,
           "location": {
-            "city": "Foreign city"
+            "city": "Foreign city",
+            "country": "AUS"
           }
         },
         "endLocation": {
@@ -38,7 +39,8 @@
         "startLocation": {
           "outsideUsa": true,
           "location": {
-            "city": "Foreign city"
+            "city": "Fakesville",
+            "country": "AUS"
           }
         },
         "endLocation": {
@@ -71,10 +73,10 @@
       "outsideUsa": true,
       "location": {
         "city": "Fakesville",
-        "state": "CA"
+        "country": "AUS"
       },
       "date": "2009-04-01",
-      "type": "CIVIL",
+      "typeOfMarriage": "CIVIL",
       "view:marriageTypeInformation": {}
     },
     "spouseInformation": {
@@ -110,6 +112,12 @@
       "addSpouse": true,
       "reportDivorce": true
     },
+    "view:addDependentOptions": {
+      "addSpouse": true
+    },
+    "view:removeDependentOptions": {
+      "reportDivorce": true
+    },
     "reportDivorce": {
       "fullName": {
         "first": "john",
@@ -136,6 +144,22 @@
       },
       "ssn": "796121200",
       "birthDate": "1933-05-04"
-    }
+    },
+    "childSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "spouseSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ]
   }
 }

@@ -32,10 +32,6 @@ class MedicalRecordsSite {
         type: 'feature_toggles',
         features: [
           {
-            name: 'mhv_integration_medical_records_to_phase_1',
-            value: true,
-          },
-          {
             name: 'mhv_accelerated_delivery_enabled',
             value: isAcceleratingEnabled,
           },
@@ -54,14 +50,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_phr_refresh_on_login',
             value: false,
-          },
-          {
-            name: 'mhvMedicalRecordsToVAGovRelease',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_to_va_gov_release',
-            value: true,
           },
           {
             name: 'mhvMedicalRecordsDisplayDomains',

@@ -23,5 +23,6 @@ export function transformPatientRelationships(patientRelationships) {
     clinicName: relationship.attributes.attributes.clinic.name,
     vistaId: relationship.attributes.attributes.clinic.vistaSite,
     lastSeen: relationship.attributes.attributes.lastSeen,
+    hasAvailability: relationship.attributes.attributes.hasAvailability,
   }));
 }

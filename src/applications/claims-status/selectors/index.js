@@ -9,35 +9,6 @@ export const isLoadingFeatures = state => toggleValues(state).loading;
 export const showClaimLettersFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.claimLettersAccess];
 
-// 'cst_use_lighthouse'
-// endpoint - one of '5103', 'index', 'show'
-export const cstUseLighthouse = (state, endpoint) => {
-  const flipperOverrideMode = sessionStorage.getItem('cstFlipperOverrideMode');
-  if (flipperOverrideMode) {
-    switch (flipperOverrideMode) {
-      case 'featureToggle':
-        break;
-      case 'evss':
-        return false;
-      case 'lighthouse':
-        return true;
-      default:
-        break;
-    }
-  }
-
-  // Returning true here because the feature toggle sometimes returns
-  // undefined and the feature toggle should always return true anyways
-  // Note: Checking for window.Cypress here because some of the Cypress
-  // tests are written for EVSS and will fail if this only returns true
-
-  if (endpoint === 'show' && !window.Cypress) return true;
-
-  return toggleValues(state)[
-    FEATURE_FLAG_NAMES[`cstUseLighthouse#${endpoint}`]
-  ];
-};
-
 // 'cst_include_ddl_boa_letters'
 export const cstIncludeDdlBoaLetters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdlBoaLetters];

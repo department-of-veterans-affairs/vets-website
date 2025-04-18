@@ -19,7 +19,7 @@ class TrackClaimsPageV2 {
     cst5103UpdateEnabledV2 = false,
   ) {
     if (submitForm) {
-      cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
+      cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
         body: {},
       }).as('askVA');
     }
@@ -660,7 +660,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        'Request for Submit Buddy Statement(s)',
+        'Submit Buddy Statement(s)',
       );
     }
   }

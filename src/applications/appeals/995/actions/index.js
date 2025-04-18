@@ -3,12 +3,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
 import { SUPPORTED_BENEFIT_TYPES, DEFAULT_BENEFIT_TYPE } from '../constants';
-import {
-  NEW_API,
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-  ITF_API,
-} from '../constants/apis';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
@@ -18,7 +13,6 @@ import {
 
 export const getContestableIssues = props => {
   const benefitType = props?.benefitType || DEFAULT_BENEFIT_TYPE;
-  const newApi = props?.[NEW_API];
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
@@ -27,10 +21,7 @@ export const getContestableIssues = props => {
     );
 
     if (!foundBenefitType || !foundBenefitType?.isSupported) {
-      return Promise.reject({
-        error: 'invalidBenefitType',
-        type: foundBenefitType?.label || benefitType || 'Unknown',
-      }).catch(errors =>
+      return Promise.reject(new Error('invalidBenefitType')).catch(errors =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_FAILED,
           errors,
@@ -38,9 +29,9 @@ export const getContestableIssues = props => {
       );
     }
 
-    const apiUrl = `${environment.API_URL}${
-      newApi ? CONTESTABLE_ISSUES_API_NEW : CONTESTABLE_ISSUES_API
-    }/${benefitType}`;
+    const apiUrl = `${
+      environment.API_URL
+    }${CONTESTABLE_ISSUES_API}/${benefitType}`;
 
     return apiRequest(apiUrl)
       .then(response =>

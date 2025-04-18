@@ -17,6 +17,8 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
     customPageProps.onSubmit({ formData: customPageProps.data });
   }
 
+  const NavButtons = customPageProps.NavButtons || FormNavButtons;
+
   return (
     <form className="vads-u-margin-y--2" onSubmit={onSubmit}>
       {title}
@@ -51,7 +53,7 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
         )}
       {customPageProps.pageContentBeforeButtons}
       {customPageProps.contentBeforeButtons}
-      <FormNavButtons
+      <NavButtons
         goBack={customPageProps.goBack}
         goForward={customPageProps.onContinue}
         submitToContinue
@@ -75,6 +77,7 @@ ArrayBuilderSummaryNoSchemaFormPage.propTypes = {
     goBack: PropTypes.func,
     onContinue: PropTypes.func,
     contentAfterButtons: PropTypes.node,
+    NavButtons: PropTypes.func,
   }),
   description: PropTypes.node,
   hideAdd: PropTypes.bool,

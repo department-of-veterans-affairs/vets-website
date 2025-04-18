@@ -18,9 +18,6 @@ describe('Medical Records View Vitals', () => {
   it('Visits View Vital List', () => {
     site.loadPage();
 
-    // check for MY Va Health links
-    Vitals.checkLandingPageLinks();
-
     Vitals.goToVitalPage();
 
     const today = new Date();
@@ -46,21 +43,14 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.checkUrl({ timeFrame: '2020-01' });
 
-    // This is checking that the breadcrumbs are correct
-    cy.get('va-breadcrumbs')
-      .shadow()
-      .find('li')
-      .eq(3)
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
-      .should('be.visible')
       .should('have.attr', 'href')
       .and('include', '/vitals?timeFrame=2020-01');
 
-    cy.get('va-breadcrumbs')
-      .shadow()
-      .find('li')
-      .eq(3)
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
+      .contains('Back')
       .click();
 
     // Maintaining the same timeFrame across page clicks

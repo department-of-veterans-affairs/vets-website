@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -13,6 +14,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   yesNoUI,
   yesNoSchema,
+  radioUI,
+  radioSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
@@ -33,14 +36,7 @@ import {
   ProgramExamples,
   TermDateHint,
 } from './helpers';
-import { generateHelpText } from '../../helpers';
-
-/* NOTE: 
- * In "Add mode" of the array builder, formData represents the entire formData object.
- * In "Edit mode," formData represents the specific array item being edited.
- * As a result, the index param may sometimes come back null depending on which mode the user is in.
- * To handle both modes, ensure that you check both via RJSF like these pages do.
- */
+import { CancelButton, generateHelpText } from '../../helpers';
 
 const numberSchema = {
   type: 'string',
@@ -64,10 +60,11 @@ export const addStudentsOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode ||
+    (item?.wasMarried === true && !item?.marriageDate) ||
     !item?.schoolInformation?.name ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
-    !item?.schoolInformation?.isSchoolAccredited ||
+    item?.schoolInformation?.isSchoolAccredited == null ||
     !item?.schoolInformation?.currentTermDates?.officialSchoolStartDate ||
     !item?.schoolInformation?.currentTermDates?.expectedStudentStartDate ||
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
@@ -79,22 +76,34 @@ export const addStudentsOptions = {
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
     (item?.typeOfProgramOrBenefit &&
-      Object.values(item.typeOfProgramOrBenefit).includes(true) &&
+      ['ch35', 'fry', 'feca'].some(
+        key => item?.typeOfProgramOrBenefit?.[key] === true,
+      ) &&
       !item?.benefitPaymentDate),
   maxItems: 20,
   text: {
     summaryTitle: 'Review your students',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Student',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };
 
 export const addStudentsIntroPage = {
   uiSchema: {
-    ...titleUI('Your students'),
-    'ui:description': AddStudentsIntro,
+    ...titleUI({
+      title: 'Your students',
+      description: () => {
+        return (
+          <>
+            {AddStudentsIntro}
+            <CancelButton dependentType="students" isAddChapter />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -170,17 +179,21 @@ export const studentIDInformationPage = {
 export const studentIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
-    studentIncome: {
-      ...yesNoUI('Did this student earn an income in the last 365 days?'),
-      'ui:description': generateHelpText(
+    studentIncome: radioUI({
+      title: 'Did this student have an income in the last 365 days?',
+      hint:
         'Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      studentIncome: yesNoSchema,
+      studentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };
@@ -192,7 +205,7 @@ export const studentAddressPage = {
     address: addressUI({
       labels: {
         militaryCheckbox:
-          'They receive mail outside of the United States on a U.S. military base.',
+          'The student receives mail outside of the United States on a U.S. military base.',
       },
     }),
   },
@@ -222,6 +235,23 @@ export const studentMaritalStatusPage = {
 };
 
 /** @returns {PageSchema} */
+export const studentMarriageDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
+    marriageDate: currentOrPastDateUI({
+      title: 'Date of marriage',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['marriageDate'],
+    properties: {
+      marriageDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
 export const studentEducationBenefitsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -236,11 +266,28 @@ export const studentEducationBenefitsPage = {
         description: generateHelpText('Check all that the student receives'),
       }),
     },
+    otherProgramOrBenefit: {
+      ...textUI({
+        title:
+          'Briefly list any other programs the student receives education benefits from',
+        required: (formData, index) =>
+          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || formData?.typeOfProgramOrBenefit?.other,
+      }),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !(
+            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+              ?.other || formData?.typeOfProgramOrBenefit?.other
+          ),
+      },
+    },
     tuitionIsPaidByGovAgency: {
-      ...yesNoUI(
-        'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
-      ),
-      'ui:required': () => true,
+      ...yesNoUI({
+        title:
+          'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
+        required: () => true,
+      }),
     },
     'view:programExamples': {
       'ui:description': ProgramExamples,
@@ -253,6 +300,7 @@ export const studentEducationBenefitsPage = {
     type: 'object',
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
+      otherProgramOrBenefit: textSchema,
       tuitionIsPaidByGovAgency: yesNoSchema,
       'view:programExamples': {
         type: 'object',
@@ -272,16 +320,7 @@ export const studentEducationBenefitsStartDatePage = {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
-      'ui:required': (formData, index) => {
-        const addMode =
-          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
-        const editMode = formData?.typeOfProgramOrBenefit;
-
-        return (
-          (addMode && Object.values(addMode).includes(true)) ||
-          (editMode && Object.values(editMode).includes(true))
-        );
-      },
+      'ui:required': () => true,
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.studentInformation?.[index];
@@ -301,6 +340,7 @@ export const studentEducationBenefitsStartDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['benefitPaymentDate'],
     properties: {
       benefitPaymentDate: currentOrPastDateSchema,
     },
@@ -353,7 +393,7 @@ export const studentAttendancePage = {
           'Has the student attended school continuously since they started school?',
         required: () => true,
         description: generateHelpText(
-          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year, like winter break or summer break',
+          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year like winter break or summer break',
         ),
       }),
     },
@@ -416,7 +456,6 @@ export const schoolAccreditationPage = {
     schoolInformation: {
       isSchoolAccredited: yesNoUI({
         title: 'Is the student’s school accredited?',
-        required: () => true,
       }),
       'view:accredited': {
         'ui:description': AccreditedSchool,
@@ -428,6 +467,7 @@ export const schoolAccreditationPage = {
     properties: {
       schoolInformation: {
         type: 'object',
+        required: ['isSchoolAccredited'],
         properties: {
           isSchoolAccredited: yesNoSchema,
           'view:accredited': {
@@ -463,6 +503,10 @@ export const studentTermDatesPage = {
           'ui:webComponentField': VaMemorableDateField,
           'ui:required': () => true,
           'ui:validations': [validateCurrentOrFutureDate],
+          'ui:errorMessages': {
+            required: 'Enter a valid current or future date',
+            pattern: 'Enter a valid current or future date',
+          },
         },
       },
     },
@@ -536,27 +580,9 @@ export const previousTermDatesPage = {
         },
         termBegin: {
           ...currentOrPastDateUI('When did the previous school term start?'),
-          'ui:required': (formData, index) => {
-            const addMode =
-              formData?.studentInformation?.[index]?.schoolInformation
-                ?.studentDidAttendSchoolLastTerm;
-            const editMode =
-              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-            return addMode || editMode;
-          },
         },
         dateTermEnded: {
           ...currentOrPastDateUI('When did the previous school term end?'),
-          'ui:required': (formData, index) => {
-            const addMode =
-              formData?.studentInformation?.[index]?.schoolInformation
-                ?.studentDidAttendSchoolLastTerm;
-            const editMode =
-              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-            return addMode || editMode;
-          },
         },
       },
     },
@@ -568,6 +594,7 @@ export const previousTermDatesPage = {
         type: 'object',
         properties: {
           lastTermSchoolInformation: {
+            required: ['termBegin', 'dateTermEnded'],
             type: 'object',
             properties: {
               termBegin: currentOrPastDateSchema,
@@ -692,7 +719,7 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: textUI('All other assets'),
-      totalValue: textUI('All other assets'),
+      totalValue: textUI('Total value'),
     },
   },
   schema: {

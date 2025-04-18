@@ -17,10 +17,9 @@ export default function App({ location, children }) {
     { href: '/', label: 'Home' },
     { href: '/health-care', label: 'Health care' },
     {
-      href: '/health-care/foreign-medical-program',
-      label: 'Foreign Medical Program',
+      href: '/health-care/file-foreign-medical-program-claim',
+      label: 'File a Foreign Medical Program (FMP) claim',
     },
-    { href: '/health-care/foreign-medical-program', label: 'File a claim' },
   ];
   const bcString = JSON.stringify(breadcrumbs);
 
@@ -32,7 +31,10 @@ export default function App({ location, children }) {
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[externalServices.pega]}
+              dependencies={[
+                externalServices.pega,
+                externalServices.form107959f2,
+              ]}
             >
               {children}
             </DowntimeNotification>

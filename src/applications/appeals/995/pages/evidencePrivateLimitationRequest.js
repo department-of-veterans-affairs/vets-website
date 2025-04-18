@@ -18,6 +18,7 @@ export default {
         Y: 'Yes',
         N: 'No',
       },
+      hideOnReview: true,
       updateUiSchema: () => ({
         'ui:options': {
           labelHeaderLevel: isOnReviewPage() ? 4 : 3,

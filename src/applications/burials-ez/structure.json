@@ -1,0 +1,164 @@
+[
+  {
+    "title": "Your Information",
+    "pages": [
+      {
+        "title": "Relationship to Veteran",
+        "path": "claimant-information/relationship-to-veteran"
+      },
+      {
+        "title": "Personal information",
+        "path": "claimant-information/personal-information"
+      },
+      {
+        "title": "Mailing address",
+        "path": "claimant-information/mailing-address"
+      },
+      {
+        "title": "Contact information",
+        "path": "claimant-information/contact-information"
+      }
+    ]
+  },
+  {
+    "title": "Deceased Veteran information",
+    "pages": [
+      {
+        "title": "Deceased Veteran information",
+        "path": "veteran-information"
+      },
+      {
+        "title": "Burial dates",
+        "path": "veteran-information/burial"
+      },
+      {
+        "title": "Veteran death location",
+        "path": "veteran-information/location-of-death"
+      }
+    ]
+  },
+  {
+    "title": "Military history",
+    "pages": [
+      {
+        "title": "DD214 or other separation documents",
+        "path": "military-history/separation-documents"
+      },
+      {
+        "title": "Veteran’s DD214",
+        "path": "military-history/separation-documents/upload",
+        "depends": "return (0, _get.default)('view:separationDocuments', form);"
+      },
+      {
+        "title": "Service periods",
+        "path": "military-history/service-periods",
+        "depends": "return !(0, _get.default)('view:separationDocuments', form);"
+      },
+      {
+        "title": "Veteran’s previous names",
+        "path": "military-history/previous-names"
+      },
+      {
+        "title": "Veteran’s previous names",
+        "path": "military-history/previous-names/add",
+        "depends": "return (0, _get.default)('view:servedUnderOtherNames', form);"
+      }
+    ]
+  },
+  {
+    "title": "Benefits selection",
+    "pages": [
+      {
+        "title": "Benefits selection",
+        "path": "benefits/selection"
+      },
+      {
+        "title": "Burial allowance",
+        "path": "benefits/burial-allowance/additional-information",
+        "depends": "return (0, _get.default)('view:claimedBenefits.burialAllowance', form);"
+      },
+      {
+        "title": "Burial allowance",
+        "path": "benefits/burial-allowance/statement-of-truth",
+        "depends": "return (cov_wu1f9459f().b[0][0]++, burialsSelected) && (cov_wu1f9459f().b[0][1]++, unclaimedSelected);"
+      },
+      {
+        "title": "Burial allowance",
+        "path": "benefits/burial-allowance/allowance-and-expense",
+        "depends": "return (0, _get.default)('view:claimedBenefits.burialAllowance', form);"
+      },
+      {
+        "title": "Final resting place",
+        "path": "benefits/final-resting-place",
+        "depends": "return (0, _get.default)('view:claimedBenefits.plotAllowance', form);"
+      },
+      {
+        "title": "Cemetery location",
+        "path": "benefits/cemetery-type",
+        "depends": "return (0, _get.default)('view:claimedBenefits.plotAllowance', form);"
+      },
+      {
+        "title": "Cemetery location",
+        "path": "benefits/cemetery-location",
+        "depends": "return (cov_wu1f9459f().b[1][0]++, (0, _get.default)('view:claimedBenefits.plotAllowance', form)) && (cov_wu1f9459f().b[1][1]++, !(0, _get.default)('nationalOrFederal', form));"
+      },
+      {
+        "title": "Cemetery location",
+        "path": "benefits/cemetery-location/add",
+        "depends": "return (cov_wu1f9459f().b[2][0]++, (0, _get.default)('view:claimedBenefits.plotAllowance', form)) && (cov_wu1f9459f().b[2][1]++, (0, _get.default)('cemetaryLocationQuestion', form) === 'cemetery');"
+      },
+      {
+        "title": "Cemetery location",
+        "path": "benefits/cemetery-location/tribal-land/add",
+        "depends": "return (cov_wu1f9459f().b[3][0]++, (0, _get.default)('view:claimedBenefits.plotAllowance', form)) && (cov_wu1f9459f().b[3][1]++, (0, _get.default)('cemetaryLocationQuestion', form) === 'tribalLand');"
+      },
+      {
+        "title": "Plot or interment allowance",
+        "path": "benefits/plot-allowance/contributions",
+        "depends": "return (0, _get.default)('view:claimedBenefits.plotAllowance', form);"
+      },
+      {
+        "title": "Plot or interment allowance",
+        "path": "benefits/plot-allowance/expense-responsibility",
+        "depends": "return (0, _get.default)('view:claimedBenefits.plotAllowance', form);"
+      },
+      {
+        "title": "Transportation allowance",
+        "path": "benefits/transportation-allowance",
+        "depends": "return (0, _get.default)('view:claimedBenefits.transportation', form);"
+      }
+    ]
+  },
+  {
+    "title": "Additional information",
+    "pages": [
+      {
+        "title": "Supporting Documents",
+        "path": "additional-information/supporting-documents"
+      },
+      {
+        "title": "Death certificate",
+        "path": "additional-information/death-certificate",
+        "depends": "return !(0, _helpers.showUploadDocuments)();"
+      },
+      {
+        "title": "Death certificate",
+        "path": "additional-information/upload-death-certificate",
+        "depends": "return (0, _helpers.showUploadDocuments)();"
+      },
+      {
+        "title": "Transportation receipts",
+        "path": "additional-information/transportation-receipts",
+        "depends": "return (0, _get.default)('transportationExpenses', form);"
+      },
+      {
+        "title": "Additional evidence",
+        "path": "additional-information/additional-evidence"
+      },
+      {
+        "title": "Faster claim processing",
+        "path": "additional-information/fdc-program"
+      }
+    ]
+  }
+]

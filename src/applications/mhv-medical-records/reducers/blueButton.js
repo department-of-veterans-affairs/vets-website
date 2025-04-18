@@ -65,8 +65,8 @@ export const convertMedication = med => {
     id: med.id,
     type: medicationTypes.VA,
     prescriptionName: attributes.prescriptionName,
-    lastFilledOn: attributes.dispensedDate
-      ? formatDateLong(attributes.dispensedDate)
+    lastFilledOn: attributes.sortedDispensedDate
+      ? formatDateLong(attributes.sortedDispensedDate)
       : 'Not filled yet',
     status: attributes.refillStatus,
     refillsLeft: attributes.refillRemaining ?? UNKNOWN,
@@ -270,11 +270,13 @@ export const convertAccountSummary = data => {
   const { facilities = [], ipas } = data;
 
   // Map facilities
-  const mappedFacilities = facilities.map(facility => ({
-    facilityName: facility.facilityInfo?.name || 'Unknown facility',
-    stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
-    type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
-  }));
+  const mappedFacilities = facilities
+    .filter(facility => facility.facilityInfo.treatment)
+    .map(facility => ({
+      facilityName: facility.facilityInfo?.name || 'Unknown facility',
+      stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
+      type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
+    }));
 
   // Extract user profile details
   const ipa = ipas && ipas[0];

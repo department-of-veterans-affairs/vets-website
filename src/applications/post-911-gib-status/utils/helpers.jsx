@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import moment from 'moment';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -174,11 +173,31 @@ export const serviceDowntimeErrorMessage = (
 );
 
 export const genericErrorMessage = (
-  <div>
-    <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
-    <Link className="usa-button usa-button-primary" to="/">
-      Back to Post-9/11 GI Bill
-    </Link>
+  <div
+    id="genericErrorMessage"
+    className="vads-u-margin-bottom--2 grid-col usa-width-two-thirds"
+  >
+    <va-alert
+      class="vads-u-margin-bottom--3"
+      close-btn-aria-label="Close notification"
+      disable-analytics="false"
+      full-width="false"
+      slim
+      status="warning"
+      visible
+    >
+      <p className="vads-u-margin-y--0">
+        We’re sorry. Something went wrong on our end. Please try again later.
+      </p>
+    </va-alert>
+    <va-button
+      className="usa-button usa-button-primary"
+      onClick={e => {
+        e.preventDefault();
+        window.history.back();
+      }}
+      text=" Back to Post-9/11 GI Bill"
+    />
   </div>
 );
 
@@ -188,13 +207,23 @@ export const authenticationErrorMessage = (
     className="vads-u-margin-bottom--2 grid-col usa-width-two-thirds"
   >
     <div className="vads-u-margin-bottom--2">
-      <VaAlert status="info" visible>
-        Your Post-9/11 GI Bill Statement of Benefits isn’t available in this
-        tool.
-      </VaAlert>
-
-      <h2>Why can’t I access my Statement of Benefits?</h2>
-
+      <h1 className="vads-u-font-size--h2">
+        Why can’t I access my Statement of Benefits?
+      </h1>
+      <va-alert
+        class="vads-u-margin-bottom--3"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        slim
+        status="info"
+        visible
+      >
+        <p className="vads-u-margin-y--0">
+          Your Post-9/11 GI Bill Statement of Benefits isn’t available in this
+          tool.
+        </p>
+      </va-alert>
       <p>
         Here are some reasons your Post-9/11 GI Bill Statement of Benefits might
         not be available:
@@ -212,9 +241,10 @@ export const authenticationErrorMessage = (
           <li>
             You haven’t applied yet for Post-9/11 GI Bill education benefits.
             <br />
-            <Link to="/education/apply-for-benefits-form-22-1990/introduction">
-              Apply for education benefits
-            </Link>
+            <va-link
+              href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
+              text="Apply for education benefits"
+            />
           </li>
           <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
           <li>

@@ -2,7 +2,7 @@ import { EMPTY_FIELD } from '../constants';
 
 export const generateNotesIntro = record => {
   return {
-    title: `Care summaries and notes: ${record.name}`,
+    title: `${record.name}`,
     subject: 'VA Medical Record',
   };
 };

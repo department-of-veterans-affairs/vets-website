@@ -6,7 +6,7 @@ import { scrollTo } from 'platform/utilities/ui/scroll';
 
 import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import BreadCrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import { STATUSES, STATUS_GROUPINGS } from '../../constants';
 
 const ClaimStatusExplainerPage = () => {
@@ -44,7 +44,7 @@ const ClaimStatusExplainerPage = () => {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="status-explainer-header">
           What does my claim status mean?
         </h1>
@@ -70,8 +70,9 @@ const ClaimStatusExplainerPage = () => {
                 <h2 className="vads-u-font-size--h3">{grouping.name}</h2>
                 <p>{grouping.description}</p>
                 <ul>
-                  {STATUSES.map(
-                    status =>
+                  {Object.keys(STATUSES).map(s => {
+                    const status = STATUSES[s];
+                    return (
                       grouping.includes.includes(status.name) && (
                         <li key={status.name}>
                           <b>{status.name} — </b> {status.description}
@@ -83,8 +84,9 @@ const ClaimStatusExplainerPage = () => {
                             </ul>
                           )}
                         </li>
-                      ),
-                  )}
+                      )
+                    );
+                  })}
                 </ul>
               </React.Fragment>
             ))}

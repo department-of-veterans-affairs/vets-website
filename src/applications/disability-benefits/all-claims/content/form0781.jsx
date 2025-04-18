@@ -1,14 +1,6 @@
 import React from 'react';
-import { formTitleTag, formTitle } from '../utils';
 
 export const form0781HeadingTag = 'VA FORM 21-0781';
-export const additionalFormsTitle = 'Additional Forms';
-
-export const form0781WorkflowChoices = {
-  COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
-  SUBMIT_PAPER_FORM: 'optForPaperForm0781Upload',
-  OPT_OUT_OF_FORM0781: 'optOutOfForm0781',
-};
 
 export const traumaticEventsExamples = (
   <va-accordion open-single>
@@ -152,7 +144,7 @@ export const mentalHealthSupportAlert = () => {
   return (
     <va-alert-expandable
       status="info"
-      trigger="How do I get mental health support right now?"
+      trigger="Learn how to get mental health help now"
     >
       <p>
         We understand that some of the questions may be difficult to answer. If
@@ -185,8 +177,12 @@ export const mentalHealthSupportAlert = () => {
 export function titleWithTag(title, headingTag) {
   return (
     <>
-      {formTitleTag(headingTag)}
-      {formTitle(title)}
+      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
+        {`${headingTag} `}
+      </h3>
+      <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
+        {title}
+      </h3>
     </>
   );
 }

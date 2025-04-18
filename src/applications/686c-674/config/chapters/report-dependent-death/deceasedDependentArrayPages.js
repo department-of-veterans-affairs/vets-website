@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -10,14 +10,14 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-  yesNoUI,
-  yesNoSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
   ssnUI,
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  dateOfDeathUI,
+  dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -28,7 +28,11 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema } from '../../helpers';
+import {
+  customLocationSchema,
+  generateHelpText,
+  CancelButton,
+} from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -45,22 +49,30 @@ export const deceasedDependentOptions = {
     !item?.dependentDeathLocation?.location?.city ||
     !item?.dependentDeathDate ||
     (item?.dependentDeathLocation?.outsideUsa === false &&
-      !item?.dependentDeathLocation?.location?.state),
+      !item?.dependentDeathLocation?.location?.state) ||
+    (item?.dependentDeathLocation?.outsideUsa === true &&
+      !item?.dependentDeathLocation?.location?.country),
   maxItems: 20,
   text: {
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
-      ) || ''}`,
-    cardDescription: item => {
-      const birthDate = item?.birthDate
-        ? format(parseISO(item.birthDate), 'MM/dd/yyyy')
-        : 'Unknown';
-      const dependentDeathDate = item?.dependentDeathDate
-        ? format(parseISO(item.dependentDeathDate), 'MM/dd/yyyy')
-        : 'Unknown';
+    getItemName: item => {
+      const dependentType = item?.dependentType;
 
-      return `${birthDate} - ${dependentDeathDate}`;
+      if (!dependentType) {
+        return 'Dependent';
+      }
+
+      const label = relationshipLabels[dependentType];
+
+      if (label) {
+        return label;
+      }
+
+      return 'Dependent';
+    },
+    cardDescription: item => {
+      const firstName = capitalize(item?.fullName?.first || '');
+      const lastName = capitalize(item?.fullName?.last || '');
+      return `${firstName} ${lastName}`.trim();
     },
     summaryTitle: 'Review your dependents who have died',
   },
@@ -71,8 +83,20 @@ export const deceasedDependentIntroPage = {
   uiSchema: {
     ...titleUI({
       title: 'Your dependents who have died',
-      description:
-        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent who has died.',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your dependents who
+              have died. You must add at least one dependent who has died.
+            </p>
+            <CancelButton
+              dependentType="dependents who have died"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
     }),
   },
   schema: {
@@ -160,18 +184,14 @@ export const deceasedDependentChildTypePage = {
       ...checkboxGroupUI({
         title: 'What type of child?',
         labels: childTypeLabels,
-        required: (formData, index) => {
-          const addMode = formData?.deaths?.[index]?.dependentType === 'child';
-          const editMode = formData?.dependentType;
-
-          return addMode || editMode;
-        },
+        required: () => true,
       }),
+      'ui:description': generateHelpText('Check all that apply'),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.deaths?.[index];
 
-          if (itemData?.dependentType !== 'child' && itemData?.childStatus) {
+          if (itemData?.dependentType !== 'CHILD' && itemData?.childStatus) {
             Object.keys(itemData.childStatus).forEach(key => {
               itemData.childStatus[key] = undefined;
             });
@@ -184,6 +204,7 @@ export const deceasedDependentChildTypePage = {
   },
   schema: {
     type: 'object',
+    required: ['childStatus'],
     properties: {
       childStatus: checkboxGroupSchema(childTypeEnums),
     },
@@ -195,7 +216,7 @@ export const deceasedDependentDateOfDeathPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'When did this dependent die?',
     ),
-    dependentDeathDate: currentOrPastDateUI({
+    dependentDeathDate: dateOfDeathUI({
       title: 'Date of death',
       required: () => true,
     }),
@@ -203,7 +224,7 @@ export const deceasedDependentDateOfDeathPage = {
   schema: {
     type: 'object',
     properties: {
-      dependentDeathDate: currentOrPastDateSchema,
+      dependentDeathDate: dateOfDeathSchema,
     },
   },
 };
@@ -233,17 +254,32 @@ export const deceasedDependentLocationOfDeathPage = {
           'ui:errorMessages': {
             required: 'Enter a state',
           },
-          'ui:required': (formData, index) => {
-            const isEditMode = formData?.dependentDeathLocation?.outsideUsa;
-            const isAddMode =
-              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa;
-
-            return !isAddMode && !isEditMode;
-          },
+          'ui:required': (formData, index) =>
+            !(
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+              formData?.dependentDeathLocation?.outsideUsa
+            ),
           'ui:options': {
             hideIf: (formData, index) =>
-              formData?.dependentDeathLocation?.outsideUsa ||
-              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+              formData?.dependentDeathLocation?.outsideUsa,
+          },
+        },
+        country: {
+          'ui:title': 'Select a country',
+          'ui:webComponentField': VaSelectField,
+          'ui:errorMessages': {
+            required: 'Select a country',
+          },
+          'ui:required': (formData, index) =>
+            formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+            formData?.dependentDeathLocation?.outsideUsa,
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !(
+                formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+                formData?.dependentDeathLocation?.outsideUsa
+              ),
           },
         },
       },
@@ -260,14 +296,21 @@ export const deceasedDependentLocationOfDeathPage = {
 export const deceasedDependentIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Dependent’s income'),
-    deceasedDependentIncome: yesNoUI(
-      'Did this dependent earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
-    ),
+    deceasedDependentIncome: radioUI({
+      title: 'Did this dependent have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are adding this dependent to your pension.',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      deceasedDependentIncome: yesNoSchema,
+      deceasedDependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

@@ -95,7 +95,7 @@ export const successIcon = (
   </span>
 );
 
-export const newIcon = (
+export const starIcon = (
   <span
     className="vads-u-color--primary vads-u-margin-left--0p5"
     aria-hidden="true"
@@ -104,11 +104,20 @@ export const newIcon = (
   </span>
 );
 
-export const inProgressOrReopenedIcon = (
+export const clockIcon = (
   <span
     className="vads-u-color--grey vads-u-margin-left--0p5"
     aria-hidden="true"
   >
     <va-icon icon="schedule" size={3} aria-hidden="true" />
+  </span>
+);
+
+export const folderIcon = (
+  <span
+    className="vads-u-color--grey vads-u-margin-left--0p5"
+    aria-hidden="true"
+  >
+    <va-icon icon="folder" size={3} aria-hidden="true" />
   </span>
 );
