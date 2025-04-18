@@ -50,7 +50,7 @@ const initialState = {
     isValidating: false,
     suggestedAddresses: [],
     validationError: null,
-    modalOpen: true,
+    modalOpen: false,
     originalAddress: null,
     selectedAddress: null,
     validated: false,
