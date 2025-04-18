@@ -76,8 +76,8 @@ describe('Accredited Representative Portal', () => {
       setUpInterceptsAndVisit(null, POA_SEARCH);
     });
 
-    it('Allows the user to see the Search people page when visiting directly', () => {
-      cy.contains('Search people').should('be.visible');
+    it('Allows the user to see the Find claimant page when visiting directly', () => {
+      cy.contains('Find claimant').should('be.visible');
     });
 
     it('Shows errors on empty fields on searching when incomplete', () => {
@@ -122,22 +122,9 @@ describe('Accredited Representative Portal', () => {
 
       setClaimantSearch();
       cy.get('.poa-request-search__form-submit').click();
-      cy.get('.poa-requests-page-table-container').should(
-        'contain',
-        'Karol Johnson',
-      );
-      cy.get('.poa-requests-page-table-container').should(
-        'contain',
-        'Good Representatives R Us',
-      );
-      cy.get('.poa-requests-page-table-container').should(
-        'contain',
-        'Declined',
-      );
-      cy.get('.poa-requests-page-table-container').should(
-        'contain',
-        'January 30, 2025',
-      );
+      cy.get('.poa-request__list').should('contain', 'Johnson, Karol');
+      cy.get('.poa-request__list').should('contain', 'Declined');
+      cy.get('.poa-request__list').should('contain', 'January 30, 2025');
     });
 
     it('Form submission with valid data and no records found shows error message', () => {
@@ -150,9 +137,11 @@ describe('Accredited Representative Portal', () => {
 
       setEmptyClaimantSearch();
       cy.get('.poa-request-search__form-submit').click();
-      cy.get('.poa-requests-page-table-container').should(
-        'contain',
-        'We did not find an individual “asdf ghjkl”, “2024-01-01”, “666666666” who has submitted a power of attorney request in the past 60 days to you or your organizations.',
+      cy.get(
+        "[data-testid='poa-requests-table-fetcher-no-poa-requests']",
+      ).should(
+        'have.text',
+        'No result found for “asdf ghjkl”, “2024-01-01”, “***-**-6666”',
       );
     });
   });

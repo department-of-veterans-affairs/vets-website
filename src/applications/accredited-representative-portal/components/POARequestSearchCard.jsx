@@ -19,14 +19,6 @@ const POARequestSearchCard = ({ poaRequest }) => {
         <h4>Power of attorney</h4>
         <ul className="poa-request-details-list">
           <li>
-            <strong>POA type:</strong>
-            &nbsp;General
-          </li>
-          <li>
-            <strong>Relationship to Veteran:</strong>
-            &nbsp;Self
-          </li>
-          <li>
             <strong>Representative:</strong>
             &nbsp;
             {poaRequest.powerOfAttorneyHolder.name}

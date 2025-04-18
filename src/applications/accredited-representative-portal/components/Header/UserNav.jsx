@@ -18,7 +18,7 @@ const UserHelpLinks = () => {
               to="/poa-search"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
-              Search People
+              Find Claimant
             </Link>
           </li>
         </Toggler.Enabled>
