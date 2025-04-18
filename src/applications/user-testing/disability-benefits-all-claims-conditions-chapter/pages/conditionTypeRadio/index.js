@@ -16,7 +16,7 @@ const conditionTypeRadioPages = arrayBuilderPages(
   (pageBuilder, helpers) => ({
     ...introAndSummaryPages(demo, pageBuilder),
     [`${demo.name}conditionType`]: pageBuilder.itemPage({
-      title: 'Select condition type',
+      title: 'Type of condition',
       path: `conditions-${demo.label}/:index/condition-type`,
       depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&
@@ -25,7 +25,7 @@ const conditionTypeRadioPages = arrayBuilderPages(
       schema: conditionTypePage.schema,
     }),
     [`${demo.name}RatedDisability`]: pageBuilder.itemPage({
-      title: 'Select which existing disability has worsened.',
+      title: 'Service-connected disabilities',
       path: `conditions-${demo.label}/:index/rated-disability`,
       depends: (formData, index) =>
         isActiveDemo(formData, demo.name) &&

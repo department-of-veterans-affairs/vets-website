@@ -140,79 +140,72 @@ export class LetterList extends React.Component {
         )}
         {eligibilityMessage}
 
-        <h2 slot="headline">Other sources of VA benefit documentation</h2>
-        <p>
-          A lot of people come to this page looking for their Post-9/11 GI Bill
-          statement of benefits, their Certificate of Eligibility (COE) for home
-          loan benefits, and their DD214. We don’t have these documents
-          available here yet, but if you’re eligible for them, you can get them
-          through these links:
-        </p>
-        <ul className="vads-u-margin-bottom--9 bullet-disc">
-          <li>
-            <a
-              href="/education/download-letters/"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              VA education letters
-            </a>
-          </li>
-          <li>
-            <a
-              href="/education/gi-bill/post-9-11/ch-33-benefit"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              Post-9/11 GI Bill statement of benefits
-            </a>
-          </li>
-          <li>
-            <a
-              href="/housing-assistance/home-loans/check-coe-status/"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              Certificate of home loan benefits
-            </a>
-          </li>
-          <li>
-            <a
-              href="/records/get-military-service-records/"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              Discharge or separation papers (DD214)
-            </a>
-          </li>
-        </ul>
         <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
           {toggleValue =>
-            toggleValue ? (
-              <va-need-help>
-                <div slot="content">
-                  <p>
-                    Call us at <va-telephone contact="8008271000" />. We're here
-                    Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-                    hearing loss, call <va-telephone contact="711" tty="true" />
-                    .
-                  </p>
-                </div>
-              </va-need-help>
-            ) : (
+            toggleValue ? null : (
               <>
-                <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-                  Need help?
+                <h2 slot="headline">
+                  Other sources of VA benefit documentation
                 </h2>
-                <div className="vads-u-margin-bottom--4">
-                  If you have any questions, please call the VA Benefits Help
-                  Desk:
-                  <br />
-                  <va-telephone contact="8008271000" />, Monday &#8211; Friday,
-                  8 a.m. &#8211; 9 p.m. ET
-                </div>
+                <p>
+                  A lot of people come to this page looking for their Post-9/11
+                  GI Bill statement of benefits, their Certificate of
+                  Eligibility (COE) for home loan benefits, and their DD214. We
+                  don’t have these documents available here yet, but if you’re
+                  eligible for them, you can get them through these links:
+                </p>
+                <ul className="vads-u-margin-bottom--9 bullet-disc">
+                  <li>
+                    <a
+                      href="/education/download-letters/"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      VA education letters
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/education/gi-bill/post-9-11/ch-33-benefit"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      Post-9/11 GI Bill statement of benefits
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/housing-assistance/home-loans/check-coe-status/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      Certificate of home loan benefits
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/records/get-military-service-records/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      Discharge or separation papers (DD214)
+                    </a>
+                  </li>
+                </ul>
+                <>
+                  <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+                    Need help?
+                  </h2>
+                  <div className="vads-u-margin-bottom--4">
+                    If you have any questions, please call the VA Benefits Help
+                    Desk:
+                    <br />
+                    <va-telephone contact="8008271000" />, Monday &#8211;
+                    Friday, 8 a.m. &#8211; 9 p.m. ET
+                  </div>
+                </>
               </>
             )
           }
