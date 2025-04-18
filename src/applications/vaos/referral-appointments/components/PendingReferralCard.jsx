@@ -64,6 +64,7 @@ const PendingReferralCard = ({ referral, index }) => {
                   aria-describedby={`vaos-referral-detail-${referral.uuid}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
+                  data-testid="schedule-appointment-link"
                   onClick={e => e.preventDefault()}
                 />
               </AppointmentColumn>
