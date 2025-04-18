@@ -1,12 +1,15 @@
 /*
 On each <MessageThreadItem> expand we call getMessages(messageId) to mark unread messages as read.
-We no longer need to handle an additional expansion call 
+We no longer need to handle an additional expansion call
 */
 
 import React, { useState, useRef } from 'react';
 
 import PropType from 'prop-types';
-import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAccordion,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import MessageThreadItem from './MessageThreadItem';
 
 const MessageThread = props => {
@@ -17,7 +20,7 @@ const MessageThread = props => {
   return (
     <>
       {messageHistory === undefined && (
-        <va-loading-indicator message="Loading message history..." />
+        <VaLoadingIndicator message="Loading message history..." />
       )}
 
       <section
