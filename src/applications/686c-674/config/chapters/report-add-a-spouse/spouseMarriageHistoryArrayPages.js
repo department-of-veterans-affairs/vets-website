@@ -1,7 +1,6 @@
 import { capitalize } from 'lodash';
 import {
-  textUI,
-  textSchema,
+  titleUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -20,10 +19,9 @@ import {
   marriageEnums,
   spouseFormerMarriageLabels,
   customLocationSchema,
-  generateHelpText,
 } from '../../helpers';
 
-/* NOTE: 
+/* NOTE:
  * In "Add mode" of the array builder, formData represents the entire formData object.
  * In "Edit mode," formData represents the specific array item being edited.
  * As a result, the index param may sometimes come back null depending on which mode the user is in.
@@ -118,40 +116,42 @@ export const formerMarriageEndReasonPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
       return 'Spouse’s former marriage';
     }),
-    reasonMarriageEnded: {
-      ...radioUI({
-        title: 'How did their marriage end?',
-        required: () => true,
-        labels: spouseFormerMarriageLabels,
-      }),
-    },
-    reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how their marriage ended'),
-      'ui:required': (formData, index) => {
-        const isEditMode = formData?.reasonMarriageEnded === 'Other';
-        const isAddMode =
-          formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
-          'Other';
-
-        return isEditMode || isAddMode;
-      },
+    reasonMarriageEnded: radioUI({
+      title: 'How did their marriage end?',
+      labels: spouseFormerMarriageLabels,
+      labelHeaderLevel: '3',
+    }),
+    otherReasonMarriageEnded: {
+      'ui:title': 'Briefly describe how their marriage ended',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
-        hideIf: (formData, index) =>
-          !(
-            formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
-              'Other' || formData?.reasonMarriageEnded === 'Other'
-          ),
-        keepInPageOnReview: true,
+        expandedContentFocus: true,
+        preserveHiddenData: true,
+      },
+    },
+    'ui:options': {
+      // Use updateSchema to set
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonMarriageEnded'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
+        };
       },
     },
   },
   schema: {
     type: 'object',
+    required: ['reasonMarriageEnded'],
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: textSchema,
+      otherReasonMarriageEnded: {
+        type: 'string',
+      },
     },
   },
 };
@@ -282,13 +282,14 @@ export const formerMarriageEndLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     endLocation: {
-      'ui:title': 'Where did the marriage end?',
+      ...titleUI({
+        title: 'Where did the marriage end?',
+        description:
+          'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
+      }),
       'ui:options': {
         labelHeaderLevel: '4',
       },
-      'ui:description': generateHelpText(
-        'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
-      ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,

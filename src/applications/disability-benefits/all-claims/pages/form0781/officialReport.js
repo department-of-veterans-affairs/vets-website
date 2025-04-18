@@ -6,7 +6,6 @@ import {
 import {
   officialReportPageTitle,
   officialReportsDescription,
-  reportTypesQuestion,
   militaryReportsHint,
   noReportHint,
   otherReportsHint,
@@ -32,15 +31,36 @@ const pageTitleWithTag = titleWithTag(
   form0781HeadingTag,
 );
 
+export const officialReportCustom = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      militaryReports: checkboxGroupSchema(Object.keys(MILITARY_REPORT_TYPES)),
+      otherReports: checkboxGroupSchema(Object.keys(OTHER_REPORT_TYPES)),
+      unlistedReport: {
+        type: 'string',
+      },
+      noReport: checkboxGroupSchema(Object.keys(NO_REPORT_TYPE)),
+      'view:mentalHealthSupportAlert': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 export const officialReport = {
   uiSchema: {
-    ...arrayBuilderEventPageTitleUI({
+    'ui:title': arrayBuilderEventPageTitleUI({
       title: pageTitleWithTag,
       editTitle: 'official report details',
     }),
     'ui:description': officialReportsDescription(),
     otherReports: checkboxGroupUI({
-      title: reportTypesQuestion,
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.other,
+      hint: otherReportsHint,
+      labelHeaderLevel: '4',
       labels: OTHER_REPORT_TYPES,
       required: false,
     }),
@@ -78,7 +98,7 @@ export const officialReport = {
 
 export const officialReportMst = {
   uiSchema: {
-    ...arrayBuilderEventPageTitleUI({
+    'ui:title': arrayBuilderEventPageTitleUI({
       title: pageTitleWithTag,
       editTitle: 'official report details',
     }),

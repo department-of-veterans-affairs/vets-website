@@ -1,6 +1,6 @@
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import { SUBTITLE, TITLE } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';

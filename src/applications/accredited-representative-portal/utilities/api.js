@@ -90,10 +90,21 @@ const wrapApiRequest = fn => {
 const api = {
   getPOARequests: wrapApiRequest(query => {
     delete query.sort; // eslint-disable-line no-param-reassign
-    const urlQuery = new URLSearchParams(query).toString();
-    return [`/power_of_attorney_requests?${urlQuery}`];
-  }),
+    let size;
+    let number;
+    let status;
+    if (query.status) {
+      status = `status=${query.status}`;
+    }
+    if (query.size) {
+      size = `&page[size]=${query.size}`;
+    }
+    if (query.number) {
+      number = `&page[number]=${query.number}`;
+    }
 
+    return [`/power_of_attorney_requests?${status}${size}${number}`];
+  }),
   claimantSearch: wrapApiRequest(data => {
     return [
       `/claimant/power_of_attorney_requests`,

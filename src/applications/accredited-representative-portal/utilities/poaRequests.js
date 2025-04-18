@@ -80,18 +80,18 @@ export const SEARCH_BC_LABEL = 'search breadcrumb';
 export const HELP_BC_LABEL = 'search breadcrumb';
 export const HelpBC = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
-    href: 'https://va.gov/representative/get-help',
+    href: '/representative/get-help',
     label: 'Get help using the portal',
   },
 ];
 
 export const poaSearchBC = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
@@ -99,13 +99,24 @@ export const poaSearchBC = [
     label: 'Power of attorney requests',
   },
 ];
+export const searchPeopleBC = [
+  {
+    href: '/representative',
+    label: '/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Search People',
+  },
+];
 export const poaDetailsBreadcrumbs = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
-    href: 'https://va.gov/poa-requests?status=pending',
+    href:
+      '/representative/poa-requests?status=pending&pageSize=20&pageNumber=1',
     label: 'Power of attorney requests',
   },
   {
@@ -113,3 +124,34 @@ export const poaDetailsBreadcrumbs = [
     label: 'POA request',
   },
 ];
+export const SEARCH_PARAMS = {
+  STATUS: 'status',
+  SORT: 'sort',
+  SIZE: 'pageSize',
+  NUMBER: 'pageNumber',
+};
+export const SORT_BY = {
+  CREATED_ASC: 'created_at_asc',
+  CREATED_DESC: 'created_at_desc',
+  RESOLVED_ASC: 'resolved_at_asc',
+  RESOLVED_DESC: 'resolved_at_desc',
+};
+
+export const PENDING = {
+  ASC_OPTION: 'Expiration date (nearest)',
+  DESC_OPTION: 'Expiration date (farthest)',
+};
+
+export const PROCESSED = {
+  ASC_OPTION: 'Processed date (nearest)',
+  DESC_OPTION: 'Processed date (farthest)',
+};
+
+export const STATUSES = {
+  PENDING: 'pending',
+  PROCESSED: 'processed',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+};
