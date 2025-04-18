@@ -237,11 +237,18 @@ export const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertPathologyRecord = record => {
+  const { code } = record.code.coding?.[0];
+
+  // Define a set of valid pathology codes
+  const validCodes = new Set(['11526-1', '27898-6', '50668-3', '26438-2']);
+
+  // If the code exists in our valid set, assign record.code.text; otherwise, undefined
+  const pathologyType = validCodes.has(code) ? record.code.text : '';
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
-    name: record.code?.text,
+    name: pathologyType,
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
@@ -421,18 +428,23 @@ export const mergeRadiologyLists = (
  */
 const getRecordType = record => {
   if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
+    const coding = record.code?.coding;
+    const loincMap = {
+      [loincCodes.MICROBIOLOGY]: labTypes.MICROBIOLOGY,
+      [loincCodes.PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.SURGICAL_PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.ELECTRON_MICROSCOPY]: labTypes.PATHOLOGY,
+      [loincCodes.CYTOPATHOLOGY]: labTypes.PATHOLOGY,
+    };
+
+    // Check if the code text is 'CH'
     if (record.code?.text === 'CH') return labTypes.CHEM_HEM;
-    if (
-      record.code?.coding?.some(
-        coding => coding.code === loincCodes.MICROBIOLOGY,
-      )
-    ) {
-      return labTypes.MICROBIOLOGY;
-    }
-    if (
-      record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
-    ) {
-      return labTypes.PATHOLOGY;
+
+    // Check if coding matches any LOINC code using Object.entries()
+    for (const [code, type] of Object.entries(loincMap)) {
+      if (coding?.some(c => c.code === code)) {
+        return type;
+      }
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
