@@ -279,7 +279,7 @@ const Vitals = () => {
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
             message="We’re loading your vitals."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         </div>
@@ -292,7 +292,7 @@ const Vitals = () => {
               <div className="vads-u-margin-y--8">
                 <va-loading-indicator
                   message="We’re loading your records."
-                  setFocus
+                  set-focus
                   data-testid="loading-indicator"
                 />
               </div>
