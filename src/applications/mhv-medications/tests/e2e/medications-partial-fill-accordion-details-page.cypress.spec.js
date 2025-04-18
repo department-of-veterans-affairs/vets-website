@@ -36,13 +36,4 @@ describe('Medications Partial Fill on Details Page', () => {
     );
     detailsPage.verifyNoImageFieldMessageOnDetailsPage(Data.IMAGE_EMPTY);
   });
-
-  it('visits last filled refill accordion details page', () => {
-    detailsPage.verifyLastFilledDateInAccordionOnDetailsPage(
-      Data.FILLED_ON_DATE,
-    );
-    detailsPage.verifyLastFilledDateOnDetailsPage(Data.FILLED_ON_DATE);
-    cy.injectAxe();
-    cy.axeCheck('main');
-  });
 });

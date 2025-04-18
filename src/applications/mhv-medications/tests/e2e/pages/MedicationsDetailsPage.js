@@ -707,7 +707,7 @@ class MedicationsDetailsPage {
   };
 
   verifyRefillAccordionHeaderForPartialFillOnDetailsPage = (text, date) => {
-    cy.get('[data-testid="refill-history-accordion"] > :nth-child(2)')
+    cy.get('[data-testid="refill-history-accordion"] > :nth-child(1)')
       .should('contain', text)
       .and('contain', date);
   };

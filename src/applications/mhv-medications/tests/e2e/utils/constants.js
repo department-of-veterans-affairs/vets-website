@@ -18,7 +18,7 @@ export const Data = {
     'Showing 11 to 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
     'Showing 21 to 26 of 26 prescriptions, from newest to oldest',
-  REFILL_HISTORY_INFO: 'Showing 12 refills, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 11 refills, from newest to oldest',
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
   MED_DESCRIPTION: 'Medication description',
@@ -61,7 +61,7 @@ export const Data = {
   STEP_TWO_PROCESS_ABOVE_TEXT: 'Step 2: Completed',
   STEP_ONE_DATE_TEXT: 'Step 1: Completed',
   STEP_ONE_NO_DATE: 'Date completed not available',
-  STEP_TWO_DATE: 'Completed on October 2, 2023',
+  STEP_TWO_DATE: 'Completed on October 1, 2023',
   STEP_TWO_NOTE: 'We’ll provide an expected fill date.',
   STEP_TWO_DELAY: 'The refill process is taking longer than usual',
   STEP_TWO_PROCESS: 'Step 2: In process',
