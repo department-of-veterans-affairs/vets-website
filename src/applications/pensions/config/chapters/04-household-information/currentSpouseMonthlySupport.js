@@ -1,10 +1,9 @@
-import merge from 'lodash/merge';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import {
+  titleUI,
+  currencyUI,
+  currencySchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { isSeparated } from './helpers';
-
-const { currentSpouseMonthlySupport } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -13,23 +12,15 @@ export default {
   depends: isSeparated,
   uiSchema: {
     ...titleUI('Financial support for your spouse'),
-    currentSpouseMonthlySupport: merge(
-      {},
-      currencyUI(
-        'How much do you contribute each month to your spouse’s support?',
-      ),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    currentSpouseMonthlySupport: currencyUI(
+      'How much do you contribute each month to your spouse’s support?',
     ),
   },
   schema: {
     type: 'object',
     required: ['currentSpouseMonthlySupport'],
     properties: {
-      currentSpouseMonthlySupport,
+      currentSpouseMonthlySupport: currencySchema,
     },
   },
 };

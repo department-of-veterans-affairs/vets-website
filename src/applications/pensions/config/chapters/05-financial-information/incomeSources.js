@@ -1,11 +1,11 @@
-import merge from 'lodash/merge';
 import {
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import {
@@ -90,11 +90,7 @@ export default {
             classNames: 'vads-u-margin-bottom--2',
           },
         },
-        amount: merge({}, currencyUI('What’s the monthly amount of income?'), {
-          'ui:options': {
-            classNames: 'schemaform-currency-input-v3',
-          },
-        }),
+        amount: currencyUI('What’s the monthly amount of income?'),
       },
     },
   },
@@ -117,9 +113,7 @@ export default {
             receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName,
             payer,
-            amount: {
-              type: 'number',
-            },
+            amount: currencySchema,
           },
         },
       },
