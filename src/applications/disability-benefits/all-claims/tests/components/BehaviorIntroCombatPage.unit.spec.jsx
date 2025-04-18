@@ -473,7 +473,7 @@ describe('BehaviorIntroCombatPage', () => {
                 expect(updateSpy.notCalled).to.be.true;
               });
 
-              it('displays a modal prompt to delete the answers, updates the page if deletion is confirmed, and deletes the data', () => {
+              it('displays a modal prompt to delete the answers, updates the page if deletion is confirmed, deletes the data, and displays a confirmation alert message', () => {
                 const updateSpy = sinon.spy();
                 const setFormDataSpy = sinon.spy();
 
@@ -504,7 +504,17 @@ describe('BehaviorIntroCombatPage', () => {
                     behaviorsDetails: {},
                   }),
                 );
-                expect(updateSpy.called).to.be.true;
+
+                // updatePage exits out of edit mode; we want the alert to show in edit mode without a continue link
+                expect(updateSpy.called).to.be.false;
+                expect(
+                  $(confirmationAlertSelector, container).innerHTML,
+                ).to.contain(
+                  'We’ve removed information about your behavioral changes',
+                );
+                expect(
+                  $(confirmationAlertSelector, container).innerHTML,
+                ).to.not.contain('Continue with your claim');
               });
             });
 
@@ -551,7 +561,7 @@ describe('BehaviorIntroCombatPage', () => {
             const modal = container.querySelector('va-modal');
             modal.__events.primaryButtonClick();
 
-            fireEvent.click($('button.va-button-link', container));
+            fireEvent.click($('va-link', container));
             expect(goForwardSpy.called).to.be.true;
           });
         });

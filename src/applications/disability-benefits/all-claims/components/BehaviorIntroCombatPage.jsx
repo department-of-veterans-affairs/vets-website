@@ -148,12 +148,7 @@ const BehaviorIntroCombatPage = ({
     onConfirmDeleteBehavioralAnswers: () => {
       deleteBehavioralAnswers();
       handlers.onCloseModal();
-
-      if (onReviewPage) {
-        updatePage();
-      } else {
-        setShowDeletedAnswerConfirmation(true);
-      }
+      setShowDeletedAnswerConfirmation(true);
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
@@ -196,15 +191,12 @@ const BehaviorIntroCombatPage = ({
           <p className="vads-u-margin-y--0">
             We’ve removed information about your behavioral changes.
           </p>
-          <p>
-            <button
-              type="button"
-              className="va-button-link"
+          {!onReviewPage ? (
+            <va-link
+              text="Continue with your claim"
               onClick={() => goForward(data)}
-            >
-              Continue with your claim
-            </button>{' '}
-          </p>
+            />
+          ) : null}
         </VaAlert>
       </div>
 
