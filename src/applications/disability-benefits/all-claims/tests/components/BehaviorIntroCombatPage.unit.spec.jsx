@@ -85,7 +85,7 @@ describe('BehaviorIntroCombatPage', () => {
               },
             }),
           );
-          fireEvent.click($('va-button[text="Update page"]', container));
+          fireEvent.click(container.querySelector('button.usa-button-primary'));
           expect(updateSpy.called).to.be.true;
         });
       });
@@ -103,7 +103,7 @@ describe('BehaviorIntroCombatPage', () => {
             }),
           );
 
-          fireEvent.click($('va-button[text="Update page"]', container));
+          fireEvent.click(container.querySelector('button.usa-button-primary'));
           expect(updateSpy.called).to.be.true;
         });
       });
@@ -461,7 +461,9 @@ describe('BehaviorIntroCombatPage', () => {
                   }),
                 );
 
-                fireEvent.click($('va-button[text="Update page"]', container));
+                fireEvent.click(
+                  container.querySelector('button.usa-button-primary'),
+                );
 
                 const modal = $('va-modal[visible="true"]', container);
 
@@ -486,7 +488,9 @@ describe('BehaviorIntroCombatPage', () => {
                   }),
                 );
 
-                fireEvent.click($('va-button[text="Update page"]', container));
+                fireEvent.click(
+                  container.querySelector('button.usa-button-primary'),
+                );
 
                 const modal = $('va-modal[visible="true"]', container);
 
@@ -528,7 +532,9 @@ describe('BehaviorIntroCombatPage', () => {
                   }),
                 );
 
-                fireEvent.click($('va-button[text="Update page"]', container));
+                fireEvent.click(
+                  container.querySelector('button.usa-button-primary'),
+                );
 
                 expect(updateSpy.called).to.be.true;
               });
