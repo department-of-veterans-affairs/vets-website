@@ -7,134 +7,60 @@ import {
   VaDate,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { apiRequest } from 'platform/utilities/api';
 import { DivWithBackIcon } from '../edit/EditBreadcrumb';
 import { PROFILE_PATHS } from '../../constants';
-
-const mockApiRequest = async () => {
-  await new Promise(r => setTimeout(r, 2000));
-
-  const events = [
-    'Logged in',
-    'Logged out',
-    'Updated email',
-    'Viewed profile',
-    'Updated address',
-    'Session timed out',
-    'Changed password',
-    'Deleted account',
-    'Added new device',
-    'Removed device',
-    'Enabled two-factor authentication',
-    'Disabled two-factor authentication',
-    'Reset password',
-    'Failed login attempt',
-    'Updated preferences',
-    'Uploaded document',
-    'Downloaded report',
-    'Sent message',
-    'Received notification',
-    'Scheduled appointment',
-  ];
-
-  const devices = ['Mozilla Firefox', 'Google Chrome', 'Microsoft Edge'];
-
-  const ipAddresses = ['192.168.1.1', '192.168.2.1', '192.168.3.1'];
-
-  const statuses = ['Success', 'Failure', 'Pending', 'Error'];
-
-  const performedBy = ['User', 'Guardian', 'System'];
-
-  const data = [];
-
-  const startDate = new Date('2021-01-01T00:00:00Z');
-  const endDate = new Date('2022-12-31T23:59:59Z');
-  const numEntries = 200;
-
-  for (let i = 0; i < numEntries; i++) {
-    const date = new Date(
-      startDate.getTime() +
-        Math.random() * (endDate.getTime() - startDate.getTime()),
-    );
-    const dateStr = date.toISOString();
-
-    const ipAddress =
-      ipAddresses[Math.floor(Math.random() * ipAddresses.length)];
-    const event = events[Math.floor(Math.random() * events.length)];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const device = devices[Math.floor(Math.random() * devices.length)];
-    const performer =
-      performedBy[Math.floor(Math.random() * performedBy.length)];
-
-    data.push({
-      timestamp: dateStr,
-      ipAddress,
-      performer,
-      device,
-      event,
-      status,
-    });
-  }
-
-  return { data };
-};
 
 const formatTimestamp = timestamp => {
   return format(parseISO(timestamp), "yyyy-MM-dd 'at' h:mm a zzz");
 };
 
 export default function AccountActivity() {
+  const itemsPerPage = 10;
   const [loading, setLoading] = useState(true);
-  const [apiResponse, setApiResponse] = useState([]);
+  const [data, setData] = useState([]);
+  const [included, setIncluded] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [filteredData, setFilteredData] = useState([]);
-  const itemsPerPage = 8;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const dataToDisplay = filteredData.length > 0 ? filteredData : apiResponse;
-  const currentItems = dataToDisplay.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(dataToDisplay.length / itemsPerPage);
+  const [startDateBuffer, setStartDateBuffer] = useState('');
+  const [endDateBuffer, setEndDateBuffer] = useState('');
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const fetchData = async () => {
-      try {
-        const response = await mockApiRequest();
-        setApiResponse(response.data);
-      } catch (error) {
-        // add loading error state
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+  useEffect(
+    () => {
+      window.scrollTo(0, 0);
+      const fetchData = async () => {
+        setLoading(true);
+        try {
+          const response = await apiRequest(
+            `/user_actions?per_page=${itemsPerPage}&page=${currentPage}&q[created_at_gteq]=${startDate}&q[created_at_lteq]=${endDate}`,
+          );
+          setData(response.data);
+          setIncluded(response.included);
+          setCurrentPage(response.meta.currentPage);
+          setTotalPages(response.meta.totalPages);
+        } catch (error) {
+          // add loading error state
+        }
+        setLoading(false);
+      };
+      fetchData();
+    },
+    [currentPage, endDate, startDate],
+  );
 
-  const handleFilter = () => {
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-
-      const filtered = apiResponse.filter(record => {
-        const recordDate = new Date(record.timestamp);
-        return recordDate >= start && recordDate <= end;
-      });
-
-      filtered.sort((a, b) => {
-        return new Date(a.timestamp) - new Date(b.timestamp);
-      });
-
-      setFilteredData(filtered);
-    } else {
-      setFilteredData([]);
-    }
-    setCurrentPage(1);
+  const handleFilter = e => {
+    e.preventDefault();
+    setStartDate(startDateBuffer);
+    setEndDate(endDateBuffer);
   };
 
   const clearFilter = () => {
     setStartDate('');
     setEndDate('');
-    setFilteredData([]);
+    setStartDateBuffer('');
+    setEndDateBuffer('');
     setCurrentPage(1);
   };
 
@@ -158,14 +84,14 @@ export default function AccountActivity() {
           <VaDate
             label="Start Date"
             name="startDate"
-            value={startDate}
-            onDateChange={e => setStartDate(e.target.value)}
+            value={startDateBuffer}
+            onDateChange={e => setStartDateBuffer(e.target.value)}
           />
           <VaDate
             label="End Date"
             name="endDate"
-            value={endDate}
-            onDateChange={e => setEndDate(e.target.value)}
+            value={endDateBuffer}
+            onDateChange={e => setEndDateBuffer(e.target.value)}
           />
           <VaButtonPair
             className="vads-u-margin-top--4"
@@ -187,19 +113,25 @@ export default function AccountActivity() {
           <va-table-row slot="headers">
             <span>Timestamp</span>
             <span>Event</span>
-            <span>Performed By</span>
             <span>IP Address</span>
             <span>Device Information</span>
             <span>Status</span>
           </va-table-row>
-          {currentItems.map((record, index) => (
+          {data.map((record, index) => (
             <va-table-row key={index}>
-              <span>{formatTimestamp(record.timestamp)}</span>
-              <span>{record.event}</span>
-              <span>{record.performer}</span>
-              <span>{record.ipAddress}</span>
-              <span>{record.device}</span>
-              <span>{record.status}</span>
+              <span>{formatTimestamp(record.attributes.createdAt)}</span>
+              <span>
+                {
+                  included.find(
+                    otherRecord =>
+                      otherRecord.id ===
+                      record.relationships.userActionEvent.data.id,
+                  )?.attributes.details
+                }
+              </span>
+              <span>{record.attributes.actingIpAddress}</span>
+              <span>{record.attributes.actingUserAgent}</span>
+              <span>{record.attributes.status}</span>
             </va-table-row>
           ))}
         </va-table>
