@@ -37,6 +37,8 @@ class LabsAndTestsListPage extends BaseListPage {
     if (waitForLabsAndTests) {
       cy.wait('@LabsAndTestsList');
       cy.wait('@RadiologyRecordsMhv');
+      cy.wait('@CvixRadiologyRecordsMhv');
+      // cy.wait('@BbmiNotificationStatus');
     }
   };
 
