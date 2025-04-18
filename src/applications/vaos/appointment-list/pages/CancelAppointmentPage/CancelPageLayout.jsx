@@ -14,6 +14,8 @@ import {
 } from '../../../components/layouts/DetailPageLayout';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import Section from '../../../components/Section';
+import { selectFeatureFeSourceOfTruthModality } from '../../../redux/selectors';
+import { isInPersonVAAppointment } from '../../../services/appointment';
 import { getRealFacilityId } from '../../../utils/appointment';
 import {
   AppointmentDate,
@@ -24,12 +26,11 @@ import {
   selectIsCanceled,
   selectIsPhone,
 } from '../../redux/selectors';
-import { isInPersonVAAppointment } from '../../../services/appointment';
 
-function getHeading(appointment) {
+function getHeading(appointment, useFeSourceOfTruthModality) {
   const isCanceled = selectIsCanceled(appointment);
 
-  if (isInPersonVAAppointment(appointment)) {
+  if (isInPersonVAAppointment(appointment, useFeSourceOfTruthModality)) {
     if (isCanceled) return 'Canceled in-person appointment';
     return 'In-person appointment';
   }
@@ -61,8 +62,11 @@ export default function CancelPageLayout() {
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
+  const useFeSourceOfTruthModality = useSelector(state =>
+    selectFeatureFeSourceOfTruthModality(state),
+  );
 
-  const heading = getHeading(appointment);
+  const heading = getHeading(appointment, useFeSourceOfTruthModality);
   const { reasonForAppointment, patientComments } = appointment || {};
   const facilityId = locationId;
 

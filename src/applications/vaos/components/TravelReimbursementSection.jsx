@@ -1,15 +1,23 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { getDaysRemainingToFileClaim } from '../utils/appointment';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
+import { selectFeatureFeSourceOfTruthModality } from '../redux/selectors';
+import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
 export default function TravelReimbursementSection({ appointment }) {
-  const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(appointment);
+  const useFeSourceOfTruthModality = useSelector(state =>
+    selectFeatureFeSourceOfTruthModality(state),
+  );
+  const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(
+    appointment,
+    useFeSourceOfTruthModality,
+  );
   if (!isEligibleForTravelClaim) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);

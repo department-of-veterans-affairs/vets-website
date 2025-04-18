@@ -1,7 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectFeatureFeSourceOfTruthModality } from '../redux/selectors';
 import { getCalendarData } from '../services/appointment';
 import { generateICS } from '../utils/calendar';
 
@@ -21,6 +23,10 @@ function handleClick({ filename, ics }) {
 }
 
 export default function AddToCalendarButton({ appointment, facility }) {
+  const useFeSourceOfTruthModality = useSelector(state =>
+    selectFeatureFeSourceOfTruthModality(state),
+  );
+
   const isCC = appointment.vaos.isCommunityCare;
   const startDate = moment.parseZone(appointment?.start);
   const duration = appointment?.minutesDuration;
@@ -35,6 +41,7 @@ export default function AddToCalendarButton({ appointment, facility }) {
   } = getCalendarData({
     appointment,
     facility,
+    useFeSourceOfTruthModality,
   });
   const description = {
     text,
