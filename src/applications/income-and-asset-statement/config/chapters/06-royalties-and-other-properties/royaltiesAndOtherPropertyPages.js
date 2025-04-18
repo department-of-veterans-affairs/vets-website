@@ -5,6 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
@@ -14,7 +16,6 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -198,8 +199,8 @@ const generatedIncomeTypePage = {
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
-    grossMonthlyIncome: currencyUI({ title: 'Gross monthly income' }),
-    fairMarketValue: currencyUI({ title: 'Fair market value of this asset' }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
+    fairMarketValue: currencyUI('Fair market value of this asset'),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',
     }),
@@ -218,8 +219,8 @@ const generatedIncomeTypePage = {
         properties: {},
       },
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
-      fairMarketValue: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
+      fairMarketValue: currencySchema,
       canBeSold: yesNoSchema,
       mitigatingCircumstances: textareaSchema,
     },

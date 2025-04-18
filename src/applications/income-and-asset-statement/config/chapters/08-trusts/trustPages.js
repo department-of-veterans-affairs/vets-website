@@ -5,6 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -12,7 +14,6 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateShort } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
@@ -119,16 +120,15 @@ const informationPage = {
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the trust established?'),
-    marketValueAtEstablishment: currencyUI({
-      title:
-        'What was the market value of all assets within the trust at the time of establishment?',
-    }),
+    marketValueAtEstablishment: currencyUI(
+      'What was the market value of all assets within the trust at the time of establishment?',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
       establishedDate: currentOrPastDateSchema,
-      marketValueAtEstablishment: { type: 'number' },
+      marketValueAtEstablishment: currencySchema,
     },
     required: ['establishedDate', 'marketValueAtEstablishment'],
   },
@@ -159,18 +159,20 @@ const incomePage = {
     receivingIncomeFromTrust: yesNoUI(
       'Are you receiving income from the trust?',
     ),
-    annualReceivedIncome: currencyUI({
-      title: 'How much is the annual amount received?',
-      expandUnder: 'receivingIncomeFromTrust',
-      expandUnderCondition: true,
-      required: annualReceivedIncomeFromTrustRequired,
-    }),
+    annualReceivedIncome: {
+      ...currencyUI({
+        title: 'How much is the annual amount received?',
+        expandUnder: 'receivingIncomeFromTrust',
+        expandUnderCondition: true,
+      }),
+      'ui:required': annualReceivedIncomeFromTrustRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       receivingIncomeFromTrust: yesNoSchema,
-      annualReceivedIncome: { type: 'number' },
+      annualReceivedIncome: currencySchema,
     },
     required: ['receivingIncomeFromTrust'],
   },
@@ -183,18 +185,20 @@ const medicalExpensePage = {
     trustUsedForMedicalExpenses: yesNoUI(
       'Is the trust being used to pay for or to reimburse someone else for your medical expenses?',
     ),
-    monthlyMedicalReimbursementAmount: currencyUI({
-      title: 'How much is the amount being reimbursed monthly?',
-      expandUnder: 'trustUsedForMedicalExpenses',
-      expandUnderCondition: true,
-      required: monthlyMedicalReimbursementAmountRequired,
-    }),
+    monthlyMedicalReimbursementAmount: {
+      ...currencyUI({
+        title: 'How much is the amount being reimbursed monthly?',
+        expandUnder: 'trustUsedForMedicalExpenses',
+        expandUnderCondition: true,
+      }),
+      'ui:required': monthlyMedicalReimbursementAmountRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       trustUsedForMedicalExpenses: yesNoSchema,
-      monthlyMedicalReimbursementAmount: { type: 'number' },
+      monthlyMedicalReimbursementAmount: currencySchema,
     },
     required: ['trustUsedForMedicalExpenses'],
   },
@@ -256,13 +260,13 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: currencyUI({ title: 'How much did you add?' }),
+    addedFundsAmount: currencyUI('How much did you add?'),
   },
   schema: {
     type: 'object',
     properties: {
       addedFundsDate: currentOrPastDateSchema,
-      addedFundsAmount: { type: 'number' },
+      addedFundsAmount: currencySchema,
     },
     required: ['addedFundsDate', 'addedFundsAmount'],
   },

@@ -5,12 +5,13 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -198,10 +199,8 @@ const ownedAssetTypePage = {
         expandUnderCondition: 'FARM',
       },
     },
-    grossMonthlyIncome: currencyUI({ title: 'Gross monthly income' }),
-    ownedPortionValue: currencyUI({
-      title: 'Value of your portion of the property',
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
+    ownedPortionValue: currencyUI('Value of your portion of the property'),
   },
   schema: {
     type: 'object',
@@ -212,8 +211,8 @@ const ownedAssetTypePage = {
         properties: {},
       },
       'view:farmFormRequestAlert': { type: 'object', properties: {} },
-      grossMonthlyIncome: { type: 'number' },
-      ownedPortionValue: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
+      ownedPortionValue: currencySchema,
     },
     required: ['assetType', 'grossMonthlyIncome', 'ownedPortionValue'],
   },

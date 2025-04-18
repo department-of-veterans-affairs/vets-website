@@ -5,6 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
@@ -15,7 +17,6 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -191,14 +192,14 @@ const incomePayerPage = {
 const incomeAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
-    waivedGrossMonthlyIncome: currencyUI({
-      title: 'What is the gross monthly income amount?',
-    }),
+    waivedGrossMonthlyIncome: currencyUI(
+      'What is the gross monthly income amount?',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      waivedGrossMonthlyIncome: { type: 'number' },
+      waivedGrossMonthlyIncome: currencySchema,
     },
     required: ['waivedGrossMonthlyIncome'],
   },
@@ -246,14 +247,12 @@ const incomeDatePage = {
 const expectedIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
-    expectedIncome: currencyUI({
-      title: 'What amount do you expect to receive?',
-    }),
+    expectedIncome: currencyUI('What amount do you expect to receive?'),
   },
   schema: {
     type: 'object',
     properties: {
-      expectedIncome: { type: 'number' },
+      expectedIncome: currencySchema,
     },
     required: ['expectedIncome'],
   },

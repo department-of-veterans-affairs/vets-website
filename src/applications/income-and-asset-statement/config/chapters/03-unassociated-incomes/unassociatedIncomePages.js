@@ -5,12 +5,13 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -191,9 +192,7 @@ const incomeTypePage = {
           'unassociatedIncomes',
         ),
     },
-    grossMonthlyIncome: currencyUI({
-      title: 'Gross monthly income',
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, or program, etc.',
@@ -204,7 +203,7 @@ const incomeTypePage = {
     properties: {
       incomeType: radioSchema(Object.keys(incomeTypeLabels)),
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
       payer: textSchema,
     },
     required: ['incomeType', 'grossMonthlyIncome', 'payer'],
