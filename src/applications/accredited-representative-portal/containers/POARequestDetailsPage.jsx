@@ -7,7 +7,6 @@ import {
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import {
   expiresSoon,
   formatStatus,
@@ -24,7 +23,7 @@ const DECISION_TYPES = {
   DECLINATION: 'declination',
 };
 
-const DECLINATION_OPTIONS_ORIGINAL = {
+const DECLINATION_OPTIONS = {
   DECLINATION_HEALTH_RECORDS_WITHHELD: {
     type: DECISION_TYPES.DECLINATION,
     reason: "Decline, because change of address isn't authorized",
@@ -47,43 +46,6 @@ const DECLINATION_OPTIONS_ORIGINAL = {
     reason: 'Decline, because of another reason',
   },
 };
-
-const DECLINATION_OPTIONS_NEW = {
-  HEALTH_WITHHELD: {
-    type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because change of address isn't authorized",
-  },
-  ADDRESS_WITHHELD: {
-    type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because protected medical record access is limited',
-  },
-  BOTH_WITHHELD: {
-    type: DECISION_TYPES.DECLINATION,
-    reason:
-      "Decline, because change of address isn't authorized and protected medical record access is limited",
-  },
-  NOT_ACCEPTING_CLIENTS: {
-    type: DECISION_TYPES.DECLINATION,
-    reason: "Decline, because the VSO isn't accepting new clients",
-  },
-  OTHER: {
-    type: DECISION_TYPES.DECLINATION,
-    reason: 'Decline, because of another reason',
-  },
-};
-
-let DECLINATION_OPTIONS;
-
-<Toggler.Hoc
-  toggleName={Toggler.TOGGLE_NAMES.replaceIfWeDecideWeActuallyNeedThis}
->
-  {toggleValue => {
-    DECLINATION_OPTIONS = toggleValue
-      ? DECLINATION_OPTIONS_NEW
-      : DECLINATION_OPTIONS_ORIGINAL;
-    return null; // This is just for the toggle logic; no UI rendering here
-  }}
-</Toggler.Hoc>;
 
 const DECISION_OPTIONS = {
   ACCEPTANCE: {
