@@ -117,12 +117,12 @@ export const formerMarriageEndReasonPage = {
       return 'Spouse’s former marriage';
     }),
     reasonMarriageEnded: radioUI({
-      title: 'How did their marriage end?',
+      title: 'How did your spouse’s previous marriage end?',
       labels: spouseFormerMarriageLabels,
       labelHeaderLevel: '3',
     }),
     otherReasonMarriageEnded: {
-      'ui:title': 'Briefly describe how their marriage ended',
+      'ui:title': 'Briefly describe how your spouse’s previous marriage ended',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
@@ -163,7 +163,7 @@ export const formerMarriageStartDatePage = {
       return 'Spouse’s former marriage';
     }),
     startDate: {
-      ...currentOrPastDateUI('When did they get married?'),
+      ...currentOrPastDateUI('When did your spouse previously get married?'),
       'ui:required': () => true,
     },
   },
@@ -181,7 +181,7 @@ export const formerMarriageEndDatePage = {
       return 'Spouse’s former marriage';
     }),
     endDate: {
-      ...currentOrPastDateUI('When did their marriage end?'),
+      ...currentOrPastDateUI('When did your spouse’s former marriage end?'),
       'ui:required': () => true,
       'ui:validations': [
         {
@@ -215,7 +215,7 @@ export const formerMarriageStartLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     startLocation: {
-      'ui:title': 'Where did they get married?',
+      'ui:title': 'Where did your spouse previously get married?',
       'ui:options': {
         labelHeaderLevel: '4',
       },
@@ -229,7 +229,7 @@ export const formerMarriageStartLocationPage = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where your spouse was previously married',
           },
           'ui:webComponentField': VaTextInputField,
         },
@@ -285,7 +285,7 @@ export const formerMarriageEndLocationPage = {
       ...titleUI({
         title: 'Where did the marriage end?',
         description:
-          'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
+          'If your spouse got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
       }),
       'ui:options': {
         labelHeaderLevel: '4',
