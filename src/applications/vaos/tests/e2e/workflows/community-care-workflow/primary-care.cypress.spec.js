@@ -1,5 +1,4 @@
 // @ts-check
-import moment from 'moment';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
   mockAppointmentGetApi,
@@ -39,7 +38,7 @@ describe('VAOS community care flow - Primary care', () => {
 
     const response = new MockAppointmentResponse({
       id: 'mock1',
-      localStartTime: moment(),
+      localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
       serviceType: 'primaryCare',
     });

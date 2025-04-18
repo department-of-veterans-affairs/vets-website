@@ -1,39 +1,39 @@
 // @ts-check
-import moment from 'moment';
+import { addMonths } from 'date-fns';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../fixtures/MockSlotResponse';
 import MockUser from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
+import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
+import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
-  mockAppointmentGetApi,
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
   mockEligibilityApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
   mockSlotsApi,
   mockVamcEhrApi,
   vaosSetup,
-  mockEligibilityCCApi,
 } from '../../vaos-cypress-helpers';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
-import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
@@ -58,7 +58,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         const response = new MockAppointmentResponse({
           id: 'mock1',
-          localStartTime: moment(),
+          localStartTime: new Date(),
           status: APPOINTMENT_STATUS.booked,
           serviceType: 'primaryCare',
           future: true,
@@ -94,7 +94,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -167,7 +167,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -236,7 +236,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -315,7 +315,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -392,7 +392,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         const response = new MockAppointmentResponse({
           id: 'mock1',
-          localStartTime: moment(),
+          localStartTime: new Date(),
           status: APPOINTMENT_STATUS.booked,
           serviceType: 'primaryCare',
           future: true,
@@ -419,7 +419,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [moment().add(1, 'month')],
+            startTimes: [addMonths(new Date(), 1)],
           }),
         });
       };
@@ -567,7 +567,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -604,7 +604,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
         serviceType: 'primaryCare',
         future: true,
@@ -643,7 +643,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [moment().add(1, 'month')],
+            startTimes: [addMonths(new Date(), 1)],
           }),
         });
       });

@@ -53,6 +53,15 @@ export default class PageObject {
     return this;
   }
 
+  /**
+   * @param {Object} props - Properties used to determine what type of mock appointment to create.
+   * @param {Object=} props.name - Name of the link.
+   * @param {Object=} props.exist - Assert if the link exists or not.
+   * @param {Object=} props.useShadowDOM - Search shadow DOM for the link.
+   *
+   * @returns
+   * @memberof PageObject
+   */
   assertLink({ name, exist = true, useShadowDOM = false } = {}) {
     if (useShadowDOM) {
       cy.get('va-link')
