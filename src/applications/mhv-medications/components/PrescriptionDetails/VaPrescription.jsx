@@ -906,7 +906,7 @@ const VaPrescription = prescription => {
     return (
       <va-loading-indicator
         message="Loading your medication record..."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     );

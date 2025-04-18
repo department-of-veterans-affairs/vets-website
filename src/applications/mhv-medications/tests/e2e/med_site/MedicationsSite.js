@@ -8,11 +8,15 @@ import { Paths } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
 import { medicationsUrls } from '../../../util/constants';
 import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
+import mockTooltips from '../fixtures/tooltip-visible-list-page.json';
+import mockAllergies from '../fixtures/allergies.json';
 
 class MedicationsSite {
   login = (isMedicationsUser = true) => {
     this.mockFeatureToggles();
     this.mockVamcEhr();
+    this.mockTooltips();
+    this.mockAllergies();
 
     if (isMedicationsUser) {
       cy.intercept(
@@ -194,6 +198,23 @@ class MedicationsSite {
 
   mockVamcEhr = () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamcEhr).as('vamcEhr');
+  };
+
+  mockTooltips = () => {
+    cy.intercept('GET', '/my_health/v1/tooltips', mockTooltips);
+    cy.intercept('PATCH', '/my_health/v1/tooltips/*', {});
+  };
+
+  mockAllergies = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      mockAllergies,
+    );
+  };
+
+  mockPrescriptions = () => {
+    cy.intercept('GET', '/my_health/v1/prescriptions?*', prescriptions);
   };
 
   unallowedUserLogin = user => {

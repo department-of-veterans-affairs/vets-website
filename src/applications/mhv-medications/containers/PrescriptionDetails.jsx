@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
@@ -328,13 +329,12 @@ const PrescriptionDetails = () => {
     };
     return (
       <>
-        <va-alert
+        <VaAlert
           visible={pendingMed}
           id="pending-med"
           status={`${orderedMoreThanSevenDaysAgo() ? 'warning' : 'info'}`}
           setFocus
-          uswds
-          class={
+          className={
             pendingMed
               ? 'vads-u-margin-y--1 vads-u-margin-bottom--3'
               : 'vads-u-margin-bottom--3'
@@ -368,7 +368,7 @@ const PrescriptionDetails = () => {
             )}
             .
           </p>
-        </va-alert>
+        </VaAlert>
       </>
     );
   };
@@ -496,7 +496,7 @@ const PrescriptionDetails = () => {
     return (
       <va-loading-indicator
         message="Loading your medication record..."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     );
