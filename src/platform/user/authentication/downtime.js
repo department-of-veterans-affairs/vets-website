@@ -5,7 +5,8 @@ import {
   parseJSON,
   isValid,
   format,
-  differenceInHours,
+  formatDuration,
+  intervalToDuration,
 } from 'date-fns';
 import { format as fmtTZ } from 'date-fns-tz';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
@@ -118,8 +119,12 @@ export const createMaintenanceBanner = ({
   const startTime = parseJSON(startingTime);
   const startDate = format(startTime, `PPPP`);
   const endTime = parseJSON(endingTime);
-  const hours = differenceInHours(endTime, startTime);
-  const howLongMaintLasts = `${hours} hour${hours > 1 ? 's' : ''}`;
+
+  const time = intervalToDuration({ start: startTime, end: endTime });
+  const howLongMaintLasts = formatDuration(time, {
+    delimiter: ' and ',
+    format: ['hours', 'minutes'],
+  });
 
   if (!isValid(startTime) || !isValid(endTime)) {
     return null;
