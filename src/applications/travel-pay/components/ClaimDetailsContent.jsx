@@ -36,23 +36,20 @@ export default function ClaimDetailsContent(props) {
 
   const getDocLinkList = list =>
     // TODO: Replace href with download mechanism (encoded string, blob, etc)
-    // NOTE: Specifically not using va-link download to be able to add a click handler for the dl endpoint
     list.map(({ href, filename, text }) => (
       <div
         key={`claim-attachment-dl-${filename}`}
         className="vads-u-margin-top--1"
       >
-        <a
-          href={href ?? '#'}
+        <va-link
           download
-          // onClick={() => {}}
-        >
-          <va-icon
-            class="vads-u-margin-right--1 travel-pay-claim-download-link-icon"
-            icon="file_download"
-          />
-          <span className="vads-u-text-decoration--underline">{text}</span>
-        </a>
+          href={href ?? '#'}
+          text={text}
+          onClick={e => {
+            e.preventDefault();
+            // TODO: Implement download
+          }}
+        />
       </div>
     ));
 
@@ -61,13 +58,37 @@ export default function ClaimDetailsContent(props) {
       // Do not show clerk note attachments
       if (!doc.mimetype) return acc;
       // TODO: Solidify on pattern match criteria for decision letter, other statically named docs
-      if (doc.filename.includes('DecisionLetter'))
+      if (
+        doc.filename.includes('Rejection Letter') ||
+        doc.filename.includes('Decision Letter')
+      )
         acc.clerk.push({ ...doc, text: 'Download your decision letter' });
-      else acc.user.push({ ...doc, text: doc.filename });
+      else if (
+        doc.filename ===
+        'VA Form 10-0998 Your Rights to Appeal Our Decision.pdf'
+      ) {
+        acc.forms.push(doc);
+      } else {
+        acc.user.push({ ...doc, text: doc.filename });
+      }
       return acc;
     },
-    { clerk: [], user: [] },
+    { clerk: [], user: [], forms: [] },
   );
+
+  const appealLinkProps =
+    documentCategories.forms.length > 0
+      ? {
+          download: true,
+          href: '#',
+          onClick: e => {
+            e.preventDefault();
+            // TODO: Implement download
+          },
+        }
+      : {
+          href: FORM_100998_LINK,
+        };
 
   return (
     <>
@@ -84,7 +105,7 @@ export default function ClaimDetailsContent(props) {
       {claimsMgmtToggle && (
         <>
           <va-additional-info
-            class="vads-u-margin-y--3"
+            class="vads-u-margin-y--2"
             trigger="What does this status mean?"
           >
             {STATUSES[toPascalCase(claimStatus)] ? (
@@ -131,7 +152,30 @@ export default function ClaimDetailsContent(props) {
               {getDocLinkList(documentCategories.user)}
             </>
           )}
-          {claimStatus === STATUSES.Denied.name && <AppealContent />}
+          {claimStatus === STATUSES.Denied.name && (
+            <>
+              <h2 className="vads-u-font-size--h3">
+                Appealing a claim decision
+              </h2>
+              <p>If you would like to appeal this decision you can:</p>
+              <ul>
+                <li>Submit an appeal via the Board of Appeals.</li>
+                <li>
+                  Send a secure message to the Beneficiary Travel team of the VA
+                  facility that provided your care or of you home VA facility.
+                </li>
+                <li>
+                  Mail a printed version of{' '}
+                  <va-link text="VA Form 10-0998 (PDF)" {...appealLinkProps} />{' '}
+                  with the appropriate documentation.
+                </li>
+              </ul>
+              <va-link-action
+                text="Appeal the claim decision"
+                href="/decision-reviews"
+              />
+            </>
+          )}
         </>
       )}
     </>
@@ -148,28 +192,3 @@ ClaimDetailsContent.propTypes = {
   documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
 };
-
-function AppealContent() {
-  return (
-    <>
-      <h2 className="vads-u-font-size--h3">Appealing a claim decision</h2>
-      <p>If you would like to appeal this decision you can:</p>
-      <ul>
-        <li>Submit an appeal via the Board of Appeals.</li>
-        <li>
-          Send a secure message to the Beneficiary Travel team of the VA
-          facility that provided your care or of you home VA facility.
-        </li>
-        <li>
-          Mail a printed version of{' '}
-          <va-link href={FORM_100998_LINK} text="VA Form 10-0998 (PDF)" /> with
-          the appropriate documentation.
-        </li>
-      </ul>
-      <va-link-action
-        text="Appeal the claim decision"
-        href="/decision-reviews"
-      />
-    </>
-  );
-}
