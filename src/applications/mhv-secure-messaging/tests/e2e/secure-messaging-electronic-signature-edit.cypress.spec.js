@@ -4,22 +4,17 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('EDIT SIGNATURE FEATURE', () => {
-  it('verify "Edit preferences" button', () => {
+  it('verify "Edit signature" link', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
 
-    cy.get(Locators.BUTTONS.PREFERENCES).click();
+    cy.get(`[data-testid="edit-signature-link"]`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.EDIT_SIGNATURE)
+      .and(`have.attr`, `href`, Data.LINKS.PROFILE_SIGNATURE);
 
-    cy.get('.va-modal-alert-body')
-      .find(Locators.HEADER2)
-      .should('have.text', Data.EDIT_YOUR_MSG_PREFRENCES);
-    cy.get(Locators.LINKS.PREFER_LINK)
-      .should('have.attr', 'href')
-      .and('contain', Data.LINKS.LEGACY_PREFERENCES);
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify "Edit signature" link', () => {
@@ -45,7 +40,6 @@ describe('EDIT SIGNATURE FEATURE', () => {
       .find('a')
       .should('have.attr', `href`, Data.LINKS.PROFILE_SIGNATURE);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

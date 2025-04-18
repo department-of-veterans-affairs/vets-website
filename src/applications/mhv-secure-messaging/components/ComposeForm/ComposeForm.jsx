@@ -40,7 +40,6 @@ import {
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
-import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
 import { RadioCategories } from '../../util/inputContants';
@@ -974,7 +973,6 @@ const ComposeForm = props => {
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
           />
-          <EditPreferences />
         </div>
       </form>
     </>
