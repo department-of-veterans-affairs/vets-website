@@ -806,7 +806,7 @@ jobs:
         run: |
           REPORT="cypress/results/cypress-mochawesome-tests-results-${{ matrix.ci_node_index }}.json"
           if [ -f "$REPORT" ]; then
-            echo "e2e_report=true" >> $GITHUB_ENV
+            echo "e2e_report=true" >> $GITHUB_OUTPUT
           fi
 
   stress-test-cypress-tests:
