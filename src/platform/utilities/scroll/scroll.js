@@ -73,49 +73,62 @@ export const scrollToTop = async (
  * Find first error and scroll it to the top of the page, then focus on it
  * @param {ScrollOptions & scrollToFirstErrorOptions} options
  */
-export const scrollToFirstError = async options => {
-  const { focusOnAlertRole } = options || {};
+export const scrollToFirstError = async (options = {}) => {
+  const { focusOnAlertRole = false, maxWait = 500, retryDelay = 25 } = options;
 
-  return new Promise(resolve => {
-    setTimeout(() => {
-      // [error] will focus any web-components with an error message
-      const errorEl = document.querySelector(ERROR_ELEMENTS.join(','));
-      if (errorEl) {
-        const position = getElementPosition(errorEl);
-        // Don't animate the scrolling if there is an open modal on the page. This
-        // prevents the page behind the modal from scrolling if there is an error in
-        // modal's form.
-
-        // We have to search the shadow root of web components that have a slotted va-modal
-        const isShadowRootModalOpen = Array.from(
-          document.querySelectorAll('va-omb-info'),
-        ).some(ombInfo =>
-          ombInfo.shadowRoot?.querySelector(
-            'va-modal[visible]:not([visible="false"])',
-          ),
-        );
-
-        const isModalOpen =
-          document.body.classList.contains('modal-open') ||
-          document.querySelector('va-modal[visible]:not([visible="false"])') ||
-          isShadowRootModalOpen;
-
-        if (!isModalOpen) {
-          scrollTo(position - 10, options);
-
-          if (focusOnAlertRole && errorEl.tagName.startsWith('VA-')) {
-            focusElement('[role="alert"]', {}, errorEl.shadowRoot);
-          } else {
-            focusElement(errorEl);
-          }
+  // initialize retry logic for finding error element
+  const waitForElement = (selector, timeout = maxWait) => {
+    return new Promise((resolve, reject) => {
+      const start = Date.now();
+      const runCheck = () => {
+        const el = document.querySelector(selector);
+        if (el) return resolve(el);
+        if (Date.now() - start > timeout) {
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return reject({
+            message: 'Error element not found',
+            element: selector,
+          });
         }
-      } else {
-        // eslint-disable-next-line no-console
-        console.warn('scrollToFirstError: No error found', errorEl);
-      }
-      resolve();
+        return setTimeout(runCheck, retryDelay);
+      };
+      runCheck();
     });
-  });
+  };
+
+  try {
+    const selector = ERROR_ELEMENTS.join(',');
+    const errorEl = await waitForElement(selector);
+    const position = getElementPosition(errorEl);
+
+    // check for any modals that would interfere with scrolling
+    const isShadowRootModalOpen = Array.from(
+      document.querySelectorAll('va-omb-info'),
+    ).some(ombInfo =>
+      ombInfo.shadowRoot?.querySelector(
+        'va-modal[visible]:not([visible="false"])',
+      ),
+    );
+    const isModalOpen =
+      document.body.classList.contains('modal-open') ||
+      document.querySelector('va-modal[visible]:not([visible="false"])') ||
+      isShadowRootModalOpen;
+
+    // prevent page scroll if there is an open modal, as the error could
+    // be within the modal itself
+    if (!isModalOpen) {
+      scrollTo(position - 10, options);
+
+      if (focusOnAlertRole && errorEl.tagName.startsWith('VA-')) {
+        focusElement('[role="alert"]', {}, errorEl.shadowRoot);
+      } else {
+        focusElement(errorEl);
+      }
+    }
+  } catch ({ message, element }) {
+    // eslint-disable-next-line no-console
+    console.warn(`scrollToFirstError: ${message}`, element);
+  }
 };
 
 export const scrollAndFocus = (target, options) =>

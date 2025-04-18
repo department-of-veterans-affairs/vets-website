@@ -13,17 +13,13 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element, scrollToFirstError } from 'platform/utilities/scroll';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
-import {
-  scrollToFirstError,
-  focusElement,
-  getFocusableElements,
-} from '../utilities/ui';
+import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
+import { focusElement, getFocusableElements } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
-import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
 import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */

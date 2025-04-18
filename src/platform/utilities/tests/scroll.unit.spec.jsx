@@ -319,17 +319,46 @@ describe('scrollToTop', () => {
 });
 
 describe('scrollToFirstError', () => {
-  beforeEach(() => {
-    global.window.Forms = {};
-  });
+  let scrollSpy;
+  let focusStub;
+  let consoleStub;
 
-  it('should scroll to & focus first usa-input-error class', async () => {
-    const scrollSpy = sinon.spy();
-    const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+  const subject = children =>
     render(
       <form>
         <p />
+        {children}
+      </form>,
+    );
+
+  const assertScrollSpy = () =>
+    sinon.assert.calledWithExactly(scrollSpy, {
+      top: -10,
+      left: 0,
+      behavior: 'smooth',
+    });
+
+  const assertFocusStub = value =>
+    sinon.assert.calledWithMatch(focusStub, value);
+
+  beforeEach(() => {
+    scrollSpy = sinon.spy();
+    focusStub = sinon.stub(focusUtils, 'focusElement');
+    consoleStub = sinon.stub(console, 'warn');
+
+    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'Forms', { value: {} });
+  });
+
+  afterEach(() => {
+    scrollSpy.reset();
+    focusStub.restore();
+    consoleStub.restore();
+  });
+
+  it('should scroll & apply focus to first element with `usa-input-error` class', async () => {
+    subject(
+      <>
         <div id="first" className="usa-input">
           not an error
         </div>
@@ -339,27 +368,17 @@ describe('scrollToFirstError', () => {
         <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>
-      </form>,
+      </>,
     );
     await scrollToFirstError();
 
-    expect(scrollSpy.called).to.be.true;
-    expect(scrollSpy.args[0][0]).to.deep.equal({
-      top: -10,
-      left: 0,
-      behavior: 'smooth',
-    });
-    expect(focusSpy.args[0][0].id).to.eq('second');
-    focusSpy.restore();
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'second'));
   });
 
-  it('should scroll to & focus first input-error-date class', async () => {
-    const scrollSpy = sinon.spy();
-    const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
-    render(
-      <form>
-        <p />
+  it('should scroll & apply focus to first element with `input-error-date` class', async () => {
+    subject(
+      <>
         <div id="first" className="usa-input">
           not an error
         </div>
@@ -369,27 +388,17 @@ describe('scrollToFirstError', () => {
         <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>
-      </form>,
+      </>,
     );
     await scrollToFirstError();
 
-    expect(scrollSpy.called).to.be.true;
-    expect(scrollSpy.args[0][0]).to.deep.equal({
-      top: -10,
-      left: 0,
-      behavior: 'smooth',
-    });
-    expect(focusSpy.args[0][0].id).to.eq('second');
-    focusSpy.restore();
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'second'));
   });
 
-  it('should scroll to & focus first error attribute (web component)', async () => {
-    const scrollSpy = sinon.spy();
-    const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
-    render(
-      <form>
-        <p />
+  it('should scroll & apply focus to first element with error attribute', async () => {
+    subject(
+      <>
         <div id="first" className="usa-input">
           not an error
         </div>
@@ -399,27 +408,17 @@ describe('scrollToFirstError', () => {
         <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>
-      </form>,
+      </>,
     );
     await scrollToFirstError();
 
-    expect(scrollSpy.called).to.be.true;
-    expect(scrollSpy.args[0][0]).to.deep.equal({
-      top: -10,
-      left: 0,
-      behavior: 'smooth',
-    });
-    expect(focusSpy.args[0][0].id).to.eq('second');
-    focusSpy.restore();
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'second'));
   });
 
-  it('should scroll to & focus first error attribute (web component) and ignore empty error attributes', async () => {
-    const scrollSpy = sinon.spy();
-    const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
-    render(
-      <form>
-        <p />
+  it('should scroll & apply focus fo first element with error attribute and ignore empty error attributes', async () => {
+    subject(
+      <>
         <div id="first" className="usa-input" error>
           not an error
         </div>
@@ -433,27 +432,17 @@ describe('scrollToFirstError', () => {
         >
           error 2
         </div>
-      </form>,
+      </>,
     );
     await scrollToFirstError();
 
-    expect(scrollSpy.called).to.be.true;
-    expect(scrollSpy.args[0][0]).to.deep.equal({
-      top: -10,
-      left: 0,
-      behavior: 'smooth',
-    });
-    expect(focusSpy.args[0][0].id).to.eq('third');
-    focusSpy.restore();
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'third'));
   });
 
-  it('should scroll to first error attribute (web component) & focus internal role="alert"', async () => {
-    const scrollSpy = sinon.spy();
-    const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
-    render(
-      <form>
-        <p />
+  it('should scroll to first element with error attribute & apply focus to internal `role="alert"`', async () => {
+    subject(
+      <>
         <div id="first" className="usa-input">
           not an error
         </div>
@@ -461,27 +450,17 @@ describe('scrollToFirstError', () => {
         <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>
-      </form>,
+      </>,
     );
     await scrollToFirstError({ focusOnAlertRole: true });
 
-    expect(scrollSpy.called).to.be.true;
-    expect(scrollSpy.args[0][0]).to.deep.equal({
-      top: -10,
-      left: 0,
-      behavior: 'smooth',
-    });
-    expect(focusSpy.args[0][0]).to.eq('[role="alert"]');
-    focusSpy.restore();
+    assertScrollSpy();
+    assertFocusStub('[role="alert"]');
   });
 
-  it('should not scroll or focus if a modal is open', async () => {
-    const scrollSpy = sinon.spy();
-    const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
-    render(
-      <form>
-        <p />
+  it('should not scroll or apply focus when a modal is open', async () => {
+    subject(
+      <>
         <div id="first" className="usa-input">
           not an error
         </div>
@@ -492,13 +471,61 @@ describe('scrollToFirstError', () => {
           error 2
         </div>
         <va-modal visible="true" />
-      </form>,
+      </>,
     );
     await scrollToFirstError();
 
-    expect(scrollSpy.notCalled).to.be.true;
-    expect(focusSpy.notCalled).to.be.true;
-    focusSpy.restore();
+    sinon.assert.notCalled(scrollSpy);
+    sinon.assert.notCalled(focusStub);
+  });
+
+  it('should not scroll or apply focus when a modal is open inside of a shadow root', async () => {
+    // render with existing error element
+    const { container } = subject(
+      <>
+        <div id="first" className="usa-input-error">
+          error 1
+        </div>
+      </>,
+    );
+
+    // create `va-omb-info` component with open modal in its shadow root
+    const shadowHost = document.createElement('va-omb-info');
+    const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+    const modal = document.createElement('va-modal');
+    modal.setAttribute('visible', 'true');
+    shadowRoot.appendChild(modal);
+    container.querySelector('form').appendChild(shadowHost);
+
+    await scrollToFirstError();
+    sinon.assert.notCalled(scrollSpy);
+    sinon.assert.notCalled(focusStub);
+  });
+
+  it('should retry until the error element appears (simulating a longer re-render time)', async () => {
+    // render with no initial error element
+    const { container } = subject();
+
+    // Add error element after a small delay
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'usa-input-error';
+      div.id = 'delayed';
+      container.querySelector('form').appendChild(div);
+    }, 50);
+    await scrollToFirstError();
+
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'delayed'));
+  });
+
+  it('should log a warning after max number of retries if no error element is found', async () => {
+    subject();
+    await scrollToFirstError();
+
+    sinon.assert.calledWithMatch(consoleStub, /Error element not found/);
+    sinon.assert.notCalled(focusStub);
+    sinon.assert.notCalled(scrollSpy);
   });
 });
 
