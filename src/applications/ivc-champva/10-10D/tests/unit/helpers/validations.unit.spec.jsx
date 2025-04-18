@@ -1,9 +1,11 @@
 import { expect } from 'chai';
+import { fieldsMustMatchValidation } from '../../../helpers/validations';
 import {
-  fieldsMustMatchValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
-} from '../../../helpers/validations';
+  validFieldCharsOnly,
+  validObjectCharsOnly,
+} from '../../../../shared/validations';
 
 const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
@@ -226,6 +228,126 @@ describe('validAddressCharsOnly validator', () => {
     };
 
     applicantAddressCleanValidation(addressErrors, props.page, props.formData);
+    expect(errorMessage.length === 0).to.be.true;
+  });
+});
+
+describe('validFieldCharsOnly validator', () => {
+  let errorMessage = [];
+  const addError = message => {
+    errorMessage.push(message || '');
+  };
+
+  beforeEach(() => {
+    errorMessage = [];
+  });
+
+  it('should add errors to text fields containing illegal chars', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      formData: {
+        someTextField: 'invalid"@%',
+      },
+    };
+
+    validFieldCharsOnly(
+      { someTextField: { addError } },
+      null,
+      props.formData,
+      'someTextField',
+    );
+
+    expect(errorMessage.length > 0).to.be.true;
+  });
+
+  it('should not add errors to valid text fields', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      formData: {
+        someTextField: 'this is valid text',
+      },
+    };
+
+    validFieldCharsOnly(
+      { someTextField: { addError } },
+      null,
+      props.formData,
+      'someTextField',
+    );
+
+    expect(errorMessage.length === 0).to.be.true;
+  });
+});
+
+describe('validObjectCharsOnly validator', () => {
+  let errorMessage = [];
+  const addError = message => {
+    errorMessage.push(message || '');
+  };
+  const fullNameErrors = {
+    first: { addError },
+    middle: { addError },
+    last: { addError },
+    suffix: { addError },
+  };
+  const validFullName = {
+    first: 'Jim',
+    middle: 'L',
+    last: 'Smith',
+    suffix: 'Jr.',
+  };
+  const invalidFullName = {
+    ...validFullName,
+    last: '"@%',
+  };
+
+  beforeEach(() => {
+    errorMessage = [];
+  });
+
+  it('should add errors to full name fields containing illegal characters', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      page: {},
+      formData: {
+        veteranFullName: {
+          ...invalidFullName,
+        },
+      },
+    };
+
+    validObjectCharsOnly(
+      { veteranFullName: fullNameErrors },
+      null,
+      props.formData,
+      'veteranFullName',
+    );
+
+    expect(errorMessage.length > 0).to.be.true;
+  });
+
+  it('should not add errors to valid full name fields', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      page: {},
+      formData: {
+        veteranFullName: {
+          ...validFullName,
+        },
+      },
+    };
+
+    validObjectCharsOnly(
+      { veteranFullName: fullNameErrors },
+      null,
+      props.formData,
+      'veteranFullName',
+    );
+
     expect(errorMessage.length === 0).to.be.true;
   });
 });

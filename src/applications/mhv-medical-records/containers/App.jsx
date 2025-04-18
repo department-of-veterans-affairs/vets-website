@@ -8,6 +8,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -110,6 +111,14 @@ const App = ({ children }) => {
     },
   };
   useDatadogRum(datadogRumConfig);
+
+  // Add unique user tracking
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading || user.profile.loading) {
     return (

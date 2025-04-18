@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LinkWithDescription from './LinkWithDescription';
 import NewFeatureProgramsYRTAlert from '../../components/profile/NewFeatureProgramsYRTAlert';
 
 const HomePage = () => {
   const [visibleAlert, setVisibleAlert] = useState(true);
+
+  useEffect(() => {
+    document.title = `GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
 
   return (
     <div className="vads-u-margin-bottom--8 vads-u-display--flex vads-u-flex-direction--column">
