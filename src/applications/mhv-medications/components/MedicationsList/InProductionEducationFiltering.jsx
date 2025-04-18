@@ -12,6 +12,7 @@ import {
   updateTooltipVisibility,
   getTooltip,
 } from '../../actions/tooltip'; // Adjust the import path according to your project structure
+import { selectDontIncrementIpeCountFlag } from '../../util/selectors';
 
 const InProductionEducationFiltering = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const InProductionEducationFiltering = () => {
   const tooltipId = useSelector(
     state => state?.rx?.inProductEducation?.tooltipId,
   );
+  const dontIncrementTooltipCount = useSelector(
+    selectDontIncrementIpeCountFlag,
+  );
 
   useEffect(
     () => {
@@ -31,7 +35,7 @@ const InProductionEducationFiltering = () => {
         if (filterTooltip) {
           dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-          if (!filterTooltip.hidden) {
+          if (!filterTooltip.hidden && !dontIncrementTooltipCount) {
             dispatch(incrementTooltip(filterTooltip.id));
           }
         } else {
