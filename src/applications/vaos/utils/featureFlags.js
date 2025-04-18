@@ -28,7 +28,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingFeSourceOfTruth', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthVA', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthCC', value: true },
-  { name: 'vaOnlineSchedulingFeSourceOfTruthModality', value: false },
+  { name: 'vaOnlineSchedulingFeSourceOfTruthModality', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: false },
   { name: 'vaOnlineSchedulingMhvRouteGuards', value: false },
   { name: 'vaOnlineSchedulingDirectScheduleAppointmentConflict', value: false },
