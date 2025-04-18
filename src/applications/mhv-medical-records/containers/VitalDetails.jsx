@@ -192,7 +192,7 @@ const VitalDetails = props => {
         setCurrentVitals(paginatedVitals.current[currentPage - 1]);
       }
     },
-    [records],
+    [currentPage, records],
   );
 
   const displayNums = fromToNums(currentPage, records?.length);

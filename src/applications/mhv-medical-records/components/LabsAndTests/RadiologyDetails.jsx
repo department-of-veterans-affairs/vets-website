@@ -113,17 +113,14 @@ const RadiologyDetails = props => {
         }
       }
     },
-    [studyJobs],
+    [dispatch, studyJobs, studyRequestLimitReached],
   );
 
-  useEffect(
-    () => {
-      if (processingAlertHeadingRef.current) {
-        setImageProcessingAlertRendered(true);
-      }
-    },
-    [processingAlertHeadingRef.current],
-  );
+  useEffect(() => {
+    if (processingAlertHeadingRef.current) {
+      setImageProcessingAlertRendered(true);
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -399,7 +396,7 @@ ${record.results}`;
         return (
           <va-loading-indicator
             message="Loading..."
-            set-focus
+            setFocus
             data-testid="loading-indicator"
           />
         );
