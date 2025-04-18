@@ -49,6 +49,8 @@ export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
 export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
 export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
+export const VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE =
+  'VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE';
 
 export function fetchTransactions() {
   return async dispatch => {
@@ -238,10 +240,24 @@ export function createTransaction(
         fieldName,
         transaction,
       });
+
+      return transaction;
     } catch (error) {
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
+
+      // Check if it's a 500 error
+      if (error.status === 500) {
+        dispatch({
+          type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
+          fieldName,
+          payload,
+        });
+        // Return special flag to indicate form-only update should proceed
+        return { formOnlyUpdate: true };
+      }
+
       recordEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
@@ -256,6 +272,7 @@ export function createTransaction(
         error,
         fieldName,
       });
+      return null;
     }
   };
 }
@@ -369,6 +386,12 @@ export const validateAddress = (
     if (onlyValidate) {
       return {
         onlyValidate,
+        formOnlyUpdate: true,
+        data: {
+          attributes: {
+            transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
+          },
+        },
       };
     }
 

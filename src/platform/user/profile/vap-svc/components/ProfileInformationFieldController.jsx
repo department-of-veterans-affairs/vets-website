@@ -332,6 +332,7 @@ class ProfileInformationFieldController extends React.Component {
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
       CustomConfirmCancelModal,
+      contactInfoFormAppConfig,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -446,6 +447,7 @@ class ProfileInformationFieldController extends React.Component {
               this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
             }
             successCallback={this.props.successCallback}
+            contactInfoFormAppConfig={contactInfoFormAppConfig}
           />
         );
       } else {
@@ -475,6 +477,8 @@ class ProfileInformationFieldController extends React.Component {
               this.props?.prefillPatternEnabled &&
               this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
             }
+            successCallback={this.props.successCallback}
+            contactInfoFormAppConfig={contactInfoFormAppConfig}
           />
         );
       }
@@ -582,6 +586,7 @@ ProfileInformationFieldController.propTypes = {
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,

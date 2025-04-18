@@ -184,3 +184,131 @@ describe('Prefill pattern - Blue Task', () => {
     cy.url().should('contain', 'mock-form-ae-design-patterns/');
   });
 });
+
+describe('Prefill pattern - Blue Task Failure Scenario', () => {
+  it('shows error alert when profile update fails and form save succeeds with the correct updated data', () => {
+    cy.login(mockUsers.loa3User);
+
+    cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
+      statusCode: 200,
+      body: mockPrefills.prefill,
+    }).as('mockSip');
+
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        aedpPrefill: true,
+      }),
+    );
+
+    cy.intercept('POST', '/v0/profile/address_validation', {
+      statusCode: 200,
+      body: {
+        addresses: [
+          {
+            address: {
+              addressLine1: '12 Main St',
+              addressType: 'DOMESTIC',
+              city: 'Fulton',
+              countryCodeIso3: 'USA',
+              countryName: 'United States',
+              stateCode: 'NY',
+              zipCode: '97063',
+              addressPou: 'CORRESPONDENCE',
+            },
+            addressMetaData: {
+              confidenceScore: 88,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'MISSING_ZIP',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
+          },
+        ],
+        validationKey: -1565212962,
+      },
+    }).as('addressValidation');
+
+    cy.intercept('PUT', '/v0/in_progress_forms/*', {
+      statusCode: 200,
+      body: {
+        data: {
+          id: '',
+          type: 'in_progress_forms',
+          attributes: {
+            formId: 'FORM-MOCK-AE-DESIGN-PATTERNS',
+            createdAt: '2020-06-30T00:00:00.000Z',
+            updatedAt: new Date().toISOString(),
+            metadata: {
+              version: 0,
+              returnUrl: '/2/task-blue/veteran-information',
+              savedAt: 1744649242383,
+              lastUpdated: 1744649242383,
+            },
+          },
+        },
+      },
+    }).as('formSave');
+
+    cy.intercept('PUT', '/v0/profile/addresses', {
+      body: {
+        status: 500,
+        error: 'Internal Server Error',
+        exception: {},
+      },
+      statusCode: 500,
+    }).as('profileUpdateFailure');
+
+    cy.visit(`${manifest.rootUrl}/2/task-blue/introduction?loggedIn=true`);
+
+    cy.injectAxeThenAxeCheck();
+
+    // there are two buttons with the same text, so we need to find the first one
+    cy.findAllByRole('link', {
+      name: /Start the Board Appeal request/i,
+    })
+      .first()
+      .click();
+
+    cy.wait('@mockSip');
+
+    cy.url().should('contain', '/personal-information');
+
+    cy.findByRole('button', { name: /continue/i }).click();
+
+    // check prefilled contact info page
+    cy.url().should('contain', '/veteran-information');
+
+    cy.get('va-link[label="Edit mailing address"]').should('be.visible');
+    cy.get('va-link[label="Edit mailing address"]').click();
+
+    cy.url().should('contain', '/edit-mailing-address');
+
+    cy.get('va-text-input[name="root_addressLine1"]')
+      .shadow()
+      .find('input')
+      .as('addressInput');
+
+    cy.get('@addressInput').clear();
+    cy.get('@addressInput').type('12 Main St');
+
+    cy.findByLabelText('Yes, also update my profile').check();
+
+    cy.findByTestId('save-edit-button').click();
+
+    cy.wait('@addressValidation');
+
+    cy.findByTestId('confirm-address-button').click();
+
+    cy.wait('@profileUpdateFailure');
+    cy.wait('@formSave');
+
+    // Verify we're redirected back with the error showing
+    cy.url().should('include', '/veteran-information');
+    cy.get('#form-only-update-alert').should('be.visible');
+    cy.get('div[data-dd-action-name="street"]').should(
+      'have.text',
+      '12 Main St',
+    );
+  });
+});

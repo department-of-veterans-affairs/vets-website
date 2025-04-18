@@ -8,6 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
   refreshTransaction,
@@ -142,13 +143,14 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const {
       convertCleanDataToPayload,
       fieldName,
       analyticsSectionName,
       apiRoute,
       field,
+      successCallback,
     } = this.props;
 
     const isAddressField = fieldName.toLowerCase().includes('address');
@@ -207,13 +209,38 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    this.props.createTransaction(
-      apiRoute,
-      method,
-      fieldName,
-      payload,
-      analyticsSectionName,
-    );
+    try {
+      const result = await this.props.createTransaction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+
+      if (result?.formOnlyUpdate && this.context?.updateContactInfoForFormApp) {
+        // Update the form data with the payload format
+        const updatedFormData = await this.context.updateContactInfoForFormApp(
+          fieldName,
+          payload,
+          'no', // Force form-only update
+        );
+
+        // Update UI state with the schema-compatible structure
+        this.onChangeFormDataAndSchemas(
+          {
+            ...field.value,
+            ...updatedFormData,
+          },
+          field.formSchema,
+          field.uiSchema,
+        );
+      }
+
+      successCallback();
+    } catch (error) {
+      // Silently handle error - form state is preserved
+    }
   };
 
   onInput = (value, schema, uiSchema) => {
@@ -237,6 +264,8 @@ export class ProfileInformationEditView extends Component {
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
+    // Validate before updating
+
     this.props.updateFormFieldWithSchema(
       this.props.fieldName,
       value,
@@ -322,6 +351,7 @@ export class ProfileInformationEditView extends Component {
                 this.onInput(event, field.formSchema, field.uiSchema)
               }
               onSubmit={onSubmit}
+              noValidate
             >
               {error && (
                 <div
@@ -390,6 +420,7 @@ ProfileInformationEditView.propTypes = {
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
   cancelButtonText: PropTypes.string,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -400,6 +431,7 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
@@ -459,3 +491,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProfileInformationEditView);
+
+ProfileInformationEditView.contextType = ContactInfoFormAppConfigContext;
