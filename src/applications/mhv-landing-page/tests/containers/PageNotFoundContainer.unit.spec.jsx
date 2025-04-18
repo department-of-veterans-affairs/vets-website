@@ -5,9 +5,10 @@ import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-sit
 import PageNotFoundContainer from '../../containers/PageNotFoundContainer';
 import reducers from '../../reducers';
 
-const stateFn = ({ loa = 3, vaPatient = true } = {}) => ({
+const stateFn = ({ loading = false, loa = 3, vaPatient = true } = {}) => ({
   user: {
     profile: {
+      loading,
       loa: {
         current: loa,
       },
@@ -23,6 +24,11 @@ const setup = initialState =>
   });
 
 describe('PageNotFound component', () => {
+  it('renders a loading indicator', () => {
+    const { getByTestId } = setup({ loading: true });
+    getByTestId('mhv-page-not-found--loading');
+  });
+
   it('renders', () => {
     const { getByTestId, getByRole } = setup();
     getByRole('navigation', { name: 'My HealtheVet' });
