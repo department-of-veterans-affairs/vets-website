@@ -49,6 +49,9 @@ describe('VAOS Component: TravelReimbursement', () => {
   it('should display travel reimbursement section with file claim link', async () => {
     const appointment = {
       id: '1234567890',
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       start: startTime,
       vaos: {
         apiData: {
@@ -78,6 +81,9 @@ describe('VAOS Component: TravelReimbursement', () => {
     // appointment is past the 30 day window
     const appointment = {
       start: '2021-08-31T10:00:00Z',
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -101,6 +107,9 @@ describe('VAOS Component: TravelReimbursement', () => {
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {
       start: '2021-09-01T10:00:00Z',
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       vaos: {
         apiData: {
           travelPayClaim: {

@@ -19,6 +19,7 @@
         "id": "00C891va",
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPersonVaccine",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
@@ -58,6 +59,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceType": "outpatientMentalHealth",
         "serviceCategory": [
@@ -175,6 +177,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceCategory": [
           {
@@ -291,6 +294,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceCategory": [
           {
@@ -669,6 +673,7 @@
         "id": "00C893va",
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPersonVaccine",
         "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
@@ -875,6 +880,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceTypes": [
           {
@@ -2083,6 +2089,7 @@
         "id": "CERN53943037",
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "reasonCode": {
           "coding": [],
@@ -2266,6 +2273,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPersonVaccine",
         "status": "booked",
         "serviceType": "covid",
         "serviceTypes": [
@@ -2536,6 +2544,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPersonVaccine",
         "status": "cancelled",
         "serviceType": "covid",
         "serviceTypes": [
@@ -3146,6 +3155,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceTypes": [
           {
@@ -3332,6 +3342,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceTypes": [
           {
@@ -3525,6 +3536,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceTypes": [
           {
@@ -3727,6 +3739,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "cancelled",
         "serviceTypes": [
           {
@@ -4667,6 +4680,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceType": "optometry",
         "serviceTypes": [
@@ -4806,6 +4820,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceType": "optometry",
         "serviceTypes": [
@@ -4945,6 +4960,7 @@
         ],
         "kind": "clinic",
         "type": "VA",
+        "modality": "vaInPerson",
         "status": "booked",
         "serviceType": "optometry",
         "serviceTypes": [

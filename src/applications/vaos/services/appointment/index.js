@@ -694,10 +694,11 @@ export async function cancelAppointment({
 }
 
 export function isInPersonVAAppointment(appointment) {
-  const { isCommunityCare, isVideo } = appointment?.vaos || {};
-  const isPhone = isVAPhoneAppointment(appointment);
+  return appointment?.modality === 'vaInPerson';
+  // const { isCommunityCare, isVideo } = appointment?.vaos || {};
+  // const isPhone = isVAPhoneAppointment(appointment);
 
-  return !isVideo && !isCommunityCare && !isPhone;
+  // return !isVideo && !isCommunityCare && !isPhone;
 }
 
 /**

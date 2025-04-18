@@ -25,6 +25,9 @@ describe('VAOS Component: DetailPageLayout', () => {
         .format('YYYY-MM-DDTHH:mm:ss');
       const appointment = {
         id: '123',
+        kind: 'clinic',
+        type: 'VA',
+        modality: 'vaInPerson',
         start: tomorrow,
         location: {
           stationId: '983',
@@ -80,6 +83,9 @@ describe('VAOS Component: DetailPageLayout', () => {
         .format('YYYY-MM-DDTHH:mm:ss');
       const appointment = {
         id: '123',
+        kind: 'clinic',
+        type: 'VA',
+        modality: 'vaInPerson',
         start: tomorrow,
         location: {
           stationId: '983',

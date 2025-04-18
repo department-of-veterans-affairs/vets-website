@@ -28,6 +28,9 @@ describe('VAOS Component: AppointmentCardIcon', () => {
   it('should display location_city icon for VA in-person appointments', async () => {
     const appointment = {
       ...appointmentData,
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
     };
 
     const wrapper = renderWithStoreAndRouter(
