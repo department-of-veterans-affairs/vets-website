@@ -45,7 +45,7 @@ describe('Test download all page', () => {
     //   'Please enter a year between 1900 and 2125',
     // );
 
-    // Verify dates are selected correctly on the next page
+    // Select valid dates, verify dates are selected correctly on the 2nd page
     DownloadAllPage.clearCustomStartYear();
     DownloadAllPage.selectCustomStartYear('2015');
     DownloadAllPage.clearCustomEndYear();
@@ -54,20 +54,34 @@ describe('Test download all page', () => {
     DownloadAllPage.verifyDateRangeOnPageTwo(
       'January 12, 2015 to January 1, 2024',
     );
-
-    DownloadAllPage.clickBackOnDownloadAllPage();
-    DownloadAllPage.selectDateRangeDropdown('All time');
-    DownloadAllPage.clickContinueOnDownloadAllPage();
-
     DownloadAllPage.selectVaccinesCheckbox();
+    DownloadAllPage.clickBackOnDownloadAllPage();
+
+    // verify date range is still selected on the first page (retain selected info)
+    DownloadAllPage.verifyDateRangeDropdown('custom');
+    DownloadAllPage.verifyCustomStartMonth('1'); // value 1 is January
+    DownloadAllPage.verifyCustomStartDay('12');
+    DownloadAllPage.verifyCustomStartYear('2015');
+    DownloadAllPage.verifyCustomEndMonth('1'); // value 1 is January
+    DownloadAllPage.verifyCustomEndDay('1');
+    DownloadAllPage.verifyCustomEndYear('2024');
+
+    // verify vaccines checkbox is checked on 2nd page
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyVaccinesCheckboxChecked();
     DownloadAllPage.interceptVaccinesOnDownloadAllPage();
     DownloadAllPage.interceptPatientOnDownloadAllPage();
 
+    // Go to 3rd page, select record type
     DownloadAllPage.clickContinueOnDownloadAllPage();
-
     DownloadAllPage.clickPDFRadioButton();
+    DownloadAllPage.clickBackOnDownloadAllPage3();
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyPDFRadioButtonChecked();
+
     DownloadAllPage.clickDownloadReport();
     DownloadAllPage.verifyDownloadStartedAlert();
+
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
       moment(),
