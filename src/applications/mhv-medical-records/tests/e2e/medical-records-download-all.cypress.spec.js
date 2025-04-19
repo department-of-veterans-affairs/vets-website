@@ -36,39 +36,52 @@ describe('Test download all page', () => {
       'End date must be on or after start date.',
     );
 
-    // Verify "valid year" error
-    DownloadAllPage.clearCustomStartYear();
-    DownloadAllPage.selectCustomStartYear('1895');
-    DownloadAllPage.blurCustomStartYear();
-    // // Previously this error was flaky
+    // // Verify "valid year" error
+    // DownloadAllPage.clearCustomStartYear();
+    // DownloadAllPage.selectCustomStartYear('1895');
+    // DownloadAllPage.blurCustomStartYear();
+    // // Previously this error was FLAKY
     // DownloadAllPage.verifyErrorValidYear(
     //   'Please enter a year between 1900 and 2125',
     // );
 
-    // THIS SECTION IS FLAKY... COMMENTING OUT FOR NOW
-    // // Verify dates are selected correctly on the next page
-    // DownloadAllPage.clearCustomStartYear();
-    // DownloadAllPage.clearCustomEndYear();
-    // DownloadAllPage.selectCustomStartYear('2015');
-    // DownloadAllPage.selectCustomEndYear('2024');
-    // DownloadAllPage.clickContinueOnDownloadAllPage();
-    // DownloadAllPage.verifyDateRangeOnPageTwo(
-    //   'January 12, 2015 to January 1, 2024',
-    // );
-    // DownloadAllPage.clickBackOnDownloadAllPage();
-
-    DownloadAllPage.selectDateRangeDropdown('All time');
+    // Select valid dates, verify dates are selected correctly on the 2nd page
+    DownloadAllPage.clearCustomStartYear();
+    DownloadAllPage.selectCustomStartYear('2015');
+    DownloadAllPage.clearCustomEndYear();
+    DownloadAllPage.selectCustomEndYear('2024');
     DownloadAllPage.clickContinueOnDownloadAllPage();
-
+    DownloadAllPage.verifyDateRangeOnPageTwo(
+      'January 12, 2015 to January 1, 2024',
+    );
     DownloadAllPage.selectVaccinesCheckbox();
+    DownloadAllPage.clickBackOnDownloadAllPage();
+
+    // verify date range is still selected on the first page (retain selected info)
+    DownloadAllPage.verifyDateRangeDropdown('custom');
+    DownloadAllPage.verifyCustomStartMonth('1'); // value 1 is January
+    DownloadAllPage.verifyCustomStartDay('12');
+    DownloadAllPage.verifyCustomStartYear('2015');
+    DownloadAllPage.verifyCustomEndMonth('1'); // value 1 is January
+    DownloadAllPage.verifyCustomEndDay('1');
+    DownloadAllPage.verifyCustomEndYear('2024');
+
+    // verify vaccines checkbox is checked on 2nd page
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyVaccinesCheckboxChecked();
     DownloadAllPage.interceptVaccinesOnDownloadAllPage();
     DownloadAllPage.interceptPatientOnDownloadAllPage();
 
+    // Go to 3rd page, select record type
     DownloadAllPage.clickContinueOnDownloadAllPage();
-
     DownloadAllPage.clickPDFRadioButton();
+    DownloadAllPage.clickBackOnDownloadAllPage3();
+    DownloadAllPage.clickContinueOnDownloadAllPage();
+    DownloadAllPage.verifyPDFRadioButtonChecked();
+
     DownloadAllPage.clickDownloadReport();
     DownloadAllPage.verifyDownloadStartedAlert();
+
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
       moment(),

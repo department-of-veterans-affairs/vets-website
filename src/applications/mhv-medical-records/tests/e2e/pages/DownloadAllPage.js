@@ -30,6 +30,12 @@ class DownloadAllPage {
       .click();
   };
 
+  clickBackOnDownloadAllPage3 = () => {
+    cy.get('button')
+      .contains('Back')
+      .click();
+  };
+
   verifyError = error => {
     cy.get('va-select')
       .contains(error)
@@ -71,15 +77,19 @@ class DownloadAllPage {
   };
 
   verifyDateRangeOnPageTwo = dateRange => {
-    cy.get('legend')
-      .first()
-      .should('contain', dateRange); // .should('contain', `Date range: Custom (${dateRange})`);
+    cy.get('[data-testid="date-range-legend"]').should('contain', dateRange);
   };
 
   selectDateRangeDropdown = option => {
     cy.get('[data-testid="va-select-date-range"]')
       .find('select')
       .select(option, { force: true });
+  };
+
+  verifyDateRangeDropdown = option => {
+    cy.get('[data-testid="va-select-date-range"]')
+      .find('select')
+      .should('have.value', option);
   };
 
   selectCustomStartMonth = month => {
@@ -114,6 +124,26 @@ class DownloadAllPage {
       .clear();
   };
 
+  verifyCustomStartMonth = month => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('select')
+      .eq(0)
+      .should('have.value', month);
+  };
+
+  verifyCustomStartDay = day => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('select')
+      .eq(1)
+      .should('have.value', day);
+  };
+
+  verifyCustomStartYear = year => {
+    cy.get('[data-testid="va-date-start-date"]')
+      .find('input')
+      .should('have.value', year);
+  };
+
   blurCustomStartYear = () => {
     cy.get('[data-testid="va-date-start-date"]')
       .find('input')
@@ -140,6 +170,26 @@ class DownloadAllPage {
       .type(year);
   };
 
+  verifyCustomEndMonth = month => {
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('select')
+      .eq(0)
+      .should('have.value', month);
+  };
+
+  verifyCustomEndDay = day => {
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('select')
+      .eq(1)
+      .should('have.value', day);
+  };
+
+  verifyCustomEndYear = year => {
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('input')
+      .should('have.value', year);
+  };
+
   selectAllRecordsCheckbox = () => {
     cy.get('[data-testid="select-all-records-checkbox"]')
       .find('input')
@@ -156,6 +206,12 @@ class DownloadAllPage {
     cy.get('[data-testid="vaccines-checkbox"]')
       .find('input')
       .check({ force: true });
+  };
+
+  verifyVaccinesCheckboxChecked = () => {
+    cy.get('[data-testid="vaccines-checkbox"]')
+      .find('input')
+      .should('be.checked');
   };
 
   interceptLabsAndTestsOnDownloadAllPage = () => {
@@ -187,6 +243,13 @@ class DownloadAllPage {
       .eq(0)
       .find('input')
       .check({ force: true });
+  };
+
+  verifyPDFRadioButtonChecked = () => {
+    cy.get('va-radio-option')
+      .eq(0)
+      .find('input')
+      .should('be.checked');
   };
 
   clickDownloadReport = () => {
