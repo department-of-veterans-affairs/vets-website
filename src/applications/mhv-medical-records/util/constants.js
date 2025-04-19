@@ -278,6 +278,7 @@ export const SEI_DOMAIN_DISPLAY_MAP = {
   activityJournal: 'Activity journal',
   allergies: 'Allergies',
   demographics: 'Demographics',
+  emergencyContacts: 'Emergency contacts',
   familyHistory: 'Family health history',
   foodJournal: 'Food journal',
   providers: 'Healthcare providers',

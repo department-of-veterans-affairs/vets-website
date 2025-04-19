@@ -743,7 +743,10 @@ export const convertMedications = recordList => {
  */
 export const convertDemographics = patient => {
   if (!patient) return null;
-  const { userProfile: profile } = patient;
+
+  // For now, support both multiple SEI calls and the single unified call.
+  const profile = patient.userProfile || patient;
+
   return {
     firstName: profile.name.firstName || NONE_ENTERED,
     middleName: profile.name.middleName || NONE_ENTERED,
@@ -816,6 +819,35 @@ export const convertEmergencyContacts = contacts => {
 
 export const selfEnteredReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Actions.SelfEntered.GET_ALL: {
+      const { responses = {}, errors = {} } = action.payload;
+
+      return {
+        ...state,
+        vitals: convertVitals(responses.vitals),
+        allergies: convertAllergies(responses.allergies),
+        familyHistory: convertFamilyHealthHistory(responses.familyHistory),
+        vaccines: convertVaccines(responses.vaccines),
+        testEntries: convertLabsAndTests(responses.testEntries),
+        medicalEvents: convertMedicalEvents(responses.medicalEvents),
+        militaryHistory: convertMilitaryHistory(responses.militaryHistory),
+        providers: convertHealthcareProviders(responses.providers),
+        healthInsurance: convertHealthInsurance(responses.healthInsurance),
+        treatmentFacilities: convertTreatmentFacilities(
+          responses.treatmentFacilities,
+        ),
+        foodJournal: convertFoodJournal(responses.foodJournal),
+        activityJournal: convertActivityJournal(responses.activityJournal),
+        medications: convertMedications(responses.medications),
+        emergencyContacts: convertEmergencyContacts(
+          responses.emergencyContacts,
+        ),
+        demographics: convertDemographics(responses.demographics),
+
+        // Track all domains that had an error
+        failedDomains: Object.keys(errors),
+      };
+    }
     case Actions.SelfEntered.GET_VITALS: {
       return {
         ...state,

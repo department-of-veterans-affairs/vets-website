@@ -15,10 +15,22 @@ import {
   getSeiVaccines,
   getSeiVitalSigns,
 } from '../api/seiApi';
-import { getPatient } from '../api/MrApi';
+import { getPatient, getSelfEnteredInformation } from '../api/MrApi';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 
 export const clearFailedList = () => dispatch => {
   dispatch({ type: Actions.SelfEntered.CLEAR_FAILED });
+};
+
+export const getAllSelfEnteredData = () => async dispatch => {
+  try {
+    const response = await getSelfEnteredInformation();
+    dispatch({ type: Actions.SelfEntered.GET_ALL, payload: response });
+  } catch (error) {
+    dispatch(addAlert(Constants.ALERT_TYPE_SEI_ERROR, error));
+    throw error;
+  }
 };
 
 export const getSelfEnteredData = () => async dispatch => {
