@@ -19,6 +19,8 @@ import {
   addForm0781,
   addForm0781V2,
   audit0781EventData,
+  audit0781BehaviorDetailsList,
+  delete0781BehavioralData,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -705,7 +707,11 @@ describe('extractDateParts', () => {
 describe('addForm0781V2', () => {
   const formData = {
     syncModern0781Flow: true,
-    eventTypes: ['eventType1'],
+    answerCombatBehaviorQuestions: true,
+    eventTypes: {
+      combat: true,
+      mst: true,
+    },
     events: [
       {
         location: 'Where did the event happen?',
@@ -789,7 +795,7 @@ describe('addForm0781V2', () => {
         treatmentCenterName: 'Treatment Center the Third',
       },
     ],
-    optionIndicator: 'option1',
+    optionIndicator: 'notEnrolled',
     additionalInformation: 'info',
     mentalHealthWorkflowChoice: 'optForOnlineForm0781',
   };
@@ -819,6 +825,7 @@ describe('addForm0781V2', () => {
           treatmentCenterName: 'Treatment Center the Third',
         },
       ],
+      answerCombatBehaviorQuestions: true,
       mentalHealthWorkflowChoice: 'optOutOfForm0781',
       syncModern0781Flow: true,
     };
@@ -852,6 +859,7 @@ describe('addForm0781V2', () => {
           treatmentCenterName: 'Treatment Center the Third',
         },
       ],
+      answerCombatBehaviorQuestions: true,
       mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
       syncModern0781Flow: true,
     };
@@ -860,7 +868,7 @@ describe('addForm0781V2', () => {
     expect(result).to.deep.equal(expectedResult);
   });
 
-  it('audit0781EventData properly removes location data when conditions are met', () => {
+  it('audit0781EventData properly removes police report location data when conditions are met', () => {
     const data = {
       events: [
         {
@@ -940,6 +948,77 @@ describe('addForm0781V2', () => {
 
     const result = audit0781EventData(data);
     expect(result).to.deep.equal(expectedResult);
+  });
+
+  it('delete0781BehavioralData removes all behavioral data when answerCombatBehaviorQuestions is false', () => {
+    const data = {
+      answerCombatBehaviorQuestions: false,
+      workBehaviors: { reassignement: true },
+      healthBehaviors: { medications: true },
+      otherBehaviors: { unlisted: true },
+      behaviorsDetails: {
+        reassignement: 'details',
+        medications: 'details',
+        unlisted: 'details',
+      },
+    };
+
+    const expected = {
+      answerCombatBehaviorQuestions: false,
+    };
+
+    const result =
+      data.answerCombatBehaviorQuestions === false
+        ? delete0781BehavioralData(data)
+        : data;
+
+    expect(result).to.deep.equal(expected);
+  });
+
+  describe('audit0781BehaviorDetailsList', () => {
+    it('removes behavior details not selected in any behavior group', () => {
+      const data = {
+        workBehaviors: { reassignement: true },
+        healthBehaviors: { medications: false },
+        otherBehaviors: { unlisted: false },
+        behaviorsDetails: {
+          reassignement: 'Work detail',
+          medications: 'Health detail',
+          unlisted: 'Other detail',
+        },
+      };
+
+      const expected = {
+        workBehaviors: { reassignement: true },
+        healthBehaviors: { medications: false },
+        otherBehaviors: { unlisted: false },
+        behaviorsDetails: {
+          reassignement: 'Work detail',
+        },
+      };
+
+      const result = audit0781BehaviorDetailsList(data);
+      expect(result).to.deep.equal(expected);
+    });
+
+    it('clears all behavior details when noBehavioralChange.noChange is true', () => {
+      const data = {
+        noBehavioralChange: { noChange: true },
+        behaviorsDetails: {
+          reassignement: 'Work detail',
+          medications: 'Health detail',
+          unlisted: 'Other detail',
+        },
+      };
+
+      const expected = {
+        noBehavioralChange: { noChange: true },
+        behaviorsDetails: {},
+      };
+
+      const result = audit0781BehaviorDetailsList(data);
+      expect(result).to.deep.equal(expected);
+    });
   });
 
   it('should return the same object if syncModern0781Flow is false', () => {

@@ -609,14 +609,8 @@ export const addForm0781V2 = formData => {
   const clonedData = _.cloneDeep(formData);
 
   clonedData.form0781 = {
-    // ...(clonedData.mentalHealthWorkflowChoice && {
-    //   mentalHealthWorkflowChoice: clonedData.mentalHealthWorkflowChoice,
-    // }),
     ...(clonedData.eventTypes && { eventTypes: clonedData.eventTypes }),
     ...(clonedData.events && { events: clonedData.events }),
-    // ...(clonedData.noBehavioralChange && {
-    //   noBehavioralChange: clonedData.noBehavioralChange,
-    // }),
     ...(clonedData.workBehaviors && {
       workBehaviors: clonedData.workBehaviors,
     }),
@@ -672,10 +666,8 @@ export const addForm0781V2 = formData => {
     }),
   };
 
-  // delete clonedData.mentalHealthWorkflowChoice;
   delete clonedData.eventTypes;
   delete clonedData.events;
-  // delete clonedData.noBehavioralChange;
   delete clonedData.workBehaviors;
   delete clonedData.healthBehaviors;
   delete clonedData.otherBehaviors;
