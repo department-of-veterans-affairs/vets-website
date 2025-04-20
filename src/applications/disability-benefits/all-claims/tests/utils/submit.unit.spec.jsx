@@ -753,20 +753,29 @@ describe('addForm0781V2', () => {
         country: 'USA',
       },
     ],
-    workBehaviors: ['workBehavior1'],
-    healthBehaviors: ['healthBehavior1'],
-    otherBehaviors: ['otherBehavior1'],
-    behaviorsDetails: 'details',
-    supportingEvidenceReports: ['report1'],
-    supportingEvidenceRecords: ['record1'],
-    supportingEvidenceWitness: ['witness1'],
-    supportingEvidenceOther: 'otherEvidence',
-    supportingEvidenceUnlisted: 'unlistedEvidence',
+    workBehaviors: { reassignement: true },
+    healthBehaviors: { medications: true },
+    otherBehaviors: { unlisted: true },
+    behaviorsDetails: {
+      reassignement: 'details',
+      medications: 'details',
+      unlisted: 'details',
+    },
+    supportingEvidenceReports: { police: true },
+    supportingEvidenceRecords: { physicians: true },
+    supportingEvidenceWitness: { family: true },
+    supportingEvidenceOther: { personal: true },
+    supportingEvidenceUnlisted: 'unlisted document',
     supportingEvidenceNoneCheckbox: true,
     treatmentReceivedVaProvider: true,
     treatmentReceivedNonVaProvider: true,
     treatmentNoneCheckbox: true,
-    providerFacility: ['facility1'],
+    providerFacility: [
+      {
+        providerFacilityName: 'facility1',
+        treatmentLocation0781Related: true,
+      },
+    ],
     vaTreatmentFacilities: [
       {
         treatmentCenterName: 'Treatment Center the First',
@@ -791,52 +800,20 @@ describe('addForm0781V2', () => {
       mentalHealthWorkflowChoice: 'optOutOfForm0781',
     };
     const expectedResult = {
-      form0781: {
-        events: [
-          {
-            location: 'Where did the event happen?',
-            otherReports: 'Other official report type listed here',
-            timing: 'When did the event happen?',
-            reports: {
-              restricted: true,
-              unrestricted: true,
-              police: true,
-              none: true,
-            },
-            agency: 'Name of the agency that issued the report',
-            city: 'report city',
-            state: 'report state',
-            township: 'report township',
-            country: 'USA',
-          },
-          {
-            location: 'Where did the event happen?',
-            otherReports: 'Other official report type listed here',
-            reports: {
-              restricted: true,
-              unrestricted: true,
-              police: false,
-              none: true,
-            },
-          },
-          {
-            location: 'Where did the event happen?',
-            reports: {
-              restricted: true,
-              unrestricted: true,
-              police: true,
-              none: true,
-            },
-          },
-        ],
-        treatmentProvidersDetails: [],
-      },
+      providerFacility: [
+        {
+          providerFacilityName: 'facility1',
+          treatmentLocation0781Related: true,
+        },
+      ],
       vaTreatmentFacilities: [
         {
           treatmentCenterName: 'Treatment Center the First',
+          treatmentLocation0781Related: true,
         },
         {
           treatmentCenterName: 'Treatment Center the Second',
+          treatmentLocation0781Related: false,
         },
         {
           treatmentCenterName: 'Treatment Center the Third',
@@ -850,58 +827,26 @@ describe('addForm0781V2', () => {
     expect(result).to.deep.equal(expectedResult);
   });
 
-  it('should delete 0781 form data if user submitting paper form', () => {
+  it('should delete 0781 form data if user submits paper form', () => {
     const data = {
       ...formData,
       mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
     };
     const expectedResult = {
-      form0781: {
-        events: [
-          {
-            location: 'Where did the event happen?',
-            otherReports: 'Other official report type listed here',
-            timing: 'When did the event happen?',
-            reports: {
-              restricted: true,
-              unrestricted: true,
-              police: true,
-              none: true,
-            },
-            agency: 'Name of the agency that issued the report',
-            city: 'report city',
-            state: 'report state',
-            township: 'report township',
-            country: 'USA',
-          },
-          {
-            location: 'Where did the event happen?',
-            otherReports: 'Other official report type listed here',
-            reports: {
-              restricted: true,
-              unrestricted: true,
-              police: false,
-              none: true,
-            },
-          },
-          {
-            location: 'Where did the event happen?',
-            reports: {
-              restricted: true,
-              unrestricted: true,
-              police: true,
-              none: true,
-            },
-          },
-        ],
-        treatmentProvidersDetails: [],
-      },
+      providerFacility: [
+        {
+          providerFacilityName: 'facility1',
+          treatmentLocation0781Related: true,
+        },
+      ],
       vaTreatmentFacilities: [
         {
           treatmentCenterName: 'Treatment Center the First',
+          treatmentLocation0781Related: true,
         },
         {
           treatmentCenterName: 'Treatment Center the Second',
+          treatmentLocation0781Related: false,
         },
         {
           treatmentCenterName: 'Treatment Center the Third',
@@ -951,12 +896,6 @@ describe('addForm0781V2', () => {
         },
         {
           location: 'Where did the event happen?',
-          reports: {
-            restricted: true,
-            unrestricted: true,
-            police: true,
-            none: true,
-          },
           agency: 'Name of the agency that issued the report',
           city: 'report city',
           state: 'report state',
@@ -995,18 +934,12 @@ describe('addForm0781V2', () => {
         },
         {
           location: 'Where did the event happen?',
-          reports: {
-            restricted: true,
-            unrestricted: true,
-            police: true,
-            none: true,
-          },
         },
       ],
     };
 
-    audit0781EventData(data);
-    expect(data).to.deep.equal(expectedResult);
+    const result = audit0781EventData(data);
+    expect(result).to.deep.equal(expectedResult);
   });
 
   it('should return the same object if syncModern0781Flow is false', () => {
@@ -1018,7 +951,6 @@ describe('addForm0781V2', () => {
     };
 
     const result = addForm0781V2(formDataSyncModern0781False);
-
     expect(result).to.deep.equal(formDataSyncModern0781False);
   });
 
