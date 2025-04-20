@@ -364,8 +364,20 @@ export const addForm4142 = formData => {
   return clonedData;
 };
 
-export const delete0781FormData = formData => {
+// This function is a failsafe redundancy to BehaviorIntroCombatPage.jsx > deleteBehavioralAnswers()
+export const delete0781BehavioralData = formData => {
   const clonedData = _.cloneDeep(formData);
+
+  delete clonedData.workBehaviors;
+  delete clonedData.otherBehaviors;
+  delete clonedData.healthBehaviors;
+  delete clonedData.behaviorsDetails;
+
+  return clonedData;
+};
+
+export const delete0781FormData = formData => {
+  const clonedData = delete0781BehavioralData(_.cloneDeep(formData));
 
   // Remove top-level keys
   [
@@ -386,29 +398,6 @@ export const delete0781FormData = formData => {
     delete clonedData[key];
   });
 
-  // Remove nested treatmentLocation0781Related from facility arrays
-  ['vaTreatmentFacilities', 'providerFacility'].forEach(key => {
-    if (Array.isArray(clonedData[key])) {
-      clonedData[key] = clonedData[key].map(facility => {
-        const updatedFacility = { ...facility };
-        delete updatedFacility.treatmentLocation0781Related;
-        return updatedFacility;
-      });
-    }
-  });
-
-  return clonedData;
-};
-
-// This function is a failsafe redundancy to BehaviorIntroCombatPage.jsx > deleteBehavioralAnswers()
-export const delete0781BehavioralData = formData => {
-  const clonedData = _.cloneDeep(formData);
-
-  delete clonedData.workBehaviors;
-  delete clonedData.otherBehaviors;
-  delete clonedData.healthBehaviors;
-  delete clonedData.behaviorsDetails;
-
   return clonedData;
 };
 
@@ -418,8 +407,8 @@ export const audit0781EventData = formData => {
   if (Array.isArray(clonedData.events)) {
     for (let i = 0; i < clonedData.events.length; i++) {
       const event = clonedData.events[i];
-      // If otherReports is missing or police is explicitly false, remove location fields
-      if (!event.otherReports || event.otherReports.police === false) {
+      // If reports is missing or police is explicitly false, remove location fields
+      if (!event.reports || event.reports.police === false) {
         delete event.agency;
         delete event.city;
         delete event.country;
@@ -601,16 +590,13 @@ export const addForm0781V2 = formData => {
     return formData;
   }
 
-  // If a user selected any workflow option outside of submitting the online form,
-  // we want to remove all 0781-related data
+  // If a user selected any workflow option other than submitting the online form,
+  // all 0781-related data should be removed
   if (
     formData.mentalHealthWorkflowChoice !==
     form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   ) {
-    audit0781EventData(formData);
-    delete0781BehavioralData(formData);
-    delete0781FormData(formData);
-    return formData;
+    return delete0781FormData(formData);
   }
 
   if (formData.answerCombatBehaviorQuestions === 'false') {
@@ -623,14 +609,14 @@ export const addForm0781V2 = formData => {
   const clonedData = _.cloneDeep(formData);
 
   clonedData.form0781 = {
-    ...(clonedData.mentalHealthWorkflowChoice && {
-      mentalHealthWorkflowChoice: clonedData.mentalHealthWorkflowChoice,
-    }),
+    // ...(clonedData.mentalHealthWorkflowChoice && {
+    //   mentalHealthWorkflowChoice: clonedData.mentalHealthWorkflowChoice,
+    // }),
     ...(clonedData.eventTypes && { eventTypes: clonedData.eventTypes }),
     ...(clonedData.events && { events: clonedData.events }),
-    ...(clonedData.noBehavioralChange && {
-      noBehavioralChange: clonedData.noBehavioralChange,
-    }),
+    // ...(clonedData.noBehavioralChange && {
+    //   noBehavioralChange: clonedData.noBehavioralChange,
+    // }),
     ...(clonedData.workBehaviors && {
       workBehaviors: clonedData.workBehaviors,
     }),
@@ -686,10 +672,10 @@ export const addForm0781V2 = formData => {
     }),
   };
 
-  delete clonedData.mentalHealthWorkflowChoice;
+  // delete clonedData.mentalHealthWorkflowChoice;
   delete clonedData.eventTypes;
   delete clonedData.events;
-  delete clonedData.noBehavioralChange;
+  // delete clonedData.noBehavioralChange;
   delete clonedData.workBehaviors;
   delete clonedData.healthBehaviors;
   delete clonedData.otherBehaviors;
