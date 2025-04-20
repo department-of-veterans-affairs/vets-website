@@ -707,7 +707,7 @@ describe('extractDateParts', () => {
 describe('addForm0781V2', () => {
   const formData = {
     syncModern0781Flow: true,
-    answerCombatBehaviorQuestions: true,
+    answerCombatBehaviorQuestions: 'true',
     eventTypes: {
       combat: true,
       mst: true,
@@ -825,7 +825,7 @@ describe('addForm0781V2', () => {
           treatmentCenterName: 'Treatment Center the Third',
         },
       ],
-      answerCombatBehaviorQuestions: true,
+      answerCombatBehaviorQuestions: 'true',
       mentalHealthWorkflowChoice: 'optOutOfForm0781',
       syncModern0781Flow: true,
     };
@@ -859,7 +859,7 @@ describe('addForm0781V2', () => {
           treatmentCenterName: 'Treatment Center the Third',
         },
       ],
-      answerCombatBehaviorQuestions: true,
+      answerCombatBehaviorQuestions: 'true',
       mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
       syncModern0781Flow: true,
     };
@@ -952,7 +952,7 @@ describe('addForm0781V2', () => {
 
   it('delete0781BehavioralData removes all behavioral data when answerCombatBehaviorQuestions is false', () => {
     const data = {
-      answerCombatBehaviorQuestions: false,
+      answerCombatBehaviorQuestions: 'false',
       workBehaviors: { reassignement: true },
       healthBehaviors: { medications: true },
       otherBehaviors: { unlisted: true },
@@ -964,11 +964,11 @@ describe('addForm0781V2', () => {
     };
 
     const expected = {
-      answerCombatBehaviorQuestions: false,
+      answerCombatBehaviorQuestions: 'false',
     };
 
     const result =
-      data.answerCombatBehaviorQuestions === false
+      data.answerCombatBehaviorQuestions === 'false'
         ? delete0781BehavioralData(data)
         : data;
 
