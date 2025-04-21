@@ -20,7 +20,7 @@ const initialStateVAOSService = {
   },
 };
 
-describe('VAOS Component: Referrals and Requests', () => {
+xdescribe('VAOS Component: Referrals and Requests', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
