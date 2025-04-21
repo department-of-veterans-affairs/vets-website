@@ -38,6 +38,7 @@ import { UPDATE_HEADER_TYPE, updateLayoutHeaderType } from './layout/actions';
 
 import AutoSSO from './user-nav/containers/AutoSSO';
 import PageNotFound from './user-nav/components/PageNotFound';
+import MhvPageNotFound from './user-nav/components/MhvPageNotFound';
 
 import userNavReducer from './user-nav/reducers';
 import layoutReducer from './layout/reducers';
@@ -84,6 +85,7 @@ export {
   toggleSearchHelpUserMenu,
   AutoSSO,
   PageNotFound,
+  MhvPageNotFound,
   userNavReducer,
   layoutReducer,
   restartShouldRedirect,
