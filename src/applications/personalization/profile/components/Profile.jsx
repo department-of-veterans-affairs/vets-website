@@ -7,6 +7,7 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
+  fetchPowerOfAttorney as fetchPowerOfAttorneyAction,
 } from '@@profile/actions';
 
 import {
@@ -51,7 +52,6 @@ import { PROFILE_PATHS } from '../constants';
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
-import { fetchPowerOfAttorney as fetchPowerOfAttorneyAction } from '../actions/powerOfAttorney';
 
 class Profile extends Component {
   componentDidMount() {
@@ -65,6 +65,7 @@ class Profile extends Component {
       isLOA3,
       isInMVI,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
@@ -74,7 +75,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-      fetchPowerOfAttorney();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -96,6 +99,7 @@ class Profile extends Component {
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -104,7 +108,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-      fetchPowerOfAttorney();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (
@@ -243,8 +249,8 @@ Profile.propTypes = {
   fetchDirectDeposit: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
-  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
   isBlocked: PropTypes.bool.isRequired,
@@ -253,8 +259,8 @@ Profile.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
-  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,

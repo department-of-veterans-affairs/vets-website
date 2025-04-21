@@ -185,7 +185,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.cancelled,
     });
-    response.setRequestedPeriods([moment()]);
+    response.setRequestedPeriods([new Date()]);
 
     mockAppointmentApi({ response });
 
@@ -206,7 +206,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   it('should display cancel warning page', async () => {
     // Arrange
     const store = createTestStore(initialState);
-    const requestedPeriods = [moment()];
+    const requestedPeriods = [new Date()];
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
     });
@@ -248,7 +248,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   it('should display cancel confirmation page', async () => {
     // Arrange
     const store = createTestStore(initialState);
-    const requestedPeriods = [moment()];
+    const requestedPeriods = [new Date()];
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
     });
@@ -344,7 +344,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     it('should go back to pending appointments detail page when breadcrumb is clicked', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const requestedPeriods = [moment()];
+      const requestedPeriods = [new Date()];
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
       });
@@ -417,7 +417,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     it('should go back to pending appointments list page when breadcrumb is clicked', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const requestedPeriods = [moment()];
+      const requestedPeriods = [new Date()];
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
       });
@@ -494,7 +494,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     it('should display an error', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const requestedPeriods = [moment()];
+      const requestedPeriods = [new Date()];
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
       });

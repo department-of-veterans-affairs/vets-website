@@ -1,5 +1,6 @@
 import React from 'react';
-import { APP_URLS, LAST_YEAR } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
+import { LAST_YEAR } from '../../utils/helpers';
 
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (

@@ -3,7 +3,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   TITLE,
   SUBTITLE,
-  YOUR_INFORMATION_PAGES_CONSTANTS,
+  YOUR_INFORMATION_CHAPTER_CONSTANTS,
+  CONTACT_INFORMATION_CHAPTER_CONSTANTS,
 } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -16,12 +17,13 @@ import movingYesNoPage from '../pages/movingYesNo';
 import newMailingAddressPage from '../pages/newMailingAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
+import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
+import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudiesPage';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // TODO: Figure out actual API and structure, create submit function, create any transformers, vets-json schema
   submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
@@ -35,7 +37,6 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_28_1900,
-  // TODO: Set up save in progress/prefill
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your VR&amp;E Chapter 31 benefits application application (28-1900) is in progress.',
@@ -59,16 +60,35 @@ const formConfig = {
       title: 'Your information',
       pages: {
         personalInformationPage: {
-          path: 'personal-information', // Do we know what we want this to be?
-          title: YOUR_INFORMATION_PAGES_CONSTANTS.personalInformationPageTitle,
+          path: 'personal-information',
+          title:
+            YOUR_INFORMATION_CHAPTER_CONSTANTS.personalInformationPageTitle,
           uiSchema: personalInformationPage.uiSchema,
           schema: personalInformationPage.schema,
         },
         educationPage: {
-          path: 'education', // Do we know what we want this to be?
-          title: YOUR_INFORMATION_PAGES_CONSTANTS.educationPageTitle,
+          path: 'education',
+          title: YOUR_INFORMATION_CHAPTER_CONSTANTS.educationPageTitle,
           uiSchema: educationPage.uiSchema,
           schema: educationPage.schema,
+        },
+        yearsOfCollegeStudiesPage: {
+          depends: formData =>
+            formData.yearsOfEducation === 'someOrAllOfCollege',
+          path: 'years-of-college-studies',
+          title:
+            YOUR_INFORMATION_CHAPTER_CONSTANTS.yearsOfCollegeOrGraduateStudiesPageTitle,
+          uiSchema: yearsOfCollegeStudiesPage.uiSchema,
+          schema: yearsOfCollegeStudiesPage.schema,
+        },
+        yearsOfGraduateStudiesPage: {
+          depends: formData =>
+            formData.yearsOfEducation === 'someOrAllOfGraduateSchool',
+          path: 'years-of-graduate-studies',
+          title:
+            YOUR_INFORMATION_CHAPTER_CONSTANTS.yearsOfCollegeOrGraduateStudiesPageTitle,
+          uiSchema: yearsOfGraduateStudiesPage.uiSchema,
+          schema: yearsOfGraduateStudiesPage.schema,
         },
       },
     },
@@ -77,25 +97,27 @@ const formConfig = {
       pages: {
         mainMailingAddressPage: {
           path: 'main-mailing-address',
-          title: 'Mailing address',
+          title:
+            CONTACT_INFORMATION_CHAPTER_CONSTANTS.mainMailingAddressPageTitle,
           uiSchema: mainMailingAddressPage.uiSchema,
           schema: mainMailingAddressPage.schema,
         },
         movingYesNoPage: {
           path: 'moving-yes-no',
-          title: 'Moving',
+          title: CONTACT_INFORMATION_CHAPTER_CONSTANTS.movingYesNoPageTitle,
           uiSchema: movingYesNoPage.uiSchema,
           schema: movingYesNoPage.schema,
         },
         newMailingAddressPage: {
           path: 'new-mailing-address',
-          title: 'New mailing address',
+          title:
+            CONTACT_INFORMATION_CHAPTER_CONSTANTS.newMailingAddressPageTitle,
           uiSchema: newMailingAddressPage.uiSchema,
           schema: newMailingAddressPage.schema,
         },
         phoneAndEmailPage: {
           path: 'phone-and-email',
-          title: 'Contact information',
+          title: CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle,
           uiSchema: phoneAndEmailPage.uiSchema,
           schema: phoneAndEmailPage.schema,
         },

@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -14,7 +14,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -22,6 +22,7 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherGeneratedIncomeTypeExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -32,17 +33,17 @@ export const options = {
   nounPlural: 'royalties and other properties',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
+    !isDefined(item?.recipientRelationship) ||
     typeof item.canBeSold !== 'boolean' ||
-    !item.grossMonthlyIncome ||
-    !item.fairMarketValue ||
-    !item.incomeGenerationMethod, // include all required fields here
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.fairMarketValue) ||
+    !isDefined(item.incomeGenerationMethod), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome &&
-      item?.fairMarketValue && (
+      isDefined(item?.grossMonthlyIncome) &&
+      isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income Generation Method:{' '}
@@ -197,16 +198,8 @@ const generatedIncomeTypePage = {
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    fairMarketValue: merge({}, currencyUI('Fair market value of this asset'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI({ title: 'Gross monthly income' }),
+    fairMarketValue: currencyUI({ title: 'Fair market value of this asset' }),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',
     }),

@@ -6,8 +6,11 @@ import {
 import { incomeTypeEarnedLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextGetItemName,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
@@ -26,14 +29,35 @@ describe('associated income list and loop pages', () => {
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    const baseItem = testDataZeroes.data.associatedIncomes[0];
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
     testOptionsTextGetItemName(options);
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { accountValue, recipientRelationship, ...baseItem } = testData.data.associatedIncomes[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      accountValue,
+      recipientRelationship,
+      ...baseItem
+    } = testData.data.associatedIncomes[0];
+    /* eslint-enable no-unused-vars */
+
+    testOptionsTextCardDescription(options, baseItem, incomeTypeEarnedLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      accountValue,
+      recipientRelationship,
+      ...baseItem
+    } = testDataZeroes.data.associatedIncomes[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeEarnedLabels);
   });
 
@@ -148,14 +172,14 @@ describe('associated income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 1, 'va-text-input': 1, input: 2 },
+      { 'va-radio': 1, 'va-text-input': 3 },
       'income type',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      2,
+      4,
       'income type',
     );
     testSubmitsWithoutErrors(

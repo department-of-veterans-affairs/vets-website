@@ -3,7 +3,7 @@ import {
   selectUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { YOUR_INFORMATION_PAGES_CONSTANTS } from '../constants';
+import { YOUR_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 
 const educationOptions = [
   { key: 'firstGrade', label: '1st grade' },
@@ -29,7 +29,7 @@ const labels = Object.fromEntries(
 const labelsList = educationOptions.map(({ key }) => key);
 
 const selectUIInput = {
-  title: '- Select -',
+  title: "What's the highest level of school you've completed?",
   labels,
   errorMessages: {
     required: 'Please select your years of education.',
@@ -39,7 +39,7 @@ const selectUIInput = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(YOUR_INFORMATION_PAGES_CONSTANTS.educationPageTitle),
+    ...titleUI(YOUR_INFORMATION_CHAPTER_CONSTANTS.educationPageTitle),
     yearsOfEducation: selectUI(selectUIInput),
   },
   schema: {

@@ -14,9 +14,12 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`, {
       force: true,
     });
-    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
-      force: true,
-    });
+    PatientComposePage.getMessageBodyField().type(
+      `{moveToStart}${requestBody.body}`,
+      {
+        force: true,
+      },
+    );
 
     PatientComposePage.verifyAttachmentButtonText(0);
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);

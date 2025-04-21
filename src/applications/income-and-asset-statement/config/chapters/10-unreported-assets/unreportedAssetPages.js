@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -10,12 +10,13 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
   otherAssetOwnerRelationshipExplanationRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -26,15 +27,15 @@ export const options = {
   nounPlural: 'assets previously not reported',
   required: false,
   isItemIncomplete: item =>
-    !item?.assetOwnerRelationship ||
-    !item.ownedPortionValue ||
-    !item.assetType ||
-    !item.assetLocation, // include all required fields here
+    !isDefined(item?.assetOwnerRelationship) ||
+    !isDefined(item.ownedPortionValue) ||
+    !isDefined(item.assetType) ||
+    !isDefined(item.assetLocation), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: () => 'Unreported Asset',
     cardDescription: item =>
-      item?.ownedPortionValue && (
+      isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Asset type:{' '}
@@ -147,14 +148,8 @@ const assetTypePage = {
       title: 'What is the type of asset?',
       hint: 'Cash, art, etc',
     }),
-    ownedPortionValue: merge(
-      {},
-      currencyUI('What is the value of your portion of the property?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    ownedPortionValue: currencyUI(
+      'What is the value of your portion of the property?',
     ),
     assetLocation: textUI({
       title: 'Where is the asset located?',
