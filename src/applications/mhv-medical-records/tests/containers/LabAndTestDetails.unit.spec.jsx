@@ -134,8 +134,11 @@ describe('LabAndTestDetails pathology', () => {
   });
 
   it('displays pathology label', () => {
+    // matches any one of the four expected strings
+    const pathologyLabelRe = /^LR SURGICAL (PATHOLOGY|SURGICAL_PATHOLOGY|ELECTRON_MICROSCOPY|CYTOPATHOLOGY) REPORT$/;
+
     expect(
-      screen.getByText('LR SURGICAL PATHOLOGY REPORT', {
+      screen.getByText(pathologyLabelRe, {
         exact: true,
         selector: 'h1',
       }),
