@@ -105,6 +105,7 @@ export function fetchReferrals() {
         type: FETCH_REFERRALS_SUCCEEDED,
         data: filteredReferrals,
       });
+
       return referrals;
     } catch (error) {
       dispatch({
@@ -148,7 +149,8 @@ export function pollFetchAppointmentInfo(
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.attributes.status === 'draft') {
+
+      if (appointmentInfo.status === 'draft') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {
