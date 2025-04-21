@@ -458,7 +458,7 @@ const VaPrescription = prescription => {
                   // Any of the Rx's NDC's will work here. They should all show the same information
                   refillHistory.some(p => p.cmopNdcNumber) && (
                     <Link
-                      to={`prescription/${
+                      to={`/prescription/${
                         prescription.prescriptionId
                       }/documentation`}
                       data-testid="va-prescription-documentation-link"
@@ -482,7 +482,7 @@ const VaPrescription = prescription => {
                   // Any of the Rx's NDC's will work here. They should all show the same information
                   refillHistory.some(p => p.cmopNdcNumber) && (
                     <Link
-                      to={`prescription/${
+                      to={`/prescription/${
                         prescription.prescriptionId
                       }/documentation`}
                       data-testid="va-prescription-documentation-link"
