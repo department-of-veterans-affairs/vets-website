@@ -7,18 +7,15 @@ import content from '../../../../locales/en/content.json';
 describe('CG <RepresentativeReviewField>', () => {
   const uiTitle = 'Review Field Title';
   const subject = ({ formData = undefined } = {}) => {
-    const props = {
-      uiSchema: { 'ui:title': uiTitle },
-      formData,
-    };
+    const props = { uiSchema: { 'ui:title': uiTitle }, formData };
     const { container } = render(
       <RepresentativeReviewField>
         <div {...props} />
       </RepresentativeReviewField>,
     );
     const selectors = () => ({
-      title: container.querySelector('dt', '.review-row'),
-      value: container.querySelector('dd', '.review-row'),
+      title: container.querySelector('dt'),
+      value: container.querySelector('dd'),
     });
     return { selectors };
   };

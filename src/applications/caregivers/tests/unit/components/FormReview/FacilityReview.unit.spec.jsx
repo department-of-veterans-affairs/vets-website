@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import userEvent from '@testing-library/user-event';
 import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
 import FacilityReview from '../../../../components/FormReview/FacilityReview';
@@ -11,7 +11,7 @@ describe('CG <FacilityReview>', () => {
   const { facilities } = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
   const assignedFacility = facilities[1];
-  const goToPath = sinon.spy();
+  let goToPath;
 
   const subject = ({
     plannedClinic = {
@@ -20,9 +20,7 @@ describe('CG <FacilityReview>', () => {
     },
   } = {}) => {
     const props = {
-      data: {
-        'view:plannedClinic': plannedClinic,
-      },
+      data: { 'view:plannedClinic': plannedClinic },
       goToPath,
     };
     const { queryByText, getByText, container } = render(
@@ -40,16 +38,20 @@ describe('CG <FacilityReview>', () => {
     return { selectors, getByText };
   };
 
+  beforeEach(() => {
+    goToPath = sinon.spy();
+  });
+
   afterEach(() => {
-    goToPath.reset();
+    goToPath.resetHistory();
   });
 
   it('should call `goToPath` with review query param when edit button is clicked', () => {
-    const expectedPath =
+    const expected =
       '/veteran-information/va-medical-center/locator?review=true';
     const { selectors } = subject();
     userEvent.click(selectors().editButton);
-    expect(goToPath.calledWith(expectedPath)).to.be.true;
+    sinon.assert.calledWithExactly(goToPath, expected);
   });
 
   it('should render selected and assigned facilities when selected facility does not offer caregiver services', () => {

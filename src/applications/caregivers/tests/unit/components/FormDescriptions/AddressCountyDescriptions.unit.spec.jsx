@@ -1,41 +1,57 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import {
   CaregiverCountyDescription,
   VeteranCountyDescription,
 } from '../../../../components/FormDescriptions/AddressCountyDescriptions';
 
 describe('CG <CaregiverCountyDescription>', () => {
-  it('should render `va-additional-info` component with necessary attribute(s)', () => {
-    const { container } = render(<CaregiverCountyDescription />);
-    const selector = container.querySelector('va-additional-info');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('trigger');
-  });
-
-  it('should prevent an outside blur event from executing', () => {
-    const externalBlur = sinon.spy();
+  let onBlur;
+  const subject = () => {
     const { container } = render(
-      <div onBlur={externalBlur}>
+      <div onBlur={onBlur}>
         <CaregiverCountyDescription />
       </div>,
     );
-    const selector = container.querySelector('va-additional-info');
-    const blurEvent = new Event('blur');
+    const selectors = () => ({
+      vaAddtlInfo: container.querySelector('va-additional-info'),
+    });
+    return { selectors };
+  };
 
-    fireEvent.blur(selector, blurEvent);
+  beforeEach(() => {
+    onBlur = sinon.spy();
+  });
 
-    expect(externalBlur.notCalled).to.be.true;
+  afterEach(() => {
+    onBlur.resetHistory();
+  });
+
+  it('should render `va-additional-info` component', () => {
+    const { selectors } = subject();
+    expect(selectors().vaAddtlInfo).to.exist;
+  });
+
+  it('should prevent an outside blur event from executing', () => {
+    const { selectors } = subject();
+    fireEvent.blur(selectors().vaAddtlInfo, new Event('blur'));
+    sinon.assert.notCalled(onBlur);
   });
 });
 
 describe('CG <VeteranCountyDescription>', () => {
-  it('should render `va-additional-info` component with necessary attribute(s)', () => {
+  const subject = () => {
     const { container } = render(<VeteranCountyDescription />);
-    const selector = container.querySelector('va-additional-info');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('trigger');
+    const selectors = () => ({
+      vaAddtlInfo: container.querySelector('va-additional-info'),
+    });
+    return { selectors };
+  };
+
+  it('should render `va-additional-info` component with necessary attribute(s)', () => {
+    const { selectors } = subject();
+    expect(selectors().vaAddtlInfo).to.exist;
   });
 });

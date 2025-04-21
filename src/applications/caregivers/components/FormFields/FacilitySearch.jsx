@@ -12,7 +12,7 @@ import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
 
 // declare page paths for review mode
-const REVIEW_PATHS = {
+export const REVIEW_PATHS = {
   reviewAndSubmit: '/review-and-submit',
   confirmFacility: '/veteran-information/va-medical-center/confirm?review=true',
 };
