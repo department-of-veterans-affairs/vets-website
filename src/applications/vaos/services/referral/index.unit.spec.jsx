@@ -60,7 +60,7 @@ describe('Referral Services', () => {
 
   it('postReferralAppointment sends the correct payload and returns data', async () => {
     const input = {
-      referralId: 'r1',
+      referralNumber: 'r1',
       slotId: 's1',
       draftApppointmentId: 'd1',
     };

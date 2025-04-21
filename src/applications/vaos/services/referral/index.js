@@ -41,6 +41,7 @@ export async function postReferralAppointment({
       draftApppointmentId,
     }),
   });
+
   return response.data;
 }
 
@@ -57,7 +58,7 @@ export async function postDraftReferralAppointment(referralNumber) {
 
 export async function getAppointmentInfo(appointmentId) {
   const response = await apiRequestWithUrl(
-    `/vaos/v2/eps_appointments/${appointmentId}`,
+    `/vaos/v2/appointments/${appointmentId}`,
     {
       method: 'GET',
     },
