@@ -4,10 +4,6 @@ import {
   yesNoSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  firstNameLastNameNoSuffixUI,
-  firstNameLastNameNoSuffixSchema,
-  ssnUI,
-  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 
@@ -46,20 +42,6 @@ export const stepchild = {
         </va-additional-info>
       ),
     },
-    biologicalParentName: firstNameLastNameNoSuffixUI(
-      title => `Child’s biological parent’s ${title}`,
-    ),
-    biologicalParentSsn: {
-      ...ssnUI('Child’s biological parent’s Social Security number'),
-      'ui:required': required,
-    },
-    biologicalParentDob: currentOrPastDateUI({
-      title: 'Child’s biological parent’s date of birth',
-      required,
-      'ui:errorMessages': {
-        required: 'Enter the date.',
-      },
-    }),
   },
   schema: {
     type: 'object',
@@ -70,9 +52,6 @@ export const stepchild = {
         type: 'object',
         properties: {},
       },
-      biologicalParentName: firstNameLastNameNoSuffixSchema,
-      biologicalParentSsn: ssnSchema,
-      biologicalParentDob: currentOrPastDateSchema,
     },
   },
 };

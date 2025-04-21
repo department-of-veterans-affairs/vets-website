@@ -44,12 +44,6 @@ describe('arrayBuilderOptions', () => {
         isBiologicalChildOfSpouse: false,
         relationshipToChild: { stepchild: true },
         dateEnteredHousehold: '2023-02-01',
-        biologicalParentName: {
-          first: 'Jane',
-          last: 'Doe',
-        },
-        biologicalParentDob: '1990-02-01',
-        biologicalParentSsn: '432432432',
         doesChildHaveDisability: false,
         doesChildLiveWithYou: false,
         hasChildEverBeenMarried: false,

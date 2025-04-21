@@ -28,11 +28,7 @@ function isStepchildInfoIncomplete(item) {
   return (
     item.relationshipToChild?.stepchild &&
     (typeof item.isBiologicalChildOfSpouse === 'undefined' ||
-      isFieldMissing(item.dateEnteredHousehold) ||
-      isFieldMissing(item.biologicalParentName?.first) ||
-      isFieldMissing(item.biologicalParentName?.last) ||
-      isFieldMissing(item.biologicalParentSsn) ||
-      isFieldMissing(item.biologicalParentDob))
+      isFieldMissing(item.dateEnteredHousehold))
   );
 }
 
