@@ -88,7 +88,7 @@ const UnifiedLabsAndTests = props => {
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}
               value={record.testCode}
-              testId="chem-hem-category"
+              testId="lab-and-test-code"
               data-dd-action-name="[lab and tests - test code]"
             />
             {record.sampleTested && (
@@ -96,7 +96,7 @@ const UnifiedLabsAndTests = props => {
                 ifEmpty="None Noted"
                 label={LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}
                 value={record.sampleTested}
-                testId="chem-hem-sample-tested"
+                testId="lab-and-test-sample-tested"
                 data-dd-action-name="[lab and tests - sample tested]"
               />
             )}
@@ -105,7 +105,7 @@ const UnifiedLabsAndTests = props => {
                 ifEmpty="None Noted"
                 label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
                 value={record.bodySite}
-                testId="chem-hem-sample-tested"
+                testId="lab-and-test-body-site"
                 data-dd-action-name="[lab and tests - body site]"
               />
             )}
@@ -113,14 +113,14 @@ const UnifiedLabsAndTests = props => {
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}
               value={record.orderedBy}
-              testId="chem-hem-ordered-by"
+              testId="lab-and-test-ordered-by"
               data-dd-action-name="[lab and tests - ordered by]"
             />
             <LabelValue
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.LOCATION}
               value={record.location}
-              testId="chem-hem-collecting-location"
+              testId="lab-and-test-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
 
@@ -129,6 +129,7 @@ const UnifiedLabsAndTests = props => {
                 <LabelValue
                   label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
                   ifEmpty=""
+                  testId="lab-and-test-comments"
                 />
                 <ItemList list={record.comments} />
               </>
@@ -139,6 +140,7 @@ const UnifiedLabsAndTests = props => {
                   ifEmpty="None Noted"
                   label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
                   value={record.result}
+                  testId="lab-and-test-results"
                 />
               </>
             )}
@@ -146,7 +148,10 @@ const UnifiedLabsAndTests = props => {
         </div>
         {/*         RESULTS CARDS            */}
         {record.observations && (
-          <div className="test-results-container">
+          <div
+            className="test-results-container"
+            data-testid="test-observations"
+          >
             <HeaderSection header="Results" className="test-results-header">
               <InfoAlert highLowResults />
               <div className="print-only">
@@ -175,7 +180,18 @@ const UnifiedLabsAndTests = props => {
 export default UnifiedLabsAndTests;
 
 UnifiedLabsAndTests.propTypes = {
-  record: PropTypes.object,
+  record: PropTypes.shape({
+    name: PropTypes.string,
+    date: PropTypes.string,
+    testCode: PropTypes.string,
+    sampleTested: PropTypes.string,
+    bodySite: PropTypes.string,
+    orderedBy: PropTypes.string,
+    location: PropTypes.string,
+    comments: PropTypes.arrayOf(PropTypes.string),
+    result: PropTypes.string,
+    observations: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
   runningUnitTest: PropTypes.bool,
   user: PropTypes.object,
 };
