@@ -37,17 +37,9 @@ describe('VAOS Component: PendingReferralCard', () => {
     expect(screen.getByTestId('typeOfCare')).to.exist;
   });
   it('should display the correct number of appointments and expiration date', () => {
-    const expirationDate = new Date(referral.expirationDate);
-    // add 1 day to the expiration date to get the correct date
-    expirationDate.setDate(expirationDate.getDate() + 1);
-    // Format month word for the date.
-    const formattedDate = `${expirationDate.toLocaleString('default', {
-      month: 'long',
-    })} ${expirationDate.getDate()}, ${expirationDate.getFullYear()}`;
-
     expect(
       screen.getByText(
-        `We’ve approved your community care referral. You must schedule all appointments for this referral by ${formattedDate}.`,
+        `We’ve approved your community care referral. You must schedule all appointments for this referral by July 1, 2025.`,
       ),
     ).to.exist;
   });
