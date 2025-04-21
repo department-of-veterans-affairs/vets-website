@@ -37,43 +37,55 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
   const [hasLoadedMostRecentYear, setHasLoadedMostRecentYear] = useState(false);
-  const isAppLoading = useMemo(() => {
-    return (
-      profile.isLoadingProfile ||
-      (displayToggle &&
-        profile.isUserLOA3 &&
-        hasLoadedMostRecentYear === false) ||
-      displayToggle === undefined
-    );
-  }, [displayToggle, hasLoadedMostRecentYear, profile]);
-  useEffect(() => {
-    if (profile.isUserLOA3 !== true || displayToggle !== true) {
-      return;
-    }
+  const isAppLoading = useMemo(
+    () => {
+      return (
+        profile.isLoadingProfile ||
+        (displayToggle &&
+          profile.isUserLOA3 &&
+          hasLoadedMostRecentYear === false) ||
+        displayToggle === undefined
+      );
+    },
+    [displayToggle, hasLoadedMostRecentYear, profile],
+  );
+  useEffect(
+    () => {
+      if (profile.isUserLOA3 !== true || displayToggle !== true) {
+        return;
+      }
 
-    apiRequest('/form1095_bs/available_forms')
-      .then(response => {
-        if (response.errors || response.availableForms.length === 0) {
-          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-        }
-        const mostRecentYearData = response.availableForms[0];
-        if (mostRecentYearData?.year) {
-          updateYear(mostRecentYearData.year);
-        }
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
-      })
-      .finally(() => {
-        setHasLoadedMostRecentYear(true);
-      });
-  }, [profile.isUserLOA3, displayToggle]);
+      apiRequest('/form1095_bs/available_forms')
+        .then(response => {
+          if (response.availableForms.length === 0) {
+            recordEvent({ event: '1095b-available-forms-not-found' });
+            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+          }
+          const mostRecentYearData = response.availableForms[0];
+          if (mostRecentYearData?.year) {
+            updateYear(mostRecentYearData.year);
+          }
+        })
+        .catch(() => {
+          recordEvent({ event: '1095b-available-forms-system-error' });
+          updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+        })
+        .finally(() => {
+          recordEvent({ event: '1095b-available-forms-found' });
+          setHasLoadedMostRecentYear(true);
+        });
+    },
+    [profile.isUserLOA3, displayToggle],
+  );
 
-  useEffect(() => {
-    if (formError.type === errorTypes.DOWNLOAD_ERROR) {
-      focusElement('#downloadError');
-    }
-  }, [formError]);
+  useEffect(
+    () => {
+      if (formError.type === errorTypes.DOWNLOAD_ERROR) {
+        focusElement('#downloadError');
+      }
+    },
+    [formError],
+  );
 
   const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
@@ -82,44 +94,48 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         return window.URL.createObjectURL(blob);
       })
       .catch(() => {
+        recordEvent({ event: `1095b-${format}-download-error` });
         updateFormError({ error: true, type: errorTypes.DOWNLOAD_ERROR });
         return false;
       });
   };
 
-  useEffect(() => {
-    const getverifyAlertVariant = () => {
-      if (cspId === CSP_IDS.LOGIN_GOV) {
+  useEffect(
+    () => {
+      const getverifyAlertVariant = () => {
+        if (cspId === CSP_IDS.LOGIN_GOV) {
+          return (
+            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+              <span slot="LoginGovVerifyButton">
+                <VerifyLogingovButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        if (cspId === CSP_IDS.ID_ME) {
+          return (
+            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+              <span slot="IdMeVerifyButton">
+                <VerifyIdmeButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
         return (
-          <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
-            <span slot="LoginGovVerifyButton">
+          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+            <span slot="LoginGovSignInButton">
               <VerifyLogingovButton />
             </span>
-          </VaAlertSignIn>
-        );
-      }
-      if (cspId === CSP_IDS.ID_ME) {
-        return (
-          <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
-            <span slot="IdMeVerifyButton">
+            <span slot="IdMeSignInButton">
               <VerifyIdmeButton />
             </span>
           </VaAlertSignIn>
         );
-      }
-      return (
-        <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
-          <span slot="LoginGovSignInButton">
-            <VerifyLogingovButton />
-          </span>
-          <span slot="IdMeSignInButton">
-            <VerifyIdmeButton />
-          </span>
-        </VaAlertSignIn>
-      );
-    };
-    setverifyAlertVariant(getverifyAlertVariant());
-  }, [cspId, profile.isUserLOA1]);
+      };
+      setverifyAlertVariant(getverifyAlertVariant());
+    },
+    [cspId, profile.isUserLOA1],
+  );
 
   const showSignInModal = () => {
     toggleLoginModal(true, 'ask-va', true);
@@ -249,4 +265,7 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

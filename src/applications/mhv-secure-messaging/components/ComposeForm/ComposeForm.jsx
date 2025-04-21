@@ -49,6 +49,7 @@ import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
 import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -60,21 +61,26 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { isComboBoxEnabled } = useFeatureToggles();
+
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
   const [attachFileError, setAttachFileError] = useState(null);
 
-  useEffect(() => {
-    if (selectedRecipientId) {
-      setIsSignatureRequired(
-        allowedRecipients.some(
-          r => +r.id === +selectedRecipientId && r.signatureRequired,
-        ) || false,
-      );
-    }
-  }, [selectedRecipientId, allowedRecipients]);
+  useEffect(
+    () => {
+      if (selectedRecipientId) {
+        setIsSignatureRequired(
+          allowedRecipients.some(
+            r => +r.id === +selectedRecipientId && r.signatureRequired,
+          ) || false,
+        );
+      }
+    },
+    [selectedRecipientId, allowedRecipients],
+  );
   const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
   const [bodyError, setBodyError] = useState(null);
@@ -98,6 +104,7 @@ const ComposeForm = props => {
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
+  const [comboBoxInputValue, setComboBoxInputValue] = useState('');
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const categories = useSelector(state => state.sm.categories?.categories);
@@ -142,15 +149,21 @@ const ComposeForm = props => {
     clearTimeout(timeoutId);
   };
 
-  useEffect(() => {
-    if (!categories) {
-      dispatch(getCategories());
-    }
-  }, [categories, dispatch]);
+  useEffect(
+    () => {
+      if (!categories) {
+        dispatch(getCategories());
+      }
+    },
+    [categories, dispatch],
+  );
 
-  const formattedSignature = useMemo(() => {
-    return messageSignatureFormatter(signature);
-  }, [signature]);
+  const formattedSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   const setUnsavedNavigationError = useCallback(
     typeOfError => {
@@ -195,81 +208,96 @@ const ComposeForm = props => {
     [setNavigationError],
   );
 
-  useEffect(() => {
-    if (allowedRecipients?.length > 0) {
-      setRecipientsList([...allowedRecipients]);
-    }
-
-    if (!draft) {
-      setCategory(null);
-      setSubject('');
-      setMessageBody('');
-    }
-  }, [recipients, draft, allowedRecipients]);
-
-  useEffect(() => {
-    if (draft) {
-      const tempRecipient = {
-        recipientId: draft.recipientId,
-        name: draft.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
-
-      setCurrentRecipient(tempRecipient);
-    }
-    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-  }, [draft]);
-
-  useEffect(() => {
-    const today = dateFormat(new Date(), 'YYYY-MM-DD');
-    if (sendMessageFlag && isSaving !== true) {
-      scrollToTop();
-      const messageData = {
-        category,
-        body: `${messageBody} ${
-          electronicSignature
-            ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
-            : ``
-        }`,
-        subject,
-      };
-      messageData[`${'draft_id'}`] = draft?.messageId;
-      messageData[`${'recipient_id'}`] = selectedRecipientId;
-
-      let sendData;
-      if (attachments.length > 0) {
-        sendData = new FormData();
-        sendData.append('message', JSON.stringify(messageData));
-        attachments.map(upload => sendData.append('uploads[]', upload));
-      } else {
-        sendData = JSON.stringify(messageData);
+  useEffect(
+    () => {
+      if (allowedRecipients?.length > 0) {
+        setRecipientsList([...allowedRecipients]);
       }
-      dispatch(sendMessage(sendData, attachments.length > 0))
-        .then(() => {
-          setTimeout(() => {
-            navigateToFolderByFolderId(
-              currentFolder?.folderId || DefaultFolders.INBOX.id,
-              history,
-            );
-          }, 1000);
-          // Timeout neccessary for UCD requested 1 second delay
-        })
-        .catch(() => setSendMessageFlag(false), scrollToTop());
-    }
-  }, [sendMessageFlag, isSaving, scrollToTop]);
 
-  useEffect(() => {
-    if (messageInvalid) {
-      focusOnErrorField();
-    }
-  }, [messageInvalid]);
+      if (!draft) {
+        setCategory(null);
+        setSubject('');
+        setMessageBody('');
+      }
+    },
+    [recipients, draft, allowedRecipients],
+  );
 
-  useEffect(() => {
-    if (alertStatus) {
-      focusElement(lastFocusableElement);
-    }
-  }, [alertStatus, lastFocusableElement]);
+  useEffect(
+    () => {
+      if (draft) {
+        const tempRecipient = {
+          recipientId: draft.recipientId,
+          name: draft.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
+
+        setCurrentRecipient(tempRecipient);
+      }
+      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+    },
+    [draft],
+  );
+
+  useEffect(
+    () => {
+      const today = dateFormat(new Date(), 'YYYY-MM-DD');
+      if (sendMessageFlag && isSaving !== true) {
+        scrollToTop();
+        const messageData = {
+          category,
+          body: `${messageBody} ${
+            electronicSignature
+              ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
+              : ``
+          }`,
+          subject,
+        };
+        messageData[`${'draft_id'}`] = draft?.messageId;
+        messageData[`${'recipient_id'}`] = selectedRecipientId;
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+        } else {
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() => {
+            setTimeout(() => {
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              );
+            }, 1000);
+            // Timeout neccessary for UCD requested 1 second delay
+          })
+          .catch(() => setSendMessageFlag(false), scrollToTop());
+      }
+    },
+    [sendMessageFlag, isSaving, scrollToTop],
+  );
+
+  useEffect(
+    () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus, lastFocusableElement],
+  );
 
   const recipientExists = useCallback(
     recipientId => {
@@ -323,7 +351,17 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        if (isComboBoxEnabled) {
+          if (comboBoxInputValue === '') {
+            setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+          } else {
+            setRecipientError(
+              ErrorMessages.ComposeForm.VALID_RECIPIENT_REQUIRED,
+            );
+          }
+        } else {
+          setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        }
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -367,6 +405,8 @@ const ComposeForm = props => {
       electronicSignature,
       checkboxMarked,
       setMessageInvalid,
+      comboBoxInputValue,
+      isComboBoxEnabled,
     ],
   );
 
@@ -515,129 +555,135 @@ const ComposeForm = props => {
   );
 
   // Navigation error effect
-  useEffect(() => {
-    const isBlankForm = () =>
-      messageBody === '' &&
-      subject === '' &&
-      Number(selectedRecipientId) === 0 &&
-      category === null &&
-      attachments.length === 0;
+  useEffect(
+    () => {
+      const isBlankForm = () =>
+        messageBody === '' &&
+        subject === '' &&
+        Number(selectedRecipientId) === 0 &&
+        category === null &&
+        attachments.length === 0;
 
-    const isEditedSaved = () =>
-      messageBody === draft?.body &&
-      Number(selectedRecipientId) === draft?.recipientId &&
-      category === draft?.category &&
-      subject === draft?.subject;
+      const isEditedSaved = () =>
+        messageBody === draft?.body &&
+        Number(selectedRecipientId) === draft?.recipientId &&
+        category === draft?.category &&
+        subject === draft?.subject;
 
-    const isEditedForm = () =>
-      (messageBody !== draft?.body ||
-        selectedRecipientId !== draft?.recipientId ||
-        category !== draft?.category ||
-        subject !== draft?.subject) &&
-      !isBlankForm() &&
-      !isEditedSaved();
+      const isEditedForm = () =>
+        (messageBody !== draft?.body ||
+          selectedRecipientId !== draft?.recipientId ||
+          category !== draft?.category ||
+          subject !== draft?.subject) &&
+        !isBlankForm() &&
+        !isEditedSaved();
 
-    const isFormFilled = () =>
-      messageBody !== '' &&
-      subject !== '' &&
-      selectedRecipientId !== null &&
-      category !== null;
+      const isFormFilled = () =>
+        messageBody !== '' &&
+        subject !== '' &&
+        selectedRecipientId !== null &&
+        category !== null;
 
-    let error = null;
-    const unsavedFilledDraft =
-      isFormFilled() && !isEditedSaved() && !savedDraft;
+      let error = null;
+      const unsavedFilledDraft =
+        isFormFilled() && !isEditedSaved() && !savedDraft;
 
-    const partiallySavedDraftWithSignRequired =
-      !draft &&
-      unsavedFilledDraft &&
-      !attachments.length &&
-      isSignatureRequired;
+      const partiallySavedDraftWithSignRequired =
+        !draft &&
+        unsavedFilledDraft &&
+        !attachments.length &&
+        isSignatureRequired;
 
-    const partiallySavedDraft =
-      (!isFormFilled() && (!isBlankForm() || attachments.length > 0)) ||
-      partiallySavedDraftWithSignRequired;
+      const partiallySavedDraft =
+        (!isFormFilled() && (!isBlankForm() || attachments.length > 0)) ||
+        partiallySavedDraftWithSignRequired;
 
-    const savedDraftWithEdits =
-      (savedDraft && !isEditedSaved() && isEditedForm()) ||
-      (!!draft && unsavedFilledDraft);
+      const savedDraftWithEdits =
+        (savedDraft && !isEditedSaved() && isEditedForm()) ||
+        (!!draft && unsavedFilledDraft);
 
-    const savedDraftWithNoEdits =
-      (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
+      const savedDraftWithNoEdits =
+        (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
 
-    if (isBlankForm()) {
-      error = null;
-    } else if (partiallySavedDraft) {
-      error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
-    } else if (
-      attachments.length > 0 &&
-      (unsavedFilledDraft ||
-        savedDraftWithEdits ||
-        savedDraftWithNoEdits ||
-        partiallySavedDraft)
-    ) {
-      error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-    } else if (
-      !draft &&
-      unsavedFilledDraft &&
-      !attachments.length &&
-      !isSignatureRequired
-    ) {
-      error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
-    } else if (
-      !isSignatureRequired &&
-      savedDraftWithEdits &&
-      !attachments.length
-    ) {
-      error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
-    } else if (
-      isSignatureRequired &&
-      savedDraftWithEdits &&
-      !attachments.length
-    ) {
-      error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR;
-    }
-    setUnsavedNavigationError(error);
-  }, [
-    attachments,
-    category,
-    checkMessageValidity,
-    deleteButtonClicked,
-    draft?.category,
-    draft?.messageBody,
-    draft?.recipientId,
-    draft?.subject,
-    formPopulated,
-    isSignatureRequired,
-    messageBody,
-    selectedRecipientId,
-    subject,
-    savedDraft,
-    setUnsavedNavigationError,
-    draft?.body,
-    draft,
-    modalVisible,
-  ]);
+      if (isBlankForm()) {
+        error = null;
+      } else if (partiallySavedDraft) {
+        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
+      } else if (
+        attachments.length > 0 &&
+        (unsavedFilledDraft ||
+          savedDraftWithEdits ||
+          savedDraftWithNoEdits ||
+          partiallySavedDraft)
+      ) {
+        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
+      } else if (
+        !draft &&
+        unsavedFilledDraft &&
+        !attachments.length &&
+        !isSignatureRequired
+      ) {
+        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
+      } else if (
+        !isSignatureRequired &&
+        savedDraftWithEdits &&
+        !attachments.length
+      ) {
+        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
+      } else if (
+        isSignatureRequired &&
+        savedDraftWithEdits &&
+        !attachments.length
+      ) {
+        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR;
+      }
+      setUnsavedNavigationError(error);
+    },
+    [
+      attachments,
+      category,
+      checkMessageValidity,
+      deleteButtonClicked,
+      draft?.category,
+      draft?.messageBody,
+      draft?.recipientId,
+      draft?.subject,
+      formPopulated,
+      isSignatureRequired,
+      messageBody,
+      selectedRecipientId,
+      subject,
+      savedDraft,
+      setUnsavedNavigationError,
+      draft?.body,
+      draft,
+      modalVisible,
+    ],
+  );
 
-  useEffect(() => {
-    if (
-      debouncedRecipient &&
-      debouncedCategory &&
-      debouncedSubject &&
-      debouncedMessageBody &&
-      !modalVisible
-    ) {
-      saveDraftHandler('auto');
-      setUnsavedNavigationError();
-    }
-  }, [
-    debouncedCategory,
-    debouncedMessageBody,
-    debouncedSubject,
-    debouncedRecipient,
-    saveDraftHandler,
-    modalVisible,
-    setUnsavedNavigationError,
-  ]);
+  useEffect(
+    () => {
+      if (
+        debouncedRecipient &&
+        debouncedCategory &&
+        debouncedSubject &&
+        debouncedMessageBody &&
+        !modalVisible
+      ) {
+        saveDraftHandler('auto');
+        setUnsavedNavigationError();
+      }
+    },
+    [
+      debouncedCategory,
+      debouncedMessageBody,
+      debouncedSubject,
+      debouncedRecipient,
+      saveDraftHandler,
+      modalVisible,
+      setUnsavedNavigationError,
+    ],
+  );
 
   const recipientHandler = useCallback(
     recipient => {
@@ -790,38 +836,42 @@ const ComposeForm = props => {
           }
         />
         <div>
-          {!noAssociations && !allTriageGroupsBlocked && (
-            <div
-              className="
-                  vads-u-border-top--1px
-                  vads-u-padding-top--3
-                  vads-u-margin-top--3
-                  vads-u-margin-bottom--neg2"
-            >
-              <BlockedTriageGroupAlert
-                alertStyle={BlockedTriageAlertStyles.ALERT}
-                parentComponent={ParentComponent.COMPOSE_FORM}
-                currentRecipient={currentRecipient}
+          {!noAssociations &&
+            !allTriageGroupsBlocked && (
+              <div
+                className={`vads-u-border-top--1px vads-u-padding-top--3 vads-u-margin-top--3 ${
+                  recipientError
+                    ? 'vads-u-margin-bottom--2'
+                    : 'vads-u-margin-bottom--neg2'
+                }`}
+              >
+                <BlockedTriageGroupAlert
+                  alertStyle={BlockedTriageAlertStyles.ALERT}
+                  parentComponent={ParentComponent.COMPOSE_FORM}
+                  currentRecipient={currentRecipient}
+                />
+              </div>
+            )}
+          {recipientsList &&
+            !noAssociations &&
+            !allTriageGroupsBlocked && (
+              <RecipientsSelect
+                recipientsList={recipientsList}
+                onValueChange={recipientHandler}
+                error={recipientError}
+                defaultValue={+selectedRecipientId}
+                isSignatureRequired={isSignatureRequired}
+                setCheckboxMarked={setCheckboxMarked}
+                setElectronicSignature={setElectronicSignature}
+                setComboBoxInputValue={setComboBoxInputValue}
               />
-            </div>
-          )}
-          {recipientsList && !noAssociations && !allTriageGroupsBlocked && (
-            <RecipientsSelect
-              recipientsList={recipientsList}
-              onValueChange={recipientHandler}
-              error={recipientError}
-              defaultValue={+selectedRecipientId}
-              isSignatureRequired={isSignatureRequired}
-              setCheckboxMarked={setCheckboxMarked}
-              setElectronicSignature={setElectronicSignature}
-            />
-          )}
+            )}
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
                 title={FormLabels.CATEGORY}
-                body={`${RadioCategories[draft?.category].label}: ${
-                  RadioCategories[draft?.category].description
+                body={`${RadioCategories[(draft?.category)].label}: ${
+                  RadioCategories[(draft?.category)].description
                 }`}
               />
             ) : (
@@ -890,31 +940,33 @@ const ComposeForm = props => {
 
           <EditSignatureLink />
 
-          {recipientsList && !noAssociations && !allTriageGroupsBlocked && (
-            <section className="attachments-section">
-              <AttachmentsList
-                compose
-                attachments={attachments}
-                setAttachments={setAttachments}
-                attachFileSuccess={attachFileSuccess}
-                setAttachFileSuccess={setAttachFileSuccess}
-                setNavigationError={setNavigationError}
-                editingEnabled
-                attachmentScanError={attachmentScanError}
-                attachFileError={attachFileError}
-                setAttachFileError={setAttachFileError}
-              />
+          {recipientsList &&
+            (!noAssociations &&
+              !allTriageGroupsBlocked && (
+                <section className="attachments-section">
+                  <AttachmentsList
+                    compose
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                    setNavigationError={setNavigationError}
+                    editingEnabled
+                    attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
+                  />
 
-              <FileInput
-                attachments={attachments}
-                setAttachments={setAttachments}
-                setAttachFileSuccess={setAttachFileSuccess}
-                attachmentScanError={attachmentScanError}
-                attachFileError={attachFileError}
-                setAttachFileError={setAttachFileError}
-              />
-            </section>
-          )}
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                    attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
+                  />
+                </section>
+              ))}
           {isSignatureRequired && (
             <ElectronicSignature
               nameError={signatureError}
