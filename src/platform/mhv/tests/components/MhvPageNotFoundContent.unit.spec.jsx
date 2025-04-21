@@ -2,7 +2,8 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import MhvPageNotFound, {
+import {
+  MhvPageNotFoundContent,
   mhvPageNotFoundHeading,
   mhvPageNotFoundTitle,
   mhvPageNotFoundTestId,
@@ -13,7 +14,7 @@ import MhvPageNotFound, {
 let sandbox;
 let recordEvent;
 
-describe('PageNotFound Component', () => {
+describe('MhvPageNotFound Component', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     recordEvent = sandbox.stub();
@@ -24,12 +25,12 @@ describe('PageNotFound Component', () => {
   });
 
   it('can be asserted in other specs via its test id', () => {
-    const { getByTestId } = render(<MhvPageNotFound />);
+    const { getByTestId } = render(<MhvPageNotFoundContent />);
     getByTestId(mhvPageNotFoundTestId);
   });
 
   it('renders a relevant h1, and sets as the active element', async () => {
-    const { getByRole } = render(<MhvPageNotFound />);
+    const { getByRole } = render(<MhvPageNotFoundContent />);
     const heading = getByRole('heading', {
       name: mhvPageNotFoundHeading,
       level: 1,
@@ -42,7 +43,7 @@ describe('PageNotFound Component', () => {
   });
 
   it('sets the page title', async () => {
-    render(<MhvPageNotFound />);
+    render(<MhvPageNotFoundContent />);
     await waitFor(() => {
       expect(document.title).to.eql(mhvPageNotFoundTitle);
     });
@@ -50,7 +51,7 @@ describe('PageNotFound Component', () => {
 
   it('reports to analytics', async () => {
     const props = { recordEvent };
-    render(<MhvPageNotFound {...props} />);
+    render(<MhvPageNotFoundContent {...props} />);
 
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
@@ -60,7 +61,7 @@ describe('PageNotFound Component', () => {
   });
 
   it('renders links to health resources', () => {
-    const { findByRole } = render(<MhvPageNotFound />);
+    const { findByRole } = render(<MhvPageNotFoundContent />);
     healthResources.forEach(({ href, text }) => {
       findByRole('link', { name: text, href });
     });

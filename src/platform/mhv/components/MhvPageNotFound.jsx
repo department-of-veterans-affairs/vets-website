@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import MhvSecondaryNav from '~/platform/mhv/secondary-nav/containers/MhvSecondaryNav';
+import {
+  isLOA3,
+  isVAPatient,
+  isProfileLoading,
+} from '~/platform/user/selectors';
 import recordEventFn from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const mhvPageNotFoundHeading = 'Page not found';
 export const mhvPageNotFoundTitle = 'Page not found | Veterans Affairs';
@@ -17,47 +24,9 @@ export const healthResources = [
   { href: '/find-locations', text: 'Find a VA facility' },
 ];
 
-/**
- * MhvPageNotFound component -- renders the 404 error page for applications
- * within the /my-health path.
- *
- * @component
- * @param {Object} props
- * @param {Function} [props.recordEvent=recordEventFn] - Function to record events, defaults to `recordEventFn`
- *
- * @example
- * // routes.jsx -- react-router-dom -- declare <MhvPageNotFound /> last within <Switch />
- * import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
- * <Switch>
- *   <Route exact path="/" key="App"><App/></Route>
- *   <Route><MhvPageNotFound /></Route>
- * </Switch>
- *
- * @example
- * // routes.jsx -- react-router-dom-v5-compat -- declare <MhvPageNotFound /> last within <Routes />
- * import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
- * <Routes>
- *   <Route path="/" element={<App />} />
- *   <Route path="*" element={<MhvPageNotFound />} />
- * </Routes>
- *
- * @example
- * // in _.unit.spec.jsx files:
- * import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
- * // render a 404 condition
- * const { getByTestId } = render(<App />);
- * getByTestId(mhvPageNotFoundTestId);
- * // or, with chai assertions
- * const el = getByTestId(mhvPageNotFoundTestId);
- * expect(el).to.exist;
- *
- * @example
- * // in _.cypress.spec.js e2e files:
- * import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
- * cy.visit('/nowhere');
- * cy.findByTestId(mhvPageNotFoundTestId);
- */
-const MhvPageNotFound = ({ recordEvent = recordEventFn } = {}) => {
+export const MhvPageNotFoundContent = ({
+  recordEvent = recordEventFn,
+} = {}) => {
   useEffect(() => recordEvent({ event: mhvPageNotFoundEvent }), [recordEvent]);
 
   useEffect(() => {
@@ -109,8 +78,69 @@ const MhvPageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   );
 };
 
-MhvPageNotFound.propTypes = {
+MhvPageNotFoundContent.propTypes = {
   recordEvent: PropTypes.func,
+};
+
+/**
+ * MhvPageNotFound component -- renders the 404 error page for applications
+ * within the /my-health path.
+ *
+ * @component
+ *
+ * @example
+ * // routes.jsx -- react-router-dom -- declare <MhvPageNotFound /> last within <Switch />
+ * import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
+ * <Switch>
+ *   <Route exact path="/" key="App"><App/></Route>
+ *   <Route><MhvPageNotFound /></Route>
+ * </Switch>
+ *
+ * @example
+ * // routes.jsx -- react-router-dom-v5-compat -- declare <MhvPageNotFound /> last within <Routes />
+ * import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
+ * <Routes>
+ *   <Route path="/" element={<App />} />
+ *   <Route path="*" element={<MhvPageNotFound />} />
+ * </Routes>
+ *
+ * @example
+ * // in _.unit.spec.jsx files:
+ * import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
+ * // render a 404 condition
+ * const { getByTestId } = render(<App />);
+ * getByTestId(mhvPageNotFoundTestId);
+ * // or, with chai assertions
+ * const el = getByTestId(mhvPageNotFoundTestId);
+ * expect(el).to.exist;
+ *
+ * @example
+ * // in _.cypress.spec.js e2e files:
+ * import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
+ * cy.visit('/nowhere');
+ * cy.findByTestId(mhvPageNotFoundTestId);
+ */
+const MhvPageNotFound = () => {
+  const isVerified = useSelector(isLOA3);
+  const isAPatient = useSelector(isVAPatient);
+  const loading = useSelector(isProfileLoading);
+
+  if (loading) {
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          data-testid="mhv-page-not-found--loading"
+          message="Please wait..."
+        />
+      </div>
+    );
+  }
+  return (
+    <>
+      {isVerified && isAPatient && <MhvSecondaryNav />}
+      <MhvPageNotFoundContent />
+    </>
+  );
 };
 
 export default MhvPageNotFound;

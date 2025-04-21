@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
-import PageNotFoundContainer from '../../containers/PageNotFoundContainer';
-import reducers from '../../reducers';
+import MhvPageNotFound, {
+  mhvPageNotFoundTestId,
+} from '../../components/MhvPageNotFound';
 
 const stateFn = ({ loading = false, loa = 3, vaPatient = true } = {}) => ({
   user: {
@@ -18,12 +18,11 @@ const stateFn = ({ loading = false, loa = 3, vaPatient = true } = {}) => ({
 });
 
 const setup = initialState =>
-  renderInReduxProvider(<PageNotFoundContainer />, {
+  renderInReduxProvider(<MhvPageNotFound />, {
     initialState: stateFn(initialState),
-    reducers,
   });
 
-describe('PageNotFound component', () => {
+describe('MhvPageNotFound component', () => {
   it('renders a loading indicator', () => {
     const { getByTestId } = setup({ loading: true });
     getByTestId('mhv-page-not-found--loading');
