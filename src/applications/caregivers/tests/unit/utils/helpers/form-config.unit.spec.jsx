@@ -9,184 +9,238 @@ import {
 } from '../../../../utils/helpers';
 
 describe('CG `hideCaregiverRequiredAlert` method', () => {
-  it('should return `true` when primary caregiver is defined', () => {
-    const formData = { 'view:hasPrimaryCaregiver': true };
-    expect(hideCaregiverRequiredAlert(formData)).to.be.true;
-  });
+  const testCases = [
+    {
+      title: 'should return `true` when primary caregiver is defined',
+      data: { 'view:hasPrimaryCaregiver': true },
+      expected: true,
+    },
+    {
+      title: 'should return `true` when secondary caregiver is defined',
+      data: { 'view:hasSecondaryCaregiverOne': true },
+      expected: true,
+    },
+    {
+      title: 'should return `true` when secondary caregiver is undefined',
+      data: {
+        'view:hasPrimaryCaregiver': false,
+        'view:hasSecondaryCaregiverOne': undefined,
+      },
+      expected: true,
+    },
+    {
+      title: 'should return `false` when no caregiver is defined',
+      data: {
+        'view:hasPrimaryCaregiver': false,
+        'view:hasSecondaryCaregiverOne': false,
+      },
+      expected: false,
+    },
+  ];
 
-  it('should return `true` when secondary caregiver is defined', () => {
-    const formData = { 'view:hasSecondaryCaregiverOne': true };
-    expect(hideCaregiverRequiredAlert(formData)).to.be.true;
-  });
-
-  it('should return `true` when secondary caregiver is undefined', () => {
-    const formData = {
-      'view:hasPrimaryCaregiver': false,
-      'view:hasSecondaryCaregiverOne': undefined,
-    };
-    expect(hideCaregiverRequiredAlert(formData)).to.be.true;
-  });
-
-  it('should return `false` when no caregiver is defined', () => {
-    const formData = {
-      'view:hasPrimaryCaregiver': false,
-      'view:hasSecondaryCaregiverOne': false,
-    };
-    expect(hideCaregiverRequiredAlert(formData)).to.be.false;
+  testCases.forEach(({ title, data, expected }) => {
+    it(title, () => expect(hideCaregiverRequiredAlert(data)).to.eq(expected));
   });
 });
 
 describe('CG `hideUploadWarningAlert` method', () => {
-  it('should return `true` when file data contains an error message', () => {
-    const formData = {
-      signAsRepresentativeDocumentUpload: [
-        { name: 'test-name', guid: 'test-guid', errorMessage: 'test-error' },
-      ],
-    };
-    expect(hideUploadWarningAlert(formData)).to.be.true;
-  });
+  const testCases = [
+    {
+      title: 'should return `true` when file data contains an error message',
+      data: {
+        signAsRepresentativeDocumentUpload: [
+          { name: 'test-name', guid: 'test-guid', errorMessage: 'test-error' },
+        ],
+      },
+      expected: true,
+    },
+    {
+      title: 'should return `true` if upload array is empty',
+      data: { signAsRepresentativeDocumentUpload: [] },
+      expected: true,
+    },
+    {
+      title: 'should return `false` when valid file data exists',
+      data: {
+        signAsRepresentativeDocumentUpload: [
+          { name: 'test-name', guid: 'test-guid' },
+        ],
+      },
+      expected: false,
+    },
+  ];
 
-  it('should return `true` if upload array is empty', () => {
-    const formData = { signAsRepresentativeDocumentUpload: [] };
-    expect(hideUploadWarningAlert(formData)).to.be.true;
-  });
-
-  it('should return `false` when valid file data exists', () => {
-    const formData = {
-      signAsRepresentativeDocumentUpload: [
-        { name: 'test-name', guid: 'test-guid' },
-      ],
-    };
-    expect(hideUploadWarningAlert(formData)).to.be.false;
+  testCases.forEach(({ title, data, expected }) => {
+    it(title, () => expect(hideUploadWarningAlert(data)).to.eq(expected));
   });
 });
 
 describe('CG `primaryHasDifferentMailingAddress` method', () => {
-  it('should return `false` when primary caregiver is not defined', () => {
-    const formData = { 'view:hasPrimaryCaregiver': false };
-    expect(primaryHasDifferentMailingAddress(formData)).to.be.false;
-  });
+  const testCases = [
+    {
+      title: 'should return `false` when primary caregiver is not defined',
+      data: { 'view:hasPrimaryCaregiver': false },
+      expected: false,
+    },
+    {
+      title:
+        'should return `false` when user indicates home & mailing addresses are the same',
+      data: {
+        'view:hasPrimaryCaregiver': true,
+        'view:primaryHomeSameAsMailingAddress': true,
+      },
+      expected: false,
+    },
+    {
+      title:
+        'should return `true` when user indicates home & mailing addresses are different',
+      data: {
+        'view:hasPrimaryCaregiver': true,
+        'view:primaryHomeSameAsMailingAddress': false,
+      },
+      expected: true,
+    },
+  ];
 
-  it('should return `false` when user indicates home & mailing addresses are the same', () => {
-    const formData = {
-      'view:hasPrimaryCaregiver': true,
-      'view:primaryHomeSameAsMailingAddress': true,
-    };
-    expect(primaryHasDifferentMailingAddress(formData)).to.be.false;
-  });
-
-  it('should return `true` when user indicates home & mailing addresses are different', () => {
-    const formData = {
-      'view:hasPrimaryCaregiver': true,
-      'view:primaryHomeSameAsMailingAddress': false,
-    };
-    expect(primaryHasDifferentMailingAddress(formData)).to.be.true;
+  testCases.forEach(({ title, data, expected }) => {
+    it(title, () =>
+      expect(primaryHasDifferentMailingAddress(data)).to.eq(expected),
+    );
   });
 });
 
 describe('CG `secondaryOneHasDifferentMailingAddress` method', () => {
-  it('should return `false` when secondary caregiver is not defined', () => {
-    const formData = { 'view:hasSecondaryCaregiverOne': false };
-    expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.false;
-  });
+  const testCases = [
+    {
+      title: 'should return `false` when secondary caregiver is not defined',
+      data: { 'view:hasSecondaryCaregiverOne': false },
+      expected: false,
+    },
+    {
+      title:
+        'should return `false` when user indicates home & mailing addresses are the same',
+      data: {
+        'view:hasSecondaryCaregiverOne': true,
+        'view:secondaryOneHomeSameAsMailingAddress': true,
+      },
+      expected: false,
+    },
+    {
+      title:
+        'should return `true` when user indicates home & mailing addresses are different',
+      data: {
+        'view:hasSecondaryCaregiverOne': true,
+        'view:secondaryOneHomeSameAsMailingAddress': false,
+      },
+      expected: true,
+    },
+  ];
 
-  it('should return `false` when user indicates home & mailing addresses are the same', () => {
-    const formData = {
-      'view:hasSecondaryCaregiverOne': true,
-      'view:secondaryOneHomeSameAsMailingAddress': true,
-    };
-    expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.false;
-  });
-
-  it('should return `true` when user indicates home & mailing addresses are different', () => {
-    const formData = {
-      'view:hasSecondaryCaregiverOne': true,
-      'view:secondaryOneHomeSameAsMailingAddress': false,
-    };
-    expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.true;
+  testCases.forEach(({ title, data, expected }) => {
+    it(title, () =>
+      expect(secondaryOneHasDifferentMailingAddress(data)).to.eq(expected),
+    );
   });
 });
 
 describe('CG `secondaryTwoHasDifferentMailingAddress` method', () => {
-  it('should return `false` when secondary caregivers are not defined', () => {
-    const formData = {
-      'view:hasSecondaryCaregiverOne': false,
-      'view:hasSecondaryCaregiverTwo': false,
-    };
-    expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.false;
-  });
+  const testCases = [
+    {
+      title: 'should return `false` when secondary caregivers are not defined',
+      data: {
+        'view:hasSecondaryCaregiverOne': false,
+        'view:hasSecondaryCaregiverTwo': false,
+      },
+      expected: false,
+    },
+    {
+      title:
+        'should return `false` when user indicates home & mailing addresses are the same',
+      data: {
+        'view:hasSecondaryCaregiverOne': true,
+        'view:hasSecondaryCaregiverTwo': true,
+        'view:secondaryTwoHomeSameAsMailingAddress': true,
+      },
+      expected: false,
+    },
+    {
+      title:
+        'should return `true` when user indicates home & mailing addresses are different',
+      data: {
+        'view:hasSecondaryCaregiverOne': true,
+        'view:hasSecondaryCaregiverTwo': true,
+        'view:secondaryTwoHomeSameAsMailingAddress': false,
+      },
+      expected: true,
+    },
+  ];
 
-  it('should return `false` when user indicates home & mailing addresses are the same', () => {
-    const formData = {
-      'view:hasSecondaryCaregiverOne': true,
-      'view:hasSecondaryCaregiverTwo': true,
-      'view:secondaryTwoHomeSameAsMailingAddress': true,
-    };
-    expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.false;
-  });
-
-  it('should return `true` when user indicates home & mailing addresses are different', () => {
-    const formData = {
-      'view:hasSecondaryCaregiverOne': true,
-      'view:hasSecondaryCaregiverTwo': true,
-      'view:secondaryTwoHomeSameAsMailingAddress': false,
-    };
-    expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.true;
+  testCases.forEach(({ title, data, expected }) => {
+    it(title, () =>
+      expect(secondaryTwoHasDifferentMailingAddress(data)).to.eq(expected),
+    );
   });
 });
 
 describe('CG `showFacilityConfirmation` method', () => {
-  it('should return `false` when useFacilitiesAPI is off', () => {
-    const formData = { 'view:useFacilitiesAPI': false };
-    expect(showFacilityConfirmation(formData)).to.be.false;
-  });
-
-  context('useFacilitiesAPI is on', () => {
-    it('should return `false` when veteranSelected and caregiverSupport are the same facility', () => {
-      const formData = {
-        'view:useFacilitiesAPI': true,
+  const defaultData = { 'view:useFacilitiesAPI': true };
+  const testCases = [
+    {
+      title: 'should return `false` when feature toggle is disabled',
+      data: { 'view:useFacilitiesAPI': false },
+      expected: false,
+    },
+    {
+      title:
+        'should return `false` when `veteranSelected` and `caregiverSupport` are the same value',
+      data: {
+        ...defaultData,
         'view:plannedClinic': {
           veteranSelected: { id: 'my-id' },
           caregiverSupport: { id: 'my-id' },
         },
-      };
-      expect(showFacilityConfirmation(formData)).to.be.false;
-    });
-
-    it('should return `false` when view:plannedClinic is undefined', () => {
-      const formData = {
-        'view:useFacilitiesAPI': true,
-      };
-      expect(showFacilityConfirmation(formData)).to.be.false;
-    });
-
-    it('should return `false` when view:plannedClinic is empty object', () => {
-      const formData = {
-        'view:useFacilitiesAPI': true,
+      },
+      expected: false,
+    },
+    {
+      title: 'should return `false` when `view:plannedClinic` is undefined',
+      data: defaultData,
+      expected: false,
+    },
+    {
+      title:
+        'should return `false` when `view:plannedClinic` is an empty object',
+      data: {
+        ...defaultData,
         'view:plannedClinic': {},
-      };
-      expect(showFacilityConfirmation(formData)).to.be.false;
-    });
-
-    it('should return `false` when veteranSelected is empty object', () => {
-      const formData = {
-        'view:useFacilitiesAPI': true,
+      },
+      expected: false,
+    },
+    {
+      title: 'should return `false` when `veteranSelected` is an empty object',
+      data: {
+        ...defaultData,
         'view:plannedClinic': {
           veteranSelected: {},
         },
-      };
-      expect(showFacilityConfirmation(formData)).to.be.false;
-    });
-
-    it('should return `true` when veteranSelected and caregiverSupport are different facilities', () => {
-      const formData = {
-        'view:useFacilitiesAPI': true,
+      },
+      expected: false,
+    },
+    {
+      title:
+        'should return `true` when `veteranSelected` and `caregiverSupport` are different values',
+      data: {
+        ...defaultData,
         'view:plannedClinic': {
           veteranSelected: { id: 'my-id' },
           caregiverSupport: { id: 'not-my-id' },
         },
-      };
-      expect(showFacilityConfirmation(formData)).to.be.true;
-    });
+      },
+      expected: true,
+    },
+  ];
+
+  testCases.forEach(({ title, data, expected }) => {
+    it(title, () => expect(showFacilityConfirmation(data)).to.eq(expected));
   });
 });
