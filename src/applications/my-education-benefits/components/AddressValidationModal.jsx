@@ -141,6 +141,7 @@ function AddressValidationModal(props) {
       [formFields.viewMailingAddress]: {
         ...formData[formFields.viewMailingAddress],
         [formFields.address]: addressToSave,
+        userRejectedValidationSuggestion: !isSuggestion,
       },
     };
     setFormData(updatedFormData);

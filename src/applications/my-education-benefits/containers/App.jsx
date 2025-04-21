@@ -12,6 +12,7 @@ import {
   fetchDuplicateContactInfo,
   fetchDirectDeposit,
   validateAddress,
+  setAddressValidated,
 } from '../actions';
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
@@ -57,6 +58,7 @@ export const App = ({
   mebAddressValidationApi,
   addressValidation,
   validateAddress: validateAddressAction,
+  setAddressValidated: setAddressValidatedAction,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -488,6 +490,9 @@ export const App = ({
       } else if (currentAddressString !== previousAddressString.current) {
         // If the address changed but didn't meet validation criteria, update the ref
         previousAddressString.current = currentAddressString;
+        if (addressValidated) {
+          setAddressValidatedAction(false);
+        }
       }
     },
     [
@@ -498,6 +503,7 @@ export const App = ({
       mebAddressValidationApi,
       validateAddressAction,
       setFormData,
+      setAddressValidatedAction,
     ],
   );
 
@@ -566,6 +572,7 @@ App.propTypes = {
   showMebEnhancements09: PropTypes.bool,
   addressValidation: PropTypes.object,
   validateAddress: PropTypes.func,
+  setAddressValidated: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -593,6 +600,7 @@ const mapDispatchToProps = {
   getPersonalInfo: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,
   validateAddress,
+  setAddressValidated,
 };
 
 export default connect(
