@@ -1,15 +1,21 @@
-import merge from 'lodash/merge';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  currencyUI,
+  currencySchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   AssetInformationAlert,
   TotalNetWorthOverTwentyFiveThousandAlert,
 } from '../../../components/FormAlerts';
-import { netWorthEstimation } from '../../definitions';
 
-export const hideIfUnder25000 = formData =>
-  formData.netWorthEstimation === undefined ||
-  parseInt(formData.netWorthEstimation, 10) <= 25000;
+export const hideIfUnder25000 = formData => {
+  const value = parseInt(formData.netWorthEstimation, 10);
+  return (
+    formData.netWorthEstimation == null || // null or undefined
+    Number.isNaN(value) ||
+    value <= 25000
+  );
+};
 
 /** @type {PageSchema} */
 export default {
@@ -24,15 +30,8 @@ export default {
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },
-    netWorthEstimation: merge(
-      {},
-      currencyUI('Estimate the total value of your assets'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
+    netWorthEstimation: currencyUI('Estimate the total value of your assets'),
+
     'view:warningAlertOnHighValue': {
       'ui:description': TotalNetWorthOverTwentyFiveThousandAlert,
       'ui:options': {
@@ -44,7 +43,7 @@ export default {
     type: 'object',
     required: ['netWorthEstimation'],
     properties: {
-      netWorthEstimation,
+      netWorthEstimation: currencySchema,
       'view:warningAlertOnHighValue': {
         type: 'object',
         properties: {},
