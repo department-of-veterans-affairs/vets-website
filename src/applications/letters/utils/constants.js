@@ -8,7 +8,7 @@ export const INVALID_ADDRESS_PROPERTY = 'INVALID_ADDRESS_PROPERTY'; // 422
 export const LETTER_ELIGIBILITY_ERROR = 'LETTER_ELIGIBILITY_ERROR'; // 502
 export const LETTER_HAS_EMPTY_ADDRESS = 'LETTER_HAS_EMPTY_ADDRESS';
 
-// getLetterPdfLink() actions
+// getLettersPdfLinks() actions
 export const GET_ENHANCED_LETTERS_DOWNLOADING =
   'GET_ENHANCED_LETTERS_DOWNLOADING';
 export const GET_ENHANCED_LETTERS_SUCCESS = 'GET_ENHANCED_LETTERS_SUCCESS';
@@ -41,15 +41,8 @@ export const AVAILABILITY_STATUSES = Object.freeze({
 });
 
 export const DOWNLOAD_STATUSES = Object.freeze({
+  notStarted: 'not started',
   pending: 'pending',
-  downloading: 'downloading',
-  success: 'success',
-  failure: 'failure',
-});
-
-// Enhanced letters include blob URL in letter object
-export const DOWNLOAD_ENHANCED_LETTERS = Object.freeze({
-  notApplicable: 'not applicable',
   downloading: 'downloading',
   success: 'success',
   failure: 'failure',

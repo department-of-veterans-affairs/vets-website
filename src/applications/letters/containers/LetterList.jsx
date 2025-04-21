@@ -7,7 +7,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
-import DownloadLetterNativeLink from '../components/DownloadLetterNativeLink';
+import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
 import {
@@ -18,7 +18,7 @@ import {
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
-import { getLetterPdfLinkWrapper } from '../actions/letters';
+import { getLettersPdfLinksWrapper } from '../actions/letters';
 
 import { lettersUseLighthouse } from '../selectors';
 
@@ -39,7 +39,7 @@ export class LetterList extends React.Component {
       },
       () => {
         // Need updated LH_MIGRATION__options for correct download URL
-        this.props.getLetterPdfLinkWrapper(
+        this.props.getLettersPdfLinksWrapper(
           // eslint-disable-next-line -- LH_MIGRATION
           this.state.LH_MIGRATION__options,
           letters,
@@ -86,12 +86,21 @@ export class LetterList extends React.Component {
       }
 
       // NEW conditional download link (KEEP)
-      let conditionalDownloadLink;
+      let conditionalDownloadElem;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
-        conditionalDownloadLink = <div>Hello world. Needs a button.</div>;
+        conditionalDownloadElem = (
+          <DownloadLetterLink
+            letterType={letter.letterType}
+            letterTitle={letterTitle}
+            downloadStatus={downloadStatus[letter.letterType]}
+            // eslint-disable-next-line -- LH_MIGRATION
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            key={`download-link-${index}`}
+          />
+        );
       } else {
-        conditionalDownloadLink = (
-          <DownloadLetterNativeLink
+        conditionalDownloadElem = (
+          <DownloadLetterBlobLink
             letterTitle={letterTitle}
             letterType={letter.letterType}
           />
@@ -103,7 +112,7 @@ export class LetterList extends React.Component {
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           <Toggler toggleName={TOGGLE_NAMES.lettersPageNewDesign}>
-            <Toggler.Enabled>{conditionalDownloadLink}</Toggler.Enabled>
+            <Toggler.Enabled>{conditionalDownloadElem}</Toggler.Enabled>
             <Toggler.Disabled>
               <>
                 {conditionalDownloadButton}
@@ -263,10 +272,11 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getLetterPdfLinkWrapper,
+  getLettersPdfLinksWrapper,
 };
 
 LetterList.propTypes = {
+  getLettersPdfLinksWrapper: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({

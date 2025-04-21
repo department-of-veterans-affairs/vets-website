@@ -83,88 +83,6 @@ export function getLetterList(
     });
 }
 
-// Get the actual blob URL that's generated and in memory
-export function getLetterUrl(
-  letterType,
-  // eslint-disable-next-line -- LH_MIGRATION
-  LH_MIGRATION__options,
-) {
-  const settings = {
-    // TODO: Add proper settings for Benefit Summary letter
-    // eslint-disable-next-line -- LH_MIGRATION
-    method: LH_MIGRATION__options.downloadEndpoint.method,
-  };
-
-  return new Promise((resolve, reject) => {
-    apiRequest(
-      // eslint-disable-next-line -- LH_MIGRATION
-      `${LH_MIGRATION__options.downloadEndpoint.path}/${letterType}`,
-      settings,
-    )
-      .then(response => {
-        response.blob().then(blob => {
-          window.URL = window.URL || window.webkitURL;
-          const downloadUrl = window.URL.createObjectURL(blob);
-          return resolve(downloadUrl);
-        });
-      })
-      .catch(err => {
-        return reject(err); // TODO: dispatch the PDF failure here
-      });
-  });
-}
-
-// Enhance the array of lettter objects with the blob URLs
-export async function getLetterPdfLink(
-  dispatch,
-  // eslint-disable-next-line -- LH_MIGRATION
-  LH_MIGRATION__options,
-  lettersArr,
-) {
-  dispatch({
-    type: GET_ENHANCED_LETTERS_DOWNLOADING,
-  });
-
-  const enhancedLettersArr = [];
-
-  await Promise.all(
-    lettersArr.map(async letter => {
-      const { letterType } = letter;
-      const urlString = await getLetterUrl(letterType, LH_MIGRATION__options);
-
-      return {
-        ...letter,
-        downloadUrl: urlString,
-      };
-    }),
-  )
-    .then(enhancedLetters => {
-      enhancedLettersArr.push(...enhancedLetters);
-
-      recordEvent({ event: 'enhanced-letter-list-success' });
-      return dispatch({
-        type: GET_ENHANCED_LETTERS_SUCCESS,
-        data: enhancedLettersArr,
-      });
-    })
-    .catch(() => {
-      // TODO: Add Sentry reporting and response codes
-      recordEvent({ event: 'enhanced-letter-list-failure' });
-      return dispatch({ type: GET_ENHANCED_LETTERS_FAILURE });
-    });
-}
-
-// Synchronous wrapper for getLetterPdfLink
-export function getLetterPdfLinkWrapper(
-  // eslint-disable-next-line -- LH_MIGRATION
-  LH_MIGRATION__options,
-  lettersArr,
-) {
-  return dispatch => {
-    getLetterPdfLink(dispatch, LH_MIGRATION__options, lettersArr);
-  };
-}
-
 // eslint-disable-next-line -- LH_MIGRATION
 export function getBenefitSummaryOptions(
   dispatch,
@@ -213,9 +131,12 @@ export function getLetterListAndBSLOptions(
       .catch(() => {});
 }
 
-export function getLetterPdfFailure(letterType) {
+export function getLetterPdfFailure(
+  letterType,
+  eventName = 'letter-pdf-failure',
+) {
   recordEvent({
-    event: 'letter-pdf-failure',
+    event: eventName,
     'letter-type': letterType,
   });
   return { type: GET_LETTER_PDF_FAILURE, data: letterType };
@@ -327,6 +248,107 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
     type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
     propertyPath,
     value,
+  };
+}
+
+// Get the actual blob URL that's generated and in memory
+export function getLetterBlobUrl(
+  dispatch,
+  letterType,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) {
+  const settings = {
+    // TODO: Add proper settings for Benefit Summary letter
+    // eslint-disable-next-line -- LH_MIGRATION
+    method: LH_MIGRATION__options.downloadEndpoint.method,
+  };
+
+  return new Promise((resolve, reject) => {
+    apiRequest(
+      // eslint-disable-next-line -- LH_MIGRATION
+      `${LH_MIGRATION__options.downloadEndpoint.path}/${letterType}`,
+      settings,
+    )
+      .then(response => {
+        response.blob().then(blob => {
+          window.URL = window.URL || window.webkitURL;
+          const downloadUrl = window.URL.createObjectURL(blob);
+          return resolve(downloadUrl);
+        });
+      })
+      .catch(response => {
+        const status = getStatus(response);
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{ default }}', status]);
+          Sentry.captureException(
+            new Error(
+              `vets_letters_error_getLetterBlobUrl_${letterType} ${status}`,
+            ),
+          );
+        });
+
+        return reject(
+          dispatch(
+            getLetterPdfFailure(letterType, 'enhanced-letter-pdf-failure'),
+          ),
+        );
+      });
+  });
+}
+
+// Enhanced Letter functions to generate blob URLs on first render
+// Create an array of enhanced letter objects with blob URLs
+export async function getLetterPdfLink(
+  dispatch,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+  lettersArr,
+) {
+  dispatch({
+    type: GET_ENHANCED_LETTERS_DOWNLOADING,
+  });
+
+  const enhancedLettersArr = [];
+
+  await Promise.all(
+    lettersArr.map(async letter => {
+      const { letterType } = letter;
+      const urlString = await getLetterBlobUrl(
+        dispatch,
+        letterType,
+        LH_MIGRATION__options,
+      );
+
+      return {
+        ...letter,
+        downloadUrl: urlString,
+      };
+    }),
+  )
+    .then(enhancedLetters => {
+      enhancedLettersArr.push(...enhancedLetters);
+
+      recordEvent({ event: 'enhanced-letter-list-success' });
+      return dispatch({
+        type: GET_ENHANCED_LETTERS_SUCCESS,
+        data: enhancedLettersArr,
+      });
+    })
+    .catch(() => {
+      recordEvent({ event: 'enhanced-letter-list-failure' });
+      return dispatch({ type: GET_ENHANCED_LETTERS_FAILURE });
+    });
+}
+
+// Synchronous wrapper for getLetterPdfLink
+export function getLettersPdfLinksWrapper(
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+  lettersArr,
+) {
+  return dispatch => {
+    getLetterPdfLink(dispatch, LH_MIGRATION__options, lettersArr);
   };
 }
 
