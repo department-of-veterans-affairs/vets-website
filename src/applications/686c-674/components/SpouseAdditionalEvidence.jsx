@@ -52,26 +52,22 @@ export const SpouseAdditionalEvidence = () => {
                   that you complete and 1 that your spouse completes,{' '}
                   <strong>and</strong>
                   <br />
-                  <a
+                  <va-link
+                    text="Download VA Form 21-4170"
                     href="/find-forms/about-form-21-4170"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Download VA Form 21-4170 (opens in new tab)
-                  </a>
+                    external="true"
+                  />
                 </li>
                 <li>
                   2 Supporting Statements Regarding Marriage (VA Form 21-4171)
                   completed by two different people with knowledge about your
                   marriage
                   <br />
-                  <a
-                    href="/find-forms/about-form-21p-4171"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Download VA Form 21-4171 (opens in new tab)
-                  </a>
+                  <va-link
+                    text="Download VA Form 21-4171"
+                    href="/find-forms/about-form-21-4171"
+                    external="true"
+                  />
                 </li>
               </>
             )}
