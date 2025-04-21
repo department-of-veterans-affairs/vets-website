@@ -60,6 +60,12 @@
       "doesChildHaveDisability": false,
       "isBiologicalChild": true,
       "dateEnteredHousehold": "2023-02-01",
+      "biologicalParentName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "biologicalParentSsn": "432432432",
+      "biologicalParentDob": "1990-02-01",
       "relationshipToChild": {
         "stepchild": true
       },
