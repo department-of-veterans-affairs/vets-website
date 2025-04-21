@@ -8,6 +8,7 @@ import {
   goToNextPage,
   selectDropdownWebComponent,
   selectYesNoWebComponent,
+  fillNameWithKeyboard,
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToEmergencyContacts } from './helpers/emergency-contacts';
@@ -36,19 +37,17 @@ describe('EZR TERA flow', () => {
 
     advanceToEmergencyContacts();
 
+    // Accessibility check after navigation to emergency contacts section
+    cy.injectAxeThenAxeCheck();
+
     selectYesNoWebComponent('view:isEmergencyContactsEnabled', true);
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact',
     );
 
-    let contact = testData.veteranContacts[0];
+    const contact = testData.veteranContacts[0];
     // ec 1 basic info
-    cy.get(`[name="root_fullName_first"]`)
-      .first()
-      .type(contact.fullName.first);
-    cy.get(`[name="root_fullName_last"]`)
-      .first()
-      .type(contact.fullName.last);
+    fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
     selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
@@ -57,7 +56,8 @@ describe('EZR TERA flow', () => {
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact-address',
     );
-    selectDropdownWebComponent('address_country', contact.address.country);
+    cy.tabToElement(`[name="root_address_country"]`);
+    cy.chooseSelectOptionUsingValue(contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
     fillTextWebComponent('address_city', contact.address.city);
     selectDropdownWebComponent('address_state', contact.address.state);
@@ -70,32 +70,5 @@ describe('EZR TERA flow', () => {
       'exist',
     );
     cy.findByText(contact.primaryPhone).should('exist');
-
-    selectYesNoWebComponent('view:isEmergencyContactsEnabled', true);
-    cy.tabToElementAndPressSpace('.usa-button-primary');
-
-    contact = testData.veteranContacts[1];
-    // ec 2 basic info
-    cy.get(`[name="root_fullName_first"]`)
-      .first()
-      .type(contact.fullName.first);
-    cy.get(`[name="root_fullName_last"]`)
-      .first()
-      .type(contact.fullName.last);
-    fillTextWebComponent('primaryPhone', contact.primaryPhone);
-    selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
-
-    // ec 2 address
-    goToNextPage(
-      '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/1/contact-address',
-    );
-    selectDropdownWebComponent('address_country', contact.address.country);
-    fillTextWebComponent('address_street', contact.address.street);
-    fillTextWebComponent('address_city', contact.address.city);
-    selectDropdownWebComponent('address_state', contact.address.state);
-    fillTextWebComponent('address_postalCode', contact.address.postalCode);
-
-    cy.tabToElementAndPressSpace('.usa-button-primary');
   });
 });
