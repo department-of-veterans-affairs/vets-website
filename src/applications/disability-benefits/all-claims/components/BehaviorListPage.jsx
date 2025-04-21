@@ -464,7 +464,7 @@ const BehaviorListPage = ({
           <va-checkbox
             key="none"
             label={behaviorListNoneLabel}
-            value="noChange" // or {noChange: true} or {noChange}
+            value="noChange"
             checked={
               !!(data?.noBehavioralChange && data.noBehavioralChange.noChange)
             }

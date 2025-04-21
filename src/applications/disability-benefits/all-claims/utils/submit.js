@@ -668,6 +668,7 @@ export const addForm0781V2 = formData => {
 
   delete clonedData.eventTypes;
   delete clonedData.events;
+  delete clonedData.noBehavioralChange;
   delete clonedData.workBehaviors;
   delete clonedData.healthBehaviors;
   delete clonedData.otherBehaviors;
