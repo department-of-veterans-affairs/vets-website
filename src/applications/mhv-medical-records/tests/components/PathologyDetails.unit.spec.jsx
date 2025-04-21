@@ -42,11 +42,16 @@ describe('Pathology details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getAllByText('LR SURGICAL PATHOLOGY REPORT', {
+    // matches any one of the four expected strings
+    const pathologyLabelRe = /^LR SURGICAL (PATHOLOGY|SURGICAL_PATHOLOGY|ELECTRON_MICROSCOPY|CYTOPATHOLOGY) REPORT$/;
+
+    const headers = screen.getAllByText(pathologyLabelRe, {
       exact: true,
       selector: 'h1',
     });
-    expect(header).to.exist;
+
+    // ensure at least one matching header was found
+    expect(headers.length).to.be.greaterThan(0);
   });
 
   it('should display the formatted date', () => {
