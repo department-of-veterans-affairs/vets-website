@@ -8,15 +8,39 @@ export const isCurrentOrPastDate = date => {
   return dateObj >= today;
 };
 
+export const formatDateYyyyMmDd = day => {
+  const yyyy = day.getFullYear();
+  let mm = day.getMonth() + 1; // Month is zero-based
+  let dd = day.getDate();
+
+  if (dd < 10) dd = `0${dd}`;
+  if (mm < 10) mm = `0${mm}`;
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+export const daysAgoYyyyMmDd = numberOfDays => {
+  const day = new Date();
+  day.setDate(day.getDate() - numberOfDays);
+  return formatDateYyyyMmDd(day);
+};
+
+export const futureDateYyyyMmDd = numberOfDays => {
+  const day = new Date();
+  day.setDate(day.getDate() + numberOfDays);
+  return formatDateYyyyMmDd(day);
+};
+
 export const getTodayDateYyyyMmDd = () => {
   const today = new Date();
+  return formatDateYyyyMmDd(today);
+  /*
   const yyyy = today.getFullYear();
   let mm = today.getMonth() + 1; // Month is zero-based
   let dd = today.getDate();
 
   if (dd < 10) dd = `0${dd}`;
   if (mm < 10) mm = `0${mm}`;
-  return `${yyyy}-${mm}-${dd}`;
+  return `${yyyy}-${mm}-${dd}`; */
 };
 
 export const isTermEndBeforeTermStartDate = (
@@ -94,6 +118,7 @@ export const childContent = (downloadLink, goBack) => (
     </va-process-list>
     <p>
       <va-button
+        className="custom-classname"
         secondary
         text="Print this page"
         data-testid="print-page"

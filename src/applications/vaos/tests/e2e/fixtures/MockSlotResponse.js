@@ -1,8 +1,4 @@
-import moment from 'moment';
-
-/**
- * @typedef {import('moment-timezone').Moment} Moment
- */
+import { format } from 'date-fns';
 
 /**
  * Mock available appointment slots class.
@@ -16,17 +12,15 @@ export default class MockSlotResponse {
    *
    * @param {Object} arguments
    * @param {String} arguments.id
-   * @param {Moment} arguments.start - Open slot start date and time.
+   * @param {Date} arguments.start - Open slot start date and time.
    * @memberof MockSlotResponse
    */
   constructor({ id, start }) {
     this.id = id.toString();
     this.type = 'MockSlotResponse';
     this.attributes = {
-      start: start.utc().format(),
-      end: moment(start)
-        .utc()
-        .format(),
+      start: format(start, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      end: format(start, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
     };
   }
 

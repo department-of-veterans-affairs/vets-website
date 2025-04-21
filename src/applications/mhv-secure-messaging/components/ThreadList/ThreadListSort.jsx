@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import { Paths, threadSortingOptions } from '../../util/constants';
 
 const ThreadListSort = props => {
@@ -25,6 +26,17 @@ const ThreadListSort = props => {
       'button-type': 'primary',
       'button-click-label': 'Sort messages',
     });
+  };
+
+  const handleSelectChange = e => {
+    const { value } = e.detail;
+    setSortOrderValue(value);
+    if (e.target?.children) {
+      const selectedOption = Array.from(e.target.children).find(
+        item => item.value === value,
+      );
+      datadogRum.addAction(`Sort option - ${selectedOption?.label}`);
+    }
   };
 
   const sortOptions = [
@@ -73,17 +85,11 @@ const ThreadListSort = props => {
         label={SORT_MESSAGES_LABEL}
         name="sort-order"
         value={sortOrder}
-        onVaSelect={e => {
-          setSortOrderValue(e.detail.value);
-        }}
+        onVaSelect={handleSelectChange}
         data-dd-action-name="Sort - Show conversations in this order"
       >
         {sortOptions.map(option => (
-          <option
-            key={option.value}
-            value={option.value}
-            data-dd-action-name={`Sort option - ${option.label}`}
-          >
+          <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}

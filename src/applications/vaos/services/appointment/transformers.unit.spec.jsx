@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import moment from 'moment';
+
 import { getAppointmentType, transformVAOSAppointment } from './transformers';
 import { MockAppointment } from '../../tests/mocks/unit-test-helpers';
 
@@ -77,47 +78,86 @@ describe('getAppointmentType util', () => {
 });
 
 describe('VAOS <transformVAOSAppointment>', () => {
-  it('should set isCompAndPenAppointment when feature flag is on', async () => {
-    // Arrange
-    const now = moment();
+  describe('When modality feature flag is on', () => {
     const useFeSourceOfTruthModality = true;
-    const appointment = new MockAppointment({
-      start: now,
-    });
-    appointment.setModality('claimExamAppointment');
-
-    // Act
-    const a = transformVAOSAppointment(
-      appointment,
-      false,
-      false,
-      false,
-      useFeSourceOfTruthModality,
-    );
-
-    // Assert
-    expect(a.vaos.isCompAndPenAppointment).to.be.true;
-  });
-
-  it('should not set isCompAndPenAppointment when feature flag is off', async () => {
-    // Arrange
     const now = moment();
-    const useFeSourceOfTruthModality = false;
-    const appointment = new MockAppointment({
-      start: now,
+
+    it('should set isCompAndPenAppointment', async () => {
+      // Arrange
+      const appointment = new MockAppointment({ start: now });
+      appointment.setModality('claimExamAppointment');
+
+      // Act
+      const a = transformVAOSAppointment(
+        appointment,
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+      );
+
+      // Assert
+      expect(a.vaos.isCompAndPenAppointment).to.be.true;
     });
-    appointment.setModality('claimExamAppointment');
+    it('should set isPhoneAppointment', async () => {
+      // Arrange
+      const appointment = new MockAppointment({ start: now });
+      appointment.setModality('vaPhone');
 
-    // Act
-    const a = transformVAOSAppointment(
-      appointment,
-      false,
-      false,
-      false,
-      useFeSourceOfTruthModality,
-    );
+      // Act
+      const a = transformVAOSAppointment(
+        appointment,
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+      );
 
-    // Assert
-    expect(a.vaos.isCompAndPenAppointment).to.be.false;
+      // Assert
+      expect(a.vaos.isPhoneAppointment).to.be.true;
+    });
+  });
+  describe('When modality flag is off', () => {
+    const useFeSourceOfTruthModality = false;
+    it('should not set isCompAndPenAppointment', async () => {
+      // Arrange
+      const now = moment();
+      const appointment = new MockAppointment({
+        start: now,
+      });
+      appointment.setModality('claimExamAppointment');
+
+      // Act
+      const a = transformVAOSAppointment(
+        appointment,
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+      );
+
+      // Assert
+      expect(a.vaos.isCompAndPenAppointment).to.be.false;
+    });
+    it('should not set isPhone', async () => {
+      // Arrange
+      const now = moment();
+      const appointment = new MockAppointment({
+        start: now,
+      });
+      appointment.setModality('vaPhone');
+
+      // Act
+      const a = transformVAOSAppointment(
+        appointment,
+        false,
+        false,
+        false,
+        useFeSourceOfTruthModality,
+      );
+
+      // Assert
+      expect(a.vaos.isPhoneAppointment).to.be.false;
+    });
   });
 });
