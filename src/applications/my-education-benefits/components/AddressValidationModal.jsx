@@ -124,24 +124,29 @@ function AddressValidationModal(props) {
   };
 
   const handleAcceptAddress = (selectedAddress, isSuggestion = false) => {
-    const addressToSave = isSuggestion
-      ? {
-          street: selectedAddress.addressLine1,
-          street2: selectedAddress.addressLine2,
-          street3: selectedAddress.addressLine3,
-          city: selectedAddress.city,
-          state: selectedAddress.stateCode,
-          country: selectedAddress.countryName || 'USA',
-          postalCode: selectedAddress.zipCode,
-        }
-      : selectedAddress;
+    let addressToSave;
+    if (isSuggestion) {
+      // If using a suggestion, format it to match form data structure
+      addressToSave = {
+        street: selectedAddress.addressLine1,
+        street2: selectedAddress.addressLine2,
+        street3: selectedAddress.addressLine3,
+        city: selectedAddress.city,
+        state: selectedAddress.stateCode,
+        country: selectedAddress.countryName || 'USA',
+        postalCode: selectedAddress.zipCode,
+      };
+    } else {
+      // If using address as entered, use the current address from formData
+      addressToSave = userEnteredAddress; // Use the address currently in the form fields
+    }
 
     const updatedFormData = {
       ...formData,
       [formFields.viewMailingAddress]: {
         ...formData[formFields.viewMailingAddress],
         [formFields.address]: addressToSave,
-        userRejectedValidationSuggestion: !isSuggestion,
+        userRejectedValidationSuggestion: !isSuggestion, // Keep tracking rejection
       },
     };
     setFormData(updatedFormData);
