@@ -12,7 +12,7 @@ import {
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 import { AppointmentList } from '../..';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
 import {
   mockAppointmentApi,

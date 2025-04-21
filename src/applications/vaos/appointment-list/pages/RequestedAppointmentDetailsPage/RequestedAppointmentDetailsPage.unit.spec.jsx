@@ -7,8 +7,8 @@ import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
 import { AppointmentList } from '../..';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../../tests/e2e/fixtures/MockFacilityResponse';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { mockFacilityFetch } from '../../../tests/mocks/fetch';
 import {
   mockAppointmentApi,
