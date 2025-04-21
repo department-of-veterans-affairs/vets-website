@@ -169,7 +169,6 @@ describe('App-level feature flag functionality', () => {
       },
       path: `/`,
       reducers: reducer,
-      routerVersion: 6,
     };
   };
 
