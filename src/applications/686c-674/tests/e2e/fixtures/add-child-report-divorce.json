@@ -91,14 +91,6 @@
       "birthDate": "1991-05-04",
       "spouseIncome": false
     },
-    "veteranInformation": {
-      "fullName": {
-        "first": "Jane",
-        "last": "Doe"
-      },
-      "ssn": "796121200",
-      "birthDate": "1933-05-04"
-    },
     "childSupportingDocuments": [
       {
         "name": "Screenshot from 2025-02-03 13-37-07.png",
