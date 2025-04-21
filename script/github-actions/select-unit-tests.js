@@ -4,6 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
 
+const SHARED_DIRECTORIES = [
+  'src/applications/shared',
+  'src/applications/common',
+];
+
 const changedFilesEnv = process.env.CHANGED_FILES || '';
 const CHANGED_FILES = changedFilesEnv
   .split(' ')
@@ -42,25 +47,39 @@ const CHANGED_APPS = CHANGED_FILES.map(filePath =>
 );
 const CHANGED_APPS_UNIQUE = Array.from(new Set(CHANGED_APPS));
 
-const testsForChangedApps = ALL_SPECS.filter(specPath => {
-  return (
-    CHANGED_APPS_UNIQUE.some(appPath => specPath.includes(appPath)) &&
-    fs.existsSync(specPath)
-  );
-});
+const SHARED_CHANGED_APPS = CHANGED_APPS_UNIQUE.filter(appPath =>
+  SHARED_DIRECTORIES.some(sharedDir => appPath.startsWith(sharedDir)),
+);
 
-const STATIC_PAGES_TESTS = ALL_SPECS.filter(
+const staticPagesTests = ALL_SPECS.filter(
   specPath =>
     specPath.toLowerCase().includes('static-pages') && fs.existsSync(specPath),
 );
 
-const FINAL_TESTS = Array.from(
-  new Set([...testsForChangedApps, ...STATIC_PAGES_TESTS]),
+const allowedTestsForChangedApps = ALL_SPECS.filter(specPath => {
+  return (
+    SHARED_CHANGED_APPS.some(appPath => specPath.includes(appPath)) &&
+    !DISALLOWED_SPECS.includes(specPath) &&
+    fs.existsSync(specPath)
+  );
+});
+const disallowedTestsForChangedApps = ALL_SPECS.filter(specPath => {
+  return (
+    SHARED_CHANGED_APPS.some(appPath => specPath.includes(appPath)) &&
+    DISALLOWED_SPECS.includes(specPath) &&
+    fs.existsSync(specPath)
+  );
+});
+
+const finalAllowedTests = Array.from(
+  new Set([...allowedTestsForChangedApps, ...staticPagesTests]),
 );
 
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
+
+// ----- Output Logic -----
+// If stress test mode is already enabled, output all existing specs:
 if (IS_STRESS_TEST === 'true') {
-  // Stress test mode: run all tests from the allow list that exist
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', ALL_APPS);
   const allExistingSpecs = ALL_SPECS.filter(specPath =>
@@ -70,16 +89,21 @@ if (IS_STRESS_TEST === 'true') {
     'unit_tests_to_stress_test.json',
     JSON.stringify(allExistingSpecs),
   );
-} else if (FINAL_TESTS.length > 0) {
-  // Non-stress mode and there are tests (from changed apps or static pages) to run
+  // Else, if any disallowed tests exist for the changed shared apps, force stress test mode:
+} else if (disallowedTestsForChangedApps.length > 0) {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
-  core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
+  core.exportVariable('APPS_TO_STRESS_TEST', SHARED_CHANGED_APPS);
   fs.writeFileSync(
     'unit_tests_to_stress_test.json',
-    JSON.stringify(FINAL_TESTS),
+    JSON.stringify(disallowedTestsForChangedApps),
   );
-} else {
-  // No tests were identified, so do not stress test
+  // Else, if there are allowed tests for changed shared apps, run them normally:
+} else if (finalAllowedTests.length > 0) {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'false');
-  core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
+  core.exportVariable('APPS_TO_STRESS_TEST', SHARED_CHANGED_APPS);
+  fs.writeFileSync('unit_tests_to_run.json', JSON.stringify(finalAllowedTests));
+  // Otherwise, no tests are identified for changed shared apps:
+} else {
+  core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'false');
+  core.exportVariable('APPS_TO_STRESS_TEST', SHARED_CHANGED_APPS);
 }
