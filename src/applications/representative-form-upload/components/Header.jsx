@@ -1,9 +1,8 @@
 import React from 'react';
 
-// eslint-disable-next-line import/extensions
-import GovBanner from './Header/GovBanner.jsx';
-// eslint-disable-next-line import/extensions
-import Nav from './Header/Nav.jsx';
+
+import GovBanner from './Header/GovBanner';
+import Nav from './Header/Nav';
 
 const Header = () => {
   return (

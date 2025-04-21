@@ -112,9 +112,7 @@ export function submitMileageOnlyClaim(appointmentData) {
     try {
       const options = {
         method: 'POST',
-        body: JSON.stringify({
-          appointmentData,
-        }),
+        body: JSON.stringify(appointmentData),
         headers: {
           'Content-Type': 'application/json',
         },

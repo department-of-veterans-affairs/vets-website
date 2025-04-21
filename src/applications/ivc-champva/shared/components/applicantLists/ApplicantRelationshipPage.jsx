@@ -9,7 +9,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
-import { applicantWording, validateText } from '../../utilities';
+import { applicantWording } from '../../utilities';
+import { validateText } from '../../validations';
 
 /*
 Overriding these allows us to set custom property titles.

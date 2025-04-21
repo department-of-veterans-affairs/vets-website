@@ -13,6 +13,10 @@ import {
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -52,6 +56,10 @@ export const sponsorNameSchema = {
       },
     ),
     sponsorName: fullNameMiddleInitialUI,
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'sponsorName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -75,6 +83,10 @@ export const sponsorAddressSchema = {
         },
       },
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'sponsorAddress'),
+    ],
   },
   schema: {
     type: 'object',

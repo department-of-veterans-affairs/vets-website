@@ -251,13 +251,10 @@ class PatientMessageCustomFolderPage {
       .and('have.text', Data.REMOVE_FOLDER);
   };
 
-  tabAndPressToRemoveFolderButton = () => {
-    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER).should(
-      'have.text',
-      Data.REMOVE_FOLDER,
-    );
-
-    cy.realPress('Enter');
+  clickRemoveFolderButton = () => {
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('have.text', Data.REMOVE_FOLDER)
+      .click();
   };
 
   verifyEmptyFolderAlert = () => {

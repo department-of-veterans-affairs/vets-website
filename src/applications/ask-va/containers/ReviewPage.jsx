@@ -114,19 +114,23 @@ const ReviewPage = props => {
   };
 
   const handleEdit = (pageKey, editing, index = null) => {
-    if (pageKey === 'question') {
-      setEditAttachments(editing);
-      getUploadedFiles();
-    }
+    if (pageKey === 'question' && props.formData.question.length > 10000) {
+      focusElement('va-textarea');
+    } else {
+      if (pageKey === 'question') {
+        setEditAttachments(editing);
+        getUploadedFiles();
+      }
 
-    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
-    if (editing) {
-      props.setViewedPages([fullPageKey]);
-      dispatch(setUpdatedInReview(''));
-    }
-    props.setEditMode(pageKey, editing, index);
-    if (!editing) {
-      dispatch(setUpdatedInReview(pageKey));
+      const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+      if (editing) {
+        props.setViewedPages([fullPageKey]);
+        dispatch(setUpdatedInReview(''));
+      }
+      props.setEditMode(pageKey, editing, index);
+      if (!editing) {
+        dispatch(setUpdatedInReview(pageKey));
+      }
     }
   };
 
@@ -1045,7 +1049,11 @@ const ReviewPage = props => {
                         },
                         {
                           name: 'Email address',
-                          data: props.formData.emailAddress,
+                          data:
+                            props.formData.relationshipToVeteran ===
+                            relationshipOptionsSomeoneElse.WORK
+                              ? props.formData.businessEmail
+                              : props.formData.emailAddress,
                           key: 'yourContactInformation',
                         },
                         {
@@ -1240,32 +1248,24 @@ const ReviewPage = props => {
                     ]}
                   />
                 ) : (
-                  <>
-                    <ReviewCollapsibleChapter
-                      expandedPages={chapter.expandedPages}
-                      chapterFormConfig={chapter.formConfig}
-                      chapterKey={chapter.name}
-                      form={props.form}
-                      formContext={props.formContext}
-                      onEdit={handleEdit}
-                      showButtons={false}
-                      open={chapter.open}
-                      pageKeys={chapter.pageKeys}
-                      pageList={getPageKeysForReview(formConfig)}
-                      setData={(...args) => handleSetData(...args)}
-                      setValid={props.setValid}
-                      toggleButtonClicked={() => handleToggleChapter(chapter)}
-                      uploadFile={props.uploadFile}
-                      viewedPages={new Set(getPageKeysForReview(formConfig))}
-                      hasUnviewedPages={chapter.hasUnviewedPages}
-                    />
-                    <SaveCancelButtons
-                      closeSection={closeAll}
-                      keys={chapter.pageKeys}
-                      title={chapterTitles.yourQuestion}
-                      scroll={scrollToChapter}
-                    />
-                  </>
+                  <ReviewCollapsibleChapter
+                    expandedPages={chapter.expandedPages}
+                    chapterFormConfig={chapter.formConfig}
+                    chapterKey={chapter.name}
+                    form={props.form}
+                    formContext={props.formContext}
+                    onEdit={handleEdit}
+                    showButtons
+                    open={chapter.open}
+                    pageKeys={chapter.pageKeys}
+                    pageList={getPageKeysForReview(formConfig)}
+                    setData={(...args) => handleSetData(...args)}
+                    setValid={props.setValid}
+                    toggleButtonClicked={() => handleToggleChapter(chapter)}
+                    uploadFile={props.uploadFile}
+                    viewedPages={new Set(getPageKeysForReview(formConfig))}
+                    hasUnviewedPages={chapter.hasUnviewedPages}
+                  />
                 )}
                 {props.formData.allowAttachments && props.isUserLOA3 && (
                   <div

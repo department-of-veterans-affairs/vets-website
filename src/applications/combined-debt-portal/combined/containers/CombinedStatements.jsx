@@ -101,6 +101,20 @@ const CombinedStatements = () => {
     return 'Veteran';
   };
 
+  const getLatestPaymentDateFromCopayForFacility = statement => {
+    let latestPostedDate = last(statement.details)?.pDDatePostedOutput;
+
+    if (latestPostedDate === '') {
+      latestPostedDate = statement.pSStatementDateOutput;
+    }
+
+    if (!latestPostedDate) {
+      return 'N/A';
+    }
+
+    return formatDate(latestPostedDate);
+  };
+
   // Get formatted city, state, and zip
   const getFormattedCityStateZip = () => {
     if (!mailingAddress) return '';
@@ -144,46 +158,6 @@ const CombinedStatements = () => {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
-  const getMostRecentPaymentDate = () => {
-    const defaultDate = new Date();
-    defaultDate.setDate(1); // First day of the current month
-
-    const allDates = debts
-      .flatMap(debt => [
-        ...(debt.debtHistory?.map(item => {
-          if (item.date) {
-            const parsedDate = parse(item.date, 'MM/dd/yyyy', new Date());
-            return !Number.isNaN(parsedDate.getTime()) ? parsedDate : null;
-          }
-          return null;
-        }) || []),
-        // Excluding fiscalTransactionData dates as they're in 2024 but data is from 2020
-        debt.debtDate ? new Date(debt.debtDate) : null,
-      ])
-      .filter(date => date && !Number.isNaN(date.getTime()));
-
-    return allDates.length > 0
-      ? new Date(Math.max(...allDates.map(date => date.getTime())))
-      : defaultDate;
-  };
-
-  // Get the most recent payment date and format it for display
-  const statementDate = format(getMostRecentPaymentDate(), 'MMMM d, yyyy');
-
-  const getLatestPaymentDateFromCopayForFacility = statement => {
-    let latestPostedDate = last(statement.details)?.pDDatePostedOutput;
-
-    if (latestPostedDate === '') {
-      latestPostedDate = statement.pSStatementDateOutput;
-    }
-
-    if (!latestPostedDate) {
-      return 'N/A';
-    }
-
-    return formatDate(latestPostedDate);
-  };
-
   const copayTotalRow = copay => {
     return (
       <va-table-row>
@@ -192,15 +166,28 @@ const CombinedStatements = () => {
           Total Due:
         </span>
         <span className="vads-u-font-weight--bold">
-          {currency(
-            copay.details.reduce(
-              (total, charge) =>
-                total +
-                parseFloat(charge.pDTransAmtOutput.replace(/[^0-9.-]+/g, '')),
-              0,
-            ),
-          )}
+          {currency(copay.pHAmtDue, 0)}
         </span>
+      </va-table-row>
+    );
+  };
+
+  const copayPreviousBalanceRow = copay => {
+    return (
+      <va-table-row>
+        <span>Previous Balance</span>
+        <span />
+        <span>{currency(copay.pHPrevBal, 0)}</span>
+      </va-table-row>
+    );
+  };
+
+  const copayTotalPaymentsCreditsRow = copay => {
+    return (
+      <va-table-row>
+        <span>Payments Received</span>
+        <span />
+        <span>{currency(copay.pHTotCredits, 0)}</span>
       </va-table-row>
     );
   };
@@ -283,7 +270,7 @@ const CombinedStatements = () => {
             Copay charges
           </h2>
           <p className="vads-u-margin-top--0">
-            You are receiving this billing statement because you are currently
+            You’re receiving this billing statement because you are currently
             enrolled in a priority group requiring copayments for treatment of
             non-service connected conditions.
           </p>
@@ -314,6 +301,7 @@ const CombinedStatements = () => {
                 {getLatestPaymentDateFromCopayForFacility(statement)} will not
                 be reflected here
               </p>
+
               <va-table
                 table-title={`Copay charges for ${statement.station.facilityName}`}
                 data-testid={`combined-statements-copay-table-${statement.station.facilityName}`}
@@ -324,6 +312,7 @@ const CombinedStatements = () => {
                   <span>Billing reference</span>
                   <span>Amount</span>
                 </va-table-row>
+                {copayPreviousBalanceRow(statement)}
 
                 {statement.details.map((charge, idx) => (
                   <va-table-row key={idx}>
@@ -333,6 +322,8 @@ const CombinedStatements = () => {
                   </va-table-row>
                 ))}
 
+                {statement?.pHTotCredits !== 0 &&
+                  copayTotalPaymentsCreditsRow(statement)}
                 {copayTotalRow(statement)}
               </va-table>
             </div>
@@ -363,7 +354,7 @@ const CombinedStatements = () => {
           />
 
           <p className="vads-u-margin-bottom--3">
-            Payments made after {statementDate} will not be reflected here.
+            Most recent payment may not be reflected here.
           </p>
 
           <va-table
