@@ -175,7 +175,7 @@ const testConfig = createTestConfig(
           cy.get('va-text-input')
             .shadow()
             .find('input')
-            .type('Jane Doe');
+            .type('John Doe');
 
           cy.get('va-checkbox')
             .shadow()

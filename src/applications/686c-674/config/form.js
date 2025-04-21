@@ -145,7 +145,7 @@ export const formConfig = {
         'I confirm that the identifying information in this form is accurate has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      fullNamePath: 'veteranInformation.fullName',
+      useProfileFullName: true,
     },
   },
   formId: VA_FORM_IDS.FORM_21_686CV2,

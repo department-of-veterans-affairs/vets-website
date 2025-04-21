@@ -220,10 +220,17 @@ const testConfig = createTestConfig(
 
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.tabToElementAndPressSpace('va-text-input');
-          cy.typeInFocused('Gregory A Anderson');
-          cy.tabToElementAndPressSpace('va-checkbox');
-          cy.tabToSubmitForm();
+          cy.get('va-text-input')
+            .shadow()
+            .find('input')
+            .type('John Doe');
+
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .check({ force: true });
+
+          cy.get('.usa-button-primary').click();
         });
       },
     },
