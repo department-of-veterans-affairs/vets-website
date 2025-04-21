@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
+  VaAlert,
   VaLink,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -33,6 +34,20 @@ const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
         </div>
       );
     }
+    case DOWNLOAD_STATUSES.failure:
+      return (
+        <VaAlert
+          className="vads-u-margin-top--2"
+          role="alert"
+          status="error"
+          slim
+          visible
+        >
+          <p className="vads-u-margin-y--0">
+            We can’t create your letter right now.
+          </p>
+        </VaAlert>
+      );
     default:
       return <div>Something else</div>;
   }
