@@ -90,7 +90,7 @@ MhvPageNotFoundContent.propTypes = {
  *
  * @example
  * // routes.jsx -- react-router-dom -- declare <MhvPageNotFound /> last within <Switch />
- * import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
+ * import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
  * <Switch>
  *   <Route exact path="/" key="App"><App/></Route>
  *   <Route><MhvPageNotFound /></Route>
@@ -98,7 +98,7 @@ MhvPageNotFoundContent.propTypes = {
  *
  * @example
  * // routes.jsx -- react-router-dom-v5-compat -- declare <MhvPageNotFound /> last within <Routes />
- * import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
+ * import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
  * <Routes>
  *   <Route path="/" element={<App />} />
  *   <Route path="*" element={<MhvPageNotFound />} />
@@ -106,19 +106,17 @@ MhvPageNotFoundContent.propTypes = {
  *
  * @example
  * // in _.unit.spec.jsx files:
- * import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
  * // render a 404 condition
  * const { getByTestId } = render(<App />);
- * getByTestId(mhvPageNotFoundTestId);
+ * getByTestId('mhv-page-not-found');
  * // or, with chai assertions
- * const el = getByTestId(mhvPageNotFoundTestId);
+ * const el = getByTestId('mhv-page-not-found');
  * expect(el).to.exist;
  *
  * @example
  * // in _.cypress.spec.js e2e files:
- * import { mhvPageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
  * cy.visit('/nowhere');
- * cy.findByTestId(mhvPageNotFoundTestId);
+ * cy.findByTestId('mhv-page-not-found');
  */
 const MhvPageNotFound = () => {
   const isVerified = useSelector(isLOA3);

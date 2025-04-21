@@ -1,4 +1,3 @@
-import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { appName, rootUrl } from '../../manifest.json';
 import ApiInitializer from './utilities/ApiInitializer';
 import user from '../fixtures/user.json';
@@ -18,7 +17,7 @@ describe(`${appName} -- not found`, () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders', () => {
     cy.findByRole('navigation', { name: 'My HealtheVet' });
-    cy.findByTestId(pageNotFoundTestId);
+    cy.findByTestId('mhv-page-not-found');
   });
 
   it('passes automated accessibility (a11y) checks', () => {
@@ -35,7 +34,7 @@ describe(`${appName} -- not found -- unauthenticated`, () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders', () => {
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should('not.exist');
-    cy.findByTestId(pageNotFoundTestId);
+    cy.findByTestId('mhv-page-not-found');
   });
 
   it('passes automated accessibility (a11y) checks', () => {
