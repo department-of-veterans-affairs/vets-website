@@ -60,6 +60,11 @@ const CombinedStatements = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
 
+  // Get loading states
+  const { pending: billsLoading } = mcp;
+  const { isPending: debtsLoading, isPendingVBMS } = debtLetters;
+  const dataLoading = billsLoading || debtsLoading || isPendingVBMS;
+
   const debts = debtLetters.debts || [];
   const bills = mcp.statements;
 
@@ -145,8 +150,13 @@ const CombinedStatements = () => {
     [billError, debtError, showOneVADebtLetterDownload],
   );
 
-  // If the feature flag is not enabled, redirect to the summary page
-  if (!showOneVADebtLetterDownload) {
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading || dataLoading) {
+    return <VaLoadingIndicator message="Loading features and data..." />;
+  }
+
+  // If the feature flag is not enabled or there are errors, redirect to the summary page
+  if (!showOneVADebtLetterDownload || debtError || billError) {
     window.location.replace('/manage-va-debt/summary');
     return (
       <div className="vads-u-margin--5">
@@ -156,11 +166,6 @@ const CombinedStatements = () => {
         />
       </div>
     );
-  }
-
-  // give features a chance to fully load before we conditionally render
-  if (togglesLoading) {
-    return <VaLoadingIndicator message="Loading features..." />;
   }
 
   const copayTotalRow = copay => {
@@ -178,21 +183,25 @@ const CombinedStatements = () => {
   };
 
   const copayPreviousBalanceRow = copay => {
+    if (!copay.pHPrevBal) return null;
+
     return (
       <va-table-row>
         <span>Previous Balance</span>
         <span />
-        <span>{currency(copay.pHPrevBal, 0)}</span>
+        <span>{currency(parseFloat(copay.pHPrevBal || 0), 0)}</span>
       </va-table-row>
     );
   };
 
   const copayTotalPaymentsCreditsRow = copay => {
+    if (!copay.pHTotCredits) return null;
+
     return (
       <va-table-row>
         <span>Payments Received</span>
         <span />
-        <span>{currency(copay.pHTotCredits, 0)}</span>
+        <span>{currency(parseFloat(copay.pHTotCredits || 0), 0)}</span>
       </va-table-row>
     );
   };
@@ -331,7 +340,7 @@ const CombinedStatements = () => {
                   </va-table-row>
                 ))}
 
-                {statement?.pHTotCredits !== 0 &&
+                {statement.pHTotCredits &&
                   copayTotalPaymentsCreditsRow(statement)}
                 {copayTotalRow(statement)}
               </va-table>
@@ -401,7 +410,7 @@ const CombinedStatements = () => {
                         'VA Debt'}
                     </strong>
                   </span>
-                  <span>{currency(debtAmount)}</span>
+                  <span>{currency(debtAmount, 0)}</span>
                 </va-table-row>
               );
             })}
@@ -419,6 +428,7 @@ const CombinedStatements = () => {
                       parseFloat(debt.currentAr || debt.originalAr || 0),
                     0,
                   ),
+                  0,
                 )}
               </span>
             </va-table-row>
