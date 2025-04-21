@@ -9,9 +9,9 @@ import { minMaxValidation } from './numberPattern';
  * Used for simple number amounts containing only digits
  *
  * ```js
- * exampleIncome: currencyUI('Gross monthy income')
+ * exampleIncome: currencyUI('Gross monthly income')
  * exampleIncome: currencyUI({
- *  title: 'Gross monthy income',
+ *  title: 'Gross monthly income',
  *  description: 'This is a description',
  *  hint: 'This is a hint',
  *  width: 'sm',

@@ -1,33 +1,32 @@
 // @ts-check
-import moment from 'moment';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { PODIATRY_ID } from '../../../../utils/constants';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../fixtures/MockProviderResponse';
 import MockUser from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import {
-  mockAppointmentGetApi,
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockCCProvidersApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
-  mockEligibilityCCApi,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
-import MockProviderResponse from '../../fixtures/MockProviderResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import { PODIATRY_ID } from '../../../../utils/constants';
 
 const { cceType } = getTypeOfCareById(PODIATRY_ID);
 
@@ -38,7 +37,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: 'proposed',
         serviceType: 'podiatry',
       });

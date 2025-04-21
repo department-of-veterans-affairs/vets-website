@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -7,10 +7,15 @@ import { selectAppointment } from '../../../redux/selectors';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import { recordSmocPageview } from '../../../util/events-helpers';
 
 const title = 'File a travel reimbursement claim';
 
 const IntroductionPage = ({ onStart }) => {
+  useEffect(() => {
+    recordSmocPageview('intro');
+  }, []);
+
   useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
 
@@ -78,7 +83,7 @@ const IntroductionPage = ({ onStart }) => {
         </p>
         <va-link
           external
-          href="https://www.cep.fsc.va.gov/"
+          href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
           text="Set up direct deposit"
         />
       </va-alert>
