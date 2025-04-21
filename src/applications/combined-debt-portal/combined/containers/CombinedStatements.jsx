@@ -286,30 +286,33 @@ const CombinedStatements = () => {
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Copay charges
           </h2>
-          <p className="vads-u-margin-top--0">
-            You’re receiving this billing statement because you are currently
-            enrolled in a priority group requiring copayments for treatment of
-            non-service connected conditions.
-          </p>
+          {bills && bills.length > 0 ? (
+            <>
+              <p className="vads-u-margin-top--0">
+                You’re receiving this billing statement because you are
+                currently enrolled in a priority group requiring copayments for
+                treatment of non-service connected conditions.
+              </p>
 
-          <div className="vads-u-margin-top--3">
-            <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-              Resolve your copay bills
-            </h3>
-            <p className="vads-u-margin-top--0">
-              You can pay your debt online, by phone, or by mail. Call us at{' '}
-              <va-telephone contact="8664001238" /> to discuss payment options,
-              request financial help, or dispute your bill.
-            </p>
-            {bills && bills.length > 0 ? (
-              <va-link-action
-                href="/manage-va-debt/summary/copay-balances"
-                text="Review and resolve copay bills"
-                type="secondary"
-                data-testid="review-copays-link"
-              />
-            ) : null}
-          </div>
+              <div className="vads-u-margin-top--3">
+                <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+                  Resolve your copay bills
+                </h3>
+                <p className="vads-u-margin-top--0">
+                  You can pay your debt online, by phone, or by mail. Call us at{' '}
+                  <va-telephone contact="8664001238" /> to discuss payment
+                  options, request financial help, or dispute your bill.
+                </p>
+
+                <va-link-action
+                  href="/manage-va-debt/summary/copay-balances"
+                  text="Review and resolve copay bills"
+                  type="secondary"
+                  data-testid="review-copays-link"
+                />
+              </div>
+            </>
+          ) : null}
 
           {/* Copay charges tables */}
           {bills && bills.length > 0 ? (
@@ -364,30 +367,33 @@ const CombinedStatements = () => {
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
-          <p className="vads-u-margin-top--0">
-            Benefit overpayments are due to changes in your benefits which
-            result in you being paid more than you were owed.
-          </p>
-          <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-            Resolve your overpayment
-          </h3>
-          <p className="vads-u-margin-top--0">
-            You can pay your debt online, by phone, or by mail. Call us at{' '}
-            <va-telephone contact="8008270648" /> to discuss payment options,
-            request financial help, or dispute your bill.
-          </p>
           {debts && debts.length > 0 ? (
-            <va-link-action
-              href="/manage-va-debt/summary/debt-balances"
-              text="Review and resolve overpayments"
-              type="secondary"
-              data-testid="review-debts-link"
-            />
-          ) : null}
+            <>
+              <p className="vads-u-margin-top--0">
+                Benefit overpayments are due to changes in your benefits which
+                result in you being paid more than you were owed.
+              </p>
+              <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+                Resolve your overpayment
+              </h3>
+              <p className="vads-u-margin-top--0">
+                You can pay your debt online, by phone, or by mail. Call us at{' '}
+                <va-telephone contact="8008270648" /> to discuss payment
+                options, request financial help, or dispute your bill.
+              </p>
 
-          <p className="vads-u-margin-bottom--3">
-            Most recent payment may not be reflected here.
-          </p>
+              <va-link-action
+                href="/manage-va-debt/summary/debt-balances"
+                text="Review and resolve overpayments"
+                type="secondary"
+                data-testid="review-debts-link"
+              />
+
+              <p className="vads-u-margin-bottom--3">
+                Most recent payment may not be reflected here.
+              </p>
+            </>
+          ) : null}
 
           {debts && debts.length > 0 ? (
             <va-table
