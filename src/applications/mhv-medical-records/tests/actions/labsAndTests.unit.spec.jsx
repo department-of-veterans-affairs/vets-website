@@ -27,6 +27,23 @@ describe('Get labs and tests action', () => {
       );
     });
   });
+
+  it('should dispatch a get list action when accelerating', () => {
+    const mockData = labsAndTests;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getLabsAndTestsList(false, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.LabsAndTests.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.LabsAndTests.GET_UNIFIED_LIST,
+      );
+    });
+  });
 });
 
 describe('Get labs and tests details action', () => {
@@ -37,6 +54,17 @@ describe('Get labs and tests details action', () => {
     return getlabsAndTestsDetails('3106')(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.LabsAndTests.GET,
+      );
+    });
+  });
+
+  it('when accelerating, should dispatch a get details action', () => {
+    const mockData = pathology;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getlabsAndTestsDetails('3106', null, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST,
       );
     });
   });
