@@ -33,7 +33,7 @@ export default function RequestListItem({ appointment, facility }) {
   const preferredDate = appointment?.preferredDate;
   const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
 
-  const link = `${'requests'}/${appointment.id}`;
+  const link = `${'pending'}/${appointment.id}`;
 
   return (
     <li
