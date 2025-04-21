@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
@@ -19,6 +19,7 @@ const IntroductionPage = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
   const { title, subTitle, pdfDownloadUrl } = getFormContent();
+  const [isVeteran, setIsVeteran] = useState(null);
 
   const openLoginModal = () => {
     dispatch(toggleLoginModal(true, 'cta-form'));
@@ -28,19 +29,22 @@ const IntroductionPage = ({ route, router }) => {
     () => {
       const startForm = () => {
         recordEvent({ event: `${formNumber}-start-form` });
-        return router.push(route.pageList[1].path);
+        if (isVeteran) {
+          return router.push(route.pageList[2].path);
+        }
+        return router.push(route.pageList[3].path);
       };
       return (
-        <a
-          href="#start"
+        <button
           className="vads-c-action-link--green"
           onClick={startForm}
+          type="button"
         >
           Start application
-        </a>
+        </button>
       );
     },
-    [route.pageList, router],
+    [route.pageList, router, isVeteran],
   );
 
   return (
@@ -92,7 +96,37 @@ const IntroductionPage = ({ route, router }) => {
         </VaProcessListItem>
       </VaProcessList>
       {userLoggedIn ? (
-        startBtn
+        <div>
+          <div>
+            <div>Tell us who the claimant is</div>
+            <div>
+              What is the claimant’s relationship to the Veteran?(*Required)
+            </div>
+            <div>
+              <input
+                type="radio"
+                checked={isVeteran === true}
+                name="claimant"
+                onChange={() => setIsVeteran(true)}
+                id="veteran"
+              />
+              <label htmlFor="veteran">The claimant is the Veteran</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                checked={isVeteran === false}
+                name="claimant"
+                onChange={() => setIsVeteran(false)}
+                id="survivor"
+              />
+              <label htmlFor="survivor">
+                The claimant is a survivor or dependent of the Veteran
+              </label>
+            </div>
+          </div>
+          {startBtn}
+        </div>
       ) : (
         <VaAlert status="info" visible>
           <h2 slot="headline">Sign in now to upload your form</h2>

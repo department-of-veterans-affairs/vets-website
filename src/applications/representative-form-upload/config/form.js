@@ -81,6 +81,7 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: veteranInformationPage.uiSchema,
           depends: formData => {
+            // debugger
             return formData.isVeteran === true;
           },
           schema: veteranInformationPage.schema,
