@@ -136,7 +136,7 @@ describe('CG fetchFacilities action', () => {
         type: 'SEARCH_FAILED',
         errorMessage: 'There was an error fetching the health care facilities.',
       });
-      expect(localStorage.getItem('csrfToken')).to.eq('');
+      expect(localStorage.getItem('csrfToken')).to.be.null;
       sinon.assert.calledOnce(apiRequestStub);
     });
   });
