@@ -198,7 +198,10 @@ const DownloadRecordType = () => {
 
       <form>
         <fieldset>
-          <legend className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+          <legend
+            className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+            data-testid="date-range-legend"
+          >
             Date range: <strong>{selectedDateRange}</strong>{' '}
             {dateFilterOption && dateFilterOption !== 'any'
               ? `(${formatDate(fromDate)} to ${formatDate(toDate)})`
