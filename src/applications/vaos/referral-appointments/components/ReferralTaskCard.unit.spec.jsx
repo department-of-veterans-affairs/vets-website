@@ -9,7 +9,7 @@ import {
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
 // skipping for now until we need to test this component
-xdescribe('VAOS Component: ReferralTaskCard', () => {
+describe('VAOS Component: ReferralTaskCard', () => {
   let sandbox;
   let clock;
   const now = new Date('2024-09-09T00:00:00Z');

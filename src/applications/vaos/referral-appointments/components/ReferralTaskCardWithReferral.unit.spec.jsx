@@ -12,7 +12,7 @@ import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
 
 import { createReferralById } from '../utils/referrals';
 // skipping for now until we need to test this component
-xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
+describe('VAOS Component: ReferralTaskCardWithReferral', () => {
   let apiRequestWithUrlStub;
 
   beforeEach(() => {
@@ -29,7 +29,10 @@ xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
     const store = createTestStore();
 
     apiRequestWithUrlStub.resolves({
-      data: createReferralById('add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+      ),
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
@@ -37,15 +40,17 @@ xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
       path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
     });
 
-    expect(await screen.findByTestId('referral-task-card')).to.exist;
+    waitFor(() => {
+      expect(screen.findByTestId('referral-task-card')).to.exist;
+    });
   });
 
   it('should not display anything when url parameter is not populated', async () => {
     const store = createTestStore();
     apiRequestWithUrlStub.resolves({
       data: createReferralById(
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
         '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
     });
 
@@ -69,8 +74,8 @@ xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
     apiRequestWithUrlStub.resolves({
       data: createReferralById(
+        '2024-11-29',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-        '2024-12-01',
       ),
     });
 
@@ -88,8 +93,8 @@ xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
     const store = createTestStore();
     apiRequestWithUrlStub.resolves({
       data: createReferralById(
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
         '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
     });
 
@@ -105,8 +110,8 @@ xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
     apiRequestWithUrlStub.resolves({
       data: createReferralById(
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
         '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
     });
 
