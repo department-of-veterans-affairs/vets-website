@@ -48,7 +48,6 @@ describe('UnifiedLabsAndTests Component', () => {
         path: '/labs-and-tests/xyz-123?timeFrame=2024-04',
       },
     );
-    screen.debug();
     expect(screen.getByTestId('lab-name')).to.have.text('Test Name');
     expect(screen.getByTestId('header-time')).to.have.text('2025-04-21');
     expect(screen.getByTestId('lab-and-test-code')).to.have.text('12345');
@@ -105,70 +104,4 @@ describe('UnifiedLabsAndTests Component', () => {
     );
     expect(screen.getByTestId('test-observations')).to.exist;
   });
-  // it('triggers PDF download when download button is clicked', () => {
-  //   render(
-  //     <UnifiedLabsAndTests
-  //       record={mockRecord}
-  //       user={mockUser}
-  //       runningUnitTest
-  //     />,
-  //   );
-
-  //   const downloadButton = screen.getByText('Download PDF');
-  //   fireEvent.click(downloadButton);
-
-  //   expect(screen.getByText('Download successful')).toBeInTheDocument();
-  // });
-
-  // it('triggers TXT download when download button is clicked', () => {
-  //   render(
-  //     <UnifiedLabsAndTests
-  //       record={mockRecord}
-  //       user={mockUser}
-  //       runningUnitTest
-  //     />,
-  //   );
-
-  //   const downloadButton = screen.getByText('Download TXT');
-  //   fireEvent.click(downloadButton);
-
-  //   expect(screen.getByText('Download successful')).toBeInTheDocument();
-  // });
-
-  // it('displays the correct date in the DateSubheading component', () => {
-  //   render(
-  //     <UnifiedLabsAndTests
-  //       record={mockRecord}
-  //       user={mockUser}
-  //       runningUnitTest
-  //     />,
-  //   );
-
-  //   expect(screen.getByText('2025-04-21')).toBeInTheDocument();
-  // });
-
-  // it('renders observations if present in the record', () => {
-  //   render(
-  //     <UnifiedLabsAndTests
-  //       record={mockRecord}
-  //       user={mockUser}
-  //       runningUnitTest
-  //     />,
-  //   );
-
-  //   expect(screen.getByText('Observation 1')).toBeInTheDocument();
-  // });
-
-  // it('does not render observations section if observations are not present', () => {
-  //   const recordWithoutObservations = { ...mockRecord, observations: null };
-  //   render(
-  //     <UnifiedLabsAndTests
-  //       record={recordWithoutObservations}
-  //       user={mockUser}
-  //       runningUnitTest
-  //     />,
-  //   );
-
-  //   expect(screen.queryByText('Results')).not.toBeInTheDocument();
-  // });
 });
