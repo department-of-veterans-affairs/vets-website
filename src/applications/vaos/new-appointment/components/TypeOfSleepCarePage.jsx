@@ -14,7 +14,6 @@ import {
 import { getFormPageInfo } from '../redux/selectors';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { TYPES_OF_SLEEP_CARE } from '../../utils/constants';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const pageKey = 'typeOfSleepCare';
 const pageTitle = 'Which type of sleep care do you need?';
@@ -58,10 +57,6 @@ const uiSchema = {
 };
 
 export default function TypeOfSleepCarePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
   const history = useHistory();
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -71,9 +66,7 @@ export default function TypeOfSleepCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
   useEffect(
     () => {

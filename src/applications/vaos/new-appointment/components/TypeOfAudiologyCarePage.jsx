@@ -7,7 +7,6 @@ import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-sys
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -59,10 +58,6 @@ const uiSchema = {
 };
 
 export default function TypeOfAudiologyCarePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -72,9 +67,7 @@ export default function TypeOfAudiologyCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
   useEffect(
     () => {

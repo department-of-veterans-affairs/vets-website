@@ -8,7 +8,6 @@ import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_EYE_CARE } from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 import {
   openFormPage,
@@ -59,9 +58,6 @@ const uiSchema = {
 };
 
 export default function TypeOfEyeCarePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -71,9 +67,7 @@ export default function TypeOfEyeCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
   useEffect(
     () => {

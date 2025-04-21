@@ -14,7 +14,6 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
-  selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
@@ -922,7 +921,6 @@ export function submitAppointmentOrRequest(history) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
@@ -968,11 +966,7 @@ export function submitAppointmentOrRequest(history) {
         resetDataLayer();
 
         if (featureVAOSServiceVAAppointments) {
-          if (featureBreadcrumbUrlUpdate) {
-            history.push(`/${appointment.id}?confirmMsg=true`);
-          } else {
-            history.push(`/va/${appointment.id}?confirmMsg=true`);
-          }
+          history.push(`/${appointment.id}?confirmMsg=true`);
         } else {
           history.push('/new-appointment/confirmation');
         }
@@ -1063,11 +1057,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(
-          `${featureBreadcrumbUrlUpdate ? '/pending' : '/requests'}/${
-            requestData.id
-          }?confirmMsg=true`,
-        );
+        history.push(`/pending/${requestData.id}?confirmMsg=true`);
       } catch (error) {
         let extraData = null;
         if (requestBody) {

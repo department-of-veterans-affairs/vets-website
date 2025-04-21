@@ -21,10 +21,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import {
-  selectFeatureVAOSServiceRequests,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureVAOSServiceRequests } from '../../redux/selectors';
 import { getPageTitle } from '../newAppointmentFlow';
 
 function isValidComment(value) {
@@ -72,9 +69,6 @@ const initialSchema = {
 const pageKey = 'reasonForAppointment';
 
 export default function ReasonForAppointmentPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
@@ -138,9 +132,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
           useV2,
         ),
       );
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
+      changeCrumb(pageTitle);
     },
     [dispatch],
   );

@@ -8,10 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureUseVaDate,
-} from '../redux/selectors';
+import { selectFeatureUseVaDate } from '../redux/selectors';
 import { selectIsNewAppointmentStarted } from './redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -23,7 +20,6 @@ import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
 import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
 import PreferredDatePage from './components/PreferredDatePage';
 import PreferredDatePageVaDate from './components/PreferredDatePageVaDate';
-import DateTimeRequestPage from './components/DateTimeRequestPage';
 import VARequest from './components/DateTimeRequestPage/VA';
 import CCRequest from './components/DateTimeRequestPage/CommunityCare';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
@@ -45,9 +41,6 @@ import ScheduleCernerPage from './components/ScheduleCernerPage';
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const featureUseVaDate = useSelector(state => selectFeatureUseVaDate(state));
   const match = useRouteMatch();
   const location = useLocation();
@@ -73,200 +66,126 @@ export function NewAppointment() {
     return <Redirect to="/" />;
   }
 
-  if (featureBreadcrumbUrlUpdate) {
-    return (
-      <FormLayout pageTitle={crumb}>
-        <Switch>
-          <Route
-            path={[
-              `${match.url}/va-request/contact-information`,
-              `${match.url}/community-request/contact-information`,
-              `${match.url}/contact-information`,
-            ]}
-          >
-            <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/facility-type`}>
-            <TypeOfFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route
-            path={[
-              `${match.url}/va-request/preferred-method`,
-              `${match.url}/choose-visit-type`,
-            ]}
-          >
-            <TypeOfVisitPage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/sleep-care`}>
-            <TypeOfSleepCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/eye-care`}>
-            <TypeOfEyeCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/audiology-care`}>
-            <TypeOfAudiologyCarePage
-              changeCrumb={newTitle => setCrumb(newTitle)}
-            />
-          </Route>
-          <Route path={`${match.url}/preferred-date`}>
-            {featureUseVaDate ? (
-              <PreferredDatePageVaDate
-                changeCrumb={newTitle => setCrumb(newTitle)}
-              />
-            ) : (
-              <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
-            )}
-          </Route>
-          <Route path={`${match.url}/date-time`}>
-            <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route exact path={`${match.url}/va-request/`}>
-            <VARequest changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route exact path={`${match.url}/community-request/`}>
-            <CCRequest changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/location`}>
-            <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/provider`}>
-            <ProviderSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route
-            path={`${match.url}/how-to-schedule`}
-            component={ScheduleCernerPage}
-          />
-          <Route
-            path={[
-              `${match.url}/va-request/community-care-preferences`,
-              `${match.url}/community-request/preferred-provider`,
-            ]}
-          >
-            <CommunityCareProviderSelectionPage
-              changeCrumb={newTitle => setCrumb(newTitle)}
-            />
-          </Route>
-          <Route
-            path={[
-              `${match.url}/va-request/community-care-language`,
-              `${match.url}/community-request/preferred-language`,
-            ]}
-          >
-            <CommunityCareLanguagePage
-              changeCrumb={newTitle => setCrumb(newTitle)}
-            />
-          </Route>
-          <Route
-            path={[
-              `${match.url}/va-request/choose-closest-city`,
-              `${match.url}/community-request/closest-city`,
-            ]}
-          >
-            <ClosestCityStatePage
-              changeCrumb={newTitle => setCrumb(newTitle)}
-            />
-          </Route>
-          <Route path={`${match.url}/clinic`}>
-            <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route
-            path={[
-              `${match.url}/va-request/reason`,
-              `${match.url}/community-request/reason`,
-              `${match.url}/reason`,
-            ]}
-          >
-            <ReasonForAppointmentPage
-              changeCrumb={newTitle => setCrumb(newTitle)}
-            />
-          </Route>
-          <Route
-            path={[
-              `${match.url}/va-request/review`,
-              `${match.url}/community-request/review`,
-              `${match.url}/review`,
-            ]}
-          >
-            <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route
-            path={`${match.url}/confirmation`}
-            component={ConfirmationPage}
-          />
-          <Route path={match.url}>
-            <TypeOfCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-        </Switch>
-      </FormLayout>
-    );
-  }
   return (
     <FormLayout pageTitle={crumb}>
       <Switch>
-        <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route
-          path={`${match.url}/choose-facility-type`}
-          component={TypeOfFacilityPage}
-        />
+          path={[
+            `${match.url}/va-request/contact-information`,
+            `${match.url}/community-request/contact-information`,
+            `${match.url}/contact-information`,
+          ]}
+        >
+          <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/facility-type`}>
+          <TypeOfFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
         <Route
-          path={`${match.url}/choose-visit-type`}
-          component={TypeOfVisitPage}
-        />
-        <Route
-          path={`${match.url}/choose-sleep-care`}
-          component={TypeOfSleepCarePage}
-        />
-        <Route
-          path={`${match.url}/choose-eye-care`}
-          component={TypeOfEyeCarePage}
-        />
-        <Route
-          path={`${match.url}/audiology`}
-          component={TypeOfAudiologyCarePage}
-        />
-        <Route
-          path={`${match.url}/preferred-date`}
-          component={PreferredDatePage}
-        />
-        <Route
-          path={`${match.url}/request-date`}
-          component={DateTimeRequestPage}
-        />
-        <Route
-          path={`${match.url}/select-date`}
-          component={DateTimeSelectPage}
-        />
-        <Route
-          path={`${match.url}/va-facility-2`}
-          component={VAFacilityPageV2}
-        />
+          path={[
+            `${match.url}/va-request/preferred-method`,
+            `${match.url}/choose-visit-type`,
+          ]}
+        >
+          <TypeOfVisitPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/sleep-care`}>
+          <TypeOfSleepCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/eye-care`}>
+          <TypeOfEyeCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/audiology-care`}>
+          <TypeOfAudiologyCarePage
+            changeCrumb={newTitle => setCrumb(newTitle)}
+          />
+        </Route>
+        <Route path={`${match.url}/preferred-date`}>
+          {featureUseVaDate ? (
+            <PreferredDatePageVaDate
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          ) : (
+            <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          )}
+        </Route>
+        <Route path={`${match.url}/date-time`}>
+          <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route exact path={`${match.url}/va-request/`}>
+          <VARequest changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route exact path={`${match.url}/community-request/`}>
+          <CCRequest changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/location`}>
+          <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/provider`}>
+          <ProviderSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
         <Route
           path={`${match.url}/how-to-schedule`}
           component={ScheduleCernerPage}
         />
         <Route
-          path={`${match.url}/community-care-preferences`}
-          component={CommunityCareProviderSelectionPage}
-        />
+          path={[
+            `${match.url}/va-request/community-care-preferences`,
+            `${match.url}/community-request/preferred-provider`,
+          ]}
+        >
+          <CommunityCareProviderSelectionPage
+            changeCrumb={newTitle => setCrumb(newTitle)}
+          />
+        </Route>
         <Route
-          path={`${match.url}/community-care-language`}
-          component={CommunityCareLanguagePage}
-        />
+          path={[
+            `${match.url}/va-request/community-care-language`,
+            `${match.url}/community-request/preferred-language`,
+          ]}
+        >
+          <CommunityCareLanguagePage
+            changeCrumb={newTitle => setCrumb(newTitle)}
+          />
+        </Route>
         <Route
-          path={`${match.url}/choose-closest-city`}
-          component={ClosestCityStatePage}
-        />
-        <Route path={`${match.url}/clinics`} component={ClinicChoicePage} />
+          path={[
+            `${match.url}/va-request/choose-closest-city`,
+            `${match.url}/community-request/closest-city`,
+          ]}
+        >
+          <ClosestCityStatePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
+        <Route path={`${match.url}/clinic`}>
+          <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
         <Route
-          path={`${match.url}/reason-appointment`}
-          component={ReasonForAppointmentPage}
-        />
-        <Route path={`${match.url}/review`} component={ReviewPage} />
+          path={[
+            `${match.url}/va-request/reason`,
+            `${match.url}/community-request/reason`,
+            `${match.url}/reason`,
+          ]}
+        >
+          <ReasonForAppointmentPage
+            changeCrumb={newTitle => setCrumb(newTitle)}
+          />
+        </Route>
+        <Route
+          path={[
+            `${match.url}/va-request/review`,
+            `${match.url}/community-request/review`,
+            `${match.url}/review`,
+          ]}
+        >
+          <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
         <Route
           path={`${match.url}/confirmation`}
           component={ConfirmationPage}
         />
-        <Route path="/" component={TypeOfCarePage} />
+        <Route path={match.url}>
+          <TypeOfCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
+        </Route>
       </Switch>
     </FormLayout>
   );
