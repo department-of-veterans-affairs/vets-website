@@ -1,13 +1,13 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { isPlainObject } from 'lodash';
 import { render as rtlRender } from '@testing-library/react';
 
 import { commonReducer } from 'platform/startup/store';
-import { vaosApi } from 'applications/vaos/redux/api/vaosApi';
 import { createTestHistory } from './helpers';
 
 /**
@@ -22,7 +22,13 @@ import { createTestHistory } from './helpers';
  */
 export function renderInReduxProvider(
   ui,
-  { initialState = {}, reducers = {}, store = null, ...renderOptions } = {},
+  {
+    initialState = {},
+    reducers = {},
+    store = null,
+    middlewares = [],
+    ...renderOptions
+  } = {},
 ) {
   if (Object.keys(renderOptions).includes('reducer')) {
     /* eslint-disable no-console */
@@ -40,11 +46,15 @@ export function renderInReduxProvider(
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk, vaosApi.middleware),
+      applyMiddleware(thunk, ...middlewares),
     );
   const Wrapper = ({ children }) => {
     return <Provider store={testStore}>{children}</Provider>;
   };
+  Wrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   return rtlRender(ui, {
     wrapper: Wrapper,
     store: testStore,
@@ -71,18 +81,26 @@ export function renderInReduxProvider(
  * @param {ReduxStore} [renderParams.store=null] Redux store to use for the rendered page or section of the app
  * @param {string} [renderParams.path='/'] Url path to start from
  * @param {History} [renderParams.history=null] Custom history object to use, will create one if not passed
+ * @param {Array} [renderParams.middlewares=[]] Additional Redux middlewares to add to the store
  * @returns {Object} Return value of the React Testing Library render function, plus the history object used
  */
 export function renderWithStoreAndRouter(
   ui,
-  { initialState, reducers = {}, store = null, path = '/', history = null },
+  {
+    initialState,
+    reducers = {},
+    store = null,
+    path = '/',
+    history = null,
+    middlewares = [],
+  },
 ) {
   const testStore =
     store ||
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk, vaosApi.middleware),
+      applyMiddleware(thunk, ...middlewares),
     );
 
   const historyObject = history || createTestHistory(path);
@@ -92,6 +110,7 @@ export function renderWithStoreAndRouter(
       store: testStore,
       initialState,
       reducers,
+      middlewares,
     },
   );
 
