@@ -86,6 +86,7 @@ export const DateAndTimeContent = props => {
       );
       return;
     }
+
     if (
       appointmentsByMonth &&
       hasConflict(selectedDate, appointmentsByMonth, facilityTimeZone)
