@@ -147,7 +147,7 @@ const RefillNotification = ({ refillStatus }) => {
           </p>
           <Link
             data-testid="back-to-medications-page-link"
-            to="../../medications"
+            to="/"
             className="hide-visited-link"
             data-dd-action-name={
               dataDogActionNames.refillPage
