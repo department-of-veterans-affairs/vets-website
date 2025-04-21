@@ -16,6 +16,7 @@ export const UnifiedLabAndTestObservationDetail = ({
         className="vads-u-margin--0 vads-u-padding-bottom--2"
         data-dd-privacy="mask"
         data-dd-action-name={ddActionName}
+        data-testid="lab-and-test-observation-message-detail"
       >
         {value || emptyMessage}
       </p>
