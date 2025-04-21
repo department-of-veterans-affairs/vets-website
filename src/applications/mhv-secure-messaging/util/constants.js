@@ -420,21 +420,10 @@ export const BreadcrumbViews = {
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
-// When RemoveLandingPage (removeLandingPageFF / mhvSecureMessagingRemoveLandingPage) work is complete, replace the following constants with the NEW_ versions
 export const PageTitles = {
-  /// /////////////////////////
-  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
-  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
-  CONVERSATION_TITLE_TAG:
-    'Conversation - MHV Secure Messaging | Veterans Affairs',
-  EDIT_DRAFT_PAGE_TITLE_TAG:
-    'Edit draft - MHV Secure Messaging | Veterans Affairs',
-  MY_FOLDERS_PAGE_TITLE_TAG:
-    'More folders - MHV Secure Messaging | Veterans Affairs',
-  /// //////////////////////////
-  NEW_MESSAGE_PAGE_TITLE_TAG: ' | Veterans Affairs',
-  NEW_MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
-  NEW_CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
+  DEFAULT_PAGE_TITLE_TAG: ' | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
+  CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
 };
 
 export const Recipients = {
