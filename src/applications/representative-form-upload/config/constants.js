@@ -1,7 +1,5 @@
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import * as USIP from './usip';
-import * as SIS from './sis';
 
 export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   const isLoa3 = formData?.loa === 3;
@@ -128,19 +126,3 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
     File upload must be complete to continue.
   </VaAlert>
 );
-
-export const SIGN_IN_URL = (() => {
-  const url = new URL(USIP.PATH, USIP.BASE_URL);
-  url.searchParams.set(USIP.QUERY_PARAMS.application, USIP.APPLICATIONS.ARP);
-  url.searchParams.set(USIP.QUERY_PARAMS.OAuth, true);
-  return url;
-})();
-
-export const SIGN_OUT_URL = (() => {
-  const url = new URL(SIS.API_URL({ endpoint: 'logout' }));
-  url.searchParams.set(
-    SIS.QUERY_PARAM_KEYS.CLIENT_ID,
-    sessionStorage.getItem('ci'),
-  );
-  return url;
-})();
