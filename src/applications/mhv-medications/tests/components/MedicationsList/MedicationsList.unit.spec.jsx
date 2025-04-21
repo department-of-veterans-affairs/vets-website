@@ -84,8 +84,6 @@ describe('Medications List component', () => {
           },
         },
         reducers: reducer,
-        path: '/',
-        routerVersion: 6,
       },
     );
     const numToNums = screen.getByTestId('page-total-info');
