@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import MhvPageNotFound from '@department-of-veterans-affairs/platform-site-wide/MhvPageNotFound';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLOA3, isProfileLoading, isVAPatient } from '../selectors';
@@ -32,7 +32,7 @@ const PageNotFoundContainer = () => {
   return (
     <>
       {isVerified && isAPatient && <MhvSecondaryNav />}
-      <PageNotFound />
+      <MhvPageNotFound />
     </>
   );
 };
