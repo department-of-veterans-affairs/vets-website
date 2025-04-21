@@ -283,7 +283,7 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       {
-        input: 3,
+        'va-text-input': 3,
       },
       'value',
     );

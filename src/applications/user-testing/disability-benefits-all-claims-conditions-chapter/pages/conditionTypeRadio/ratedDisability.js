@@ -18,7 +18,7 @@ const ratedDisabilityPage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Service-connected disabilities'),
     ratedDisability: radioUI({
       title:
-        'Select which of your service-connected disabilities have gotten worse.',
+        'Select which of your service-connected disabilities have worsened.',
       hint:
         'Choose one, you will return to this screen if you need to add more.',
       updateUiSchema: (_formData, fullData) => ({
