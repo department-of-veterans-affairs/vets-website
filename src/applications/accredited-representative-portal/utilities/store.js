@@ -14,6 +14,16 @@ export const createReduxStore = () => {
   // Initialize feature toggles
   store.dispatch(connectFeatureToggle);
 
+  // Make the Redux state accessible globally for feature toggle checks
+  if (!window.__REDUX_STATE__) {
+    window.__REDUX_STATE__ = {};
+  }
+
+  // Sync Redux state with window object whenever state changes
+  store.subscribe(() => {
+    window.__REDUX_STATE__.featureToggles = store.getState().featureToggles;
+  });
+
   return store;
 };
 
