@@ -84,10 +84,10 @@ export default function UpcomingAppointmentsDetailsPage() {
 
       if (isCommunityCare)
         pageTitle = `${prefix} Community Care Appointment On`;
-      if (isInPerson) {
-        if (appointment?.vaos?.isCompAndPenAppointment)
-          pageTitle = `${prefix} Claim Exam Appointment On`;
-        else pageTitle = `${prefix} In-person Appointment On`;
+      if (appointment?.vaos?.isCompAndPenAppointment)
+        pageTitle = `${prefix} Claim Exam Appointment On`;
+      if (isInPerson || appointment?.vaos?.isCOVIDVaccine) {
+        pageTitle = `${prefix} In-person Appointment On`;
       }
       if (isVideo) {
         pageTitle = `${prefix} Video Appointment On`;
