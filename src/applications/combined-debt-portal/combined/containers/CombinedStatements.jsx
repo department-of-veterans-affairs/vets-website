@@ -19,9 +19,11 @@ import {
   setPageFocus,
   handlePdfGeneration,
   formatDate,
+  APP_TYPES,
 } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import ZeroBalanceCard from '../components/ZeroBalanceCard';
 
 // Helper function to clean HTML entities
 const cleanHtmlEntities = text => {
@@ -66,7 +68,7 @@ const CombinedStatements = () => {
   const dataLoading = billsLoading || debtsLoading || isPendingVBMS;
 
   const debts = debtLetters.debts || [];
-  const bills = mcp.statements;
+  const bills = mcp.statements || [];
 
   // Pulling veteran contact information from the Redux store
   const mailingAddress = useSelector(selectVAPMailingAddress);
@@ -81,18 +83,19 @@ const CombinedStatements = () => {
   const todaysDate = format(new Date(), 'MMMM d, yyyy');
 
   // Data for One VA Debt Letter PDF
-  const veteranContactInformation = {
-    veteranFullName: userFullName,
-    addressLine1: (mailingAddress && mailingAddress.addressLine1) || '',
-    addressLine2: (mailingAddress && mailingAddress.addressLine2) || '',
-    addressLine3: (mailingAddress && mailingAddress.addressLine3) || '',
-    city: (mailingAddress && mailingAddress.city) || '',
-    zipCode: (mailingAddress && mailingAddress.zipCode) || '',
-    stateCode: (mailingAddress && mailingAddress.stateCode) || '',
-    fileNumber,
-    payeeNumber,
-    personEntitled,
-  };
+  const veteranContactInformation =
+    {
+      veteranFullName: userFullName,
+      addressLine1: (mailingAddress && mailingAddress.addressLine1) || '',
+      addressLine2: (mailingAddress && mailingAddress.addressLine2) || '',
+      addressLine3: (mailingAddress && mailingAddress.addressLine3) || '',
+      city: (mailingAddress && mailingAddress.city) || '',
+      zipCode: (mailingAddress && mailingAddress.zipCode) || '',
+      stateCode: (mailingAddress && mailingAddress.stateCode) || '',
+      fileNumber,
+      payeeNumber,
+      personEntitled,
+    } || {};
 
   // Get the veteran's formatted name
   const getFormattedName = () => {
@@ -133,8 +136,8 @@ const CombinedStatements = () => {
 
   // Merge into namespaced pdfData for One VA Debt Letter PDF
   const pdfData = {
-    copays: bills,
-    debts,
+    copays: bills || [],
+    debts: debts || [],
     veteranContactInformation,
     details: {
       logoUrl: '/img/design/logo/logo-black-and-white.png',
@@ -307,45 +310,52 @@ const CombinedStatements = () => {
           </div>
 
           {/* Copay charges tables */}
-          {mcp.statements.map(statement => (
-            <div key={statement.station.facilityName}>
-              <h3>{statement.station.facilityName}</h3>
-              <p className="vads-u-margin-bottom--0">
-                Payments made after{' '}
-                {getLatestPaymentDateFromCopayForFacility(statement)} will not
-                be reflected here
-              </p>
+          {bills && bills.length > 0 ? (
+            bills.map(statement => (
+              <div key={statement.station.facilityName}>
+                <h3>{statement.station.facilityName}</h3>
+                <p className="vads-u-margin-bottom--0">
+                  Payments made after{' '}
+                  {getLatestPaymentDateFromCopayForFacility(statement)} will not
+                  be reflected here
+                </p>
 
-              <va-table
-                table-title={`Copay charges for ${
-                  statement.station.facilityName
-                }`}
-                data-testid={`combined-statements-copay-table-${
-                  statement.station.facilityName
-                }`}
-                className="vads-u-width--full"
-              >
-                <va-table-row slot="headers">
-                  <span>Description</span>
-                  <span>Billing reference</span>
-                  <span>Amount</span>
-                </va-table-row>
-                {copayPreviousBalanceRow(statement)}
-
-                {statement.details.map((charge, idx) => (
-                  <va-table-row key={idx}>
-                    <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
-                    <span>{charge.pDRefNo}</span>
-                    <span>{currency(charge.pDTransAmt)}</span>
+                <va-table
+                  table-title={`Copay charges for ${
+                    statement.station.facilityName
+                  }`}
+                  data-testid={`combined-statements-copay-table-${
+                    statement.station.facilityName
+                  }`}
+                  className="vads-u-width--full"
+                >
+                  <va-table-row slot="headers">
+                    <span>Description</span>
+                    <span>Billing reference</span>
+                    <span>Amount</span>
                   </va-table-row>
-                ))}
+                  {copayPreviousBalanceRow(statement)}
 
-                {statement.pHTotCredits &&
-                  copayTotalPaymentsCreditsRow(statement)}
-                {copayTotalRow(statement)}
-              </va-table>
-            </div>
-          ))}
+                  {statement.details &&
+                    statement.details.map((charge, idx) => (
+                      <va-table-row key={idx}>
+                        <span>
+                          {cleanHtmlEntities(charge.pDTransDescOutput)}
+                        </span>
+                        <span>{charge.pDRefNo}</span>
+                        <span>{currency(charge.pDTransAmt, 0)}</span>
+                      </va-table-row>
+                    ))}
+
+                  {statement?.pHTotCredits !== 0 &&
+                    copayTotalPaymentsCreditsRow(statement)}
+                  {copayTotalRow(statement)}
+                </va-table>
+              </div>
+            ))
+          ) : (
+            <ZeroBalanceCard appType={APP_TYPES.COPAY} />
+          )}
         </div>
 
         <div className="vads-u-margin-y--4 vads-u-padding-y--2">
@@ -375,64 +385,72 @@ const CombinedStatements = () => {
             Most recent payment may not be reflected here.
           </p>
 
-          <va-table
-            table-type="borderless"
-            table-title="Overpayment charges"
-            className="vads-u-width--full vads-u-margin-x--0"
-            data-testid="combined-statements-debt-table"
-          >
-            <va-table-row slot="headers">
-              <span>Date</span>
-              <span>Description</span>
-              <span>Amount</span>
-            </va-table-row>
+          {debts && debts.length > 0 ? (
+            <va-table
+              table-type="borderless"
+              table-title="Overpayment charges"
+              className="vads-u-width--full vads-u-margin-x--0"
+              data-testid="combined-statements-debt-table"
+            >
+              <va-table-row slot="headers">
+                <span>Date</span>
+                <span>Description</span>
+                <span>Amount</span>
+              </va-table-row>
 
-            {debts.map((debt, index) => {
-              const formattedDate =
-                debt.debtHistory && debt.debtHistory.length > 0
-                  ? format(
-                      parse(debt.debtHistory[0].date, 'MM/dd/yyyy', new Date()),
-                      'MMMM d, yyyy',
-                    )
-                  : '';
+              {debts.map((debt, index) => {
+                const formattedDate =
+                  debt.debtHistory && debt.debtHistory.length > 0
+                    ? format(
+                        parse(
+                          debt.debtHistory[0].date,
+                          'MM/dd/yyyy',
+                          new Date(),
+                        ),
+                        'MMMM d, yyyy',
+                      )
+                    : '';
 
-              const debtAmount = parseFloat(
-                debt.currentAr || debt.originalAr || 0,
-              );
+                const debtAmount = parseFloat(
+                  debt.currentAr || debt.originalAr || 0,
+                );
 
-              return (
-                <va-table-row key={`debt-combined-${index}`}>
-                  <span>{formattedDate}</span>
-                  <span>
-                    <strong>
-                      {deductionCodes[debt.deductionCode] ||
-                        debt.benefitType ||
-                        'VA Debt'}
-                    </strong>
-                  </span>
-                  <span>{currency(debtAmount, 0)}</span>
-                </va-table-row>
-              );
-            })}
+                return (
+                  <va-table-row key={`debt-combined-${index}`}>
+                    <span>{formattedDate}</span>
+                    <span>
+                      <strong>
+                        {deductionCodes[debt.deductionCode] ||
+                          debt.benefitType ||
+                          'VA Debt'}
+                      </strong>
+                    </span>
+                    <span>{currency(debtAmount, 0)}</span>
+                  </va-table-row>
+                );
+              })}
 
-            <va-table-row>
-              <span className="sr-only">Total row</span>
-              <span className="vads-u-text-align--right vads-u-font-weight--bold">
-                Total Due:
-              </span>
-              <span className="vads-u-font-weight--bold">
-                {currency(
-                  debts.reduce(
-                    (total, debt) =>
-                      total +
-                      parseFloat(debt.currentAr || debt.originalAr || 0),
+              <va-table-row>
+                <span className="sr-only">Total row</span>
+                <span className="vads-u-text-align--right vads-u-font-weight--bold">
+                  Total Due:
+                </span>
+                <span className="vads-u-font-weight--bold">
+                  {currency(
+                    debts.reduce(
+                      (total, debt) =>
+                        total +
+                        parseFloat(debt.currentAr || debt.originalAr || 0),
+                      0,
+                    ),
                     0,
-                  ),
-                  0,
-                )}
-              </span>
-            </va-table-row>
-          </va-table>
+                  )}
+                </span>
+              </va-table-row>
+            </va-table>
+          ) : (
+            <ZeroBalanceCard appType={APP_TYPES.DEBT} />
+          )}
         </div>
         <Modals title="Notice of rights and responsibilities" id="notice-modal">
           <Modals.Rights />
