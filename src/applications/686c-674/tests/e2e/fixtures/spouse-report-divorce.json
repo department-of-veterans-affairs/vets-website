@@ -138,9 +138,8 @@
     },
     "veteranInformation": {
       "fullName": {
-        "first": "Greg",
-        "middle": "A",
-        "last": "Anderson"
+        "first": "Jane",
+        "last": "Doe"
       },
       "ssn": "796121200",
       "birthDate": "1933-05-04"

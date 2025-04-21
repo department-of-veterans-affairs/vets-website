@@ -121,7 +121,10 @@
     "programInformation": {},
     "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}}, "spouseIncome": false},
     "veteranInformation": {
-      "fullName": { "first": "Greg", "middle": "A", "last": "Anderson" },
+      "fullName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
       "ssn": "796121200",
       "birthDate": "1933-05-04"
     },
