@@ -301,12 +301,14 @@ const CombinedStatements = () => {
               <va-telephone contact="8664001238" /> to discuss payment options,
               request financial help, or dispute your bill.
             </p>
-            <va-link-action
-              href="/manage-va-debt/summary/copay-balances"
-              text="Review and resolve copay bills"
-              type="secondary"
-              data-testid="review-copays-link"
-            />
+            {bills && bills.length > 0 ? (
+              <va-link-action
+                href="/manage-va-debt/summary/copay-balances"
+                text="Review and resolve copay bills"
+                type="secondary"
+                data-testid="review-copays-link"
+              />
+            ) : null}
           </div>
 
           {/* Copay charges tables */}
@@ -374,12 +376,14 @@ const CombinedStatements = () => {
             <va-telephone contact="8008270648" /> to discuss payment options,
             request financial help, or dispute your bill.
           </p>
-          <va-link-action
-            href="/manage-va-debt/summary/debt-balances"
-            text="Review and resolve overpayments"
-            type="secondary"
-            data-testid="review-debts-link"
-          />
+          {debts && debts.length > 0 ? (
+            <va-link-action
+              href="/manage-va-debt/summary/debt-balances"
+              text="Review and resolve overpayments"
+              type="secondary"
+              data-testid="review-debts-link"
+            />
+          ) : null}
 
           <p className="vads-u-margin-bottom--3">
             Most recent payment may not be reflected here.
