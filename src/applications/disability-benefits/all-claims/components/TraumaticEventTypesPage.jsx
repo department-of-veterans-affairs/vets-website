@@ -1,9 +1,7 @@
 import {
   VaAlert,
-  // VaAlert,
   VaCheckboxGroup,
   VaModal,
-  // VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useRef, useEffect, useState } from 'react';
 
@@ -88,16 +86,41 @@ const TraumaticEventTypesPage = ({
 
   const deleteMSTEvidence = () => {
     const deepClone = cloneDeep(data);
-    // Confirm this is works as expected in the UI?
+    // Confirm this is works as expected in the UI? Make sure doesn't break this page if you delete and go back to it
     // Maybe delete the key entirely?
-    deepClone.optionIndicator = undefined;
-    deepClone.militaryReports = {};
+    if (deepClone.optionIndicator) {
+      deepClone.optionIndicator = undefined;
+    }
+
+    deepClone.events?.forEach(event => {
+      Object.assign(event.militaryReports, {
+        // TODO: ideally we should use the MILITARY_REPORT_TYPES constant here
+        restricted: false,
+        unrestricted: false,
+        pre2005: false,
+      });
+    });
+
+    setFormData(deepClone);
+  };
+
+  // TODO: DOCUMENT HEAVILY
+  const revertMSTEventTypeDeselection = () => {
+    const deepClone = cloneDeep(data);
+
+    const traumaticEventsSelections = deepClone.eventTypes;
+    // Re-selct MST box
+    traumaticEventsSelections.mst = true;
+    deepClone.eventTypes = traumaticEventsSelections;
 
     setFormData(deepClone);
   };
 
   const shouldShowDeleteMSTEvidenceModal = () => {
-    return data.optionIndicator || claimedIncidentReportsForEvents();
+    return (
+      data.eventTypes?.mst === false &&
+      (data.optionIndicator || claimedIncidentReportsForEvents())
+    );
   };
 
   const handlers = {
@@ -125,6 +148,7 @@ const TraumaticEventTypesPage = ({
     },
     onCloseModal: () => {
       setShowDeleteMSTEvidenceModal(false);
+      revertMSTEventTypeDeselection();
     },
     onConfirmDeleteMSTEvidence: () => {
       deleteMSTEvidence();
@@ -138,6 +162,7 @@ const TraumaticEventTypesPage = ({
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
+      revertMSTEventTypeDeselection();
     },
     onCloseDeletedEvidenceAlert: () => {
       setShowDeletedEvidenceConfirmation(false);
@@ -151,7 +176,7 @@ const TraumaticEventTypesPage = ({
       if (shouldShowDeleteMSTEvidenceModal()) {
         setShowDeleteMSTEvidenceModal(true);
       } else {
-        goForward(data);
+        updatePage(event);
       }
     },
   };
