@@ -12,6 +12,7 @@ import manifest from './manifest.json';
 import routes from './routes';
 import createReduxStore from './store';
 import rootReducer from './reducers';
+import './sass/representative-form-upload.scss';
 
 window.appName = manifest.entryName;
 const store = createReduxStore(rootReducer);

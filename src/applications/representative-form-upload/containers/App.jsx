@@ -58,7 +58,7 @@ const App = ({ children }) => {
   return (
     <div className="container">
       <Header />
-      {content}
+      <div className="form_container row">{content}</div>
       <Footer />
     </div>
   );
