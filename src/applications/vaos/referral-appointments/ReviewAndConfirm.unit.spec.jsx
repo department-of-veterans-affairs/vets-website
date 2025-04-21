@@ -73,7 +73,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -100,7 +100,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -121,7 +121,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),
@@ -143,7 +143,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),
