@@ -111,7 +111,7 @@ export function PreSubmitSection(props) {
     formConfig?.customText?.finishAppLaterMessage ||
     FINISH_APP_LATER_DEFAULT_MESSAGE;
 
-  const saveFormLink = (
+  const saveFormLink = formConfig.disableSave ? null : (
     <div className="vads-u-margin-top--4">
       <SaveFormLink
         form={form}

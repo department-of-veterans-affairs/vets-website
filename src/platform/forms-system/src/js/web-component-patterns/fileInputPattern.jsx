@@ -134,6 +134,7 @@ export const fileInputSchema = {
     },
     warnings: {
       type: 'array',
+      'ui:hidden': true,
       items: {
         type: 'string',
       },
