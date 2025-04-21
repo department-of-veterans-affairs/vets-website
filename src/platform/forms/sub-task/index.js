@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { focusElement } from 'platform/utilities/ui';
-import { scrollToFirstError } from 'platform/utilities/scroll';
+import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
 
 /**
  * Problems to address:

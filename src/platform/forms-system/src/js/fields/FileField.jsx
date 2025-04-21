@@ -2,15 +2,19 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { isLoggedIn } from 'platform/user/selectors';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
-import { displayFileSize, focusElement, scrollTo } from 'platform/utilities/ui';
-import { scrollToFirstError } from 'platform/utilities/scroll';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
+import unset from '../../../../utilities/data/unset';
+import {
+  displayFileSize,
+  focusElement,
+  scrollTo,
+  scrollToFirstError,
+} from '../../../../utilities/ui';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
 import { $ } from '../utilities/ui';

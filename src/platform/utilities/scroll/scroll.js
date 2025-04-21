@@ -1,9 +1,8 @@
 import { getScrollOptions, getElementPosition } from './utils';
-
 import { focusElement, focusByOrder, defaultFocusSelector } from '../ui/focus';
 import { ERROR_ELEMENTS, SCROLL_ELEMENT_SUFFIX } from '../constants';
 
-// Let form system controll scroll behavior
+// Let the form system control scroll behavior
 window.history.scrollRestoration = 'manual';
 
 /**
@@ -74,61 +73,78 @@ export const scrollToTop = async (
  * @param {ScrollOptions & scrollToFirstErrorOptions} options
  */
 export const scrollToFirstError = async (options = {}) => {
-  const { focusOnAlertRole = false, maxWait = 500, retryDelay = 25 } = options;
+  return new Promise(resolve => {
+    const { focusOnAlertRole = false } = options;
+    const selectors = ERROR_ELEMENTS.join(',');
+    const timeout = 500;
+    const observerConfig = { childList: true, subtree: true };
+    const rootEl = document.querySelector('#react-root') || document.body;
+    let fallbackTimer;
+    let observer;
 
-  // initialize retry logic for finding error element
-  const waitForElement = (selector, timeout = maxWait) => {
-    return new Promise((resolve, reject) => {
-      const start = Date.now();
-      const runCheck = () => {
-        const el = document.querySelector(selector);
-        if (el) return resolve(el);
-        if (Date.now() - start > timeout) {
-          // eslint-disable-next-line prefer-promise-reject-errors
-          return reject({
-            message: 'Error element not found',
-            element: selector,
-          });
+    const runCleanup = el => {
+      // eslint-disable-next-line no-console
+      if (!el) console.warn('scrollToFirstError: Error element not found', el);
+      clearTimeout(fallbackTimer);
+      observer?.disconnect();
+      resolve();
+    };
+
+    const scrollAndFocus = el => {
+      // check for any modals that would interfere with scrolling
+      const isShadowRootModalOpen = Array.from(
+        document.querySelectorAll('va-omb-info'),
+      ).some(({ shadowRoot }) =>
+        shadowRoot?.querySelector('va-modal[visible]:not([visible="false"])'),
+      );
+      const isModalOpen =
+        document.body.classList.contains('modal-open') ||
+        document.querySelector('va-modal[visible]:not([visible="false"])') ||
+        isShadowRootModalOpen;
+
+      // prevent page scroll if there is an open modal, as the error could
+      // be within the modal itself
+      if (!isModalOpen) {
+        const position = getElementPosition(el);
+        scrollTo(position - 10, options);
+
+        if (focusOnAlertRole && el.tagName.startsWith('VA-')) {
+          focusElement('[role="alert"]', {}, el.shadowRoot);
+        } else {
+          focusElement(el);
         }
-        return setTimeout(runCheck, retryDelay);
-      };
-      runCheck();
-    });
-  };
-
-  try {
-    const selector = ERROR_ELEMENTS.join(',');
-    const errorEl = await waitForElement(selector);
-    const position = getElementPosition(errorEl);
-
-    // check for any modals that would interfere with scrolling
-    const isShadowRootModalOpen = Array.from(
-      document.querySelectorAll('va-omb-info'),
-    ).some(ombInfo =>
-      ombInfo.shadowRoot?.querySelector(
-        'va-modal[visible]:not([visible="false"])',
-      ),
-    );
-    const isModalOpen =
-      document.body.classList.contains('modal-open') ||
-      document.querySelector('va-modal[visible]:not([visible="false"])') ||
-      isShadowRootModalOpen;
-
-    // prevent page scroll if there is an open modal, as the error could
-    // be within the modal itself
-    if (!isModalOpen) {
-      scrollTo(position - 10, options);
-
-      if (focusOnAlertRole && errorEl.tagName.startsWith('VA-')) {
-        focusElement('[role="alert"]', {}, errorEl.shadowRoot);
-      } else {
-        focusElement(errorEl);
       }
-    }
-  } catch ({ message, element }) {
-    // eslint-disable-next-line no-console
-    console.warn(`scrollToFirstError: ${message}`, element);
-  }
+
+      runCleanup(true);
+    };
+
+    const queryForErrors = () => {
+      const el = document.querySelector(selectors);
+      if (el) scrollAndFocus(el);
+    };
+
+    // use MutationObserver to only watch `addedNodes` for the selectors
+    observer = new MutationObserver(mutations => {
+      for (const { addedNodes } of mutations) {
+        for (const node of Array.from(addedNodes)) {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            (node.matches?.(selectors) || node.querySelector?.(selectors))
+          ) {
+            queryForErrors();
+            return;
+          }
+        }
+      }
+    });
+    if (rootEl) observer.observe(rootEl, observerConfig);
+
+    // don't let the observer run forever
+    fallbackTimer = setTimeout(() => runCleanup(false), timeout);
+
+    // run an initial check for any existing elements
+    queryForErrors();
+  });
 };
 
 export const scrollAndFocus = (target, options) =>

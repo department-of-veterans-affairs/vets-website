@@ -323,7 +323,7 @@ describe('scrollToFirstError', () => {
   let focusStub;
   let consoleStub;
 
-  const subject = children =>
+  const renderForm = children =>
     render(
       <form>
         <p />
@@ -357,7 +357,7 @@ describe('scrollToFirstError', () => {
   });
 
   it('should scroll & apply focus to first element with `usa-input-error` class', async () => {
-    subject(
+    renderForm(
       <>
         <div id="first" className="usa-input">
           not an error
@@ -377,7 +377,7 @@ describe('scrollToFirstError', () => {
   });
 
   it('should scroll & apply focus to first element with `input-error-date` class', async () => {
-    subject(
+    renderForm(
       <>
         <div id="first" className="usa-input">
           not an error
@@ -397,7 +397,7 @@ describe('scrollToFirstError', () => {
   });
 
   it('should scroll & apply focus to first element with error attribute', async () => {
-    subject(
+    renderForm(
       <>
         <div id="first" className="usa-input">
           not an error
@@ -417,7 +417,7 @@ describe('scrollToFirstError', () => {
   });
 
   it('should scroll & apply focus fo first element with error attribute and ignore empty error attributes', async () => {
-    subject(
+    renderForm(
       <>
         <div id="first" className="usa-input" error>
           not an error
@@ -441,7 +441,7 @@ describe('scrollToFirstError', () => {
   });
 
   it('should scroll to first element with error attribute & apply focus to internal `role="alert"`', async () => {
-    subject(
+    renderForm(
       <>
         <div id="first" className="usa-input">
           not an error
@@ -458,8 +458,44 @@ describe('scrollToFirstError', () => {
     assertFocusStub('[role="alert"]');
   });
 
+  it('should scroll and focus when error element appears via DOM mutation', async () => {
+    // render with no initial error element & simulate re-render
+    const { container } = renderForm();
+
+    await new Promise(resolve => {
+      const el = document.createElement('div');
+      el.className = 'usa-input-error';
+      el.id = 'delayed';
+      container.querySelector('form').appendChild(el);
+      requestAnimationFrame(resolve);
+    });
+    await scrollToFirstError();
+
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'delayed'));
+  });
+
+  it('should scroll and focus when error appears nested in a newly added node', async () => {
+    // render with no initial error element & simulate re-render
+    const { container } = renderForm();
+
+    await new Promise(resolve => {
+      const wrapper = document.createElement('div');
+      const nested = document.createElement('div');
+      nested.className = 'usa-input-error';
+      nested.id = 'nested-error';
+      wrapper.appendChild(nested);
+      container.querySelector('form').appendChild(wrapper);
+      requestAnimationFrame(resolve);
+    });
+    await scrollToFirstError();
+
+    assertScrollSpy();
+    assertFocusStub(sinon.match.has('id', 'nested-error'));
+  });
+
   it('should not scroll or apply focus when a modal is open', async () => {
-    subject(
+    renderForm(
       <>
         <div id="first" className="usa-input">
           not an error
@@ -481,7 +517,7 @@ describe('scrollToFirstError', () => {
 
   it('should not scroll or apply focus when a modal is open inside of a shadow root', async () => {
     // render with existing error element
-    const { container } = subject(
+    const { container } = renderForm(
       <>
         <div id="first" className="usa-input-error">
           error 1
@@ -502,28 +538,55 @@ describe('scrollToFirstError', () => {
     sinon.assert.notCalled(focusStub);
   });
 
-  it('should retry until the error element appears (simulating a longer re-render time)', async () => {
-    // render with no initial error element
-    const { container } = subject();
+  it('should call `focusElement` with element when `focusOnAlertRole` is false and element is a VA-* tag', async () => {
+    const { container } = renderForm();
+    const el = document.createElement('va-text-input');
+    el.setAttribute('error', 'some error');
+    el.id = 'va-input';
+    container.querySelector('form').appendChild(el);
 
-    // Add error element after a small delay
-    setTimeout(() => {
-      const div = document.createElement('div');
-      div.className = 'usa-input-error';
-      div.id = 'delayed';
-      container.querySelector('form').appendChild(div);
-    }, 50);
     await scrollToFirstError();
-
-    assertScrollSpy();
-    assertFocusStub(sinon.match.has('id', 'delayed'));
+    sinon.assert.calledWithExactly(focusStub, el);
   });
 
-  it('should log a warning after max number of retries if no error element is found', async () => {
-    subject();
+  it('should log a warning to the console when no error element is found and timer expires ', async () => {
+    renderForm();
     await scrollToFirstError();
 
     sinon.assert.calledWithMatch(consoleStub, /Error element not found/);
+    sinon.assert.notCalled(focusStub);
+    sinon.assert.notCalled(scrollSpy);
+  });
+
+  it('should disconnect observer after finding the first error', async () => {
+    const { container } = renderForm(
+      <div id="first" className="usa-input-error" />,
+    );
+    await scrollToFirstError();
+
+    // Add second error element after a small delay
+    await new Promise(resolve => {
+      const el = document.createElement('div');
+      el.className = 'usa-input-error';
+      el.id = 'second';
+      container.querySelector('form').appendChild(el);
+      requestAnimationFrame(resolve);
+    });
+
+    sinon.assert.calledOnce(focusStub);
+    sinon.assert.calledOnce(scrollSpy);
+  });
+
+  it('should ignore non-element nodes in mutation observer', async () => {
+    const { container } = renderForm();
+
+    await new Promise(resolve => {
+      const textNode = document.createTextNode('Some text');
+      container.querySelector('form').appendChild(textNode);
+      requestAnimationFrame(resolve);
+    });
+    await scrollToFirstError();
+
     sinon.assert.notCalled(focusStub);
     sinon.assert.notCalled(scrollSpy);
   });
