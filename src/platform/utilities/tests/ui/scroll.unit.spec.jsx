@@ -20,7 +20,7 @@ describe('scrollToFirstError', () => {
       </form>,
     );
 
-  const assertScrollSpy = () =>
+  const assertScrollStub = () =>
     sinon.assert.calledWithExactly(scrollStub, -10, {
       duration: 0,
       delay: 0,
@@ -57,7 +57,7 @@ describe('scrollToFirstError', () => {
     );
     await scrollToFirstError();
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub(sinon.match.has('id', 'second'));
   });
 
@@ -77,7 +77,7 @@ describe('scrollToFirstError', () => {
     );
     await scrollToFirstError();
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub(sinon.match.has('id', 'second'));
   });
 
@@ -97,7 +97,7 @@ describe('scrollToFirstError', () => {
     );
     await scrollToFirstError();
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub(sinon.match.has('id', 'second'));
   });
 
@@ -121,7 +121,7 @@ describe('scrollToFirstError', () => {
     );
     await scrollToFirstError();
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub(sinon.match.has('id', 'third'));
   });
 
@@ -139,7 +139,7 @@ describe('scrollToFirstError', () => {
     );
     await scrollToFirstError({ focusOnAlertRole: true });
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub('[role="alert"]');
   });
 
@@ -156,7 +156,7 @@ describe('scrollToFirstError', () => {
     });
     await scrollToFirstError();
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub(sinon.match.has('id', 'delayed'));
   });
 
@@ -175,7 +175,7 @@ describe('scrollToFirstError', () => {
     });
     await scrollToFirstError();
 
-    assertScrollSpy();
+    assertScrollStub();
     assertFocusStub(sinon.match.has('id', 'nested-error'));
   });
 
