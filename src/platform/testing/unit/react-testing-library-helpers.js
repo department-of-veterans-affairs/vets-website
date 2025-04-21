@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { BrowserRouter as RouterV6 } from 'react-router-dom-v5-compat';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -77,14 +77,7 @@ export function renderInReduxProvider(
  */
 export function renderWithStoreAndRouter(
   ui,
-  {
-    initialState,
-    reducers = {},
-    store = null,
-    path = '/',
-    history = null,
-    routerVersion = null,
-  },
+  { initialState, reducers = {}, store = null, path = '/', history = null },
 ) {
   const testStore =
     store ||
@@ -96,12 +89,7 @@ export function renderWithStoreAndRouter(
 
   const historyObject = history || createTestHistory(path);
   const screen = renderInReduxProvider(
-    // Use the correct Router based on the routerVersion passed in
-    routerVersion === 6 ? (
-      <RouterV6 history={historyObject}>{ui}</RouterV6>
-    ) : (
-      <Router history={historyObject}>{ui}</Router>
-    ),
+    <Router history={historyObject}>{ui}</Router>,
     {
       store: testStore,
       initialState,
@@ -110,4 +98,45 @@ export function renderWithStoreAndRouter(
   );
 
   return { ...screen, history: historyObject };
+}
+
+/**
+ * Takes a React element and wraps it in a Redux Provider and a React Router v6 MemoryRouter.
+ *
+ * @export
+ * @param {ReactElement} ui ReactElement that you want to render for testing
+ * @param {Object} renderParams
+ * @param {Object} [renderParams.initialState] Initial Redux state, used to create a new store if a store is not passed
+ * @param {Object} [renderParams.reducers={}] App specific reducers
+ * @param {ReduxStore} [renderParams.store=null] Redux store to use for the rendered page or section of the app
+ * @param {string[]} [renderParams.initialEntries=['/'] Array of initial entries for the router
+ * @returns {Object} Return value of the React Testing Library render function
+ */
+export function renderWithStoreAndRouterV6(
+  ui,
+  { initialState, reducers = {}, store = null, initialEntries = ['/'] },
+) {
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk, vaosApi.middleware),
+    );
+
+  // Convert single string path to array if needed
+  const entries = Array.isArray(initialEntries)
+    ? initialEntries
+    : [initialEntries];
+
+  const screen = renderInReduxProvider(
+    <MemoryRouter initialEntries={entries}>{ui}</MemoryRouter>,
+    {
+      store: testStore,
+      initialState,
+      reducers,
+    },
+  );
+
+  return { ...screen };
 }

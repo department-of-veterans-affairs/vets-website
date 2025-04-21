@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../reducers';
 import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
   const setup = (state = {}) => {
-    return renderWithStoreAndRouter(<RxBreadcrumbs />, {
+    return renderWithStoreAndRouterV6(<RxBreadcrumbs />, {
       initialState: {
         rx: {
           breadcrumbs: {
@@ -30,7 +30,7 @@ describe('Medications Breadcrumbs', () => {
         ...state,
       },
       reducers,
-      path: '/medications/prescription/000',
+      initialEntries: ['/medications/prescription/000'],
       routerVersion: 6,
     });
   };
