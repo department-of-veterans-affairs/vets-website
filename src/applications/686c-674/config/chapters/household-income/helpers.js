@@ -5,7 +5,7 @@ export const whatAreAssets = (
   <>
     <va-accordion open-single>
       <va-accordion-item
-        id="What we count as assets"
+        id="what-we-count-as-assets"
         header="What we count as assets"
         bordered
         level={4}
