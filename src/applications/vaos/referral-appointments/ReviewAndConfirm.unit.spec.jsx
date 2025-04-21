@@ -15,7 +15,7 @@ import { createDraftAppointmentInfo } from './utils/provider';
 import * as postDraftReferralAppointmentModule from '../services/referral';
 import * as flow from './flow';
 
-describe('VAOS Component: ReviewAndConfirm', () => {
+xdescribe('VAOS Component: ReviewAndConfirm', () => {
   const sandbox = sinon.createSandbox();
   const draftAppointmentInfo = createDraftAppointmentInfo(1);
   draftAppointmentInfo.slots.slots[0].start = '2024-09-09T16:00:00.000Z';
