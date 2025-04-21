@@ -6,8 +6,7 @@
   },
   "exports": {
     ".": "./exportsFile.js",
-    "./downtime/MHVDown": "./downtime/components/MHVDown.jsx",
-    "./secondary-nav/MhvSecondaryNav": "./secondary-nav/containers/MhvSecondaryNav.jsx"
+    "./downtime/MHVDown": "./downtime/components/MHVDown.jsx"
   },
   "peerDependencies": {
     "react": "*",
