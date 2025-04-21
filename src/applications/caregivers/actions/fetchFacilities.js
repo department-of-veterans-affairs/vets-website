@@ -60,13 +60,13 @@ export const fetchFacilities = async ({
       })),
       meta,
     };
-  } catch (error) {
-    const errorResponse = error?.errors?.[0];
+  } catch ({ errors }) {
+    const errorResponse = errors?.[0];
     if (
       errorResponse?.status === '403' &&
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
-      localStorage.setItem('csrfToken', '');
+      localStorage.removeItem('csrfToken');
     }
 
     return {
