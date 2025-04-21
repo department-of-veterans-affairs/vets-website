@@ -37,6 +37,7 @@ describe('ChildAdditionalEvidence', () => {
     expect(evidenceAccordion.getAttribute('header')).to.equal(
       'Supporting evidence you need to submit',
     );
+    expect(evidenceAccordion.getAttribute('level')).to.equal('4');
     expect(evidenceAccordion.parentElement.getAttribute('open-single')).to.eq(
       'true',
     );

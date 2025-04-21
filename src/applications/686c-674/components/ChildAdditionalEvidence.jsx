@@ -38,7 +38,7 @@ export const ChildAdditionalEvidence = () => {
         <va-accordion-item
           id="supporting-evidence"
           header="Supporting evidence you need to submit"
-          level="3"
+          level="4"
         >
           {showBirthCertificate && (
             <ul>
