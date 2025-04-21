@@ -7,7 +7,14 @@ function ControlsAndMapContainer({ children, isSmallDesktop }) {
     return children;
   }
 
-  return <div id="controls-and-map-container">{children}</div>;
+  return (
+    <div
+      data-testid="controls-and-map-container"
+      id="controls-and-map-container"
+    >
+      {children}
+    </div>
+  );
 }
 
 ControlsAndMapContainer.propTypes = {

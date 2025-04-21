@@ -141,6 +141,9 @@ const CalendarCell = ({
           id={id}
           timezone={timezone}
           showWeekends={showWeekends}
+          optionsHeight={optionsHeight}
+          setOptionsHeight={setOptionsHeight}
+          buttonRef={buttonRef}
         />
       )}
     </div>

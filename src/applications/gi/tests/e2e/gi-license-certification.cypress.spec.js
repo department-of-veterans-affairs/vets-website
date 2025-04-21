@@ -25,6 +25,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
         statusCode: 200,
         body: lcListMockData,
       }).as('lcSearch');
+
       cy.visit(
         '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
       );
@@ -163,7 +164,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
 
     it('displays loading state while fetching results', () => {
       cy.intercept('GET', '**/v1/gi/lcpe/lacs*', {
-        delayMs: 2000,
+        delay: 2000,
         statusCode: 200,
         body: lcListMockData,
       }).as('lcSearchDelayed');
@@ -171,9 +172,11 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.visit(
         '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
       );
+
       cy.get('va-loading-indicator')
         .should('exist')
         .and('be.visible');
+
       cy.wait('@lcSearchDelayed');
       cy.get('va-loading-indicator').should('not.exist');
     });
@@ -295,6 +298,25 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
           );
           cy.get('.fee').should('contain.text', 'Fee: $370.00');
         });
+    });
+
+    it('displays loading state while fetching details', () => {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs/3871@4494f', {
+        delay: 2000,
+        statusCode: 200,
+        body: lcDetailsMockData,
+      }).as('lcDetailsDelayed');
+
+      cy.visit(
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/3871@4494f/GENERAL%20ELECTRICIAN',
+      );
+
+      cy.get('va-loading-indicator')
+        .should('exist')
+        .and('be.visible');
+
+      cy.wait('@lcDetailsDelayed');
+      cy.get('va-loading-indicator').should('not.exist');
     });
 
     it('displays error state when details fetch fails', () => {

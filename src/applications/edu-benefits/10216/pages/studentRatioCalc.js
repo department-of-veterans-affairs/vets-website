@@ -9,7 +9,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
 import CustomReviewField from '../ReviewPage/CustomReviewField';
-import { isDateThirtyDaysOld } from '../utilities';
+import { isDateThirtyDaysOld, isValidStudentRatio } from '../utilities';
+import RatioExceedMessage from '../components/RatioExceedMessage';
 
 export default {
   uiSchema: {
@@ -23,6 +24,15 @@ export default {
               'Please enter the number of beneficiary students at your institution',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            if (!isValidStudentRatio(formData)) {
+              errors.addError(
+                'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+              );
+            }
+          },
+        ],
       },
       numOfStudent: {
         ...numberUI({
@@ -56,11 +66,19 @@ export default {
             } = formData;
             if (isDateThirtyDaysOld(fieldData, termStartDate)) {
               errors.addError(
-                'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+                'Please enter a date within 30 calendar days of the term start date',
               );
             }
           },
         ],
+      },
+      'view:ratioExceedMessage': {
+        'ui:description': RatioExceedMessage,
+        'ui:options': {
+          hideIf: formData => {
+            return isValidStudentRatio(formData);
+          },
+        },
       },
     },
   },
@@ -76,6 +94,7 @@ export default {
             type: 'number',
           },
           dateOfCalculation: currentOrPastDateSchema,
+          'view:ratioExceedMessage': { type: 'object', properties: {} },
         },
         required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
       },

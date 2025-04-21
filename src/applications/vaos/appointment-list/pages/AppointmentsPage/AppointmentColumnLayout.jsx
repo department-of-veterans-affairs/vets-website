@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
@@ -28,11 +29,16 @@ export default function AppointmentColumnLayout({
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
-  const startDate = useSelector(() => selectStartDate(data));
+  const startDate = useSelector(() =>
+    selectStartDate(data, useFeSourceOfTruth),
+  );
   const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 

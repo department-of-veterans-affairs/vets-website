@@ -267,7 +267,7 @@ describe('NationalExamDetails', () => {
 
     const wrapper = mountComponent();
     expect(wrapper.find('.exam-single-test').exists()).to.be.true;
-    expect(wrapper.find('.exam-single-test h3').text()).to.equal('Test Info');
+    expect(wrapper.find('.exam-single-test h2').text()).to.equal('Test Info');
     expect(
       wrapper
         .find('.exam-single-test p')

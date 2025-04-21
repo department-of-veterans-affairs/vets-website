@@ -31,3 +31,5 @@ export const selectSettingsPageFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage];
 export const selectMarch17UpdatesFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage];
+export const selectFilterAndSortFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort];

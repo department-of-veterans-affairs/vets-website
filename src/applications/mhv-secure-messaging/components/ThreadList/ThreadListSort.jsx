@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import { Paths, threadSortingOptions } from '../../util/constants';
 
 const ThreadListSort = props => {
@@ -10,13 +11,13 @@ const ThreadListSort = props => {
   const location = useLocation();
   const [sortOrderValue, setSortOrderValue] = useState(sortOrder);
 
-  const SORT_MESSAGES_LABEL =
-    location.pathname === Paths.DRAFTS
-      ? 'Show drafts in this order'
-      : 'Show conversations in this order';
+  const isDraftsPage = location.pathname === Paths.DRAFTS;
+  const isDraftsOrSent =
+    location.pathname === Paths.SENT || location.pathname === Paths.DRAFTS;
 
-  const getDDTagLabel = sortingOrderValue =>
-    threadSortingOptions[sortingOrderValue]?.label || SORT_MESSAGES_LABEL;
+  const SORT_MESSAGES_LABEL = isDraftsPage
+    ? 'Show drafts in this order'
+    : 'Show conversations in this order';
 
   const handleSortButtonClick = async () => {
     sortCallback(sortOrderValue);
@@ -26,6 +27,52 @@ const ThreadListSort = props => {
       'button-click-label': 'Sort messages',
     });
   };
+
+  const handleSelectChange = e => {
+    const { value } = e.detail;
+    setSortOrderValue(value);
+    if (e.target?.children) {
+      const selectedOption = Array.from(e.target.children).find(
+        item => item.value === value,
+      );
+      datadogRum.addAction(`Sort option - ${selectedOption?.label}`);
+    }
+  };
+
+  const sortOptions = [
+    {
+      value: isDraftsPage
+        ? threadSortingOptions.DRAFT_DATE_DESCENDING.value
+        : threadSortingOptions.SENT_DATE_DESCENDING.value,
+      label: isDraftsPage
+        ? threadSortingOptions.DRAFT_DATE_DESCENDING.label
+        : threadSortingOptions.SENT_DATE_DESCENDING.label,
+    },
+    {
+      value: isDraftsPage
+        ? threadSortingOptions.DRAFT_DATE_ASCENDING.value
+        : threadSortingOptions.SENT_DATE_ASCENDING.value,
+      label: isDraftsPage
+        ? threadSortingOptions.DRAFT_DATE_ASCENDING.label
+        : threadSortingOptions.SENT_DATE_ASCENDING.label,
+    },
+    {
+      value: isDraftsOrSent
+        ? threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value
+        : threadSortingOptions.SENDER_ALPHA_ASCENDING.value,
+      label: isDraftsOrSent
+        ? threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.label
+        : threadSortingOptions.SENDER_ALPHA_ASCENDING.label,
+    },
+    {
+      value: isDraftsOrSent
+        ? threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value
+        : threadSortingOptions.SENDER_ALPHA_DESCENDING.value,
+      label: isDraftsOrSent
+        ? threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.label
+        : threadSortingOptions.SENDER_ALPHA_DESCENDING.label,
+    },
+  ];
 
   return (
     <div
@@ -38,59 +85,14 @@ const ThreadListSort = props => {
         label={SORT_MESSAGES_LABEL}
         name="sort-order"
         value={sortOrder}
-        onVaSelect={e => {
-          setSortOrderValue(e.detail.value);
-        }}
-        data-dd-action-name={`${getDDTagLabel(sortOrderValue)} Dropdown`}
+        onVaSelect={handleSelectChange}
+        data-dd-action-name="Sort - Show conversations in this order"
       >
-        <option
-          value={
-            location.pathname === Paths.DRAFTS
-              ? threadSortingOptions.DRAFT_DATE_DESCENDING.value
-              : threadSortingOptions.SENT_DATE_DESCENDING.value
-          }
-        >
-          {location.pathname === Paths.DRAFTS
-            ? threadSortingOptions.DRAFT_DATE_DESCENDING.label
-            : threadSortingOptions.SENT_DATE_DESCENDING.label}
-        </option>
-
-        <option
-          value={
-            location.pathname === Paths.DRAFTS
-              ? threadSortingOptions.DRAFT_DATE_ASCENDING.value
-              : threadSortingOptions.SENT_DATE_ASCENDING.value
-          }
-        >
-          {location.pathname === Paths.DRAFTS
-            ? threadSortingOptions.DRAFT_DATE_ASCENDING.label
-            : threadSortingOptions.SENT_DATE_ASCENDING.label}
-        </option>
-
-        {location.pathname === Paths.SENT ||
-        location.pathname === Paths.DRAFTS ? (
-          <>
-            <option
-              value={threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value}
-            >
-              {threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.label}
-            </option>
-            <option
-              value={threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value}
-            >
-              {threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.label}
-            </option>
-          </>
-        ) : (
-          <>
-            <option value={threadSortingOptions.SENDER_ALPHA_ASCENDING.value}>
-              {threadSortingOptions.SENDER_ALPHA_ASCENDING.label}
-            </option>
-            <option value={threadSortingOptions.SENDER_ALPHA_DESCENDING.value}>
-              {threadSortingOptions.SENDER_ALPHA_DESCENDING.label}
-            </option>
-          </>
-        )}
+        {sortOptions.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </VaSelect>
 
       <va-button

@@ -421,7 +421,7 @@ const FileField = props => {
               errors.length > 0 && !MISSING_PASSWORD_ERROR.includes(errors[0]);
 
             const itemClasses = classNames('va-growable-background', {
-              'schemaform-file-error usa-input-error':
+              'schemaform-file-error usa-input-error vads-u-border-color--secondary-dark':
                 hasVisibleError && !file.uploading,
             });
             const itemSchema = schema.items[index];
@@ -596,7 +596,7 @@ const FileField = props => {
                   )}
                 {!file.uploading &&
                   hasVisibleError && (
-                    <div className="usa-input-error-message">
+                    <div className="usa-input-error-message vads-u-color--secondary-dark">
                       <span className="sr-only">Error</span>{' '}
                       {reMapErrorMessage(errors[0])}
                     </div>

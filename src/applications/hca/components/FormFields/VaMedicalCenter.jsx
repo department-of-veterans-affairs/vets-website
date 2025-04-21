@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
-import { API_ENDPOINTS, STATES_WITHOUT_MEDICAL } from '../../utils/constants';
+import { STATES_USA, VaSelect } from '../../utils/imports';
+import { API_ENDPOINTS } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
 import content from '../../locales/en/content.json';
 
-// expose React binding for web components
-const { VaSelect } = REACT_BINDINGS;
+// declare states without medical care serivces
+const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
 
 const VaMedicalCenter = props => {
   const {
@@ -115,11 +114,13 @@ const VaMedicalCenter = props => {
           setFacilities(facilityList);
         } catch (err) {
           setError(true);
-          Sentry.withScope(scope => {
-            scope.setExtra('state', facilityState);
-            scope.setExtra('error', err);
-            Sentry.captureMessage('Health care facilities failed to load');
-          });
+          // Clear out selected state on error
+          setLocalData(prevState => ({
+            ...prevState,
+            'view:facilityState': undefined,
+          }));
+          // Clear dirty fields to not display state selector error
+          setDirtyFields([]);
           focusElement('.server-error-message');
         } finally {
           setLoading(false);
@@ -184,7 +185,7 @@ const VaMedicalCenter = props => {
     <>
       {error && (
         <div className="server-error-message vads-u-margin-top--4">
-          <ServerErrorAlert />
+          <ServerErrorAlert description="We’re sorry. Something went wrong on our end. Please try selecting your state again." />
         </div>
       )}
       <VaSelect

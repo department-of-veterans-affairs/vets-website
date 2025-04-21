@@ -25,6 +25,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import Announcements from '../components/Announcements';
 import {
   getVAStatusFromCRM,
   getVAStatusIconAndMessage,
@@ -63,6 +64,8 @@ const IntroductionPage = props => {
   const [inquiryData, setInquiryData] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
+  // TODO Feature toggle this for CRM announcements on/off
+  const showAnnouncements = false;
 
   const showSignInModal = useCallback(
     () => {
@@ -121,6 +124,10 @@ const IntroductionPage = props => {
   const handleSearchByReferenceNumber = async () => {
     const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
     await getApiData(url);
+    const headingElement = document.querySelector(
+      '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
+    );
+    if (headingElement) headingElement.focus();
   };
 
   const handleSearchInputChange = async e => {
@@ -133,8 +140,8 @@ const IntroductionPage = props => {
   const questionStatus = () => {
     if (hasError) {
       return (
-        <div className="vads-u-margin-y--3">
-          <p>
+        <div className="vads-u-margin-y--3" data-testid="error-message">
+          <p tabIndex="-1">
             We didn’t find a question with reference number "
             <span className="vads-u-font-weight--bold">
               {searchReferenceNumber}
@@ -156,8 +163,11 @@ const IntroductionPage = props => {
         getVAStatusIconAndMessage[AskVAStatus]?.color
       }`;
       return (
-        <>
-          <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
+        <div data-testid="status-message">
+          <h3
+            className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2"
+            tabIndex="-1"
+          >
             Showing the status for reference number "
             <span className="vads-u-font-weight--bold">
               {searchReferenceNumber}
@@ -176,7 +186,7 @@ const IntroductionPage = props => {
               </p>
             )}
           </div>
-        </>
+        </div>
       );
     }
 
@@ -251,31 +261,50 @@ const IntroductionPage = props => {
         <Link className="vads-c-action-link--blue" to={getStartPage}>
           Start your question without signing in
         </Link>
-        <h2 slot="headline">Only use Ask VA for non-urgent needs</h2>
-        <h3 className="vads-u-margin-top--3">
-          If you need help now, use one of these urgen communication options
-        </h3>
+        <h2
+          slot="headline"
+          className="vads-u-margin-top--6 vads vads-u-margin-bottom--3"
+        >
+          Only use Ask VA for non-urgent needs
+        </h2>
+        <p className="vads-u-margin-bottom--2">
+          <strong>If you think you think have a medical emergency,</strong> call
+          911 or go to the nearest emergency room.
+        </p>
+        <p className="vads-u-margin-bottom--2">
+          <strong>If you need to talk to someone right away, </strong>
+          contact the Veterans Crisis Line. Whatever you’re struggling
+          with—chronic pain, anxiety, depression, trouble sleeping, anger, or
+          even homelessness—we can support you. Our Veterans Crisis Line is
+          confidential (private), free, and available 24/7.
+        </p>
+        <p className="vads-u-margin-bottom--2">
+          To connect with a Veterans Crisis Line responder anytime, day or
+          night:
+        </p>
         <ul>
           <li>
-            <strong>If you’re in crisis or having thoughts of suicide,</strong>{' '}
-            connect with our Veterans Crisis Line. We offer confidential support
-            anytime, day or night.{' '}
-            <div className="vads-u-margin-top--1 vads-u-margin-bottom--1">
-              <va-button
-                secondary="true"
-                text="Connect with the Veterans Crisis Line"
-                href="https://www.veteranscrisisline.net/"
-              />
-            </div>
+            Call <va-telephone contact="988" />, then select 1.
           </li>
           <li>
-            <strong>If you think your life or health is in danger,</strong> call{' '}
-            <va-telephone contact="911" message-aria-describedby="9 1 1" /> or
-            go to the nearest emergency room.
+            Start a{' '}
+            <a
+              rel="noreferrer noopener"
+              href="https://www.veteranscrisisline.net/get-help/chat"
+            >
+              confidential chat
+            </a>
+            .
+          </li>
+          <li>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component */}
+            Text <a href="tel:+1838255">838255</a>.
           </li>
         </ul>
-        <h2>Check the status of your question</h2>
-        <p className="vads-u-margin--0">Reference number</p>
+        <h2 className="vads-u-margin-top--6 vads-u-margin-bottom-2">
+          Check the status of your question
+        </h2>
+        <p className="vads-u-margin--0">Enter your reference number</p>
         <VaSearchInput
           big
           buttonText="Search"
@@ -357,6 +386,7 @@ const IntroductionPage = props => {
           </div>
         )}
       </div>
+      {showAnnouncements && <Announcements />}
       {showLoadingIndicator && <va-loading-indicator set-focus />}
       {!showLoadingIndicator && (
         <>

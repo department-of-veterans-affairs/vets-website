@@ -796,6 +796,24 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, fieldValue) => {
+                      // Optional check for whitespace
+                      if (fieldValue && !fieldValue.trim().length) {
+                        errors.addError('Address line 2 can’t be only spaces');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    // Always set minLength to 0 so an empty string doesn't fail
+                    updateSchema: (_formData, schema) => ({
+                      ...schema,
+                      minLength: 0,
+                    }),
+                  },
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',

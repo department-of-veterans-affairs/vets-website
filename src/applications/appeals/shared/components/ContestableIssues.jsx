@@ -87,12 +87,13 @@ const ContestableIssues = props => {
     .concat(formData.additionalIssues || []);
 
   const hasIssues = items.length > 0;
-  const hasSelected = someSelected(items);
+  const hasSelected = hasIssues && someSelected(items);
   const showAlert = !hasIssues && !hasSelected && !submitted && !onReviewPage;
   const showApiFailure =
     showAlert && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
   const showNoneSelected =
-    showAlert && !showApiFailure && formData.contestedIssues?.length === 0;
+    // showAlert && !showApiFailure && !hasSelected && !hasIssues;
+    showAlert && !showApiFailure && loadedIssues.length === 0;
   const showEditModeError =
     !showNoneSelected && !hasSelected && (onReviewPage || submitted);
 

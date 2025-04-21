@@ -58,6 +58,7 @@ import {
   selectRefillContentFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
+  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
@@ -67,6 +68,7 @@ import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
+import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -96,6 +98,7 @@ const Prescriptions = () => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -374,8 +377,8 @@ const Prescriptions = () => {
         results: [
           {
             header: 'Medications list',
-            preface: `Showing ${rxList?.length}${
-              showFilterContent ? selectedFilterOption : ''
+            preface: `Showing ${
+              rxList?.length
             } medications, ${rxListSortingOptions[
               selectedSortOption
             ].LABEL.toLowerCase()}`,
@@ -438,8 +441,8 @@ const Prescriptions = () => {
         )}\n\n` +
         `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
         `Medications list\n\n` +
-        `Showing ${prescriptionsFullList?.length}${
-          showFilterContent ? selectedFilterOption : ''
+        `Showing ${
+          prescriptionsFullList?.length
         } records, ${rxListSortingOptions[
           selectedSortOption
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
@@ -662,7 +665,13 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {showRefillProgressContent && <RefillAlert />}
+            {showRefillProgressContent && (
+              <RefillAlert
+                dataDogActionName={
+                  dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
+                }
+              />
+            )}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&
@@ -741,6 +750,7 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
+                      {showIPEContent && <InProductionEducationFiltering />}
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||
@@ -811,7 +821,6 @@ const Prescriptions = () => {
                             <BeforeYouDownloadDropdown page={pageType.LIST} />
                           </>
                         )}
-                      {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (
                     <>
@@ -864,6 +873,7 @@ const Prescriptions = () => {
             )}
           </>
         )}
+        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };

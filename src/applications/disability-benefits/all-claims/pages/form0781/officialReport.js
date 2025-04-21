@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
@@ -7,13 +6,12 @@ import {
 import {
   officialReportPageTitle,
   officialReportsDescription,
-  reportTypesQuestion,
-  reportTypesHint,
-  otherReportTypesQuestion,
+  militaryReportsHint,
+  noReportHint,
+  otherReportsHint,
+  otherReportTypesTitle,
   otherReportTypesExamples,
   validateReportSelections,
-  // reportTypeValidationError,
-  // showConflictingAlert,
 } from '../../content/officialReport';
 import {
   titleWithTag,
@@ -25,6 +23,7 @@ import {
   OFFICIAL_REPORT_TYPES_SUBTITLES,
   MILITARY_REPORT_TYPES,
   OTHER_REPORT_TYPES,
+  NO_REPORT_TYPE,
 } from '../../constants';
 
 const pageTitleWithTag = titleWithTag(
@@ -32,31 +31,49 @@ const pageTitleWithTag = titleWithTag(
   form0781HeadingTag,
 );
 
+export const officialReportCustom = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      militaryReports: checkboxGroupSchema(Object.keys(MILITARY_REPORT_TYPES)),
+      otherReports: checkboxGroupSchema(Object.keys(OTHER_REPORT_TYPES)),
+      unlistedReport: {
+        type: 'string',
+      },
+      noReport: checkboxGroupSchema(Object.keys(NO_REPORT_TYPE)),
+      'view:mentalHealthSupportAlert': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 export const officialReport = {
   uiSchema: {
-    ...arrayBuilderEventPageTitleUI({
+    'ui:title': arrayBuilderEventPageTitleUI({
       title: pageTitleWithTag,
       editTitle: 'official report details',
     }),
     'ui:description': officialReportsDescription(),
-    // 'view:conflictingResponseAlert': {
-    //   'ui:description': reportTypeValidationError,
-    //   'ui:options': {
-    //     hideIf: (formData, index, fullData) => {
-    //       const data = fullData.events?.[index];
-    //       return showConflictingAlert(data) === false;
-    //     },
-    //   },
-    // },
     otherReports: checkboxGroupUI({
-      title: reportTypesQuestion,
-      hint: reportTypesHint,
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.other,
+      hint: otherReportsHint,
+      labelHeaderLevel: '4',
       labels: OTHER_REPORT_TYPES,
       required: false,
     }),
     unlistedReport: textUI({
-      title: otherReportTypesQuestion,
+      title: otherReportTypesTitle,
       description: otherReportTypesExamples,
+    }),
+    noReport: checkboxGroupUI({
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.none,
+      hint: noReportHint,
+      labelHeaderLevel: '4',
+      labels: NO_REPORT_TYPE,
+      required: false,
     }),
     'view:mentalHealthSupportAlert': {
       'ui:description': mentalHealthSupportAlert,
@@ -66,14 +83,11 @@ export const officialReport = {
   schema: {
     type: 'object',
     properties: {
-      // 'view:conflictingResponseAlert': {
-      //   type: 'object',
-      //   properties: {},
-      // },
       otherReports: checkboxGroupSchema(Object.keys(OTHER_REPORT_TYPES)),
       unlistedReport: {
         type: 'string',
       },
+      noReport: checkboxGroupSchema(Object.keys(NO_REPORT_TYPE)),
       'view:mentalHealthSupportAlert': {
         type: 'object',
         properties: {},
@@ -84,36 +98,35 @@ export const officialReport = {
 
 export const officialReportMst = {
   uiSchema: {
-    ...arrayBuilderEventPageTitleUI({
+    'ui:title': arrayBuilderEventPageTitleUI({
       title: pageTitleWithTag,
       editTitle: 'official report details',
     }),
     'ui:description': officialReportsDescription('mst'),
-    // 'view:conflictingResponseAlert': {
-    //   'ui:description': reportTypeValidationError,
-    //   'ui:options': {
-    //     hideIf: (formData, index, fullData) => {
-    //       const data = fullData.events?.[index];
-    //       return showConflictingAlert(data) === false;
-    //     },
-    //   },
-    // },
     militaryReports: checkboxGroupUI({
-      title: reportTypesQuestion,
-      hint: reportTypesHint,
-      description: <h4>{OFFICIAL_REPORT_TYPES_SUBTITLES.military}</h4>,
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.military,
+      hint: militaryReportsHint,
+      labelHeaderLevel: '4',
       labels: MILITARY_REPORT_TYPES,
       required: false,
     }),
     otherReports: checkboxGroupUI({
       title: OFFICIAL_REPORT_TYPES_SUBTITLES.other,
+      hint: otherReportsHint,
       labelHeaderLevel: '4',
       labels: OTHER_REPORT_TYPES,
       required: false,
     }),
     unlistedReport: textUI({
-      title: otherReportTypesQuestion,
+      title: otherReportTypesTitle,
       description: otherReportTypesExamples,
+    }),
+    noReport: checkboxGroupUI({
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.none,
+      hint: noReportHint,
+      labelHeaderLevel: '4',
+      labels: NO_REPORT_TYPE,
+      required: false,
     }),
     'view:mentalHealthSupportAlert': {
       'ui:description': mentalHealthSupportAlert,
@@ -123,15 +136,12 @@ export const officialReportMst = {
   schema: {
     type: 'object',
     properties: {
-      // 'view:conflictingResponseAlert': {
-      //   type: 'object',
-      //   properties: {},
-      // },
       militaryReports: checkboxGroupSchema(Object.keys(MILITARY_REPORT_TYPES)),
       otherReports: checkboxGroupSchema(Object.keys(OTHER_REPORT_TYPES)),
       unlistedReport: {
         type: 'string',
       },
+      noReport: checkboxGroupSchema(Object.keys(NO_REPORT_TYPE)),
       'view:mentalHealthSupportAlert': {
         type: 'object',
         properties: {},

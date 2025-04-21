@@ -90,7 +90,7 @@ const ExtraDetails = rx => {
           <va-link
             href={
               removeLandingPage
-                ? '/health-care/refill-track-prescriptions'
+                ? '/resources/how-to-renew-a-va-prescription'
                 : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
             }
             text="Learn how to renew prescriptions"
@@ -159,7 +159,7 @@ const ExtraDetails = rx => {
             <va-link
               href={
                 removeLandingPage
-                  ? '/health-care/refill-track-prescriptions'
+                  ? '/resources/how-to-renew-a-va-prescription'
                   : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
               }
               text="Learn how to renew prescriptions"

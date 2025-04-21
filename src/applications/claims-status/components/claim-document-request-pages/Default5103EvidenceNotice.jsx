@@ -59,8 +59,7 @@ function Default5103EvidenceNotice({
       );
     }
   };
-  const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  const formattedRequestedDate = buildDateFormatter()(item.requestedDate);
+  const dateFormatter = buildDateFormatter();
 
   if (!is5103Notice(item.displayName)) {
     return null;
@@ -88,10 +87,10 @@ function Default5103EvidenceNotice({
         </p>
       ) : (
         <p>
-          On <strong>{formattedRequestedDate}</strong>, we sent you a “List of
-          evidence we may need (5103 notice)” letter. This letter lets you know
-          about different types of additional evidence that could help your
-          claim.
+          On <strong>{dateFormatter(item.requestedDate)}</strong>, we sent you a
+          “List of evidence we may need (5103 notice)” letter. This letter lets
+          you know about different types of additional evidence that could help
+          your claim.
         </p>
       )}
       <h2>Read your 5103 notice letter</h2>
@@ -153,8 +152,9 @@ function Default5103EvidenceNotice({
       {isAutomated5103Notice(item.displayName) && (
         <p data-testid="due-date-information">
           <strong>Note:</strong> If you don’t submit the evidence waiver, we'll
-          wait for you to add evidence until <strong>{formattedDueDate}</strong>
-          . Then we'll continue processing your claim.
+          wait for you to add evidence until{' '}
+          <strong>{dateFormatter(item.suspenseDate)}</strong>. Then we'll
+          continue processing your claim.
         </p>
       )}
     </div>

@@ -1,12 +1,23 @@
 import { fillStatementOfTruthSignature } from 'applications/simple-forms/shared/tests/e2e/helpers';
 import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
+import testData from '../fixtures/data/test-data.json';
+import { SUBMIT_URL } from '../../config/constants';
+import { daysAgoYyyyMmDd } from '../../helpers';
 
 describe('22-10215 Edu Benefits Form', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
   it('should be keyboard-only navigable', () => {
+    const testDataShallowCopy = { ...testData };
+    testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
+      14,
+    );
+    testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
+      10,
+    );
+    cy.intercept('POST', SUBMIT_URL, testDataShallowCopy);
     const institutionOfficial = {
       first: 'Jane',
       last: 'Doe',
@@ -15,9 +26,9 @@ describe('22-10215 Edu Benefits Form', () => {
 
     const institutionDetail = {
       institutionName: 'Test Institution Name',
-      facilityCode: '12345678',
-      termStartDate: '2000-01-01',
-      dateOfCalculations: '2010-01-01',
+      facilityCode: '15012020',
+      termStartDate: daysAgoYyyyMmDd(15),
+      dateOfCalculations: daysAgoYyyyMmDd(10),
     };
 
     const calculationDetail = {
@@ -41,8 +52,9 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.visit(`${manifest.rootUrl}`);
     cy.injectAxeThenAxeCheck();
 
-    cy.tabToElement('va-link-action');
-    cy.realPress('Enter');
+    // Uncomment when about page is created
+    // cy.tabToElement('va-link-action');
+    // cy.realPress('Enter');
 
     cy.tabToElement(
       'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
@@ -60,8 +72,8 @@ describe('22-10215 Edu Benefits Form', () => {
       'How do I request an exemption from routine 85/15 Rule enrollment ratio reporting?',
     );
 
-    // // Tab to and press 'Start your 85/15 enrollment ratios report' to go to the introduction page
-    cy.tabToElement('[text="Start your 85/15 enrollment ratios report"]');
+    // // Tab to and press 'Start your form without signing in' to go to the introduction page
+    cy.repeatKey('Tab', 2);
     cy.realPress('Enter');
 
     // Institution Official Page
@@ -88,15 +100,6 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 1);
     cy.fillVaTextInput(
-      'root_institutionDetails_institutionName',
-      institutionDetail.institutionName,
-    );
-    cy.fillVaTextInput(
-      'root_institutionDetails_institutionName',
-      institutionDetail.institutionName,
-    );
-    cy.repeatKey('Tab', 1);
-    cy.fillVaTextInput(
       'root_institutionDetails_facilityCode',
       institutionDetail.facilityCode,
     );
@@ -109,7 +112,7 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.repeatKey('Tab', 1);
     cy.fillVaMemorableDate(
       'root_institutionDetails_dateOfCalculations',
-      '2010-01-01',
+      institutionDetail.dateOfCalculations,
       true,
     );
     cy.tabToContinueForm();
@@ -173,6 +176,11 @@ describe('22-10215 Edu Benefits Form', () => {
     // Review application
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
+    // The 'Note' above the Certification statement should be hidden
+    cy.get('va-statement-of-truth')
+      .shadow()
+      .find('p.font-sans-6')
+      .should('have.css', 'display', 'none');
     fillStatementOfTruthSignature(
       `${institutionOfficial.first} ${institutionOfficial.last}`,
     );

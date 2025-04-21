@@ -3,6 +3,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
@@ -16,6 +17,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import militaryBranch from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
@@ -91,6 +93,13 @@ export const formConfig = {
           title: 'Military Service Time Served',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
+        },
+        militaryBranch: {
+          path: 'service/branch-served',
+          title: 'Military Branch Served',
+          uiSchema: militaryBranch.uiSchema,
+          schema: militaryBranch.schema,
+          depends: () => !environment.isProduction(),
         },
         militaryService: {
           path: 'service/current',

@@ -2,14 +2,16 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-
+import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
-
+import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 import { medicationsUrls } from '../../../util/constants';
-import { Paths } from '../utils/constants';
+import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
+import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
+import hidden from '../fixtures/tooltip-hidden.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -181,12 +183,12 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
   };
 
-  clickLearnHowToRenewPrescriptionsLink = () => {
+  verifyLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="/health-care/refill-track-prescriptions"]`)
+      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
       .should('be.visible');
   };
 
@@ -235,7 +237,7 @@ class MedicationsListPage {
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download a PDF of this list')
+      .should('contain', 'Download a PDF of all medications')
       .should('be.visible');
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
@@ -803,7 +805,11 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
+    cy.intercept('GET', '/my_health/v1/tooltips', tooltip).as('tooltips');
     cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('Medications');
+    cy.intercept('POST', '/my_health/v1/tooltips', tooltipVisible).as(
+      'tooltipsVisible',
+    );
     cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 
@@ -913,6 +919,71 @@ class MedicationsListPage {
 
   verifyTitleNotesOnListPage = text => {
     cy.get('[data-testid="Title-Notes"]').should('contain', text);
+  };
+
+  verifyToolTipTextOnListPage = text => {
+    cy.get('#rx-ipe-filtering-description')
+      .should('contain', text)
+      .and('be.visible');
+  };
+
+  verifyToolTipNotVisibleOnListPage = () => {
+    cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').should(
+      'not.exist',
+    );
+  };
+
+  clickStopShowingThisHintLinkOnListPage = () => {
+    cy.intercept(
+      'PATCH',
+      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
+      noToolTip,
+    ).as('noToolTip');
+    cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').click({
+      force: true,
+    });
+  };
+
+  verifyFilterAccordionDropDownIsFocused = () => {
+    cy.get('[data-testid="rx-filter"]').should('have.focus');
+  };
+
+  updatedRefillDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newRefillDate = new Date(currentDate);
+        newRefillDate.setDate(currentDate.getDate() + 6);
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            refillDate:
+              item.attributes.refillDate != null
+                ? newRefillDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
+
+  verifyToolTipCounterSetToZero = () => {
+    cy.get('@tooltipsVisible')
+      .its('response')
+      .then(res => {
+        expect(res.body.counter).to.eq(0);
+      });
+  };
+
+  verifyErroMessageforFailedAPICallListPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('contain', text);
+  };
+
+  loadListPageWithoutToolTip = () => {
+    cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 }
 

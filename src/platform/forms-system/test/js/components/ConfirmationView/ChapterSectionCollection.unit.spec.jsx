@@ -29,6 +29,7 @@ import {
   buildFields,
   ChapterSectionCollection,
   getChapterTitle,
+  reviewEntry,
 } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
 
 const mockChapterRadio = {
@@ -607,5 +608,53 @@ describe('Component ChapterSectionCollection', () => {
     expect(getByText('Date range start')).to.exist;
     expect(getByText('Date range end')).to.exist;
     expect(getByText('January 1, 2023')).to.exist;
+  });
+
+  it('should display chapter level ui:confirmationField', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+      },
+    });
+
+    const { getByText } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: {
+                ...mockChapterRadio,
+                pages: {
+                  ...mockChapterRadio.pages,
+                  radioPage: {
+                    ...mockChapterRadio.pages.radioPage,
+                    uiSchema: {
+                      ...mockChapterRadio.pages.radioPage.uiSchema,
+                      'ui:confirmationField': ({ formData }) => (
+                        <>
+                          {formData.webComponentYesNo &&
+                            reviewEntry(
+                              null,
+                              'mock-key',
+                              {},
+                              'Radio page confirmation field',
+                              'Page level confirmation field rendered',
+                            )}
+                        </>
+                      ),
+                    },
+                  },
+                },
+              },
+            },
+          }}
+          header="Information you submitted on this form"
+        />
+        ,
+      </Provider>,
+    );
+
+    expect(getByText('Radio page confirmation field')).to.exist;
+    expect(getByText('Page level confirmation field rendered')).to.exist;
   });
 });

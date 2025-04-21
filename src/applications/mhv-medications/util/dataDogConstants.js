@@ -40,6 +40,8 @@ export const dataDogActionNames = {
     PAGINATION: 'Pagination',
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.LIST}`,
     GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.LIST}`,
+    STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
+    REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.LIST}`,
   },
   // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   landingPage: {
@@ -74,8 +76,9 @@ export const dataDogActionNames = {
     }`,
     RX_DOCUMENTATION_LINK: `Rx Documentation Link - ${pageType.DETAILS}`,
     FILL_THIS_PRESCRIPTION: `Fill this prescription - ${pageType.DETAILS}`,
-    GROUPING_ACCORDIAN: 'Grouping Accordion',
-    GROUPING_PAGINATION: 'Grouping Pagination',
+    REFILLS_ACCORDIAN: 'Refills Accordion',
+    REFILLS_PAGINATION: 'Refills Pagination',
+    STATUS_INFO_DROPDOWN: `Status info dropdown - ${pageType.DETAILS}`,
   },
   refillPage: {
     GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK: `Go To Your Medications List Action Link - ${
@@ -96,6 +99,7 @@ export const dataDogActionNames = {
     GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${
       pageType.REFILL
     }`,
+    REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.REFILL}`,
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',

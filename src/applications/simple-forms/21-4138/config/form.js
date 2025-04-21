@@ -87,8 +87,7 @@ const formConfig = {
         label: 'Supporting forms for VA claims',
       },
       {
-        href:
-          '/supporting-forms-for-claims/statement-to-support-claim-form-21-4138',
+        href: '/supporting-forms-for-claims/submit-statement-form-21-4138',
         label: 'Submit a statement to support a claim',
       },
     ],
@@ -288,7 +287,6 @@ const formConfig = {
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
-  useTopBackLink: true,
   footerContent,
   getHelp,
 };

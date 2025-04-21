@@ -7,7 +7,14 @@ function ControlResultsHolder({ children, isSmallDesktop }) {
     return children;
   }
 
-  return <div id="vertical-oriented-left-controls">{children}</div>;
+  return (
+    <div
+      data-testid="vertical-oriented-left-controls"
+      id="vertical-oriented-left-controls"
+    >
+      {children}
+    </div>
+  );
 }
 
 ControlResultsHolder.propTypes = {

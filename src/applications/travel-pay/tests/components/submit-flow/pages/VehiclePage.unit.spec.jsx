@@ -1,8 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import VehiclePage from '../../../../components/submit-flow/pages/VehiclePage';
 
@@ -22,11 +23,34 @@ describe('Vehicle page', () => {
     setIsUnsupportedClaimType,
   };
 
-  it('should render correctly', async () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('should render correctly and record pageview', () => {
     const screen = render(<VehiclePage {...props} />);
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
-    expect(screen.findByText('Did you travel in your own vehicle?')).to.exist;
+    expect($('va-radio')).to.have.attribute(
+      'label',
+      'Did you travel in your own vehicle?',
+    );
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
+    expect($('va-radio')).to.not.have.attribute('error');
     expect($('va-button-pair')).to.exist;
 
     fireEvent.click(
@@ -34,39 +58,41 @@ describe('Vehicle page', () => {
         `va-additional-info[trigger="If you didn't travel in your own vehicle"]`,
       ),
     );
-    await waitFor(() => {
-      expect(
-        screen.findByText(
-          / bus, train, taxi, or other authorized public transportation/i,
-        ),
-      ).to.exist;
-    });
+    expect(
+      screen.getByText(
+        /bus, train, taxi, or other authorized public transportation/i,
+      ),
+    ).to.exist;
   });
 
-  it('should render an error if no selection made', async () => {
+  it('should render an error if no selection made', () => {
     const screen = render(<VehiclePage {...props} />);
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
     $('va-button-pair').__events.primaryClick(); // continue
-    await waitFor(() => {
-      expect(screen.findByText(/You must make a selection/i)).to.exist;
-    });
+    expect($('va-radio')).to.have.attribute(
+      'error',
+      'You must make a selection to continue.',
+    );
   });
 
-  it('should render an error selection is "no"', async () => {
-    const screen = render(
+  it('should render an error selection is "no"', () => {
+    render(
       <VehiclePage {...props} yesNo={{ ...props.yesNo, vehicle: 'no' }} />,
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
-    await waitFor(() => {
-      expect(
-        screen.findByText(
-          /We can’t file this type of travel reimbursement claim in this tool at this time/i,
-        ),
-      ).to.exist;
-    });
   });
 
   it('should move on to the next step if selection is "yes"', () => {
@@ -75,6 +101,16 @@ describe('Vehicle page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(3)).to.be.true;
   });
@@ -83,6 +119,16 @@ describe('Vehicle page', () => {
     render(<VehiclePage {...props} />);
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'vehicle',
+        link_text: 'back',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setPageIndex.calledWith(1)).to.be.true;
   });
 });

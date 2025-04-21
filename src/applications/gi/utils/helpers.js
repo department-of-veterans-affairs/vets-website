@@ -1104,3 +1104,33 @@ export const toTitleCase = str => {
 
   return titled.join(' ');
 };
+
+export const handleZoom = () => {
+  const zoomLevel = Math.round(
+    (window.devicePixelRatio /
+      ((window.devicePixelRatio / window.outerWidth) * window.innerWidth)) *
+      100,
+  );
+
+  const elements = [
+    ...document.querySelectorAll('.lc-results-wrapper'),
+    ...document.querySelectorAll('.lc-result-cards-wrapper'),
+    ...document.querySelectorAll('.zoom-wrapper'),
+  ];
+
+  elements.forEach(element => {
+    if (zoomLevel >= 300) {
+      element.classList.add('high-zoom');
+    } else {
+      element.classList.remove('high-zoom');
+    }
+  });
+};
+
+export const focusElement = (ref, delay = 0) => {
+  setTimeout(() => {
+    if (ref) {
+      ref.focus();
+    }
+  }, delay);
+};

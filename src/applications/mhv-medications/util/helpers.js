@@ -1,6 +1,5 @@
 import moment from 'moment-timezone';
 import cheerio from 'cheerio';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
   EMPTY_FIELD,
@@ -10,6 +9,10 @@ import {
   DOWNLOAD_FORMAT,
   dispStatusObj,
 } from './constants';
+
+// Cache the dynamic import promise to avoid redundant network requests
+// and improve performance when generateMedicationsPDF is called multiple times
+let pdfModulePromise = null;
 
 // this function is needed to account for the prescription.trackingList dates coming in this format "Mon, 24 Feb 2025 03:39:11 EST" which is not recognized by momentjs
 const convertToISO = dateString => {
@@ -21,7 +24,7 @@ const convertToISO = dateString => {
   }
   // Return false if the date is invalid
   const date = new Date(dateString);
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return false;
   }
 
@@ -31,19 +34,31 @@ const convertToISO = dateString => {
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} noDateMessage message when there is no date being passed
+ * @param {*} dateWithMessage message when there is a date being passed, node date will be appended to the end of this message
  * @returns {String} fromatted timestamp
  */
-export const dateFormat = (timestamp, format = null) => {
-  const isoTimestamp = convertToISO(timestamp);
-
-  const finalTimestamp = isoTimestamp || timestamp;
-
-  if (finalTimestamp) {
-    return moment
-      .tz(finalTimestamp, 'America/New_York')
-      .format(format || 'MMMM D, YYYY');
+export const dateFormat = (
+  timestamp,
+  format = null,
+  noDateMessage = null,
+  dateWithMessage = null,
+) => {
+  if (!timestamp) {
+    return noDateMessage || EMPTY_FIELD;
   }
-  return EMPTY_FIELD;
+
+  const isoTimestamp = convertToISO(timestamp);
+  const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
+  const finalTimestamp = moment
+    .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
+    .format(format || 'MMMM D, YYYY');
+
+  if (dateWithMessage && finalTimestamp) {
+    return `${dateWithMessage}${finalTimestamp}`;
+  }
+
+  return finalTimestamp;
 };
 
 /**
@@ -57,8 +72,17 @@ export const generateMedicationsPDF = async (
   pdfData,
 ) => {
   try {
+    // Use cached module promise if available, otherwise create a new one
+    if (!pdfModulePromise) {
+      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+    }
+
+    // Wait for the module to load and extract the generatePdf function
+    const { generatePdf } = await pdfModulePromise;
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
     Sentry.captureException(error);
     Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
     throw error;
@@ -73,6 +97,17 @@ export const validateField = fieldValue => {
     return fieldValue;
   }
   return EMPTY_FIELD;
+};
+
+/**
+ * @param {String} fieldName field name
+ * @param {String} fieldValue value that is being validated
+ */
+export const validateIfAvailable = (fieldName, fieldValue) => {
+  if (fieldValue || fieldValue === 0) {
+    return fieldValue;
+  }
+  return `${fieldName} not available`;
 };
 
 /**
@@ -289,7 +324,7 @@ export const createBreadcrumbs = (
       },
     ]);
   }
-  if (pathname === subdirectories.REFILL) {
+  if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
       ...(!removeLandingPage
         ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
@@ -479,6 +514,11 @@ export const sanitizeKramesHtmlStr = htmlString => {
       paragraph.textContent = node.textContent;
       node.replaceWith(paragraph);
     }
+  });
+
+  // This section is to address all table tags and add role="presentation" to them
+  tempDiv.querySelectorAll('table').forEach(table => {
+    table.setAttribute('role', 'presentation');
   });
 
   return tempDiv.innerHTML;

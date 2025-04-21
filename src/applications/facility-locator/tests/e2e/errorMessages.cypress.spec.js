@@ -7,12 +7,10 @@ import CcpHelpers from './helpers/ccp-helpers-cypress';
 import {
   enabledFeatures,
   featureCombinationsTogglesToTest,
-  isFeatureEnabled,
 } from './featureTogglesToTest';
 import * as h from './helpers';
 
 const featureSets = featureCombinationsTogglesToTest([
-  'facilities_use_address_typeahead',
   'facilities_use_fl_progressive_disclosure',
 ]);
 
@@ -20,25 +18,10 @@ for (const featureSet of featureSets) {
   describe(`Facility search error messages ${enabledFeatures(
     featureSet,
   )}`, () => {
-    const isAddressTypeaheadEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_address_typeahead'),
-    );
+    const addrErrorMessage =
+      'Enter a zip code or a city and state in the search box';
 
-    const isProgDiscEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
-    );
-
-    let addrErrorMessage = 'Please fill in a city, state, or postal code.';
-    let serviceErrorMessage = 'Please search for an available service';
-
-    if (isAddressTypeaheadEnabled || isProgDiscEnabled) {
-      addrErrorMessage =
-        'Enter a zip code or a city and state in the search box';
-    }
-
-    if (isProgDiscEnabled) {
-      serviceErrorMessage = 'Start typing and select an available service';
-    }
+    const serviceErrorMessage = 'ErrorStart typing and select a service type';
 
     beforeEach(() => {
       cy.intercept('GET', '/v0/maintenance_windows', []);
@@ -61,13 +44,7 @@ for (const featureSet of featureSets) {
       h.focusElement(h.CITY_STATE_ZIP_INPUT);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
-      if (isAddressTypeaheadEnabled) {
-        h.errorMessageContains(
-          'Enter a zip code or a city and state in the search box',
-        );
-      } else {
-        h.errorMessageContains(addrErrorMessage);
-      }
+      h.errorMessageContains(addrErrorMessage);
 
       h.typeInCityStateInput('A', true);
       h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
@@ -81,7 +58,7 @@ for (const featureSet of featureSets) {
       cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('.usa-error-message')
-        .contains('Please choose a facility type.');
+        .contains('Select a facility type');
       cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('select')

@@ -21,6 +21,10 @@ export const isEligibleForDecisionReview = decisionDate => {
 };
 
 export const isEligibleToSubmitStatement = formData => {
+  if (!formData?.statementType) {
+    return true;
+  }
+
   return [
     STATEMENT_TYPES.NOT_LISTED,
     STATEMENT_TYPES.PRIORITY_PROCESSING,

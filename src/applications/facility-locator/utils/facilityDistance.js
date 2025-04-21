@@ -37,6 +37,7 @@ export const radiusFromBoundingBox = (
   );
 
   let radiusToUse = radius;
+
   if (facilityType === LocationType.CEMETERY) {
     radiusToUse = MIN_RADIUS_NCA;
   } else if (useProgressiveDisclosure && radius < MIN_RADIUS_EXP) {

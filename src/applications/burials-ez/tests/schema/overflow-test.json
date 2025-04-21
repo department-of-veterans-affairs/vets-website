@@ -133,11 +133,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "claimantAddress": {
     "view:militaryBaseDescription": {},

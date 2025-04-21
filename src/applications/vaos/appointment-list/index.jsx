@@ -38,11 +38,13 @@ function AppointmentListSection() {
       )}
       {featureBreadcrumbUrlUpdate && (
         <Switch>
-          {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
           <Route
             path="/pending/:id"
             component={RequestedAppointmentDetailsPage}
           />
+
+          {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
+
           <Route path="/pending" component={AppointmentsPage} />
           {isInCCPilot && (
             <Route

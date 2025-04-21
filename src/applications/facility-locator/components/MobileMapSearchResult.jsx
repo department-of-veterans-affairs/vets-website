@@ -22,11 +22,14 @@ const MobileMapSearchResult = ({
   return (
     <>
       {!mobileMapPinSelected ? (
-        <p className="vads-u-margin-y--3">
+        <p data-testid="select-a-pin-number" className="vads-u-margin-y--3">
           Select a number to show information about that location.
         </p>
       ) : (
-        <div className="mobile-search-result">
+        <div
+          data-testid="mobile-search-result"
+          className="mobile-search-result"
+        >
           {ResultMapper(mobileMapPinSelected, query, 0, true)}
         </div>
       )}

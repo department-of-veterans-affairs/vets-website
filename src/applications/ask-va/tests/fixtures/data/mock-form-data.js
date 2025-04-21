@@ -75,4 +75,7 @@ export const userData = {
     middle: 'B',
     last: 'Parker',
   },
+  loa: {
+    current: 3,
+  },
 };

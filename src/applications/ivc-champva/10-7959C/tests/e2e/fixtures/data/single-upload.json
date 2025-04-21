@@ -1,13 +1,15 @@
 {
   "certifierRole": "applicant",
   "certifierEmail": "certifier@email.gov",
-  "primaryInsuranceCard": [
+  "primaryInsuranceCardFront": [
     {
       "name": "example_upload.png",
       "confirmationCode": "a49136ca-377c-4b7e-b7ee-e7320ed2ca0b",
       "attachmentId": "Front of insurance card",
       "isEncrypted": false
-    },
+    }
+  ],
+  "primaryInsuranceCardBack": [
     {
       "name": "example_upload.png",
       "confirmationCode": "b4a40045-8e36-435b-980d-3439f2ce9cf2",
@@ -43,7 +45,13 @@
   },
   "missingUploads": [
     {
-      "name": "primaryInsuranceCard",
+      "name": "primaryInsuranceCardFront",
+      "path": "insurance-upload",
+      "required": true,
+      "uploaded": true
+    },
+    {
+      "name": "primaryInsuranceCardBack",
       "path": "insurance-upload",
       "required": true,
       "uploaded": true

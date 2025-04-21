@@ -19,6 +19,7 @@ const CannotReplyAlert = props => {
               className="alertbox-link vads-c-action-link--green"
               aria-label="Start a new message"
               to={Paths.COMPOSE}
+              data-dd-action-name="Start a new message - 45 day alert"
             >
               Start a new message
             </Link>

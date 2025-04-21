@@ -9,10 +9,13 @@ import * as additionalInformationPage from '../../pages/form0781/additionalInfor
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
+import BehaviorListPage from '../../components/BehaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
 import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
 import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
+import * as supportingEvidencePage from '../../pages/form0781/supportingEvidencePage';
+import * as reviewPage from '../../pages/form0781/reviewPage';
 import {
   showForm0781Pages,
   showManualUpload0781Page,
@@ -24,7 +27,9 @@ import {
   showUnlistedDescriptionPage,
   showBehaviorSummaryPage,
 } from '../../utils/form0781';
-import { workflowChoicePageTitle } from '../../content/form0781/workflowChoicePage';
+import WorkflowChoicePage, {
+  workflowChoicePageTitle,
+} from '../../content/form0781/workflowChoicePage';
 import { manualUploadPageTitle } from '../../content/form0781/manualUploadPage';
 import { mentalHealthSupportPageTitle } from '../../content/mentalHealthSupport';
 import { eventsPageTitle } from '../../content/traumaticEventsIntro';
@@ -36,8 +41,10 @@ import {
   unlistedDescriptionPageNumber,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
+import { supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
+import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -51,6 +58,8 @@ export const form0781PagesConfig = {
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
+    CustomPage: WorkflowChoicePage,
+    CustomPageReview: null,
   },
   manualUploadPage: {
     title: manualUploadPageTitle,
@@ -93,15 +102,19 @@ export const form0781PagesConfig = {
     title: behaviorPageTitle,
     path: 'mental-health-form-0781/behavior-changes-combat',
     depends: formData => showBehaviorIntroCombatPage(formData),
-    uiSchema: behaviorIntroCombatPage.uiSchema,
+    CustomPage: BehaviorIntroCombatPage,
+    CustomPageReview: null,
     schema: behaviorIntroCombatPage.schema,
+    uiSchema: behaviorIntroCombatPage.uiSchema,
   },
   behaviorListPage: {
     title: behaviorListPageTitle,
     path: 'mental-health-form-0781/behavior-changes-list',
     depends: formData => showBehaviorListPage(formData),
-    uiSchema: behaviorListPage.uiSchema,
+    CustomPage: BehaviorListPage,
+    CustomPageReview: null,
     schema: behaviorListPage.schema,
+    uiSchema: behaviorListPage.uiSchema,
   },
   ...behaviorDescriptions.makePages(),
   unlistedBehaviorDescriptionPage: {
@@ -117,6 +130,13 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
+  },
+  supportingEvidencePage: {
+    title: supportingEvidencePageTitle,
+    path: 'mental-health-form-0781/supporting-evidence',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: supportingEvidencePage.uiSchema,
+    schema: supportingEvidencePage.schema,
   },
   treatmentReceivedPage: {
     path: 'mental-health-form-0781/treatment-received',
@@ -138,5 +158,11 @@ export const form0781PagesConfig = {
     depends: formData => isCompletingForm0781(formData),
     uiSchema: additionalInformationPage.uiSchema,
     schema: additionalInformationPage.schema,
+  },
+  reviewPage: {
+    path: 'mental-health-form-0781/review-page',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: reviewPage.uiSchema,
+    schema: reviewPage.schema,
   },
 };

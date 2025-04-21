@@ -18,6 +18,11 @@ $text-color: rgba(27, 27, 27, 1);
     margin: 0;
   }
 
+  .usa-hint {
+    display: block;
+    color: var(--vads-color-gray-medium);
+  }
+
   .p1 {
     padding: 0.5em 0;
   }
@@ -284,6 +289,7 @@ $text-color: rgba(27, 27, 27, 1);
     input {
       width: 100%;
       max-width: none;
+
       @media screen and (min-width: $small-desktop-screen) {
         max-width: 418px;
       }
@@ -331,27 +337,38 @@ $text-color: rgba(27, 27, 27, 1);
     .service-type-dropdown-tablet {
       width: 100%;
       flex-basis: 100%;
+
       @media (min-width: $small-desktop-screen) {
-        flex-basis: 50%;
+        flex-basis: 100%;
       }
     }
+
     .service-type-dropdown-desktop {
       flex-basis: 100%;
       width: 100%;
     }
+
     .usa-input-error {
       right: 0;
+    }
+
+    #facility-type-dropdown::part(select) {
+      width: 100%;
+      max-width: 100%;
     }
 
     .facility-type-dropdown {
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+
       @media (min-width: $small-desktop-screen) {
-        flex-basis: 50%;
+        flex-basis: 100%;
       }
+
       &.facility-error {
         margin-top: 0px;
+
         @media screen and (min-width: $small-desktop-screen) {
           margin-left: 12px;
         }
@@ -363,6 +380,7 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+
       &.facility-error {
         margin-top: -8px;
       }
@@ -372,6 +390,7 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+
       &.facility-error {
         @media screen and (min-width: $tablet) {
           margin-top: 0px;
@@ -380,15 +399,11 @@ $text-color: rgba(27, 27, 27, 1);
       }
     }
 
-    va-button {
-      margin-top: 0;
-      width: 100%;
-    }
-
     #location-input-container {
       &.usa-input-error {
         margin-bottom: 24px;
         padding-bottom: 0;
+
         .input-container {
           margin-bottom: 0;
           max-width: calc(418px - 0.9375rem - 4px);
@@ -424,6 +439,7 @@ $text-color: rgba(27, 27, 27, 1);
 
       @media (min-width: $small-desktop-screen) {
         margin: 0 0 0 20px;
+
         &.fl-sm-desktop {
           flex-direction: column;
           align-items: flex-start;
@@ -458,6 +474,7 @@ $text-color: rgba(27, 27, 27, 1);
       @media screen and (max-width: $small-desktop-screen) {
         margin-top: 0;
       }
+
       @media (min-width: $small-desktop-screen) {
         display: flex;
         flex-direction: row;
@@ -465,6 +482,7 @@ $text-color: rgba(27, 27, 27, 1);
         align-items: flex-end;
       }
     }
+
     p.service-hint-text {
       color: $vads-label-hint-text-color-on-light;
       margin: 0.5em 0;
@@ -508,17 +526,19 @@ $text-color: rgba(27, 27, 27, 1);
       border: 1px solid var(--vads-color-primary-dark);
     }
   }
+
   .typeahead-mobile,
   .typeahead-desktop {
     flex-basis: 100%;
   }
+
   .typeahead-tablet {
     flex-basis: 100%;
-    @media (min-width: $small-desktop-screen) {
-      flex-basis: 50%;
-    }
+
     &:has(.usa-input-error) {
-      margin-bottom: 24px;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 0px;
+      }
     }
   }
 }
@@ -695,44 +715,39 @@ $text-color: rgba(27, 27, 27, 1);
 
 #search-area-control-container {
   z-index: 1;
-  va-button {
-    margin: 0 !important;
-    padding: 0px 0 0px 8px !important;
-    .usa-button {
-      margin: 0 !important;
-      width: 100% !important;
-      padding: 0 !important;
-    }
-  }
 }
 
 #search-area-control {
   cursor: pointer;
   pointer-events: auto;
+  max-width: fit-content;
+  margin: 0;
+  padding: 0;
 
   @media (max-width: $small-screen) {
     height: 43px;
   }
 }
 
-// Override design system default
-// because it will cause an axe failure
-.fl-disabled {
-  background-color: var(--vads-color-gray-medium) !important;
-}
-
 .mapboxgl-ctrl-top-center {
   position: absolute;
   pointer-events: none;
   top: 16px;
-  left: calc(50% - 125.375px);
+  left: 40px; // keep away from the controls on the left
+  right: 40px; // mirror on right so contents can be centered
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .mapboxgl-ctrl-bottom-center {
   bottom: 40px;
-  left: calc(50% - 125.375px);
+  width: 100%;
   position: absolute;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 button.mapboxgl-ctrl-attrib-button {

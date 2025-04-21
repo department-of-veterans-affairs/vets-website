@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -23,6 +22,7 @@ import {
   getLastSuccessfulUpdate,
   formatUserDob,
   sendDataDogAction,
+  formatNameFirstLast,
 } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
@@ -66,6 +66,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
+        ccdDownloadSuccess,
         error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
@@ -78,8 +79,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const fullState = useSelector(state => state);
 
   // Extract user info
-  const name = formatName(userProfile.userFullName);
-  const dob = formatUserDob(userProfile); // Example DOB
+  const name = formatNameFirstLast(userProfile.userFullName);
+  const dob = formatUserDob(userProfile);
 
   // Extract all SEI domain data
   const seiRecords = SEI_DOMAINS.reduce((acc, domain) => {
@@ -253,6 +254,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download Continuity of Care Document xml Link');
   };
 
+  const handleDownloadSelfEnteredPdf = e => {
+    e.preventDefault();
+    generateSEIPdf();
+    sendDataDogAction('Download self-entered health information PDF link');
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -271,6 +278,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
+      <h2>Download your VA Blue Button report</h2>
       {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -287,12 +295,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               BB_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Your VA Blue Button report download has"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
-
-      <h2>Download your VA Blue Button report</h2>
-      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
         download.
       </p>
@@ -304,7 +313,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         onClick={() => sendDataDogAction('Select records and download')}
         data-testid="go-to-download-all"
       />
+
       <h2>Other reports you can download</h2>
+
+      {(generatingCCD || ccdDownloadSuccess) &&
+        !ccdError && (
+          <DownloadSuccessAlert
+            type="Continuity of Care Document download"
+            className="vads-u-margin-bottom--1"
+            focusId="ccd-download-success"
+          />
+        )}
 
       {accessErrors()}
 
@@ -333,7 +352,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               SEI_DOMAIN_DISPLAY_MAP,
             )}
           />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          <DownloadSuccessAlert
+            type="Self-entered health information report download"
+            className="vads-u-margin-bottom--1"
+          />
         </>
       )}
       <va-accordion bordered>
@@ -393,11 +415,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             <va-link
               download
               href="#"
-              onClick={e => {
-                e.preventDefault();
-                generateSEIPdf();
-                sendDataDogAction('Self entered health information PDF link ');
-              }}
+              onClick={handleDownloadSelfEnteredPdf}
               text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
@@ -410,7 +428,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of MyHealtheVet to download historical
+            text="Go to the previous version of My HealtheVet to download historical
             goals"
           />
         </va-accordion-item>

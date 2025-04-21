@@ -2,6 +2,8 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ReviewPage from '../../../../components/submit-flow/pages/ReviewPage';
@@ -34,12 +36,12 @@ const mockAppt = {
 
 const practitioner = 'Kenneth J. Bernardo';
 
-const onSubmitSpy = sinon.spy();
-const setIsAgreementCheckedSpy = sinon.spy();
-const setPageIndexSpy = sinon.spy();
-const setYesNoSpy = sinon.spy();
-
 describe('Review page', () => {
+  const onSubmitSpy = sinon.spy();
+  const setIsAgreementCheckedSpy = sinon.spy();
+  const setPageIndexSpy = sinon.spy();
+  const setYesNoSpy = sinon.spy();
+
   const getData = ({ homeAddress = home, pract } = {}) => {
     return {
       user: {
@@ -73,7 +75,17 @@ describe('Review page', () => {
     setYesNo: () => setYesNoSpy(),
   };
 
-  it('should render properly with all data', async () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('should render properly with all data and record pageview', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -88,6 +100,16 @@ describe('Review page', () => {
     // Check that text from the travel agreement is rendering
     expect(screen.getByText(/I have incurred a cost/i)).to.exist;
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'review',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
+
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
     expect(checkbox).to.have.attribute('checked', 'false');
@@ -95,12 +117,12 @@ describe('Review page', () => {
 
     expect($('va-button-pair')).to.exist;
 
-    await checkbox.__events.vaChange();
+    checkbox.__events.vaChange();
 
     expect(setIsAgreementCheckedSpy.called).to.be.true;
   });
 
-  it('should render properly with practitioners if present', async () => {
+  it('should render properly with practitioners if present', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData({ pract: practitioner }),
       reducers: reducer,
@@ -124,12 +146,12 @@ describe('Review page', () => {
 
     expect($('va-button-pair')).to.exist;
 
-    await checkbox.__events.vaChange();
+    checkbox.__events.vaChange();
 
     expect(setIsAgreementCheckedSpy.called).to.be.true;
   });
 
-  it('should reset page index and answers when start over is pressed', async () => {
+  it('should reset page index and answers when start over is pressed', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -138,11 +160,22 @@ describe('Review page', () => {
     expect(screen.getByText('Review your travel claim')).to.exist;
 
     $('va-button-pair').__events.secondaryClick(); // start over
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'review',
+        link_text: 'start-over',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;
     expect(setYesNoSpy.called).to.be.true;
   });
 
-  it('should submit okay', async () => {
+  it('should submit okay', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -152,7 +185,7 @@ describe('Review page', () => {
 
     // Check the agreement
     const checkbox = $('va-checkbox[name="accept-agreement"]');
-    await checkbox.__events.vaChange();
+    checkbox.__events.vaChange();
 
     $('va-button-pair').__events.primaryClick(); // file claim
     expect(onSubmitSpy.called).to.be.true;
@@ -177,8 +210,8 @@ describe('Review page', () => {
     );
 
     expect(
-      screen.findAllByText(/You must accept the beneficiary travel agreement/i),
-    ).to.be.empty;
+      screen.queryByText(/You must accept the beneficiary travel agreement/i),
+    ).to.not.exist;
   });
 
   it('should render an error if filing without agreeing to terms', () => {

@@ -19,6 +19,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { nameWording } from '../../shared/utilities';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const radioLabels = {
   group: 'Employer sponsored insurance (group)',
@@ -42,7 +43,7 @@ const yesNoContent = {
 };
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const insuranceOptions = {
   arrayPath: 'policies',
   nounSingular: 'policy',
   nounPlural: 'policies',
@@ -76,6 +77,7 @@ export const insuranceStatusSchema = {
     }),
     hasOhi: {
       ...yesNoUI({
+        type: 'radio',
         updateUiSchema: formData => {
           return {
             'ui:title': `${
@@ -108,11 +110,17 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      nounSingular: options.nounSingular,
+      nounSingular: insuranceOptions.nounSingular,
     }),
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),
     providerPhone: phoneUI('Insurance provider phone number'),
+    'ui:validations': [
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'name'),
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'policyNum'),
+    ],
   },
   schema: {
     type: 'object',
@@ -134,6 +142,7 @@ const insuranceProviderPage = {
     ),
     type: {
       ...radioUI({
+        type: 'radio',
         title:
           'What type of insurance does the beneficiary have through this provider?',
         labels: radioLabels,
@@ -179,7 +188,7 @@ const insuranceProviderPage = {
 const summaryPage = {
   uiSchema: {
     'view:hasPolicies': arrayBuilderYesNoUI(
-      options,
+      insuranceOptions,
       yesNoContent,
       yesNoContent,
     ),
@@ -194,45 +203,48 @@ const summaryPage = {
 };
 
 // Main pages object
-export const insurancePages = arrayBuilderPages(options, pageBuilder => ({
-  insuranceIntro: pageBuilder.introPage({
-    path: 'insurance-intro',
-    title: '[noun plural]',
-    depends: formData => get('hasOhi', formData),
-    uiSchema: {
-      ...titleUI('Health insurance information', ({ formData }) => (
-        <p>
-          Next we’ll ask you to enter information about{' '}
-          {nameWording(formData, true, false, true)} health insurance.
-          <br />
-          <br />
-          You can add up to two health insurances, but do not include CHAMPVA.
-        </p>
-      )),
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        titleSchema,
+export const insurancePages = arrayBuilderPages(
+  insuranceOptions,
+  pageBuilder => ({
+    insuranceIntro: pageBuilder.introPage({
+      path: 'insurance-intro',
+      title: '[noun plural]',
+      depends: formData => get('hasOhi', formData),
+      uiSchema: {
+        ...titleUI('Health insurance information', ({ formData }) => (
+          <p>
+            Next we’ll ask you to enter information about{' '}
+            {nameWording(formData, true, false, true)} health insurance.
+            <br />
+            <br />
+            You can add up to two health insurances, but do not include CHAMPVA.
+          </p>
+        )),
       },
-    },
+      schema: {
+        type: 'object',
+        properties: {
+          titleSchema,
+        },
+      },
+    }),
+    insuranceSummary: pageBuilder.summaryPage({
+      title: 'Review your [noun plural]',
+      path: 'insurance-review',
+      depends: formData => get('hasOhi', formData),
+      ...summaryPage,
+    }),
+    insurancePolicy: pageBuilder.itemPage({
+      title: 'Policy information',
+      path: 'policy-info/:index',
+      depends: formData => get('hasOhi', formData),
+      ...policyPage,
+    }),
+    insuranceType: pageBuilder.itemPage({
+      title: 'Type',
+      path: 'insurance-type/:index',
+      depends: formData => get('hasOhi', formData),
+      ...insuranceProviderPage,
+    }),
   }),
-  insuranceSummary: pageBuilder.summaryPage({
-    title: 'Review your [noun plural]',
-    path: 'insurance-review',
-    depends: formData => get('hasOhi', formData),
-    ...summaryPage,
-  }),
-  insurancePolicy: pageBuilder.itemPage({
-    title: 'Policy information',
-    path: 'policy-info/:index',
-    depends: formData => get('hasOhi', formData),
-    ...policyPage,
-  }),
-  insuranceType: pageBuilder.itemPage({
-    title: 'Type',
-    path: 'insurance-type/:index',
-    depends: formData => get('hasOhi', formData),
-    ...insuranceProviderPage,
-  }),
-}));
+);

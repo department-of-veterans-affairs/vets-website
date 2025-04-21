@@ -184,46 +184,10 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
-export function fetchAndFilterLacpResults( // new action for ss filter
-  name,
-  lacpType = 'all',
-  location = 'all',
-) {
-  const url = `${
-    api.url
-  }/lcpe/lacs?type=${lacpType}&location=${location}&name=${name}`; //
-
-  return dispatch => {
-    dispatch({ type: FETCH_LC_RESULTS_STARTED });
-
-    return fetch(url, api.settings)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(res.statusText);
-      })
-      .then(results => {
-        const { lacs } = results;
-
-        dispatch({
-          type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: lacs, // this list of lacps will be filtered based on the query parameters in the above url
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: FETCH_LC_RESULTS_FAILED,
-          payload: err.message,
-        });
-      });
-  };
-}
-
 export function filterLcResults(
   name,
   categories,
-  location,
+  location = 'all',
   previousResults = [],
 ) {
   return {
@@ -235,57 +199,60 @@ export function filterLcResults(
 export function fetchLicenseCertificationResults() {
   const url = `${api.url}/lcpe/lacs`;
 
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
-    return fetch(url, api.settings)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(res.statusText);
-      })
-      .then(results => {
-        const { lacs } = results;
+    try {
+      const res = await fetch(url, {
+        ...api.settings,
+      });
 
-        dispatch({
-          type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: lacs,
-        });
-      })
-      .catch(err => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
+      const { lacs } = await res.json();
+      dispatch({
+        type: FETCH_LC_RESULTS_SUCCEEDED,
+        payload: lacs,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') {
         dispatch({
           type: FETCH_LC_RESULTS_FAILED,
           payload: err.message,
         });
-      });
+      }
+    }
   };
 }
 
 export function fetchLcResult(id) {
-  return dispatch => {
+  return async dispatch => {
     const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
-    return fetch(url, api.settings)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+    try {
+      const res = await fetch(url, {
+        ...api.settings,
+      });
+
+      if (!res.ok) {
         throw new Error(res.statusText);
-      })
-      .then(result => {
-        dispatch({
-          type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: result.lac,
-        });
-      })
-      .catch(err => {
+      }
+      const { lac } = await res.json();
+      dispatch({
+        type: FETCH_LC_RESULT_SUCCEEDED,
+        payload: lac,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') {
         dispatch({
           type: FETCH_LC_RESULT_FAILED,
           payload: err.message,
         });
-      });
+      }
+    }
   };
 }
 

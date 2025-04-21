@@ -9,6 +9,7 @@ import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import {
   notificationsError,
   notificationSuccessDismissed,
@@ -16,7 +17,6 @@ import {
   notificationSuccessNotDismissed,
   multipleNotificationSuccess,
 } from '../fixtures/test-notifications-response';
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Notifications', () => {
   // TODO: Fix for CI (try local headless)
@@ -109,7 +109,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.get('va-alert')
         .shadow()
         .find('button.va-alert-close')
-        .click({ waitForAnimations: true });
+        .click({ waitForAnimations: true, force: true });
       cy.wait('@patch');
       cy.findAllByTestId('dashboard-notification-alert').should('not.exist');
       cy.findByTestId('dashboard-notifications').should('not.exist');
@@ -190,7 +190,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.wait(['@nameB', '@serviceB', '@notifications6']);
       cy.findByTestId('dashboard-notifications').should('exist');
       cy.findAllByTestId('onsite-notification-card').should('have.length', 1);
-      cy.get('button.va-notification-close').click();
+      cy.get('button.va-notification-close').click({ force: true });
       cy.wait('@patch');
       cy.findByTestId('onsite-notification-card').should('not.exist');
       cy.findByTestId('dashboard-notifications').should('not.exist');

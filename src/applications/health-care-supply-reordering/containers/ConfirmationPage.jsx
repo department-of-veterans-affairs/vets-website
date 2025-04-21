@@ -6,7 +6,6 @@ import environment from 'platform/utilities/environment';
 import { BATTERY } from '../constants';
 
 const ConfirmationPage = ({
-  featureToggles,
   vetEmail,
   submittedAt,
   selectedProductArray,
@@ -20,9 +19,7 @@ const ConfirmationPage = ({
   hasCompleteOrderFailed,
 }) => {
   // TODO: move to util or custom hook.
-  const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-    ? 'hearing aid or CPAP supplies'
-    : 'hearing aid batteries and accessories';
+  const supplyDescription = 'hearing aid or CPAP supplies';
   const PrintDetails = () => (
     <div className="print-details">
       <img
@@ -313,7 +310,6 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
-  const { featureToggles } = state;
   const selectedAddress = state.form?.data['view:currentAddress'];
   const shippingAddress = state.form?.data[selectedAddress];
   const { fullName, vetEmail, order, supplies } = state.form?.data;
@@ -358,7 +354,6 @@ const mapStateToProps = state => {
     isError = true;
   }
   return {
-    featureToggles,
     submittedAt,
     fullName,
     vetEmail,

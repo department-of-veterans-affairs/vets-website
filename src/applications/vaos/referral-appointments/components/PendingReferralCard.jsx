@@ -8,15 +8,14 @@ import AppointmentColumn from '../../components/AppointmentColumn';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
-  const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
-  const isCanceled = referral.status === 'cancelled';
-  const typeOfCareName = referral.CategoryOfCare;
+  const idClickable = `id-${referral.uuid.replace('.', '\\.')}`;
+  const typeOfCareName = referral.categoryOfCare;
 
   const link = `schedule-referral?id=${
-    referral.UUID
+    referral.uuid
   }&referrer=referrals-requests`;
 
-  const parsedDate = parseISO(referral.ReferralExpirationDate);
+  const parsedDate = parseISO(referral.expirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');
 
   return (
@@ -44,7 +43,6 @@ const PendingReferralCard = ({ referral, index }) => {
                     padding="0p5"
                     size="1"
                     className="vaos-appts__display--table"
-                    canceled={isCanceled}
                   >
                     <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                       {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
@@ -54,7 +52,7 @@ const PendingReferralCard = ({ referral, index }) => {
               </AppointmentColumn>
 
               <AppointmentColumn
-                id={`vaos-referral-detail-${referral.UUID}`}
+                id={`vaos-referral-detail-${referral.uuid}`}
                 className="vaos-hide-for-print"
                 padding="0p5"
                 size="1"
@@ -63,7 +61,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 <va-link-action
                   type="secondary"
                   href={link}
-                  aria-describedby={`vaos-referral-detail-${referral.UUID}`}
+                  aria-describedby={`vaos-referral-detail-${referral.uuid}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
                   onClick={e => e.preventDefault()}

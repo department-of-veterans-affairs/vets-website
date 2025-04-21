@@ -70,8 +70,8 @@ export default function UpcomingAppointmentsDetailsPage() {
       let pageTitle = 'VA appointment on';
       let prefix = 'Upcoming';
 
-      if (isPast) prefix = 'Past';
-      else if (selectIsCanceled(appointment)) prefix = 'Canceled';
+      if (isCanceled) prefix = 'Canceled';
+      else if (isPast) prefix = 'Past';
 
       if (isCommunityCare)
         pageTitle = `${prefix} Community Care Appointment On`;

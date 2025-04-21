@@ -8,6 +8,7 @@
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
+    "none": false,
     "view:isHomeless": {
       "homelessHousingSituation": "other",
       "otherHomelessHousing": "Under a bridge",
@@ -379,7 +380,7 @@
       "unlisted": true
     },
     "view:noneCheckbox": {
-      "none": false
+      "view:noBehaviorChanges": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,
@@ -391,7 +392,7 @@
       "vaPaid": true,
       "dod": true
     },
-    "view:treatmentNoneCheckbox": {
+    "treatmentNoneCheckbox": {
       "none": false
     },
     "optionIndicator": "yes",
@@ -417,6 +418,27 @@
       "view:bankAccountNumber": "*********1234",
       "view:bankRoutingNumber": "*****2115",
       "view:bankName": "Comerica"
+    },
+    "supportingEvidenceReports": {
+      "police": true
+    },
+    "supportingEvidenceRecords": {
+      "physicians": true,
+      "counseling": true,
+      "crisis": true
+    },
+    "supportingEvidenceWitness": {
+      "family": true,
+      "faculty": false,
+      "service": false,
+      "clergy": true
+    },
+    "supportingEvidenceOther": {
+      "personal": false
+    },
+    "supportingEvidenceUnlisted": "unlisted document",
+    "supportingEvidenceNoneCheckbox": {
+      "none": false
     }
   }
 }

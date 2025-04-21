@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 
 import IntroductionPage from '../../containers/IntroductionPage';
+import OmbInfo from '../../components/OmbInfo';
 
 describe('22-10215 <IntroductionPage>', () => {
   const fakeStore = {
@@ -72,12 +72,13 @@ describe('22-10215 <IntroductionPage>', () => {
     wrapper.unmount();
   });
 
-  it('should render form start button', () => {
+  it('should render save in progress widget', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
+    const sipContainer = wrapper.find('Connect(SaveInProgressIntro)');
 
-    expect(wrapper.find('va-link-action').length).to.equal(1);
-    expect(wrapper.find('va-link-action').props().text).to.contain(
-      'Start your 85/15 enrollment ratios report',
+    expect(sipContainer.length).to.equal(1);
+    expect(sipContainer.props().startText).to.contain(
+      'Start your 85/15 calculations report',
     );
 
     wrapper.unmount();
@@ -86,25 +87,8 @@ describe('22-10215 <IntroductionPage>', () => {
   it('should render omb info', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
-    expect(wrapper.find('va-omb-info').length).to.equal(1);
+    expect(wrapper.find(OmbInfo).length).to.equal(1);
 
-    wrapper.unmount();
-  });
-
-  it('should start form when start application link is clicked', () => {
-    const router = {
-      push: () => {},
-    };
-    const wrapper = shallow(
-      <IntroductionPage router={router} {...fakeStore.getState()} />,
-    );
-    const vaLink = wrapper.find('va-link-action');
-    const event = { preventDefault: () => {} };
-    const preventDefault = sinon.spy(event, 'preventDefault');
-
-    expect(vaLink).to.exist;
-    vaLink.simulate('click', event);
-    expect(preventDefault.called).to.be.true;
     wrapper.unmount();
   });
 });

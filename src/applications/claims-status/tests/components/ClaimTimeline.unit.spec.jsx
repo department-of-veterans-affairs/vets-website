@@ -1,37 +1,51 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import ClaimTimeline from '../../components/ClaimTimeline';
 
+const phases = [
+  { phase: 1 },
+  { phase: 2 },
+  { phase: 3 },
+  { phase: 4 },
+  { phase: 5 },
+];
+
 describe('<ClaimTimeline>', () => {
-  it('should render 5 phases', () => {
-    const events = [];
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimTimeline events={events} phase={6} />,
+  const subject = (phase, currentPhaseBack = false) => {
+    const { container, getByRole, queryByTestId } = render(
+      <ClaimTimeline currentPhaseBack={currentPhaseBack} phase={phase} />,
     );
+    const h3Element = getByRole('heading', { level: 3 });
 
-    expect(tree.everySubTree('ClaimPhase').length).to.equal(5);
+    const selectors = () => ({
+      title: h3Element.textContent,
+      vaProcessList: container.querySelector('va-process-list'),
+      vaProcessListItems: container.querySelectorAll(
+        'va-process-list-item[active="true"]',
+      ),
+      warning: queryByTestId('phase-back-warning'),
+    });
+    return { selectors };
+  };
+  phases.forEach(({ phase }) => {
+    it(`should render ${phase} phase(s) and no <PhaseBackWarning/>`, () => {
+      const { selectors } = subject(phase);
+      const { title, vaProcessList, vaProcessListItems, warning } = selectors();
+      expect(title).to.exist;
+      expect(vaProcessList).to.exist;
+      expect(vaProcessListItems).to.have.lengthOf(1);
+      expect(warning).to.not.exist;
+    });
   });
 
-  it('should render phase back warning box for phase 6', () => {
-    const events = [];
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimTimeline events={events} currentPhaseBack phase={6} />,
-    );
-
-    expect(tree.subTree('PhaseBackWarning')).not.to.be.false;
-  });
-
-  it('should not render phase back warning box if not in phase 6', () => {
-    const events = [];
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimTimeline events={events} currentPhaseBack phase={4} />,
-    );
-
-    expect(tree.subTree('PhaseBackWarning')).to.be.false;
+  it('should render <PhaseBackWarning/> for phase 6', () => {
+    const { selectors } = subject(6, true);
+    const { title, vaProcessList, vaProcessListItems, warning } = selectors();
+    expect(title).to.exist;
+    expect(vaProcessList).to.exist;
+    expect(vaProcessListItems).to.have.lengthOf(1);
+    expect(warning).to.exist;
   });
 });

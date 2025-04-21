@@ -2,10 +2,10 @@ import { waitFor } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import * as StorageAdapterModule from '../../utils/StorageAdapter';
+import sinon from 'sinon';
 import FileUpload from '../../components/FileUpload';
+import * as StorageAdapterModule from '../../utils/StorageAdapter';
 import { createMockStore } from '../common';
 
 describe('<FileUpload />', () => {

@@ -9,6 +9,7 @@ import {
 } from '../../../../components/search-results-items/common/ResultMapper';
 import UrgentCareResult from '../../../../components/search-results-items/UrgentCareResult';
 import VaFacilityResult from '../../../../components/search-results-items/VaFacilityResult';
+import { PHARMACY_RETAIL_SERVICE } from '../../../../constants';
 
 describe('ResultMapper', () => {
   it('should return a Covid19Result when the matching attributes are given', () => {
@@ -86,6 +87,21 @@ describe('ResultMapper', () => {
     expect(result.type).to.equal(VaFacilityResult);
   });
 
+  it('should return a UrgentCareResult when the matching attributes are given', () => {
+    // Facility type: Urgent care
+    // result: type: 'provider'
+    const result = ResultMapper(
+      { id: 0, type: 'provider' },
+      {
+        serviceType: null,
+        facilityType: 'urgent_care',
+      },
+      0,
+    );
+
+    expect(result.type).to.equal(UrgentCareResult);
+  });
+
   it('should return an UrgentCareResult when the matching attributes are given', () => {
     // Facility type: Community providers (in VA's network)
     // Service type: Clinic/Center - Urgent Care
@@ -116,6 +132,36 @@ describe('ResultMapper', () => {
     expect(result.type).to.equal(EmergencyCareResult);
   });
 
+  it('Should return CCP EmergencyCare result with a EmergencyCareResult type', () => {
+    // Facility type: Community providers (in VA's network)
+    // Service type: Optometrist
+    const result = ResultMapper(
+      { id: 0, type: 'provider' },
+      {
+        serviceType: '152W00000X',
+        facilityType: 'emergency_care',
+      },
+      0,
+    );
+
+    expect(result.type).to.equal(EmergencyCareResult);
+  });
+
+  it('Should return CCP EmergencyCare result with a EmergencyCareResult type', () => {
+    // Facility type: Community providers (in VA's network)
+    // Service type: Optometrist
+    const result = ResultMapper(
+      { id: 0 },
+      {
+        serviceType: '152W00000X',
+        facilityType: 'emergency_care',
+      },
+      0,
+    );
+
+    expect(result.type).to.equal(VaFacilityResult);
+  });
+
   it('should return a PharmacyResult when the matching attributes are given', () => {
     // Facility type: Community pharmacies (in VA's network)
     // Service type: N/A
@@ -124,6 +170,21 @@ describe('ResultMapper', () => {
       {
         serviceType: null,
         facilityType: 'pharmacy',
+      },
+      0,
+    );
+
+    expect(result.type).to.equal(PharmacyResult);
+  });
+
+  it('should return a PharmacyResult for provider', () => {
+    // Facility type: Community pharmacies (in VA's network)
+    // Service type: N/A
+    const result = ResultMapper(
+      { id: 0 },
+      {
+        serviceType: PHARMACY_RETAIL_SERVICE,
+        facilityType: 'provider',
       },
       0,
     );

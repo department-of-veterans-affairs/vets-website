@@ -74,7 +74,8 @@ export const getContent = (appName = 'application') => ({
   editEmail: 'Edit email address',
   editMailingAddress: 'Edit mailing address',
 
-  edit: 'Edit', // link text
+  edit: 'Edit', // link text - edit existing contact info
+  add: 'Add', // link text - add new contact info
   editLabel: 'Edit contact information', // link aria-label
   update: 'Update page', // update button on review & submit page
   updated: 'updated', // alert updated text

@@ -67,6 +67,7 @@ export const claimWorkSchema = {
   uiSchema: {
     ...titleUI('Claim relationship to work'),
     claimIsWorkRelated: yesNoUI({
+      type: 'radio',
       title: 'Is this a claim for a work-related injury or condition?',
       updateUiSchema: formData => {
         return {
@@ -96,6 +97,7 @@ export const claimAutoSchema = {
   uiSchema: {
     ...titleUI('Claim relationship to a car accident'),
     claimIsAutoRelated: yesNoUI({
+      type: 'radio',
       title:
         'Is this a claim for an injury or condition caused by car accident?',
       updateUiSchema: formData => {
@@ -303,7 +305,7 @@ export const pharmacyClaimUploadSchema = {
           <li>Cost of the medication and the copay amount.</li>
           <li>
             National Drug Code (NDC) for each medication. This is an 11-digit
-            number that’s different froom the Rx number.
+            number that’s different from the Rx number.
           </li>
           <li>Date the pharmacy filled the prescription.</li>
           <li>Name of the provider who wrote the prescription.</li>

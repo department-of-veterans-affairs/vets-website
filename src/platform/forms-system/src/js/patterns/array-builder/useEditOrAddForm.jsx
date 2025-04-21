@@ -82,8 +82,8 @@ export function useEditOrAddForm({
 
         if (arrayPath) {
           newFullData = replaceItemInFormData({
-            fullData,
-            updatedData,
+            formData: fullData,
+            newItem: updatedData,
             arrayPath,
             index,
           });
@@ -97,7 +97,7 @@ export function useEditOrAddForm({
           localSchema,
           localUiSchema,
           updatedData,
-          false,
+          false, // preserveHiddenData
           newFullData,
           index,
         );

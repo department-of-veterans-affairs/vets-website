@@ -2,6 +2,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  FETCH_FORMS_SUCCESS_NO_RESULTS,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
@@ -21,6 +22,10 @@ export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   results,
   hasOnlyRetiredForms,
   type: FETCH_FORMS_SUCCESS,
+});
+
+export const fetchFormsSuccessNoResults = () => ({
+  type: FETCH_FORMS_SUCCESS_NO_RESULTS,
 });
 
 export const updateResults = results => ({

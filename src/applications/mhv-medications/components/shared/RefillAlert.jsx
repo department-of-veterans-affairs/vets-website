@@ -2,13 +2,19 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import { getRefillAlertList } from '../../actions/prescriptions';
 
-const RefillAlert = () => {
+const RefillAlert = props => {
+  const { dataDogActionName } = props;
   const dispatch = useDispatch();
 
   const refillAlertList = useSelector(
     state => state.rx.prescriptions?.refillAlertList,
+  );
+
+  const refillNotification = useSelector(
+    state => state.rx.prescriptions?.refillNotification,
   );
 
   useEffect(() => {
@@ -20,7 +26,7 @@ const RefillAlert = () => {
   return (
     <VaAlert
       status="warning"
-      visible={!!refillAlertList?.length}
+      visible={!!refillAlertList?.length && !refillNotification}
       uswds
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
       data-testid="alert-banner"
@@ -38,6 +44,7 @@ const RefillAlert = () => {
               data-testid={`refill-alert-link-${rx.prescriptionId}`}
               className="vads-u-font-weight--bold"
               to={`/prescription/${rx.prescriptionId}`}
+              data-dd-action-name={dataDogActionName}
             >
               {rx.prescriptionName}
             </Link>
@@ -46,6 +53,10 @@ const RefillAlert = () => {
       })}
     </VaAlert>
   );
+};
+
+RefillAlert.propTypes = {
+  dataDogActionName: PropTypes.string,
 };
 
 export default RefillAlert;

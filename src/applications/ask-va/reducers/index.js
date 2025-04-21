@@ -3,12 +3,13 @@ import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs
 import formConfig from '../config/form';
 
 import {
+  CLEAR_FORM_DATA,
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
   SET_CATEGORY_ID,
   SET_LOCATION_SEARCH,
-  SET_TOPIC_ID,
   SET_SUBTOPIC_ID,
+  SET_TOPIC_ID,
   SET_UPDATED_IN_REVIEW,
   SET_VA_HEALTH_FACILITY,
 } from '../actions';
@@ -40,6 +41,10 @@ export default {
   test: 'test',
   askVA: (state = initialState, action) => {
     switch (action.type) {
+      case CLEAR_FORM_DATA:
+        return {
+          ...initialState,
+        };
       case SET_CATEGORY_ID:
         return {
           ...state,

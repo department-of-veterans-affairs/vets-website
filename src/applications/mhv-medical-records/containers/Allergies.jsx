@@ -43,7 +43,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -165,8 +165,6 @@ ${reportGeneratedBy}\n
 This list includes all allergies, reactions, and side effects in your VA medical records. 
 If you have allergies or reactions that are missing from this list, 
 tell your care team at your next appointment.\n
-If you have allergies that are missing from this list, tell your care
-team at your next appointment.\n
 Showing ${allergies.length} from newest to oldest
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
@@ -189,7 +187,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         team at your next appointment.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection

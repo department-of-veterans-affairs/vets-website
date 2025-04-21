@@ -34,7 +34,7 @@ export const ChildAdditionalEvidence = () => {
         If you want to send us your documents later, we’ll provide instructions
         at the end of this form.
       </p>
-      <va-accordion>
+      <va-accordion open-single>
         <va-accordion-item
           id="supporting-evidence"
           header="Supporting evidence you need to submit"

@@ -24,8 +24,8 @@ describe('SM LANDING PAGE FAQ', () => {
 
     cy.realPress(`Tab`);
     LandingPage.verifyFaqFocusedLink(
-      Data.FAQ_LINK.URL.SEND,
-      Data.FAQ_LINK.TEXT.SEND,
+      Data.FAQ_LINK.URL.FACILITY,
+      Data.FAQ_LINK.TEXT.FACILITY,
     );
 
     cy.injectAxe();
