@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw'; // Updated import
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
   VERIFY_VA_FILE_NUMBER_FAILED,
@@ -27,11 +27,9 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
     };
 
     server.use(
-      rest.get(
+      http.get(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) => {
-          return res(ctx.status(200), ctx.json(verified));
-        },
+        () => HttpResponse.json(verified, { status: 200 }), // Use HttpResponse
       ),
     );
 
@@ -47,6 +45,7 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
     };
     thunk(dispatch);
   });
+
   it('should handle an error', () => {
     const response = {
       errors: [
@@ -56,14 +55,14 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
         },
       ],
     };
+
     server.use(
-      rest.get(
+      http.get(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) => {
-          return res(ctx.status(401), ctx.json(response));
-        },
+        () => HttpResponse.json(response, { status: 401 }), // Use HttpResponse
       ),
     );
+
     const thunk = verifyVaFileNumber();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
