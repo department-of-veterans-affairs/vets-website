@@ -7,14 +7,14 @@ import CheckUploadWarning from '../../../../components/FormAlerts/CheckUploadWar
 
 describe('CG <CheckUploadWarning>', () => {
   const subject = () => render(<CheckUploadWarning />);
-  let focusSpy;
+  let focusStub;
 
   beforeEach(() => {
-    focusSpy = sinon.spy(focusUtils, 'focusElement');
+    focusStub = sinon.stub(focusUtils, 'focusElement');
   });
 
   afterEach(() => {
-    focusSpy.resetHistory();
+    sinon.restore();
   });
 
   it('should render `va-alert` with status of `warning`', () => {
@@ -25,6 +25,6 @@ describe('CG <CheckUploadWarning>', () => {
 
   it('should apply focus to the wrapper container', () => {
     subject();
-    sinon.assert.calledOnceWithExactly(focusSpy, 'va-alert[status="warning"]');
+    sinon.assert.calledOnceWithExactly(focusStub, 'va-alert[status="warning"]');
   });
 });
