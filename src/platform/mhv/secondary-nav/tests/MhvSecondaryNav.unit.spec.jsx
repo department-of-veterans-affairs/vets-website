@@ -6,12 +6,10 @@ import MhvSecondaryNav from '../containers/MhvSecondaryNav';
 const stateFn = ({
   loading,
   mhvMedicationsRemoveLandingPage = false,
-  mhvSecureMessagingRemoveLandingPage = false,
 } = {}) => ({
   featureToggles: {
     loading,
     mhvMedicationsRemoveLandingPage,
-    mhvSecureMessagingRemoveLandingPage,
   },
 });
 
@@ -55,16 +53,6 @@ describe('<MhvSecondaryNav />', () => {
   describe('Secure Messages href', () => {
     it('when no features set:\n\t /my-health/secure-messages', () => {
       const initialState = stateFn({ loading: false });
-      const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Messages/ });
-      expect(mrLink.href).to.match(/my-health\/secure-messages$/);
-    });
-
-    it('when mhvSecureMessagingRemoveLandingPage enabled:\n\t my-health/secure-messages/inbox', () => {
-      const initialState = stateFn({
-        loading: false,
-        mhvSecureMessagingRemoveLandingPage: true,
-      });
       const { getByRole } = setup({ initialState });
       const mrLink = getByRole('link', { name: /^Messages/ });
       expect(mrLink.href).to.match(/my-health\/secure-messages\/inbox$/);

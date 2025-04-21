@@ -54,16 +54,12 @@ const MhvSecondaryNav = () => {
   const {
     loading = true,
     mhvMedicationsRemoveLandingPage = false,
-    mhvSecureMessagingRemoveLandingPage = false,
   } = useSelector(toggleValuesSelector);
 
   const updatedNavItems = mhvSecNavItems.map(item => {
     // Current URL: /my-health/secure-messages
     // Replace with milestone1 URL: /my-health/secure-messages/inbox
-    if (
-      mhvSecureMessagingRemoveLandingPage &&
-      item.href === '/my-health/secure-messages'
-    ) {
+    if (item.href === '/my-health/secure-messages') {
       return { ...item, href: '/my-health/secure-messages/inbox' };
     }
     // Current URL: /my-health/medications/about
