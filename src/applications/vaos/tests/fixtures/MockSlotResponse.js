@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 /**
- * Mock available appointment slots class.
+ * Mock available appointment slots response.
  *
  * @export
  * @class MockSlotResponse

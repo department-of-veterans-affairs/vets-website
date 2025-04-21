@@ -2,8 +2,8 @@
 // @ts-check
 import { subDays } from 'date-fns';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockUser from '../../../fixtures/MockUser';
 import PendingAppointmentListPageObject from '../../page-objects/AppointmentList/PendingAppointmentListPageObject';
 import {
   mockAppointmentsGetApi,
