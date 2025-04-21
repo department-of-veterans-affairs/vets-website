@@ -33,7 +33,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3),
+        referrals: createReferrals(3, '2025-01-01'),
         referralsFetchStatus: FETCH_STATUS.succeeded,
       },
       appointments: {
@@ -51,7 +51,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3),
+        referrals: createReferrals(3, '2025-01-01'),
         referralsFetchStatus: FETCH_STATUS.failed,
       },
       appointments: {
@@ -59,23 +59,7 @@ describe('VAOS Component: Referrals and Requests', () => {
         pendingStatus: FETCH_STATUS.failed,
       },
     };
-    const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
-      initialState,
-    });
-    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
-  });
-  it('should display error message if both calls fail', async () => {
-    const initialState = {
-      ...initialStateVAOSService,
-      referral: {
-        referrals: [],
-        referralsFetchStatus: FETCH_STATUS.failed,
-      },
-      appointments: {
-        pending: [],
-        pendingStatus: FETCH_STATUS.failed,
-      },
-    };
+
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
