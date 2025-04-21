@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   mockFetch,
@@ -35,11 +35,10 @@ describe('Medications Landing page container', () => {
     },
   };
   const setup = (state = initialState, path = '/') => {
-    return renderWithStoreAndRouter(<LandingPage />, {
+    return renderWithStoreAndRouterV6(<LandingPage />, {
       initialState: state,
       reducers: reducer,
-      path,
-      routerVersion: 6,
+      initialEntries: [path],
     });
   };
 
@@ -105,11 +104,10 @@ describe('Medications Landing page container', () => {
         },
       },
     ) => {
-      return renderWithStoreAndRouter(<LandingPage />, {
+      return renderWithStoreAndRouterV6(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        path: '#accordion-renew-rx',
-        routerVersion: 6,
+        initialEntries: ['#accordion-renew-rx'],
       });
     };
     const newScreen = setupWithSpecificPathState();
@@ -139,11 +137,10 @@ describe('Medications Landing page container', () => {
         },
       },
     ) => {
-      return renderWithStoreAndRouter(<LandingPage />, {
+      return renderWithStoreAndRouterV6(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        path: '#accordion-renew-rx',
-        routerVersion: 6,
+        initialEntries: ['#accordion-renew-rx'],
       });
     };
     const newScreen = setupWithSpecificFeatureToggleState();
@@ -177,7 +174,7 @@ describe('App-level feature flag functionality', () => {
   };
 
   it('feature flags are still loading', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <LandingPage />,
       initialStateFeatureFlag(),
     );
@@ -187,7 +184,7 @@ describe('App-level feature flag functionality', () => {
   });
 
   it('feature flag set to false', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <LandingPage />,
       initialStateFeatureFlag(false, false),
     );
@@ -200,7 +197,7 @@ describe('App-level feature flag functionality', () => {
   });
 
   it('feature flag set to true', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <LandingPage />,
       initialStateFeatureFlag(false, true),
     );
@@ -218,7 +215,7 @@ describe('App-level feature flag functionality', () => {
   });
 
   it('should maintain login status', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
+    const screenFeatureToggle = renderWithStoreAndRouterV6(<LandingPage />, {
       initialState: {
         rx: {
           prescriptions: {
@@ -241,8 +238,6 @@ describe('App-level feature flag functionality', () => {
         },
       },
       reducers: reducer,
-      path: '/',
-      routerVersion: 6,
     });
     expect(
       screenFeatureToggle
@@ -251,7 +246,7 @@ describe('App-level feature flag functionality', () => {
     ).to.equal(medicationsUrls.subdirectories.BASE);
   });
   it('The user doesn’t have any medications', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
+    const screenFeatureToggle = renderWithStoreAndRouterV6(<LandingPage />, {
       initialState: {
         rx: {
           prescriptions: {
@@ -274,8 +269,6 @@ describe('App-level feature flag functionality', () => {
         },
       },
       reducers: reducer,
-      path: '/',
-      routerVersion: 6,
     });
     expect(
       screenFeatureToggle.getByText(
@@ -312,11 +305,10 @@ describe('App-level feature flag functionality', () => {
       state = allergiesFFInitialState,
       path = '/',
     ) => {
-      return renderWithStoreAndRouter(<LandingPage />, {
+      return renderWithStoreAndRouterV6(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        path,
-        routerVersion: 6,
+        initialEntries: [path],
       });
     };
 

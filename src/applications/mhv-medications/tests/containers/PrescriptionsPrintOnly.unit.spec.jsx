@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   mockFetch,
   resetFetch,
@@ -12,7 +12,7 @@ import { rxListSortingOptions } from '../../util/constants';
 
 describe('Medications List Print Page', () => {
   const setup = (params = {}) => {
-    return renderWithStoreAndRouter(<PrescriptionsPrintOnly />, {
+    return renderWithStoreAndRouterV6(<PrescriptionsPrintOnly />, {
       initialState: {
         rx: {
           prescriptions: {
@@ -24,9 +24,8 @@ describe('Medications List Print Page', () => {
         },
       },
       reducers,
-      path: '/?page=1',
+      initialEntries: ['/?page=1'],
       ...params,
-      routerVersion: 6,
     });
   };
 

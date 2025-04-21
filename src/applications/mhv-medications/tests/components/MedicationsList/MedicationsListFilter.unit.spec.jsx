@@ -6,7 +6,7 @@ import Sinon from 'sinon';
 import MedicationsListFilter from '../../../components/MedicationsList/MedicationsListFilter';
 import { ACTIVE_FILTER_KEY, filterOptions } from '../../../util/constants';
 
-describe('Medicaitons List Filter component', () => {
+describe('Medications List Filter component', () => {
   const filterCountObj = {
     allMedications: 466,
     active: 58,

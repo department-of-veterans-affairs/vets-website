@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import prescriptions from '../../fixtures/prescriptions.json';
 import MedicationsList from '../../../components/MedicationsList/MedicationsList';
 import reducer from '../../../reducers';
 import { rxListSortingOptions } from '../../../util/constants';
 
-describe('Medicaitons List component', () => {
+describe('Medications List component', () => {
   const initialState = {
     rx: {
       prescriptions,
@@ -26,7 +26,7 @@ describe('Medicaitons List component', () => {
     state = initialState,
     sortOption = 'alphabeticallyByStatus',
   ) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <MedicationsList
         rxList={prescriptions}
         pagination={pagination}
@@ -36,8 +36,6 @@ describe('Medicaitons List component', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: '/',
-        routerVersion: 6,
       },
     );
   };
@@ -73,7 +71,7 @@ describe('Medicaitons List component', () => {
     );
   });
   it('shows "Showing 0-0" when an empty list is passed', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <MedicationsList
         rxList={[]}
         pagination={pagination}

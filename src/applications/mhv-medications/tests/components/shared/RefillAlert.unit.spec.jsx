@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RefillAlert from '../../../components/shared/RefillAlert';
 import reducer from '../../../reducers';
 
@@ -23,11 +23,9 @@ describe('Alert if refill is taking longer than expected', () => {
     },
   };
   const setup = () => {
-    return renderWithStoreAndRouter(<RefillAlert />, {
+    return renderWithStoreAndRouterV6(<RefillAlert />, {
       initialState,
       reducers: reducer,
-      path: '/',
-      routerVersion: 6,
     });
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import RefillNotification from '../../../components/RefillPrescriptions/RefillNotification';
 import reducer from '../../../reducers';
@@ -24,13 +24,12 @@ describe('Refill Notification Component', () => {
   const initRefillStatus = 'finished';
 
   const setup = (state = initialState, refillStatus = initRefillStatus) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <RefillNotification refillStatus={refillStatus} />,
       {
         initialState: state,
         reducers: reducer,
-        path: '/refill',
-        routerVersion: 6,
+        initialEntries: ['/refill'],
       },
     );
   };

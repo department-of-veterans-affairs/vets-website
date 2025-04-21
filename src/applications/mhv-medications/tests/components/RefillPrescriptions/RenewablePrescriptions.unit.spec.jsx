@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -26,13 +26,12 @@ describe('Renew Prescriptions Component', () => {
       .slice()
       .filter(rx => rx.dispStatus === 'Active' && rx.refillRemaining === 0)
       .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <RenewablePrescriptions renewablePrescriptionsList={rxList} />,
       {
         initialState: state,
         reducers: reducer,
-        path: '/refill',
-        routerVersion: 6,
+        initialEntries: ['/refill'],
       },
     );
   };

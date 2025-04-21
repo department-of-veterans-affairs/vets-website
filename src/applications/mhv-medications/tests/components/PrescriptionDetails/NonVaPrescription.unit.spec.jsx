@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import nonVaRxDetailsResponse from '../../fixtures/nonVaPrescription.json';
 import NonVaPrescription from '../../../components/PrescriptionDetails/NonVaPrescription';
@@ -7,11 +7,10 @@ import NonVaPrescription from '../../../components/PrescriptionDetails/NonVaPres
 describe('nonVaPrescription details container', () => {
   const prescription = nonVaRxDetailsResponse.data.attributes;
   const setup = (rx = prescription) => {
-    return renderWithStoreAndRouter(<NonVaPrescription {...rx} />, {
+    return renderWithStoreAndRouterV6(<NonVaPrescription {...rx} />, {
       initialState: {},
       reducers: {},
-      path: '/prescriptions/1234567891',
-      routerVersion: 6,
+      initialEntries: ['/prescriptions/1234567891'],
     });
   };
 

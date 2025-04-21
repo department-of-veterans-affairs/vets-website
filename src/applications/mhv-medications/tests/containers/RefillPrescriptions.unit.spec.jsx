@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import {
@@ -43,13 +43,12 @@ describe('Refill Prescriptions Component', () => {
   };
 
   const setup = (state = initialState, isLoadingList = false) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <RefillPrescriptions isLoadingList={isLoadingList} />,
       {
         initialState: state,
         reducers: reducer,
-        path: '/refill',
-        routerVersion: 6,
+        initialEntries: ['/refill'],
       },
     );
   };

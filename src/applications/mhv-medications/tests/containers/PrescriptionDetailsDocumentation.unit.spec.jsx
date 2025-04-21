@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   resetFetch,
   mockApiRequest,
@@ -47,11 +47,10 @@ describe('Prescription details documentation container', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<PrescriptionDetailsDocumentation />, {
+    return renderWithStoreAndRouterV6(<PrescriptionDetailsDocumentation />, {
       initialState: state,
       reducers: reducer,
-      path: 'prescription/23991135/documentation',
-      routerVersion: 6,
+      initialEntries: ['prescription/23991135/documentation'],
     });
   };
 

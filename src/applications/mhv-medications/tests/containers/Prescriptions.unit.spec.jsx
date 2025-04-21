@@ -5,7 +5,7 @@ import {
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
@@ -33,8 +33,6 @@ const allergyErrorState = {
     },
   },
   reducers: reducer,
-  path: '/',
-  routerVersion: 6,
 };
 
 describe('Medications Prescriptions container', () => {
@@ -68,11 +66,9 @@ describe('Medications Prescriptions container', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<Prescriptions />, {
+    return renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
-      path: '/',
-      routerVersion: 6,
     });
   };
 
@@ -127,7 +123,7 @@ describe('Medications Prescriptions container', () => {
     const mockData = [];
     resetFetch();
     mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(<Prescriptions />, {
+    const screen = renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: {
         rx: {
           prescriptions: {
@@ -148,8 +144,6 @@ describe('Medications Prescriptions container', () => {
         },
       },
       reducers: reducer,
-      path: '/',
-      routerVersion: 6,
     });
     expect(
       screen.getByText(
@@ -162,7 +156,7 @@ describe('Medications Prescriptions container', () => {
     const mockData = [prescriptions[0]];
     resetFetch();
     mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(<Prescriptions />, {
+    const screen = renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: {
         rx: {
           prescriptions: {
@@ -186,8 +180,6 @@ describe('Medications Prescriptions container', () => {
         },
       },
       reducers: reducer,
-      path: '/',
-      routerVersion: 6,
     });
     const pdfButton = screen.getByTestId('download-pdf-button');
     fireEvent.click(pdfButton);
@@ -198,7 +190,7 @@ describe('Medications Prescriptions container', () => {
     const mockData = [prescriptions[0]];
     resetFetch();
     mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
@@ -215,7 +207,7 @@ describe('Medications Prescriptions container', () => {
     const mockData = [prescriptions[0]];
     resetFetch();
     mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
@@ -232,7 +224,7 @@ describe('Medications Prescriptions container', () => {
     const mockData = [prescriptions[0]];
     resetFetch();
     mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
@@ -249,7 +241,7 @@ describe('Medications Prescriptions container', () => {
     const mockData = [prescriptions[0]];
     resetFetch();
     mockApiRequest(mockData);
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
