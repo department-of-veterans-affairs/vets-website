@@ -1,3 +1,4 @@
+import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
 import { camelCase, kebabCase } from 'lodash';
@@ -7,6 +8,10 @@ import { componentKey } from './customStepPage';
 /** @type {Record<string, ListLoopVariation>} */
 const variations = {
   listLoopEmploymentHistory: {
+    cardDescription: item =>
+      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+        item?.dateRange?.to,
+      )}`,
     maxItems: 4,
     nounPlural: 'employers',
     nounSingular: 'employer',
@@ -23,10 +28,16 @@ const findVariation = chapter => variations[camelCase(chapter.type)];
 
 /**
  * @param {NormalizedChapter} chapter
- * @returns {Partial<NormalizedChapter>}
+ * @returns {Partial<ListLoopVariation>}
  */
 const hydrateVariations = chapter => {
-  const attrs = ['maxItems', 'nounPlural', 'nounSingular', 'optional'];
+  const attrs = [
+    'cardDescription',
+    'maxItems',
+    'nounPlural',
+    'nounSingular',
+    'optional',
+  ];
   const variation = findVariation(chapter);
 
   return attrs.reduce((acc, attr) => {
@@ -38,24 +49,36 @@ const hydrateVariations = chapter => {
 /**
  *
  * @param {NormalizedChapter} chapter
- * @returns {Array<string>}
+ * @returns {{
+ *   requiredComponents: Array<string>,
+ *   summaryComponents?: {[key: string]: string},
+ * }}
  */
 const hydrateComponentLists = chapter => {
   if (chapter.type !== 'digital_form_list_loop') {
-    return findVariation(chapter).requiredFields;
+    return { requiredComponents: findVariation(chapter).requiredFields };
   }
 
+  /** @type {Array<string>} */
   const requiredComponents = [];
+  /** @type {{[key:string]: string}} */
+  const summaryComponents = {};
 
   chapter.pages.forEach(page =>
     page.components.forEach(component => {
+      const key = componentKey(component);
+
       if (component.required) {
-        requiredComponents.push(componentKey(component));
+        requiredComponents.push(key);
+      }
+
+      if (component.summaryCard) {
+        summaryComponents[key] = component.type;
       }
     }),
   );
 
-  return requiredComponents;
+  return { requiredComponents, summaryComponents };
 };
 
 /**
@@ -64,12 +87,17 @@ const hydrateComponentLists = chapter => {
  * @returns {FormConfigPages}
  */
 export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
-  const { maxItems, nounPlural, nounSingular, optional } = hydrateVariations(
+  const {
+    cardDescription,
+    maxItems,
+    nounPlural,
+    nounSingular,
+    optional,
+  } = hydrateVariations(chapter);
+
+  const { requiredComponents, summaryComponents } = hydrateComponentLists(
     chapter,
   );
-
-  /** @type {Array<string>} */
-  const requiredProps = hydrateComponentLists(chapter);
 
   /** @type {ArrayBuilderOptions} */
   const options = {
@@ -77,14 +105,24 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
     nounSingular,
     nounPlural,
     required: !optional,
-    isItemIncomplete: item => requiredProps.some(prop => !item[prop]),
+    isItemIncomplete: item => requiredComponents.some(prop => !item[prop]),
     maxItems,
     text: {
       getItemName: item => item.name,
       cardDescription: item =>
-        `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
-          item?.dateRange?.to,
-        )}`,
+        typeof cardDescription === 'function' ? (
+          cardDescription(item)
+        ) : (
+          <ul>
+            {Object.entries(summaryComponents).map(([key, type]) => (
+              <li key={key}>
+                {type === 'digital_form_date_component'
+                  ? formatReviewDate(item[key])
+                  : item[key]}
+              </li>
+            ))}
+          </ul>
+        ),
     },
   };
 

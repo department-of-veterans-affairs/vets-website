@@ -15,32 +15,35 @@
  * @property {string} label
  * @property {boolean} required
  * @property {Array<NormalizedResponseOption>} [responseOptions]
+ * @property {boolean} [summaryCard]
  * @property {string} type
  */
 
 /**
- * @typedef {Object} ListLoopVariation
+ * @typedef {Object} ListLoop
+ * @property {string} itemNameLabel
  * @property {number} maxItems
  * @property {string} nounPlural
  * @property {string} nounSingular
  * @property {boolean} optional
- * @property {Array<string>} requiredFields
+ * @property {string} sectionIntro
  */
 
 /**
- * @typedef {Object} NormalizedChapter
- * @property {number} id
- * @property {string} type
- * @property {string} chapterTitle
- * @property {Object} [additionalFields]
- * @property {string} [pageTitle]
- * @property {Array<NormalizedPage>} [pages]
- * @property {string} [itemNameLabel]
- * @property {number} [maxItems]
- * @property {boolean} [optional]
- * @property {string} [nounSingular]
- * @property {string} [nounPlural]
- * @property {string} [sectionIntro]
+ * @typedef {{
+ *   requiredFields: Array<string>,
+ * } & Partial<ListLoop> & Partial<ArrayBuilderText>} ListLoopVariation
+ */
+
+/**
+ * @typedef {{
+ *    id: number,
+ *    type: string,
+ *    chapterTitle: string,
+ *    additionalFields?: Record<string, any>,
+ *    pageTitle?: string,
+ *    pages?: Array<NormalizedPage>,
+ * } & Partial<ListLoop>} NormalizedChapter
  */
 
 /**
@@ -59,7 +62,7 @@
 /**
  * @typedef {Object} NormalizedPage
  * @property {string} [bodyText]
- * @property {Array<Object>} [components]
+ * @property {Array<DigitalFormComponent>} [components]
  * @property {string} id
  * @property {string} pageTitle
  */

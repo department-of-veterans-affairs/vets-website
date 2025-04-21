@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { normalizedForm } from 'applications/simple-forms-form-engine/shared/config/formConfig';
 import { listLoopPages } from 'applications/simple-forms-form-engine/shared/config/pages/listLoop';
+import { render } from '@testing-library/react';
 
 const findChapterByType = type =>
   normalizedForm.chapters.find(chapter => chapter.type === type);
@@ -122,6 +123,23 @@ describe('listLoopPages', () => {
         });
       });
     });
+
+    describe('cardDescription', () => {
+      const item = {
+        dateRange: {
+          from: '2020-04-21',
+          to: '2021-05-23',
+        },
+      };
+
+      it('includes all appropriate fields', () => {
+        listLoopPages(employmentHistory, arrayBuilderStub);
+        const options = arrayBuilderStub.getCall(0).args[0];
+        const { container } = render(options.text.cardDescription(item));
+
+        expect(container).to.have.text('04/21/2020 - 05/23/2021');
+      });
+    });
   });
 
   describe('additionalFields', () => {
@@ -199,6 +217,24 @@ describe('listLoopPages', () => {
 
         expect(options.isItemIncomplete(item)).to.eq(false);
       });
+    });
+  });
+
+  describe('cardDescription', () => {
+    const item = {
+      component176030: '1970-06-23',
+      component176032: 'Test Character',
+    };
+
+    it('includes all appropriate fields', () => {
+      listLoopPages(required, arrayBuilderStub);
+      const options = arrayBuilderStub.getCall(0).args[0];
+      const { container } = render(options.text.cardDescription(item));
+
+      expect(container.querySelector('li')).to.exist;
+
+      expect(container).to.include.text('06/23/1970');
+      expect(container).to.include.text(item.component176032);
     });
   });
 });
