@@ -72,7 +72,6 @@ export function renderInReduxProvider(
  * @param {ReduxStore} [renderParams.store=null] Redux store to use for the rendered page or section of the app
  * @param {string} [renderParams.path='/'] Url path to start from
  * @param {History} [renderParams.history=null] Custom history object to use, will create one if not passed
- * @param {routerVersion} [renderParams.routerVersion=null] Router version to use, pass 6 to override the default
  * @returns {Object} Return value of the React Testing Library render function, plus the history object used
  */
 export function renderWithStoreAndRouter(
