@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import ReviewRowView, {
   AltReviewRowView,
-  CurrencyReviewRowView,
 } from '../../components/ReviewRowView';
 
 const store = {
@@ -52,17 +51,6 @@ describe('All ReviewRowView exported components', () => {
     const { getAllByRole } = render(
       <Provider store={store}>
         <AltReviewRowView />
-      </Provider>,
-    );
-
-    const definitionList = getAllByRole('definition');
-    expect(definitionList).to.exist;
-  });
-
-  it('renders CurrencyReviewRowView component', () => {
-    const { getAllByRole } = render(
-      <Provider store={store}>
-        <CurrencyReviewRowView />
       </Provider>,
     );
 
