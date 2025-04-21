@@ -106,6 +106,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     };
     const draftAppointmentInfo = createDraftAppointmentInfo(1);
     draftAppointmentInfo.slots.slots[0].start = '2024-12-06T15:00:00-05:00';
+
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}

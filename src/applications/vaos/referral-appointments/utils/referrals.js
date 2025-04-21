@@ -87,7 +87,7 @@ const createReferralById = (
         zipCode: '14020',
       },
       phone: '(585) 297-1000',
-      referringFacilityInfo: 'America/New_York',
+      code: '516',
     },
     referralStatus: 'open',
     provider: {
