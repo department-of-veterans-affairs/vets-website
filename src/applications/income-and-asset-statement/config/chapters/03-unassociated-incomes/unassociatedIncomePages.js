@@ -7,6 +7,8 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
@@ -16,6 +18,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
   otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
@@ -31,12 +34,24 @@ export const options = {
   required: false,
   isItemIncomplete: item =>
     !isDefined(item?.recipientRelationship) ||
-    !isDefined(item.incomeType) ||
-    !isDefined(item.grossMonthlyIncome) ||
-    !isDefined(item.payer), // include all required fields here
+    (!isDefined(item?.recipientName) &&
+      item?.recipientRelationship !== 'VETERAN') ||
+    (!isDefined(item?.otherRecipientRelationshipType) &&
+      item?.recipientRelationship === 'OTHER') ||
+    !isDefined(item?.incomeType) ||
+    (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER') ||
+    !isDefined(item?.grossMonthlyIncome) ||
+    !isDefined(item?.payer), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => relationshipLabels[item.recipientRelationship],
+    getItemName: item =>
+      isDefined(item?.recipientRelationship) &&
+      isDefined(item?.payer) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? 'Veteran'
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income from ${item.payer}`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
@@ -51,10 +66,6 @@ export const options = {
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.grossMonthlyIncome)}
             </span>
-          </li>
-          <li>
-            Income recipient:{' '}
-            <span className="vads-u-font-weight--bold">{item.payer}</span>
           </li>
         </ul>
       ),
@@ -154,15 +165,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Recurring income not associated with accounts or assets',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },

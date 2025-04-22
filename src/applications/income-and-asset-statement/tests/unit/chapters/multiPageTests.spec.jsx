@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { formatDateShort } from 'platform/utilities/date';
-import { formatCurrency } from '../../../helpers';
+import { formatCurrency, formatFullNameNoSuffix } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
 export const testOptionsIsItemIncomplete = (options, baseItem) => {
@@ -50,6 +50,85 @@ export const testOptionsTextGetItemName = options => {
     it('should return undefined if recipient relationship is not in labels', () => {
       const item = { recipientRelationship: 'UNKNOWN' };
       expect(options.text.getItemName(item)).to.be.undefined;
+    });
+  });
+};
+
+export const testOptionsTextGetItemNameRecurringIncome = options => {
+  describe('text getItemName function', () => {
+    it('should return "Veteran’s income from Walmart" if recipient is Veteran and payer is defined', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        payer: 'Walmart',
+      };
+      expect(options.text.getItemName(item)).to.equal(
+        'Veteran’s income from Walmart',
+      );
+    });
+
+    it('should return "Full Name’s income from FedEx" if recipient is not Veteran', () => {
+      const item = {
+        recipientRelationship: 'SPOUSE',
+        recipientName: {
+          first: 'Robin',
+          last: 'Smith',
+        },
+        payer: 'FedEx',
+      };
+      const expectedName = formatFullNameNoSuffix(item.recipientName);
+      expect(options.text.getItemName(item)).to.equal(
+        `${expectedName}’s income from FedEx`,
+      );
+    });
+
+    it('should return false if relationship is missing', () => {
+      const item = {
+        payer: 'FedEx',
+      };
+      expect(options.text.getItemName(item)).to.be.false;
+    });
+
+    it('should return false if payer is missing', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+      };
+      expect(options.text.getItemName(item)).to.be.false;
+    });
+
+    it('should return false if relationship is null', () => {
+      const item = {
+        recipientRelationship: null,
+        recipientName: {
+          first: 'Alex',
+          last: 'Smith',
+        },
+        payer: 'FedEx',
+      };
+      expect(options.text.getItemName(item)).to.be.false;
+    });
+
+    it('should return false if payer is null', () => {
+      const item = {
+        recipientRelationship: 'SPOUSE',
+        recipientName: {
+          first: 'Alex',
+          last: 'Smith',
+        },
+        payer: null,
+      };
+      expect(options.text.getItemName(item)).to.be.false;
+    });
+
+    it('should return false if payer is an empty string', () => {
+      const item = {
+        recipientRelationship: 'CHILD',
+        recipientName: {
+          first: 'Jamie',
+          last: 'Doe',
+        },
+        payer: '',
+      };
+      expect(options.text.getItemName(item)).to.be.false;
     });
   });
 };

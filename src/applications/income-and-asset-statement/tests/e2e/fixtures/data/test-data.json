@@ -20,6 +20,7 @@
     "unassociatedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "incomeType": "SOCIAL_SECURITY",
         "grossMonthlyIncome": 2500,
         "payer": "Business name"
