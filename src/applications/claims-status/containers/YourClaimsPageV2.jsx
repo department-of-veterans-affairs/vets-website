@@ -216,10 +216,15 @@ class YourClaimsPageV2 extends React.Component {
         <>
           {pageInfo}
           <div className="claim-list">
-            {atLeastOneRequestLoading && (
-              <va-loading-indicator message="Loading your claims and appeals..." />
-            )}
             {pageItems.map(claim => this.renderListItem(claim))}
+            {atLeastOneRequestLoading && (
+              <div className="vads-u-margin-y--5">
+                <va-loading-indicator
+                  data-testid="at-least-one-request-loading"
+                  message="Loading your claims and appeals..."
+                />
+              </div>
+            )}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
