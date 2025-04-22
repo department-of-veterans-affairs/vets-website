@@ -140,7 +140,7 @@ export const form0781PagesConfig = {
   },
   treatmentReceivedPage: {
     path: 'mental-health-form-0781/treatment-received',
-    depends: formData => showBehaviorSummaryPage(formData),
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: treatmentReceivedPage.uiSchema,
     schema: treatmentReceivedPage.schema,
   },
