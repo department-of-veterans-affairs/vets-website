@@ -12,7 +12,11 @@ const TestComponent = () => {
 };
 
 describe('hca `useDefaultFormData` hook', () => {
-  const getData = ({ loggedIn = false, dob = undefined }) => ({
+  const getData = ({
+    loggedIn = false,
+    dob = undefined,
+    userFullName = undefined,
+  }) => ({
     mockStore: {
       getState: () => ({
         disabilityRating: { totalRating: 0 },
@@ -23,6 +27,7 @@ describe('hca `useDefaultFormData` hook', () => {
             loa: { current: loggedIn ? 3 : null },
             loading: false,
             dob,
+            userFullName,
           },
         },
         featureToggles: {
@@ -60,7 +65,11 @@ describe('hca `useDefaultFormData` hook', () => {
   });
 
   it('should fire the `setData` dispatch with the correct data when the user is logged in', () => {
-    const { mockStore } = getData({ loggedIn: true, dob: '12/14/1986' });
+    const { mockStore } = getData({
+      loggedIn: true,
+      dob: '12/14/1986',
+      userFullName: { first: 'Peggy', last: 'Smith' },
+    });
     const { dispatch } = mockStore;
     const expectedData = {
       veteranFullName: {},
@@ -70,6 +79,7 @@ describe('hca `useDefaultFormData` hook', () => {
       'view:totalDisabilityRating': 0,
       'view:veteranInformation': {
         veteranDateOfBirth: '12/14/1986',
+        veteranFullName: { first: 'Peggy', last: 'Smith' },
       },
     };
 

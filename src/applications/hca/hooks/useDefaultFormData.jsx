@@ -6,9 +6,6 @@ import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
 import { validateVeteranDob } from '../utils/validation';
 
 /**
- * NOTE: `veteranFullName` is included in the dependency list to reset view fields when
- * starting a new application from save-in-progress.
- *
  * NOTE (2): `veteranDob` is included from profile for authenticated users to fix a bug
  * where some profiles do not contain a DOB value. In this case we need to ask the user
  * for that data for proper submission.
@@ -17,11 +14,10 @@ export const useDefaultFormData = () => {
   const { totalRating } = useSelector(state => state.disabilityRating);
   const { data: formData } = useSelector(state => state.form);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { dob: veteranDob } = useSelector(selectProfile);
+  const { dob: veteranDob, userFullName } = useSelector(selectProfile);
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
 
-  const { veteranFullName } = formData;
   const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
@@ -38,6 +34,7 @@ export const useDefaultFormData = () => {
         ? {
             'view:veteranInformation': {
               veteranDateOfBirth: validateVeteranDob(veteranDob),
+              veteranFullName: userFullName,
             },
           }
         : {};
@@ -52,7 +49,7 @@ export const useDefaultFormData = () => {
     [
       isLoggedIn,
       veteranDob,
-      veteranFullName,
+      userFullName,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,
       totalRating,
