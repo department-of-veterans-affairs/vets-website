@@ -25,7 +25,7 @@ export default {
             replaceSchema: (_, schema) => {
               return {
                 ...schema,
-                pattern: '^[A-Za-z]+$',
+                pattern: '^[A-Za-z\\s]+$',
               };
             },
           },
@@ -55,7 +55,7 @@ export default {
             },
             city: {
               maxLength: 20,
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z\\s]+$',
             },
           },
         },
