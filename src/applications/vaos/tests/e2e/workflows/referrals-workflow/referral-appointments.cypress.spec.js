@@ -3,13 +3,15 @@ import {
   mockAppointmentsGetApi,
   mockFeatureToggles,
   mockVamcEhrApi,
+  vaosSetup,
+} from '../../vaos-cypress-helpers';
+import {
   mockReferralsGetApi,
   mockReferralDetailGetApi,
   mockDraftReferralAppointmentApi,
   mockCreateAppointmentApi,
   mockAppointmentDetailsApi,
-  vaosSetup,
-} from '../../vaos-cypress-helpers';
+} from './referrals-cypress-helpers';
 import MockUser from '../../fixtures/MockUser';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
