@@ -19,6 +19,9 @@ export default function RecentActivity({ claim }) {
   const cst5103UpdateEnabled = useToggleValue(
     TOGGLE_NAMES.cst5103UpdateEnabled,
   );
+  const cstFriendlyEvidenceRequests = useToggleValue(
+    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
+  );
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
   // When feature flag cstClaimPhases is enabled and claim type code is for a disability
   // compensation claim we show 8 phases instead of 5 with updated description, link text
@@ -58,7 +61,8 @@ export default function RecentActivity({ claim }) {
         id: `${item.id}-${uniqueId()}`,
         date,
         description,
-        displayName: item.displayName,
+        displayName: item.friendlyName || item.displayName,
+        activityDescription: item.activityDescription,
         status: item.status,
         type: 'tracked_item',
       });
@@ -68,7 +72,7 @@ export default function RecentActivity({ claim }) {
       const displayName =
         cst5103UpdateEnabled && is5103Notice(item.displayName)
           ? 'List of evidence we may need (5103 notice)'
-          : item.displayName;
+          : item.friendlyName || item.displayName;
 
       if (item.closedDate) {
         addItems(
@@ -95,11 +99,22 @@ export default function RecentActivity({ claim }) {
       }
 
       if (item.requestedDate) {
-        addItems(
-          item.requestedDate,
-          `We opened a request: "${displayName}"`,
-          item,
-        );
+        if (
+          cstFriendlyEvidenceRequests &&
+          item.status === 'NEEDED_FROM_OTHERS'
+        ) {
+          addItems(
+            item.requestedDate,
+            `We made a request for you: "${displayName}"`,
+            item,
+          );
+        } else {
+          addItems(
+            item.requestedDate,
+            `We opened a request: "${displayName}"`,
+            item,
+          );
+        }
       }
     });
 
@@ -234,22 +249,42 @@ export default function RecentActivity({ claim }) {
                 </>
               )}
 
-              {item.status === 'NEEDED_FROM_OTHERS' && (
+              {item.status === 'NEEDED_FROM_OTHERS' &&
+              cstFriendlyEvidenceRequests &&
+              item.activityDescription ? (
                 <va-alert
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
                   slim
                 >
-                  You don’t have to do anything, but if you have this
-                  information you can{' '}
+                  {item.activityDescription}
+                  <br />
                   <Link
                     aria-label={`Add information for ${item.displayName}`}
                     className="add-your-claims-link"
                     to={`../document-request/${item.id}`}
                   >
-                    add it here.
+                    About this notice
                   </Link>
                 </va-alert>
+              ) : (
+                item.status === 'NEEDED_FROM_OTHERS' && (
+                  <va-alert
+                    class="optional-alert vads-u-padding-bottom--1"
+                    status="info"
+                    slim
+                  >
+                    You don’t have to do anything, but if you have this
+                    information you can{' '}
+                    <Link
+                      aria-label={`Add information for ${item.displayName}`}
+                      className="add-your-claims-link"
+                      to={`../document-request/${item.id}`}
+                    >
+                      add it here.
+                    </Link>
+                  </va-alert>
+                )
               )}
             </li>
           ))}
