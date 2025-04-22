@@ -394,7 +394,6 @@ export function selectAppointmentLocality(
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
-  const { isCOVIDVaccine, isCompAndPenAppointment } = appointment.vaos;
   const isInPerson = isInPersonVAAppointment(
     appointment,
     useFeSourceOfTruthModality,
@@ -411,14 +410,7 @@ export function selectAppointmentLocality(
     return facilityName;
   }
 
-  if (
-    isInPerson ||
-    isCOVIDVaccine ||
-    isCompAndPenAppointment ||
-    isVideo ||
-    isPhone ||
-    isCommunityCare
-  ) {
+  if (isInPerson || isVideo || isPhone || isCommunityCare) {
     if (typeOfCareName && practitioner) {
       return `${typeOfCareName} with ${practitioner}`;
     }
