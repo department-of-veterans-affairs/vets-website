@@ -15,10 +15,14 @@ import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
-import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
+import { stripTZOffset } from '../util/dates';
+import {
+  recordSmocButtonClick,
+  recordSmocLinkClick,
+} from '../util/events-helpers';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -68,7 +72,17 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
-    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
+    const apptData = {
+      appointmentDateTime: stripTZOffset(appointmentData.localStartTime),
+      facilityStationNumber: appointmentData.location.id,
+      appointmentType: appointmentData.isCompAndPen
+        ? 'CompensationAndPensionExamination'
+        : 'Other',
+      isComplete: false,
+    };
+    recordSmocButtonClick('review', 'file-claim');
+
+    dispatch(submitMileageOnlyClaim(apptData));
     setPageIndex(pageIndex + 1);
   };
 
@@ -159,7 +173,22 @@ const SubmitFlowWrapper = () => {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-margin-bottom--0">
-        <Breadcrumbs />
+        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
+          <va-link
+            back
+            data-testid="submit-back-link"
+            disable-analytics
+            href={`/my-health/appointments/past/${apptId}`}
+            text="Back to your appointment"
+            onClick={() => {
+              recordSmocLinkClick(
+                `${pageList[pageIndex].page}`,
+                'Back to your appointment',
+                undefined, // per anaylitics request don't use actual URL
+              );
+            }}
+          />
+        </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
