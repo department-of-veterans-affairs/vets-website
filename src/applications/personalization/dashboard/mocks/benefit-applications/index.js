@@ -17,6 +17,7 @@ const createApplications = (updatedDaysAgo = 1) => {
           status: 'received',
           createdAt: '2023-12-15T20:40:47.583Z',
           updatedAt: formatISO(daysAgo),
+          pdfSupport: true,
         },
       },
       {
@@ -30,6 +31,7 @@ const createApplications = (updatedDaysAgo = 1) => {
           status: 'vbms',
           createdAt: '2023-12-15T20:40:47.583Z',
           updatedAt: formatISO(daysAgo),
+          pdfSupport: false,
         },
       },
     ],

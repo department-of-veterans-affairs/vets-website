@@ -2,26 +2,23 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import {
-  mockApiRequest,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import sinon from 'sinon-v20';
+import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
 
 describe('CG <ApplicationDownloadLink>', () => {
+  const mockStore = {
+    getState: () => ({
+      form: {
+        data: { veteranFullName: { first: 'John', last: 'Smith' } },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
   const subject = () => {
-    const mockStore = {
-      getState: () => ({
-        form: {
-          data: { veteranFullName: { first: 'John', last: 'Smith' } },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
     const { container } = render(
       <Provider store={mockStore}>
         <ApplicationDownloadLink formConfig={{}} />
@@ -34,13 +31,20 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
     return { selectors };
   };
+  let apiRequestStub;
+  let recordEventStub;
 
   beforeEach(() => {
     localStorage.setItem('csrfToken', 'my-token');
+    apiRequestStub = sinon.stub(api, 'apiRequest');
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+    sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
+    sinon.stub(URL, 'revokeObjectURL');
   });
 
   afterEach(() => {
     localStorage.clear();
+    sinon.restore();
   });
 
   context('default behavior', () => {
@@ -53,82 +57,59 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
   });
 
-  context('when clicking the download file button', () => {
-    const triggerError = ({ link, status }) => {
-      mockApiRequest({}, false);
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        // eslint-disable-next-line prefer-promise-reject-errors
-        Promise.reject({ errors: [{ status }] }),
-      );
+  context('when the download button has been clicked', () => {
+    const triggerError = ({ link, status = '503' }) => {
+      apiRequestStub.rejects({ errors: [{ status }] });
       fireEvent.click(link);
     };
-    let recordEventStub;
 
-    beforeEach(() => {
-      recordEventStub = sinon.stub(recordEventModule, 'default');
-    });
-
-    afterEach(() => {
-      recordEventStub.restore();
-    });
-
-    it('should record `success` event when button is clicked', async () => {
+    it('should record the correct event when the request succeeds', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
-      const createObjectStub = sinon
-        .stub(URL, 'createObjectURL')
-        .returns('my_stubbed_url.com');
-      const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
+      const event = 'caregivers-pdf-download--success';
 
-      mockApiRequest({
+      apiRequestStub.resolves({
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
       fireEvent.click(link);
 
       await waitFor(() => {
-        const { vaLink, vaLoadingIndicator } = selectors();
+        const { vaLoadingIndicator } = selectors();
         expect(vaLoadingIndicator).to.exist;
-        expect(vaLink).to.not.exist;
       });
-
       await waitFor(() => {
-        const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf-download--success';
-
-        expect(recordEventStub.calledWith({ event })).to.be.true;
-        expect(vaLoadingIndicator).to.not.exist;
+        const { vaLink } = selectors();
         expect(vaLink).to.exist;
       });
 
-      createObjectStub.restore();
-      revokeObjectStub.restore();
+      sinon.assert.calledWithExactly(recordEventStub, { event });
     });
 
-    it('should record `error` event when the request fails', async () => {
+    it('should record the correct event when the request fails', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
-      triggerError({ link, status: '503' });
+      const event = 'caregivers-pdf-download--failure';
+
+      triggerError({ link });
 
       await waitFor(() => {
         const { vaLoadingIndicator } = selectors();
         expect(vaLoadingIndicator).to.exist;
       });
-
       await waitFor(() => {
-        const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf-download--failure';
-
-        expect(recordEventStub.calledWith({ event })).to.be.true;
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
+        const { vaAlert } = selectors();
+        expect(vaAlert).to.exist;
       });
+
+      sinon.assert.calledWithExactly(recordEventStub, { event });
     });
 
     it('should display `downtime` error message when error has status of `5xx`', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
-      triggerError({ link, status: '503' });
+      const error = content['alert-download-message--500'];
+
+      triggerError({ link });
 
       await waitFor(() => {
         const { vaLoadingIndicator } = selectors();
@@ -136,12 +117,7 @@ describe('CG <ApplicationDownloadLink>', () => {
       });
 
       await waitFor(() => {
-        const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-        const error = content['alert-download-message--500'];
-
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
-
+        const { vaAlert } = selectors();
         expect(vaAlert).to.exist;
         expect(vaAlert).to.contain.text(error);
       });
@@ -150,20 +126,16 @@ describe('CG <ApplicationDownloadLink>', () => {
     it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
       const { selectors } = subject();
       const { vaLink: link } = selectors();
+      const error = content['alert-download-message--generic'];
+
       triggerError({ link, status: '403' });
 
       await waitFor(() => {
         const { vaLoadingIndicator } = selectors();
         expect(vaLoadingIndicator).to.exist;
       });
-
       await waitFor(() => {
-        const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-        const error = content['alert-download-message--generic'];
-
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
-
+        const { vaAlert } = selectors();
         expect(vaAlert).to.exist;
         expect(vaAlert).to.contain.text(error);
       });

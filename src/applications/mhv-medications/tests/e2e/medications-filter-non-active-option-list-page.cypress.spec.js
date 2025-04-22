@@ -16,7 +16,7 @@ describe('Medications List Page Non-Active Filter Option', () => {
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterOptionsOnListPage(
       'Non-active',
-      'Prescriptions that are discontinued, expired, or have an unkown status',
+      'Prescriptions that are discontinued, expired, or have an unknown status',
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Non-active');

@@ -220,7 +220,7 @@ const responses = {
       secondsOfDelay,
     );
   },
-  'GET /v0/representation_management/v0/power_of_attorney': (_req, res) => {
+  'GET /representation_management/v0/power_of_attorney': (_req, res) => {
     const secondsOfDelay = 2;
     delaySingleResponse(
       () => res.status(200).json(powerOfAttorney.organization),

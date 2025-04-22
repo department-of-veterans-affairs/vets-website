@@ -22,9 +22,23 @@ export const calculatedPercentage = formData => {
   const beneficiaryStudent = Number(
     formData?.studentRatioCalcChapter?.beneficiaryStudent,
   );
-  return numOfStudent >= 0 && beneficiaryStudent >= 0
+  return numOfStudent >= 0 &&
+    beneficiaryStudent >= 0 &&
+    numOfStudent >= beneficiaryStudent
     ? `${((beneficiaryStudent / numOfStudent) * 100).toFixed(1)}%`
     : '---';
+};
+
+export const isValidStudentRatio = formData => {
+  const numOfStudent = Number(formData?.studentRatioCalcChapter?.numOfStudent);
+  const beneficiaryStudent = Number(
+    formData?.studentRatioCalcChapter?.beneficiaryStudent,
+  );
+  return numOfStudent >= 0 &&
+    beneficiaryStudent >= 0 &&
+    numOfStudent >= beneficiaryStudent
+    ? beneficiaryStudent / numOfStudent <= 0.35
+    : true;
 };
 
 export const isDateThirtyDaysOld = (dateOfCalculation, termStartDate) => {

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -10,7 +11,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import { careFrequencyLabels, recipientTypeLabels } from '../../../labels';
@@ -22,7 +22,6 @@ const {
   childName,
   provider,
   purpose,
-  paymentAmount,
 } = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
 const MedicalExpenseView = ({ formData }) => (
@@ -91,11 +90,7 @@ export default {
           labels: careFrequencyLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
-        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
-          'ui:options': {
-            classNames: 'schemaform-currency-input-v3',
-          },
-        }),
+        paymentAmount: currencyUI('How much is each payment?'),
       },
     },
   },
@@ -123,7 +118,7 @@ export default {
             purpose,
             paymentDate: currentOrPastDateSchema,
             paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
-            paymentAmount,
+            paymentAmount: currencySchema,
           },
         },
       },

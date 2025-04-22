@@ -1,22 +1,24 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
@@ -31,16 +33,16 @@ export const options = {
   nounPlural: 'incomes and net worth associated with owned assets',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.grossMonthlyIncome ||
-    !item.ownedPortionValue ||
-    !item.assetType, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.ownedPortionValue) ||
+    !isDefined(item.assetType), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome &&
-      item?.ownedPortionValue && (
+      isDefined(item?.grossMonthlyIncome) &&
+      isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Asset type:{' '}
@@ -197,20 +199,8 @@ const ownedAssetTypePage = {
         expandUnderCondition: 'FARM',
       },
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    ownedPortionValue: merge(
-      {},
-      currencyUI('Value of your portion of the property'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
+    ownedPortionValue: currencyUI('Value of your portion of the property'),
   },
   schema: {
     type: 'object',
@@ -221,8 +211,8 @@ const ownedAssetTypePage = {
         properties: {},
       },
       'view:farmFormRequestAlert': { type: 'object', properties: {} },
-      grossMonthlyIncome: { type: 'number' },
-      ownedPortionValue: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
+      ownedPortionValue: currencySchema,
     },
     required: ['assetType', 'grossMonthlyIncome', 'ownedPortionValue'],
   },

@@ -22,6 +22,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import transformForSubmit from './submitTransformer';
+import prefillTransformer from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -31,8 +32,14 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 import PaymentSelectionUI, {
   PaymentReviewScreen,
+  loggedInPaymentInfo,
+  loggedOutPaymentInfo,
 } from '../components/PaymentSelection';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
@@ -50,6 +57,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
+  prefillTransformer,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   // submit: () =>
@@ -107,6 +115,10 @@ const formConfig = {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            'ui:validations': [
+              (errors, formData) =>
+                validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
+            ],
           },
           schema: {
             type: 'object',
@@ -164,6 +176,10 @@ const formConfig = {
                 state: () => true,
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(errors, null, formData, 'veteranAddress'),
+            ],
           },
           schema: {
             type: 'object',
@@ -214,6 +230,15 @@ const formConfig = {
                 },
               }),
             },
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(
+                  errors,
+                  null,
+                  formData,
+                  'physicalAddress',
+                ),
+            ],
           },
           schema: {
             type: 'object',
@@ -262,21 +287,18 @@ const formConfig = {
           title: 'Where to send the payment',
           uiSchema: {
             ...titleUI(
-              'Where to send the payment',
-              <>
-                <ul>
-                  <li>
-                    Select <strong>Veteran</strong> if you’ve already paid this
-                    provider. We’ll send a check to your mailing address to pay
-                    you back (also called reimbursement).
-                  </li>
-                  <li>
-                    Select <strong>Provider</strong> if you haven’t paid the
-                    provider. We’ll send a check to the provider’s mailing
-                    address to pay them directly.
-                  </li>
-                </ul>
-              </>,
+              'Who should we send payments to?',
+              ({ _formData, formContext }) => {
+                return (
+                  <>
+                    {formContext?.isLoggedIn ? (
+                      <>{loggedInPaymentInfo} </>
+                    ) : (
+                      <>{loggedOutPaymentInfo}</>
+                    )}
+                  </>
+                );
+              },
             ),
             sendPayment: PaymentSelectionUI(),
           },

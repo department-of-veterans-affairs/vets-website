@@ -1,22 +1,24 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateShort } from 'platform/utilities/date';
 import {
   formatCurrency,
   annualReceivedIncomeFromAnnuityRequired,
   surrenderValueRequired,
+  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -26,8 +28,8 @@ export const options = {
   nounPlural: 'Annuities',
   required: false,
   isItemIncomplete: item =>
-    !item?.establishedDate ||
-    !item.marketValueAtEstablishment ||
+    !isDefined(item?.establishedDate) ||
+    !isDefined(item.marketValueAtEstablishment) ||
     typeof item.addedFundsAfterEstablishment !== 'boolean' ||
     typeof item.revocable !== 'boolean' ||
     typeof item.receivingIncomeFromAnnuity !== 'boolean' ||
@@ -36,7 +38,7 @@ export const options = {
   text: {
     getItemName: () => 'Annuity',
     cardDescription: item =>
-      item?.marketValueAtEstablishment && (
+      isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Established date:{' '}
@@ -112,23 +114,15 @@ const informationPage = {
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the annuity established?'),
-    marketValueAtEstablishment: merge(
-      {},
-      currencyUI(
-        'What was the market value of the asset at the time of purchase?',
-      ),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    marketValueAtEstablishment: currencyUI(
+      'What was the market value of the asset at the time of purchase?',
     ),
   },
   schema: {
     type: 'object',
     properties: {
       establishedDate: currentOrPastDateSchema,
-      marketValueAtEstablishment: { type: 'number' },
+      marketValueAtEstablishment: currencySchema,
     },
     required: ['establishedDate', 'marketValueAtEstablishment'],
   },
@@ -162,24 +156,20 @@ const incomePage = {
     receivingIncomeFromAnnuity: yesNoUI(
       'Do you receive income from the annuity?',
     ),
-    annualReceivedIncome: merge(
-      {},
-      currencyUI('How much is the annual amount received?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-          expandUnder: 'receivingIncomeFromAnnuity',
-          expandUnderCondition: true,
-        },
-        'ui:required': annualReceivedIncomeFromAnnuityRequired,
-      },
-    ),
+    annualReceivedIncome: {
+      ...currencyUI({
+        title: 'How much is the annual amount received?',
+        expandUnder: 'receivingIncomeFromAnnuity',
+        expandUnderCondition: true,
+      }),
+      'ui:required': annualReceivedIncomeFromAnnuityRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       receivingIncomeFromAnnuity: yesNoSchema,
-      annualReceivedIncome: { type: 'number' },
+      annualReceivedIncome: currencySchema,
     },
     required: ['receivingIncomeFromAnnuity'],
   },
@@ -190,20 +180,20 @@ const liquidationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
     canBeLiquidated: yesNoUI('Can the annuity be liquidated?'),
-    surrenderValue: merge({}, currencyUI('What is the surrender value?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
+    surrenderValue: {
+      ...currencyUI({
+        title: 'What is the surrender value?',
         expandUnder: 'canBeLiquidated',
         expandUnderCondition: true,
-      },
+      }),
       'ui:required': surrenderValueRequired,
-    }),
+    },
   },
   schema: {
     type: 'object',
     properties: {
       canBeLiquidated: yesNoSchema,
-      surrenderValue: { type: 'number' },
+      surrenderValue: currencySchema,
     },
     required: ['canBeLiquidated'],
   },
@@ -231,17 +221,13 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: merge({}, currencyUI('How much did you add?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    addedFundsAmount: currencyUI('How much did you add?'),
   },
   schema: {
     type: 'object',
     properties: {
       addedFundsDate: currentOrPastDateSchema,
-      addedFundsAmount: { type: 'number' },
+      addedFundsAmount: currencySchema,
     },
     required: ['addedFundsDate', 'addedFundsAmount'],
   },

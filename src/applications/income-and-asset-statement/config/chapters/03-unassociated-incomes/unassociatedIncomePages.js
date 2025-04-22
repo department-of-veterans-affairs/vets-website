@@ -1,16 +1,17 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -18,6 +19,7 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
+  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
@@ -28,15 +30,15 @@ export const options = {
   nounPlural: 'recurring incomes not associated with accounts or assets',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.incomeType ||
-    !item.grossMonthlyIncome ||
-    !item.payer, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.incomeType) ||
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.payer), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
-      item?.grossMonthlyIncome && (
+      isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income type:{' '}
@@ -190,11 +192,7 @@ const incomeTypePage = {
           'unassociatedIncomes',
         ),
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, or program, etc.',
@@ -205,7 +203,7 @@ const incomeTypePage = {
     properties: {
       incomeType: radioSchema(Object.keys(incomeTypeLabels)),
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
       payer: textSchema,
     },
     required: ['incomeType', 'grossMonthlyIncome', 'payer'],
