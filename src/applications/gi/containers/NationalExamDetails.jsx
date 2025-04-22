@@ -133,7 +133,11 @@ const NationalExamDetails = () => {
           <p className="vads-u-margin-bottom--0">
             Showing 1 - {totalTests} of {totalTests} tests
           </p>
-          <va-table full-width table-type={isMobile ? 'bordered' : undefined}>
+          <va-table
+            table-title="Test fee description and reimbursement details"
+            full-width
+            table-type={isMobile ? 'bordered' : undefined}
+          >
             <va-table-row slot="headers">
               <span className="table-header">Fee description</span>
               <span className="table-header" style={{ whiteSpace: 'nowrap' }}>
