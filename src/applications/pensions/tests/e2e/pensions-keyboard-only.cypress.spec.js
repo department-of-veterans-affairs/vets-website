@@ -24,12 +24,13 @@ const testForm = (data, pageHooks = {}) => {
   const { chapters } = formConfig;
 
   startForm();
+  const hooks = pageHooks();
 
   let pathsVisited = [];
   Object.values(chapters).forEach(chapter => {
     Object.values(chapter.pages).forEach(page => {
       if (pathsVisited.includes(page.path)) return;
-      const pageHook = pageHooks[page.path];
+      const pageHook = hooks[page.path];
       if (typeof pageHook === 'function') {
         pathsVisited = pathsVisited.concat(pageHook(page, chapter, data));
       } else if (page.path.includes(':index')) {
