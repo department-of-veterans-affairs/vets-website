@@ -55,7 +55,7 @@ const coverageArgs = [
   '--all',
   'mocha',
   commonMochaArgs,
-  '--reporter=json-summary',
+  // '--reporter=json-summary',
   '--reporter mocha-multi-reporters',
   '--reporter-options configFile=config/mocha-multi-reporter.js',
   '--no-color',
