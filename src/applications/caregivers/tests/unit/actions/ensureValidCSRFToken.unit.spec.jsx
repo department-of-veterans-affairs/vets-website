@@ -29,7 +29,7 @@ describe('CG `ensureValidCSRFToken` action', () => {
 
   it('should successfully make `HEAD` request to refresh csrfToken when no token exists', async () => {
     localStorage.removeItem('csrfToken');
-    apiRequestStub.resolves({ meta: {} });
+    apiRequestStub.resolves();
 
     await ensureValidCSRFToken('myMethod');
     sinon.assert.calledOnceWithExactly(apiRequestStub, url, { method: 'HEAD' });
@@ -41,7 +41,7 @@ describe('CG `ensureValidCSRFToken` action', () => {
 
   it('should return error when request to refresh csrfToken fails', async () => {
     localStorage.removeItem('csrfToken');
-    apiRequestStub.rejects({ bad: 'some error' });
+    apiRequestStub.rejects();
 
     await ensureValidCSRFToken('myMethod');
     sinon.assert.calledOnce(apiRequestStub);
