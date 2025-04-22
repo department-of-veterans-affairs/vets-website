@@ -28,7 +28,7 @@ const initializeRealUserMonitoring = () => {
         // Prevent PII from being sent to Datadog with click actions.
         if (event.action?.type === 'click') {
           // eslint-disable-next-line no-param-reassign
-          event.action.target.name = 'AVS item';
+          event.action.target.name = 'CHAMPVA item';
         }
         return true;
       },

@@ -624,7 +624,6 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
-                // TODO: bad?
                 itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
