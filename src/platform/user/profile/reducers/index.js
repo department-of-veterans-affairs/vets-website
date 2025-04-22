@@ -12,6 +12,7 @@ import {
   REMOVING_SAVED_FORM_SUCCESS,
   PROFILE_ERROR,
   FETCH_MESSAGING_SIGNATURE,
+  UPDATE_MHV_STATE_VALUE,
 } from '../actions';
 
 const initialState = {
@@ -75,6 +76,8 @@ function profileInformation(state = initialState, action) {
     }
 
     case PROFILE_LOADING_FINISHED:
+    case UPDATE_MHV_STATE_VALUE:
+      return set('mhvAccountState', action.accountState, state);
     case UPDATE_LOGGEDIN_STATUS:
       return set('loading', false, state);
 
