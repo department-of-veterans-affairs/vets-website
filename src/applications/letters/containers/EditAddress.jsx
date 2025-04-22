@@ -45,7 +45,7 @@ export function EditAddress() {
           </va-alert>
           <va-additional-info
             id="dont-have-address"
-            class="dont-have-address"
+            class="dont-have-address vads-u-margin-bottom--3"
             trigger="If you don’t have an address"
           >
             <div>
