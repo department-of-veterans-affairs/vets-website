@@ -50,6 +50,7 @@ describe('startApp', () => {
         reducer: mockReducer,
         analyticsEvents: mockAnalyticsEvents,
         preloadScheduledDowntimes: mockPreloadScheduledDowntimes,
+        additionalMiddlewares: [],
       }),
     ).to.be.true;
 
