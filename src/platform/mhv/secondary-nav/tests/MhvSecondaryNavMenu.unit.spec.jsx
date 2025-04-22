@@ -117,8 +117,10 @@ describe('MHV Secondary Navigation Menu Component', () => {
 
   describe('renders', () => {
     it('when window location pathname is not set', () => {
-      delete window.location;
-      expect(getOneLink(medNavItem)).to.exist;
+      setWindowUrl('');
+      expect(getOneLink(medNavItem).className).to.not.include(
+        activeClassString,
+      );
     });
   });
 });
