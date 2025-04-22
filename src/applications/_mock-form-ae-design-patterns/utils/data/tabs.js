@@ -60,6 +60,16 @@ export const tabsConfig = {
       textColor: '--vads-color-white',
     },
   ],
+  pattern6: [
+    {
+      name: 'Marital Status',
+      path: '/6/marital-status',
+
+      description: 'Pattern 6 - Marital Status',
+      bgColor: '--vads-color-green-light',
+      textColor: '--vads-color-black',
+    },
+  ],
 };
 
 export const getTabs = location => {
