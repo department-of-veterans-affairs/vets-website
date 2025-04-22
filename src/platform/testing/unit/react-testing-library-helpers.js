@@ -26,7 +26,7 @@ export function renderInReduxProvider(
     initialState = {},
     reducers = {},
     store = null,
-    middlewares = [],
+    additionalMiddlewares = [],
     ...renderOptions
   } = {},
 ) {
@@ -46,7 +46,7 @@ export function renderInReduxProvider(
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk, ...middlewares),
+      applyMiddleware(thunk, ...additionalMiddlewares),
     );
   const Wrapper = ({ children }) => {
     return <Provider store={testStore}>{children}</Provider>;
@@ -81,7 +81,7 @@ export function renderInReduxProvider(
  * @param {ReduxStore} [renderParams.store=null] Redux store to use for the rendered page or section of the app
  * @param {string} [renderParams.path='/'] Url path to start from
  * @param {History} [renderParams.history=null] Custom history object to use, will create one if not passed
- * @param {Array} [renderParams.middlewares=[]] Additional Redux middlewares to add to the store
+ * @param {Array} [renderParams.additionalMiddlewares=[]] Additional Redux middlewares to add to the store
  * @returns {Object} Return value of the React Testing Library render function, plus the history object used
  */
 export function renderWithStoreAndRouter(
@@ -92,7 +92,7 @@ export function renderWithStoreAndRouter(
     store = null,
     path = '/',
     history = null,
-    middlewares = [],
+    additionalMiddlewares = [],
   },
 ) {
   const testStore =
@@ -100,7 +100,7 @@ export function renderWithStoreAndRouter(
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk, ...middlewares),
+      applyMiddleware(thunk, ...additionalMiddlewares),
     );
 
   const historyObject = history || createTestHistory(path);
@@ -110,7 +110,7 @@ export function renderWithStoreAndRouter(
       store: testStore,
       initialState,
       reducers,
-      middlewares,
+      additionalMiddlewares,
     },
   );
 
