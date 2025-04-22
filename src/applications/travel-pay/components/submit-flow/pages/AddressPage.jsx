@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
@@ -13,6 +14,10 @@ import {
   HelpTextModalities,
 } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const AddressPage = ({
   address,
@@ -30,6 +35,7 @@ const AddressPage = ({
 
   useEffect(
     () => {
+      recordSmocPageview('address');
       scrollToTop('topScrollElement');
       if (!address) {
         focusElement('h1');
@@ -44,6 +50,7 @@ const AddressPage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('address', 'continue');
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
@@ -54,6 +61,7 @@ const AddressPage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('address', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -83,7 +91,12 @@ const AddressPage = ({
         </h2>
         <HelpTextGeneral />
         <br />
-        <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
+        <va-button
+          back
+          disable-analytics
+          onClick={handlers.onBack}
+          class="vads-u-margin-y--2"
+        />
       </>
     );
   }
@@ -135,6 +148,7 @@ const AddressPage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

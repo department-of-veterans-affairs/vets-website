@@ -19,6 +19,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { nameWording } from '../../shared/utilities';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const radioLabels = {
   group: 'Employer sponsored insurance (group)',
@@ -114,6 +115,12 @@ const policyPage = {
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),
     providerPhone: phoneUI('Insurance provider phone number'),
+    'ui:validations': [
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'name'),
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'policyNum'),
+    ],
   },
   schema: {
     type: 'object',

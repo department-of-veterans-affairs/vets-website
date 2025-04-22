@@ -29,6 +29,13 @@ class PatientComposePage {
       });
   };
 
+  sendMessageWithoutVerification = (mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    cy.get(Locators.BUTTONS.SEND)
+      .contains('Send')
+      .click({ force: true });
+  };
+
   sendMessageByKeyboard = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.FIELDS.MESSAGE_BODY).click();
@@ -66,6 +73,12 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(index, { force: true });
+  };
+
+  selectComboBoxRecipient = text => {
+    cy.get(`#options`)
+      .clear()
+      .type(text);
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -446,7 +459,7 @@ class PatientComposePage {
       .should(`have.attr`, `aria-expanded`, value);
   };
 
-  verifyRecipientsDropdownLinks = () => {
+  verifyAdditionalInfoDropdownLinks = () => {
     // verify `find-locations` link
     cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="preferences"]`)
@@ -522,6 +535,32 @@ class PatientComposePage {
     cy.contains(recipientName)
       .parent()
       .should('have.attr', 'label', facilityName);
+  };
+
+  verifyRecipientsDropdownList = text => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO)
+      .find('li')
+      .each(el => {
+        cy.wrap(el).should(`contain.text`, text);
+      });
+  };
+
+  verifyRecipientSelected = value => {
+    cy.get(Locators.COMBO_BOX)
+      .invoke('attr', 'data-default-value')
+      .should('eq', value);
+  };
+
+  verifyRecipientsFieldAlert = text => {
+    cy.get(Locators.ALERTS.COMBO_BOX).should(`have.text`, text);
+    cy.get(Locators.COMBO_BOX)
+      .find(`#options`)
+      .should('be.focused');
+  };
+
+  deleteUnsavedDraft = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
   };
 }
 
