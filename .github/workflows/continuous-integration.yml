@@ -196,7 +196,6 @@ jobs:
          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Upload artifact of Unit Tests to Run
-        if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'false' }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-tests-to-run
