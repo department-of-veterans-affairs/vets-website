@@ -11,7 +11,7 @@ export const deleteMSTEvidenceModalTitle =
   'Remove sexual assault or harassment as a type of trauma you experienced?';
 export const deleteMSTEvidenceModalDescripton =
   'If you choose to remove sexual assault or harassment as a type of trauma you experienced, we’ll delete information about:';
-export const deleteMSTEvidenceModaContent = (
+export const deleteMSTEvidenceModalContent = (
   <>
     <ul>
       <li>

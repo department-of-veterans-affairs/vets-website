@@ -16,7 +16,7 @@ import {
 } from '../content/form0781';
 import {
   deletedEvidenceAlertConfirmationContent,
-  deleteMSTEvidenceModaContent,
+  deleteMSTEvidenceModalContent,
   deleteMSTEvidenceModalDescripton,
   deleteMSTEvidenceModalTitle,
   eventTypesDescription,
@@ -36,7 +36,6 @@ const TraumaticEventTypesPage = ({
   onReviewPage,
   updatePage,
 }) => {
-  // No validaiton on this page
   const [showDeleteMSTEvidenceModal, setShowDeleteMSTEvidenceModal] = useState(
     false,
   );
@@ -86,6 +85,7 @@ const TraumaticEventTypesPage = ({
 
   const deleteMSTEvidence = () => {
     const deepClone = cloneDeep(data);
+
     // Confirm this is works as expected in the UI? Make sure doesn't break this page if you delete and go back to it
     // Maybe delete the key entirely?
     if (deepClone.optionIndicator) {
@@ -147,22 +147,21 @@ const TraumaticEventTypesPage = ({
       }
     },
     onCloseModal: () => {
-      setShowDeleteMSTEvidenceModal(false);
       revertMSTEventTypeDeselection();
+      setShowDeleteMSTEvidenceModal(false);
     },
     onConfirmDeleteMSTEvidence: () => {
       deleteMSTEvidence();
-      handlers.onCloseModal();
+      setShowDeleteMSTEvidenceModal(false);
 
       if (onReviewPage) {
         updatePage();
-      } else {
-        setShowDeletedEvidenceConfirmation(true);
       }
+
+      setShowDeletedEvidenceConfirmation(true);
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
-      revertMSTEventTypeDeselection();
     },
     onCloseDeletedEvidenceAlert: () => {
       setShowDeletedEvidenceConfirmation(false);
@@ -197,15 +196,18 @@ const TraumaticEventTypesPage = ({
           tabIndex="-1"
         >
           {deletedEvidenceAlertConfirmationContent}
-          <p>
-            <button
-              type="button"
-              className="va-button-link"
-              onClick={() => goForward(data)}
-            >
-              Continue with your claim
-            </button>{' '}
-          </p>
+
+          {!onReviewPage && (
+            <p>
+              <button
+                type="button"
+                className="va-button-link"
+                onClick={() => goForward(data)}
+              >
+                Continue with your claim
+              </button>{' '}
+            </p>
+          )}
         </VaAlert>
       </div>
 
@@ -218,7 +220,7 @@ const TraumaticEventTypesPage = ({
         onPrimaryButtonClick={handlers.onConfirmDeleteMSTEvidence}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
-        primaryButtonText="Yes, remove this type trauma"
+        primaryButtonText="Yes, remove this type of trauma"
         secondaryButtonText="No, return to claim"
         status="warning"
       >
@@ -230,7 +232,7 @@ const TraumaticEventTypesPage = ({
             {deleteMSTEvidenceModalTitle}
           </h4>
           <p>{deleteMSTEvidenceModalDescripton}</p>
-          {deleteMSTEvidenceModaContent}
+          {deleteMSTEvidenceModalContent}
         </>
       </VaModal>
 
