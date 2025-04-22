@@ -1,23 +1,28 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
+import { expect } from 'chai';
+import sinon from 'sinon';
+import MockDate from 'mockdate';
 import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
+  // eslint-disable-next-line import/no-unresolved
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { expect } from 'chai';
-import MockDate from 'mockdate';
-import sinon from 'sinon';
 
 import {
   FUTURE_APPOINTMENTS_HIDDEN_SET,
   fetchBookedAppointment,
   getAppointmentRequests,
   getLongTermAppointmentHistoryV2,
-  getVAAppointmentLocationId,
-  isInPersonVAAppointment,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
+  getVAAppointmentLocationId,
 } from '.';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 import moment from '../../lib/moment-tz';
 import { createMockAppointment } from '../../tests/mocks/data';
 import {
@@ -25,11 +30,6 @@ import {
   mockVAOSAppointmentsFetch,
 } from '../../tests/mocks/helpers';
 import { generateAppointmentUrl } from '../../utils/appointment';
-import {
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-} from '../../utils/constants';
 
 function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';
@@ -888,26 +888,6 @@ describe('VAOS Services: Appointment ', () => {
         },
       };
       expect(getVAAppointmentLocationId(appointment)).to.equal('983GC');
-    });
-  });
-
-  describe('isInPersonVAAppointment', () => {
-    it('should return true for in person appointment when useFeSourceOfTruthModality=true', () => {
-      const appointment = {
-        modality: 'vaInPerson',
-      };
-      expect(isInPersonVAAppointment(appointment, true)).to.be.true;
-    });
-
-    it('should return true for in person appointment when useFeSourceOfTruthModality=false', () => {
-      const appointment = {
-        vaos: {
-          isVideo: false,
-          isCommunityCare: false,
-          isPhoneAppointment: false,
-        },
-      };
-      expect(isInPersonVAAppointment(appointment, false)).to.be.true;
     });
   });
 
