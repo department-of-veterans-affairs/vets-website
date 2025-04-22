@@ -1,12 +1,11 @@
 export const setClaimantSearch = () => {
-  cy.intercept('/accredited_representative_portal/v0/claimant', {
-    claimant: {
+  cy.intercept('/accredited_representative_portal/v0/claimant/search', {
+    data: {
       firstName: 'Karol',
       lastName: 'Johnson',
       city: 'Eau Claire',
       state: 'WI',
       postalCode: '54701',
-      poaStatus: 'declined',
       representative: 'Good Representatives R Us',
       icnTemporaryIdentifier: '7e7fbda9-49db-4206-aedb-5e9783556d79',
       poaRequests: [
@@ -68,7 +67,7 @@ export const setClaimantSearch = () => {
 };
 
 export const setEmptyClaimantSearch = () => {
-  cy.intercept('/accredited_representative_portal/v0/claimant', {
-    claimant: null,
+  cy.intercept('/accredited_representative_portal/v0/claimant/search', {
+    statusCode: 404,
   });
 };
