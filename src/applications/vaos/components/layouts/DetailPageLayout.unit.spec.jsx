@@ -51,6 +51,7 @@ describe('VAOS Component: DetailPageLayout', () => {
             localStartTime: tomorrow,
             serviceType: 'primaryCare',
           },
+          isInPersonVisit: true,
         },
         status: 'booked',
         isPastAppointment: true,

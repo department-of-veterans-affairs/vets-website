@@ -31,6 +31,9 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       kind: 'clinic',
       type: 'VA',
       modality: 'vaInPerson',
+      vaos: {
+        isInPersonVisit: true,
+      },
     };
 
     const wrapper = renderWithStoreAndRouter(

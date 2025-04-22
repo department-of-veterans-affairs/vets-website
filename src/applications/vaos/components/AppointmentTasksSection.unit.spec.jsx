@@ -72,6 +72,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isCommunityCare: false,
         isPhoneAppointment: false,
         isVideo: false,
+        isInPersonVisit: true,
       },
     };
     const screen = render(

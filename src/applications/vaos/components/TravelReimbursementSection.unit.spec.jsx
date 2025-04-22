@@ -64,6 +64,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           },
         },
         isPastAppointment: true,
+        isInPersonVisit: true,
       },
     };
     const screen = render(
@@ -95,6 +96,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           },
         },
         isPastAppointment: true,
+        isInPersonVisit: true,
       },
     };
     const screen = render(
@@ -130,6 +132,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           },
         },
         isPastAppointment: true,
+        isInPersonVisit: true,
       },
     };
     const screen = render(
