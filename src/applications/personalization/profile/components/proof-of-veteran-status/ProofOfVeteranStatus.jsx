@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide/MobileAppCallout';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { generatePdf } from '~/platform/pdf';
+// import { generatePdf } from '~/platform/pdf';
 import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -22,7 +21,7 @@ const ProofOfVeteranStatus = ({
     suffix: '',
   },
   edipi,
-  mockUserAgent,
+  // mockUserAgent,
 }) => {
   const [errors, setErrors] = useState([]);
   const [data, setData] = useState(null);
@@ -30,12 +29,12 @@ const ProofOfVeteranStatus = ({
   const [isLoading, setIsLoading] = useState(true);
   const { first, middle, last, suffix } = userFullName;
 
-  const userAgent =
-    mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
+  // const userAgent =
+  //   mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
 
-  const isMobile =
-    (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
-    /android/i.test(userAgent);
+  // const isMobile =
+  //   (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
+  //   /android/i.test(userAgent);
 
   const formattedFullName = formatFullName({
     first,
@@ -76,27 +75,27 @@ const ProofOfVeteranStatus = ({
     serviceHistory.length && formattedFullName
   );
   const hasConfirmationData = !!(data && data.attributes);
-  const pdfData = {
-    title: `Veteran status card for ${formattedFullName}`,
-    details: {
-      fullName: formattedFullName,
-      latestService,
-      totalDisabilityRating,
-      edipi,
-      image: {
-        title: 'V-A logo',
-        url: '/img/design/logo/logo-black-and-white.png',
-      },
-      seal: {
-        title: 'V-A Seal',
-        url: '/img/design/logo/seal-black-and-white.png',
-      },
-      scissors: {
-        title: 'Scissors icon',
-        url: '/img/scissors-black.png',
-      },
-    },
-  };
+  // const pdfData = {
+  //   title: `Veteran status card for ${formattedFullName}`,
+  //   details: {
+  //     fullName: formattedFullName,
+  //     latestService,
+  //     totalDisabilityRating,
+  //     edipi,
+  //     image: {
+  //       title: 'V-A logo',
+  //       url: '/img/design/logo/logo-black-and-white.png',
+  //     },
+  //     seal: {
+  //       title: 'V-A Seal',
+  //       url: '/img/design/logo/seal-black-and-white.png',
+  //     },
+  //     scissors: {
+  //       title: 'Scissors icon',
+  //       url: '/img/scissors-black.png',
+  //     },
+  //   },
+  // };
 
   useEffect(() => {
     let isMounted = true;
@@ -139,24 +138,24 @@ const ProofOfVeteranStatus = ({
     },
     [shouldFocusError, errors],
   );
+  // NOTE: Temporarily commenting PDF related code to avoid lint errors
+  // const createPdf = async () => {
+  //   setErrors(null);
 
-  const createPdf = async () => {
-    setErrors(null);
-
-    try {
-      await generatePdf(
-        'veteranStatusNew',
-        'Veteran status card',
-        pdfData,
-        !isMobile,
-      );
-    } catch (error) {
-      setErrors([
-        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
-      ]);
-      captureError(error, { eventName: 'vet-status-pdf-download' });
-    }
-  };
+  //   try {
+  //     await generatePdf(
+  //       'veteranStatusNew',
+  //       'Veteran status card',
+  //       pdfData,
+  //       !isMobile,
+  //     );
+  //   } catch (error) {
+  //     setErrors([
+  //       "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
+  //     ]);
+  //     captureError(error, { eventName: 'vet-status-pdf-download' });
+  //   }
+  // };
 
   const isVetStatusEligibilityPopulated =
     Object.keys(vetStatusEligibility).length !== 0;
@@ -248,13 +247,6 @@ const ProofOfVeteranStatus = ({
   return (
     <>
       <div id="proof-of-veteran-status">
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
-          Proof of Veteran status
-        </h2>
-        <p className="va-introtext">
-          This card identifies a Veteran of the U.S. Uniformed Services.
-        </p>
-
         {isLoading ? (
           <va-loading-indicator
             set-focus
@@ -285,30 +277,6 @@ const ProofOfVeteranStatus = ({
                               totalDisabilityRating={totalDisabilityRating}
                             />
                           </div>
-                        </div>
-                        <div className="vads-u-font-size--md">
-                          <va-link
-                            active
-                            filetype="PDF"
-                            // exception to eslint: the url is a dynamically generated blob url
-                            // eslint-disable-next-line no-script-url
-                            href="javascript:void(0)"
-                            text="Print your Proof of Veteran status (PDF)"
-                            onClick={createPdf}
-                          />
-                        </div>
-                        <div className="vads-u-margin-y--4">
-                          <MobileAppCallout
-                            headingText="Get proof of Veteran status on your mobile device"
-                            bodyText={
-                              <>
-                                You can use our mobile app to get proof of
-                                Veteran status. To get started, download the{' '}
-                                <strong> VA: Health and Benefits </strong>{' '}
-                                mobile app.
-                              </>
-                            }
-                          />
                         </div>
                       </>
                     ) : null}
