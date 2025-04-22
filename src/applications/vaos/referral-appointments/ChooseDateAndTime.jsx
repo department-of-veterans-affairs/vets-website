@@ -60,6 +60,7 @@ export const ChooseDateAndTime = props => {
       }
     },
     [
+      currentReferral.referralId,
       currentReferral.uuid,
       dispatch,
       draftAppointmentCreateStatus,
