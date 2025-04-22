@@ -73,10 +73,12 @@ const routes = [
   {
     path: ':page',
     element: <AppWrapper Component={Prescriptions} />,
+    loader: allergiesLoader,
   },
   {
     path: '/',
     element: <AppWrapper Component={Prescriptions} />,
+    loader: allergiesLoader,
   },
   {
     path: 'prescription/:prescriptionId/documentation',

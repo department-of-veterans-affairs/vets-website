@@ -15,7 +15,6 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   getRefillablePrescriptionsList,
-  getAllergiesList,
   fillPrescriptions,
   clearFillNotification,
 } from '../actions/prescriptions';
@@ -38,6 +37,7 @@ import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
+import { useGetAllergiesQuery } from '../api/allergiesApi';
 
 const RefillPrescriptions = ({ isLoadingList = true }) => {
   // Hooks
@@ -72,8 +72,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const showFilterContent = useSelector(selectFilterFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
-  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
-  const allergiesError = useSelector(state => state.rx.allergies.error);
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
 
@@ -154,7 +153,6 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         dispatch(getRefillablePrescriptionsList()).then(() =>
           updateLoadingStatus(false),
         );
-        if (!allergies) dispatch(getAllergiesList());
       }
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },

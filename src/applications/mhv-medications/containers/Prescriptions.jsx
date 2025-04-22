@@ -19,7 +19,6 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import {
   getPrescriptionsPaginatedSortedList,
   getPaginatedFilteredList,
-  getAllergiesList,
 } from '../actions/prescriptions';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
@@ -69,6 +68,7 @@ import MedicationsListFilter from '../components/MedicationsList/MedicationsList
 import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
+import { useGetAllergiesQuery } from '../api/allergiesApi';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -80,8 +80,8 @@ const Prescriptions = () => {
   const filteredList = useSelector(
     state => state.rx.prescriptions?.prescriptionsFilteredList,
   );
-  const allergies = useSelector(state => state.rx.allergies.allergiesList);
-  const allergiesError = useSelector(state => state.rx.allergies.error);
+  // Replace Redux allergies state with RTK Query hook
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -262,7 +262,6 @@ const Prescriptions = () => {
         if (!selectedSortOption) updateSortOption(sortOption);
       }
 
-      if (!allergies) dispatch(getAllergiesList());
       updatePageTitle('Medications | Veterans Affairs');
       sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, page);
     },
@@ -509,7 +508,6 @@ const Prescriptions = () => {
               setHasFullListDownloadError(true);
               updateLoadingStatus(false, '');
             });
-          if (!allergies) dispatch(getAllergiesList());
         };
         getFullList();
       }
@@ -599,7 +597,6 @@ const Prescriptions = () => {
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
     });
-    if (!allergies) await dispatch(getAllergiesList());
   };
 
   const isShowingErrorNotification = Boolean(

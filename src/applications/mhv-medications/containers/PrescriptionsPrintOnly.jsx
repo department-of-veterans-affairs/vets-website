@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
+import { useGetAllergiesQuery } from '../api/allergiesApi';
 
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
-  const allergies = useSelector(state => state.rx.allergies.allergiesList);
+  const { data: allergies } = useGetAllergiesQuery();
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions.selectedSortOption,
   );

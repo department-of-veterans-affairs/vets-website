@@ -5,7 +5,6 @@ import {
   getRefillablePrescriptionList,
   fillRx,
   fillRxs,
-  getAllergies,
   getFilteredList,
   getRecentlyRequestedList,
 } from '../api/rxApi';
@@ -86,22 +85,6 @@ export const getRefillAlertList = () => async dispatch => {
     });
     return error;
   }
-};
-
-// TODO: consider re-using this action from medical-records
-export const getAllergiesList = () => async dispatch => {
-  try {
-    const response = await getAllergies();
-    dispatch({ type: Actions.Allergies.GET_LIST, response });
-    return null;
-  } catch (error) {
-    dispatch({ type: Actions.Allergies.GET_LIST_ERROR });
-    return error;
-  }
-};
-
-export const clearAllergiesError = () => async dispatch => {
-  dispatch({ type: Actions.Allergies.GET_LIST_ERROR_RESET });
 };
 
 export const getPrescriptionDetails = prescriptionId => async dispatch => {
