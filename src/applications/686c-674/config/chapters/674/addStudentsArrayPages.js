@@ -28,6 +28,7 @@ import {
   currencyStringSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import {
   AccreditedSchool,
@@ -258,24 +259,19 @@ export const studentEducationBenefitsPage = {
         title:
           'Does the student currently receive education benefits from any of these programs?',
         labels: benefitUiLabels,
-        required: () => false,
+        required: () => false, // must be set for checkboxGroupUI
         description: generateHelpText('Check all that the student receives'),
       }),
     },
     otherProgramOrBenefit: {
-      ...textUI({
-        title:
-          'Briefly list any other programs the student receives education benefits from',
-        required: (formData, index) =>
-          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
-            ?.other || formData?.typeOfProgramOrBenefit?.other,
-      }),
+      'ui:title':
+        'Briefly list any other programs the student receives education benefits from',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
-        hideIf: (formData, index) =>
-          !(
-            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
-              ?.other || formData?.typeOfProgramOrBenefit?.other
-          ),
+        expandUnder: 'typeOfProgramOrBenefit',
+        expandUnderCondition: formData => formData?.other,
+        expandedContentFocus: true,
+        preserveHiddenData: true,
       },
     },
     tuitionIsPaidByGovAgency: {
@@ -291,12 +287,27 @@ export const studentEducationBenefitsPage = {
         hideOnReview: true,
       },
     },
+    'ui:options': {
+      // Use updateSchema to set
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.otherProgramOrBenefit['ui:collapsed']) {
+          return { ...formSchema, required: ['typeOfProgramOrBenefit'] };
+        }
+        return {
+          ...formSchema,
+          required: ['typeOfProgramOrBenefit', 'otherProgramOrBenefit'],
+        };
+      },
+    },
   },
   schema: {
     type: 'object',
+    required: ['typeOfProgramOrBenefit'],
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
-      otherProgramOrBenefit: textSchema,
+      otherProgramOrBenefit: {
+        type: 'string',
+      },
       tuitionIsPaidByGovAgency: yesNoSchema,
       'view:programExamples': {
         type: 'object',

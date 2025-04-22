@@ -39,13 +39,26 @@ const createReferralListItem = (
  * @returns {Object} Referral object
  */
 const createReferralById = (
+  startDate,
   uuid,
+  providerId = '111',
   expirationDate,
   categoryOfCare = 'Physical Therapy',
+  noSlots,
 ) => {
-  // if no expiration date is provided, set it to 6 months from today
-  const today = new Date();
+  const [year, month, day] = startDate.split('-');
+  const relativeDate = new Date(year, month - 1, day);
+
   const mydFormat = 'yyyy-MM-dd';
+
+  const generateReferralNumber = () => {
+    if (noSlots) {
+      return 'no-slots';
+    }
+    return 'VA0000009880-default';
+  };
+  const referralNumber = generateReferralNumber();
+
   return {
     id: uuid,
     type: 'referrals',
@@ -53,8 +66,9 @@ const createReferralById = (
       uuid,
       referralDate: '2023-01-01',
       stationId: '528A4',
-      expirationDate: expirationDate || format(addMonths(today, 6), mydFormat),
-      referralNumber: 'VA0000009880',
+      expirationDate:
+        expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+      referralId: referralNumber,
       categoryOfCare,
       referringFacilityInfo: {
         name: 'Batavia VA Medical Center',
@@ -72,6 +86,7 @@ const createReferralById = (
         location: 'FHA South Melbourne Medical Complex',
         npi: '1346206547',
         telephone: '(937) 236-6750',
+        providerId,
       },
       hasAppointments: false,
     },
