@@ -193,8 +193,6 @@ export const AccountInfoView = forwardRef(
     const nonVeteranFeatureFlag = useToggleValue(
       TOGGLE_NAMES.profileLimitDirectDepositForNonBeneficiaries,
     );
-    // eslint-disable-next-line no-console
-    console.log(veteranStatus);
     return (
       <>
         {nonVeteranFeatureFlag &&
