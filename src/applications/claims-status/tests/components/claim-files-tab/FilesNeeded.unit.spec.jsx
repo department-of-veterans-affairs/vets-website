@@ -105,7 +105,7 @@ describe('<FilesNeeded>', () => {
         description: '21-4142 text',
         displayName: '21-4142/21-4142a',
         friendlyName: 'Authorization to Disclose Information',
-        friendlyDescription: 'good description',
+        activityDescription: 'good description',
         canUploadFile: true,
         supportAliases: ['VA Form 21-4142'],
         id: 14268,

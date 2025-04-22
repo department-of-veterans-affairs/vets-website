@@ -26,15 +26,29 @@ function FilesOptional({ item }) {
           ? item.shortDescription || item.activityDescription
           : truncateDescription(item.description)}
       </p>
-      <div className="call-to-action">
-        <Link
-          aria-label={`Add information for ${item.displayName}`}
-          className="add-your-claims-link"
-          to={`../document-request/${item.id}`}
-        >
-          About this notice
-        </Link>
-      </div>
+      {cstFriendlyEvidenceRequests ? (
+        <div className="call-to-action">
+          <Link
+            aria-label={`Add information for ${item.displayName}`}
+            className="add-your-claims-link"
+            to={`../document-request/${item.id}`}
+          >
+            About this notice
+          </Link>
+        </div>
+      ) : (
+        <div className="call-to-action vads-u-padding-top--2">
+          You don’t have to do anything, but if you have this information you
+          can{' '}
+          <Link
+            aria-label={`Add information for ${item.displayName}`}
+            className="add-your-claims-link"
+            to={`../document-request/${item.id}`}
+          >
+            add it here.
+          </Link>
+        </div>
+      )}
     </va-alert>
   );
 }

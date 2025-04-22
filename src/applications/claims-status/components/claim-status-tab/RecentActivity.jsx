@@ -61,7 +61,9 @@ export default function RecentActivity({ claim }) {
         id: `${item.id}-${uniqueId()}`,
         date,
         description,
-        displayName: item.friendlyName || item.displayName,
+        displayName: cstFriendlyEvidenceRequests
+          ? item.friendlyName || item.displayName
+          : item.displayName,
         activityDescription: item.activityDescription,
         status: item.status,
         type: 'tracked_item',
@@ -69,10 +71,13 @@ export default function RecentActivity({ claim }) {
     };
 
     trackedItems.forEach(item => {
+      const updatedDisplayName = cstFriendlyEvidenceRequests
+        ? item.friendlyName || item.displayName
+        : item.displayName;
       const displayName =
         cst5103UpdateEnabled && is5103Notice(item.displayName)
           ? 'List of evidence we may need (5103 notice)'
-          : item.friendlyName || item.displayName;
+          : updatedDisplayName;
 
       if (item.closedDate) {
         addItems(
