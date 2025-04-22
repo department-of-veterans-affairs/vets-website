@@ -20,7 +20,7 @@ describe('hca `useDefaultFormData` hook', () => {
     mockStore: {
       getState: () => ({
         disabilityRating: { totalRating: 0 },
-        form: { data: { veteranFullName: {} } },
+        form: { data: { veteranFullName: { first: 'John', last: 'Smith' } } },
         user: {
           login: { currentlyLoggedIn: loggedIn },
           profile: {
@@ -52,7 +52,7 @@ describe('hca `useDefaultFormData` hook', () => {
     const { mockStore } = getData({});
     const { dispatch } = mockStore;
     const expectedData = {
-      veteranFullName: {},
+      veteranFullName: { first: 'John', last: 'Smith' },
       'view:isLoggedIn': false,
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,
@@ -72,7 +72,7 @@ describe('hca `useDefaultFormData` hook', () => {
     });
     const { dispatch } = mockStore;
     const expectedData = {
-      veteranFullName: {},
+      veteranFullName: { first: 'John', last: 'Smith' },
       'view:isLoggedIn': true,
       'view:isRegOnlyEnabled': false,
       'view:isInsuranceV2Enabled': false,

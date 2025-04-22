@@ -18,6 +18,8 @@ export const useDefaultFormData = () => {
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
 
+  const { veteranFullName } = formData;
+
   const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
@@ -50,6 +52,7 @@ export const useDefaultFormData = () => {
       isLoggedIn,
       veteranDob,
       userFullName,
+      veteranFullName,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,
       totalRating,
