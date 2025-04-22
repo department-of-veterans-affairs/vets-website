@@ -109,7 +109,7 @@ export function renderWithStoreAndRouter(
     store,
     path,
     history,
-    middlewares: [vaosApi.middleware],
+    additionalMiddlewares: [vaosApi.middleware],
   });
 }
 
