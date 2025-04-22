@@ -1,12 +1,9 @@
+import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import React from 'react';
-import {
-  createTestStore,
-  renderWithStoreAndRouter,
-} from '../tests/mocks/setup';
-import { VIDEO_TYPES } from '../utils/constants';
 import AppointmentTasksSection from './AppointmentTasksSection';
+import { VIDEO_TYPES } from '../utils/constants';
 
 describe('VAOS Component: AppointmentTasks', () => {
   beforeEach(() => {
@@ -42,9 +39,8 @@ describe('VAOS Component: AppointmentTasks', () => {
           kind,
         },
       };
-      const screen = renderWithStoreAndRouter(
+      const screen = render(
         <AppointmentTasksSection appointment={appointment} />,
-        createTestStore({}),
       );
 
       expect(screen.getByText(/Appointment tasks/i)).to.exist;
@@ -78,9 +74,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
@@ -110,9 +105,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
@@ -137,9 +131,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
@@ -164,9 +157,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
@@ -191,9 +183,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
@@ -210,9 +201,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
@@ -236,9 +226,8 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AppointmentTasksSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;

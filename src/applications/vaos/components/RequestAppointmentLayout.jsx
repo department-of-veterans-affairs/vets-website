@@ -13,7 +13,6 @@ import {
 import {
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureCCDirectScheduling,
-  selectFeatureFeSourceOfTruthModality,
 } from '../redux/selectors';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
@@ -21,18 +20,8 @@ import AppointmentRow from './AppointmentRow';
 import ListItem from './ListItem';
 
 export default function RequestAppointmentLayout({ appointment, index }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const featureCCDirectScheduling = useSelector(state =>
-    selectFeatureCCDirectScheduling(state),
-  );
-  const useFeSourceOfTruthModality = useSelector(state =>
-    selectFeatureFeSourceOfTruthModality(state),
-  );
-
   const appointmentLocality = useSelector(() =>
-    selectAppointmentLocality(appointment, useFeSourceOfTruthModality, true),
+    selectAppointmentLocality(appointment, true),
   );
   const first = index === 0;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
@@ -41,13 +30,18 @@ export default function RequestAppointmentLayout({ appointment, index }) {
   const modality = isCommunityCare
     ? 'Community care'
     : appointment?.preferredModality;
-  const modalityIcon = useSelector(() =>
-    selectModalityIcon(appointment, useFeSourceOfTruthModality),
-  );
+  const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
   const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(appointment, useFeSourceOfTruthModality, true),
+    selectApptDetailAriaText(appointment, true),
+  );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
+  const featureCCDirectScheduling = useSelector(state =>
+    selectFeatureCCDirectScheduling(state),
   );
 
   const displayNewTypeOfCareHeading = `${typeOfCareName} request`;

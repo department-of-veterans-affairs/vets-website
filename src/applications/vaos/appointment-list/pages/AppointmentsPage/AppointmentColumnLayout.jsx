@@ -1,27 +1,24 @@
-import classNames from 'classnames';
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import AppointmentColumn from '../../../components/AppointmentColumn';
+import moment from 'moment';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
-  selectFeatureFeSourceOfTruth,
-  selectFeatureFeSourceOfTruthModality,
-} from '../../../redux/selectors';
-import {
   selectAppointmentLocality,
-  selectApptDateAriaText,
-  selectApptDetailAriaText,
   selectIsCanceled,
-  selectIsCommunityCare,
-  selectModalityAriaText,
-  selectModalityIcon,
   selectModalityText,
+  selectModalityIcon,
   selectStartDate,
   selectTimeZoneAbbr,
+  selectApptDetailAriaText,
+  selectApptDateAriaText,
   selectTypeOfCareAriaText,
+  selectModalityAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
+import AppointmentColumn from '../../../components/AppointmentColumn';
 
 export default function AppointmentColumnLayout({
   data,
@@ -29,39 +26,26 @@ export default function AppointmentColumnLayout({
   grouped,
   link,
 }) {
+  const appointmentLocality = useSelector(() =>
+    selectAppointmentLocality(data),
+  );
   const useFeSourceOfTruth = useSelector(state =>
     selectFeatureFeSourceOfTruth(state),
   );
-  const useFeSourceOfTruthModality = useSelector(state =>
-    selectFeatureFeSourceOfTruthModality(state),
-  );
-  const appointmentLocality = useSelector(() =>
-    selectAppointmentLocality(data, useFeSourceOfTruthModality),
-  );
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
-  const modalityText = useSelector(() =>
-    selectModalityText(data, useFeSourceOfTruthModality),
-  );
-  const modalityIcon = useSelector(() =>
-    selectModalityIcon(data, useFeSourceOfTruthModality),
-  );
+  const modalityText = useSelector(() => selectModalityText(data));
+  const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() =>
     selectStartDate(data, useFeSourceOfTruth),
   );
   const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
-  const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(data, useFeSourceOfTruthModality),
-  );
+  const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
-  const typeOfCareAriaLabel = useSelector(() =>
-    selectTypeOfCareAriaText(data, useFeSourceOfTruthModality),
-  );
-  const modalityAriaLabel = useSelector(() =>
-    selectModalityAriaText(data, useFeSourceOfTruthModality),
-  );
+  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
+  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>

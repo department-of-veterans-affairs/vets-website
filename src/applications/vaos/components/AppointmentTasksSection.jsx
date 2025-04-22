@@ -1,22 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
-import { selectFeatureFeSourceOfTruthModality } from '../redux/selectors';
-import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import Section from './Section';
 
 export default function AppointmentTasksSection({ appointment }) {
-  const useFeSourceOfTruthModality = useSelector(state =>
-    selectFeatureFeSourceOfTruthModality(state),
-  );
-  const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(
-    appointment,
-    useFeSourceOfTruthModality,
-  );
+  const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(appointment);
   if (!isEligibleForTravelClaim) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);

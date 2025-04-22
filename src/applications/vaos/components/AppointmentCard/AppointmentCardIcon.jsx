@@ -1,16 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectFeatureFeSourceOfTruthModality } from '../../redux/selectors';
+import PropTypes from 'prop-types';
 import {
-  isAtlasVideoAppointment,
-  isClinicVideoAppointment,
-  isInPersonVAAppointment,
   isVAPhoneAppointment,
+  isClinicVideoAppointment,
+  isAtlasVideoAppointment,
   isVideoHome,
+  isInPersonVAAppointment,
 } from '../../services/appointment';
 
-const appointmentIcon = (appointment, useFeSourceOfTruthModality) => {
+const appointmentIcon = appointment => {
   const isPhone = isVAPhoneAppointment(appointment);
   const {
     isCommunityCare,
@@ -28,8 +26,7 @@ const appointmentIcon = (appointment, useFeSourceOfTruthModality) => {
   }
 
   if (
-    (isInPersonVAAppointment(appointment, useFeSourceOfTruthModality) &&
-      !isPendingAppointment) ||
+    (isInPersonVAAppointment(appointment) && !isPendingAppointment) ||
     isCOVIDVaccine ||
     isCompAndPenAppointment ||
     isClinicVideoAppointment(appointment) ||
@@ -45,13 +42,10 @@ const appointmentIcon = (appointment, useFeSourceOfTruthModality) => {
 };
 
 export default function AppointmentCardIcon({ appointment }) {
-  const useFeSourceOfTruthModality = useSelector(state =>
-    selectFeatureFeSourceOfTruthModality(state),
-  );
   return (
     <div className="vaos-appts__appointment-details--icon">
       <va-icon
-        icon={appointmentIcon(appointment, useFeSourceOfTruthModality)}
+        icon={appointmentIcon(appointment)}
         aria-hidden="true"
         data-testid="appointment-icon"
         size={3}

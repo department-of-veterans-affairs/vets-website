@@ -1,12 +1,9 @@
+import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import React from 'react';
-import {
-  createTestStore,
-  renderWithStoreAndRouter,
-} from '../tests/mocks/setup';
-import { VIDEO_TYPES } from '../utils/constants';
 import TravelReimbursementSection from './TravelReimbursementSection';
+import { VIDEO_TYPES } from '../utils/constants';
 
 describe('VAOS Component: TravelReimbursement', () => {
   beforeEach(() => {
@@ -41,9 +38,8 @@ describe('VAOS Component: TravelReimbursement', () => {
           kind,
         },
       };
-      const screen = renderWithStoreAndRouter(
+      const screen = render(
         <TravelReimbursementSection appointment={appointment} />,
-        createTestStore({}),
       );
 
       expect(screen.getByText(/Days left to file: 1/i));
@@ -70,9 +66,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.getByText(/Days left to file: 1/i));
@@ -102,9 +97,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(screen.getByText(/Days left to file: 0/i));
@@ -138,9 +132,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
 
     expect(
@@ -168,9 +161,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: false,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
@@ -191,9 +183,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isVideo: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
@@ -214,9 +205,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isCommunityCare: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
@@ -237,9 +227,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPhoneAppointment: true,
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });
@@ -250,9 +239,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {},
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <TravelReimbursementSection appointment={appointment} />,
-      createTestStore({}),
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
   });

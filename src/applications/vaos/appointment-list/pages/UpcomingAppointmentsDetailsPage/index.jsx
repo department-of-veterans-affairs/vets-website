@@ -1,21 +1,18 @@
-import moment from 'moment';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
+import InfoAlert from '../../../components/InfoAlert';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import InfoAlert from '../../../components/InfoAlert';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureFeSourceOfTruthModality,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
-  isInPersonVAAppointment,
   isVAPhoneAppointment,
+  isInPersonVAAppointment,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -47,13 +44,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const useFeSourceOfTruthModality = useSelector(state =>
-    selectFeatureFeSourceOfTruthModality(state),
-  );
-  const isInPerson = isInPersonVAAppointment(
-    appointment,
-    useFeSourceOfTruthModality,
-  );
+  const isInPerson = isInPersonVAAppointment(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
