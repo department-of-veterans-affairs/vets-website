@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { normalizedForm } from 'applications/simple-forms-form-engine/shared/config/formConfig';
 import { listLoopPages } from 'applications/simple-forms-form-engine/shared/config/pages/listLoop';
 import { render } from '@testing-library/react';
+import * as titlePattern from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const findChapterByType = type =>
   normalizedForm.chapters.find(chapter => chapter.type === type);
@@ -142,12 +143,19 @@ describe('listLoopPages', () => {
     });
   });
 
-  describe('additionalFields', () => {
+  describe('optional and required', () => {
     let pages;
 
     context('when optional is false', () => {
+      let spy;
+
       beforeEach(() => {
+        spy = sinon.spy(titlePattern, 'titleUI');
         pages = listLoopPages(required, arrayBuilderStub);
+      });
+
+      afterEach(() => {
+        spy.restore();
       });
 
       it('sets required to true', () => {
@@ -157,9 +165,16 @@ describe('listLoopPages', () => {
       });
 
       it('includes an introPage', () => {
-        const { employer: introPage, employerSummary } = pages;
+        const { employerSummary } = pages;
+        const introPage = pages[required.nounSingular];
 
-        expect(introPage.title).to.eq('Employers');
+        expect(introPage.title).to.eq(required.chapterTitle);
+        expect(introPage.path).to.eq(required.nounPlural);
+        // introPages have no schemas
+        expect(Object.keys(introPage.schema.properties).length).to.eq(0);
+        expect(
+          spy.calledWith(required.chapterTitle, required.sectionIntro),
+        ).to.eq(true);
 
         expect(employerSummary.title).to.eq('Review your employers');
         expect(employerSummary.path).to.eq('employers-summary');

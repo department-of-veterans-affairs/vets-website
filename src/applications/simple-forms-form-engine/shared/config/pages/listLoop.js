@@ -1,7 +1,8 @@
 import React from 'react';
+import { camelCase, kebabCase } from 'lodash';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
-import { camelCase, kebabCase } from 'lodash';
+import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { employmentHistory } from '.';
 import { componentKey } from './customStepPage';
 
@@ -23,6 +24,18 @@ const variations = {
             item?.dateRange?.to,
           )}`,
       },
+    },
+    get pageBuilderCallback() {
+      return pageBuilder => ({
+        employerSummary: pageBuilder.summaryPage(
+          employmentHistory.summaryPage(this.options),
+        ),
+        employerNamePage: pageBuilder.itemPage(
+          employmentHistory.namePage(this.options),
+        ),
+        employerDatePage: pageBuilder.itemPage(employmentHistory.datePage),
+        employerDetailPage: pageBuilder.itemPage(employmentHistory.detailPage),
+      });
     },
   },
 };
@@ -66,6 +79,47 @@ const hydrateComponentLists = chapter => {
   return { requiredComponents, summaryComponents };
 };
 
+const { datePage, detailPage, namePage, summaryPage } = employmentHistory;
+
+/**
+ * Yes, this function name is awful. You got a better one?
+ * @param {ArrayBuilderOptions} options
+ * @param {NormalizedChapter} chapter
+ * @returns {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter}
+ */
+const pageBuilderCallbackBuilder = (options, chapter) => pageBuilder => {
+  /** @type {FormConfigPages} */
+  const pages = {};
+
+  /** @returns {PageSchema} */
+  const introPage = {
+    path: options.nounPlural,
+    title: chapter.chapterTitle,
+    uiSchema: {
+      ...webComponentPatterns.titleUI(
+        chapter.chapterTitle,
+        chapter.sectionIntro,
+      ),
+    },
+    schema: {
+      type: 'object',
+      properties: {},
+    },
+  };
+
+  if (options.required) {
+    pages[options.nounSingular] = pageBuilder.introPage(introPage);
+  }
+
+  return {
+    ...pages,
+    employerSummary: pageBuilder.summaryPage(summaryPage(options)),
+    employerNamePage: pageBuilder.itemPage(namePage(options)),
+    employerDatePage: pageBuilder.itemPage(datePage),
+    employerDetailPage: pageBuilder.itemPage(detailPage),
+  };
+};
+
 /**
  * @param {NormalizedChapter} chapter
  * @param {Function} arrayBuilder
@@ -88,8 +142,6 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
     maxItems,
     text: {
       getItemName: item => item.name,
-      // Use a variation's card description if it exists, otherwise create an
-      // unordered list of summary components.
       cardDescription: item => (
         <ul>
           {Object.entries(summaryComponents).map(([key, type]) => (
@@ -104,31 +156,10 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
     },
   };
 
-  const {
-    datePage,
-    detailPage,
-    introPage,
-    namePage,
-    summaryPage,
-  } = employmentHistory;
-
   /** @returns {FormConfigPages} */
-  const pageBuilderCallback = pageBuilder => {
-    /** @type {FormConfigPages} */
-    const pages = {};
-
-    if (options.required) {
-      pages.employer = pageBuilder.introPage(introPage(options));
-    }
-
-    return {
-      ...pages,
-      employerSummary: pageBuilder.summaryPage(summaryPage(options)),
-      employerNamePage: pageBuilder.itemPage(namePage(options)),
-      employerDatePage: pageBuilder.itemPage(datePage),
-      employerDetailPage: pageBuilder.itemPage(detailPage),
-    };
-  };
+  const pageBuilderCallback =
+    variation?.pageBuilderCallback ||
+    pageBuilderCallbackBuilder(options, chapter);
 
   return arrayBuilder(options, pageBuilderCallback);
 };

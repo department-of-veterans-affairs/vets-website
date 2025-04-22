@@ -189,7 +189,8 @@ export const normalizedForm = {
           pageTitle: 'Who did you interact with?',
         },
       ],
-      sectionIntro: null,
+      sectionIntro:
+        'This is the text shown at the start of a required list and loop. It should explain the purpose of the list and loop and how many entries are required for the form.',
     },
     {
       id: 176029,

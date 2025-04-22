@@ -70,24 +70,6 @@ export const detailPage = {
 };
 
 /** @returns {PageSchema} */
-export const introPage = options => ({
-  path: 'employers',
-  title: 'Employers',
-  uiSchema: {
-    ...webComponentPatterns.titleUI(
-      `Treatment records`,
-      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
-        options.maxItems
-      }.`,
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-});
-
-/** @returns {PageSchema} */
 export const namePage = options => ({
   title: 'Name and address of employer or unit',
   path: 'employers/:index/name-and-address',

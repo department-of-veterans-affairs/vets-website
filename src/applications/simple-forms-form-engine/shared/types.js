@@ -32,6 +32,7 @@
 /**
  * @typedef {Object} ListLoopVariation
  * @property {ArrayBuilderOptions} options
+ * @property {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
  */
 
 /**
