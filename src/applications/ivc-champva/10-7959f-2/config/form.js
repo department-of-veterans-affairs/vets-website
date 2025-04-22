@@ -236,11 +236,15 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Include a country code for foreign phone numbers',
+              'Enter a 10-digit U.S. phone number',
             ),
-            messageAriaDescribedby:
-              'Include a country code for foreign phone numbers',
-            veteranPhoneNumber: phoneUI(),
+            messageAriaDescribedby: 'Enter a 10-digit U.S. phone number',
+            veteranPhoneNumber: merge({}, phoneUI(), {
+              'ui:errorMessages': {
+                required:
+                  'Please enter a 10-digit U.S. phone number (with or without dashes)',
+              },
+            }),
             veteranEmailAddress: emailUI(),
           },
           schema: {
