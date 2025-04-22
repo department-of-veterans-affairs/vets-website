@@ -96,6 +96,7 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
+            profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowNewBenefitOverpaymentDebtNotificationSetting: false,

@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
 const _ = require('lodash');
-const {
-  DirectDepositVeteranStatus,
-} = require('../../../components/direct-deposit/config/enums');
+const { VETERAN } = require('../../../components/direct-deposit/config/enums');
 
 const setInstitutionName = (obj, name) =>
   _.set(obj, 'data.attributes.paymentAccount.name', name);
@@ -32,10 +30,10 @@ const base = {
         accountNumber: '*******5487',
         routingNumber: '*****1533',
       },
-      veteranStatus: DirectDepositVeteranStatus.VETERAN,
-      // veteranStatus: DirectDepositVeteranStatus.DEPENDENT,
-      // veteranStatus: DirectDepositVeteranStatus.NEITHER_VETERAN_NOR_DEPENDENT,
-      // veteranStatus: DirectDepositVeteranStatus.COULD_NOT_DETERMINE_DUE_TO_EXCEPTION,
+      veteranStatus: VETERAN,
+      // veteranStatus: DEPENDENT,
+      // veteranStatus: NEITHER_VETERAN_NOR_DEPENDENT,
+      // veteranStatus: COULD_NOT_DETERMINE_DUE_TO_EXCEPTION,
     },
   },
 };

@@ -184,6 +184,7 @@
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
   "profileDoNotRequireInternationalZipCode": "profile_do_not_require_international_zip_code",
   "profileHideDirectDeposit": "profile_hide_direct_deposit",
+  "profileLimitDirectDepositForNonBeneficiaries": "profile_limit_direct_deposit_for_non_beneficiaries",
   "profileShowCredentialRetirementMessaging": "profile_show_credential_retirement_messaging",
   "profileShowMhvNotificationSettingsEmailAppointmentReminders": "profile_show_mhv_notification_settings_email_appointment_reminders",
   "profileShowMhvNotificationSettingsNewSecureMessaging": "profile_show_mhv_notification_settings_new_secure_messaging",
