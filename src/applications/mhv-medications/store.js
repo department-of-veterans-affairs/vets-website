@@ -1,7 +1,9 @@
 /**
  * Module for exporting the Redux store for the medications application
  */
+
 import setUpCommonFunctionality from 'platform/startup/setup';
+import { allergiesApi } from './api/allergiesApi';
 import manifest from './manifest.json';
 import reducer from './reducers';
 
@@ -9,7 +11,9 @@ import reducer from './reducers';
  * Creates and exports a configured Redux store for the medications application
  * that can be imported and used throughout the application
  */
-export default function createStore(additionalMiddlewares = []) {
+export default function createStore(
+  additionalMiddlewares = [allergiesApi.middleware],
+) {
   return setUpCommonFunctionality({
     entryName: manifest.entryName,
     url: manifest.rootUrl,

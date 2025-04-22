@@ -13,7 +13,7 @@ const prescriptions = require('./mhv-api/prescriptions/index');
 // You can user fixtures for mocks, if desired
 // const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 // const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
-const allergiesFixture = require('../../tests/e2e/fixtures/allergies.json');
+const allergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies');
 const tooltips = require('./tooltips/index');
 
 const responses = {
@@ -66,7 +66,21 @@ const responses = {
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
-  'GET /my_health/v1/medical_records/allergies': allergiesFixture,
+  'GET /my_health/v1/medical_records/allergies': allergies.all,
+  /**
+  'GET /my_health/v1/medical_records/allergies': (req, res) => {
+    // Emulate a 500 error
+    return res.status(500).json({
+      errors: [
+        {
+          status: '500',
+          title: 'Internal Server Error',
+          detail: 'An error occurred while processing your request.',
+        },
+      ],
+    });
+  },
+  */
   'GET /my_health/v1/tooltips': (_req, res) => {
     return res.json(tooltips.getMockTooltips());
   },

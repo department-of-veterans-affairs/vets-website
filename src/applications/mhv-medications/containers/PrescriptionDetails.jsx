@@ -8,10 +8,7 @@ import {
   reportGeneratedBy,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import {
-  getPrescriptionDetails,
-  getAllergiesList,
-} from '../actions/prescriptions';
+import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
@@ -41,6 +38,7 @@ import { Actions } from '../util/actionTypes';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
+import { useGetAllergiesQuery } from '../api/allergiesApi';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -52,8 +50,8 @@ const PrescriptionDetails = () => {
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
-  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
-  const allergiesError = useSelector(state => state.rx.allergies.error);
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+
   const { prescriptionId } = useParams();
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -201,7 +199,6 @@ const PrescriptionDetails = () => {
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
     });
-    await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
   };
 
   const generatePDF = useCallback(
@@ -238,13 +235,6 @@ const PrescriptionDetails = () => {
         dispatch(getPrescriptionDetails(prescriptionId));
     },
     [prescriptionId, dispatch, prescription],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getAllergiesList());
-    },
-    [dispatch],
   );
 
   useEffect(

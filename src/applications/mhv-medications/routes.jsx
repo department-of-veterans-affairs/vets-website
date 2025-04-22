@@ -8,6 +8,7 @@ import manifest from './manifest.json';
 
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
+import { allergiesLoader } from './loaders/allergiesLoader';
 
 // Lazy-loaded components
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
@@ -84,6 +85,7 @@ const routes = [
   {
     path: 'prescription/:prescriptionId',
     element: <AppWrapper Component={PrescriptionDetails} />,
+    loader: allergiesLoader,
   },
   {
     path: '*',

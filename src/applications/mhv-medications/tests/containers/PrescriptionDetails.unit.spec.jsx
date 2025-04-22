@@ -7,6 +7,7 @@ import {
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { allergiesApi } from '../../api/allergiesApi';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
@@ -23,6 +24,7 @@ const allergyErrorState = {
     },
   },
   reducers: reducer,
+  additionalMiddlewares: [allergiesApi.middleware],
 };
 
 describe('Prescription details container', () => {
@@ -40,6 +42,7 @@ describe('Prescription details container', () => {
       initialState: state,
       reducers: reducer,
       initialEntries: ['/1234567891'],
+      additionalMiddlewares: [allergiesApi.middleware],
     });
   };
 
@@ -150,6 +153,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       initialEntries: ['/medication/21142496'],
+      additionalMiddlewares: [allergiesApi.middleware],
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
@@ -208,6 +212,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       initialEntries: ['/21142496'],
+      additionalMiddlewares: [allergiesApi.middleware],
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
@@ -232,6 +237,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       initialEntries: ['/21142496'],
+      additionalMiddlewares: [allergiesApi.middleware],
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.prescriptionName,
@@ -252,6 +258,7 @@ describe('Prescription details container', () => {
       },
       reducers: reducer,
       initialEntries: ['/21142496'],
+      additionalMiddlewares: [allergiesApi.middleware],
     });
     await waitFor(() => {
       const errorMessageH2 = screen.getByTestId('no-medications-list');
