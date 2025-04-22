@@ -45,16 +45,20 @@ export const createTestConfig = (config, manifest = {}, formConfig = {}) => {
  * easier to run e2e tests starting from a specific page. See the
  * stopTestAfterPath property in testConfig that allows you to set the page to
  * stop at.
- * @param {Object} data - form data
+ * @param {Object} prefill - form data for pages before the returnUrl page
  * @param {string} returnUrl - URL to return to within the form flow
  * @param {string} version - form version based on the formConfig (usually the
  * migration length)
  * @returns {Object} - in-progress form response
  */
-export default function inProgressMock({ data, returnUrl, version } = {}) {
+export default function inProgressMock({
+  prefill = {},
+  returnUrl,
+  version,
+} = {}) {
   const date = Date.now();
   return {
-    formData: data,
+    formData: prefill,
     metadata: {
       version,
       returnUrl,
@@ -82,14 +86,14 @@ export default function inProgressMock({ data, returnUrl, version } = {}) {
  * @param {*} formConfig - The form config object, we really only need the
  *  formId and version from it
  * @param {string} returnUrl - The URL to return to to continue the form flow
- * @param {Object} data - The form data to use in the in-progress form, but only
- *  include fields before the returnUrl page
+ * @param {Object} prefill - The form data to use in the in-progress form, but
+ *  only include fields before the returnUrl page
  * @param {Object} user - The user object to use in the mock user response
  */
 export const setupInProgressReturnUrl = ({
   formConfig = {},
   returnUrl = '',
-  data = {}, // all previous page form data
+  prefill = {}, // all previous page form data
   user = {},
 }) => {
   const { formId, version } = formConfig;
@@ -115,7 +119,7 @@ export const setupInProgressReturnUrl = ({
   cy.intercept(
     'GET',
     `/v0/in_progress_forms/${formId}`,
-    inProgressMock({ data, returnUrl, version }),
+    inProgressMock({ prefill, returnUrl, version }),
   );
 
   cy.login(userData);
