@@ -10,6 +10,10 @@ import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Are you only claiming mileage?';
 
@@ -21,6 +25,7 @@ const MileagePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('mileage');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
@@ -35,6 +40,7 @@ const MileagePage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('mileage', 'continue');
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
@@ -45,6 +51,7 @@ const MileagePage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('mileage', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -100,6 +107,7 @@ const MileagePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

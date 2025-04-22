@@ -1,16 +1,17 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -148,14 +149,8 @@ const assetTypePage = {
       title: 'What is the type of asset?',
       hint: 'Cash, art, etc',
     }),
-    ownedPortionValue: merge(
-      {},
-      currencyUI('What is the value of your portion of the property?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    ownedPortionValue: currencyUI(
+      'What is the value of your portion of the property?',
     ),
     assetLocation: textUI({
       title: 'Where is the asset located?',
@@ -166,7 +161,7 @@ const assetTypePage = {
     type: 'object',
     properties: {
       assetType: textSchema,
-      ownedPortionValue: { type: 'number' },
+      ownedPortionValue: currencySchema,
       assetLocation: textSchema,
     },
     required: ['assetType', 'ownedPortionValue', 'assetLocation'],

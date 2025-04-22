@@ -1,10 +1,12 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
@@ -14,7 +16,6 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -198,16 +199,8 @@ const generatedIncomeTypePage = {
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    fairMarketValue: merge({}, currencyUI('Fair market value of this asset'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
+    fairMarketValue: currencyUI('Fair market value of this asset'),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',
     }),
@@ -226,8 +219,8 @@ const generatedIncomeTypePage = {
         properties: {},
       },
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
-      fairMarketValue: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
+      fairMarketValue: currencySchema,
       canBeSold: yesNoSchema,
       mitigatingCircumstances: textareaSchema,
     },
