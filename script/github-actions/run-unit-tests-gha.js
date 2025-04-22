@@ -45,10 +45,11 @@ if (!testsToRun || testsToRun.length === 0) {
 core.exportVariable('NO_APPS_TO_RUN', false);
 
 const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
-
 const runner = options.coverage ? 'npx nyc' : 'npx mocha';
 
-const commonMochaArgs = `--config ${options.config} --extension js,jsx`;
+const commonMochaArgs = `--require @babel/register --config ${
+  options.config
+} --extension js,jsx`;
 
 const coverageArgs = [
   '--all',
