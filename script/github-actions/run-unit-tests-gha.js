@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
 const commandLineArgs = require('command-line-args');
-const { runCommand } = require('../utils');
+const { execSync } = require('child_process');
 
 //
 // 1) Define only the flags we actually need: coverage, log‑level, reporter, config,
@@ -70,7 +70,7 @@ const coverageReporter = options['coverage-html']
   : '--reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
 const coverageBase = `NODE_ENV=test nyc --all ${
-  options.coverageHtml ? '--reporter=html' : ''
+  options['coverage‑html'] ? '--reporter=html' : ''
 } ${coverageReporter}`;
 
 const testRunner = options.coverage ? coverageBase : mochaBase;
@@ -83,4 +83,4 @@ const cmd = `LOG_LEVEL=${options[
   'log-level'
 ].toLowerCase()} ${testRunner} --max-old-space-size=32768 ${filesArg}`;
 
-runCommand(cmd);
+execSync(cmd, { stdio: 'inherit', shell: true });
