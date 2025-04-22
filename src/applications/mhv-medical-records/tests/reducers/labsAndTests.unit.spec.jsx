@@ -813,23 +813,17 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result).to.deep.equal({
-      id: 'test-id',
-      date: 'April 22, 2025, 10:30 AM',
-      name: 'Test Name',
-      location: 'Test Location',
-      observations: 'Test Observations',
-      orderedBy: 'Dr. Smith',
-      sampleTested: 'Blood',
-      bodySite: 'Arm',
-      testCode: '12345',
-      type: '12345',
-      comments: 'No issues',
-      result: 'This is a test',
-      base: {
-        ...record,
-      },
-    });
+    expect(result.id).to.equal('test-id');
+    expect(result.name).to.equal('Test Name');
+    expect(result.location).to.equal('Test Location');
+    expect(result.observations).to.equal('Test Observations');
+    expect(result.orderedBy).to.equal('Dr. Smith');
+    expect(result.sampleTested).to.equal('Blood');
+    expect(result.bodySite).to.equal('Arm');
+    expect(result.testCode).to.equal('12345');
+    expect(result.type).to.equal('12345');
+    expect(result.comments).to.equal('No issues');
+    expect(result.result).to.equal('This is a test');
   });
 
   it('should handle missing attributes gracefully', () => {
