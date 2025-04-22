@@ -17,6 +17,8 @@ import {
   extractSpecimen,
   labsAndTestsReducer,
   mergeRadiologyLists,
+  formatDateTime,
+  convertUnifiedLabsAndTestRecord,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
 import {
@@ -753,5 +755,130 @@ describe('labsAndTestsReducer', () => {
     ).to.equal(labTypes.RADIOLOGY);
 
     expect(newState.updatedList).to.equal(undefined);
+  });
+});
+
+describe('formatDateTime', () => {
+  it('should format a valid datetime string correctly', () => {
+    const datetimeString = '2025-04-22T14:30:00Z';
+    const result = formatDateTime(datetimeString);
+    expect(result).to.deep.equal({
+      formattedDate: 'April 22, 2025',
+      formattedTime: '10:30 AM',
+    });
+  });
+
+  it('should handle invalid datetime strings gracefully', () => {
+    const datetimeString = 'invalid-date';
+    const result = formatDateTime(datetimeString);
+    expect(result).to.deep.equal({
+      formattedDate: '',
+      formattedTime: '',
+    });
+  });
+
+  it('should handle empty datetime strings gracefully', () => {
+    const datetimeString = '';
+    const result = formatDateTime(datetimeString);
+    expect(result).to.deep.equal({
+      formattedDate: '',
+      formattedTime: '',
+    });
+  });
+});
+
+describe('convertUnifiedLabsAndTestRecord', () => {
+  it('should convert a valid record correctly', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-04-22T14:30:00Z',
+        display: 'Test Name',
+        location: 'Test Location',
+        observations: 'Test Observations',
+        orderedBy: 'Dr. Smith',
+        sampleTested: 'Blood',
+        bodySite: 'Arm',
+        testCode: '12345',
+        comments: 'No issues',
+        encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    expect(result).to.deep.equal({
+      id: 'test-id',
+      date: 'April 22, 2025, 10:30 AM',
+      name: 'Test Name',
+      location: 'Test Location',
+      observations: 'Test Observations',
+      orderedBy: 'Dr. Smith',
+      sampleTested: 'Blood',
+      bodySite: 'Arm',
+      testCode: '12345',
+      type: '12345',
+      comments: 'No issues',
+      result: 'This is a test',
+      base: {
+        ...record,
+      },
+    });
+  });
+
+  it('should handle missing attributes gracefully', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {},
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    expect(result).to.deep.equal({
+      id: 'test-id',
+      date: '',
+      name: undefined,
+      location: undefined,
+      observations: undefined,
+      orderedBy: undefined,
+      sampleTested: undefined,
+      bodySite: undefined,
+      testCode: undefined,
+      type: undefined,
+      comments: undefined,
+      result: null,
+      base: {
+        ...record,
+      },
+    });
+  });
+
+  it('should handle invalid dateCompleted gracefully', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: 'invalid-date',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    expect(result).to.deep.equal({
+      id: 'test-id',
+      date: '',
+      name: undefined,
+      location: undefined,
+      observations: undefined,
+      orderedBy: undefined,
+      sampleTested: undefined,
+      bodySite: undefined,
+      testCode: undefined,
+      type: undefined,
+      comments: undefined,
+      result: null,
+      base: {
+        ...record,
+      },
+    });
   });
 });

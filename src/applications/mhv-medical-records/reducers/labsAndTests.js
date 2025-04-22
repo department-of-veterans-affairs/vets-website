@@ -481,6 +481,9 @@ export const convertLabsAndTestsRecord = record => {
 
 export function formatDateTime(datetimeString) {
   const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
   const formattedDate = format(dateTime, 'MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
 
