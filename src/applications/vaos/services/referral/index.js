@@ -52,6 +52,7 @@ export async function postDraftReferralAppointment(referralId) {
     },
     body: JSON.stringify({ referralId }),
   });
+
   return response.data;
 }
 
