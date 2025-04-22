@@ -24,7 +24,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
-    mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
@@ -155,10 +154,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_update_landing_page',
           value: mhvMedicalRecordsMarch17Updates,
-        },
-        {
-          name: 'mhv_secure_messaging_edit_contact_list',
-          value: mhvSecureMessagingEditContactList,
         },
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
