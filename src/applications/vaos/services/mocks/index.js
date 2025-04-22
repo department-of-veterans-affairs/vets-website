@@ -227,21 +227,21 @@ const responses = {
   //   return res.json(errors);
   // },
 
-  'GET /vaos/v2/appointments/:id': (req, res) => {
-    const appointments = {
-      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
-    };
-    const appointment = appointments.data.find(
-      appt => appt.id === req.params.id,
-    );
+  // 'GET /vaos/v2/appointments/:id': (req, res) => {
+  //   const appointments = {
+  //     data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+  //   };
+  //   const appointment = appointments.data.find(
+  //     appt => appt.id === req.params.id,
+  //   );
 
-    if (appointment.start) {
-      appointment.future = moment(appointment.start).isAfter(moment());
-    }
-    return res.json({
-      data: appointment,
-    });
-  },
+  //   if (appointment.start) {
+  //     appointment.future = moment(appointment.start).isAfter(moment());
+  //   }
+  //   return res.json({
+  //     data: appointment,
+  //   });
+  // },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {
       return res.json(schedulingConfigurationsCC);
@@ -459,7 +459,7 @@ const responses = {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
       // reassign status of mocked appointment to booked to simulate success
-      mockAppointment.appointment.status = 'booked';
+      mockAppointment.attributes.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
