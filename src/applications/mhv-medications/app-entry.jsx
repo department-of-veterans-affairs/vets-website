@@ -1,19 +1,24 @@
-// TODO: unable to implement suggested fix without crashing app, once this issue is resolved, change the import
 import 'platform/polyfills';
 import './sass/medications.scss';
 import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
+
 import React from 'react';
+import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom-v5-compat';
 
-import startApp from '@department-of-veterans-affairs/platform-startup/withoutRouter';
-import router from './routes';
-import reducer from './reducers';
-import manifest from './manifest.json';
+import startReactApp from 'platform/startup/react';
 
-startApp({
-  router: <RouterProvider router={router} />,
-  reducer,
-  url: manifest.rootUrl,
-  entryName: manifest.entryName,
-  preloadScheduledDowntimes: true,
-});
+import router from './routes';
+import { store } from './store';
+
+// Wrap RouterProvider with Redux Provider to ensure Redux context is available
+const App = () => (
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
+
+startReactApp(<App />);
+
+// Export the store to make it accessible elsewhere in the app
+export { store };
