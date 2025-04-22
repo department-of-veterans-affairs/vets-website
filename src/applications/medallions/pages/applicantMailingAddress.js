@@ -34,22 +34,6 @@ export default {
           },
         },
       },
-      {
-        postalCode: {
-          'ui:options': {
-            replaceSchema: (_, schema) => {
-              return {
-                ...schema,
-                pattern: '^[a-zA-Z0-9]+$',
-              };
-            },
-          },
-          'ui:errorMessages': {
-            pattern:
-              'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
-          },
-        },
-      },
     ),
   },
 
@@ -72,10 +56,6 @@ export default {
             city: {
               maxLength: 20,
               pattern: '^[A-Za-z]+$',
-            },
-            postalCode: {
-              maxLength: 5,
-              pattern: '^[a-zA-Z0-9]+$',
             },
           },
         },

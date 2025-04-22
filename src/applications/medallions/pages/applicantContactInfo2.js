@@ -39,7 +39,7 @@ export default {
       yourOrganizationContactInfoPhone: {
         type: 'string',
         maxLength: 15,
-        pattern: '1?-?(\\d{3}|\\(\\d{3}\\))[- ]?\\d{3}[- ]?\\d{4}',
+        pattern: '^[0-9\\(][0-9\\-\\(\\)\\s]{9,14}$',
       },
     },
     required: [
