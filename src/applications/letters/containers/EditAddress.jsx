@@ -77,7 +77,13 @@ export function EditAddress() {
           fieldName={FIELD_NAMES.MAILING_ADDRESS}
           isDeleteDisabled
           cancelCallback={() => navigate('/letter-page')}
-          successCallback={() => navigate('/letter-page')}
+          successCallback={() =>
+            navigate('/letter-page', {
+              state: {
+                success: true,
+              },
+            })
+          }
           saveButtonText="Save address"
           cancelButtonText="Cancel edit"
         />

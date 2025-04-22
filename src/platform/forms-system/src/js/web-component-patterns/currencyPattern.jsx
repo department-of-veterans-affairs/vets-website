@@ -9,12 +9,13 @@ import { minMaxValidation } from './numberPattern';
  * Used for simple number amounts containing only digits
  *
  * ```js
- * exampleIncome: currencyUI('Gross monthy income')
+ * exampleIncome: currencyUI('Gross monthly income')
  * exampleIncome: currencyUI({
- *  title: 'Gross monthy income',
+ *  title: 'Gross monthly income',
  *  description: 'This is a description',
- *  hint: 'This is a hint'
- *  width: 'sm'
+ *  hint: 'This is a hint',
+ *  width: 'sm',
+ *  currencySymbol: '$',
  *  min: 0,
  *  max: 99
  * })
@@ -32,6 +33,7 @@ import { minMaxValidation } from './numberPattern';
  *   hint?: string,
  *   width?: UISchemaOptions['ui:options']['width'],
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   currencySymbol?: '$',
  *   min?: number,
  *   max?: number,
  * }} [options] accepts a single string for title, or an object of options
@@ -78,5 +80,10 @@ export const currencyUI = options => {
  */
 export const currencySchema = {
   type: 'number',
+  pattern: '^\\d+(\\.\\d{1,2})?$',
+};
+
+export const currencyStringSchema = {
+  type: 'string',
   pattern: '^\\d+(\\.\\d{1,2})?$',
 };

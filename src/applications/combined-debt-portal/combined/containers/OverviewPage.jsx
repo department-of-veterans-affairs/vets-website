@@ -81,10 +81,9 @@ const OverviewPage = () => {
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="va-introtext">
-          Check the details of debt you might have from VA education, disability
-          compensation, or pension programs, or VA health care and prescription
-          charges from VA health care facilities. Find out how to make payments
-          or request financial help.
+          Check the details of debt from VA education, disability compensation,
+          or pension programs, or VA health care and prescription charges. Find
+          out how to make payments or request financial help.
         </p>
         <GenericDisasterAlert />
         {bothError || bothZero ? (
@@ -95,7 +94,7 @@ const OverviewPage = () => {
           <>
             <h2>Debt and bill overview</h2>
             <Balances />
-            {showOneVADebtLetterLink ? (
+            {showOneVADebtLetterLink && !debtError && !billError ? (
               <VaLinkAction
                 href="/manage-va-debt/summary/combined-statements"
                 label="Review combined statement"

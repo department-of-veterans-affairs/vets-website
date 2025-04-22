@@ -5,6 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -12,7 +14,6 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -244,14 +245,14 @@ const incomeDatePage = {
 const incomeAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income amount'),
-    grossAnnualAmount: currencyUI({
-      title: 'What was the gross annual amount reported to the IRS?',
-    }),
+    grossAnnualAmount: currencyUI(
+      'What was the gross annual amount reported to the IRS?',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      grossAnnualAmount: { type: 'number' },
+      grossAnnualAmount: currencySchema,
     },
     required: ['grossAnnualAmount'],
   },

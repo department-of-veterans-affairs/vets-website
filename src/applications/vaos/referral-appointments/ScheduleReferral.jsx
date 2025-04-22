@@ -63,7 +63,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.provider.location}
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.referralNumber}
+          {currentReferral.referralId}
         </p>
         <va-additional-info
           data-testid="additional-appointment-help-text"
