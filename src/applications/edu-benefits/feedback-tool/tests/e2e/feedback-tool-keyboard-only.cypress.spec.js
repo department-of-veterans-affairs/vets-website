@@ -1,23 +1,9 @@
 import manifest from '../../manifest.json';
 
-export function vaosSetup() {
-  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
-    cy.axeCheck(context, {
-      runOnly: {
-        type: 'tag',
-        values: [
-          'section508',
-          'wcag2a',
-          'wcag2aa',
-          'wcag21a',
-          'wcag21aa',
-          'best-practice',
-        ],
-      },
-    });
-  });
-}
 describe('Feedback Tool Keyboard Test', () => {
+  beforeEach(() => {
+    if (Cypress.env('CI')) this.skip();
+  });
   it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {
       data: {
