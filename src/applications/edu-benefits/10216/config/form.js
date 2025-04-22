@@ -91,6 +91,7 @@ const formConfig = {
     },
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
     institutionDetailsChapter: {
       title: 'Identifying details',
