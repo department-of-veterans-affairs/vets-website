@@ -21,7 +21,7 @@ import {
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
-  isInPersonVAAppointment,
+  isInPersonVisit,
   getPatientTelecom,
 } from '../../services/appointment';
 import {
@@ -393,7 +393,7 @@ export function selectAppointmentLocality(
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
-  const isInPerson = isInPersonVAAppointment(appointment);
+  const isInPerson = isInPersonVisit(appointment);
 
   if (isPendingAppointment) {
     const { name: facilityName } = appointment.vaos.facilityData || {
@@ -458,7 +458,7 @@ export function selectIsHomeVideo(appointment) {
 
 export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
-  const isInPerson = isInPersonVAAppointment(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -559,7 +559,7 @@ export function selectModalityAriaText(appointment) {
 }
 
 export function selectModalityIcon(appointment) {
-  const isInPerson = isInPersonVAAppointment(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -589,8 +589,7 @@ export function selectAppointmentTravelClaim(appointment) {
 export function selectIsEligibleForTravelClaim(appointment) {
   return (
     selectIsPast(appointment) &&
-    (isInPersonVAAppointment(appointment) ||
-      selectIsClinicVideo(appointment)) &&
+    (isInPersonVisit(appointment) || selectIsClinicVideo(appointment)) &&
     selectAppointmentTravelClaim(appointment)
   );
 }

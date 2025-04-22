@@ -12,7 +12,7 @@ import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
   isVAPhoneAppointment,
-  isInPersonVAAppointment,
+  isInPersonVisit,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -44,7 +44,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const isInPerson = isInPersonVAAppointment(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);

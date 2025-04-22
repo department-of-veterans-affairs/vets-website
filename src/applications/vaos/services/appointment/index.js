@@ -693,7 +693,7 @@ export async function cancelAppointment({
   }
 }
 
-export function isInPersonVAAppointment(appointment) {
+export function isInPersonVisit(appointment) {
   return appointment?.modality === 'vaInPerson';
   // const { isCommunityCare, isVideo } = appointment?.vaos || {};
   // const isPhone = isVAPhoneAppointment(appointment);
@@ -731,7 +731,7 @@ export function getCalendarData({ appointment, facility }) {
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
-  } else if (isInPersonVAAppointment(appointment)) {
+  } else if (isInPersonVisit(appointment)) {
     data = {
       summary: `Appointment at ${facility?.name || 'the VA'}`,
       location: formatFacilityAddress(facility),

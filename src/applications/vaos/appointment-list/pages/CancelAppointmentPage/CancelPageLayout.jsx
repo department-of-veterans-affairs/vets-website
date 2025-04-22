@@ -24,12 +24,12 @@ import {
   selectIsCanceled,
   selectIsPhone,
 } from '../../redux/selectors';
-import { isInPersonVAAppointment } from '../../../services/appointment';
+import { isInPersonVisit } from '../../../services/appointment';
 
 function getHeading(appointment) {
   const isCanceled = selectIsCanceled(appointment);
 
-  if (isInPersonVAAppointment(appointment)) {
+  if (isInPersonVisit(appointment)) {
     if (isCanceled) return 'Canceled in-person appointment';
     return 'In-person appointment';
   }
