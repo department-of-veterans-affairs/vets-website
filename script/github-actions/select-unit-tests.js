@@ -106,4 +106,5 @@ if (IS_STRESS_TEST === 'true') {
 } else {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'false');
   core.exportVariable('APPS_TO_STRESS_TEST', SHARED_CHANGED_APPS);
+  fs.writeFileSync('unit_tests_to_stress_test.json', '');
 }
