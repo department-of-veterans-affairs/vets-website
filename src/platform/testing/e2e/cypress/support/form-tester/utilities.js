@@ -82,13 +82,14 @@ export default function inProgressMock({ data, returnUrl, version } = {}) {
  * @param {*} formConfig - The form config object, we really only need the
  *  formId and version from it
  * @param {string} returnUrl - The URL to return to to continue the form flow
- * @param {Object} data - The form data to use in the in-progress form
+ * @param {Object} data - The form data to use in the in-progress form, but only
+ *  include fields before the returnUrl page
  * @param {Object} user - The user object to use in the mock user response
  */
 export const setupInProgressReturnUrl = ({
   formConfig = {},
   returnUrl = '',
-  data = {},
+  data = {}, // all previous page form data
   user = {},
 }) => {
   const { formId, version } = formConfig;
