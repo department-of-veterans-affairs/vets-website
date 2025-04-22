@@ -3,11 +3,14 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
-import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
-import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockThreadsResponse,
+    'test',
+  );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -17,15 +20,15 @@ describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
 
   it('verify filter works correctly', () => {
     PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(customSearchResponse);
-    PatientFilterPage.verifyFilterResults('test', customSearchResponse);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults('test', filteredResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterData('any');
-    PatientFilterPage.clickApplyFilterButton(customSearchResponse);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
 
@@ -34,7 +37,7 @@ describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
 
   it('check sorting works properly', () => {
     const sortedResponse = PatientFilterPage.sortMessagesThread(
-      mockSingleThreadResponse,
+      mockThreadsResponse,
     );
 
     PatientFilterPage.verifySorting(sortedResponse);
