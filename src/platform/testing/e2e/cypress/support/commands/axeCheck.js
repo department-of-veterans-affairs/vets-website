@@ -55,7 +55,7 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
         enabled: false,
       },
       'empty-heading': {
-        enabled: false,
+        enabled: true,
       },
       'heading-order': {
         enabled: true,
