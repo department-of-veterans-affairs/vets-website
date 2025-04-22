@@ -34,27 +34,16 @@ class LabsAndTests {
     cy.url().should('include', `?timeFrame=${timeFrame}`);
   };
 
-  // selectMonthAndYear = ({ month, year, submit = true }) => {
-  //   cy.get('select[name="vitals-date-pickerMonth"]').select(month);
-  //   cy.get('input[name="vitals-date-pickerYear"]').clear();
-  //   cy.get('input[name="vitals-date-pickerYear"]').type(year);
-  //   if (submit) {
-  //     cy.get('[data-testid="update-time-frame-button"]').click({
-  //       waitForAnimations: true,
-  //     });
-  //   }
-  // };
-
-  // verifySelectedDate = ({ dateString }) => {
-  //   cy.get("[data-testid='current-date-display']").should('be.visible');
-  //   cy.get("[data-testid='current-date-display']").contains(dateString);
-  // };
-
-  // viewNextPage = () => {
-  //   cy.get(
-  //     'nav > ul > li.usa-pagination__item.usa-pagination__arrow > a',
-  //   ).click();
-  // };
+  selectMonthAndYear = ({ month, year, submit = true }) => {
+    cy.get('select[name="vitals-date-pickerMonth"]').select(month);
+    cy.get('input[name="vitals-date-pickerYear"]').clear();
+    cy.get('input[name="vitals-date-pickerYear"]').type(year);
+    if (submit) {
+      cy.get('[data-testid="update-time-frame-button"]').click({
+        waitForAnimations: true,
+      });
+    }
+  };
 }
 
 export default new LabsAndTests();
