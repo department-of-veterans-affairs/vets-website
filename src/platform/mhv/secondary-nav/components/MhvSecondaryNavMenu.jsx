@@ -34,7 +34,8 @@ const MhvSecondaryNavMenu = ({ items, loading }) => {
       .find(item => {
         // Normalizes paths by removing trailing slashes to ensure consistent comparisons
         const appRootUrl = stripTrailingSlash(item.appRootUrl || item.href);
-        const currentPath = stripTrailingSlash(window?.location?.pathname);
+        const currentPath =
+          stripTrailingSlash(window?.location?.pathname) || '';
         // Extracts the first two segment of the current URL for root path comparison
         const currentAppRootPath = currentPath
           .split('/')
