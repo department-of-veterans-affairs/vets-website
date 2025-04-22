@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
+
 /**
- * Class to create mock appointment creation responses for Cypress tests
+ * Class to create mock submit appointment responses for Cypress tests
  */
-class MockReferralCreateAppointmentResponse {
+class MockReferralSubmitAppointmentResponse {
   constructor(options = {}) {
     this.options = {
       appointmentId: 'EEKoGzEf',
@@ -11,22 +13,22 @@ class MockReferralCreateAppointmentResponse {
   }
 
   /**
-   * Creates a successful appointment creation response
+   * Creates a successful appointment submission response
    *
    * @param {Object} options - Options for the response
-   * @param {string} options.appointmentId - ID for the created appointment
+   * @param {string} options.appointmentId - ID for the submitted appointment
    * @returns {Object} A successful response object
    */
   static createSuccessResponse({ appointmentId = 'EEKoGzEf' } = {}) {
     return {
       data: {
-        appointmentId,
+        id: appointmentId,
       },
     };
   }
 
   /**
-   * Creates an error response for appointment creation
+   * Creates an error response for appointment submission
    *
    * @param {Object} options - Options for the error response
    * @param {string} options.code - Error code
@@ -37,7 +39,7 @@ class MockReferralCreateAppointmentResponse {
   static createErrorResponse({
     code = '500',
     title = 'Internal Server Error',
-    detail = 'An error occurred while creating the appointment',
+    detail = 'An error occurred while submitting the appointment',
   } = {}) {
     return {
       errors: [
@@ -61,14 +63,14 @@ class MockReferralCreateAppointmentResponse {
 
     // Return error response if success is false
     if (!success) {
-      return MockReferralCreateAppointmentResponse.createErrorResponse();
+      return MockReferralSubmitAppointmentResponse.createErrorResponse();
     }
 
     // Return successful response
-    return MockReferralCreateAppointmentResponse.createSuccessResponse({
+    return MockReferralSubmitAppointmentResponse.createSuccessResponse({
       appointmentId,
     });
   }
 }
 
-export default MockReferralCreateAppointmentResponse;
+export default MockReferralSubmitAppointmentResponse;

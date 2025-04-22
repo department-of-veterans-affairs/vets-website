@@ -139,41 +139,6 @@ export function mockAppointmentUpdateApi({
 }
 
 /**
- * Function to mock the 'CREATE' appointment endpoint.
- *
- * @example POST '/vaos/v2/appointments'
- *
- * @export
- * @param {Object} arguments
- * @param {Object} [arguments.response] - The response to return from the mock api call.
- * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- */
-export function mockAppointmentCreateApi({
-  response: data,
-  responseCode = 200,
-}) {
-  cy.intercept(
-    {
-      method: 'POST',
-      pathname: '/vaos/v2/appointments',
-    },
-    req => {
-      if (responseCode !== 200) {
-        req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
-        });
-        return;
-      }
-
-      req.reply({
-        data,
-      });
-    },
-  ).as('v2:create:appointment');
-}
-
-/**
  * Function to mock the 'GET' appointments endpoint.
  *
  * @example GET '/vaos/v2/appointments'

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { addDays } from 'date-fns';
 
 /**
@@ -177,12 +178,7 @@ class MockReferralDraftAppointmentResponse {
    * @returns {Object} The complete response object or error
    */
   toJSON() {
-    const {
-      referralId,
-      categoryOfCare,
-      notFound,
-      numberOfSlots,
-    } = this.options;
+    const { referralId, notFound, numberOfSlots } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
@@ -200,10 +196,12 @@ class MockReferralDraftAppointmentResponse {
 
     // Create slots array
     const slotsArray = [];
-    const startHour = 9;
+    const startHour = 16; // Starting at 4 PM UTC
+
     for (let i = 0; i < numberOfSlots; i++) {
       const slotDate = addDays(new Date(), i + 3);
       slotDate.setHours(startHour + i, 0, 0, 0);
+
       slotsArray.push(
         MockReferralDraftAppointmentResponse.createSlot({
           startDate: slotDate,
@@ -215,17 +213,16 @@ class MockReferralDraftAppointmentResponse {
     // Create provider
     const provider = MockReferralDraftAppointmentResponse.createProvider();
 
+    // Update provider's location to match the new format (removing the name property)
+    const { ...locationWithoutName } = provider.location;
+    delete locationWithoutName.name;
+    provider.location = locationWithoutName;
+
     // Return complete response matching the expected format
     return {
       data: {
-        appointment: {
-          id: 'EEKoGzEf',
-          state: 'draft',
-          patientId: 'care-nav-patient-casey',
-          startDate: '2025-01-02T15:30:00Z',
-          modality: 'In person',
-          typeOfCare: categoryOfCare,
-        },
+        id: 'EEKoGzEf',
+        type: 'draft',
         provider,
         slots: {
           count: numberOfSlots,

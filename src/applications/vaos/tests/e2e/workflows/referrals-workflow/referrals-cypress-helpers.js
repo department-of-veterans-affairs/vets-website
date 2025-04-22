@@ -99,7 +99,7 @@ export function mockDraftReferralAppointmentApi({
   cy.intercept(
     {
       method: 'POST',
-      pathname: '/vaos/v2/epsApi/draftReferralAppointment',
+      pathname: '/vaos/v2/appointments/draft',
     },
     req => {
       if (responseCode !== 200) {
@@ -135,7 +135,7 @@ export function mockCreateAppointmentApi({
   cy.intercept(
     {
       method: 'POST',
-      pathname: '/vaos/v2/epsApi/appointments',
+      pathname: '/vaos/v2/appointments',
     },
     req => {
       if (responseCode !== 200) {
@@ -152,6 +152,90 @@ export function mockCreateAppointmentApi({
       });
     },
   ).as('v2:post:createAppointment');
+}
+
+/**
+ * Function to mock the 'POST' submit appointment endpoint.
+ *
+ * @example POST '/vaos/v2/appointments/submit'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockSubmitAppointmentApi({
+  response: data,
+  responseCode = 200,
+} = {}) {
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/vaos/v2/appointments/submit',
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          statusCode: responseCode,
+          body: data,
+        });
+        return;
+      }
+
+      req.reply({
+        statusCode: 200,
+        body: data,
+      });
+    },
+  ).as('v2:post:submitAppointment');
+}
+
+/**
+ * Function to mock the 'GET' completed appointment endpoint.
+ *
+ * @example GET '/my-health/appointments/schedule-referral/complete/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {string} [arguments.id] - The id of the completed appointment to get.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockCompletedAppointmentApi({
+  id = '*',
+  response: data,
+  responseCode = 200,
+} = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/my-health/appointments/schedule-referral/complete/${id}`,
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          statusCode: responseCode,
+          body:
+            responseCode === 404
+              ? { errors: [{ title: 'Appointment not found', status: '404' }] }
+              : {
+                  errors: [
+                    {
+                      title: 'Error retrieving appointment',
+                      status: responseCode.toString(),
+                    },
+                  ],
+                },
+        });
+        return;
+      }
+
+      req.reply({
+        statusCode: 200,
+        body: data,
+      });
+    },
+  ).as('get:completedAppointment');
 }
 
 /**
@@ -173,7 +257,7 @@ export function mockAppointmentDetailsApi({
   cy.intercept(
     {
       method: 'GET',
-      pathname: `/vaos/v2/epsApi/appointments/${id}`,
+      pathname: `/vaos/v2/appointments/${id}`,
     },
     req => {
       if (responseCode !== 200) {
