@@ -30,9 +30,8 @@
  */
 
 /**
- * @typedef {{
- *   requiredFields: Array<string>,
- * } & Partial<ListLoop> & Partial<ArrayBuilderText>} ListLoopVariation
+ * @typedef {Object} ListLoopVariation
+ * @property {ArrayBuilderOptions} options
  */
 
 /**
