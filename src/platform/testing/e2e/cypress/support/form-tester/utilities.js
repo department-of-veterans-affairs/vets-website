@@ -102,7 +102,7 @@ export const setupInProgressReturnUrl = ({
     [
       {
         form: formId,
-        metadata: inProgressMock({ version }).metadata,
+        metadata: inProgressMock({ returnUrl, version }).metadata,
         lastUpdated: 1715357232,
       },
     ],
