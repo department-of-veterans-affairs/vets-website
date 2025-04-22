@@ -132,14 +132,20 @@ export function renderWithStoreAndRouter(
  */
 export function renderWithStoreAndRouterV6(
   ui,
-  { initialState, reducers = {}, store = null, initialEntries = ['/'] },
+  {
+    initialState,
+    reducers = {},
+    store = null,
+    initialEntries = ['/'],
+    additionalMiddlewares = [],
+  },
 ) {
   const testStore =
     store ||
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk, vaosApi.middleware),
+      applyMiddleware(thunk, ...additionalMiddlewares),
     );
 
   // Convert single string path to array if needed
