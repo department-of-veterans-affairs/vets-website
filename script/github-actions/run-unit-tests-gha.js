@@ -47,18 +47,33 @@ core.exportVariable('NO_APPS_TO_RUN', false);
 const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
 
 const runner = options.coverage ? 'npx nyc' : 'npx mocha';
-const runnerArgs = options.coverage
-  ? `--all --reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5`
-  : `--config ${options.config}${
-      options.reporter ? ` --reporter ${options.reporter}` : ''
-    }`;
+
+const commonMochaArgs = `--config ${options.config} --extension js,jsx`;
+
+const coverageArgs = [
+  '--all',
+  'mocha',
+  commonMochaArgs,
+  '--reporter=json-summary',
+  '--reporter mocha-multi-reporters',
+  '--reporter-options configFile=config/mocha-multi-reporter.js',
+  '--no-color',
+  '--retries 5',
+].join(' ');
+
+const mochaArgs = [
+  commonMochaArgs,
+  options.reporter ? `--reporter ${options.reporter}` : '',
+]
+  .filter(Boolean)
+  .join(' ');
+
+const runnerArgs = options.coverage ? coverageArgs : mochaArgs;
 
 const cmd = [
   `LOG_LEVEL=${options['log-level'].toLowerCase()}`,
   runner,
-  options.coverage
-    ? `--all mocha ${runnerArgs.replace(/^--/, '')}`
-    : runnerArgs,
+  runnerArgs,
   '--max-old-space-size=32768',
   filesArg,
 ].join(' ');
