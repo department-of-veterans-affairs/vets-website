@@ -92,6 +92,7 @@ const RecordList = props => {
             className={
               domainOptions?.isAccelerating ? 'vads-u-font-weight--bold' : ''
             }
+            data-testid="filter-display-message"
           >
             {filterDisplayMessage}
           </span>{' '}

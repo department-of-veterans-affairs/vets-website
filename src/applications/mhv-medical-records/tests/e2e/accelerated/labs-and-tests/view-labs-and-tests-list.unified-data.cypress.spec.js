@@ -34,8 +34,7 @@ describe('Medical Records View Lab and Tests', () => {
 
     const CARDS_PER_PAGE = 6; // 3 per page * 2 for printing
     cy.get('va-card').should('have.length', CARDS_PER_PAGE);
-
-    cy.get("[data-testid='current-date-display']").should('be.visible');
-    cy.get("[data-testid='current-date-display']").should('not.be.empty');
+    cy.get("[data-testid='filter-display-message']").should('be.visible');
+    cy.get("[data-testid='filter-display-message']").should('not.be.empty');
   });
 });
