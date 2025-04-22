@@ -5,10 +5,6 @@ const core = require('@actions/core');
 const commandLineArgs = require('command-line-args');
 const { execSync } = require('child_process');
 
-//
-// 1) Define only the flags we actually need: coverage, log‑level, reporter, config,
-//    and a catch‑all "path" for positional test file paths.
-//
 const optionDefinitions = [
   { name: 'log-level', type: String, defaultValue: 'verbose' },
   { name: 'coverage', type: Boolean, defaultValue: false },
@@ -26,13 +22,6 @@ const optionDefinitions = [
 
 const options = commandLineArgs(optionDefinitions);
 
-//
-// 2) Figure out which tests to actually run.
-//    Priority:
-//      A) CLI args
-//      B) unit_tests_to_stress_test.json
-//      C) unit_tests_to_run.json
-//
 let testsToRun = [];
 
 if (options.path.length > 0) {
@@ -53,34 +42,28 @@ if (!testsToRun || testsToRun.length === 0) {
   process.exit(0);
 }
 
-// signal downstream we do have apps/tests to run
 core.exportVariable('NO_APPS_TO_RUN', false);
 
-//
-// 3) Build the test runner command
-//
-const reporterOption = options.reporter ? `--reporter ${options.reporter}` : '';
-
-// mocha vs nyc coverage
-const mochaBase = `BABEL_ENV=test NODE_ENV=test mocha --config ${
-  options.config
-} ${reporterOption}`;
-const coverageReporter = options['coverage-html']
-  ? '--reporter=html --retries 5'
-  : '--reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
-
-const coverageBase = `NODE_ENV=test nyc --all ${
-  options['coverage‑html'] ? '--reporter=html' : ''
-} ${coverageReporter}`;
-
-const testRunner = options.coverage ? coverageBase : mochaBase;
-
-//
-// 4) Flatten and shell‑escape our test paths, then invoke
-//
 const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
-const cmd = `LOG_LEVEL=${options[
-  'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=32768 ${filesArg}`;
 
-execSync(cmd, { stdio: 'inherit', shell: true });
+const runner = options.coverage ? 'npx nyc' : 'npx mocha';
+const runnerArgs = options.coverage
+  ? `--all --reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5`
+  : `--config ${options.config}${
+      options.reporter ? ` --reporter ${options.reporter}` : ''
+    }`;
+
+const cmd = [
+  `LOG_LEVEL=${options['log-level'].toLowerCase()}`,
+  runner,
+  options.coverage
+    ? `--all mocha ${runnerArgs.replace(/^--/, '')}`
+    : runnerArgs,
+  '--max-old-space-size=32768',
+  filesArg,
+].join(' ');
+
+execSync(cmd, {
+  stdio: 'inherit',
+  shell: '/bin/bash',
+});
