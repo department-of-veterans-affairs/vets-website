@@ -51,6 +51,7 @@
     "royaltiesAndOtherProperties": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "canBeSold": true,
         "fairMarketValue": 25000,
         "grossMonthlyIncome": 1200,

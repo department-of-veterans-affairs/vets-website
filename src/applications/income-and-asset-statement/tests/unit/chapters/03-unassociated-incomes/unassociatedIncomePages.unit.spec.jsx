@@ -154,9 +154,7 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: { first: 'Jane', last: 'Smith' },
-      },
+      testData.data.unassociatedIncomes[0],
       { loggedIn: true },
     );
   });

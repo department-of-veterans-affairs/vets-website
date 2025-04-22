@@ -7,12 +7,12 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-  textUI,
   textareaUI,
   textareaSchema,
-  textSchema,
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
@@ -20,6 +20,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
   otherRecipientRelationshipExplanationRequired,
   otherGeneratedIncomeTypeExplanationRequired,
   recipientNameRequired,
@@ -35,13 +36,23 @@ export const options = {
   required: false,
   isItemIncomplete: item =>
     !isDefined(item?.recipientRelationship) ||
+    (!isDefined(item?.recipientName) &&
+      item?.recipientRelationship !== 'VETERAN') ||
+    (!isDefined(item?.otherRecipientRelationshipType) &&
+      item?.recipientRelationship === 'OTHER') ||
     typeof item.canBeSold !== 'boolean' ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => relationshipLabels[item.recipientRelationship],
+    getItemName: item =>
+      isDefined(item?.recipientRelationship) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? 'Veteran'
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
@@ -166,15 +177,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income and net worth associated with royalties and other properties',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },
