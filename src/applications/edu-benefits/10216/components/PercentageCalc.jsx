@@ -7,7 +7,12 @@ function PercentageCalc({ formData }) {
   return (
     <div className="schemaform-field-template">
       <div className="vads-u-margin-bottom--2">
-        <span className="vads-u-font-weight--bold vads-u-font-size--lg">
+        <span
+          className="vads-u-font-weight--bold vads-u-font-size--lg"
+          aria-label={`Calculated Percentage: ${calculatedPercentage(
+            formData,
+          )}`}
+        >
           {calculatedPercentage(formData)}
         </span>
       </div>
