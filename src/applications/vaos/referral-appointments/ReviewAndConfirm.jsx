@@ -72,9 +72,7 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(
-          createDraftReferralAppointment(currentReferral.referralNumber),
-        );
+        dispatch(createDraftReferralAppointment(currentReferral.referralId));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
@@ -84,7 +82,7 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.referralNumber, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.referralId, dispatch, draftAppointmentCreateStatus],
   );
 
   useEffect(
@@ -234,7 +232,7 @@ const ReviewAndConfirm = props => {
               e.preventDefault();
               dispatch(
                 createReferralAppointment({
-                  referralNumber: currentReferral.referralNumber,
+                  referralId: currentReferral.referralId,
                   slotId: selectedSlot,
                   draftApppointmentId: draftAppointmentInfo.id,
                 }),

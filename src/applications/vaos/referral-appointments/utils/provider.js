@@ -431,10 +431,11 @@ const draftAppointments = {
  */
 const createDraftAppointmentInfo = (
   numberOfSlots,
-  referralNumber = 'VA0000009880-default',
+  referralId = 'VA0000009880-default',
 ) => {
-  const draftAppointmentInfo = draftAppointments[referralNumber];
+  const draftAppointmentInfo = draftAppointments[referralId];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
+
   draftAppointmentInfo.slots = { count: numberOfSlots, slots: [] };
   let hourFromNow = 12;
   for (let i = 0; i < numberOfSlots; i++) {

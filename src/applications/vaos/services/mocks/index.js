@@ -234,6 +234,7 @@ const responses = {
     const appointment = appointments.data.find(
       appt => appt.id === req.params.id,
     );
+
     if (appointment.start) {
       appointment.future = moment(appointment.start).isAfter(moment());
     }
@@ -394,20 +395,22 @@ const responses = {
 
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
       const expiredReferral = referralUtils.createReferralById(
-        req.params.referralId,
         '2024-12-02',
+        req.params.referralId,
       );
       return res.json({
         data: expiredReferral,
       });
     }
-    const referral = referralUtils.createReferralById(req.params.referralId);
+    const referral = referralUtils.createReferralById(
+      '2024-12-02',
+      req.params.referralId,
+    );
     return res.json({
       data: referral,
     });
   },
-  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
-    // referralId is the referralNumber of the referral
+  'POST /vaos/v2/appointments/draft': (req, res) => {
     const { referralId } = req.body;
     // Provider 3 throws error
     if (referralId === '') {
@@ -431,7 +434,7 @@ const responses = {
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
@@ -464,10 +467,10 @@ const responses = {
       data: mockAppointment,
     });
   },
-  'POST /vaos/v2/epsApi/appointments': (req, res) => {
-    const { slotId, draftApppointmentId, referralNumber } = req.body;
+  'POST /vaos/v2/appointments/submit': (req, res) => {
+    const { slotId, draftApppointmentId, referralId } = req.body;
 
-    if (!referralNumber || !slotId || !draftApppointmentId) {
+    if (!referralId || !slotId || !draftApppointmentId) {
       return res.status(400).json({ error: true });
     }
 

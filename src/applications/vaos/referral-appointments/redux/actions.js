@@ -47,15 +47,13 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function createDraftReferralAppointment(referralNumber) {
+export function createDraftReferralAppointment(referralId) {
   return async dispatch => {
     try {
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
       });
-      const providerDetails = await postDraftReferralAppointment(
-        referralNumber,
-      );
+      const providerDetails = await postDraftReferralAppointment(referralId);
 
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
@@ -191,7 +189,7 @@ export function startNewAppointmentFlow() {
 }
 
 export function createReferralAppointment({
-  referralNumber,
+  referralId,
   slotId,
   draftApppointmentId,
 }) {
@@ -202,7 +200,7 @@ export function createReferralAppointment({
       });
 
       const appointmentInfo = await postReferralAppointment({
-        referralNumber,
+        referralId,
         slotId,
         draftApppointmentId,
       });
