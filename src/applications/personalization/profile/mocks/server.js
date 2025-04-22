@@ -191,7 +191,7 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
-    const secondsOfDelay = 2;
+    const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(directDeposits.base),
       secondsOfDelay,
