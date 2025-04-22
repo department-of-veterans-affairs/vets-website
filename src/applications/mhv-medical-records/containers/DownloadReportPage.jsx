@@ -5,6 +5,7 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '@department-of-veterans-affairs/mhv/exports';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -14,6 +15,7 @@ import ExternalLink from '../components/shared/ExternalLink';
 import MissingRecordsError from '../components/DownloadRecords/MissingRecordsError';
 import {
   clearFailedList,
+  getSelfEnteredData,
   getAllSelfEnteredData,
 } from '../actions/selfEnteredData';
 import {
@@ -77,6 +79,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   } = useSelector(state => state);
 
   const fullState = useSelector(state => state);
+
+  const useUnifiedSelfEnteredAPI = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
+      ],
+  );
 
   // Extract user info
   const name = formatNameFirstLast(userProfile.userFullName);
@@ -151,14 +160,18 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
           // Fetch data if not all defined
           dispatch(clearFailedList());
-          dispatch(getAllSelfEnteredData());
+          if (useUnifiedSelfEnteredAPI) {
+            dispatch(getAllSelfEnteredData());
+          } else {
+            dispatch(getSelfEnteredData());
+          }
         }
       } catch (error) {
         dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
         throw error;
       }
     },
-    [dispatch, selfEnteredPdfRequested],
+    [dispatch, selfEnteredPdfRequested, useUnifiedSelfEnteredAPI],
   );
 
   // Trigger PDF generation if data arrives after being requested
