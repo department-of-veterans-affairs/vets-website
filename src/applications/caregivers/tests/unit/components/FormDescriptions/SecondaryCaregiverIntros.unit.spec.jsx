@@ -4,15 +4,13 @@ import { expect } from 'chai';
 import { SecondayCaregiverOneIntro } from '../../../../components/FormDescriptions/SecondayCaregiverIntros';
 
 describe('CG <SecondayCaregiverOneIntro>', () => {
-  const getData = ({ primary = false, secondary = undefined }) => ({
-    props: {
+  const subject = ({ primary = false, secondary = undefined } = {}) => {
+    const props = {
       formData: {
         'view:hasPrimaryCaregiver': primary,
         'view:hasSecondaryCaregiverOne': secondary,
       },
-    },
-  });
-  const subject = ({ props }) => {
+    };
     const { container } = render(<SecondayCaregiverOneIntro {...props} />);
     const selectors = () => ({
       vaAlert: container.querySelector('va-alert'),
@@ -21,20 +19,17 @@ describe('CG <SecondayCaregiverOneIntro>', () => {
   };
 
   it('should not render `va-alert` with prestine form input', () => {
-    const { props } = getData({});
-    const { selectors } = subject({ props });
+    const { selectors } = subject();
     expect(selectors().vaAlert).to.not.exist;
   });
 
   it('should not render `va-alert` when form data is valid', () => {
-    const { props } = getData({ secondary: true });
-    const { selectors } = subject({ props });
+    const { selectors } = subject({ secondary: true });
     expect(selectors().vaAlert).to.not.exist;
   });
 
   it('should render `va-alert` when form data is invalid', () => {
-    const { props } = getData({ primary: false, secondary: false });
-    const { selectors } = subject({ props });
+    const { selectors } = subject({ primary: false, secondary: false });
     expect(selectors().vaAlert).to.exist;
   });
 });
