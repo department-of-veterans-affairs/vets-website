@@ -35,7 +35,7 @@ const LabAndTestDetails = () => {
 
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
-  const { isAcceleratingLabsAndTests } = useAcceleratedData();
+  const { isAcceleratingLabsAndTests, isLoading } = useAcceleratedData();
 
   useEffect(
     () => {
@@ -48,7 +48,7 @@ const LabAndTestDetails = () => {
 
   useEffect(
     () => {
-      if (labId) {
+      if (labId && !isLoading) {
         dispatch(
           getlabsAndTestsDetails(
             labId,
@@ -59,7 +59,7 @@ const LabAndTestDetails = () => {
       }
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
-    [labId, labAndTestList, dispatch, isAcceleratingLabsAndTests],
+    [labId, labAndTestList, dispatch, isAcceleratingLabsAndTests, isLoading],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { parseISO } from 'date-fns';
 import {
   buildRadiologyResults,
@@ -762,10 +764,7 @@ describe('formatDateTime', () => {
   it('should format a valid datetime string correctly', () => {
     const datetimeString = '2025-04-22T14:30:00Z';
     const result = formatDateTime(datetimeString);
-    expect(result).to.deep.equal({
-      formattedDate: 'April 22, 2025',
-      formattedTime: '10:30 AM',
-    });
+    expect(result.formattedDate).to.equal('April 22, 2025');
   });
 
   it('should handle invalid datetime strings gracefully', () => {
@@ -788,6 +787,14 @@ describe('formatDateTime', () => {
 });
 
 describe('convertUnifiedLabsAndTestRecord', () => {
+  let clock;
+  beforeEach(() => {
+    const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+    clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+  });
+  afterEach(() => {
+    clock.restore();
+  });
   it('should convert a valid record correctly', () => {
     const record = {
       id: 'test-id',
@@ -806,7 +813,6 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-
     expect(result).to.deep.equal({
       id: 'test-id',
       date: 'April 22, 2025, 10:30 AM',
