@@ -10,7 +10,11 @@ import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField
 import { useSearchParams, useNavigation } from 'react-router-dom';
 import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
-import { SEARCH_BC_LABEL, findClaimantBC } from '../utilities/poaRequests';
+import {
+  SEARCH_BC_LABEL,
+  findClaimantBC,
+  requestsContainStatus,
+} from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 
 const lastFour = ssn => {
@@ -26,14 +30,11 @@ const poaFormLink = () => {
   );
 };
 
-const poaStatusCta = poaStatus => {
-  if (poaStatus === 'pending') {
-    return 'To establish POA, accept the pending request from the claimant.';
-  }
-  if (poaStatus === 'accepted_with_pending') {
-    return 'If you accept the pending request from the claimant, you will replace the current representative with the new one.';
-  }
-  if (poaStatus === 'accepted_with_declined') {
+const poaStatusCta = claimant => {
+  if (
+    claimant.representative &&
+    requestsContainStatus('declination', claimant.poaRequests)
+  ) {
     return (
       <span>
         To change POA, have the claimant submit a new POA request online using{' '}
@@ -41,13 +42,22 @@ const poaStatusCta = poaStatus => {
       </span>
     );
   }
-  if (poaStatus === 'declined') {
+  if (
+    claimant.representative &&
+    requestsContainStatus('pending', claimant.poaRequests)
+  ) {
+    return 'If you accept the pending request from the claimant, you will replace the current representative with the new one.';
+  }
+  if (requestsContainStatus('declined', claimant.poaRequests)) {
     return (
       <span>
         To establish POA, have the claimant submit a new POA request online
         using {poaFormLink()}.
       </span>
     );
+  }
+  if (requestsContainStatus('pending', claimant.poaRequests)) {
+    return 'To establish POA, accept the pending request from the claimant.';
   }
   return null;
 };
@@ -104,10 +114,17 @@ const SearchResults = ({ claimant, searchData }) => {
       <h2>
         {claimant.lastName}, {claimant.firstName}
       </h2>
-      {claimant.city}, {claimant.state} {claimant.postalCode}
+      {claimant.city}
+      {claimant.city ? ', ' : ''}
+      {claimant.state} {claimant.postalCode}
       <br />
       <br />
-      {claimant.poaStatus === 'pending' || claimant.poaStatus === 'declined' ? (
+      {claimant.representative ? (
+        <>
+          <strong>POA Status:</strong> {claimant.representative} has POA for
+          this claimant.
+        </>
+      ) : (
         <>
           <strong>POA Status: </strong>
           <span>
@@ -115,17 +132,12 @@ const SearchResults = ({ claimant, searchData }) => {
           </span>{' '}
           You do not have POA for this claimant.
         </>
-      ) : (
-        <>
-          <strong>POA Status:</strong> {claimant.representative} has POA for
-          this claimant.
-        </>
       )}
       {claimant.poaRequests?.length ? (
         <>
           <hr className="divider claimant-search" />
           <h3>Recent power of attorney requests</h3>
-          {poaStatusCta(claimant.poaStatus)}
+          {poaStatusCta(claimant)}
           <ul
             data-testid="poa-requests-card"
             className="poa-request__list"
@@ -186,11 +198,14 @@ const POARequestIndividualSearchPage = () => {
       api
         .claimantSearch({ ...searchData })
         .then(response => {
-          return response.json();
+          response.json().then(json => {
+            setSearchPerformed(true);
+            setClaimant(json.data);
+          });
         })
-        .then(data => {
+        .catch(() => {
           setSearchPerformed(true);
-          setClaimant(data.claimant);
+          setClaimant(null);
         });
     }
     return null;

@@ -96,7 +96,7 @@ const api = {
 
   claimantSearch: wrapApiRequest(data => {
     return [
-      `/claimant`,
+      `/claimant/search`,
       {
         body: JSON.stringify({ ...data }),
         method: 'POST',
