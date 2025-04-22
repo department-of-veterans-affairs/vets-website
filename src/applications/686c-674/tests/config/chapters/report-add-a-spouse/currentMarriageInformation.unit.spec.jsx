@@ -12,7 +12,7 @@ const defaultStore = createCommonStore();
 const formData = (
   isMilitary = false,
   outsideUsa = false,
-  type = undefined,
+  typeOfMarriage = undefined,
   currentSpouseReasonForSeparation = undefined,
 ) => {
   return {
@@ -28,7 +28,7 @@ const formData = (
     },
     currentMarriageInformation: {
       outsideUsa,
-      type,
+      typeOfMarriage,
     },
   };
 };

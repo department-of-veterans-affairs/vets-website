@@ -154,8 +154,6 @@ describe('TravelPayStatusApp', () => {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
-        error: { errors: [{ title: 'Forbidden', status: 403 }] },
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -185,8 +183,6 @@ describe('TravelPayStatusApp', () => {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
-        error: { errors: [{ title: 'Service unavilable', status: 500 }] },
       }),
       path: `/claims/`,
       reducers: reducer,

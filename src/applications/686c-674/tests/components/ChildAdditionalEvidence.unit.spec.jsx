@@ -37,6 +37,9 @@ describe('ChildAdditionalEvidence', () => {
     expect(evidenceAccordion.getAttribute('header')).to.equal(
       'Supporting evidence you need to submit',
     );
+    expect(evidenceAccordion.parentElement.getAttribute('open-single')).to.eq(
+      'true',
+    );
   });
 
   it('should render birth certificate requirement if the child lives outside the USA', () => {

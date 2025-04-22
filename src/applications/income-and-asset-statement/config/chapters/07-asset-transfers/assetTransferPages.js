@@ -5,6 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   fullNameUI,
@@ -17,7 +19,6 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateShort } from 'platform/utilities/date';
 import { relationshipLabels, transferMethodLabels } from '../../../labels';
@@ -271,32 +272,18 @@ const valuePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Asset transfer value information',
     ),
-    fairMarketValue: merge(
-      {},
-      currencyUI('What was the fair market value when transferred?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    fairMarketValue: currencyUI(
+      'What was the fair market value when transferred?',
     ),
-    saleValue: merge({}, currencyUI('What was the sale price?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    capitalGainValue: merge({}, currencyUI('What was the gain?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    saleValue: currencyUI('What was the sale price?'),
+    capitalGainValue: currencyUI('What was the gain?'),
   },
   schema: {
     type: 'object',
     properties: {
-      fairMarketValue: { type: 'number' },
-      saleValue: { type: 'number' },
-      capitalGainValue: { type: 'number' },
+      fairMarketValue: currencySchema,
+      saleValue: currencySchema,
+      capitalGainValue: currencySchema,
     },
     required: ['fairMarketValue', 'capitalGainValue'],
   },
