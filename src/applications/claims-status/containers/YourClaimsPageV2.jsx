@@ -189,7 +189,12 @@ class YourClaimsPageV2 extends React.Component {
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <va-loading-indicator message="Loading your claims and appeals..." />
+        <div className="all-requests-loading-container">
+          <va-loading-indicator
+            data-testid="all-requests-loading"
+            message="Loading your claims and appeals..."
+          />
+        </div>
       );
     } else if (!emptyList) {
       const listLen = list.length;
