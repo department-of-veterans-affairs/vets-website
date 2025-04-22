@@ -5,12 +5,13 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -160,7 +161,7 @@ const assetTypePage = {
     type: 'object',
     properties: {
       assetType: textSchema,
-      ownedPortionValue: { type: 'number' },
+      ownedPortionValue: currencySchema,
       assetLocation: textSchema,
     },
     required: ['assetType', 'ownedPortionValue', 'assetLocation'],
