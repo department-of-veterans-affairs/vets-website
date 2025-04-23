@@ -92,3 +92,12 @@ export const getSeiMedications = () => {
     headers,
   });
 };
+
+export const getSeiEmergencyContacts = () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/self_entered/emergency_contacts`,
+    {
+      headers,
+    },
+  );
+};

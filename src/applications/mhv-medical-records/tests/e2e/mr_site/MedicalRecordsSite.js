@@ -52,14 +52,6 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhvMedicalRecordsToVAGovRelease',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_to_va_gov_release',
-            value: true,
-          },
-          {
             name: 'mhvMedicalRecordsDisplayDomains',
             value: true,
           },

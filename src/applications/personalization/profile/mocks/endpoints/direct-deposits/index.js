@@ -29,6 +29,10 @@ const base = {
         accountNumber: '*******5487',
         routingNumber: '*****1533',
       },
+      veteranStatus: 'VETERAN',
+      // veteranStatus: 'DEPENDENT',
+      // veteranStatus: 'NEITHER_VETERAN_NOR_DEPENDENT',
+      // veteranStatus: 'COULD_NOT_DETERMINE_DUE_TO_EXCEPTION',
     },
   },
 };

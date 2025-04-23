@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import {
   getArrayIndexFromPathName,
   getArrayUrlSearchParams,
@@ -10,23 +9,40 @@ import {
   NEW_CONDITION_OPTION,
 } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
+import {
+  NewConditionCardDescription,
+  RatedDisabilityCardDescription,
+} from '../../content/conditions';
 
+// Just for user testing demo functionality
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
 
 export const isEdit = () => {
   const search = getArrayUrlSearchParams();
-  return search.get('edit');
+  const hasEdit = search.get('edit');
+  return !!hasEdit;
 };
 
-export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
-  if (isEdit()) {
-    return editTitle;
-  }
-  return defaultTitle;
+export const createAddAndEditTitles = (addTitle, editTitle) =>
+  isEdit() ? editTitle : addTitle;
+
+export const createRatedDisabilityDescriptions = fullData => {
+  return fullData.ratedDisabilities.reduce((acc, disability) => {
+    let description = `Current rating: ${disability.ratingPercentage}%`;
+
+    if (disability.ratingPercentage === disability.maximumRatingPercentage) {
+      description += ` (You're already at the maximum for this rated disability.)`;
+    }
+
+    acc[disability.name] = description;
+
+    return acc;
+  }, {});
 };
 
-const isNewConditionConditionTypeRadio = (formData, index) => {
+// Just for ConditionTypeRadio demo
+const isNewConditionForConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
 
@@ -39,7 +55,8 @@ const isNewConditionConditionTypeRadio = (formData, index) => {
   );
 };
 
-const isRatedDisabilityConditionTypeRadio = (formData, index) => {
+// Just for ConditionTypeRadio demo
+const isRatedDisabilityForConditionTypeRadio = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
 
@@ -49,10 +66,12 @@ const isRatedDisabilityConditionTypeRadio = (formData, index) => {
   return formData?.['view:conditionType'] === 'RATED';
 };
 
+// Just for RatedOrNewNextPage demo
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
-const isNewConditionRatedOrNewNextPage = (formData, index) => {
+// Just for RatedOrNewNextPage demo
+const isNewConditionForRatedOrNewNextPage = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
 
@@ -65,7 +84,8 @@ const isNewConditionRatedOrNewNextPage = (formData, index) => {
   );
 };
 
-const isRatedDisabilityRatedOrNewNextPage = (formData, index) => {
+// Just for RatedOrNewNextPage demo
+const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
 
@@ -80,60 +100,18 @@ const isRatedDisabilityRatedOrNewNextPage = (formData, index) => {
 
 export const isNewCondition = (formData, index) => {
   if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isNewConditionConditionTypeRadio(formData, index);
+    return isNewConditionForConditionTypeRadio(formData, index);
   }
 
-  return isNewConditionRatedOrNewNextPage(formData, index);
+  return isNewConditionForRatedOrNewNextPage(formData, index);
 };
 
 export const isRatedDisability = (formData, index) => {
   if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isRatedDisabilityConditionTypeRadio(formData, index);
+    return isRatedDisabilityForConditionTypeRadio(formData, index);
   }
 
-  return isRatedDisabilityRatedOrNewNextPage(formData, index);
-};
-
-export const clearSideOfBody = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) => (i === index ? { ...item, sideOfBody: undefined } : item),
-    ),
-  });
-};
-
-export const clearNewConditionData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index
-          ? {
-              ...item,
-              newCondition: undefined,
-              cause: undefined,
-              primaryDescription: undefined,
-              causedByCondition: undefined,
-              causedByConditionDescription: undefined,
-              vaMistreatmentDescription: undefined,
-              vaMistreatmentLocation: undefined,
-              worsenedDescription: undefined,
-              worsenedEffects: undefined,
-            }
-          : item,
-    ),
-  });
-};
-
-export const clearRatedDisabilityData = (formData, index, setFormData) => {
-  setFormData({
-    ...formData,
-    [ARRAY_PATH]: formData[ARRAY_PATH].map(
-      (item, i) =>
-        i === index ? { ...item, ratedDisability: undefined } : item,
-    ),
-  });
+  return isRatedDisabilityForRatedOrNewNextPage(formData, index);
 };
 
 const getSelectedRatedDisabilities = fullData => {
@@ -181,7 +159,7 @@ const capitalizeFirstLetter = string =>
 export const createNewConditionName = (item, capFirstLetter = false) => {
   const newCondition = capFirstLetter
     ? capitalizeFirstLetter(item?.newCondition)
-    : item?.newCondition || 'condition';
+    : item?.newCondition || 'new condition';
 
   if (item?.sideOfBody) {
     return `${newCondition}, ${item?.sideOfBody.toLowerCase()}`;
@@ -190,34 +168,17 @@ export const createNewConditionName = (item, capFirstLetter = false) => {
   return newCondition;
 };
 
-const getItemName = item => {
-  if (isNewCondition(item)) {
-    return createNewConditionName(item, true);
-  }
-
-  return item?.ratedDisability;
-};
-
-const createCauseDescriptions = item => {
-  const cause = item?.cause;
-
-  const causeDescriptions = {
-    NEW: 'Caused by an injury or exposure during my service.',
-    SECONDARY: `Caused by ${item?.causedByCondition ||
-      'an unspecified condition'}.`,
-    WORSENED:
-      'Existed before I served in the military, but got worse because of my military service.',
-    VA:
-      'Caused by an injury or event that happened when I was receiving VA care.',
-  };
-
-  return causeDescriptions[cause];
-};
+const getItemName = item =>
+  isNewCondition(item)
+    ? createNewConditionName(item, true)
+    : item?.ratedDisability;
 
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
   SECONDARY: item =>
-    !item?.causedByCondition || !item?.causedByConditionDescription,
+    !item?.causedByCondition ||
+    !Object.keys(item?.causedByCondition).length || // Check only needed for the secondary enhanced flow
+    !item?.causedByConditionDescription,
   WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
@@ -234,44 +195,10 @@ const isItemIncomplete = item => {
   return !item?.ratedDisability;
 };
 
-const formatYearMonth = dateString => {
-  if (!dateString) {
-    return '';
-  }
-
-  const [year, month] = dateString.split('-').map(Number);
-  return format(new Date(year, month - 1), 'MMMM yyyy');
-};
-
-const createRatedDisabilityCardDescription = item => {
-  const baseDescription = 'Claim for increase';
-
-  const dateDescription = item?.conditionDate
-    ? `; worsened ${formatYearMonth(item.conditionDate)}`
-    : '';
-
-  return `${baseDescription}${dateDescription}`;
-};
-
-const createNewConditionCardDescription = item => {
-  const baseDescription = 'New condition';
-
-  const dateDescription = item?.conditionDate
-    ? `; started ${formatYearMonth(item.conditionDate)}`
-    : '';
-
-  const causeDescription = `; ${createCauseDescriptions(item)}`;
-
-  return `${baseDescription}${dateDescription}${causeDescription}`;
-};
-
-const cardDescription = item => {
-  if (isNewCondition(item)) {
-    return createNewConditionCardDescription(item);
-  }
-
-  return createRatedDisabilityCardDescription(item);
-};
+const cardDescription = (item, _index, formData) =>
+  isNewCondition(item)
+    ? NewConditionCardDescription(item)
+    : RatedDisabilityCardDescription(item, formData);
 
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {

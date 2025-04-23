@@ -33,7 +33,7 @@ export function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
-  return apiRequest(`${environment.API_URL}/v0/form0969`, {
+  return apiRequest(`${environment.API_URL}/income_and_assets/v0/form0969`, {
     body,
     headers,
     method: 'POST',

@@ -18,22 +18,14 @@ export function getAppointmentType(
   // TODO: Update APPOINTMENT_TYPES enum to match API response values.
   const isCerner = appt?.id?.startsWith('CERN');
 
-  // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-  // eslint-disable-next-line sonarjs/no-collapsible-if
   if (useFeSourceOfTruthVA) {
-    if (isCerner && appt?.type === 'VA') {
+    if (appt?.type === 'VA') {
       return APPOINTMENT_TYPES.vaAppointment;
     }
-  } else {
-    // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-    // eslint-disable-next-line no-lonely-if
-    if (isCerner && !isEmpty(appt?.end)) {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
-  }
 
-  if (isCerner && isEmpty(appt?.end)) {
-    return APPOINTMENT_TYPES.request;
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
+    }
   }
 
   if (useFeSourceOfTruthCC) {
@@ -43,28 +35,22 @@ export function getAppointmentType(
     if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
       return APPOINTMENT_TYPES.ccRequest;
     }
-  } else {
-    if (appt?.kind === 'cc' && appt?.start) {
-      return APPOINTMENT_TYPES.ccAppointment;
-    }
-    if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-      return APPOINTMENT_TYPES.ccRequest;
-    }
   }
 
-  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+  if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
   }
-
-  // In an upcoming iteration, we will be update the FE source of truth for VA requests as well
-  // eslint-disable-next-line sonarjs/no-collapsible-if
-  if (useFeSourceOfTruthVA) {
-    if (appt?.type === 'VA') {
-      return APPOINTMENT_TYPES.vaAppointment;
-    }
-    // We must return a value for the function, but this is technically only possible when the type is invalid.
-    // We can potentially throw an error here but that's rather unusual in our codebase.
-    return appt?.type;
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
@@ -150,6 +136,7 @@ export function transformVAOSAppointment(
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 ) {
   const appointmentType = getAppointmentType(
     appt,
@@ -174,7 +161,11 @@ export function transformVAOSAppointment(
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
-  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  if (useFeSourceOfTruthModality) {
+    isCompAndPen = appt.modality === 'claimExamAppointment';
+  }
+
   const isCancellable = appt.cancellable;
   const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
 
@@ -277,7 +268,9 @@ export function transformVAOSAppointment(
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start.format() : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
@@ -338,7 +331,9 @@ export function transformVAOSAppointment(
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      isPhoneAppointment: appt.kind === 'phone',
+      isPhoneAppointment: useFeSourceOfTruthModality
+        ? appt.modality === 'vaPhone'
+        : appt.kind === 'phone',
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       isCerner,
       apiData: appt,
@@ -354,6 +349,7 @@ export function transformVAOSAppointments(
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 ) {
   return appts.map(appt =>
     transformVAOSAppointment(
@@ -361,6 +357,7 @@ export function transformVAOSAppointments(
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
     ),
   );
 }

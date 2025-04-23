@@ -4,9 +4,6 @@ import { PAGE_TITLE } from '../config/constants';
 
 export const IntroductionPageHeader = () => (
   <>
-    <FormTitle title={PAGE_TITLE} />
-    <p className="vads-u-font-size--h3 vads-u-margin-top--neg1">
-      VA Form 21-686c and 21-674
-    </p>
+    <FormTitle title={PAGE_TITLE} subTitle="VA Form 21-686c and 21-674" />
   </>
 );

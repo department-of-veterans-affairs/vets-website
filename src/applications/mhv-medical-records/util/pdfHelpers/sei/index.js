@@ -18,6 +18,7 @@ export const generateSelfEnteredData = ({
   activityJournal,
   allergies,
   demographics,
+  emergencyContacts,
   familyHistory,
   foodJournal,
   providers,
@@ -57,13 +58,16 @@ export const generateSelfEnteredData = ({
     });
   }
 
-  if (demographics) {
+  if (demographics && emergencyContacts) {
     data.push({
       type: selfEnteredTypes.DEMOGRAPHICS,
       title: `Self-entered ${selfEnteredTypes.DEMOGRAPHICS}`,
       titleMoveDownAmount: 0,
       titleParagraphGap: 0,
-      records: generateDemographicsContent(demographics),
+      records: generateDemographicsContent({
+        ...demographics,
+        emergencyContacts,
+      }),
     });
   }
 
