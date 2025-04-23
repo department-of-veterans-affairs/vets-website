@@ -129,7 +129,7 @@ const NationalExamDetails = () => {
     if (totalTests > 1) {
       return (
         <div className="exams-table">
-          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">Test Info</h2>
+          <h2 className="vads-u-margin-y--0">Test Info</h2>
           <p className="vads-u-margin-bottom--0">
             Showing 1 - {totalTests} of {totalTests} tests
           </p>
@@ -174,7 +174,7 @@ const NationalExamDetails = () => {
         <h1 className="vads-u-margin-bottom--3">
           {formatNationalExamName(name)}
         </h1>
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2 vads-u-margin-top--0">
+        <h2 className="vads-u-margin-bottom--2 vads-u-margin-top--0">
           Admin Info
         </h2>
         <div className="provider-info-container vads-u-margin-top--0p5 vads-u-margin-bottom--3">
