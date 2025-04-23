@@ -44,8 +44,8 @@ core.exportVariable('NO_APPS_TO_RUN', false);
 const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
 
 const envPrefix = `LOG_LEVEL=${options['log-level'].toLowerCase()}`;
-let cmdParts;
 
+let cmdParts;
 if (options.coverage) {
   cmdParts = [
     envPrefix,
@@ -73,7 +73,8 @@ if (options.coverage) {
 } else {
   cmdParts = [
     envPrefix,
-    'BABEL_ENV=test NODE_ENV=test',
+    'BABEL_ENV=test',
+    'NODE_ENV=test',
     'npx mocha',
     '--require',
     '@babel/register',
