@@ -48,6 +48,7 @@ import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
 import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -58,6 +59,8 @@ const ComposeForm = props => {
   } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { isComboBoxEnabled } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -100,6 +103,7 @@ const ComposeForm = props => {
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
+  const [comboBoxInputValue, setComboBoxInputValue] = useState('');
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const categories = useSelector(state => state.sm.categories?.categories);
@@ -346,7 +350,17 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        if (isComboBoxEnabled) {
+          if (comboBoxInputValue === '') {
+            setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+          } else {
+            setRecipientError(
+              ErrorMessages.ComposeForm.VALID_RECIPIENT_REQUIRED,
+            );
+          }
+        } else {
+          setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        }
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -390,6 +404,8 @@ const ComposeForm = props => {
       electronicSignature,
       checkboxMarked,
       setMessageInvalid,
+      comboBoxInputValue,
+      isComboBoxEnabled,
     ],
   );
 
@@ -822,11 +838,11 @@ const ComposeForm = props => {
           {!noAssociations &&
             !allTriageGroupsBlocked && (
               <div
-                className="
-                  vads-u-border-top--1px
-                  vads-u-padding-top--3
-                  vads-u-margin-top--3
-                  vads-u-margin-bottom--neg2"
+                className={`vads-u-border-top--1px vads-u-padding-top--3 vads-u-margin-top--3 ${
+                  recipientError
+                    ? 'vads-u-margin-bottom--2'
+                    : 'vads-u-margin-bottom--neg2'
+                }`}
               >
                 <BlockedTriageGroupAlert
                   alertStyle={BlockedTriageAlertStyles.ALERT}
@@ -846,6 +862,7 @@ const ComposeForm = props => {
                 isSignatureRequired={isSignatureRequired}
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
+                setComboBoxInputValue={setComboBoxInputValue}
               />
             )}
           <div className="compose-form-div">

@@ -51,6 +51,7 @@ export const ErrorMessages = {
   },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
+    VALID_RECIPIENT_REQUIRED: 'Please select a valid recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
     CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',

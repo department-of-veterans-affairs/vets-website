@@ -73,7 +73,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -100,7 +100,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -117,11 +117,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     // Stub the appointment cration function
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
-      .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
+      .resolves({ appointmentId: draftAppointmentInfo.id });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),
@@ -139,11 +139,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sandbox.spy(flow, 'routeToNextReferralPage');
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
-      .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
+      .resolves({ appointmentId: draftAppointmentInfo.id });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferralById('UUID', '2024-09-09')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),

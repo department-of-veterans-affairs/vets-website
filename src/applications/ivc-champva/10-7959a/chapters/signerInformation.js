@@ -18,6 +18,11 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import {
+  validAddressCharsOnly,
+  validFieldCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -88,6 +93,10 @@ export const certifierNameSchema = {
   uiSchema: {
     ...titleUI('Your name'),
     certifierName: fullNameMiddleInitialUI,
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'certifierName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -111,6 +120,10 @@ export const certifierAddressSchema = {
         },
       },
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'certifierAddress'),
+    ],
   },
   schema: {
     type: 'object',
@@ -180,6 +193,15 @@ export const certifierRelationshipSchema = {
         };
       },
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'certifierOtherRelationship',
+        ),
+    ],
   },
   schema: {
     type: 'object',
