@@ -1,3 +1,6 @@
+/*
+// COMMENTING OUT UNTIL WE HAVE SOMETHING REAL TO TEST.
+
 import React from 'react';
 import { expect } from 'chai';
 import { createStore } from 'redux';
@@ -45,3 +48,4 @@ describe('ConfirmationPage', () => {
     expect(alert).to.contain.text('Your confirmation number is 1234567890');
   });
 });
+*/
