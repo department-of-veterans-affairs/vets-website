@@ -142,6 +142,7 @@ const ReviewAndConfirm = props => {
 
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
+
   return (
     <ReferralLayout
       hasEyebrow
