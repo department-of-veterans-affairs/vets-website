@@ -1,14 +1,14 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
+import { addDays, format, subDays } from 'date-fns';
 import MockDate from 'mockdate';
-import { format, subDays, addDays } from 'date-fns';
 import React from 'react';
 import reducers from '../../../redux/reducer';
+import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
 import {
   mockAppointmentsApi,
   mockVAOSAppointmentsFetch,
-} from '../../../tests/mocks/helpers';
-import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+} from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
@@ -75,8 +75,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -142,8 +142,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -190,8 +190,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -240,8 +240,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -288,8 +288,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -338,8 +338,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -407,8 +407,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     };
 
     mockAppointmentsApi({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'), // Subtract 120 days
-      end: format(now, 'yyyy-MM-dd'), // Current date
+      start: subDays(now, 120), // Subtract 120 days
+      end: now, // Current date
       statuses: ['proposed', 'cancelled'],
       response: [],
     });

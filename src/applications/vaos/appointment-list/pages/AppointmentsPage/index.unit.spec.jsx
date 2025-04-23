@@ -15,10 +15,10 @@ import {
   getTestDate,
 } from '../../../tests/mocks/setup';
 import AppointmentsPage from '.';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSRequestMock } from '../../../tests/mocks/mock';
 import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import { FETCH_STATUS } from '../../../utils/constants';
+import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/mockApis';
 
 const initialState = {
   featureToggles: {

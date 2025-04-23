@@ -1,44 +1,44 @@
 /** @module testing/mocks/setup */
 
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { expect } from 'chai';
+import { createMemoryHistory } from 'history-v4';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { createMemoryHistory } from 'history-v4';
-import { combineReducers, applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { cleanup } from '@testing-library/react';
-import reducers from '../../redux/reducer';
-import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
+import newAppointmentReducer from '../../new-appointment/redux/reducer';
+import reducers from '../../redux/reducer';
 
-import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
+import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
-import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
+import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 
+import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
+import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
-import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
-import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import { vaosApi } from '../../redux/api/vaosApi';
+import { TYPES_OF_CARE } from '../../utils/constants';
+import { createMockFacility } from './data';
+import { getSchedulingConfigurationMock } from './mock';
 import {
+  mockFacilitiesApi,
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
-} from './helpers';
-import { TYPES_OF_CARE } from '../../utils/constants';
-import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
-import { createMockFacility } from './data';
-import { mockFacilitiesFetch } from './fetch';
-import { getSchedulingConfigurationMock } from './mock';
-import { vaosApi } from '../../redux/api/vaosApi';
+} from './mockApis';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -228,7 +228,7 @@ export async function setVAFacility(
       }),
   ];
 
-  mockFacilitiesFetch({ children: true, facilities });
+  mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
@@ -268,7 +268,7 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
     }),
   ];
 
-  mockFacilitiesFetch({ children: true, facilities });
+  mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
