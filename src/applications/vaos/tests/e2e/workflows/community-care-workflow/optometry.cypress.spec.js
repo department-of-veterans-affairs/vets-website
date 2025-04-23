@@ -1,11 +1,11 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { APPOINTMENT_STATUS, OPTOMETRY_ID } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockProviderResponse from '../../fixtures/MockProviderResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../../fixtures/MockProviderResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
@@ -109,8 +109,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -164,8 +166,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -241,8 +245,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -296,8 +302,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
