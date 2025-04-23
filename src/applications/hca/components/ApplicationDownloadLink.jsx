@@ -20,7 +20,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     form,
   ]);
 
-  const { veteranFullName: name } = form.data['view:veteranInformation'];
+  // Default name to Applicant Submission if view:veteranInformation is empty for some reason
+  const { veteranFullName: name = { first: 'Applicant', last: 'Submission' } } =
+    form.data?.['view:veteranInformation'] ?? {};
 
   const handlePdfDownload = useCallback(
     blob => {

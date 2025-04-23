@@ -82,112 +82,139 @@ describe('hca <ApplicationDownloadLink>', () => {
       fireEvent.click(link);
     };
 
-    it('should record the correct event when the request succeeds', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const createObjectStub = sinon
-        .stub(URL, 'createObjectURL')
-        .returns('my_stubbed_url.com');
-      const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
+    context('on success', () => {
+      const createStubObject = () =>
+        sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
+      const revokeObjectstub = () => sinon.stub(URL, 'revokeObjectURL');
 
-      triggerSuccess({ link });
+      it('should record the correct event when the request succeeds', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        const createObjectStub = createStubObject();
+        const revokeObjectStub = revokeObjectstub();
 
-      await waitFor(() => {
-        const { vaLink, vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-        expect(vaLink).to.not.exist;
+        triggerSuccess({ link });
+
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+          expect(vaLink).to.not.exist;
+        });
+
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+
+          const event = 'hca-pdf-download--success';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
+
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.exist;
+        });
+
+        createObjectStub.restore();
+        revokeObjectStub.restore();
       });
 
-      await waitFor(() => {
-        const { vaLink, vaLoadingIndicator } = selectors();
+      it('should still succed when no veternInformation is set', async () => {
+        const { selectors } = subject({ veteranInformation: {} });
+        const { vaLink: link } = selectors();
+        const createObjectStub = createStubObject();
+        const revokeObjectStub = revokeObjectstub();
 
-        const event = 'hca-pdf-download--success';
-        expect(recordEventStub.calledWith({ event })).to.be.true;
+        triggerSuccess({ link });
 
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.exist;
-      });
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+          expect(vaLink).to.not.exist;
+        });
 
-      createObjectStub.restore();
-      revokeObjectStub.restore();
-    });
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
 
-    it('should display `downtime` error message when error has status of `5xx`', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      triggerError({ link });
+          const event = 'hca-pdf-download--success';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.exist;
+        });
 
-      await waitFor(() => {
-        const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-        const error = content['alert-download-message--500'];
-
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
-
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
-
-        const event = 'hca-pdf-download--failure';
-        expect(recordEventStub.calledWith({ event })).to.be.true;
-      });
-    });
-
-    it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      triggerError({ link, status: '403' });
-
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-
-      await waitFor(() => {
-        const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-        const error = content['alert-download-message--generic'];
-
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
-
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
-
-        const event = 'hca-pdf-download--failure';
-        expect(recordEventStub.calledWith({ event })).to.be.true;
+        createObjectStub.restore();
+        revokeObjectStub.restore();
       });
     });
 
-    it('should display `generic` error message when any other error occurs not in the request response', async () => {
-      const { selectors } = subject({ veteranInformation: {} });
-      const { vaLink: link } = selectors();
-      const createObjectStub = sinon
-        .stub(URL, 'createObjectURL')
-        .returns('my_stubbed_url.com');
-      const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
+    context('on error', () => {
+      it('should display `downtime` error message when error has status of `5xx`', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerError({ link });
 
-      triggerSuccess({ link });
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
 
-      await waitFor(() => {
-        const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-        const error = content['alert-download-message--generic'];
+        await waitFor(() => {
+          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+          const error = content['alert-download-message--500'];
 
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.not.exist;
 
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(error);
 
-        const event = 'hca-pdf-download--failure';
-        expect(recordEventStub.calledWith({ event })).to.be.true;
+          const event = 'hca-pdf-download--failure';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
+        });
       });
 
-      createObjectStub.restore();
-      revokeObjectStub.restore();
+      it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerError({ link, status: '403' });
+
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
+
+        await waitFor(() => {
+          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+          const error = content['alert-download-message--generic'];
+
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.not.exist;
+
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(error);
+
+          const event = 'hca-pdf-download--failure';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
+        });
+      });
+
+      it('should display `generic` error message when any other error occurs not in the request response', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+
+        triggerSuccess({ link });
+
+        await waitFor(() => {
+          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+          const error = content['alert-download-message--generic'];
+
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.not.exist;
+
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(error);
+
+          const event = 'hca-pdf-download--failure';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
+        });
+      });
     });
   });
 });
