@@ -24,7 +24,7 @@ class LabsAndTests {
     );
   };
 
-  goToVitalPage = () => {
+  goToLabAndTestPage = () => {
     cy.get('[data-testid="labs-and-tests-landing-page-link"]')
       .should('be.visible')
       .click();
@@ -45,7 +45,7 @@ class LabsAndTests {
     }
   };
 
-  goToLabAndTestPage = ({ labName }) => {
+  selectLabAndTest = ({ labName }) => {
     cy.contains(labName).click();
     cy.get('[data-testid="lab-name"]').should('be.visible');
     cy.get('[data-testid="lab-name"]').contains(labName);

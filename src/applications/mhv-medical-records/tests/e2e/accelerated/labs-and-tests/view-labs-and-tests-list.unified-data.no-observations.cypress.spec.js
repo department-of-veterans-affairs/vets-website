@@ -35,34 +35,13 @@ describe('Medical Records View Lab and Tests', () => {
     const CARDS_PER_PAGE = 6; // 3 per page * 2 for printing
     cy.get('va-card').should('have.length', CARDS_PER_PAGE);
     cy.get("[data-testid='filter-display-message']").should('be.visible');
-    cy.get("[data-testid='filter-display-message']").should('not.be.empty');
-    // go to a specific lab
     LabsAndTests.selectLabAndTest({
-      labName: 'CH - FULL SAMPLE',
+      labName: 'Surgical Pathology',
     });
 
-    cy.get('[data-testid="header-time"]').should('be.visible');
-    cy.get('[data-testid="header-time"]').contains('January 23, 2025');
-
-    cy.get('[data-testid="lab-and-test-code"]').should('be.visible');
-    cy.get('[data-testid="lab-and-test-code"]').contains('CH');
-
-    cy.get('[data-testid="lab-and-test-sample-tested"]').should('be.visible');
-    cy.get('[data-testid="lab-and-test-sample-tested"]').contains('SERUM');
-
-    cy.get('[data-testid="lab-and-test-body-site"]').should('be.visible');
-    cy.get('[data-testid="lab-and-test-body-site"]').contains('Central Vien');
-
-    cy.get('[data-testid="lab-and-test-ordered-by"]').should('be.visible');
-    cy.get('[data-testid="lab-and-test-ordered-by"]').contains(
-      'ZZGeorge Washington',
-    );
-
-    cy.get('[data-testid="lab-and-test-collecting-location"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="lab-and-test-collecting-location"]').contains(
-      'CHYSHR TEST LAB',
+    cy.get('[data-testid=lab-and-test-results]').should('be.visible');
+    cy.get('[data-testid=lab-and-test-results]').contains(
+      'Specimen: BONE MARROW',
     );
   });
 });

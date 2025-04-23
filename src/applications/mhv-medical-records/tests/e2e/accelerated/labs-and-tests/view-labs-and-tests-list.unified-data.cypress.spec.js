@@ -22,7 +22,7 @@ describe('Medical Records View Lab and Tests', () => {
     // // check for MY Va Health links
     LabsAndTests.checkLandingPageLinks();
 
-    LabsAndTests.goToVitalPage();
+    LabsAndTests.goToLabAndTestPage();
 
     const today = new Date();
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)

@@ -22,7 +22,7 @@ describe('Medical Records View Lab and Tests', () => {
     // // check for MY Va Health links
     LabsAndTests.checkLandingPageLinks();
 
-    LabsAndTests.goToVitalPage();
+    LabsAndTests.goToLabAndTestPage();
 
     const today = new Date();
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
@@ -36,10 +36,10 @@ describe('Medical Records View Lab and Tests', () => {
     cy.get('va-card').should('have.length', CARDS_PER_PAGE);
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
-    cy.contains('CH - FULL SAMPLE').click();
-
-    cy.get('[data-testid="lab-name"]').should('be.visible');
-    cy.get('[data-testid="lab-name"]').contains('CH - FULL SAMPLE');
+    // go to a specific lab
+    LabsAndTests.selectLabAndTest({
+      labName: 'CH - FULL SAMPLE',
+    });
 
     cy.get('.test-results-header').should('be.visible');
     cy.get('.test-results-header').contains('Results');
