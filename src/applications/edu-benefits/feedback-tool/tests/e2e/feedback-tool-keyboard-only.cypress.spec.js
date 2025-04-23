@@ -16,16 +16,7 @@ describe('Feedback Tool Keyboard Test', () => {
 
     cy.visit(manifest.rootUrl);
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main', {});
     cy.get('body').should('be.visible');
     cy.get('.schemaform-title').should('be.visible');
     cy.get('.schemaform-start-button')
@@ -121,7 +112,48 @@ describe('Feedback Tool Keyboard Test', () => {
       .should('exist')
       .type('foothill high');
     cy.realPress('Tab');
-    cy.realPress('Enter');
+    cy.realPress('Enter', { pressDelay: 1000 });
+    cy.repeatKey('Tab', 4);
+    cy.realPress('Space');
+    cy.repeatKey('Tab', 2);
+    cy.repeatKey(['Shift', 'Tab'], 4);
+    cy.realPress('Space');
+    cy.realPress('Tab');
+    cy.allyEvaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');
+    cy.repeatKey('Tab', 2);
+    cy.allyEvaluateInput(
+      '[name*="manualSchoolEntry_address_street"]',
+      '11233 Nowhere St',
+    );
     cy.repeatKey('Tab', 3);
+    cy.allyEvaluateInput(
+      '[name="root_educationDetails_school_view:manualSchoolEntry_address_city"]',
+      'Long Beach',
+    );
+    cy.realPress('Tab');
+    cy.allyEvaluateSelectMenu(
+      '[name="root_educationDetails_school_view:manualSchoolEntry_address_state"]',
+      'cali',
+      'California',
+    );
+    cy.realPress('Tab');
+    cy.typeInFocused('90810');
+    cy.repeatKey('Tab', 2);
+    cy.realPress('Enter');
+    cy.url().should('not.include', '/school-information');
+    cy.url().should('include', '/feedback-information');
+    cy.get('input[name="root_issue_recruiting"]').check();
+    cy.repeatKey('Tab', 2);
+    cy.realPress('Space');
+    cy.realPress('Tab');
+    cy.realPress('Space');
+    cy.repeatKey('Tab', 9);
+    cy.typeInFocused('This is a test comment');
+    cy.realPress('Tab');
+    cy.typeInFocused('This is another test comment');
+    cy.repeatKey('Tab', 2);
+    cy.realPress('Enter');
+    cy.url().should('not.include', '/feedback-information');
+    cy.url().should('include', '/review-and-submit');
   });
 });
