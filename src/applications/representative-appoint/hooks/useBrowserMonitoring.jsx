@@ -5,7 +5,8 @@ import { datadogLogs } from '@datadog/browser-logs';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import { isProductionEnv } from '../utilities/helpers';
+// Commenting out `isProductionEnv` for now while we test this in staging
+// import { isProductionEnv } from '../utilities/helpers';
 
 // CONSTANTS
 const APP_UUID = '987a812a-6aa8-4a16-96cd-fe9204ea3a9a';
@@ -21,7 +22,7 @@ const conditionalSampleRate = botRegex.test(navigator.userAgent) ? 0 : 100;
 
 const initializeRealUserMonitoring = () => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  if (isProductionEnv()) {
+  if (environment.isStaging()) {
     datadogRum.init({
       // https://docs.datadoghq.com/real_user_monitoring/browser/#configuration
       // custom settings
@@ -47,7 +48,7 @@ const initializeRealUserMonitoring = () => {
 };
 
 const initializeBrowserLogging = () => {
-  if (isProductionEnv()) {
+  if (environment.isStaging()) {
     datadogLogs.init({
       // https://docs.datadoghq.com/logs/log_collection/javascript/?tab=us#configuration
       // custom settings
