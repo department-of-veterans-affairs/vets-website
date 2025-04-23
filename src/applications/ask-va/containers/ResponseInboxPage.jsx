@@ -22,7 +22,6 @@ import {
   formatDate,
   getFiles,
   getVAStatusFromCRM,
-  ServerErrorAlert,
 } from '../config/helpers';
 import {
   envUrl,
@@ -194,10 +193,6 @@ const ResponseInboxPage = ({ router }) => {
       });
   };
 
-  const handleRetry = () => {
-    if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
-  };
-
   useEffect(
     () => {
       if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
@@ -214,10 +209,23 @@ const ResponseInboxPage = ({ router }) => {
 
   if (error) {
     return (
-      <VaAlert status="error" className="vads-u-margin-y--4">
-        <ServerErrorAlert />
-        <VaButton onClick={handleRetry} text="Retry" />
-      </VaAlert>
+      <>
+        <VaAlert status="error" className="vads-u-margin-y--4">
+          <h2
+            slot="headline"
+            className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+          >
+            You can’t access this page
+          </h2>
+          <p className="vads-u-font-size--base vads-u-margin-bottom--0p5">
+            You can only access questions you asked on{' '}
+            <VaLink href="/" text="VA.gov" />.
+          </p>
+          <p className="vads-u-font-size--base vads-u-margin-top--0p5">
+            Please confirm your reference number is correct, and try again.
+          </p>
+        </VaAlert>
+      </>
     );
   }
 
