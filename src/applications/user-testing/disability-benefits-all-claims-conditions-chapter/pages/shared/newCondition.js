@@ -9,7 +9,7 @@ import Autocomplete from '../../components/Autocomplete';
 import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionOptions } from '../../content/conditionOptions';
 import { NewConditionDescription } from '../../content/conditions';
-import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
+import { arrayBuilderOptions, createAddAndEditTitles } from './utils';
 
 const missingConditionMessage =
   'Enter a condition, diagnosis, or short description of your symptoms';
@@ -101,11 +101,7 @@ const validateCondition = (err, fieldData = '', formData = {}) => {
 const newConditionPage = {
   uiSchema: {
     ...titleUI(
-      () =>
-        createDefaultAndEditTitles(
-          'Tell us the new condition you want to claim',
-          'Edit new condition',
-        ),
+      () => createAddAndEditTitles('Add new condition', 'Edit new condition'),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
       }),

@@ -4,6 +4,8 @@ import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import AddressPage from '../../../../components/submit-flow/pages/AddressPage';
@@ -51,7 +53,17 @@ describe('Address page', () => {
     setIsUnsupportedClaimType,
   };
 
-  it('should render with user home address', () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('should render with user home address and records the pageview', () => {
     const screen = renderWithStoreAndRouter(<AddressPage />, {
       initialState: getData({
         homeAddress: home,
@@ -63,6 +75,15 @@ describe('Address page', () => {
       'label',
       'Did you travel from your home address?',
     );
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect($('va-radio')).to.not.have.attribute('error');
 
     expect(screen.getByText(/345 Home Address St/i)).to.exist;
@@ -79,7 +100,7 @@ describe('Address page', () => {
       .exist;
   });
 
-  it('should show an alert if no address', () => {
+  it('should show an alert if no address and records the pageview', () => {
     const screen = renderWithStoreAndRouter(<AddressPage />, {
       initialState: getData(),
     });
@@ -90,6 +111,15 @@ describe('Address page', () => {
     expect(
       screen.getByText(`We can’t file this claim in this tool at this time`),
     ).to.exist;
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(screen.getByText('We need your home address')).to.exist;
     expect($('va-link[href="/profile/contact-information"]')).to.exist;
   });
@@ -107,7 +137,7 @@ describe('Address page', () => {
     );
   });
 
-  it('should render an error selection is "no"', async () => {
+  it('should render an error if selection is "no"', async () => {
     renderWithStoreAndRouter(
       <SmocContextProvider
         value={{ ...props, yesNo: { ...props.yesNo, address: 'no' } }}
@@ -122,6 +152,16 @@ describe('Address page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
   });
 
@@ -140,6 +180,16 @@ describe('Address page', () => {
     );
     $('va-button-pair').__events.primaryClick(); // continue
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        link_text: 'continue',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(4)).to.be.true;
   });
@@ -157,6 +207,16 @@ describe('Address page', () => {
     );
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'address',
+        link_text: 'back',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(2)).to.be.true;
   });

@@ -16,7 +16,6 @@ export function TuitionAndHousingEstimates({
   dispatchShowModal,
   modalClose,
   smallScreen,
-  bordered,
 }) {
   const { expanded } = eligibility;
 
@@ -134,35 +133,36 @@ export function TuitionAndHousingEstimates({
     'vads-u-margin-right--1p5',
     'vads-u-padding--0',
   );
-
-  return !smallScreen ? (
-    <SearchAccordion
-      button={title}
-      buttonLabel="Update estimates"
-      buttonOnClick={updateStore}
-      expanded={expanded}
-      onClick={onExpand}
-      ariaDescribedBy="note"
-      bordered={bordered}
-    >
-      {controls}
-    </SearchAccordion>
-  ) : (
+  return (
     <div className="vads-u-margin-bottom--2">
-      <div className="modal-wrapper">
-        <div>
-          <h1>Update tuition, housing, and monthly benefit estimates</h1>
+      {!smallScreen && (
+        <SearchAccordion
+          button={title}
+          buttonLabel="Update estimates"
+          buttonOnClick={updateStore}
+          expanded={expanded}
+          onClick={onExpand}
+          ariaDescribedBy="note"
+        >
           {controls}
+        </SearchAccordion>
+      )}
+      {smallScreen && (
+        <div className="modal-wrapper">
+          <div>
+            <h1>Update tuition, housing, and monthly benefit estimates</h1>
+            {controls}
+          </div>
+          <div className="modal-button-wrapper">
+            <va-button
+              id={`update-${createId(title)}-button`}
+              class={updateEstimatestButton}
+              text="Update estimates"
+              onClick={closeAndUpdate}
+            />
+          </div>
         </div>
-        <div className="modal-button-wrapper">
-          <va-button
-            id={`update-${createId(title)}-button`}
-            class={updateEstimatestButton}
-            text="Update estimates"
-            onClick={closeAndUpdate}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -182,7 +182,6 @@ TuitionAndHousingEstimates.propTypes = {
   eligibility: PropTypes.object.isRequired,
   modalClose: PropTypes.func,
   smallScreen: PropTypes.bool,
-  bordered: PropTypes.bool,
 };
 
 export default connect(

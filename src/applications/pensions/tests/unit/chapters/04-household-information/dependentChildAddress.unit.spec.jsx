@@ -53,7 +53,7 @@ describe('Child address page', () => {
       />,
     );
 
-    expect($$('va-text-input', container).length).to.equal(8);
+    expect($$('va-text-input', container).length).to.equal(9);
     expect($$('va-select', container).length).to.equal(2);
     expect($('button[type="submit"]', container)).to.exist;
   });
@@ -122,9 +122,8 @@ describe('Child address page', () => {
     schema,
     uiSchema,
     {
-      'va-text-input': 7,
+      'va-text-input': 8,
       'va-select': 3,
-      input: 1,
     },
     'dependent address',
     dependentData,

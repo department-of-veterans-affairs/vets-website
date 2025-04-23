@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -13,7 +12,7 @@ import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
 
 // declare page paths for review mode
-const REVIEW_PATHS = {
+export const REVIEW_PATHS = {
   reviewAndSubmit: '/review-and-submit',
   confirmFacility: '/veteran-information/va-medical-center/confirm?review=true',
 };
@@ -211,17 +210,10 @@ const FacilitySearch = props => {
       );
       if (loadedParent) {
         if (hasSupportServices(loadedParent)) return loadedParent;
-
-        // log facility parent.id so we can troubleshoot if we are always sending the expected value
-        Sentry.withScope(scope => {
-          scope.setLevel(Sentry.Severity.Log);
-          scope.setExtra('facility', selectedFacility);
-          scope.setExtra('loadedParent facility', loadedParent);
-          Sentry.captureMessage(
-            'No selected facility offers caregiver services - loaded parent',
-          );
-        });
-
+        window.DD_LOGS?.logger.warn(
+          'DATA ERROR: Selected facility has no valid parent with Caregiver services',
+          { facilityId: loadedParent.id },
+        );
         return setLocalState(prev => ({
           ...prev,
           listError: content['error--facilities-parent-facility'],
@@ -243,14 +235,10 @@ const FacilitySearch = props => {
 
       // check if both the selected and the parent facilities do not offer support services
       if (!hasSupportServices(fetchedParent)) {
-        Sentry.withScope(scope => {
-          scope.setLevel(Sentry.Severity.Log);
-          scope.setExtra('facility', selectedFacility);
-          scope.setExtra('parentFacility', fetchedParent);
-          Sentry.captureMessage(
-            'No selected facility offers caregiver services - fetch parent',
-          );
-        });
+        window.DD_LOGS?.logger.warn(
+          'DATA ERROR: Selected facility has no valid parent with Caregiver services',
+          { facilityId: fetchedParent.id },
+        );
         return setLocalState(prev => ({
           ...prev,
           listError: content['error--facilities-parent-facility'],

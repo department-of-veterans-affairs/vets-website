@@ -40,7 +40,7 @@ export const ConfirmationPage = ({ router, route }) => {
   };
   const childContent = (
     <div>
-      <Alert router={router} />
+      <Alert />
 
       <h2
         className="vads-u-font-size--h3 vads-u-margin-bottom--2"

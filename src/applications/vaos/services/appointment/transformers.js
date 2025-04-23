@@ -136,6 +136,7 @@ export function transformVAOSAppointment(
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 ) {
   const appointmentType = getAppointmentType(
     appt,
@@ -160,7 +161,11 @@ export function transformVAOSAppointment(
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
-  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  if (useFeSourceOfTruthModality) {
+    isCompAndPen = appt.modality === 'claimExamAppointment';
+  }
+
   const isCancellable = appt.cancellable;
   const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
 
@@ -263,7 +268,9 @@ export function transformVAOSAppointment(
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start.format() : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
@@ -324,7 +331,9 @@ export function transformVAOSAppointment(
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      isPhoneAppointment: appt.kind === 'phone',
+      isPhoneAppointment: useFeSourceOfTruthModality
+        ? appt.modality === 'vaPhone'
+        : appt.kind === 'phone',
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       isCerner,
       apiData: appt,
@@ -340,6 +349,7 @@ export function transformVAOSAppointments(
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 ) {
   return appts.map(appt =>
     transformVAOSAppointment(
@@ -347,6 +357,7 @@ export function transformVAOSAppointments(
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
     ),
   );
 }

@@ -14,11 +14,11 @@ import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
-import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData } from '../redux/actions';
 import { SmocContext } from '../context/SmocContext';
+import { recordSmocLinkClick } from '../util/events-helpers';
 
 const SubmitFlowWrapper = () => {
   const { pageIndex, isUnsupportedClaimType } = useContext(SmocContext);
@@ -82,7 +82,22 @@ const SubmitFlowWrapper = () => {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-margin-bottom--0">
-        <Breadcrumbs />
+        <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
+          <va-link
+            back
+            data-testid="submit-back-link"
+            disable-analytics
+            href={`/my-health/appointments/past/${apptId}`}
+            text="Back to your appointment"
+            onClick={() => {
+              recordSmocLinkClick(
+                `${pageList[pageIndex].page}`,
+                'Back to your appointment',
+                undefined, // per anaylitics request don't use actual URL
+              );
+            }}
+          />
+        </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && <UnsupportedClaimTypePage />}
           {submissionError && <SubmissionErrorPage />}

@@ -2803,22 +2803,22 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@50.0.0":
-  version "50.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-50.0.0.tgz#6af623e37182fda9b52bdfbdd7d55ffb4fded1f3"
-  integrity sha512-YMGGSKRBxXqj8XSg27/0ichZIzHE29PclfUz4w/OZXU98S78rA/shNjbwrcXoJdjnNOJFjKAiL7vXrcR62EHXw==
+"@department-of-veterans-affairs/component-library@50.2.0":
+  version "50.2.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-50.2.0.tgz#cb48c31da7042955a0d9ebd5439023e2dbc620bc"
+  integrity sha512-2AtXfSzNlM1pwcYUEmEsVVU/7jd35HuyW7Zl1PBxGtrbWxjwnJZBAOErefY1hMDHKB7Yqv83DX/R+AdhN9debQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "18.0.0"
+    "@department-of-veterans-affairs/web-components" "18.1.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.21.1.tgz#2ce74475022353a9855fe8683adaad40af58edb8"
-  integrity sha512-5vcYlJvvuwMD8kmXTEKpa1AzUfip/Zp4T2qWwkpbYfr5ysmFHNryO0hwcRXsQwnkEQoy9Xk8liMbnNB/1F9FPQ==
+"@department-of-veterans-affairs/css-library@^0.22.0":
+  version "0.22.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.22.0.tgz#b9672d13be28b2a86e120b2fa793fe23ecea5c9b"
+  integrity sha512-ebjFHDg3RtOJq1B/3QlrkEJyrq33eul0OVhorNp66vl4kxzpiWUQT6sQtk72dlyE52lB5yzyiLM3U6aWyfAIxw==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
@@ -2840,10 +2840,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.12.2":
-  version "3.12.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.12.2.tgz#ba7b3428931e3420114f22353350af0021ffd685"
-  integrity sha512-WH3/ytf+2GMMHw65o4kxg3jdnfAByKxof+N8YiHYPPbQika33kvpwn3scUV2EfAL8T7MuYdnAyPGvOYeqdp+ag==
+"@department-of-veterans-affairs/generator-vets-website@^3.13.0":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.13.0.tgz#287a353e6fa72e833cd770f45a2a7aa4046b771d"
+  integrity sha512-F1Emhd1N6UpdgtPIcPfT72JPGMT4CumqWOpVEh3kS8MoIfsk0IMzv1QLe9adKi99wd3USuNZFHZMMnUXdJ+pcg==
   dependencies:
     chalk "^4.1.2"
     yeoman-generator "^5.6.1"
@@ -2903,10 +2903,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-18.0.0.tgz#7142643b3174006801d05a24b28e99413cbe6a8d"
-  integrity sha512-vpiaWh0qQ0n4+Th2pelx4Fov69ziI3NJS/n0yYWHXCwKG1fYucz8vUg4TL641/JHfk744QXg6W8SrQHsjiAfbg==
+"@department-of-veterans-affairs/web-components@18.1.1":
+  version "18.1.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-18.1.1.tgz#d588b99a187960e027a57ecf256b811bd3f8365d"
+  integrity sha512-2KIYmfW9IdeG/uo9ErJrpIeYU+J8nx+DDdU7RfUgaOXpLskpgSfDEkXhhrsOHYOvM6Nlxg4xPm9LPBWz89IITQ==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
@@ -6904,15 +6904,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001313, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001587:
-  version "1.0.30001660"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001660.tgz"
-  integrity sha512-GacvNTTuATm26qC74pt+ad1fW15mlQ/zuTzzY1ZoIzECTP8HURDfF43kNxPgf7H1jmelCBQTTbBNxdSXOA7Bqg==
-
-caniuse-lite@^1.0.30001669:
-  version "1.0.30001676"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001676.tgz#fe133d41fe74af8f7cc93b8a714c3e86a86e6f04"
-  integrity sha512-Qz6zwGCiPghQXGJvgQAem79esjitvJ+CxSbSQkW9H/UX5hg8XM88d4lp2W+MEQ81j+Hip58Il+jGVdazk1z9cw==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001313, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001587, caniuse-lite@^1.0.30001669:
+  version "1.0.30001707"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001707.tgz"
+  integrity sha512-3qtRjw/HQSMlDWf+X79N206fepf4SOOU6SQLMaq/0KkZLmSjPxAkBOQQ+FxbHKfHmYLZFfdWsO3KA90ceHPSnw==
 
 capture-stack-trace@^1.0.0:
   version "1.0.2"
@@ -21732,9 +21727,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#005c292c915aaf1df1f702ab0c44614ec6789df6":
-  version "24.12.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#005c292c915aaf1df1f702ab0c44614ec6789df6"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ebaaea0a7f451660e007036c1b649f9d035c858c":
+  version "24.12.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ebaaea0a7f451660e007036c1b649f9d035c858c"
   dependencies:
     minimist "^1.2.3"
 

@@ -19,6 +19,7 @@ export const uiSchema = {
         report674: addDependentOptions.report674,
         addDisabledChild: addDependentOptions.addDisabledChild,
       },
+      enableAnalytics: true,
       errorMessages: {
         required: 'Select at least one option',
       },

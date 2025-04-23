@@ -360,19 +360,12 @@ va-checkbox {
     border-left-color: var(--vads-color-base);
     transform: rotate(45deg);
   }
-
-  #rx-ipe-filtering-close {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    margin: 0;
-    padding: 0;
-    background: 0;
-    color: inherit;
-    width: auto;
-  }
 }
 
+.tracking-alert {
+  flex-wrap: wrap;
+  word-wrap: break-word;
+}
 .tracking-info-med-list {
   list-style-type: disc;
 }

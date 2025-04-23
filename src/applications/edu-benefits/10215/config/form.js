@@ -9,10 +9,11 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import transform from './transform';
-import { getFTECalcs } from '../helpers';
+import { daysAgoYyyyMmDd, getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
@@ -57,7 +58,14 @@ const { date } = commonDefinitions;
 
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
-    return Promise.resolve(testData);
+    const testDataShallowCopy = { ...testData };
+    testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
+      14,
+    );
+    testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
+      10,
+    );
+    return Promise.resolve(testDataShallowCopy);
   }
   return submitForm(form, formConfig);
 };
@@ -93,10 +101,8 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
-      body:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'certifyingOfficial',
     },
   },

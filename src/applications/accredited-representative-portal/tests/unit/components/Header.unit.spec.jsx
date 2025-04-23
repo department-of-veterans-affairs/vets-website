@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import Header from '../../../components/Header';
 import UserNav from '../../../components/Header/UserNav';
-import { renderTestComponent } from '../helpers';
+import { renderTestComponent, renderTestApp } from '../helpers';
 
 const profile = {
   firstName: 'HECTOR',
@@ -13,6 +13,7 @@ const profile = {
     serviceName: 'idme',
   },
 };
+
 describe('Header', () => {
   it('renders header', () => {
     const { getByTestId } = renderTestComponent(<Header />);
@@ -41,7 +42,7 @@ describe('Header', () => {
   });
 
   it('mobile menu exists and toggles dropdown with poa requests link', () => {
-    const { getByTestId } = renderTestComponent(<UserNav profile={profile} />);
+    const { getByTestId } = renderTestApp(<UserNav profile={profile} />);
     fireEvent.click(getByTestId('menu-toggle-dropdown-mobile'));
     expect(getByTestId('menu-toggle-dropdown-mobile-list')).to.exist;
     const poaRequestsLink = getByTestId('user-nav-poa-requests-link');

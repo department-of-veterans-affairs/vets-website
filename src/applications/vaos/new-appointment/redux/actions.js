@@ -91,6 +91,8 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
+export const FORM_UPDATE_SELECTED_PROVIDER =
+  'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -215,6 +217,13 @@ export function updateFacilityType(facilityType) {
   return {
     type: FORM_UPDATE_FACILITY_TYPE,
     facilityType,
+  };
+}
+
+export function updateSelectedProvider(provider) {
+  return {
+    type: FORM_UPDATE_SELECTED_PROVIDER,
+    provider,
   };
 }
 
@@ -831,6 +840,7 @@ export function onCalendarChange(
     isAppointmentSelectionError: isSame,
   };
 }
+
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,

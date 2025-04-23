@@ -18,13 +18,13 @@
     "isEnrolledMedicarePartA": true,
     "medicarePartAEffectiveDate": "2009-01-02",
     "medicareClaimNumber": "7AD5WC9MW60",
-    "view:deductibleMedicalExpenses":{
+    "view:deductibleMedicalExpenses": {
       "deductibleMedicalExpenses": 234
     },
-    "view:deductibleFuneralExpenses":{
+    "view:deductibleFuneralExpenses": {
       "deductibleFuneralExpenses": 11
     },
-    "view:deductibleEducationExpenses":{
+    "view:deductibleEducationExpenses": {
       "deductibleEducationExpenses": 0
     },
     "view:veteranGrossIncome": {
@@ -58,9 +58,15 @@
         "dependentEducationExpenses": 453,
         "cohabitedLastYear": false,
         "receivedSupportLastYear": true,
-        "grossIncome": 22500,
-        "netIncome": 17100,
-        "otherIncome": 0
+        "view:grossIncome": {
+          "grossIncome": 22500
+        },
+        "view:netIncome": {
+          "netIncome": 17100
+        },
+        "view:otherIncome": {
+          "otherIncome": 100
+        }
       }
     ],
     "view:reportDependents": true,
