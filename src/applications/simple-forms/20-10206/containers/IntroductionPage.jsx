@@ -84,10 +84,30 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     </>
   );
 
+  const appendLoggedInQueryParam = (windowLocation = window.location) => {
+    return `${windowLocation.origin}${windowLocation.pathname}?loggedIn=true`;
+  };
+
+  const mockSignInButton = () => {
+    const onSignInButtonClick = () => {
+      const redirectLocation = appendLoggedInQueryParam();
+
+      window.location = redirectLocation;
+    };
+    return (
+      <button type="button" onClick={onSignInButtonClick}>
+        Loginzzz
+      </button>
+    );
+  };
+
   return (
     <IntroductionPageView
       route={route}
-      content={content}
+      content={{
+        ...content,
+        customLink: mockSignInButton,
+      }}
       ombInfo={ombInfo}
       childContent={childContent}
       userIdVerified={userIdVerified}

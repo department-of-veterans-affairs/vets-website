@@ -34,7 +34,7 @@ import { getMockData } from '../helpers';
 const mockData = testData.data;
 
 export function isLocalhostOrDev() {
-  return environment.isLocalhost() || environment.isDev();
+  return false;
 }
 
 /** @type {FormConfig} */
