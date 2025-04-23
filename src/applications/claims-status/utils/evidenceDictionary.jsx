@@ -95,4 +95,60 @@ export const evidenceDictionary = {
     ),
     isProperNoun: false,
   },
+  'RV1 - Reserve Records Request': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested your service records or
+          treatment records from your reserve unit.
+        </p>
+        <p>Your records may be used to verify:</p>
+        <ul className="bullet-disc">
+          <li>Your service</li>
+          <li>An event in your service</li>
+          <li>Treatment received during your service</li>
+        </ul>
+      </>
+    ),
+  },
+  'DBQ AUDIO Hearing Loss and Tinnitus': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a disability exam for your
+          hearing. The examiner’s office will contact you to schedule this
+          appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+  },
+  'DBQ PSYCH Mental Disorders': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a mental health exam. The
+          examiner’s office will contact you to schedule this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+  },
+  'Proof of service (DD214, etc.)': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested all your DD Form 214's or
+          other separation papers for all your periods of military service.
+        </p>
+        <p>
+          You can also{' '}
+          <a href="https://www.va.gov/records/get-military-service-records/">
+            request your military service records
+          </a>{' '}
+          yourself from the National Archives.
+        </p>
+      </>
+    ),
+  },
 };
