@@ -14,6 +14,9 @@ export const uiSchema = {
       'ui:validations': [validateSponsorDeathDate],
     }),
   },
+  'ui:options': {
+    itemName: 'sponsor’s death date',
+  },
 };
 
 export const schema = {
