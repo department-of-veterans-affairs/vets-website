@@ -57,12 +57,11 @@ const IntroductionPage = ({ route }) => {
         enrollment ratios" section of this page.
       </p>
       <p>
-        For additional guidance on the 85/15 Rule, see the{' '}
         <va-link
-          text="School Certifying Official Handbook"
-          href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000149088/School-Certifying-Official-Handbook-On-line"
+          external
+          text="Learn more about the 85/15 rule"
+          href="https://benefits.va.gov/GIBILL/85_15/85_15_homepage.asp"
         />
-        .
       </p>
       <p>
         Please take the time to review the calculation instructions we have

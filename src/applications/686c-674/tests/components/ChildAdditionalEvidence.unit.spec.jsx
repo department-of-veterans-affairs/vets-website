@@ -37,6 +37,10 @@ describe('ChildAdditionalEvidence', () => {
     expect(evidenceAccordion.getAttribute('header')).to.equal(
       'Supporting evidence you need to submit',
     );
+    expect(evidenceAccordion.getAttribute('level')).to.equal('4');
+    expect(evidenceAccordion.parentElement.getAttribute('open-single')).to.eq(
+      'true',
+    );
   });
 
   it('should render birth certificate requirement if the child lives outside the USA', () => {
@@ -103,7 +107,7 @@ describe('ChildAdditionalEvidence', () => {
 
   it('should render the submit your files section with online submission details', () => {
     const { container } = renderComponent();
-    const submitFilesHeader = container.querySelector('h3');
+    const submitFilesHeader = container.querySelector('h4');
     expect(submitFilesHeader).to.not.be.null;
     expect(submitFilesHeader.textContent).to.include(
       'Submit your files online',
