@@ -1,10 +1,12 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
@@ -15,7 +17,6 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -191,20 +192,14 @@ const incomePayerPage = {
 const incomeAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
-    waivedGrossMonthlyIncome: merge(
-      {},
-      currencyUI('What is the gross monthly income amount?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    waivedGrossMonthlyIncome: currencyUI(
+      'What is the gross monthly income amount?',
     ),
   },
   schema: {
     type: 'object',
     properties: {
-      waivedGrossMonthlyIncome: { type: 'number' },
+      waivedGrossMonthlyIncome: currencySchema,
     },
     required: ['waivedGrossMonthlyIncome'],
   },
@@ -252,20 +247,12 @@ const incomeDatePage = {
 const expectedIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
-    expectedIncome: merge(
-      {},
-      currencyUI('What amount do you expect to receive?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
+    expectedIncome: currencyUI('What amount do you expect to receive?'),
   },
   schema: {
     type: 'object',
     properties: {
-      expectedIncome: { type: 'number' },
+      expectedIncome: currencySchema,
     },
     required: ['expectedIncome'],
   },
