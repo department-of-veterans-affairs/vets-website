@@ -177,6 +177,18 @@ const responses = {
         appointment.attributes.future = moment(
           appointment.attributes.start,
         ).isAfter(moment());
+
+        if (appointment.attributes.modality === 'vaVideoCareAtHome') {
+          const diff = moment().diff(
+            moment(appointment.attributes.start),
+            'minutes',
+          );
+          if (!appointment.attributes.telehealth) {
+            appointment.attributes.telehealth = {};
+          }
+          appointment.attributes.telehealth.displayLink =
+            diff > -30 && diff < 240;
+        }
       }
     }
     const filteredAppointments = appointments.filter(appointment => {

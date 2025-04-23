@@ -176,6 +176,7 @@ export function transformVAOSAppointment(
       facilityId: appt.locationId,
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
+      displayLink: appt.telehealth?.displayLink,
       duration: appt.minutesDuration,
       providers: (providers || [])
         .map(provider => {
