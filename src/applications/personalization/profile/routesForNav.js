@@ -2,7 +2,7 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import VeteranStatusCard from './components/veteran-status-card/VeteranStatusCard';
+import VeteranStatusCardPage from './components/veteran-status-card/VeteranStatusCardPage';
 import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
 import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
@@ -43,7 +43,7 @@ export const routesForNav = [
     requiresMVI: true,
   },
   {
-    component: VeteranStatusCard,
+    component: VeteranStatusCardPage,
     name: PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
     path: PROFILE_PATHS.VETERAN_STATUS_CARD,
     requiresLOA3: true,
