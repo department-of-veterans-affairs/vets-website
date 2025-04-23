@@ -2,7 +2,11 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { titleWithTag, form0781HeadingTag } from '../../content/form0781';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 import {
   treatmentReceivedDescription,
   treatmentReceivedNoneLabel,
@@ -46,6 +50,9 @@ export const uiSchema = {
     },
     required: false,
   }),
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
   'ui:validations': [validateProviders],
 };
 
@@ -63,5 +70,9 @@ export const schema = {
       Object.keys(TREATMENT_RECEIVED_NON_VA),
     ),
     treatmentNoneCheckbox: checkboxGroupSchema(['none']),
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

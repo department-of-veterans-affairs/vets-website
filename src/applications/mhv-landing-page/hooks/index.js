@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { UPDATE_MHV_STATE_VALUE } from 'platform/user/profile/actions';
 import { getMHVAccount } from '../utilities/api';
 import { isLOA3, selectProfile, hasMhvAccount } from '../selectors';
 import {
@@ -29,6 +30,10 @@ export function useAccountCreationApi(dispatchFunction = useDispatch()) {
             dispatch({
               type: fetchAccountStatusSuccess,
               data: resp,
+            });
+            dispatch({
+              type: UPDATE_MHV_STATE_VALUE,
+              accountState: resp.errors ? 'ERROR' : 'OK',
             });
           });
         }
