@@ -29,6 +29,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
   const isValid = mhv || dslogon;
   const mhvButtonShouldDisplay = mhvButtonDeprecated;
+  const dslogonRedirect = () => {
+    window.location.pathname = '/sign-in/deprecation-reminder';
+  };
 
   return (
     <div className="row">
@@ -110,6 +113,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   useOAuth={useOAuth}
                   ariaDescribedBy="dslogonH3"
                   actionLocation={actionLocation}
+                  onClick={() => dslogonRedirect()}
                 />
               </>
             )}
