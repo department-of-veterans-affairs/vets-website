@@ -424,6 +424,8 @@ export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: ' | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
   CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
+  EDIT_DRAFT_PAGE_TITLE_TAG:
+    'Edit draft - MHV Secure Messaging | Veterans Affairs',
 };
 
 export const Recipients = {
