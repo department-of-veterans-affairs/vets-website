@@ -6,6 +6,7 @@ import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
@@ -15,11 +16,12 @@ import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
-  PageTitles,
+  Categories,
   ParentComponent,
   RecipientStatus,
   Recipients,
 } from '../../util/constants';
+import { getPageTitle } from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 
@@ -44,6 +46,12 @@ const ReplyForm = props => {
   const signature = useSelector(state => state.sm.preferences?.signature);
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
+  );
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
   );
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -79,11 +87,12 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      const pageTitleTag = getPageTitle({ removeLandingPageFF });
       setSubject(replyMessage.subject);
-      setCategory(replyMessage.category);
-      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
+      setCategory(Categories[replyMessage.category]);
+      updatePageTitle(pageTitleTag);
     },
-    [replyMessage],
+    [removeLandingPageFF, replyMessage],
   );
 
   useEffect(
@@ -123,9 +132,13 @@ const ReplyForm = props => {
     () => {
       const casedCategory =
         category === 'COVID' ? category : capitalize(category);
-      return `${casedCategory}: ${subject}`;
+      return `${
+        removeLandingPageFF
+          ? `Messages: ${casedCategory} - ${subject}`
+          : `${casedCategory}: ${subject}`
+      }`;
     },
-    [category, subject],
+    [category, removeLandingPageFF, subject],
   );
 
   return (
@@ -136,6 +149,7 @@ const ReplyForm = props => {
           className="page-title"
           data-dd-privacy="mask"
           data-dd-action-name="Reply Form Header"
+          data-testid="reply-form-title"
         >
           {messageTitle}
         </h1>

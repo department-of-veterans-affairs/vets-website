@@ -1,22 +1,15 @@
 import { isValidPhone } from '~/platform/forms/validations';
 
 import { errorMessages } from '../constants';
-import { showNewHlrContent, hideNewHlrContent } from '../utils/helpers';
 
 import sharedErrorMessages from '../../shared/content/errorMessages';
 
 export const validateConferenceChoice = (errors, _value, formData) => {
-  const conference = formData?.informalConference || '';
-  const choice = formData?.informalConferenceChoice || '';
   if (errors) {
+    const choice = formData?.informalConferenceChoice || '';
     // "yes" option is only available in HLR update choices
-    if (showNewHlrContent(formData) && !['yes', 'no'].includes(choice)) {
+    if (!['yes', 'no'].includes(choice)) {
       errors.addError?.(sharedErrorMessages.requiredYesNo);
-    } else if (
-      hideNewHlrContent(formData) &&
-      !['me', 'rep', 'no'].includes(conference)
-    ) {
-      errors.addError?.(errorMessages.informalConferenceContactChoice);
     }
   }
 };
@@ -40,7 +33,7 @@ export const checkConferenceTimes = (errors, values, formData) => {
 };
 
 export const validatePhone = (errors, phone) => {
-  if (errors && (!phone || !isValidPhone(phone || ''))) {
+  if (errors && (!phone || !isValidPhone(phone))) {
     errors.addError?.(errorMessages.informalConferenceContactPhonePattern);
   }
 };

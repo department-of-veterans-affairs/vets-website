@@ -1,9 +1,25 @@
 // @ts-check
-import moment from 'moment';
+import { addDays } from 'date-fns';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../fixtures/MockSlotResponse';
+import MockUser from '../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactFacilityPageObject from '../../page-objects/ContactFacilityPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
+import DosesReceivedPageObject from '../../page-objects/DosesReceivedPageObject';
+import PlanAheadPageObject from '../../page-objects/PlanAheadPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import SecondDosePageObject from '../../page-objects/SecondDosePageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
-  mockAppointmentGetApi,
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
   mockFacilitiesApi,
@@ -14,22 +30,6 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import PlanAheadPageObject from '../../page-objects/PlanAheadPageObject';
-import DosesReceivedPageObject from '../../page-objects/DosesReceivedPageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
-import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
-import SecondDosePageObject from '../../page-objects/SecondDosePageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import ContactFacilityPageObject from '../../page-objects/ContactFacilityPageObject';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
 
 describe('VAOS covid-19 vaccine flow', () => {
   beforeEach(() => {
@@ -45,9 +45,10 @@ describe('VAOS covid-19 vaccine flow', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: 'booked',
         serviceType: 'covid',
+        future: true,
       });
 
       mockAppointmentCreateApi({ response });
@@ -77,7 +78,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         // Add one day since same day appointments are not allowed.
         response: MockSlotResponse.createResponses({
-          startTimes: [moment().add(1, 'day')],
+          startTimes: [addDays(new Date(), 1)],
         }),
       });
     };
@@ -209,9 +210,10 @@ describe('VAOS covid-19 vaccine flow', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: 'booked',
         serviceType: 'covid',
+        future: true,
       });
 
       mockAppointmentCreateApi({ response });
@@ -236,7 +238,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         // Add one day since same day appointments are not allowed.
         response: MockSlotResponse.createResponses({
-          startTimes: [moment().add(1, 'day')],
+          startTimes: [addDays(new Date(), 1)],
         }),
       });
     };
@@ -541,7 +543,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         response: MockSlotResponse.createResponses({
           // Add one day since same day appointments are not allowed.
-          startTimes: [moment().add(1, 'day')],
+          startTimes: [addDays(new Date(), 1)],
         }),
       });
 

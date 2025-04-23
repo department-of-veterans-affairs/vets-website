@@ -23,6 +23,7 @@ const AttachmentsList = props => {
     setAttachFileSuccess,
     forPrint,
     attachmentScanError,
+    setAttachFileError,
   } = props;
   const dispatch = useDispatch();
   const attachmentReference = useRef(null);
@@ -105,6 +106,7 @@ const AttachmentsList = props => {
     setAttachments(newAttArr);
     setIsAttachmentRemoved(true);
     setAttachFileSuccess(false);
+    setAttachFileError(null);
 
     if (newAttArr.some(item => item.name !== file.name)) {
       setRecentlyRemovedFile(true);
@@ -123,7 +125,7 @@ const AttachmentsList = props => {
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
-    dispatch(closeAlert()).then(() =>
+    dispatch(closeAlert()).then(() => {
       setTimeout(
         () =>
           setFocusedElement(
@@ -132,8 +134,9 @@ const AttachmentsList = props => {
               .shadowRoot.querySelector('button'),
           ),
         400,
-      ),
-    );
+      );
+      setAttachFileError(null);
+    });
   };
 
   const handleSuccessAlertClose = () => {

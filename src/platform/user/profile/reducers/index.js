@@ -11,6 +11,7 @@ import {
   FETCH_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
   PROFILE_ERROR,
+  FETCH_MESSAGING_SIGNATURE,
 } from '../actions';
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
     errors: null,
     loading: false,
     termsAndConditionsAccepted: false,
+    messagingSignature: null,
   },
   vapContactInfo: {},
   savedForms: [],
@@ -101,6 +103,12 @@ function profileInformation(state = initialState, action) {
 
     case PROFILE_ERROR:
       return set('errors', true, state);
+
+    case FETCH_MESSAGING_SIGNATURE: {
+      return updateMhvAccountState(state, {
+        messagingSignature: action.payload,
+      });
+    }
 
     default:
       return state;

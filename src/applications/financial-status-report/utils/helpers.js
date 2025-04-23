@@ -1,4 +1,4 @@
-import { addDays, format, isAfter, isFuture, isValid } from 'date-fns';
+import { parse, addDays, format, isAfter, isFuture, isValid } from 'date-fns';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { formatDateLong } from 'platform/utilities/date';
@@ -34,21 +34,32 @@ export const isNumber = value => {
 /**
  * Helper function to format date strings with only month and year
  *
- * @param {string} date - date string in ISO-ish; example: '2021-01-XX'
- * @returns formatted date string 'MM/yyyy'; example: 01/2021
- *
+ * @param {string} dateString - e.g. '2021-01-XX' or '2021-01'
+ * @returns {string} e.g. '01/2021'
  */
-export const monthYearFormatter = date => {
-  // Slicing off '-XX' from date string
-  // replacing - with / since date-fns will be off by 1 month if we don't
-  const newDate = new Date(date?.slice(0, -3).replace(/-/g, '/'));
-  return isValid(newDate) ? format(newDate, 'MM/yyyy') : undefined;
+export const monthYearFormatter = dateString => {
+  if (!dateString) return '';
+
+  // Replace any '-XX' legacy markers with '-01'
+  const safeDate = dateString.replace(/-XX$/, '-01');
+
+  // If it’s only "YYYY-MM" (length 7), parse it as year-month
+  let parsedDate;
+  if (safeDate.length === 7) {
+    parsedDate = parse(safeDate, 'yyyy-MM', new Date());
+  } else {
+    // Otherwise assume "YYYY-MM-dd"
+    parsedDate = parse(safeDate, 'yyyy-MM-dd', new Date());
+  }
+
+  // If parsed successfully, format as "MM/yyyy"
+  return isValid(parsedDate) ? format(parsedDate, 'MM/yyyy') : '';
 };
 
 export const endDate = (date, days) => {
-  return isValid(new Date(date))
-    ? formatDateLong(addDays(new Date(date), days))
-    : '';
+  if (!date) return '';
+  const parsed = new Date(date);
+  return isValid(parsed) ? formatDateLong(addDays(parsed, days)) : '';
 };
 
 export const currency = amount => {
@@ -262,65 +273,73 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-const employmentDateTemplate = 'YYYY-MM-XX';
-const isEmploymentDateComplete = date =>
-  date?.length === employmentDateTemplate.length;
-
 /**
  * Helper function to determine if date value is valid starting date:
  * - date is in the past or today
- * - date is complete
  * - date is not in the future
  *
- * @param {string} date - date string in ISO-ish; example: '2021-01-XX'
- * @returns true if date meets requirements above
- *
+ * @param {string} date - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @returns {boolean} true if date meets requirements above
  */
 export const isValidStartDate = date => {
-  const formattedDate = new Date(date?.slice(0, -3).replace(/-/g, '/'));
+  if (!date) return false;
 
-  if (isValid(formattedDate) && isEmploymentDateComplete(date)) {
-    return !isFuture(formattedDate);
-  }
-  return false;
+  // Ensure the date is in a valid format (either YYYY-MM-DD or YYYY-MM)
+  const isProperFormat = date.length === 10 || date.length === 7;
+  if (!isProperFormat) return false;
+
+  // If only "YYYY-MM" is provided, append "-01" to make it complete
+  const safeDate = date.length === 7 ? `${date}-01` : date;
+
+  // Parse the date and check its validity
+  const parsedDate = new Date(safeDate.replace(/-/g, '/'));
+
+  const year = parsedDate.getFullYear();
+  if (year < 1900) return false;
+
+  // Check that it's a real date, and not in the future
+  return isValid(parsedDate) && !isFuture(parsedDate);
 };
 
 /**
  * Helper function to determine if date value is valid ending date:
- * - ending date not in the future
+ * - ending date is not in the future
  * - ending date is after start date
- * - ending date is complete
  *
- * @param {string} startDate - date string in ISO-ish; example: '2021-01-XX'
- * @param {string} endedDate - date string in ISO-ish; example: '2021-01-XX'
- * @returns true if date meets requirements above
- *
+ * @param {string} startDate - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @param {string} endingDate - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @returns {boolean} true if date meets requirements above
  */
-export const isValidEndDate = (startDate, endedDate) => {
-  const formattedStartDate = new Date(
-    startDate?.slice(0, -3).replace(/-/g, '/'),
-  );
-  const formattedEndDate = new Date(endedDate?.slice(0, -3).replace(/-/g, '/'));
 
-  if (isValid(formattedEndDate) && isEmploymentDateComplete(endedDate)) {
-    // end date is *not* in the future
-    // end date is *after* start date
-    return (
-      !isFuture(formattedEndDate) &&
-      isAfter(formattedEndDate, formattedStartDate)
-    );
-  }
-  return false;
+export const isValidEndDate = (startDate, endingDate) => {
+  if (!startDate || !endingDate) return false;
+
+  // Ensure both dates are in a valid format
+  const isProperStartFormat = startDate.length === 10 || startDate.length === 7;
+  const isProperEndFormat = endingDate.length === 10 || endingDate.length === 7;
+
+  if (!isProperStartFormat || !isProperEndFormat) return false;
+
+  // Append "-01" to incomplete dates this applies to months and days
+  const safeStart = startDate.length === 7 ? `${startDate}-01` : startDate;
+  const safeEnd = endingDate.length === 7 ? `${endingDate}-01` : endingDate;
+
+  // Parse the dates
+  const parsedStart = new Date(safeStart.replace(/-/g, '/'));
+  const parsedEnd = new Date(safeEnd.replace(/-/g, '/'));
+
+  if (!isValid(parsedEnd) || !isValid(parsedStart)) return false;
+
+  const year = parsedEnd.getFullYear();
+  if (year < 1900) return false;
+
+  // Ensure the end date is not in the future and is after the start date
+  return !isFuture(parsedEnd) && isAfter(parsedEnd, parsedStart);
 };
 
 /**
  * Generates a unique key based on the given data fields and an optional index.
- * @example
- * const keyFieldsForCreditCard = ['amountDueMonthly', 'amountPastDue', 'unpaidBalance'];
- * key={generateUniqueKey(bills, keyFieldsForCreditCard, index)}
- * Output: "200-50-1000-2"
  */
-
 export const generateUniqueKey = (data, fields, index = null) => {
   if (data === null || !fields.length) {
     return `default-key-${index}`;

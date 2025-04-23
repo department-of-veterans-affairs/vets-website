@@ -18,6 +18,7 @@ import {
   servicePeriodsUpdate,
   tourOfDuty,
   sponsorInfo,
+  changeAnotherBenefitPage,
 } from '../pages';
 
 import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
@@ -183,6 +184,13 @@ export const chapters = {
         path: 'benefits/eligibility',
         uiSchema: benefitSelectionUiSchema(),
         schema: benefitSelectionSchema(),
+      },
+      changeAnotherBenefit: {
+        title: 'Education benefit selection',
+        path: 'benefits/education-benefit',
+        uiSchema: changeAnotherBenefitPage.uiSchema,
+        schema: changeAnotherBenefitPage.schema,
+        depends: formData => formData?.rudisillReview === 'No',
       },
     },
   },

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../constants';
+import {
+  EVIDENCE_LIMIT,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_PRIVATE_PATH,
+} from '../constants';
 
 import { content } from '../content/evidencePrivateLimitation';
+import { showScNewForm } from '../utils/toggle';
 
 import { customPageProps995 } from '../../shared/props';
 
@@ -17,6 +22,23 @@ const EvidencePrivateLimitation = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
+  const showNewContent = showScNewForm(data);
+
+  // Set y/n value, if textarea is already filled
+  useEffect(() => {
+    if (
+      showNewContent &&
+      typeof data[EVIDENCE_LIMIT] === 'undefined' &&
+      data.limitedConsent
+    ) {
+      setFormData({
+        ...data,
+        [EVIDENCE_LIMIT]: true,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handlers = {
     onInput: event => {
       setFormData({ ...data, limitedConsent: event.target.value });

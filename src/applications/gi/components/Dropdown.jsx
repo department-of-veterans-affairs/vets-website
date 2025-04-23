@@ -6,6 +6,7 @@ import { handleScrollOnInputFocus } from '../utils/helpers';
 const Dropdown = ({
   alt,
   ariaLabel,
+  boldLabel,
   className,
   disabled,
   hideArrows,
@@ -25,7 +26,15 @@ const Dropdown = ({
   }
 
   const dropdownId = `${name}-dropdown`;
-  const labelElement = (
+  const labelElement = boldLabel ? (
+    <strong>
+      <label htmlFor={name}>
+        {label}{' '}
+        {required ? <span className="required-label">(*Required)</span> : null}{' '}
+        {children}
+      </label>
+    </strong>
+  ) : (
     <label htmlFor={name}>
       {label}{' '}
       {required ? <span className="required-label">(*Required)</span> : null}{' '}
@@ -93,6 +102,7 @@ Dropdown.propTypes = {
   visible: PropTypes.bool,
   onFocus: PropTypes.func,
   required: PropTypes.bool,
+  boldLabel: PropTypes.bool,
   children: PropTypes.node,
 };
 

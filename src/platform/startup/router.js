@@ -24,6 +24,11 @@ import setUpCommonFunctionality from './setup';
  * @param {string} appInfo.url The base url for the React application
  * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
  * when the respective actions are fired.
+ * @param {boolean} preloadScheduledDowntimes Whether to fetch scheduled downtimes - when set
+ * to true, the maintenance_windows API request is made without having to wait for the
+ * DowntimeNotification component to mount. This can improve startup time for applications
+ * that use the DowntimeNotification component.
+ * @param {array} appInfo.additionalMiddlewares Array of additional Redux middlewares to include.
  */
 export default function startApp({
   routes,
@@ -33,12 +38,16 @@ export default function startApp({
   url,
   analyticsEvents,
   entryName = 'unknown',
+  preloadScheduledDowntimes = false,
+  additionalMiddlewares = [],
 }) {
   const store = setUpCommonFunctionality({
     entryName,
     url,
     reducer,
     analyticsEvents,
+    preloadScheduledDowntimes,
+    additionalMiddlewares,
   });
 
   let content = component;

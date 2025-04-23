@@ -7,7 +7,7 @@ function getPrimaryContact(data) {
   // treated as the primary contact.
   return {
     name: data?.certifierName ?? data?.applicantName ?? false,
-    email: false, // We don't collect email
+    email: data?.certifierEmail ?? data?.applicantEmail ?? false,
     phone: data?.certifierPhone ?? data?.applicantPhone ?? false,
   };
 }
@@ -19,24 +19,37 @@ export default function transformForSubmit(formConfig, form) {
 
   let copyOfData = JSON.parse(JSON.stringify(transformedData));
 
+  // If user is the sponsor, copy sponsor details into the certifier section:
+  if (copyOfData.certifierRole === 'sponsor') {
+    copyOfData.certifierName = copyOfData.sponsorName;
+    copyOfData.certifierAddress = copyOfData.sponsorAddress;
+    copyOfData.certifierPhone = copyOfData.sponsorPhone;
+    copyOfData.certifierEmail = copyOfData.sponsorEmail;
+  }
+
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification
   copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
 
   // ---
   // Add type/category info to file uploads:
+  const pharmacyUpload = copyOfData?.pharmacyUpload?.map(el => {
+    return { ...el, attachmentId: 'MEDDOCS' };
+  });
+  copyOfData.pharmacyUpload = pharmacyUpload;
+
   const medicalUpload = copyOfData?.medicalUpload?.map(el => {
-    return { ...el, documentType: 'itemized billing statement' };
+    return { ...el, attachmentId: 'MEDDOCS' };
   });
   copyOfData.medicalUpload = medicalUpload;
 
   const primaryEob = copyOfData?.primaryEob?.map(el => {
-    return { ...el, documentType: 'Eob' };
+    return { ...el, attachmentId: 'EOB' };
   });
   copyOfData.primaryEob = primaryEob;
 
   const secondaryEob = copyOfData?.secondaryEob?.map(el => {
-    return { ...el, documentType: 'Eob' };
+    return { ...el, attachmentId: 'EOB' };
   });
   copyOfData.secondaryEob = secondaryEob;
   // ---

@@ -27,4 +27,9 @@ describe('Claimant Relationship page', () => {
 
     expect($('button[type="submit"]', container)).to.exist;
   });
+
+  it('should have proper max length for relationshipNotListed field', () => {
+    expect(schema.properties.relationshipNotListed.maxLength).to.equal(42);
+    expect(uiSchema.relationshipNotListed['ui:options'].maxLength).to.equal(42);
+  });
 });

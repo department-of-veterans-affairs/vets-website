@@ -1,9 +1,9 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import formConfig from '../config/form';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
-import mockV2p5Data from './fixtures/data/maximal-test-v2.5.json';
+import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -21,7 +21,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     resetStoredSubTask();
 
-    cy.wrap(mockV2p5Data.data).as('testData');
+    cy.wrap(mockV2Data.data).as('testData');
 
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
@@ -29,7 +29,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
-      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.visit(
@@ -106,14 +106,29 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
       cy.realPress('Space');
 
+      // *** Authorization
+      cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
+      cy.realPress('Space');
+
       // *** Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
+      cy.tabToContinueForm();
+
+      // *** Informal conference choice
+      cy.url().should(
+        'include',
+        chapters.informalConference.pages.requestConference.path,
+      );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100); // wait for H3 focus before tabbing to radios
+      cy.tabToElement('input[name="informalConferenceChoice"]');
+      cy.chooseRadio('yes');
       cy.tabToContinueForm();
 
       // *** Informal conference option
       cy.url().should(
         'include',
-        chapters.informalConference.pages.requestConference.path,
+        chapters.informalConference.pages.conferenceContact.path,
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for H3 focus before tabbing to radios
@@ -155,11 +170,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // *** Confirmation page
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      // Another instance where we need to specifically find the element inside of a shadow dom (va-button)
-      cy.get('.screen-only')
-        .shadow()
-        .find('[type="button"')
-        .should('exist');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

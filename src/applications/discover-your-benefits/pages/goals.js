@@ -11,7 +11,7 @@ export default {
       enableAnalytics: true,
       title: 'What goals do you want to accomplish?',
       hint: 'Check all that apply.',
-      required: false,
+      required: () => true,
       labels: goalTypeLabels,
     }),
   },

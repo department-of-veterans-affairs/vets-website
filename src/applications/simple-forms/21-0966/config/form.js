@@ -82,6 +82,7 @@ const formConfig = {
   formId: '21-0966',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   saveInProgress: {
     // messages: {

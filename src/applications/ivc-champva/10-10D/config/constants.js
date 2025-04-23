@@ -67,6 +67,3 @@ export const FILE_UPLOAD_ORDER = [
   'applicantOhiCard',
   'applicantOtherInsuranceCertification',
 ];
-
-export const ADDITIONAL_FILES_HINT =
-  'Depending on your response, you may need to submit additional documents with this application.';

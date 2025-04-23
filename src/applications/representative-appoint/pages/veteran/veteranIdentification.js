@@ -32,8 +32,8 @@ export const uiSchema = {
       } Social Security and VA file numbers are the same. `,
   ),
   profileNotUpdatedNote: {
-    'ui:description': formData => (
-      <ProfileNotUpdatedNote formData={formData} includePrefix includePhone />
+    'ui:description': () => (
+      <ProfileNotUpdatedNote includePhone includePrefix />
     ),
   },
   veteranSocialSecurityNumber: ssnUI('Social Security number'),
@@ -49,7 +49,13 @@ export const schema = {
     descriptionSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     veteranSocialSecurityNumber: ssnSchema,
-    veteranVAFileNumber: vaFileNumberSchema,
-    veteranServiceNumber: serviceNumberSchema,
+    veteranVAFileNumber: {
+      ...vaFileNumberSchema,
+      maxLength: 9,
+    },
+    veteranServiceNumber: {
+      ...serviceNumberSchema,
+      maxLength: 9,
+    },
   },
 };

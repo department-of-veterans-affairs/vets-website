@@ -1,13 +1,9 @@
-import moment from 'moment';
+import { addHours, format, startOfDay } from 'date-fns';
 import {
   APPOINTMENT_STATUS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
 } from '../../../utils/constants';
-
-/**
- * @typedef {import('moment-timezone').Moment} Moment
- */
 
 /**
  * Mock appointment class.
@@ -20,7 +16,8 @@ export default class MockAppointmentResponse {
    * Creates an instance of MockAppointment.
    * @param {Object} props - Properties used to determine what type of mock appointment to create.
    * @param {Object=} props.atlas - Set this to create an atlas appointment.
-   * @param {Moment} props.localStartTime - Set appointment start time.
+   * @param {Date} props.localStartTime - Set appointment start time.
+   * @param {Date} [props.created=null] - Set appointment created date to the value passed in otherwise set the date to today's date as the default.
    * @param {string=} props.url - Set video appointment URL.
    * @param {string=} props.vvsKind - Set type of video appointment.
    * @param {string|number} [props.id=1] - Set appointment id.
@@ -29,6 +26,9 @@ export default class MockAppointmentResponse {
    * @param {boolean} [props.patientHasMobileGfe=false] - Set if patient has mobile device for video appointments.
    * @param {string} [props.serviceType=primaryCare] - Set appointment type of care.
    * @param {string} [props.status=booked] - Set appointment status. If appointment status is 'APPOINTMENT_STATUS.proposed', localStart time is used for requested periods.
+   * @param {boolean} [props.past=false] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [props.pending=false] - Flag to determine if appointment is a pending appointment.
+   * @param {boolean} [props.future=false] - Flag to determine if appointment is a pending appointment.
    * @memberof MockAppointment
    */
   constructor({
@@ -36,25 +36,35 @@ export default class MockAppointmentResponse {
     localStartTime,
     url,
     vvsKind,
-    id = '1',
     cancellable = true,
+    created = null,
+    future = false,
+    id = '1',
     kind = TYPE_OF_VISIT_ID.clinic,
+    past = false,
     patientHasMobileGfe = false,
+    pending = false,
     serviceType = 'primaryCare',
     status = 'booked',
+    type = 'VA',
   } = {}) {
     const requestedPeriods = [];
-    let timestamp = moment();
+    let timestamp = new Date();
+    let createdStamp = new Date();
 
-    if (localStartTime && localStartTime instanceof moment)
+    if (localStartTime && localStartTime instanceof Date)
       timestamp = localStartTime;
 
     if (status === APPOINTMENT_STATUS.proposed) {
       requestedPeriods.push({
-        start: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
-        end: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
+        start: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
+        end: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
       });
     }
+
+    if (created && created instanceof Date)
+      createdStamp = format(created, "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
+    else createdStamp = format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
 
     this.id = id.toString();
     this.type = 'MockAppointment';
@@ -65,14 +75,17 @@ export default class MockAppointmentResponse {
         patientHasMobileGfe,
       },
       kind,
-      localStartTime: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
+      type,
+      localStartTime: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
       preferredDates: [
-        moment()
-          .startOf('day')
-          .format('ddd, MMMM D, YYYY [in the morning]'),
+        format(
+          startOfDay(new Date(), 'day'),
+          "eeee, MMMM d, yyyy '[in the morning]'",
+        ),
       ],
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
+      created: createdStamp,
       serviceType,
       status,
       telehealth: {
@@ -80,10 +93,18 @@ export default class MockAppointmentResponse {
         url,
         vvsKind,
       },
+      future,
+      pending,
+      past,
     };
   }
 
-  static createAtlasResponses({ localStartTime, count = 1 }) {
+  static createAtlasResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -102,11 +123,13 @@ export default class MockAppointmentResponse {
               },
             },
             vvsKind: VIDEO_TYPES.adhoc,
+            future,
+            past,
           }),
       );
   }
 
-  static createCCResponses({ localStartTime, count = 1 }) {
+  static createCCResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -114,12 +137,19 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: 'cc',
+            type: 'COMMUNITY_CARE_APPOINTMENT',
             localStartTime,
+            future,
           }),
       );
   }
 
-  static createClinicResponses({ localStartTime, count = 1 }) {
+  static createClinicResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -129,11 +159,18 @@ export default class MockAppointmentResponse {
             kind: TYPE_OF_VISIT_ID.telehealth,
             localStartTime,
             vvsKind: VIDEO_TYPES.clinic,
+            future,
+            past,
           }),
       );
   }
 
-  static createGfeResponses({ localStartTime, count = 1 }) {
+  static createGfeResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -144,11 +181,13 @@ export default class MockAppointmentResponse {
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
             patientHasMobileGfe: true,
+            future,
+            past,
           }),
       );
   }
 
-  static createMobileResponses({ localStartTime, count = 1 }) {
+  static createMobileResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -158,11 +197,12 @@ export default class MockAppointmentResponse {
             kind: TYPE_OF_VISIT_ID.telehealth,
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
+            future,
           }),
       );
   }
 
-  static createPhoneResponses({ localStartTime, count = 1 }) {
+  static createPhoneResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -171,11 +211,16 @@ export default class MockAppointmentResponse {
             id: index,
             kind: TYPE_OF_VISIT_ID.phone,
             localStartTime,
+            future,
           }),
       );
   }
 
-  static createStoreForwardResponses({ localStartTime, count = 1 }) {
+  static createStoreForwardResponses({
+    localStartTime,
+    future = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -185,11 +230,12 @@ export default class MockAppointmentResponse {
             kind: TYPE_OF_VISIT_ID.telehealth,
             localStartTime,
             vvsKind: VIDEO_TYPES.storeForward,
+            future,
           }),
       );
   }
 
-  static createVAResponses({ localStartTime, count = 1 }) {
+  static createVAResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
       .map(
@@ -197,6 +243,7 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             localStartTime,
+            future,
           }),
       );
   }
@@ -253,6 +300,11 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setPreferredDates(values) {
+    this.attributes.preferredDates = values;
+    return this;
+  }
+
   setTypeOfCare(value) {
     this.attributes.serviceType = value;
     return this;
@@ -284,6 +336,10 @@ export default class MockAppointmentResponse {
   setLocationId(value) {
     this.attributes.locationId = value.toString();
     return this;
+  }
+
+  setModality(value) {
+    this.attributes.modality = value;
   }
 
   setPractitioner({ id }) {
@@ -334,8 +390,6 @@ export default class MockAppointmentResponse {
   }
 
   getRequestedPeriods() {
-    // Throwing an error since using null, undefined or [] when constructing a moment
-    // will default to the current date and time.
     if (!this.attributes.requestedPeriods)
       throw new Error('Attribute not defined');
 
@@ -346,10 +400,8 @@ export default class MockAppointmentResponse {
     this.attributes.localStartTime = undefined;
     this.attributes.requestedPeriods = requestedPeriods.map(date => {
       return {
-        start: moment(date).format('YYYY-MM-DDThh:mm:ssZ'),
-        end: moment(date)
-          .add(1, 'hour')
-          .format('YYYY-MM-DDThh:mm:ssZ'),
+        start: format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+        end: format(addHours(date, 1), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
       };
     });
 
@@ -373,6 +425,7 @@ export default class MockAppointmentResponse {
 
   setUrl(value = 'test.com') {
     this.attributes.telehealth = {
+      ...this.attributes.telehealth,
       url: value,
     };
 

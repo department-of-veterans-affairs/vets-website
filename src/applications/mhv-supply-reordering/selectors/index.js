@@ -38,8 +38,16 @@ const showAlertReorderAccessExpired = state =>
 const showAlertSomethingWentWrong = state =>
   Math.trunc(+state?.mdotInProgressForm?.error?.status / 500) === 1;
 
+const isAlerting = state =>
+  showAlertDeceased(state) ||
+  showAlertNoRecordForUser(state) ||
+  showAlertNoSuppliesForReorder(state) ||
+  showAlertReorderAccessExpired(state) ||
+  showAlertSomethingWentWrong(state);
+
 export {
   canReorderOn,
+  isAlerting,
   isLOA3,
   isLoggedIn,
   isVAPatient,

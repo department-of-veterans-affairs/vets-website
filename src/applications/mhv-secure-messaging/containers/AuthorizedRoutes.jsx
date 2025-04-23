@@ -1,9 +1,10 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -13,6 +14,7 @@ import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 import { Paths } from '../util/constants';
+import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 
@@ -31,12 +33,37 @@ AppRoute.propTypes = {
 };
 
 const AuthorizedRoutes = () => {
+  const location = useLocation();
+  const isPilot = useSelector(state => state.sm.app.isPilot);
   const contactListPage = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingEditContactList
       ],
   );
+
+  const removeLandingPage = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
+
+  const cernerPilotSmFeatureFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
+  if (removeLandingPage && location.pathname === `/`) {
+    const basePath = `${
+      cernerPilotSmFeatureFlag && isPilot
+        ? pilotManifest.rootUrl
+        : manifest.rootUrl
+    }${Paths.INBOX}`;
+    window.location.replace(basePath);
+    return <></>;
+  }
+
   return (
     <div
       className="vads-l-col--12
@@ -45,9 +72,11 @@ const AuthorizedRoutes = () => {
     >
       <ScrollToTop />
       <Switch>
+        {/* Remove this landing page block when mhvSecureMessagingRemoveLandingPage FF is removed */}
         <AppRoute exact path="/" key="App">
           <LandingPageAuth />
         </AppRoute>
+        {/*  */}
         <AppRoute exact path={Paths.FOLDERS} key="Folders">
           <Folders />
         </AppRoute>

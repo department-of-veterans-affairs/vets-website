@@ -75,7 +75,8 @@ class SubmitController extends Component {
             fullNameReducer(
               statementOfTruthFullName(
                 form.data,
-                statementOfTruth.fullNamePath,
+                statementOfTruth,
+                user?.profile?.userFullName,
               ),
             )))
     ) {

@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Education benefits and work study
+  - action: click
+    target: call-to-action

@@ -26,6 +26,8 @@ const isLocalhost = environment.isLocalhost();
 // only to be updated when downstream services are updated
 //  check with sitewide-public-websites to confirm income_limits also contains
 //  data for the new year from VES
+// Docs for our updates:
+//   https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/features/gmt-yearly-update.md
 const GMT_YEAR = 2024;
 
 /**

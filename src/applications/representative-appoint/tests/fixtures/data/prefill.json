@@ -1,0 +1,29 @@
+{
+  "personalInformation": {
+    "fullName": {
+      "first": "Greg",
+      "last": "Anderson",
+      "middle": "Alex"
+    },
+    "dateOfBirth": "1933-04-05",
+    "ssn": "796121200"
+  },
+  "contactInformation": {
+    "address": {
+      "street": "123 avenue du Maine",
+      "city": "Paris",
+      "state": "Paris",
+      "country": "FRA",
+      "postalCode": "75014"
+    },
+    "email": "test2@test1.net",
+    "primaryPhone": "4445551212"
+  },
+  "militaryInformation": {
+    "serviceBranch": "Army"
+  },
+  "identityValidation": {
+    "hasIcn": true,
+    "hasParticipantId": true
+  }
+}

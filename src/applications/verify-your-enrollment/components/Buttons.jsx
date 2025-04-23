@@ -9,11 +9,7 @@ const ButtonsGroup = ({
 }) => {
   return (
     <div className="button-container">
-      <va-button
-        onClick={onPrimaryClick}
-        text={primaryLabel}
-        class="vads-u-margin-bottom--1p5"
-      />
+      <va-button onClick={onPrimaryClick} text={primaryLabel} />
       <va-button onClick={onSecondaryClick} secondary text={secondaryLabel} />
     </div>
   );

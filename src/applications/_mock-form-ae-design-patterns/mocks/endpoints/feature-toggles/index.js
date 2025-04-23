@@ -4,6 +4,7 @@ const { snakeCase } = require('lodash');
 // instead use generateFeatureToggles in server.js to set the toggle values
 const profileToggles = {
   aedpVADX: false,
+  aedpPrefill: false,
   profileUseExperimental: false,
   coeAccess: true,
   showEduBenefits1990Wizard: true,

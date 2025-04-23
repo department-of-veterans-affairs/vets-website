@@ -1,54 +1,48 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio, VaRadioOption } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
-  const { facilities, onChange, query, value, error } = props;
-  const reviewMode = props?.formContext?.reviewMode || false;
-  const submitted = props?.formContext?.submitted || false;
+  const { error, facilities, formContext, onChange, query, value } = props;
+  const { reviewMode = false, submitted = false } = formContext || {};
 
-  const handleChange = e => {
-    onChange(e.detail.value);
-  };
+  const handleChange = useCallback(e => onChange(e.detail.value), [onChange]);
 
-  const showError = () => {
-    if (error) {
-      return error;
-    }
-
-    return submitted && !value
-      ? content['validation-facilities--default-required']
-      : null;
-  };
-
-  const getFacilityName = useCallback(
-    val => {
-      const facility = facilities.find(f => f.id === val);
-      return facility?.name || '&mdash;';
-    },
-    [facilities],
+  const formatAddress = useCallback(
+    ({ address1, address2, address3 }) =>
+      [address1, address2, address3].filter(Boolean).join(', '),
+    [],
   );
 
-  const formatAddress = ({ address1, address2, address3 }) => {
-    const parts = [address1, address2, address3];
-    const validParts = parts.filter(Boolean);
-    return validParts.join(', ');
-  };
+  const fieldError = useMemo(
+    () =>
+      error ||
+      (submitted && !value
+        ? content['validation-facilities--default-required']
+        : null),
+    [error, submitted, value],
+  );
 
-  const facilityOptions = facilities.map(facility => (
-    <VaRadioOption
-      key={facility.id}
-      name="facility"
-      label={facility.name}
-      value={facility.id}
-      description={formatAddress(facility.address.physical)}
-      tile
-    />
-  ));
+  const facilityName = useMemo(
+    () => facilities.find(f => f.id === value)?.name || '&mdash;',
+    [facilities, value],
+  );
+
+  const facilityOptions = useMemo(
+    () =>
+      facilities.map(f => (
+        <VaRadioOption
+          key={f.id}
+          name="facility"
+          label={f.name}
+          value={f.id}
+          description={formatAddress(f.address.physical)}
+          tile
+        />
+      )),
+    [facilities, formatAddress],
+  );
 
   if (reviewMode) {
     return (
@@ -57,7 +51,7 @@ const FacilityList = props => {
         data-testid="cg-facility-name"
         data-dd-action-name="data value"
       >
-        {getFacilityName(value)}
+        {facilityName}
       </span>
     );
   }
@@ -81,7 +75,9 @@ const FacilityList = props => {
         name="root_facility_search_list"
         value={value}
         onVaValueChange={handleChange}
-        error={showError()}
+        error={fieldError}
+        label={content['vet-med-center-label']}
+        labelHeaderLevel="4"
       >
         {facilityOptions}
       </VaRadio>
@@ -92,7 +88,10 @@ const FacilityList = props => {
 FacilityList.propTypes = {
   error: PropTypes.string,
   facilities: PropTypes.array,
-  formContext: PropTypes.object,
+  formContext: PropTypes.shape({
+    reviewMode: PropTypes.bool,
+    submitted: PropTypes.bool,
+  }),
   query: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,

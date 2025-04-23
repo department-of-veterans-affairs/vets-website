@@ -37,13 +37,11 @@ describe('<AskVAPage>', () => {
 
   it('should render enabled submit button when va-checkbox checked', () => {
     const router = getRouter();
-    const submitRequest = sinon.spy();
 
     const { container, rerender } = renderWithRouter(
       <AskVAPage
         decisionRequestError={null}
         params={{ id: 1 }}
-        submitRequest={submitRequest}
         router={router}
       />,
     );
@@ -60,7 +58,6 @@ describe('<AskVAPage>', () => {
       <AskVAPage
         decisionRequestError={null}
         params={{ id: 1 }}
-        submitRequest={submitRequest}
         router={router}
       />,
     );
@@ -73,14 +70,12 @@ describe('<AskVAPage>', () => {
     const router = {
       push: sinon.spy(),
     };
-    const submitRequest = sinon.spy();
 
     const { container } = renderWithRouter(
       <AskVAPage
         loadingDecisionRequest
         decisionRequestError={null}
         params={{ id: 1 }}
-        submitRequest={submitRequest}
         router={router}
       />,
     );
@@ -93,15 +88,10 @@ describe('<AskVAPage>', () => {
 
   it('should update claims and redirect after success', () => {
     const navigate = sinon.spy();
-    const submitRequest = sinon.spy();
     const getClaim = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AskVAPage
-        params={{ id: 1 }}
-        submitRequest={submitRequest}
-        navigate={navigate}
-      />,
+      <AskVAPage params={{ id: 1 }} navigate={navigate} />,
     );
     tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       decisionRequested: true,
@@ -111,8 +101,7 @@ describe('<AskVAPage>', () => {
     expect(navigate.calledWith('../status')).to.be.true;
   });
 
-  // START lighthouse_migration
-  context('cst_use_lighthouse_5103 feature toggle', () => {
+  context('5103 Submission', () => {
     const params = { id: 1 };
 
     const props = {
@@ -121,10 +110,8 @@ describe('<AskVAPage>', () => {
       router: getRouter(),
     };
 
-    it('calls submitRequest when disabled', () => {
-      props.submitRequest = sinon.spy();
+    it('calls submit5103 ', () => {
       props.submit5103 = sinon.spy();
-      props.useLighthouse5103 = false;
 
       const { container, rerender } = renderWithRouter(
         <Provider store={store}>
@@ -145,37 +132,7 @@ describe('<AskVAPage>', () => {
       // Click submit button
       fireEvent.click($('.button-primary', container));
 
-      expect(props.submitRequest.called).to.be.true;
-      expect(props.submit5103.called).to.be.false;
-    });
-
-    it('calls submit5103 when enabled', () => {
-      props.submitRequest = sinon.spy();
-      props.submit5103 = sinon.spy();
-      props.useLighthouse5103 = true;
-
-      const { container, rerender } = renderWithRouter(
-        <Provider store={store}>
-          <AskVAPage {...props} />
-        </Provider>,
-      );
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
-      rerenderWithRouter(
-        rerender,
-        <Provider store={store}>
-          <AskVAPage {...props} />
-        </Provider>,
-      );
-      // Click submit button
-      fireEvent.click($('.button-primary', container));
-
-      expect(props.submitRequest.called).to.be.false;
       expect(props.submit5103.called).to.be.true;
     });
   });
-  // END lighthouse_migration
 });

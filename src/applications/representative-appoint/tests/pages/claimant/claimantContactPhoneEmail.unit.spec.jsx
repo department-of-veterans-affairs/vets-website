@@ -16,6 +16,7 @@ describe('Claimant Contact Phone Email page', () => {
   const mockStore = configureStore();
   const store = mockStore({
     user: { login: { currentlyLoggedIn: true } },
+    form: { data: {} },
   });
 
   it('should render', () => {
@@ -32,5 +33,9 @@ describe('Claimant Contact Phone Email page', () => {
     );
 
     expect(container.querySelector('button[type="submit"]')).to.exist;
+  });
+
+  it('should have proper max length for email field', () => {
+    expect(schema.properties.applicantEmail.maxLength).to.equal(31);
   });
 });

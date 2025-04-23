@@ -4,7 +4,7 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 
 describe('Prefill pattern - Green Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User);
+    cy.intercept('GET', '/v0/user', mockUsers.loa3User).as('mockUser');
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [{ name: 'profile_use_experimental', value: true }],

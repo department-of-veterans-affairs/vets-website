@@ -82,9 +82,8 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
               </strong>{' '}
               connect with our Veterans Crisis Line. We offer confidential
               support anytime, day or night.
+              <CrisisLineConnectButton />
             </li>
-
-            <CrisisLineConnectButton />
 
             <li>
               <strong>If you think your life or health is in danger, </strong>{' '}

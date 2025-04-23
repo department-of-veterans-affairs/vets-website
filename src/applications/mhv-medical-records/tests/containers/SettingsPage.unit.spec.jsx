@@ -8,6 +8,8 @@ import SettingsPage from '../../containers/SettingsPage';
 
 describe('SettingsPage container opted in with opt in status error', () => {
   const initialState = {
+    // eslint-disable-next-line camelcase
+    featureToggles: { mhv_medical_records_update_landing_page: true },
     mr: {
       sharing: {
         statusError: { type: 'optin' },
@@ -172,17 +174,6 @@ describe('SettingsPage container not sharing', () => {
       reducers: reducer,
       path: '/settings',
     });
-  });
-
-  it('displays a loading indicator', () => {
-    const autoIncludeMessage = screen.getByText(
-      'We’re not currently sharing your records online with your community',
-      {
-        exact: false,
-        selector: 'p',
-      },
-    );
-    expect(autoIncludeMessage).to.exist;
   });
 
   it('should open the opt in confirmation modal when the open opt in modal button is clicked', () => {

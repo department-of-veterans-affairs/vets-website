@@ -10,28 +10,31 @@ import { onCLS, onINP, onLCP, onTTFB } from 'web-vitals';
 const recordWebVitalsEvent = event => {
   const webVitalsEvent = {
     event: 'web_vitals',
-    event_category: 'Performance',
-    event_action: event.name,
-    event_value: Math.round(
+    web_vital_type: event.name,
+    latency_ms: Math.round(
       event.name === 'CLS' ? event.delta * 1000 : event.delta,
     ),
-    event_label: event.id,
+    web_vital_id: event.id,
     app_name: window.appName || 'unknown',
   };
   recordEvent(webVitalsEvent);
 };
 
-const trackWebVitals =
-  // Exclude production for now.
-  !environment.isProduction() &&
-  // Exclude cypress containers and localhost from tracking web vitals.
-  environment.BASE_URL.indexOf('localhost') < 0;
+const trackWebVitals = ({ sampleEvents = false }) => {
+  if (sampleEvents) {
+    // Sample ~1% of events.
+    return Math.random() < 0.01;
+  }
 
-if (trackWebVitals) {
+  // Exclude cypress containers and localhost from tracking web vitals.
+  return environment.BASE_URL.indexOf('localhost') < 0;
+};
+
+if (trackWebVitals({ sampleEvents: environment.isProduction() })) {
   onCLS(recordWebVitalsEvent);
   onINP(recordWebVitalsEvent);
   onLCP(recordWebVitalsEvent);
   onTTFB(recordWebVitalsEvent);
 }
 
-export { recordWebVitalsEvent };
+export { recordWebVitalsEvent, trackWebVitals };

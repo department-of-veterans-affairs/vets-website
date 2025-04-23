@@ -7,7 +7,7 @@ const { otherToxicExposure } = FULL_SCHEMA.properties;
 export default {
   uiSchema: {
     ...titleUI(
-      'Other toxic exposure',
+      'Other toxic exposures',
       'You selected that you think you may have been exposed to other toxins or hazards.',
     ),
     'ui:description': ExposureCategoriesLink,

@@ -61,7 +61,7 @@ const IntroductionPage = props => {
           <br />
           <br />
           You may also need to submit supporting documents, like copies of your
-          other health insurance cards or proof of school enrollment.
+          health insurance cards or proof of school enrollment.
           <p>
             <va-link
               href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your-"

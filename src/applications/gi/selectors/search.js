@@ -52,10 +52,13 @@ export const updateUrlParams = (
       ? { ...buildSearchFilters(filters), excludedSchoolTypes: clonedFilters }
       : buildSearchFilters(filters);
 
-  const url = appendQuery('/', {
+  let url = appendQuery('/', {
     ...queryParams,
     ...ClonedBuildSearchFilters,
   });
+
+  if (history.location?.pathname.startsWith('/schools-and-employers'))
+    url = `/schools-and-employers${url}`;
 
   managePushHistory(history, url);
   setDocumentTitle();

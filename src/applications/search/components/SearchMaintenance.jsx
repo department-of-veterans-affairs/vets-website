@@ -1,16 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
+import {
+  add,
+  getDay,
+  getHours,
+  setHours,
+  setMinutes,
+  setSeconds,
+} from 'date-fns';
 import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
 
-export const isWithinMaintenanceWindow = () => {
-  const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
-  const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
-  const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
-  const timeZone = 'America/New_York';
+const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
+const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
+const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
+const maintenanceDurationHours = maintenanceEndHour - maintenanceStartHour;
+const maintenanceTimezone = 'America/New_York';
 
+export const isWithinMaintenanceWindow = () => {
   const now = new Date();
-  const zonedNow = utcToZonedTime(now, timeZone);
+  const zonedNow = utcToZonedTime(now, maintenanceTimezone);
 
   return (
     maintenanceDays.includes(getDay(zonedNow)) &&
@@ -20,29 +28,23 @@ export const isWithinMaintenanceWindow = () => {
 };
 
 const calculateCurrentMaintenanceWindow = () => {
-  const maintenanceStartHour = 15; // 3 PM in 24-hour format
-  const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
-  const timeZone = 'America/New_York';
-
   // Current date and time in the specified timezone
   let start = new Date();
-  start = utcToZonedTime(start, timeZone);
+  start = utcToZonedTime(start, maintenanceTimezone);
   start = setHours(start, maintenanceStartHour);
   start = setMinutes(start, 0);
   start = setSeconds(start, 0);
 
   // Calculate end time by adding the duration to the start time
-  let end = new Date(
-    start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
-  );
-  end = utcToZonedTime(end, timeZone); // Ensure the end time is also adjusted to the specified timezone
+  const end = add(start, { hours: maintenanceDurationHours });
 
   // Format start and end dates to include timezone offset correctly
   const startFormatted = tzFormat(start, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
-    timeZone,
+    maintenanceTimezone,
   });
+
   const endFormatted = tzFormat(end, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
-    timeZone,
+    maintenanceTimezone,
   });
 
   return {
@@ -60,7 +62,7 @@ const SearchMaintenance = ({ unexpectedMaintenance }) => {
         <va-banner
           data-label="Error banner"
           headline="Search Maintenance"
-          type="error"
+          type="warning"
         >
           We’re working on Search VA.gov right now. If you have trouble using
           the search tool, check back later. Thank you for your patience.

@@ -1,8 +1,8 @@
-export const parseMilitaryService = records => {
+export const parseMilitaryService = (records, index = 10) => {
   const militaryServiceText = records;
 
   return `
-10) Military Service
+${index}) Military Service
 
 Title: DOD Military Service Information
 

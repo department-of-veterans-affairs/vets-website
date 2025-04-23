@@ -8,6 +8,7 @@ import mockPayment from './fixtures/mocks/payment-information.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
+import mockUser from './fixtures/mocks/user.json';
 
 import {
   MOCK_SIPS_API,
@@ -16,7 +17,6 @@ import {
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
-import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
 export const mockItf = (
   offset = { days: 1 },
@@ -178,6 +178,9 @@ export const setup = (cy, testOptions = {}) => {
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
+    }
 
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
@@ -186,70 +189,32 @@ export const setup = (cy, testOptions = {}) => {
   });
 };
 
-/**
- * Build a list of unreleased pages using the given toggles
- *
- * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
- * @returns {string[]} - list of paths for unreleased pages
- */
-function getUnreleasedPages(testOptions) {
-  // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
-  if (
-    testOptions?.prefillData?.startedFormVersion !== '2019' &&
-    testOptions?.prefillData?.startedFormVersion !== '2022'
-  ) {
-    return Object.keys(toxicExposurePages).map(page => {
-      return toxicExposurePages[page].path;
-    });
-  }
-
-  return [];
-}
-
-/**
- * For each unreleased page, create the page hook to throw an error if the page loads
- * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
- * @returns {object} object with page hook for each unreleased page
- */
-function makeUnreleasedPageHooks(testOptions) {
-  const pages = getUnreleasedPages(testOptions);
-
-  return Object.assign(
-    {},
-    ...pages.map(path => {
-      return {
-        [path]: () => {
-          throw new Error(`Unexpectedly showing unreleased page [${path}]`);
-        },
-      };
-    }),
-  );
-}
-
 export const reviewAndSubmitPageFlow = (
-  signerName,
   submitButtonText = 'Submit application',
 ) => {
-  let veteranSignature = signerName;
+  const first = mockUser.data.attributes.profile.firstName;
+  const middle = mockUser.data.attributes.profile.middleName;
+  const last = mockUser.data.attributes.profile.lastName;
 
-  if (typeof veteranSignature === 'object') {
-    const first = veteranSignature['view:first'];
-    const middle = veteranSignature['view:middle'];
-    const last = veteranSignature['view:last'];
+  const veteranSignature = middle
+    ? `${first} ${middle} ${last}`
+    : `${first} ${last}`;
 
-    veteranSignature = middle
-      ? `${first} ${middle} ${last}`
-      : `${first} ${last}`;
-  }
+  cy.get('#veteran-signature')
+    .shadow()
+    .get('#inputField')
+    .type(veteranSignature);
 
-  cy.fillVaTextInput('veteran-signature', veteranSignature);
-  cy.selectVaCheckbox('veteran-certify', true);
+  cy.get(`va-checkbox[id="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .click({ force: true });
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();
 };
 
-export const pageHooks = (cy, testOptions = {}) => ({
+export const pageHooks = (cy, testOptions) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -310,6 +275,14 @@ export const pageHooks = (cy, testOptions = {}) => ({
     });
   },
 
+  'mental-health-form-0781/workflow': () => {
+    cy.get('va-radio-option[value="optForOnlineForm0781"]')
+      .find('input[type="radio"]')
+      .check({ force: true });
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
   'review-veteran-details/separation-location': () => {
     cy.get('@testData').then(data => {
       cy.get('input[name="root_serviceInformation_separationLocation"]').type(
@@ -318,10 +291,16 @@ export const pageHooks = (cy, testOptions = {}) => ({
     });
   },
 
+  'new-disabilities/ptsd-intro': () => {
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      throw new Error(`Unexpectedly showing old 0781 page`);
+    }
+  },
+
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
+        const autocomplete = `[id="root_newDisabilities_${index}_condition"]`;
         const input = '#inputField';
         const option = '[role="option"]';
 
@@ -329,11 +308,11 @@ export const pageHooks = (cy, testOptions = {}) => ({
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
 
-          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
+          cy.get('va-button[text="Remove"]').should('be.visible');
         }
 
         // click on input and type search text
-        cy.get(comboBox)
+        cy.get(autocomplete)
           .shadow()
           .find(input)
           .type(disability.condition, { force: true });
@@ -344,7 +323,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
             .first()
             .click();
 
-          cy.get(comboBox)
+          cy.get(autocomplete)
             .shadow()
             .find(input)
             .should('have.value', disability.condition);
@@ -357,7 +336,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
                 .eq(1)
                 .click();
 
-              cy.get(comboBox)
+              cy.get(autocomplete)
                 .shadow()
                 .find(input)
                 .should('have.value', selectedOption);
@@ -365,7 +344,7 @@ export const pageHooks = (cy, testOptions = {}) => ({
         }
 
         // click save
-        cy.findByText(/save/i, { selector: 'button' }).click();
+        cy.get('va-button[text="Save"]').click();
       });
     });
   },
@@ -393,22 +372,11 @@ export const pageHooks = (cy, testOptions = {}) => ({
       }
     });
   },
-  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/96383
-  // on local env's, environment.getRawBuildtype() for cypress returns prod but the local instance
-  // running the app returns local. leaving this snippet for now in case anyone wants to run e2e
-  // locally. this will be uncommented when we launch. note for the e2e test to run properly, the
-  // "view:userFullName" object must also be added to the json fixture. see
-  // tests/fixtures/data/minimal-test.json for an example
-  // 'review-and-submit': ({ afterHook }) => {
-  //   afterHook(() => {
-  //     cy.get('@testData').then(data => {
-  //       // if (environment.isLocalhost()) {
-  //       const fullName = data['view:userFullName'];
-
-  //       reviewAndSubmitPageFlow(fullName);
-  //       // }
-  //     });
-  //   });
-  // },
-  ...makeUnreleasedPageHooks(testOptions),
+  'review-and-submit': ({ afterHook }) => {
+    afterHook(() => {
+      cy.get('@testData').then(() => {
+        reviewAndSubmitPageFlow();
+      });
+    });
+  },
 });

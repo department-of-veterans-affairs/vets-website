@@ -105,29 +105,32 @@ const resolveLandingPageLinks = (
 
   const spotlightLinks = [
     {
-      text: 'Toxic Exposure Screening: Myths and Facts',
+      text: 'Tips for Creating Your Login.gov or ID.me Account',
       href: mhvUrl(
         authdWithSSOe,
-        'ss20240426-toxic-exposure-screening-myths-and-facts',
+        'ss20241209-tips-creating-login-gov-id-me-account',
       ),
     },
     {
-      text: '“What Did My Doctor Say?”',
+      text: 'Try the New Medical Records Tool on VA.gov',
       href: mhvUrl(
         authdWithSSOe,
-        'ss20241010-what-my-doctor-say-tips-better-understanding-your-care',
+        'ss20250102-try-new-medical-records-tool-on-va-gov',
       ),
     },
     {
-      text: 'Get Your No-Cost Flu and COVID Shots',
-      href: mhvUrl(authdWithSSOe, 'ss20220819-protect-yourself-from-flu'),
+      text: '6 Healthy Eating Habits to Start This Year',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20210423-healthy-eating-habits-to-start-now',
+      ),
     },
   ];
 
   const paymentsLinks = [
     HEALTH_TOOL_LINKS.PAYMENTS[0],
     featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
-      href: '/my-health/travel-claim-status',
+      href: '/my-health/travel-pay/claims',
       text: 'Check travel reimbursement claim status',
     },
     HEALTH_TOOL_LINKS.PAYMENTS[1],

@@ -48,7 +48,7 @@ describe('InterstitialChanges', () => {
     await waitFor(() => {
       expect(
         screen.getByRole('heading', {
-          name: /You’ll need to sign in with a different account after January 31, 2025/i,
+          name: /You’ll need to sign in with a different account after March 4, 2025/i,
         }),
       ).to.exist;
       expect(screen.getByText(/After this date, we'll remove/i)).to.exist;

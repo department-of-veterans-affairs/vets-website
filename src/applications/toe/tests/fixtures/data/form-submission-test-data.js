@@ -2491,7 +2491,7 @@ export const submissionForm = {
             properties: {
               accountType: {
                 type: 'string',
-                enum: ['checking', 'savings'],
+                enum: ['Checking', 'Savings'],
               },
               routingNumber: {
                 type: 'string',

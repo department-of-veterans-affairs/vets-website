@@ -1,6 +1,6 @@
 {
-  "body": "Test message body",
   "category": "OTHER",
-  "recipientId": "7123233",
+  "body": "Test body",
+  "recipient_id": "6978853",
   "subject": "Test subject"
 }

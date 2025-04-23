@@ -27,8 +27,14 @@ export const accessAlertTypes = {
   VITALS: 'vitals',
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
-  BLUE_BUTTON_REPORT: 'Blue Button report',
+  DOCUMENT: 'document',
   IMAGE_STATUS: 'image',
+};
+
+export const documentTypes = {
+  BB: 'medical records reports',
+  CCD: 'continuity of care document',
+  SEI: 'self-entered information',
 };
 
 export const labTypes = {
@@ -131,7 +137,7 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const EMPTY_FIELD = 'None recorded';
 export const NONE_RECORDED = 'None recorded';
 export const NO_INFO_REPORTED = 'No information reported';
 export const NA = 'N/A';
@@ -213,6 +219,10 @@ export const vitalUnitDisplayText = {
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
+export const ALERT_TYPE_BB_ERROR = 'blue button download error';
+export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
+export const ALERT_TYPE_CCD_ERROR =
+  'continuity of care document download error';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -220,6 +230,8 @@ export const pageTitles = {
     'Lab And Test Results - Medical Records | Veterans Affairs',
   LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE:
     'Lab And Test Results Details - Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE:
+    'Lab And Test Results Images - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE:
@@ -238,6 +250,8 @@ export const pageTitles = {
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download Medical Records Reports - Medical Records | Veterans Affairs',
+  DOWNLOAD_FORMS_PAGES_TITLE:
+    'Select Records And Download Report - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
@@ -259,6 +273,58 @@ export const selfEnteredTypes = {
   VITALS: 'vitals and readings',
 };
 
+// --- Constants and helper functions moved outside the component ---
+export const SEI_DOMAIN_DISPLAY_MAP = {
+  activityJournal: 'Activity journal',
+  allergies: 'Allergies',
+  demographics: 'Demographics',
+  familyHistory: 'Family health history',
+  foodJournal: 'Food journal',
+  providers: 'Healthcare providers',
+  healthInsurance: 'Health insurance',
+  testEntries: 'Lab and test results',
+  medicalEvents: 'Medical events',
+  medications: 'Medications and supplements',
+  militaryHistory: 'Military health history',
+  treatmentFacilities: 'Treatment facilities',
+  vaccines: 'Vaccines',
+  vitals: 'Vitals and readings',
+};
+
+export const BB_DOMAIN_DISPLAY_MAP = {
+  labsAndTests: 'Lab and test results',
+  notes: 'Care summaries and notes',
+  vaccines: 'Vaccines',
+  allergies: 'Allergies and reactions',
+  conditions: 'Health conditions',
+  vitals: 'Vitals',
+  radiology: 'Radiology results',
+  medications: 'Medications',
+  appointments: 'VA appointments',
+  demographics: 'VA demographics records',
+  militaryService: 'DOD military service',
+  patient: 'Account summary',
+};
+
+// All SEI domains in one place for easy iteration
+export const SEI_DOMAINS = [
+  'activityJournal',
+  'allergies',
+  'demographics',
+  'emergencyContacts',
+  'familyHistory',
+  'foodJournal',
+  'providers',
+  'healthInsurance',
+  'testEntries',
+  'medicalEvents',
+  'medications',
+  'militaryHistory',
+  'treatmentFacilities',
+  'vaccines',
+  'vitals',
+];
+
 export const allergyTypes = {
   OBSERVED:
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
@@ -267,11 +333,11 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE',
-  NEW: 'NEW',
-  PROCESSING: 'PROCESSING',
-  COMPLETE: 'COMPLETE',
-  ERROR: 'ERROR',
+  NONE: 'NONE', // has not been requested
+  NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  PROCESSING: 'PROCESSING', // has been requested
+  COMPLETE: 'COMPLETE', // request complete
+  ERROR: 'ERROR', // error
 };
 
 export const refreshExtractTypes = {
@@ -292,6 +358,9 @@ export const EXTRACT_LIST = [
 export const VALID_REFRESH_DURATION = 3600000; // 1 hour
 
 export const STATUS_POLL_INTERVAL = 2000;
+
+/** How long to poll the backend while it's returning 202 Patient Not Found */
+export const INITIAL_FHIR_LOAD_DURATION = 120000; // in milliseconds
 
 export const refreshPhases = {
   STALE: 'stale',
@@ -327,7 +396,6 @@ export const Paths = {
   HEALTH_CONDITIONS: '/conditions/',
   VITALS: '/vitals/',
   SETTINGS: '/settings/',
-  DOWNLOAD_ALL: '/download-all/',
   DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
   BLOOD_PRESSURE: '/vitals/blood-pressure-history',
@@ -369,12 +437,7 @@ export const Breadcrumbs = {
   VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
   SETTINGS: {
     href: Paths.SETTINGS,
-    label: 'Medical records settings',
-    isRouterLink: true,
-  },
-  DOWNLOAD_ALL: {
-    href: Paths.DOWNLOAD_ALL,
-    label: 'Download all medical records',
+    label: 'Manage your electronic sharing settings',
     isRouterLink: true,
   },
   DOWNLOAD: {
@@ -409,4 +472,51 @@ export const Breadcrumbs = {
     isRouterLink: true,
   },
   WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
+};
+
+export const DateRangeValues = {
+  ANY: 'any',
+  LAST3: 3,
+  LAST6: 6,
+  LAST12: 12,
+  CUSTOM: 'custom',
+};
+
+export const DateRangeOptions = [
+  { value: DateRangeValues.ANY, label: 'Any' },
+  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
+  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
+  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom' },
+];
+
+export const CernerAlertContent = {
+  MR_LANDING_PAGE: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'medical records',
+  },
+  LABS_AND_TESTS: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'lab and test results',
+  },
+  CARE_SUMMARIES_AND_NOTES: {
+    linkPath: '/pages/health_record/app-views/cerner/reports/documents',
+    pageName: 'care summaries and notes',
+  },
+  VACCINES: {
+    linkPath: '/pages/health_record/health-record-immunizations',
+    pageName: 'vaccines',
+  },
+  ALLERGIES: {
+    linkPath: '/pages/health_record/health-record-allergies',
+    pageName: 'allergies and reactions',
+  },
+  HEALTH_CONDITIONS: {
+    linkPath: '/pages/health_record/conditions',
+    pageName: 'health conditions',
+  },
+  VITALS: {
+    linkPath: '/pages/health_record/results',
+    pageName: 'vitals',
+  },
 };

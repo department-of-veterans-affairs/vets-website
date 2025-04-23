@@ -6,18 +6,20 @@ import ReferralLayout from './components/ReferralLayout';
 export default function ConfirmReferral(props) {
   const { currentReferral } = props;
   return (
-    <ReferralLayout>
-      <h1>Confirm Referral for {currentReferral.CategoryOfCare}</h1>
-      <p>{currentReferral.UUID}</p>
+    <ReferralLayout
+      hasEyebrow
+      heading={`Confirm Referral for ${currentReferral.categoryOfCare}`}
+    >
+      <p>{currentReferral.uuid}</p>
       <va-button
         className="va-button-link"
         onClick={() => {
           const referralTimeTaken = getReferralElapsedSeconds(
-            currentReferral.UUID,
+            currentReferral.uuid,
           );
           // eslint-disable-next-line no-alert
           alert(`Referral Confirmed and took ${referralTimeTaken} seconds`);
-          clearReferralTimer(currentReferral.UUID);
+          clearReferralTimer(currentReferral.uuid);
         }}
         text="Confirm"
         uswds

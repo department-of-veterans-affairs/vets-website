@@ -1,13 +1,14 @@
 import { generateMedicationsContent } from '../pdfHelpers/medications';
 
-export const parseMedications = records => {
+export const parseMedications = (records, index = 7) => {
   return `
-7) Medications
+${index}) Medications
 
 This is a list of prescriptions and other medications in your VA medical records.
 When you share your medications list with providers, make sure you also tell them 
 about your allergies and reactions to medications. When you download medications records, 
 we also include a list of allergies and reactions in your VA medical records.
+
 Showing ${records.length} medications, alphabetically by name:
 
 ${records

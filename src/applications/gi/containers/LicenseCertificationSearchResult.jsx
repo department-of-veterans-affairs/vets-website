@@ -1,62 +1,65 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchLcResult } from '../actions';
-import { capitalizeFirstLetter } from '../utils/helpers';
-import LicenseCertificationInfoTabs from '../components/LicenseCertificationInfoTabs';
+import LicenseCertificationAdminInfo from '../components/LicenseCertificationAdminInfo';
+import LicenseCertificationTestInfo from '../components/LicenseCertificationTestInfo';
+import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 
-function LicenseCertificationSearchResult({
-  dispatchFetchLcResult,
-  hasFetchedResult,
-  resultInfo,
-}) {
-  const { type, id } = useParams();
+export default function LicenseCertificationSearchResult() {
+  const { id } = useParams();
+  const { fetchingLcResult, lcResultInfo, error } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
+  const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const controller = new AbortController();
+    dispatch(fetchLcResult(id, controller.signal));
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   useEffect(
     () => {
-      if (!hasFetchedResult) {
-        dispatchFetchLcResult(`lce/${type}/${id}`);
+      if (lacNm) {
+        document.title = `${lacNm}: GI Bill® Comparison Tool | Veterans Affairs`;
       }
     },
-    [dispatchFetchLcResult, hasFetchedResult, type, id],
+    [lacNm],
   );
-
-  const { desc, type: category } = resultInfo;
 
   return (
-    <div>
-      <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        <div className="row">
-          <h1 className="mobile-lg:vads-u-text-align--left">{desc}</h1>
-          <h2 className="vads-u-margin-top--0">
-            {capitalizeFirstLetter(category)}
-          </h2>
-        </div>
-        <div className="row">
-          <LicenseCertificationInfoTabs />
-        </div>
-      </section>
-    </div>
+    <>
+      {error && <LicesnseCertificationServiceError />}
+      {fetchingLcResult && <va-loading-indicator message="Loading..." />}
+      {!fetchingLcResult &&
+        institution &&
+        tests && (
+          <section className="lc-result-details vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+            <div className="row">
+              <h1 className="mobile-lg:vads-u-text-align--left usa-width-two-thirds">
+                {lacNm}
+              </h1>
+              <h2 className="vads-u-margin-top--0">{eduLacTypeNm}</h2>
+            </div>
+            <div className="row">
+              <LicenseCertificationAdminInfo
+                institution={institution}
+                type={eduLacTypeNm}
+              />
+            </div>
+            <div className="row">
+              <LicenseCertificationTestInfo tests={tests} />
+            </div>
+          </section>
+        )}
+    </>
   );
 }
-
-LicenseCertificationSearchResult.propTypes = {
-  dispatchFetchLcResult: PropTypes.func.isRequired,
-  hasFetchedResult: PropTypes.bool.isRequired,
-  resultInfo: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-  hasFetchedResult: state.licenseCertificationSearch.hasFetchedResult,
-  resultInfo: state.licenseCertificationSearch.lcResultInfo,
-});
-
-const mapDispatchToProps = {
-  dispatchFetchLcResult: fetchLcResult,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LicenseCertificationSearchResult);

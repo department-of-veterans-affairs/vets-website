@@ -26,6 +26,7 @@ const defaultUser = {
         firstName: 'Veteran',
         middleName: null,
         lastName: 'Maveteran',
+        preferredName: 'Pat',
         birthDate: '1974-04-06',
         gender: 'M',
         zip: null,
@@ -170,6 +171,9 @@ const defaultUser = {
 const cernerUser = {
   data: {
     attributes: {
+      account: {
+        accountUuid: 'db5e49c2-3b09-48fc-ab7e-03943275c1f2',
+      },
       profile: {
         signIn: {
           serviceName: 'idme',
@@ -210,14 +214,6 @@ const cernerUser = {
         givenNames: ['Julio', 'E'],
         activeStatus: 'active',
         facilities: [
-          {
-            facilityId: '983',
-            isCerner: false,
-          },
-          {
-            facilityId: '984',
-            isCerner: false,
-          },
           {
             facilityId: '757',
             isCerner: true,
@@ -311,6 +307,14 @@ const acceleratedCernerUser = {
           {
             facilityId: '556',
             isCerner: true,
+          },
+          {
+            facilityId: '528',
+            isCerner: false,
+          },
+          {
+            facilityId: '459',
+            isCerner: false,
           },
         ],
         vaPatient: true,

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { VaCard } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DlcTelephoneLink from './DlcTelephoneLink';
 import { HEALTH_FACILITIES_URL } from '../constants';
 import { formatDate, sortSupplies } from '../utils/helpers';
@@ -8,7 +9,7 @@ import { formatDate, sortSupplies } from '../utils/helpers';
 const SuppliesUnavailable = ({ supplies = [] }) => {
   const cards = sortSupplies(supplies).map((supply, index) => (
     <div key={`mhv-supply-unavailable-${index}`}>
-      <va-card
+      <VaCard
         class={classNames({
           'mhv-c-reorder-unavail-card': true,
           'vads-u-margin-bottom--1p5': index < supplies.length - 1,
@@ -37,7 +38,7 @@ const SuppliesUnavailable = ({ supplies = [] }) => {
             .
           </p>
         )}
-      </va-card>
+      </VaCard>
     </div>
   ));
 

@@ -1,11 +1,12 @@
 import defaultLabsAndTests from '../fixtures/labs-and-tests/labsAndTests.json';
 import radiologyRecordsMhv from '../fixtures/labs-and-tests/radiologyRecordsMhv.json';
-// import radiologyRecordsMhv from '../../tests/fixtures/labs-and-tests/radiologyRecordsMhv.json';
 import BaseListPage from './BaseListPage';
 
 class LabsAndTestsListPage extends BaseListPage {
   goToLabsAndTests = (
     labsAndTests = defaultLabsAndTests,
+    imaging = [],
+    imagingStatus = [],
     waitForLabsAndTests = false,
   ) => {
     cy.intercept(
@@ -18,12 +19,14 @@ class LabsAndTestsListPage extends BaseListPage {
       '/my_health/v1/medical_records/radiology',
       radiologyRecordsMhv,
     ).as('RadiologyRecordsMhv');
-    cy.intercept('GET', '/my_health/v1/medical_records/imaging', []).as(
+    cy.intercept('GET', '/my_health/v1/medical_records/imaging', imaging).as(
       'CvixRadiologyRecordsMhv',
     );
-    cy.intercept('GET', '/my_health/v1/medical_records/imaging/status', []).as(
-      'CvixRadiologyRecordsMhv',
-    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/imaging/status',
+      imagingStatus,
+    ).as('CvixRadiologyRecordsMhv');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/bbmi_notification/status',

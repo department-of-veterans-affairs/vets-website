@@ -9,10 +9,10 @@ export default function VideoInstructions() {
       uswds
     >
       <div>
-        <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+        <h4 className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--0p5">
           Before your appointment:
         </h4>
-        <ul>
+        <ul className="vads-u-margin-top--0">
           <li>
             If you’re using an iPad or iPhone for your appointment, you’ll need
             to download the{' '}
@@ -33,10 +33,10 @@ export default function VideoInstructions() {
             your confirmation email.
           </li>
         </ul>
-        <h4 className="vads-u-font-size--h5">
+        <h4 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
           To have the best possible video experience, we recommend you:
         </h4>
-        <ul className="vads-u-margin-bottom--0">
+        <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
           <li>
             Connect to your video appointment from a quiet, private, and
             well-lighted location

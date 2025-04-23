@@ -9,6 +9,7 @@ import { isClaimingNew } from '../utils';
 function CustomReviewTopContent({ formData }) {
   const [isVisible, setIsVisible] = useState(true);
 
+  // TODO: this alert can be removed 1 year post-launch which is 11/18/2025
   if (
     formData?.startedFormVersion !== '2019' ||
     !isClaimingNew(formData) ||

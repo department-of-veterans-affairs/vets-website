@@ -17,17 +17,12 @@ export const useDefaultFormData = () => {
   const { totalRating } = useSelector(state => state.disabilityRating);
   const { data: formData } = useSelector(state => state.form);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { dob: veteranDob } = useSelector(selectProfile);
+  const { dob: veteranDob, userFullName } = useSelector(selectProfile);
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
 
   const { veteranFullName } = formData;
-  const {
-    isTeraBranchingEnabled,
-    isInsuranceV2Enabled,
-    isRegOnlyEnabled,
-    isSigiEnabled,
-  } = featureToggles;
+  const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
 
@@ -35,16 +30,15 @@ export const useDefaultFormData = () => {
     () => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
-        'view:isSigiEnabled': isSigiEnabled,
         'view:isRegOnlyEnabled': isRegOnlyEnabled,
         'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
-        'view:isTeraBranchingEnabled': isTeraBranchingEnabled,
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
       const userData = isLoggedIn
         ? {
             'view:veteranInformation': {
               veteranDateOfBirth: validateVeteranDob(veteranDob),
+              veteranFullName: userFullName,
             },
           }
         : {};
@@ -59,11 +53,10 @@ export const useDefaultFormData = () => {
     [
       isLoggedIn,
       veteranDob,
+      userFullName,
       veteranFullName,
-      isSigiEnabled,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,
-      isTeraBranchingEnabled,
       totalRating,
     ],
   );

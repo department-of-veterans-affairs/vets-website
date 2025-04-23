@@ -55,7 +55,7 @@ const MedicationsListSort = props => {
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(' ');
             datadogRum.addAction(
-              `click on ${capitalizedOption} Option - ${pageType.LIST}`,
+              `${capitalizedOption} Option - ${pageType.LIST}`,
             );
           }}
           uswds

@@ -26,6 +26,10 @@
           {
             "target": "./src/applications/vaos/appointment-list",
             "from": "./src/applications/vaos/express-care"
+          },
+          {
+            "target": "./src/applications/vaos/referral-appointments",
+            "from": "./src/applications/vaos/appointment-list"
           }
         ]
       }

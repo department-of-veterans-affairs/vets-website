@@ -1,6 +1,4 @@
 import React from 'react';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { show5103Updates } from '../utils';
 
 const body = (
   <>
@@ -51,15 +49,12 @@ const plainBody =
   'standard claim process.';
 
 export default function getPreSubmitInfo() {
-  if (!show5103Updates()) {
-    return preSubmitInfo;
-  }
   return {
     statementOfTruth: {
       body,
-      fullNamePath: 'view:userFullName',
       heading: 'Claim certification and signature',
       messageAriaDescribedby: plainBody,
+      useProfileFullName: true,
     },
   };
 }

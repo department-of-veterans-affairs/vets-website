@@ -18,8 +18,8 @@ const isElementInViewport = (
 const addAriasExpandedAttr = () => {
   Array.from(document.querySelectorAll('.usa-accordion-button')).forEach(
     element => {
-      const hasAriasExpandedAttr = element.getAttribute('aria-expanded');
-
+      const hasAriasExpandedAttr =
+        element.getAttribute('aria-expanded') === 'true';
       if (!hasAriasExpandedAttr) {
         element.setAttribute('aria-expanded', false);
       }
@@ -96,7 +96,6 @@ const addAccordionClickHandler = () => {
           if (hasAriaControlsAttr && !multiSelectable) {
             getOtherButtons(element, accordionButton).forEach(el => {
               const contentEl = el.getAttribute('aria-controls');
-
               el.setAttribute('aria-expanded', 'false');
 
               document
@@ -132,7 +131,7 @@ const addAccordionClickHandler = () => {
             // Cannot use new customEvent() method due to IE11 support.
             const accordionClickEvent = document.createEvent('Event');
             accordionClickEvent.initEvent(
-              '@department-of-veterans-affairs/formation/accordion/button-clicked',
+              'accordion/button-clicked',
               true,
               true,
             );
@@ -206,8 +205,8 @@ function autoExpandAccordionPanelByUrlHash() {
 }
 
 const loadAccordionHandler = () => {
-  addAriaHiddenAttr();
   addAriasExpandedAttr();
+  addAriaHiddenAttr();
   addAccordionClickHandler();
   autoExpandAccordionPanelByUrlHash();
 };

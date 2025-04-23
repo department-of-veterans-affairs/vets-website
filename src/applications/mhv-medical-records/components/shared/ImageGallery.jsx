@@ -27,25 +27,32 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
     if (imageList.length && imagesPerPage && studyId) {
       return (
         <>
+          <div data-testid="showing-image-records">
+            <span>
+              {`Showing ${
+                paginatedImages[currentPage - 1][0].index
+              } to ${paginatedImages[currentPage - 1][0].index +
+                (paginatedImages[currentPage - 1].length - 1)} of ${
+                imageList.length
+              } images`}
+            </span>
+          </div>
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
             {paginatedImages[currentPage - 1].map((image, idx) => (
               <div
-                className="image-div vads-l-col--4"
+                className="image-div vads-l-col--6"
                 data-testid="image-div"
                 key={idx}
               >
                 <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--h3">
                   Image {image.index} of {imageList.length}
                 </h2>
-                <div
-                  className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5"
-                  aria-label={image.index}
-                >
+                <div className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5">
                   <img
                     src={`${apiImagingPath}/${studyId}/images/${
                       image.seriesAndImage
                     }`}
-                    alt={`${image.index} - ${image.seriesAndImage}`}
+                    alt={`${image.index}, Details not provided`}
                   />
                 </div>
               </div>
@@ -56,7 +63,6 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={pageCount}
-              maxPageListLength={5}
               showLastPage
               uswds
             />

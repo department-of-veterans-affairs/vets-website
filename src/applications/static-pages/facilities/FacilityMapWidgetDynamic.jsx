@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import {
+  buildAddressArray,
+  mapboxToken,
+  staticMapURL,
+} from 'platform/utilities/facilities-and-mapbox';
 import { fetchMultiFacility } from './actions';
-import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
-import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 export class FacilityMapWidgetDynamic extends React.Component {
   constructor(props) {
@@ -54,7 +56,7 @@ export class FacilityMapWidgetDynamic extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { facilities } = this.props;
     const { facilityID } = this.state;
-    const facilityDetail = facilities ? facilities[facilityID] : '';
+    const facilityDetail = facilities ? facilities[facilityID]?.[0] : '';
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
 

@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
-import oracleHealthUser from '../../fixtures/user/oracle-health.json';
-import vitalsData from '../../fixtures/vitals/temperature.json';
+import oracleHealthUser from '../fixtures/user/oracle-health.json';
+import vitalsData from '../fixtures/vitals/temperature.json';
 
 describe('Medical Records View Temperature', () => {
   const site = new MedicalRecordsSite();
@@ -13,13 +13,13 @@ describe('Medical Records View Temperature', () => {
       isAcceleratingVitals: true,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
-    cy.visit('my-health/medical-records');
   });
 
   it('Visits View Vitals List', () => {
-    Vitals.checkLandingPageLinks();
-    // check for MY Va Health links
+    site.loadPage();
+
     Vitals.goToVitalPage();
+
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });

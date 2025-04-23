@@ -1,13 +1,21 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation, useHistory, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 
-export default function BreadCrumbs() {
+const uuidRegex = /[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}/;
+
+export default function Breadcrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const uuidPathRegex = /^\/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}$/i;
-  const isDetailsPage = pathname.match(uuidPathRegex);
+
+  const isDetailsPage = new RegExp(
+    /\/claims\//.source + uuidRegex.source,
+    'i',
+  ).test(pathname);
   const isStatusExplainer = pathname.includes('/help');
+
+  const { id: claimId } = useParams();
 
   const breadcrumbList = [
     {
@@ -21,7 +29,7 @@ export default function BreadCrumbs() {
       label: 'My HealtheVet',
     },
     {
-      href: '/',
+      href: '/claims/',
       label: 'Check your travel reimbursement claim status',
       isRouterLink: true,
     },
@@ -35,19 +43,20 @@ export default function BreadCrumbs() {
     });
   }
 
+  if (isDetailsPage) {
+    breadcrumbList.push({
+      href: `/claims/${claimId}`,
+      label: 'Your travel reimbursement claim',
+      isRouterLink: true,
+    });
+  }
+
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
   };
 
-  return isDetailsPage ? (
-    <div className="travel-pay-breadcrumb-wrapper">
-      {isDetailsPage && <va-icon class="back-arrow" icon="arrow_back" />}
-      <Link className="go-back-link" to="/">
-        Back to your travel reimbursement claims
-      </Link>
-    </div>
-  ) : (
+  return (
     <VaBreadcrumbs
       breadcrumbList={breadcrumbList}
       className="vads-u-padding-0"

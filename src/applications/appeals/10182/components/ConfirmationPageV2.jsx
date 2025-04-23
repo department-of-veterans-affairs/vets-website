@@ -18,6 +18,7 @@ import {
 } from '../utils/helpers';
 
 import {
+  chapterHeaderClass,
   ConfirmationTitle,
   ConfirmationAlert,
   ConfirmationSummary,
@@ -113,11 +114,12 @@ export const ConfirmationPageV2 = () => {
             </p>
             <div className="va-address-block">
               <div>Board of Veterans’ Appeals</div>
-              <div>P.O. Box 27063</div>
+              <div>PO Box 27063</div>
               <div>Washington, DC 20038</div>
             </div>
             <p>
-              <strong>Fax:</strong> 1-844-678-8979
+              <strong>Fax:</strong>{' '}
+              <va-telephone not-clickable contact="8446788979" />
             </p>
           </>
         )}
@@ -220,7 +222,7 @@ export const ConfirmationPageV2 = () => {
         </>
       </ConfirmationIssues>
 
-      <h3 className="vads-u-margin-top--2">Board review options</h3>
+      <h3 className={chapterHeaderClass}>Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

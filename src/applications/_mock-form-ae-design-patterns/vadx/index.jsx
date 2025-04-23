@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
+import { Servers } from './app/pages/servers/Servers';
 
 import { VADXProvider } from './context/vadx';
 import { VADXPanelLoader } from './panel/VADXPanelLoader';
@@ -33,3 +34,5 @@ VADX.propTypes = {
   featureToggleName: PropTypes.string,
   plugin: PropTypes.object,
 };
+
+export { Servers as VADXServersRoute };

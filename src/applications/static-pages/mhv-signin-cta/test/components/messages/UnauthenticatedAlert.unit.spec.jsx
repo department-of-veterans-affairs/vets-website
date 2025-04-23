@@ -17,7 +17,7 @@ describe('Unauthenticated Alert component', () => {
         <UnauthenticatedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { name: headingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
   });
 
   it('with service description', () => {
@@ -30,6 +30,15 @@ describe('Unauthenticated Alert component', () => {
     );
     const expectedHeadline = `${headingPrefix} to ${serviceDescription}`;
     expect(getByRole('heading', { name: expectedHeadline })).to.exist;
+  });
+
+  it('with header level 3', () => {
+    const { getByRole } = render(
+      <Provider store={mockStore()}>
+        <UnauthenticatedAlert headerLevel={3} />
+      </Provider>,
+    );
+    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
   });
 
   it('reports analytics', async () => {

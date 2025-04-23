@@ -2,14 +2,16 @@ import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
   refreshPhases,
   VALID_REFRESH_DURATION,
+  Paths,
+  Breadcrumbs,
 } from './constants';
 
 /**
@@ -22,6 +24,10 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+export const dateFormatWithoutTime = str => {
+  return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
 
 /**
@@ -63,6 +69,7 @@ export const dateFormatWithoutTimezone = (
 
   return null;
 };
+
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
@@ -166,6 +173,12 @@ export const macroCase = str => {
 };
 
 /**
+ * Cache the dynamic import promise to avoid redundant network requests
+ * and improve performance when makePdf is called multiple times.
+ */
+let pdfModulePromise = null;
+
+/**
  * Create a pdf using the platform pdf generator tool
  * @param {Boolean} pdfName what the pdf file should be named
  * @param {Object} pdfData data to be passed to pdf generator
@@ -181,10 +194,21 @@ export const makePdf = async (
   templateId,
 ) => {
   try {
+    // Use cached module promise if available, otherwise create a new one
+    if (!pdfModulePromise) {
+      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+    }
+
+    // Wait for the module to load and extract the generatePdf function
+    const { generatePdf } = await pdfModulePromise;
+
     if (!runningUnitTest) {
       await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
     }
   } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
+
     sendErrorToSentry(error, sentryError);
   }
 };
@@ -435,6 +459,42 @@ export const getStatusExtractPhase = (
   return refreshPhases.CURRENT;
 };
 
+/**
+ * Determine the overall phase for a PHR refresh, based on the phases of each component extract.
+ * The highest-priority extract phase takes precedence. For example, if one extract phase is
+ * IN_PROGRESS, then the overall status is IN_PROGRESS.
+ *
+ * @param {Object} refreshStatus the list of individual extract statuses
+ * @returns the current overall refresh phase, or null if needed data is missing
+ */
+export const getStatusExtractListPhase = (
+  retrievedDate,
+  phrStatus,
+  extractTypeList,
+) => {
+  if (!Array.isArray(extractTypeList) || extractTypeList.length === 0) {
+    return null;
+  }
+
+  const phaseList = extractTypeList.map(extractType =>
+    getStatusExtractPhase(retrievedDate, phrStatus, extractType),
+  );
+
+  const phasePriority = [
+    refreshPhases.IN_PROGRESS,
+    refreshPhases.STALE,
+    refreshPhases.CURRENT,
+    refreshPhases.FAILED,
+  ];
+
+  for (const phase of phasePriority) {
+    if (phaseList.includes(phase)) {
+      return phase;
+    }
+  }
+  return null;
+};
+
 export const decodeBase64Report = data => {
   if (data && typeof data === 'string') {
     return Buffer.from(data, 'base64')
@@ -445,34 +505,54 @@ export const decodeBase64Report = data => {
 };
 
 /**
+ * @param {Array} refreshStateStatus The array of refresh state objects containing extract types and their statuses
+ * @param {*} extractTypeList The type(s) of extract we want to find in the refresh state (e.g., CHEM_HEM)
+ * @returns {Object} an object containing the last time that all extracts were up to date
+ */
+export const getLastSuccessfulUpdate = (
+  refreshStateStatus,
+  extractTypeList,
+) => {
+  const matchingDates = refreshStateStatus
+    ?.filter(status => extractTypeList.includes(status.extract))
+    ?.map(status => {
+      const date = status.lastSuccessfulCompleted;
+      return typeof date === 'string' ? new Date(date) : date;
+    })
+    ?.filter(Boolean);
+
+  if (matchingDates?.length) {
+    const minDate = new Date(
+      Math.min(...matchingDates.map(date => date.getTime())),
+    );
+    return formatDateAndTime(minDate);
+  }
+  return null;
+};
+
+/**
  * @function getLastUpdatedText
  * @description Generates a string that displays the last successful update for a given extract type.
  * It checks the refresh state status and formats the time and date of the last update.
  *
  * @param {Array} refreshStateStatus - The array of refresh state objects containing extract types and their statuses.
- * @param {string} extractType - The type of extract we want to find in the refresh state (e.g., CHEM_HEM).
+ * @param {string|Array} extractType - The type(s) of extract we want to find in the refresh state (e.g., CHEM_HEM).
  *
  * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
  */
 export const getLastUpdatedText = (refreshStateStatus, extractType) => {
   if (refreshStateStatus) {
-    const extract = refreshStateStatus.find(
-      status => status.extract === extractType,
+    const lastSuccessfulUpdate = getLastSuccessfulUpdate(
+      refreshStateStatus,
+      Array.isArray(extractType) ? extractType : [extractType],
     );
 
-    if (extract?.lastSuccessfulCompleted) {
-      const lastSuccessfulUpdate = formatDateAndTime(
-        extract.lastSuccessfulCompleted,
-      );
-
-      if (lastSuccessfulUpdate) {
-        return `Last updated at ${lastSuccessfulUpdate.time} on ${
-          lastSuccessfulUpdate.date
-        }`;
-      }
+    if (lastSuccessfulUpdate) {
+      return `Last updated at ${lastSuccessfulUpdate.time} on ${
+        lastSuccessfulUpdate.date
+      }`;
     }
   }
-
   return null;
 };
 
@@ -565,25 +645,44 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
-/**
- * Checks if all elements in an array of arrays are defined or non-empty.
- *
- * @param {Array<any>} arrayOfArrays - An array containing elements of varying types to validate.
- * @returns {boolean} - Returns `true` if all elements are "defined" (non-empty), otherwise `false`.
- *
- * Validation rules:
- * - Objects: Must have at least one key.
- * - Strings: Must be non-empty.
- * - Arrays: Must have at least one element.
- * - All other types are treated as invalid.
- */
-export const allAreDefined = arrayOfArrays => {
-  return arrayOfArrays.every(
-    data =>
-      (typeof data === 'object' && Object.keys(data || {})?.length) ||
-      (typeof data === 'string' && data?.length) ||
-      (Array.isArray(data) && !!data?.length),
-  );
+export const handleDataDogAction = ({
+  locationBasePath,
+  locationChildPath,
+  sendAnalytics = true,
+}) => {
+  const domainPaths = [
+    Paths.LABS_AND_TESTS,
+    Paths.CARE_SUMMARIES_AND_NOTES,
+    Paths.VACCINES,
+    Paths.ALLERGIES,
+    Paths.HEALTH_CONDITIONS,
+    Paths.VITALS,
+  ];
+
+  const isVitalsDetail =
+    Paths.VITALS.includes(locationBasePath) && locationChildPath;
+
+  const isDomain = domainPaths.some(path => path.includes(locationBasePath));
+  const isDetailPage = isDomain && !!locationChildPath;
+  const path = locationBasePath
+    ? `/${locationBasePath}/${isVitalsDetail ? locationChildPath : ''}`
+    : '/';
+  const feature = Object.keys(Paths).find(_path => Paths[_path].includes(path));
+
+  let tag = '';
+  if (isVitalsDetail) {
+    tag = `Back - Vitals - ${Breadcrumbs[feature].label}`;
+  } else if (isDomain) {
+    tag = `Back - ${Breadcrumbs[feature].label} - ${
+      isDetailPage ? 'Detail' : 'List'
+    }`;
+  } else {
+    tag = `Breadcrumb - ${Breadcrumbs[feature].label}`;
+  }
+  if (sendAnalytics) {
+    sendDataDogAction(tag);
+  }
+  return tag;
 };
 
 /**
@@ -599,4 +698,39 @@ export const formatDateInLocalTimezone = date => {
     .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
     .substring(4);
   return `${formattedDate} ${localTimeZoneName}`;
+};
+
+/**
+ * Form Helper to focus on error field
+ */
+export const focusOnErrorField = () => {
+  setTimeout(() => {
+    const errors = document.querySelectorAll('[error]:not([error=""])');
+    const firstError =
+      errors.length > 0 &&
+      (errors[0]?.shadowRoot?.querySelector('select, input, textarea') ||
+        errors[0]
+          ?.querySelector('va-checkbox')
+          ?.shadowRoot?.querySelector('input') ||
+        errors[0].querySelector('input'));
+
+    if (firstError) {
+      focusElement(firstError);
+    }
+  }, 300);
+};
+
+export const formatUserDob = userProfile => {
+  return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
+};
+
+/**
+ * Removes the trailing slash from a path
+ *
+ * @param {string} path path to remove trailing slash from
+ * @returns {string} path without trailing slash
+ */
+export const removeTrailingSlash = path => {
+  if (!path) return path;
+  return path.replace(/\/$/, '');
 };

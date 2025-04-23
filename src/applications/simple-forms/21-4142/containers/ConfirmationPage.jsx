@@ -2,15 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-const content = {
-  headlineText: 'Thank you for submitting your authorization request',
-  nextStepsText:
-    'After we review your authorization, we’ll contact the private provider or hospital to get the requested records. If we can’t get the records within 15 days we’ll send you a follow-up letter by mail.',
-};
+const alertContent = confirmationNumber => (
+  <>
+    <p>Thank you for submitting your authorization request</p>
+    <p>
+      After we review your authorization, we’ll contact the private provider or
+      hospital to get the requested records. If we can’t get the records within
+      15 days we’ll send you a follow-up letter by mail.
+    </p>
+    <p>Your confirmation number is {confirmationNumber}.</p>
+  </>
+);
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission, data } = form;
   const preparerNameDefined =
@@ -23,12 +29,27 @@ export const ConfirmationPage = () => {
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
-    <ConfirmationPageView
-      submitterName={preparerName}
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
-    />
+      submitterName={preparerName}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      <ConfirmationView.SubmissionAlert
+        content={alertContent(confirmationNumber)}
+      />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
@@ -42,10 +63,18 @@ ConfirmationPage.propTypes = {
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
       timestamp: PropTypes.string,
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {

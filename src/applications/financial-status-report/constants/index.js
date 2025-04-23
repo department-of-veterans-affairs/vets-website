@@ -3,8 +3,12 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const COUNTRY_LABELS = constants.countries.map(country => country.label);
 export const COUNTRY_VALUES = constants.countries.map(country => country.value);
 
-export const STATE_LABELS = constants.pciuStates.map(state => state.label);
-export const STATE_VALUES = constants.pciuStates.map(state => state.value);
+export const STATE_LABELS = constants.formProfileStates.map(
+  state => state.label,
+);
+export const STATE_VALUES = constants.formProfileStates.map(
+  state => state.value,
+);
 
 export const MILITARY_CITY_CODES = ['APO', 'DPO', 'FPO'];
 export const MILITARY_STATE_CODES = ['AA', 'AE', 'AP'];

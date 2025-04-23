@@ -17,7 +17,7 @@ export default function App({ location, children }) {
       label: 'Foreign Medical Program (FMP)',
     },
     {
-      href: '/health-care/foreign-medical-program/',
+      href: '/intro',
       label: 'Register for the Foreign Medical Program (FMP)',
     },
   ];

@@ -55,6 +55,14 @@ export const optionIndicatorChoices = {
   notEnrolled: 'I’m not enrolled or registered in VA health care',
 };
 
+// submission data
+export const optionForMstChoices = {
+  yes: 'I CONSENT',
+  no: 'I DO NOT CONSENT',
+  revoke: 'I REVOKE PRIOR CONSENT',
+  notEnrolled: 'NOT APPLICABLE AND/OR NOT ENROLLED IN VHA HEALTHCARE',
+};
+
 export const OptionIndicatorReviewField = ({ children }) => (
   <div className="review-row">
     <dt>{optionIndicatorLabel}</dt>

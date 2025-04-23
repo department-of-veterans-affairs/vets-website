@@ -1,6 +1,8 @@
-import { mapboxToken } from '../utils/mapboxToken';
 import React from 'react';
-import { staticMapURL } from '../utils/mapHelpers';
+import {
+  mapboxToken,
+  staticMapURL,
+} from 'platform/utilities/facilities-and-mapbox';
 
 function LocationMap({ info }) {
   if (!info) {
@@ -15,7 +17,7 @@ function LocationMap({ info }) {
 
   return (
     <div className="vads-u-margin-bottom--4">
-      <h3 className="highlight">View on map</h3>
+      <h3>View on map</h3>
       <img src={mapUrl} alt="Static map" />
     </div>
   );

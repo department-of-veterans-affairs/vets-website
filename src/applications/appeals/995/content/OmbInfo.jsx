@@ -10,7 +10,7 @@ import {
 const OmbInfo = () => (
   <>
     <p>{subTitle995}</p>
-    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="4/30/2024">
+    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="5/31/2027">
       <p>
         <strong>Respondent Burden:</strong> We need this information to
         determine entitlement to benefits (38 U.S.C. 501). Title 38, United

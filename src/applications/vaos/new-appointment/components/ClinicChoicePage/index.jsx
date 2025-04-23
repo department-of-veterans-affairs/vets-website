@@ -5,7 +5,7 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { scrollAndFocus, focusFormHeader } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -56,17 +56,30 @@ export default function ClinicChoicePage() {
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
-  useEffect(() => {
-    scrollAndFocus();
-    document.title = `${pageTitle} | Veterans Affairs`;
-    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (schema.properties.clinicId.enum.length > 2) {
+        focusFormHeader();
+      } else {
+        scrollAndFocus();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__radio-field">
       {schema.properties.clinicId.enum.length === 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+          <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <>Your last {typeOfCareLabel} appointment was at </>
           )}

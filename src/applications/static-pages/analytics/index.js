@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/browser';
 
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
-import addTeaserListeners from './addTeaserListeners';
 import addButtonLinkListeners from './addButtonLinkListeners';
 import addActionLinkListeners from './addActionLinkListeners';
 
@@ -39,7 +38,6 @@ function attachAnalytics() {
     }
 
     // Global listeners
-    addTeaserListeners();
     addButtonLinkListeners();
     addActionLinkListeners();
   } catch (error) {

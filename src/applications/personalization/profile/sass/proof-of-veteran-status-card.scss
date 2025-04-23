@@ -1,0 +1,21 @@
+.proof-of-veteran-status-card {
+  position: relative;
+  width: 29rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+  h3 {
+    border-radius: 1rem 1rem 0 0;
+  }
+  img {
+    position: absolute;
+    top: 1.3rem;
+    right: 1rem;
+    width: 4.75rem;
+  }
+  .status-card-row {
+    display: flex;
+    div:first-child {
+      padding-right: 4rem;
+    }
+  }
+}

@@ -1,13 +1,13 @@
 import formConfig from '../../../config/form';
 
 export const mockFormData = {
-  giBillStatus: "I haven't applied for GI Bill benefits",
   disabilityRating: "I haven't applied for a disability rating",
   'view:disabilityEligibility': {},
   characterOfDischarge: 'honorable',
   characterOfDischargeTWO: {},
   separation: 'OVER_3YRS',
-  militaryServiceCurrentlyServing: 'No',
+  militaryServiceCurrentlyServing: false,
+  militaryServiceCompleted: false,
   militaryServiceTotalTimeServed: 'More than 3 years',
   goals: {
     understandMyBenefits: true,
@@ -18,7 +18,7 @@ export const mockFormData = {
 export const getData = ({
   loggedIn = true,
   isVerified = true,
-  data = {},
+  data = mockFormData,
   contestableIssues = {},
 } = {}) => ({
   props: {

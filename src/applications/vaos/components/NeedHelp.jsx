@@ -1,6 +1,5 @@
 import React from 'react';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
   return (
@@ -15,9 +14,7 @@ export default function NeedHelp() {
       <p className="vads-u-margin-top--0">
         If you need help scheduling an appointment, please call your VA or
         community care health facility.{' '}
-        <NewTabAnchor href="/find-locations">
-          Find your health facility’s phone number.
-        </NewTabAnchor>
+        <a href="/find-locations">Find your health facility’s phone number.</a>
       </p>
       <p className="vads-u-margin-top--0">
         To report a technical issue with the VA appointments tool, or if you
@@ -39,9 +36,9 @@ export default function NeedHelp() {
         ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">
-        <NewTabAnchor href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE">
+        <a href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE">
           Leave feedback about this application
-        </NewTabAnchor>
+        </a>
       </p>
     </div>
   );

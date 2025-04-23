@@ -116,3 +116,14 @@ export const isEighteenOrOlder = (birthday, automatedTest = false) => {
     ? eighteenOrOver(birthday)
     : eighteenOrOverUpdate(birthday);
 };
+export const showRudisill1995 = () => {
+  return sessionStorage.getItem('isRudisill1995') === 'true';
+};
+
+export const SeventeenOrOlder = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 16
+  );
+};

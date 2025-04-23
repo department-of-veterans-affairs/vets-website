@@ -1,14 +1,14 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
-export const parseAllergies = records => {
+export const parseAllergies = (records, index = 4) => {
   return `
-${txtLine}
-4) Allergies
+${index}) Allergies
 
-If you have allergies that are missing from this list, send a secure message to your care team.
+This list includes all vaccines (immunizations) in your VA medical records. For a list of your
+allergies and reactions (including any reactions to vaccines), download your allergy records.
+
+Showing ${records?.length} records from newest to oldest
+
 ${records
     .map(
       record => `

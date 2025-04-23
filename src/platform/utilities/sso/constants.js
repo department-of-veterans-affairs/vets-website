@@ -16,13 +16,6 @@ export const cernerEnvPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
-export const smhdEnvPrefixes = {
-  [ENVIRONMENTS.LOCALHOST]: '-staging',
-  [ENVIRONMENTS.VAGOVDEV]: '-staging',
-  [ENVIRONMENTS.VAGOVSTAGING]: '-staging',
-  [ENVIRONMENTS.VAGOVPROD]: '',
-};
-
 export const oracleHealthEnvPrefixes = {
   [ENVIRONMENTS.LOCALHOST]: 'sandbox-',
   [ENVIRONMENTS.VAGOVDEV]: 'sandbox-',

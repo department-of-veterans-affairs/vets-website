@@ -1,17 +1,10 @@
 import environment from 'platform/utilities/environment';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
-import { showNewHlrContent, hideNewHlrContent } from '../utils/helpers';
-
 export const buildEventData = formData => {
   const { informalConference, informalConferenceChoice } = formData;
   let informalConf = 'no';
-  if (
-    (showNewHlrContent(formData) &&
-      informalConferenceChoice &&
-      informalConference !== 'no') ||
-    (hideNewHlrContent(formData) && informalConference !== 'no')
-  ) {
+  if (informalConferenceChoice && informalConference !== 'no') {
     informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
   }
   return {
@@ -23,9 +16,8 @@ export const buildEventData = formData => {
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit(formConfig, form);
-  const version = form.data.hlrUpdatedContent ? 'v2' : 'v1';
 
-  const url = [environment.API_URL, version, submitUrl].join('/');
+  const url = `${environment.API_URL}${submitUrl}`;
 
   // eventData for analytics
   const eventData = buildEventData(form.data);

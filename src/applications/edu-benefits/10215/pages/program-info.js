@@ -9,6 +9,16 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import Calcs from './calcs';
 
+/**
+ * On the review page, the *formData* contains a single *program*
+ * object at the top-level when editing an existing program.
+ */
+const getSupportedStudents = (formData, index) =>
+  Number(
+    formData?.programs?.[index]?.supportedStudents ||
+      formData?.supportedStudents,
+  );
+
 const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
@@ -19,16 +29,29 @@ const programInfo = {
     'ui:description': (
       <va-link
         external
-        href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+        href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         text="Review the calculation instructions"
       />
     ),
-    programName: textUI('Program name'),
+    programName: textUI({
+      title: 'Program name',
+      errorMessages: {
+        required: 'Please enter a program name',
+      },
+    }),
     studentsEnrolled: numberUI({
       title: 'Total number of students enrolled',
+      errorMessages: {
+        required:
+          'Please enter the total number of students enrolled in the program',
+      },
     }),
     supportedStudents: numberUI({
       title: 'Total number of supported students enrolled',
+      errorMessages: {
+        required:
+          'Please enter the total number of supported students enrolled in the program',
+      },
     }),
     fte: {
       'ui:description': (
@@ -40,14 +63,30 @@ const programInfo = {
           calculated or submitted.
         </p>
       ),
-      supported: _.merge(numberUI('Number of supported students FTE'), {
-        'ui:required': (formData, _index) =>
-          Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
-      }),
-      nonSupported: _.merge(numberUI('Number of non-supported students FTE'), {
-        'ui:required': (formData, _index) =>
-          Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
-      }),
+      supported: _.merge(
+        numberUI({
+          title: 'Number of supported students FTE',
+          errorMessages: {
+            required: 'Please enter the number of supported students FTE',
+          },
+        }),
+        {
+          'ui:required': (formData, index) =>
+            getSupportedStudents(formData, index) >= 10,
+        },
+      ),
+      nonSupported: _.merge(
+        numberUI({
+          title: 'Number of non-supported students FTE',
+          errorMessages: {
+            required: 'Please enter the number of non-supported students FTE',
+          },
+        }),
+        {
+          'ui:required': (formData, index) =>
+            getSupportedStudents(formData, index) >= 10,
+        },
+      ),
     },
     'view:calcs': {
       'ui:description': Calcs,

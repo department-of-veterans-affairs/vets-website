@@ -73,7 +73,6 @@ export default function VaCheckboxGroupField(props) {
       {...commonFieldMapping(props)}
       {...formsPatternProps}
       label={props.label}
-      labelHeaderLevel={props.uiOptions?.labelHeaderLevel}
       onVaChange={onGroupChange}
       uswds={props.uiOptions?.uswds ?? true}
       // onBlur={} // it seems this is not necessary.
@@ -120,6 +119,7 @@ export default function VaCheckboxGroupField(props) {
                 checkbox-description={
                   uiSchema?.['ui:description'] || schema.description
                 }
+                style={{ whiteSpace: 'pre-line' }}
               />
             );
           })}

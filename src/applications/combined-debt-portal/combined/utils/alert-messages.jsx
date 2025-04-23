@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ALERT_TYPES, APP_TYPES } from './helpers';
 
 const alertMessage = (alertType, appType) => {
@@ -21,13 +22,14 @@ const alertMessage = (alertType, appType) => {
           <ul>
             <li>
               <strong>For benefit debts</strong>, call the Debt Management
-              Center (DMC) at <va-telephone contact="8008270648" /> (
+              Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </li>
             <li>
               <strong>For medical copay bills</strong>, call the VA Health
-              Resource Center at <va-telephone contact="8664001238" /> (
+              Resource Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </li>
@@ -43,28 +45,38 @@ const alertMessage = (alertType, appType) => {
           appType === APP_TYPES.DEBT ? 'debt' : 'copay'
         } records right now`,
         body: (
+          <p>
+            We’re sorry. Information about{' '}
+            {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you might
+            have is unavailable because something went wrong on our end. Please
+            check back soon.
+          </p>
+        ),
+        secondHeader: `What you can do`,
+        secondBody: (
           <>
             {appType === APP_TYPES.DEBT ? (
               <>
-                <p>
-                  We’re sorry. Information about{' '}
-                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you
-                  might have is unavailable because something went wrong on our
-                  end. Please check back soon.
-                </p>
-                <p>
-                  If you continue having trouble viewing information about your{' '}
-                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`},
-                  contact us online through{' '}
+                <p className="vads-u-margin-bottom--0">
+                  If you continue having trouble viewing information about your
+                  current debts, contact us online through{' '}
                   <a href="https://ask.va.gov">Ask VA</a>.
+                </p>
+                <p className="vads-u-margin-top--0">
+                  If you need immediate assistance call the Debt Management
+                  Center at <va-telephone contact={CONTACTS.DMC} /> (
+                  <va-telephone contact={CONTACTS[711]} tty />
+                  ). For international callers, use{' '}
+                  <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />
+                  . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
                 </p>
               </>
             ) : (
               <p>
-                Please check back soon. If you continue having trouble viewing
-                information about your copays, call the VA Health Resource
-                Center at <va-telephone contact="8664001238" /> (
-                <va-telephone tty contact="711" />
+                If you continue having trouble viewing information about your
+                copays, call the VA Health Resource Center at{' '}
+                <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
+                <va-telephone contact={CONTACTS[711]} tty />
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
             )}
@@ -85,14 +97,15 @@ const alertMessage = (alertType, appType) => {
             <p>
               Our records show you don’t have any current debt related to VA
               benefits. If you think this is incorrect, call the Debt Management
-              Center (DMC) at <va-telephone contact="8008270648" /> (
+              Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           ) : (
             <p>
               If you think this is incorrect, contact the VA Health Resource
-              Center at <va-telephone contact="8664001238" /> (
+              Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
@@ -121,12 +134,28 @@ const alertMessage = (alertType, appType) => {
               current debts and bills, contact us online through{' '}
               <a href="https://ask.va.gov">Ask VA</a>.
             </p>
-            <va-link
-              href="https://ask.va.gov"
-              active
-              text="Contact us at Ask VA"
-              class="vads-u-margin-top--2"
-            />
+            <p>
+              If you need immediate assistance with overpayment debt, call the
+              Debt Management Center at <va-telephone contact={CONTACTS.DMC} />{' '}
+              (<va-telephone contact={CONTACTS[711]} tty />
+              ). For international callers, use{' '}
+              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
+            <p>
+              If you need immediate assistance with copay bills, call the VA
+              Health Resource Center at{' '}
+              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
+              <va-telephone contact={CONTACTS[711]} tty />
+              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              <va-link
+                active
+                text="Contact us at Ask VA"
+                url="https://ask.va.gov"
+              />
+            </p>
           </>
         ),
       };

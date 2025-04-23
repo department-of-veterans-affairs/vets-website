@@ -40,7 +40,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -73,7 +72,6 @@ import {
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
-  mentalHealthConditions,
   militaryHistory,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -110,14 +108,12 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
-import * as additionalFormsChapterWrapper from '../pages/additionalFormsChapterWrapper';
 
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
-import { showMentalHealthPages } from '../content/mentalHealth';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
@@ -550,13 +546,6 @@ const formConfig = {
             serviceInformation: state.form?.data?.serviceInformation,
           }),
         },
-        mentalHealthConditions: {
-          title: 'Mental health conditions',
-          path: `disabilities/781-screener`,
-          depends: formData => showMentalHealthPages(formData),
-          uiSchema: mentalHealthConditions.uiSchema,
-          schema: mentalHealthConditions.schema,
-        },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
@@ -621,16 +610,10 @@ const formConfig = {
         },
       },
     },
-    additionalForms: {
-      title: 'Additional Forms',
+    mentalHealth: {
+      title: 'Mental health statement',
+      path: 'mental-health-form-0781',
       pages: {
-        additionalFormsChapterWrapper: {
-          title: 'Additional forms to support your claim',
-          path: 'additional-forms',
-          depends: formData => showAdditionalFormsChapter(formData),
-          uiSchema: additionalFormsChapterWrapper.uiSchema,
-          schema: additionalFormsChapterWrapper.schema,
-        },
         ...form0781PagesConfig,
       },
     },

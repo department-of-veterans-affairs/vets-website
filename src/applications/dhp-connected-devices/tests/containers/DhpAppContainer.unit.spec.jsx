@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { shallow } from 'enzyme';
+import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { DhpAppContainer } from '../../containers/DhpAppContainer';
 
 describe('Digital Health Pathway root page', () => {
@@ -12,9 +13,8 @@ describe('Digital Health Pathway root page', () => {
         showConnectedDevicesPage={false}
       />,
     );
-    const title = 'Sorry — we can’t find that page';
 
-    expect(dhpContainer.getByText(title)).to.exist;
+    expect(dhpContainer.getByTestId(pageNotFoundTestId)).to.exist;
   });
 
   it('renders the connect your devices page when feature is turned on', () => {

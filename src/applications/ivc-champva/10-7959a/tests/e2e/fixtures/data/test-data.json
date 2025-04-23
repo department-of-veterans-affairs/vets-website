@@ -3,6 +3,7 @@
   "data": {
     "view:hasPolicies": true,
     "certifierRole": "applicant",
+    "certifierReceivedPacket": true,
     "sponsorName": {
       "first": "Sponsor",
       "middle": "Quincy",
@@ -14,6 +15,7 @@
       "last": "Jones"
     },
     "applicantPhone": "1231231234",
+    "applicantEmail": "app@email.gov",
     "applicantMemberNumber": "222111123",
     "applicantDOB": "2000-10-25",
     "applicantAddress": {

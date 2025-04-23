@@ -1,7 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { formatISO } from 'date-fns';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -38,10 +38,16 @@ export const getLabOrTest = id => {
   });
 };
 
+/**
+ * Pull the list of CVIX radiology reports, to be merged with VIA radiology reports.
+ */
 export const getImagingStudies = () => {
   return apiRequest(`${apiBasePath}/medical_records/imaging`, { headers });
 };
 
+/**
+ * Request to download a particular study from CVIX.
+ */
 export const requestImagingStudy = studyId => {
   return apiRequest(
     `${apiBasePath}/medical_records/imaging/${studyId}/request`,
@@ -49,6 +55,9 @@ export const requestImagingStudy = studyId => {
   );
 };
 
+/**
+ * Get a list of available images for a given study.
+ */
 export const getImageList = studyId => {
   return apiRequest(
     `${apiBasePath}/medical_records/imaging/${studyId}/images`,
@@ -198,6 +207,9 @@ export const postSharingUpdateStatus = (optIn = false) => {
   });
 };
 
+/**
+ * Get the statuses of all available CVIX studies.
+ */
 export const getImageRequestStatus = () => {
   return apiRequest(`${apiBasePath}/medical_records/imaging/status`, {
     headers,
@@ -218,14 +230,10 @@ export const getMedications = async () => {
  * Get a patient's appointments
  * @returns list of patient's appointments
  */
-export const getAppointments = async () => {
-  const now = new Date();
-  const startDate = formatISO(now);
-  const beginningOfTime = new Date(0);
-  const endDate = formatISO(beginningOfTime);
+export const getAppointments = async (fromDate, toDate) => {
   const statusParams =
     '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
-  const params = `_include=facilities,clinics&start=${startDate}&end=${endDate}${statusParams}`;
+  const params = `_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
 
   return apiRequest(`${environment.API_URL}/vaos/v2/appointments?${params}`, {
     headers,
@@ -242,18 +250,25 @@ export const getDemographicInfo = async () => {
   });
 };
 
-// military service
 /**
  * Get a patient's military service info
  * @returns patient's military service info
  */
 export const getMilitaryService = async () => {
-  return apiRequest(`${apiBasePath}/medical_records/military_service`, {
-    textHeaders,
-  });
+  try {
+    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
+      textHeaders,
+    });
+  } catch (error) {
+    // Handle special case of missing EDIPI
+    if (error?.error === 'No EDIPI found for the current user') {
+      return edipiNotFound;
+    }
+    // Rethrow if it’s another error we don’t want to specially handle
+    throw error;
+  }
 };
 
-// account summary (treatment facilities)
 /**
  * Get a patient's account summary (treatment facilities)
  * @returns patient profile including a list of patient's treatment facilities

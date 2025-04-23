@@ -21,6 +21,7 @@
       "suffix": "III"
     },
     "certifierRole": "other",
+    "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"
   }
 }

@@ -29,12 +29,27 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
                   : 'these facilities'
               }, go to My VA Health`}
             </H>
-            <ul>
-              {/* <ListItem facilities={cernerFacilities} /> */}
-              {cernerFacilities.map(facility => (
-                <li key={facility.vhaId}>{facility.vamcFacilityName}</li>
-              ))}
-            </ul>
+            {cernerFacilities.length === 1 ? (
+              <p>
+                Some of your appointments may be in a different portal. To view
+                or manage appointments at{' '}
+                <strong>{cernerFacilities[0].vamcFacilityName}</strong>, go to
+                My VA Health.
+              </p>
+            ) : (
+              <>
+                <p>
+                  Some of your appointments may be in a different portal. To
+                  view or manage appointments at these facilities, go to My VA
+                  Health:
+                </p>
+                <ul>
+                  {cernerFacilities.map(facility => (
+                    <li key={facility.vhaId}>{facility.vamcFacilityName}</li>
+                  ))}
+                </ul>
+              </>
+            )}
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--1"
               onClick={handleClick}
@@ -42,21 +57,13 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
               rel="noreferrer noopener"
               target="_blank"
             >
-              Go to My VA Health
+              Go to My VA Health (opens in new tab)
             </a>
-            <va-additional-info
-              trigger="Having trouble opening My VA Health?"
-              uswds
-            >
-              Try these steps:
-              <ul className="vads-u-margin-left--1p5">
-                <li>Disable your browser's pop-up blocker</li>
-                <li>
-                  Sign in to My VA health with the same account you used to sign
-                  in to VA.gov
-                </li>
-              </ul>
-            </va-additional-info>
+            <p>
+              <strong>Note:</strong> Having trouble opening My VA Health? Try
+              disabling your browser’s pop-up blocker or signing in to My VA
+              Health with the same account you used to sign in to VA.gov.
+            </p>
           </va-alert>
         </div>
       )}

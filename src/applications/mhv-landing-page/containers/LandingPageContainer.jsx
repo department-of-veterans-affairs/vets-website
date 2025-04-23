@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
+import { getFolderList } from '../utilities/api';
 import LandingPage from '../components/LandingPage';
+import { useAccountCreationApi } from '../hooks';
 import {
   resolveLandingPageLinks,
   countUnreadMessages,
@@ -15,11 +16,12 @@ import {
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  hasMhvAccount,
+  hasMessagingAccess,
+  mhvAccountStatusLoading,
 } from '../selectors';
-import { getFolderList } from '../utilities/api';
 
 const LandingPageContainer = () => {
+  const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const profile = useSelector(selectProfile);
@@ -29,7 +31,7 @@ const LandingPageContainer = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const userHasMhvAccount = useSelector(hasMhvAccount);
+  const userHasMessagingAccess = useSelector(hasMessagingAccess);
 
   const data = useMemo(
     () => {
@@ -43,7 +45,8 @@ const LandingPageContainer = () => {
     [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
-  const loading = featureToggles.loading || profile.loading;
+  const loading =
+    featureToggles.loading || profile.loading || mhvAccountStatusIsLoading;
 
   useEffect(
     () => {
@@ -52,11 +55,11 @@ const LandingPageContainer = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (userHasMhvAccount) {
+      if (userHasMessagingAccess) {
         loadMessages();
       }
     },
-    [userHasMhvAccount],
+    [userHasMessagingAccess, loading],
   );
 
   useEffect(
@@ -66,6 +69,8 @@ const LandingPageContainer = () => {
     },
     [loading],
   );
+
+  useAccountCreationApi();
 
   if (loading)
     return (

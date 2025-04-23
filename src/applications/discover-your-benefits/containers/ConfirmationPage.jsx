@@ -10,7 +10,7 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
-import SaveResultsModal from '../components/SaveResultsModal';
+import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 import Benfits from './components/Benefits';
 
@@ -41,6 +41,12 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
+    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.setState({ benefitsList: sortedBenefitsList });
   }
 
   componentDidUpdate(prevProps) {
@@ -88,11 +94,19 @@ export class ConfirmationPage extends React.Component {
     const sortStrings = {
       alphabetical: 'alphabetical',
       category: 'category',
+      isTimeSensitive: 'isTimeSensitive',
     };
     this.setState({ sortValue: sortStrings[key] });
   };
 
   sortBenefitObj = (benefitObj, sortKey) => {
+    if (sortKey === 'isTimeSensitive') {
+      return [...benefitObj].sort((a, b) => {
+        if (a[sortKey] === b[sortKey]) return 0;
+        return a[sortKey] ? -1 : 1;
+      });
+    }
+
     return [...benefitObj].sort((a, b) => {
       const aValue = a[sortKey] || '';
       const bValue = b[sortKey] || '';
@@ -152,13 +166,25 @@ export class ConfirmationPage extends React.Component {
       return;
     }
 
+    let filteredBenefitsList;
+    let filteredBenefits;
+    if (key === 'isTimeSensitive') {
+      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
+        return benefit.isTimeSensitive;
+      });
+      filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.isTimeSensitive;
+      });
+    } else {
+      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
+        return benefit.category.includes(key);
+      });
+      filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.category.includes(key);
+      });
+    }
+
     this.setState(() => {
-      const filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-      const filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
-        return benefit.category.includes(key);
-      });
       return {
         benefits: filteredBenefits,
         benefitsList: filteredBenefitsList,
@@ -183,13 +209,27 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const filterValue =
+      this.state.filterValue === 'isTimeSensitive'
+        ? 'time-sensitive'
+        : this.state.filterValue;
+    let sortValue;
+    if (this.state.sortValue === 'alphabetical') {
+      sortValue = 'alphabetically by benefit name';
+    } else if (this.state.sortValue === 'isTimeSensitive') {
+      sortValue = 'by time-sensitive';
+    } else {
+      sortValue = `alphabetically by benefit ${this.state.sortValue}`;
+    }
+
+    const count =
+      this.props.location.query.allBenefits === 'true'
+        ? this.state.benefitsList.length
+        : this.state.resultsCount;
     return (
       <>
-        Showing {this.state.resultsCount} {resultsText}, filtered to show{' '}
-        <b>{this.state.filterValue} results</b>, sorted{' '}
-        {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically by benefit name'
-          : `alphabetically by benefit ${this.state.sortValue}`}
+        Showing {count} {resultsText}, filtered to show{' '}
+        <b>{filterValue} results</b>, sorted {sortValue}
       </>
     );
   }
@@ -238,7 +278,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <article>
-          <div role="heading" aria-level="2">
+          <div>
             {this.props.location.query.allBenefits ? (
               <>
                 <p>
@@ -297,7 +337,7 @@ export class ConfirmationPage extends React.Component {
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
             {!this.props.location.query.allBenefits && (
               <div className="vads-l-col--12">
-                <SaveResultsModal />
+                <CopyResultsModal />
               </div>
             )}
             <div
@@ -350,6 +390,9 @@ export class ConfirmationPage extends React.Component {
                 <option key="Pension" value="Pension">
                   Pension
                 </option>
+                <option key="isTimeSensitive" value="isTimeSensitive">
+                  Time-sensitive
+                </option>
               </VaSelect>
               <br />
               <span>
@@ -368,6 +411,9 @@ export class ConfirmationPage extends React.Component {
                 </option>
                 <option key="type" value="category">
                   Type
+                </option>
+                <option key="isTimeSensitive" value="isTimeSensitive">
+                  Time-sensitive
                 </option>
               </VaSelect>
               <br />
@@ -399,19 +445,28 @@ export class ConfirmationPage extends React.Component {
               id="results-section"
               className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
             >
-              {this.state.hasResults && (
+              {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
               {!this.props.location.query.allBenefits &&
                 window.history.length > 2 && (
-                  <p>
-                    <va-link
-                      data-testid="back-link"
-                      href="#"
-                      onClick={this.handleBackClick}
-                      text="Go back and review your entries"
-                    />
-                  </p>
+                  <>
+                    <p>
+                      <va-link
+                        data-testid="back-link"
+                        href="#"
+                        onClick={this.handleBackClick}
+                        text="Go back and review your entries"
+                      />
+                    </p>
+                    <p className="start-over-link-container">
+                      <va-link
+                        data-testid="start-over-link"
+                        href="/discover-your-benefits/goals"
+                        text="Start over"
+                      />
+                    </p>
+                  </>
                 )}
 
               <Benfits

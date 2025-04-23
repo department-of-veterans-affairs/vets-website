@@ -167,7 +167,7 @@ const VerificationReviewWrapper = ({
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
                 <DGIBEnrollmentCard
                   enrollmentVerifications={
-                    enrollmentVerifications?.personalInfo?.recordResponse
+                    enrollmentVerifications?.personalInfo?.verificationRecord
                       ?.enrollmentVerifications
                   }
                 />
@@ -235,7 +235,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  claimantId: state.personalInfo?.personalInfo?.recordResponse?.claimantId,
+  claimantId: state.personalInfo?.personalInfo?.verificationRecord?.claimantId,
   verifyEnrollment: state.verifyEnrollment,
   enrollmentVerifications: state.personalInfo,
 });

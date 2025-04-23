@@ -5,7 +5,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-// import { showNewHlrContent } from '../utils/helpers';
 import { validateConferenceContactChoice } from '../validations';
 import { errorMessages } from '../constants';
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import {
   createCustomProfileState,
   getBasicContactInfoState,
@@ -35,9 +34,6 @@ describe('ContactInfoNeeded', () => {
           },
         },
       }),
-      featureToggles: {
-        [Toggler.TOGGLE_NAMES.veteranOnboardingContactInfoFlow]: true,
-      },
     };
     const tree = renderWithStoreAndRouter(<ContactInfoNeeded />, {
       initialState,
@@ -47,12 +43,7 @@ describe('ContactInfoNeeded', () => {
   });
 
   it('does not render alert when email address is present', () => {
-    const initialState = {
-      ...createCustomProfileState(),
-      featureToggles: {
-        [Toggler.TOGGLE_NAMES.veteranOnboardingContactInfoFlow]: true,
-      },
-    };
+    const initialState = { ...createCustomProfileState() };
     const tree = renderWithStoreAndRouter(<ContactInfoNeeded />, {
       initialState,
     });

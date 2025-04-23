@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
@@ -21,6 +21,11 @@ const SupportingDocument = ({ formId, formName }) => {
       </a>
     </li>
   );
+};
+
+SupportingDocument.propTypes = {
+  formId: PropTypes.string.isRequired,
+  formName: PropTypes.string.isRequired,
 };
 
 const SpecialMonthlyPensionAccordionItems = () => (
@@ -70,7 +75,6 @@ const SpecialMonthlyPensionAccordionItems = () => (
 );
 
 function Documents({ formData }) {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
   const hasAdoptedChild = (formData.dependents || []).some(childIsAdopted);
@@ -96,12 +100,7 @@ function Documents({ formData }) {
     hasSocialSecurityDisability ||
     hasSpecialMonthlyPension;
 
-  // Remove ternary logic when feature flag is removed and update unit tests
-  const showUpdatedDocuments = useToggleValue(
-    TOGGLE_NAMES.pensionSupportingDocumentsUpdate,
-  );
-
-  return showUpdatedDocuments ? (
+  return (
     <>
       {showDocumentsList && (
         <>
@@ -176,40 +175,24 @@ function Documents({ formData }) {
               </va-accordion-item>
             )}
             {hasSocialSecurityDisability && (
-              <>
-                <va-accordion-item header="If you receive Social Security disability payments">
-                  <p>
-                    You’ll need to submit additional evidence that shows on of
-                    these true:
-                  </p>
-                  <ul>
-                    <li>
-                      You’re unemployed due to a permanent disability (a
-                      disability that’s not expected to improve),{' '}
-                      <strong>or</strong>
-                    </li>
-                    <li>
-                      You have a permanent and total disability (a disability
-                      that we’ve rated as 100% disabling and that’s not expected
-                      to improve)
-                    </li>
-                  </ul>
-                  <p>You can submit these types of additional evidence:</p>
-                  <ul>
-                    <li>Doctor’s reports</li>
-                    <li>Medical labs, test results, or X-rays</li>
-                    <li>Military medical or personnel records</li>
-                    <li>
-                      Social Security Administration or other federal or state
-                      medical treatment records
-                    </li>
-                  </ul>
-                  <p>
-                    <strong>Note:</strong> Your disability doesn’t have to be
-                    service connected.
-                  </p>
-                </va-accordion-item>
-              </>
+              <va-accordion-item header="If you receive Social Security disability payments">
+                <p>
+                  You’ll need to submit additional evidence that shows one of
+                  these is true:
+                </p>
+                <ul>
+                  <li>
+                    You’re unemployed due to a permanent disability (a
+                    disability that’s not expected to improve),{' '}
+                    <strong>or</strong>
+                  </li>
+                  <li>
+                    You have a permanent and total disability (a disability that
+                    we’ve rated as 100% disabling and that’s not expected to
+                    improve)
+                  </li>
+                </ul>
+              </va-accordion-item>
             )}
             {hasSpecialMonthlyPension && (
               <SpecialMonthlyPensionAccordionItems />
@@ -218,73 +201,21 @@ function Documents({ formData }) {
         </>
       )}
     </>
-  ) : (
-    <>
-      {showDocumentsList && (
-        <>
-          <p> You'll need to upload these documents: </p>
-
-          <ul data-testid="supporting-documents-list">
-            {hasSpecialMonthlyPension && (
-              <SupportingDocument
-                formName="Examination for Housebound Status or Permanent Need
-              for Regular Aid and Attendance"
-                formId="21-2680"
-              />
-            )}
-
-            {livesInNursingHome && (
-              <SupportingDocument
-                formName="Request for Nursing Home Information in Connection
-              with Claim for Aid and Attendance"
-                formId="21-0779"
-              />
-            )}
-
-            {hasSchoolChild && (
-              <SupportingDocument
-                formName="Request for Approval of School Attendance"
-                formId="21-674"
-              />
-            )}
-
-            {hasDisabledChild && (
-              <li>
-                Private medical records documenting your child's disability
-                before the age of 18
-              </li>
-            )}
-
-            {hasAdoptedChild && (
-              <li>Adoption papers or amended birth certificate</li>
-            )}
-
-            {needsIncomeAndAssetStatement && (
-              <SupportingDocument
-                formName="Income and Asset Statement in Support of Claim for
-              Pension or Parents' Dependency and Indemnity Compensation"
-                formId="21P-0969"
-              />
-            )}
-          </ul>
-        </>
-      )}
-      {hasSpecialMonthlyPension && (
-        <>
-          <p>
-            <strong>
-              You’ll also need to submit additional evidence depending on your
-              situation:
-            </strong>
-          </p>
-          <va-accordion data-testid="additional-evidence-list">
-            <SpecialMonthlyPensionAccordionItems />
-          </va-accordion>
-        </>
-      )}
-    </>
   );
 }
+
+Documents.propTypes = {
+  formData: PropTypes.shape({
+    dependents: PropTypes.arrayOf(PropTypes.object),
+    specialMonthlyPension: PropTypes.bool,
+    socialSecurityDisability: PropTypes.bool,
+    nursingHome: PropTypes.bool,
+    totalNetWorth: PropTypes.bool,
+    homeOwnership: PropTypes.bool,
+    homeAcreageMoreThanTwo: PropTypes.bool,
+    transferredAssets: PropTypes.bool,
+  }).isRequired,
+};
 
 export default {
   title: 'Supporting documents',

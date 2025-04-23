@@ -6,6 +6,13 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 
 import ConfirmationPdfMessages from './ConfirmationPdfMessages';
 
+export const chapterHeaderClass = [
+  'vads-u-margin-top--2',
+  'vads-u-border-bottom--1px',
+  'vads-u-padding-bottom--0p5',
+  'vads-u-border-color--gray-light',
+].join(' ');
+
 export const ConfirmationTitle = ({ pageTitle }) => (
   <div className="print-only">
     <img

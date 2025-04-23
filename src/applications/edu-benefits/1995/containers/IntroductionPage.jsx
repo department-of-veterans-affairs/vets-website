@@ -158,7 +158,7 @@ export class IntroductionPage extends React.Component {
             <va-omb-info
               res-burden={20}
               omb-number="2900-0074"
-              exp-date="08/31/2024"
+              exp-date="09/30/2027"
             />
           </div>
         </div>

@@ -1,5 +1,4 @@
 // @ts-check
-import moment from 'moment';
 import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
@@ -38,7 +37,7 @@ describe('VAOS request schedule flow - Primary care', () => {
 
     const response = new MockAppointmentResponse({
       id: 'mock1',
-      localStartTime: moment(),
+      localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
       serviceType: 'primaryCare',
     });

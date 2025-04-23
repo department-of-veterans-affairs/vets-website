@@ -84,6 +84,8 @@ export const withEditTitle = (title, lowerCase = true) => {
  *   title: string,
  *   nounSingular: string,
  *   lowerCase?: boolean,
+ *   hasMultipleItemPages?: boolean,
+ *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -228,6 +230,11 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
+                ifMinimalHeader: {
+                  labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '2',
+                  labelHeaderLevelStyle:
+                    yesNoOptionsMore?.labelHeaderLevelStyle || '3',
+                },
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -256,6 +263,11 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
+                ifMinimalHeader: {
+                  labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '1',
+                  labelHeaderLevelStyle:
+                    yesNoOptions?.labelHeaderLevelStyle || '2',
+                },
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,

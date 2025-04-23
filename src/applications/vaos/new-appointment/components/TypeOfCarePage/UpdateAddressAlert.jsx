@@ -6,10 +6,6 @@ import InfoAlert from '../../../components/InfoAlert';
 export default function UpdateAddressAlert({ onClickUpdateAddress }) {
   const headline =
     'To use some of the tool’s features, you need a home address on file';
-  const style = {
-    width: 'fit-content',
-    webkitWidth: 'fit-content',
-  };
 
   return (
     <InfoAlert
@@ -19,14 +15,14 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
     >
       <p>
         To update your address, go to your VA.gov profile. Please allow some
-        time for your address update to process through our system. <br />
+        time for your address update to process through our system.
+        <br />
         <NewTabAnchor
-          style={style}
-          href="/change-address/#how-do-i-change-my-address-in-"
-          className="usa-button usa-button-primary vads-u-margin-top--4"
+          href="/profile/contact-information"
           onClick={() => onClickUpdateAddress(headline)}
+          renderAriaLabel={false}
         >
-          Update your address
+          Go to your VA.gov profile (opens in new tab)
         </NewTabAnchor>
       </p>
     </InfoAlert>

@@ -95,7 +95,7 @@ function ConfirmationPageV2({
           />
         </div>
       </InfoAlert>
-      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+      <h2 className="vads-u-margin-bottom--0 vads-u-display--inline-block">
         Type of care:
       </h2>
       <div className="vads-u-display--inline"> COVID-19 vaccine</div>
@@ -103,7 +103,7 @@ function ConfirmationPageV2({
       <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            className="vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
           >
             COVID-19 vaccine

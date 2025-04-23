@@ -165,6 +165,7 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
   returnUrlFromSIPForm: state.form?.loadedData?.metadata?.returnUrl,
   isStartingOver: state.form.isStartingOver,
+  toggles: state.featureToggles || {},
 });
 
 const mapDispatchToProps = {

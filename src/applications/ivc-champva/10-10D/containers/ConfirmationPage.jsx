@@ -12,7 +12,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
-import { ConfirmationPagePropTypes } from '../../shared/constants';
+import {
+  ConfirmationPagePropTypes,
+  CHAMPVA_FAX_NUMBER,
+  CHAMPVA_PHONE_NUMBER,
+} from '../../shared/constants';
 
 const heading = (
   <>
@@ -80,6 +84,7 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     mailPreamble,
+    faxNum: CHAMPVA_FAX_NUMBER,
     allPages: form.pages,
     fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
     requiredFiles: REQUIRED_FILES,
@@ -137,7 +142,12 @@ export function ConfirmationPage(props) {
 
       <h2>What to expect next</h2>
       <p>
-        It will take about 90 days to process your application.
+        {/* It will take about 90 days to process your application. */}
+        <b>Note:</b> Right now there's a delay in processing CHAMPVA{' '}
+        applications. We expect this delay to be temporary. If you have
+        questions about the status of your application, call us at{' '}
+        <VaTelephone contact={CHAMPVA_PHONE_NUMBER} /> (TTY: 711). We’re here{' '}
+        Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
         <br />
         <br />
         If we have any questions or need additional information, we’ll contact
@@ -146,8 +156,8 @@ export function ConfirmationPage(props) {
       <h2>How to contact us about your application</h2>
       <p>
         If you have any questions about your application you can call the
-        CHAMPVA call center at <VaTelephone contact="800-733-8387" />. We’re
-        here Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
+        CHAMPVA call center at <VaTelephone contact={CHAMPVA_PHONE_NUMBER} />.{' '}
+        We’re here Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
         <br />
         <br />
         You can also contact us online through our Ask VA tool.

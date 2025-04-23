@@ -21,15 +21,17 @@ describe('MessageListItem component', () => {
 
   const props = {
     activeFolder: inbox,
-    senderName: 'Tesst, Test TEST, TTESTer',
-    sentDate: '2020-01-01T00:00:00.000Z',
-    subject: 'testtestteest ttestt',
-    readReceipt: 'READ',
-    recipientName: 'BNP!!! FOO DG_SLC4',
-    attachment: false,
-    messageId: '1234567',
+    message: {
+      senderName: 'Tesst, Test TEST, TTESTer',
+      sentDate: '2020-01-01T00:00:00.000Z',
+      subject: 'testtestteest ttestt',
+      readReceipt: 'READ',
+      recipientName: 'BNP!!! FOO DG_SLC4',
+      attachment: false,
+      messageId: '1234567',
+      category: 'General',
+    },
     keyword: 'test',
-    category: 'General',
   };
 
   it('renders without errors', () => {
@@ -60,5 +62,49 @@ describe('MessageListItem component', () => {
 
     const highlightedText = await screen.getAllByTestId('highlighted-text');
     expect(highlightedText.length).to.equal(6);
+  });
+
+  it('does not style unread messages in sent folder', async () => {
+    const sent = {
+      folderId: -1,
+      name: 'Sent',
+      count: 49,
+      unreadCount: 35,
+      systemFolder: true,
+    };
+
+    const customProps = {
+      ...props,
+      readReceipt: 'UNREAD',
+      activeFolder: sent,
+    };
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        search: {
+          ...initialState.sm.search,
+          folder: sent,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <MessageListItem {...customProps} />,
+      {
+        customState,
+        reducers: reducer,
+        path: `/sent`,
+      },
+    );
+
+    const unreadIcon = screen.queryByTestId('unread-message-icon');
+    expect(unreadIcon).to.not.exist;
+
+    const fromText = screen.getByText('From:');
+    expect(fromText.parentNode.className).to.not.contain(
+      'vads-u-font-weight--bold',
+    );
   });
 });

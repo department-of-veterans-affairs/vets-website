@@ -24,6 +24,7 @@
     },
     "homeless": false,
     "privacyAgreementAccepted": true,
+    "informalConferenceChoice": "yes",
     "informalConference": "rep",
     "informalConferenceRep": {
       "firstName": "James",

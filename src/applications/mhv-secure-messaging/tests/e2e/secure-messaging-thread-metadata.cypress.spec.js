@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import inboxMessages from './fixtures/messages-response.json';
+import inboxMessages from './fixtures/threads-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Message Details AXE Check', () => {

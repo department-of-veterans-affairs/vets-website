@@ -58,7 +58,7 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     } is missing information. Edit and complete this ${
       props.nounSingular
     }’s information before continuing.`,
-  editSaveButtonText: props => `Save and Continue`,
+  editSaveButtonText: props => `Save and continue`,
   getItemName: (itemData, index) => itemData?.name,
   deleteDescription: props => {
     const itemName = props.getItemName(props.itemData, props.index);

@@ -23,7 +23,11 @@ export default {
       content['vet-mailing-address-title'],
       content['vet-mailing-address-description'],
     ),
-    veteranAddress: addressUI(),
+    veteranAddress: addressUI({
+      required: {
+        state: () => true,
+      },
+    }),
     'view:doesMailingMatchHomeAddress': yesNoUI(
       content['vet-address-match-title'],
     ),

@@ -1,0 +1,82 @@
+{ 
+    "data": {
+        "application": {
+            "currentlyBuriedPersons": [
+                {
+                    "name": {
+                        "first": "Sam",
+                        "last": "Caldwell"
+                    }
+                }
+            ],
+            "hasCurrentlyBuried": "1",
+            "veteran": {
+                "serviceName": {
+                    "first": "Brian",
+                    "last": "Smalls"
+                },
+                "militaryStatus": "V",
+                "ethnicity": "notSpanishHispanicLatino",
+                "race": {
+                    "isAmericanIndianOrAlaskanNative": true,
+                    "isAsian": true,
+                    "isBlackOrAfricanAmerican": true,
+                    "isNativeHawaiianOrOtherPacificIslander": true,
+                    "isWhite": true
+                },
+                "maritalStatus": "Single",
+                "gender": "Female",
+                "dateOfDeath": "1989-01-01",
+                "isDeceased": "yes",
+                "currentName": {
+                    "first": "Sally",
+                    "last": "Doe"
+                },
+                "ssn": "888556666",
+                "serviceRecords": [
+                    {
+                        "serviceBranch": "NG"
+                    }
+                ]
+            },
+            "applicant": {
+                "isSponsor": "no",
+                "mailingAddress": {
+                    "street": "123 Treetop Ln",
+                    "city": "Florence",
+                    "country": "USA",
+                    "state": "SC",
+                    "postalCode": "29501"
+                },
+                "applicantPhoneNumber": "1235558585",
+                "applicantEmail": "JoeTest@test.test",
+                "name": {
+                    "first": "Will",
+                    "last": "Green"
+                },
+                "applicantRelationshipToClaimant": "Authorized Agent/Rep"
+            },
+            "claimant": {
+                "address": {
+                    "street": "60 Solutioning Ave",
+                    "city": "Nowhereville",
+                    "country": "USA",
+                    "state": "PR",
+                    "postalCode": "00667"
+                },
+                "phoneNumber": "9996663333",
+                "email": "solution@testing.test",
+                "name": {
+                    "first": "Charles",
+                    "last": "Black"
+                },
+                "ssn": "222334444",
+                "dateOfBirth": "1980-06-07",
+                "relationshipToVet": "other"
+            }
+        },
+        "privacyAgreementAccepted": true,
+        "formNumber": "40-10007",
+        "version": "int"
+    }
+}

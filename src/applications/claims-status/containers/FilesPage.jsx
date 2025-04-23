@@ -34,7 +34,7 @@ class FilesPage extends React.Component {
       setTimeout(() => {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);
-      }, 100);
+      });
     }
   }
 

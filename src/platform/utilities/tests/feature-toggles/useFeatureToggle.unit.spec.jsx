@@ -1,14 +1,18 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import * as redux from 'react-redux';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import PropTypes from 'prop-types';
+import { waitFor } from '@testing-library/react';
 
+import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import { renderInReduxProvider } from '../../../testing/unit/react-testing-library-helpers';
-
 import { useFeatureToggle } from '../../feature-toggles/useFeatureToggle';
 import { Toggler } from '../../feature-toggles/Toggler';
 
-const testToggleName = Toggler.TOGGLE_NAMES.profileUseExperimental;
+const testToggleKey = 'profileUseExperimental';
+const testToggleName = Toggler.TOGGLE_NAMES[testToggleKey];
 
 const TestComponent = ({ customToggleName = null }) => {
   const { useToggleValue } = useFeatureToggle();
@@ -106,5 +110,193 @@ describe('useFeatureToggle hook', () => {
       },
     });
     expect(wrapper.findAllByText('Loading value: false')).to.exist;
+  });
+});
+
+describe('useFormFeatureToggleSync hook', () => {
+  const TestSyncComponent = ({ toggleConfigs, setStorageItem }) => {
+    const { useFormFeatureToggleSync } = useFeatureToggle();
+    useFormFeatureToggleSync(toggleConfigs, setStorageItem);
+    return <div />;
+  };
+
+  TestSyncComponent.propTypes = {
+    setStorageItem: PropTypes.func.isRequired,
+    toggleConfigs: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          toggleName: PropTypes.string.isRequired,
+          formKey: PropTypes.string,
+        }),
+      ]),
+    ).isRequired,
+  };
+
+  let useDispatchStub;
+  let dispatchSpy;
+  let sessionStorageSpy;
+
+  beforeEach(() => {
+    useDispatchStub = sinon.stub(redux, 'useDispatch');
+    dispatchSpy = sinon.spy();
+    useDispatchStub.returns(dispatchSpy);
+    sessionStorageSpy = sinon.spy();
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore();
+  });
+
+  it('should sync a single toggle using string configuration', async () => {
+    const form = createSchemaFormReducer({}, {});
+    renderInReduxProvider(
+      <TestSyncComponent
+        toggleConfigs={[testToggleKey]}
+        setStorageItem={sessionStorageSpy}
+      />,
+      {
+        initialState: {
+          featureToggles: { [testToggleName]: true },
+        },
+        reducers: {
+          form,
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'SET_DATA',
+          data: { [testToggleKey]: true },
+        }),
+      ).to.be.true;
+      expect(sessionStorageSpy.calledWith(testToggleKey, 'true')).to.be.true;
+    });
+  });
+
+  it('should sync a single toggle using object configuration', async () => {
+    const form = createSchemaFormReducer({}, {});
+    const config = { toggleName: testToggleKey, formKey: 'customKey' };
+
+    renderInReduxProvider(
+      <TestSyncComponent
+        toggleConfigs={[config]}
+        setStorageItem={sessionStorageSpy}
+      />,
+      {
+        initialState: {
+          featureToggles: { [testToggleName]: true },
+        },
+        reducers: {
+          form,
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'SET_DATA',
+          data: { customKey: true },
+        }),
+      ).to.be.true;
+      expect(sessionStorageSpy.calledWith('customKey', 'true')).to.be.true;
+    });
+  });
+
+  it('should sync multiple toggles with mixed configuration types', async () => {
+    const form = createSchemaFormReducer({}, {});
+    const hlrKey = 'hlrBrowserMonitoringEnabled';
+    const hlrFeatureName = Toggler.TOGGLE_NAMES[hlrKey];
+
+    const configs = [
+      testToggleKey,
+      { toggleName: hlrKey, formKey: 'hlrMonitoring' },
+    ];
+
+    renderInReduxProvider(
+      <TestSyncComponent
+        toggleConfigs={configs}
+        setStorageItem={sessionStorageSpy}
+      />,
+      {
+        initialState: {
+          featureToggles: {
+            [testToggleName]: false,
+            [hlrFeatureName]: true,
+          },
+        },
+        reducers: {
+          form,
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'SET_DATA',
+          data: {
+            [testToggleKey]: false,
+            hlrMonitoring: true,
+          },
+        }),
+      ).to.be.true;
+      expect(sessionStorageSpy.calledWith(testToggleKey, 'false')).to.be.true;
+      expect(sessionStorageSpy.calledWith('hlrMonitoring', 'true')).to.be.true;
+    });
+  });
+
+  it('should not dispatch if toggle values match existing form data', async () => {
+    const form = createSchemaFormReducer({}, {});
+    renderInReduxProvider(
+      <TestSyncComponent
+        toggleConfigs={[testToggleKey]}
+        setStorageItem={sessionStorageSpy}
+      />,
+      {
+        initialState: {
+          featureToggles: { [testToggleName]: true },
+          form: {
+            data: { [testToggleKey]: true },
+          },
+        },
+        reducers: {
+          form,
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.false;
+      expect(sessionStorageSpy.called).to.be.false;
+    });
+  });
+
+  it('should not update while feature flags are loading', async () => {
+    renderInReduxProvider(
+      <TestSyncComponent
+        toggleConfigs={[testToggleKey]}
+        setStorageItem={sessionStorageSpy}
+      />,
+      {
+        initialState: {
+          featureToggles: {
+            [testToggleName]: true,
+            loading: true,
+          },
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.false;
+      expect(sessionStorageSpy.called).to.be.false;
+    });
   });
 });

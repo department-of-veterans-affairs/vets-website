@@ -105,6 +105,7 @@ export const Search = ({ onSearch }) => {
     return null;
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setStartDateFull(getFullDate(startDateDay, startDateMonth, startDateYear));
     setEndDateFull(getFullDate(endDateDay, endDateMonth, endDateYear));
@@ -133,6 +134,7 @@ export const Search = ({ onSearch }) => {
     setEndDateMonth('');
     setEndDateDay('');
     setEndDateYear('');
+    setStartDateFull(false);
     resetErrorState();
 
     setSelectedOption(filterByOption);

@@ -12,7 +12,6 @@ describe('CDP - VHA Copay Alerts', () => {
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
       'features',
     );
-    cy.visit('/manage-va-debt/summary/copay-balances');
   });
 
   describe('Copay Balances Page - copays ok', () => {
@@ -22,6 +21,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // Has both VHA and VBA balances
     it('should display valid copay balances & other VA debt information', () => {
       debtResponses.good('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -37,6 +37,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // Has VHA and VBA 404
     it('should display valid copay balances & other VA debt information', () => {
       debtResponses.bad('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -58,6 +59,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // VHA && VBA 404
     it('should display alert error message for VBA & VHA 404 responses', () => {
       debtResponses.bad('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -69,6 +71,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // VHA 404 & VBA balance
     it('should display alert error message for VHA 404 response and Your Other VA section', () => {
       debtResponses.good('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -80,6 +83,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // VHA 404 & VBA 0 balance
     it('should display alert error message for VHA 404 response and no Your Other VA section', () => {
       debtResponses.empty('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -96,6 +100,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // VHA 0 balance & VBA balance
     it('should display alert info message for 0 VHA balance and Your Other VA secion ', () => {
       debtResponses.good('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -107,6 +112,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // VHA & VBA 0 balance
     it('should display alert info message for 0 VHA balance and no Your Other VA secion', () => {
       debtResponses.empty('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       cy.findByTestId('summary-page-title').should('exist');
@@ -124,6 +130,7 @@ describe('CDP - VHA Copay Alerts', () => {
     // VHA 403 response (Not enrolled in healthcare)
     it('should display not enrolled in healthcare alert for VHA 403 response', () => {
       debtResponses.good('debts');
+      cy.visit('/manage-va-debt/summary/copay-balances');
       cy.wait(['@copays', '@debts', '@features']);
 
       // Ensure the page has loaded

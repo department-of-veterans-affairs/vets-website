@@ -10,7 +10,7 @@ import {
 import { focusReview } from '~/platform/forms-system/src/js/utilities/ui/focus-review';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
-import { LAST_ISSUE } from '../constants';
+import { getStorage, removeStorage } from './addIssue';
 
 export const focusFirstError = (_index, root) => {
   const error = $('[error], .usa-input-error', root);
@@ -47,30 +47,29 @@ export const focusH3AfterAlert = (
 };
 
 export const focusIssue = (_index, root, value) => {
-  setTimeout(() => {
-    const item = value || window.sessionStorage.getItem(LAST_ISSUE);
-    window.sessionStorage.removeItem(LAST_ISSUE);
-    const [id, type] = (item || '').toString().split(',');
-    if (id < 0) {
-      // focus on add new issue after removing or cancelling adding a new issue
-      scrollTo('add-new-issue');
-      focusElement('.add-new-issue', null, root);
-    } else if (id) {
-      const card = $(`#issue-${id}`, root);
-      scrollTo(`issue-${id}`);
-      if (type === 'remove-cancel') {
-        const remove = $('.remove-issue', card)?.shadowRoot;
-        waitForRenderThenFocus('button', remove);
-      } else if (type === 'updated') {
-        waitForRenderThenFocus('input', card);
-      } else {
-        focusElement('.edit-issue-link', null, card);
-      }
+  const item = value || getStorage();
+  const [id, type] = (item || '').toString().split(',');
+  if (id < 0) {
+    // focus on add new issue after removing or cancelling adding a new issue
+    scrollTo('add-new-issue');
+    focusElement('.add-new-issue', null, root);
+  } else if (id) {
+    const card = $(`#issue-${id}`, root);
+    scrollTo(`issue-${id}`);
+    if (type === 'remove-cancel') {
+      const remove = $('.remove-issue', card)?.shadowRoot;
+      waitForRenderThenFocus('button', remove);
+    } else if (type === 'updated') {
+      waitForRenderThenFocus('input', card);
     } else {
-      scrollTo('topContentElement');
-      focusElement('h3');
+      focusElement('.edit-issue-link', null, card);
     }
-  });
+  } else {
+    scrollTo('topContentElement');
+    focusElement('h3');
+  }
+  // Delay removing storage because this function may be called multiple times
+  setTimeout(removeStorage, 250);
 };
 
 // Focus on upload file card instead of delete button
@@ -128,13 +127,25 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio, va-checkbox-group');
+  const radio = $('va-radio, va-checkbox-group, va-textarea');
   if (radio) {
     const target = radio.getAttribute('error') ? '[role="alert"]' : 'h3';
     // va-radio content doesn't immediately render
     waitForRenderThenFocus(target, radio.shadowRoot);
   } else {
     focusByOrder(['#main h3', defaultFocusSelector]);
+  }
+};
+
+// Focus on alert (without header) if visible, or radio h3
+export const focusAlertOrRadio = () => {
+  const alertSelector = 'va-alert[status="info"]';
+  const alert = $(alertSelector);
+  if (alert) {
+    scrollTo('topContentElement');
+    focusElement(alertSelector);
+  } else {
+    focusRadioH3();
   }
 };
 
@@ -145,19 +156,6 @@ export const focusH3OrRadioError = (_index, root) => {
   const hasError = radio.getAttribute('error');
   const target = hasError ? '[role="alert"]' : 'h3';
   waitForRenderThenFocus(target, hasError ? radio.shadowRoot : root);
-};
-
-// Temporary focus function for HLR homlessness question (page header is
-// dynamic); once 100% released, change homeless form config to use
-// `scrollAndFocusTarget: focusH3`
-export const focusToggledHeader = (_index, root) => {
-  scrollTo('topContentElement');
-  const radio = $('va-radio', root);
-  if ((sessionStorage.getItem('hlrUpdated') || 'false') === 'false' && radio) {
-    waitForRenderThenFocus('h3', radio.shadowRoot);
-  } else {
-    waitForRenderThenFocus('#main h3');
-  }
 };
 
 export const focusH3 = (index, root) => {

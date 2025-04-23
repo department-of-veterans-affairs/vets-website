@@ -12,6 +12,7 @@ const ChemHemResults = props => {
             <h3
               className="vads-u-margin--0 vads-u-padding--2"
               data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - result name]"
             >
               {result.name}
             </h3>
@@ -22,6 +23,7 @@ const ChemHemResults = props => {
               <p
                 className="vads-u-margin--0 vads-u-padding-bottom--2"
                 data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - result]"
               >
                 {result.result}
               </p>
@@ -31,6 +33,7 @@ const ChemHemResults = props => {
               <p
                 className="vads-u-margin--0 vads-u-padding-bottom--2"
                 data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - reference range]"
               >
                 {result.standardRange}
               </p>
@@ -40,6 +43,7 @@ const ChemHemResults = props => {
               <p
                 className="vads-u-margin--0 vads-u-padding-bottom--2"
                 data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - status]"
               >
                 {result.status}
               </p>
@@ -49,6 +53,7 @@ const ChemHemResults = props => {
               <p
                 className="vads-u-margin--0 vads-u-padding-bottom--2"
                 data-dd-privacy="mask"
+                data-dd-action-name="[lab and tests - lab comments]"
               >
                 {result.labComments}
               </p>

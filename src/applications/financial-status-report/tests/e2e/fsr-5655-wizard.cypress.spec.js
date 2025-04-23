@@ -1,4 +1,4 @@
-import { WIZARD_STATUS_NOT_STARTED } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import manifest from '../../manifest.json';
 

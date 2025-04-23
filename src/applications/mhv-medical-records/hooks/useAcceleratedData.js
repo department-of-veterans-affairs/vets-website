@@ -27,7 +27,7 @@ const useAcceleratedData = () => {
 
   useEffect(
     () => {
-      // TECH DEBT: Do not trigger the connection when uniting tests because
+      // TECH DEBT: Do not trigger the connection when running unit tests because
       // the connection is not mocked and will cause the test to fail
       if (!window.Mocha) {
         // use Drupal based Cerner facility data
@@ -66,8 +66,21 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
   );
 
+  const isAccelerating = useMemo(
+    () =>
+      isAcceleratedDeliveryEnabled ||
+      isAcceleratingAllergies ||
+      isAcceleratingVitals,
+    [
+      isAcceleratedDeliveryEnabled,
+      isAcceleratingAllergies,
+      isAcceleratingVitals,
+    ],
+  );
+
   return {
     isLoading,
+    isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
   };

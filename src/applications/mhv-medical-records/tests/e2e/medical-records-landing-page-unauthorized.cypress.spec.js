@@ -24,11 +24,11 @@ describe('Medical Records Landing Page', () => {
 
   describe('as an unauthorized user', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('redirects to the /health-care/get-medical-records static page', () => {
+    it('redirects to the /my-health page', () => {
       site.login(mockNonMrUser);
       site.loadPage();
-      cy.get('@myHealthPath').should('not.have.been.called');
-      cy.get('@staticPage').should('have.been.called');
+      cy.get('@myHealthPath').should('have.been.called');
+      cy.get('@staticPage').should('not.have.been.called');
     });
   });
 });
