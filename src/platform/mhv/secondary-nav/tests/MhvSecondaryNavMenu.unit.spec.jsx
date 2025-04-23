@@ -34,6 +34,12 @@ const testSecNavItems = [
   },
 ];
 
+const noneActiveItems = [
+  '/my-health/travel-pay/claims/',
+  '/my-health/order-medical-supplies',
+  '/my-health/update-benefits-information-form-10-10ezr',
+];
+
 /**
  * Set the current window's URL.
  * @param {String} pathname the pathname of the URL
@@ -128,6 +134,23 @@ describe('MHV Secondary Navigation Menu Component', () => {
       expect(getOneLink(medNavItem).className).to.not.include(
         activeClassString,
       );
+    });
+  });
+
+  describe('no active item', () => {
+    it('does not set any active item for none of the 5-options', () => {
+      noneActiveItems.forEach(item => {
+        setWindowUrl(item);
+        const { getAllByTestId } = render(
+          <MhvSecondaryNavMenu items={testSecNavItems} />,
+        );
+        const links = getAllByTestId('mhv-sec-nav-item');
+        links.forEach(link => {
+          // This tests that there are no selected item is active item
+          expect(link.className).to.not.include(activeClassString);
+        });
+        cleanup(); // must be done after the render
+      });
     });
   });
 });
