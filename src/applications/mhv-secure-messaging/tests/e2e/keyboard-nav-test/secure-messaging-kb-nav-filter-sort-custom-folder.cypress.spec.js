@@ -22,7 +22,6 @@ describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
   });
 
   it('verify filter works correctly', () => {
-    cy.log(JSON.stringify(filteredData));
     GeneralFunctionsPage.verifyHeaderFocused();
     PatientFilterPage.inputFilterDataByKeyboard(filterData);
     PatientFilterPage.submitFilterByKeyboard(filteredData);

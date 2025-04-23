@@ -7,9 +7,10 @@ import mockThreadsResponse from '../fixtures/threads-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
   const filteredResponse = PatientFilterPage.filterMockResponse(
     mockThreadsResponse,
-    'test',
+    filterData,
   );
   beforeEach(() => {
     SecureMessagingSite.login();
@@ -19,9 +20,9 @@ describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
+    PatientFilterPage.inputFilterData(filterData);
     PatientFilterPage.clickApplyFilterButton(filteredResponse);
-    PatientFilterPage.verifyFilterResults('test', filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
