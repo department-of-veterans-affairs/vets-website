@@ -44,6 +44,12 @@ class LabsAndTests {
       });
     }
   };
+
+  goToLabAndTestPage = ({ labName }) => {
+    cy.contains(labName).click();
+    cy.get('[data-testid="lab-name"]').should('be.visible');
+    cy.get('[data-testid="lab-name"]').contains(labName);
+  };
 }
 
 export default new LabsAndTests();

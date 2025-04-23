@@ -43,6 +43,11 @@ describe('Medical Records View Lab and Tests', () => {
     });
     LabsAndTests.checkUrl({ timeFrame: '2020-01' });
 
+    // go to a specific lab
+    LabsAndTests.goToLabAndTestPage({
+      labName: 'CH - FULL SAMPLE',
+    });
+
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .should('have.attr', 'href')
