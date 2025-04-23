@@ -4,6 +4,7 @@ import {
   VaIcon,
   VaTextarea,
   VaLink,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -215,14 +216,13 @@ const ResponseInboxPage = ({ router }) => {
             slot="headline"
             className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
           >
-            You can’t access this page
+            We’ve run into a problem
           </h2>
-          <p className="vads-u-font-size--base vads-u-margin-bottom--0p5">
-            You can only access questions you asked on{' '}
-            <VaLink href="/" text="VA.gov" />.
-          </p>
-          <p className="vads-u-font-size--base vads-u-margin-top--0p5">
-            Please confirm your reference number is correct, and try again.
+          <p className="vads-u-font-size--base">
+            We’re sorry. Something went wrong on our end. Please try again later
+            or call us at <VaTelephone contact="800-698-2411" /> (
+            <VaTelephone contact="711" tty />
+            ). We’re here 24/7.
           </p>
         </VaAlert>
       </>
