@@ -34,12 +34,6 @@ AppRoute.propTypes = {
 const AuthorizedRoutes = () => {
   const location = useLocation();
   const isPilot = useSelector(state => state.sm.app.isPilot);
-  const contactListPage = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingEditContactList
-      ],
-  );
 
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
@@ -99,11 +93,9 @@ const AuthorizedRoutes = () => {
         >
           <FolderThreadListView />
         </AppRoute>
-        {contactListPage && (
-          <AppRoute exact path={Paths.CONTACT_LIST} key="EditContactList">
-            <EditContactList />
-          </AppRoute>
-        )}
+        <AppRoute exact path={Paths.CONTACT_LIST} key="EditContactList">
+          <EditContactList />
+        </AppRoute>
         <Route>
           <PageNotFound />
         </Route>

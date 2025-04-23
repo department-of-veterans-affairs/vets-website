@@ -18,6 +18,10 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -36,6 +40,10 @@ export const applicantNameDobSchema = {
     ),
     applicantName: fullNameMiddleInitialUI,
     applicantDOB: dateOfBirthUI(),
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'applicantName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -135,6 +143,10 @@ export const applicantAddressSchema = {
         },
       }),
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'applicantAddress'),
+    ],
   },
   schema: {
     type: 'object',
