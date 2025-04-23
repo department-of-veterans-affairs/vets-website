@@ -196,13 +196,10 @@ const TraumaticEventTypesPage = ({
 
           {!onReviewPage && (
             <p>
-              <button
-                type="button"
-                className="va-button-link"
+              <va-link
+                text="Continue with your claim"
                 onClick={() => goForward(data)}
-              >
-                Continue with your claim
-              </button>{' '}
+              />
             </p>
           )}
         </VaAlert>
