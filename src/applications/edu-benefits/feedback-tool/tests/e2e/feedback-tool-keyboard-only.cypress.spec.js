@@ -5,18 +5,10 @@ describe('Feedback Tool Keyboard Test', () => {
   //     if (Cypress.env('CI')) this.skip();
   //   });
   it('Is accessible accordingly via keyboard', () => {
-    cy.intercept('POST', '/v0/gi_bill_feedbacks', {
-      data: {
-        attributes: {
-          guid: '1234',
-          submittedAt: '2016-05-16',
-        },
-      },
-    });
-
     cy.visit(manifest.rootUrl);
     cy.injectAxe();
-    cy.axeCheck('main', {});
+    cy.axeCheck();
+
     cy.get('body').should('be.visible');
     cy.get('.schemaform-title').should('be.visible');
     cy.get('.schemaform-start-button')
