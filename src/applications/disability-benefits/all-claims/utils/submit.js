@@ -376,7 +376,7 @@ export const delete0781BehavioralData = formData => {
   return clonedData;
 };
 
-export const delete0781FormData = formData => {
+const delete0781FormData = formData => {
   const clonedData = delete0781BehavioralData(_.cloneDeep(formData));
 
   // Remove top-level keys
@@ -401,7 +401,7 @@ export const delete0781FormData = formData => {
   return clonedData;
 };
 
-export const audit0781EventData = formData => {
+export const sanitize0781PoliceReportData = formData => {
   const clonedData = _.cloneDeep(formData);
 
   if (Array.isArray(clonedData.events)) {
@@ -422,14 +422,13 @@ export const audit0781EventData = formData => {
 };
 
 // This function is a failsafe redundancy for BehaviorListPage.jsx > deleteBehaviorDetails()
-export const audit0781BehaviorDetailsList = formData => {
+export const sanitize0781BehaviorsDetails = formData => {
   const clonedData = _.cloneDeep(formData);
 
   if (clonedData.behaviorsDetails) {
     const work = clonedData.workBehaviors || {};
     const health = clonedData.healthBehaviors || {};
     const other = clonedData.otherBehaviors || {};
-
     const noChange = clonedData.noBehavioralChange?.noChange === true;
 
     if (noChange) {
@@ -603,8 +602,8 @@ export const addForm0781V2 = formData => {
     delete0781BehavioralData(formData);
   }
 
-  audit0781EventData(formData);
-  audit0781BehaviorDetailsList(formData);
+  sanitize0781PoliceReportData(formData);
+  sanitize0781BehaviorsDetails(formData);
 
   const clonedData = _.cloneDeep(formData);
 

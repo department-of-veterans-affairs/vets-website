@@ -18,9 +18,9 @@ import {
   addForm4142,
   addForm0781,
   addForm0781V2,
-  audit0781EventData,
-  audit0781BehaviorDetailsList,
   delete0781BehavioralData,
+  sanitize0781PoliceReportData,
+  sanitize0781BehaviorsDetails,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -759,11 +759,11 @@ describe('addForm0781V2', () => {
         country: 'USA',
       },
     ],
-    workBehaviors: { reassignement: true },
+    workBehaviors: { reassignment: true },
     healthBehaviors: { medications: true },
     otherBehaviors: { unlisted: true },
     behaviorsDetails: {
-      reassignement: 'details',
+      reassignment: 'details',
       medications: 'details',
       unlisted: 'details',
     },
@@ -868,7 +868,32 @@ describe('addForm0781V2', () => {
     expect(result).to.deep.equal(expectedResult);
   });
 
-  it('audit0781EventData properly removes police report location data when conditions are met', () => {
+  it('delete0781BehavioralData removes all behavioral data when answerCombatBehaviorQuestions is false', () => {
+    const data = {
+      answerCombatBehaviorQuestions: 'false',
+      workBehaviors: { reassignment: true },
+      healthBehaviors: { medications: true },
+      otherBehaviors: { unlisted: true },
+      behaviorsDetails: {
+        reassignment: 'details',
+        medications: 'details',
+        unlisted: 'details',
+      },
+    };
+
+    const expected = {
+      answerCombatBehaviorQuestions: 'false',
+    };
+
+    const result =
+      data.answerCombatBehaviorQuestions === 'false'
+        ? delete0781BehavioralData(data)
+        : data;
+
+    expect(result).to.deep.equal(expected);
+  });
+
+  it('sanitize0781PoliceReportData properly removes police report location data when conditions are met', () => {
     const data = {
       events: [
         {
@@ -946,58 +971,33 @@ describe('addForm0781V2', () => {
       ],
     };
 
-    const result = audit0781EventData(data);
+    const result = sanitize0781PoliceReportData(data);
     expect(result).to.deep.equal(expectedResult);
   });
 
-  it('delete0781BehavioralData removes all behavioral data when answerCombatBehaviorQuestions is false', () => {
-    const data = {
-      answerCombatBehaviorQuestions: 'false',
-      workBehaviors: { reassignement: true },
-      healthBehaviors: { medications: true },
-      otherBehaviors: { unlisted: true },
-      behaviorsDetails: {
-        reassignement: 'details',
-        medications: 'details',
-        unlisted: 'details',
-      },
-    };
-
-    const expected = {
-      answerCombatBehaviorQuestions: 'false',
-    };
-
-    const result =
-      data.answerCombatBehaviorQuestions === 'false'
-        ? delete0781BehavioralData(data)
-        : data;
-
-    expect(result).to.deep.equal(expected);
-  });
-
-  describe('audit0781BehaviorDetailsList', () => {
+  describe('sanitize0781BehaviorsDetails', () => {
     it('removes behavior details not selected in any behavior group', () => {
       const data = {
-        workBehaviors: { reassignement: true },
+        workBehaviors: { reassignment: true },
         healthBehaviors: { medications: false },
         otherBehaviors: { unlisted: false },
         behaviorsDetails: {
-          reassignement: 'Work detail',
+          reassignment: 'Work detail',
           medications: 'Health detail',
           unlisted: 'Other detail',
         },
       };
 
       const expected = {
-        workBehaviors: { reassignement: true },
+        workBehaviors: { reassignment: true },
         healthBehaviors: { medications: false },
         otherBehaviors: { unlisted: false },
         behaviorsDetails: {
-          reassignement: 'Work detail',
+          reassignment: 'Work detail',
         },
       };
 
-      const result = audit0781BehaviorDetailsList(data);
+      const result = sanitize0781BehaviorsDetails(data);
       expect(result).to.deep.equal(expected);
     });
 
@@ -1005,7 +1005,7 @@ describe('addForm0781V2', () => {
       const data = {
         noBehavioralChange: { noChange: true },
         behaviorsDetails: {
-          reassignement: 'Work detail',
+          reassignment: 'Work detail',
           medications: 'Health detail',
           unlisted: 'Other detail',
         },
@@ -1016,7 +1016,7 @@ describe('addForm0781V2', () => {
         behaviorsDetails: {},
       };
 
-      const result = audit0781BehaviorDetailsList(data);
+      const result = sanitize0781BehaviorsDetails(data);
       expect(result).to.deep.equal(expected);
     });
   });
