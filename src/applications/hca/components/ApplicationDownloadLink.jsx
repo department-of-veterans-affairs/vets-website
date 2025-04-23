@@ -11,7 +11,7 @@ import content from '../locales/en/content.json';
 
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // define local use variables
   const form = useSelector(state => state.form);
@@ -21,19 +21,6 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   ]);
 
   const { veteranFullName: name } = form.data['view:veteranInformation'];
-
-  // fetch a custom error message based on status code
-  const errorMessage = useMemo(
-    () => {
-      // console.log('message', !errors?.length);
-      if (!errors?.length) return null;
-      const code = errors?.[0]?.status?.[0];
-      return code === '5'
-        ? content['alert-download-message--500']
-        : content['alert-download-message--generic'];
-    },
-    [errors],
-  );
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -55,7 +42,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     async event => {
       event.preventDefault();
       setLoading(true);
-      setErrors([]);
+      setErrorMessage(null);
 
       try {
         await ensureValidCSRFToken('fetchPdf');
@@ -68,16 +55,19 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         // Handle request errors
         if (!response.ok) {
           // Attempt to parse a JSON error response
-          let errorData;
           try {
-            errorData = await response.json();
-            setErrors(errorData.errors);
+            const errorData = await response.json();
             recordEvent({ event: 'hca-pdf-download--failure' });
+
+            const code = errorData?.errors?.[0]?.status?.[0];
+            const message =
+              code === '5'
+                ? content['alert-download-message--500']
+                : content['alert-download-message--generic'];
+            setErrorMessage(message);
             return;
           } catch {
-            throw new Error(
-              'An unexpected error occurred while generating the PDF.',
-            );
+            throw new Error();
           }
         }
         const blob = await response.blob();
@@ -86,14 +76,11 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           handlePdfDownload(blob);
           recordEvent({ event: 'hca-pdf-download--success' });
         } catch (error) {
-          throw new Error(
-            'An unexpected error occurred while generating the PDF.',
-          );
+          throw new Error();
         }
         // Handle any unexpected errors
       } catch (error) {
-        // console.log('error', error);
-        setErrors([error]);
+        setErrorMessage(content['alert-download-message--generic']);
         recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
