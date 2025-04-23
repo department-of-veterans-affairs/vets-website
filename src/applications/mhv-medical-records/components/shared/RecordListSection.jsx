@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AccessTroubleAlertBox from './AccessTroubleAlertBox';
 import NoRecordsMessage from './NoRecordsMessage';
+import TrackedSpinner from './TrackedSpinner';
 import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
 
 const RecordListSection = ({
@@ -26,7 +27,8 @@ const RecordListSection = ({
   if (initialFhirLoad && !listCurrentAsOf) {
     return (
       <div className="vads-u-margin-y--8">
-        <va-loading-indicator
+        <TrackedSpinner
+          id="initial-fhir-load-spinner"
           class="hydrated initial-fhir-load"
           message="We're loading your records for the first time. This can take up to 2 minutes."
           setFocus
@@ -43,7 +45,8 @@ const RecordListSection = ({
   }
   return (
     <div className="vads-u-margin-y--8">
-      <va-loading-indicator
+      <TrackedSpinner
+        id="loading-list-spinner"
         message="We’re loading your records. This could take up to a minute."
         setFocus
         data-testid="loading-indicator"

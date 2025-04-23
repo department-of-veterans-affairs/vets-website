@@ -55,7 +55,7 @@ describe('<ContestableIssues>', () => {
       },
       setFormData,
       testChange,
-      contestableIssues: { issues },
+      contestableIssues: { issues: loadedIssues || issues },
       apiLoadStatus,
       value: [],
     };
@@ -290,7 +290,9 @@ describe('<ContestableIssues>', () => {
 
   it('should show "no loaded issues" alert when none loaded', async () => {
     const props = getProps({ loadedIssues: [], additionalIssues: [] });
-    const { container } = render(<ContestableIssues {...props} />);
+    const { container } = render(
+      <ContestableIssues {...props} formData={{}} />,
+    );
     expect($$('va-alert', container).length).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'we couldn’t find any eligible issues',

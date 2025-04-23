@@ -2,6 +2,7 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { parse, format } from 'date-fns';
 import { genderLabels } from 'platform/static-data/labels';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { InfoSection } from '../../../shared/components/InfoSection';
 import { maskSSN } from '../../../utils/helpers/general';
 import { USER } from '../../../mocks/constants/user';
@@ -32,8 +33,12 @@ const AdditionalInfoContent = () => {
 };
 
 const UneditableData = () => {
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+
+  useFormFeatureToggleSync(['profileUseExperimental']);
+
   const name = `${USER.FIRST_NAME} ${USER.MIDDLE_NAME} ${USER.LAST_NAME}`;
-  const parsedDob = parse(USER.BIRTH_DATE, 'yyyyMMdd', new Date());
+  const parsedDob = parse(USER.BIRTH_DATE, 'yyyy-MM-dd', new Date());
   const dob = format(parsedDob, 'MMMM d, yyyy');
   const gender = genderLabels[USER.GENDER];
   const veteranSsn = USER.SSN_LAST_FOUR;

@@ -12,7 +12,7 @@ const TravelMileage = props => {
     {
       info: (
         <Trans
-          i18nKey="if-you-need-to-submit-receipts-for-other-expenses--helptext"
+          i18nKey="if-you-need-to-submit-receipts-for-other-expenses--helptext--v2"
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
           ]}

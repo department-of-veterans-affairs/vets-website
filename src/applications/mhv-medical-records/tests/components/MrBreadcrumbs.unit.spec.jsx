@@ -44,10 +44,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
 
     const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
@@ -83,10 +79,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
     window.document.querySelector = Sinon.stub().returns({
       textContent: 'test',
@@ -102,7 +94,7 @@ describe('MrBreadcrumbs component', () => {
         reducers: reducer,
       },
     );
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 
@@ -127,10 +119,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
     window.document.querySelector = Sinon.stub().returns({
       textContent: 'test',
@@ -146,29 +134,8 @@ describe('MrBreadcrumbs component', () => {
         reducers: reducer,
       },
     );
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
-  });
-
-  it('phase 1 disabled && no crumbs list && on the home page, should display the no-crumbs div', () => {
-    const initialState = {
-      mr: {
-        breadcrumbs: {
-          crumbsList: null,
-        },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: false,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-    });
-    const { getByTestId } = screen;
-    expect(getByTestId('no-crumbs-list-display')).to.exist;
   });
 
   it('checks the lab test bread crumbs', () => {
@@ -192,10 +159,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
     const screen = renderInReduxProvider(
       <MemoryRouter initialEntries={[`/labs-and-tests/123`]}>
@@ -214,6 +177,8 @@ describe('MrBreadcrumbs component', () => {
 
   it('tests the time frame in the url logic', () => {
     const initialState = {
+      // eslint-disable-next-line camelcase
+      featureToggles: { mhv_medical_records_update_landing_page: true },
       mr: {
         pageTracker: {},
         breadcrumbs: {
@@ -233,10 +198,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     window.document.querySelector = Sinon.stub().returns({
@@ -279,7 +240,7 @@ describe('MrBreadcrumbs component', () => {
       </MemoryRouter>,
     );
 
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 });

@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import reducer from './reducers';
+import findVAFormsReducer from './reducers';
 
-export { reducer as findVaFormsWidgetReducer };
+const reducer = { findVAFormsReducer };
 
-export default (store, widgetType) => {
+const createFindVaForms = (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (!root) {
@@ -23,3 +23,5 @@ export default (store, widgetType) => {
     );
   });
 };
+
+export { createFindVaForms, reducer };

@@ -10,6 +10,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { TITLE as title, PAGE_PATH } from '../constants';
 import manifest from '../manifest.json';
+import CustomTopContent from '../components/CustomTopContent';
 
 import chooseSupplies from '../pages/chooseSupplies';
 import contactInformation from '../pages/contactInformation';
@@ -23,7 +24,7 @@ import getHelp from '../components/Help';
 import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
-import prefillTransformer from './prefillTransformer';
+import prefillTransformer from '../utils/prefillTransformer';
 import transformForSubmit from '../utils/transformForSubmit';
 import submit from '../utils/submit';
 
@@ -149,11 +150,13 @@ const formConfig = {
   prefillTransformer,
   title,
   customText,
+  CustomTopContent,
+  useTopBackLink: true,
+  backLinkText: 'Back',
   defaultDefinitions: {},
   chapters,
   getHelp,
   footerContent,
-  useTopBackLink: true,
 };
 
 export default formConfig;

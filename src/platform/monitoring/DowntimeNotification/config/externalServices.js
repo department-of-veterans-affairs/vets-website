@@ -19,6 +19,10 @@ export default {
   '1010ezr': '1010ezr',
   // IVC CHAMPVA form controls
   form107959f1: 'form107959f1',
+  form107959f2: 'form107959f2',
+  form107959c: 'form107959c',
+  form107959a: 'form107959a',
+  form1010d: 'form1010d',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
@@ -33,6 +37,8 @@ export default {
   lighthouseBenefitsIntake: 'lighthouse_benefits_intake',
   // Login.gov, identity provider
   logingov: 'logingov',
+  // Lighthouse Education Benefits API
+  lighthouseBenefitsEducation: 'lighthouse_benefits_education',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
   // My HealtheVet
@@ -75,6 +81,9 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+  // MDOT/ROES/DLC
+  mdot: 'mdot',
+  // stagingMdot: 'staging_mdot', // unnecessary
 
   // Sources for VA Profile services:
   VAPRO_PROFILE_PAGE: 'vapro_profile_page',

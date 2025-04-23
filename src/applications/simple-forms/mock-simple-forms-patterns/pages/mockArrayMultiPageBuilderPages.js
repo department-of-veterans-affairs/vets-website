@@ -10,6 +10,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   textUI,
   textSchema,
+  radioSchema,
+  radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
@@ -136,11 +138,30 @@ export const employersOptionalPage = {
       'This page depends on the address state is from CA',
     ),
     weather: textUI('How is the weather today?'),
+    raining: radioUI({
+      title: 'Is it raining?',
+      hideIf: (formData, index, fullData) => {
+        return !/rain|wet/.test(fullData?.employers?.[index]?.weather);
+      },
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+      },
+    }),
+    umbrella: textUI({
+      title: 'Do you have an umbrella?',
+      expandUnder: 'raining',
+      expandUnderCondition: (value, formData, index, fullData) => {
+        return fullData?.employers?.[index]?.raining === 'Y';
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       weather: textSchema,
+      raining: radioSchema(['Y', 'N']),
+      umbrella: textSchema,
     },
   },
 };

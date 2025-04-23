@@ -11,12 +11,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 
-export function required(formData, rawIndex) {
-  const index = parseInt(rawIndex, 10);
-  if (Number.isFinite(index)) {
-    return formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild;
-  }
-  return formData?.relationshipToChild?.stepchild;
+function required() {
+  return true;
 }
 
 export const stepchild = {
@@ -24,7 +20,7 @@ export const stepchild = {
     ...titleUI({
       title: "Child's biological parents",
     }),
-    isBiologicalChild: yesNoUI({
+    isBiologicalChildOfSpouse: yesNoUI({
       title: 'Is this child the biological child of your current spouse?',
       required,
       errorMessages: {
@@ -68,7 +64,7 @@ export const stepchild = {
   schema: {
     type: 'object',
     properties: {
-      isBiologicalChild: yesNoSchema,
+      isBiologicalChildOfSpouse: yesNoSchema,
       dateEnteredHousehold: currentOrPastDateSchema,
       'view:biologicalParentInfo': {
         type: 'object',

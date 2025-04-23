@@ -71,11 +71,11 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect($('h1', container).textContent).to.eq(
-      'Get help from a VA accredited representative or VSO',
+      'Request help from a VA accredited representative or VSO',
     );
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('va-alert[status="info"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
   });
 
   it('should render start action links', () => {

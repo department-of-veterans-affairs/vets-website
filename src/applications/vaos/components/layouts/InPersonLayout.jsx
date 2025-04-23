@@ -52,18 +52,25 @@ export default function InPersonLayout({ data: appointment }) {
   const facilityId = locationId;
 
   let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled in-person appointment';
+  else if (isPastAppointment) heading = 'Past in-person appointment';
 
-  recordAppointmentDetailsNullStates({
-    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
-    [NULL_STATE_FIELD.PROVIDER]: !practitionerName,
-    [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
-    [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
-    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
-    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
-  });
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.PROVIDER]: !practitionerName,
+      [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
+      [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
+      [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+      [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
+    },
+  );
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>

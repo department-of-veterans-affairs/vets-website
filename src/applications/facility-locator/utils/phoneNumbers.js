@@ -47,6 +47,7 @@ export const parsePhoneNumber = phone => {
   }
 
   const { intl, ac, pfx, linenum, ext } = match.groups;
+
   if (!ac || !pfx || !linenum) {
     return errorObject;
   }

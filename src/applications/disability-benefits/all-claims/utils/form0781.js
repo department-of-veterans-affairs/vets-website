@@ -1,10 +1,10 @@
 // All flippers for the 0781 Papersync should be added to this file
 import _ from 'platform/utilities/data';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { isClaimingIncrease, isClaimingNew } from '.';
+import { isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
+import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 
 /**
  * Helper method to determine if a series of veteran selections match ONLY
@@ -32,11 +32,7 @@ function combatOnlySelection(formData) {
  *     - returns false
  */
 export function showForm0781Pages(formData) {
-  return (
-    formData?.syncModern0781Flow === true &&
-    isClaimingNew(formData) &&
-    !isClaimingIncrease(formData)
-  );
+  return formData?.syncModern0781Flow === true && isClaimingNew(formData);
 }
 
 export function showManualUpload0781Page(formData) {
@@ -120,6 +116,38 @@ export function showBehaviorListPage(formData) {
 }
 
 /**
+ * Checks if a specific behavior description page should display for selected behavior type. It should display if:
+ * 1. modern 0781 pages should be showing
+ * 2. the given checkbox formData has a value of true
+ *
+ * @param {object} formData - full form data
+ * @param {string} behaviorSection - selected behavior section
+ * @param {string} behaviorType - selected behavior type
+ * @returns {boolean} true if the page should display, false otherwise
+ */
+export function showBehaviorDescriptionsPage(
+  formData,
+  behaviorSection,
+  behaviorType,
+) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.[behaviorSection]?.[behaviorType] === true
+  );
+}
+
+export function showUnlistedDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.otherBehaviors?.unlisted === true
+  );
+}
+
+export function showBehaviorSummaryPage(formData) {
+  return isCompletingForm0781(formData) && hasSelectedBehaviors(formData);
+}
+
+/**
  * Dynamically generates the title for an event page in the array builder pattern.
  *
  * - If the URL contains the 'edit' param, formats the title as "Edit event #{index + 1} {editTitle}",
@@ -144,7 +172,7 @@ export function showBehaviorListPage(formData) {
  * @returns {UISchemaOptions}
  */
 export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
-  return titleUI(props => {
+  return props => {
     const search = getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const { id } = props;
@@ -159,5 +187,5 @@ export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
       );
     }
     return title;
-  });
+  };
 };

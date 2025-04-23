@@ -4,7 +4,7 @@ import {
   yesNoSchema,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { hasPrimaryCaregiver } from '../../../utils/helpers/form-config';
+import { hasPrimaryCaregiver } from '../../../utils/helpers';
 import { validateCaregivers } from '../../../utils/validation';
 import { SecondayCaregiverOneIntro } from '../../../components/FormDescriptions/SecondayCaregiverIntros';
 import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';

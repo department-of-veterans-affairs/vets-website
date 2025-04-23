@@ -7,7 +7,7 @@ export default function SSNWidget({ value }) {
         className="dd-privacy-hidden"
         data-dd-action-name="Social Security number"
       >
-        {`${value.substr(0, 3)}-${value.substr(3, 2)}-${value.substr(5)}`}
+        {`●●●-●●-${value.substr(5)}`}
       </span>
     );
   }

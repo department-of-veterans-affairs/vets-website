@@ -196,8 +196,8 @@ jobs:
           name: e2e-allow-list
           path: .
 
-      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
-        run: node script/github-actions/select-cypress-tests.js
+      - name: Select E2E Tests
+        run: node script/github-actions/select-e2e-tests.js
         env:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -205,7 +205,7 @@ jobs:
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
           TEST_TYPE: e2e
 
-      - name: Run Unit Test Selection
+      - name: Select Unit Tests
         run: node script/github-actions/select-unit-tests.js
         env:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -755,7 +755,8 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
             
-      - name: Download Tests to verify
+      - name: Download Tests to run
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
           name: e2e-tests-to-test
@@ -1371,7 +1372,7 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
-    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
@@ -1453,6 +1454,7 @@ jobs:
           merge-multiple: true
 
       - name: Create Cypress E2E Mochawesome report
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
@@ -1475,13 +1477,14 @@ jobs:
         run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload Cypress E2E test report to s3
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
         # -------------------------
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish Cypress test results
-        if: ${{ always() }}
+        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'}}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -1926,7 +1929,7 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
-      - name: Run CD Production Deploy workflow
+      - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
@@ -1934,10 +1937,9 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/dispatches \
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
-          --arg msg "${{ github.event.head_commit.message }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"     
-                
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
+                         
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-22.04

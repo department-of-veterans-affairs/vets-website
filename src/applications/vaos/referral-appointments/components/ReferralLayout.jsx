@@ -16,8 +16,12 @@ export default function ReferralLayout({
   apiFailure,
   heading,
   categoryOfCare = '',
+  loadingMessage,
+  errorBody = '',
 }) {
   const location = useLocation();
+
+  const content = apiFailure ? <ErrorAlert body={errorBody} /> : children;
 
   return (
     <>
@@ -37,17 +41,26 @@ export default function ReferralLayout({
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             {hasEyebrow && (
-              <>
-                <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
-                  New Appointment
-                </span>
-                {heading && (
-                  <h1 data-testid="referral-layout-heading">{heading}</h1>
-                )}
-              </>
+              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
+                New Appointment
+              </span>
+            )}
+            {heading && (
+              <h1 data-testid="referral-layout-heading">{heading}</h1>
             )}
             <ErrorBoundary>
-              {apiFailure ? <ErrorAlert /> : children}
+              {!!loadingMessage && (
+                <div
+                  className="vads-u-margin-y--8"
+                  data-testid="loading-container"
+                >
+                  <va-loading-indicator
+                    data-testid="loading"
+                    message={loadingMessage}
+                  />
+                </div>
+              )}
+              {!loadingMessage && content}
             </ErrorBoundary>
             <NeedHelp />
           </div>
@@ -61,6 +74,8 @@ ReferralLayout.propTypes = {
   apiFailure: PropTypes.bool,
   categoryOfCare: PropTypes.string,
   children: PropTypes.node,
+  errorBody: PropTypes.string,
   hasEyebrow: PropTypes.bool,
   heading: PropTypes.string,
+  loadingMessage: PropTypes.string,
 };

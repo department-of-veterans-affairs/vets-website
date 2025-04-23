@@ -5,6 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
+import user from './user.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -14,7 +15,7 @@ const testConfig = createTestConfig(
     dataSets: ['add-child-add-674', 'spouse-child-all-fields'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      cy.login();
+      cy.login(user);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
@@ -138,6 +139,41 @@ const testConfig = createTestConfig(
         });
       },
 
+      'report-674/add-students/0/term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/additional-remarks': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/student-marriage-date': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'add-child/0': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -179,6 +215,22 @@ const testConfig = createTestConfig(
           cy.get('#root_dateYear').type('1991');
           cy.get('#root_location_state').select('Alabama');
           cy.get('#root_location_city').type('city');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input')
+            .shadow()
+            .find('input')
+            .type('John Doe');
+
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },

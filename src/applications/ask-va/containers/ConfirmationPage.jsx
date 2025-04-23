@@ -12,7 +12,7 @@ const contactPrefrencesMap = {
 };
 
 const ConfirmationPage = ({ location }) => {
-  const inquiryNumber = location.state?.inquiryNumber || 'A-123456-7890';
+  const inquiryNumber = location.state?.inquiryNumber;
   const contactPreference =
     contactPrefrencesMap[location.state?.contactPreference || 'email'];
   const alertRef = useRef(null);
@@ -107,7 +107,7 @@ const ConfirmationPage = ({ location }) => {
   return (
     <>
       {alert}
-      {confirmationNumber}
+      {inquiryNumber && confirmationNumber}
       {contactMethod()}
       {actionLink}
     </>

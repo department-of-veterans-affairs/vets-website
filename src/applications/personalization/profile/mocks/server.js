@@ -20,6 +20,7 @@ const {
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const directDeposits = require('./endpoints/direct-deposits');
+const powerOfAttorney = require('./endpoints/power-of-attorney');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const vetVerificationStatus = require('./endpoints/vet-verification-status');
@@ -94,6 +95,8 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
+            representativeStatusEnableV2Features: true,
+            profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
@@ -106,7 +109,6 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
-            veteranOnboardingContactInfoFlow: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
           }),
@@ -189,7 +191,7 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
-    const secondsOfDelay = 2;
+    const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(directDeposits.base),
       secondsOfDelay,
@@ -212,6 +214,17 @@ const responses = {
       // () => res.status(500).json(error500),
       // () => res.status(200).json(mockDisabilityCompensations.updates.success),
       () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      // () =>
+      //   res
+      //     .status(422)
+      //     .json(directDeposits.updates.errors.paymentRestrictionsPresent),
+      secondsOfDelay,
+    );
+  },
+  'GET /representation_management/v0/power_of_attorney': (_req, res) => {
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(powerOfAttorney.organization),
       secondsOfDelay,
     );
   },

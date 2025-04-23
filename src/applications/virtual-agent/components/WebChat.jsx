@@ -30,6 +30,7 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
 import validateParameters from '../utils/validateParameters';
+import logger from '../utils/logger';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -94,6 +95,8 @@ const WebChat = ({
   const isDatadogLoggingEnabled = useToggleValue(
     TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
   );
+
+  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
 
   validateParameters({
     csrfToken,

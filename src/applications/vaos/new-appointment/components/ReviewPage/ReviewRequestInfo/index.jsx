@@ -19,6 +19,10 @@ export default function ReviewRequestInfo({
       <h1 className="vaos-review__header vaos__dynamic-font-size--h2">
         {pageTitle}
       </h1>
+      <p>
+        After you submit your request, we’ll contact you to finish scheduling
+        your appointment.
+      </p>
       <TypeOfAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       {isCommunityCare && (

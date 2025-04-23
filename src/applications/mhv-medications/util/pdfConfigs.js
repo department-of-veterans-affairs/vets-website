@@ -516,6 +516,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
   if (prescription?.groupedMedications?.length > 0) {
     VAPrescriptionPDFList.push({
       header: 'Previous prescriptions',
+      headerSize: 'H3',
       sections: [
         {
           items: [

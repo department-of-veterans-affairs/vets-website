@@ -1,7 +1,18 @@
 import React from 'react';
 
-import { PersonalInformation } from './PersonalInformation';
+import {
+  defaultConfig,
+  PersonalInformation,
+  PersonalInformationCardHeader,
+  PersonalInformationFooter,
+  PersonalInformationHeader,
+  PersonalInformationNote,
+} from './PersonalInformation';
+
 import { DefaultErrorMessage } from './DefaultErrorMessage';
+import { DefaultCardHeader } from './DefaultCardHeader';
+import { DefaultHeader } from './DefaultHeader';
+import { PersonalInformationReview } from './PersonalInformationReview';
 /**
  * @typedef {import('./PersonalInformation').PersonalInformationConfig} PersonalInformationConfig
  */
@@ -10,13 +21,21 @@ import { DefaultErrorMessage } from './DefaultErrorMessage';
  * @typedef {import('./PersonalInformation').DataAdapter} DataAdapter
  */
 
-export const defaultConfig = {
+export const defaultPageConfig = {
   key: 'personalInfoPage',
   title: 'Personal Information',
   path: 'personal-information',
-  personalInfoConfig: {},
+  personalInfoConfig: defaultConfig,
   dataAdapter: {},
   errorMessage: DefaultErrorMessage,
+  cardHeader: <DefaultCardHeader />,
+  header: <DefaultHeader />,
+  note: null,
+  footer: null,
+  contentBeforeButtons: null,
+  contentAfterButtons: null,
+  hideOnReview: true,
+  depends: () => true,
 };
 
 /**
@@ -28,13 +47,25 @@ export const defaultConfig = {
  * @property {string|Function} errorMessage - Custom error message or component for missing data
  */
 const personalInformationPage = ({
-  key = defaultConfig.key,
-  title = defaultConfig.title,
-  path = defaultConfig.path,
-  personalInfoConfig = defaultConfig.personalInfoConfig,
-  dataAdapter = defaultConfig.dataAdapter,
-  errorMessage = defaultConfig.errorMessage,
-} = defaultConfig) => {
+  key = defaultPageConfig.key,
+  title = defaultPageConfig.title,
+  path = defaultPageConfig.path,
+  personalInfoConfig = defaultPageConfig.personalInfoConfig,
+  dataAdapter = defaultPageConfig.dataAdapter,
+  errorMessage = defaultPageConfig.errorMessage,
+  cardHeader = defaultPageConfig.cardHeader,
+  header = defaultPageConfig.header,
+  note = defaultPageConfig.note,
+  footer = defaultPageConfig.footer,
+  contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
+  contentAfterButtons = defaultPageConfig.contentAfterButtons,
+  hideOnReview = defaultPageConfig.hideOnReview,
+  depends = defaultPageConfig.depends,
+} = defaultPageConfig) => {
+  const config = {
+    ...defaultPageConfig.personalInfoConfig,
+    ...personalInfoConfig,
+  };
   return {
     [key]: {
       title,
@@ -47,13 +78,38 @@ const personalInformationPage = ({
       CustomPage: props => (
         <PersonalInformation
           {...props}
-          config={personalInfoConfig}
+          config={config}
           dataAdapter={dataAdapter}
           errorMessage={errorMessage}
-        />
+          contentBeforeButtons={contentBeforeButtons}
+          contentAfterButtons={contentAfterButtons}
+        >
+          {header && (
+            <PersonalInformationHeader>{header}</PersonalInformationHeader>
+          )}
+          {cardHeader && (
+            <PersonalInformationCardHeader>
+              {cardHeader}
+            </PersonalInformationCardHeader>
+          )}
+          {note && <PersonalInformationNote>{note}</PersonalInformationNote>}
+          {footer && (
+            <PersonalInformationFooter>{footer}</PersonalInformationFooter>
+          )}
+        </PersonalInformation>
       ),
-      CustomPageReview: null,
-      hideOnReview: true,
+      CustomPageReview: hideOnReview
+        ? null
+        : props => (
+            <PersonalInformationReview
+              {...props}
+              config={personalInfoConfig}
+              dataAdapter={dataAdapter}
+              title={title}
+            />
+          ),
+      hideOnReview,
+      depends,
     },
   };
 };

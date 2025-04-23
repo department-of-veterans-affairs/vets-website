@@ -146,6 +146,7 @@ export function PreSubmitSection(props) {
     <>
       {statementOfTruth ? (
         <VaStatementOfTruth
+          heading={statementOfTruth.heading || 'Statement of truth'}
           inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
           inputValue={form?.data.statementOfTruthSignature}
           inputMessageAriaDescribedby={`${statementOfTruth.heading ||

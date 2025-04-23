@@ -6,98 +6,40 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { MemoryRouter } from 'react-router-dom';
 import NationalExamsList from '../../containers/NationalExamsList';
 import { formatNationalExamName } from '../../utils/helpers';
 
 const mockExams = [
-  {
-    enrichedId: '1@acce9',
-    name: 'AP-ADVANCED PLACEMENT EXAMS',
-  },
-  {
-    enrichedId: '2@5bf2b',
-    name: 'CLEP-COLLEGE LEVEL EXAMINATION PROGRAM',
-  },
-  {
-    enrichedId: '3@48003',
-    name: 'DANTES SPONSORED CLEP EXAMS',
-  },
-  {
-    enrichedId: '4@a359f',
-    name: 'DAT-DENTAL ADMISSION TEST',
-  },
-  {
-    enrichedId: '5@8527d',
-    name: 'GMAT-GRADUATE MGMT ADMISSION TEST',
-  },
-  {
-    enrichedId: '6@a4d71',
-    name: 'GRE-GRADUATE RECORD EXAM',
-  },
-  {
-    enrichedId: '7@5073b',
-    name: 'TOEFL',
-  },
-  {
-    enrichedId: '8@2eef3',
-    name: 'MCAT',
-  },
-  {
-    enrichedId: '9@f683b',
-    name: 'OAT-OPTOMETRY ADMISSION TEST',
-  },
-  {
-    enrichedId: '10@b4bfb',
-    name: 'SAT-SCHOLASTIC ASSESSMENT TEST',
-  },
-  {
-    enrichedId: '11@fc1dd',
-    name: 'CAS',
-  },
-  {
-    enrichedId: '12@53d2a',
-    name: 'LSAT-LAW SCHOOL ADMISSION TEST',
-  },
-  {
-    enrichedId: '13@8eca8',
-    name: 'ACT',
-  },
-  {
-    enrichedId: '14@2db24',
-    name: 'DSST-DANTES',
-  },
-  {
-    enrichedId: '15@8fd2a',
-    name: 'MAT-MILLER ANALOGIES TEST',
-  },
-  {
-    enrichedId: '16@e477d',
-    name: 'PCAT-PHARMACY COLLEGE ADMISSON TEST',
-  },
-  {
-    enrichedId: '17@8479c',
-    name: 'ECE (4 hours)',
-  },
-  {
-    enrichedId: '18@07aaf',
-    name: 'ECE (6 hours)',
-  },
-  {
-    enrichedId: '19@a36f3',
-    name: 'ECE 8 HOURS NURSING',
-  },
+  { enrichedId: '1@acce9', name: 'AP-ADVANCED PLACEMENT EXAMS' },
+  { enrichedId: '2@5bf2b', name: 'CLEP-COLLEGE LEVEL EXAMINATION PROGRAM' },
+  { enrichedId: '3@48003', name: 'DANTES SPONSORED CLEP EXAMS' },
+  { enrichedId: '4@a359f', name: 'DAT-DENTAL ADMISSION TEST' },
+  { enrichedId: '5@8527d', name: 'GMAT-GRADUATE MGMT ADMISSION TEST' },
+  { enrichedId: '6@a4d71', name: 'GRE-GRADUATE RECORD EXAM' },
+  { enrichedId: '7@5073b', name: 'TOEFL' },
+  { enrichedId: '8@2eef3', name: 'MCAT' },
+  { enrichedId: '9@f683b', name: 'OAT-OPTOMETRY ADMISSION TEST' },
+  { enrichedId: '10@b4bfb', name: 'SAT-SCHOLASTIC ASSESSMENT TEST' },
+  { enrichedId: '11@fc1dd', name: 'CAS' },
+  { enrichedId: '12@53d2a', name: 'LSAT-LAW SCHOOL ADMISSION TEST' },
+  { enrichedId: '13@8eca8', name: 'ACT' },
+  { enrichedId: '14@2db24', name: 'DSST-DANTES' },
+  { enrichedId: '15@8fd2a', name: 'MAT-MILLER ANALOGIES TEST' },
+  { enrichedId: '16@e477d', name: 'PCAT-PHARMACY COLLEGE ADMISSON TEST' },
+  { enrichedId: '17@8479c', name: 'ECE (4 hours)' },
+  { enrichedId: '18@07aaf', name: 'ECE (6 hours)' },
+  { enrichedId: '19@a36f3', name: 'ECE 8 HOURS NURSING' },
 ];
 
 const mockStore = configureStore([thunk]);
+
 describe('NationalExamsList', () => {
   let store;
   const initialState = {
-    nationalExams: {
-      nationalExams: mockExams,
-      loading: false,
-      error: null,
-    },
+    nationalExams: { nationalExams: mockExams, loading: false, error: null },
   };
+
   beforeEach(() => {
     store = mockStore(initialState);
   });
@@ -106,7 +48,7 @@ describe('NationalExamsList', () => {
     cleanup();
   });
 
-  const mountComponent = () => {
+  const mountComponent = (location = { search: '' }) => {
     store = mockStore({
       nationalExams: {
         ...initialState.nationalExams,
@@ -115,15 +57,17 @@ describe('NationalExamsList', () => {
 
     return mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
   };
 
-  it('should render National Exams when not loading', () => {
+  it('should render National exams when not loading', () => {
     const wrapper = mountComponent();
     expect(wrapper.exists()).to.be.true;
-    expect(wrapper.find('h1').text()).to.equal('National Exams');
+    expect(wrapper.find('h1').text()).to.equal('National exams');
     expect(wrapper.find('p').exists()).to.be.true;
     expect(wrapper.find(VaPagination).length).to.equal(1);
     expect(wrapper.find(VaPagination).props().page).to.equal(1);
@@ -169,7 +113,9 @@ describe('NationalExamsList', () => {
     const itemsPerPage = 10;
 
     wrapper.find('VaPagination').prop('onPageSelect')({
-      detail: { page: newPage },
+      detail: {
+        page: newPage,
+      },
     });
     wrapper.update();
     await new Promise(resolve => setTimeout(resolve, 0));
@@ -179,7 +125,7 @@ describe('NationalExamsList', () => {
     const expectedItemsFormatted = expectedItems.map(name =>
       formatNationalExamName(name),
     );
-    const displayedItems = wrapper.find('li h3').map(node => node.text());
+    const displayedItems = wrapper.find('li h2').map(node => node.text());
     expect(displayedItems).to.deep.equal(expectedItemsFormatted);
     wrapper.unmount();
   });
@@ -196,7 +142,9 @@ describe('NationalExamsList', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -211,12 +159,18 @@ describe('NationalExamsList', () => {
   });
   it('should hide the loading indicator once loading is complete', () => {
     store = mockStore({
-      nationalExams: { nationalExams: mockExams, loading: true, error: null },
+      nationalExams: {
+        nationalExams: mockExams,
+        loading: true,
+        error: null,
+      },
     });
 
     const wrapper = mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -232,7 +186,9 @@ describe('NationalExamsList', () => {
       },
     });
 
-    wrapper.setProps({ store });
+    wrapper.setProps({
+      store,
+    });
 
     // Check if loading indicator is no longer present
     expect(wrapper.find('va-loading-indicator').exists()).to.be.false;
@@ -250,7 +206,9 @@ describe('NationalExamsList', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -266,7 +224,43 @@ describe('NationalExamsList', () => {
     );
 
     // Check institution name and program type are displayed
-    expect(wrapper.find('h1').text()).to.equal('National Exams');
+    expect(wrapper.find('h1').text()).to.equal('National exams');
+
+    wrapper.unmount();
+  });
+  it('should correctly reflect the page number in URL query parameters', () => {
+    const wrapper = mountComponent({
+      search: '?page=2',
+    });
+    expect(wrapper.find(VaPagination).props().page).to.equal(2);
+    wrapper.unmount();
+  });
+  it('should navigate to the correct national exam details page when an exam link is clicked', () => {
+    const testExam = mockExams[0];
+    const expectedExamName = formatNationalExamName(testExam.name);
+    const expectedEncodedName = encodeURIComponent(expectedExamName);
+    const expectedPath = `/national-exams/${
+      testExam.enrichedId
+    }?examName=${expectedEncodedName}`;
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    const firstExamLink = wrapper
+      .find('va-card')
+      .find('va-link')
+      .at(0);
+    firstExamLink.simulate('click', { preventDefault() {} });
+    const memoryRouter = wrapper.find(MemoryRouter).instance();
+    expect(
+      memoryRouter.history.location.pathname +
+        memoryRouter.history.location.search,
+    ).to.equal(expectedPath);
 
     wrapper.unmount();
   });

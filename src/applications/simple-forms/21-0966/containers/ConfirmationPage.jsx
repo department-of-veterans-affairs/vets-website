@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { DevOnlyTestVariations } from '../components/DevOnlyTestVariations';
@@ -26,7 +27,6 @@ import {
   survivingDependentBenefits,
   submissionApis,
 } from '../definitions/constants';
-import { useNewConfirmationPage } from '../config/features';
 
 const { COMPENSATION, PENSION } = veteranBenefits;
 const { SURVIVOR } = survivingDependentBenefits;
@@ -329,140 +329,142 @@ export const ConfirmationPage = props => {
   const [submitDate, setSubmitDate] = useState(submission.timestamp);
   const { statementOfTruthSignature } = formData;
 
-  if (useNewConfirmationPage()) {
-    return (
-      <ConfirmationView
-        submitDate={submitDate}
-        confirmationNumber={confirmationNumber}
-        formConfig={route?.formConfig}
-        pdfUrl={submissionResponse?.pdfUrl}
-      >
-        <ConfirmationView.SubmissionAlert
-          title={confirmationPageAlertHeadlineV2({
-            formData,
-            submissionApi,
-            submitDate,
-          })}
-          status={confirmationPageAlertStatus(formData)}
-          content={confirmationPageAlertParagraphV2({
-            formData,
-            submissionApi,
-            expirationDate: submissionResponse?.expirationDate,
-            confirmationNumber,
-          })}
-          actions={<></>}
-        />
-        {!confirmationPageFormBypassed(formData) && (
-          <>
-            <ConfirmationView.SavePdfDownload
-              pdfUrl={submissionResponse?.pdfUrl}
-            />
-            <ConfirmationView.ChapterSectionCollection />
-            <ConfirmationView.PrintThisPage />
-            {submissionApi === submissionApis.BENEFITS_INTAKE && (
-              <ConfirmationView.WhatsNextProcessList
-                item1Header="We’ll confirm that we’ve received your form"
-                item1Content="We will contact you when we have received your submission. This can take up to 30 days."
-                item2Header="Next, we’ll review your form"
-                item2Content={
-                  <p>
-                    After we review your form, we’ll confirm next steps. Then
-                    you’ll have 1 year to file your claim.
-                  </p>
-                }
-                item1Actions={<></>}
-              />
-            )}
-          </>
-        )}
-        <NextStepsV2 formData={formData} />
-        <ConfirmationView.HowToContact />
-        <ConfirmationView.GoBackLink />
-        <ConfirmationView.NeedHelp />
-        <DevOnlyTestVariations
-          formData={formData}
-          setFormData={setFormData}
-          submissionResponse={submissionResponse}
-          setSubmissionResponse={setSubmissionResponse}
-          submitDate={submitDate}
-          setSubmitDate={setSubmitDate}
-        />
-      </ConfirmationView>
-    );
-  }
-
-  // Re-enable and incorporate if needed for certain flows
-  // const activeSurvivorITF = submission.response?.survivorIntent;
   return (
-    <>
-      <div className="print-only">
-        <img
-          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-          alt="VA logo"
-          width="300"
-        />
-      </div>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status={confirmationPageAlertStatus(formData)}
-        visible
-        uswds
-      >
-        <h2 slot="headline">{confirmationPageAlertHeadline(formData)}</h2>
-        <p className="vads-u-margin-bottom--0">
-          {confirmationPageAlertParagraph(formData)}
-        </p>
-      </va-alert>
-      {!confirmationPageFormBypassed(formData) && (
-        <div className="inset">
-          <h3 className="vads-u-margin-top--1" slot="headline">
-            Your submission information
-          </h3>
-          <dl>
-            {statementOfTruthSignature && (
-              <>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.form210966ConfirmationPage}>
+      <Toggler.Enabled>
+        <ConfirmationView
+          submitDate={submitDate}
+          confirmationNumber={confirmationNumber}
+          formConfig={route?.formConfig}
+          pdfUrl={submissionResponse?.pdfUrl}
+        >
+          <ConfirmationView.SubmissionAlert
+            title={confirmationPageAlertHeadlineV2({
+              formData,
+              submissionApi,
+              submitDate,
+            })}
+            status={confirmationPageAlertStatus(formData)}
+            content={confirmationPageAlertParagraphV2({
+              formData,
+              submissionApi,
+              expirationDate: submissionResponse?.expirationDate,
+              confirmationNumber,
+            })}
+            actions={<></>}
+          />
+          {!confirmationPageFormBypassed(formData) && (
+            <>
+              <ConfirmationView.SavePdfDownload
+                pdfUrl={submissionResponse?.pdfUrl}
+              />
+              <ConfirmationView.ChapterSectionCollection />
+              <ConfirmationView.PrintThisPage />
+              {submissionApi === submissionApis.BENEFITS_INTAKE && (
+                <ConfirmationView.WhatsNextProcessList
+                  item1Header="We’ll confirm that we’ve received your form"
+                  item1Content="We will contact you when we have received your submission. This can take up to 30 days."
+                  item2Header="Next, we’ll review your form"
+                  item2Content={
+                    <p>
+                      After we review your form, we’ll confirm next steps. Then
+                      you’ll have 1 year to file your claim.
+                    </p>
+                  }
+                  item1Actions={<></>}
+                />
+              )}
+            </>
+          )}
+          <NextStepsV2 formData={formData} />
+          <ConfirmationView.HowToContact />
+          <ConfirmationView.GoBackLink />
+          <ConfirmationView.NeedHelp />
+          <DevOnlyTestVariations
+            formData={formData}
+            setFormData={setFormData}
+            submissionResponse={submissionResponse}
+            setSubmissionResponse={setSubmissionResponse}
+            submitDate={submitDate}
+            setSubmitDate={setSubmitDate}
+          />
+        </ConfirmationView>
+      </Toggler.Enabled>
+      <Toggler.Disabled>
+        <>
+          <div className="print-only">
+            <img
+              src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+              alt="VA logo"
+              width="300"
+            />
+          </div>
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status={confirmationPageAlertStatus(formData)}
+            visible
+            uswds
+          >
+            <h2 slot="headline">{confirmationPageAlertHeadline(formData)}</h2>
+            <p className="vads-u-margin-bottom--0">
+              {confirmationPageAlertParagraph(formData)}
+            </p>
+          </va-alert>
+          {!confirmationPageFormBypassed(formData) && (
+            <div className="inset">
+              <h3 className="vads-u-margin-top--1" slot="headline">
+                Your submission information
+              </h3>
+              <dl>
+                {statementOfTruthSignature && (
+                  <>
+                    <dt>
+                      <h4>Who submitted this form</h4>
+                    </dt>
+                    <dd>{statementOfTruthSignature}</dd>
+                  </>
+                )}
+                {confirmationNumber && (
+                  <>
+                    <dt>
+                      <h4>Confirmation number</h4>
+                    </dt>
+                    <dd>{confirmationNumber}</dd>
+                  </>
+                )}
+                {isValid(submitDate) && (
+                  <>
+                    <dt>
+                      <h4>Date submitted</h4>
+                    </dt>
+                    <dd>{format(submitDate, 'MMMM d, yyyy')}</dd>
+                  </>
+                )}
                 <dt>
-                  <h4>Who submitted this form</h4>
+                  <h4>Confirmation for your records</h4>
                 </dt>
-                <dd>{statementOfTruthSignature}</dd>
-              </>
-            )}
-            {confirmationNumber && (
-              <>
-                <dt>
-                  <h4>Confirmation number</h4>
-                </dt>
-                <dd>{confirmationNumber}</dd>
-              </>
-            )}
-            {isValid(submitDate) && (
-              <>
-                <dt>
-                  <h4>Date submitted</h4>
-                </dt>
-                <dd>{format(submitDate, 'MMMM d, yyyy')}</dd>
-              </>
-            )}
-            <dt>
-              <h4>Confirmation for your records</h4>
-            </dt>
-            <dd>You can print this confirmation page for your records</dd>
-          </dl>
-          <va-button onClick={window.print} text="Print this page" />
-        </div>
-      )}
-      <AlreadySubmittedHeader formData={formData} />
-      <NextSteps formData={formData} />
-      <ActionLinksToCompleteClaims formData={formData} />
-      {!confirmationPageFormBypassed(formData) && (
-        <a className="vads-c-action-link--green vads-u-margin-y--2" href="/">
-          Go back to VA.gov
-        </a>
-      )}
-      <div>
-        <FormFooter formConfig={{ getHelp: GetFormHelp }} />
-      </div>
-    </>
+                <dd>You can print this confirmation page for your records</dd>
+              </dl>
+              <va-button onClick={window.print} text="Print this page" />
+            </div>
+          )}
+          <AlreadySubmittedHeader formData={formData} />
+          <NextSteps formData={formData} />
+          <ActionLinksToCompleteClaims formData={formData} />
+          {!confirmationPageFormBypassed(formData) && (
+            <a
+              className="vads-c-action-link--green vads-u-margin-y--2"
+              href="/"
+            >
+              Go back to VA.gov
+            </a>
+          )}
+          <div>
+            <FormFooter formConfig={{ getHelp: GetFormHelp }} />
+          </div>
+        </>
+      </Toggler.Disabled>
+    </Toggler>
   );
 };
 

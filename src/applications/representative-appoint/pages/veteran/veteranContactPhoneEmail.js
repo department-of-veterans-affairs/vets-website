@@ -10,7 +10,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import ProfileNotUpdatedNote from '../../components/ProfileNotUpdatedNote';
-// import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(() => 'Your phone number and email address'),
@@ -20,7 +19,11 @@ export const uiSchema = {
   primaryPhone: phoneUI({
     required: true,
   }),
-  veteranEmail: emailUI(),
+  veteranEmail: emailUI({
+    required: formData =>
+      formData?.['view:isUserLOA3'] &&
+      formData.representativeSubmissionMethod === 'digital',
+  }),
 };
 
 export const schema = {

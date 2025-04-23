@@ -1,10 +1,12 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { verify } from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 
 export const verifyHandler = ({ policy, queryParams, useOAuth }) => {
   verify({
@@ -25,12 +27,15 @@ export const verifyHandler = ({ policy, queryParams, useOAuth }) => {
  */
 export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
+  const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
 
   return (
     <button
       type="button"
       className="usa-button idme-verify-button"
-      onClick={() => verifyHandler({ policy, useOAuth, queryParams })}
+      onClick={() =>
+        verifyHandler({ policy, useOAuth: forceOAuth, queryParams })
+      }
     >
       <span>
         <svg viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,18 +60,17 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
  *
  * @returns The updated design of the Login.gov identity-verification buttion
  */
-export const VerifyLogingovButton = ({
-  onClick = verifyHandler,
-  queryParams,
-  useOAuth = false,
-}) => {
+export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
+  const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
-      onClick={() => onClick({ policy, queryParams, useOAuth })}
+      onClick={() =>
+        verifyHandler({ policy, queryParams, useOAuth: forceOAuth })
+      }
     >
       <div>Verify with {image}</div>
     </button>

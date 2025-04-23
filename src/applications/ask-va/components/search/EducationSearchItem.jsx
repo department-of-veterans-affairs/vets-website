@@ -36,11 +36,9 @@ const EducationSearchItem = ({
     numberOfPages > 5 ? 5 : Math.round(numberOfPages);
 
   const currentPage = url => {
-    const splitURL = url?.split('page')[1];
-    if (splitURL) {
-      return parseInt(splitURL.split('')[1], 10);
-    }
-    return 1;
+    if (!url) return 1;
+    const match = url.match(/page=(\d+)/);
+    return match ? parseInt(match[1], 10) : 1;
   };
 
   if (dataError.hasError) {

@@ -1,4 +1,4 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -12,51 +12,232 @@ describe('<ProgressBar />', () => {
 
   beforeEach(() => {
     store = mockStore({
-      askVA: {
-        categoryID: 'testCategory',
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Audiology and hearing aids',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8069009',
+          whoIsYourQuestionAbout: "It's a general question",
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
       },
     });
   });
 
   afterEach(cleanup);
 
-  // TODO: Fix these tests. They all pass on local but fail in CI check.
-  xit('should render without crashing', () => {
+  it('should render without crashing', async () => {
     const { getByText } = render(
       <Provider store={store}>
-        <ProgressBar pathname="/category-topic-1" categoryID="testCategory" />
+        <ProgressBar pathname="/category-topic-1" />
       </Provider>,
     );
 
-    expect(getByText(/complete with form/)).to.exist;
+    await waitFor(() => {
+      expect(getByText(/0% complete with form/)).to.exist;
+    });
   });
 
-  xit('should show progress bar for constant path', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
-      </Provider>,
-    );
-
-    const progressBar = container.querySelector('.ava-progress-bar');
-    expect(progressBar).to.exist;
-  });
-
-  xit('should update progress percent based on pathname', () => {
+  it('should show progress bar for constant path', async () => {
     const { getByText, rerender } = render(
       <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
+        <ProgressBar pathname="/your-question" />
       </Provider>,
     );
 
-    expect(getByText('90% complete with form')).to.exist;
+    await waitFor(() => {
+      expect(getByText('90% complete with form')).to.exist;
+    });
 
     rerender(
       <Provider store={store}>
-        <ProgressBar pathname="/review-then-submit" categoryID="testCategory" />
+        <ProgressBar pathname="/your-question" />
       </Provider>,
     );
 
-    expect(getByText('98% complete with form')).to.exist;
+    await waitFor(() => {
+      expect(getByText('90% complete with form')).to.exist;
+    });
+  });
+
+  it('should show progress bar for flow path', async () => {
+    const { getByText, rerender } = render(
+      <Provider store={store}>
+        <ProgressBar pathname="/about-myself-relationship-veteran-1" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('3% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/about-myself-relationship-veteran-1" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('3% complete with form')).to.exist;
+    });
+  });
+
+  it('should update progress percent based on pathname', async () => {
+    const { getByText, rerender } = render(
+      <Provider store={store}>
+        <ProgressBar pathname="/category-topic-2" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('5% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/who-is-your-question-about" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('10% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/your-question" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('90% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/review-then-submit" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('98% complete with form')).to.exist;
+    });
+
+    // start going back
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/review-then-submit" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('98% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/your-question" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('90% complete with form')).to.exist;
+    });
+
+    const updatedStore = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Audiology and hearing aids',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8069009',
+          whoIsYourQuestionAbout: 'Myself',
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
+      },
+    });
+
+    rerender(
+      <Provider store={updatedStore}>
+        <ProgressBar pathname="/who-is-your-question-about" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('10% complete with form')).to.exist;
+    });
+
+    const updatedStoreAgain = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Billing and co-pays',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8055555',
+          whoIsYourQuestionAbout: undefined,
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
+      },
+    });
+
+    rerender(
+      <Provider store={updatedStoreAgain}>
+        <ProgressBar pathname="/category-topic-2" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('5% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/review-then-submit" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('98% complete with form')).to.exist;
+    });
   });
 });

@@ -39,50 +39,28 @@ class App extends Component {
       datadogRum.startSessionReplayRecording();
     }
 
-    const {
-      location,
-      children,
-      isError,
-      pending,
-      isLoggedIn,
-      featureToggles,
-    } = this.props;
-    const showMainContent = !pending && !isError && !featureToggles.loading;
-    const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-      ? 'hearing aid or CPAP supplies'
-      : 'hearing aid batteries and accessories';
+    const { location, children, isError, pending, isLoggedIn } = this.props;
+    const showMainContent = !pending && !isError;
 
-    // Update form config on the fly based on feature toggle.
-    formConfig.title = `Order ${supplyDescription}`;
-    formConfig.saveInProgress.messages.inProgress = `You have a ${supplyDescription} order s in progress.`;
-    formConfig.saveInProgress.messages = {
-      inProgress: `You have a ${supplyDescription}} order in progress.`,
-      expired: `Your saved ${supplyDescription} order has expired. If you want to order ${supplyDescription}, please start a new order.`,
-      saved: `Your ${supplyDescription} order has been saved.`,
-    };
-
-    const breadcrumbs = [
+    const breadcrumbLinks = [
       { href: '/', label: 'Home' },
       { href: '/health-care', label: 'VA health care' },
       {
         href: '/health-care/order-hearing-aid-or-cpap-supplies-form',
-        label: `Order ${supplyDescription}`,
+        label: `Order hearing aid or CPAP supplies`,
       },
     ];
-    const bcString = JSON.stringify(breadcrumbs);
 
     return (
       <>
-        {!featureToggles.loading && (
-          <div className="row">
-            <div className="usa-width-two-thirds medium-8 columns print-full-width">
-              <VaBreadcrumbs
-                breadcrumb-list={bcString}
-                class="va-nav-breadcrumbs vads-u-padding--0"
-              />
-            </div>
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns print-full-width">
+            <VaBreadcrumbs
+              breadcrumb-list={breadcrumbLinks}
+              class="va-nav-breadcrumbs vads-u-padding--0"
+            />
           </div>
-        )}
+        </div>
         {pending && (
           <va-loading-indicator>
             Loading your information...
@@ -109,7 +87,6 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.mdot.isError,
   pending: state.mdot.pending,
-  featureToggles: state.featureToggles,
 });
 
 const mapDispatchToProps = dispatch => ({

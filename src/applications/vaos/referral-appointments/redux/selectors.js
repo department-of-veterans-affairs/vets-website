@@ -15,8 +15,9 @@ export function getAppointmentCreateStatus(state) {
 export function getReferralAppointmentInfo(state) {
   return {
     referralAppointmentInfo: state.referral.referralAppointmentInfo,
-    appointmentInfoLoading: state.referral.appointmentLoading,
-    appointmentInfoError: state.referral.appointmentError,
+    appointmentInfoLoading: state.referral.appointmentInfoLoading,
+    appointmentInfoError: state.referral.appointmentInfoError,
+    appointmentInfoTimeout: state.referral.appointmentInfoTimeout,
   };
 }
 
@@ -31,13 +32,5 @@ export function getReferrals(state) {
   return {
     referrals: state.referral.referrals,
     referralsFetchStatus: state.referral.referralsFetchStatus,
-  };
-}
-
-export function getReferral(state, id) {
-  const referral = state.referral.referralDetails.find(ref => ref.UUID === id);
-  return {
-    referral,
-    referralFetchStatus: state.referral.referralFetchStatus,
   };
 }

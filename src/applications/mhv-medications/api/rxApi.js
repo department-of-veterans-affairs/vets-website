@@ -2,11 +2,26 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
+import {
+  INCLUDE_IMAGE_ENDPOINT,
+  filterOptions,
+  rxListSortingOptions,
+  tooltipNames,
+} from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 const headers = {
   'Content-Type': 'application/json',
+};
+
+/**
+ * Helper function to create headers with x-key-inflection
+ */
+const getHeadersWithInflection = () => {
+  return {
+    ...headers,
+    'X-Key-Inflection': 'camel', // Add the custom header key for tooltips
+  };
 };
 
 /**
@@ -97,6 +112,18 @@ export const getFilteredList = (
   );
 };
 
+/**
+ * get full list of recently requested medications to identify those running late
+ */
+export const getRecentlyRequestedList = () => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions?${filterOptions.RECENTLY_REQUESTED.url}${
+      rxListSortingOptions.alphabeticalOrder.API_ENDPOINT
+    }`,
+    { headers },
+  );
+};
+
 export const getRefillablePrescriptionList = () => {
   return apiRequest(
     `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
@@ -142,4 +169,59 @@ export const fillRxs = ids => {
     headers,
   };
   return apiRequest(url, requestOptions);
+};
+
+/**
+ * Gets all tooltips
+ */
+export const getTooltipsList = async () => {
+  return apiRequest(`${apiBasePath}/tooltips`, {
+    headers: getHeadersWithInflection(),
+  });
+};
+
+/**
+ * Updates hidden value of tooltip
+ */
+export const apiHideTooltip = async tooltipId => {
+  return apiRequest(`${apiBasePath}/tooltips/${tooltipId}`, {
+    method: 'PATCH',
+    headers: getHeadersWithInflection(),
+    body: JSON.stringify({
+      tooltip: {
+        hidden: true,
+      },
+    }),
+  });
+};
+
+/**
+ * Creates a new tooltip
+ */
+export const createTooltip = async () => {
+  return apiRequest(`${apiBasePath}/tooltips`, {
+    method: 'POST',
+    headers: getHeadersWithInflection(),
+    body: JSON.stringify({
+      tooltip: {
+        tooltipName: tooltipNames.mhvMedicationsTooltipFilterAccordion,
+        hidden: false,
+      },
+    }),
+  });
+};
+
+/**
+ * Call to increment the tooltip counter.
+ * Note if session is not unique the counter will not be incremented.
+ * This logic is handled by the api.
+ */
+export const incrementTooltipCounter = async tooltipId => {
+  return apiRequest(
+    `${apiBasePath}/tooltips/${tooltipId}?increment_counter=true`,
+    {
+      method: 'PATCH',
+      headers: getHeadersWithInflection(),
+    },
+  );
 };

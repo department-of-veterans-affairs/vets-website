@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useNavigation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -20,7 +20,6 @@ function App() {
   const shouldExitApp = isProduction && !isAppEnabled;
 
   const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
-  const navigation = useNavigation();
 
   if (isAppToggleLoading) {
     return (
@@ -38,11 +37,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      {navigation.state === 'loading' ? (
-        <VaLoadingIndicator message="Loading..." />
-      ) : (
-        <Outlet />
-      )}
+      <Outlet />
       <Footer />
     </div>
   );

@@ -50,12 +50,19 @@ export default function ReferralsAndRequests() {
   }
 
   return (
-    <ReferralLayout hasEyebrow heading="Referrals and requests">
+    <ReferralLayout heading="Referrals and requests">
       <p>Find your requested appointments and community care referrals.</p>
       <h2 data-testid="referrals-heading">Community care referrals</h2>
       <p data-testid="referrals-text">
-        Your care team approved these community care referrals. You can schedule
-        appointments with these providers now.
+        Your care team approved these referrals. Only referrals that you can
+        schedule online are shown here, so you may not find all your referrals
+        listed.
+      </p>
+      <p>
+        <va-link
+          href="https://www.va.gov/resources/how-to-get-community-care-referrals-and-schedule-appointments/"
+          text="Find out more about community care referrals"
+        />
       </p>
       <ReferralList referrals={referrals} referralsError={referralsError} />
       <h2>Active requests</h2>

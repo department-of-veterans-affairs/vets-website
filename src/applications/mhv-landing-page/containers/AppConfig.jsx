@@ -5,7 +5,14 @@ import {
   setDatadogRumUser,
   useDatadogRum,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { selectProfile } from '../selectors';
+import {
+  selectProfile,
+  profileHasEHRM,
+  profileHasVista,
+  selectProfileLoa,
+  selectProfileLogInProvider,
+  selectVaPatient,
+} from '../selectors';
 
 const AppConfig = ({
   children,
@@ -32,7 +39,15 @@ const AppConfig = ({
     () => {
       const id = profile?.accountUuid;
       if (id) {
-        setDatadogRumUserFn({ id });
+        const user = {
+          id,
+          hasEHRM: profileHasEHRM({ profile }),
+          hasVista: profileHasVista({ profile }),
+          CSP: selectProfileLogInProvider({ profile }),
+          LOA: selectProfileLoa({ profile }),
+          isVAPatient: selectVaPatient({ profile }),
+        };
+        setDatadogRumUserFn(user);
       }
     },
     [profile, setDatadogRumUserFn],

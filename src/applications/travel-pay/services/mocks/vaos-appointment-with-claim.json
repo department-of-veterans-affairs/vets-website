@@ -52,20 +52,6 @@
       "serviceName": "FTC C&P AUDIO BEV",
       "physicalLocation": "FORT COLLINS AUDIO",
       "friendlyName": "C&P BEV AUDIO FTC",
-      "practitioners": [
-        {
-          "identifier": [
-            {
-              "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
-              "value": null
-            }
-          ],
-          "name": {
-            "family": "BERNARDO",
-            "given": ["KENNETH J"]
-          }
-        }
-      ],
       "location": {
         "id": "983GC",
         "type": "appointments",
@@ -109,7 +95,7 @@
         "claim": {
           "id": "16cbc3d0-56de-4d86-abf3-ed0f6908ee53",
           "claimNumber": "5b550fe7-6985-4a69-953a-472d5cf85921",
-          "claimStatus": "In Process",
+          "claimStatus": "In process",
           "appointmentDateTime": "2023-02-23T22:22:52.549Z",
           "facilityName": "Tomah VA Medical Center",
           "createdOn": "2023-02-24T22:22:52.549Z",

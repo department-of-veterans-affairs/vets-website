@@ -12,13 +12,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    // Intercept feature toggles once for all tests
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'isUpdatedGi', value: true }],
-      },
-    }).as('featureToggles');
   });
 
   describe('National Exams List Page', () => {
@@ -31,7 +24,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
       cy.visit('/education/gi-bill-comparison-tool/national-exams');
       cy.wait('@nationalExamsList');
-      cy.wait('@featureToggles');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -40,7 +32,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('[data-testid="national-exams-header"]')
         .should('exist')
         .and('be.visible')
-        .and('have.text', 'National Exams');
+        .and('have.text', 'National exams');
       cy.get('[data-testid="national-exams-description"]')
         .should('exist')
         .and('be.visible')
@@ -65,12 +57,12 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
     it('paginates correctly when there are more than 10 exams', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('#results-summary').should('contain', 'Showing 1-10');
+      cy.get('#results-summary').should('contain', 'Showing 1 - 10');
       cy.get('[data-testid="currentPage"]')
         .shadow()
         .find('[aria-label="Next page"]')
         .click();
-      cy.get('#results-summary').should('contain', 'Showing 11-19');
+      cy.get('#results-summary').should('contain', 'Showing 11 - 19');
     });
 
     it('displays an error message when national exams fetch fails', () => {
@@ -139,7 +131,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('h1.vads-u-margin-bottom--3')
         .should('be.visible')
         .and('contain.text', 'AP-advanced placement exams');
-      cy.get('h3.vads-u-margin-bottom--2')
+      cy.get('h2.vads-u-margin-bottom--2')
         .should('be.visible')
         .and('contain.text', 'Admin Info');
       cy.get('.provider-info-container')
@@ -196,7 +188,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       }).as('examDetailsSingle');
       cy.visit('/education/gi-bill-comparison-tool/national-exams/1@acce9');
       cy.wait('@examDetailsSingle');
-      cy.wait('@featureToggles');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -208,9 +199,9 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       cy.get('.exam-single-test')
         .should('exist')
         .within(() => {
-          cy.get('h3').should('contain.text', 'Test Info');
+          cy.get('h2').should('contain.text', 'Test Info');
           cy.get('p').should('contain.text', 'Showing 1 of 1 test');
-          cy.contains('Fee Description:').should('be.visible');
+          cy.contains('Maximum reimbursement:').should('be.visible');
           cy.contains('AP Exam Fee International').should('be.visible');
         });
     });

@@ -34,19 +34,31 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateFeatureToggles = (name, value) => {
+  // param [ArrayOfObjects{name: string, value: any}]
+  // returns {Object} - the updated mock toggles object.
+  updateFeatureToggles = toggles => {
     return {
       ...mockToggles,
       data: {
         ...mockToggles.data,
-        features: [
-          ...mockToggles.data.features,
-          {
-            name,
-            value,
-          },
-        ],
+        features: [...mockToggles.data.features, ...toggles],
       },
+    };
+  };
+
+  updateTGSuggestedName = (response, name) => {
+    return {
+      ...response,
+      data: [
+        {
+          ...response.data[0],
+          attributes: {
+            ...response.data[0].attributes,
+            suggestedNameDisplay: name,
+          },
+        },
+        ...response.data.slice(1),
+      ],
     };
   };
 
@@ -111,6 +123,16 @@ class GeneralFunctionsPage {
       startMonth,
       endMonth,
     };
+  };
+
+  verifyLastBreadCrumb = value => {
+    cy.get(`.usa-breadcrumb__link`)
+      .last()
+      .should(`have.text`, value);
+  };
+
+  verifyPageTitle = value => {
+    cy.title().should(`contain`, value);
   };
 }
 

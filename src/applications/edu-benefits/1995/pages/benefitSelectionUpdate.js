@@ -58,6 +58,7 @@ export const uiSchema = {
         rudisillReview: {
           ...radioUI({
             title: 'Do you wish to request a Rudisill review?',
+            required: () => true,
           }),
         },
       }
@@ -82,7 +83,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['benefitUpdate'],
+  required: showRudisill1995()
+    ? ['benefitUpdate', 'rudisillReview']
+    : ['benefitUpdate'],
   properties: {
     benefitUpdate: displayBenefit,
     ...(!showRudisill1995()

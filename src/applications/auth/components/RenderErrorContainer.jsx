@@ -20,7 +20,7 @@ export default function RenderErrorContainer({
   }
 
   switch (code) {
-    // User denied Authorization (ID Proofing)
+    // 001 - User denied Authorization (ID Proofing)
     case AUTH_ERRORS.USER_DENIED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -43,7 +43,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // User's system time mismatch
+    // 002 - User's system time mismatch
     case AUTH_ERRORS.USER_CLOCK_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -64,8 +64,8 @@ export default function RenderErrorContainer({
       break;
 
     // Server time mismatch
-    case AUTH_ERRORS.SERVER_CLOCK_MISMATCH.errorCode:
-    case AUTH_ERRORS.MVI_MISMATCH.errorCode:
+    case AUTH_ERRORS.SERVER_CLOCK_MISMATCH.errorCode: // 003 - Server timing mismatch
+    case AUTH_ERRORS.MVI_MISMATCH.errorCode: // 004 - MVI mismatch
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
@@ -84,7 +84,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Session expired
+    // 005 - Session expired
     case AUTH_ERRORS.SESSION_EXPIRED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -102,7 +102,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Failure to Proof (Login.gov)
+    // 009 - Failure to Proof (Login.gov)
     case AUTH_ERRORS.LOGINGOV_PROOFING_FAIL.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -140,7 +140,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Multiple MHV IDs (IENs) error
+    // 101 - Multiple MHV IDs (IENs) error
     case AUTH_ERRORS.MULTIPLE_MHVIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -195,7 +195,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Multiple EDIPIs
+    // 102 - Multiple EDIPIs
     case AUTH_ERRORS.MULTIPLE_EDIPIS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -211,7 +211,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // ICN Mismatch
+    // 103 - ICN Mismatch
     case AUTH_ERRORS.ICN_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -228,7 +228,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // UUID Missing (Login.gov or ID.me)
+    // 104 - UUID Missing (Login.gov or ID.me)
     case AUTH_ERRORS.UUID_MISSING.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -244,7 +244,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Multiple Corp IDs
+    // 106 - Multiple Corp IDs
     case AUTH_ERRORS.MULTIPLE_CORPIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -260,6 +260,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 108 - MHV Verification issue
     case AUTH_ERRORS.MHV_VERIFICATION_ERROR.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -388,6 +389,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 112 - MHV Provisioning Failure (ToU-specific)
     case AUTH_ERRORS.MHV_PROVISIONING_FAILURE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -403,6 +405,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 110 - Cerner/Oracle Health provisioning failure (ToU-specific)
     case AUTH_ERRORS.CERNER_PROVISIONING_FAILURE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -417,6 +420,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 111 - Ineligible for Cerner (ToU-specific)
     case AUTH_ERRORS.CERNER_NOT_ELIGIBLE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -441,6 +445,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 202 - OAuth State mismatch (SiS-specific)
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -457,6 +462,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 203 - OAuth invalid request (SiS-specific)
     case AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -490,7 +496,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Catch all generic error
+    // 007 - Catch all generic error
     default:
       alertContent = (
         <p className="vads-u-margin-top--0">

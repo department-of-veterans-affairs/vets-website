@@ -77,9 +77,14 @@ describe('CustomTopContent', () => {
 
     const breadcrumbs = $('va-breadcrumbs', container);
     expect(breadcrumbs).to.exist;
+    // TODO: Swap this commented bit back in when the static page works.
+    // expect(breadcrumbs).to.have.attr(
+    //   'breadcrumb-list',
+    //   '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload","label":"Upload VA forms"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
+    // );
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload","label":"Upload VA forms"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
+      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
     );
   });
 });

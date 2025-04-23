@@ -130,10 +130,8 @@ const DependentAges = ({
           }),
         );
         goToPath('/review-and-submit');
-      } else if (formData['view:streamlinedWaiver']) {
-        goForward(formData);
       } else {
-        goToPath('/monetary-asset-checklist');
+        goForward(formData);
       }
     }
   };

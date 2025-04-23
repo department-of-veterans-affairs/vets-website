@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   addressUI,
   addressSchema,
@@ -17,6 +18,10 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -35,6 +40,10 @@ export const applicantNameDobSchema = {
     ),
     applicantName: fullNameMiddleInitialUI,
     applicantDOB: dateOfBirthUI(),
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'applicantName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -63,11 +72,12 @@ export const applicantMemberNumberSchema = {
           },
           'ui:options': {
             uswds: true,
-            hint: `This number is usually the same as ${
-              formData?.certifierRole === 'applicant'
-                ? 'your'
-                : 'the beneficiary’s'
-            } Social Security number.`,
+            hint: `This number is usually the same as ${nameWording(
+              formData,
+              true,
+              false,
+              true,
+            )} Social Security number.`,
           },
         };
       },
@@ -95,16 +105,20 @@ export const applicantAddressSchema = {
         `${nameWording(formData, true, true, true)} mailing address`,
       'We’ll send any important information about this form to this address.',
     ),
-    applicantAddress: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox:
-            'Address is on a United States military base outside of the U.S.',
+    applicantAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
         },
-      }),
-    },
+      },
+      labels: {
+        militaryCheckbox:
+          'Address is on a United States military base outside of the U.S.',
+      },
+    }),
     applicantNewAddress: {
       ...radioUI({
+        type: 'radio',
         updateUiSchema: formData => {
           const labels = {
             yes: 'Yes',
@@ -129,6 +143,10 @@ export const applicantAddressSchema = {
         },
       }),
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'applicantAddress'),
+    ],
   },
   schema: {
     type: 'object',

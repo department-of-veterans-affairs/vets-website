@@ -3,10 +3,14 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import {
+  ConfirmationPage,
+  setClaimIdInLocalStage,
+  getClaimIdFromLocalStage,
+} from '../../containers/ConfirmationPage';
 
 const storeBase = {
   form: {
@@ -34,7 +38,16 @@ describe('<ConfirmationPage>', () => {
   });
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
-
+  it('should set claim id in local stage', () => {
+    const submission = {
+      response: {
+        id: 1,
+      },
+    };
+    setClaimIdInLocalStage(submission);
+    const result = getClaimIdFromLocalStage();
+    expect(result).to.equal(submission.response.id);
+  });
   it('should render with data', () => {
     const router = {
       push: () => {},

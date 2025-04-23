@@ -1,8 +1,5 @@
-import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
-  textUI,
-  textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -55,20 +52,12 @@ export const veteranMarriageHistoryOptions = {
       !item?.endLocation?.location?.country),
   maxItems: 20,
   text: {
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    summaryTitle: 'Review your marital history',
+    getItemName: () => 'Your former marriage',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
-    cardDescription: item => {
-      const start = item?.startDate
-        ? format(parseISO(item.startDate), 'MM/dd/yyyy')
-        : 'Unknown';
-      const end = item?.endDate
-        ? format(parseISO(item.endDate), 'MM/dd/yyyy')
-        : 'Unknown';
-
-      return `${start} - ${end}`;
-    },
   },
 };
 
@@ -79,6 +68,8 @@ export const veteranMarriageHistorySummaryPage = {
       veteranMarriageHistoryOptions,
       {
         title: 'Do you have any former marriages to add?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -128,25 +119,28 @@ export const vetFormerMarriageEndReasonPage = {
     reasonMarriageEnded: {
       ...radioUI({
         title: 'How did your marriage end?',
-        required: () => true,
         labels: veteranFormerMarriageLabels,
       }),
     },
-    reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how your marriage ended'),
-      'ui:required': (formData, index) => {
-        // See above comment
-        const isEditMode = formData?.reasonMarriageEnded === 'Other';
-        const isAddMode =
-          formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
-          'Other';
-
-        return isEditMode || isAddMode;
-      },
+    otherReasonMarriageEnded: {
+      'ui:title': 'Briefly describe how your marriage ended',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
-        keepInPageOnReview: true,
+        expandedContentFocus: true,
+        preserveHiddenData: true,
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonMarriageEnded'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
+        };
       },
     },
   },
@@ -154,8 +148,11 @@ export const vetFormerMarriageEndReasonPage = {
     type: 'object',
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: textSchema,
+      otherReasonMarriageEnded: {
+        type: 'string',
+      },
     },
+    required: ['reasonMarriageEnded'],
   },
 };
 
@@ -223,7 +220,7 @@ export const vetFormerMarriageStartLocationPage = {
         labelHeaderLevel: '4',
       },
       outsideUsa: {
-        'ui:title': 'They got married outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {
@@ -232,7 +229,7 @@ export const vetFormerMarriageStartLocationPage = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where you were previously married',
           },
           'ui:webComponentField': VaTextInputField,
         },

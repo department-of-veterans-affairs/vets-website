@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
-import AppointmentDetails from '../../AppointmentDetails';
 import { selectAppointment } from '../../../redux/selectors';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+import { AppointmentInfoText } from '../../AppointmentDetails';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import { recordSmocPageview } from '../../../util/events-helpers';
+
+const title = 'File a travel reimbursement claim';
 
 const IntroductionPage = ({ onStart }) => {
+  useEffect(() => {
+    recordSmocPageview('intro');
+  }, []);
+
+  useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
 
   return (
     <div>
-      <h1 tabIndex="-1">File a travel reimbursement claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       {isLoading && (
         <va-loading-indicator
           label="Loading"
@@ -21,8 +30,7 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && <AppointmentDetails appointment={data} />}
-
+      {data && <AppointmentInfoText appointment={data} />}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -33,7 +41,8 @@ const IntroductionPage = ({ onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/#eligibility-for-general-health"
+            external
+            href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
         </va-process-list-item>
@@ -42,14 +51,15 @@ const IntroductionPage = ({ onStart }) => {
             If you’re only claiming mileage, you can file online right now.
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
-          {!error && (
-            <va-link-action
-              onClick={e => onStart(e)}
-              href="javascript0:void"
-              text="File a mileage only claim"
-            />
-          )}
-
+          {data &&
+            !data.isOutOfBounds &&
+            data.isPast && (
+              <va-link-action
+                onClick={e => onStart(e)}
+                href="javascript0:void"
+                text="File a mileage-only claim"
+              />
+            )}
           <p>
             If you’re claiming other expenses, like lodging, meals, or tolls,
             you will need receipts for these expenses. You can file online
@@ -57,7 +67,8 @@ const IntroductionPage = ({ onStart }) => {
             or in person.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+            external
+            href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />
         </va-process-list-item>
@@ -72,7 +83,7 @@ const IntroductionPage = ({ onStart }) => {
         </p>
         <va-link
           external
-          href="https://www.cep.fsc.va.gov/"
+          href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
           text="Set up direct deposit"
         />
       </va-alert>
@@ -86,12 +97,6 @@ const IntroductionPage = ({ onStart }) => {
           exp-date="11/30/2027"
         />
       </div>
-
-      <va-need-help>
-        <div slot="content">
-          <HelpTextManage />
-        </div>
-      </va-need-help>
     </div>
   );
 };

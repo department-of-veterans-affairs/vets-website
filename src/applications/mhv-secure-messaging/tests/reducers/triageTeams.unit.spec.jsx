@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import { getTriageTeams } from '../../actions/triageTeams';
 import { triageTeamsReducer } from '../../reducers/triageTeams';
-import triageTeamsResponse from '../e2e/fixtures/recipients-response.json';
+import triageTeamsResponse from '../e2e/fixtures/recipientsResponse/recipients-response.json';
 
 describe('triageTeam reducers', () => {
   const mockStore = (initialState = {}) => {

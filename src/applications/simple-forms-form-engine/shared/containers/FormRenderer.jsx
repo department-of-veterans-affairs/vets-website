@@ -10,8 +10,9 @@ import {
   fetchAndBuildFormConfig,
 } from '../actions/form-load';
 import { getReducerFromFormConfig } from '../reducers/form-render';
+import { wrapWithBreadcrumb } from '../utils/breadcrumbs';
 
-const FormRenderer = ({ formId, rootUrl, trackingPrefix }) => {
+const FormRenderer = ({ formId, rootUrl, trackingPrefix, breadcrumbs }) => {
   const dispatch = useDispatch();
   const store = useStore();
   const [routes, setRoutes] = useState(null);
@@ -52,7 +53,7 @@ const FormRenderer = ({ formId, rootUrl, trackingPrefix }) => {
   }
 
   if (routes) {
-    return (
+    return wrapWithBreadcrumb(
       <Router
         history={history}
         createElement={(Element, elementProps) => (
@@ -60,7 +61,8 @@ const FormRenderer = ({ formId, rootUrl, trackingPrefix }) => {
         )}
       >
         {routes}
-      </Router>
+      </Router>,
+      breadcrumbs,
     );
   }
 
@@ -72,6 +74,9 @@ const FormRenderer = ({ formId, rootUrl, trackingPrefix }) => {
 };
 
 FormRenderer.propTypes = {
+  breadcrumbs: PropTypes.arrayOf(
+    PropTypes.shape({ label: PropTypes.string, href: PropTypes.string }),
+  ),
   formId: PropTypes.string,
   rootUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,

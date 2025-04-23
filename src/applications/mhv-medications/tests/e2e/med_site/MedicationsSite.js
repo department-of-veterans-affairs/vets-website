@@ -7,6 +7,7 @@ import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import { Paths } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
 import { medicationsUrls } from '../../../util/constants';
+import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
   login = (isMedicationsUser = true) => {
@@ -67,6 +68,20 @@ class MedicationsSite {
     }
   };
 
+  loginWithFeatureToggles = (user, toggles) => {
+    cy.login(user);
+    cy.intercept('GET', '/v0/feature_toggles?*', toggles).as('featureToggles');
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, listOfprescriptions).as(
+      'delayAlertRxList',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      listOfprescriptions,
+    ).as('listOfprescriptions');
+    this.mockVamcEhr();
+  };
+
   verifyloadLogInModal = () => {
     cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
@@ -102,6 +117,7 @@ class MedicationsSite {
     cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
+      .first()
       .click({ waitForAnimations: true });
     cy.wait(`@Prescriptions${interceptedPage}`);
   };
@@ -178,6 +194,18 @@ class MedicationsSite {
 
   mockVamcEhr = () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamcEhr).as('vamcEhr');
+  };
+
+  unallowedUserLogin = user => {
+    cy.login(user);
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
+    cy.intercept('GET', '/v0/user', user).as('mockUser');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
   };
 }
 

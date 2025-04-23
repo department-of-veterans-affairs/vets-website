@@ -56,9 +56,9 @@ const renderOtherVA = (mcpLength, mcpError) => {
       <>
         <h2>Your VA copay bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
-          <h4 slot="headline" className="vads-u-font-size--h3">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
-          </h4>
+          </h3>
           {alertInfo.secondBody}
         </va-alert>
       </>

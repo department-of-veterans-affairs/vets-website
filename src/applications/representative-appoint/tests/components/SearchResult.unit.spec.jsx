@@ -106,16 +106,19 @@ describe('SearchResult Component', () => {
   });
 
   context('when v2 is enabled', () => {
+    let formData;
+
     beforeEach(() => {
-      useV2FeatureVisibilityStub = sinon
-        .stub(useV2FeatureToggle, 'default')
-        .returns(true);
+      formData = {
+        'view:v2IsEnabled': true,
+        userIsDigitalSubmitEligible: true,
+      };
     });
 
     context('when the user is userIsDigitalSubmitEligible', () => {
       context('when the representative accepts digital submission', () => {
         it('displays digital submission methods', () => {
-          const representative = {
+          formData.representative = {
             data: {
               id: 1,
               type: 'individual',
@@ -135,11 +138,14 @@ describe('SearchResult Component', () => {
 
           const { container } = render(
             <SearchResult
-              representative={representative}
+              representative={formData.representative}
               query={{}}
               handleSelectRepresentative={() => {}}
               loadingPOA={false}
-              userIsDigitalSubmitEligible
+              userIsDigitalSubmitEligible={
+                formData?.userIsDigitalSubmitEligible &&
+                formData?.['view:v2IsEnabled']
+              }
             />,
           );
 
@@ -160,7 +166,7 @@ describe('SearchResult Component', () => {
         'when the representative does not accept digital submission',
         () => {
           it('displays non digital submission methods', () => {
-            const representative = {
+            formData.representative = {
               data: {
                 id: 1,
                 type: 'individual',
@@ -182,11 +188,14 @@ describe('SearchResult Component', () => {
 
             const { container } = render(
               <SearchResult
-                representative={representative}
+                representative={formData.representative}
                 query={{}}
                 handleSelectRepresentative={() => {}}
                 loadingPOA={false}
-                userIsDigitalSubmitEligible
+                userIsDigitalSubmitEligible={
+                  formData?.userIsDigitalSubmitEligible &&
+                  formData?.['view:v2IsEnabled']
+                }
               />,
             );
 
@@ -206,6 +215,10 @@ describe('SearchResult Component', () => {
     });
 
     context('when the user is not userIsDigitalSubmitEligible', () => {
+      beforeEach(() => {
+        formData.userIsDigitalSubmitEligible = false;
+      });
+
       it('does not display submission methods', () => {
         const representative = {
           data: {
@@ -228,7 +241,10 @@ describe('SearchResult Component', () => {
             query={{}}
             handleSelectRepresentative={() => {}}
             loadingPOA={false}
-            userIsDigitalSubmitEligible={false}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />,
         );
 
@@ -247,8 +263,12 @@ describe('SearchResult Component', () => {
   });
 
   context('when v2 is not enabled', () => {
+    const formData = {
+      'view:v2IsEnabled': false,
+    };
+
     it('does not display submission methods', () => {
-      const representative = {
+      formData.representative = {
         data: {
           id: 1,
           type: 'individual',
@@ -263,17 +283,15 @@ describe('SearchResult Component', () => {
         },
       };
 
-      useV2FeatureVisibilityStub = sinon
-        .stub(useV2FeatureToggle, 'default')
-        .returns(false);
-
       const { container } = render(
         <SearchResult
-          representative={representative}
+          representative={formData.representative}
           query={{}}
           handleSelectRepresentative={() => {}}
           loadingPOA={false}
-          userIsDigitalSubmitEligible
+          userIsDigitalSubmitEligible={
+            formData.userIsDigitalSubmitEligible && formData['view:v2IsEnabled']
+          }
         />,
       );
 

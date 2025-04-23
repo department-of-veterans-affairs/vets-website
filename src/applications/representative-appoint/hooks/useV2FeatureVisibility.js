@@ -16,8 +16,7 @@ const useV2FeatureToggle = () => {
     return false;
   }
 
-  // can remove this after verifying the toggle in staging
-  if (environment.isProduction() || window.Cypress) {
+  if (window.Cypress) {
     return false;
   }
 

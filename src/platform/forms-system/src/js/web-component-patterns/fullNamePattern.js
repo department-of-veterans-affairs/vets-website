@@ -217,14 +217,31 @@ const firstNameLastNameSchema = firstNameLastNameDef;
 /**
  * @returns `commonDefinitions.fullNameNoSuffix`
  */
-const fullNameNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
+const fullNameNoSuffixSchema = {
+  type: 'object',
+  required: ['first', 'last'],
+  properties: {
+    first: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+    },
+    middle: {
+      type: 'string',
+      maxLength: 30,
+    },
+    last: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+    },
+  },
+};
 
 /**
  * @returns `commonDefinitions.fullNameNoSuffix` minus `middle`
  */
-const firstNameLastNameNoSuffixDef = cloneDeep(
-  commonDefinitions.fullNameNoSuffix,
-);
+const firstNameLastNameNoSuffixDef = cloneDeep(fullNameNoSuffixSchema);
 delete firstNameLastNameNoSuffixDef.properties.middle;
 const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
 

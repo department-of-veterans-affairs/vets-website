@@ -92,6 +92,20 @@ async function vaFacilityNext(state, dispatch) {
 
   if (isCerner) {
     if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+      // Fetch eligibility if we haven't already
+      if (!eligibility) {
+        const siteId = getSiteIdFromFacilityId(location.id);
+
+        eligibility = await dispatch(
+          checkEligibility({
+            location,
+            siteId,
+            showModal: false,
+            isCerner: true,
+          }),
+        );
+      }
+
       return 'selectProvider';
     }
     return 'scheduleCerner';
@@ -106,6 +120,7 @@ async function vaFacilityNext(state, dispatch) {
         location,
         siteId,
         showModal: true,
+        isCerner: false,
       }),
     );
   }
@@ -181,7 +196,7 @@ const flow = {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    label: 'Where do you want to receive care?',
+    label: 'Where do you prefer to receive care?',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -272,7 +287,7 @@ const flow = {
   selectProvider: {
     url: '/new-appointment/provider',
     label: 'Which provider do you want to schedule with?',
-    next: null,
+    next: 'preferredDate',
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',

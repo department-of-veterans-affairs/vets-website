@@ -2,6 +2,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -14,9 +15,6 @@ const MrBreadcrumbs = () => {
 
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -25,6 +23,13 @@ const MrBreadcrumbs = () => {
       return pathElements;
     },
     [location],
+  );
+
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
   );
 
   const textContent = document.querySelector('h1')?.textContent;
@@ -75,6 +80,12 @@ const MrBreadcrumbs = () => {
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
+      } else if (feature === 'SETTINGS' && !allowMarchUpdates) {
+        dispatch(
+          setBreadcrumbs([
+            { ...Breadcrumbs[feature], label: 'Medical records settings' },
+          ]),
+        );
       } else {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
@@ -104,35 +115,7 @@ const MrBreadcrumbs = () => {
       ? history.goBack()
       : `/${locationBasePath}`;
 
-  if (!phase0p5Flag) {
-    // TODO: !crumbsList will always be truthy due to the useEffect above
-    // This should logic should be looked at and refactored when we deprecate the feature toggle
-    if (location.pathname === '/' || !crumbsList) {
-      return (
-        <div
-          className="vads-u-padding-bottom--5"
-          data-testid="no-crumbs-list-display"
-        />
-      );
-    }
-    return (
-      <div
-        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
-        label="Breadcrumb"
-        data-testid="disabled-no-crumbs-list-not-root-path"
-      >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
-          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
-        </span>
-        <Link to={crumbsList[crumbsList.length - 2].href}>
-          {`Back to ${crumbsList[crumbsList.length - 2].label.toLowerCase()}`}
-        </Link>
-      </div>
-    );
-  }
-
   if (
-    phase0p5Flag &&
     location.pathname.includes(
       `/${locationBasePath}/${labId ||
         vaccineId ||
@@ -152,6 +135,30 @@ const MrBreadcrumbs = () => {
         </span>
         <Link
           to={backToImagesBreadcrumb}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
+        >
+          Back
+        </Link>
+      </div>
+    );
+  }
+  if (location.pathname.includes('/vitals/')) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="mr-breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link
+          to={`${backToImagesBreadcrumb}${
+            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+          }`}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();

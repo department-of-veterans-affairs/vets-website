@@ -13,7 +13,6 @@ import {
   includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
-  isSigiEnabled,
   hasDifferentHomeAddress,
   teraUploadEnabled,
   includeTeraInformation,
@@ -48,7 +47,6 @@ import FormFooter from '../components/FormFooter';
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
 import veteranDateOfBirth from './chapters/veteranInformation/dateOfBirth';
 import veteranBirthSex from './chapters/veteranInformation/birthSex';
-import veteranGenderIdentity from './chapters/veteranInformation/genderIdentity';
 import veteranMailingAddress from './chapters/veteranInformation/mailingAddress';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
@@ -179,14 +177,6 @@ const formConfig = {
           depends: isMissingVeteranGender,
           uiSchema: veteranBirthSex.uiSchema,
           schema: veteranBirthSex.schema,
-        },
-        genderIdentity: {
-          path: 'veteran-information/gender-identity',
-          title: 'Veteran\u2019s gender identity',
-          initialData: {},
-          depends: isSigiEnabled,
-          uiSchema: veteranGenderIdentity.uiSchema,
-          schema: veteranGenderIdentity.schema,
         },
         mailingAddress: {
           path: 'veteran-information/mailing-address',

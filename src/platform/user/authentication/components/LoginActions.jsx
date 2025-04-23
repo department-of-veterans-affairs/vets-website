@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
-import LoginNote from './LoginNote';
 
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const mhvButtonDeprecated = useSelector(
     state => state?.featureToggles?.mhvCredentialButtonDisabled,
   );
   const [useOAuth, setOAuth] = useState();
-  const { OAuth } = getQueryParams();
+  const { OAuth, clientId, codeChallenge, state } = getQueryParams();
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -40,9 +39,12 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
             key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
+            queryParams={{ clientId, codeChallenge, state }}
           />
         ))}
-        <LoginNote />
+        <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
+          Learn about creating a Login.gov or ID.me account
+        </a>
         {isValid && (
           <div>
             <h2>Other sign-in options</h2>
@@ -66,34 +68,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   ariaDescribedBy="mhvH3"
                   actionLocation={actionLocation}
                 />
-                {/* <va-link
+                <va-link
                   text="Learn how to access your benefits and set up your new account"
                   href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                /> */}
-              </>
-            )}
-            {dslogon && (
-              <>
-                <h3
-                  id="dslogonH3"
-                  className="vads-u-margin-bottom--0 vads-u-margin-top--3"
-                >
-                  DS Logon sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    {mhvButtonDeprecated
-                      ? "We'll remove this optionm after September 30, 2025"
-                      : 'Available through September 30, 2025'}
-                  </span>
-                </h3>
-                <p>
-                  You’ll still be able to use your <strong>DS Logon</strong>{' '}
-                  account on Defense Department websites after this date.
-                </p>
-                <LoginButton
-                  csp="dslogon"
-                  useOAuth={useOAuth}
-                  ariaDescribedBy="dslogonH3"
-                  actionLocation={actionLocation}
                 />
               </>
             )}
@@ -110,6 +87,31 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
                 />
               </div>
+            )}
+            {dslogon && (
+              <>
+                <h3
+                  id="dslogonH3"
+                  className="vads-u-margin-bottom--0 vads-u-margin-top--3"
+                >
+                  DS Logon sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    {mhvButtonDeprecated
+                      ? 'We’ll remove this option after September 30, 2025'
+                      : 'Available through September 30, 2025'}
+                  </span>
+                </h3>
+                <p>
+                  You’ll still be able to use your <strong>DS Logon</strong>{' '}
+                  account on Defense Department websites after this date.
+                </p>
+                <LoginButton
+                  csp="dslogon"
+                  useOAuth={useOAuth}
+                  ariaDescribedBy="dslogonH3"
+                  actionLocation={actionLocation}
+                />
+              </>
             )}
           </div>
         )}

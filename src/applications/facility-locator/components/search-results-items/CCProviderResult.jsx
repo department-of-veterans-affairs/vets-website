@@ -8,7 +8,7 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import ProviderTraining from './common/ProviderTraining';
 
-const CCProviderResult = ({ provider, query }) => {
+const CCProviderResult = ({ isMobile = false, provider, query }) => {
   const { name } = provider.attributes;
 
   return (
@@ -16,12 +16,17 @@ const CCProviderResult = ({ provider, query }) => {
       <div>
         <LocationMarker markerText={provider.markerText} />
         <ProviderServiceDescription provider={provider} query={query} />
-        <h3 className="vads-u-margin-y--0">{name}</h3>
+        <h3
+          className="vads-u-margin-y--0"
+          id={isMobile ? 'fl-provider-name' : undefined}
+        >
+          {name}
+        </h3>
         {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
         <LocationDistance distance={provider.distance} />
         <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink location={provider} from="SearchResult" />
+        <LocationDirectionsLink location={provider} />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"
@@ -33,6 +38,7 @@ const CCProviderResult = ({ provider, query }) => {
 };
 
 CCProviderResult.propTypes = {
+  isMobile: PropTypes.bool,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

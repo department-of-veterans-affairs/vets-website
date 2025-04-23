@@ -320,3 +320,50 @@ export const defaultItemPageScrollAndFocusTarget = () => {
     focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
   }
 };
+
+export const replaceItemInFormData = ({
+  formData,
+  newItem,
+  arrayPath,
+  index,
+}) => {
+  let newFormData = formData;
+
+  if (formData?.[arrayPath]?.[index]) {
+    newFormData = {
+      ...formData,
+      [arrayPath]: formData[arrayPath].map((item, i) => {
+        return i === index ? newItem : item;
+      }),
+    };
+  }
+
+  return newFormData;
+};
+
+export const arrayBuilderContextObject = ({
+  add = false,
+  edit = false,
+  review = false,
+}) => {
+  return { add, edit, review };
+};
+
+export const arrayBuilderDependsContextWrapper = contextObject => {
+  let add = false;
+  let edit = false;
+  let review = false;
+
+  if (contextObject) {
+    add = contextObject.add;
+    edit = contextObject.edit;
+    review = contextObject.review;
+  } else {
+    const urlParams = getArrayUrlSearchParams();
+    add = urlParams.get('add') === 'true';
+    edit = urlParams.get('edit') === 'true';
+    review = urlParams.get('review') === 'true';
+  }
+
+  return { add, edit, review };
+};

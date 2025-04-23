@@ -31,7 +31,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingVAMedicalCenters': arrayBuilderYesNoUI(options, {
+    'view:isAddingVaMedicalCenters': arrayBuilderYesNoUI(options, {
       title: 'Have you received treatment from a VA medical center?',
       labelHeaderLevel: ' ',
       hint: null,
@@ -40,9 +40,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:isAddingVAMedicalCenters': arrayBuilderYesNoSchema,
+      'view:isAddingVaMedicalCenters': arrayBuilderYesNoSchema,
     },
-    required: ['view:isAddingVAMedicalCenters'],
+    required: ['view:isAddingVaMedicalCenters'],
   },
 };
 

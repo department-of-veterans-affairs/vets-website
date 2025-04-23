@@ -47,21 +47,15 @@ export const genderInfoHelpText = (
 );
 
 const genders = {
-  W: 'Woman',
-  M: 'Man',
-  TW: 'Transgender woman',
-  TM: 'Transgender man',
-  NB: 'Non-binary',
-  0: 'A gender not listed here',
-  NA: 'Prefer not to answer',
+  M: 'Male',
+  W: 'Female',
 };
 
 const uiSchema = {
-  ...titleUI('Your gender identity'),
-  'ui:description': genderInfoHelpText,
+  ...titleUI('Sex identification'),
   gender: {
     ...radioUI({
-      title: 'How would you describe your gender?',
+      title: 'How would you describe your sex?',
       labels: genders,
     }),
   },
@@ -70,7 +64,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    gender: radioSchema(['W', 'M', 'TW', 'TM', 'NB', '0', 'NA']),
+    gender: radioSchema(['M', 'W']),
   },
 };
 

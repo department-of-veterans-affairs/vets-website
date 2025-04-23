@@ -43,7 +43,10 @@ export default function ArrayBuilderItemPage({
       fullData: props.fullData,
       onChange: props.onChange,
       onSubmit: props.onSubmit,
-      index: props.index,
+      index: props.pagePerItemIndex
+        ? parseInt(props.pagePerItemIndex, 10)
+        : null,
+      arrayPath,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {
@@ -151,7 +154,6 @@ export default function ArrayBuilderItemPage({
     getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
-    index: PropTypes.number,
     onChange: PropTypes.func,
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,

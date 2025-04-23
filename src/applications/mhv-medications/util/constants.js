@@ -19,6 +19,7 @@ export const medicationsUrls = {
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   MEDICATIONS_ABOUT: '/my-health/medications/about',
   MEDICATIONS_ABOUT_ACCORDION_RENEW:
     '/my-health/medications/about#accordion-renew-rx',
@@ -26,6 +27,7 @@ export const medicationsUrls = {
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
     BASE: '/',
+    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
     ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
@@ -74,7 +76,7 @@ export const filterOptions = {
     label: 'Non-active',
     name: 'filter option',
     description:
-      'Prescriptions that are discontinued, expired, or have an unkown status',
+      'Prescriptions that are discontinued, expired, or have an unknown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
@@ -242,3 +244,34 @@ export const allergyTypes = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+
+export const trackingConfig = {
+  dhl: {
+    label: 'DHL',
+    url: 'http://webtrack.dhlglobalmail.com/?id=462&trackingnumber=',
+  },
+  fedex: {
+    label: 'FedEx',
+    url: 'https://www.fedex.com/fedextrack/?trknbr=',
+  },
+  ups: {
+    label: 'UPS',
+    url:
+      'http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&tracknum=',
+  },
+  usps: {
+    label: 'USPS',
+    url: 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=',
+  },
+};
+
+export const tooltipNames = {
+  mhvMedicationsTooltipFilterAccordion:
+    'mhv_medications_tooltip_filter_accordion',
+};
+
+export const tooltipHintContent = {
+  filterAccordion: {
+    HINT: 'Filter your list to find a specific medication.',
+  },
+};

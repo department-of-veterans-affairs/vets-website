@@ -30,7 +30,7 @@ describe('CT before search by name accessibility', () => {
     cy.repeatKey('Tab', 2);
     cy.focused().should(
       'contain.text',
-      'GI Bill® Comparison Tool (Search By Name)',
+      'GI Bill® Comparison Tool (Search by name)',
     );
     cy.repeatKey('Tab', 4);
     cy.focused().should('contain.text', 'Search');

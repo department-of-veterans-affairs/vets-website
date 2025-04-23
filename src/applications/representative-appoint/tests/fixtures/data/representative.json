@@ -43,7 +43,8 @@
               "phone": "269-541-2765",
               "lat": null,
               "long": null,
-              "poaCode": "074"
+              "poaCode": "074",
+              "canAcceptDigitalPoaRequests": true
             }
           },
           {

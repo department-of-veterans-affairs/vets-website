@@ -5,20 +5,12 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { filterOrganizations } from '../utilities/helpers';
 
 const SelectOrganization = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
   const [error, setError] = useState(null);
-  const organizations =
-    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
-      ?.data;
-
-  // // v2 feature pending availableSubmissionMethods
-  // const filteredOrganizations = organizations?.filter(org =>
-  //   org.attributes?.availableSubmissionMethods?.includes(
-  //     formData.representativeSubmissionMethod,
-  //   ),
-  // );
+  const organizations = filterOrganizations(formData);
 
   const isReviewPage = useReviewPage();
 
@@ -93,18 +85,6 @@ const SelectOrganization = props => {
           checked={formData.selectedAccreditedOrganizationId === org.id}
         />
       ))}
-
-      {/* v2 feature pending availableSubmissionMethods */}
-
-      {/* {filteredOrganizations?.map((org, index) => (
-        <va-radio-option
-          label={`${org.attributes.name}`}
-          name="organization"
-          value={org.id}
-          key={`${org.id}-${index}`}
-          checked={formData.selectedAccreditedOrganizationId === org.id}
-        />
-      ))} */}
     </VaRadio>
   );
 

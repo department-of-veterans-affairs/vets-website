@@ -139,10 +139,10 @@ describe('Prefill pattern - Blue Task', () => {
     // check prefilled contact info page
     cy.url().should('contain', '/veteran-information');
 
-    cy.findByText('Mobile phone number').should('exist');
+    cy.findByText('Mobile phone number (optional)').should('exist');
     cy.get('va-telephone[contact="5554044567"]').should('exist');
 
-    cy.findByText('Email address').should('exist');
+    cy.findByText('Email address (optional)').should('exist');
     cy.findByText('Mitchell.Jenkins.Test@gmail.com').should('exist');
 
     cy.findByText('Mailing address').should('exist');
@@ -164,13 +164,7 @@ describe('Prefill pattern - Blue Task', () => {
     cy.get('@addressInput').clear();
     cy.get('@addressInput').type('345 Mailing Address St.');
 
-    // confirming save to profile ques is selected yes by default
-    // cy.contains(
-    //   'legend',
-    //   'Do you also want to update this information in your VA.gov profile?',
-    // ).should('exist');
-
-    // cy.get('#saveToProfileYes').click();
+    cy.findByLabelText('Yes, also update my profile').click();
 
     cy.findByTestId('save-edit-button').click();
 
@@ -178,10 +172,7 @@ describe('Prefill pattern - Blue Task', () => {
 
     // redirect to previous page and show save alert
     cy.url().should('contain', '/veteran-information');
-    cy.findByText('We’ve updated your contact information.').should('exist');
-    cy.findByText(
-      'We’ve made these changes to this form and your VA.gov profile.',
-    ).should('exist');
+    cy.findByText('Mailing address updated').should('exist');
     cy.findByText('Mailing address').should('exist');
     cy.get('div[data-dd-action-name="street"]').should(
       'have.text',

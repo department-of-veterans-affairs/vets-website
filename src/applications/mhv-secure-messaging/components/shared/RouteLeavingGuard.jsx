@@ -19,6 +19,8 @@ export const RouteLeavingGuard = ({
   savedDraft,
   saveError,
   setSetErrorModal,
+  confirmButtonDDActionName = 'Confirm Navigation Leaving Button',
+  cancelButtonDDActionName = 'Cancel Navigation Continue Editing Button',
 }) => {
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
@@ -48,7 +50,7 @@ export const RouteLeavingGuard = ({
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
-      saveDraftHandler('manual');
+      saveDraftHandler('auto');
     }
     closeModal();
     if (lastLocation) {
@@ -116,14 +118,14 @@ export const RouteLeavingGuard = ({
             class="vads-u-margin-top--1 vads-u-flex--auto"
             text={cancelButtonText}
             onClick={handleCancelNavigationClick} // need to pass a func to save draft
-            data-dd-action-name="Cancel Navigation Continue Editing Button"
+            data-dd-action-name={cancelButtonDDActionName}
           />
           <va-button
             class="vads-u-margin-top--1 vads-u-flex--auto"
             secondary
             text={confirmButtonText}
             onClick={handleConfirmNavigationClick}
-            data-dd-action-name="Confirm Navigation Leaving Button"
+            data-dd-action-name={confirmButtonDDActionName}
           />
         </div>
       </VaModal>
@@ -132,7 +134,9 @@ export const RouteLeavingGuard = ({
 };
 
 RouteLeavingGuard.propTypes = {
+  cancelButtonDDActionName: PropTypes.string,
   cancelButtonText: PropTypes.string,
+  confirmButtonDDActionName: PropTypes.string,
   confirmButtonText: PropTypes.string,
   modalVisible: PropTypes.bool,
   navigate: PropTypes.func,

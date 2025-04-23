@@ -5,6 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
+import user from './user.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -18,7 +19,7 @@ const testConfig = createTestConfig(
     ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      cy.login();
+      cy.login(user);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
@@ -112,6 +113,22 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-child-stopped-attending-school/0/date-child-left-school': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-stepchild-no-longer-part-of-household/0/child-address': ({
         afterHook,
       }) => {
@@ -125,11 +142,19 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-button-primary').click();
         });
       },
+
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
@@ -141,6 +166,22 @@ const testConfig = createTestConfig(
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input')
+            .shadow()
+            .find('input')
+            .type('John Doe');
+
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },

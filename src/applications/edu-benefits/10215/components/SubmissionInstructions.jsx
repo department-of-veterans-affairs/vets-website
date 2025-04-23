@@ -7,9 +7,9 @@ const SubmissionInstructions = () => {
         How to submit your form
       </h3>
       <p className="vads-u-margin-top--4">
-        <strong>Please note:</strong> This form does not submit automatically.
-        After you review your information, download your completed VA Form
-        22-10215. Then, upload it manually through the VA Education Portal to
+        <strong>Note:</strong> This form does not submit automatically. After
+        you review your information, download your completed VA Form 22-10215.
+        Then, upload it manually through the Education File Upload Portal to
         complete the submission process
       </p>
     </div>

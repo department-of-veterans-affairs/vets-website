@@ -56,6 +56,7 @@ export function pdfTransform(formData) {
     authorizeNamesTextArea,
     applicantPhone,
     applicantEmail,
+    representativeSubmissionMethod,
   } = formData;
 
   const createAddress = (address = {}) => ({
@@ -121,6 +122,7 @@ export function pdfTransform(formData) {
   }
 
   return {
+    representativeSubmissionMethod,
     veteran,
     recordConsent: yesNoToBoolean(authorizationRadio),
     consentAddressChange: yesNoToBoolean(authorizeAddressRadio),

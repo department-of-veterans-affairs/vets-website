@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { focusElement } from 'platform/utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
@@ -13,12 +12,10 @@ import GetStarted from '../components/IntroductionPage/GetStarted';
 import content from '../locales/en/content.json';
 
 const IntroductionPage = ({ route }) => {
-  const { loading } = useSelector(selectEnrollmentStatus);
-  const { isUserLOA1 } = useSelector(selectAuthStatus);
-
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-  }, []);
+  const { isUserLOA1, loading } = useSelector(state => ({
+    isUserLOA1: selectAuthStatus(state).isUserLOA1,
+    loading: selectEnrollmentStatus(state).loading,
+  }));
 
   return (
     <div className="schemaform-intro">

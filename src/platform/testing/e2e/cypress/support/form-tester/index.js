@@ -183,8 +183,12 @@ const performPageActions = (pathname, _13647Exception = false) => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = ({ _13647Exception }) => {
+const processPage = ({ _13647Exception, stopTestAfterPath }) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
+    if (pathname.endsWith(stopTestAfterPath)) {
+      return;
+    }
+
     performPageActions(pathname, _13647Exception);
 
     if (!pathname.endsWith('/confirmation')) {
@@ -194,7 +198,7 @@ const processPage = ({ _13647Exception }) => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(() => processPage({ _13647Exception }));
+        .then(() => processPage({ _13647Exception, stopTestAfterPath }));
     }
   });
 };
@@ -226,7 +230,12 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.findByText(/continue/i, { selector: 'button' }).click(FORCE_OPTION);
+    cy.findByText(/continue/i, {
+      selector: 'button',
+      timeout: 30000,
+    })
+      .should('be.visible')
+      .click(FORCE_OPTION);
   };
 };
 
@@ -540,6 +549,9 @@ Cypress.Commands.add('fillPage', () => {
  * @property {(boolean|string[])} [skip] - Skips specific tests if it's an array
  *     that contains the test names as strings. Skips the whole suite
  *     if it's otherwise truthy.
+ * @property {string} [stopTestAfterPath] - The pathname of the page to stop the
+ *     e2e test on. Useful for testing a set range of pages within a form. See
+ *     setupInProgressReturnUrl in the utilities folder to set a start page.
  * ---
  * @param {TestConfig} testConfig
  */
@@ -556,6 +568,8 @@ const testForm = testConfig => {
     setup = () => {},
     setupPerTest = () => {},
     skip,
+    // null prevents endsWith string comparison returning true
+    stopTestAfterPath = null,
     _13647Exception = false,
     // whether or not to auto fill web component fields
     // (using RJSF naming convention #root_field_subField)
@@ -628,7 +642,7 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(() => processPage({ _13647Exception }));
+            .then(() => processPage({ stopTestAfterPath, _13647Exception }));
         });
       });
     };

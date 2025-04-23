@@ -5,13 +5,15 @@ import { connect } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-
+import DowntimeNotification, {
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import Main from './Main';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 
-function AppContent({ children, isDataAvailable }) {
+export function AppContent({ children, isDataAvailable }) {
   const unregistered = isDataAvailable === false;
   let view;
 
@@ -48,9 +50,14 @@ function Post911GIBStatusApp({ user, children }) {
     : backendServices.EVSS_CLAIMS;
   return (
     <RequiredLoginView verify serviceRequired={useLighthouse} user={user}>
-      <AppContent>
-        <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
-      </AppContent>
+      <DowntimeNotification
+        appTitle="Post-9/11 GI Bill benefits tracking tool"
+        dependencies={[externalServices.lighthouseBenefitsEducation]}
+      >
+        <AppContent>
+          <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
+        </AppContent>
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 }

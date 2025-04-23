@@ -38,7 +38,7 @@ const formConfig = (pathname = null) => {
 
   return {
     rootUrl: manifest.rootUrl,
-    urlPrefix: `/${formNumber}/`,
+    urlPrefix: `/${formNumber.toLowerCase()}/`,
     submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
     trackingPrefix,

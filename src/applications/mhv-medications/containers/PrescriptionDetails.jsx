@@ -381,7 +381,7 @@ const PrescriptionDetails = () => {
             <h1
               aria-describedby="last-filled"
               data-testid="prescription-name"
-              className="vads-u-margin-bottom--0"
+              className="vads-u-margin-bottom--0 wrap-text"
               id="prescription-name"
               data-dd-privacy="mask"
             >

@@ -10,6 +10,7 @@ import {
   fillPreviousNamesPage,
   selectRadioWebComponent,
   fillSpouseMarriagesPage,
+  fillTextWebComponent,
   fillVaMedicalCentersPage,
   shouldNotHaveValidationErrors,
 } from './index';
@@ -118,9 +119,7 @@ const pageHooks = {
   },
   [pagePaths.marriageInfo]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      cy.get('#root_marriages').type(`${data.marriages.length}`, {
-        force: true,
-      });
+      fillTextWebComponent('marriage_count_value', data.marriages.length);
       afterHook(replaceDefaultPostHook);
     });
   },

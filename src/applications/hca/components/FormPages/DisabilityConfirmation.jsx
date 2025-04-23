@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import recordEvent from 'platform/monitoring/record-event';
 
 const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   // use logging to compare number of short forms started vs completed
-  const onConfirm = () => {
-    recordEvent({
-      event: 'hca-short-form-flow',
-    });
-    goForward(data);
-  };
+  const onConfirm = useCallback(
+    () => {
+      recordEvent({
+        event: 'hca-short-form-flow',
+      });
+      goForward(data);
+    },
+    [data, goForward],
+  );
 
   return (
     <va-alert
       status="info"
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
-      uswds
     >
       <h3 slot="headline">
         Confirm that you receive service-connected pay for a 50% or higher

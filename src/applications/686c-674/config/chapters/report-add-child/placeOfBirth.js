@@ -12,7 +12,7 @@ export const placeOfBirth = {
     ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
     birthLocation: {
       outsideUsa: {
-        'ui:title': 'They were born outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {
@@ -21,7 +21,7 @@ export const placeOfBirth = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where the child was born',
           },
           'ui:webComponentField': VaTextInputField,
         },
@@ -77,6 +77,14 @@ export const placeOfBirth = {
       'ui:description': generateHelpText(
         "Based on your answers, you’ll need to submit a copy of this child's birth certificate to add them as your dependent. We’ll ask you to submit this document at the end of this form.",
       ),
+      'ui:options': {
+        hideIf: (_formData, _index, fullFormData) =>
+          !(
+            fullFormData?.veteranContactInformation?.veteranAddress?.country !==
+              'USA' ||
+            fullFormData?.veteranContactInformation?.veteranAddress?.isMilitary
+          ),
+      },
     },
   },
   schema: {

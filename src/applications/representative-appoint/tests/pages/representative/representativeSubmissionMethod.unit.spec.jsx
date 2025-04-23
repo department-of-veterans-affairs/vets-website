@@ -159,34 +159,18 @@ describe('<RepresentativeSubmissionMethod>', () => {
   });
 
   context('pageDepends', () => {
-    context('when v2 is not enabled', () => {
-      it('returns false', () => {
-        const formData = {
-          v2IsEnabled: false,
-          'view:selectedRepresentative': {
-            type: 'organization',
-            attributes: { canAcceptDigitalPoaRequests: true },
-          },
-          userIsDigitalSubmitEligible: true,
-        };
-
-        const result = representativeSubmissionMethod.pageDepends(formData);
-
-        expect(result).to.be.false;
-      });
-    });
-
     context(
       'when the selected representative does not accept digital submission',
       () => {
         it('returns false', () => {
           const formData = {
-            v2IsEnabled: true,
+            'view:v2IsEnabled': true,
             'view:selectedRepresentative': {
               type: 'organization',
               attributes: { canAcceptDigitalPoaRequests: false },
             },
-            userIsDigitalSubmitEligible: true,
+            'view:applicantIsVeteran': 'Yes',
+            identityValidation: { hasIcn: true, hasParticipantId: true },
           };
 
           const result = representativeSubmissionMethod.pageDepends(formData);
@@ -199,12 +183,13 @@ describe('<RepresentativeSubmissionMethod>', () => {
     context('when the user is not eligible for digital submission', () => {
       it('returns false', () => {
         const formData = {
-          v2IsEnabled: true,
+          'view:v2IsEnabled': true,
           'view:selectedRepresentative': {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
-          userIsDigitalSubmitEligible: false,
+          'view:applicantIsVeteran': 'Yes',
+          identityValidation: { hasIcn: false, hasParticipantId: false },
         };
 
         const result = representativeSubmissionMethod.pageDepends(formData);
@@ -216,12 +201,13 @@ describe('<RepresentativeSubmissionMethod>', () => {
     context('when all digital submission criteria met', () => {
       it('returns true', () => {
         const formData = {
-          v2IsEnabled: true,
+          'view:v2IsEnabled': true,
           'view:selectedRepresentative': {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
-          userIsDigitalSubmitEligible: true,
+          'view:applicantIsVeteran': 'Yes',
+          identityValidation: { hasIcn: true, hasParticipantId: true },
         };
 
         const result = representativeSubmissionMethod.pageDepends(formData);

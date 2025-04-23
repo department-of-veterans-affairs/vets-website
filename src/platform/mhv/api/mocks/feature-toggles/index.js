@@ -7,6 +7,10 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
+    mhvMedicationsDisplayRefillProgress = true,
+    mhvMedicationsShowIpeContent = true,
+    mhvMedicationsPartialFillContent,
+    mhvMedicationsDontIncrementIpeCount,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -19,13 +23,14 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplaySettingsPage = true,
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
-    mhvSecureMessagingEditContactList = true,
+    mhvMedicalRecordsMarch17Updates = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvIntegrationMedicalRecordsToPhase1 = true,
+    mhvMedicationsRemoveLandingPage = true,
   } = toggles;
 
   return {
@@ -75,6 +80,26 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_pending_meds',
           value: mhvMedicationsDisplayPendingMeds,
+        },
+        {
+          name: 'mhv_medications_display_refill_progress',
+          value: mhvMedicationsDisplayRefillProgress,
+        },
+        {
+          name: 'mhv_medications_remove_landing_page',
+          value: mhvMedicationsRemoveLandingPage,
+        },
+        {
+          name: 'mhv_medications_show_ipe_content',
+          value: mhvMedicationsShowIpeContent,
+        },
+        {
+          name: 'mhv_medications_partial_fill_content',
+          value: mhvMedicationsPartialFillContent,
+        },
+        {
+          name: 'mhv_medications_dont_increment_ipe_count',
+          value: mhvMedicationsDontIncrementIpeCount,
         },
 
         // medical records
@@ -127,8 +152,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsToVaGovRelease,
         },
         {
-          name: 'mhv_secure_messaging_edit_contact_list',
-          value: mhvSecureMessagingEditContactList,
+          name: 'mhv_medical_records_update_landing_page',
+          value: mhvMedicalRecordsMarch17Updates,
         },
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
@@ -137,6 +162,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_opt_groups',
           value: mhvSecureMessagingRecipientOptGroups,
+        },
+        {
+          name: 'mhv_secure_messaging_remove_landing_page',
+          value: true,
         },
       ],
     },

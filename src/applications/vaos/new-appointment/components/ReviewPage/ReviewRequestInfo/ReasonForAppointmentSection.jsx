@@ -33,7 +33,7 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Details you’d like to share with your provider
+              Details to share with your provider
             </h2>
             {reasonForAppointment && (
               <>

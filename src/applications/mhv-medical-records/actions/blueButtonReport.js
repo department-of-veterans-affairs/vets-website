@@ -1,4 +1,4 @@
-import { formatISO, subYears } from 'date-fns';
+import { formatISO, subYears, addMonths } from 'date-fns';
 import {
   getLabsAndTests,
   getNotes,
@@ -44,15 +44,28 @@ export const getBlueButtonReportData = (
       if (key === 'appointments') {
         let fromDate;
         let toDate;
+        const currentDate = new Date();
         if (dateFilter.option === 'any') {
-          const currentDate = new Date();
+          // Set fromDate to be two years in the past
           const dateTwoYearsAgo = subYears(currentDate, 2);
-          const farFutureDate = new Date(2099, 0, 1); // January 1, 2099
+          // Set toDate to be 13 months in the future
+          const dateThirteenMonthsAhead = addMonths(currentDate, 13);
           fromDate = formatISO(dateTwoYearsAgo);
-          toDate = formatISO(farFutureDate);
+          toDate = formatISO(dateThirteenMonthsAhead);
         } else {
-          fromDate = formatISO(new Date(dateFilter.fromDate));
-          toDate = formatISO(new Date(dateFilter.toDate));
+          // Use the provided dates but clamp them to allowed boundaries
+          let providedFromDate = new Date(dateFilter.fromDate);
+          let providedToDate = new Date(dateFilter.toDate);
+          const earliestAllowedFromDate = subYears(currentDate, 2);
+          const latestAllowedToDate = addMonths(currentDate, 13);
+          if (providedFromDate < earliestAllowedFromDate) {
+            providedFromDate = earliestAllowedFromDate;
+          }
+          if (providedToDate > latestAllowedToDate) {
+            providedToDate = latestAllowedToDate;
+          }
+          fromDate = formatISO(providedFromDate);
+          toDate = formatISO(providedToDate);
         }
 
         return fetchFn(fromDate, toDate)
