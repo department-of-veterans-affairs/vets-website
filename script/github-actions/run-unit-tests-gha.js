@@ -1,92 +1,176 @@
 /* eslint-disable no-console */
-const fs = require('fs');
+const commandLineArgs = require('command-line-args');
+const glob = require('glob');
 const path = require('path');
 const core = require('@actions/core');
-const commandLineArgs = require('command-line-args');
-const { execSync } = require('child_process');
+const fs = require('fs');
+const { runCommand } = require('../utils');
+// For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
-const optionDefinitions = [
-  { name: 'log-level', type: String, defaultValue: 'verbose' },
+const specDirs = '{src,script}';
+const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
+const numContainers = process.env.NUM_CONTAINERS || 1;
+const matrixStep = process.env.STEP || 0;
+
+const COMMAND_LINE_OPTIONS_DEFINITIONS = [
+  { name: 'log-level', type: String, defaultValue: 'log' },
+  { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'coverage-html', type: Boolean, defaultValue: false },
   { name: 'reporter', type: String, defaultValue: null },
-  { name: 'config', type: String, defaultValue: 'config/mocha.json' },
+  { name: 'help', alias: 'h', type: Boolean, defaultValue: false },
+  { name: 'config', type: String, defaultValue: null },
   {
     name: 'path',
     type: String,
-    multiple: true,
     defaultOption: true,
-    defaultValue: [],
+    multiple: true,
+    defaultValue: [defaultPath],
   },
 ];
-const options = commandLineArgs(optionDefinitions);
+const allUnitTests = glob.sync(defaultPath);
+const allUnitTestDirs = Array.from(
+  new Set(
+    allUnitTests.map(spec =>
+      JSON.stringify(
+        path
+          .dirname(spec)
+          .split('/')
+          .slice(1, 4),
+      ),
+    ),
+  ),
+).filter(spec => spec !== undefined);
 
-let testsToRun = [];
-if (options.path.length > 0) {
-  testsToRun = options.path;
-} else if (fs.existsSync('unit_tests_to_stress_test.json')) {
-  testsToRun = JSON.parse(
-    fs.readFileSync(path.resolve('unit_tests_to_stress_test.json')),
+function splitArray(array, chunks) {
+  const [...arrayCopy] = array;
+  const arrayChunks = [];
+  while (arrayCopy.length) {
+    arrayChunks.push(arrayCopy.splice(0, chunks));
+  }
+  return arrayChunks;
+}
+const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
+let coverageInclude = '';
+
+if (
+  options['app-folder'] &&
+  options.path[0] === defaultPath &&
+  options.path.length === 1
+) {
+  options.path[0] = options.path[0].replace(
+    `/${specDirs}/`,
+    `/src/applications/${options['app-folder']}/`,
   );
-} else if (fs.existsSync('unit_tests_to_run.json')) {
-  testsToRun = JSON.parse(
-    fs.readFileSync(path.resolve('unit_tests_to_run.json')),
-  );
+
+  const unitTestList = glob.sync(options.path[0]);
+  if (!unitTestList.length) {
+    console.log('There are no unit tests in the app folder.');
+    process.exit(0);
+  }
+
+  coverageInclude = `--include 'src/applications/${options['app-folder']}/**'`;
 }
 
-if (!testsToRun || testsToRun.length === 0) {
-  console.log('No unit tests to run');
-  core.exportVariable('NO_APPS_TO_RUN', true);
-  process.exit(0);
-}
-core.exportVariable('NO_APPS_TO_RUN', false);
+const reporterOption = options.reporter ? `--reporter ${options.reporter}` : '';
 
-const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
+const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+const coverageReporter = options['coverage-html']
+  ? '--reporter=html mocha --retries 5'
+  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
+const testRunner = options.coverage ? coveragePath : mochaPath;
+const configFile = options.config ? options.config : 'config/mocha.json';
+const testsToVerify = fs.existsSync(
+  path.resolve(`unit_tests_to_stress_test.json`),
+)
+  ? JSON.parse(fs.readFileSync(path.resolve(`unit_tests_to_stress_test.json`)))
+  : null;
 
-const envPrefix = `LOG_LEVEL=${options['log-level'].toLowerCase()}`;
+const splitUnitTests = splitArray(
+  allUnitTestDirs,
+  Math.ceil(allUnitTestDirs.length / numContainers),
+);
+const appsToRun = options['app-folder']
+  ? [options['app-folder']]
+  : splitUnitTests[matrixStep];
 
-let cmdParts;
-if (options.coverage) {
-  cmdParts = [
-    envPrefix,
-    'NODE_ENV=test',
-    'npx nyc',
-    '--all',
-    options['coverage-html'] ? '--reporter=html' : '--reporter=json-summary',
-    '--reporter',
-    'mocha-multi-reporters',
-    '--reporter-options',
-    'configFile=config/mocha-multi-reporter.js',
-    '--no-color',
-    '--retries',
-    '5',
-    'mocha',
-    '--require',
-    '@babel/register',
-    '--config',
-    options.config,
-    '--extension',
-    'js,jsx',
-    '--max-old-space-size=32768',
-    filesArg,
-  ];
+if (testsToVerify === null) {
+  // Not a stress test as no tests need to be verified
+  if (appsToRun && appsToRun.length > 0) {
+    core.exportVariable('NO_APPS_TO_RUN', false);
+    for (const dir of appsToRun) {
+      const updatedPath = options['app-folder']
+        ? options.path.map(p => `'${p}'`).join(' ')
+        : options.path[0].replace(
+            `/${specDirs}/`,
+            `/${JSON.parse(dir).join('/')}/`,
+          );
+      const testsToRun = options['app-folder']
+        ? `--recursive ${updatedPath}`
+        : `--recursive ${glob.sync(updatedPath)}`;
+      const command = `LOG_LEVEL=${options[
+        'log-level'
+      ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${testsToRun.replace(
+        /,/g,
+        ' ',
+      )} `;
+      if (testsToRun !== '') {
+        // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
+        runCommand(command);
+      } else {
+        // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
+        console.log('This app has no tests to run');
+      }
+    }
+  } else {
+    // Case: The code changed has no associated unit tests
+    core.exportVariable('NO_APPS_TO_RUN', true);
+  }
 } else {
-  cmdParts = [
-    envPrefix,
-    'BABEL_ENV=test',
-    'NODE_ENV=test',
-    'npx mocha',
-    '--require',
-    '@babel/register',
-    '--config',
-    options.config,
-    '--extension',
-    'js,jsx',
-    options.reporter ? `--reporter ${options.reporter}` : '',
-    '--max-old-space-size=32768',
-    filesArg,
-  ];
-}
+  const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
+    .filter(app => app.startsWith('src/applications'))
+    .map(app => app.split('/')[2])
+    .concat(
+      JSON.parse(process.env.APPS_TO_VERIFY).filter(app =>
+        app.startsWith('src/platform'),
+      ),
+    );
+  /* eslint-disable no-await-in-loop */
+  /* eslint-disable no-inner-declarations */
 
-const fullCmd = cmdParts.filter(Boolean).join(' ');
-execSync(fullCmd, { stdio: 'inherit', shell: '/bin/bash' });
+  async function runTests() {
+    for (const app of appsToVerify) {
+      console.log(app);
+      const testsToRun = testsToVerify
+        .filter(
+          test =>
+            test.includes(`src/applications/${app}`) ||
+            test.includes(`src/platform`),
+        )
+        .join(' ');
+
+      if (testsToRun !== '') {
+        const command = `LOG_LEVEL=${options[
+          'log-level'
+        ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+          /,/g,
+          ' ',
+        )} `;
+
+        // Wait for the command to finish before proceeding to the next app
+        try {
+          await runCommand(command);
+        } catch (error) {
+          console.error(`Error running tests for app ${app}:`, error);
+        }
+      } else {
+        console.log('This app has no tests to run');
+      }
+    }
+  }
+
+  // Call the function to start running tests
+  runTests();
+  // Case: Unit Tests are needed to be Stress Tested. Selected tests are all run in one container so each container runs the full suite.
+}
