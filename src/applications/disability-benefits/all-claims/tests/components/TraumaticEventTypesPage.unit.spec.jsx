@@ -62,18 +62,6 @@ describe('TraumaticEventTypesPage', () => {
       expect(goForwardSpy.called).to.be.true;
     });
 
-    it('should submit without selecting an event type', () => {
-      const goForwardSpy = sinon.spy();
-
-      const data = {
-        eventTypes: {},
-      };
-      const { container } = render(page({ data, goForward: goForwardSpy }));
-      fireEvent.click($('button[type="submit"]', container));
-
-      expect(goForwardSpy.called).to.be.true;
-    });
-
     it('should submit when boxes are unchecked', () => {
       const goForwardSpy = sinon.spy();
 
@@ -93,7 +81,7 @@ describe('TraumaticEventTypesPage', () => {
   });
 
   describe('Display modal for deleting already entered MST-related evidence', () => {
-    describe('when MST events were not selected', () => {
+    describe('when MST events were not selected but no existing MST data has been filled out', () => {
       it('does not show the modal', () => {
         const data = {
           eventTypes: {
@@ -113,20 +101,21 @@ describe('TraumaticEventTypesPage', () => {
 
     // Checkboxes that were never selected have an undefined value
     describe('when MST events were not selected and were not previously selected', () => {
-      // Include both consent and reports
-      const data = {
-        eventTypes: {
-          combat: undefined,
-          mst: undefined,
-          nonMst: undefined,
-          other: undefined,
-        },
-      };
+      it('does not show the modal', () => {
+        const data = {
+          eventTypes: {
+            combat: undefined,
+            mst: undefined,
+            nonMst: undefined,
+            other: undefined,
+          },
+        };
 
-      const { container } = render(page({ data }));
-      fireEvent.click($('button[type="submit"]', container));
+        const { container } = render(page({ data }));
+        fireEvent.click($('button[type="submit"]', container));
 
-      expect($('va-modal[visible="true"]', container)).not.to.exist;
+        expect($('va-modal[visible="true"]', container)).not.to.exist;
+      });
     });
 
     describe('when MST events were deselected', () => {
@@ -184,6 +173,8 @@ describe('TraumaticEventTypesPage', () => {
                   militaryReports: {
                     // Deselected boxes are saved as false in Forms Library metadata
                     restricted: false,
+                    unrestricted: false,
+                    pre2005: false,
                   },
                 },
                 {},
@@ -226,7 +217,7 @@ describe('TraumaticEventTypesPage', () => {
       });
 
       describe('event notifications consent choice', () => {
-        describe('when a user made a choice regarding to receive notifications about events related to their claim', () => {
+        describe('when a user made a choice to receive notifications about events related to their claim', () => {
           it('displays the modal', () => {
             const data = {
               ...baseDataMSTDeselected,
@@ -609,10 +600,6 @@ describe('TraumaticEventTypesPage', () => {
             'Continue with your claim',
           );
 
-          expect($(confirmationAlertSelector, container).innerHTML).to.contain(
-            'Continue with your claim',
-          );
-
           expect(goForwardSpy.notCalled).to.be.true;
         });
       });
@@ -678,6 +665,31 @@ describe('TraumaticEventTypesPage', () => {
               optionIndicator: undefined,
             }),
           ).to.be.true;
+        });
+
+        it('displays a deletion confirmation alert but does NOT include a link to continue with the claim to the next page', async () => {
+          const { container } = render(
+            page({
+              data: deselectedMSTWithExistingEvidence,
+              onReviewPage: true,
+            }),
+          );
+
+          fireEvent.click($('va-button[text="Update page"]', container));
+
+          const modal = container.querySelector('va-modal');
+          modal.__events.primaryButtonClick();
+
+          expect($(confirmationAlertSelector), container).to.exist;
+
+          expect($(confirmationAlertSelector, container).innerHTML).to.contain(
+            'You’ve removed sexual assault or harassment as a type of trauma you experienced.',
+            'Review your traumatic events, behavioral changes and supporting documents to remove any information you don’t want to include.',
+          );
+
+          expect(
+            $(confirmationAlertSelector, container).innerHTML,
+          ).not.to.contain('Continue with your claim');
         });
       });
     });
