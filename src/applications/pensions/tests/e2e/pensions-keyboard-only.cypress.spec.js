@@ -24,7 +24,7 @@ const testForm = (data, pageHooks = {}) => {
   const { chapters } = formConfig;
 
   startForm();
-  const hooks = pageHooks();
+  const hooks = pageHooks;
 
   let pathsVisited = [];
   Object.values(chapters).forEach(chapter => {
