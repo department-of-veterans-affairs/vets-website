@@ -3,7 +3,9 @@ import sinon from 'sinon';
 import { normalizedForm } from 'applications/simple-forms-form-engine/shared/config/formConfig';
 import { listLoopPages } from 'applications/simple-forms-form-engine/shared/config/pages/listLoop';
 import { render } from '@testing-library/react';
+import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import * as titlePattern from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import * as arrayBuilderPatterns from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
 
 const findChapterByType = type =>
   normalizedForm.chapters.find(chapter => chapter.type === type);
@@ -11,6 +13,8 @@ const findChapterByType = type =>
 describe('listLoopPages', () => {
   const optional = {
     id: 162032,
+    nounSingular: 'optional thing',
+    nounPlural: 'optional things',
     type: 'digital_form_list_loop',
     optional: true,
     chapterTitle: "Veteran's employment history",
@@ -43,12 +47,6 @@ describe('listLoopPages', () => {
     expect(options.nounSingular).to.eq(required.nounSingular);
     expect(options.nounPlural).to.eq(required.nounPlural);
     expect(options.maxItems).to.eq(required.maxItems);
-  });
-
-  it('includes a summary page', () => {
-    const { employerSummary } = listLoopPages(optional, arrayBuilderStub);
-
-    expect(employerSummary.path).to.eq('employers');
   });
 
   context('when the variation is employment history', () => {
@@ -145,17 +143,26 @@ describe('listLoopPages', () => {
 
   describe('optional and required', () => {
     let pages;
+    let yesNoSpy;
+
+    beforeEach(() => {
+      yesNoSpy = sinon.spy(arrayBuilderPatterns, 'arrayBuilderYesNoUI');
+    });
+
+    afterEach(() => {
+      yesNoSpy.restore();
+    });
 
     context('when optional is false', () => {
-      let spy;
+      let titleSpy;
 
       beforeEach(() => {
-        spy = sinon.spy(titlePattern, 'titleUI');
+        titleSpy = sinon.spy(titlePattern, 'titleUI');
         pages = listLoopPages(required, arrayBuilderStub);
       });
 
       afterEach(() => {
-        spy.restore();
+        titleSpy.restore();
       });
 
       it('sets required to true', () => {
@@ -165,19 +172,25 @@ describe('listLoopPages', () => {
       });
 
       it('includes an introPage', () => {
-        const { employerSummary } = pages;
+        const { filmSummary } = pages;
         const introPage = pages[required.nounSingular];
+        const [, yesNoOptions, yesNoOptionsMore] = yesNoSpy.getCall(0).args;
 
         expect(introPage.title).to.eq(required.chapterTitle);
         expect(introPage.path).to.eq(required.nounPlural);
         // introPages have no schemas
         expect(Object.keys(introPage.schema.properties).length).to.eq(0);
         expect(
-          spy.calledWith(required.chapterTitle, required.sectionIntro),
+          titleSpy.calledWith(required.chapterTitle, required.sectionIntro),
         ).to.eq(true);
 
-        expect(employerSummary.title).to.eq('Review your employers');
-        expect(employerSummary.path).to.eq('employers-summary');
+        expect(filmSummary.title).to.eq('Review your films');
+        expect(filmSummary.path).to.eq('films-summary');
+        expect(filmSummary.schema.properties['view:hasFilms']).to.eq(
+          webComponentPatterns.arrayBuilderYesNoSchema,
+        );
+        expect(yesNoOptions.title).to.eq(undefined);
+        expect(yesNoOptionsMore.title).to.eq(undefined);
       });
     });
 
@@ -193,11 +206,17 @@ describe('listLoopPages', () => {
       });
 
       it('does not include an introPage', () => {
-        const { employerSummary } = pages;
+        const { optionalThingSummary } = pages;
+        const [, yesNoOptions, yesNoOptionsMore] = yesNoSpy.getCall(0).args;
 
         expect(pages.employer).to.eq(undefined);
-        expect(employerSummary.title).to.eq('Your employers');
-        expect(employerSummary.path).to.eq('employers');
+        expect(optionalThingSummary.title).to.eq(optional.chapterTitle);
+        expect(optionalThingSummary.path).to.eq('optional-things');
+        expect(
+          optionalThingSummary.schema.properties['view:hasOptionalThings'],
+        ).to.eq(webComponentPatterns.arrayBuilderYesNoSchema);
+        expect(yesNoOptions.title).to.eq(undefined);
+        expect(yesNoOptionsMore.title).to.eq(undefined);
       });
     });
   });

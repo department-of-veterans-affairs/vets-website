@@ -86,17 +86,33 @@ describe('namePage', () => {
 });
 
 describe('summaryPage', () => {
+  let yesNoSpy;
+
+  beforeEach(() => {
+    yesNoSpy = sinon.spy(arrayBuilderPatterns, 'arrayBuilderYesNoUI');
+  });
+
+  afterEach(() => {
+    yesNoSpy.restore();
+  });
+
   it('includes the proper attributes', () => {
     const options = {
-      required: true,
+      required: false,
     };
-
     const employerSummary = summaryPage(options);
+    const [, yesNoOptions, yesNoOptionsMore] = yesNoSpy.getCall(0).args;
 
+    expect(employerSummary.title).to.eq('Your employers');
+    expect(employerSummary.path).to.eq('employers');
     expect(employerSummary.schema.properties['view:hasEmployers']).to.eq(
       webComponentPatterns.arrayBuilderYesNoSchema,
     );
-    expect(employerSummary.uiSchema['view:hasEmployers']).to.not.eq(undefined);
-    expect(employerSummary.path).to.eq('employers-summary');
+    expect(yesNoOptions.title).to.eq(
+      'Were you employed by the VA, others or self-employed at any time during the last 12 months?',
+    );
+    expect(yesNoOptionsMore.title).to.eq(
+      'Do you have another employer to report?',
+    );
   });
 });

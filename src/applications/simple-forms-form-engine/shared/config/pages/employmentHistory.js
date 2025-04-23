@@ -97,7 +97,7 @@ export const namePage = options => ({
 
 /** @returns {PageSchema} */
 export const summaryPage = options => ({
-  path: options.required ? 'employers-summary' : 'employers',
+  path: 'employers',
   schema: {
     type: 'object',
     properties: {
@@ -105,7 +105,7 @@ export const summaryPage = options => ({
     },
     required: ['view:hasEmployers'],
   },
-  title: options.required ? 'Review your employers' : 'Your employers',
+  title: 'Your employers',
   uiSchema: {
     'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoUI(
       options,

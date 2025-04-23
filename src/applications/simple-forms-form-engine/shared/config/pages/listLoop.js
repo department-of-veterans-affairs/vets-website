@@ -79,7 +79,7 @@ const hydrateComponentLists = chapter => {
   return { requiredComponents, summaryComponents };
 };
 
-const { datePage, detailPage, namePage, summaryPage } = employmentHistory;
+const { datePage, detailPage, namePage } = employmentHistory;
 
 /**
  * Yes, this function name is awful. You got a better one?
@@ -88,6 +88,8 @@ const { datePage, detailPage, namePage, summaryPage } = employmentHistory;
  * @returns {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter}
  */
 const pageBuilderCallbackBuilder = (options, chapter) => pageBuilder => {
+  const { nounPlural, nounSingular, required } = options;
+
   /** @type {FormConfigPages} */
   const pages = {};
 
@@ -107,13 +109,38 @@ const pageBuilderCallbackBuilder = (options, chapter) => pageBuilder => {
     },
   };
 
+  /**
+   * @type {string}
+   */
+  const summaryProperty = `view:${camelCase(`has ${nounPlural}`)}`;
+
+  /** @type {PageSchema} */
+  const summaryPage = {
+    path: kebabCase(required ? `${nounPlural} summary` : nounPlural),
+    schema: {
+      type: 'object',
+      properties: {},
+      required: [summaryProperty],
+    },
+    title: required ? `Review your ${nounPlural}` : chapter.chapterTitle,
+    uiSchema: {},
+  };
+  summaryPage.schema.properties[summaryProperty] =
+    webComponentPatterns.arrayBuilderYesNoSchema;
+  summaryPage.uiSchema[
+    summaryProperty
+  ] = webComponentPatterns.arrayBuilderYesNoUI(options, {}, {});
+
   if (options.required) {
-    pages[options.nounSingular] = pageBuilder.introPage(introPage);
+    pages[nounSingular] = pageBuilder.introPage(introPage);
   }
+
+  pages[camelCase(`${nounSingular} summary`)] = pageBuilder.summaryPage(
+    summaryPage,
+  );
 
   return {
     ...pages,
-    employerSummary: pageBuilder.summaryPage(summaryPage(options)),
     employerNamePage: pageBuilder.itemPage(namePage(options)),
     employerDatePage: pageBuilder.itemPage(datePage),
     employerDetailPage: pageBuilder.itemPage(detailPage),
