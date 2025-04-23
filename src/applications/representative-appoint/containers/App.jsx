@@ -6,18 +6,18 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+
+import formConfig from '../config/form';
 
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
-import formConfig from '../config/form';
-import configService from '../utilities/configService';
-import { getFormSubtitle } from '../utilities/helpers';
 
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 
-import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
-
+import configService from '../utilities/configService';
+import { getFormSubtitle } from '../utilities/helpers';
 import { selectAuthStatus } from '../utilities/selectors/authStatus';
+import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
 
 function App({ location, children, formData }) {
   const subTitle = getFormSubtitle(formData);
