@@ -1,7 +1,7 @@
 import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 
 /**
- * Mock user class.
+ * Mock user response.
  *
  * @export
  * @class MockUser

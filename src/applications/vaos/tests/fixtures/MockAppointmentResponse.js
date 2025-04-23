@@ -1,12 +1,13 @@
+// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import { addHours, format, startOfDay } from 'date-fns';
 import {
   APPOINTMENT_STATUS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
-} from '../../../utils/constants';
+} from '../../utils/constants';
 
 /**
- * Mock appointment class.
+ * Mock appointment response.
  *
  * @export
  * @class MockAppointment
