@@ -20,7 +20,7 @@ const IntroductionPage = ({ route, router }) => {
   const { title, subTitle, pdfDownloadUrl } = getFormContent();
 
   const goToSignIn = () => {
-    window.location.assign(SIGN_IN_URL);
+    window.location = SIGN_IN_URL;
   };
 
   const startBtn = useMemo(
