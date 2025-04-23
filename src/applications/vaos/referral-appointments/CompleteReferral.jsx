@@ -171,7 +171,7 @@ export default function CompleteReferral() {
             </p>
             <p>
               <va-link
-                href={`/appointments/${attributes.id}`}
+                href={`/my-health/appointments/${attributes.id}?eps=true`}
                 data-testid="cc-details-link"
                 text="Details"
               />

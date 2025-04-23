@@ -37,7 +37,11 @@ const appointmentData = {
  * @param {Object} [draftResponse={}] - The draft response object.
  * @returns {Object} The referral appointment object.
  */
-const createMockEpsAppointment = (id, status = 'draft', draftResponse = {}) => {
+const createMockEpsAppointment = (
+  id,
+  status = 'booked',
+  draftResponse = {},
+) => {
   return {
     ...draftResponse,
     id,
