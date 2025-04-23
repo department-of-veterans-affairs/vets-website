@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateShort, formatDateLong } from 'platform/utilities/date';
 import { formatCurrency, formatFullNameNoSuffix } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -125,7 +125,7 @@ export const testOptionsTextCardDescription = (
         capitalGainValue: formatCurrency,
         marketValueAtEstablishment: formatCurrency,
         waivedGrossMonthlyIncome: formatCurrency,
-        transferDate: formatDateShort,
+        transferDate: formatDateLong,
         establishedDate: formatDateShort,
       };
 

@@ -58,7 +58,7 @@ export const options = {
       isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Income Generation Method:{' '}
+            Income generation method:{' '}
             <span className="vads-u-font-weight--bold">
               {generatedIncomeTypeLabels[item.incomeGenerationMethod]}
             </span>

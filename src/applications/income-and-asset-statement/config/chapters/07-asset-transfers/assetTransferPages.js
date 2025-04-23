@@ -9,8 +9,8 @@ import {
   currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
@@ -20,11 +20,12 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { relationshipLabels, transferMethodLabels } from '../../../labels';
 
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
   isDefined,
@@ -49,25 +50,31 @@ export const options = {
     !isDefined(item.capitalGainValue), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item.assetType,
+    getItemName: item =>
+      isDefined(item?.newOwnerName) &&
+      `Asset transferred to ${formatFullNameNoSuffix(item?.newOwnerName)}`,
     cardDescription: item =>
       isDefined(item?.fairMarketValue) &&
       isDefined(item?.capitalGainValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Transfer Method:{' '}
+            Transfer method:{' '}
             <span className="vads-u-font-weight--bold">
               {transferMethodLabels[item.transferMethod]}
             </span>
           </li>
           <li>
-            Transfer Date:{' '}
+            Asset transferred:{' '}
+            <span className="vads-u-font-weight--bold">{item.assetType}</span>
+          </li>
+          <li>
+            Transfer date:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatDateShort(item.transferDate)}
+              {formatDateLong(item.transferDate)}
             </span>
           </li>
           <li>
-            Fair Market Value:{' '}
+            Fair market value:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.fairMarketValue)}
             </span>
@@ -211,7 +218,7 @@ const newOwnerPage = {
       {
         'ui:title': 'Who received the asset?',
       },
-      fullNameUI(),
+      fullNameNoSuffixUI(),
     ),
     newOwnerRelationship: textUI({
       title: 'What is the relationship to the new owner?',
@@ -224,7 +231,7 @@ const newOwnerPage = {
   schema: {
     type: 'object',
     properties: {
-      newOwnerName: fullNameSchema,
+      newOwnerName: fullNameNoSuffixSchema,
       newOwnerRelationship: textSchema,
       saleReportedToIrs: yesNoSchema,
     },
