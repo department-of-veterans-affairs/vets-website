@@ -101,7 +101,7 @@ const NationalExamDetails = () => {
       const test = validTests[0];
       return (
         <div className="exam-single-test usa-width-two-thirds">
-          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">Test Info</h2>
+          <h2 className="vads-u-margin-y--0">Test Info</h2>
           <p className="vads-u-margin-bottom--0">Showing 1 of 1 test</p>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul className="remove-bullets" role="list">
