@@ -1,5 +1,14 @@
 // @ts-check
-import MockUser from '../../fixtures/MockUser';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { PRIMARY_CARE } from '../../../../utils/constants';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -11,15 +20,6 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { PRIMARY_CARE } from '../../../../utils/constants';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;

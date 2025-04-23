@@ -1,4 +1,11 @@
 /* eslint-disable no-plusplus */
+
+/**
+ * Mock clinic response.
+ *
+ * @export
+ * @class MockClinicResponse
+ */
 export default class MockClinicResponse {
   constructor({ id, name = null, locationId = '983' }) {
     this.id = id.toString();
