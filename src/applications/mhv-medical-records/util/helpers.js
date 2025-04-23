@@ -196,7 +196,9 @@ export const makePdf = async (
   try {
     // Use cached module promise if available, otherwise create a new one
     if (!pdfModulePromise) {
-      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+      pdfModulePromise = import(
+        '@department-of-veterans-affairs/platform-pdf/exports'
+      );
     }
 
     // Wait for the module to load and extract the generatePdf function
