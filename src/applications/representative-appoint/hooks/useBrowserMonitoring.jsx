@@ -8,9 +8,9 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { isProductionEnv } from '../utilities/helpers';
 
 // CONSTANTS
-const APP_UUID = '';
+const APP_UUID = '987a812a-6aa8-4a16-96cd-fe9204ea3a9a';
 const APP_DASHBOARD_NAME = 'appoint-a-representative';
-const TOKEN_ID = '';
+const TOKEN_ID = 'pub1411ca9c077473d622df93107fefbc2c';
 const VERSION = '1.0.0';
 
 // https://docs.datadoghq.com/real_user_monitoring/guide/identify-bots-in-the-ui/#filter-out-bot-sessions-on-intake
