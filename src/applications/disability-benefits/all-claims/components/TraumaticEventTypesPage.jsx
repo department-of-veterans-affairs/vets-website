@@ -13,6 +13,7 @@ import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
   titleWithTag,
+  traumaticEventsExamples,
 } from '../content/form0781';
 import {
   deletedEvidenceAlertConfirmationContent,
@@ -104,7 +105,8 @@ const TraumaticEventTypesPage = ({
     setFormData(deepClone);
   };
 
-  // TODO: DOCUMENT HEAVILY
+  // If the user is opts to deselect MST and they are asked in the modal to delete their MST data,
+  // they can close the modal or click the Cancel button. Doing so should revert the MST checkbox back to checked
   const revertMSTEventTypeDeselection = () => {
     const deepClone = cloneDeep(data);
 
@@ -153,11 +155,6 @@ const TraumaticEventTypesPage = ({
     onConfirmDeleteMSTEvidence: () => {
       deleteMSTEvidence();
       setShowDeleteMSTEvidenceModal(false);
-
-      if (onReviewPage) {
-        updatePage();
-      }
-
       setShowDeletedEvidenceConfirmation(true);
     },
     onCancelDeleteBehavioralAnswers: () => {
@@ -256,8 +253,13 @@ const TraumaticEventTypesPage = ({
             ),
           )}
         </VaCheckboxGroup>
-        {/* Mental Health dropdown is not displayed when content is rendered on the Review and Submit page */}
-        <>{!onReviewPage && mentalHealthSupportAlert()}</>
+        {/* Mental Health dropdown and Event Types accordion is not displayed when content is rendered on the Review and Submit page */}
+        {!onReviewPage && (
+          <>
+            {traumaticEventsExamples}
+            {mentalHealthSupportAlert()}
+          </>
+        )}
         {onReviewPage && (
           <va-button
             onClick={handlers.onUpdatePage}
