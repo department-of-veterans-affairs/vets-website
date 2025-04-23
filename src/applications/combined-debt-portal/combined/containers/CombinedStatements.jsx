@@ -19,9 +19,11 @@ import {
   setPageFocus,
   handlePdfGeneration,
   formatDate,
+  APP_TYPES,
 } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import ZeroBalanceCard from '../components/ZeroBalanceCard';
 
 // Helper function to clean HTML entities
 const cleanHtmlEntities = text => {
@@ -60,8 +62,13 @@ const CombinedStatements = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
 
+  // Get loading states
+  const { pending: billsLoading } = mcp;
+  const { isPending: debtsLoading, isPendingVBMS } = debtLetters;
+  const dataLoading = billsLoading || debtsLoading || isPendingVBMS;
+
   const debts = debtLetters.debts || [];
-  const bills = mcp.statements;
+  const bills = mcp.statements || [];
 
   // Pulling veteran contact information from the Redux store
   const mailingAddress = useSelector(selectVAPMailingAddress);
@@ -76,18 +83,19 @@ const CombinedStatements = () => {
   const todaysDate = format(new Date(), 'MMMM d, yyyy');
 
   // Data for One VA Debt Letter PDF
-  const veteranContactInformation = {
-    veteranFullName: userFullName,
-    addressLine1: (mailingAddress && mailingAddress.addressLine1) || '',
-    addressLine2: (mailingAddress && mailingAddress.addressLine2) || '',
-    addressLine3: (mailingAddress && mailingAddress.addressLine3) || '',
-    city: (mailingAddress && mailingAddress.city) || '',
-    zipCode: (mailingAddress && mailingAddress.zipCode) || '',
-    stateCode: (mailingAddress && mailingAddress.stateCode) || '',
-    fileNumber,
-    payeeNumber,
-    personEntitled,
-  };
+  const veteranContactInformation =
+    {
+      veteranFullName: userFullName,
+      addressLine1: (mailingAddress && mailingAddress.addressLine1) || '',
+      addressLine2: (mailingAddress && mailingAddress.addressLine2) || '',
+      addressLine3: (mailingAddress && mailingAddress.addressLine3) || '',
+      city: (mailingAddress && mailingAddress.city) || '',
+      zipCode: (mailingAddress && mailingAddress.zipCode) || '',
+      stateCode: (mailingAddress && mailingAddress.stateCode) || '',
+      fileNumber,
+      payeeNumber,
+      personEntitled,
+    } || {};
 
   // Get the veteran's formatted name
   const getFormattedName = () => {
@@ -126,8 +134,8 @@ const CombinedStatements = () => {
 
   // Merge into namespaced pdfData for One VA Debt Letter PDF
   const pdfData = {
-    copays: bills,
-    debts,
+    copays: bills || [],
+    debts: debts || [],
     veteranContactInformation,
     details: {
       logoUrl: '/img/design/logo/logo-black-and-white.png',
@@ -140,8 +148,13 @@ const CombinedStatements = () => {
     return showOneVADebtLetterDownload && !debtError && !billsBorked;
   }, [billError, debtError, showOneVADebtLetterDownload]);
 
-  // If the feature flag is not enabled, redirect to the summary page
-  if (!showOneVADebtLetterDownload) {
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading || dataLoading) {
+    return <VaLoadingIndicator message="Loading features and data..." />;
+  }
+
+  // If the feature flag is not enabled or there are errors, redirect to the summary page
+  if (!showOneVADebtLetterDownload || debtError || billError) {
     window.location.replace('/manage-va-debt/summary');
     return (
       <div className="vads-u-margin--5">
@@ -151,11 +164,6 @@ const CombinedStatements = () => {
         />
       </div>
     );
-  }
-
-  // give features a chance to fully load before we conditionally render
-  if (togglesLoading) {
-    return <VaLoadingIndicator message="Loading features..." />;
   }
 
   const copayTotalRow = copay => {
@@ -173,21 +181,25 @@ const CombinedStatements = () => {
   };
 
   const copayPreviousBalanceRow = copay => {
+    if (!copay.pHPrevBal) return null;
+
     return (
       <va-table-row>
         <span>Previous Balance</span>
         <span />
-        <span>{currency(copay.pHPrevBal, 0)}</span>
+        <span>{currency(parseFloat(copay.pHPrevBal || 0), 0)}</span>
       </va-table-row>
     );
   };
 
   const copayTotalPaymentsCreditsRow = copay => {
+    if (!copay.pHTotCredits) return null;
+
     return (
       <va-table-row>
         <span>Payments Received</span>
         <span />
-        <span>{currency(copay.pHTotCredits, 0)}</span>
+        <span>{currency(parseFloat(copay.pHTotCredits || 0), 0)}</span>
       </va-table-row>
     );
   };
@@ -269,151 +281,177 @@ const CombinedStatements = () => {
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Copay charges
           </h2>
-          <p className="vads-u-margin-top--0">
-            You’re receiving this billing statement because you are currently
-            enrolled in a priority group requiring copayments for treatment of
-            non-service connected conditions.
-          </p>
-
-          <div className="vads-u-margin-top--3">
-            <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-              Resolve your copay bills
-            </h3>
-            <p className="vads-u-margin-top--0">
-              You can pay your debt online, by phone, or by mail. Call us at{' '}
-              <va-telephone contact="8664001238" /> to discuss payment options,
-              request financial help, or dispute your bill.
-            </p>
-            <va-link-action
-              href="/manage-va-debt/summary/copay-balances"
-              text="Review and resolve copay bills"
-              type="secondary"
-              data-testid="review-copays-link"
-            />
-          </div>
-
-          {/* Copay charges tables */}
-          {mcp.statements.map(statement => (
-            <div key={statement.station.facilityName}>
-              <h3>{statement.station.facilityName}</h3>
-              <p className="vads-u-margin-bottom--0">
-                Payments made after{' '}
-                {getLatestPaymentDateFromCopayForFacility(statement)} will not
-                be reflected here
+          {bills && bills.length > 0 ? (
+            <>
+              <p className="vads-u-margin-top--0">
+                You’re receiving this billing statement because you are
+                currently enrolled in a priority group requiring copayments for
+                treatment of non-service connected conditions.
               </p>
 
-              <va-table
-                table-title={`Copay charges for ${statement.station.facilityName}`}
-                data-testid={`combined-statements-copay-table-${statement.station.facilityName}`}
-                className="vads-u-width--full"
-              >
-                <va-table-row slot="headers">
-                  <span>Description</span>
-                  <span>Billing reference</span>
-                  <span>Amount</span>
-                </va-table-row>
-                {copayPreviousBalanceRow(statement)}
+              <div className="vads-u-margin-top--3">
+                <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+                  Resolve your copay bills
+                </h3>
+                <p className="vads-u-margin-top--0">
+                  You can pay your debt online, by phone, or by mail. Call us at{' '}
+                  <va-telephone contact="8664001238" /> to discuss payment
+                  options, request financial help, or dispute your bill.
+                </p>
 
-                {statement.details.map((charge, idx) => (
-                  <va-table-row key={idx}>
-                    <span>{cleanHtmlEntities(charge.pDTransDescOutput)}</span>
-                    <span>{charge.pDRefNo}</span>
-                    <span>{currency(charge.pDTransAmt)}</span>
+                <va-link-action
+                  href="/manage-va-debt/summary/copay-balances"
+                  text="Review and resolve copay bills"
+                  type="secondary"
+                  data-testid="review-copays-link"
+                />
+              </div>
+            </>
+          ) : null}
+
+          {/* Copay charges tables */}
+          {bills && bills.length > 0 ? (
+            bills.map(statement => (
+              <div key={statement.station.facilityName}>
+                <h3>{statement.station.facilityName}</h3>
+                <p className="vads-u-margin-bottom--0">
+                  Payments made after{' '}
+                  {getLatestPaymentDateFromCopayForFacility(statement)} will not
+                  be reflected here
+                </p>
+
+                <va-table
+                  table-title={`Copay charges for ${statement.station.facilityName}`}
+                  data-testid={`combined-statements-copay-table-${statement.station.facilityName}`}
+                  className="vads-u-width--full"
+                >
+                  <va-table-row slot="headers">
+                    <span>Description</span>
+                    <span>Billing reference</span>
+                    <span>Amount</span>
                   </va-table-row>
-                ))}
+                  {copayPreviousBalanceRow(statement)}
 
-                {statement?.pHTotCredits !== 0 &&
-                  copayTotalPaymentsCreditsRow(statement)}
-                {copayTotalRow(statement)}
-              </va-table>
-            </div>
-          ))}
+                  {statement.details &&
+                    statement.details.map((charge, idx) => (
+                      <va-table-row key={idx}>
+                        <span>
+                          {cleanHtmlEntities(charge.pDTransDescOutput)}
+                        </span>
+                        <span>{charge.pDRefNo}</span>
+                        <span>{currency(charge.pDTransAmt, 0)}</span>
+                      </va-table-row>
+                    ))}
+
+                  {statement?.pHTotCredits !== 0 &&
+                    copayTotalPaymentsCreditsRow(statement)}
+                  {copayTotalRow(statement)}
+                </va-table>
+              </div>
+            ))
+          ) : (
+            <ZeroBalanceCard appType={APP_TYPES.COPAY} />
+          )}
         </div>
 
         <div className="vads-u-margin-y--4 vads-u-padding-y--2">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Overpayment charges
           </h2>
-          <p className="vads-u-margin-top--0">
-            Benefit overpayments are due to changes in your benefits which
-            result in you being paid more than you were owed.
-          </p>
-          <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-            Resolve your overpayment
-          </h3>
-          <p className="vads-u-margin-top--0">
-            You can pay your debt online, by phone, or by mail. Call us at{' '}
-            <va-telephone contact="8008270648" /> to discuss payment options,
-            request financial help, or dispute your bill.
-          </p>
-          <va-link-action
-            href="/manage-va-debt/summary/debt-balances"
-            text="Review and resolve overpayments"
-            type="secondary"
-            data-testid="review-debts-link"
-          />
+          {debts && debts.length > 0 ? (
+            <>
+              <p className="vads-u-margin-top--0">
+                Benefit overpayments are due to changes in your benefits which
+                result in you being paid more than you were owed.
+              </p>
+              <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+                Resolve your overpayment
+              </h3>
+              <p className="vads-u-margin-top--0">
+                You can pay your debt online, by phone, or by mail. Call us at{' '}
+                <va-telephone contact="8008270648" /> to discuss payment
+                options, request financial help, or dispute your bill.
+              </p>
 
-          <p className="vads-u-margin-bottom--3">
-            Most recent payment may not be reflected here.
-          </p>
+              <va-link-action
+                href="/manage-va-debt/summary/debt-balances"
+                text="Review and resolve overpayments"
+                type="secondary"
+                data-testid="review-debts-link"
+              />
 
-          <va-table
-            table-type="borderless"
-            table-title="Overpayment charges"
-            className="vads-u-width--full vads-u-margin-x--0"
-            data-testid="combined-statements-debt-table"
-          >
-            <va-table-row slot="headers">
-              <span>Date</span>
-              <span>Description</span>
-              <span>Amount</span>
-            </va-table-row>
+              <p className="vads-u-margin-bottom--3">
+                Most recent payment may not be reflected here.
+              </p>
+            </>
+          ) : null}
 
-            {debts.map((debt, index) => {
-              const formattedDate =
-                debt.debtHistory && debt.debtHistory.length > 0
-                  ? format(
-                      parse(debt.debtHistory[0].date, 'MM/dd/yyyy', new Date()),
-                      'MMMM d, yyyy',
-                    )
-                  : '';
+          {debts && debts.length > 0 ? (
+            <va-table
+              table-type="borderless"
+              table-title="Overpayment charges"
+              className="vads-u-width--full vads-u-margin-x--0"
+              data-testid="combined-statements-debt-table"
+            >
+              <va-table-row slot="headers">
+                <span>Date</span>
+                <span>Description</span>
+                <span>Amount</span>
+              </va-table-row>
 
-              const debtAmount = parseFloat(
-                debt.currentAr || debt.originalAr || 0,
-              );
+              {debts.map((debt, index) => {
+                const formattedDate =
+                  debt.debtHistory && debt.debtHistory.length > 0
+                    ? format(
+                        parse(
+                          debt.debtHistory[0].date,
+                          'MM/dd/yyyy',
+                          new Date(),
+                        ),
+                        'MMMM d, yyyy',
+                      )
+                    : '';
 
-              return (
-                <va-table-row key={`debt-combined-${index}`}>
-                  <span>{formattedDate}</span>
-                  <span>
-                    <strong>
-                      {deductionCodes[debt.deductionCode] ||
-                        debt.benefitType ||
-                        'VA Debt'}
-                    </strong>
-                  </span>
-                  <span>{currency(debtAmount)}</span>
-                </va-table-row>
-              );
-            })}
+                const debtAmount = parseFloat(
+                  debt.currentAr || debt.originalAr || 0,
+                );
 
-            <va-table-row>
-              <span className="sr-only">Total row</span>
-              <span className="vads-u-text-align--right vads-u-font-weight--bold">
-                Total Due:
-              </span>
-              <span className="vads-u-font-weight--bold">
-                {currency(
-                  debts.reduce(
-                    (total, debt) =>
-                      total +
-                      parseFloat(debt.currentAr || debt.originalAr || 0),
+                return (
+                  <va-table-row key={`debt-combined-${index}`}>
+                    <span>{formattedDate}</span>
+                    <span>
+                      <strong>
+                        {deductionCodes[debt.deductionCode] ||
+                          debt.benefitType ||
+                          'VA Debt'}
+                      </strong>
+                    </span>
+                    <span>{currency(debtAmount, 0)}</span>
+                  </va-table-row>
+                );
+              })}
+
+              <va-table-row>
+                <span className="sr-only">Total row</span>
+                <span className="vads-u-text-align--right vads-u-font-weight--bold">
+                  Total Due:
+                </span>
+                <span className="vads-u-font-weight--bold">
+                  {currency(
+                    debts.reduce(
+                      (total, debt) =>
+                        total +
+                        parseFloat(debt.currentAr || debt.originalAr || 0),
+                      0,
+                    ),
                     0,
-                  ),
-                )}
-              </span>
-            </va-table-row>
-          </va-table>
+                  )}
+                </span>
+              </va-table-row>
+            </va-table>
+          ) : (
+            <ZeroBalanceCard appType={APP_TYPES.DEBT} />
+          )}
         </div>
         <Modals title="Notice of rights and responsibilities" id="notice-modal">
           <Modals.Rights />

@@ -348,27 +348,15 @@ const BehaviorListPage = ({
           uswds
           tabIndex="-1"
         >
+          <p className="vads-u-margin-y--0">
+            We’ve removed optional descriptions about your behavioral changes.
+          </p>
           {!onReviewPage ? (
-            <>
-              <p className="vads-u-margin-y--0">
-                We’ve removed optional descriptions about your behavioral
-                changes.
-              </p>
-              <p>
-                <va-link
-                  text="Continue with your claim"
-                  onClick={handlers.onSubmit}
-                />
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="vads-u-margin-y--0">
-                We’ve removed optional descriptions about your behavioral
-                changes.
-              </p>
-            </>
-          )}
+            <va-link
+              text="Continue with your claim"
+              onClick={handlers.onSubmit}
+            />
+          ) : null}
         </VaAlert>
       </div>
 

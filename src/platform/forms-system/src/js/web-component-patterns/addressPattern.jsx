@@ -445,7 +445,7 @@ export function addressUI(options) {
 
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
-          return country && country === USA.value;
+          return country && ['USA', 'CAN'].includes(country);
         }
 
         return false;

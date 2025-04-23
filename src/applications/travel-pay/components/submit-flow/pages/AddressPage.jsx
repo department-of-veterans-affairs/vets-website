@@ -33,18 +33,15 @@ const AddressPage = ({
 
   useSetPageTitle(title);
 
-  useEffect(
-    () => {
-      recordSmocPageview('address');
-      scrollToTop('topScrollElement');
-      if (!address) {
-        focusElement('h1');
-      } else {
-        focusElement('h1', {}, 'va-radio');
-      }
-    },
-    [address],
-  );
+  useEffect(() => {
+    recordSmocPageview('address');
+    scrollToTop('topScrollElement');
+    if (!address) {
+      focusElement('h1');
+    } else {
+      focusElement('h1', {}, 'va-radio');
+    }
+  }, [address]);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -118,26 +115,27 @@ const AddressPage = ({
             confirm that it’s not a Post Office box.
           </p>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
-          <p className="vads-u-margin-top--2">
+          <div className="vads-u-margin-y--2">
             <strong>Home address</strong>
-            <br />
-            {address.addressLine1}
-            <br />
-            {address.addressLine2 && (
-              <>
-                {address.addressLine2}
-                <br />
-              </>
-            )}
-            {address.addressLine3 && (
-              <>
-                {address.addressLine3}
-                <br />
-              </>
-            )}
-            {`${address.city}, ${address.stateCode} ${address.zipCode}`}
-            <br />
-          </p>
+            <div data-dd-privacy="mask">
+              {address.addressLine1}
+              <br />
+              {address.addressLine2 && (
+                <>
+                  {address.addressLine2}
+                  <br />
+                </>
+              )}
+              {address.addressLine3 && (
+                <>
+                  {address.addressLine3}
+                  <br />
+                </>
+              )}
+              {`${address.city}, ${address.stateCode} ${address.zipCode}`}
+              <br />
+            </div>
+          </div>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
       </SmocRadio>

@@ -8,6 +8,7 @@ import {
 } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
+  const institutionName = localStorage.getItem('institutionName');
   const location = useLocation();
 
   const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');
@@ -85,14 +86,14 @@ const GiBillBreadcrumbs = () => {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/institution/${profileMatch
         ?.params?.facilityCode || programsTypeMatch?.params?.facilityCode}`,
-      label: 'Institution details',
+      label: institutionName,
     });
   }
   if (seProfileMatch || seProgramsTypeMatch) {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${seProfileMatch
         ?.params?.facilityCode || seProgramsTypeMatch?.params?.facilityCode}`,
-      label: 'Institution details',
+      label: institutionName,
     });
   }
   if (nationalExamsMatch) {

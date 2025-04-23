@@ -70,9 +70,9 @@ const POARequestSearchPage = title => {
   }, [title]);
   const poaRequests = useLoaderData().data;
   const meta = useLoaderData().meta.page;
-  const pageSize = 20;
-  let initCount = 1;
-  const pageNumber = useSearchParams()[0].get('pageNumber');
+  const pageSize = Number(useSearchParams()[0].get('pageSize'));
+  let initCount;
+  const pageNumber = Number(useSearchParams()[0].get('pageNumber'));
   let pageSizeCount = pageSize * pageNumber;
   const totalCount = meta.total;
   const searchStatus = useSearchParams()[0].get('status');
@@ -81,11 +81,15 @@ const POARequestSearchPage = title => {
     pageSizeCount = pageSize + (totalCount - pageSize);
   }
   if (pageNumber > 1) {
-    initCount += pageSize;
+    if (poaRequests.length < pageSize) {
+      initCount = pageSize * (pageNumber - 1) + 1;
+    } else {
+      initCount = pageSizeCount - (pageSize - 1);
+    }
+  } else {
+    initCount = 1;
   }
-  const searchMetaText = `Showing ${initCount}-${pageSizeCount} of ${
-    meta.total
-  } ${searchStatus} requests sorted by “${
+  const searchMetaText = `Showing ${initCount}-${pageSizeCount} of ${totalCount} ${searchStatus} requests sorted by “${
     searchStatus === 'processed' ? 'Processed' : 'Submitted'
   } date (newest)”`;
 

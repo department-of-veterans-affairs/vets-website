@@ -48,6 +48,7 @@ export const useDirectDeposit = () => {
     ui,
     paymentAccount,
     controlInformation,
+    veteranStatus,
     saveError,
     loadError,
   } = useSelector(state => state.directDeposit);
@@ -126,6 +127,7 @@ export const useDirectDeposit = () => {
     saveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),
     controlInformation: useMemo(() => controlInformation, [controlInformation]),
+    veteranStatus: useMemo(() => veteranStatus, [veteranStatus]),
     showUpdateSuccess,
     setShowUpdateSuccess,
     showCancelModal,

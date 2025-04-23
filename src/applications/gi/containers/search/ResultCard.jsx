@@ -162,13 +162,14 @@ export function ResultCard({
           <Link
             ref={paginationRef}
             to={profileLink}
-            onClick={() =>
+            onClick={() => {
+              localStorage.setItem('institutionName', name);
               recordEvent({
                 event: 'gibct-view-profile',
                 'school-name': name,
                 'has-warnings': cautionFlags.length > 0,
-              })
-            }
+              });
+            }}
           >
             {name}
             <span className="vads-u-visibility--screen-reader">

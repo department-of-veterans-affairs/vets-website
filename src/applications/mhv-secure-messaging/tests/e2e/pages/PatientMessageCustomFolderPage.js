@@ -97,6 +97,8 @@ class PatientMessageCustomFolderPage {
         cy.stub(win, 'print');
       },
     });
+
+    cy.wait(`@customFolderThread`);
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
@@ -252,16 +254,17 @@ class PatientMessageCustomFolderPage {
   };
 
   clickRemoveFolderButton = () => {
-    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
-      .should('have.text', Data.REMOVE_FOLDER)
-      .click();
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(
+      'have.text',
+      Data.REMOVE_FOLDER,
+    );
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click();
   };
 
   verifyEmptyFolderAlert = () => {
-    cy.get(Locators.ALERTS.HEADER).should(
-      'have.text',
-      Assertions.EMPTY_THIS_FOLDER,
-    );
+    cy.get(Locators.ALERTS.HEADER)
+      .find(`#heading`)
+      .should('have.text', Assertions.EMPTY_THIS_FOLDER);
     cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
     cy.contains('button', 'Ok');
   };
