@@ -17,9 +17,11 @@ import React from 'react';
 import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockVAOSAppointmentsFetch,
+} from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
@@ -42,7 +44,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesApi({ response: [] });
   });
 
   afterEach(() => {
