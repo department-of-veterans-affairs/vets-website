@@ -19,7 +19,6 @@ const optionDefinitions = [
     defaultValue: [],
   },
 ];
-
 const options = commandLineArgs(optionDefinitions);
 
 let testsToRun = [];
@@ -45,40 +44,48 @@ core.exportVariable('NO_APPS_TO_RUN', false);
 const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
 
 const envPrefix = `LOG_LEVEL=${options['log-level'].toLowerCase()}`;
-let cmd;
+let cmdParts;
 
 if (options.coverage) {
-  const reporterFlag = options['coverage-html']
-    ? '--reporter=html'
-    : '--reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color';
-  cmd = [
+  cmdParts = [
     envPrefix,
     'NODE_ENV=test',
-    'npx nyc --all',
-    reporterFlag,
-    '--retries 5',
+    'npx nyc',
+    '--all',
+    options['coverage-html'] ? '--reporter=html' : '--reporter=json-summary',
+    '--reporter',
+    'mocha-multi-reporters',
+    '--reporter-options',
+    'configFile=config/mocha-multi-reporter.js',
+    '--no-color',
+    '--retries',
+    '5',
     'mocha',
-    '--require @babel/register',
-    `--config ${options.config}`,
-    '--extension js,jsx',
+    '--require',
+    '@babel/register',
+    '--config',
+    options.config,
+    '--extension',
+    'js,jsx',
     '--max-old-space-size=32768',
     filesArg,
-  ].join(' ');
+  ];
 } else {
-  const reporterFlag = options.reporter ? `--reporter ${options.reporter}` : '';
-  cmd = [
+  cmdParts = [
     envPrefix,
     'BABEL_ENV=test NODE_ENV=test',
     'npx mocha',
-    '--require @babel/register',
-    `--config ${options.config}`,
-    '--extension js,jsx',
-    reporterFlag,
+    '--require',
+    '@babel/register',
+    '--config',
+    options.config,
+    '--extension',
+    'js,jsx',
+    options.reporter ? `--reporter ${options.reporter}` : '',
     '--max-old-space-size=32768',
     filesArg,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ];
 }
 
-execSync(cmd, { stdio: 'inherit', shell: '/bin/bash' });
+const fullCmd = cmdParts.filter(Boolean).join(' ');
+execSync(fullCmd, { stdio: 'inherit', shell: '/bin/bash' });
