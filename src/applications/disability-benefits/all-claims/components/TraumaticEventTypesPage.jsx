@@ -87,8 +87,6 @@ const TraumaticEventTypesPage = ({
   const deleteMSTEvidence = () => {
     const deepClone = cloneDeep(data);
 
-    // Confirm this is works as expected in the UI? Make sure doesn't break this page if you delete and go back to it
-    // Maybe delete the key entirely?
     if (deepClone.optionIndicator) {
       deepClone.optionIndicator = undefined;
     }
