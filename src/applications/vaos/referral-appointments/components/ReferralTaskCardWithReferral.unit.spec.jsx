@@ -12,7 +12,7 @@ import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
 
 import { createReferralById } from '../utils/referrals';
 // skipping for now until we need to test this component
-xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
+describe('VAOS Component: ReferralTaskCardWithReferral', () => {
   let apiRequestWithUrlStub;
 
   beforeEach(() => {
@@ -75,6 +75,28 @@ xdescribe('VAOS Component: ReferralTaskCardWithReferral', () => {
         '2024-12-01',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
+    });
+
+    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
+      store,
+      path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
+    });
+
+    waitFor(() => {
+      expect(screen.getByTestId('expired-alert')).to.exist;
+    });
+  });
+
+  it('isExpired should return false and expired alert when referral has no expired date', async () => {
+    const store = createTestStore();
+    const referral = createReferralById(
+      '2024-12-01',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    );
+    referral.attributes.expirationDate = '';
+
+    apiRequestWithUrlStub.resolves({
+      data: referral,
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
