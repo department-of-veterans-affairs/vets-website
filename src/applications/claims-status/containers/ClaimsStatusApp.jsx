@@ -16,7 +16,7 @@ import { isLoadingFeatures } from '../selectors';
 import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
 const AppLoadingIndicator = ({ dataTestId }) => (
-  <div className="vads-u-margin-y--5">
+  <div className="vads-u-margin-y--5 vads-u-height--viewport">
     <va-loading-indicator
       data-testid={dataTestId}
       message="Loading your claims and appeals..."
