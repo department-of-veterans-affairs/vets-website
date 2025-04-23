@@ -9,14 +9,16 @@ import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink
 import content from '../../../locales/en/content.json';
 
 describe('hca <ApplicationDownloadLink>', () => {
-  const subject = () => {
+  const subject = ({ veteranInformation } = {}) => {
+    const expectedVeteranInformation = veteranInformation ?? {
+      veteranFullName: { first: 'John', last: 'Smith' },
+    };
+
     const mockStore = {
       getState: () => ({
         form: {
           data: {
-            'view:veteranInformation': {
-              veteranFullName: { first: 'John', last: 'Smith' },
-            },
+            'view:veteranInformation': expectedVeteranInformation,
           },
         },
       }),
@@ -62,7 +64,21 @@ describe('hca <ApplicationDownloadLink>', () => {
 
   context('when the download button has been clicked', () => {
     const triggerError = ({ link, status = '503' }) => {
-      apiRequestStub.onFirstCall().rejects({ errors: [{ status }] });
+      apiRequestStub.onFirstCall().resolves({
+        ok: false,
+        status,
+        json: async () => ({
+          errors: [{ status }],
+        }),
+      });
+      fireEvent.click(link);
+    };
+
+    const triggerSuccess = ({ link }) => {
+      apiRequestStub.onFirstCall().resolves({
+        ok: true,
+        blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
+      });
       fireEvent.click(link);
     };
 
@@ -74,10 +90,7 @@ describe('hca <ApplicationDownloadLink>', () => {
         .returns('my_stubbed_url.com');
       const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
 
-      apiRequestStub.onFirstCall().resolves({
-        blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
-      });
-      fireEvent.click(link);
+      triggerSuccess({ link });
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
@@ -87,35 +100,16 @@ describe('hca <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'hca-pdf-download--success';
 
+        const event = 'hca-pdf-download--success';
         expect(recordEventStub.calledWith({ event })).to.be.true;
+
         expect(vaLoadingIndicator).to.not.exist;
         expect(vaLink).to.exist;
       });
 
       createObjectStub.restore();
       revokeObjectStub.restore();
-    });
-
-    it('should record the correct event when the request fails', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      triggerError({ link });
-
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-
-      await waitFor(() => {
-        const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'hca-pdf-download--failure';
-
-        expect(recordEventStub.calledWith({ event })).to.be.true;
-        expect(vaLoadingIndicator).to.not.exist;
-        expect(vaLink).to.not.exist;
-      });
     });
 
     it('should display `downtime` error message when error has status of `5xx`', async () => {
@@ -137,6 +131,9 @@ describe('hca <ApplicationDownloadLink>', () => {
 
         expect(vaAlert).to.exist;
         expect(vaAlert).to.contain.text(error);
+
+        const event = 'hca-pdf-download--failure';
+        expect(recordEventStub.calledWith({ event })).to.be.true;
       });
     });
 
@@ -159,7 +156,38 @@ describe('hca <ApplicationDownloadLink>', () => {
 
         expect(vaAlert).to.exist;
         expect(vaAlert).to.contain.text(error);
+
+        const event = 'hca-pdf-download--failure';
+        expect(recordEventStub.calledWith({ event })).to.be.true;
       });
+    });
+
+    it('should display `generic` error message when any other error occurs not in the request response', async () => {
+      const { selectors } = subject({ veteranInformation: {} });
+      const { vaLink: link } = selectors();
+      const createObjectStub = sinon
+        .stub(URL, 'createObjectURL')
+        .returns('my_stubbed_url.com');
+      const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
+
+      triggerSuccess({ link });
+
+      await waitFor(() => {
+        const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+        const error = content['alert-download-message--generic'];
+
+        expect(vaLoadingIndicator).to.not.exist;
+        expect(vaLink).to.not.exist;
+
+        expect(vaAlert).to.exist;
+        expect(vaAlert).to.contain.text(error);
+
+        const event = 'hca-pdf-download--failure';
+        expect(recordEventStub.calledWith({ event })).to.be.true;
+      });
+
+      createObjectStub.restore();
+      revokeObjectStub.restore();
     });
   });
 });

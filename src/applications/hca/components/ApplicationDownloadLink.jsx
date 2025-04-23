@@ -25,8 +25,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   // fetch a custom error message based on status code
   const errorMessage = useMemo(
     () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
+      // console.log('message', !errors?.length);
+      if (!errors?.length) return null;
+      const code = errors?.[0]?.status?.[0];
       return code === '5'
         ? content['alert-download-message--500']
         : content['alert-download-message--generic'];
@@ -63,11 +64,36 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           body: formData,
           headers: { 'Content-Type': 'application/json' },
         });
+
+        // Handle request errors
+        if (!response.ok) {
+          // Attempt to parse a JSON error response
+          let errorData;
+          try {
+            errorData = await response.json();
+            setErrors(errorData.errors);
+            recordEvent({ event: 'hca-pdf-download--failure' });
+            return;
+          } catch {
+            throw new Error(
+              'An unexpected error occurred while generating the PDF.',
+            );
+          }
+        }
         const blob = await response.blob();
-        handlePdfDownload(blob);
-        recordEvent({ event: 'hca-pdf-download--success' });
+        try {
+          // Generate pdf from blob
+          handlePdfDownload(blob);
+          recordEvent({ event: 'hca-pdf-download--success' });
+        } catch (error) {
+          throw new Error(
+            'An unexpected error occurred while generating the PDF.',
+          );
+        }
+        // Handle any unexpected errors
       } catch (error) {
-        setErrors(error.errors);
+        // console.log('error', error);
+        setErrors([error]);
         recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
