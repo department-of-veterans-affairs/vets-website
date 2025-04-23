@@ -1,12 +1,12 @@
 import React from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
+import { formatInTimeZone } from 'date-fns-tz';
 
-/* 
+/*
  * Because we want to create a background for a jagged grid of cells,
  * we need to set padding and border radius for each cell depending on
  * where it is in the grid and how many cells per row we're displaying
- * 
+ *
  * This was a huge pain to figure out
  */
 function getOptionClasses(index, optionCount, rowSize) {
@@ -95,15 +95,18 @@ export default function CalendarOptionsSlots({
         const checked = selectedDates.some(
           selectedDate => selectedDate === slot.start,
         );
-        let time = moment(slot.start);
-        if (slot.start.endsWith('Z') && timezone) {
-          time = time.tz(timezone);
-        }
-        const meridiem = time.format('A');
+
+        const timeString = formatInTimeZone(
+          new Date(slot.start),
+          timezone,
+          'h:mm aaaa',
+        );
+
+        const [time, meridiem] = timeString.split(' ');
         const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
         const label = (
           <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
+            {time} <span aria-hidden="true">{meridiem}</span>{' '}
             <span className="sr-only">{screenReaderMeridiem}</span>
           </>
         );
