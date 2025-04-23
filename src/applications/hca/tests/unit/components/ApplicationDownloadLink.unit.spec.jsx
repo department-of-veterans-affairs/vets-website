@@ -195,6 +195,33 @@ describe('hca <ApplicationDownloadLink>', () => {
         });
       });
 
+      it('should display `generic` error message when parsing error response block throws error', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        triggerError({ link, status: '403' });
+
+        recordEventStub.onFirstCall().throws(new Error('Some error'));
+
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
+
+        await waitFor(() => {
+          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+          const error = content['alert-download-message--generic'];
+
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.not.exist;
+
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(error);
+
+          const event = 'hca-pdf-download--failure';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
+        });
+      });
+
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
