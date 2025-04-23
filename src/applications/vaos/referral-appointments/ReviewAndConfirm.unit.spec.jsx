@@ -164,8 +164,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       sandbox.assert.calledOnce(
         postDraftReferralAppointmentModule.postReferralAppointment,
       );
+      sandbox.assert.calledOnce(flow.routeToNextReferralPage);
     });
-
-    sandbox.assert.calledOnce(flow.routeToNextReferralPage);
   });
 });

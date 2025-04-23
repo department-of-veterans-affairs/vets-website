@@ -89,9 +89,13 @@ describe('Community Care Referrals', () => {
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
       });
-      expect(screen.getByText(/Test component/i)).to.exist;
-      sandbox.assert.calledOnce(getPatientReferralsModule.getPatientReferrals);
+
       await waitFor(() => {
+        expect(screen.getByText(/Test component/i)).to.exist;
+        sandbox.assert.calledOnce(
+          getPatientReferralsModule.getPatientReferrals,
+        );
+
         sandbox.assert.calledOnce(getAppointmentsModule.getAppointments);
       });
     });
