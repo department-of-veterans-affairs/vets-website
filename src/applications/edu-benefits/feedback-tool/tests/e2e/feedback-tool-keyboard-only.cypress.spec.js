@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
 
 describe('Feedback Tool Keyboard Test', () => {
-  beforeEach(() => {
+  beforeEach(function beforeEachHook() {
     if (Cypress.env('CI')) this.skip();
   });
   it('Is accessible accordingly via keyboard', () => {
