@@ -291,7 +291,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     nounSingular,
     nounPlural,
     isItemIncomplete = item => item?.name,
-    minItems = 1,
     maxItems = 100,
     hideMaxItemsAlert = false,
     text: userText = {},
@@ -367,6 +366,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
+
+  let { minItems = 0 } = options;
+  if (!minItems && required()) {
+    minItems = 1;
+  }
 
   const getActiveItemPages = (formData, index, context = null) => {
     return itemPages.filter(page => {
