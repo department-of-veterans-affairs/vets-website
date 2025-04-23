@@ -1,5 +1,5 @@
 /**
- * Mock eligibility class.
+ * Mock eligibility response.
  *
  * @export
  * @class MockEligibilityResponse
