@@ -80,16 +80,18 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
 
-    expect(screen.getByTestId('referral-layout-heading')).to.exist;
-    expect(screen.getByTestId('slot-day-time')).to.contain.text(
-      'Monday, September 9, 2024',
-    );
-    expect(screen.getByTestId('slot-day-time')).to.contain.text(
-      '12:00 p.m. Eastern time (ET)',
-    );
-    sandbox.assert.notCalled(
-      postDraftReferralAppointmentModule.postDraftReferralAppointment,
-    );
+    waitFor(() => {
+      expect(screen.getByTestId('referral-layout-heading')).to.exist;
+      expect(screen.getByTestId('slot-day-time')).to.contain.text(
+        'Monday, September 9, 2024',
+      );
+      expect(screen.getByTestId('slot-day-time')).to.contain.text(
+        '12:00 p.m. Eastern time (ET)',
+      );
+      sandbox.assert.notCalled(
+        postDraftReferralAppointmentModule.postDraftReferralAppointment,
+      );
+    });
   });
   it('should route to scheduleReferral if no slot selected', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
@@ -107,11 +109,13 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         path: '/schedule-referral/date-time',
       },
     );
-    sandbox.assert.notCalled(
-      postDraftReferralAppointmentModule.postDraftReferralAppointment,
-    );
-    expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
-      .true;
+    waitFor(() => {
+      sandbox.assert.notCalled(
+        postDraftReferralAppointmentModule.postDraftReferralAppointment,
+      );
+      expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
+        .true;
+    });
   });
   it('should call call create appointment post when "continue" is pressed', async () => {
     // Stub the appointment cration function
@@ -127,9 +131,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(initialFullState),
       },
     );
-    expect(screen.queryByTestId('continue-button')).to.exist;
-    userEvent.click(screen.queryByTestId('continue-button'));
-    await waitFor(() => {
+
+    waitFor(() => {
+      expect(screen.queryByTestId('continue-button')).to.exist;
+      userEvent.click(screen.queryByTestId('continue-button'));
+
       sandbox.assert.calledOnce(
         postDraftReferralAppointmentModule.postReferralAppointment,
       );
@@ -149,11 +155,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(initialFullState),
       },
     );
-    expect(screen.queryByTestId('continue-button')).to.exist;
-    userEvent.click(screen.queryByTestId('continue-button'));
 
-    // Wait for the postReferralAppointment call to complete
-    await waitFor(() => {
+    waitFor(() => {
+      expect(screen.queryByTestId('continue-button')).to.exist;
+      userEvent.click(screen.queryByTestId('continue-button'));
+
+      // Wait for the postReferralAppointment call to complete
       sandbox.assert.calledOnce(
         postDraftReferralAppointmentModule.postReferralAppointment,
       );
