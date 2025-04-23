@@ -1,34 +1,32 @@
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
 import {
   mockFetch,
   setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import VAFacilityPage from './VAFacilityPageV2';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import {
-  createTestStore,
-  setTypeOfCare,
-  renderWithStoreAndRouter,
-} from '../../../tests/mocks/setup';
+  createMockClinic,
+  createMockFacility,
+} from '../../../tests/mocks/data';
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
 } from '../../../tests/mocks/mock';
 import {
+  mockEligibilityFetches,
+  mockFacilitiesApi,
   mockSchedulingConfigurations,
   mockVAOSParentSites,
-} from '../../../tests/mocks/helpers';
+} from '../../../tests/mocks/mockApis';
 import {
-  mockEligibilityFetches,
-  mockFacilitiesFetch,
-} from '../../../tests/mocks/fetch';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+} from '../../../tests/mocks/setup';
+import VAFacilityPage from './VAFacilityPageV2';
 
 describe('VAOS Page: VAFacilityPage eligibility check', () => {
   describe('when there is a single supported facility', () => {
@@ -59,8 +57,8 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         ],
         true,
       );
-      mockFacilitiesFetch({
-        facilities: [
+      mockFacilitiesApi({
+        response: [
           createMockFacility({
             id: '442',
             name: 'San Diego VA Medical Center',
@@ -242,8 +240,8 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     beforeEach(() => {
       mockFetch();
 
-      mockFacilitiesFetch({
-        facilities,
+      mockFacilitiesApi({
+        response: facilities,
         children: true,
       });
     });

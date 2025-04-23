@@ -2,9 +2,9 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
+import { addDays, format, subDays } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
-import { format, subDays } from 'date-fns';
 import {
   getTestDate,
   renderWithStoreAndRouter,
@@ -13,12 +13,11 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 import { AppointmentList } from '../..';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
 import {
   mockAppointmentApi,
-  mockGetPendingAppointmentsApi,
-  mockGetUpcomingAppointmentsApi,
-} from '../../../tests/mocks/helpers';
+  mockAppointmentsApi,
+  mockFacilitiesApi,
+} from '../../../tests/mocks/mockApis';
 
 describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
@@ -36,7 +35,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   describe('show appointment', () => {
     beforeEach(() => {
       mockFetch();
-      mockFacilitiesFetch();
+      mockFacilitiesApi({ response: [] });
       MockDate.set(getTestDate());
     });
 
@@ -106,11 +105,18 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const response = new MockAppointmentResponse({ future: true });
 
       mockAppointmentApi({ response, avs: true, fetchClaimStatus: true });
-      mockGetUpcomingAppointmentsApi({
+      mockAppointmentsApi({
+        end: addDays(new Date(), 395),
+        start: subDays(new Date(), 30),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
         response: [response],
-        avs: true,
+        // avs: true,
       });
-      mockGetPendingAppointmentsApi({
+
+      mockAppointmentsApi({
+        end: addDays(new Date(), 1),
+        start: subDays(new Date(), 120),
+        statuses: ['proposed', 'cancelled'],
         response: [response],
       });
 
