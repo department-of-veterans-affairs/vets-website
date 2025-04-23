@@ -15,7 +15,7 @@ import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
 import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../../tests/mocks/data';
 import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
 import {

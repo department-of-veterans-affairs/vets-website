@@ -5,8 +5,8 @@ import { addDays, addMinutes, startOfDay, subDays, subMonths } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import { AppointmentList } from '..';
-import MockAppointmentResponse from '../../tests/e2e/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../tests/e2e/fixtures/MockFacilityResponse';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import { mockAppointmentsApi } from '../../tests/mocks/mockApis';
 import { getTestDate, renderWithStoreAndRouter } from '../../tests/mocks/setup';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
@@ -64,9 +64,7 @@ describe('VAOS Backend Service Alert', () => {
 
     // Assert
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     await waitFor(() => {
@@ -104,9 +102,7 @@ describe('VAOS Backend Service Alert', () => {
 
     // Assert
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     expect(screen.queryByTestId('backend-appointment-service-alert')).to.not

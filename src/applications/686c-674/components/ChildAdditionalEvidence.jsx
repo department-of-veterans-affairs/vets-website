@@ -38,7 +38,7 @@ export const ChildAdditionalEvidence = () => {
         <va-accordion-item
           id="supporting-evidence"
           header="Supporting evidence you need to submit"
-          level="3"
+          level="4"
         >
           {showBirthCertificate && (
             <ul>
@@ -78,7 +78,7 @@ export const ChildAdditionalEvidence = () => {
           )}
         </va-accordion-item>
       </va-accordion>
-      <h3>Submit your files online</h3>
+      <h4>Submit your files online</h4>
       <p>You can upload your files now.</p>
       <va-additional-info trigger="Document upload instructions" disable-border>
         <div>

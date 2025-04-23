@@ -72,7 +72,7 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.uuid));
+        dispatch(createDraftReferralAppointment(currentReferral.referralId));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
@@ -82,7 +82,7 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.uuid, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.referralId, dispatch, draftAppointmentCreateStatus],
   );
 
   useEffect(
@@ -127,17 +127,17 @@ const ReviewAndConfirm = props => {
     () => {
       if (
         appointmentCreateStatus === FETCH_STATUS.succeeded &&
-        draftAppointmentInfo?.appointment?.id
+        draftAppointmentInfo?.id
       ) {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
           null,
-          draftAppointmentInfo.appointment.id,
+          draftAppointmentInfo.id,
         );
       }
     },
-    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
+    [appointmentCreateStatus, draftAppointmentInfo.id, history],
   );
 
   const headingStyles =
@@ -232,9 +232,9 @@ const ReviewAndConfirm = props => {
               e.preventDefault();
               dispatch(
                 createReferralAppointment({
-                  referralId: currentReferral.uuid,
+                  referralId: currentReferral.referralId,
                   slotId: selectedSlot,
-                  draftApppointmentId: draftAppointmentInfo.appointment.id,
+                  draftApppointmentId: draftAppointmentInfo.id,
                 }),
               );
             }}

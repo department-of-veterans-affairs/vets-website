@@ -87,8 +87,8 @@ describe('ReferralAppointments', () => {
   it('should call scrollAndFocus with h1 if referral is available', async () => {
     servicesUtils.apiRequestWithUrl.resolves({
       data: createReferralById(
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
         '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
     });
 

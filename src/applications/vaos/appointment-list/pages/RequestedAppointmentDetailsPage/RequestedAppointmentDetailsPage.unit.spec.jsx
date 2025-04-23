@@ -7,8 +7,8 @@ import { addDays, subDays } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import { AppointmentList } from '../..';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../../tests/e2e/fixtures/MockFacilityResponse';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import {
   mockAppointmentApi,
   mockAppointmentsApi,
@@ -27,7 +27,6 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
   const initialState = {
     featureToggles: {
-      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingBookingExclusion: false,
