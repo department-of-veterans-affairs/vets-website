@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { addDays, format } from 'date-fns';
 
 /**
