@@ -712,6 +712,7 @@ describe('VAOS upcoming appointment flow', () => {
       const response = MockAppointmentResponse.createMobileResponses({
         localStartTime: addMinutes(new Date(), 30),
         future: true,
+        displayLink: true,
       });
       response[0].setUrl();
 
