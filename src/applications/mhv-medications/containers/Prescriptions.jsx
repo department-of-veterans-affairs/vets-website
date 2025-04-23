@@ -60,7 +60,6 @@ import {
   selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
-import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
@@ -69,6 +68,7 @@ import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
+import { useGetPrescriptionsListQuery } from '../api/prescriptionsApi';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -80,17 +80,47 @@ const Prescriptions = () => {
   const filteredList = useSelector(
     state => state.rx.prescriptions?.prescriptionsFilteredList,
   );
-  // Replace Redux allergies state with RTK Query hook
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+
+  // Add pagination and sorting parameter management
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage] = useState(showGroupingContent ? 10 : 20);
+  const [sortEndpoint, setSortEndpoint] = useState(
+    rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+  );
+  const [currentFilter, setCurrentFilter] = useState('');
+
+  // Use RTK Query hook to fetch prescriptions data
+  const {
+    data: prescriptionsData,
+    error: prescriptionsError,
+    isLoading: isPrescriptionsLoading,
+    isFetching: isPrescriptionsFetching,
+  } = useGetPrescriptionsListQuery({
+    page: currentPage,
+    perPage,
+    sortEndpoint,
+    filterOption: currentFilter,
+  });
+
+  // Extract prescription data from the RTK Query response
+  const prescriptionsList = useMemo(
+    () => prescriptionsData?.prescriptions || [],
+    [prescriptionsData?.prescriptions],
+  );
+  const prescriptionsPagination = useMemo(
+    () => prescriptionsData?.pagination || {},
+    [prescriptionsData?.pagination],
+  );
+
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
-  const prescriptionsApiError = useSelector(
-    state => state.rx.prescriptions?.apiError,
-  );
+
+  const prescriptionsApiError = prescriptionsError;
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   // **Remove sort funtions and logic once filter feature is developed and live.**
@@ -140,55 +170,69 @@ const Prescriptions = () => {
     setLoadingMessage(newLoadingMessage);
   };
 
-  const updateFilterAndSort = (newFilterOption, newSortOption) => {
-    const sortOption =
-      newSortOption || selectedSortOption || defaultSelectedSortOption;
-    const sortBy = rxListSortingOptions[sortOption].API_ENDPOINT;
-    const filterBy = newFilterOption ?? filterOption;
-    const isFiltering = newFilterOption !== null;
-    updateLoadingStatus(
-      true,
-      `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
-    );
-    dispatch(
-      getPaginatedFilteredList(
-        1,
-        filterOptions[filterBy]?.url,
-        sortBy,
-        showGroupingContent ? 10 : 20,
-      ),
-    ).then(() => {
-      updateLoadingStatus(false, '');
-      focusElement(document.getElementById('showingRx'));
-    });
+  // Handle page change with RTK Query
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
+    navigate(`/?page=${newPage}`, { replace: true });
+    sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, newPage);
+    scrollLocation?.current?.scrollIntoView();
+  };
 
+  // Handle filter change
+  const handleFilterChange = newFilterOption => {
+    setCurrentFilter(filterOptions[newFilterOption]?.url || '');
+    setCurrentPage(1);
+    sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
     navigate('/?page=1', { replace: true });
-    if (isFiltering) {
-      sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
+  };
+
+  // Handle sort option change
+  const handleSortChange = sortOption => {
+    if (sortOption !== selectedSortOption && sortOption !== '') {
+      updateSortOption(sortOption);
+      setSortEndpoint(rxListSortingOptions[sortOption].API_ENDPOINT);
+      sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
+      setPdfTxtGenerateStatus({
+        ...pdfTxtGenerateStatus,
+        status: PDF_TXT_GENERATE_STATUS.NotStarted,
+      });
     }
   };
 
-  const updateSortOption = sortOption => {
-    dispatch({
-      type: Actions.Prescriptions.UPDATE_SORT_OPTION,
-      payload: sortOption,
-    });
+  // Update the updateFilterAndSort function to use RTK Query
+  const updateFilterAndSort = (newFilterOption, newSortOption) => {
+    const sortOption =
+      newSortOption || selectedSortOption || defaultSelectedSortOption;
+    const filterBy = newFilterOption ?? filterOption;
+    const isFiltering = newFilterOption !== null;
+
+    // Update the filter state
+    if (isFiltering) {
+      handleFilterChange(newFilterOption);
+    }
+
+    // Update the sort state
+    if (newSortOption) {
+      handleSortChange(newSortOption);
+    }
+
+    // We don't need to dispatch anything explicitly as the RTK Query hook will handle the fetch
+    // when these state variables change
   };
 
+  // Update the sorting function to use RTK Query
   const sortRxList = sortOption => {
-    setPdfTxtGenerateStatus({
-      ...pdfTxtGenerateStatus,
-      status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    });
     if (sortOption !== selectedSortOption && sortOption !== '') {
-      updateSortOption(sortOption);
-      if (!showFilterContent) {
-        updateLoadingStatus(true, 'Sorting your medications...');
-        setSortingInProgress(true);
-      } else {
+      setPdfTxtGenerateStatus({
+        ...pdfTxtGenerateStatus,
+        status: PDF_TXT_GENERATE_STATUS.NotStarted,
+      });
+
+      handleSortChange(sortOption);
+
+      if (showFilterContent) {
         updateFilterAndSort(null, sortOption);
       }
-      sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     }
   };
 
@@ -238,6 +282,78 @@ const Prescriptions = () => {
     [sortingInProgress, isLoading],
   );
 
+  // Update the useEffect for prescriptions loading that's currently using Redux
+  useEffect(
+    () => {
+      // If we're not using filters, we don't need to dispatch anything manually
+      // RTK Query will handle this based on currentPage, sortEndpoint, etc.
+      if (!showFilterContent) {
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        if (!selectedSortOption) updateSortOption(sortOption);
+      }
+
+      updatePageTitle('Medications | Veterans Affairs');
+      sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, page);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, page, selectedSortOption],
+  );
+
+  // Update useEffect for loading state management using RTK Query's loading states
+  useEffect(
+    () => {
+      // Set loading state based on RTK Query's loading states
+      updateLoadingStatus(
+        isPrescriptionsLoading || isPrescriptionsFetching,
+        isPrescriptionsLoading ? 'Loading your medications...' : '',
+      );
+    },
+    [isPrescriptionsLoading, isPrescriptionsFetching],
+  );
+
+  // Update useEffect for alert visibility
+  useEffect(
+    () => {
+      if (!showFilterContent) {
+        if (
+          !isPrescriptionsLoading &&
+          !isPrescriptionsFetching &&
+          (!prescriptionsList || prescriptionsList.length <= 0)
+        ) {
+          setAlertVisible(true);
+        } else if (isAlertVisible) {
+          setAlertVisible(false);
+        }
+      }
+    },
+    [
+      isPrescriptionsLoading,
+      isPrescriptionsFetching,
+      prescriptionsList,
+      isAlertVisible,
+      showFilterContent,
+    ],
+  );
+
+  // Update useEffect for filter options to use RTK Query
+  useEffect(
+    () => {
+      if (showFilterContent && page) {
+        const storedPageNumber = sessionStorage.getItem(
+          SESSION_SELECTED_PAGE_NUMBER,
+        );
+        const storedFilterOption =
+          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
+          ALL_MEDICATIONS_FILTER_KEY;
+
+        // We don't need to manually dispatch - RTK Query handles this with our parameters
+        setCurrentPage(Number(storedPageNumber));
+        setCurrentFilter(filterOptions[storedFilterOption]?.url || '');
+      }
+    },
+    [page, showFilterContent],
+  );
+
   useEffect(
     () => {
       if (!paginatedPrescriptionsList && !showFilterContent) {
@@ -252,6 +368,7 @@ const Prescriptions = () => {
       }
       if (!showFilterContent) {
         const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        console.log('dispatch in useEffect');
         dispatch(
           getPrescriptionsPaginatedSortedList(
             page ?? 1,
@@ -325,7 +442,9 @@ const Prescriptions = () => {
           ALL_MEDICATIONS_FILTER_KEY;
         const sortOption = selectedSortOption ?? defaultSelectedSortOption;
         const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
-        updateLoadingStatus(true, 'Loading your medications...');
+        // updateLoadingStatus(true, 'Loading your medications...');
+        // console.log('dispatch in useEffect for filter');
+        /*
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
@@ -334,6 +453,7 @@ const Prescriptions = () => {
             showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
+        */
       }
     },
     [dispatch, page, showFilterContent],

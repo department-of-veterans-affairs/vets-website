@@ -9,6 +9,7 @@ import manifest from './manifest.json';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import { allergiesLoader } from './loaders/allergiesLoader';
+import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
 // Lazy-loaded components
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
@@ -69,25 +70,50 @@ const routes = [
   {
     path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,
+    // Pass the route path to the loader
+    // so that it can be used in the loader function
+    loader: async (...args) => {
+      await prescriptionsLoader(...args);
+      return null;
+    },
   },
   {
     path: ':page',
     element: <AppWrapper Component={Prescriptions} />,
-    loader: allergiesLoader,
+    loader: async (...args) => {
+      await Promise.all([
+        allergiesLoader(...args),
+        prescriptionsLoader(...args),
+      ]);
+      return null;
+    },
   },
   {
     path: '/',
     element: <AppWrapper Component={Prescriptions} />,
-    loader: allergiesLoader,
+    loader: async (...args) => {
+      await Promise.all([
+        allergiesLoader(...args),
+        prescriptionsLoader(...args),
+      ]);
+      return null;
+    },
   },
   {
     path: 'prescription/:prescriptionId/documentation',
     element: <AppWrapper Component={PrescriptionDetailsDocumentation} />,
+    loader: prescriptionsLoader,
   },
   {
     path: 'prescription/:prescriptionId',
     element: <AppWrapper Component={PrescriptionDetails} />,
-    loader: allergiesLoader,
+    loader: async (...args) => {
+      await Promise.all([
+        allergiesLoader(...args),
+        prescriptionsLoader(...args),
+      ]);
+      return null;
+    },
   },
   {
     path: '*',

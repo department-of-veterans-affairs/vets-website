@@ -4,6 +4,7 @@
 
 import setUpCommonFunctionality from 'platform/startup/setup';
 import { allergiesApi } from './api/allergiesApi';
+import { prescriptionsApi } from './api/prescriptionsApi';
 import manifest from './manifest.json';
 import reducer from './reducers';
 
@@ -12,7 +13,10 @@ import reducer from './reducers';
  * that can be imported and used throughout the application
  */
 export default function createStore(
-  additionalMiddlewares = [allergiesApi.middleware],
+  additionalMiddlewares = [
+    allergiesApi.middleware,
+    prescriptionsApi.middleware,
+  ],
 ) {
   return setUpCommonFunctionality({
     entryName: manifest.entryName,
