@@ -57,31 +57,24 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         // Handle request errors
         if (!response.ok) {
           // Attempt to parse a JSON error response
-          try {
-            const errorData = await response.json();
-            recordEvent({ event: 'hca-pdf-download--failure' });
+          const errorData = await response.json();
+          recordEvent({ event: 'hca-pdf-download--failure' });
 
-            const code = errorData?.errors?.[0]?.status?.[0];
-            const message =
-              code === '5'
-                ? content['alert-download-message--500']
-                : content['alert-download-message--generic'];
-            setErrorMessage(message);
-            return;
-          } catch {
-            throw new Error();
-          }
+          const code = errorData?.errors?.[0]?.status?.[0];
+          const message =
+            code === '5'
+              ? content['alert-download-message--500']
+              : content['alert-download-message--generic'];
+          setErrorMessage(message);
+          return;
         }
         const blob = await response.blob();
-        try {
-          // Generate pdf from blob
-          handlePdfDownload(blob);
-          recordEvent({ event: 'hca-pdf-download--success' });
-        } catch (error) {
-          throw new Error();
-        }
+        // Generate pdf from blob
+        handlePdfDownload(blob);
+        recordEvent({ event: 'hca-pdf-download--success' });
+
         // Handle any unexpected errors
-      } catch (error) {
+      } catch {
         setErrorMessage(content['alert-download-message--generic']);
         recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
