@@ -68,6 +68,7 @@ describe('TraumaticEventTypesPage', () => {
       const data = {
         eventTypes: {
           combat: false,
+          // Deselected boxes are saved as false in Forms Library metadata
           mst: false,
           nonMst: false,
           other: false,
@@ -121,8 +122,10 @@ describe('TraumaticEventTypesPage', () => {
     describe('when MST events were deselected', () => {
       const baseDataMSTDeselected = {
         eventTypes: {
-          // Deselected boxes are saved as false in Forms Library metadata
+          combat: true,
           mst: false,
+          nonMst: true,
+          other: true,
         },
       };
 
@@ -690,6 +693,53 @@ describe('TraumaticEventTypesPage', () => {
           expect(
             $(confirmationAlertSelector, container).innerHTML,
           ).not.to.contain('Continue with your claim');
+        });
+      });
+    });
+
+    describe('Page content', () => {
+      const mentalHealthDropdownSelector =
+        'va-alert-expandable[status="info"][trigger="Learn how to get mental health help now"]';
+
+      describe('When rendered on the Behavior Intro Combat Page', () => {
+        it('Displays a Mental Health Alert Dropdown', () => {
+          const { container } = render(page());
+          expect($(mentalHealthDropdownSelector, container)).to.exist;
+        });
+
+        it('Displays forward and back buttons', () => {
+          const { container } = render(page());
+          const continueButton = $(
+            '.usa-button-primary[type="submit"]',
+            container,
+          );
+
+          expect(continueButton).to.exist;
+          expect(continueButton.textContent).to.contain('Continue');
+
+          const backButton = $('.usa-button-secondary', container);
+
+          expect(backButton).to.exist;
+          expect(backButton.textContent).to.contain('Back');
+        });
+      });
+
+      describe('When rendered on the Review and Submit Page', () => {
+        it('Does not display a Mental Health Alert Dropdown', () => {
+          const { container } = render(page({ onReviewPage: true }));
+          expect($(mentalHealthDropdownSelector, container)).not.to.exist;
+        });
+
+        it('Does not display forward and back buttons', () => {
+          const { container } = render(page({ onReviewPage: true }));
+          const continueButton = $(
+            '.usa-button-primary[type="submit"][text="Continue"]',
+            container,
+          );
+          expect(continueButton).not.to.exist;
+
+          const backButton = $('.usa-button-secondary', container);
+          expect(backButton).not.to.exist;
         });
       });
     });
