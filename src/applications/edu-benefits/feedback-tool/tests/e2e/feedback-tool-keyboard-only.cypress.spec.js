@@ -8,7 +8,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.visit(manifest.rootUrl);
     cy.login();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main');
 
     cy.get('body').should('be.visible');
     cy.get('.schemaform-title').should('be.visible');
@@ -38,8 +38,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.repeatKey('Tab', 2);
     cy.allyEvaluateSelectMenu('#root_serviceAffiliation', 'Veteran', 'Veteran');
 
-    cy.repeatKey('Tab', 2);
-    cy.realPress('Enter');
+    cy.tabToContinueForm();
 
     cy.get('#root_serviceBranch');
     cy.realPress('Tab');
@@ -73,8 +72,8 @@ describe('Feedback Tool Keyboard Test', () => {
       '2010',
       '2010',
     );
-    cy.repeatKey('Tab', 2);
-    cy.realPress('Enter');
+
+    cy.tabToContinueForm();
     cy.url().should('not.include', '/service-information');
     cy.url().should('include', '/contact-information');
     cy.get('[name="root_address_country"]').select('United States');
@@ -90,15 +89,13 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.allyEvaluateInput('#root_applicantEmail', 'test@va.gov');
     cy.realPress('Tab');
     cy.get('[name="root_view:applicantEmailConfirmation"]').type('test@va.gov');
-    cy.repeatKey('Tab', 3);
-    cy.realPress('Enter');
+    cy.tabToContinueForm();
     cy.url().should('not.include', '/contact-information');
     cy.url().should('include', '/benefits-information');
     cy.get('input[name="root_educationDetails_programs_chapter33"]').check();
     cy.get('input[name="root_educationDetails_programs_chapter30"]').check();
     cy.get('input[name="root_educationDetails_programs_chapter31"]').check();
-    cy.repeatKey('Tab', 6);
-    cy.realPress('Enter');
+    cy.tabToContinueForm();
     cy.url().should('not.include', '/benefits-information');
     cy.url().should('include', '/school-information');
     cy.get('input[name="school-search-input"]')
@@ -131,8 +128,7 @@ describe('Feedback Tool Keyboard Test', () => {
     );
     cy.realPress('Tab');
     cy.typeInFocused('90810');
-    cy.repeatKey('Tab', 2);
-    cy.realPress('Enter');
+    cy.tabToContinueForm();
     cy.url().should('not.include', '/school-information');
     cy.url().should('include', '/feedback-information');
     cy.get('input[name="root_issue_recruiting"]').check();
@@ -144,9 +140,10 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.typeInFocused('This is a test comment');
     cy.realPress('Tab');
     cy.typeInFocused('This is another test comment');
-    cy.repeatKey('Tab', 2);
-    cy.realPress('Enter');
+    cy.tabToContinueForm();
     cy.url().should('not.include', '/feedback-information');
     cy.url().should('include', '/review-and-submit');
+    cy.tabToElementAndPressSpace('va-checkbox');
+    cy.tabToSubmitForm();
   });
 });
