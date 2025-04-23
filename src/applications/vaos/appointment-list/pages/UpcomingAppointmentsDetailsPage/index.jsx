@@ -35,7 +35,6 @@ export default function UpcomingAppointmentsDetailsPage() {
     appointmentDetailsStatus,
     isBadAppointmentId,
     facilityData,
-    useV2,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
@@ -163,11 +162,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   return (
     <PageLayout isDetailPage showNeedHelp>
       {isVA && (
-        <DetailsVA
-          appointment={appointment}
-          facilityData={facilityData}
-          useV2={useV2}
-        />
+        <DetailsVA appointment={appointment} facilityData={facilityData} />
       )}
       {isCommunityCare && <CCLayout data={appointment} />}
       {isVideo && <VideoLayout data={appointment} />}

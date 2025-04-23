@@ -26,7 +26,6 @@ import {
 import {
   selectFeatureRequests,
   selectFeatureCancel,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureFeSourceOfTruth,
   selectFeatureDisplayPastCancelledAppointments,
@@ -268,16 +267,12 @@ export function getPastAppointmentListInfo(state) {
 
 export function selectCommunityCareDetailsInfo(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.ccAppointment,
     ]),
     appointmentDetailsStatus,
     facilityData,
-    useV2: featureVAOSServiceCCAppointments,
   };
 }
 export function selectBackendServiceFailuresInfo(state) {
@@ -683,13 +678,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
 }
 export function getConfirmedAppointmentDetailsInfo(state, id) {
   const appointment = selectAppointmentById(state, id);
-  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-    state,
-  );
-  return {
-    ...selectConfirmedAppointmentData(state, appointment),
-    useV2: featureVAOSServiceVAAppointments,
-  };
+  return selectConfirmedAppointmentData(state, appointment);
 }
 export function selectRequestedAppointmentData(state, appointment) {
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
