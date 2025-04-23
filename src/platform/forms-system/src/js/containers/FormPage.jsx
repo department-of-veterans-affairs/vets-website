@@ -397,6 +397,9 @@ class FormPage extends React.Component {
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
+                route={route}
+                router={this.props.router}
+                locationPathname={this.props.location.pathname}
               />
               {contentAfterNavButtons}
             </>

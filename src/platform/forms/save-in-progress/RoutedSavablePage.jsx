@@ -9,7 +9,7 @@ import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 import debounce from '../../utilities/data/debounce';
 
 import SaveFormLink from './SaveFormLink';
-import SaveStatus from './SaveStatus';
+// import SaveStatus from './SaveStatus';
 import {
   saveErrors,
   autoSaveForm,
@@ -60,15 +60,15 @@ class RoutedSavablePage extends React.Component {
         {finishAppLaterMessage}
       </SaveFormLink>
     );
-    const contentAfterButtons = (
-      <SaveStatus
-        isLoggedIn={user.login.currentlyLoggedIn}
-        showLoginModal={this.props.showLoginModal}
-        toggleLoginModal={this.props.toggleLoginModal}
-        form={form}
-        formConfig={formConfig}
-      />
-    );
+    // const contentAfterButtons = (
+    //   <SaveStatus
+    //     isLoggedIn={user.login.currentlyLoggedIn}
+    //     showLoginModal={this.props.showLoginModal}
+    //     toggleLoginModal={this.props.toggleLoginModal}
+    //     form={form}
+    //     formConfig={formConfig}
+    //   />
+    // );
 
     return (
       <FormPage
@@ -77,7 +77,7 @@ class RoutedSavablePage extends React.Component {
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
         contentBeforeButtons={contentBeforeButtons}
-        contentAfterButtons={contentAfterButtons}
+        contentAfterButtons={null}
       />
     );
   }

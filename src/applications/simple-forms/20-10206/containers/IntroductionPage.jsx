@@ -14,7 +14,13 @@ const ombInfo = {
   expDate: '08/31/2026',
 };
 
-export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
+export const IntroductionPage = ({
+  route,
+  userIdVerified,
+  userLoggedIn,
+  router,
+  routes,
+}) => {
   const content = {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
@@ -89,14 +95,23 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   };
 
   const mockSignInButton = () => {
-    const onSignInButtonClick = () => {
-      const redirectLocation = appendLoggedInQueryParam();
+    const buttonText = userLoggedIn ? 'Start form' : 'Loginzzz';
 
-      window.location = redirectLocation;
+    const onSignInButtonClick = () => {
+      const nextRoute = userLoggedIn
+        ? routes[0].childRoutes[1].path
+        : appendLoggedInQueryParam();
+
+      if (userLoggedIn) {
+        router.push(nextRoute);
+        return;
+      }
+
+      window.location = nextRoute;
     };
     return (
       <button type="button" onClick={onSignInButtonClick}>
-        Loginzzz
+        {buttonText}
       </button>
     );
   };
