@@ -23,7 +23,6 @@ const optionDefinitions = [
 const options = commandLineArgs(optionDefinitions);
 
 let testsToRun = [];
-
 if (options.path.length > 0) {
   testsToRun = options.path;
 } else if (fs.existsSync('unit_tests_to_stress_test.json')) {
@@ -45,39 +44,32 @@ if (!testsToRun || testsToRun.length === 0) {
 core.exportVariable('NO_APPS_TO_RUN', false);
 
 const filesArg = testsToRun.map(f => `'${f}'`).join(' ');
-const runner = options.coverage ? 'npx nyc' : 'npx mocha';
 
-const commonMochaArgs = `--require @babel/register --config ${
-  options.config
-} --extension js,jsx`;
+const runner = 'npx';
 
-const coverageArgs = [
-  '--all',
-  commonMochaArgs,
-  '--reporter mocha-multi-reporters',
-  '--reporter-options configFile=config/mocha-multi-reporter.js',
-  '--no-color',
-  '--retries 5',
-].join(' ');
+const coverageInclude = '';
 
-const mochaArgs = [
-  commonMochaArgs,
-  options.reporter ? `--reporter ${options.reporter}` : '',
-]
-  .filter(Boolean)
-  .join(' ');
+const coverageReporter = options['coverage-html']
+  ? '--reporter=html --retries 5'
+  : '--reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
-const runnerArgs = options.coverage ? coverageArgs : mochaArgs;
+const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
+
+const reporterOption = options.reporter ? `--reporter ${options.reporter}` : '';
+const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+
+const requireArgs = '--require @babel/register --extension js,jsx';
+
+const innerCmd = options.coverage
+  ? `${coveragePath} mocha ${requireArgs}`
+  : `${mochaPath} --config ${options.config} ${requireArgs}`;
 
 const cmd = [
   `LOG_LEVEL=${options['log-level'].toLowerCase()}`,
   runner,
-  runnerArgs,
+  innerCmd,
   '--max-old-space-size=32768',
   filesArg,
 ].join(' ');
 
-execSync(cmd, {
-  stdio: 'inherit',
-  shell: '/bin/bash',
-});
+execSync(cmd, { stdio: 'inherit', shell: '/bin/bash' });
