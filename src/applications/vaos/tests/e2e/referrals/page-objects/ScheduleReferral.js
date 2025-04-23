@@ -36,6 +36,15 @@ export class ScheduleReferralPageObject extends PageObject {
   }
 
   /**
+   * Validates that an API error message is displayed when referral detail fails to load
+   */
+  assertApiError() {
+    // This uses curly apostrophes as required by VA style guidelines
+    cy.findByText(/We’re sorry. We’ve run into a problem/i).should('exist');
+    return this;
+  }
+
+  /**
    * Validates that referring facility information is displayed
    */
   assertReferringFacilityInfo() {

@@ -47,6 +47,16 @@ export class AppointmentListPageObject extends PageObject {
 
     return this;
   }
+
+  validateViewReferralsLink({ exist = true } = {}) {
+    if (exist) {
+      cy.findByTestId('review-requests-and-referrals').should('exist');
+    } else {
+      cy.findByTestId('review-requests-and-referrals').should('not.exist');
+    }
+
+    return this;
+  }
 }
 
 export default new AppointmentListPageObject();

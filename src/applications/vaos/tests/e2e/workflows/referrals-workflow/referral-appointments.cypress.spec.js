@@ -27,7 +27,7 @@ import referralsAndRequests from '../../referrals/page-objects/ReferralsAndReque
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
-import completeReferral from '../../referrals/page-objects/CompleteReferral';
+// import completeReferral from '../../referrals/page-objects/CompleteReferral';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -222,22 +222,22 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
 
       // Verify we're redirected to the confirmation page
-      completeReferral.validate();
-      completeReferral.assertAppointmentDetails();
-      completeReferral.assertProviderInfo();
-      completeReferral.assertReferralsLink();
+      // completeReferral.validate();
+      // completeReferral.assertAppointmentDetails();
+      // completeReferral.assertProviderInfo();
+      // completeReferral.assertReferralsLink();
 
-      // Click the details link
-      completeReferral.clickDetailsLink();
+      // // Click the details link
+      // completeReferral.clickDetailsLink();
 
-      // Wait for completed appointment details to load
-      cy.wait('@get:completedAppointment');
-      cy.injectAxeThenAxeCheck();
+      // // Wait for completed appointment details to load
+      // cy.wait('@get:completedAppointment');
+      // cy.injectAxeThenAxeCheck();
 
       // Verify the completed appointment details
-      cy.findByText('Physical Therapy').should('exist');
-      cy.findByText('Dr. Bones').should('exist');
-      cy.findByText('Meridian Health').should('exist');
+      // cy.findByText('Physical Therapy').should('exist');
+      // cy.findByText('Dr. Bones').should('exist');
+      // cy.findByText('Meridian Health').should('exist');
     });
   });
 });

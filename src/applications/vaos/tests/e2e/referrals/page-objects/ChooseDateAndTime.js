@@ -49,6 +49,15 @@ export class ChooseDateAndTimePageObject extends PageObject {
   }
 
   /**
+   * Validates that an API error message is displayed when draft referral appointment fails to load
+   */
+  assertApiError() {
+    // This uses curly apostrophes as required by VA style guidelines
+    cy.findByText(/We’re sorry. We’ve run into a problem/i).should('exist');
+    return this;
+  }
+
+  /**
    * Validates that no slots available warning is shown
    */
   assertNoSlotsAvailable() {

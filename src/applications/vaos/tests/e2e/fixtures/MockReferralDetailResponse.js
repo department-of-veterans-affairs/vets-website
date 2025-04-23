@@ -6,73 +6,148 @@ import { format, addMonths } from 'date-fns';
 class MockReferralDetailResponse {
   constructor(options = {}) {
     this.options = {
-      id: 'FeTbI6uhN890QCVc6fCSzw==',
+      id: `referral-${Math.random()
+        .toString(36)
+        .substring(2, 10)}`,
+      typeOfCare: 'Physical Therapy',
       hasAppointments: false,
+      notFound: false,
+      serverError: false,
       ...options,
     };
   }
 
   /**
-   * Creates a detailed referral object
+   * Creates a successful referral detail response
    *
-   * @param {Object} options - Options for the referral
-   * @param {string} options.id - UUID for the referral
-   * @param {string} options.categoryOfCare - Type of care
-   * @param {string} options.referralNumber - Referral number
-   * @param {string} options.expirationDate - Date in YYYY-MM-DD format
-   * @param {boolean} options.hasAppointments - Whether the referral has appointments
-   * @returns {Object} A detailed referral object
+   * @param {Object} options - Options for the response
+   * @returns {Object} A successful response object
    */
-  createDetailedReferral({
-    id = this.options.id,
-    categoryOfCare = 'Physical Therapy',
+  static createSuccessResponse({
+    id = `referral-${Math.random()
+      .toString(36)
+      .substring(2, 10)}`,
+    typeOfCare = 'Physical Therapy',
+    hasAppointments = false,
     referralNumber = 'VA0000005681',
     expirationDate = format(addMonths(new Date(), 3), 'yyyy-MM-dd'),
-    hasAppointments = this.options.hasAppointments,
     referralDate = format(new Date(), 'yyyy-MM-dd'),
     stationId = '552',
   } = {}) {
     return {
-      id,
-      type: 'referrals',
-      attributes: {
-        uuid: id,
-        categoryOfCare,
-        referralNumber,
-        expirationDate,
-        hasAppointments,
-        referralDate,
-        stationId,
-        provider: {
-          name: 'A & D HEALTH CARE PROFS',
-          npi: '1346206547',
-          telephone: '(937) 236-6750',
-          location: 'A & D HEALTH CARE PROFS',
-        },
-        referringFacilityInfo: {
-          name: 'Dayton VA Medical Center',
-          phone: '(937) 262-3800',
-          code: stationId,
-          address: {
-            street1: '4100 West Third Street',
-            city: 'DAYTON',
-            state: null,
-            zip: '45428',
+      data: {
+        id,
+        type: 'referrals',
+        attributes: {
+          uuid: id,
+          typeOfCare,
+          status: 'ACTIVE',
+          referralNumber,
+          expirationDate,
+          serviceName: 'Referral',
+          hasAppointments,
+          referralDate,
+          stationId,
+          facilityName: 'VAMC Facility',
+          facilityPhone: '555-555-5555',
+          preferredTimesForPhoneCall: [],
+          timezone: 'America/New_York',
+          provider: {
+            name: 'A & D HEALTH CARE PROFS',
+            npi: '1346206547',
+            telephone: '(937) 236-6750',
+            location: 'A & D HEALTH CARE PROFS',
           },
+          referringFacilityInfo: {
+            name: 'Dayton VA Medical Center',
+            phone: '(937) 262-3800',
+            code: stationId,
+            address: {
+              street1: '4100 West Third Street',
+              city: 'DAYTON',
+              state: null,
+              zip: '45428',
+            },
+          },
+          providerId: null,
+          receivingStaffName: null,
+          receivingStaffPhone: null,
+          referredToName: null,
+          sendingStaffEmail: null,
+          sendingStaffName: null,
         },
+        relationships: {},
       },
     };
   }
 
   /**
-   * Gets the response object with referral details
+   * Creates a 404 Not Found error response
    *
-   * @returns {Object} The complete response object with referral details
+   * @param {string} referralId - ID of the referral that wasn't found
+   * @returns {Object} A 404 error response object
+   */
+  static create404Response(referralId) {
+    return {
+      errors: [
+        {
+          title: 'Referral not found',
+          detail: `Referral with ID ${referralId} was not found`,
+          code: '404',
+          status: '404',
+        },
+      ],
+    };
+  }
+
+  /**
+   * Creates a 500 Internal Server Error response
+   *
+   * @returns {Object} A 500 error response object
+   */
+  static create500Response() {
+    return {
+      errors: [
+        {
+          title: 'Internal Server Error',
+          detail: 'An error occurred while retrieving the referral details',
+          code: '500',
+          status: '500',
+        },
+      ],
+    };
+  }
+
+  /**
+   * Gets the response object based on configuration
+   *
+   * @returns {Object} The complete response object
    */
   toJSON() {
-    return {
-      data: this.createDetailedReferral(),
-    };
+    const {
+      id,
+      typeOfCare,
+      hasAppointments,
+      notFound,
+      serverError,
+    } = this.options;
+
+    // Return 404 error if notFound is true
+    if (notFound) {
+      return MockReferralDetailResponse.create404Response(id);
+    }
+
+    // Return 500 error if serverError is true
+    if (serverError) {
+      return MockReferralDetailResponse.create500Response();
+    }
+
+    // Return successful response
+    return MockReferralDetailResponse.createSuccessResponse({
+      id,
+      typeOfCare,
+      hasAppointments,
+    });
   }
 }
 

@@ -79,8 +79,8 @@ export default function CompleteReferral() {
         hasEyebrow
         heading={
           appointmentInfoTimeout
-            ? "We're having trouble scheduling this appointment"
-            : "We can't schedule this appointment online"
+            ? 'We’re having trouble scheduling this appointment'
+            : 'We can’t schedule this appointment online'
         }
       >
         <va-alert

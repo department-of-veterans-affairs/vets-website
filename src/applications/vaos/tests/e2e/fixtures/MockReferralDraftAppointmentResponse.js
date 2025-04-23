@@ -10,6 +10,7 @@ class MockReferralDraftAppointmentResponse {
       referralId: 'PmDYsBz-egEtG13flMnHUQ==',
       categoryOfCare: 'Physical Therapy',
       notFound: false,
+      serverError: false,
       numberOfSlots: 3,
       ...options,
     };
@@ -173,25 +174,58 @@ class MockReferralDraftAppointmentResponse {
   }
 
   /**
+   * Creates a 404 Not Found error response
+   *
+   * @param {string} referralId - ID of the referral that wasn't found
+   * @returns {Object} A 404 error response object
+   */
+  static create404Response(referralId = 'PmDYsBz-egEtG13flMnHUQ==') {
+    return {
+      errors: [
+        {
+          title: 'Referral not found',
+          detail: `Referral with ID ${referralId} was not found`,
+          code: '404',
+          status: '404',
+        },
+      ],
+    };
+  }
+
+  /**
+   * Creates a 500 Internal Server Error response
+   *
+   * @returns {Object} A 500 error response object
+   */
+  static create500Response() {
+    return {
+      errors: [
+        {
+          title: 'Internal Server Error',
+          detail: 'An error occurred while retrieving the draft appointment',
+          code: '500',
+          status: '500',
+        },
+      ],
+    };
+  }
+
+  /**
    * Gets the response object with draft appointment and slots
    *
    * @returns {Object} The complete response object or error
    */
   toJSON() {
-    const { referralId, notFound, numberOfSlots } = this.options;
+    const { referralId, notFound, serverError, numberOfSlots } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
-      return {
-        errors: [
-          {
-            title: 'Referral not found',
-            detail: `Referral with ID ${referralId} was not found`,
-            code: '404',
-            status: '404',
-          },
-        ],
-      };
+      return MockReferralDraftAppointmentResponse.create404Response(referralId);
+    }
+
+    // Return 500 error if serverError is true
+    if (serverError) {
+      return MockReferralDraftAppointmentResponse.create500Response();
     }
 
     // Create slots array

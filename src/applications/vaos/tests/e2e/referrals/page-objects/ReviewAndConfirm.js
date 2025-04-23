@@ -44,6 +44,15 @@ export class ReviewAndConfirmPageObject extends PageObject {
   }
 
   /**
+   * Validates that an API error message is displayed when appointment details fail to load
+   */
+  assertApiError() {
+    // This uses curly apostrophes as required by VA style guidelines
+    cy.findByText(/We can’t schedule this appointment online/i).should('exist');
+    return this;
+  }
+
+  /**
    * Validates that the edit link for date and time is available
    */
   assertEditDateTimeLink() {

@@ -7,6 +7,8 @@ class MockReferralListResponse {
   constructor(options = {}) {
     this.options = {
       numberOfReferrals: 0,
+      notFound: false,
+      serverError: false,
       ...options,
     };
   }
@@ -87,12 +89,58 @@ class MockReferralListResponse {
   }
 
   /**
+   * Creates a 404 Not Found error response
+   *
+   * @returns {Object} A 404 error response object
+   */
+  static create404Response() {
+    return {
+      errors: [
+        {
+          title: 'Referrals not found',
+          detail: 'No referrals were found for this patient',
+          code: '404',
+          status: '404',
+        },
+      ],
+    };
+  }
+
+  /**
+   * Creates a 500 Internal Server Error response
+   *
+   * @returns {Object} A 500 error response object
+   */
+  static create500Response() {
+    return {
+      errors: [
+        {
+          title: 'Internal Server Error',
+          detail: 'An error occurred while retrieving referrals',
+          code: '500',
+          status: '500',
+        },
+      ],
+    };
+  }
+
+  /**
    * Gets the response object with referrals
    *
    * @returns {Object} The complete response object with referrals
    */
   toJSON() {
-    const { numberOfReferrals } = this.options;
+    const { numberOfReferrals, notFound, serverError } = this.options;
+
+    // Return 404 error if notFound is true
+    if (notFound) {
+      return MockReferralListResponse.create404Response();
+    }
+
+    // Return 500 error if serverError is true
+    if (serverError) {
+      return MockReferralListResponse.create500Response();
+    }
 
     // If number of referrals is 0, return empty array
     if (numberOfReferrals === 0) {

@@ -7,6 +7,8 @@ class MockReferralAppointmentDetailsResponse {
       appointmentId: 'EEKoGzEf',
       referralId: '12345',
       success: true,
+      notFound: false,
+      serverError: false,
       ...options,
     };
   }
@@ -94,26 +96,37 @@ class MockReferralAppointmentDetailsResponse {
   }
 
   /**
-   * Creates an error response for appointment details
+   * Creates a 404 Not Found error response
    *
-   * @param {Object} options - Options for the error response
-   * @param {string} options.code - Error code
-   * @param {string} options.title - Error title
-   * @param {string} options.detail - Error detail message
-   * @returns {Object} An error response object
+   * @param {string} appointmentId - ID of the appointment that wasn't found
+   * @returns {Object} A 404 error response object
    */
-  static createErrorResponse({
-    code = '404',
-    title = 'Appointment not found',
-    detail = 'The requested appointment could not be found',
-  } = {}) {
+  static create404Response(appointmentId = 'EEKoGzEf') {
     return {
       errors: [
         {
-          title,
-          detail,
-          code,
-          status: code,
+          title: 'Appointment not found',
+          detail: `Appointment with ID ${appointmentId} was not found`,
+          code: '404',
+          status: '404',
+        },
+      ],
+    };
+  }
+
+  /**
+   * Creates a 500 Internal Server Error response
+   *
+   * @returns {Object} A 500 error response object
+   */
+  static create500Response() {
+    return {
+      errors: [
+        {
+          title: 'Internal Server Error',
+          detail: 'An error occurred while retrieving appointment details',
+          code: '500',
+          status: '500',
         },
       ],
     };
@@ -132,7 +145,21 @@ class MockReferralAppointmentDetailsResponse {
       providerName = 'Dr. Bones',
       organizationName = 'Meridian Health',
       success,
+      notFound,
+      serverError,
     } = this.options;
+
+    // Return 404 error if notFound is true
+    if (notFound) {
+      return MockReferralAppointmentDetailsResponse.create404Response(
+        appointmentId,
+      );
+    }
+
+    // Return 500 error if serverError is true
+    if (serverError) {
+      return MockReferralAppointmentDetailsResponse.create500Response();
+    }
 
     // Return error response if success is false
     if (!success) {

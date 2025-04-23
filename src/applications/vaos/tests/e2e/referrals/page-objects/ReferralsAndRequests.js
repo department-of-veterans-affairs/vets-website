@@ -34,6 +34,15 @@ export class ReferralsAndRequestsPageObject extends PageObject {
   }
 
   /**
+   * Validates that an API error message is displayed when referrals list fails to load
+   */
+  assertApiError() {
+    // This uses curly apostrophes as required by VA style guidelines
+    cy.findByText(/We’re sorry. We’ve run into a problem/i).should('exist');
+    return this;
+  }
+
+  /**
    * Selects a referral from the list to begin scheduling
    * @param {number} index - Index of the referral to select (0-based)
    */

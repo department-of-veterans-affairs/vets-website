@@ -8,6 +8,8 @@ class MockReferralSubmitAppointmentResponse {
     this.options = {
       appointmentId: 'EEKoGzEf',
       success: true,
+      notFound: false,
+      serverError: false,
       ...options,
     };
   }
@@ -24,6 +26,43 @@ class MockReferralSubmitAppointmentResponse {
       data: {
         id: appointmentId,
       },
+    };
+  }
+
+  /**
+   * Creates a 404 Not Found error response
+   *
+   * @param {string} appointmentId - ID of the appointment that wasn't found
+   * @returns {Object} A 404 error response object
+   */
+  static create404Response(appointmentId = 'EEKoGzEf') {
+    return {
+      errors: [
+        {
+          title: 'Appointment not found',
+          detail: `Appointment with ID ${appointmentId} was not found`,
+          code: '404',
+          status: '404',
+        },
+      ],
+    };
+  }
+
+  /**
+   * Creates a 500 Internal Server Error response
+   *
+   * @returns {Object} A 500 error response object
+   */
+  static create500Response() {
+    return {
+      errors: [
+        {
+          title: 'Internal Server Error',
+          detail: 'An error occurred while submitting the appointment',
+          code: '500',
+          status: '500',
+        },
+      ],
     };
   }
 
@@ -59,7 +98,19 @@ class MockReferralSubmitAppointmentResponse {
    * @returns {Object} The complete response object
    */
   toJSON() {
-    const { appointmentId, success } = this.options;
+    const { appointmentId, success, notFound, serverError } = this.options;
+
+    // Return 404 error if notFound is true
+    if (notFound) {
+      return MockReferralSubmitAppointmentResponse.create404Response(
+        appointmentId,
+      );
+    }
+
+    // Return 500 error if serverError is true
+    if (serverError) {
+      return MockReferralSubmitAppointmentResponse.create500Response();
+    }
 
     // Return error response if success is false
     if (!success) {

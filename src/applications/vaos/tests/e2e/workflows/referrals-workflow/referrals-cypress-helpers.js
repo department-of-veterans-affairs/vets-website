@@ -18,16 +18,8 @@ export function mockReferralsGetApi({
       pathname: '/vaos/v2/referrals',
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          body: '404 Not Found',
-          statusCode: responseCode,
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
@@ -56,26 +48,8 @@ export function mockReferralDetailGetApi({
       pathname: `/vaos/v2/referrals/${id}`,
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          statusCode: responseCode,
-          body:
-            responseCode === 404
-              ? { errors: [{ title: 'Referral not found', status: '404' }] }
-              : {
-                  errors: [
-                    {
-                      title: 'Error retrieving referral',
-                      status: responseCode.toString(),
-                    },
-                  ],
-                },
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
@@ -102,16 +76,8 @@ export function mockDraftReferralAppointmentApi({
       pathname: '/vaos/v2/appointments/draft',
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          statusCode: responseCode,
-          body: data,
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
@@ -138,16 +104,8 @@ export function mockCreateAppointmentApi({
       pathname: '/vaos/v2/appointments',
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          statusCode: responseCode,
-          body: data,
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
@@ -174,16 +132,8 @@ export function mockSubmitAppointmentApi({
       pathname: '/vaos/v2/appointments/submit',
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          statusCode: responseCode,
-          body: data,
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
@@ -212,26 +162,8 @@ export function mockCompletedAppointmentApi({
       pathname: `/my-health/appointments/schedule-referral/complete/${id}`,
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          statusCode: responseCode,
-          body:
-            responseCode === 404
-              ? { errors: [{ title: 'Appointment not found', status: '404' }] }
-              : {
-                  errors: [
-                    {
-                      title: 'Error retrieving appointment',
-                      status: responseCode.toString(),
-                    },
-                  ],
-                },
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
@@ -260,16 +192,8 @@ export function mockAppointmentDetailsApi({
       pathname: `/vaos/v2/appointments/${id}`,
     },
     req => {
-      if (responseCode !== 200) {
-        req.reply({
-          statusCode: responseCode,
-          body: data,
-        });
-        return;
-      }
-
       req.reply({
-        statusCode: 200,
+        statusCode: responseCode,
         body: data,
       });
     },
