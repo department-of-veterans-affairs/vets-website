@@ -1,8 +1,8 @@
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cypress-example.json';
 import pagePaths from './pagePaths';
-import maximalData from './fixtures/data/maximal-test.json';
 
 import pageHooks from './helpers/pageHooks';
 import formConfig from '../../config/form';
@@ -18,7 +18,7 @@ const testConfig = createTestConfig(
     appName: 'Pensions',
     dataPrefix: 'data',
     dataDir: null,
-    dataSets: [{ title: 'maximal-test-chapter-1-2', data: maximalData }],
+    dataSets: [{ title: 'maximal-test-chapter-1-2', data: kitchenSinkFixture }],
     stopTestAfterPath: STOP,
     pageHooks: pageHooks(START),
     setupPerTest: () => {
