@@ -17,7 +17,7 @@ export const useDefaultFormData = () => {
   const { totalRating } = useSelector(state => state.disabilityRating);
   const { data: formData } = useSelector(state => state.form);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { dob: veteranDob } = useSelector(selectProfile);
+  const { dob: veteranDob, userFullName } = useSelector(selectProfile);
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
 
@@ -38,6 +38,7 @@ export const useDefaultFormData = () => {
         ? {
             'view:veteranInformation': {
               veteranDateOfBirth: validateVeteranDob(veteranDob),
+              veteranFullName: userFullName,
             },
           }
         : {};
@@ -52,6 +53,7 @@ export const useDefaultFormData = () => {
     [
       isLoggedIn,
       veteranDob,
+      userFullName,
       veteranFullName,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,

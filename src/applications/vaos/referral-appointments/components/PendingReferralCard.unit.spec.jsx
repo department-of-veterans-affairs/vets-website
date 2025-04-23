@@ -15,8 +15,8 @@ describe('VAOS Component: PendingReferralCard', () => {
   });
 
   const referral = createReferralById(
-    'add2f0f4-a1ea-4dea-a504-a54ab57c68',
     '2025-01-01',
+    'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   ).attributes;
 
   const handleClick = sinon.spy();
@@ -39,7 +39,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   it('should display the correct number of appointments and expiration date', () => {
     expect(
       screen.getByText(
-        'We’ve approved your community care referral. You must schedule all appointments for this referral by January 1, 2025.',
+        'We’ve approved your community care referral. You must schedule all appointments for this referral by July 1, 2025.',
       ),
     ).to.exist;
   });

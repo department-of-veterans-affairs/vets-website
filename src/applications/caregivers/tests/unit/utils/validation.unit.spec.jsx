@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import {
   validateAddressFields,
   validateCaregivers,
@@ -7,257 +7,295 @@ import {
   validatePlannedClinic,
   validateSsnIsUnique,
 } from '../../../utils/validation';
-import { REQUIRED_ADDRESS_FIELDS } from '../../../utils/constants';
 
 describe('CG `validateAddressFields` form validation', () => {
-  const requiredField = REQUIRED_ADDRESS_FIELDS[0];
-  const getData = ({ spy = () => {}, fieldData = {} }) => ({
+  let addError;
+  const getData = ({ fieldData = {} } = {}) => ({
     errors: {
-      street: { addError: spy },
-      city: { addError: () => {} },
-      state: { addError: () => {} },
-      postalCode: { addError: () => {} },
-      county: { addError: () => {} },
+      street: { addError },
+      city: { addError: f => f },
+      state: { addError: f => f },
+      postalCode: { addError: f => f },
+      county: { addError: f => f },
     },
     fieldData,
   });
-  let addErrorSpy;
+  const runTest = input => {
+    const { errors, fieldData } = getData(input);
+    validateAddressFields(errors, fieldData);
+    return addError.called;
+  };
+  const testCases = [
+    {
+      title: 'should set error when required data is missing',
+      input: {},
+      expected: true,
+    },
+    {
+      title: 'should set error when pattern data is invalid',
+      input: { fieldData: { county: ' usa ' } },
+      expected: true,
+    },
+    {
+      title: 'should not set error when data is valid',
+      input: {
+        fieldData: {
+          street: '123 Apple Lane',
+          city: 'Indianapolis',
+          state: 'IN',
+          postalCode: '46220',
+          county: 'Marion',
+        },
+      },
+      expected: false,
+    },
+  ];
 
   beforeEach(() => {
-    addErrorSpy = sinon.spy();
+    addError = sinon.spy();
   });
 
-  it('should set an error when required data is missing', () => {
-    const { errors, fieldData } = getData({ spy: addErrorSpy });
-    validateAddressFields(errors, fieldData);
-    expect(errors[requiredField].addError.called).to.be.true;
+  afterEach(() => {
+    addError.resetHistory();
   });
 
-  it('should set an error when pattern data is invalid', () => {
-    const { errors, fieldData } = getData({
-      spy: addErrorSpy,
-      fieldData: { county: ' usa ' },
-    });
-    validateAddressFields(errors, fieldData);
-    expect(errors[requiredField].addError.called).to.be.true;
-  });
-
-  it('should not set an error when the data is valid', () => {
-    const { errors, fieldData } = getData({
-      spy: addErrorSpy,
-      fieldData: {
-        street: '123 Apple Lane',
-        city: 'Indianapolis',
-        state: 'IN',
-        postalCode: '46220',
-        county: 'Marion',
-      },
-    });
-    validateAddressFields(errors, fieldData);
-    expect(errors[requiredField].addError.called).to.be.false;
+  testCases.forEach(({ title, input, expected }) => {
+    it(title, () => expect(runTest(input)).to.eq(expected));
   });
 });
 
 describe('CG `validateCaregivers` form validation', () => {
-  const getData = ({ spy = () => {}, formData = {} }) => ({
-    errors: { addError: spy },
+  let addError;
+  const getData = ({ formData = {} } = {}) => ({
+    errors: { addError },
     formData,
   });
-  let addErrorSpy;
+  const runTest = input => {
+    const { errors, formData } = getData(input);
+    validateCaregivers(errors, {}, formData);
+    return addError.called;
+  };
+  const testCases = [
+    {
+      title: 'should set error if caregivers have not been declared',
+      input: {},
+      expected: true,
+    },
+    {
+      title: 'should not set error if primary caregiver has been declared',
+      input: {
+        formData: { 'view:hasPrimaryCaregiver': true },
+      },
+      expected: false,
+    },
+    {
+      title: 'should not set error if secondary caregiver has been declared',
+      input: {
+        formData: { 'view:hasSecondaryCaregiverOne': true },
+      },
+      expected: false,
+    },
+  ];
 
   beforeEach(() => {
-    addErrorSpy = sinon.spy();
+    addError = sinon.spy();
   });
 
-  it('should set an error if caregivers have not been declared', () => {
-    const { errors, formData } = getData({ spy: addErrorSpy });
-    validateCaregivers(errors, {}, formData);
-    expect(errors.addError.called).to.be.true;
+  afterEach(() => {
+    addError.resetHistory();
   });
 
-  it('should not set an error if primary caregiver has been declared', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: { 'view:hasPrimaryCaregiver': true },
-    });
-    validateCaregivers(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
-  });
-
-  it('should not set an error if secondary caregiver has been declared', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: { 'view:hasSecondaryCaregiverOne': true },
-    });
-    validateCaregivers(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
+  testCases.forEach(({ title, input, expected }) => {
+    it(title, () => expect(runTest(input)).to.eq(expected));
   });
 });
 
 describe('CG `validateCountyInput` form validation', () => {
-  const getData = ({ spy = () => {} }) => ({
-    errors: { addError: spy },
-  });
-  let addErrorSpy;
+  let addError;
+  const runTest = input => {
+    validateCountyInput({ addError }, input);
+    return addError.called;
+  };
+  const testCases = [
+    {
+      title:
+        'should set error if data contains a restricted string with trailing whitespace',
+      input: 'USA ',
+      expected: true,
+    },
+    {
+      title: 'should set error if data contains a restricted string',
+      input: 'United States',
+      expected: true,
+    },
+    {
+      title:
+        'should not set error if data does not contain a restricted string',
+      input: 'Marion',
+      expected: false,
+    },
+    {
+      title:
+        'should not set error if data contains a restricted string within a string',
+      input: 'Tuscolusa',
+      expected: false,
+    },
+  ];
 
   beforeEach(() => {
-    addErrorSpy = sinon.spy();
+    addError = sinon.spy();
   });
 
-  it('should set an error if fieldData contains a restricted string with trailing whitespace', () => {
-    const { errors } = getData({ spy: addErrorSpy });
-    validateCountyInput(errors, 'USA ');
-    expect(errors.addError.called).to.be.true;
+  afterEach(() => {
+    addError.resetHistory();
   });
 
-  it('should set an error if fieldData contains a restricted string', () => {
-    const { errors } = getData({ spy: addErrorSpy });
-    validateCountyInput(errors, 'United States');
-    expect(errors.addError.called).to.be.true;
-  });
-
-  it('should not set an error if fieldData does not contain a restricted string', () => {
-    const { errors } = getData({ spy: addErrorSpy });
-    validateCountyInput(errors, 'Marion');
-    expect(errors.addError.called).to.be.false;
-  });
-
-  it('should not set an error if fieldData contains a restricted string within a string', () => {
-    const { errors } = getData({ spy: addErrorSpy });
-    validateCountyInput(errors, 'Tuscolusa');
-    expect(errors.addError.called).to.be.false;
+  testCases.forEach(({ title, input, expected }) => {
+    it(title, () => expect(runTest(input)).to.eq(expected));
   });
 });
 
 describe('CG `validatePlannedClinic` form validation', () => {
-  const getData = ({ spy = () => {}, formData = {} }) => ({
-    errors: { addError: spy },
+  let addError;
+  const getData = ({ formData = {} } = {}) => ({
+    errors: { addError },
     formData,
   });
-  let addErrorSpy;
+  const runTest = input => {
+    const { errors, formData } = getData(input);
+    validatePlannedClinic(errors, {}, formData);
+    return addError.called;
+  };
+  const testCases = [
+    {
+      title: 'should set error if planned clinic has not been set',
+      input: {},
+      expected: true,
+    },
+    {
+      title: 'should set error if planned clinic is an empty object',
+      input: { formData: { 'view:plannedClinic': {} } },
+      expected: true,
+    },
+    {
+      title: 'should not set error if planned clinic has been declared',
+      input: { formData: { 'view:plannedClinic': { id: 'my-id' } } },
+      expected: false,
+    },
+  ];
 
   beforeEach(() => {
-    addErrorSpy = sinon.spy();
+    addError = sinon.spy();
   });
 
-  it('should set an error if planned clinic has not been set', () => {
-    const { errors, formData } = getData({ spy: addErrorSpy });
-    validatePlannedClinic(errors, {}, formData);
-    expect(errors.addError.called).to.be.true;
+  afterEach(() => {
+    addError.resetHistory();
   });
 
-  it('should set an error if planned clinic is an empty object', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: { 'view:plannedClinic': {} },
-    });
-    validatePlannedClinic(errors, {}, formData);
-    expect(errors.addError.called).to.be.true;
-  });
-
-  it('should not set an error if planned clinic has been declared', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: { 'view:plannedClinic': { id: 'my-id' } },
-    });
-    validatePlannedClinic(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
+  testCases.forEach(({ title, input, expected }) => {
+    it(title, () => expect(runTest(input)).to.eq(expected));
   });
 });
 
 describe('CG `validateSsnIsUnique` form validation', () => {
-  const getData = ({ spy = () => {}, formData = {} }) => ({
-    errors: { addError: spy },
+  let addError;
+  const getData = ({ formData = {} } = {}) => ({
+    errors: { addError },
     formData,
   });
-  let addErrorSpy;
+  const runTest = input => {
+    const { errors, formData } = getData(input);
+    validateSsnIsUnique(errors, {}, formData);
+    return addError.called;
+  };
+  const testCases = [
+    {
+      title: 'should set error if any of the included SSNs are duplicated',
+      input: {
+        formData: {
+          veteranSsnOrTin: '222332222',
+          primarySsnOrTin: '111332356',
+          secondaryOneSsnOrTin: '444332111',
+          secondaryTwoSsnOrTin: '222332222',
+          'view:hasPrimaryCaregiver': true,
+          'view:hasSecondaryCaregiverOne': true,
+          'view:hasSecondaryCaregiverTwo': true,
+        },
+      },
+      expected: true,
+    },
+    {
+      title: 'should not set error when the primary caregiver is not declared',
+      input: {
+        formData: {
+          veteranSsnOrTin: '222332222',
+          primarySsnOrTin: undefined,
+          secondaryOneSsnOrTin: '211332222',
+          secondaryTwoSsnOrTin: '111332356',
+          'view:hasPrimaryCaregiver': false,
+          'view:hasSecondaryCaregiverOne': true,
+          'view:hasSecondaryCaregiverTwo': true,
+        },
+      },
+      expected: false,
+    },
+    {
+      title:
+        'should not set error when the secondary caregivers are not declared',
+      input: {
+        formData: {
+          veteranSsnOrTin: '222332222',
+          primarySsnOrTin: '111332356',
+          secondaryOneSsnOrTin: undefined,
+          secondaryTwoSsnOrTin: undefined,
+          'view:hasPrimaryCaregiver': true,
+          'view:hasSecondaryCaregiverOne': false,
+          'view:hasSecondaryCaregiverTwo': false,
+        },
+      },
+      expected: false,
+    },
+    {
+      title: 'should not set error for any value that is `undefined`',
+      input: {
+        formData: {
+          veteranSsnOrTin: '222332222',
+          primarySsnOrTin: '111332356',
+          secondaryOneSsnOrTin: undefined,
+          secondaryTwoSsnOrTin: undefined,
+          'view:hasPrimaryCaregiver': true,
+          'view:hasSecondaryCaregiverOne': true,
+          'view:hasSecondaryCaregiverTwo': true,
+        },
+      },
+      expected: false,
+    },
+    {
+      title: 'should not set error if all SSNs are unique',
+      input: {
+        formData: {
+          veteranSsnOrTin: '222332222',
+          primarySsnOrTin: '111332356',
+          secondaryOneSsnOrTin: '444332111',
+          secondaryTwoSsnOrTin: '222332245',
+          'view:hasPrimaryCaregiver': true,
+          'view:hasSecondaryCaregiverOne': true,
+          'view:hasSecondaryCaregiverTwo': true,
+        },
+      },
+      expected: false,
+    },
+  ];
 
   beforeEach(() => {
-    addErrorSpy = sinon.spy();
+    addError = sinon.spy();
   });
 
-  it('should set an error if any of the included SSNs are duplicated', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: {
-        veteranSsnOrTin: '222332222',
-        primarySsnOrTin: '111332356',
-        secondaryOneSsnOrTin: '444332111',
-        secondaryTwoSsnOrTin: '222332222',
-        'view:hasPrimaryCaregiver': true,
-        'view:hasSecondaryCaregiverOne': true,
-        'view:hasSecondaryCaregiverTwo': true,
-      },
-    });
-    validateSsnIsUnique(errors, {}, formData);
-    expect(errors.addError.called).to.be.true;
+  afterEach(() => {
+    addError.resetHistory();
   });
 
-  it('should not set an error when the primary caregiver is not declared', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: {
-        veteranSsnOrTin: '222332222',
-        primarySsnOrTin: undefined,
-        secondaryOneSsnOrTin: '211332222',
-        secondaryTwoSsnOrTin: '111332356',
-        'view:hasPrimaryCaregiver': false,
-        'view:hasSecondaryCaregiverOne': true,
-        'view:hasSecondaryCaregiverTwo': true,
-      },
-    });
-    validateSsnIsUnique(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
-  });
-
-  it('should not set an error when the secondary caregivers are not declared', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: {
-        veteranSsnOrTin: '222332222',
-        primarySsnOrTin: '111332356',
-        secondaryOneSsnOrTin: undefined,
-        secondaryTwoSsnOrTin: undefined,
-        'view:hasPrimaryCaregiver': true,
-        'view:hasSecondaryCaregiverOne': false,
-        'view:hasSecondaryCaregiverTwo': false,
-      },
-    });
-    validateSsnIsUnique(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
-  });
-
-  it('should not set an error for any value that is `undefined`', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: {
-        veteranSsnOrTin: '222332222',
-        primarySsnOrTin: '111332356',
-        secondaryOneSsnOrTin: undefined,
-        secondaryTwoSsnOrTin: undefined,
-        'view:hasPrimaryCaregiver': true,
-        'view:hasSecondaryCaregiverOne': true,
-        'view:hasSecondaryCaregiverTwo': true,
-      },
-    });
-    validateSsnIsUnique(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
-  });
-
-  it('should not set an error if all SSNs are unique', () => {
-    const { errors, formData } = getData({
-      spy: addErrorSpy,
-      formData: {
-        veteranSsnOrTin: '222332222',
-        primarySsnOrTin: '111332356',
-        secondaryOneSsnOrTin: '444332111',
-        secondaryTwoSsnOrTin: '222332245',
-        'view:hasPrimaryCaregiver': true,
-        'view:hasSecondaryCaregiverOne': true,
-        'view:hasSecondaryCaregiverTwo': true,
-      },
-    });
-    validateSsnIsUnique(errors, {}, formData);
-    expect(errors.addError.called).to.be.false;
+  testCases.forEach(({ title, input, expected }) => {
+    it(title, () => expect(runTest(input)).to.eq(expected));
   });
 });

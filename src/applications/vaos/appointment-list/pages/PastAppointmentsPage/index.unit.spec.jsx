@@ -1,19 +1,32 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { within } from '@testing-library/dom';
 import { expect } from 'chai';
+import {
+  addMinutes,
+  endOfMonth,
+  format,
+  startOfDay,
+  startOfMonth,
+  subDays,
+  subMonths,
+  subYears,
+} from 'date-fns';
 import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
 import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockVAOSAppointmentsFetch,
+} from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -23,26 +36,15 @@ const initialState = {
     vaOnlineSchedulingVAOSServiceCCAppointments: true,
   },
 };
-
-const testDates = () => {
-  const now = moment().startOf('day');
-  const start = moment(now).subtract(3, 'months');
-  const end = moment(now)
-    .minutes(0)
-    .add(30, 'minutes');
-
-  return {
-    now,
-    start,
-    end,
-  };
-};
+const now = startOfDay(new Date(), 'day');
+const start = format(subMonths(now, 3), 'yyyy-MM-dd');
+const end = format(addMinutes(new Date(now).setMinutes(0), 30), 'yyyy-MM-dd');
 
 describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesApi({ response: [] });
   });
 
   afterEach(() => {
@@ -51,8 +53,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should show select date range dropdown', async () => {
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -66,29 +68,25 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should update range on dropdown change', async () => {
     // Arrange
-    const pastDate = moment(testDates().now).subtract(3, 'months');
+    const pastDate = subMonths(new Date(), 3);
+    const endDate = addMinutes(new Date(now).setMinutes(0), 30);
     const response = new MockAppointmentResponse({
       localStartTime: pastDate,
       serviceType: null,
     });
 
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
       fetchClaimStatus: true,
     });
+
     mockVAOSAppointmentsFetch({
-      start: testDates()
-        .now.subtract(5, 'months')
-        .startOf('month')
-        .format('YYYY-MM-DD'),
-      end: testDates()
-        .end.subtract(3, 'months')
-        .endOf('month')
-        .format('YYYY-MM-DD'),
+      start: format(subMonths(startOfMonth(now), 5), 'yyyy-MM-dd'),
+      end: format(endOfMonth(subMonths(endDate, 3)), 'yyyy-MM-dd'),
       requests: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
@@ -108,48 +106,43 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Assert
-    await screen.findByText(new RegExp(pastDate.format('MMMM YYYY'), 'i'));
+    await screen.findByText(new RegExp(format(pastDate, 'MMMM yyyy'), 'i'));
     await screen.findByText(/VA appointment/);
   });
 
   it('should show information without facility name', async () => {
-    const pastDate = moment(testDates().now).subtract(3, 'days');
-
-    const data = {
-      id: '1234',
-      kind: 'clinic',
-      type: 'VA',
-      clinic: 'fake',
-      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: pastDate.format(),
-      locationId: '983GC',
-      status: 'booked',
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
+    // Arrange
+    const pastDate = subDays(new Date(), 3);
+    const appointment = new MockAppointmentResponse({
+      past: true,
+      localStartTime: pastDate,
+      serviceType: null,
+      status: APPOINTMENT_STATUS.booked,
+    }).setLocationId('983GC');
 
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
       fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
+    // Assert
     await screen.findAllByLabelText(
-      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(pastDate, 'EEEE, MMMM d'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     const timeHeader = within(firstCard).getAllByText(
-      new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+      new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
     )[0];
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -160,15 +153,15 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   });
 
   it('should show information with facility name, useFeSourceOfTruthVA=false', async () => {
-    const pastDate = moment(testDates().now).subtract(3, 'days');
-
+    // Arrange
+    const pastDate = subDays(new Date(), 3);
     const data = {
       id: '1234',
       currentStatus: 'CHECKED OUT',
       kind: 'clinic',
       clinic: 'fake',
-      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: pastDate.format(),
+      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
+      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
       locationId: '983GC',
       status: 'fulfilled',
       location: {
@@ -216,27 +209,29 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
       fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
+    // Assert
     await screen.findAllByLabelText(
-      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
       ),
     ).to.exist;
     // TODO: Skipping until api call is made to get facility data on page load.
@@ -249,16 +244,16 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   });
 
   it('should show information with facility name, useFeSourceOfTruthVA=true', async () => {
-    const pastDate = moment(testDates().now).subtract(3, 'days');
-
+    // Arrange
+    const pastDate = subDays(new Date(), 3);
     const data = {
       id: '1234',
       currentStatus: 'CHECKED OUT',
       kind: 'clinic',
       type: 'VA',
       clinic: 'fake',
-      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: pastDate.format(),
+      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
+      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
       locationId: '983GC',
       status: 'fulfilled',
       location: {
@@ -306,27 +301,29 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
       fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
+    // Assert
     await screen.findAllByLabelText(
-      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
       ),
     ).to.exist;
     // TODO: Skipping until api call is made to get facility data on page load.
@@ -339,14 +336,14 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   });
 
   it('should not display when over 2 years away', () => {
-    const pastDate = moment(testDates().now).subtract(2, 'years');
-
+    // Arrange
+    const pastDate = subYears(new Date(), 2);
     const data = {
       id: '1234',
       currentStatus: 'FUTURE',
       kind: 'clinic',
       clinic: 'fake',
-      start: pastDate.format(),
+      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
       locationId: '983GC',
       status: 'booked',
     };
@@ -355,25 +352,27 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
       fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
+    // Assert
     return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
   it('should show expected video information', async () => {
-    const pastDate = moment(testDates().now).subtract(3, 'days');
-
+    // Arrange
+    const pastDate = subDays(new Date(), 3);
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1';
     appointment.attributes = {
@@ -383,8 +382,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       kind: 'telehealth',
       type: 'VA',
       locationId: '983',
-      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: pastDate.format(),
+      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
+      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
       status: 'booked',
       extention: {
         patientHasMobileGfe: false,
@@ -398,20 +397,22 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     };
 
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
       fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
+    // Assert
     await screen.findAllByLabelText(
-      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -421,13 +422,13 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     expect(
       within(firstCard).getAllByLabelText(
-        new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
+        new RegExp(format(pastDate, 'eeee, MMMM d'), 'i'),
       ),
     ).to.exist;
 
     expect(
       within(firstCard).getByText(
-        new RegExp(`^${pastDate.format('h:mm')}`, 'i'),
+        new RegExp(`^${format(pastDate, 'h:mm')}`, 'i'),
       ),
     ).to.exist;
 
@@ -436,10 +437,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   });
 
   it('should display past appointments using V2 api call', async () => {
-    const yesterday = moment(testDates().now)
-      .utc()
-      .subtract(1, 'day');
-
+    // Arrange
+    const yesterday = subDays(new Date(), 1);
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1';
     appointment.attributes = {
@@ -447,8 +446,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       type: 'VA',
       minutesDuration: 30,
       status: 'booked',
-      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: yesterday.format(),
+      localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
+      start: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss"),
       locationId: '983',
       location: {
         id: '983',
@@ -470,20 +469,22 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       },
     };
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       requests: [appointment],
       avs: true,
       fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
+    // Assert
     await screen.findAllByLabelText(
-      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(yesterday, 'eeee, MMMM d'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -491,11 +492,10 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Details');
   });
-  it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
-    const yesterday = moment(testDates().now)
-      .utc()
-      .subtract(1, 'day');
 
+  it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
+    // Arrange
+    const yesterday = subDays(new Date(), 1);
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1';
     appointment.attributes = {
@@ -503,8 +503,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       type: 'VA',
       minutesDuration: 30,
       status: 'cancelled',
-      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: yesterday.format(),
+      localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
+      start: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss"),
       locationId: '983',
       location: {
         id: '983',
@@ -526,8 +526,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       },
     };
     mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
+      start,
+      end,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       requests: [appointment],
       avs: true,
@@ -541,12 +541,15 @@ describe('VAOS Page: PastAppointmentsList api', () => {
         vaOnlineSchedulingDisplayPastCancelledAppointments: true,
       },
     };
+
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState: myInitialState,
     });
 
+    // Assert
     await screen.findAllByLabelText(
-      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+      new RegExp(format(yesterday, 'eeee, MMMM d'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -557,6 +560,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   describe('getPastAppointmentDateRangeOptions', () => {
     const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
+
     it('should return 6 correct date ranges for dropdown', () => {
       expect(ranges.length).to.equal(6);
 

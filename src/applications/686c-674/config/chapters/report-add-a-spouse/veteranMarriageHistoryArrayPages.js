@@ -229,7 +229,7 @@ export const vetFormerMarriageStartLocationPage = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where you were previously married',
           },
           'ui:webComponentField': VaTextInputField,
         },
