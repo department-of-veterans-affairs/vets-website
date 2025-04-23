@@ -118,9 +118,11 @@ describe('Community Care Referrals', () => {
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
       });
-      expect(screen.getByText(/Test component/i)).to.exist;
-      expect(screen.getByText(/Referrals error: true/i)).to.exist;
-      expect(screen.getByText(/Requests error: true/i)).to.exist;
+      waitFor(() => {
+        expect(screen.getByText(/Test component/i)).to.exist;
+        expect(screen.getByText(/Referrals error: true/i)).to.exist;
+        expect(screen.getByText(/Requests error: true/i)).to.exist;
+      });
     });
     it('shows the button if the feature toggle is on', () => {
       sandbox
