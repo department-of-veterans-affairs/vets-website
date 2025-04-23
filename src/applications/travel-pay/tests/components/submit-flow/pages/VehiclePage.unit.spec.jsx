@@ -38,8 +38,8 @@ describe('Vehicle page', () => {
     const screen = render(
       <SmocContextProvider>
         <VehiclePage />
-      </SmocContextProvider>
-);
+      </SmocContextProvider>,
+    );
 
     expect(screen.getByTestId('vehicle-test-id')).to.exist;
     expect($('va-radio')).to.have.attribute(
