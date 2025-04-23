@@ -53,9 +53,7 @@ const commonMochaArgs = `--require @babel/register --config ${
 
 const coverageArgs = [
   '--all',
-  'mocha',
   commonMochaArgs,
-  // '--reporter=json-summary',
   '--reporter mocha-multi-reporters',
   '--reporter-options configFile=config/mocha-multi-reporter.js',
   '--no-color',
