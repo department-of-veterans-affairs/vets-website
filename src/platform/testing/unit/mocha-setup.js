@@ -170,7 +170,7 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-export const mochaHooks = {
+module.exports.mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
