@@ -271,4 +271,44 @@ describe('listLoopPages', () => {
       expect(container).to.include.text(item.component176032);
     });
   });
+
+  describe('item pages', () => {
+    describe('name page', () => {
+      let spy;
+
+      beforeEach(() => {
+        spy = sinon.spy(
+          arrayBuilderPatterns,
+          'arrayBuilderItemFirstPageTitleUI',
+        );
+      });
+
+      afterEach(() => {
+        spy.restore();
+      });
+
+      it('includes the proper attributes', () => {
+        const pages = listLoopPages(required, arrayBuilderStub);
+        const namePage = pages.filmNamePage;
+
+        expect(namePage.title).to.eq(required.itemNameLabel);
+        expect(namePage.path).to.eq('films/:index/name');
+        expect(namePage.schema.properties.name).to.eq(
+          webComponentPatterns.textSchema,
+        );
+        expect(namePage.uiSchema.name).to.not.eq(undefined);
+      });
+
+      it('calls arrayBuilderItemFirstPageTitleUI with the correct option', () => {
+        listLoopPages(required, arrayBuilderStub);
+
+        expect(
+          spy.calledWithMatch({
+            title: required.itemNameLabel,
+            nounSingular: required.nounSingular,
+          }),
+        ).to.eq(true);
+      });
+    });
+  });
 });
