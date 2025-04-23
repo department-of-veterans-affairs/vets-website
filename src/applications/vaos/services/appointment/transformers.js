@@ -338,7 +338,7 @@ export function transformVAOSAppointment(
       isCommunityCare: isCC,
       isExpressCare: false,
       isPhoneAppointment: isPhone,
-      isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
+      isCOVIDVaccine: isCovid,
       isInPersonVisit,
       isCerner,
       apiData: appt,
