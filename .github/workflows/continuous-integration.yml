@@ -306,7 +306,7 @@ jobs:
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-stress-test-results
+          name: unit-test-stress-test-results-${{ matrix.runs }}
           path: mocha/results
 
   update-unit-test-allow-list: 
@@ -1091,7 +1091,7 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: unit-test-stress-test-results-*
+          pattern: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
