@@ -79,10 +79,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
 
     expect(screen.getByTestId('referral-layout-heading')).to.exist;
-    // expect(screen.getByTestId('referral-layout-heading')).to.exist;
-    // expect(screen.getByTestId('slot-day-time')).to.contain.text(
-    //   'Monday, September 9, 2024',
-    // );
+    expect(screen.getByTestId('slot-day-time')).to.contain.text(
+      'Monday, September 9, 2024',
+    );
     // expect(screen.getByTestId('slot-day-time')).to.contain.text(
     //   '12:00 p.m. Eastern time (ET)',
     // );
