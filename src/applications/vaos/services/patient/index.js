@@ -260,6 +260,7 @@ export async function fetchFlowEligibilityAndClinics({
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
+  useFeSourceOfTruthModality = false,
   isCerner = false,
 }) {
   const directSchedulingAvailable =
@@ -296,6 +297,7 @@ export async function fetchFlowEligibilityAndClinics({
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
   }

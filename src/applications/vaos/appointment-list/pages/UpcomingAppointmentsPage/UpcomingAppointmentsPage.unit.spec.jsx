@@ -39,6 +39,8 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     appointment.attributes = {
       ...appointment.attributes,
       kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       status: 'booked',
       locationId: '983',
       location: {
@@ -97,6 +99,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       ...appointment.attributes,
       kind: 'clinic',
       type: 'VA',
+      modality: 'vaInPerson',
       status: 'booked',
       locationId: '983',
       location: {
@@ -312,6 +315,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       ...appointment.attributes,
       kind: 'telehealth',
       type: 'VA',
+      modality: 'vaInPerson',
       status: 'booked',
       locationId: '983',
       location: {

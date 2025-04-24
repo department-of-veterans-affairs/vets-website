@@ -96,9 +96,6 @@ export const selectFeatureRemovePodiatry = state =>
 export const selectFeatureUseVaDate = state =>
   toggleValues(state).vaosOnlineSchedulingUseVADate;
 
-export const selectFeaturePastApptDateRange = state =>
-  toggleValues(state).vaOnlineSchedulingPastApptDateRange;
-
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
