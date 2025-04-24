@@ -189,13 +189,13 @@ export function titleWithTag(title, headingTag) {
 
 export function behaviorDescriptionPagesTitleWithTag(title, headingTag) {
   return (
-    <div role="group">
-      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
-        {`${headingTag} `}
-      </h3>
-      <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
+    <h3 role="group" className="vads-u-margin--0">
+      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+        {`${headingTag}`}
+      </span>
+      <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
         {title}
-      </h3>
-    </div>
+      </span>
+    </h3>
   );
 }
