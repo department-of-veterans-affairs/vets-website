@@ -114,6 +114,12 @@ describe('renderDowntimeBanner', () => {
     const result = downtimeUtils.renderDowntimeBanner(statuses);
     expect(result).to.be.null;
   });
+
+  it('should no longer render banners for mhv downtime', () => {
+    const statuses = [{ serviceId: 'mhv', status: 'down' }];
+    const result = downtimeUtils.renderDowntimeBanner(statuses);
+    expect(result).to.be.null;
+  });
 });
 
 describe('createMaintenanceBanner', () => {
