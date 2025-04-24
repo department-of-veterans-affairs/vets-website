@@ -14,7 +14,7 @@ import {
   behaviorDescriptionPageHint,
 } from '../../content/form0781/behaviorListPages';
 import {
-  titleWithTag,
+  behaviorDescriptionPagesTitleWithTag,
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
@@ -26,7 +26,7 @@ import {
  */
 function makeUiSchema(behaviorType) {
   return {
-    'ui:title': titleWithTag(
+    'ui:title': behaviorDescriptionPagesTitleWithTag(
       ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType],
       form0781HeadingTag,
     ),

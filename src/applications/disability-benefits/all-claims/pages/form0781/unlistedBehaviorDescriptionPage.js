@@ -8,13 +8,16 @@ import {
   behaviorDescriptionPageHint,
 } from '../../content/form0781/behaviorListPages';
 import {
-  titleWithTag,
+  behaviorDescriptionPagesTitleWithTag,
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': titleWithTag(unlistedPageTitle, form0781HeadingTag),
+  'ui:title': behaviorDescriptionPagesTitleWithTag(
+    unlistedPageTitle,
+    form0781HeadingTag,
+  ),
   behaviorsDetails: {
     unlisted: textareaUI({
       title: unlistedDescriptionPageDescription,
