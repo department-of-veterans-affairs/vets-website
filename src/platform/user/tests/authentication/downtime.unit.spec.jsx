@@ -77,7 +77,7 @@ describe('renderDowntimeBanner', () => {
   it('should render banner for multiple services down', () => {
     const statuses = [
       { serviceId: 'logingov', status: 'down' },
-      { serviceId: 'mhv', status: 'down' },
+      { serviceId: 'idme', status: 'down' },
     ];
     const { container } = render(downtimeUtils.renderDowntimeBanner(statuses));
     const alert = container.querySelector('va-alert');
@@ -104,7 +104,7 @@ describe('renderDowntimeBanner', () => {
   });
 
   it('should return null when no services are down', () => {
-    const statuses = [{ serviceId: 'loginGov', status: 'active' }];
+    const statuses = [{ serviceId: 'logingov', status: 'active' }];
     const result = downtimeUtils.renderDowntimeBanner(statuses);
     expect(result).to.be.null;
   });
