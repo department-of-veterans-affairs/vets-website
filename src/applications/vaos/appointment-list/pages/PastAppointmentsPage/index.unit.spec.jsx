@@ -15,11 +15,13 @@ import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
 import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
-import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointmentResponse';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockVAOSAppointmentsFetch,
+} from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
@@ -42,7 +44,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesApi({ response: [] });
   });
 
   afterEach(() => {
@@ -441,7 +443,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      kind: 'clinic',
       type: 'VA',
+      modality: 'vaInPerson',
       minutesDuration: 30,
       status: 'booked',
       localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
@@ -498,7 +502,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     appointment.id = '1';
     appointment.attributes = {
       ...appointment.attributes,
+      kind: 'clinic',
       type: 'VA',
+      modality: 'vaInPerson',
       minutesDuration: 30,
       status: 'cancelled',
       localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),

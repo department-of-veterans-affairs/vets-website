@@ -190,7 +190,14 @@ export function ApplicantAddressCopyPage({
     <>
       {
         titleUI(
-          customTitle ?? `${applicantWording(currentApp)} address selection`,
+          customTitle ?? (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(currentApp)}
+              </span>{' '}
+              address selection
+            </>
+          ),
           customDescription ??
             'We’ll send any important information about your application to this address.',
         )['ui:title']
@@ -204,12 +211,17 @@ export function ApplicantAddressCopyPage({
           value={selectValue}
           label={selectWording}
           name="shared-address-select"
+          className="dd-privacy-hidden"
         >
           <option value="not-shared">
             {negativePrefix ?? 'No, use a new address'}
           </option>
           {getSelectOptions().map(el => (
-            <option key={el.originatorName} value={JSON.stringify(el)}>
+            <option
+              className="dd-privacy-hidden"
+              key={el.originatorName}
+              value={JSON.stringify(el)}
+            >
               {`${positivePrefix ?? 'Use'} `}
               {el.displayText}
             </option>
