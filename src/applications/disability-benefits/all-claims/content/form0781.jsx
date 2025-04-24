@@ -186,16 +186,3 @@ export function titleWithTag(title, headingTag) {
     </>
   );
 }
-
-export function behaviorDescriptionPagesTitleWithTag(title, headingTag) {
-  return (
-    <h3 role="group" className="vads-u-margin--0">
-      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        {`${headingTag}`}
-      </span>
-      <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
-        {title}
-      </span>
-    </h3>
-  );
-}

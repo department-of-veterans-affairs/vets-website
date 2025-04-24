@@ -14,7 +14,7 @@ import {
   behaviorDescriptionPageHint,
 } from '../../content/form0781/behaviorListPages';
 import {
-  behaviorDescriptionPagesTitleWithTag,
+  titleWithTag,
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
@@ -26,7 +26,7 @@ import {
  */
 function makeUiSchema(behaviorType) {
   return {
-    'ui:title': behaviorDescriptionPagesTitleWithTag(
+    'ui:title': titleWithTag(
       ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType],
       form0781HeadingTag,
     ),
@@ -35,6 +35,10 @@ function makeUiSchema(behaviorType) {
         title: behaviorDescriptionPageDescription,
         hint: behaviorDescriptionPageHint,
       }),
+    },
+    'ui:options': {
+      // title wrapped in a <fieldset> causes screenreader bug on these pages
+      forceDivWrapper: true,
     },
     'view:mentalHealthSupportAlert': {
       'ui:description': mentalHealthSupportAlert,
