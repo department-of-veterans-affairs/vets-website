@@ -105,7 +105,7 @@ export default function CompleteReferral() {
 
   const referralLoaded = !!referralAppointmentInfo?.attributes?.id;
 
-  const { attributes, provider } = referralAppointmentInfo;
+  const { attributes } = referralAppointmentInfo;
 
   const appointmentDate = format(
     new Date(attributes.start),
@@ -147,7 +147,7 @@ export default function CompleteReferral() {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {attributes.typeOfCare} with {provider.name}
+              {attributes.typeOfCare} with {attributes.provider.name}
             </strong>
             <p
               className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
@@ -161,17 +161,17 @@ export default function CompleteReferral() {
                   size={3}
                 />
               </span>
-              {attributes.modality} at {provider.location.name}
+              {attributes.modality} at {attributes.provider.location.name}
             </p>
             <p
               className="vads-u-margin-left--4 vads-u-margin-top--0p5"
               data-testid="appointment-clinic"
             >
-              Clinic: {provider.organization?.name}
+              Clinic: {attributes.provider.organization?.name}
             </p>
             <p>
               <va-link
-                href={`/appointments/${attributes.id}`}
+                href={`/my-health/appointments/${attributes.id}?eps=true`}
                 data-testid="cc-details-link"
                 text="Details"
               />

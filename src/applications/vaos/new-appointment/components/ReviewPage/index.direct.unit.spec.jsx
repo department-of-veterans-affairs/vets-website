@@ -1,13 +1,13 @@
-import React from 'react';
-import moment from 'moment';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
 import { waitFor, within } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import moment from 'moment';
+import React from 'react';
 import { Route } from 'react-router-dom';
 
 import {
-  setFetchJSONFailure,
   mockFetch,
+  setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -17,10 +17,12 @@ import {
 } from '../../../tests/mocks/setup';
 
 import ReviewPage from '.';
-import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
-import { mockAppointmentSubmit } from '../../../tests/mocks/helpers';
 import { createMockCheyenneFacility } from '../../../tests/mocks/data';
-import { mockFacilityFetch } from '../../../tests/mocks/fetch';
+import {
+  mockAppointmentSubmit,
+  mockFacilityApi,
+} from '../../../tests/mocks/mockApis';
+import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 
 const initialState = {
   featureToggles: {
@@ -206,8 +208,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch({
-      facility: createMockCheyenneFacility({}),
+    mockFacilityApi({
+      response: createMockCheyenneFacility({}),
     });
 
     setFetchJSONFailure(
