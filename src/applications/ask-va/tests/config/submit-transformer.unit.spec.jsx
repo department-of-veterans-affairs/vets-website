@@ -8,6 +8,13 @@ describe('Ask VA submit transformer', () => {
     const formData = {
       school: '333 - Midvale School for the Gifted',
       stateOfTheSchool: 'AL',
+      address: {
+        isMilitary: false,
+        street: '123 Main st',
+        city: 'Mordor',
+        state: 'FL',
+        country: 'USA',
+      },
     };
     const askVAStore = {};
     const uploadFiles = [
@@ -21,6 +28,19 @@ describe('Ask VA submit transformer', () => {
     expect(result).to.deep.equal({
       ...formData,
       ...askVAStore,
+      address: {
+        city: 'Mordor',
+        country: 'USA',
+        isMilitary: false,
+        militaryAddress: {
+          militaryPostOffice: null,
+          militaryState: null,
+        },
+        state: 'FL',
+        street: '123 Main st',
+      },
+      country: 'USA',
+      onBaseOutsideUS: false,
       files: [
         {
           FileName: 'test.pdf',
@@ -47,6 +67,7 @@ describe('Ask VA submit transformer', () => {
     expect(result).to.deep.equal({
       ...formData,
       ...askVAStore,
+      address: null,
       // TODO: This is the default value when no files are uploaded;
       // I would much prefer an empty array. joehall-tw
       files: [
@@ -75,6 +96,7 @@ describe('Ask VA submit transformer', () => {
     expect(result).to.deep.equal({
       ...formData,
       ...askVAStore,
+      address: null,
       // TODO: This is the default value when no files are uploaded;
       // I would much prefer an empty array. joehall-tw
       files: [

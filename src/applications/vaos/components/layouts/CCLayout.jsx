@@ -43,10 +43,9 @@ export default function CCLayout({ data: appointment }) {
   const { patientComments } = appointment || {};
 
   let heading = 'Community care appointment';
-  if (isPastAppointment) heading = 'Past community care appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled community care appointment';
-  else heading = 'Community care appointment';
+  else if (isPastAppointment) heading = 'Past community care appointment';
 
   recordAppointmentDetailsNullStates(
     {

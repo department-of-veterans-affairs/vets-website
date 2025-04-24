@@ -12,14 +12,17 @@ function DownshiftCaret({
     return null;
   }
   return (
-    <div id={`downshift-caret-holder-${inputId}`} data-testid="down-caret">
+    <div
+      id={`downshift-caret-holder-${inputId}`}
+      data-testid={`${inputId}-down-caret`}
+    >
       <button
         id={`downshift-caret-${inputId}`}
         aria-label={isOpen ? 'close dropdown' : 'open dropdown'}
         className="downshift-caret-button"
         {...getToggleButtonProps()}
         type="button"
-        data-e2e-id="autosuggest-arrow-button"
+        data-e2e-id={`${inputId}-autosuggest-arrow-button`}
       >
         {isOpen ? (
           <va-icon icon="expand_less" size="3" />

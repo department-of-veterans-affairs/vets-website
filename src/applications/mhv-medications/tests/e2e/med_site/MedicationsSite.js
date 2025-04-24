@@ -117,6 +117,7 @@ class MedicationsSite {
     cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
+      .first()
       .click({ waitForAnimations: true });
     cy.wait(`@Prescriptions${interceptedPage}`);
   };

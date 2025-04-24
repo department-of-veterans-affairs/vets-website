@@ -1,7 +1,11 @@
 import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import IntroductionPage from '../../../../components/submit-flow/pages/IntroductionPage';
@@ -20,8 +24,15 @@ const mockAppt = {
 };
 
 describe('Introduction page', () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
   afterEach(() => {
     MockDate.reset();
+    recordEventStub.restore();
   });
 
   const props = {
@@ -44,6 +55,37 @@ describe('Introduction page', () => {
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
     expect(screen.getByTestId('travel-pay-loading-indicator')).to.exist;
+  });
+
+  it('should record the pageview', () => {
+    MockDate.set('2025-01-05');
+    renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+            },
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'intro',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
   });
 
   it('should render with link to file a claim if data has loaded', () => {

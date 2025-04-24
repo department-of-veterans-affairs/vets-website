@@ -9,6 +9,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsShowIpeContent = true,
+    mhvMedicationsPartialFillContent,
+    mhvMedicationsDontIncrementIpeCount,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -21,7 +23,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplaySettingsPage = true,
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
-    mhvSecureMessagingEditContactList = true,
+    mhvMedicalRecordsMarch17Updates = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
@@ -91,6 +93,14 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_show_ipe_content',
           value: mhvMedicationsShowIpeContent,
         },
+        {
+          name: 'mhv_medications_partial_fill_content',
+          value: mhvMedicationsPartialFillContent,
+        },
+        {
+          name: 'mhv_medications_dont_increment_ipe_count',
+          value: mhvMedicationsDontIncrementIpeCount,
+        },
 
         // medical records
         {
@@ -142,8 +152,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsToVaGovRelease,
         },
         {
-          name: 'mhv_secure_messaging_edit_contact_list',
-          value: mhvSecureMessagingEditContactList,
+          name: 'mhv_medical_records_update_landing_page',
+          value: mhvMedicalRecordsMarch17Updates,
         },
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
@@ -152,6 +162,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_opt_groups',
           value: mhvSecureMessagingRecipientOptGroups,
+        },
+        {
+          name: 'mhv_secure_messaging_remove_landing_page',
+          value: true,
         },
       ],
     },

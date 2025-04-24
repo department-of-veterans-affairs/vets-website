@@ -2,19 +2,17 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
-const IntroductionPage = ({ router }) => {
+import OmbInfo from '../components/OmbInfo';
+
+const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
-
-  const startForm = event => {
-    event.preventDefault();
-    router.push('/institution-details-1');
-  };
 
   return (
     <article className="schemaform-intro">
@@ -59,12 +57,11 @@ const IntroductionPage = ({ router }) => {
         enrollment ratios" section of this page.
       </p>
       <p>
-        For additional guidance on the 85/15 Rule, see the{' '}
         <va-link
-          text="School Certifying Official Handbook"
-          href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000149088/School-Certifying-Official-Handbook-On-line"
+          external
+          text="Learn more about the 85/15 rule"
+          href="https://benefits.va.gov/GIBILL/85_15/85_15_homepage.asp"
         />
-        .
       </p>
       <p>
         Please take the time to review the calculation instructions we have
@@ -76,7 +73,7 @@ const IntroductionPage = ({ router }) => {
         <va-link
           external
           text="Review the calculation instructions"
-          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         />
       </p>
 
@@ -88,10 +85,10 @@ const IntroductionPage = ({ router }) => {
           <p>
             Fill out the form online. This is a download and upload process.
             After completing the form, you will download a PDF, which you will
-            need to submit later by uploading it to the VA Education Portal.
-            Ensure you have all the necessary details, such as your enrollment
-            information, institution, and any required documentation, before
-            continuing.
+            need to submit later by uploading it to the Education File Upload
+            Portal. Ensure you have all the necessary details, such as your
+            enrollment information, institution, and any required documentation,
+            before continuing.
           </p>
         </va-process-list-item>
         <va-process-list-item header="Download the completed form as a PDF">
@@ -102,9 +99,9 @@ const IntroductionPage = ({ router }) => {
             completed form as a PDF and proceed to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the VA Educational portal">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
           <p>
-            As the final step of this form, please go to the VA Education File
+            As the final step of this form, please go to the Education File
             Upload Portal and upload the completed PDF document that you
             downloaded. This is how you submit this form.
           </p>
@@ -190,7 +187,7 @@ const IntroductionPage = ({ router }) => {
             Form 22-10216). Detailed instructions are provided on that form.{' '}
             <va-link
               text="Go to VA Form 22-10216"
-              href="/education/apply-for-education-benefits/application/10216/introduction"
+              href="/school-administrators/35-percent-exemption/introduction"
             />
             .
           </p>
@@ -200,8 +197,8 @@ const IntroductionPage = ({ router }) => {
             is NOT necessary to complete OR submit VA Form 22-10215.
           </p>
           <p>
-            <strong>Non-accredited schools: </strong> must complete and submit
-            VA Form 22-10215 with the 35 percent Exemption request.
+            <strong>Nonaccredited schools: </strong> must complete and submit VA
+            Form 22-10215 with the 35 percent Exemption request.
           </p>
         </va-accordion-item>
       </va-accordion>
@@ -209,26 +206,29 @@ const IntroductionPage = ({ router }) => {
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         Start the form
       </h2>
-      <va-link-action
-        href="#"
-        onClick={startForm}
-        text="Start your 85/15 enrollment ratios report"
+      <SaveInProgressIntro
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        startText="Start your 85/15 calculations report"
+        unauthStartText="Sign in to start your form"
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={60}
-        omb-number="2900-0897"
-        exp-date="12/31/2024"
-      />
+      <OmbInfo />
     </article>
   );
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
 };
 
 export default IntroductionPage;

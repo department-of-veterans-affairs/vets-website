@@ -5,7 +5,32 @@ import {
 import {
   militaryBranchTypes,
   militaryBranchTypeLabels,
+  militaryBranchComponentTypes,
+  militaryBranchComponentTypeLabels,
 } from '../constants/benefits';
+
+const allBranches = Object.keys(militaryBranchTypes);
+const allBranchComponentKeys = Object.values(militaryBranchComponentTypes);
+
+const branchComponentsSchemaProps = allBranches.reduce((acc, branchKey) => {
+  acc[branchKey] = checkboxGroupSchema(allBranchComponentKeys);
+  return acc;
+}, {});
+
+const branchComponentsUIProps = allBranches.reduce((acc, branchKey) => {
+  acc[branchKey] = checkboxGroupUI({
+    enableAnalytics: true,
+    title: `Which component of ${
+      militaryBranchTypeLabels[branchKey]
+    } did you serve in?`,
+    labels: militaryBranchComponentTypeLabels,
+    required: () => false,
+    hideIf: formData => {
+      return !formData.militaryBranch?.[branchKey];
+    },
+  });
+  return acc;
+}, {});
 
 /** @type {PageSchema} */
 export default {
@@ -17,11 +42,19 @@ export default {
       required: () => false,
       labels: militaryBranchTypeLabels,
     }),
+    branchComponents: {
+      ...branchComponentsUIProps,
+    },
   },
+
   schema: {
     type: 'object',
     properties: {
-      militaryBranch: checkboxGroupSchema(Object.keys(militaryBranchTypes)),
+      militaryBranch: checkboxGroupSchema(allBranches),
+      branchComponents: {
+        type: 'object',
+        properties: branchComponentsSchemaProps,
+      },
     },
   },
 };

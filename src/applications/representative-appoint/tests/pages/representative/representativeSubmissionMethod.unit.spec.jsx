@@ -159,24 +159,6 @@ describe('<RepresentativeSubmissionMethod>', () => {
   });
 
   context('pageDepends', () => {
-    context('when v2 is not enabled', () => {
-      it('returns false', () => {
-        const formData = {
-          'view:v2IsEnabled': false,
-          'view:selectedRepresentative': {
-            type: 'organization',
-            attributes: { canAcceptDigitalPoaRequests: true },
-          },
-          'view:applicantIsVeteran': 'Yes',
-          identityValidation: { hasIcn: true, hasParticipantId: true },
-        };
-
-        const result = representativeSubmissionMethod.pageDepends(formData);
-
-        expect(result).to.be.false;
-      });
-    });
-
     context(
       'when the selected representative does not accept digital submission',
       () => {

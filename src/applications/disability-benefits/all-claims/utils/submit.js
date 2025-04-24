@@ -417,10 +417,10 @@ export const addForm0781 = formData => {
  * @returns {object} object containing `treatmentMonth` (MM) and `treatmentYear` (YYYY)
  */
 export function extractDateParts(dateString) {
-  const match = dateString?.match(/^(\d{4})-(\d{2})/);
+  const match = dateString?.match(/^(\d{4}|\D+)-(\d{2}|\D+)/);
   return {
-    treatmentMonth: match ? match[2] : '',
-    treatmentYear: match ? match[1] : '',
+    treatmentMonth: match && /^\d{2}$/.test(match[2]) ? match[2] : '',
+    treatmentYear: match && /^\d{4}$/.test(match[1]) ? match[1] : '',
   };
 }
 
@@ -626,4 +626,29 @@ export const addFileAttachments = formData => {
     delete clonedData[key];
   });
   return { ...clonedData, ...(attachments.length && { attachments }) };
+};
+
+/**
+ * Check validations for Custom pages
+ * @param {Function[]} validations - array of validation functions
+ * @param {*} data - field data passed to the validation function
+ * @param {*} fullData - full and appStateData passed to validation function
+ * @param {*} index - array index if within an array
+ * @returns {String[]} - error messages
+ *
+ * Copied from src/applications/appeals/shared/validations/index.js, because we don't allow cross-app imports
+ */
+export const checkValidations = (
+  validations = [],
+  data = {},
+  fullData = {},
+  index,
+) => {
+  const errors = { errorMessages: [] };
+  errors.addError = message => errors.errorMessages.push(message);
+  /* errors, fieldData, formData, schema, uiSchema, index, appStateData */
+  validations.map(validation =>
+    validation(errors, data, fullData, null, null, index, fullData),
+  );
+  return errors.errorMessages;
 };

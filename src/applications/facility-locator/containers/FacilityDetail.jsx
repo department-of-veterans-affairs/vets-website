@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { fetchVAFacility } from '../actions';
+import { fetchVAFacility } from '../actions/locations';
 import AccessToCare from '../components/AccessToCare';
 import FacilityInfo from '../components/facility-details/FacilityInfo';
 import LocationHours from '../components/LocationHours';

@@ -161,7 +161,7 @@
  * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {((formData: Object) => boolean, index: number) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
+ * @property {((formData: Object) => boolean, index: number, context: any) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
@@ -293,7 +293,7 @@
  * @property {boolean} [enableAnalytics] Enable google analytic events. Sent on blur. Use a browser extension such as Adswerve to view the events in the console.
  * @property {string} [expandUnder] The key of the uiSchema directly before this field
  * @property {boolean} [expandContentFocus] Used with expandUnder. When the field expands under, it exclusively shows a vertical, blue bar, is indented, and focuses on the field's input.
- * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
+ * @property {boolean | (value: string, formData: any, index: boolean, fullData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData, index, fullData) => !!value`. value is the value of the target `expandUnder` field.
  * @property {boolean} [forceDivWrapper] Used as an a11y helper when you need to wrap a field in a div
  * @property {string | JSX.Element} [formDescription] Used with `useFormsPattern`. A JSX or string description that it is also a11y (screen reader) friendly. useFormsPattern and uswds must be true.
  * @property {string} [formHeading] Used with `useFormsPattern`. Intended to be used as the form page header. useFormsPattern and uswds must be true.

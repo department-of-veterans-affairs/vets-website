@@ -52,9 +52,9 @@ export default function InPersonLayout({ data: appointment }) {
   const facilityId = locationId;
 
   let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled in-person appointment';
+  else if (isPastAppointment) heading = 'Past in-person appointment';
 
   recordAppointmentDetailsNullStates(
     {

@@ -14,13 +14,14 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
 import { nameWordingExt } from '../helpers/utilities';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import {
-  fileWithMetadataSchema,
-  fileUploadBlurb,
-} from '../../shared/components/fileUploads/attachments';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+  fileUploadUi as fileUploadUI,
+  singleFileSchema,
+} from '../../shared/components/fileUploads/upload';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { blankSchema } from './applicantInformation';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -110,6 +111,10 @@ export function applicantProviderSchema(isPrimary) {
         title: 'Insurance termination date',
         hint: 'Only enter this date if the policy is inactive.',
       }),
+      'ui:validations': [
+        (errors, formData) =>
+          validFieldCharsOnly(errors, null, formData, keyname1),
+      ],
     },
     schema: {
       type: 'object',
@@ -285,6 +290,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
       ...fileUploadBlurb,
       [keyname]: fileUploadUI({
         label: 'Upload schedule of benefits document',
+        attachmentId: 'Schedule of benefits document',
       }),
     },
     schema: {
@@ -292,7 +298,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema([`Schedule of benefits document`]),
+        [keyname]: singleFileSchema,
       },
     },
   };
@@ -420,6 +426,10 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
         },
         charcount: true,
       }),
+      'ui:validations': [
+        (errors, formData) =>
+          validFieldCharsOnly(errors, null, formData, keyname),
+      ],
     },
     schema: {
       type: 'object',
@@ -456,29 +466,22 @@ export function applicantInsuranceCardSchema(isPrimary) {
         },
       ),
       ...fileUploadBlurb,
-      [keyname]: {
-        ...fileUploadUI({
-          label: 'Upload health insurance card',
-        }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
-      },
+      [`${keyname}Front`]: fileUploadUI({
+        label: 'Upload front of insurance card',
+        attachmentId: 'Front of insurance card', // used behind the scenes
+      }),
+      [`${keyname}Back`]: fileUploadUI({
+        label: 'Upload back of insurance card',
+        attachmentId: 'Back of insurance card', // used behind the scenes
+      }),
     },
     schema: {
       type: 'object',
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema(
-          [
-            `Front of insurance card`,
-            `Back of insurance card`,
-            `Other insurance supporting document`,
-          ],
-          2,
-        ),
+        [`${keyname}Front`]: singleFileSchema,
+        [`${keyname}Back`]: singleFileSchema,
       },
     },
   };

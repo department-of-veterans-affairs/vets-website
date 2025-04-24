@@ -467,6 +467,16 @@ const ReplyDraftItem = props => {
         cancelButtonText={navigationError?.cancelButtonText}
         saveDraftHandler={saveDraftHandler}
         savedDraft={savedDraft}
+        confirmButtonDDActionName={
+          attachments.length > 0
+            ? "Save draft without attachments button - Can't save with attachments modal"
+            : undefined
+        }
+        cancelButtonDDActionName={
+          attachments.length > 0
+            ? "Edit draft button - Can't save with attachments modal"
+            : undefined
+        }
       />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
@@ -487,7 +497,9 @@ const ReplyDraftItem = props => {
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--2">
             {`Draft ${draftSequence ? `${draftSequence} ` : ''}`}
           </span>
-          {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
+          {`To: ${replyToName}\n(Team: ${draft?.suggestedNameDisplay ||
+            replyMessage?.suggestedNameDisplay ||
+            draft?.triageGroupName ||
             replyMessage.triageGroupName})`}
           <br />
         </span>

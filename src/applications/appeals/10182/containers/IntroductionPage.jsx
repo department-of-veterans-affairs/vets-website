@@ -49,7 +49,7 @@ const IntroductionPage = props => {
   };
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--4">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
 
       <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
@@ -89,18 +89,20 @@ const IntroductionPage = props => {
             about 30 minutes.
           </p>
           <va-additional-info trigger="What happens after you apply" uswds>
-            <p>
-              After you submit your request for a Board Appeal, you’ll get a
-              confirmation message. You can print this for your records.
-            </p>
-            <p>
-              A Veterans Law Judge at the Board of Veterans’ Appeals will review
-              your case. The amount of time it takes the Board to complete its
-              review depends on which review option you choose.{' '}
-              <a href={NOD_OPTIONS_URL}>
-                Read about the 3 Board Appeal options
-              </a>
-            </p>
+            <div>
+              <p className="vads-u-margin-top--0">
+                After you submit your request for a Board Appeal, you’ll get a
+                confirmation message. You can print this for your records.
+              </p>
+              <p className="vads-u-margin-bottom--0">
+                A Veterans Law Judge at the Board of Veterans’ Appeals will
+                review your case. The amount of time it takes the Board to
+                complete its review depends on which review option you choose.{' '}
+                <a href={NOD_OPTIONS_URL}>
+                  Read about the 3 Board Appeal options
+                </a>
+              </p>
+            </div>
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>

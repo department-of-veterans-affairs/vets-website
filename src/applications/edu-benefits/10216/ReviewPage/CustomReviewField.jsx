@@ -2,8 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { calculatedPercentage } from '../utilities';
 
+export const useSelectorCallback = state => {
+  return state?.form?.data || {};
+};
+
 const CustomReviewField = () => {
-  const formData = useSelector(state => state.form?.data || {});
+  const formData = useSelector(useSelectorCallback);
   return (
     <div className="review-row">
       <dt>VA beneficiary students percentage (calculated)</dt>

@@ -323,14 +323,3 @@ export const AdoptionEvidenceAlert = () => (
     </p>
   </va-alert>
 );
-
-export const SubmissionConfirmationAlert = () => (
-  <va-alert status="success">
-    <h3>Thank you for submitting your Veterans Pension application</h3>
-    <p className="vads-u-margin-y--0">
-      We’ve received your Veterans Pension application (VA Form 21P-527EZ).
-      After we complete our review, we’ll mail you a decision letter with the
-      details of our decision.
-    </p>
-  </va-alert>
-);

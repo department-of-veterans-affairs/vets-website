@@ -1,10 +1,10 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
+import AlertUnregistered from '../../../components/alerts/AlertUnregistered';
 
+const { headline } = AlertUnregistered.defaultProps;
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
-
-const noHealthDataHeading = /You don’t have access to My HealtheVet/i;
 
 describe(appName, () => {
   describe('Display content based on patient registration', () => {
@@ -21,9 +21,7 @@ describe(appName, () => {
         cy.injectAxeThenAxeCheck();
 
         // Test that the no health data message is present
-        cy.findByRole('heading', {
-          name: noHealthDataHeading,
-        }).should.exist;
+        cy.findByRole('heading', { name: headline }).should.exist;
 
         // Check the cards are not visible
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
@@ -52,9 +50,7 @@ describe(appName, () => {
           .exist;
 
         // Test that the no health data message is NOT present
-        cy.findByRole('heading', {
-          name: noHealthDataHeading,
-        }).should('not.exist');
+        cy.findByRole('heading', { name: headline }).should('not.exist');
       });
     });
   });

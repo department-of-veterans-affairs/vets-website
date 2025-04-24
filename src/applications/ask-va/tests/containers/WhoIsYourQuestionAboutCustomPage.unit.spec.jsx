@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { whoIsYourQuestionAboutLabels } from '../../constants';
 import WhoIsYourQuestionAboutCustomPage from '../../containers/WhoIsYourQuestionAboutCustomPage';
 
-const generateStore = (formData = {}) => ({
+const generateStore = (formData = {}, isLOA3 = false) => ({
   dispatch: sinon.spy(),
   subscribe: sinon.spy(),
   getState: () => ({
@@ -20,8 +20,13 @@ const generateStore = (formData = {}) => ({
       },
     },
     user: {
+      profile: {
+        loa: {
+          current: isLOA3 ? 3 : 1,
+        },
+      },
       login: {
-        currentlyLoggedIn: false,
+        currentlyLoggedIn: isLOA3,
       },
     },
   }),
@@ -41,7 +46,8 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
     };
   });
 
-  const renderComponent = (props = defaultProps) => {
+  const renderComponent = (props = defaultProps, isLOA3 = false) => {
+    store = generateStore({}, isLOA3);
     const { container, getByText } = render(
       <Provider store={store}>
         <WhoIsYourQuestionAboutCustomPage {...props} />
@@ -65,46 +71,12 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
   });
 
   describe('handleChange', () => {
-    it('should update form data when selecting "Myself"', () => {
+    it('should update form data when selecting "Myself" for non-LOA3 user', () => {
       const { radio } = renderComponent();
 
       radio.dispatchEvent(
         new CustomEvent('vaValueChange', {
-          detail: { value: 'Myself' },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-
-      expect(defaultProps.onChange.called).to.be.true;
-      const changeArg = defaultProps.onChange.firstCall.args[0];
-      expect(changeArg.whoIsYourQuestionAbout).to.equal('Myself');
-      expect(changeArg.yourQuestionRequiresSignIn).to.be.true;
-    });
-
-    it('should update form data when selecting "Someone else"', () => {
-      const { radio } = renderComponent();
-
-      radio.dispatchEvent(
-        new CustomEvent('vaValueChange', {
-          detail: { value: 'Someone else' },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-
-      expect(defaultProps.onChange.called).to.be.true;
-      const changeArg = defaultProps.onChange.firstCall.args[0];
-      expect(changeArg.whoIsYourQuestionAbout).to.equal('Someone else');
-      expect(changeArg.yourQuestionRequiresSignIn).to.be.true;
-    });
-
-    it('should update form data when selecting "It\'s a general question"', () => {
-      const { radio } = renderComponent();
-
-      radio.dispatchEvent(
-        new CustomEvent('vaValueChange', {
-          detail: { value: "It's a general question" },
+          detail: { value: whoIsYourQuestionAboutLabels.MYSELF },
           bubbles: true,
           composed: true,
         }),
@@ -113,7 +85,83 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
       expect(defaultProps.onChange.called).to.be.true;
       const changeArg = defaultProps.onChange.firstCall.args[0];
       expect(changeArg.whoIsYourQuestionAbout).to.equal(
-        "It's a general question",
+        whoIsYourQuestionAboutLabels.MYSELF,
+      );
+      expect(changeArg.yourQuestionRequiresSignIn).to.be.true;
+    });
+
+    it('should update form data when selecting "Myself" for LOA3 user', () => {
+      const { radio } = renderComponent(defaultProps, true);
+
+      radio.dispatchEvent(
+        new CustomEvent('vaValueChange', {
+          detail: { value: whoIsYourQuestionAboutLabels.MYSELF },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      expect(defaultProps.onChange.called).to.be.true;
+      const changeArg = defaultProps.onChange.firstCall.args[0];
+      expect(changeArg.whoIsYourQuestionAbout).to.equal(
+        whoIsYourQuestionAboutLabels.MYSELF,
+      );
+      expect(changeArg.yourQuestionRequiresSignIn).to.be.false;
+    });
+
+    it('should update form data when selecting "Someone else" for non-LOA3 user', () => {
+      const { radio } = renderComponent();
+
+      radio.dispatchEvent(
+        new CustomEvent('vaValueChange', {
+          detail: { value: whoIsYourQuestionAboutLabels.SOMEONE_ELSE },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      expect(defaultProps.onChange.called).to.be.true;
+      const changeArg = defaultProps.onChange.firstCall.args[0];
+      expect(changeArg.whoIsYourQuestionAbout).to.equal(
+        whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+      );
+      expect(changeArg.yourQuestionRequiresSignIn).to.be.true;
+    });
+
+    it('should update form data when selecting "Someone else" for LOA3 user', () => {
+      const { radio } = renderComponent(defaultProps, true);
+
+      radio.dispatchEvent(
+        new CustomEvent('vaValueChange', {
+          detail: { value: whoIsYourQuestionAboutLabels.SOMEONE_ELSE },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      expect(defaultProps.onChange.called).to.be.true;
+      const changeArg = defaultProps.onChange.firstCall.args[0];
+      expect(changeArg.whoIsYourQuestionAbout).to.equal(
+        whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+      );
+      expect(changeArg.yourQuestionRequiresSignIn).to.be.false;
+    });
+
+    it('should update form data when selecting "It\'s a general question"', () => {
+      const { radio } = renderComponent();
+
+      radio.dispatchEvent(
+        new CustomEvent('vaValueChange', {
+          detail: { value: whoIsYourQuestionAboutLabels.GENERAL },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      expect(defaultProps.onChange.called).to.be.true;
+      const changeArg = defaultProps.onChange.firstCall.args[0];
+      expect(changeArg.whoIsYourQuestionAbout).to.equal(
+        whoIsYourQuestionAboutLabels.GENERAL,
       );
       expect(changeArg.yourQuestionRequiresSignIn).to.be.false;
     });
@@ -148,32 +196,25 @@ describe('WhoIsYourQuestionAboutCustomPage', () => {
     });
 
     it('should call goForward when a selection is made', async () => {
-      const { radio } = renderComponent();
+      const formData = {
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.GENERAL,
+      };
+      store = generateStore(formData);
+      const props = { ...defaultProps, formData };
 
-      // First make a radio selection and update store
-      radio.dispatchEvent(
-        new CustomEvent('vaValueChange', {
-          detail: { value: whoIsYourQuestionAboutLabels.MYSELF },
-          bubbles: true,
-          composed: true,
-        }),
+      const { container } = render(
+        <Provider store={store}>
+          <WhoIsYourQuestionAboutCustomPage {...props} />
+        </Provider>,
       );
 
-      // Update store state to match selection
-      store = generateStore({
-        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
-      });
-
-      // Re-render with updated store
-      const { container: newContainer } = renderComponent();
-      const continueButton = newContainer.querySelector('.usa-button-primary');
+      const continueButton = container.querySelector('.usa-button-primary');
       fireEvent.click(continueButton);
 
-      // Should call goForward with the form data
       expect(defaultProps.goForward.called).to.be.true;
       const forwardArg = defaultProps.goForward.firstCall.args[0];
       expect(forwardArg.whoIsYourQuestionAbout).to.equal(
-        whoIsYourQuestionAboutLabels.MYSELF,
+        whoIsYourQuestionAboutLabels.GENERAL,
       );
     });
   });

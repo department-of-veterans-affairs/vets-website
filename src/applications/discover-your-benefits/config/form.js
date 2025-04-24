@@ -99,7 +99,7 @@ export const formConfig = {
           title: 'Military Branch Served',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
-          depends: () => environment.isProduction(),
+          depends: () => !environment.isProduction(),
         },
         militaryService: {
           path: 'service/current',

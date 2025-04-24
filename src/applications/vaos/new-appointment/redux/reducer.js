@@ -15,6 +15,7 @@ import {
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
+  FORM_UPDATE_SELECTED_PROVIDER,
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
@@ -117,6 +118,7 @@ const initialState = {
   isNewAppointmentStarted: false,
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   recentLocations: [],
+  isAppointmentSelectionError: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -288,6 +290,15 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_UPDATE_SELECTED_PROVIDER: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          selectedProvider: action.provider.providerId,
+        },
+      };
+    }
     case FORM_PAGE_FACILITY_V2_OPEN: {
       return {
         ...state,
@@ -308,7 +319,7 @@ export default function formReducer(state = initialState, action) {
         !!action.address?.latitude && !!action.address?.longitude;
 
       const handleSortMethod = () => {
-        if (featureRecentLocationsFilter) {
+        if (featureRecentLocationsFilter && recentLocations?.length) {
           return FACILITY_SORT_METHODS.recentLocations;
         }
         if (hasResidentialCoordinates) {
@@ -776,6 +787,7 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           selectedDates: action.selectedDates,
         },
+        isAppointmentSelectionError: action.isAppointmentSelectionError,
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {

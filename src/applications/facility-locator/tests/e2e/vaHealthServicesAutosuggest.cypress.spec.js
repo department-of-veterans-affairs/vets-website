@@ -71,9 +71,7 @@ describe('VA health services autosuggest', () => {
       h.typeInAutosuggestInput('Pol');
       verifyDropdownIsOpen();
 
-      cy.get(h.AUTOSUGGEST_INPUT).type(
-        '{downArrow}{downArrow}{downArrow}{enter}',
-      );
+      cy.get(h.AUTOSUGGEST_INPUT).type('{downArrow}{downArrow}{enter}');
 
       verifyDropdownIsClosed();
 
@@ -86,7 +84,9 @@ describe('VA health services autosuggest', () => {
 
       h.clickElement(h.AUTOSUGGEST_ARROW);
 
-      cy.get(h.OPTIONS).should('have.length', 3);
+      cy.get('#vamc-services-autosuggest-container').within(() => {
+        cy.get(h.OPTIONS).should('have.length', 2);
+      });
 
       // Erase part of the full service name in the input to verify
       // that the filter runs again and returns no results
@@ -94,7 +94,7 @@ describe('VA health services autosuggest', () => {
         .focus()
         .type('{backspace}{backspace}{backspace}');
 
-      h.verifyElementByText('No results found.');
+      h.scrollToThenVerifyElementByText('No results found.');
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
 

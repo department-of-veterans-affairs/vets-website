@@ -28,7 +28,7 @@ const transformedMaximalDataActual = {
   },
   raceAndGender: true,
   ethnicity: 'NA',
-  gender: 'NA',
+  gender: 'W',
   originRace: { noAnswer: true },
   state: 'TX',
   country: 'United States',

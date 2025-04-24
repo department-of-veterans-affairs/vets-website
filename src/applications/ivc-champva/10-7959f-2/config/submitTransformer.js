@@ -26,7 +26,7 @@ export default function transformForSubmit(formConfig, form) {
       full_name: transformedData?.veteranFullName,
       physical_address: transformedData.sameMailingAddress
         ? transformedData.veteranAddress
-        : transformedData.physical_address || {
+        : transformedData.physicalAddress || {
             country: 'NA',
             street: 'NA',
             city: 'NA',

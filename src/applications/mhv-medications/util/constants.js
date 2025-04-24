@@ -76,7 +76,7 @@ export const filterOptions = {
     label: 'Non-active',
     name: 'filter option',
     description:
-      'Prescriptions that are discontinued, expired, or have an unkown status',
+      'Prescriptions that are discontinued, expired, or have an unknown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
@@ -262,5 +262,16 @@ export const trackingConfig = {
   usps: {
     label: 'USPS',
     url: 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=',
+  },
+};
+
+export const tooltipNames = {
+  mhvMedicationsTooltipFilterAccordion:
+    'mhv_medications_tooltip_filter_accordion',
+};
+
+export const tooltipHintContent = {
+  filterAccordion: {
+    HINT: 'Filter your list to find a specific medication.',
   },
 };

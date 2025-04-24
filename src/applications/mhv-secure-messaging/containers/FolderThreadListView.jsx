@@ -21,6 +21,7 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
+import Footer from '../components/Footer';
 import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
@@ -235,7 +236,7 @@ const FolderThreadListView = props => {
                 </div>
               )}
 
-            <div className="vads-u-margin-top--3">
+            <div className="vads-u-margin-y--3">
               <va-alert
                 background-only="true"
                 status="info"
@@ -317,6 +318,7 @@ const FolderThreadListView = props => {
             />
 
             {content}
+            <Footer />
           </>
         )}
       </div>

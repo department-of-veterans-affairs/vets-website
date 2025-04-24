@@ -50,6 +50,7 @@ describe('<DefaultPage>', () => {
     it('should redner updated UI', () => {
       const item = {
         closedDate: null,
+        canUploadFile: true,
         description: 'Buddy statement text',
         displayName: 'Submit buddy statement(s)',
         id: 467558,
@@ -80,6 +81,44 @@ describe('<DefaultPage>', () => {
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
     });
+
+    it('should redner update 21-4142 information', () => {
+      const item = {
+        closedDate: null,
+        description: '21-4142 text',
+        displayName: '21-4142/21-4142a',
+        friendlyName: 'Authorization to Disclose Information',
+        friendlyDescription: 'good description',
+        canUploadFile: true,
+        supportAliases: ['VA Form 21-4142'],
+        id: 14268,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        uploadsAllowed: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />,
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      const formattedClaimDate = formatDate(item.suspenseDate);
+      getByText('Authorization to Disclose Information');
+      getByText(`Respond by ${formattedClaimDate}`);
+      getByText('What we need from you');
+      getByText('Learn about this request in your claim letter');
+      getByText('Next Steps');
+      expect($('va-link', container)).to.exist;
+      expect($('.optional-upload', container)).to.not.exist;
+      expect($('va-additional-info', container)).to.exist;
+      expect($('va-file-input', container)).to.exist;
+    });
   });
 
   it('should render component when status is NEEDED_FROM_YOU', () => {
@@ -94,7 +133,7 @@ describe('<DefaultPage>', () => {
       status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
       uploadsAllowed: true,
-      documents: '[]',
+      documents: [],
       date: '2024-03-07',
     };
 
@@ -133,11 +172,11 @@ describe('<DefaultPage>', () => {
       status: 'NEEDED_FROM_OTHERS',
       suspenseDate: nineMonthsAgoSuspenseDate,
       uploadsAllowed: true,
-      documents: '[]',
+      documents: [],
       date: '2024-03-07',
     };
     const { getByText, container } = renderWithRouter(
-      <Provider store={getStore()}>
+      <Provider store={getStore(false)}>
         <DefaultPage {...defaultProps} item={item} />
       </Provider>,
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
@@ -17,18 +16,110 @@ import { Provider } from 'react-redux';
 import AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
 import {
   MAX_FILE_SIZE_BYTES,
-  MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_BYTES,
-  MAX_PDF_SIZE_MB,
 } from '../../../utils/validations';
 
-// NOTE: Trying to extract the web components that use React bindings with skin-deep is
-// a nightmare. Normally you can use something like the name of the component
-// as a selector, but because of the way that the React bindings are created, it seems
-// that that doesn't work here. Some of the web components have a `name` prop, so I created
-// this matcher to select nodes based on the `name` prop
-const byName = name => {
-  return node => node?.props?.name === name;
+const fileFormProps = {
+  field: { value: '', dirty: false },
+  files: [],
+  onSubmit: () => {},
+  onAddFile: () => {},
+  onRemoveFile: () => {},
+  onFieldChange: () => {},
+  onCancel: () => {},
+  removeFile: () => {},
+  onDirtyFields: () => {},
+};
+
+const file = {
+  file: new File(['hello'], 'hello.jpg', {
+    type: fileTypeSignatures.jpg.mime,
+  }),
+  size: 40,
+  name: 'hello.jpg',
+  docType: { value: 'L029', dirty: true },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const pdfFile = {
+  file: new File(['hello'], 'hello.pdf', {
+    type: fileTypeSignatures.pdf.mime,
+  }),
+  size: MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2,
+  name: 'hello.pdf',
+  docType: { value: 'L029', dirty: true },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const file2 = {
+  file: new File(['hello2'], 'hello2.jpg', {
+    type: fileTypeSignatures.jpg.mime,
+  }),
+  size: 40,
+  name: 'hello2.jpg',
+  docType: { value: 'L029', dirty: true },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const fileWithPassword = {
+  file: new File(['hello'], 'hello.jpg', {
+    type: fileTypeSignatures.jpg.mime,
+  }),
+  size: 40,
+  name: 'hello.jpg',
+  docType: { value: 'L029', dirty: true },
+  password: { value: '1234', dirty: true },
+  isEncrypted: true,
+};
+const invalidFile = {
+  file: new File(['hello'], 'hello.exe', {
+    type: 'exe',
+  }),
+  size: 40,
+  name: 'hello.exe',
+  docType: { value: '', dirty: false },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const zeroSizeFile = {
+  file: new File(['hello'], 'hello.jpg', {
+    type: fileTypeSignatures.jpg.mime,
+  }),
+  size: 0,
+  name: 'hello.jpg',
+  docType: { value: '', dirty: false },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const invalidSizeFile = {
+  file: new File(['hello'], 'hello.jpg', {
+    type: fileTypeSignatures.jpg.mime,
+  }),
+  size: MAX_FILE_SIZE_BYTES + 100,
+  name: 'hello.jpg',
+  docType: { value: '', dirty: false },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const invalidPdfSizeFile = {
+  file: new File(['hello'], 'hello.jpg', {
+    type: fileTypeSignatures.jpg.mime,
+  }),
+  size: MAX_PDF_SIZE_BYTES + 100,
+  name: 'hello.jpg',
+  docType: { value: '', dirty: false },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
+};
+const invalidFileExtAndFormat = {
+  file: new File(['hello'], 'hello.pdf', {
+    type: fileTypeSignatures.pdf.mime,
+  }),
+  size: MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2,
+  name: 'hello.pdf',
+  docType: { value: '', dirty: false },
+  password: { value: '', dirty: false },
+  isEncrypted: false,
 };
 
 describe('<AddFilesForm>', () => {
@@ -40,49 +131,6 @@ describe('<AddFilesForm>', () => {
       },
     }));
   context('tests using render()', () => {
-    const fileFormProps = {
-      field: { value: '', dirty: false },
-      files: [],
-      onSubmit: () => {},
-      onAddFile: () => {},
-      onRemoveFile: () => {},
-      onFieldChange: () => {},
-      onCancel: () => {},
-      removeFile: () => {},
-      onDirtyFields: () => {},
-    };
-
-    const file = {
-      file: new File(['hello'], 'hello.jpg', {
-        name: 'hello.jpg',
-        type: fileTypeSignatures.jpg.mime,
-        size: 9999,
-      }),
-      docType: { value: 'L029', dirty: true },
-      password: { value: '', dirty: false },
-      isEncrypted: false,
-    };
-    const file2 = {
-      file: new File(['hello2'], 'hello2.jpg', {
-        name: 'hello2.jpg',
-        type: fileTypeSignatures.jpg.mime,
-        size: 9999,
-      }),
-      docType: { value: 'L029', dirty: true },
-      password: { value: '', dirty: false },
-      isEncrypted: false,
-    };
-    const fileWithPassword = {
-      file: new File(['hello'], 'hello.jpg', {
-        name: 'hello.jpg',
-        type: fileTypeSignatures.jpg.mime,
-        size: 9999,
-      }),
-      docType: { value: 'L029', dirty: true },
-      password: { value: '1234', dirty: true },
-      isEncrypted: true,
-    };
-
     it('should render component', () => {
       const { container, getAllByRole } = render(
         <Provider store={getStore(false)}>
@@ -322,18 +370,6 @@ describe('<AddFilesForm>', () => {
   });
 
   context('when cstFriendlyEvidenceRequests is true', () => {
-    const fileFormProps = {
-      field: { value: '', dirty: false },
-      files: [],
-      onSubmit: () => {},
-      onAddFile: () => {},
-      onRemoveFile: () => {},
-      onFieldChange: () => {},
-      onCancel: () => {},
-      removeFile: () => {},
-      onDirtyFields: () => {},
-    };
-
     it('should render updated file input section ui', () => {
       const { getByText } = render(
         <Provider store={getStore()}>
@@ -346,371 +382,238 @@ describe('<AddFilesForm>', () => {
   });
 
   it('should not add an invalid file type', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+    const spyOnAddFile = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm {...fileFormProps} onAddFile={spyOnAddFile} />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.exe',
-        size: 200,
+
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [invalidFile] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
       },
-    ]);
-    expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).to.contain(
-      'accepted types',
+    });
+    expect(spyOnAddFile.called).to.be.false;
+    expect(fileUpload.getAttribute('error')).to.equal(
+      'Please choose a file from one of the accepted types.',
     );
   });
 
   it('should not add file of zero size', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+    const spyOnAddFile = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm {...fileFormProps} onAddFile={spyOnAddFile} />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.txt',
-        size: 0,
+
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [zeroSizeFile] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
       },
-    ]);
-    expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).to.contain('is empty');
+    });
+    expect(spyOnAddFile.called).to.be.false;
+    expect(fileUpload.getAttribute('error')).to.equal(
+      'The file you selected is empty. Files uploaded must be larger than 0B.',
+    );
   });
 
   it('should not add an invalid file size', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+    const spyOnAddFile = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm {...fileFormProps} onAddFile={spyOnAddFile} />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.txt',
-        size: 999999999999,
+
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [invalidSizeFile] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
       },
-    ]);
-    expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).to.contain(
-      `${MAX_FILE_SIZE_MB}MB maximum file size`,
+    });
+    expect(spyOnAddFile.called).to.be.false;
+    expect(fileUpload.getAttribute('error')).to.equal(
+      'The file you selected is larger than the 50MB maximum file size and could not be added.',
     );
   });
 
   it('should not add an invalid PDF file size', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+    const spyOnAddFile = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm {...fileFormProps} onAddFile={spyOnAddFile} />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.pdf',
-        size: MAX_PDF_SIZE_BYTES + 100,
+
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [invalidPdfSizeFile] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
       },
-    ]);
-    expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).to.contain(
-      `${MAX_PDF_SIZE_MB}MB maximum file size`,
+    });
+    expect(spyOnAddFile.called).to.be.false;
+    expect(fileUpload.getAttribute('error')).to.equal(
+      'The file you selected is larger than the 50MB maximum file size and could not be added.',
     );
   });
 
-  it('should add a valid file', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+  it('should add a valid jpg file', () => {
+    const spyOnAddFile = sinon.spy();
     const mockReadAndCheckFile = () => ({
       checkIsEncryptedPdf: false,
       checkTypeAndExtensionMatches: true,
     });
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-        mockReadAndCheckFile={mockReadAndCheckFile}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm
+          {...fileFormProps}
+          onAddFile={spyOnAddFile}
+          mockReadAndCheckFile={mockReadAndCheckFile}
+        />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.jpg',
-        type: fileTypeSignatures.jpg.mime,
-        size: 9999,
+
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [file] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
       },
-    ]);
-    expect(onAddFile.called).to.be.true;
-    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+    });
+    expect(fileUpload.getAttribute('error')).to.not.exist;
   });
 
-  it('should add a valid file text file of valid size', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+  it('should add a valid pdf file', () => {
+    const spyOnAddFile = sinon.spy();
     const mockReadAndCheckFile = () => ({
       checkIsEncryptedPdf: false,
       checkTypeAndExtensionMatches: true,
     });
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-        mockReadAndCheckFile={mockReadAndCheckFile}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm
+          {...fileFormProps}
+          onAddFile={spyOnAddFile}
+          mockReadAndCheckFile={mockReadAndCheckFile}
+        />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'valid.txt',
-        type: fileTypeSignatures.txt.mime,
-        size: 95,
-      },
-    ]);
-    expect(onAddFile.called).to.be.true;
-    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
-  });
 
-  it('should add a large PDF file', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-    const mockReadAndCheckFile = () => ({
-      checkIsEncryptedPdf: false,
-      checkTypeAndExtensionMatches: true,
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [pdfFile] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
+      },
     });
-
-    // valid size larger than max non-PDF size, but smaller than max PDF size
-    const validPdfFileSize =
-      MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-        mockReadAndCheckFile={mockReadAndCheckFile}
-      />,
-    );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.pdf',
-        type: fileTypeSignatures.pdf.mime,
-        size: validPdfFileSize,
-      },
-    ]);
-    expect(onAddFile.called).to.be.true;
-    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+    expect(fileUpload.getAttribute('error')).to.not.exist;
   });
 
   it('should return an error when the file extension & format do not match', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+    const spyOnAddFile = sinon.spy();
     const mockReadAndCheckFile = () => ({
       checkIsEncryptedPdf: false,
       checkTypeAndExtensionMatches: false,
     });
-
-    // valid size larger than max non-PDF size, but smaller than max PDF size
-    const validPdfFileSize =
-      MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-        mockReadAndCheckFile={mockReadAndCheckFile}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm
+          {...fileFormProps}
+          onAddFile={spyOnAddFile}
+          mockReadAndCheckFile={mockReadAndCheckFile}
+        />
+      </Provider>,
     );
-    tree.getMountedInstance().add([
-      {
-        name: 'something.pdf',
-        type: fileTypeSignatures.pdf.mime,
-        size: validPdfFileSize,
+
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [invalidFileExtAndFormat] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
       },
-    ]);
-    expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).to.eq(
-      FILE_TYPE_MISMATCH_ERROR,
-    );
+    });
+    expect(spyOnAddFile.called).to.be.false;
+    expect(fileUpload.getAttribute('error')).to.equal(FILE_TYPE_MISMATCH_ERROR);
   });
 
   it('should return an error message when no files present and field is dirty', () => {
-    const files = [];
+    const spyOnAddFile = sinon.spy();
     const field = { value: '', dirty: true };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
+    const { container } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm
+          {...fileFormProps}
+          onAddFile={spyOnAddFile}
+          field={field}
+        />
+      </Provider>,
     );
-    let message = tree.getMountedInstance().getErrorMessage();
-    expect(message).to.equal('Please select a file first');
-    tree.getMountedInstance().state.errorMessage = 'message';
-    message = tree.getMountedInstance().getErrorMessage();
-    expect(message).to.equal('message');
+
+    const fileUpload = $('#file-upload', container);
+    expect(spyOnAddFile.called).to.be.false;
+    expect(fileUpload.getAttribute('error')).to.equal(
+      'Please select a file first',
+    );
   });
 
   it('should show password input', () => {
-    const files = [
-      {
-        file: {
-          size: 20,
-          name: 'something.pdf',
-        },
-        docType: {
-          value: 'L501',
-          dirty: false,
-        },
-        password: {
-          value: 'password123',
-          dirty: false,
-        },
-        isEncrypted: true,
-      },
-    ];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
+    const spyOnAddFile = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: true,
+    });
     const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
+    const { container, rerender } = render(
+      <Provider store={getStore(false)}>
+        <AddFilesForm
+          {...fileFormProps}
+          onAddFile={spyOnAddFile}
+          mockReadAndCheckFile={mockReadAndCheckFile}
+        />
+      </Provider>,
     );
-    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+    // Add File
+    const fileUpload = $('#file-upload', container);
+    fileUpload.__events.vaChange({
+      detail: { files: [fileWithPassword] },
+      srcElement: {
+        'data-testid': fileUpload.getAttribute('data-testid'),
+      },
+    });
 
-    // VaTextInput has a name prop set to 'password'
-    expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
+    expect(spyOnAddFile.called).to.be.true;
+
+    rerender(
+      <Provider store={getStore(false)}>
+        <AddFilesForm
+          {...fileFormProps}
+          onFieldChange={onFieldChange}
+          files={[fileWithPassword]}
+          mockReadAndCheckFile={mockReadAndCheckFile}
+        />
+      </Provider>,
+    );
+    // Input password
+    const passwordInput = $('va-text-input', container);
+    expect(passwordInput).to.exist;
+    passwordInput.value = '1234';
+    fireEvent.input(passwordInput, {
+      target: { name: 'password' },
+    });
+    expect(onFieldChange.called).to.be.true;
   });
 });

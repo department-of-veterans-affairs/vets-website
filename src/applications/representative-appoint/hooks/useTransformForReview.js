@@ -130,7 +130,7 @@ export function useTransformForReview(formData) {
             <p className="vads-u-margin-y--0">{claimant.street2}</p>
           )}
           <p className="vads-u-margin-y--0">
-            {claimant.city && claimant.city}{' '}
+            {claimant.city && claimant.city}
             {claimant.state && `, ${claimant.state}`}{' '}
             {claimant.postalCode && claimant.postalCode}
           </p>

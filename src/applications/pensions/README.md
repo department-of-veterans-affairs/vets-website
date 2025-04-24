@@ -76,7 +76,6 @@ Active toggle names:
 
 - `pension_form_enabled`: Enable the pension form
 - `pension_browser_monitoring_enabled`: Pension Datadog RUM monitoring
-- `pension_claim_submission_to_lighthouse`: Pension claim submission uses Lighthouse API
 
 The form is built using `/config/form.js` which is imported and used inside `/PensionsApp.jsx` with the `<RoutedSavableApp />` component from the platform.
 

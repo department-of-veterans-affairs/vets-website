@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { medicationsUrls } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { selectRemoveLandingPageFlag } from '../../util/selectors';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
   const dispatch = useDispatch();
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
   // Pagination
   const MAX_PAGE_LIST_LENGTH = 20;
@@ -82,10 +84,14 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         </Link>
         <p>Or you may need to renew your prescription to get more refills.</p>
         <Link
-          to={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW.replace(
-            medicationsUrls.MEDICATIONS_URL,
-            '',
-          )}
+          to={
+            removeLandingPage
+              ? '/resources/how-to-renew-a-va-prescription'
+              : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW.replace(
+                  medicationsUrls.MEDICATIONS_URL,
+                  '',
+                )
+          }
           data-testid="learn-to-renew-prescriptions-link"
           data-dd-action-name={
             dataDogActionNames.refillPage

@@ -61,6 +61,8 @@ export const SearchResults = ({
   };
 
   const [modalState, setModalState] = useState(initialModalState);
+  const dd214Matcher = new RegExp(/dd-?214/i);
+  const queryIsDd214 = dd214Matcher.test(query);
 
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
@@ -136,20 +138,31 @@ export const SearchResults = ({
 
   if (!results.length) {
     return (
-      <p
-        className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
-        vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
-        data-forms-focus
-      >
-        No results were found for "<strong>{query}</strong>
-        ." Try using fewer words or broadening your search. If you’re looking
-        for non-VA forms, go to the{' '}
-        <va-link
-          href="https://www.gsa.gov/reference/forms"
-          text="GSA Forms Library"
-        />
-        .
-      </p>
+      <>
+        <p
+          className="vads-u-line-height--3 vads-u-margin-top--1p5 va-u-outline--none"
+          data-e2e-id="ff-no-results"
+          data-forms-focus
+        >
+          No results were found for "<strong>{query}</strong>
+          ." Try using fewer words or broadening your search. If you’re looking
+          for non-VA forms, go to the{' '}
+          <va-link
+            href="https://www.gsa.gov/reference/forms"
+            text="GSA Forms Library"
+          />
+          .
+        </p>
+        {queryIsDd214 && (
+          <p>
+            <va-link
+              data-e2e-id="ff-no-results-dd214"
+              href="https://www.va.gov/records/get-military-service-records/"
+              text="Need to request your military records including DD214?"
+            />
+          </p>
+        )}
+      </>
     );
   }
 

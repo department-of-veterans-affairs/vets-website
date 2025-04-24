@@ -29,7 +29,10 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
     <>
       <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
-          Select the issues you’d like us to review
+          Select the issues you’d like us to review{' '}
+          <span className="vads-u-color--secondary-dark vads-u-font-weight--normal vads-u-font-size--base">
+            (*Required)
+          </span>
         </Wrap>
       </legend>
       <div className="vads-u-margin-bottom--2">

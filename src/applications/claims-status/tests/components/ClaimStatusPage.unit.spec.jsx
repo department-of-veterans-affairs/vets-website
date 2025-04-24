@@ -1,5 +1,4 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -21,10 +20,7 @@ const props = {
   showClaimLettersLink: false,
 };
 
-const getStore = (
-  cstUseClaimDetailsV2Enabled = true,
-  decisionRequested = false,
-) =>
+const getStore = (decisionRequested = false) =>
   createStore(() => ({
     disability: {
       status: {
@@ -33,113 +29,114 @@ const getStore = (
         },
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
-    },
   }));
 
 describe('<ClaimStatusPage>', () => {
-  it('should render null when there are no claims', () => {
-    const { container, getByText } = renderWithRouter(
-      <ClaimStatusPage {...props} params={params} />,
-    );
-    expect($('.claim-status', container)).to.not.exist;
-    getByText('Claim status is unavailable');
-  });
-
-  it('should render null when claim is null', () => {
-    const { container, getByText } = renderWithRouter(
-      <ClaimStatusPage {...props} claim={null} params={params} />,
-    );
-    expect($('.claim-status', container)).to.not.exist;
-    getByText('Claim status is unavailable');
-  });
-
-  context('cstUseClaimDetailsV2 feature flag enabled', () => {
-    describe('document.title', () => {
-      // Minimum data needed for these test cases.
-      const claim = {
-        attributes: {
-          claimDate: '2024-09-04',
-          claimType: 'Compensation',
-          claimPhaseDates: {
-            previousPhases: {},
-          },
-          trackedItems: [],
-        },
-      };
-      it('should not update document title at mount-time if claim is not available', () => {
-        renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} params={params} />
-          </Provider>,
-        );
-        expect(document.title).to.equal('');
-      });
-      it('should update document title with claim details at mount-time if claim is already loaded', () => {
-        renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} claim={claim} params={params} />
-          </Provider>,
-        );
-        expect(document.title).to.equal(
-          'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
-        );
-      });
-      it('should update document title with claim details after mount once the claim has loaded', () => {
-        const { rerender } = renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} loading params={params} />
-          </Provider>,
-        );
-        rerenderWithRouter(
-          rerender,
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} claim={claim} params={params} />
-          </Provider>,
-        );
-        expect(document.title).to.equal(
-          'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
-        );
-      });
-      it('should update document title with a default message after mount once the claim fails to load', () => {
-        const { rerender } = renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} loading params={params} />
-          </Provider>,
-        );
-        rerenderWithRouter(
-          rerender,
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} claim={null} params={params} />
-          </Provider>,
-        );
-        expect(document.title).to.equal(
-          'Status of Your Claim | Veterans Affairs',
-        );
-      });
-      it('should not update document title after mount if the loading status has not changed', () => {
-        const { rerender } = renderWithRouter(
-          <Provider store={getStore()}>
-            <ClaimStatusPage {...props} loading params={params} />
-          </Provider>,
-        );
-        rerenderWithRouter(
-          rerender,
-          <Provider store={getStore()}>
-            <ClaimStatusPage
-              {...props}
-              loading
-              message={{ title: 'Test', body: 'Body' }}
-              params={params}
-            />
-          </Provider>,
-        );
-        expect(document.title).to.equal('');
-      });
+  describe('when claim is null', () => {
+    it('should render null', () => {
+      const { container, getByText } = renderWithRouter(
+        <ClaimStatusPage {...props} claim={null} params={params} />,
+      );
+      expect($('.claim-status', container)).to.not.exist;
+      getByText('Claim status is unavailable');
     });
-    context('should render status page without a timeline', () => {
+  });
+
+  describe('when there are no claims', () => {
+    it('should render null', () => {
+      const { container, getByText } = renderWithRouter(
+        <ClaimStatusPage {...props} params={params} />,
+      );
+      expect($('.claim-status', container)).to.not.exist;
+      getByText('Claim status is unavailable');
+    });
+  });
+
+  describe('document.title', () => {
+    // Minimum data needed for these test cases.
+    const claim = {
+      attributes: {
+        claimDate: '2024-09-04',
+        claimType: 'Compensation',
+        claimPhaseDates: {
+          previousPhases: {},
+        },
+        trackedItems: [],
+      },
+    };
+    it('should not update document title at mount-time if claim is not available', () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} params={params} />
+        </Provider>,
+      );
+      expect(document.title).to.equal('');
+    });
+    it('should update document title with claim details at mount-time if claim is already loaded', () => {
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} claim={claim} params={params} />
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
+      );
+    });
+    it('should update document title with claim details after mount once the claim has loaded', () => {
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} loading params={params} />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} claim={claim} params={params} />
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
+      );
+    });
+    it('should update document title with a default message after mount once the claim fails to load', () => {
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} loading params={params} />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} claim={null} params={params} />
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Status of Your Claim | Veterans Affairs',
+      );
+    });
+    it('should not update document title after mount if the loading status has not changed', () => {
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} loading params={params} />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <ClaimStatusPage
+            {...props}
+            loading
+            message={{ title: 'Test', body: 'Body' }}
+            params={params}
+          />
+        </Provider>,
+      );
+      expect(document.title).to.equal('');
+    });
+  });
+
+  describe('page rendering', () => {
+    context('when claim is open', () => {
       context(
         'shows ClaimStatusHeader, WhatWereDoing, WhatYouNeedToDo and RecentActivity sections',
         () => {
@@ -195,7 +192,6 @@ describe('<ClaimStatusPage>', () => {
             expect(document.title).to.equal(
               'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
-            expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
@@ -254,7 +250,6 @@ describe('<ClaimStatusPage>', () => {
             expect(document.title).to.equal(
               'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
-            expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
@@ -271,8 +266,8 @@ describe('<ClaimStatusPage>', () => {
     });
   });
 
-  context('when feature flags disabled', () => {
-    it('should not render need files from you when closed', () => {
+  context('when claim is closed', () => {
+    it('should render ClosedClaimAlert, Payments and NextSteps', () => {
       const claim = {
         id: '1',
         type: 'claim',
@@ -312,13 +307,28 @@ describe('<ClaimStatusPage>', () => {
         },
       };
 
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage claim={claim} params={params} />,
+      const { getByTestId, queryByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage
+            claim={claim}
+            params={params}
+            clearNotification={() => {}}
+          />
+          ,
+        </Provider>,
       );
-      expect(tree.subTree('NeedFilesFromYou')).to.be.false;
+      getByTestId('closed-claim-alert');
+      getByTestId('payments');
+      getByTestId('next-steps');
+      expect(queryByText('What you need to do')).to.not.exist;
+      expect(
+        queryByText(
+          'We mailed you a decision letter. It should arrive within 10 days after the date we decided your claim. It can sometimes take longer.',
+        ),
+      ).to.exist;
     });
 
-    it('should not render files needed from you when decision letter sent', () => {
+    it('should render ClosedClaimAlert with decision letter text, Payments and NextSteps', () => {
       const claim = {
         id: '1',
         type: 'claim',
@@ -326,28 +336,29 @@ describe('<ClaimStatusPage>', () => {
           claimDate: '2023-01-01',
           claimPhaseDates: {
             currentPhaseBack: false,
-            phaseChangeDate: '2023-02-08',
+            phaseChangeDate: '2023-12-12',
             latestPhaseType: 'INITIAL_REVIEW',
             previousPhases: {
-              phase1CompleteDate: '2023-02-08',
+              phase7CompleteDate: '2023-12-12',
             },
           },
-          closeDate: null,
-          documentsNeeded: true,
+          closeDate: '2023-12-12',
+          documentsNeeded: false,
           decisionLetterSent: true,
           status: 'INITIAL_REVIEW',
-          supportingDocuments: [
-            {
-              id: '123456',
-              originalFileName: 'test.pdf',
-              documentTypeLabel: 'Buddy / Lay Statement',
-              uploadDate: '2023-03-04',
-            },
-          ],
+          supportingDocuments: [],
           trackedItems: [
             {
               id: 1,
-              status: 'NEEDED_FROM_YOU',
+              status: 'ACCEPTED',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
+            },
+            {
+              id: 2,
+              status: 'INITIAL_REVIEW_COMPLETE',
               displayName: 'Test',
               description: 'Test',
               suspenseDate: '2024-02-01',
@@ -357,177 +368,88 @@ describe('<ClaimStatusPage>', () => {
         },
       };
 
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage claim={claim} params={params} />,
+      const { getByTestId, queryByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage
+            claim={claim}
+            params={params}
+            clearNotification={() => {}}
+          />
+          ,
+        </Provider>,
       );
-      expect(tree.subTree('NeedFilesFromYou')).to.be.false;
+      getByTestId('closed-claim-alert');
+      getByTestId('payments');
+      getByTestId('next-steps');
+      expect(queryByText('What you need to do')).to.not.exist;
+      expect(
+        queryByText(
+          'You can download your decision letter online now. You can also get other letters related to your claims.',
+        ),
+      ).to.exist;
+      expect(queryByText('Get your claim letters')).to.exist;
     });
+  });
 
-    it('should render empty content when loading', () => {
+  context('when loading', () => {
+    it('should render empty content', () => {
       const { container } = renderWithRouter(
         <ClaimStatusPage {...props} loading params={params} />,
       );
       expect($('.claim-status', container)).to.not.exist;
       expect($('va-loading-indicator', container)).to.exist;
     });
-
-    it('should render notification', () => {
-      const claim = {};
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage
-          loading
-          params={params}
-          message={{ title: 'Test', body: 'Body' }}
-          claim={claim}
-        />,
-      );
-      expect(tree.props.message).not.to.be.null;
-    });
-
-    it('should clear alert', () => {
-      const claim = {
-        id: '1',
-        type: 'claim',
-        attributes: {
-          claimDate: '2023-01-01',
-          claimPhaseDates: {
-            currentPhaseBack: false,
-            phaseChangeDate: '2023-02-08',
-            latestPhaseType: 'INITIAL_REVIEW',
-            previousPhases: {
-              phase1CompleteDate: '2023-02-08',
-            },
-          },
-          closeDate: null,
-          documentsNeeded: false,
-          decisionLetterSent: false,
-          status: 'INITIAL_REVIEW',
-          supportingDocuments: [
-            {
-              id: '123456',
-              originalFileName: 'test.pdf',
-              documentTypeLabel: 'Buddy / Lay Statement',
-              uploadDate: '2023-03-04',
-            },
-          ],
-          trackedItems: [],
-        },
-      };
-      const clearNotification = sinon.spy();
-      const message = {
-        title: 'Test',
-        body: 'Test',
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage
-          params={params}
-          clearNotification={clearNotification}
-          message={message}
-          claim={claim}
-        />,
-      );
-      expect(clearNotification.called).to.be.false;
-      tree.subTree('ClaimDetailLayout').props.clearNotification();
-      expect(clearNotification.called).to.be.true;
-    });
-
-    it('should clear notification when leaving', () => {
-      const claim = {
-        id: '1',
-        type: 'claim',
-        attributes: {
-          claimDate: '2023-01-01',
-          claimPhaseDates: {
-            currentPhaseBack: false,
-            phaseChangeDate: '2023-02-08',
-            latestPhaseType: 'INITIAL_REVIEW',
-            previousPhases: {
-              phase1CompleteDate: '2023-02-08',
-            },
-          },
-          closeDate: null,
-          documentsNeeded: false,
-          decisionLetterSent: false,
-          status: 'INITIAL_REVIEW',
-          supportingDocuments: [
-            {
-              id: '123456',
-              originalFileName: 'test.pdf',
-              documentTypeLabel: 'Buddy / Lay Statement',
-              uploadDate: '2023-03-04',
-            },
-          ],
-          trackedItems: [],
-        },
-      };
-
-      const clearNotification = sinon.spy();
-      const message = {
-        title: 'Test',
-        body: 'Test',
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <ClaimStatusPage
-          params={params}
-          clearNotification={clearNotification}
-          message={message}
-          claim={claim}
-        />,
-      );
-      expect(clearNotification.called).to.be.false;
-      tree.getMountedInstance().componentWillUnmount();
-      expect(clearNotification.called).to.be.true;
-    });
   });
 
-  context('DDL feature flag is enabled', () => {
-    const claim = {
-      id: '1',
-      type: 'claim',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-12-12',
-          latestPhaseType: 'GATHERING_OF_EVIDENCE',
-          previousPhases: {
-            phase7CompleteDate: '2023-12-12',
+  describe('alert', () => {
+    context('when component unmounts', () => {
+      it('should clear alert when component unmounts', () => {
+        const claim = {
+          id: '1',
+          type: 'claim',
+          attributes: {
+            claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
+            closeDate: null,
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            status: 'INITIAL_REVIEW',
+            supportingDocuments: [
+              {
+                id: '123456',
+                originalFileName: 'test.pdf',
+                documentTypeLabel: 'Buddy / Lay Statement',
+                uploadDate: '2023-03-04',
+              },
+            ],
+            trackedItems: [],
           },
-        },
-        closeDate: '2023-12-12',
-        documentsNeeded: true,
-        decisionLetterSent: true,
-        status: 'COMPLETE',
-        supportingDocuments: [],
-        trackedItems: [
-          {
-            id: 1,
-            displayName: 'Test',
-            description: 'Test',
-            status: 'NEEDED_FROM_YOU',
-          },
-        ],
-      },
-    };
-
-    const store = createStore(() => ({}));
-
-    it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = renderWithRouter(
-        <Provider store={store}>
-          <ClaimStatusPage
-            claim={claim}
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
-
-      screen.getByText('Get your claim letters');
+        };
+        const message = {
+          title: 'Test',
+          body: 'Test',
+        };
+        const clearNotification = sinon.spy();
+        const { unmount } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage
+              params={params}
+              clearNotification={clearNotification}
+              message={message}
+              claim={claim}
+            />
+          </Provider>,
+        );
+        unmount();
+        expect(clearNotification.called).to.be.true;
+      });
     });
   });
 });

@@ -10,6 +10,7 @@ import {
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -34,6 +35,16 @@ export default function FilesNeeded({ item, previousPage = null }) {
     if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
       displayName = standard5103Item.displayName;
     }
+
+    if (cstFriendlyEvidenceRequests && item.friendlyName) {
+      let updatedFriendlyName = item.friendlyName;
+      if (!evidenceDictionary[item.displayName].isProperNoun) {
+        updatedFriendlyName =
+          updatedFriendlyName.charAt(0).toLowerCase() +
+          updatedFriendlyName.slice(1);
+      }
+      displayName = `Provide ${updatedFriendlyName}`;
+    }
     return displayName;
   };
 
@@ -41,6 +52,9 @@ export default function FilesNeeded({ item, previousPage = null }) {
     const itemWithNewDescription = itemsWithNewDescriptions.find(
       i => i.type === item.displayName,
     );
+    if (cstFriendlyEvidenceRequests && item.friendlyDescription) {
+      return item.friendlyDescription;
+    }
     return itemWithNewDescription !== undefined
       ? itemWithNewDescription.description
       : truncateDescription(item.description); // Truncating the item description to only 200 characters incase it is long

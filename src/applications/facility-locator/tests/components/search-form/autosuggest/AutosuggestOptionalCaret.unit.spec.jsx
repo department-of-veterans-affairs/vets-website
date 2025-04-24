@@ -8,7 +8,7 @@ describe('<Autosuggest inputId="any">', () => {
     const screen = render(
       <Autosuggest inputId="any" inputValue="" options={[]} showDownCaret />,
     );
-    expect(screen.getByTestId('down-caret')).to.be.displayed;
+    expect(screen.getByTestId('any-down-caret')).to.be.displayed;
   });
 
   it('Autosuggest should render with input without down caret.', () => {
@@ -21,6 +21,6 @@ describe('<Autosuggest inputId="any">', () => {
       />,
     );
     // no down-caret test id
-    expect(screen.queryAllByTestId('down-caret')).to.be.have.lengthOf(0);
+    expect(screen.queryAllByTestId('any-down-caret')).to.be.have.lengthOf(0);
   });
 });

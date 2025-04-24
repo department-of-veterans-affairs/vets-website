@@ -12,7 +12,7 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ index, isMobile = false, location, query }) => {
+const Covid19Result = ({ index, isMobile = false, location }) => {
   const {
     name,
     website,
@@ -67,7 +67,7 @@ const Covid19Result = ({ index, isMobile = false, location, query }) => {
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} query={query} />
+        <LocationDirectionsLink location={location} />
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
@@ -104,7 +104,6 @@ Covid19Result.propTypes = {
   index: PropTypes.number,
   isMobile: PropTypes.bool,
   location: PropTypes.object,
-  query: PropTypes.object,
   setHeaderHasFocus: PropTypes.func,
 };
 

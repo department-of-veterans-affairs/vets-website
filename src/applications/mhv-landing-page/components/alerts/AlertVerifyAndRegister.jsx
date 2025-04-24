@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 
 const AlertVerifyAndRegister = ({ recordEvent, testId }) => {
   const headline = 'Verify your identity';
@@ -16,6 +17,7 @@ const AlertVerifyAndRegister = ({ recordEvent, testId }) => {
         'alert-box-headline': headline,
         'alert-box-status': 'warning',
       });
+      datadogRum.addAction('Showed Alert Box: Verify And Register');
     },
     [headline, recordEvent],
   );

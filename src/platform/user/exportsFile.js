@@ -41,12 +41,6 @@ export {
 } from './authentication/hooks/index';
 
 export {
-  default as AccountTransitionModal,
-} from './authentication/components/account-transition/TransitionModal';
-export {
-  default as TransitionSuccessModal,
-} from './authentication/components/account-transition/TransitionSuccessModal';
-export {
   VerifyIdmeButton,
   VerifyLogingovButton,
   VerifyButton,
@@ -79,9 +73,6 @@ export {
   default as LoginHeader,
 } from './authentication/components/LoginHeader';
 export { default as LoginInfo } from './authentication/components/LoginInfo';
-export {
-  default as LogoutAlert,
-} from './authentication/components/LogoutAlert';
 export {
   default as ServiceProvidersList,
 } from './authentication/components/ServiceProvidersList';

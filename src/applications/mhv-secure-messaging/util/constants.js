@@ -51,6 +51,7 @@ export const ErrorMessages = {
   },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
+    VALID_RECIPIENT_REQUIRED: 'Please select a valid recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
     CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
@@ -280,6 +281,16 @@ export const Breadcrumbs = {
     label: 'Edit draft',
     isRouterLink: true,
   },
+  CONTACT_LIST: {
+    href: Paths.CONTACT_LIST,
+    label: 'Contact list',
+    isRouterLink: true,
+  },
+  REPLY: {
+    href: Paths.REPLY,
+    label: 'Reply',
+    isRouterLink: true,
+  },
 };
 
 export const InnerNavigationPaths = [
@@ -491,16 +502,16 @@ export const CernerTransitioningFacilities = {
 };
 
 export const filterDescription = {
-  noMsgId: 'Enter information from one of these fields: To, from, or subject',
+  noMsgId: 'Enter information from one of these fields: to, from, or subject',
   withMsgId:
-    'Enter information from one of these fields: To, from, message ID, or subject',
+    'Enter information from one of these fields: to, from, subject, or message ID',
 };
 
 export const smFooter = {
-  NEED_HELP: 'Need help?',
   HAVE_QUESTIONS: 'Have questions about how messages works?',
   LEARN_MORE: 'Learn more about messages',
   CONTACT_FACILITY:
     'Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.',
   FIND_FACILITY: 'Find your VA health facility',
+  NEED_HELP: 'Need help?',
 };

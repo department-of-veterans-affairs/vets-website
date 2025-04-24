@@ -1,4 +1,5 @@
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../components/GetFormHelp';
@@ -63,6 +64,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     applicantInformation,
     militaryHistory,

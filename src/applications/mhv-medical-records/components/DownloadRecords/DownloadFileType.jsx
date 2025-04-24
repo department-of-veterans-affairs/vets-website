@@ -12,7 +12,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaLoadingIndicator,
@@ -31,6 +30,7 @@ import {
   getLastUpdatedText,
   formatUserDob,
   sendDataDogAction,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -44,6 +44,7 @@ import {
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
+import { updateReportFileType } from '../../actions/downloads';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -52,8 +53,13 @@ const DownloadFileType = props => {
   const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
+
+  const fileTypeFilter = useSelector(
+    state => state.mr.downloads?.fileTypeFilter,
+  );
+
   const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
+  const name = formatNameFirstLast(user.userFullName);
   const dob = formatUserDob(user);
 
   const labsAndTests = useSelector(
@@ -89,6 +95,15 @@ const DownloadFileType = props => {
   const progressBarRef = useRef(null);
 
   useFocusOutline(progressBarRef);
+
+  useEffect(
+    () => {
+      if (fileTypeFilter) {
+        setFileType(fileTypeFilter);
+      }
+    },
+    [fileTypeFilter],
+  );
 
   useEffect(
     () => {
@@ -302,6 +317,14 @@ const DownloadFileType = props => {
     [recordData],
   );
 
+  const formatDateRange = () => {
+    return {
+      fromDate:
+        fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
+      toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+    };
+  };
+
   const generatePdf = useCallback(
     async () => {
       try {
@@ -314,10 +337,7 @@ const DownloadFileType = props => {
           const scaffold = generatePdfScaffold(user, title, subject);
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
-            fromDate:
-              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'Any',
-            toDate:
-              fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+            ...formatDateRange(),
             recordSets: generateBlueButtonData(recordData, recordFilter),
             ...scaffold,
             name,
@@ -369,7 +389,8 @@ const DownloadFileType = props => {
             title,
             subject,
           )}`;
-          const content = getTxtContent(recordData, user);
+          const dateRange = formatDateRange();
+          const content = getTxtContent(recordData, user, dateRange);
 
           generateTextFile(content, pdfName, user);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
@@ -390,14 +411,6 @@ const DownloadFileType = props => {
     [fileType],
   );
 
-  const handleDdRum = useCallback(e => {
-    const selectedNode = Array.from(e.target.childNodes).find(
-      node => node.value === e.detail.value,
-    );
-    const selectedText = selectedNode ? selectedNode.innerText : '';
-    sendDataDogAction(`${selectedText} - File type`);
-  }, []);
-
   const selectFileTypeHandler = e => {
     checkFileTypeValidity();
     if (e?.detail?.value) setFileTypeError(null);
@@ -417,7 +430,17 @@ const DownloadFileType = props => {
     } else if (fileType === 'txt') {
       generateTxt().then(() => history.push('/download'));
     }
-    sendDataDogAction('File type - Continue - Record type');
+    sendDataDogAction('Download report');
+  };
+
+  const handleValueChange = e => {
+    const { value } = e.detail;
+    setFileType(value);
+    // Immediately update Redux when a radio button is selected
+    dispatch(updateReportFileType(value));
+    const typeText = value === 'pdf' ? 'PDF' : 'Text file';
+    sendDataDogAction(`${typeText} - File type`);
+    selectFileTypeHandler(e);
   };
 
   return (
@@ -466,23 +489,25 @@ const DownloadFileType = props => {
 
               <VaRadio
                 label="If you use assistive technology, a text file may work better for you."
-                onVaValueChange={e => {
-                  setFileType(e.detail.value);
-                  handleDdRum(e);
-                  selectFileTypeHandler(e);
-                }}
+                onVaValueChange={handleValueChange}
                 error={fileTypeError}
               >
-                <va-radio-option label="PDF" value="pdf" name="file-type" />
+                <va-radio-option
+                  label="PDF"
+                  value="pdf"
+                  name="file-type"
+                  checked={fileType === 'pdf'}
+                />
                 <va-radio-option
                   label="Text file"
                   value="txt"
                   name="file-type"
+                  checked={fileType === 'txt'}
                 />
               </VaRadio>
               {downloadStarted && <DownloadSuccessAlert />}
               <div className="vads-u-margin-top--1">
-                <DownloadingRecordsInfo />
+                <DownloadingRecordsInfo description="Blue Button Report" />
               </div>
             </fieldset>
 
