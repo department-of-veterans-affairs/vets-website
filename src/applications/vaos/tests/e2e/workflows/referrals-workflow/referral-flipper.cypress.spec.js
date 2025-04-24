@@ -25,7 +25,7 @@ describe('VAOS Referral Appointments', () => {
     cy.login(new MockUser());
   });
 
-  describe('Coomunity care flipper disabled', () => {
+  describe('Community care flipper disabled', () => {
     beforeEach(() => {
       // Set required feature flags
       mockFeatureToggles({
@@ -43,7 +43,7 @@ describe('VAOS Referral Appointments', () => {
     });
   });
 
-  describe('Coomunity care flipper enabled', () => {
+  describe('Community care flipper enabled', () => {
     beforeEach(() => {
       // Set required feature flags
       mockFeatureToggles({
