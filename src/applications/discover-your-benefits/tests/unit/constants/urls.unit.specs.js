@@ -13,8 +13,11 @@ async function checkURI(key, uri) {
   }
 }
 
-describe('URLS', () => {
-  it('links to live site.', () => {
-    Object.keys(URLS).forEach(key => checkURI(key, URLS[key]));
+// Only run these tests locally.
+if (!process.env.CI) {
+  describe('URLS', () => {
+    it('should link to live site.', () => {
+      Object.keys(URLS).forEach(key => checkURI(key, URLS[key]));
+    });
   });
-});
+}
