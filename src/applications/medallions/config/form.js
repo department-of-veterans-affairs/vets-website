@@ -10,7 +10,6 @@ import veteranName from '../pages/veteranName';
 import veteranInfo1 from '../pages/veteranInfo1';
 import veteranInfo2 from '../pages/veteranInfo2';
 import applicantName from '../pages/applicantName';
-import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
