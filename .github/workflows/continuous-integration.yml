@@ -1025,21 +1025,40 @@ jobs:
     name: Testing Reports - Unit Test Stability Review
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests-stress-test]
-    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
+    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
+      - name: Download Unit Test Mochawesome test results
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-stress-test-results-*
+          path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
+
+      - name: Copy test results to mochawesome directory
+        run: |
+          cp -R qa-standards-dashboard-data/src/allow-list/data \
+                qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Create Unit Test report
+        run: yarn unit-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+          TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
+
+      - name: Upload Unit Test Stability Review Report to S3
+        run: |
+          aws s3 cp \
+            qa-standards-dashboard-data/mochawesome-report \
+            s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports \
+            --acl public-read --region us-gov-west-1 --recursive
       # ------------------------
       # | Upload BigQuery Data |
       # ------------------------
