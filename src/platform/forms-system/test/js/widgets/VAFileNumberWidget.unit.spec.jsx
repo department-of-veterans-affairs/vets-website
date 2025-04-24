@@ -53,7 +53,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="456431098" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       expect(input.value).to.equal('●●●-●●-1098');
     });
@@ -62,7 +62,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="456-43-1098" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       expect(input.value).to.equal('●●●-●●-1098');
     });
@@ -71,7 +71,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="456 43 1098" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       expect(input.value).to.equal('●●●-●●-1098');
     });
@@ -80,7 +80,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="456431098" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       fireEvent.focus(input);
       expect(input.value).to.equal('456431098');
@@ -90,7 +90,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="456-43-1098" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       fireEvent.focus(input);
       expect(input.value).to.equal('456-43-1098');
@@ -100,7 +100,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="456 43 1098" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       fireEvent.focus(input);
       expect(input.value).to.equal('456 43 1098');
@@ -110,7 +110,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="12345678" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       expect(input.value).to.equal('12345678');
     });
@@ -119,7 +119,7 @@ describe('Schemaform <VAFileNumberWidget>', () => {
       const { container } = render(
         <VAFileNumberWidget value="1234567899" {...props} />,
       );
-      const input = container.querySelector('input');
+      const input = container.querySelector('va-text-input');
       fireEvent.blur(input);
       expect(input.value).to.equal('1234567899');
     });
