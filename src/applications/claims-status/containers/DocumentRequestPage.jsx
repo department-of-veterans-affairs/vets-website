@@ -52,9 +52,10 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (this.props.trackedItem) {
+    if (!this.props.loading && this.props.trackedItem) {
       const pageTitle = setDocumentRequestPageTitle(
-        this.props.trackedItem.displayName,
+        this.props.trackedItem.friendlyName ||
+          this.props.trackedItem.displayName,
       );
       setDocumentTitle(pageTitle);
     } else {
@@ -86,6 +87,15 @@ class DocumentRequestPage extends React.Component {
     }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
+      if (this.props.trackedItem) {
+        const pageTitle = setDocumentRequestPageTitle(
+          this.props.trackedItem.friendlyName ||
+            this.props.trackedItem.displayName,
+        );
+        setDocumentTitle(pageTitle);
+      } else {
+        setDocumentTitle('Document Request');
+      }
     }
   }
 
@@ -136,10 +146,12 @@ class DocumentRequestPage extends React.Component {
 
     if (this.props.loading) {
       content = (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
+        <div>
+          <va-loading-indicator
+            set-focus
+            message="Loading your claim information..."
+          />
+        </div>
       );
     } else {
       const { message, trackedItem } = this.props;
@@ -199,7 +211,9 @@ class DocumentRequestPage extends React.Component {
       previousPageBreadcrumb,
       {
         href: `../document-request/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(trackedItem?.displayName),
+        label: setDocumentRequestPageTitle(
+          trackedItem?.friendlyName || trackedItem?.displayName,
+        ),
         isRouterLink: true,
       },
     ];
