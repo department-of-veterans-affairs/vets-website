@@ -42,6 +42,7 @@ export default class MockAppointmentResponse {
     future = false,
     id = '1',
     kind = TYPE_OF_VISIT_ID.clinic,
+    modality = 'vaInPerson',
     past = false,
     patientHasMobileGfe = false,
     pending = false,
@@ -78,6 +79,7 @@ export default class MockAppointmentResponse {
       kind,
       type,
       localStartTime: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
+      modality,
       preferredDates: [
         format(
           startOfDay(new Date(), 'day'),
@@ -113,6 +115,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtAnAtlasLocation',
             localStartTime,
             atlas: {
               confirmationCode: '7VBBCA',
@@ -139,6 +143,7 @@ export default class MockAppointmentResponse {
             id: index,
             kind: 'cc',
             type: 'COMMUNITY_CARE_APPOINTMENT',
+            modality: 'communityCare',
             localStartTime,
             future,
           }),
@@ -158,6 +163,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtAVaLocation',
             localStartTime,
             vvsKind: VIDEO_TYPES.clinic,
             future,
@@ -179,6 +186,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
             patientHasMobileGfe: true,
@@ -196,6 +205,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
             future,
@@ -211,6 +222,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.phone,
+            type: 'VA',
+            modality: 'vaPhone',
             localStartTime,
             future,
           }),
@@ -229,6 +242,8 @@ export default class MockAppointmentResponse {
           new MockAppointmentResponse({
             id: index,
             kind: TYPE_OF_VISIT_ID.telehealth,
+            type: 'VA',
+            modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.storeForward,
             future,
@@ -252,6 +267,7 @@ export default class MockAppointmentResponse {
   static createCCResponse({ serviceType }) {
     return new MockAppointmentResponse({
       kind: 'cc',
+      modality: 'communityCare',
       status: APPOINTMENT_STATUS.proposed,
       serviceType,
     });

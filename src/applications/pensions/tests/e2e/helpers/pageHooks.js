@@ -1,3 +1,5 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 import {
   fillAddressWebComponentPattern,
   fillCareExpensesPage,
@@ -29,12 +31,20 @@ const replaceDefaultBehavior = context => {
   replaceDefaultPostHook(context);
 };
 
-const pageHooks = {
+const pageHooks = returnUrl => ({
   introduction: () => {
-    // skip wizard
-    cy.findAllByText(/start the pension application/i)
-      .first()
-      .click();
+    if (returnUrl) {
+      cy.get('va-alert [slot="headline"]', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'is in progress');
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('va-button[data-testid="continue-your-application"]').click();
+    } else {
+      cy.findAllByText(/start the pension application/i)
+        .first()
+        .click();
+    }
   },
   ...Object.keys(pagePaths).reduce((paths, pagePath) => ({
     ...paths,
@@ -214,6 +224,6 @@ const pageHooks = {
       });
     });
   },
-};
+});
 
 export default pageHooks;

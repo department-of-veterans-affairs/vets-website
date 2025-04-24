@@ -12,10 +12,10 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -571,11 +571,10 @@ module.exports = async (env = {}) => {
     baseConfig.devServer.open = { target };
   }
 
-  if (buildOptions.analyzer) {
+  if (buildOptions.statoscope) {
     baseConfig.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'disabled',
-        generateStatsFile: true,
+      new StatoscopeWebpackPlugin({
+        saveReportTo: `build/${buildtype}/generated/statoscope-report.html`,
       }),
     );
   }

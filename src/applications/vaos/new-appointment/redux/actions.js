@@ -18,6 +18,7 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
   selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
@@ -320,6 +321,9 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -339,6 +343,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
+            useFeSourceOfTruthModality,
             isCerner: true,
           });
 
@@ -377,6 +382,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
 
         if (showModal) {
@@ -927,6 +933,9 @@ export function submitAppointmentOrRequest(history) {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -955,6 +964,7 @@ export function submitAppointmentOrRequest(history) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
 
         dispatch({
@@ -1052,6 +1062,7 @@ export function submitAppointmentOrRequest(history) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
 
         dispatch({

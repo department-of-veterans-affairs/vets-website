@@ -170,8 +170,14 @@ export function transformVAOSAppointment(
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isPhone = appt.kind === 'phone';
+  let isCovid = appt.serviceType === COVID_VACCINE_ID;
+  let isInPersonVisit = !isVideo && !isCC && !isPhone;
   if (useFeSourceOfTruthModality) {
     isCompAndPen = appt.modality === 'claimExamAppointment';
+    isPhone = appt.modality === 'vaPhone';
+    isCovid = appt.modality === 'vaInPersonVaccine';
+    isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
   }
 
   const isCancellable = appt.cancellable;
@@ -339,10 +345,9 @@ export function transformVAOSAppointment(
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      isPhoneAppointment: useFeSourceOfTruthModality
-        ? appt.modality === 'vaPhone'
-        : appt.kind === 'phone',
-      isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
+      isPhoneAppointment: isPhone,
+      isCOVIDVaccine: isCovid,
+      isInPersonVisit,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
