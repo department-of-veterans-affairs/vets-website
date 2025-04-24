@@ -1,22 +1,24 @@
-import React from 'react';
-import { expect } from 'chai';
-import moment from 'moment';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import moment from 'moment';
+import React from 'react';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-  setVaccineFacility,
   setVaccineClinic,
+  setVaccineFacility,
 } from '../../tests/mocks/setup';
 
-import SelectDate1Page from './SelectDate1Page';
-import { TYPE_OF_CARE_ID } from '../utils';
-import { mockEligibilityFetches } from '../../tests/mocks/fetch';
 import { createMockClinic } from '../../tests/mocks/data';
-import { mockAppointmentSlotFetch } from '../../tests/mocks/helpers';
+import {
+  mockAppointmentSlotFetch,
+  mockEligibilityFetches,
+} from '../../tests/mocks/mockApis';
+import { TYPE_OF_CARE_ID } from '../utils';
+import SelectDate1Page from './SelectDate1Page';
 
 const initialState = {
   featureToggles: {

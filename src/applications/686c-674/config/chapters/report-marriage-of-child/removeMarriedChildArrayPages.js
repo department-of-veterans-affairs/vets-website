@@ -140,7 +140,7 @@ export const marriedChildIncomeQuestionPage = {
     dependentIncome: radioUI({
       title: 'Did this child have an income in the last 365 days?',
       hint:
-        'Answer this question only if you are adding this dependent to your pension.',
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',
