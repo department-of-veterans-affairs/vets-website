@@ -67,9 +67,6 @@ export const selectSystemIds = state =>
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
 
-export const selectFeatureConvertUtcToLocaL = state =>
-  toggleValues(state).vaOnlineSchedulingConvertUtcToLocal;
-
 export const selectFeatureBreadcrumbUrlUpdate = state =>
   toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
 

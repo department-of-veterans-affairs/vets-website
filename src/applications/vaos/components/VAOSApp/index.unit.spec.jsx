@@ -15,7 +15,6 @@ import VAOSApp from '.';
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
   },
   user: {

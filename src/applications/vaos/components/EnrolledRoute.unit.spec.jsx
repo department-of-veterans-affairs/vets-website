@@ -15,7 +15,6 @@ import EnrolledRoute from './EnrolledRoute';
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingMhvRouteGuards: false,
   },

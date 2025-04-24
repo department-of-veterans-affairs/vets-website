@@ -23,7 +23,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingCancel: true,
-      vaOnlineSchedulingPast: true,
       vaOnlineSchedulingRequests: true,
     },
   };

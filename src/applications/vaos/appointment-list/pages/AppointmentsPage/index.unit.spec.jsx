@@ -24,7 +24,6 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,
   },
