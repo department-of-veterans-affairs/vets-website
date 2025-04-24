@@ -5,7 +5,14 @@ module.exports = {
     skipEmptyTestSuite: true,
   },
   mochawesomeReporterOptions: {
+    consoleReporter: 'min',
     reportDir: 'mocha/results',
+    reportFilename: `${process.env.STEP}_${new Date()
+      .toISOString()
+      .replace(/[.:]/g, '')}`,
+    overwrite: false,
+    html: false,
+    json: true,
     inlineAssets: true,
   },
 };
