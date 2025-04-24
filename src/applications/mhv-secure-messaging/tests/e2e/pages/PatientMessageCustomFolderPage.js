@@ -129,7 +129,7 @@ class PatientMessageCustomFolderPage {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
-        cy.get(Locators.HEADER).should('have.text', `${text}`);
+        cy.get(Locators.HEADER).should('have.text', `Messages: ${text}`);
       });
   };
 

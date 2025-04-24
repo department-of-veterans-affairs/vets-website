@@ -50,7 +50,7 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

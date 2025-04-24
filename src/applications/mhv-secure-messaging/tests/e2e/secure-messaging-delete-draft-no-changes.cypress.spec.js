@@ -12,7 +12,7 @@ describe('SM DELETE DRAFT WITH NO CHANGES', () => {
     PatientInboxPage.navigateToComposePage();
     PatientMessageDraftsPage.clickDeleteButton();
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
     cy.injectAxe();
@@ -25,7 +25,7 @@ describe('SM DELETE DRAFT WITH NO CHANGES', () => {
     PatientInboxPage.navigateToComposePage();
     PatientMessageDraftsPage.clickDeleteButton();
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    GeneralFunctionsPage.verifyPageHeader(`Messages`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
     cy.url().should(`eq`, Data.URL.LANDING_PAGE);
 
     cy.injectAxe();

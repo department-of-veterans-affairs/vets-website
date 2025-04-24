@@ -14,7 +14,7 @@ class ContactListPage {
   verifyHeaders = () => {
     cy.get(`h1`)
       .should(`be.visible`)
-      .and(`have.text`, `Contact list`);
+      .and(`have.text`, `Messages: Contact list`);
 
     cy.get(`.contactListForm`)
       .find(`h2`)

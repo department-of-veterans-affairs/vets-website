@@ -15,7 +15,7 @@ describe('secure Messaging Sent Folder checks', () => {
   });
 
   it('Verify folder header', () => {
-    GeneralFunctionsPage.verifyPageHeader(`Sent`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Sent`);
     GeneralFunctionsPage.verifyHeaderFocused();
     PatientMessageSentPage.verifyResponseBodyLength();
 

@@ -12,7 +12,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   it('Verify folder header', () => {
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
     PatientMessagesSentPage.verifyResponseBodyLength();
 
     cy.injectAxe();

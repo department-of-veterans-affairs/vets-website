@@ -14,7 +14,7 @@ describe(manifest.appName, () => {
   it('Check the Inbox folder', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Inbox');
+    FolderLoadPage.verifyFolderHeaderText('Messages: Inbox');
     FolderLoadPage.verifyBreadCrumbsLength(4);
   });
 
@@ -22,7 +22,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.loadDraftMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Drafts');
+    FolderLoadPage.verifyFolderHeaderText('Messages: Drafts');
     cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
   });
 
@@ -30,7 +30,7 @@ describe(manifest.appName, () => {
     PatentMessageSentPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Sent');
+    FolderLoadPage.verifyFolderHeaderText('Messages: Sent');
     FolderLoadPage.verifyBreadCrumbsLength(4);
   });
 
@@ -38,7 +38,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.loadDeletedMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Trash');
+    FolderLoadPage.verifyFolderHeaderText('Messages: Trash');
     cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
   });
 

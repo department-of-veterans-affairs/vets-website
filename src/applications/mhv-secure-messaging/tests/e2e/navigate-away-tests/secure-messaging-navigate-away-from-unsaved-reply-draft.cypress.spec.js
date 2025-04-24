@@ -27,7 +27,7 @@ describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
     FolderLoadPage.backToParentFolder();
 
     GeneralFunctionsPage.verifyUrl(`inbox`);
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
