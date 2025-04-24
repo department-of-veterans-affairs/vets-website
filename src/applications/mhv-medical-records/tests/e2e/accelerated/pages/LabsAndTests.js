@@ -27,7 +27,9 @@ class LabsAndTests {
   goToLabAndTestPage = () => {
     cy.get('[data-testid="labs-and-tests-landing-page-link"]')
       .should('be.visible')
-      .click();
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   checkUrl = ({ timeFrame }) => {
@@ -46,7 +48,7 @@ class LabsAndTests {
   };
 
   selectLabAndTest = ({ labName }) => {
-    cy.contains(labName).click();
+    cy.contains(labName).click({ waitForAnimations: true });
     cy.get('[data-testid="lab-name"]').should('be.visible');
     cy.get('[data-testid="lab-name"]').contains(labName);
   };
