@@ -8,12 +8,12 @@ describe('SM MAIN PAGE REDIRECTING', () => {
     const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
       { name: 'mhv_secure_messaging_remove_landing_page', value: true },
     ]);
-    SecureMessagingSite.login(updatedFeatureToggle);
+
+    SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
 
     cy.url().should(`include`, Paths.INBOX);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

@@ -16,17 +16,4 @@ describe('SM DELETE DRAFT WITH NO CHANGES', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
-
-  // it('navigate back to landing page', () => {
-  //   SecureMessagingSite.login();
-  //   SecureMessagingLandingPage.loadMainPage();
-  //   PatientInboxPage.navigateToComposePage();
-  //   PatientMessageDraftsPage.clickDeleteButton();
-  //   PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-  //   GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
-  //   cy.url().should(`eq`, Data.URL.LANDING_PAGE);
-  //
-  //   cy.injectAxe();
-  //   cy.axeCheck(AXE_CONTEXT);
-  // });
 });
