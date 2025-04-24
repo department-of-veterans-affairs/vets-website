@@ -76,7 +76,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -143,7 +143,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -191,7 +191,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -241,7 +241,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -289,7 +289,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -339,7 +339,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -408,7 +408,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });

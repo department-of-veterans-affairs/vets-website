@@ -27,8 +27,6 @@ import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
 };
 

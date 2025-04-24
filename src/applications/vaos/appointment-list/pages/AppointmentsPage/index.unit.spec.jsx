@@ -25,8 +25,6 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,
   },
@@ -170,7 +168,9 @@ describe('VAOS Page: AppointmentsPage', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
     });
@@ -398,7 +398,9 @@ describe('VAOS Page: AppointmentsPage', () => {
         start: moment()
           .subtract(120, 'days')
           .format('YYYY-MM-DD'),
-        end: moment().format('YYYY-MM-DD'),
+        end: moment()
+          .add(1, 'days')
+          .format('YYYY-MM-DD'),
         statuses: ['proposed', 'cancelled'],
         requests: [appointment],
       });
@@ -518,7 +520,9 @@ describe('VAOS Page: AppointmentsPage', () => {
         start: moment()
           .subtract(120, 'days')
           .format('YYYY-MM-DD'),
-        end: moment().format('YYYY-MM-DD'),
+        end: moment()
+          .add(1, 'days')
+          .format('YYYY-MM-DD'),
         statuses: ['proposed', 'cancelled'],
         requests: [appointment],
       });

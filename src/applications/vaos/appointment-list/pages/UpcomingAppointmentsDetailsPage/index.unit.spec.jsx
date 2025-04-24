@@ -22,12 +22,9 @@ import {
 describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
       vaOnlineSchedulingCancel: true,
       vaOnlineSchedulingPast: true,
       vaOnlineSchedulingRequests: true,
-      vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
     },
   };

@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
@@ -94,7 +93,6 @@ export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
@@ -154,9 +152,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
         requestStartDate.setDate(requestStartDate.getDate() - 120); // Subtract 120 days
 
         const requestEndDate = new Date(now);
-        if (featureVAOSServiceRequests) {
-          requestEndDate.setDate(requestEndDate.getDate() + 1); // Add 1 day
-        }
+        requestEndDate.setDate(requestEndDate.getDate() + 1); // Add 1 day
 
         promises.push(
           getAppointmentRequests({

@@ -8,7 +8,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingPast', value: true },
   { name: 'vaOnlineSchedulingExpressCare', value: true },
   { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-  { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
   { name: 'vaOnlineSchedulingStatusImprovement', value: true },
