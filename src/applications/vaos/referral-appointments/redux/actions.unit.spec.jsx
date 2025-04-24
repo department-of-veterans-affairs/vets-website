@@ -193,7 +193,7 @@ describe('referral actions', () => {
     });
 
     it('should dispatch success if status is confirmed', async () => {
-      const info = { appointment: { status: 'booked' } };
+      const info = { attributes: { status: 'booked' } };
       sandbox.stub(services, 'getAppointmentInfo').resolves(info);
 
       const result = await actions.pollFetchAppointmentInfo('a2', {})(

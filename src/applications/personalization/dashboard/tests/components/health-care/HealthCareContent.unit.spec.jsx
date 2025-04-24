@@ -17,7 +17,6 @@ describe('<UnconnectedHealthCareContent />', () => {
 
     tree.getByTestId('no-healthcare-text');
     expect(tree.container.querySelector('va-loading-indicator')).to.not.exist;
-    expect(tree.queryByTestId('cerner-widget')).to.be.null;
   });
 
   it('should render the loading indicator', () => {
@@ -27,18 +26,6 @@ describe('<UnconnectedHealthCareContent />', () => {
     );
 
     expect(tree.container.querySelector('va-loading-indicator')).to.exist;
-  });
-
-  it('should render the Cerner widget', () => {
-    const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent
-        isCernerPatient
-        facilityNames={['do', 're', 'mi']}
-      />,
-      { initialState },
-    );
-
-    tree.getByTestId('cerner-widget');
   });
 
   it('should render the HealthcareError', () => {

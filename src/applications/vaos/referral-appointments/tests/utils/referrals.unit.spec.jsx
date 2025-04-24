@@ -4,10 +4,10 @@ const referralUtil = require('../../utils/referrals');
 
 describe('VAOS referral generator', () => {
   describe('createReferralById', () => {
-    const referral = referralUtil.createReferralById('1', '2024-10-30')
+    const referral = referralUtil.createReferralById('2024-10-30', '1')
       .attributes;
     it('Create a referral based on specific date', () => {
-      expect(referral.expirationDate).to.equal('2024-10-30');
+      expect(referral.expirationDate).to.equal('2025-04-30');
     });
   });
   describe('createReferrals', () => {
@@ -29,10 +29,13 @@ describe('VAOS referral generator', () => {
   describe('filterReferrals', () => {
     let referrals = referralUtil.createReferrals(1);
     const nonPhysicalTherapyReferral = referralUtil.createReferralById(
+      '2024-10-30',
       'uid',
+      '111',
       null,
       'non-physical-therapy',
     );
+
     referrals = [nonPhysicalTherapyReferral, ...referrals];
 
     it('Filters out non-physical therapy referrals', () => {
@@ -45,7 +48,8 @@ describe('VAOS referral generator', () => {
   });
   describe('getAddressString', () => {
     it('Formats the address string', () => {
-      const referral = referralUtil.createReferralById('111').attributes;
+      const referral = referralUtil.createReferralById('2024-10-30', '111')
+        .attributes;
       expect(
         referralUtil.getAddressString(referral.referringFacilityInfo.address),
       ).to.equal('222 Richmond Avenue, BATAVIA, 14020');

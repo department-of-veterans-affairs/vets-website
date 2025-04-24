@@ -83,7 +83,7 @@ const DebtSummaryCard = ({ debt }) => {
                 debt.compositeDebtId
               }`}
               text="Check details and resolve this debt"
-              aria-label={`Check details and resolve this ${debtCardHeading}`}
+              label={`Check details and resolve this ${debtCardHeading}`}
             />
           </>
         )}

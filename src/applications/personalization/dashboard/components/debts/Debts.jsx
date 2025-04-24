@@ -69,6 +69,7 @@ const PopularActionsForDebts = () => {
 
 const BenefitPaymentsAndDebt = ({
   debts,
+  debtsCount,
   copays,
   hasDebtError,
   hasCopayError,
@@ -82,7 +83,7 @@ const BenefitPaymentsAndDebt = ({
   useEffect(
     () => {
       if (!showGenericDebtCard) {
-        getDebts();
+        getDebts(true);
       }
 
       getCopays();
@@ -90,7 +91,8 @@ const BenefitPaymentsAndDebt = ({
     [getDebts, getCopays, showGenericDebtCard],
   );
 
-  const debtsCount = debts?.length || 0;
+  const totalDebtsCount = debts?.length || debtsCount || 0;
+
   const copaysCount = copays?.length || 0;
 
   if (shouldShowLoadingIndicator) {
@@ -108,7 +110,9 @@ const BenefitPaymentsAndDebt = ({
   }
 
   const hasNoOutstandingDebts = () => {
-    return !hasDebtError && !hasCopayError && debtsCount < 1 && copaysCount < 1;
+    return (
+      !hasDebtError && !hasCopayError && totalDebtsCount < 1 && copaysCount < 1
+    );
   };
 
   return (
@@ -140,10 +144,10 @@ const BenefitPaymentsAndDebt = ({
             <GenericDebtCard />
           </DashboardWidgetWrapper>
         )}
-        {debtsCount > 0 &&
+        {totalDebtsCount > 0 &&
           !showGenericDebtCard && (
             <DashboardWidgetWrapper>
-              <DebtsCard debts={debts} />
+              <DebtsCard debtsCount={totalDebtsCount} />
             </DashboardWidgetWrapper>
           )}
         {copaysCount > 0 && (
@@ -152,13 +156,13 @@ const BenefitPaymentsAndDebt = ({
               <CopaysCard copays={copays} />
             </DashboardWidgetWrapper>
             <DashboardWidgetWrapper>
-              {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
+              {!totalDebtsCount && !hasDebtError && <PopularActionsForDebts />}
             </DashboardWidgetWrapper>
           </>
         )}
       </div>
-      {((debtsCount === 0 && copaysCount === 0) ||
-        (hasCopayError && debtsCount === 0) ||
+      {((totalDebtsCount === 0 && copaysCount === 0) ||
+        (hasCopayError && totalDebtsCount === 0) ||
         (hasDebtError && copaysCount === 0)) && (
         <DashboardWidgetWrapper>
           <PopularActionsForDebts />
@@ -193,6 +197,7 @@ BenefitPaymentsAndDebt.propTypes = {
       ),
     }),
   ),
+  debtsCount: PropTypes.number,
   getCopays: PropTypes.func,
   getDebts: PropTypes.func,
   hasCopayError: PropTypes.bool,
@@ -203,9 +208,11 @@ BenefitPaymentsAndDebt.propTypes = {
 const mapStateToProps = state => {
   const debtsIsLoading = state.allDebts.isLoading;
   const debts = state.allDebts.debts || [];
+  const { debtsCount } = state.allDebts;
   const copays = state.allDebts.copays || [];
   return {
     debts,
+    debtsCount,
     copays,
     hasDebtError: state.allDebts.debtsErrors.length > 0,
     hasCopayError: state.allDebts.copaysErrors.length > 0,

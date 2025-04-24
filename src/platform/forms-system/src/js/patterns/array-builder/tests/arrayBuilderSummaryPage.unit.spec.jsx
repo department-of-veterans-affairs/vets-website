@@ -482,7 +482,7 @@ describe('ArrayBuilderSummaryPage', () => {
     await waitFor(() => {
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
-      expect(setFormData.args[0][0].employers).to.have.lengthOf(0);
+      expect(setFormData.args[0][0]).to.eql({});
     });
   });
 

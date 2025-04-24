@@ -19,7 +19,7 @@ const { schema, uiSchema } = careExpenses;
 
 describe('Unreimbursed care expenses pension page', () => {
   const pageTitle = 'Care expenses';
-  const expectedNumberOfFields = 2;
+  const expectedNumberOfFields = 0;
   testNumberOfFields(
     formConfig,
     schema,
@@ -28,7 +28,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -37,7 +37,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfWebComponentFields = 8;
+  const expectedNumberOfWebComponentFields = 10;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -46,7 +46,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 5;
+  const expectedNumberOfErrorsForWebComponents = 6;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
@@ -62,11 +62,10 @@ describe('Unreimbursed care expenses pension page', () => {
     schema,
     uiSchema,
     {
-      'va-text-input': 2,
+      'va-text-input': 4,
       'va-memorable-date': 2,
       'va-checkbox': 1,
       'va-radio': 3,
-      input: 2,
     },
     pageTitle,
   );
