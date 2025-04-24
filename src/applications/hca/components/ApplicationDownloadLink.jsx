@@ -21,8 +21,21 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   ]);
 
   // Default name to Applicant Submission if view:veteranInformation is empty for some reason
-  const { veteranFullName: name = { first: 'Applicant', last: 'Submission' } } =
-    form.data?.['view:veteranInformation'] ?? {};
+  const name = useMemo(
+    () => {
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data?.['view:veteranInformation'] ?? {};
+      return veteranFullName;
+    },
+    [form.data],
+  );
+
+  const errorMessageFromResponse = useCallback(response => {
+    const code = response?.errors?.[0]?.status?.[0];
+    return code === '5'
+      ? content['alert-download-message--500']
+      : content['alert-download-message--generic'];
+  }, []);
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -57,14 +70,10 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         // Handle request errors
         if (!response.ok) {
           // Attempt to parse a JSON error response
-          const errorData = await response.json();
+          const errorResponse = await response.json();
           recordEvent({ event: 'hca-pdf-download--failure' });
 
-          const code = errorData?.errors?.[0]?.status?.[0];
-          const message =
-            code === '5'
-              ? content['alert-download-message--500']
-              : content['alert-download-message--generic'];
+          const message = errorMessageFromResponse(errorResponse);
           setErrorMessage(message);
           return;
         }
@@ -81,7 +90,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         setLoading(false);
       }
     },
-    [formData, handlePdfDownload],
+    [formData, handlePdfDownload, errorMessageFromResponse],
   );
 
   // apply focus to the error alert if we have errors set
