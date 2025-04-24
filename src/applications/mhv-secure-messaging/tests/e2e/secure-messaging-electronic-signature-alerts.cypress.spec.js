@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Data, Locators, Alerts } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators, Alerts, Paths } from './utils/constants';
 
 describe('Secure Messaging Digital Signature Error flows', () => {
   beforeEach(() => {
@@ -10,22 +10,25 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.selectCategory();
-    // PatientComposePage.getMessageSubjectField().type(`ES test`);
     PatientComposePage.getMessageSubjectField().type(`DS test`, {
       force: true,
     });
-    PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
+    PatientComposePage.getMessageBodyField().type(`{home}DS tests text`, {
       force: true,
+      moveToStart: true,
     });
 
     PatientComposePage.verifyElectronicSignature();
     PatientComposePage.verifyElectronicSignatureRequired();
   });
 
-  it("verify user can't send a message without electronic signature", () => {
+  it(`verify user can't send a message without electronic signature`, () => {
     cy.get(Locators.BUTTONS.SEND).click({ force: true });
 
-    cy.get('#input-error-message').should('contain.text', Alerts.EL_SIGN_NAME);
+    cy.get(Locators.ALERTS.EL_SIGN_NAME).should(
+      'contain.text',
+      Alerts.EL_SIGN_NAME,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -36,7 +39,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       force: true,
     });
     cy.get(Locators.BUTTONS.SEND).click({ force: true });
-    cy.get(`#checkbox-error-message .usa-error-message`).should(
+    cy.get(Locators.ALERTS.EL_SIGN_CHECK).should(
       `have.text`,
       Alerts.EL_SIGN_CHECK,
     );
@@ -97,5 +100,15 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.closeESAlertModal();
+  });
+
+  it('verify no signature alerts with auto save', () => {
+    cy.intercept(`POST`, Paths.INTERCEPT.DRAFT_AUTO_SAVE).as(`autoSaveDraft`);
+    cy.wait(`@autoSaveDraft`, { timeout: 10000 }).then(() => {
+      cy.get(Locators.ALERTS.EL_SIGN_NAME).should('not.exist');
+      cy.get(Locators.ALERTS.EL_SIGN_CHECK).should(`not.exist`);
+    });
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

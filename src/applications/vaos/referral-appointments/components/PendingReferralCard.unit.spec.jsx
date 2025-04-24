@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import sinon from 'sinon';
@@ -17,7 +17,7 @@ describe('VAOS Component: PendingReferralCard', () => {
   const referral = createReferralById(
     '2025-01-01',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
-  );
+  ).attributes;
 
   const handleClick = sinon.spy();
 
@@ -42,12 +42,5 @@ describe('VAOS Component: PendingReferralCard', () => {
         'We’ve approved your community care referral. You must schedule all appointments for this referral by July 1, 2025.',
       ),
     ).to.exist;
-  });
-  // TODO: figure out how to test the click event
-  it.skip('should call handleClick when the link is clicked', () => {
-    const link = screen.getByTestId('appointment-list-item');
-    fireEvent.click(link);
-    expect(handleClick.calledOnce).to.be.true;
-    expect(handleClick.calledWith(sinon.match.any, referral.uuid)).to.be.true;
   });
 });

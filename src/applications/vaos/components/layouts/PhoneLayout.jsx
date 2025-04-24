@@ -45,9 +45,9 @@ export default function PhoneLayout({ data: appointment }) {
   const { reasonForAppointment, patientComments } = appointment || {};
 
   let heading = 'Phone appointment';
-  if (isPastAppointment) heading = 'Past phone appointment';
-  else if (APPOINTMENT_STATUS.cancelled === status)
+  if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled phone appointment';
+  else if (isPastAppointment) heading = 'Past phone appointment';
 
   recordAppointmentDetailsNullStates(
     {

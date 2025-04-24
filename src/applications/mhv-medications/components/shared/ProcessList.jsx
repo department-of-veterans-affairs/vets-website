@@ -136,7 +136,7 @@ const ProcessList = ({ stepGuideProps }) => {
                       </section>
 
                       <section>
-                        <p className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
+                        <p className="vads-u-font-size--source-sans-normalized vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
                           <strong>Prescriptions in this package:</strong>
                         </p>
                         <ul className="vads-u-margin--0">
@@ -222,8 +222,9 @@ const ProcessList = ({ stepGuideProps }) => {
                 >
                   {isRefillRunningLate ? (
                     <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
-                      We expected to fill it on {dateFormat(refillDate)}. Call
-                      your VA pharmacy for an update
+                      We expected to fill your prescription on{' '}
+                      {dateFormat(refillDate)}. Call your VA pharmacy for an
+                      update
                       <CallPharmacyPhone
                         cmopDivisionPhone={pharmacyPhone}
                         page={pageType.REFILL}

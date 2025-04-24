@@ -21,6 +21,7 @@ import {
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
+  isInPersonVisit,
   getPatientTelecom,
 } from '../../services/appointment';
 import {
@@ -29,6 +30,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureFeSourceOfTruth,
+  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -148,7 +150,12 @@ export const selectPastAppointmentsV2 = state => {
       }
 
       const sortedAppointments = past
-        .filter(isValidPastAppointment)
+        .filter(item =>
+          isValidPastAppointment(
+            item,
+            selectFeatureDisplayPastCancelledAppointments(state),
+          ),
+        )
         .sort(sortByDateDescending);
 
       return groupAppointmentsByMonth(sortedAppointments);
@@ -308,14 +315,6 @@ export function selectIsVideo(appointment) {
   return appointment?.vaos?.isVideo;
 }
 
-export function selectIsInPerson(appointment) {
-  return (
-    !selectIsVideo(appointment) &&
-    !selectIsCommunityCare(appointment) &&
-    !selectIsPhone(appointment)
-  );
-}
-
 export function selectPractitionerName(appointment) {
   if (!appointment) return null;
 
@@ -394,7 +393,7 @@ export function selectAppointmentLocality(
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
 
   if (isPendingAppointment) {
     const { name: facilityName } = appointment.vaos.facilityData || {
@@ -459,7 +458,7 @@ export function selectIsHomeVideo(appointment) {
 
 export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -560,7 +559,7 @@ export function selectModalityAriaText(appointment) {
 }
 
 export function selectModalityIcon(appointment) {
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -590,7 +589,7 @@ export function selectAppointmentTravelClaim(appointment) {
 export function selectIsEligibleForTravelClaim(appointment) {
   return (
     selectIsPast(appointment) &&
-    (selectIsInPerson(appointment) || selectIsClinicVideo(appointment)) &&
+    (isInPersonVisit(appointment) || selectIsClinicVideo(appointment)) &&
     selectAppointmentTravelClaim(appointment)
   );
 }

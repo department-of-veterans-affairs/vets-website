@@ -1,10 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import environment from 'platform/utilities/environment';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import environment from '~/platform/utilities/environment';
 import GetFormHelp from '../components/GetFormHelp';
 import { childContent } from '../helpers';
+
+const CLAIM_ID = '10215ClaimId';
+
+export const setClaimIdInLocalStage = submission => {
+  if (submission?.response?.id) {
+    localStorage.setItem(CLAIM_ID, JSON.stringify(submission?.response?.id));
+  }
+};
+
+export const getClaimIdFromLocalStage = () => {
+  return JSON.parse(localStorage.getItem(CLAIM_ID));
+};
 
 export const ConfirmationPage = ({ router, route }) => {
   const [claimId, setClaimId] = React.useState(null);
@@ -19,14 +31,8 @@ export const ConfirmationPage = ({ router, route }) => {
   };
   useEffect(
     () => {
-      if (submission?.response?.id) {
-        localStorage.setItem(
-          '10215ClaimId',
-
-          JSON.stringify(submission?.response?.id),
-        );
-      }
-      setClaimId(JSON.parse(localStorage.getItem('10215ClaimId')));
+      setClaimIdInLocalStage(submission);
+      setClaimId(getClaimIdFromLocalStage());
     },
 
     [submission],

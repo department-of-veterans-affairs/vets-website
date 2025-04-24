@@ -1,35 +1,34 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import { expect } from 'chai';
-import sinon from 'sinon';
-import MockDate from 'mockdate';
 import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-  // eslint-disable-next-line import/no-unresolved
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import sinon from 'sinon';
 
 import {
   FUTURE_APPOINTMENTS_HIDDEN_SET,
   fetchBookedAppointment,
   getAppointmentRequests,
   getLongTermAppointmentHistoryV2,
+  getVAAppointmentLocationId,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-  getVAAppointmentLocationId,
 } from '.';
-import {
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-} from '../../utils/constants';
 import moment from '../../lib/moment-tz';
 import { createMockAppointment } from '../../tests/mocks/data';
 import {
   getDateRanges,
   mockVAOSAppointmentsFetch,
-} from '../../tests/mocks/helpers';
+} from '../../tests/mocks/mockApis';
 import { generateAppointmentUrl } from '../../utils/appointment';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 
 function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';
@@ -676,7 +675,7 @@ describe('VAOS Services: Appointment ', () => {
         });
       });
 
-      await getLongTermAppointmentHistoryV2(true);
+      await getLongTermAppointmentHistoryV2(true, true, true);
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
       expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);

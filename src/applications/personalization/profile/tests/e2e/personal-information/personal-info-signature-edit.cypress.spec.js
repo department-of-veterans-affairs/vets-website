@@ -1,5 +1,6 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
+import { Locators, Data } from '../../fixtures/constants';
 
 const updatedSignatureResponse = {
   ...mockSignature,
@@ -25,46 +26,45 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
   });
 
   it(`verify user can cancel editing signature`, () => {
-    cy.get(`#edit-messages-signature`).click();
-    cy.get(`#root_signatureName-label`)
-      .should('be.visible')
-      .and('contain.text', `(*Required)`);
-    cy.get(`#root_signatureTitle-label`)
-      .should('be.visible')
-      .and('contain.text', `(*Required)`);
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
 
-    cy.get(`[data-testid="cancel-edit-button"]`).click();
-    cy.get(`#edit-messages-signature`).should(`be.focused`);
+    cy.get(Locators.SIGNATURE.NAME_LABEL)
+      .should('be.visible')
+      .and('contain.text', Data.SIGNATURE.ALERTS.REQUIRED);
+
+    cy.get(Locators.SIGNATURE.TITLE_LABEL)
+      .should('be.visible')
+      .and('contain.text', Data.SIGNATURE.ALERTS.REQUIRED);
+
+    cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
+
+    cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can edit and save signature', () => {
-    cy.get(`#edit-messages-signature`).click();
+    cy.get(Locators.SIGNATURE.EDIT_BTN).click();
 
-    cy.get(`#root_signatureName`)
+    cy.get(Locators.SIGNATURE.NAME_FIELD)
       .should(`be.focused`)
       .type('Jack Sparrow');
-    cy.get(`#root_signatureTitle`).type('Captain');
 
-    cy.intercept(
-      `POST`,
-      `/my_health/v1/messaging/preferences/signature`,
-      updatedSignatureResponse,
-    ).as('updatedSignature');
+    cy.get(Locators.SIGNATURE.TITLE_FIELD).type('Captain');
 
-    cy.get(`[data-testid="save-edit-button"]`).click();
+    PersonalInformationPage.saveSignature(updatedSignatureResponse);
 
-    cy.get(`[data-testid="messagingSignature"]`).should(
+    cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,
       `${updatedSignatureResponse.data.attributes.signatureName +
         updatedSignatureResponse.data.attributes.signatureTitle}`,
     );
 
-    cy.get(`#messagingSignature-alert`)
+    cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)
       .should(`be.visible`)
-      .and('have.text', `Update saved.`);
-    cy.get(`#edit-messages-signature`).should(`be.focused`);
+      .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
+
+    cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });

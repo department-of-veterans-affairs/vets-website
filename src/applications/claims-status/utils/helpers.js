@@ -420,7 +420,8 @@ export const DOC_TYPES = [
   },
   {
     value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+    label:
+      'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   },
   {
     value: 'L229',

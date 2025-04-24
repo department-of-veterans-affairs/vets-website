@@ -10,15 +10,31 @@ function FilterControls({
   handleDropdownChange,
   filterLocation,
 }) {
+  const stopPropagation = e => {
+    e.stopPropagation();
+  };
+
   return (
-    <div>
-      <fieldset role="group" aria-label="Category type">
-        <legend className="vads-u-visibility--screen-reader">
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
+    <div
+      className="vads-u-padding-bottom--4 vads-u-padding-top--2"
+      onClick={stopPropagation}
+      onKeyDown={stopPropagation}
+    >
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+      <fieldset
+        className="vads-u-padding-bottom--2"
+        role="group"
+        aria-labelledby="category-type-heading"
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
+      >
+        <legend
+          className="vads-u-margin-bottom--1 vads-u-margin-top--0p5 filter-header"
+          id="category-type-heading"
+        >
           Category type
         </legend>
-        <h3 className="vads-u-margin-bottom--3 vads-u-margin-top--0p5">
-          Category type
-        </h3>
         {categoryCheckboxes.map((option, index) => {
           return (
             <VaCheckbox
@@ -27,22 +43,36 @@ function FilterControls({
               name={option.name}
               checked={option.checked}
               className="category-checkbox"
-              onVaChange={e => handleCheckboxGroupChange(e)}
+              onVaChange={e => {
+                handleCheckboxGroupChange(e);
+              }}
             />
           );
         })}
       </fieldset>
 
-      <fieldset role="group" aria-label="State">
-        <legend className="vads-u-visibility--screen-reader">State</legend>
-        <h3 className="vads-u-margin-bottom--2">State</h3>
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+      <fieldset
+        role="group"
+        aria-labelledby="state-heading"
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
+      >
+        <legend
+          className="vads-u-margin-bottom--1 filter-header"
+          id="state-heading"
+        >
+          State
+        </legend>
         <Dropdown
           label="Applies to only license and prep course category type. Certifications are available nationwide."
           name={dropdown.label}
           alt="Filter results by state"
           options={dropdown.options}
           value={filterLocation}
-          onChange={handleDropdownChange}
+          onChange={e => {
+            handleDropdownChange(e);
+          }}
           className="state-dropdown"
           visible
           boldLabel

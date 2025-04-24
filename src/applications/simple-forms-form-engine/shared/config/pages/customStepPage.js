@@ -1,6 +1,31 @@
-import { camelCase, kebabCase } from 'lodash';
+import { kebabCase } from 'lodash';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
-import textInput from '../components/textInput';
+import {
+  checkbox,
+  date,
+  radioButton,
+  textArea,
+  textInput,
+} from '../components';
+
+/**
+ * @param {DigitalFormComponent} component
+ * @returns {[SchemaOptions, UISchemaOptions]}
+ */
+const selectSchemas = component => {
+  switch (component.type) {
+    case 'digital_form_checkbox':
+      return checkbox(component);
+    case 'digital_form_date_component':
+      return date(component);
+    case 'digital_form_radio_button':
+      return radioButton(component);
+    case 'digital_form_text_area':
+      return textArea(component);
+    default:
+      return textInput(component);
+  }
+};
 
 /** @returns {PageSchema} */
 export default ({ components, bodyText, pageTitle }) => {
@@ -11,11 +36,9 @@ export default ({ components, bodyText, pageTitle }) => {
 
   components.forEach(component => {
     // This assumes every component on a page will have a unique label.
-    const key = camelCase(component.label);
+    const key = `component${component.id}`;
 
-    // This will eventually become a switch statement or its own function as
-    // more components get added.
-    const [componentSchema, componentUiSchema] = textInput(component);
+    const [componentSchema, componentUiSchema] = selectSchemas(component);
 
     schema.properties[key] = componentSchema;
     uiSchema[key] = componentUiSchema;

@@ -38,13 +38,21 @@
 export const normalizedForm = {
   cmsId: 71160,
   formId: '2121212',
+  introParagraph:
+    'A brief intro describing when to use this form. This could be 1 to 3 sentences, with no more than 25 words per sentence. This text is styled differently than body copy.',
   moderationState: 'draft',
   title: 'Form with Two Steps',
+  plainLanguageHeader: 'Multiple step form',
   ombInfo: {
     expDate: '8/29/2025',
     ombNumber: '1212-1212',
     resBurden: 30,
   },
+  whatToKnowBullets: [
+    'This is a test bullet',
+    'A second example',
+    'Maybe even a third one',
+  ],
   chapters: [
     {
       id: 162008,
@@ -103,6 +111,7 @@ export const normalizedForm = {
               type: 'digital_form_text_input',
             },
           ],
+          id: '234567',
           pageTitle: 'My custom page',
         },
         {
@@ -121,6 +130,7 @@ export const normalizedForm = {
               type: 'digital_form_text_input',
             },
           ],
+          id: '765432',
           pageTitle: 'An additional page',
         },
       ],
@@ -136,13 +146,23 @@ export const normalizedForm = {
 export const employmentQuestionnaire = {
   cmsId: 10001,
   formId: '21-4140',
+  introParagraph:
+    'If you’re a Veteran, with a service-connected disability, who lost income within the last year due to that disability, this form may be used to apply for reimbursement of that loss.',
   moderationState: 'published',
   title: 'Employment Questionnaire',
+  plainLanguageHeader:
+    'Provide your employment history and related loss of income',
   ombInfo: {
     expDate: '7/31/2024',
     ombNumber: '2900-0079',
     resBurden: 5,
   },
+  whatToKnowBullets: [
+    "You'll need your Social Security number or your VA file number.",
+    'You will need to provide the information about the position you held in the last year.',
+    'You will also need to indicate how much was a loss connected to the service-connected condition.',
+    'After you submit this form, we will review and advise you of the decision and your options.',
+  ],
   chapters: [
     {
       id: 162013,

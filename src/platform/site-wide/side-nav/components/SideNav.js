@@ -32,7 +32,7 @@ class SideNav extends Component {
   }
 
   getDesktop = () => {
-    return window.innerWidth > 768;
+    return window.innerWidth >= 768;
   };
 
   setIsDesktop = () => {

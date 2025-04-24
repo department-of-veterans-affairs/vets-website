@@ -167,7 +167,7 @@ const AddressValidationRadio = props => {
             {shouldShowSuggestions
               ? `We can’t confirm the address you entered with the U.S. Postal
             Service`
-              : `Confirm you address`}
+              : `Confirm your address`}
           </h4>
           <p className="vads-u-margin-y--0">
             {shouldShowSuggestions

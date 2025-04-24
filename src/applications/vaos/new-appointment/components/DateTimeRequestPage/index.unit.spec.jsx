@@ -1,23 +1,25 @@
-import React from 'react';
-import MockDate from 'mockdate';
-import { expect } from 'chai';
-import moment from 'moment';
 import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import moment from 'moment';
+import React from 'react';
 
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { FETCH_STATUS } from '../../../utils/constants';
 import DateTimeRequestPage from '.';
+import { createMockFacility } from '../../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurations,
+} from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../../tests/mocks/setup';
-import { mockSchedulingConfigurations } from '../../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
-import { createMockFacility } from '../../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 async function chooseMorningRequestSlot(screen) {
   const currentMonth = moment()
@@ -474,10 +476,10 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
   describe('community care iterations flag is turned on', () => {
     beforeEach(() => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
           }),

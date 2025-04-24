@@ -4,6 +4,18 @@ import ADDRESS_DATA from './data';
 const STATE_NAMES = ADDRESS_DATA.states;
 
 /**
+ * Accepts a country code in ISO3 format and returns the corresponding country object
+ * @param {string} countryCodeIso3
+ * @returns {object | null} The country object or null if no match is found
+ */
+export const getCountryObjectFromIso3 = countryCodeIso3 => {
+  return (
+    countries.find(country => country.countryCodeISO3 === countryCodeIso3) ||
+    null
+  );
+};
+
+/**
  * @typedef {string} AddressType
  */
 

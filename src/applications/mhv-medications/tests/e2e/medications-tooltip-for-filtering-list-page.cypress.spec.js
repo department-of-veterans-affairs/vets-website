@@ -10,6 +10,13 @@ describe('Medications List Page ToolTip for Filtering', () => {
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
   });
+  it('visits Medications List ToolTip Counter Set To Zero', () => {
+    listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
+    listPage.verifyToolTipCounterSetToZero();
+    cy.injectAxe();
+    cy.axeCheck('main');
+  });
+
   it('visits Medications List ToolTip Filter Collapsed', () => {
     listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
     listPage.verifyFilterCollapsedOnListPage();
@@ -20,14 +27,6 @@ describe('Medications List Page ToolTip for Filtering', () => {
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    cy.injectAxe();
-    cy.axeCheck('main');
-  });
-  it('visits Medications List ToolTip close', () => {
-    listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
-    listPage.clickToolTipCloseButtonOnListPage();
-    listPage.verifyToolTipNotVisibleOnListPage();
-    listPage.verifyFilterAccordionDropDownIsFocused();
     cy.injectAxe();
     cy.axeCheck('main');
   });

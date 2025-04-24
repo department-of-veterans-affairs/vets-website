@@ -1,111 +1,125 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import userEvent from '@testing-library/user-event';
 import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
-import FacilityConfirmation from '../../../../components/FormPages/FacilityConfirmation';
+import FacilityConfirmation, {
+  reviewModeRoutes,
+} from '../../../../components/FormPages/FacilityConfirmation';
 
 describe('CG <FacilityConfirmation>', () => {
   const { facilities } = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
   const caregiverFacility = facilities[1];
+  let goBack;
+  let goForward;
+  let goToPath;
 
-  const goBack = sinon.spy();
-  const goForward = sinon.spy();
-  const goToPath = sinon.spy();
-
-  const defaultProps = {
-    data: {
-      'view:plannedClinic': {
-        veteranSelected: selectedFacility,
-        caregiverSupport: caregiverFacility,
+  const subject = ({
+    selected = selectedFacility,
+    assigned = caregiverFacility,
+  } = {}) => {
+    const props = {
+      data: {
+        'view:plannedClinic': {
+          veteranSelected: selected !== null ? selected : null,
+          caregiverSupport: assigned !== null ? assigned : null,
+        },
       },
-    },
-    goBack,
-    goForward,
-    goToPath,
-  };
-
-  const subject = (props = defaultProps) => {
-    const { getByText, getByRole } = render(
-      <FacilityConfirmation {...props} />,
-    );
-
+      goBack,
+      goForward,
+      goToPath,
+    };
+    const { queryByText } = render(<FacilityConfirmation {...props} />);
     const selectors = () => ({
-      formNavButtons: {
-        back: getByText('Back'),
-        forward: getByText('Continue'),
-      },
+      backBtn: queryByText('Back'),
+      continueBtn: queryByText('Continue'),
     });
-    return { selectors, getByRole, getByText };
+    return { selectors, queryByText };
   };
+
+  beforeEach(() => {
+    goBack = sinon.spy();
+    goForward = sinon.spy();
+    goToPath = sinon.spy();
+  });
 
   afterEach(() => {
-    goBack.reset();
-    goForward.reset();
-    goToPath.reset();
+    goBack.resetHistory();
+    goForward.resetHistory();
+    goToPath.resetHistory();
   });
 
-  context('formNavButtons', () => {
-    it('renders back and forward buttons', () => {
-      const { selectors } = subject();
-      expect(selectors().formNavButtons.back).to.exist;
-      expect(selectors().formNavButtons.forward).to.exist;
+  context('when the page renders in the normal form flow', () => {
+    it('should render the selected facility name and address when data is provied', () => {
+      const { queryByText } = subject();
+      const address = selectedFacility.address.physical;
+      expect(queryByText(new RegExp(selectedFacility.name))).to.exist;
+      expect(queryByText(new RegExp(address.address1))).to.exist;
+      expect(queryByText(new RegExp(address.address2))).to.exist;
+      expect(queryByText(new RegExp(address.address3))).to.exist;
     });
 
-    it('calls goBack callback on click', () => {
-      const { selectors } = subject();
-      userEvent.click(selectors().formNavButtons.back);
-      expect(goBack.calledOnce).to.be.true;
+    it('should render the assigned support facility name and address when data is provided', () => {
+      const { queryByText } = subject();
+      const address = caregiverFacility.address.physical;
+      expect(queryByText(new RegExp(caregiverFacility.name))).to.exist;
+      expect(queryByText(new RegExp(address.address1))).to.exist;
+      expect(queryByText(new RegExp(address.address2))).to.exist;
+      expect(queryByText(new RegExp(address.address3))).to.exist;
     });
 
-    it('calls goForward callback on click', () => {
-      const { selectors } = subject();
-      userEvent.click(selectors().formNavButtons.forward);
-      expect(goForward.calledOnce).to.be.true;
+    it('should render just the facility name when address is omitted from facility data', () => {
+      const { queryByText } = subject({
+        assigned: { ...caregiverFacility, address: undefined },
+      });
+      const address = caregiverFacility.address.physical;
+      expect(queryByText(new RegExp(caregiverFacility.name))).to.exist;
+      expect(queryByText(new RegExp(address.address1))).to.not.exist;
+      expect(queryByText(new RegExp(address.address2))).to.not.exist;
+      expect(queryByText(new RegExp(address.address3))).to.not.exist;
     });
 
-    context('review mode', () => {
-      beforeEach(() => {
-        global.window.location = { search: '?review=true' };
-      });
+    it('should call `goBack` when the Back button is clicked', () => {
+      const { selectors } = subject();
+      userEvent.click(selectors().backBtn);
+      sinon.assert.calledOnce(goBack);
+    });
 
-      it('calls goToPath to facility search on back click', () => {
-        const { selectors } = subject();
-        userEvent.click(selectors().formNavButtons.back);
-        expect(
-          goToPath.calledWith(
-            '/veteran-information/va-medical-center/locator?review=true',
-          ),
-        ).to.be.true;
-      });
-
-      it('calls goToPath callback to review page on forward click', () => {
-        const { selectors } = subject();
-        userEvent.click(selectors().formNavButtons.forward);
-        expect(goToPath.calledWith('/review-and-submit')).to.be.true;
-      });
+    it('should call `goForward` when the Continue button is clicked', () => {
+      const { selectors } = subject();
+      userEvent.click(selectors().continueBtn);
+      sinon.assert.calledOnce(goForward);
     });
   });
 
-  it('should render caregiver facility name and address', () => {
-    const { getByText } = subject();
-    const caregiverFacilityAddress = caregiverFacility.address.physical;
+  context('when the page renders in review mode', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { search: '?review=true' },
+        configurable: true,
+      });
+    });
 
-    expect(getByText(new RegExp(caregiverFacility.name))).to.exist;
-    expect(getByText(new RegExp(caregiverFacilityAddress.address1))).to.exist;
-    expect(getByText(new RegExp(caregiverFacilityAddress.address2))).to.exist;
-    expect(getByText(new RegExp(caregiverFacilityAddress.address3))).to.exist;
+    it('should call `goToPath` with the correct route when the Back button is clicked', () => {
+      const { selectors } = subject();
+      userEvent.click(selectors().backBtn);
+      sinon.assert.calledWithExactly(goToPath, reviewModeRoutes.back);
+    });
+
+    it('should call `goToPath` with the correct route when the Continue button is clicked', () => {
+      const { selectors } = subject();
+      userEvent.click(selectors().continueBtn);
+      sinon.assert.calledWithExactly(goToPath, reviewModeRoutes.forward);
+    });
   });
 
-  it('should render veteran selected facility name and address', () => {
-    const { getByText } = subject();
-    const selectedFacilityAddress = selectedFacility.address.physical;
-
-    expect(getByText(new RegExp(selectedFacility.name))).to.exist;
-    expect(getByText(new RegExp(selectedFacilityAddress.address1))).to.exist;
-    expect(getByText(new RegExp(selectedFacilityAddress.address2))).to.exist;
-    expect(getByText(new RegExp(selectedFacilityAddress.address3))).to.exist;
+  context('when the page renders outside of the normal form flow', () => {
+    it('should gracefully render without any facility data', () => {
+      const { queryByText } = subject({ selected: null, assigned: null });
+      expect(queryByText(new RegExp(selectedFacility.name))).to.not.exist;
+      expect(queryByText(new RegExp(caregiverFacility.name))).to.not.exist;
+    });
   });
 });

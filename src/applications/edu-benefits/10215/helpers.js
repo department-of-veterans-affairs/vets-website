@@ -1,5 +1,67 @@
 import React from 'react';
 
+export const isCurrentOrPastDate = date => {
+  const dateObj = new Date(date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return dateObj >= today;
+};
+
+export const formatDateYyyyMmDd = day => {
+  const yyyy = day.getFullYear();
+  let mm = day.getMonth() + 1; // Month is zero-based
+  let dd = day.getDate();
+
+  if (dd < 10) dd = `0${dd}`;
+  if (mm < 10) mm = `0${mm}`;
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+export const daysAgoYyyyMmDd = numberOfDays => {
+  const day = new Date();
+  day.setDate(day.getDate() - numberOfDays);
+  return formatDateYyyyMmDd(day);
+};
+
+export const futureDateYyyyMmDd = numberOfDays => {
+  const day = new Date();
+  day.setDate(day.getDate() + numberOfDays);
+  return formatDateYyyyMmDd(day);
+};
+
+export const getTodayDateYyyyMmDd = () => {
+  const today = new Date();
+  return formatDateYyyyMmDd(today);
+  /*
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Month is zero-based
+  let dd = today.getDate();
+
+  if (dd < 10) dd = `0${dd}`;
+  if (mm < 10) mm = `0${mm}`;
+  return `${yyyy}-${mm}-${dd}`; */
+};
+
+export const isTermEndBeforeTermStartDate = (
+  termStartDate,
+  dateOfCalculations,
+) => {
+  const startDate = new Date(termStartDate);
+  const calculationDate = new Date(dateOfCalculations);
+  return calculationDate < startDate;
+};
+
+export const isWithinThirtyDaysLogic = (termStartDate, dateOfCalculations) => {
+  const startDate = new Date(termStartDate);
+  const calculationDate = new Date(dateOfCalculations);
+  const timeDifference = Math.abs(
+    calculationDate.getTime() - startDate.getTime(),
+  );
+  const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  return daysDifference < 30;
+};
+
 export const getFTECalcs = program => {
   const supported = Number(program?.fte?.supported) || 0;
   const nonSupported = Number(program?.fte?.nonSupported) || 0;
@@ -15,6 +77,7 @@ export const getFTECalcs = program => {
     supportedFTEPercent,
   };
 };
+
 export const childContent = (downloadLink, goBack) => (
   <div data-testid="download-link">
     <va-alert close-btn-aria-label="Close notification" status="into" visible>
@@ -34,13 +97,13 @@ export const childContent = (downloadLink, goBack) => (
           <p>{downloadLink}</p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Upload the form to the VA education portal">
+      <va-process-list-item header="Upload the form to the Education File Upload Portal">
         <div itemProp="itemListElement">
           <p>
             Visit the&nbsp;
             <va-link
               external
-              text="VA Education File Upload Portal"
+              text="Education File Upload Portal"
               href="https://www.my.va.gov/EducationFileUploads/s/"
             />
             , and upload your saved VA Form 22-10215.
@@ -55,6 +118,7 @@ export const childContent = (downloadLink, goBack) => (
     </va-process-list>
     <p>
       <va-button
+        className="custom-classname"
         secondary
         text="Print this page"
         data-testid="print-page"

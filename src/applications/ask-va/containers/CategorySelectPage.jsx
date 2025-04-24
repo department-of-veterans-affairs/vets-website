@@ -73,6 +73,22 @@ const CategorySelectPage = props => {
 
     onChange({
       ...formData,
+      hasPrefillInformation: hasPrefillInformation(formData),
+      // FOR TESTING PREFILL LOCALLY
+      // hasPrefillInformation: true,
+      // aboutYourself: {
+      //   first: 'Wallace',
+      //   middle: 'R',
+      //   last: 'Webb',
+      //   socialOrServiceNum: {
+      //     ssn: '796128064',
+      //   },
+      //   dateOfBirth: '1950-09-13',
+      // },
+      // schoolInfo: {
+      //   schoolFacilityCode: '31002144',
+      //   schoolName: 'WESTERN GOVERNORS UNIVERSITY',
+      // },
       initialFormData: initialData,
       categoryId: selected.id,
       selectCategory: selectedValue,

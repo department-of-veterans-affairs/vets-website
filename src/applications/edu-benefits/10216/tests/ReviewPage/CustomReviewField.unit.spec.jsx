@@ -4,7 +4,9 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import * as ReactRedux from 'react-redux';
 import * as Utilities from '../../utilities';
-import CustomReviewField from '../../ReviewPage/CustomReviewField';
+import CustomReviewField, {
+  useSelectorCallback,
+} from '../../ReviewPage/CustomReviewField';
 
 describe('CustomReviewField Component', () => {
   let useSelectorStub;
@@ -28,6 +30,22 @@ describe('CustomReviewField Component', () => {
       'VA beneficiary students percentage (calculated)',
     );
     wrapper.unmount();
+  });
+
+  it('should test CustomReviewField useSelectorCallback with no state', () => {
+    const result = useSelectorCallback();
+    expect(result).to.deep.equal({});
+  });
+
+  it('should test CustomReviewField useSelectorCallback with state form data is set.', () => {
+    const data = 'Mocked Percentage';
+    const state = {
+      form: {
+        data,
+      },
+    };
+    const result = useSelectorCallback(state);
+    expect(result).to.equal(data);
   });
 
   it('should call calculatedPercentage with form data from Redux', () => {

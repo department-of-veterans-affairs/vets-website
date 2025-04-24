@@ -9,15 +9,18 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import transform from './transform';
-import { getFTECalcs } from '../helpers';
+import { daysAgoYyyyMmDd, getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { SUBMIT_URL } from './constants';
+import testData from '../tests/fixtures/data/test-data.json';
 
 import {
   institutionDetails,
@@ -26,6 +29,10 @@ import {
   programInfo,
   ProgramSummary,
 } from '../pages';
+
+export const convertPercentageToText = percent => {
+  return percent ? `${percent} supported student FTE` : null;
+};
 
 export const arrayBuilderOptions = {
   arrayPath: 'programs',
@@ -36,7 +43,7 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-      return percent ? `${percent} supported student FTE` : null;
+      return convertPercentageToText(percent);
     },
     summaryTitle: props =>
       location?.pathname.includes('review-and-submit')
@@ -49,16 +56,37 @@ export const arrayBuilderOptions = {
 
 const { date } = commonDefinitions;
 
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    const testDataShallowCopy = { ...testData };
+    testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
+      14,
+    );
+    testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
+      10,
+    );
+    return Promise.resolve(testDataShallowCopy);
+  }
+  return submitForm(form, formConfig);
+};
+
+export const confirmFormLogic = ({ router, route }) => (
+  <ConfirmationPage router={router} route={route} />
+);
+
+export const onNavForwardLogic = ({ goPath }) => {
+  goPath('/identifying-details-1');
+  localStorage.removeItem('10215ClaimId');
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
-  submit: submitForm,
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  confirmation: ({ router, route }) => (
-    <ConfirmationPage router={router} route={route} />
-  ),
+  confirmation: confirmFormLogic,
   formId: '22-10215',
   saveInProgress: {
     messages: {
@@ -73,10 +101,8 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
-      body:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'certifyingOfficial',
     },
   },
@@ -108,20 +134,17 @@ const formConfig = {
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
-      title: 'Institution details',
+      title: 'Identifying details',
       pages: {
         institutionOfficial: {
-          path: 'institution-details',
-          title: 'Tell us about yourself',
+          path: 'identifying-details',
+          title: 'Your name and title',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
-          onNavForward: ({ goPath }) => {
-            goPath('/institution-details-1');
-            localStorage.removeItem('10215ClaimId');
-          },
+          onNavForward: onNavForwardLogic,
         },
         institutionDetails: {
-          path: 'institution-details-1',
+          path: 'identifying-details-1',
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,

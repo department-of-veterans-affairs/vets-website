@@ -6,11 +6,13 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
+import { recordSmocPageview } from '../../../util/events-helpers';
 
 const title = 'We’re processing your travel reimbursement claim';
 
 const ConfirmationPage = () => {
   useEffect(() => {
+    recordSmocPageview('confirmation');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);

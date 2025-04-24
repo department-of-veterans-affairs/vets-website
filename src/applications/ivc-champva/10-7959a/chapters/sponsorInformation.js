@@ -1,5 +1,6 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   fullNameUI,
   fullNameSchema,
@@ -12,6 +13,10 @@ import {
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -55,6 +60,10 @@ export const sponsorNameSchema = {
       },
     ),
     sponsorName: fullNameMiddleInitialUI,
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'sponsorName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -71,9 +80,17 @@ export const sponsorAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address.',
     ),
-    sponsorAddress: {
-      ...addressUI(),
-    },
+    sponsorAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
+        },
+      },
+    }),
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'sponsorAddress'),
+    ],
   },
   schema: {
     type: 'object',

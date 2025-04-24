@@ -34,6 +34,13 @@ const formPages = [
   generalQuestionPages,
 ];
 
+const skipPaths = [
+  'category-requires-sign-in',
+  'topic-requires-sign-in',
+  'your-question-requires-sign-in',
+  'review-then-submit',
+];
+
 const getFormDataKeys = (flowList, pagePath) => {
   // Keys for custom pages with no schema properties and/or not in flowPaths list
   if (pagePath === CHAPTER_1.PAGE_1.PATH) return 'selectCategory';
@@ -152,7 +159,7 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
 
       if (onReviewPage && invalidPages.length > 0) {
         const invalidKeys = invalidPages
-          .filter(path => path !== 'review-then-submit')
+          .filter(path => !skipPaths.includes(path))
           .map(pagePath => getFormDataKeys(flowPaths, pagePath))
           .flat();
 

@@ -1,5 +1,5 @@
 import mockFeatureToggles from '../fixtures/toggles-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import { Paths } from '../utils/constants';
 import mockSignature from '../fixtures/signature-response.json';

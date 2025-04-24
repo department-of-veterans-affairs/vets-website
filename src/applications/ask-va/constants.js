@@ -41,6 +41,9 @@ export const URL = {
     mockTestingFlagforAPI ? '&user_mock_data=true' : ''
   }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
+  ANNOUNCEMENTS: `${baseURL}/announcements${
+    mockTestingFlagforAPI ? '?user_mock_data=true' : ''
+  }`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
@@ -150,13 +153,14 @@ export const branchOfServiceRuleforCategories = [
 
 // Check to show Your Personal Information page and NOT About Yourself page
 export const hasPrefillInformation = form => {
-  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+  if (!form?.aboutYourself) return false;
 
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
   return !!(
     first &&
     last &&
     dateOfBirth &&
-    (socialOrServiceNum.ssn || socialOrServiceNum.serviceNumber)
+    (socialOrServiceNum?.ssn || socialOrServiceNum?.serviceNumber)
   );
 };
 

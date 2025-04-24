@@ -83,7 +83,7 @@ describe('<ReviewPage /> container', () => {
     );
 
     await waitFor(() => {
-      expect(container.querySelector('h3')).to.have.text('Editing answers');
+      expect(container.querySelector('h3')).to.have.text('Review and submit');
     });
   });
 });

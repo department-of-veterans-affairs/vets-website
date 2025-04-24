@@ -350,7 +350,7 @@ describe('VAOS Component: CCLayout', () => {
   });
 
   describe('When viewing canceled appointment details', () => {
-    it('should display CC layout', async () => {
+    it('should display CC layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -475,6 +475,118 @@ describe('VAOS Component: CCLayout', () => {
           'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+      ).not.exist;
+    });
+    it('should display CC layout when in the past', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        patientComments: 'This is a test:Additional information',
+        communityCareProvider: {
+          address: {
+            line: ['line 1'],
+            city: 'City',
+            state: 'State',
+            postalCode: 'Postal code',
+          },
+          telecom: [{ system: 'phone', value: '123-456-7890' }],
+          providers: [
+            {
+              name: {
+                familyName: 'Test',
+                lastName: 'User',
+              },
+              providerName: 'Test User',
+            },
+          ],
+          providerName: ['Test User'],
+          treatmentSpecialty: 'Optometrist',
+        },
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: true,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPastAppointment: true,
+          isPendingAppointment: false,
+          isUpcomingAppointment: false,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        start: moment()
+          .subtract(2, 'day')
+          .format('YYYY-MM-DDTHH:mm:ss'),
+        status: 'cancelled',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Canceled community care appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /If you want to reschedule, call us or schedule a new appointment online/i,
+        ),
+      );
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /After visit summary/i,
+        }),
+      ).not.to.exist;
+
+      expect(screen.getByRole('heading', { level: 2, name: /When/i }));
+      expect(
+        screen.container.querySelector('va-button[text="Add to calendar"]'),
+      ).not.to.exist;
+
+      expect(screen.getByRole('heading', { level: 2, name: /What/i }));
+      expect(screen.getByText(/Primary care/i));
+
+      expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
+      expect(screen.getByText(/Test User/i));
+      expect(screen.getByText(/Optometrist/i));
+      expect(screen.getByText(/line 1/i));
+      screen.getByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'span' &&
+          content === 'City, State Postal code'
+        );
+      });
+
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
+        .ok;
+
+      expect(
+        screen.container.querySelector('va-telephone[contact="123-456-7890"]'),
+      ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Details you shared with your provider/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Other details: This is a test:Additional information/i,
+        ),
+      );
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

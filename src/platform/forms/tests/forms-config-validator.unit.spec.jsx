@@ -39,6 +39,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21A,
   VA_FORM_IDS.FORM_21P_0516_1_UPLOAD,
   VA_FORM_IDS.FORM_21P_0518_1_UPLOAD,
+  VA_FORM_IDS.FORM_21_686C_UPLOAD,
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_22_8794,
   VA_FORM_IDS.FORM_40_0247,
@@ -260,6 +261,10 @@ const validateForm = async (formSlug, formConfigParam) => {
     const key = formSlug.split('/')[0] || 'unknown';
     const options = formConfigFnParams[key];
     config = options ? config(options) : config();
+  }
+
+  if (formSlug === 'representative-form-upload/config') {
+    config.formId = '21-686C-UPLOAD';
   }
 
   const coreValidations = [

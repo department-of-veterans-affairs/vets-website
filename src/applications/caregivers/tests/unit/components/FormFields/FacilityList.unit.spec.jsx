@@ -1,87 +1,85 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import content from '../../../../locales/en/content.json';
 import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
 import FacilityList from '../../../../components/FormFields/FacilityList';
 
+// declare error message content
+const ERROR_MSG_REQUIRED = content['validation-facilities--default-required'];
+
 describe('CG <FacilityList>', () => {
-  const getData = ({
-    reviewMode = false,
-    submitted = false,
+  const { facilities } = mockFetchFacilitiesResponse;
+  let onChange;
+
+  const subject = ({
+    reviewMode,
+    submitted,
+    context = undefined,
     value = undefined,
     error = undefined,
-  }) => ({
-    props: {
-      facilities: mockFetchFacilitiesResponse.facilities,
-      formContext: { reviewMode, submitted },
-      onChange: sinon.spy(),
-      query: 'Tampa',
+  } = {}) => {
+    const props = {
+      formContext: context === undefined ? { reviewMode, submitted } : context,
+      query: 'Columbus',
+      facilities,
+      onChange,
       value,
       error,
-    },
-  });
-  const subject = ({ props }) => {
+    };
     const { container } = render(<FacilityList {...props} />);
     const selectors = () => ({
       name: container.querySelector('[ data-testid="cg-facility-name"]'),
       vaRadio: container.querySelector('va-radio'),
     });
-    return { container, selectors };
+    return { selectors };
   };
 
-  context('when the component renders on the form page', () => {
-    it('should render `va-radio` component when not in review mode', () => {
-      const { props } = getData({});
-      const { selectors } = subject({ props });
-      expect(selectors().vaRadio).to.exist;
-    });
-
-    it('should render facility name container when in review mode', () => {
-      const { props } = getData({ reviewMode: true, value: 'vha_757QC' });
-      const { selectors } = subject({ props });
-      expect(selectors().name).to.exist;
-      expect(selectors().name.textContent).to.contain('Columbus VA Clinic');
-      expect(selectors().vaRadio).to.not.exist;
-    });
-
-    it('should render &mdash; when facility id is not found in review mode', () => {
-      const { props } = getData({ reviewMode: true, value: 'flerp' });
-      const { selectors } = subject({ props });
-      expect(selectors().name).to.exist;
-      expect(selectors().name.textContent).to.contain('&mdash;');
-      expect(selectors().vaRadio).to.not.exist;
-    });
+  beforeEach(() => {
+    onChange = sinon.spy();
   });
 
-  context('when radio option has been selected', () => {
-    it('should fire the `onChange` method', async () => {
-      const { props } = getData({});
-      const { selectors } = subject({ props });
-      await waitFor(() => {
-        const value = props.facilities[0].id;
-        selectors().vaRadio.__events.vaValueChange({ detail: { value } });
-        expect(props.onChange.calledWith(value)).to.be.true;
-        expect(selectors().vaRadio).to.not.have.attr('error');
-      });
-    });
+  afterEach(() => {
+    onChange.resetHistory();
   });
 
-  context('errors', () => {
-    it('renders error when form has been submitted with no value', () => {
-      const { props } = getData({ submitted: true });
-      const { selectors } = subject({ props });
-      expect(selectors().vaRadio).to.have.attr(
-        'error',
-        content['validation-facilities--default-required'],
-      );
-    });
+  it('should render `va-radio` component when not in review mode', () => {
+    const { selectors } = subject({ context: null });
+    expect(selectors().vaRadio).to.exist;
+  });
 
-    it('renders error when passed error string', () => {
-      const { props } = getData({ error: 'some error' });
-      const { selectors } = subject({ props });
-      expect(selectors().vaRadio).to.have.attr('error', 'some error');
-    });
+  it('should render facility name container when in review mode', () => {
+    const { selectors } = subject({ reviewMode: true, value: 'vha_757QC' });
+    const { name, vaRadio } = selectors();
+    expect(vaRadio).to.not.exist;
+    expect(name.textContent).to.contain('Columbus VA Clinic');
+  });
+
+  it('should render an `em dash` when facility ID is not found in review mode', () => {
+    const { selectors } = subject({ reviewMode: true, value: 'flerp' });
+    const { name, vaRadio } = selectors();
+    expect(vaRadio).to.not.exist;
+    expect(name.textContent).to.contain('&mdash;');
+  });
+
+  it('should fire the `onChange` method when radio option has been selected', () => {
+    const { selectors } = subject();
+    const { vaRadio } = selectors();
+    const value = facilities[0].id;
+    vaRadio.__events.vaValueChange({ detail: { value } });
+    sinon.assert.calledWithExactly(onChange, value);
+    expect(vaRadio).to.not.have.attr('error');
+  });
+
+  it('should render error message when form has been submitted with no selected value', () => {
+    const { selectors } = subject({ submitted: true });
+    expect(selectors().vaRadio).to.have.attr('error', ERROR_MSG_REQUIRED);
+  });
+
+  it('should render error message when error string is passed into the field props', () => {
+    const error = 'some error message';
+    const { selectors } = subject({ error });
+    expect(selectors().vaRadio).to.have.attr('error', error);
   });
 });

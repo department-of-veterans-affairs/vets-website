@@ -94,9 +94,11 @@ describe('flowPages', () => {
       searchschools: {
         title: 'Search Schools',
         depends: formData =>
-          (formData.selectCategory === CategoryDebt &&
-            formData.selectTopic === TopicEducationBenefitOverpayments &&
-            formData.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
+          ((!formData.school ||
+            !formData.schoolInfo?.schoolName ||
+            formData.useSchoolInProfile === schoolInYourProfileOptions.NO) &&
+            (formData.selectCategory === CategoryDebt &&
+              formData.selectTopic === TopicEducationBenefitOverpayments)) ||
           ((formData.useSchoolInProfile === schoolInYourProfileOptions.NO ||
             !formData.schoolInfo?.schoolName) &&
             (formData.yourRole === yourRoleOptionsEducation.SCO ||
@@ -140,14 +142,7 @@ describe('flowPages', () => {
     const pages = {
       aboutyourself: {
         title: 'About Yourself',
-        depends: formData => {
-          if (!formData?.aboutYourself) return true;
-          return (
-            !formData.aboutYourself.first ||
-            !formData.aboutYourself.last ||
-            !formData.aboutYourself.socialSecurityNumber
-          );
-        },
+        depends: formData => !formData.hasPrefillInformation,
       },
     };
 
@@ -166,8 +161,12 @@ describe('flowPages', () => {
         aboutYourself: {
           first: 'John',
           last: 'Doe',
-          socialSecurityNumber: '123456789',
+          dateOfBirth: '1990-01-01',
+          socialOrServiceNum: {
+            ssn: '444555212',
+          },
         },
+        hasPrefillInformation: true,
         isGeneralQuestion: true,
       }),
     ).to.be.false;

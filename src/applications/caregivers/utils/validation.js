@@ -1,7 +1,7 @@
 import {
-  isSsnUnique,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
+  hasSecondaryCaregiverTwo,
 } from './helpers';
 import { ADDRESS_REGEX, REQUIRED_ADDRESS_FIELDS } from './constants';
 import content from '../locales/en/content.json';
@@ -35,7 +35,21 @@ export const validatePlannedClinic = (errors, _, formData) => {
 };
 
 export const validateSsnIsUnique = (errors, _, formData) => {
-  if (!isSsnUnique(formData)) {
+  const {
+    veteranSsnOrTin,
+    primarySsnOrTin,
+    secondaryOneSsnOrTin,
+    secondaryTwoSsnOrTin,
+  } = formData;
+
+  const allValidSSNs = [
+    veteranSsnOrTin,
+    hasPrimaryCaregiver(formData) ? primarySsnOrTin : undefined,
+    hasSecondaryCaregiverOne(formData) ? secondaryOneSsnOrTin : undefined,
+    hasSecondaryCaregiverTwo(formData) ? secondaryTwoSsnOrTin : undefined,
+  ].filter(Boolean);
+
+  if (allValidSSNs.length !== new Set(allValidSSNs).size) {
     errors.addError(content['validation-ssn-unique']);
   }
 };

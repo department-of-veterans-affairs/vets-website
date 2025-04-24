@@ -18,7 +18,7 @@ describe('MhvTemporaryAccess', () => {
   it('renders information paragraph', () => {
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const description = screen.getByText(
-      /get temporary access to the my healthevet sign-in option/i,
+      /If you received confirmation from VA that we've given you temporary access to My HealtheVet, you can sign in here./i,
     );
     expect(description).to.exist;
   });
@@ -26,7 +26,7 @@ describe('MhvTemporaryAccess', () => {
   it('renders button and calls login with correct parameters on click', async () => {
     const loginStub = sinon.stub(authUtilities, 'login');
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
-    const signInHeading = screen.getByText(/sign in/i);
+    const signInHeading = screen.getByRole('heading', { name: /sign in/i });
     expect(signInHeading).to.exist;
     const accessButton = await screen.findByTestId('accessMhvBtn');
     expect(accessButton).to.exist;

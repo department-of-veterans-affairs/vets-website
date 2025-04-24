@@ -9,10 +9,10 @@ import {
   MED_CENTERS_BY_STATE,
   setPlannedClinics,
 } from '../../../utils/helpers';
-import { fullSchema, STATES_USA } from '../../../utils/imports';
+import { FULL_SCHEMA, STATES_USA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { veteran } = fullSchema.properties;
+const { veteran } = FULL_SCHEMA.properties;
 const { plannedClinic } = veteran.properties;
 
 const STATE_LABELS = createUSAStateLabels(states);

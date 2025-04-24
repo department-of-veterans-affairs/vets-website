@@ -389,16 +389,10 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
 
 export const formatRecipient = recipient => {
   return {
-    id: recipient.attributes.triageTeamId,
-    triageTeamId: recipient.attributes.triageTeamId,
-    name: recipient.attributes.name,
-    stationNumber: recipient.attributes.stationNumber,
-    blockedStatus: recipient.attributes.blockedStatus,
-    preferredTeam: recipient.attributes.preferredTeam,
-    relationshipType: recipient.attributes.relationshipType,
-    signatureRequired: recipient.attributes.signatureRequired,
+    ...recipient,
+    id: recipient.triageTeamId,
     type: Recipients.CARE_TEAM,
-    status: recipient.attributes.blockedStatus
+    status: recipient.blockedStatus
       ? RecipientStatus.BLOCKED
       : RecipientStatus.ALLOWED,
   };

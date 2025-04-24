@@ -41,9 +41,7 @@ const testConfig = createTestConfig(
           });
           cy.get('[id="checkbox-element"]').check({ force: true });
 
-          cy.findAllByText(/submit/i, { selector: 'button' })
-            .first()
-            .click();
+          cy.findByText(/Continue/i, { selector: 'button' }).click();
         });
       },
     },

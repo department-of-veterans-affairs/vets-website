@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import * as addressPatterns from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
-import { camelCase } from 'lodash';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import { normalizedForm } from '../../../config/formConfig';
 
@@ -76,11 +75,11 @@ describe('addressPages', () => {
 describe('customStepPages', () => {
   it('returns the correct number of pages', () => {
     const chapter = findChapterByType('digital_form_custom_step');
+    const page = chapter.pages[0];
     const schemas = customStepPages(chapter);
-    const camelTitle = camelCase(chapter.pages[0].pageTitle);
 
     expect(Object.keys(schemas).length).to.eq(chapter.pages.length);
-    expect(schemas[camelTitle].title).to.eq(chapter.pages[0].pageTitle);
+    expect(schemas[`page${page.id}`].title).to.eq(page.pageTitle);
   });
 });
 

@@ -14,15 +14,14 @@ const Breadcrumbs = () => {
       label: 'Resources for schools',
     },
     {
-      href:
-        '/education/apply-for-education-benefits/application/10215/introduction/',
+      href: '/school-administrators/85-15-rule-enrollment-ratio/introduction/',
       label: 'Report 85/15 Rule enrollment ratios',
     },
     ...(navigation.path.endsWith('/calculation-instructions')
       ? [
           {
             href:
-              '/education/apply-for-education-benefits/application/10215/calculation-instructions',
+              '/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions',
             label: 'Calculation instructions',
           },
         ]

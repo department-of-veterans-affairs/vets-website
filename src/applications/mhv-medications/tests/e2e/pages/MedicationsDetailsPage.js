@@ -705,6 +705,43 @@ class MedicationsDetailsPage {
       .should('contain', text)
       .and('contain', process);
   };
+
+  verifyRefillAccordionHeaderForPartialFillOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="refill-history-accordion"] > :nth-child(1)')
+      .should('contain', text)
+      .and('contain', date);
+  };
+
+  verifyQuantityForPartialFillOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity-partial"]').should('have.text', text);
+  };
+
+  verifyPartialFillTextInRefillAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="partial-fill-text"]').should('contain', text);
+  };
+
+  verifyMedicationDescriptionInTxtDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const now = new Date();
+    const date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
+    const fileName = `${downloadsFolder}/VA-medications-details-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain(text);
+    });
+  };
+
+  verifyTrackingAlertHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="track-package"]').should('contain', text);
+  };
+
+  verifyTrackingNumberForShippedPrescriptionOnDetailsPage = text => {
+    cy.get('[data-testid="tracking-number"]').should('contain', text);
+  };
+
+  verifyPrescriptionInformationInTrackingAlertOnDetailsPage = (text, name) => {
+    cy.get('[data-testid="prescription-info"]').should('contain', text);
+    cy.get('[data-testid="rx-name"]').should('contain', name);
+  };
 }
 
 export default MedicationsDetailsPage;
