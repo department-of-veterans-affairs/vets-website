@@ -154,7 +154,7 @@ export const traumaticEventsExamples = (
           You experienced offensive comments about your body or sexual
           activities
         </li>
-        <li>You experienced unwanted sexual advances</li>
+        <li>You experienced repeated unwanted sexual advances</li>
         <li>
           You experienced someone touching or grabbing you against your will,
           including during hazing
