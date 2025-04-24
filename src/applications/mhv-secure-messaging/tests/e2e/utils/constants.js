@@ -160,6 +160,7 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
