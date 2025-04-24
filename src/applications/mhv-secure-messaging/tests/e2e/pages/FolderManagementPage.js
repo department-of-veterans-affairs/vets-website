@@ -116,7 +116,7 @@ class FolderManagementPage {
   moveMessageToNewFolder = foldersList => {
     cy.intercept(
       `POST`,
-      Paths.SM_API_BASE + Paths.FOLDERS,
+      Paths.INTERCEPT.MESSAGE_FOLDERS,
       createdFolderResponse,
     ).as(`createdFolder`);
     cy.intercept(`GET`, `${Paths.SM_API_BASE}/folders*`, foldersList).as(
