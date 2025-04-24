@@ -2,14 +2,13 @@
 
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { SERVICE_PROVIDERS } from '../../authentication/constants';
 import { EXTERNAL_SERVICES } from '../../../monitoring/external-services/config';
 import * as downtimeUtils from '../../authentication/downtime';
 
 const oneHourInMilliseconds = 3_600_000;
 
 describe('generateCSPBanner', () => {
-  Object.keys(SERVICE_PROVIDERS).forEach(csp => {
+  downtimeUtils.CSP_DEPENDENCIES.forEach(csp => {
     it(`should return a correct banner message when csp is "${csp}"`, () => {
       const result = downtimeUtils.generateCSPBanner({
         csp,
@@ -128,6 +127,22 @@ describe('renderDowntimeBanner', () => {
     const statuses = [{ serviceId: EXTERNAL_SERVICES.mhv, status: 'down' }];
     const result = downtimeUtils.renderDowntimeBanner(statuses);
     expect(result).to.be.null;
+  });
+
+  it('should not allow mhv to contribute to rendering multiple services', () => {
+    const statuses = [
+      { serviceId: EXTERNAL_SERVICES.mhv, status: 'down' },
+      { serviceId: EXTERNAL_SERVICES.logingov, status: 'down' },
+    ];
+    const { container } = render(downtimeUtils.renderDowntimeBanner(statuses));
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(alert.getAttribute('status')).to.equal(
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.logingov.status,
+    );
+    expect(alert.querySelector('h2').textContent).to.equal(
+      downtimeUtils.DOWNTIME_BANNER_CONFIG.logingov.headline,
+    );
   });
 });
 
