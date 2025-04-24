@@ -41,6 +41,7 @@ const selectorShorthand = {
   TYPE_BUSINESS_PHONE_NUMBER: "va-text-input[name='root_businessPhone']",
   TYPE_BUSINESS_EMAIL: "va-text-input[name='root_businessEmail']",
   TYPE_EMAIL: "va-text-input[name='root_emailAddress']",
+  SELECT_SCHOOL: "va-select[name='schoolState']",
 };
 /*
 
