@@ -1,9 +1,9 @@
 steps:
   - action: exists
     target: header
-    value:  Your school facility
-  - action: click
-    target: radio
-    value: "Y"
+    value:  State of facility
+  - action: select
+    target: FACILITY
+    value: CA
   - action: click
     target: call-to-action
