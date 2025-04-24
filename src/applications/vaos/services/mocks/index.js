@@ -438,7 +438,7 @@ const responses = {
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
