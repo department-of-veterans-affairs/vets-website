@@ -11,8 +11,8 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
-  selectSystemIds,
   selectFeatureFeSourceOfTruthModality,
+  selectSystemIds,
 } from '../../redux/selectors';
 import {
   APPOINTMENT_TYPES,
@@ -533,6 +533,9 @@ export function confirmCancelAppointment() {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
 
     try {
       dispatch({
@@ -544,6 +547,7 @@ export function confirmCancelAppointment() {
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
 
       dispatch({
