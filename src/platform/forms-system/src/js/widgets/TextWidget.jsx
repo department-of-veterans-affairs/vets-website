@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const numberTypes = new Set(['number', 'integer']);
 
 export default function TextWidget(props) {
-  let inputType = props.options.inputType;
+  let { inputType } = props.options;
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }
@@ -22,22 +23,21 @@ export default function TextWidget(props) {
   const inputProps = {
     ...(props.schema.minValue && { min: props.schema.minValue }),
     ...(props.schema.maxValue && { max: props.schema.maxValue }),
-    autoComplete: props.options.autocomplete,
+    autocomplete: props.options.autocomplete,
     type: inputType,
     id: props.id,
     name: props.id,
-    disabled: props.disabled,
     maxLength: props.schema.maxLength,
     className: props.options.widgetClassNames,
     value: typeof props.value === 'undefined' ? '' : props.value,
     onBlur: () => props.onBlur(props.id),
-    onChange: event =>
+    onInput: event =>
       props.onChange(event.target.value ? event.target.value : undefined),
     onFocus: props.onFocus,
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
   };
 
-  return <input {...inputProps} />;
+  return <VaTextInput {...inputProps} />;
 }
 TextWidget.propTypes = {
   /**
