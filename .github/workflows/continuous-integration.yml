@@ -891,23 +891,42 @@ jobs:
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
   testing-reports-unit-tests:
-    name: Testing Reports - Unit Tests
+    name: Testing Reports – Unit Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure')}}
+    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
       - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        uses: actions/checkout@v3
+
+      - name: Download Unit Test Mochawesome test results
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-report-*
+          path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
+
+      - name: Copy test results to mochawesome directory
+        run: |
+          cp -R qa-standards-dashboard-data/src/allow-list/data/* \
+                qa-standards-dashboard-data/src/testing-reports/data/
+
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        run: yarn upload-unit-test-results
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+
+      - name: Upload Unit Test report to s3
+        run: |
+          aws s3 cp qa-standards-dashboard-data/mochawesome-report \
+          s3://testing-tools-testing-reports/vets-website-unit-test-reports \
+          --acl public-read --region us-gov-west-1 --recursive
 
       # ----------------
       # | Notify Slack |
