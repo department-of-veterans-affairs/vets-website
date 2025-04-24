@@ -26,7 +26,6 @@ import {
 import {
   selectFeatureRequests,
   selectFeatureCancel,
-  selectFeatureVAOSServiceCCAppointments,
   selectFeatureFeSourceOfTruth,
   selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
@@ -681,9 +680,6 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   return selectConfirmedAppointmentData(state, appointment);
 }
 export function selectRequestedAppointmentData(state, appointment) {
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   const { facilityData } = state?.appointments || [];
 
   const cancelInfo = getCancelInfo(state);
@@ -703,9 +699,7 @@ export function selectRequestedAppointmentData(state, appointment) {
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
-  const provider = featureVAOSServiceCCAppointments
-    ? appointment?.preferredProviderName
-    : appointment?.preferredCommunityCareProviders?.[0];
+  const provider = appointment?.preferredProviderName;
   const providerAddress = selectProviderAddress(appointment);
   const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;
@@ -742,9 +736,6 @@ export function selectRequestedAppointmentData(state, appointment) {
 }
 export function selectRequestedAppointmentDetails(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   const appointment = selectAppointmentById(state, id, [
     APPOINTMENT_TYPES.request,
     APPOINTMENT_TYPES.ccRequest,
@@ -767,9 +758,7 @@ export function selectRequestedAppointmentDetails(state, id) {
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
-  const provider = featureVAOSServiceCCAppointments
-    ? appointment?.preferredProviderName
-    : appointment?.preferredCommunityCareProviders?.[0];
+  const provider = appointment?.preferredProviderName;
   const providerAddress = selectProviderAddress(appointment);
   const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;

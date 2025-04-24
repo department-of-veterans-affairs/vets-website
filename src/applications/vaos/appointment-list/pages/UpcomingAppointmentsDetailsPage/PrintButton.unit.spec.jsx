@@ -5,9 +5,7 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import PrintButton from './PrintButton';
 
 describe('VAOS Component: PrintButton', () => {
-  const initialState = {
-    featureToggles: {},
-  };
+  const initialState = {};
   it('should record GA upon button click', () => {
     const screen = renderWithStoreAndRouter(<PrintButton />, {
       initialState,

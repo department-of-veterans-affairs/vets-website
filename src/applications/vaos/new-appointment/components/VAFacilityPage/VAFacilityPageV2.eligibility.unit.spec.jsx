@@ -724,7 +724,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       const store = createTestStore({
         ...initialState,
-        featureToggles: {},
       });
       await setTypeOfCare(store, /mental health/i);
 

@@ -13,9 +13,7 @@ describe('VAOS Component: PastAppointmentsDateDropDown', () => {
   it('getPastAppointmentDateRangeOptions: should trigger spy when date range is selected', async () => {
     const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
 
-    const initialState = {
-      featureToggles: {},
-    };
+    const initialState = {};
 
     const callback = sinon.spy();
 

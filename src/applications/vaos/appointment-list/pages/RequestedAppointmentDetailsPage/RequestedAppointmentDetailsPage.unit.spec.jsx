@@ -27,7 +27,6 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
   const initialState = {
     featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingBookingExclusion: false,
     },
   };

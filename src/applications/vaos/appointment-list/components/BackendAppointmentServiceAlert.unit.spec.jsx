@@ -18,7 +18,6 @@ describe('VAOS Backend Service Alert', () => {
   const yesterday = subDays(now, 1);
   const initialState = {
     featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
     },
   };
