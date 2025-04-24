@@ -1,0 +1,36 @@
+flow:
+  title: Education benefits and work study (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value:  start-your-question-auth
+
+    - action: include
+      target: page
+      value:  select-category-education-benefits-and-work-study
+
+    - action: include
+      target: page
+      value:  select-topic-work-study
+
+    - action: include
+      target: page
+      value:  select-subtopic-application
+    
+    - action: include
+      target: page
+      value:  what-is-your-relationship-to-the-veteran-connected-through-work
+     
+    - action: include
+      target: page
+      value:  select-topic-school-certifying-official-sco
+      
+    - action: include
+      target: page
+      value:  school-information
+
+    - action: include
+      target: page
+      value:  your-selected-school
+      
