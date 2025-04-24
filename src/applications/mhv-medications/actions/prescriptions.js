@@ -1,7 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import {
   getPrescription,
-  getPaginatedSortedList,
   getRefillablePrescriptionList,
   fillRx,
   fillRxs,
@@ -9,31 +8,6 @@ import {
   getRecentlyRequestedList,
 } from '../api/rxApi';
 import { isRefillTakingLongerThanExpected } from '../util/helpers';
-
-// **Remove once filter feature is developed and live.**
-export const getPrescriptionsPaginatedSortedList = (
-  pageNumber,
-  sortEndpoint,
-  perPage,
-) => async dispatch => {
-  try {
-    const response = await getPaginatedSortedList(
-      pageNumber,
-      sortEndpoint,
-      perPage,
-    );
-    dispatch({
-      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
-      response,
-    });
-    return null;
-  } catch (error) {
-    dispatch({
-      type: Actions.Prescriptions.GET_API_ERROR,
-    });
-    return error;
-  }
-};
 
 export const getPaginatedFilteredList = (
   pageNumber,

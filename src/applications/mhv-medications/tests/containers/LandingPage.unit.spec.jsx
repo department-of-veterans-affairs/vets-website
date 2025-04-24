@@ -15,7 +15,7 @@ describe('Medications Landing page container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionsList: prescriptions,
+        prescriptionsFilteredList: prescriptions,
         prescriptionDetails: prescriptions,
         apiError: false,
       },
@@ -80,7 +80,7 @@ describe('Medications Landing page container', () => {
       state = {
         rx: {
           prescriptions: {
-            prescriptionsList: prescriptions,
+            prescriptionsFilteredList: prescriptions,
           },
           breadcrumbs: {
             list: [
@@ -218,7 +218,7 @@ describe('App-level feature flag functionality', () => {
       initialState: {
         rx: {
           prescriptions: {
-            prescriptionsList: prescriptions,
+            prescriptionsFilteredList: prescriptions,
             prescriptionDetails: prescriptions,
           },
         },
@@ -249,7 +249,7 @@ describe('App-level feature flag functionality', () => {
       initialState: {
         rx: {
           prescriptions: {
-            prescriptionsList: [],
+            prescriptionsFilteredList: [],
             prescriptionDetails: prescriptions,
           },
         },
@@ -279,7 +279,7 @@ describe('App-level feature flag functionality', () => {
     const allergiesFFInitialState = {
       rx: {
         prescriptions: {
-          prescriptionsList: [],
+          prescriptionsFilteredList: [],
           prescriptionDetails: prescriptions,
         },
       },

@@ -16,10 +16,6 @@ import {
   reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import {
-  getPrescriptionsPaginatedSortedList,
-  getPaginatedFilteredList,
-} from '../actions/prescriptions';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import {
@@ -28,7 +24,6 @@ import {
   generateTextFile,
   getErrorTypeFromFormat,
 } from '../util/helpers';
-import { Actions } from '../util/actionTypes';
 import {
   PDF_TXT_GENERATE_STATUS,
   rxListSortingOptions,
@@ -52,7 +47,6 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
-  selectFilterFlag,
   selectGroupingFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
@@ -80,10 +74,16 @@ const Prescriptions = () => {
   const filteredList = useSelector(
     state => state.rx.prescriptions?.prescriptionsFilteredList,
   );
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const userName = useSelector(state => state.user.profile.userFullName);
+  const dob = useSelector(state => state.user.profile.dob);
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
+  );
 
   // Add pagination and sorting parameter management
   const [currentPage, setCurrentPage] = useState(1);
+  const showGroupingContent = useSelector(selectGroupingFlag);
   const [perPage] = useState(showGroupingContent ? 10 : 20);
   const [sortEndpoint, setSortEndpoint] = useState(
     rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -92,7 +92,6 @@ const Prescriptions = () => {
 
   // Use RTK Query hook to fetch prescriptions data
   const {
-    data: prescriptionsData,
     error: prescriptionsError,
     isLoading: isPrescriptionsLoading,
     isFetching: isPrescriptionsFetching,
@@ -103,48 +102,26 @@ const Prescriptions = () => {
     filterOption: currentFilter,
   });
 
-  // Extract prescription data from the RTK Query response
-  const prescriptionsList = useMemo(
-    () => prescriptionsData?.prescriptions || [],
-    [prescriptionsData?.prescriptions],
-  );
-  const prescriptionsPagination = useMemo(
-    () => prescriptionsData?.pagination || {},
-    [prescriptionsData?.pagination],
-  );
-
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
-  const selectedSortOption = useSelector(
-    state => state.rx.prescriptions?.selectedSortOption,
-  );
-
   const prescriptionsApiError = prescriptionsError;
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
-  // **Remove sort funtions and logic once filter feature is developed and live.**
-  const showFilterContent = useSelector(selectFilterFlag);
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
-    showFilterContent
-      ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
-      : state => state.rx.prescriptions?.prescriptionsPagination,
+    state => state.rx.prescriptions?.prescriptionsFilteredPagination,
   );
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const filterCount = useSelector(state => state.rx.prescriptions?.filterCount);
-  const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
+  const [prescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
     false,
   );
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
-  const [isAlertVisible, setAlertVisible] = useState(false);
+  const [isAlertVisible] = useState(false);
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
@@ -164,18 +141,11 @@ const Prescriptions = () => {
     },
     [search],
   );
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     setLoading(newIsLoading);
     setLoadingMessage(newLoadingMessage);
-  };
-
-  // Handle page change with RTK Query
-  const handlePageChange = newPage => {
-    setCurrentPage(newPage);
-    navigate(`/?page=${newPage}`, { replace: true });
-    sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, newPage);
-    scrollLocation?.current?.scrollIntoView();
   };
 
   // Handle filter change
@@ -189,7 +159,6 @@ const Prescriptions = () => {
   // Handle sort option change
   const handleSortChange = sortOption => {
     if (sortOption !== selectedSortOption && sortOption !== '') {
-      updateSortOption(sortOption);
       setSortEndpoint(rxListSortingOptions[sortOption].API_ENDPOINT);
       sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
       setPdfTxtGenerateStatus({
@@ -201,9 +170,6 @@ const Prescriptions = () => {
 
   // Update the updateFilterAndSort function to use RTK Query
   const updateFilterAndSort = (newFilterOption, newSortOption) => {
-    const sortOption =
-      newSortOption || selectedSortOption || defaultSelectedSortOption;
-    const filterBy = newFilterOption ?? filterOption;
     const isFiltering = newFilterOption !== null;
 
     // Update the filter state
@@ -230,18 +196,14 @@ const Prescriptions = () => {
 
       handleSortChange(sortOption);
 
-      if (showFilterContent) {
-        updateFilterAndSort(null, sortOption);
-      }
+      updateFilterAndSort(null, sortOption);
     }
   };
 
   const printRxList = () =>
     setTimeout(() => {
       window.print();
-      setPrintedList(
-        showFilterContent ? filteredList : paginatedPrescriptionsList,
-      );
+      setPrintedList(filteredList);
     }, 1);
 
   const goToPrevious = () => {
@@ -287,10 +249,6 @@ const Prescriptions = () => {
     () => {
       // If we're not using filters, we don't need to dispatch anything manually
       // RTK Query will handle this based on currentPage, sortEndpoint, etc.
-      if (!showFilterContent) {
-        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
-        if (!selectedSortOption) updateSortOption(sortOption);
-      }
 
       updatePageTitle('Medications | Veterans Affairs');
       sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, page);
@@ -311,34 +269,10 @@ const Prescriptions = () => {
     [isPrescriptionsLoading, isPrescriptionsFetching],
   );
 
-  // Update useEffect for alert visibility
-  useEffect(
-    () => {
-      if (!showFilterContent) {
-        if (
-          !isPrescriptionsLoading &&
-          !isPrescriptionsFetching &&
-          (!prescriptionsList || prescriptionsList.length <= 0)
-        ) {
-          setAlertVisible(true);
-        } else if (isAlertVisible) {
-          setAlertVisible(false);
-        }
-      }
-    },
-    [
-      isPrescriptionsLoading,
-      isPrescriptionsFetching,
-      prescriptionsList,
-      isAlertVisible,
-      showFilterContent,
-    ],
-  );
-
   // Update useEffect for filter options to use RTK Query
   useEffect(
     () => {
-      if (showFilterContent && page) {
+      if (page) {
         const storedPageNumber = sessionStorage.getItem(
           SESSION_SELECTED_PAGE_NUMBER,
         );
@@ -351,32 +285,17 @@ const Prescriptions = () => {
         setCurrentFilter(filterOptions[storedFilterOption]?.url || '');
       }
     },
-    [page, showFilterContent],
+    [page],
   );
 
   useEffect(
     () => {
-      if (!paginatedPrescriptionsList && !showFilterContent) {
-        updateLoadingStatus(true, 'Loading your medications...');
-      }
       if (Number.isNaN(page) || page < 1) {
         navigate(
           `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
           { replace: true },
         );
         return;
-      }
-      if (!showFilterContent) {
-        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
-        console.log('dispatch in useEffect');
-        dispatch(
-          getPrescriptionsPaginatedSortedList(
-            page ?? 1,
-            rxListSortingOptions[sortOption].API_ENDPOINT,
-            showGroupingContent ? 10 : 20,
-          ),
-        ).then(() => updateLoadingStatus(false, ''));
-        if (!selectedSortOption) updateSortOption(sortOption);
       }
 
       updatePageTitle('Medications | Veterans Affairs');
@@ -389,38 +308,15 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (
-        showFilterContent
-          ? filteredList?.length
-          : paginatedPrescriptionsList?.length
-      ) {
-        setPrintedList(
-          showFilterContent ? filteredList : paginatedPrescriptionsList,
-        );
+      if (filteredList?.length) {
+        setPrintedList(filteredList);
       }
     },
-    [paginatedPrescriptionsList, filteredList, showFilterContent],
+    [paginatedPrescriptionsList, filteredList],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
-
-  useEffect(
-    () => {
-      if (!showFilterContent) {
-        if (
-          !isLoading &&
-          (!paginatedPrescriptionsList ||
-            paginatedPrescriptionsList?.length <= 0)
-        ) {
-          setAlertVisible(true);
-        } else if (isAlertVisible) {
-          setAlertVisible(false);
-        }
-      }
-    },
-    [isLoading, paginatedPrescriptionsList, isAlertVisible],
-  );
 
   useEffect(() => {
     if (!filterOption) {
@@ -430,34 +326,6 @@ const Prescriptions = () => {
       );
     }
   }, []);
-
-  useEffect(
-    () => {
-      if (showFilterContent && page) {
-        const storedPageNumber = sessionStorage.getItem(
-          SESSION_SELECTED_PAGE_NUMBER,
-        );
-        const storedFilterOption =
-          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-          ALL_MEDICATIONS_FILTER_KEY;
-        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
-        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
-        // updateLoadingStatus(true, 'Loading your medications...');
-        // console.log('dispatch in useEffect for filter');
-        /*
-        dispatch(
-          getPaginatedFilteredList(
-            storedPageNumber,
-            filterOptions[storedFilterOption]?.url,
-            sortEndpoint,
-            showGroupingContent ? 10 : 20,
-          ),
-        ).then(() => updateLoadingStatus(false, ''));
-        */
-      }
-    },
-    [dispatch, page, showFilterContent],
-  );
 
   const selectedFilterOption =
     filterOptions[
@@ -608,36 +476,10 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (
-        !prescriptionsFullList?.length &&
-        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-        isRetrievingFullList
-      ) {
-        const getFullList = async () => {
-          setIsRetrievingFullList(false);
-          await getPrescriptionSortedList(
-            rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            false,
-          )
-            .then(response => {
-              const list = response.data.map(rx => ({ ...rx.attributes }));
-              setPrescriptionsFullList(list);
-              setHasFullListDownloadError(false);
-            })
-            .catch(() => {
-              setHasFullListDownloadError(true);
-              updateLoadingStatus(false, '');
-            });
-        };
-        getFullList();
-      }
-      if (
         ((prescriptionsFullList?.length &&
           pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
           (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            (showFilterContent
-              ? filteredList?.length
-              : paginatedPrescriptionsList?.length))) &&
+            filteredList?.length)) &&
         allergies &&
         !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
@@ -659,11 +501,7 @@ const Prescriptions = () => {
           if (!isLoading && loadingMessage === '') {
             let listForPrint;
             if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
-              if (showFilterContent) {
-                listForPrint = filteredList;
-              } else {
-                listForPrint = paginatedPrescriptionsList;
-              }
+              listForPrint = filteredList;
             } else {
               listForPrint = prescriptionsFullList;
             }
@@ -790,11 +628,9 @@ const Prescriptions = () => {
                 }
               />
             )}
-            {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
-            (showFilterContent &&
-              filteredList?.length === 0 &&
-              filterCount &&
-              Object.values(filterCount).every(value => value === 0)) ? (
+            {filteredList?.length === 0 &&
+            filterCount &&
+            Object.values(filterCount).every(value => value === 0) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
                 <h2
                   className="vads-u-margin--0"
@@ -857,42 +693,22 @@ const Prescriptions = () => {
                   className={`landing-page-content vads-u-margin-top--${contentMarginTop}
                     mobile-lg:vads-u-margin-top--${contentMarginTop}`}
                 >
-                  {showFilterContent && (
+                  <>
+                    <h2 className="vads-u-margin-y--3" data-testid="med-list">
+                      Medications list
+                    </h2>
+                    <MedicationsListFilter
+                      updateFilter={updateFilterAndSort}
+                      filterOption={filterOption}
+                      setFilterOption={setFilterOption}
+                      filterCount={filterCount}
+                    />
+                    {showIPEContent && <InProductionEducationFiltering />}
+                  </>
+                  {(paginatedPrescriptionsList?.length ||
+                    filteredList?.length) && (
                     <>
-                      <h2 className="vads-u-margin-y--3" data-testid="med-list">
-                        Medications list
-                      </h2>
-                      <MedicationsListFilter
-                        updateFilter={updateFilterAndSort}
-                        filterOption={filterOption}
-                        setFilterOption={setFilterOption}
-                        filterCount={filterCount}
-                      />
-                      {showIPEContent && <InProductionEducationFiltering />}
-                    </>
-                  )}
-                  {paginatedPrescriptionsList?.length ||
-                  filteredList?.length ? (
-                    <>
-                      {!showFilterContent && (
-                        <>
-                          <PrintDownload
-                            onDownload={handleFullListDownload}
-                            isSuccess={
-                              pdfTxtGenerateStatus.status ===
-                              PDF_TXT_GENERATE_STATUS.Success
-                            }
-                            isLoading={
-                              !allergiesError &&
-                              pdfTxtGenerateStatus.status ===
-                                PDF_TXT_GENERATE_STATUS.InProgress
-                            }
-                            list
-                          />
-                          <BeforeYouDownloadDropdown page={pageType.LIST} />
-                        </>
-                      )}
-                      {(!showFilterContent || !isLoading) && (
+                      {!isLoading && (
                         <MedicationsListSort
                           value={selectedSortOption}
                           sortRxList={sortRxList}
@@ -910,40 +726,53 @@ const Prescriptions = () => {
                       ) : (
                         <MedicationsList
                           pagination={pagination}
-                          rxList={
-                            showFilterContent
-                              ? filteredList
-                              : paginatedPrescriptionsList
-                          }
+                          rxList={filteredList}
                           scrollLocation={scrollLocation}
                           selectedSortOption={selectedSortOption}
                           updateLoadingStatus={updateLoadingStatus}
                         />
                       )}
-                      {showFilterContent &&
-                        !isLoading && (
-                          <>
-                            <PrintDownload
-                              onDownload={handleFullListDownload}
-                              isSuccess={
-                                pdfTxtGenerateStatus.status ===
-                                PDF_TXT_GENERATE_STATUS.Success
-                              }
-                              isLoading={
-                                !allergiesError &&
-                                pdfTxtGenerateStatus.status ===
-                                  PDF_TXT_GENERATE_STATUS.InProgress
-                              }
-                              list
-                            />
-                            <BeforeYouDownloadDropdown page={pageType.LIST} />
-                          </>
-                        )}
+                      {!isLoading && (
+                        <>
+                          <PrintDownload
+                            onDownload={handleFullListDownload}
+                            isSuccess={
+                              pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.Success
+                            }
+                            isLoading={
+                              !allergiesError &&
+                              pdfTxtGenerateStatus.status ===
+                                PDF_TXT_GENERATE_STATUS.InProgress
+                            }
+                            list
+                          />
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
+                        </>
+                      )}
                     </>
-                  ) : (
-                    <>
-                      {!showFilterContent && (
-                        <div className="vads-u-padding-y--3">
+                  )}
+                  <>
+                    {!isLoading &&
+                      filteredList?.length === 0 &&
+                      filterCount &&
+                      Object.values(filterCount).some(value => value !== 0) && (
+                        <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color vads-u-margin-top--3">
+                          <h3
+                            className="vads-u-margin--0"
+                            id="no-matches-msg"
+                            data-testid="zero-filter-results"
+                          >
+                            We didn’t find any matches for this filter
+                          </h3>
+                          <p className="vads-u-margin-y--2">
+                            Try selecting a different filter.
+                          </p>
+                        </div>
+                      )}
+                    {isLoading &&
+                      (!filteredList || filteredList?.length === 0) && (
+                        <div className="vads-u-height--viewport vads-u-padding-top--3">
                           <va-loading-indicator
                             message={loadingMessage}
                             setFocus
@@ -951,41 +780,7 @@ const Prescriptions = () => {
                           />
                         </div>
                       )}
-                    </>
-                  )}
-                  {showFilterContent && (
-                    <>
-                      {!isLoading &&
-                        filteredList?.length === 0 &&
-                        filterCount &&
-                        Object.values(filterCount).some(
-                          value => value !== 0,
-                        ) && (
-                          <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color vads-u-margin-top--3">
-                            <h3
-                              className="vads-u-margin--0"
-                              id="no-matches-msg"
-                              data-testid="zero-filter-results"
-                            >
-                              We didn’t find any matches for this filter
-                            </h3>
-                            <p className="vads-u-margin-y--2">
-                              Try selecting a different filter.
-                            </p>
-                          </div>
-                        )}
-                      {isLoading &&
-                        (!filteredList || filteredList?.length === 0) && (
-                          <div className="vads-u-height--viewport vads-u-padding-top--3">
-                            <va-loading-indicator
-                              message={`${loadingMessage}`}
-                              setFocus
-                              data-testid="loading-indicator"
-                            />
-                          </div>
-                        )}
-                    </>
-                  )}
+                  </>
                 </div>
               </>
             )}

@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/dom';
 import MedicationsListSort from '../../../components/MedicationsList/MedicationsListSort';
 import { rxListSortingOptions } from '../../../util/constants';
 
@@ -31,23 +30,5 @@ describe('Medications List Sort component', () => {
     expect(sortOptions.length).to.equal(
       Object.keys(rxListSortingOptions).length,
     );
-  });
-  it('has a sort button', () => {
-    const screen = setup();
-    const sortButton = screen.getByTestId('sort-button');
-    fireEvent.click(sortButton);
-    expect(sortButton).to.have.property('text', 'Sort');
-  });
-  it('has a sort button even with refill flag being true', () => {
-    const initialState = {
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: true,
-      },
-    };
-    const screen = setup(initialState);
-    const sortButton = screen.getByTestId('sort-button');
-    fireEvent.click(sortButton);
-    expect(sortButton).to.have.property('text', 'Sort');
   });
 });

@@ -13,7 +13,7 @@ const RxBreadcrumbs = () => {
     state => state.rx.prescriptions?.prescriptionDetails,
   );
   const pagination = useSelector(
-    state => state.rx.prescriptions?.prescriptionsPagination,
+    state => state.rx.prescriptions?.prescriptionsFilteredPagination,
   );
   const isDisplayingDocumentation = useSelector(
     state =>
