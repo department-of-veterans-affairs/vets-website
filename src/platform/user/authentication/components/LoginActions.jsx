@@ -64,7 +64,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    'Available through September 30, 2025'
+                    Available through September 30, 2025
                   </span>
                 </h3>
                 <p>
