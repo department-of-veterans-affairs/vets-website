@@ -290,7 +290,6 @@
   "vaOnlineSchedulingVAOSServiceVAAppointments": "va_online_scheduling_vaos_service_va_appointments",
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
   "vaosOnlineSchedulingUseVADate": "vaos_online_scheduling_use_va_date",
-  "vaOnlineSchedulingPastApptDateRange": "va_online_scheduling_past_appt_date_range",
   "vaOnlineSchedulingFeSourceOfTruth": "va_online_scheduling_fe_source_of_truth",
   "vaOnlineSchedulingFeSourceOfTruthVA": "va_online_scheduling_fe_source_of_truth_va",
   "vaOnlineSchedulingFeSourceOfTruthCC": "va_online_scheduling_fe_source_of_truth_cc",
