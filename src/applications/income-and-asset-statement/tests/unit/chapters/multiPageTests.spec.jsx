@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { formatDateShort, formatDateLong } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { formatCurrency, formatFullNameNoSuffix } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -119,6 +119,7 @@ export const testOptionsTextCardDescription = (
         trustType: val => labels?.[val] || val,
         incomeGenerationMethod: val => labels?.[val] || val,
         transferMethod: val => labels?.[val] || val,
+        revocable: val => (val ? 'Revocable' : 'Irrevocable'),
         grossMonthlyIncome: formatCurrency,
         grossAnnualAmount: formatCurrency,
         ownedPortionValue: formatCurrency,
@@ -127,7 +128,7 @@ export const testOptionsTextCardDescription = (
         marketValueAtEstablishment: formatCurrency,
         waivedGrossMonthlyIncome: formatCurrency,
         transferDate: formatDateLong,
-        establishedDate: formatDateShort,
+        establishedDate: formatDateLong,
       };
 
       Object.entries(baseItem).forEach(([key, value]) => {
