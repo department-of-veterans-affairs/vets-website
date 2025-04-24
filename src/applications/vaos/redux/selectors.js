@@ -64,9 +64,6 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureVAOSServiceVAAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceVAAppointments;
-
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
 

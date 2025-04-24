@@ -32,7 +32,6 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingPast: true,
-    vaOnlineSchedulingVAOSServiceVAAppointments: true,
   },
 };
 const now = startOfDay(new Date(), 'day');

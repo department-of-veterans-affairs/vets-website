@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
@@ -35,7 +34,6 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-  getAdditionalFacilityInfo,
   getAdditionalFacilityInfoV2,
 } from '../../redux/actions';
 import {
@@ -93,9 +91,6 @@ export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
@@ -227,13 +222,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       });
 
       try {
-        let facilityData;
-        if (featureVAOSServiceVAAppointments) {
-          facilityData = getAdditionalFacilityInfoV2(data);
-        } else {
-          facilityData = await getAdditionalFacilityInfo([].concat(...results));
-        }
-
+        const facilityData = getAdditionalFacilityInfoV2(data);
         if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -267,9 +256,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
@@ -321,16 +307,9 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       });
 
       try {
-        let facilityData;
-        if (featureVAOSServiceVAAppointments) {
-          facilityData = getAdditionalFacilityInfoV2(
-            getState().appointments.past,
-          );
-        } else {
-          facilityData = await getAdditionalFacilityInfo(
-            getState().appointments.past,
-          );
-        }
+        const facilityData = getAdditionalFacilityInfoV2(
+          getState().appointments.past,
+        );
         if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -418,9 +397,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-        state,
-      );
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
@@ -455,11 +431,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       }
 
       // We would expect to have the clinic name here, but if we don't, fetch it
-      if (
-        featureVAOSServiceVAAppointments &&
-        appointment.location.clinicId &&
-        !appointment.location.clinicName
-      ) {
+      if (appointment.location.clinicId && !appointment.location.clinicName) {
         try {
           const clinic = await fetchHealthcareServiceById({
             locationId: appointment.location.stationId,

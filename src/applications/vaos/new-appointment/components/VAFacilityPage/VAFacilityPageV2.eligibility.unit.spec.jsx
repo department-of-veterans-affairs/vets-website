@@ -209,7 +209,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       featureToggles: {
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
       user: {
         profile: {
@@ -724,6 +723,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       const store = createTestStore({
         ...initialState,
+        featureToggles: {},
       });
       await setTypeOfCare(store, /mental health/i);
 
