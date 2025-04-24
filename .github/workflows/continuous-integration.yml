@@ -64,7 +64,7 @@ jobs:
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
-        timeout-minutes: 30
+        timeout-minutes: 45
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
 
