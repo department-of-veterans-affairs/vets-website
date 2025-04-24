@@ -116,6 +116,7 @@ export const testOptionsTextCardDescription = (
         recipientRelationship: val => labels?.[val] || val,
         incomeType: val => labels?.[val] || val,
         assetType: val => labels?.[val] || val,
+        trustType: val => labels?.[val] || val,
         incomeGenerationMethod: val => labels?.[val] || val,
         transferMethod: val => labels?.[val] || val,
         grossMonthlyIncome: formatCurrency,

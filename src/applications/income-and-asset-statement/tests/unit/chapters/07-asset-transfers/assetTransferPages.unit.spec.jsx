@@ -37,8 +37,8 @@ describe('asset transfer list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return "Asset transferred to Jane A. Doe', () => {
-      const item = testDataZeroes.data.assetTransfers[0];
+    it('should return "Asset transferred to `newOwnerName`', () => {
+      const item = testData.data.assetTransfers[0];
       expect(options.text.getItemName(item)).to.equal(
         'Asset transferred to Alice Johnson',
       );

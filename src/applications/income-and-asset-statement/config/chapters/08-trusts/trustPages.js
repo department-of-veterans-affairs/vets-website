@@ -15,7 +15,7 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
 
 import {
@@ -41,18 +41,20 @@ export const options = {
     typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: () => 'Trust',
+    getItemName: item =>
+      isDefined(item?.establishedDate) &&
+      `Trust established on ${formatDateLong(item.establishedDate)}`,
     cardDescription: item =>
       isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Established date:{' '}
+            Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatDateShort(item.establishedDate)}
+              {trustTypeLabels[item.trustType]}
             </span>
           </li>
           <li>
-            Market value:{' '}
+            Market value when established:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
