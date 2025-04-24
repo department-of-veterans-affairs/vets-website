@@ -137,21 +137,14 @@ class FolderManagementPage {
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
   };
 
-  backToCreatedFolder = threadData => {
-    cy.intercept(
-      `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }*`,
-      createdFolderResponse,
-    ).as(`updatedFolder`);
+  backToInbox = () => {
     cy.intercept(
       `GET`,
       `${Paths.SM_API_BASE}/folders/${
         createdFolderResponse.data.attributes.folderId
       }/threads*`,
-      threadData,
-    ).as(`updatedThread`);
+      defaultMockThread,
+    ).as(`updatedFolder`);
 
     cy.get(Locators.LINKS.CRUMBS_BACK).then(btn => {
       return new Cypress.Promise(resolve => {
