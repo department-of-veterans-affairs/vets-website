@@ -33,7 +33,9 @@ class MockReferralAppointmentDetailsResponse {
   } = {}) {
     return {
       data: {
-        appointment: {
+        id: appointmentId,
+        type: 'cc_appointment',
+        attributes: {
           id: appointmentId,
           status: 'booked',
           patientIcn: 'care-nav-patient-casey',
@@ -44,52 +46,60 @@ class MockReferralAppointmentDetailsResponse {
             new Date().setDate(new Date().getDate() + 30),
           ).toISOString(), // 30 days in future
           referralId,
-          referral: {
-            referralNumber: referralId,
-            facilityName: 'Linda Loma',
-            facilityPhone: '555-555-5555',
-            typeOfCare,
-            modality: 'In Person',
-          },
-        },
-        provider: {
-          id: 'test-provider-id',
-          name: providerName,
-          isActive: true,
-          individualProviders: [
-            {
-              name: providerName,
-              npi: 'test-npi',
+          referralNumber: referralId,
+          facilityName: 'Linda Loma',
+          facilityPhone: '555-555-5555',
+          typeOfCare,
+          modality: 'In Person',
+          provider: {
+            id: 'test-provider-id',
+            name: providerName,
+            isActive: true,
+            individualProviders: [
+              {
+                name: providerName,
+                npi: 'test-npi',
+              },
+            ],
+            providerOrganization: {
+              name: organizationName,
             },
-          ],
-          providerOrganization: {
-            name: organizationName,
-          },
-          location: {
-            name: 'Test Medical Complex',
-            address: '207 Davishill Ln',
-            latitude: 33.058736,
-            longitude: -80.032819,
-            timezone: 'America/New_York',
-          },
-          networkIds: ['sandbox-network-test'],
-          schedulingNotes:
-            'New patients need to send their previous records to the office prior to their appt.',
-          appointmentTypes: [
-            {
-              id: 'off',
-              name: 'Office Visit',
-              isSelfSchedulable: true,
+            location: {
+              name: 'Test Medical Complex',
+              address: '207 Davishill Ln',
+              latitude: 33.058736,
+              longitude: -80.032819,
+              timezone: 'America/New_York',
             },
-          ],
-          specialties: [
-            {
-              id: 'test-id',
-              name: 'Urology',
+            networkIds: ['sandbox-network-test'],
+            schedulingNotes:
+              'New patients need to send their previous records to the office prior to their appt.',
+            appointmentTypes: [
+              {
+                id: 'off',
+                name: 'Office Visit',
+                isSelfSchedulable: true,
+              },
+            ],
+            specialties: [
+              {
+                id: 'test-id',
+                name: 'Urology',
+              },
+            ],
+            visitMode: 'phone',
+            features: null,
+          },
+          referringFacility: {
+            name: 'VA Boston Healthcare System',
+            address: {
+              street: '150 S Huntington Ave',
+              city: 'Boston',
+              state: 'MA',
+              zipCode: '02130',
             },
-          ],
-          visitMode: 'phone',
-          features: null,
+            phone: '555-123-4567',
+          },
         },
       },
     };

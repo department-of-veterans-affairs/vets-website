@@ -4,8 +4,8 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import MockUser from '../../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 

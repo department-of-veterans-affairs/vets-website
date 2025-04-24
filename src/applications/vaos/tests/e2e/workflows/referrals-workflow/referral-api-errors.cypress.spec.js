@@ -10,23 +10,20 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApi,
   mockSubmitAppointmentApi,
-  mockCompletedAppointmentApi,
 } from './referrals-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
-import MockReferralDetailResponse from '../../fixtures/MockReferralDetailResponse';
-import MockReferralDraftAppointmentResponse from '../../fixtures/MockReferralDraftAppointmentResponse';
-import MockReferralAppointmentDetailsResponse from '../../fixtures/MockReferralAppointmentDetailsResponse';
-import MockReferralSubmitAppointmentResponse from '../../fixtures/MockReferralSubmitAppointmentResponse';
-import MockReferralCompletedAppointmentResponse from '../../fixtures/MockReferralCompletedAppointmentResponse';
+import MockUser from '../../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockReferralListResponse from '../../../fixtures/MockReferralListResponse';
+import MockReferralDetailResponse from '../../../fixtures/MockReferralDetailResponse';
+import MockReferralDraftAppointmentResponse from '../../../fixtures/MockReferralDraftAppointmentResponse';
+import MockReferralAppointmentDetailsResponse from '../../../fixtures/MockReferralAppointmentDetailsResponse';
+import MockReferralSubmitAppointmentResponse from '../../../fixtures/MockReferralSubmitAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
-import completeReferral from '../../referrals/page-objects/CompleteReferral';
 
 describe('VAOS Referral API Error Handling', () => {
   // Common error cases for all API tests
@@ -268,7 +265,7 @@ describe('VAOS Referral API Error Handling', () => {
     });
   });
 
-  describe('Appointment Details API Errors', () => {
+  describe('Appointment Details API Errors after submit appointment', () => {
     const referralId = 'referral-123';
     const appointmentId = 'EEKoGzEf';
 
@@ -366,130 +363,6 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         reviewAndConfirm.assertApiError();
-      });
-    });
-  });
-
-  // TODO: Need updated UI with new API call before completing this test
-  describe.skip('Completed Appointment API Errors', () => {
-    const referralId = 'referral-123';
-    const appointmentId = 'EEKoGzEf';
-
-    beforeEach(() => {
-      // Mock successful referrals list response
-      const referralsResponse = new MockReferralListResponse({
-        numberOfReferrals: 1,
-      }).toJSON();
-      mockReferralsGetApi({ response: referralsResponse });
-
-      // Mock successful referral detail response
-      const referralDetailResponse = new MockReferralDetailResponse({
-        hasAppointments: false,
-      }).toJSON();
-      mockReferralDetailGetApi({
-        response: referralDetailResponse,
-      });
-
-      // Mock successful draft referral appointment response
-      const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
-        {
-          referralId,
-          categoryOfCare: 'Physical Therapy',
-          numberOfSlots: 3,
-        },
-      ).toJSON();
-      mockDraftReferralAppointmentApi({
-        response: draftReferralAppointment,
-      });
-
-      // Mock successful submit appointment response
-      const submitAppointmentResponse = new MockReferralSubmitAppointmentResponse(
-        {
-          appointmentId,
-          success: true,
-        },
-      ).toJSON();
-      mockSubmitAppointmentApi({
-        response: submitAppointmentResponse,
-      });
-
-      // Mock successful appointment details response
-      const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
-        {
-          appointmentId,
-          referralId,
-          typeOfCare: 'Physical Therapy',
-          providerName: 'Dr. Bones',
-          organizationName: 'Meridian Health',
-          success: true,
-        },
-      ).toJSON();
-      mockAppointmentDetailsApi({
-        id: appointmentId,
-        response: appointmentDetailsResponse,
-      });
-    });
-
-    errorCases.forEach(({ errorType, responseCode }) => {
-      it(`should display an error message when completed appointment returns ${responseCode}`, () => {
-        // Mock error response
-        const completedAppointmentResponse = new MockReferralCompletedAppointmentResponse(
-          {
-            appointmentId,
-            [errorType]: true,
-          },
-        ).toJSON();
-        mockCompletedAppointmentApi({
-          id: appointmentId,
-          response: completedAppointmentResponse,
-          responseCode,
-        });
-
-        // Navigate to the Referrals and Requests page
-        appointmentList.navigateToReferralsAndRequests();
-
-        // Wait for referrals to load
-        cy.wait('@v2:get:referrals');
-
-        // Select the first referral
-        referralsAndRequests.selectReferral(0);
-
-        // Wait for referral detail to load
-        cy.wait('@v2:get:referral:detail');
-
-        // Click the schedule appointment button
-        scheduleReferral.clickScheduleAppointment();
-
-        // Wait for draft referral appointment to load
-        cy.wait('@v2:post:draftReferralAppointment');
-
-        // Select the first appointment slot
-        chooseDateAndTime.selectAppointmentSlot(0);
-        cy.findAllByRole('radio')
-          .eq(0)
-          .click();
-
-        // Click continue to proceed with scheduling
-        chooseDateAndTime.clickContinue();
-
-        // Click the continue button to finalize the appointment
-        reviewAndConfirm.clickContinue();
-
-        // Wait for submit appointment response
-        cy.wait('@v2:post:submitAppointment');
-
-        // Wait for appointment details to load
-        cy.wait('@v2:get:appointmentDetails');
-
-        // Click the details link
-        completeReferral.clickDetailsLink();
-
-        // Wait for completed appointment API call
-        cy.wait('@get:completedAppointment');
-        cy.injectAxeThenAxeCheck();
-
-        // Verify error message is displayed
-        completeReferral.assertApiError();
       });
     });
   });

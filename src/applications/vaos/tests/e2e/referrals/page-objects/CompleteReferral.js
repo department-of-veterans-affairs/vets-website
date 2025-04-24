@@ -44,7 +44,7 @@ export class CompleteReferralPageObject extends PageObject {
   /**
    * Validates that an API error message is displayed when completed appointment details fail to load
    */
-  assertError() {
+  assertApiError() {
     // This uses curly apostrophes as required by VA style guidelines
     cy.findByText(/We can’t schedule this appointment online/i).should('exist');
     return this;

@@ -10,23 +10,22 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApi,
   mockSubmitAppointmentApi,
-  mockCompletedAppointmentApi,
 } from './referrals-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockReferralListResponse from '../../fixtures/MockReferralListResponse';
-import MockReferralDetailResponse from '../../fixtures/MockReferralDetailResponse';
-import MockReferralDraftAppointmentResponse from '../../fixtures/MockReferralDraftAppointmentResponse';
-import MockReferralAppointmentDetailsResponse from '../../fixtures/MockReferralAppointmentDetailsResponse';
-import MockReferralSubmitAppointmentResponse from '../../fixtures/MockReferralSubmitAppointmentResponse';
-import MockReferralCompletedAppointmentResponse from '../../fixtures/MockReferralCompletedAppointmentResponse';
+import MockUser from '../../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockReferralListResponse from '../../../fixtures/MockReferralListResponse';
+import MockReferralDetailResponse from '../../../fixtures/MockReferralDetailResponse';
+import MockReferralDraftAppointmentResponse from '../../../fixtures/MockReferralDraftAppointmentResponse';
+import MockReferralAppointmentDetailsResponse from '../../../fixtures/MockReferralAppointmentDetailsResponse';
+import MockReferralSubmitAppointmentResponse from '../../../fixtures/MockReferralSubmitAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
-// import completeReferral from '../../referrals/page-objects/CompleteReferral';
+import completeReferral from '../../referrals/page-objects/CompleteReferral';
+import epsAppointmentDetails from '../../referrals/page-objects/EpsAppointmentDetails';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -125,21 +124,6 @@ describe('VAOS Referral Appointments', () => {
         response: submitAppointmentResponse,
       });
 
-      // Mock completed appointment response
-      const completedAppointmentResponse = new MockReferralCompletedAppointmentResponse(
-        {
-          appointmentId,
-          typeOfCare: 'Physical Therapy',
-          providerName: 'Dr. Bones',
-          organizationName: 'Meridian Health',
-          modality: 'Office Visit',
-        },
-      ).toJSON();
-      mockCompletedAppointmentApi({
-        id: appointmentId,
-        response: completedAppointmentResponse,
-      });
-
       // Mock appointment details response
       const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
         {
@@ -221,22 +205,18 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
 
       // Verify we're redirected to the confirmation page
-      // completeReferral.validate();
-      // completeReferral.assertAppointmentDetails();
-      // completeReferral.assertProviderInfo();
-      // completeReferral.assertReferralsLink();
+      completeReferral.validate();
+      completeReferral.assertAppointmentDetails();
+      completeReferral.assertProviderInfo();
+      completeReferral.assertReferralsLink();
 
-      // // Click the details link
-      // completeReferral.clickDetailsLink();
-
-      // // Wait for completed appointment details to load
-      // cy.wait('@get:completedAppointment');
-      // cy.injectAxeThenAxeCheck();
+      // Click the details link
+      completeReferral.clickDetailsLink();
 
       // Verify the completed appointment details
-      // cy.findByText('Physical Therapy').should('exist');
-      // cy.findByText('Dr. Bones').should('exist');
-      // cy.findByText('Meridian Health').should('exist');
+      cy.injectAxeThenAxeCheck();
+      epsAppointmentDetails.validate();
+      epsAppointmentDetails.assertProviderInfo();
     });
   });
 });
