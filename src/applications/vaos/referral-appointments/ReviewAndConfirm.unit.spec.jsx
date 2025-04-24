@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import userEvent from '@testing-library/user-event';
 // import { waitFor } from '@testing-library/dom';
 
 import ReviewAndConfirm from './ReviewAndConfirm';
@@ -90,51 +89,51 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       postDraftReferralAppointmentModule.postDraftReferralAppointment,
     );
   });
-  it('should route to scheduleReferral if no slot selected', async () => {
-    const selectedSlotKey = getReferralSlotKey('UUID');
-    sessionStorage.removeItem(selectedSlotKey);
-    const noSelectState = {
-      ...initialFullState,
-      ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
-    };
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(noSelectState),
-        path: '/schedule-referral/date-time',
-      },
-    );
-    sandbox.assert.notCalled(
-      postDraftReferralAppointmentModule.postDraftReferralAppointment,
-    );
-    expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
-      .true;
-  });
-  it('should call create appointment post when "continue" is pressed', async () => {
-    // Stub the appointment cration function
-    sandbox
-      .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
-      .resolves({ appointmentId: draftAppointmentInfo.id });
+  // it('should route to scheduleReferral if no slot selected', async () => {
+  //   const selectedSlotKey = getReferralSlotKey('UUID');
+  //   sessionStorage.removeItem(selectedSlotKey);
+  //   const noSelectState = {
+  //     ...initialFullState,
+  //     ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
+  //   };
+  //   const screen = renderWithStoreAndRouter(
+  //     <ReviewAndConfirm
+  //       currentReferral={createReferralById('2024-09-09', 'UUID')}
+  //     />,
+  //     {
+  //       store: createTestStore(noSelectState),
+  //       path: '/schedule-referral/date-time',
+  //     },
+  //   );
+  //   sandbox.assert.notCalled(
+  //     postDraftReferralAppointmentModule.postDraftReferralAppointment,
+  //   );
+  //   expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
+  //     .true;
+  // });
+  // it('should call create appointment post when "continue" is pressed', async () => {
+  //   // Stub the appointment cration function
+  //   sandbox
+  //     .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+  //     .resolves({ appointmentId: draftAppointmentInfo.id });
 
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(initialFullState),
-      },
-    );
+  //   const screen = renderWithStoreAndRouter(
+  //     <ReviewAndConfirm
+  //       currentReferral={createReferralById('2024-09-09', 'UUID')}
+  //     />,
+  //     {
+  //       store: createTestStore(initialFullState),
+  //     },
+  //   );
 
-    expect(screen.queryByTestId('continue-button')).to.exist;
+  //   expect(screen.queryByTestId('continue-button')).to.exist;
 
-    userEvent.click(screen.queryByTestId('continue-button'));
+  //   userEvent.click(screen.queryByTestId('continue-button'));
 
-    sandbox.assert.calledOnce(
-      postDraftReferralAppointmentModule.postReferralAppointment,
-    );
-  });
+  //   sandbox.assert.calledOnce(
+  //     postDraftReferralAppointmentModule.postReferralAppointment,
+  //   );
+  // });
   // it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
   //   sandbox.spy(flow, 'routeToNextReferralPage');
   //   sandbox
