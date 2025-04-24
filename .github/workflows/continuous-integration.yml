@@ -196,7 +196,7 @@ jobs:
          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Upload artifact of Unit Tests to Run
-        uses: ./.github/workflows/upload-artifact
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           name: unit-tests-to-run
           path: unit_tests_to_run.json   
@@ -230,10 +230,10 @@ jobs:
             node_modules
 
       - name: Download Unit Tests to Run
-        uses: ./.github/workflows/download-artifact
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           name: unit-tests-to-run
-          path: .
+          path: unit-tests-to-run.json
 
       - name: Run unit tests
         run: |
