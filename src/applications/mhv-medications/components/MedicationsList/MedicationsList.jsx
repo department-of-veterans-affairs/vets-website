@@ -14,7 +14,7 @@ import {
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectFilterFlag, selectGroupingFlag } from '../../util/selectors';
+import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
@@ -35,7 +35,6 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
-  const showFilterContent = useSelector(selectFilterFlag);
   const showGroupingFlag = useSelector(selectGroupingFlag);
 
   const perPage = showGroupingFlag ? 10 : 20;
@@ -46,8 +45,7 @@ const MedicationsList = props => {
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
     document.getElementById('showingRx').scrollIntoView();
-    // replace terniary with true once loading spinner is added for the filter list fetch
-    updateLoadingStatus(!showFilterContent, 'Loading your medications...');
+    updateLoadingStatus(false, 'Loading your medications...');
     history.push(`/?page=${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
@@ -68,17 +66,12 @@ const MedicationsList = props => {
   const filterAndSortContent = () => {
     return (
       <>
-        {/* TODO: clean after the filter toggle is gone */}
-        {showFilterContent &&
-          !isFullList &&
+        {!isFullList &&
           selectedFilterOption?.length > 0 && (
             <strong>{selectedFilterOption} medications</strong>
           )}
-        {/* TODO: clean after the filter toggle is gone */}
         {`${
-          showFilterContent && !isFullList && selectedFilterOption?.length > 0
-            ? ''
-            : ' medications'
+          !isFullList && selectedFilterOption?.length > 0 ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
@@ -86,10 +79,7 @@ const MedicationsList = props => {
 
   return (
     <>
-      {/* clean after filter flag is removed */}
-      {!showFilterContent && (
-        <h2 className="sr-only no-print">List of Medications</h2>
-      )}
+      <h2 className="sr-only no-print">List of Medications</h2>
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
