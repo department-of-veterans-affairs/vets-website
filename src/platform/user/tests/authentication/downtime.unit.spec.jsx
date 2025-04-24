@@ -3,7 +3,10 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { SERVICE_PROVIDERS } from '../../authentication/constants';
+import { EXTERNAL_SERVICES } from '../../../monitoring/external-services/config';
 import * as downtimeUtils from '../../authentication/downtime';
+
+const oneHourInMilliseconds = 3_600_000;
 
 describe('generateCSPBanner', () => {
   Object.keys(SERVICE_PROVIDERS).forEach(csp => {
@@ -30,7 +33,9 @@ describe('generateCSPBanner', () => {
 
 describe('renderServiceDown', () => {
   it('should render correct output for valid service string', () => {
-    const { container } = render(downtimeUtils.renderServiceDown('ssoe'));
+    const { container } = render(
+      downtimeUtils.renderServiceDown(EXTERNAL_SERVICES.ssoe),
+    );
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
     expect(alert.getAttribute('status')).to.equal(
@@ -76,8 +81,8 @@ describe('renderServiceDown', () => {
 describe('renderDowntimeBanner', () => {
   it('should render banner for multiple services down', () => {
     const statuses = [
-      { serviceId: 'logingov', status: 'down' },
-      { serviceId: 'idme', status: 'down' },
+      { serviceId: EXTERNAL_SERVICES.logingov, status: 'down' },
+      { serviceId: EXTERNAL_SERVICES.idme, status: 'down' },
     ];
     const { container } = render(downtimeUtils.renderDowntimeBanner(statuses));
     const alert = container.querySelector('va-alert');
@@ -91,7 +96,9 @@ describe('renderDowntimeBanner', () => {
   });
 
   it('should render banner for a single service down', () => {
-    const statuses = [{ serviceId: 'logingov', status: 'down' }];
+    const statuses = [
+      { serviceId: EXTERNAL_SERVICES.logingov, status: 'down' },
+    ];
     const { container } = render(downtimeUtils.renderDowntimeBanner(statuses));
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
@@ -104,7 +111,9 @@ describe('renderDowntimeBanner', () => {
   });
 
   it('should return null when no services are down', () => {
-    const statuses = [{ serviceId: 'logingov', status: 'active' }];
+    const statuses = [
+      { serviceId: EXTERNAL_SERVICES.logingov, status: 'active' },
+    ];
     const result = downtimeUtils.renderDowntimeBanner(statuses);
     expect(result).to.be.null;
   });
@@ -116,7 +125,7 @@ describe('renderDowntimeBanner', () => {
   });
 
   it('should no longer render banners for mhv downtime', () => {
-    const statuses = [{ serviceId: 'mhv', status: 'down' }];
+    const statuses = [{ serviceId: EXTERNAL_SERVICES.mhv, status: 'down' }];
     const result = downtimeUtils.renderDowntimeBanner(statuses);
     expect(result).to.be.null;
   });
@@ -126,7 +135,7 @@ describe('createMaintenanceBanner', () => {
   it('should correctly construct a maintenance banner object', () => {
     const startTime = new Date().toISOString();
     const endTime = new Date(
-      new Date().getTime() + 2 * 60 * 60 * 1000,
+      new Date().getTime() + 2 * oneHourInMilliseconds,
     ).toISOString(); // 2 hours later
     const banner = downtimeUtils.createMaintenanceBanner({
       startTime,
@@ -150,11 +159,13 @@ describe('createMaintenanceBanner', () => {
 describe('determineMaintenance', () => {
   it('should find the first maintenance window that meets the criteria', () => {
     const maintArray = [
-      { externalService: 'logingov' },
-      { externalService: 'global' },
+      { externalService: EXTERNAL_SERVICES.logingov },
+      { externalService: EXTERNAL_SERVICES.global },
     ];
     const result = downtimeUtils.determineMaintenance(maintArray);
-    expect(result).to.deep.equal({ externalService: 'logingov' });
+    expect(result).to.deep.equal({
+      externalService: EXTERNAL_SERVICES.logingov,
+    });
   });
 
   it('should return undefined if no maintenance window meets the criteria', () => {
@@ -167,10 +178,10 @@ describe('determineMaintenance', () => {
 describe('isInMaintenanceWindow', () => {
   it('should return true when the current time is within the maintenance window', () => {
     const startTime = new Date(
-      new Date().getTime() - 1 * 60 * 60 * 1000,
+      new Date().getTime() - oneHourInMilliseconds,
     ).toISOString(); // 1 hour ago
     const endTime = new Date(
-      new Date().getTime() + 1 * 60 * 60 * 1000,
+      new Date().getTime() + oneHourInMilliseconds,
     ).toISOString(); // 1 hour later
     const result = downtimeUtils.isInMaintenanceWindow(startTime, endTime);
     expect(result).to.be.true;
@@ -178,10 +189,10 @@ describe('isInMaintenanceWindow', () => {
 
   it('should return false when the current time is outside the maintenance window', () => {
     const startTime = new Date(
-      new Date().getTime() - 3 * 60 * 60 * 1000,
+      new Date().getTime() - 3 * oneHourInMilliseconds,
     ).toISOString(); // 3 hours ago
     const endTime = new Date(
-      new Date().getTime() - 1 * 60 * 60 * 1000,
+      new Date().getTime() - oneHourInMilliseconds,
     ).toISOString(); // 1 hour ago
     const result = downtimeUtils.isInMaintenanceWindow(startTime, endTime);
     expect(result).to.be.false;
@@ -192,12 +203,12 @@ describe('renderMaintenanceWindow', () => {
   it('should render the maintenance window banner when inside the maintenance window', () => {
     const maintArray = [
       {
-        externalService: 'global',
+        externalService: EXTERNAL_SERVICES.global,
         startTime: new Date(
-          new Date().getTime() - 1 * 60 * 60 * 1000,
+          new Date().getTime() - oneHourInMilliseconds,
         ).toISOString(),
         endTime: new Date(
-          new Date().getTime() + 1 * 60 * 60 * 1000,
+          new Date().getTime() + oneHourInMilliseconds,
         ).toISOString(),
       },
     ];
@@ -212,12 +223,12 @@ describe('renderMaintenanceWindow', () => {
   it('should return null when outside the maintenance window', () => {
     const maintArray = [
       {
-        externalService: 'global',
+        externalService: EXTERNAL_SERVICES.global,
         startTime: new Date(
-          new Date().getTime() - 3 * 60 * 60 * 1000,
+          new Date().getTime() - 3 * oneHourInMilliseconds,
         ).toISOString(),
         endTime: new Date(
-          new Date().getTime() - 1 * 60 * 60 * 1000,
+          new Date().getTime() - oneHourInMilliseconds,
         ).toISOString(),
       },
     ];
