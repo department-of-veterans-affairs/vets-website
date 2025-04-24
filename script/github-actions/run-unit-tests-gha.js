@@ -31,6 +31,12 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   },
 ];
 
+const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
+
+process.env.LOG_LEVEL = options['log-level'].toLowerCase();
+process.env.NODE_ENV = 'test';
+process.env.BABEL_ENV = 'test';
+
 const allUnitTests = glob.sync(defaultPath);
 const allUnitTestDirs = Array.from(
   new Set(
@@ -54,8 +60,6 @@ function splitArray(array, chunks) {
   return result;
 }
 
-const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
-
 let coverageInclude = '';
 if (
   options['app-folder'] &&
@@ -75,11 +79,12 @@ if (
 }
 
 const reporterOption = options.reporter ? `--reporter ${options.reporter}` : '';
-const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+const mochaPath = `mocha ${reporterOption}`;
 const coverageReporter = options['coverage-html']
   ? '--reporter=html mocha --retries 5'
   : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
-const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
+const coveragePath = `nyc --all ${coverageInclude} ${coverageReporter}`;
+
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config || 'config/mocha.json';
 
@@ -126,9 +131,8 @@ if (testsToVerify === null) {
       testFiles = glob.sync(pattern);
     }
     const filesArg = testFiles.map(f => `'${f}'`).join(' ');
-    const command = `LOG_LEVEL=${options[
-      'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${filesArg}`;
+    // ENV vars already on process.env, so just call the runner
+    const command = `${testRunner} --max-old-space-size=32768 --config ${configFile} ${filesArg}`;
     runCommand(command);
   }
 } else {
@@ -154,9 +158,7 @@ if (testsToVerify === null) {
         continue;
       }
       const filesArg = matching.map(f => `'${f}'`).join(' ');
-      const command = `LOG_LEVEL=${options[
-        'log-level'
-      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${filesArg}`;
+      const command = `${testRunner} --max-old-space-size=8192 --config ${configFile} ${filesArg}`;
       try {
         await runCommand(command);
       } catch (err) {
