@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
@@ -112,15 +111,6 @@ const ReviewAndConfirm = props => {
       selectedSlot,
     ],
   );
-
-  console.log('slotDetails', slotDetails);
-  console.log('draftAppointmentInfo', draftAppointmentInfo);
-  console.log('currentReferral', currentReferral);
-  console.log('selectedSlot', selectedSlot);
-  console.log('facilityTimeZone', facilityTimeZone);
-  console.log('savedSelectedSlot', savedSelectedSlot);
-  console.log('appointmentCreateStatus', appointmentCreateStatus);
-  console.log('draftAppointmentCreateStatus', draftAppointmentCreateStatus);
 
   const handleGoBack = e => {
     e.preventDefault();
