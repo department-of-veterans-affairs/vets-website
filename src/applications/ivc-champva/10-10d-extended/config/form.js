@@ -16,6 +16,7 @@ import {
   applicantInfoIntroSchema,
   applicantNameDobSchema,
   applicantSharedAddressSchema,
+  applicantMailingAddressSchema,
 } from '../chapters/applicantInformation';
 import { onReviewPage, page15aDepends } from '../helpers/utilities';
 
@@ -118,7 +119,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               address selection
             </>
           ),
@@ -126,6 +127,20 @@ const formConfig = {
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           ...applicantSharedAddressSchema,
+        },
+        page15: {
+          path: 'applicant-mailing-address/:index',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
+          ...applicantMailingAddressSchema,
         },
       },
     },

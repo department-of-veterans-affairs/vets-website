@@ -1,6 +1,8 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
 import {
+  addressUI,
+  addressSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
@@ -15,6 +17,7 @@ import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 import { applicantListSchema } from '../helpers/utilities';
+import { applicantAddressCleanValidation } from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -131,4 +134,51 @@ export const applicantSharedAddressSchema = {
     },
   },
   schema: applicantListSchema([], {}),
+};
+
+/** @type {PageSchema} */
+export const applicantMailingAddressSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': { viewField: ApplicantField },
+      items: {
+        ...titleUI(
+          ({ formData }) => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(formData)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
+          ({ formData, formContext }) => {
+            const txt =
+              'We’ll send any important information about your application to this address';
+            // Prefill message conditionally displays based on `certifierRole`
+            return formContext.pagePerItemIndex === '0' ? (
+              <>
+                <p>{txt}</p>
+                {CustomPrefillMessage(formData, 'applicant')}
+              </>
+            ) : (
+              <p>{txt}</p>
+            );
+          },
+        ),
+        applicantAddress: {
+          ...addressUI({
+            labels: {
+              militaryCheckbox:
+                'Address is on a United States military base outside the country.',
+            },
+          }),
+          'ui:validations': [applicantAddressCleanValidation],
+        },
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    applicantAddress: addressSchema(),
+  }),
 };
