@@ -25,7 +25,7 @@ const handleFinishLater = ({ form, dispatch }) => {
  * the `goForward` function to the form's `onSubmit` instead. Doing this will
  * navigate the user to the next page only if validation is successful.
  */
-const FormNavButtons = ({ goBack, goForward, submitToContinue }) => {
+const FormNavButtons = ({ goForward, submitToContinue }) => {
   const form = useSelector(state => state.form);
   const dispatch = useDispatch();
   const finishLater = event => {
@@ -38,13 +38,11 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => {
   return (
     <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
       <div className="small-12 medium-6 columns">
-        {goBack && (
-          <ProgressButton
-            onButtonClick={finishLater}
-            buttonText="Finish this request later"
-            buttonClass="usa-button-secondary"
-          />
-        )}
+        <ProgressButton
+          onButtonClick={finishLater}
+          buttonText="Finish this request later"
+          buttonClass="usa-button-secondary"
+        />
       </div>
       <div className="small-12 medium-6 end columns">
         <ProgressButton
@@ -67,19 +65,37 @@ FormNavButtons.propTypes = {
 
 export default FormNavButtons;
 
-export const FormNavButtonContinue = ({ goForward, submitToContinue }) => (
-  <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-    <div className="medium-8 columns">
-      <ProgressButton
-        submitButton={submitToContinue}
-        onButtonClick={goForward}
-        buttonText="Continue"
-        buttonClass="usa-button-primary"
-        afterText="»"
-      />
+export const FormNavButtonContinue = ({ goForward, submitToContinue }) => {
+  const form = useSelector(state => state.form);
+  const dispatch = useDispatch();
+  const finishLater = event => {
+    event.preventDefault();
+    handleFinishLater({
+      form,
+      dispatch,
+    });
+  };
+  return (
+    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+      <div className="small-12 medium-6 columns">
+        <ProgressButton
+          onButtonClick={finishLater}
+          buttonText="Finish this request later"
+          buttonClass="usa-button-secondary"
+        />
+      </div>
+      <div className="small-12 medium-6 columns">
+        <ProgressButton
+          submitButton={submitToContinue}
+          onButtonClick={goForward}
+          buttonText="Continue"
+          buttonClass="usa-button-primary"
+          afterText="»"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 FormNavButtonContinue.propTypes = {
   goForward: propTypes.func,

@@ -95,13 +95,16 @@ export const IntroductionPage = ({
   };
 
   const mockSignInButton = () => {
-    const buttonText = userLoggedIn ? 'Start form' : 'Loginzzz';
+    const text = userLoggedIn
+      ? 'Start your request'
+      : 'Sign in to start your request';
 
-    const onSignInButtonClick = () => {
-      const nextRoute = userLoggedIn
-        ? routes[0].childRoutes[1].path
-        : appendLoggedInQueryParam();
+    const nextRoute = userLoggedIn
+      ? routes[0].childRoutes[1].path
+      : appendLoggedInQueryParam();
 
+    const onSignInButtonClick = event => {
+      event.preventDefault();
       if (userLoggedIn) {
         router.push(nextRoute);
         return;
@@ -109,11 +112,19 @@ export const IntroductionPage = ({
 
       window.location = nextRoute;
     };
-    return (
-      <button type="button" onClick={onSignInButtonClick}>
-        {buttonText}
-      </button>
-    );
+
+    const LoggedInLink = ({ loggedIn }) =>
+      loggedIn ? (
+        <va-link-action
+          type="primary"
+          onClick={onSignInButtonClick}
+          text={text}
+          href={nextRoute}
+        />
+      ) : (
+        <va-button onClick={onSignInButtonClick} text={text} />
+      );
+    return <LoggedInLink loggedIn={userLoggedIn} />;
   };
 
   return (

@@ -392,7 +392,6 @@ class FormPage extends React.Component {
             <div />
           ) : (
             <>
-              {contentBeforeNavButtons}
               <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
