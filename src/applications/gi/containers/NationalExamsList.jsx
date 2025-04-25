@@ -161,9 +161,9 @@ const NationalExamsList = () => {
                     href={`/education/gi-bill-comparison-tool/national-exams/${
                       exam.enrichedId
                     }?examName=${encodeURIComponent(examName)}`}
-                    text={`View test amount details for ${examName}`}
+                    text={`Learn more about ${examName}`}
                     type="secondary"
-                    message-aria-describedby={`View test amount details for ${examName}`}
+                    message-aria-describedby={`Learn more about ${examName}`}
                     onClick={handleRouteChange(exam)}
                   />
                 </va-card>
