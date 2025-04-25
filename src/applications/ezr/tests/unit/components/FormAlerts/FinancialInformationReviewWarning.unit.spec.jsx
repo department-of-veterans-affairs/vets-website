@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import FinancialInformationReviewWarning from '../../../../components/FormAlerts/FinanicalInformationReviewWarning';
+import FinancialInformationReviewWarning from '../../../../components/FormAlerts/FinancialInformationReviewWarning';
 import { renderProviderWrappedComponent } from '../../../helpers';
 
 describe('ezr <FinancialInformationReviewWarning>', () => {

@@ -10,7 +10,9 @@ const SpousalFinancialInformation = props => {
 
   return (
     <>
-      <h4>Spouse’s annual income from {LAST_YEAR}</h4>
+      <h3 className="vads-u-font-size--h4">
+        Spouse’s annual income from {LAST_YEAR}
+      </h3>
       <p className="vads-u-margin-bottom--0">
         Gross annual income:{' '}
         {formatCurrency(item['view:spouseGrossIncome'].spouseGrossIncome)}
@@ -42,7 +44,7 @@ const FinancialSummaryCardDescription = item => {
     if (deleteButton) {
       deleteButton.style.display = 'none';
     }
-  });
+  }, []);
 
   const { spouseGrossIncome } = item?.['view:spouseGrossIncome'] || '';
   const { spouseNetIncome } = item?.['view:spouseNetIncome'] || '';
@@ -70,7 +72,9 @@ const FinancialSummaryCardDescription = item => {
       </p>
       {includeSpousalInformation(formData) &&
         spouseHasIncomes && <SpousalFinancialInformation item={item} />}
-      <h4>Deductible expenses from {LAST_YEAR}</h4>
+      <h3 className="vads-u-font-size--h4">
+        Deductible expenses from {LAST_YEAR}
+      </h3>
       <p className="vads-u-margin-bottom--0">
         Non-reimbursable medical expenses:{' '}
         {formatCurrency(
@@ -94,7 +98,7 @@ const FinancialSummaryCardDescription = item => {
 };
 
 FinancialSummaryCardDescription.propTypes = {
-  formData: PropTypes.object,
+  item: PropTypes.object,
 };
 
 export default FinancialSummaryCardDescription;

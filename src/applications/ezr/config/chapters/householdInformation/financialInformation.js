@@ -1,7 +1,7 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import React from 'react';
 import { includeSpousalInformation } from '../../../utils/helpers/form-config';
-import FinancialInformationReviewWarning from '../../../components/FormAlerts/FinanicalInformationReviewWarning';
+import FinancialInformationReviewWarning from '../../../components/FormAlerts/FinancialInformationReviewWarning';
 import { LAST_YEAR } from '../../../utils/constants';
 import { VeteranAnnualIncomePage } from '../../../definitions/veteranAnnualIncome';
 import { DeductibleExpensesPage } from '../../../definitions/deductibleExpenses';
