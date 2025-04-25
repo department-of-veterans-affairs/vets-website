@@ -4,7 +4,7 @@ import * as api from '~/platform/utilities/api';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
-import VeteranStatusCardPage from './VeteranStatusCardPage';
+import VeteranStatus from './VeteranStatus';
 
 const serviceHistoryItemOlder = {
   branchOfService: 'Air Force',
@@ -138,7 +138,7 @@ describe('VeteranStatus', () => {
     );
 
     it('should render heading', () => {
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
       const heading = view.getAllByText(/Veteran Status Card/i);
@@ -146,7 +146,7 @@ describe('VeteranStatus', () => {
     });
 
     it('should render description copy', async () => {
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
       await waitFor(() => {
@@ -168,7 +168,7 @@ describe('VeteranStatus', () => {
     it('displays the card successfully', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
 
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -187,7 +187,7 @@ describe('VeteranStatus', () => {
 
     it('displays the returned not confirmed message', async () => {
       apiRequestStub.resolves(vetStatusNotConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -205,7 +205,7 @@ describe('VeteranStatus', () => {
         data: {},
       };
       apiRequestStub.resolves(mockData);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -220,7 +220,7 @@ describe('VeteranStatus', () => {
 
     it('handles API error', async () => {
       apiRequestStub.rejects(new Error('API Error'));
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -245,7 +245,7 @@ describe('VeteranStatus', () => {
         ],
       };
       apiRequestStub.rejects(mockData);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -270,7 +270,7 @@ describe('VeteranStatus', () => {
         ],
       };
       apiRequestStub.rejects(mockData);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -285,7 +285,7 @@ describe('VeteranStatus', () => {
 
     it('displays loading indicator if fetch not complete', async () => {
       initialState = createBasicInitialState([], problematicEligibility);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -307,7 +307,7 @@ describe('VeteranStatus', () => {
 
     it('should render card if service history contains an eligible discharge despite any other discharges', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -320,7 +320,7 @@ describe('VeteranStatus', () => {
 
     it('should render the latest service item', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
       await waitFor(() => {
@@ -335,7 +335,7 @@ describe('VeteranStatus', () => {
 
     it('displays not confirmed message if confirmed', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -354,7 +354,7 @@ describe('VeteranStatus', () => {
 
     it('displays not confirmed message if not confirmed', async () => {
       apiRequestStub.resolves(vetStatusNotConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -386,7 +386,7 @@ describe('VeteranStatus', () => {
 
     it('should render an error and not the HTML card', async () => {
       apiRequestStub.resolves(vetStatusNotConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
@@ -415,7 +415,7 @@ describe('VeteranStatus', () => {
         [ineligibleServiceHistoryItem, neutralServiceHistoryItem],
         nonEligibility,
       );
-      const view = renderWithProfileReducers(<VeteranStatusCardPage />, {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 

@@ -7,6 +7,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { apiRequest } from '~/platform/utilities/api';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
+import Headline from '../ProfileSectionHeadline';
 import VeteranStatusCard from './VeteranStatusCard/VeteranStatusCard';
 
 const VeteranStatus = ({
@@ -198,6 +199,11 @@ const VeteranStatus = ({
 
   return (
     <>
+      <Headline>Veteran Status Card</Headline>
+      <p className="veteran-status-description">
+        This card makes it easy to prove your service and access Veteran
+        discounts, all while keeping your personal information secure.
+      </p>
       <div id="proof-of-veteran-status">
         {isLoading ? (
           <va-loading-indicator
