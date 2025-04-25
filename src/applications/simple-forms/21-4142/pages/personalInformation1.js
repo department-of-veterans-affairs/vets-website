@@ -36,7 +36,6 @@ export default {
     : {
         ...titleUI({
           title: 'Tell us about the Veteran connected to this authorization',
-          headerLevel: 3,
         }),
         fullName: fullNameUI(label => getFullNameLabels(label, false)),
         dateOfBirth: dateOfBirthUI(),
