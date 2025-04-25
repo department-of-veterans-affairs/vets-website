@@ -11,6 +11,7 @@ import GetFormHelp from '../../shared/components/GetFormHelp';
 import { applicantWording } from '../../shared/utilities';
 
 import {
+  applicantIdentificationInfoSchema,
   applicantInfoIntroSchema,
   applicantNameDobSchema,
 } from '../chapters/applicantInformation';
@@ -88,6 +89,20 @@ const formConfig = {
           showPagePerItem: true,
           depends: () => !onReviewPage(),
           ...applicantInfoIntroSchema,
+        },
+        page14: {
+          path: 'applicant-identification-info/:index',
+          arrayPath: 'applicants',
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              identification information
+            </>
+          ),
+          showPagePerItem: true,
+          ...applicantIdentificationInfoSchema,
         },
       },
     },

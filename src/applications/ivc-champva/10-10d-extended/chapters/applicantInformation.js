@@ -7,6 +7,8 @@ import {
   fullNameSchema,
   titleUI,
   titleSchema,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
@@ -88,5 +90,32 @@ export const applicantInfoIntroSchema = {
   schema: applicantListSchema([], {
     titleSchema,
     'view:description': blankSchema,
+  }),
+};
+
+/** @type {PageSchema} */
+export const applicantIdentificationInfoSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+        keepInPageOnReview: true,
+      },
+      items: {
+        ...titleUI(({ formData }) => (
+          <>
+            <span className="dd-privacy-hidden">
+              {applicantWording(formData)}
+            </span>{' '}
+            identification information
+          </>
+        )),
+        applicantSSN: ssnUI(),
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantSSN'], {
+    titleSchema,
+    applicantSSN: ssnSchema,
   }),
 };
