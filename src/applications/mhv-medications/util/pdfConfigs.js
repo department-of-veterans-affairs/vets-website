@@ -468,7 +468,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
             return {
               header: `${
                 index === 0 ? 'Original fill' : `Refill`
-              }: ${dateFormat(entry.sortedDispensedDate)}`,
+              }: ${dateFormat(entry.dispensedDate)}`,
               indent: 32,
               headerSize: 'H5',
               items: [

@@ -118,7 +118,6 @@ ${
               return previousRx.prescriptionNumber;
             })
             .join(', ')}
-
 `
         : ``
     }`;
@@ -259,9 +258,7 @@ Note: If the medication you’re taking doesn’t match this description, call $
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       : createNoDescriptionText(phone);
     result += `
-${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(
-      entry.sortedDispensedDate,
-    )}
+${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(entry.dispensedDate)}
 ${
       i === 0
         ? `
