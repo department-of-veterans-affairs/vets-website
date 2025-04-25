@@ -119,12 +119,12 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           createMockClinic({
             id: '308',
             stationId: '983',
-            friendlyName: 'Green team clinic',
+            name: 'Green team clinic',
           }),
           createMockClinic({
             id: '309',
             stationId: '983',
-            friendlyName: 'Red team clinic',
+            name: 'Red team clinic',
           }),
         ],
         requestPastVisits: false,
@@ -161,7 +161,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           createMockClinic({
             id: '308',
             stationId: '983',
-            friendlyName: 'Green team clinic',
+            name: 'Green team clinic',
           }),
         ],
         limit: false,
