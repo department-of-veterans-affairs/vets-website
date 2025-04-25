@@ -281,7 +281,7 @@ const ReviewAndConfirm = props => {
             <va-alert
               status="error"
               data-testid="create-error-alert"
-              class="vads-u-margin-top--2"
+              class="vads-u-margin-top--4"
             >
               <h3>We couldn’t schedule this appointment</h3>
               <p>
