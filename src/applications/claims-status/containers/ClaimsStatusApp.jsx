@@ -7,7 +7,10 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import {
+  RequiredLoginView,
+  RequiredLoginLoader,
+} from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { setLastPage } from '../actions';
@@ -23,14 +26,7 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
   const isAppReady = canUseApp && !featureFlagsLoading;
 
   if (!isAppReady) {
-    return (
-      <div className="vads-u-margin-y--5">
-        <va-loading-indicator
-          data-testid="feature-flags-loading"
-          message="Loading your information..."
-        />
-      </div>
-    );
+    return <RequiredLoginLoader />;
   }
 
   return (
@@ -89,6 +85,7 @@ function ClaimsStatusApp({
             externalServices.vaProfile,
             externalServices.vbms,
           ]}
+          loadingIndicator={<RequiredLoginLoader />}
         >
           <AppContent featureFlagsLoading={featureFlagsLoading} />
         </DowntimeNotification>

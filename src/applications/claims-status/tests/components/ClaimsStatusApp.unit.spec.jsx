@@ -17,7 +17,7 @@ describe('<AppContent>', () => {
       </AppContent>,
     );
 
-    expect(getByTestId('feature-flags-loading')).to.exist;
+    expect(getByTestId('req-loader')).to.exist;
     expect(queryByTestId('children')).to.not.exist;
   });
 
@@ -32,7 +32,7 @@ describe('<AppContent>', () => {
       </MemoryRouter>,
     );
 
-    expect(queryByTestId('feature-flags-loading')).to.not.exist;
+    expect(queryByTestId('req-loader')).to.not.exist;
     expect(getByTestId('children')).to.exist;
   });
 
@@ -78,7 +78,7 @@ describe('<AppContent>', () => {
       </MemoryRouter>,
     );
 
-    expect(queryByTestId('feature-flags-loading')).to.not.exist;
+    expect(queryByTestId('req-loader')).to.not.exist;
     expect(getByTestId('children')).to.exist;
 
     unmount();
