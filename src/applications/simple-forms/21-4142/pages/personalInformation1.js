@@ -55,6 +55,6 @@ export default {
           fullName: fullNameSchema,
           dateOfBirth: dateOfBirthSchema,
         },
-    required: ['fullName', 'dateOfBirth'],
+    required: environment.isProduction() ? [] : ['fullName', 'dateOfBirth'],
   },
 };
