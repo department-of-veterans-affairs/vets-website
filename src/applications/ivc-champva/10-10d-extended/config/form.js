@@ -60,7 +60,7 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
+    applicantInformation: {
       title: 'Applicant information',
       pages: {
         page13: {
