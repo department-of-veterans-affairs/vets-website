@@ -302,6 +302,14 @@ export const ContactInfoBase = ({
     </va-alert>
   );
 
+  // Helper function to render email addresses consistently
+  const renderEmail = emailData => {
+    if (!emailData) return '';
+    return typeof emailData === 'object'
+      ? emailData.emailAddress || ''
+      : emailData || '';
+  };
+
   // Extract contact section rendering
   const renderAddressSection = () => {
     if (!keys.address) return null;
@@ -333,7 +341,14 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${baseEditPath}/edit-mailing-address`);
+                  // router.push(`${baseEditPath}/edit-mailing-address`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-mailing-address`,
+                    state: {
+                      formKey: keys.address,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -375,7 +390,13 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${baseEditPath}/edit-home-phone`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-home-phone`,
+                    state: {
+                      formKey: keys.homePhone,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -392,7 +413,10 @@ export const ContactInfoBase = ({
     return (
       <React.Fragment key="mobile">
         <va-card class="vads-u-margin-bottom--3">
-          <Headers name="header-mobile-phone" className={headerClassNames}>
+          <Headers
+            name="header-mobile-phone"
+            className={`${headerClassNames} vads-u-margin-top--0p5`}
+          >
             {content.mobilePhone}
             {!requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && ' (optional)'}
           </Headers>
@@ -417,7 +441,13 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${baseEditPath}/edit-mobile-phone`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-mobile-phone`,
+                    state: {
+                      formKey: keys.mobilePhone,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />
@@ -442,9 +472,7 @@ export const ContactInfoBase = ({
             ? showFormOnlyAlert('email')
             : showSuccessAlertInField('email', content.email)}
           <span className="dd-privacy-hidden" data-dd-action-name="email">
-            {typeof dataWrap[keys.email] === 'object'
-              ? dataWrap[keys.email].emailAddress || ''
-              : dataWrap[keys.email] || ''}
+            {renderEmail(dataWrap[keys.email])}
           </span>
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
@@ -458,7 +486,13 @@ export const ContactInfoBase = ({
                 }
                 onClick={e => {
                   e.preventDefault();
-                  router.push(`${baseEditPath}/edit-email-address`);
+                  router.push({
+                    pathname: `${baseEditPath}/edit-email-address`,
+                    state: {
+                      formKey: keys.email,
+                      keys: { wrapper: keys.wrapper },
+                    },
+                  });
                 }}
                 active
               />

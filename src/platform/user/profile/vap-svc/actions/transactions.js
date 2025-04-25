@@ -12,6 +12,7 @@ import {
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { isServerError } from 'platform/user/profile/utilities';
 import { hasBadAddress } from '../selectors';
 
 import localVAProfileService, {
@@ -248,7 +249,7 @@ export function createTransaction(
       const profileSection = analyticsSectionName || 'unknown-profile-section';
 
       // Check if it's a 500 error
-      if (error.status === 500) {
+      if (isServerError(error.status)) {
         dispatch({
           type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
           fieldName,

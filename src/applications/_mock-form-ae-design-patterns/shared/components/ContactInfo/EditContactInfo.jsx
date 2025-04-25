@@ -100,6 +100,8 @@ export const BuildPageBase = ({
         returnPath,
         prefillPatternEnabled,
         fieldName: FIELD_NAMES[field],
+        formKey: router?.location?.state?.formKey || id,
+        keys: router?.location?.state?.keys || { wrapper: 'contactInfo' },
       }}
     >
       <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>

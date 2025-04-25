@@ -220,7 +220,7 @@ export class ProfileInformationEditView extends Component {
 
       if (result?.formOnlyUpdate && this.context?.updateContactInfoForFormApp) {
         // Update the form data with the payload format
-        const updatedFormData = await this.context.updateContactInfoForFormApp(
+        await this.context.updateContactInfoForFormApp(
           fieldName,
           payload,
           'no', // Force form-only update
@@ -228,13 +228,14 @@ export class ProfileInformationEditView extends Component {
 
         // Update UI state with the schema-compatible structure
         this.onChangeFormDataAndSchemas(
-          {
-            ...field.value,
-            ...updatedFormData,
-          },
+          payload,
           field.formSchema,
           field.uiSchema,
         );
+      } else {
+        // For profile updates, make sure we trigger a transaction refresh
+        // so contact info displays reflect the new values without a page refresh
+        this.refreshTransaction();
       }
 
       successCallback();
@@ -324,6 +325,29 @@ export class ProfileInformationEditView extends Component {
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
+    const formData =
+      this.context?.formFieldData?.formOnlyUpdate === true
+        ? (() => {
+            // Merge objects but also handle inputPhoneNumber explicitly
+            const merged = {
+              ...field.value,
+              ...this.context.formFieldData,
+            };
+            // For phone fields, ensure inputPhoneNumber is updated to match the new number
+            if (
+              [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
+                fieldName,
+              ) &&
+              this.context.formFieldData?.phoneNumber
+            ) {
+              merged.inputPhoneNumber =
+                this.context.formFieldData.areaCode +
+                this.context.formFieldData.phoneNumber;
+            }
+            return merged;
+          })()
+        : field?.value;
+
     return (
       <>
         {!!field && (
@@ -345,13 +369,12 @@ export class ProfileInformationEditView extends Component {
               name="Contact Info Form"
               title="Contact Info Form"
               schema={field.formSchema}
-              data={field.value}
+              data={formData}
               uiSchema={field.uiSchema}
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
               }
               onSubmit={onSubmit}
-              noValidate
             >
               {error && (
                 <div

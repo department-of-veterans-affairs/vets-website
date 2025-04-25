@@ -26,15 +26,16 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
   const dispatch = useDispatch();
 
   const updateContactInfoForFormApp = useCallback(
-    async (fieldName, payload, updateProfileChoice) => {
+    async (fieldName, payload, saveOption) => {
       // using the existing timestamp to make sure the conditional logic on the
       // ContactInfo page doesn't override the 'form only' update
       const existingUpdatedAt = formData?.[wrapperKey][fieldName]?.updatedAt;
       const newUpdatedAt = new Date().toISOString();
 
+      const isFormOnly = saveOption === 'no';
+
       // Use new timestamp for form-only updates, otherwise use existing timestamp
-      const updatedAt =
-        updateProfileChoice === 'no' ? newUpdatedAt : existingUpdatedAt;
+      const updatedAt = isFormOnly ? newUpdatedAt : existingUpdatedAt;
 
       let updatedFormAppData;
 
@@ -50,7 +51,7 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
             ...formData[wrapperKey],
             [value.formKey]: {
               ...payload,
-              updateProfileChoice,
+              updateProfileChoice: saveOption,
               updatedAt,
               countryName,
             },
@@ -70,7 +71,8 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
             ...formData[wrapperKey],
             [fieldName]: {
               ...payload,
-              updateProfileChoice,
+              // For email/phone, use formOnlyUpdate rather than updateProfileChoice since there's no save to profile question
+              formOnlyUpdate: isFormOnly,
               updatedAt,
             },
           },
