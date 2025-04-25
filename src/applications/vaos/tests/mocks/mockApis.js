@@ -1,6 +1,12 @@
 /** @module testing/mocks/mockApis */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { format } from 'date-fns';
+import {
+  addMonths,
+  endOfMonth,
+  format,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
 import moment from 'moment';
 import {
   setFetchJSONFailure,
@@ -115,58 +121,6 @@ export function mockAppointmentsApi({
   } else {
     // General fetching error, no appointments returned
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-  }
-
-  return baseUrl;
-}
-
-/**
- * Mocks the api call that fetches a list of appointment slots for direct scheduling
- *
- * @export
- * @param {Object} params
- * @param {string} facilityId The VistA facility id where slots are from
- * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
- *    if startDate and endDate are not provided
- * @param {Date} startDate The start date for the appointment slots
- * @param {Date} endDate The end date for the appointment slots
- * @param {string} clinicId The VistA clinic id the slots are in
- * @param {boolean} withError Flag to determine if the response should fail.
- * @param {Array<VARSlot>} response The list of slots to return from the mock
- */
-export function mockAppointmentSlotApi({
-  clinicId,
-  endDate,
-  facilityId,
-  preferredDate,
-  startDate,
-  response: data = [],
-  responseCode = 200,
-}) {
-  const start = startDate || preferredDate.clone().startOf('month');
-  const end =
-    endDate ||
-    preferredDate
-      .clone()
-      .add(1, 'month')
-      .endOf('month')
-      .startOf('day');
-
-  const baseUrl =
-    `${
-      environment.API_URL
-    }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-    `start=${start.format()}` +
-    `&end=${end.format()}`;
-
-  if (responseCode === 200) {
-    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
-      data,
-    });
-  } else {
-    setFetchJSONFailure(global.fetch.withArgs(baseUrl), {
-      errors: [],
-    });
   }
 
   return baseUrl;
@@ -655,57 +609,43 @@ export function mockCCProviderFetch(
  * @param {string} facilityId The VistA facility id where slots are from
  * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
  *    if startDate and endDate are not provided
- * @param {MomentDate} startDate The start date for the appointment slots
- * @param {MomentDate} endDate The end date for the appointment slots
+ * @param {Date} startDate The start date for the appointment slots
+ * @param {Date} endDate The end date for the appointment slots
  * @param {string} clinicId The VistA clinic id the slots are in
  * @param {boolean} withError Flag to determine if the response should fail.
  * @param {Array<VARSlot>} response The list of slots to return from the mock
  */
-export function mockAppointmentSlotFetch({
+export function mockAppointmentSlotApi({
+  clinicId,
+  endDate,
   facilityId,
   preferredDate,
   startDate,
-  endDate,
-  clinicId,
-  withError = false,
   response: data = [],
+  responseCode = 200,
 }) {
-  const start = startDate || preferredDate.clone().startOf('month');
+  const start = startDate || startOfMonth(preferredDate, 'month');
   const end =
-    endDate ||
-    preferredDate
-      .clone()
-      .add(1, 'month')
-      .endOf('month')
-      .startOf('day');
+    endDate || startOfDay(endOfMonth(addMonths(preferredDate, 1), 'month'));
 
-  if (withError) {
-    setFetchJSONFailure(
-      global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-          `start=${start.format()}` +
-          `&end=${end.format()}`,
-      ),
-      {
-        errors: [],
-      },
-    );
+  const baseUrl =
+    `${
+      environment.API_URL
+    }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
+    `start=${format(start, "yyyy-MM-dd'T'HH:mm:ssxxx")}` +
+    `&end=${format(end, "yyyy-MM-dd'T'HH:mm:ssxxx")}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data,
+    });
   } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-          `start=${start.format()}` +
-          `&end=${end.format()}`,
-      ),
-      {
-        data,
-      },
-    );
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), {
+      errors: [],
+    });
   }
+
+  return baseUrl;
 }
 
 /**

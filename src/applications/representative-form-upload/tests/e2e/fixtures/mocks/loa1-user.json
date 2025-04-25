@@ -19,7 +19,6 @@
         "isVeteran": true,
         "servedIn_military": true
       },
-      "inProgress_forms": [],
       "prefillsAvailable": ["FORM-UPLOAD-FLOW"],
       "services": [
         "facilities",
