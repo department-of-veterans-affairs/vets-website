@@ -207,10 +207,11 @@ export default function vapService(state = initialState, action) {
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== updatedTransactionId,
         ),
-        transactions: state.transactions.map(t =>
-          t.data.attributes.transactionId === updatedTransactionId
-            ? transaction
-            : t,
+        transactions: state.transactions.map(
+          t =>
+            t.data.attributes.transactionId === updatedTransactionId
+              ? transaction
+              : t,
         ),
         copyAddressModal,
       };
