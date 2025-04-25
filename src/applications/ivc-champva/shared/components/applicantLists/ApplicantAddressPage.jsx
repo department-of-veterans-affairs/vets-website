@@ -40,7 +40,8 @@ export function ApplicantAddressCopyPage({
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
 
-  const { useTopBackLink } = contentAfterButtons?.props?.formConfig;
+  const useTopBackLink =
+    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
   const navButtons = useTopBackLink ? (
     <FormNavButtonContinue submitToContinue />
   ) : (
