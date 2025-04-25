@@ -668,9 +668,9 @@ const formConfig = {
                   ),
                   ({ formData }) => (
                     <>
-                      Next we’ll ask more questions about
+                      Next we’ll ask more questions about{' '}
                       <span className="dd-privacy-hidden">
-                        {applicantWording(formData, undefined, false)}
+                        {applicantWording(formData, false, false)}
                       </span>
                       . This includes social security number, mailing address,
                       contact information, relationship to the sponsor, and

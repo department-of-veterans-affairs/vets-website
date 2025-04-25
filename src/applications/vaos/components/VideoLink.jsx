@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import NewTabAnchor from './NewTabAnchor';
 import { ClinicOrFacilityPhone } from './layouts/DetailPageLayout';
 import { selectConfirmedAppointmentData } from '../appointment-list/redux/selectors';
+import { selectFeatureFeSourceOfTruthTelehealth } from '../redux/selectors';
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;
@@ -14,12 +15,18 @@ export default function VideoLink({ appointment }) {
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
+  const useFeSourceOfTruthTelehealth = useSelector(state =>
+    selectFeatureFeSourceOfTruthTelehealth(state),
+  );
 
   // Button is enabled 30 minutes prior to start time, until 4 hours after start time
   // NOTE: If the moment is earlier than the moment you are passing to moment.fn.diff,
   // the return value will be negative. So checking to see if the appointment start
   // time is before or after the current time.
-  const disableVideoLink = diff > 30 || diff < -240;
+  let disableVideoLink = diff > 30 || diff < -240;
+  if (useFeSourceOfTruthTelehealth) {
+    disableVideoLink = !appointment.videoData.displayLink;
+  }
 
   return (
     <div className="vaos-appts__video-visit">
@@ -76,6 +83,7 @@ VideoLink.propTypes = {
     id: PropTypes.string.isRequired,
     videoData: PropTypes.shape({
       url: PropTypes.string,
+      displayLink: PropTypes.bool,
     }),
   }),
 };

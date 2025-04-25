@@ -169,6 +169,30 @@ export function pollFetchAppointmentInfo(
   };
 }
 
+export function fetchAppointmentInfo(appointmentId) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO,
+        payload: {
+          pollingRequestStart: formatISO(new Date()),
+        },
+      });
+      const appointmentInfo = await getAppointmentInfo(appointmentId);
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
+        data: appointmentInfo,
+      });
+      return appointmentInfo;
+    } catch (error) {
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
+      });
+      return captureError(error);
+    }
+  };
+}
+
 export function setSelectedSlot(slot) {
   return {
     type: SET_SELECTED_SLOT,
