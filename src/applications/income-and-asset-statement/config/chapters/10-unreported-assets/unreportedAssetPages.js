@@ -34,14 +34,10 @@ export const options = {
     !isDefined(item.assetLocation), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: () => 'Unreported Asset',
+    getItemName: item => isDefined(item?.assetType) && `${item.assetType}`,
     cardDescription: item =>
       isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Asset type:{' '}
-            <span className="vads-u-font-weight--bold">{item.assetType}</span>
-          </li>
           <li>
             Owned portion value:{' '}
             <span className="vads-u-font-weight--bold">
