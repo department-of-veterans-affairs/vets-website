@@ -10,7 +10,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const {
     OAuthEnabled,
     allowedSignInProviders,
-    legacySignInProviders: { mhv, dslogon },
+    legacySignInProviders: { dslogon },
   } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
@@ -23,7 +23,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   );
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
-  const isValid = mhv || dslogon;
+  const isValid = dslogon;
 
   return (
     <div className="row">
@@ -87,6 +87,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 }
 
 LoginActions.propTypes = {
-  externalApplication: PropTypes.object,
+  externalApplication: PropTypes.string,
   isUnifiedSignIn: PropTypes.bool,
 };
