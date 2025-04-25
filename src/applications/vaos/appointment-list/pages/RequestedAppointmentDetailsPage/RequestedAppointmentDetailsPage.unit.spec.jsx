@@ -3,18 +3,18 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { expect } from 'chai';
+import { addDays, subDays } from 'date-fns';
 import MockDate from 'mockdate';
-import moment from 'moment';
 import React from 'react';
 import { AppointmentList } from '../..';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import { mockFacilityFetch } from '../../../tests/mocks/fetch';
 import {
   mockAppointmentApi,
-  mockAppointmentUpdateApi,
   mockAppointmentsApi,
-} from '../../../tests/mocks/helpers';
+  mockAppointmentUpdateApi,
+  mockFacilityApi,
+} from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
   getTestDate,
@@ -48,12 +48,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       status: APPOINTMENT_STATUS.proposed,
     });
     mockAppointmentsApi({
-      end: moment()
-        .add(2, 'day')
-        .format('YYYY-MM-DD'),
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
+      end: addDays(new Date(), 2),
+      start: subDays(new Date(), 120),
       statuses: ['proposed', 'cancelled'],
       response: [response],
     });
@@ -219,8 +215,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     mockAppointmentApi({ response });
     mockAppointmentUpdateApi({ response: canceledResponse });
-    mockFacilityFetch({
-      facility: new MockFacilityResponse({ id: '983' }),
+    mockFacilityApi({
+      response: new MockFacilityResponse({ id: '983' }),
     });
 
     // Act
@@ -261,8 +257,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     mockAppointmentApi({ response });
     mockAppointmentUpdateApi({ response: canceledResponse });
-    mockFacilityFetch({
-      facility: new MockFacilityResponse({ id: '983' }),
+    mockFacilityApi({
+      response: new MockFacilityResponse({ id: '983' }),
     });
 
     // Act
@@ -310,12 +306,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         pending: true,
       });
       mockAppointmentsApi({
-        end: moment()
-          .add(2, 'day')
-          .format('YYYY-MM-DD'),
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
+        end: addDays(new Date(), 2),
+        start: subDays(new Date(), 120),
         statuses: ['proposed', 'cancelled'],
         response: [response],
       });
@@ -357,18 +349,14 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
       mockAppointmentApi({ response });
       mockAppointmentsApi({
-        end: moment()
-          .add(1, 'day')
-          .format('YYYY-MM-DD'),
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
+        end: addDays(new Date(), 1),
+        start: subDays(new Date(), 120),
         statuses: ['proposed', 'cancelled'],
         response: [response],
       });
       mockAppointmentUpdateApi({ response: canceledResponse });
-      mockFacilityFetch({
-        facility: new MockFacilityResponse({ id: '983' }),
+      mockFacilityApi({
+        response: new MockFacilityResponse({ id: '983' }),
       });
 
       // Act
@@ -431,18 +419,14 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       mockAppointmentApi({ response });
 
       mockAppointmentsApi({
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(1, 'day')
-          .format('YYYY-MM-DD'),
+        start: subDays(new Date(), 120),
+        end: addDays(new Date(), 1),
         statuses: ['proposed', 'cancelled'],
         response: [],
       });
       mockAppointmentUpdateApi({ response: canceledResponse });
-      mockFacilityFetch({
-        facility: new MockFacilityResponse({ id: '983' }),
+      mockFacilityApi({
+        response: new MockFacilityResponse({ id: '983' }),
       });
 
       // Act
@@ -508,12 +492,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       mockAppointmentApi({ response });
 
       mockAppointmentsApi({
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(1, 'day')
-          .format('YYYY-MM-DD'),
+        start: subDays(new Date(), 120),
+        end: addDays(new Date(), 1),
         statuses: ['proposed', 'cancelled'],
         response: [],
       });
@@ -521,8 +501,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         response: canceledResponse,
         responseCode: 500,
       });
-      mockFacilityFetch({
-        facility: new MockFacilityResponse({ id: '983' }),
+      mockFacilityApi({
+        response: new MockFacilityResponse({ id: '983' }),
       });
 
       // Act
