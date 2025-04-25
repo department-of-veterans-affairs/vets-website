@@ -131,7 +131,6 @@ if (testsToVerify === null) {
       testFiles = glob.sync(pattern);
     }
     const filesArg = testFiles.map(f => `'${f}'`).join(' ');
-    // ENV vars already on process.env, so just call the runner
     const command = `${testRunner} --max-old-space-size=32768 --config ${configFile} ${filesArg}`;
     runCommand(command);
   }
