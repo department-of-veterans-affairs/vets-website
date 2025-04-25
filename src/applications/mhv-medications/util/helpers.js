@@ -212,7 +212,6 @@ export const createOriginalFillRecord = prescription => {
     prescriptionId,
     prescriptionName,
     shape,
-    sortedDispensedDate,
   } = prescription;
   return {
     backImprint,
@@ -225,7 +224,6 @@ export const createOriginalFillRecord = prescription => {
     prescriptionId,
     prescriptionName,
     shape,
-    sortedDispensedDate,
   };
 };
 
