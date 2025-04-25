@@ -138,7 +138,7 @@ class PatientMessageCustomFolderPage {
   verifyResponseBodyLength = (responseData = mockThreadsResponse) => {
     cy.get('[data-testid="thread-list-item"]').should(
       'have.length',
-      `${responseData.data.length}`,
+      responseData.data.length,
     );
   };
 
