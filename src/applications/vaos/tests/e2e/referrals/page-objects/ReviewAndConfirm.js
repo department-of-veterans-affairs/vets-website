@@ -48,7 +48,7 @@ export class ReviewAndConfirmPageObject extends PageObject {
    */
   assertApiError() {
     // This uses curly apostrophes as required by VA style guidelines
-    cy.findByText(/We can’t schedule this appointment online/i).should('exist');
+    cy.findByText(/We couldn’t schedule this appointment/i).should('exist');
     return this;
   }
 
