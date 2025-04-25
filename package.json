@@ -406,13 +406,10 @@
       "src/applications/check-in",
       "src/applications/vaos",
       "src/applications/claims-status",
-      "src/applications/accredited-representative-portal/accreditation/21a",
       "src/applications/accredited-representative-portal",
       "src/applications/_mock-form-ae-design-patterns"
     ],
     "nohoist": [
-      "**/applications-accredited-representative-portal/accreditation/21a/react-router",
-      "**/applications-accredited-representative-portal/accreditation/21a/history",
       "**/applications-accredited-representative-portal/react-router-dom",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
