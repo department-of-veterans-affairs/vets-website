@@ -4,6 +4,18 @@ import { formatDateLong } from 'platform/utilities/date';
 import { formatCurrency, formatFullNameNoSuffix } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
+/**
+ * Unit test helper that verifies the behavior of the `isItemIncomplete` function
+ * from array builder options by testing required field presence.
+ *
+ * For each field in the provided `baseItem`, this function generates a test case that
+ * sets the field to `undefined` and expects `isItemIncomplete` to return `true`, indicating
+ * the item is considered incomplete without that field. It also verifies that when all
+ * fields are present, `isItemIncomplete` returns `false`.
+ *
+ * @param {Object} options - The array builder options object containing `isItemIncomplete` function.
+ * @param {Object} baseItem - A complete item object used as the basis for testing missing fields.
+ */
 export const testOptionsIsItemIncomplete = (options, baseItem) => {
   describe('isItemIncomplete function', () => {
     Object.keys(baseItem).forEach(field => {
@@ -27,6 +39,15 @@ export const testOptionsIsItemIncompleteWithZeroes = (options, baseItem) => {
   });
 };
 
+/**
+ * Unit test helper for verifying the behavior of `getItemName` in array builder text options.
+ *
+ * Tests the output of the `getItemName` function based on different recipient relationships,
+ * including "Veteran" and non-Veteran relationships for recurring income chapters. It also
+ * tests edge cases with missing data.
+ *
+ * @param {Object} options - The `options.text` object containing the `getItemName` function.
+ */
 export const testOptionsTextGetItemNameRecurringIncome = options => {
   describe('text getItemName function', () => {
     it(`should return "Veteran's income from Walmart" when recipientRelationship is "VETERAN"`, () => {
@@ -71,6 +92,17 @@ export const testOptionsTextGetItemNameRecurringIncome = options => {
   });
 };
 
+/**
+ * Unit test helper that verifies the `cardDescription` text rendering for array builder items.
+ *
+ * It renders the `cardDescription` function from the `options` object with a given `baseItem`,
+ * applies formatting rules to each property of the item, and asserts that the formatted values
+ * are present in the rendered output.
+ *
+ * @param {Object} options - The array builder options object containing a `text.cardDescription` function.
+ * @param {Object} baseItem - The item object to test against, containing keys and values to be rendered.
+ * @param {Object} labels - Optional mapping of field values to human-readable labels.
+ */
 export const testOptionsTextCardDescription = (
   options,
   baseItem,
@@ -109,7 +141,5 @@ export const testOptionsTextCardDescription = (
         expect(getAllByText(formattedValue)).to.exist;
       });
     });
-
-    // Add test case for items that are undefined
   });
 };
