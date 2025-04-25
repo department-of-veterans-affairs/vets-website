@@ -389,7 +389,7 @@ const WorkflowChoicePage = props => {
   const [
     selectedMentalHealthWorkflowChoice,
     setSelectedMentalHealthWorkflowChoice,
-  ] = useState(data?.['view:mentalHealthWorkflowChoice'] ?? null);
+  ] = useState(data?.mentalHealthWorkflowChoice ?? null);
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -409,14 +409,13 @@ const WorkflowChoicePage = props => {
     () => {
       if (
         shouldGoForward &&
-        data?.['view:mentalHealthWorkflowChoice'] ===
-          selectedMentalHealthWorkflowChoice
+        data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
       ) {
         setShouldGoForward(false);
         goForward(data);
       }
     },
-    [data?.['view:mentalHealthWorkflowChoice'], shouldGoForward],
+    [data?.mentalHealthWorkflowChoice, shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
@@ -482,7 +481,7 @@ const WorkflowChoicePage = props => {
     const formData = {
       ...data,
       'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
-      'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+      mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
     };
     setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
     setFormData(formData);
@@ -528,7 +527,7 @@ const WorkflowChoicePage = props => {
         const formData = {
           ...data,
           'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
-          'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+          mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
         };
         setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
         setFormData(formData);
