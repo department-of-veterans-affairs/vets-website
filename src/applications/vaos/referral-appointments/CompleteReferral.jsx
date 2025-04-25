@@ -52,7 +52,7 @@ export default function CompleteReferral() {
         !appointmentInfoError &&
         !appointmentInfoTimeout &&
         !appointmentInfoLoading &&
-        referralAppointmentInfo?.appointment?.status !== 'booked'
+        referralAppointmentInfo?.attributes?.status !== 'booked'
       ) {
         dispatch(
           pollFetchAppointmentInfo(appointmentId, {
@@ -66,7 +66,7 @@ export default function CompleteReferral() {
     [
       dispatch,
       appointmentId,
-      referralAppointmentInfo?.appointment?.status,
+      referralAppointmentInfo?.attributes?.status,
       appointmentInfoError,
       appointmentInfoTimeout,
       appointmentCreateStatus,
@@ -97,21 +97,21 @@ export default function CompleteReferral() {
     );
   }
 
-  if (appointmentInfoLoading || !referralAppointmentInfo.appointment) {
+  if (appointmentInfoLoading || !referralAppointmentInfo.attributes) {
     return (
       <ReferralLayout loadingMessage="Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page." />
     );
   }
 
-  const referralLoaded = !!referralAppointmentInfo?.appointment?.id;
+  const referralLoaded = !!referralAppointmentInfo?.attributes?.id;
 
-  const { appointment, provider } = referralAppointmentInfo;
+  const { attributes } = referralAppointmentInfo;
 
   const appointmentDate = format(
-    new Date(appointment.start),
+    new Date(attributes.start),
     'EEEE, MMMM do, yyyy',
   );
-  const appointmentTime = format(new Date(appointment.start), 'h:mm aaaa');
+  const appointmentTime = format(new Date(attributes.start), 'h:mm aaaa');
 
   return (
     <ReferralLayout
@@ -147,8 +147,7 @@ export default function CompleteReferral() {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {appointment.referral.typeOfCare} with{' '}
-              {provider.individualProviders[0].name}
+              {attributes.typeOfCare} with {attributes.provider.name}
             </strong>
             <p
               className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
@@ -162,17 +161,17 @@ export default function CompleteReferral() {
                   size={3}
                 />
               </span>
-              {appointment.referral.modality} at {provider.location.name}
+              {attributes.modality} at {attributes.provider.location.name}
             </p>
             <p
               className="vads-u-margin-left--4 vads-u-margin-top--0p5"
               data-testid="appointment-clinic"
             >
-              Clinic: {provider.providerOrganization.name}
+              Clinic: {attributes.provider.organization?.name}
             </p>
             <p>
               <va-link
-                href={`/appointments/${appointment.id}`}
+                href={`/my-health/appointments/${attributes.id}?eps=true`}
                 data-testid="cc-details-link"
                 text="Details"
               />

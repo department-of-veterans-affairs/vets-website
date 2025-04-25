@@ -9,6 +9,16 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import Calcs from './calcs';
 
+/**
+ * On the review page, the *formData* contains a single *program*
+ * object at the top-level when editing an existing program.
+ */
+const getSupportedStudents = (formData, index) =>
+  Number(
+    formData?.programs?.[index]?.supportedStudents ||
+      formData?.supportedStudents,
+  );
+
 const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
@@ -61,8 +71,8 @@ const programInfo = {
           },
         }),
         {
-          'ui:required': (formData, _index) =>
-            Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
+          'ui:required': (formData, index) =>
+            getSupportedStudents(formData, index) >= 10,
         },
       ),
       nonSupported: _.merge(
@@ -73,8 +83,8 @@ const programInfo = {
           },
         }),
         {
-          'ui:required': (formData, _index) =>
-            Number(formData?.programs?.[_index]?.supportedStudents) >= 10,
+          'ui:required': (formData, index) =>
+            getSupportedStudents(formData, index) >= 10,
         },
       ),
     },

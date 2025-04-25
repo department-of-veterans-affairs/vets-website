@@ -1,10 +1,12 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -12,7 +14,6 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -244,20 +245,14 @@ const incomeDatePage = {
 const incomeAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income amount'),
-    grossAnnualAmount: merge(
-      {},
-      currencyUI('What was the gross annual amount reported to the IRS?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    grossAnnualAmount: currencyUI(
+      'What was the gross annual amount reported to the IRS?',
     ),
   },
   schema: {
     type: 'object',
     properties: {
-      grossAnnualAmount: { type: 'number' },
+      grossAnnualAmount: currencySchema,
     },
     required: ['grossAnnualAmount'],
   },

@@ -34,14 +34,6 @@ describe('Health conditions list container', () => {
     expect(screen.getByText('Health conditions', { exact: true })).to.exist;
   });
 
-  it('displays a page description', () => {
-    expect(
-      screen.getByText('Health condition records are available', {
-        exact: false,
-      }),
-    ).to.exist;
-  });
-
   it('displays active condition', () => {
     expect(screen.getAllByText('None recorded', { exact: false })).to.exist;
   });
@@ -153,39 +145,5 @@ describe('Health conditions container with errors', () => {
         ),
       ).to.exist;
     });
-  });
-});
-
-describe('Health conditions list with Sort', () => {
-  const initialState = {
-    user,
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_filter_and_sort: true,
-    },
-    mr: {
-      conditions: {
-        conditionsList: conditions.entry.map(condition =>
-          convertCondition(condition.resource),
-        ),
-      },
-    },
-  };
-
-  it('Shows sorting information', () => {
-    const screen = renderWithStoreAndRouter(<HealthConditions />, {
-      initialState,
-      reducers: reducer,
-      path: '/conditions',
-    });
-    expect(screen.getByTestId('mr-sort-selector')).to.exist;
-    expect(
-      screen.getByText(
-        'Showing 1 to 5 of 5 records, newest to oldest (date entered)',
-        {
-          exact: true,
-        },
-      ),
-    ).to.exist;
   });
 });

@@ -11,6 +11,7 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -102,6 +103,9 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
     const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
@@ -143,6 +147,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         }),
       ];
       if (includeRequests) {
@@ -163,6 +168,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             useFeSourceOfTruth,
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
+            useFeSourceOfTruthModality,
           })
             .then(requests => {
               dispatch({
@@ -274,6 +280,9 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
     const patientFacilities = selectPatientFacilities(state);
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
@@ -299,6 +308,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -357,6 +367,9 @@ export function fetchRequestDetails(id) {
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+        state,
+      );
 
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
@@ -377,6 +390,7 @@ export function fetchRequestDetails(id) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -423,6 +437,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
       const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+        state,
+      );
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -447,6 +464,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
       }
 
@@ -515,6 +533,9 @@ export function confirmCancelAppointment() {
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
 
     try {
       dispatch({
@@ -526,6 +547,7 @@ export function confirmCancelAppointment() {
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
 
       dispatch({

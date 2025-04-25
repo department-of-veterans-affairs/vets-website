@@ -1,9 +1,9 @@
-import { expect } from 'chai';
 import {
   mockFetch,
-  setFetchJSONResponse,
   setFetchJSONFailure,
+  setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
 
 import {
   getCommunityProvidersByTypeOfCare,
@@ -12,13 +12,15 @@ import {
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
-import facilityDetails from '../mocks/v2/facilities.json';
-import ccProviders from '../mocks/v2/cc_providers.json';
-import { VHA_FHIR_ID } from '../../utils/constants';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
 import { createMockFacility } from '../../tests/mocks/data';
-import { mockSchedulingConfigurations } from '../../tests/mocks/helpers';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurations,
+} from '../../tests/mocks/mockApis';
+import { VHA_FHIR_ID } from '../../utils/constants';
+import ccProviders from '../mocks/v2/cc_providers.json';
+import facilityDetails from '../mocks/v2/facilities.json';
 
 describe('VAOS Services: Location ', () => {
   describe('getLocations', () => {
@@ -101,9 +103,9 @@ describe('VAOS Services: Location ', () => {
 
     it('should make 3 successful requests', async () => {
       mockFetch();
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Cheyenne VA Medical Center',
