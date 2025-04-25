@@ -5,9 +5,9 @@ import { isValid, format } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { selectProfile } from '~/platform/user/selectors';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import { srSubstitute } from '@department-of-veterans-affairs/platform-forms-system/mask-string';
 
 import {
   FORMAT_YMD_DATE_FNS,

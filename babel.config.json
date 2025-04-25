@@ -277,7 +277,7 @@
           "@department-of-veterans-affairs/platform-forms-system/get": "./src/platform/forms-system/src/js/utilities/data/get.js",
           "@department-of-veterans-affairs/platform-forms-system/set": "./src/platform/forms-system/src/js/utilities/data/set.js",
           "@department-of-veterans-affairs/platform-forms-system/utilities/file": "./src/platform/forms-system/src/js/utilities/file/index.js",
-          "@department-of-veterans-affairs/platform-forms-system/mask-string": "./src/platform/forms-system/src/js/utilities/ui/mask-string.js",
+          "@department-of-veterans-affairs/platform-forms-system/mask-string": "./src/platform/forms-system/src/js/utilities/ui/mask-string.jsx",
           "@department-of-veterans-affairs/platform-forms-system/ui": "./src/platform/forms-system/src/js/utilities/ui/index.js",
           "@department-of-veterans-affairs/platform-forms-system/validations": "./src/platform/forms-system/src/js/utilities/validations/index.js",
           "@department-of-veterans-affairs/platform-forms-system/fuzzy-matching": "./src/platform/forms-system/src/js/utilities/fuzzy-matching.js",

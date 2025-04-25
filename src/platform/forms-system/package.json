@@ -44,7 +44,7 @@
     "./get": "./src/js/utilities/data/get.js",
     "./set": "./src/js/utilities/data/set.js",
     "./utilities/file": "./src/js/utilities/file/index.js",
-    "./mask-string": "./src/js/utilities/ui/mask-string.js",
+    "./mask-string": "./src/js/utilities/ui/mask-string.jsx",
     "./ui": "./src/js/utilities/ui/index.js",
     "./validations": "./src/js/utilities/validations/index.js",
     "./fuzzy-matching": "./src/js/utilities/fuzzy-matching.js",
