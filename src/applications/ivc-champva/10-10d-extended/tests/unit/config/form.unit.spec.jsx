@@ -19,3 +19,12 @@ testNumberOfWebComponentFields(
   'Applicant - Start screen',
   { applicants: [...mockData.data.applicants, []] },
 );
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page14.schema,
+  formConfig.chapters.applicantInformation.pages.page14.uiSchema,
+  1,
+  'Applicant - SSN',
+  { applicants: mockData.data.applicants },
+);
