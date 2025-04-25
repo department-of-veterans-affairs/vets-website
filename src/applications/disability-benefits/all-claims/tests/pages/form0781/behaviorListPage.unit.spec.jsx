@@ -101,7 +101,7 @@ describe('Behavior List Page', () => {
 describe('validating selections', () => {
   describe('invalid: conflicting selections', () => {
     const errors = {
-      'view:noneCheckbox': {
+      noBehavioralChange: {
         addError: sinon.spy(),
       },
       workBehaviors: { addError: sinon.spy() },
@@ -118,7 +118,7 @@ describe('validating selections', () => {
         otherBehaviors: {
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+        noBehavioralChange: { noChange: true },
       };
 
       validateBehaviorSelections(errors, formData);
@@ -128,13 +128,13 @@ describe('validating selections', () => {
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.true;
+      expect(errors.noBehavioralChange.addError.called).to.be.true;
     });
   });
 
   describe('valid selections', () => {
     const errors = {
-      'view:noneCheckbox': {
+      noBehavioralChange: {
         addError: sinon.spy(),
       },
       workBehaviors: { addError: sinon.spy() },
@@ -148,7 +148,7 @@ describe('validating selections', () => {
           reassignment: false,
           absences: false,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+        noBehavioralChange: { noChange: true },
       };
 
       validateBehaviorSelections(errors, formData);
@@ -158,7 +158,7 @@ describe('validating selections', () => {
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+      expect(errors.noBehavioralChange.addError.called).to.be.false;
     });
 
     it('should add errors when none is unselected and behaviors are selected', () => {
@@ -168,7 +168,7 @@ describe('validating selections', () => {
           reassignment: false,
           absences: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
 
       validateBehaviorSelections(errors, formData);
@@ -178,7 +178,7 @@ describe('validating selections', () => {
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+      expect(errors.noBehavioralChange.addError.called).to.be.false;
     });
   });
 });
