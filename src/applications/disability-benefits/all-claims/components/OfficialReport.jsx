@@ -30,6 +30,7 @@ export function shouldShowPoliceDataModal(event) {
 }
 
 const OfficialReport = props => {
+  const pageTitleRef = useRef(null);
   const formDomRef = useRef(null);
   const modalRef = useRef(null);
   const alertRef = useRef(null);
@@ -150,6 +151,17 @@ const OfficialReport = props => {
 
   return (
     <div>
+      <h3 tabIndex="-1" ref={pageTitleRef} className="sr-only">
+        <span>VA FORM 21-0781</span>{' '}
+        <span>
+          {isAdd && <>{props.title}</>}
+          {isEdit && (
+            <>
+              Edit event #{index + 1} {props.title.toLowerCase()} details
+            </>
+          )}
+        </span>
+      </h3>
       <div className="vads-u-margin-bottom--1">
         <VaAlert
           ref={alertRef}

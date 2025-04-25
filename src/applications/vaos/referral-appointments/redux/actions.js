@@ -146,7 +146,7 @@ export function pollFetchAppointmentInfo(
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.attributes.status === 'draft') {
+      if (appointmentInfo.attributes.status !== 'booked') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {
@@ -164,6 +164,30 @@ export function pollFetchAppointmentInfo(
       return appointmentInfo;
     } catch (error) {
       dispatch({ type: FETCH_REFERRAL_APPOINTMENT_INFO_FAILED });
+      return captureError(error);
+    }
+  };
+}
+
+export function fetchAppointmentInfo(appointmentId) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO,
+        payload: {
+          pollingRequestStart: formatISO(new Date()),
+        },
+      });
+      const appointmentInfo = await getAppointmentInfo(appointmentId);
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
+        data: appointmentInfo,
+      });
+      return appointmentInfo;
+    } catch (error) {
+      dispatch({
+        type: FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
+      });
       return captureError(error);
     }
   };
