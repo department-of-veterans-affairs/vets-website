@@ -53,7 +53,7 @@ const DisabilityRatingContent = ({ rating }) => {
           <strong>
             {rating
               ? `${rating}% service connected`
-              : 'Review your disability rating '}
+              : 'Review your disability rating'}
           </strong>
           <va-icon
             icon="chevron_right"
