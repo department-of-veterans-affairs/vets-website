@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import { waitFor } from '@testing-library/dom';
+import { waitFor, userEvent } from '@testing-library/dom';
 
 import * as utils from 'applications/vaos/services/utils';
 import ReviewAndConfirm from './ReviewAndConfirm';
@@ -12,9 +12,10 @@ import {
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
-// import * as flow from './flow';
+import * as flow from './flow';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
+  let requestStub;
   const sandbox = sinon.createSandbox();
   const draftAppointmentInfo = createDraftAppointmentInfo(1);
   draftAppointmentInfo.slots.slots[0].start = '2024-09-09T16:00:00.000Z';
@@ -49,13 +50,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   //   },
   // };
   beforeEach(() => {
-    sandbox.stub(utils, 'apiRequestWithUrl').resolves(draftAppointmentInfo);
+    requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
   });
   afterEach(() => {
     sandbox.restore();
     sessionStorage.clear();
   });
   it('should get selected slot from session storage if not in redux', async () => {
+    requestStub.resolves(draftAppointmentInfo);
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.setItem(
       selectedSlotKey,
@@ -76,82 +78,104 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
 
-    expect(screen.getByTestId('referral-layout-heading')).to.exist;
-    expect(screen.getByTestId('slot-day-time')).to.contain.text(
-      'Monday, September 9, 2024',
-    );
-    expect(screen.getByTestId('slot-day-time')).to.contain.text(
-      '12:00 p.m. Eastern time (ET)',
-    );
+    waitFor(() => {
+      expect(screen.getByTestId('referral-layout-heading')).to.exist;
+      expect(screen.getByTestId('slot-day-time')).to.contain.text(
+        'Monday, September 9, 2024',
+      );
+      expect(screen.getByTestId('slot-day-time')).to.contain.text(
+        '12:00 p.m. Eastern time (ET)',
+      );
+    });
   });
-  // it('should route to scheduleReferral if no slot selected', async () => {
-  //   const selectedSlotKey = getReferralSlotKey('UUID');
-  //   sessionStorage.removeItem(selectedSlotKey);
-  //   const noSelectState = {
-  //     ...initialFullState,
-  //     ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
-  //   };
-  //   const screen = renderWithStoreAndRouter(
-  //     <ReviewAndConfirm
-  //       currentReferral={createReferralById('2024-09-09', 'UUID')}
-  //     />,
-  //     {
-  //       store: createTestStore(noSelectState),
-  //       path: '/schedule-referral/date-time',
-  //     },
-  //   );
-  //   sandbox.assert.notCalled(
-  //     postDraftReferralAppointmentModule.postDraftReferralAppointment,
-  //   );
-  //   expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
-  //     .true;
-  // });
-  // it('should call create appointment post when "continue" is pressed', async () => {
-  //   // Stub the appointment cration function
-  //   sandbox
-  //     .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
-  //     .resolves({ appointmentId: draftAppointmentInfo.id });
+  it('should route to scheduleReferral if no slot selected', async () => {
+    const selectedSlotKey = getReferralSlotKey('UUID');
+    sessionStorage.removeItem(selectedSlotKey);
+    const noSelectState = {
+      ...initialFullState,
+      ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
+    };
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store: createTestStore(noSelectState),
+        path: '/schedule-referral/date-time',
+      },
+    );
+    waitFor(() => {
+      expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
+        .true;
+    });
+  });
+  it('should call create appointment post when "continue" is pressed', async () => {
+    // Stub the appointment creation function
+    requestStub.resolves({ appointmentId: draftAppointmentInfo.id });
 
-  //   const screen = renderWithStoreAndRouter(
-  //     <ReviewAndConfirm
-  //       currentReferral={createReferralById('2024-09-09', 'UUID')}
-  //     />,
-  //     {
-  //       store: createTestStore(initialFullState),
-  //     },
-  //   );
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
 
-  //   expect(screen.queryByTestId('continue-button')).to.exist;
+    waitFor(() => {
+      expect(screen.queryByTestId('continue-button')).to.exist;
 
-  //   userEvent.click(screen.queryByTestId('continue-button'));
+      userEvent.click(screen.queryByTestId('continue-button'));
+    });
 
-  //   sandbox.assert.calledOnce(
-  //     postDraftReferralAppointmentModule.postReferralAppointment,
-  //   );
-  // });
-  // it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
-  //   sandbox.spy(flow, 'routeToNextReferralPage');
-  //   sandbox
-  //     .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
-  //     .resolves({ appointmentId: draftAppointmentInfo.id });
+    waitFor(() => {
+      sandbox.assert.calledOnce(
+        requestStub.withArgs('/vaos/v2/appointments/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            referralId: 'UUID',
+            slotId: draftAppointmentInfo.slots.slots[0].id,
+            draftApppointmentId: draftAppointmentInfo.id,
+          }),
+        }),
+      );
+    });
+  });
+  it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
+    sandbox.spy(flow, 'routeToNextReferralPage');
+    requestStub.resolves({ appointmentId: draftAppointmentInfo.id });
 
-  //   const screen = renderWithStoreAndRouter(
-  //     <ReviewAndConfirm
-  //       currentReferral={createReferralById('2024-09-09', 'UUID')}
-  //     />,
-  //     {
-  //       store: createTestStore(initialFullState),
-  //     },
-  //   );
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
 
-  //   expect(screen.queryByTestId('continue-button')).to.exist;
+    waitFor(() => {
+      expect(screen.queryByTestId('continue-button')).to.exist;
 
-  //   userEvent.click(screen.queryByTestId('continue-button'));
+      userEvent.click(screen.queryByTestId('continue-button'));
+    });
 
-  //   // Wait for the postReferralAppointment call to complete
-  //   sandbox.assert.calledOnce(
-  //     postDraftReferralAppointmentModule.postReferralAppointment,
-  //   );
-  //   sandbox.assert.calledOnce(flow.routeToNextReferralPage);
-  // });
+    // Wait for the postReferralAppointment call to complete
+    waitFor(() => {
+      sandbox.assert.calledOnce(
+        requestStub.withArgs('/vaos/v2/appointments/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            referralId: 'UUID',
+            slotId: draftAppointmentInfo.slots.slots[0].id,
+            draftApppointmentId: draftAppointmentInfo.id,
+          }),
+        }),
+      );
+
+      sandbox.assert.calledOnce(flow.routeToNextReferralPage);
+    });
+  });
 });

@@ -5,7 +5,7 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import NeedHelp from '../../components/NeedHelp';
-// import ErrorBoundary from '../../components/ErrorBoundary';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 import ErrorAlert from './ErrorAlert';
 import ReferralBreadcrumbs from './ReferralBreadcrumbs';
@@ -48,20 +48,20 @@ export default function ReferralLayout({
             {heading && (
               <h1 data-testid="referral-layout-heading">{heading}</h1>
             )}
-            {/* <ErrorBoundary> */}
-            {!!loadingMessage && (
-              <div
-                className="vads-u-margin-y--8"
-                data-testid="loading-container"
-              >
-                <va-loading-indicator
-                  data-testid="loading"
-                  message={loadingMessage}
-                />
-              </div>
-            )}
-            {!loadingMessage && content}
-            {/* </ErrorBoundary> */}
+            <ErrorBoundary>
+              {!!loadingMessage && (
+                <div
+                  className="vads-u-margin-y--8"
+                  data-testid="loading-container"
+                >
+                  <va-loading-indicator
+                    data-testid="loading"
+                    message={loadingMessage}
+                  />
+                </div>
+              )}
+              {!loadingMessage && content}
+            </ErrorBoundary>
             <NeedHelp />
           </div>
         </div>
