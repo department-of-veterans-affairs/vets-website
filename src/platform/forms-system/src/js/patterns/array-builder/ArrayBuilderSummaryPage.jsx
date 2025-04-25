@@ -14,6 +14,7 @@ import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
 import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
 import {
+  arrayBuilderContextObject,
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
@@ -84,7 +85,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
 /**
  * @param {{
  *   arrayPath: string,
- *   getFirstItemPagePath: (formData, index) => string,
+ *   getFirstItemPagePath: (formData, index, context) => string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
  *   hideMaxItemsAlert: boolean,
@@ -288,7 +289,14 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
-        path: getFirstItemPagePath(props.data, index),
+        path: getFirstItemPagePath(
+          props.data,
+          index,
+          arrayBuilderContextObject({
+            add: true,
+            review: isReviewPage,
+          }),
+        ),
         index,
         isReview: isReviewPage,
         removedAllWarn: !arrayData?.length && required(props.data),
@@ -338,10 +346,13 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       });
     }
 
-    function onRemoveAllItems() {
+    function onRemoveAllItems(newFormData) {
       if (required(props.data)) {
         const path = createArrayBuilderItemAddPath({
-          path: getFirstItemPagePath(props.data, 0),
+          path: getFirstItemPagePath(newFormData, 0, {
+            add: true,
+            review: isReviewPage,
+          }),
           index: 0,
           isReview: isReviewPage,
           removedAllWarn: true,

@@ -5,6 +5,13 @@ import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
 
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);
+  const removeNoteText = async () => {
+    const noteText = await querySelectorWithShadowRoot(
+      'p.font-sans-6',
+      document.querySelector('va-statement-of-truth'),
+    );
+    noteText?.setAttribute('style', 'display:none;');
+  };
 
   const removeOldPrivacyPolicy = async () => {
     const privacyPolicyText = await querySelectorWithShadowRoot(
@@ -15,8 +22,14 @@ const PrivacyPolicy = () => {
   };
 
   useEffect(() => {
-    // Hide platform line for privacy policy, use custom
-    removeOldPrivacyPolicy();
+    const removeElements = async () => {
+      // Hide "Note" above Certification statement
+      await removeNoteText();
+      // Hide platform line for privacy policy, use custom
+      await removeOldPrivacyPolicy();
+    };
+
+    removeElements();
   }, []);
 
   return (

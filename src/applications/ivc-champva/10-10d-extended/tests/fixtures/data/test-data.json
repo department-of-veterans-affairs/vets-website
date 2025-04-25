@@ -1,0 +1,37 @@
+{
+  "data": {
+    "applicants": [
+      {
+        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
+        "applicantEmailAddress": "johnny@alvin.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "456 Circle Street",
+          "city": "Clinton",
+          "state": "AS",
+          "postalCode": "56790"
+        },
+        "applicantSSN": "345345345",
+        "applicantPhone": "555-555-1234",
+        "applicantGender": { "gender": "male" },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantDependentStatus": { "status": "enrolled" },
+        "applicantEnrolledInOHI": false,
+        "applicantDob": "2003-01-04",
+        "applicantName": {
+          "first": "Johnny",
+          "middle": "T",
+          "last": "Alvin",
+          "suffix": "Jr."
+        },
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
+        "applicantMedicarePartD": { "enrollment": "enrolled" },
+        "applicantHasOhi": { "hasOhi": "yes" }
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { objDiff, onReviewPage } from './utilities';
-import { makeHumanReadable, validateText } from '../../shared/utilities';
+import { makeHumanReadable } from '../../shared/utilities';
+import { validateText } from '../../shared/validations';
 
 /* 
 This validation checks if the `certProp` value matches the corresponding

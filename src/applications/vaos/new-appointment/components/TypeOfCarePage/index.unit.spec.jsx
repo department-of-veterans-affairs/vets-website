@@ -1,28 +1,28 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
-import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import set from 'platform/utilities/data/set';
 
-import moment from 'moment';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import moment from 'moment';
 
-import TypeOfCarePage from './index';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import {
-  mockVAOSParentSites,
-  mockV2CommunityCareEligibility,
-} from '../../../tests/mocks/helpers';
+import TypeOfCarePage from './index';
 
 import { NewAppointment } from '../..';
 import { createMockFacility } from '../../../tests/mocks/data';
+import {
+  mockV2CommunityCareEligibility,
+  mockVAOSParentSites,
+} from '../../../tests/mocks/mockApis';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
