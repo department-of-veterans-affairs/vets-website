@@ -4,6 +4,11 @@
        
     ],
     "authenticated": [ 
+        "4h.yml",
+        "4i.yml",
+        "5i.yml",
+        "20h.yml",
+        "21i.yml",
         "22i.yml"
     ]
 }

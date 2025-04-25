@@ -32,7 +32,7 @@ flow:
 
     - action: include
       target: page
-      value: your-selected-school
+      value: do-you-want-to-save-your-school-info
 
     - action: include
       target: page

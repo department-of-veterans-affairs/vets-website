@@ -24,7 +24,7 @@ flow:
      
     - action: include
       target: page
-      value:  select-topic-school-certifying-official-sco
+      value:  what-is-your-role-sco
       
     - action: include
       target: page
@@ -32,7 +32,7 @@ flow:
 
     - action: include
       target: page
-      value:  your-selected-school
+      value:  do-you-want-to-save-your-school-info
     
     - action: include
       target: page
