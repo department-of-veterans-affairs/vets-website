@@ -6,6 +6,8 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
+import OmbInfo from '../components/OmbInfo';
+
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
@@ -55,12 +57,11 @@ const IntroductionPage = ({ route }) => {
         enrollment ratios" section of this page.
       </p>
       <p>
-        For additional guidance on the 85/15 Rule, see the{' '}
         <va-link
-          text="School Certifying Official Handbook"
-          href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000149088/School-Certifying-Official-Handbook-On-line"
+          external
+          text="Learn more about the 85/15 rule"
+          href="https://benefits.va.gov/GIBILL/85_15/85_15_homepage.asp"
         />
-        .
       </p>
       <p>
         Please take the time to review the calculation instructions we have
@@ -215,11 +216,7 @@ const IntroductionPage = ({ route }) => {
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
-      <va-omb-info
-        res-burden={60}
-        omb-number="2900-0897"
-        exp-date="01/31/2028"
-      />
+      <OmbInfo />
     </article>
   );
 };

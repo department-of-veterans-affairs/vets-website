@@ -39,7 +39,10 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
   FORM_21A: '21a',
   FORM_21P_0516_1_UPLOAD: '21P-0516-1-UPLOAD',
+  FORM_21P_0517_1_UPLOAD: '21P-0517-1-UPLOAD',
   FORM_21P_0518_1_UPLOAD: '21P-0518-1-UPLOAD',
+  FORM_21P_0519C_1_UPLOAD: '21P-0519C-1-UPLOAD',
+  FORM_21P_0519S_1_UPLOAD: '21P-0519S-1-UPLOAD',
   FORM_21P_0847: '21P-0847',
   FORM_21P_0969: '21P-0969',
   FORM_21P_527EZ: '21P-527EZ',
@@ -84,6 +87,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_XX_123: 'XX-123',
+  FORM_10_10D_EXTENDED: '10-10D-EXTENDED',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -172,6 +176,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
+    [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
   };
 };
 
@@ -402,11 +407,32 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21p-0516-1-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_21P_0517_1_UPLOAD,
+    benefit: `form 21P-0517-1 upload`,
+    title: `form 21P-0517-1 upload`,
+    description: 'uploaded file for form 21P-0517-1',
+    trackingPrefix: 'form-21p-0517-1-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_0518_1_UPLOAD,
     benefit: `form 21P-0518-1 upload`,
     title: `form 21P-0518-1 upload`,
     description: 'uploaded file for form 21P-0518-1',
     trackingPrefix: 'form-21p-0518-1-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_0519C_1_UPLOAD,
+    benefit: `form 21P-0519C-1 upload`,
+    title: `form 21P-0519C-1 upload`,
+    description: 'uploaded file for form 21P-0519C-1',
+    trackingPrefix: 'form-21p-0519C-1-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_0519S_1_UPLOAD,
+    benefit: `form 21P-0519S-1 upload`,
+    title: `form 21P-0519S-1 upload`,
+    description: 'uploaded file for form 21P-0519S-1',
+    trackingPrefix: 'form-21p-0519S-1-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0847,
@@ -577,6 +603,13 @@ export const MY_VA_SIP_FORMS = [
   //   description: 'VR&E Chapter 31 benefits application',
   //   trackingPrefix: 'new-careers-employment-28-1900-',
   // },
+  {
+    id: VA_FORM_IDS.FORM_10_10D_EXTENDED,
+    benefit: 'CHAMPVA application (includes 10-7959c)',
+    title: '10-10d Extended',
+    description: 'CHAMPVA application (includes 10-7959c)',
+    trackingPrefix: '10-10d-extended-',
+  },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {

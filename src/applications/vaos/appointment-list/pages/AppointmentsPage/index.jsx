@@ -8,10 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerAlert from '../../../components/CernerAlert';
 import WarningNotification from '../../../components/WarningNotification';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectPendingAppointments,
-} from '../../../redux/selectors';
+import { selectPendingAppointments } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
@@ -53,9 +50,7 @@ export default function AppointmentsPage() {
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
   // );
@@ -98,15 +93,10 @@ export default function AppointmentsPage() {
 
   useEffect(
     () => {
-      if (featureBreadcrumbUrlUpdate) {
-        document.title = `${pageTitle} | Veterans Affairs`;
-        scrollAndFocus('h1');
-      } else {
-        document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
-        scrollAndFocus('h1');
-      }
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus('h1');
     },
-    [location.pathname, prefix, pageTitle, featureBreadcrumbUrlUpdate],
+    [location.pathname, prefix, pageTitle],
   );
 
   const [count, setCount] = useState(0);

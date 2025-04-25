@@ -8,6 +8,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
@@ -29,7 +30,7 @@ import { downtimeNotificationParams } from '../util/constants';
 const App = ({ children }) => {
   const user = useSelector(selectUser);
 
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const { featureTogglesLoading } = useSelector(
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
@@ -111,6 +112,14 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
+  // Add unique user tracking
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
+
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
@@ -124,11 +133,6 @@ const App = ({ children }) => {
         </div>
       </>
     );
-  }
-
-  if (appEnabled !== true) {
-    // If the user is not whitelisted or feature flag is disabled, return nothing.
-    return <></>;
   }
 
   return (

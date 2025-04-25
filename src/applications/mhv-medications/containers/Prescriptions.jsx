@@ -377,8 +377,8 @@ const Prescriptions = () => {
         results: [
           {
             header: 'Medications list',
-            preface: `Showing ${rxList?.length}${
-              showFilterContent ? selectedFilterOption : ''
+            preface: `Showing ${
+              rxList?.length
             } medications, ${rxListSortingOptions[
               selectedSortOption
             ].LABEL.toLowerCase()}`,
@@ -441,8 +441,8 @@ const Prescriptions = () => {
         )}\n\n` +
         `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
         `Medications list\n\n` +
-        `Showing ${prescriptionsFullList?.length}${
-          showFilterContent ? selectedFilterOption : ''
+        `Showing ${
+          prescriptionsFullList?.length
         } records, ${rxListSortingOptions[
           selectedSortOption
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
@@ -821,7 +821,6 @@ const Prescriptions = () => {
                             <BeforeYouDownloadDropdown page={pageType.LIST} />
                           </>
                         )}
-                      {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (
                     <>
@@ -874,6 +873,7 @@ const Prescriptions = () => {
             )}
           </>
         )}
+        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };

@@ -58,7 +58,6 @@ import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 
-const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
 
@@ -376,7 +375,6 @@ Provider notes: ${vital.notes}\n\n`,
             }}
             page={currentPage}
             pages={paginatedVitals.current.length}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
             showLastPage
             uswds
           />

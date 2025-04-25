@@ -5,6 +5,7 @@ export const generateVitalsIntro = (records, lastUpdated) => {
     title: vitalTypeDisplayNames[records[0].type],
     subject: 'VA Medical Record',
     subtitles: [
+      'Vitals are basic health numbers your providers check at your appointments.',
       lastUpdated,
       `Showing ${records.length} records from newest to oldest`,
     ],

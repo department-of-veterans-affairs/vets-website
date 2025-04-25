@@ -42,7 +42,7 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should display common-law marriage requirements', () => {
     const { container } = renderWithStore({
-      currentMarriageInformation: { type: 'COMMON-LAW' },
+      currentMarriageInformation: { typeOfMarriage: 'COMMON-LAW' },
     });
 
     const listItems = [...container.querySelectorAll('li')].map(
@@ -54,15 +54,15 @@ describe('SpouseAdditionalEvidence', () => {
         text.includes('2 Statements of Marital Relationship'),
       ),
     ).to.be.true;
-    expect(listItems.some(text => text.includes('Get VA Form 21-4170'))).to.be
-      .true;
-    expect(listItems.some(text => text.includes('Get VA Form 21-4171'))).to.be
-      .true;
+    expect(listItems.some(text => text.includes('Download VA Form 21-4170'))).to
+      .be.true;
+    expect(listItems.some(text => text.includes('Download VA Form 21-4171'))).to
+      .be.true;
   });
 
   it('should display tribal marriage requirements', () => {
     const { container } = renderWithStore({
-      currentMarriageInformation: { type: 'TRIBAL' },
+      currentMarriageInformation: { typeOfMarriage: 'TRIBAL' },
     });
 
     const listItems = [...container.querySelectorAll('li')].map(
@@ -90,7 +90,7 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should display proxy marriage requirements', () => {
     const { container } = renderWithStore({
-      currentMarriageInformation: { type: 'PROXY' },
+      currentMarriageInformation: { typeOfMarriage: 'PROXY' },
     });
 
     const listItems = [...container.querySelectorAll('li')].map(

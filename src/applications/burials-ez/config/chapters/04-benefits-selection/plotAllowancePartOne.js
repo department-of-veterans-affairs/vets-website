@@ -1,10 +1,9 @@
 import {
+  currencyUI,
+  currencyStringSchema,
   yesNoUI,
   yesNoSchema,
-  numberUI,
-  numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { CurrencyReviewRowView } from '../../../components/ReviewRowView';
 import { generateTitle } from '../../../utils/helpers';
 
 export default {
@@ -14,10 +13,8 @@ export default {
       'Did the federal government, state government, or the Veteran’s employer pay any of the burial costs?',
     ),
     amountGovtContribution: {
-      ...numberUI({
+      ...currencyUI({
         title: 'Amount the government or employer paid',
-        hint:
-          'Enter an amount with numbers only. Don\'t include symbols or special characters like "$," commas, or periods.',
         hideIf: form => !form?.govtContributions,
         errorMessages: {
           pattern:
@@ -26,7 +23,6 @@ export default {
         min: 0,
       }),
       'ui:required': form => form?.govtContributions,
-      'ui:reviewField': CurrencyReviewRowView,
     },
   },
   schema: {
@@ -34,7 +30,7 @@ export default {
     required: ['govtContributions'],
     properties: {
       govtContributions: yesNoSchema,
-      amountGovtContribution: numberSchema,
+      amountGovtContribution: currencyStringSchema,
     },
   },
 };

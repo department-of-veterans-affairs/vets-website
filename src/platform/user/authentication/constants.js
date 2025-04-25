@@ -94,6 +94,10 @@ export const EXTERNAL_APPS = {
   SMHD: 'smhdweb',
 };
 
+export const TEST_APPS = {
+  OKTA: 'okta_test',
+};
+
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
 
 export const eAuthURL = `https://${
@@ -164,4 +168,5 @@ export const AUTH_PARAMS = {
   scope: 'scope',
   verification: 'verification',
   operation: 'operation',
+  state: 'state',
 };

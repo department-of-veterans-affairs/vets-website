@@ -1,32 +1,21 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import * as recordEventModule from 'platform/monitoring/record-event';
 import { createPayload, parseResponse } from '../../../../utils/helpers';
 
+const mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
+const formId = '1234';
+
 describe('CG `createPayload` method', () => {
-  let mockFile;
-  let formId;
-
-  beforeEach(() => {
-    mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
-    formId = '1234';
-  });
-
   it('should create a FormData instance with form_id and file', () => {
     const payload = createPayload(mockFile, formId);
-
-    expect(payload.get('form_id')).to.equal(formId);
-    expect(payload.get('attachment[file_data]')).to.equal(mockFile);
+    expect(payload.get('form_id')).to.eq(formId);
+    expect(payload.get('attachment[file_data]')).to.eq(mockFile);
     expect(payload.get('attachment[password]')).to.be.null;
   });
 
   it('should append password to FormData if provided', () => {
     const password = 'password';
     const payload = createPayload(mockFile, formId, password);
-
-    expect(payload.get('form_id')).to.equal(formId);
-    expect(payload.get('attachment[file_data]')).to.equal(mockFile);
-    expect(payload.get('attachment[password]')).to.equal(password);
+    expect(payload.get('attachment[password]')).to.eq(password);
   });
 });
 
@@ -39,34 +28,13 @@ describe('CG `parseResponse` method', () => {
       id: 'test-id',
     },
   };
-  let recordEventStub;
-  let mockFile;
-  let mockResult;
-
-  beforeEach(() => {
-    recordEventStub = sinon.stub(recordEventModule, 'default');
-    mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
-    mockResult = parseResponse(response, mockFile);
-  });
-
-  afterEach(() => {
-    recordEventStub.restore();
-  });
+  const mockResult = parseResponse(response, mockFile);
 
   it('should return an object with the name, confirmation code and guid', () => {
-    expect(mockResult).to.deep.equal({
+    expect(mockResult).to.deep.eq({
       name: 'test.txt',
       confirmationCode: 'test-id',
       guid: 'test-guid',
     });
-  });
-
-  it('should call the `recordEvent` helper to send event to Google Analytics', () => {
-    expect(
-      recordEventStub.calledWith({
-        'caregivers-poa-document-guid': 'test-guid',
-        'caregivers-poa-document-confirmation-code': 'test-id',
-      }),
-    ).to.be.true;
   });
 });

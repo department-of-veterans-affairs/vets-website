@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import {
   getSeiActivityJournal,
   getSeiAllergies,
+  getSeiEmergencyContacts,
   getSeiFamilyHistory,
   getSeiFoodJournal,
   getSeiProviders,
@@ -14,10 +15,22 @@ import {
   getSeiVaccines,
   getSeiVitalSigns,
 } from '../api/seiApi';
-import { getPatient } from '../api/MrApi';
+import { getPatient, getSelfEnteredInformation } from '../api/MrApi';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 
 export const clearFailedList = () => dispatch => {
   dispatch({ type: Actions.SelfEntered.CLEAR_FAILED });
+};
+
+export const getAllSelfEnteredData = () => async dispatch => {
+  try {
+    const response = await getSelfEnteredInformation();
+    dispatch({ type: Actions.SelfEntered.GET_ALL, payload: response });
+  } catch (error) {
+    dispatch(addAlert(Constants.ALERT_TYPE_SEI_ERROR, error));
+    throw error;
+  }
 };
 
 export const getSelfEnteredData = () => async dispatch => {
@@ -25,6 +38,7 @@ export const getSelfEnteredData = () => async dispatch => {
     activityJournal: getSeiActivityJournal,
     allergies: getSeiAllergies,
     demographics: getPatient,
+    emergencyContacts: getSeiEmergencyContacts,
     familyHistory: getSeiFamilyHistory,
     foodJournal: getSeiFoodJournal,
     providers: getSeiProviders,
@@ -69,6 +83,12 @@ export const getSelfEnteredData = () => async dispatch => {
         case 'demographics':
           dispatch({
             type: Actions.SelfEntered.GET_DEMOGRAPHICS,
+            payload: response,
+          });
+          break;
+        case 'emergencyContacts':
+          dispatch({
+            type: Actions.SelfEntered.GET_EMERGENCY_CONTACTS,
             payload: response,
           });
           break;

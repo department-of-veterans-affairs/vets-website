@@ -137,7 +137,7 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const EMPTY_FIELD = 'None recorded';
 export const NONE_RECORDED = 'None recorded';
 export const NO_INFO_REPORTED = 'No information reported';
 export const NA = 'N/A';
@@ -278,6 +278,7 @@ export const SEI_DOMAIN_DISPLAY_MAP = {
   activityJournal: 'Activity journal',
   allergies: 'Allergies',
   demographics: 'Demographics',
+  emergencyContacts: 'Emergency contacts',
   familyHistory: 'Family health history',
   foodJournal: 'Food journal',
   providers: 'Healthcare providers',
@@ -311,6 +312,7 @@ export const SEI_DOMAINS = [
   'activityJournal',
   'allergies',
   'demographics',
+  'emergencyContacts',
   'familyHistory',
   'foodJournal',
   'providers',
