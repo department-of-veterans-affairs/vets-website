@@ -263,7 +263,7 @@ function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
           : allBehaviorDescriptions[behaviorType];
       newObject[behaviorDescription] =
-        behaviorDetails[behaviorType] || 'Optional description not provided.';
+        behaviorDetails?.[behaviorType] || 'Optional description not provided.';
     }
   });
   return newObject;
