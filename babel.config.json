@@ -69,7 +69,7 @@
           "@department-of-veterans-affairs/platform-utilities/environment": "./src/platform/utilities/environment/index.js",
           "@department-of-veterans-affairs/platform-utilities/stagingDomains": "./src/platform/utilities/environment/stagingDomains.js",
           "@department-of-veterans-affairs/platform-utilities/va-subdomain": "./src/platform/utilities/environment/va-subdomain.js",
-          "@department-of-veterans-affairs/platform-utilities/feature-toggles": "./src/platform/utilities/feature-toggles/index.js",
+          "@department-of-veterans-affairs/platform-utilities/feature-toggles": "./src/platform/utilities/feature-toggles/index.jsx",
           "@department-of-veterans-affairs/platform-utilities/feature-toggles/helpers": "./src/platform/utilities/feature-toggles/helpers.js",
           "@department-of-veterans-affairs/platform-utilities/flipper-client": "./src/platform/utilities/feature-toggles/flipper-client.js",
           "@department-of-veterans-affairs/platform-utilities/featureFlagNames": "./src/platform/utilities/feature-toggles/featureFlagNames.js",
@@ -88,6 +88,7 @@
           "@department-of-veterans-affairs/platform-utilities/titleCase": "./src/platform/utilities/data/titleCase.js",
           "@department-of-veterans-affairs/platform-utilities/unset": "./src/platform/utilities/data/unset.js",
           "@department-of-veterans-affairs/platform-utilities/api": "./src/platform/utilities/api/index.js",
+          "@department-of-veterans-affairs/platform-utilities/real-user-monitoring": "./src/platform/utilities/real-user-monitoring.jsx",
 
           "@department-of-veterans-affairs/platform-landing-pages/exports": "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template": "./src/platform/landing-pages/dev-template.js",

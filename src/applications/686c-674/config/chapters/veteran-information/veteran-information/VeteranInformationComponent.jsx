@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { isValid, format } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
-
 import { srSubstitute } from '@department-of-veterans-affairs/platform-forms-system/mask-string';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import {
   FORMAT_YMD_DATE_FNS,
