@@ -31,6 +31,10 @@
         "value": false
       },
       {
+        "name": "vaOnlineSchedulingPast",
+        "value": false
+      },
+      {
         "name": "vaOnlineSchedulingVspAppointmentList",
         "value": false
       },
@@ -52,6 +56,14 @@
       },
       {
         "name": "vaOnlineSchedulingVspRequestNew",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingExpressCare",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingExpressCareNew",
         "value": false
       },
       {
