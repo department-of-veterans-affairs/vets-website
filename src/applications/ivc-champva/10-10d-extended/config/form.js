@@ -64,7 +64,7 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         page13: {
-          title: 'Applicant information',
+          title: 'Applicant information ',
           path: 'applicant-info',
           ...applicantNameDobSchema,
         },
