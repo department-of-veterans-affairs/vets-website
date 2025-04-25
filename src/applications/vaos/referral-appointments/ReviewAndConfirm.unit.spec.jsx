@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 // import { waitFor } from '@testing-library/dom';
 
+import * as utils from 'applications/vaos/services/utils';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import {
   createTestStore,
@@ -11,7 +12,6 @@ import {
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
-import * as postDraftReferralAppointmentModule from '../services/referral';
 // import * as flow from './flow';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
@@ -49,9 +49,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   //   },
   // };
   beforeEach(() => {
-    sandbox
-      .stub(postDraftReferralAppointmentModule, 'postDraftReferralAppointment')
-      .resolves(draftAppointmentInfo);
+    sandbox.stub(utils, 'apiRequestWithUrl').resolves(draftAppointmentInfo);
   });
   afterEach(() => {
     sandbox.restore();
@@ -82,12 +80,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.getByTestId('slot-day-time')).to.contain.text(
       'Monday, September 9, 2024',
     );
-    // expect(screen.getByTestId('slot-day-time')).to.contain.text(
-    //   '12:00 p.m. Eastern time (ET)',
-    // );
-    // sandbox.assert.notCalled(
-    //   postDraftReferralAppointmentModule.postDraftReferralAppointment,
-    // );
+    expect(screen.getByTestId('slot-day-time')).to.contain.text(
+      '12:00 p.m. Eastern time (ET)',
+    );
   });
   // it('should route to scheduleReferral if no slot selected', async () => {
   //   const selectedSlotKey = getReferralSlotKey('UUID');
