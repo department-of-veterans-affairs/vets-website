@@ -1,40 +1,42 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import moment from 'moment';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
-import MockDate from 'mockdate';
+import { expect } from 'chai';
 import {
   add,
   addMinutes,
-  nextTuesday,
-  nextThursday,
-  startOfMonth,
   endOfMonth,
+  nextThursday,
+  nextTuesday,
   startOfDay,
+  startOfMonth,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import MockDate from 'mockdate';
+import moment from 'moment';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import sinon from 'sinon';
 import {
   createTestStore,
+  getTestDate,
   renderWithStoreAndRouter,
-  setTypeOfCare,
-  setVAFacility,
   setClinic,
   setPreferredDate,
-  getTestDate,
+  setTypeOfCare,
+  setVAFacility,
 } from '../../../tests/mocks/setup';
 
 import DateTimeSelectPage from '.';
+import { createMockClinic } from '../../../tests/mocks/data';
+import { getAppointmentSlotMock } from '../../../tests/mocks/mock';
+import {
+  mockAppointmentSlotFetch,
+  mockEligibilityFetches,
+} from '../../../tests/mocks/mockApis';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
-import { mockAppointmentSlotFetch } from '../../../tests/mocks/helpers';
-import { getAppointmentSlotMock } from '../../../tests/mocks/mock';
-import { mockEligibilityFetches } from '../../../tests/mocks/fetch';
-import { createMockClinic } from '../../../tests/mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -58,12 +60,12 @@ function setDateTimeSelectMockFetchesBase({
   const clinic1 = createMockClinic({
     id: '308',
     stationId: '983',
-    friendlyName: 'Green team clinic',
+    name: 'Green team clinic',
   });
   const clinic2 = createMockClinic({
     id: '309',
     stationId: '983',
-    friendlyName: 'Red team clinic',
+    name: 'Red team clinic',
   });
   const clinics = [clinic1, clinic2];
 

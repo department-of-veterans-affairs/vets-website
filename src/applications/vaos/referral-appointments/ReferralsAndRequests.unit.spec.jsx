@@ -8,10 +8,10 @@ import { waitFor } from '@testing-library/dom';
 import ReferralsAndRequests from './ReferralsAndRequests';
 import { getVAOSRequestMock } from '../tests/mocks/mock';
 import reducers from '../redux/reducer';
-import { mockVAOSAppointmentsFetch } from '../tests/mocks/helpers';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { createReferrals } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
+import { mockVAOSAppointmentsFetch } from '../tests/mocks/mockApis';
 
 const initialStateVAOSService = {
   featureToggles: {

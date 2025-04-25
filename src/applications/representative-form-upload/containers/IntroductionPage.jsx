@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
@@ -10,18 +10,17 @@ import {
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { getFormContent, getFormNumber } from '../helpers';
+import { SIGN_IN_URL } from '../constants';
 
 const IntroductionPage = ({ route, router }) => {
-  const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
   const { title, subTitle, pdfDownloadUrl } = getFormContent();
 
-  const openLoginModal = () => {
-    dispatch(toggleLoginModal(true, 'cta-form'));
+  const goToSignIn = () => {
+    window.location = SIGN_IN_URL;
   };
 
   const startBtn = useMemo(
@@ -102,7 +101,7 @@ const IntroductionPage = ({ route, router }) => {
           </p>
           <VaButton
             text="Sign in to start uploading your form"
-            onClick={openLoginModal}
+            onClick={goToSignIn}
           />
         </VaAlert>
       )}
@@ -114,7 +113,6 @@ IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,

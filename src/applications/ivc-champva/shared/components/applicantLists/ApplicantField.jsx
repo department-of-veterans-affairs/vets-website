@@ -6,7 +6,7 @@ export default function ApplicantField({ formData }) {
 
   return (
     <div>
-      <strong>
+      <strong className="dd-privacy-hidden">
         {first} {middle && `${middle} `}
         {last}
         {suffix && `, ${suffix}`}
