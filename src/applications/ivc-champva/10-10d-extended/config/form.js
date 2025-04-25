@@ -9,13 +9,17 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { applicantWording } from '../../shared/utilities';
+import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
 import {
   applicantIdentificationInfoSchema,
   applicantInfoIntroSchema,
   applicantNameDobSchema,
+  applicantSharedAddressSchema,
 } from '../chapters/applicantInformation';
-import { onReviewPage } from '../helpers/utilities';
+import { onReviewPage, page15aDepends } from '../helpers/utilities';
+
+// import mockData from '../tests/fixtures/data/test-data.json';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,6 +75,7 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         page13: {
+          // initialData: mockData.data,
           title: 'Applicant information ',
           path: 'applicant-info',
           ...applicantNameDobSchema,
@@ -103,6 +108,24 @@ const formConfig = {
           ),
           showPagePerItem: true,
           ...applicantIdentificationInfoSchema,
+        },
+        page15a: {
+          path: 'applicant-mailing-same/:index',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          keepInPageOnReview: false,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>
+              address selection
+            </>
+          ),
+          depends: (formData, index) => page15aDepends(formData, index),
+          CustomPage: ApplicantAddressCopyPage,
+          CustomPageReview: null,
+          ...applicantSharedAddressSchema,
         },
       },
     },
