@@ -131,6 +131,7 @@
     "incomeReceiptWaivers": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "payer": "Social Security Administration",
         "expectedIncome": 0,
         "view:paymentsWillResume": true,
