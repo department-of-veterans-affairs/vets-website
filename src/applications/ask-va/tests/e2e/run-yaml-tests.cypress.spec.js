@@ -177,12 +177,11 @@ describe('YAML tests', () => {
               cy.log('-------------------');
               let flowYML = EMPTY_FLOW_YML;
 
-              // if (path === 'authenticated') {
-              //   cy.login();
-              // }
-              // else {
-              //   cy.logout();
-              // }
+              if (path === 'authenticated') {
+                cy.login();
+              } else {
+                cy.clearAllCookies();
+              }
 
               const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${path}/${file}`;
               cy.readFile(p).then(f => {
