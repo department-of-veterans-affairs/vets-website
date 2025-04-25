@@ -13,7 +13,7 @@ import {
   validateIfAvailable,
   getImageUri,
   dateFormat,
-  createMostRecentFillRecord,
+  createOriginalFillRecord,
   pharmacyPhoneNumber,
   isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
@@ -46,8 +46,8 @@ const VaPrescription = prescription => {
       ],
   );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const mostRecentFill = prescription?.dispensedDate
-    ? createMostRecentFillRecord(prescription)
+  const originalFill = prescription?.dispensedDate
+    ? createOriginalFillRecord(prescription)
     : null;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
@@ -56,8 +56,8 @@ const VaPrescription = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
-  if (mostRecentFill) {
-    refillHistory.unshift(mostRecentFill);
+  if (originalFill) {
+    refillHistory.push(originalFill);
   }
   const hasBeenDispensed =
     prescription?.dispensedDate ||

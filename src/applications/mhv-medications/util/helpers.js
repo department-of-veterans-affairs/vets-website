@@ -196,11 +196,11 @@ export const extractContainedResource = (resource, referenceId) => {
 };
 
 /**
- * Create a refill history item for the newest fill, using the prescription
+ * Create a refill history item for the original fill, using the prescription
  * @param {Object} Prescription object
  * @returns {Object} Object similar to or marching an rxRefillHistory object
  */
-export const createMostRecentFillRecord = prescription => {
+export const createOriginalFillRecord = prescription => {
   const {
     backImprint,
     cmopDivisionPhone,

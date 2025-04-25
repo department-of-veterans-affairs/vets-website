@@ -4,7 +4,7 @@ import {
   validateField,
   createVAPharmacyText,
   createNoDescriptionText,
-  createMostRecentFillRecord,
+  createOriginalFillRecord,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -177,8 +177,8 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createMostRecentFillRecord(prescription);
-  refillHistory.unshift(originalFill);
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   let result = `
 ---------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 import {
   createNoDescriptionText,
-  createMostRecentFillRecord,
+  createOriginalFillRecord,
   dateFormat,
   processList,
   validateField,
@@ -349,8 +349,8 @@ export const buildAllergiesPDFList = allergies => {
  */
 export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createMostRecentFillRecord(prescription);
-  refillHistory.unshift(originalFill);
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   const VAPrescriptionPDFList = [
     {
