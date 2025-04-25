@@ -1,4 +1,3 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { MAX_APPLICANTS } from '../config/constants';
 
 // Helper to detect if we're on review page when we don't have access
@@ -26,14 +25,3 @@ export const applicantListSchema = (requireds, propertyList) => {
     },
   };
 };
-
-// Only show address dropdown if we're not the certifier
-// AND there's another address present to choose from:
-export function page15aDepends(formData, index) {
-  const certifierIsApp = get('certifierRole', formData) === 'applicant';
-  const certAddress = get('street', formData?.certifierAddress);
-
-  return (
-    (index && index > 0) || (certAddress && !(certifierIsApp && index === 0))
-  );
-}
