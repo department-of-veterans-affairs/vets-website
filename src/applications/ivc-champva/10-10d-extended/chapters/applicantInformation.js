@@ -119,3 +119,16 @@ export const applicantIdentificationInfoSchema = {
     applicantSSN: ssnSchema,
   }),
 };
+
+/** @type {PageSchema} */
+export const applicantSharedAddressSchema = {
+  uiSchema: {
+    applicants: {
+      items: {},
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+    },
+  },
+  schema: applicantListSchema([], {}),
+};
