@@ -9,6 +9,8 @@ import {
   currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
@@ -18,6 +20,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
   isDefined,
@@ -32,23 +35,29 @@ export const options = {
   required: false,
   isItemIncomplete: item =>
     !isDefined(item?.recipientRelationship) ||
+    (!isDefined(item?.otherRecipientRelationshipType) &&
+      item?.recipientRelationship === 'OTHER') ||
+    (!isDefined(item?.recipientName) &&
+      item?.recipientRelationship !== 'VETERAN') ||
     !isDefined(item.payer) ||
     !isDefined(item.incomeType) ||
+    (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER') ||
     !isDefined(item.incomeFrequency) ||
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: () => 'Discontinued income',
+    getItemName: item =>
+      isDefined(item?.recipientRelationship) &&
+      isDefined(item?.payer) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? 'Veteran'
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income from ${item.payer}`,
     cardDescription: item =>
       isDefined(item?.grossAnnualAmount) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Income relationship:{' '}
-            <span className="vads-u-font-weight--bold">
-              {relationshipLabels[item.recipientRelationship]}
-            </span>
-          </li>
           <li>
             Income type:{' '}
             <span className="vads-u-font-weight--bold">{item.incomeType}</span>
@@ -156,15 +165,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Discontinued income recipient name',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },

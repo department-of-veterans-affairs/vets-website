@@ -27,33 +27,6 @@ export const testOptionsIsItemIncompleteWithZeroes = (options, baseItem) => {
   });
 };
 
-export const testOptionsTextGetItemName = options => {
-  describe('text getItemName function', () => {
-    const testCases = [
-      { recipientRelationship: 'SPOUSE', expected: relationshipLabels.SPOUSE },
-      { recipientRelationship: 'CHILD', expected: relationshipLabels.CHILD },
-      { recipientRelationship: 'PARENT', expected: relationshipLabels.PARENT },
-      { recipientRelationship: 'OTHER', expected: relationshipLabels.OTHER },
-    ];
-
-    testCases.forEach(({ recipientRelationship, expected }) => {
-      it(`should return "${expected}" for recipient relationship "${recipientRelationship}"`, () => {
-        const item = { recipientRelationship };
-        expect(options.text.getItemName(item)).to.equal(expected);
-      });
-    });
-
-    it('should return undefined if recipient relationship is missing', () => {
-      expect(options.text.getItemName({})).to.be.undefined;
-    });
-
-    it('should return undefined if recipient relationship is not in labels', () => {
-      const item = { recipientRelationship: 'UNKNOWN' };
-      expect(options.text.getItemName(item)).to.be.undefined;
-    });
-  });
-};
-
 export const testOptionsTextGetItemNameRecurringIncome = options => {
   describe('text getItemName function', () => {
     it(`should return "Veteran's income from Walmart" when recipientRelationship is "VETERAN"`, () => {
