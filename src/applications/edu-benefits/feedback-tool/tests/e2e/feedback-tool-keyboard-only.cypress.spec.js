@@ -1,9 +1,6 @@
 import manifest from '../../manifest.json';
 
 describe('Feedback Tool Keyboard Test', () => {
-  beforeEach(function beforeEachHook() {
-    if (Cypress.env('CI')) this.skip();
-  });
   it('Is accessible accordingly via keyboard', () => {
     cy.visit(manifest.rootUrl);
     cy.login();
@@ -102,11 +99,8 @@ describe('Feedback Tool Keyboard Test', () => {
       .should('exist')
       .type('foothill high');
     cy.realPress('Tab');
-    cy.realPress('Enter', { pressDelay: 1000 });
-    cy.repeatKey('Tab', 4);
-    cy.realPress('Space');
-    cy.repeatKey('Tab', 2);
-    cy.repeatKey(['Shift', 'Tab'], 4);
+    cy.realPress('Tab');
+    cy.realPress('Tab');
     cy.realPress('Space');
     cy.realPress('Tab');
     cy.allyEvaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');
@@ -120,6 +114,7 @@ describe('Feedback Tool Keyboard Test', () => {
       '[name="root_educationDetails_school_view:manualSchoolEntry_address_city"]',
       'Long Beach',
     );
+    cy.realPress('Space');
     cy.realPress('Tab');
     cy.allyEvaluateSelectMenu(
       '[name="root_educationDetails_school_view:manualSchoolEntry_address_state"]',
