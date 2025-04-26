@@ -24,16 +24,23 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   );
 
   // Adding logs to debug values in staging. Redirect is working loaclly but not in staging.
-  if (!environment.isProduction() || !navigator.userAgent === 'node.js') {
-    /* eslint-disable no-console */
-    console.log('----');
-    console.log('initialRender:');
-    console.log('featureMhvRouteGuards:', featureMhvRouteGuards);
-    console.log('isUserLOA3:', isUserLOA3);
-    console.log('hasRegisteredSystems:', hasRegisteredSystems);
-    console.log('featureTogglesLoading:', featureTogglesLoading);
-    console.log('----');
-  }
+  const logDebugInfo = (label, values) => {
+    if (!environment.isProduction() && navigator.userAgent !== 'node.js') {
+      /* eslint-disable no-console */
+      console.log('----');
+      console.log(label);
+      console.log(values);
+      console.log('----');
+      /* eslint-enable no-console */
+    }
+  };
+
+  logDebugInfo('initialRender', {
+    featureMhvRouteGuards,
+    isUserLOA3,
+    hasRegisteredSystems,
+    featureTogglesLoading,
+  });
 
   useDatadogRum();
 
@@ -50,30 +57,22 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
     featureMhvRouteGuards && (!isUserLOA3 || !hasRegisteredSystems);
 
   if (shouldRedirectToMyHealtheVet()) {
-    if (!environment.isProduction() || !navigator.userAgent === 'node.js') {
-      /* eslint-disable no-console */
-      console.log('----');
-      console.log('shouldRedirectToMyHealtheVet if statement');
-      console.log('featureMhvRouteGuards:', featureMhvRouteGuards);
-      console.log('isUserLOA3:', isUserLOA3);
-      console.log('hasRegisteredSystems:', hasRegisteredSystems);
-      console.log('featureTogglesLoading:', featureTogglesLoading);
-      console.log('----');
-    }
+    logDebugInfo('shouldRedirectToMyHealtheVet if statement', {
+      featureMhvRouteGuards,
+      isUserLOA3,
+      hasRegisteredSystems,
+      featureTogglesLoading,
+    });
     window.location.replace(`${window.location.origin}/my-health`);
     return null;
   }
 
-  if (!environment.isProduction() || !navigator.userAgent === 'node.js') {
-    /* eslint-disable no-console */
-    console.log('----');
-    console.log('after if statement');
-    console.log('featureMhvRouteGuards:', featureMhvRouteGuards);
-    console.log('isUserLOA3:', isUserLOA3);
-    console.log('hasRegisteredSystems:', hasRegisteredSystems);
-    console.log('featureTogglesLoading:', featureTogglesLoading);
-    console.log('----');
-  }
+  logDebugInfo('after if statement', {
+    featureMhvRouteGuards,
+    isUserLOA3,
+    hasRegisteredSystems,
+    featureTogglesLoading,
+  });
   return (
     <RequiredLoginView
       serviceRequired={[
