@@ -2,11 +2,12 @@ import { expect } from 'chai';
 import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import { createMockFacility } from '../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../../tests/mocks/mockApis';
 import {
   createTestStore,
@@ -46,6 +47,11 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
 
   beforeEach(() => {
     mockFetch();
+
+    mockFacilitiesApi({
+      ids: ['983', '984'],
+      response: [new MockFacilityResponse()],
+    });
   });
 
   it('should show closest two registered facilities', async () => {
@@ -76,18 +82,20 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+    });
 
     const store = createTestStore({
       ...initialState,
@@ -147,18 +155,20 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+    });
 
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
@@ -172,10 +182,27 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show error message', async () => {
+    // Act
     const store = createTestStore(initialState);
+
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'covid',
+          requestEnabled: true,
+          directEnabled: true,
+        }),
+      ],
+      responseCode: 500,
+    });
+
+    // Act
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
     });
+
+    // Assert
     expect(
       await screen.findByRole('heading', {
         name: 'We’re sorry. We’ve run into a problem',
@@ -212,18 +239,20 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+    });
 
     const store = createTestStore({
       ...initialState,
