@@ -11,7 +11,7 @@ import content from '../locales/en/content.json';
 
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // define local use variables
   const form = useSelector(state => state.form);
@@ -20,16 +20,19 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     form,
   ]);
 
-  const { veteranFullName: name } = form.data['view:veteranInformation'];
+  // Default name to Applicant Submission if view:veteranInformation is empty for some reason
+  const name = useMemo(() => {
+    const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+      form.data?.['view:veteranInformation'] ?? {};
+    return veteranFullName;
+  }, [form.data]);
 
-  // fetch a custom error message based on status code
-  const errorMessage = useMemo(() => {
-    if (!errors.length) return null;
-    const code = errors[0].status[0];
+  const errorMessageFromResponse = useCallback(response => {
+    const code = response?.errors?.[0]?.status?.[0];
     return code === '5'
       ? content['alert-download-message--500']
       : content['alert-download-message--generic'];
-  }, [errors]);
+  }, []);
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -51,7 +54,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     async event => {
       event.preventDefault();
       setLoading(true);
-      setErrors([]);
+      setErrorMessage(null);
 
       try {
         await ensureValidCSRFToken('fetchPdf');
@@ -60,17 +63,31 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           body: formData,
           headers: { 'Content-Type': 'application/json' },
         });
+
+        // Handle request errors
+        if (!response.ok) {
+          // Attempt to parse a JSON error response
+          const errorResponse = await response.json();
+          recordEvent({ event: 'hca-pdf-download--failure' });
+
+          const message = errorMessageFromResponse(errorResponse);
+          setErrorMessage(message);
+          return;
+        }
         const blob = await response.blob();
+        // Generate pdf from blob
         handlePdfDownload(blob);
         recordEvent({ event: 'hca-pdf-download--success' });
-      } catch (error) {
-        setErrors(error.errors);
+
+        // Handle any unexpected errors
+      } catch {
+        setErrorMessage(content['alert-download-message--generic']);
         recordEvent({ event: 'hca-pdf-download--failure' });
       } finally {
         setLoading(false);
       }
     },
-    [formData, handlePdfDownload],
+    [formData, handlePdfDownload, errorMessageFromResponse],
   );
 
   // apply focus to the error alert if we have errors set

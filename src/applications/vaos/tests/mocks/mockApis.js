@@ -1,0 +1,750 @@
+/** @module testing/mocks/mockApis */
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  addMonths,
+  endOfMonth,
+  format,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
+import moment from 'moment';
+import {
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
+import metaWithoutFailures from '../../services/mocks/v2/meta.json';
+import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
+import { getVAOSAppointmentMock } from './mock';
+
+/**
+ * Return a collection of start and end dates. The start date starts from the current
+ * date and the end date will be the previous year.
+ *
+ * @export
+ * @param {number} [nbrOfYears=2] Number of years to compute the start and end dates
+ * @returns A collection of mock start and end date objects
+ */
+export function getDateRanges(nbrOfYears = 1) {
+  return Array.from(Array(nbrOfYears).keys()).map(i => {
+    return {
+      start: moment()
+        .startOf('day')
+        .subtract(i + 1, 'year')
+        .utc()
+        .format(),
+
+      end: moment()
+        .startOf('day')
+        .subtract(i, 'year')
+        .utc()
+        .format(),
+    };
+  });
+}
+
+/**
+ * Function to mock the 'GET' appointment endpoint.
+ *
+ * @example GET '/vaos/v2/appointments/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {boolean} [arguments.avs=false] Flag to include after visit summary information.
+ *
+ * @return {string} Return mock API URL. This is useful for debugging.
+ */
+export function mockAppointmentApi({
+  avs = false,
+  fetchClaimStatus = false,
+  response: data,
+  responseCode = 200,
+}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
+    data.id
+  }?_include=facilities,clinics${avs ? ',avs' : ''}${
+    fetchClaimStatus ? ',travel_pay_claims' : ''
+  }`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Function to mock the 'GET' appointments endpoint.
+ *
+ * @example GET '/vaos/v2/appointments'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Date} end -
+ * @param {Date} start -
+ * @param {Array} statuses -
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ *
+ * @return {string} Return mock API URL. This is useful for debugging.
+ */
+export function mockAppointmentsApi({
+  end,
+  includes = ['facilities', 'clinics'],
+  start,
+  statuses = [],
+  response: data,
+  backendServiceFailures = false,
+  responseCode = 200,
+} = {}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v2/appointments?_include=${includes
+    .map(include => `${include}`)
+    .join(',')}&start=${format(start, 'yyyy-MM-dd')}&end=${format(
+    end,
+    'yyyy-MM-dd',
+  )}&${statuses.map(status => `statuses[]=${status}`).join('&')}`;
+
+  const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
+
+  if (responseCode === 200) {
+    // Returns a meta object within the response with or without any backendServiceFailures
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data,
+      meta,
+    });
+  } else {
+    // General fetching error, no appointments returned
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Mocks the api call that submits an appointment or request to the VAOS service
+ *
+ * @export
+ * @param {VAOSAppointment} data The appointment data to return from the mock
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockAppointmentSubmit(data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
+    { data },
+  );
+}
+
+/**
+ * Function to mock the 'update' appointments endpoint.
+ *
+ * @example PUT '/vaos/v2/appointments/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockAppointmentUpdateApi({
+  response: data,
+  responseCode = 200,
+}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${data.id}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Mocks request to VA community care providers api, used in community care request flow
+ *
+ * @export
+ * @param {Object} address Facility address object with latitude and longitude properties
+ * @param {Array<string>} specialties Array of specialty codes used for a type of care
+ * @param {Array<string>} bbox Array of bounding box coordinates to search in
+ * @param {Array<PPMSProvider>} response Array of providers to return from mock
+ * @param {boolean} [vaError=false] If true mock will return an error response
+ * @param {number} [radius=60] Miles radius to search within for the mock, used in query param
+ */
+export function mockCCProviderApi({
+  address,
+  bbox,
+  radius = 60,
+  specialties,
+  response: data,
+  responseCode = 200,
+} = {}) {
+  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
+  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
+  const baseUrl = `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Function to mock the 'GET' clinics endpoint. This function is used get all
+ * clinics associated with the given facility/location.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Array} arguments.clinicId -
+ * @param {String} arguments.locationId - Location id.
+ * @param {String} arguments.typeOfCareId - Type of care id.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockClinicsApi({
+  clinicId,
+  locationId,
+  typeOfCareId,
+  response: data,
+  responseCode = 200,
+}) {
+  let baseUrl = `${environment.API_URL}/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`;
+
+  if (typeOfCareId)
+    baseUrl = `${environment.API_URL}/vaos/v2/locations/${locationId}/clinics?clinical_service=${typeOfCareId}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data,
+    });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+export function mockEligibilityDirectApi({
+  facilityId,
+  patientHistoryInsufficientError = false,
+  typeOfCareId,
+  response: _data,
+  responseCode = 200,
+} = {}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`;
+  const directReasons = [];
+
+  if (responseCode === 200) {
+    if (patientHistoryInsufficientError && typeOfCareId !== 'primaryCare') {
+      directReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: {
+        attributes: {
+          eligible: directReasons.length === 0,
+          ineligibilityReasons:
+            directReasons.length === 0 ? undefined : directReasons,
+        },
+      },
+    });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+}
+
+export function mockEligibilityRequestApi({
+  facilityId,
+  facilityRequestLimitExceeded = false,
+  patientHistoryInsufficientError = false,
+  typeOfCareId,
+  response: _data,
+  responseCode = 200,
+} = {}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`;
+  const requestReasons = [];
+
+  if (responseCode === 200) {
+    if (patientHistoryInsufficientError && typeOfCareId !== 'primaryCare') {
+      requestReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+
+    if (facilityRequestLimitExceeded) {
+      requestReasons.push({
+        coding: [
+          {
+            code: 'facility-request-limit-exceeded',
+          },
+        ],
+      });
+    }
+
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: {
+        attributes: {
+          eligible: requestReasons.length === 0,
+          ineligibilityReasons:
+            requestReasons.length === 0 ? undefined : requestReasons,
+        },
+      },
+    });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+}
+
+/**
+ * Mocks the facilities fetch call using the api
+ *
+ * @export
+ * @param {Object} params
+ * @param {?Array<string>} params.ids An array of facility ids to use in the query params. Not necessary
+ *   unless you are using the children param to return the child facilities of parents
+ * @param {Array<VAFacility>} [params.facilities=[]] An array of facility objects to return from the fetch
+ * @param {Boolean} [params.children=false] Sets the children query param, which is meant to include child
+ *   facilities.
+ */
+export function mockFacilitiesApi({
+  ids,
+  children = true,
+  response: data,
+  responseCode = 200,
+} = {}) {
+  let idList = ids;
+  if (!idList || idList.length === 0) idList = data.map(f => f.id);
+
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v2/facilities?children=${children}&${idList
+    .map(id => `ids[]=${id}`)
+    .join('&')}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Mocks the single facility fetch call using the api
+ *
+ * @export
+ * @param {Object} params
+ * @param {VAFacility} params.facility The facility object to return from the fetch
+ */
+export function mockFacilityApi({
+  id,
+  response: data,
+  responseCode = 200,
+} = {}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${id}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Mock the browser geolocation api with a given position
+ *
+ * @export
+ * @param {Object} [params]
+ * @param {number} [latitude=53.2734] Latitude value (defaulted to San Diego)
+ * @param {number} [longitude=-7.77832031] Longitude value (defaulted to San Diego)
+ * @param {boolean} [fail=false] Should the geolocation request fail
+ */
+export function mockGetCurrentPosition({
+  latitude = 53.2734, // San Diego, CA
+  longitude = -7.77832031,
+  fail = false,
+} = {}) {
+  global.navigator.geolocation = {
+    getCurrentPosition: sinon
+      .stub()
+      .callsFake((successCallback, failureCallback) =>
+        fail
+          ? Promise.resolve(
+              failureCallback({
+                code: 1,
+                message: 'User denied Geolocation',
+              }),
+            )
+          : Promise.resolve(
+              successCallback({ coords: { latitude, longitude } }),
+            ),
+      ),
+  };
+}
+
+/**
+ * Mocks the fetch request made when retrieving VAOS appointments from the appointment-list page
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} start Start date for list of appointments
+ * @param {string} end End date for list of appointments
+ * @param {Array<string>} statuses An array of appointment statuses
+ * @param {Array<VAOSRequest>} params.request Request to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return a fetch error from the mock
+ * @param {boolean} [params.backendServiceFailures=null] Whether or not to return a backend service error with the mock
+ * @param {boolean} [params.avs=false] Flag to include after visit summary information or not.
+ */
+export function mockVAOSAppointmentsFetch({
+  start,
+  end,
+  statuses = [],
+  requests,
+  error = null,
+  backendServiceFailures = null,
+  avs = false,
+  fetchClaimStatus = false,
+}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v2/appointments?_include=facilities,clinics${avs ? ',avs' : ''}${
+    fetchClaimStatus ? ',travel_pay_claims' : ''
+  }&start=${start}&end=${end}&${statuses
+    .map(status => `statuses[]=${status}`)
+    .join('&')}`;
+
+  const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
+
+  if (error) {
+    // General fetching error, no appointments returned
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    // Returns a meta object within the response with or without any backendServiceFailures
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: requests,
+      meta,
+    });
+  }
+}
+
+/**
+ * Mocks the api call to get parent sites from the VAOS service. Really only used
+ * on the old two step facility page.
+ *
+ * @export
+ * @param {Array<string>} ids A list of VistA site ids to mock the request for
+ * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
+ */
+export function mockVAOSParentSites(ids, data, children = false) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
+        .map(id => `ids[]=${id}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}
+
+/**
+ * Mock the api calls that checks if a user is eligible for community care for
+ *   a given type of care and if the facility supports CC
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} params.parentSites The VA parent sites to check for CC support
+ * @param {Array<string>} params.supportedSites The VA parent sites that support CC
+ * @param {string} params.careType Community care type of care string
+ * @param {boolean} [eligible=true] Is the user eligible for CC
+ */
+export function mockV2CommunityCareEligibility({
+  parentSites,
+  supportedSites,
+  careType,
+  eligible = true,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v2/scheduling/configurations?${parentSites
+        .map(site => `facility_ids[]=${site}`)
+        .join('&')}&cc_enabled=true`,
+    ),
+    {
+      data: (supportedSites || parentSites).map(parent => ({
+        id: parent,
+        attributes: {
+          facilityId: parent,
+          communityCare: true,
+        },
+      })),
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/community_care/eligibility/${careType}`,
+    ),
+    {
+      data: {
+        id: careType,
+        attributes: {
+          eligible,
+        },
+      },
+    },
+  );
+}
+
+/**
+ * Mocks the api call that gets direct and request scheduling settings from VATS
+ *
+ * @export
+ * @param {Array<string>} ids The facility ids to pull settings for
+ * @param {Array<SchedulingConfiguration>} data The list of facilities with their settings to return from the mock
+ */
+export function mockSchedulingConfigurations(configs, isCCEnabled = false) {
+  let ccEnabledParam = '';
+  if (isCCEnabled) {
+    ccEnabledParam = `&cc_enabled=${isCCEnabled}`;
+  }
+
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/scheduling/configurations?${configs
+        .map(config => `facility_ids[]=${config.id}`)
+        .join('&')}${ccEnabledParam}`,
+    ),
+    { data: configs },
+  );
+}
+
+/**
+ * Mocks request to VA community care providers api, used in community care request flow
+ *
+ * @export
+ * @param {Object} address Facility address object with latitude and longitude properties
+ * @param {Array<string>} specialties Array of specialty codes used for a type of care
+ * @param {Array<string>} bbox Array of bounding box coordinates to search in
+ * @param {Array<PPMSProvider>} providers Array of providers to return from mock
+ * @param {boolean} [vaError=false] If true mock will return an error response
+ * @param {number} [radius=60] Miles radius to search within for the mock, used in query param
+ */
+export function mockCCProviderFetch(
+  address,
+  specialties,
+  bbox,
+  providers,
+  vaError = false,
+  radius = 60,
+) {
+  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
+  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
+
+  if (vaError) {
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
+      ),
+      { errors: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
+      ),
+      { data: providers },
+    );
+  }
+}
+
+/**
+ * Mocks the api call that fetches a list of appointment slots for direct scheduling
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} facilityId The VistA facility id where slots are from
+ * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
+ *    if startDate and endDate are not provided
+ * @param {Date} startDate The start date for the appointment slots
+ * @param {Date} endDate The end date for the appointment slots
+ * @param {string} clinicId The VistA clinic id the slots are in
+ * @param {boolean} withError Flag to determine if the response should fail.
+ * @param {Array<VARSlot>} response The list of slots to return from the mock
+ */
+export function mockAppointmentSlotApi({
+  clinicId,
+  endDate,
+  facilityId,
+  preferredDate,
+  startDate,
+  response: data = [],
+  responseCode = 200,
+}) {
+  const start = startDate || startOfMonth(preferredDate, 'month');
+  const end =
+    endDate || startOfDay(endOfMonth(addMonths(preferredDate, 1), 'month'));
+
+  const baseUrl =
+    `${environment.API_URL}/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
+    `start=${format(start, "yyyy-MM-dd'T'HH:mm:ssxxx")}` +
+    `&end=${format(end, "yyyy-MM-dd'T'HH:mm:ssxxx")}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data,
+    });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), {
+      errors: [],
+    });
+  }
+
+  return baseUrl;
+}
+
+/**
+ * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.siteId The VistA site id the facility is associated with
+ * @param {string} params.facilityId The VA facility id to check for eligibility at
+ * @param {string} params.typeOfCareId The type of care id to check for eligibility for
+ * @param {boolean} [params.limit=false] Whether the mock should set the user as passing the request limit check
+ * @param {boolean} [params.requestPastVisits=false] Whether the mock should set the user as passing the past visits check
+ *    for requests
+ * @param {boolean} [params.directPastVisits=false] Whether the mock should set the user as passing the past visits check
+ *    for direct scheduling
+ * @param {Array<VAOSClinic>} [params.clinics=[]] The clinics returned during the eligibility checks
+ * @param {boolean} [params.pastClinics=false] Whether or not the mock should also mock an appointments fetch with an
+ *    past appointment with a clinic matching one passed in the clinics param, so that the user passes the past clinics check
+ * }
+ */
+export function mockEligibilityFetches({
+  facilityId,
+  typeOfCareId,
+  limit = false,
+  requestPastVisits = false,
+  directPastVisits = false,
+  matchingClinics = null,
+  clinics = [],
+  pastClinics = false,
+}) {
+  const directReasons = [];
+  const requestReasons = [];
+
+  if (!directPastVisits && typeOfCareId !== 'primaryCare') {
+    directReasons.push({
+      coding: [
+        {
+          code: 'patient-history-insufficient',
+        },
+      ],
+    });
+  }
+
+  if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
+    requestReasons.push({
+      coding: [
+        {
+          code: 'patient-history-insufficient',
+        },
+      ],
+    });
+  }
+
+  if (!limit) {
+    requestReasons.push({
+      coding: [
+        {
+          code: 'facility-request-limit-exceeded',
+        },
+      ],
+    });
+  }
+
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=direct`,
+    ),
+    {
+      data: {
+        attributes: {
+          eligible: directReasons.length === 0,
+          ineligibilityReasons:
+            directReasons.length === 0 ? undefined : directReasons,
+        },
+      },
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/eligibility?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}&type=request`,
+    ),
+    {
+      data: {
+        attributes: {
+          eligible: requestReasons.length === 0,
+          ineligibilityReasons:
+            requestReasons.length === 0 ? undefined : requestReasons,
+        },
+      },
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/locations/${facilityId}/clinics?clinical_service=${typeOfCareId}`,
+    ),
+    {
+      data: clinics,
+    },
+  );
+
+  const pastAppointments = (matchingClinics || clinics).map(clinic => {
+    const appt = getVAOSAppointmentMock();
+    return {
+      ...appt,
+      attributes: {
+        ...appt.attributes,
+        type: 'VA',
+        clinic: clinic.id,
+        locationId: facilityId.substr(0, 3),
+      },
+    };
+  });
+
+  const dateRanges = getDateRanges(3);
+  dateRanges.forEach(range => {
+    mockVAOSAppointmentsFetch({
+      start: range.start,
+      end: range.end,
+      requests: pastClinics ? pastAppointments : [],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+  });
+}
