@@ -7,11 +7,11 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
   isVAPhoneAppointment,
+  isInPersonVisit,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -23,7 +23,6 @@ import {
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
-  selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
@@ -41,10 +40,7 @@ export default function UpcomingAppointmentsDetailsPage() {
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
@@ -91,14 +87,11 @@ export default function UpcomingAppointmentsDetailsPage() {
       } else if (isVAPhoneAppointment(appointment)) {
         pageTitle = `${prefix} Phone Appointment On`;
       }
-      const pageTitleSuffix = featureBreadcrumbUrlUpdate
-        ? ' | Veterans Affairs'
-        : '';
 
       if (appointment && appointmentDate) {
         document.title = `${pageTitle} ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
-        )}${pageTitleSuffix}`;
+        )} | Veterans Affairs`;
         scrollAndFocus();
       }
     },
@@ -110,7 +103,6 @@ export default function UpcomingAppointmentsDetailsPage() {
       isInPerson,
       isPast,
       isVideo,
-      featureBreadcrumbUrlUpdate,
     ],
   );
 

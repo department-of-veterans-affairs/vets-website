@@ -3,11 +3,12 @@ import { NETWORTH_VALUE } from '../../constants';
 
 export const whatAreAssets = (
   <>
-    <va-accordion>
+    <va-accordion open-single>
       <va-accordion-item
-        id="What we count as assets"
+        id="what-we-count-as-assets"
         header="What we count as assets"
         bordered
+        level={4}
       >
         <p>
           Assets include the fair market value of all your real and personal

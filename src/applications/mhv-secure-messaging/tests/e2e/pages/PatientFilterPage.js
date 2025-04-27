@@ -9,6 +9,15 @@ class PatientFilterSortPage {
   //   cy.get(Locators.BUTTONS.FILTER).click();
   // };
 
+  filterMockResponse = (originalResponse, text) => {
+    return {
+      ...originalResponse,
+      data: originalResponse.data.filter(item =>
+        item.attributes.subject.toLowerCase().includes(text.toLowerCase()),
+      ),
+    };
+  };
+
   openAdditionalFilter = () => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
   };
