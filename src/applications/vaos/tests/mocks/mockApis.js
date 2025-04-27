@@ -189,7 +189,6 @@ export function mockCCProviderApi({
   const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
   const baseUrl = `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`;
 
-
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
   } else {
@@ -224,7 +223,6 @@ export function mockClinicsApi({
 
   if (typeOfCareId)
     baseUrl = `${environment.API_URL}/vaos/v2/locations/${locationId}/clinics?clinical_service=${typeOfCareId}`;
-
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
@@ -395,7 +393,6 @@ export function mockGetCurrentPosition({
     getCurrentPosition: sinon
       .stub()
       .callsFake((successCallback, failureCallback) =>
-
         fail
           ? Promise.resolve(
               failureCallback({
@@ -407,7 +404,6 @@ export function mockGetCurrentPosition({
               successCallback({ coords: { latitude, longitude } }),
             ),
       ),
-
   };
 }
 
@@ -581,7 +577,6 @@ export function mockCCProviderFetch(
     setFetchJSONResponse(
       global.fetch.withArgs(
         `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${address.latitude}&longitude=${address.longitude}&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
-
       ),
       { data: providers },
     );
@@ -725,7 +720,6 @@ export function mockEligibilityFetches({
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v2/locations/${facilityId}/clinics?clinical_service=${typeOfCareId}`,
-
     ),
     {
       data: clinics,
