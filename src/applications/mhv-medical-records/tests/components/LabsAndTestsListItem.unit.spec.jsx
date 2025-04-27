@@ -196,16 +196,11 @@ describe('LabsAndTestsListItem component with pathology record', () => {
   });
 
   it('should display the name of the record as a link to view record details', () => {
-    // matches any one of the four expected strings
-    const pathologyLabelRe = /^LR SURGICAL (PATHOLOGY|SURGICAL_PATHOLOGY|ELECTRON_MICROSCOPY|CYTOPATHOLOGY) REPORT$/;
-
-    const recordNames = screen.getAllByText(pathologyLabelRe, {
-      exact: true,
+    const recordName = screen.getAllByText('LR SURGICAL PATHOLOGY REPORT', {
       selector: 'a',
-    });
-
-    // ensure at least one matching link was found
-    expect(recordNames.length).to.be.greaterThan(0);
+      exact: true,
+    })[0];
+    expect(recordName).to.exist;
   });
 
   it('should display the date of the record', () => {

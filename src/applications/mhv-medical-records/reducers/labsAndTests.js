@@ -239,11 +239,25 @@ export const convertMicrobiologyRecord = record => {
 const convertPathologyRecord = record => {
   const { code } = record.code.coding?.[0];
 
-  // Define a set of valid pathology codes
-  const validCodes = new Set(['11526-1', '27898-6', '50668-3', '26438-2']);
+  // Define mapping for new LOINC codes to names
+  const loincCodeMapping = {
+    '27898-6': 'Surgical Pathology',
+    '50668-3': 'Cytology',
+    '26438-2': 'Molecular Pathology',
+  };
 
-  // If the code exists in our valid set, assign record.code.text; otherwise, undefined
-  const pathologyType = validCodes.has(code) ? record.code.text : '';
+  // Determine pathology type based on LOINC code
+  let pathologyType;
+  if (code === '11526-1') {
+    // Keep existing name for old LOINC code
+    pathologyType = record.code.text;
+  } else if (loincCodeMapping[code]) {
+    // Use mapped name for new LOINC codes
+    pathologyType = loincCodeMapping[code];
+  } else {
+    // Default to 'Pathology' if no valid code found
+    pathologyType = 'Pathology';
+  }
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
