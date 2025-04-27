@@ -1,16 +1,18 @@
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import ContactFacilitiesPage from './ContactFacilitiesPage';
+import { createMockFacility } from '../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurations,
+} from '../../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import { createMockFacility } from '../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
-import { mockSchedulingConfigurations } from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import ContactFacilitiesPage from './ContactFacilitiesPage';
 
 describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   const initialState = {
@@ -47,9 +49,9 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show closest two registered facilities', async () => {
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'Facility that is enabled',
@@ -135,9 +137,9 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show five facilities in alpha order when no residential address', async () => {
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'A facility',
@@ -186,9 +188,9 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show no facilities for online vaccine scheduling view', async () => {
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'Facility that is enabled',

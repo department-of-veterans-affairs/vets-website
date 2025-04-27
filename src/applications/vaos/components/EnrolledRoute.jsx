@@ -56,6 +56,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
         {!featureMhvRouteGuards && !hasRegisteredSystems && (
           <NoRegistrationMessage />
         )}
+
         {hasRegisteredSystems && <RouteComponent />}
       </Route>
     </RequiredLoginView>

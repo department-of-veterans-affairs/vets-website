@@ -7,7 +7,6 @@ import moment from 'moment';
 import { format, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeaturePastApptDateRange } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -20,77 +19,6 @@ import {
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-
-export function getPastAppointmentDateRangeOptions(today = moment()) {
-  const startOfToday = today.clone().startOf('day');
-
-  // Past 3 months
-  const options = [
-    {
-      value: 0,
-      label: 'Past 3 months',
-      startDate: startOfToday
-        .clone()
-        .subtract(3, 'months')
-        .format('YYYY-MM-DD'),
-      endDate: today
-        .clone()
-        .startOf('hour')
-        .format('YYYY-MM-DD'),
-    },
-  ];
-
-  // 3 month ranges going back ~1 year
-  let index = 1;
-  let monthsToSubtract = 3;
-
-  while (index < 4) {
-    const start = startOfToday
-      .clone()
-      .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
-      .startOf('month');
-    const end = startOfToday
-      .clone()
-      .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
-      .endOf('month');
-
-    options.push({
-      value: index,
-      label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
-      startDate: start.format('YYYY-MM-DD'),
-      endDate: end.format('YYYY-MM-DD'),
-    });
-
-    monthsToSubtract += 3;
-    index += 1;
-  }
-
-  // All of current year
-  options.push({
-    value: 4,
-    label: `All of ${startOfToday.format('YYYY')}`,
-    startDate: startOfToday
-      .clone()
-      .startOf('year')
-      .format('YYYY-MM-DD'),
-    endDate: startOfToday.format('YYYY-MM-DD'),
-  });
-
-  // All of last year
-  const lastYear = startOfToday.clone().subtract(1, 'years');
-
-  options.push({
-    value: 5,
-    label: `All of ${lastYear.format('YYYY')}`,
-    startDate: lastYear.startOf('year').format('YYYY-MM-DD'),
-    endDate: lastYear
-      .clone()
-      .endOf('year')
-      .format('YYYY-MM-DD'),
-  });
-
-  return options;
-}
 
 export function getMaximumPastAppointmentDateRange() {
   const now = new Date();
@@ -128,13 +56,8 @@ export default function PastAppointmentsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
-  const featurePastApptDateRange = useSelector(state =>
-    selectFeaturePastApptDateRange(state),
-  );
 
-  const dateRangeOptions = featurePastApptDateRange
-    ? getMaximumPastAppointmentDateRange()
-    : getPastAppointmentDateRangeOptions();
+  const dateRangeOptions = getMaximumPastAppointmentDateRange();
   const {
     showScheduleButton,
     pastAppointmentsByMonth,

@@ -46,6 +46,12 @@ export function getPageFlow(referralId, appointmentId) {
       next: '',
       previous: 'appointments',
     },
+    details: {
+      url: `/${appointmentId}`,
+      label: '',
+      next: '',
+      previous: 'complete',
+    },
   };
 }
 

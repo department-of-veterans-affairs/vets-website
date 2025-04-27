@@ -41,10 +41,25 @@ const ProviderAddress = props => {
             target="_blank"
             rel="noreferrer"
           >
-            Directions
-          </a>
-        </div>
-      )}
+
+            <va-icon
+              className="vads-u-margin-right--0p5 vads-u-color--link-default"
+              icon="directions"
+              size={3}
+            />
+            <a
+              data-testid="directions-link"
+              href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
+                address,
+              )}`}
+              aria-label={`directions to ${directionsName}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Directions
+            </a>
+          </div>
+        )}
       <p className="vads-u-margin-bottom--0" data-testid="phone">
         <strong>Main phone:</strong>
       </p>

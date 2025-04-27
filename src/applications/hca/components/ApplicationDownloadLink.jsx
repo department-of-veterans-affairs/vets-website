@@ -34,6 +34,14 @@ const ApplicationDownloadLink = ({ formConfig }) => {
       : content['alert-download-message--generic'];
   }, []);
 
+
+  const errorMessageFromResponse = useCallback(response => {
+    const code = response?.errors?.[0]?.status?.[0];
+    return code === '5'
+      ? content['alert-download-message--500']
+      : content['alert-download-message--generic'];
+  }, []);
+
   const handlePdfDownload = useCallback(
     blob => {
       const downloadUrl = URL.createObjectURL(blob);

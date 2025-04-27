@@ -412,6 +412,7 @@ const WorkflowChoicePage = props => {
     }
   }, [data?.mentalHealthWorkflowChoice, shouldGoForward]);
 
+
   const missingSelectionErrorMessage =
     'A response is needed for this question.';
 

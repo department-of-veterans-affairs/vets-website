@@ -3,11 +3,16 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockSentMessages,
+    filterData,
+  );
+
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -15,9 +20,9 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(sentSearchResponse);
-    PatientFilterPage.verifyFilterResults('test', sentSearchResponse);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
     cy.get(`.unread-icon`).should(`not.exist`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -25,7 +30,7 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
 
   it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterData('any');
-    PatientFilterPage.clickApplyFilterButton(sentSearchResponse);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
 
