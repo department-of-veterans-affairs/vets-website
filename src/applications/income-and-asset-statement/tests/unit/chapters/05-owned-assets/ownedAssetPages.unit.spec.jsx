@@ -34,61 +34,64 @@ describe('owned asset list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return "Veteran’s income from a business" if recipient is Veteran and asset type is "business"', () => {
+    const mockFormData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+    it('should return "John Doe’s income from a business" if recipient is Veteran and asset type is "business"', () => {
       const item = {
         recipientRelationship: 'VETERAN',
         assetType: 'BUSINESS',
       };
-      expect(options.text.getItemName(item)).to.equal(
-        'Veteran’s income from a business',
-      );
-    });
-    it('should return "Veteran’s income from a farm" if recipient is Veteran and asset type is "farm"', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'FARM',
-      };
-      expect(options.text.getItemName(item)).to.equal(
-        'Veteran’s income from a farm',
-      );
-    });
-    it('should return "Veteran’s income from a rental property" if recipient is Veteran and asset type is "rental property"', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'RENTAL_PROPERTY',
-      };
-      expect(options.text.getItemName(item)).to.equal(
-        'Veteran’s income from a rental property',
-      );
-    });
-    it('should return "John Doe’s income from a business" if assetType is "business"', () => {
-      const item = {
-        recipientRelationship: 'SPOUSE',
-        recipientName: { first: 'John', last: 'Doe' },
-        assetType: 'BUSINESS',
-      };
-      expect(options.text.getItemName(item)).to.equal(
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
         'John Doe’s income from a business',
       );
     });
-    it('should return "John Doe’s income from a farm" if assetType is "farm"', () => {
+    it('should return "John Doe’s income from a farm" if recipient is Veteran and asset type is "farm"', () => {
       const item = {
-        recipientRelationship: 'CHILD',
-        recipientName: { first: 'John', last: 'Doe' },
+        recipientRelationship: 'VETERAN',
         assetType: 'FARM',
       };
-      expect(options.text.getItemName(item)).to.equal(
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
         'John Doe’s income from a farm',
       );
     });
-    it('should return "John Doe’s income from a rental property" if assetType is "rental property"', () => {
+    it('should return "John Doe’s income from a rental property" if recipient is Veteran and asset type is "rental property"', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'RENTAL_PROPERTY',
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s income from a rental property',
+      );
+    });
+    it('should return "Jane Doe’s income from a business" if assetType is "business"', () => {
+      const item = {
+        recipientRelationship: 'SPOUSE',
+        recipientName: { first: 'Jane', last: 'Doe' },
+        assetType: 'BUSINESS',
+      };
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Doe’s income from a business',
+      );
+    });
+    it('should return "Jane Doe’s income from a farm" if assetType is "farm"', () => {
+      const item = {
+        recipientRelationship: 'CHILD',
+        recipientName: { first: 'Jane', last: 'Doe' },
+        assetType: 'FARM',
+      };
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Doe’s income from a farm',
+      );
+    });
+    it('should return "Jane Doe’s income from a rental property" if assetType is "rental property"', () => {
       const item = {
         recipientRelationship: 'PARENT',
-        recipientName: { first: 'John', last: 'Doe' },
+        recipientName: { first: 'Jane', last: 'Doe' },
         assetType: 'RENTAL_PROPERTY',
       };
       expect(options.text.getItemName(item)).to.equal(
-        'John Doe’s income from a rental property',
+        'Jane Doe’s income from a rental property',
       );
     });
   });

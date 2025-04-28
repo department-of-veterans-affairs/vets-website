@@ -39,11 +39,16 @@ describe('royalties list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return "Veteran’s income" if recipient is Veteran', () => {
+    const mockFormData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+    it('should return "John Doe’s income" if recipient is Veteran', () => {
       const item = {
         recipientRelationship: 'VETERAN',
       };
-      expect(options.text.getItemName(item)).to.equal('Veteran’s income');
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s income',
+      );
     });
     it('should return "John Doe’s income', () => {
       const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };

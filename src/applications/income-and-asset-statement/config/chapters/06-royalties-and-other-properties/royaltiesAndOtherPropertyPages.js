@@ -46,11 +46,11 @@ export const options = {
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item =>
+    getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
       `${
         item?.recipientRelationship === 'VETERAN'
-          ? 'Veteran'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
           : formatFullNameNoSuffix(item?.recipientName)
       }’s income`,
     cardDescription: item =>
@@ -94,6 +94,18 @@ export const options = {
     deleteTitle: 'Delete this royalty and other property',
     deleteYes: 'Yes, delete this royalty and other property',
     deleteNo: 'No',
+    deleteDescription: props => {
+      const itemName = options.text.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
+        : `This will delete this ${props.nounSingular} from your list of ${
+            props.nounPlural
+          }.`;
+    },
   },
 };
 

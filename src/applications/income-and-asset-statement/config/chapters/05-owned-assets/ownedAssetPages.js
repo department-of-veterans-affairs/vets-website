@@ -44,12 +44,12 @@ export const options = {
     !isDefined(item.assetType), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item =>
+    getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
       isDefined(item?.assetType) &&
       `${
         item?.recipientRelationship === 'VETERAN'
-          ? 'Veteran'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
           : formatFullNameNoSuffix(item?.recipientName)
       }’s income from a ${lowercase(ownedAssetTypeLabels[item.assetType])}`,
     cardDescription: item =>
@@ -85,6 +85,18 @@ export const options = {
     deleteTitle: 'Delete this owned asset',
     deleteYes: 'Yes, delete this owned asset',
     deleteNo: 'No',
+    deleteDescription: props => {
+      const itemName = options.text.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
+        : `This will delete this ${props.nounSingular} from your list of ${
+            props.nounPlural
+          }.`;
+    },
   },
 };
 

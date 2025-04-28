@@ -45,12 +45,12 @@ export const options = {
     !isDefined(item.payer), // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item =>
+    getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
       isDefined(item?.payer) &&
       `${
         item?.recipientRelationship === 'VETERAN'
-          ? 'Veteran'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
           : formatFullNameNoSuffix(item?.recipientName)
       }’s income from ${item.payer}`,
     cardDescription: item =>
@@ -85,6 +85,18 @@ export const options = {
     deleteTitle: 'Delete this financial account',
     deleteYes: 'Yes, delete this financial account',
     deleteNo: 'No',
+    deleteDescription: props => {
+      const itemName = options.text.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
+        : `This will delete this ${props.nounSingular} from your list of ${
+            props.nounPlural
+          }.`;
+    },
   },
 };
 

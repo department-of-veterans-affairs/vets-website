@@ -50,44 +50,46 @@ export const testOptionsIsItemIncompleteWithZeroes = (options, baseItem) => {
  */
 export const testOptionsTextGetItemNameRecurringIncome = options => {
   describe('text getItemName function', () => {
-    it(`should return "Veteran's income from Walmart" when recipientRelationship is "VETERAN"`, () => {
+    const veteranFullName = { first: 'John', last: 'Doe' };
+    const formattedVeteranName = formatFullNameNoSuffix(veteranFullName);
+    const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
+    const formattedRecipientName = formatFullNameNoSuffix(recipientName);
+
+    const mockFormData = {
+      veteranFullName,
+    };
+
+    it(`should return "${formattedVeteranName}’s income from Walmart" when recipientRelationship is "VETERAN"`, () => {
       const item = {
         recipientRelationship: 'VETERAN',
         payer: 'Walmart',
       };
-      expect(options.text.getItemName(item)).to.equal(
-        'Veteran’s income from Walmart',
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        `${formattedVeteranName}’s income from Walmart`,
       );
     });
 
-    const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
-    const formattedName = formatFullNameNoSuffix(recipientName);
-
     Object.keys(relationshipLabels).forEach(relationshipKey => {
       if (relationshipKey !== 'VETERAN') {
-        it(`should return "${formattedName}'s income from Walmart" for relationship "${relationshipKey}"`, () => {
+        it(`should return "${formattedRecipientName}’s income from Walmart" for relationship "${relationshipKey}"`, () => {
           const item = {
             recipientRelationship: relationshipKey,
             recipientName,
             payer: 'Walmart',
           };
-          expect(options.text.getItemName(item)).to.equal(
-            `${formattedName}’s income from Walmart`,
+          expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+            `${formattedRecipientName}’s income from Walmart`,
           );
         });
       }
     });
 
-    it('should return false if recipientName is missing', () => {
-      const item = { payer: 'Walmart' };
-      expect(options.text.getItemName(item)).to.be.false;
-    });
-
     it('should return false if payer is missing', () => {
       const item = {
+        recipientRelationship: 'SPOUSE',
         recipientName,
       };
-      expect(options.text.getItemName(item)).to.be.false;
+      expect(options.text.getItemName(item, 0, mockFormData)).to.be.false;
     });
   });
 };
