@@ -118,17 +118,14 @@ export const SubTask = props => {
     checkValid(newSubTaskData);
   };
 
-  const pageCheck = direction => {
+  const pageCheck = async direction => {
     // Don't check validation when going back
     if (direction === 'back') {
       setHasError(false);
     } else {
       setSubmitted(true);
       if (!checkValid()) {
-        // Let the browser render the error
-        window.requestAnimationFrame?.(() =>
-          scrollToFirstError({ focusOnAlertRole }),
-        );
+        await scrollToFirstError({ focusOnAlertRole });
         return false;
       }
     }
