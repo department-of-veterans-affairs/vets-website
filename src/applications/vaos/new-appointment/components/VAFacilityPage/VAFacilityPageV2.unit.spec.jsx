@@ -1313,7 +1313,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
         featureToggles: {
           vaOnlineSchedulingDirect: true,
-          vaOnlineSchedulingUseDsot: true,
         },
         user: {
           profile: {

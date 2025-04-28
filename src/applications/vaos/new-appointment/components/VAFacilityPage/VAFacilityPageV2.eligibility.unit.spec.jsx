@@ -19,7 +19,6 @@ import {
   mockEligibilityFetches,
   mockFacilitiesApi,
   mockSchedulingConfigurations,
-  mockVAOSParentSites,
 } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
@@ -41,22 +40,21 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         },
       },
     };
-    const siteIds = ['983'];
+    const ids = ['983'];
 
     beforeEach(() => {
       mockFetch();
 
-      mockVAOSParentSites(
-        siteIds,
-        [
+      mockFacilitiesApi({
+        ids,
+        response: [
           createMockFacility({
             id: '983',
             name: 'San Diego VA Medical Center',
             isParent: true,
           }),
         ],
-        true,
-      );
+      });
       mockFacilitiesApi({
         response: [
           createMockFacility({
@@ -209,7 +207,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       featureToggles: {
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
       user: {
         profile: {
