@@ -4,7 +4,10 @@ import {
   getPrescriptionsList,
   getRefillablePrescriptions,
 } from '../api/prescriptionsApi';
-// import { rxListSortingOptions } from '../util/constants';
+import {
+  defaultSelectedSortOption,
+  rxListSortingOptions,
+} from '../util/constants';
 
 /**
  * Route loader for prescriptions
@@ -16,8 +19,15 @@ export const prescriptionsLoader = async ({ params }) => {
 
   // For main prescriptions list, load first page of prescriptions
   if (!params?.prescriptionId) {
+    const queryParams = {
+      page: 1,
+      perPage: 10,
+      sortEndpoint:
+        rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+      filterOption: '',
+    };
     fetchPromises.push(
-      store.dispatch(getPrescriptionsList.initiate(undefined)).unwrap(),
+      store.dispatch(getPrescriptionsList.initiate(queryParams)).unwrap(),
     );
   }
 
@@ -37,8 +47,6 @@ export const prescriptionsLoader = async ({ params }) => {
       store.dispatch(getRefillablePrescriptions.initiate(undefined)).unwrap(),
     );
   }
-
-  console.log(fetchPromises);
 
   // Wait for all fetch promises to resolve
   await Promise.all(fetchPromises);

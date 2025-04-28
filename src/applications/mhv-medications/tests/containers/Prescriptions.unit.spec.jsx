@@ -1,29 +1,22 @@
 import { expect } from 'chai';
-import {
-  mockApiRequest,
-  mockFetch,
-  resetFetch,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
+import * as allergiesApiModule from '../../api/allergiesApi';
+import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import allergiesList from '../fixtures/allergiesList.json';
 import prescriptions from '../fixtures/prescriptions.json';
 import Prescriptions from '../../containers/Prescriptions';
+import prescriptionsList from '../fixtures/prescriptionsList.json';
+import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
 import { medicationsUrls } from '../../util/constants';
 
 const allergyErrorState = {
   initialState: {
     rx: {
-      prescriptions: {
-        prescriptionsFilteredList: [prescriptions[0]],
-        prescriptionsFilteredPagination: {
-          currentPage: 1,
-          totalPages: 1,
-          totalEntries: 1,
-        },
-      },
+      prescriptions: {},
       breadcrumbs: {
         list: [
           { url: medicationsUrls.MEDICATIONS_ABOUT },
@@ -34,23 +27,47 @@ const allergyErrorState = {
     },
   },
   reducers: reducer,
+  additionalMiddlewares: [
+    allergiesApiModule.allergiesApi.middleware,
+    prescriptionsApiModule.prescriptionsApi.middleware,
+  ],
 };
 
+let sandbox;
+
 describe('Medications Prescriptions container', () => {
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+
+    // Mock the RTK Query hooks
+    sandbox.stub(allergiesApiModule, 'useGetAllergiesQuery').returns({
+      data: allergiesList,
+      error: undefined,
+      isLoading: false,
+      isFetching: false,
+    });
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
+      .returns({
+        data: {
+          prescriptions: prescriptionsList.data,
+          meta: prescriptionsList.meta,
+          pagination: prescriptionsList.meta.pagination,
+        },
+        error: undefined,
+        isLoading: false,
+        isFetching: false,
+      });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const initialState = {
     rx: {
-      prescriptions: {
-        prescriptionsFilteredList: prescriptions,
-        prescriptionsFilteredPagination: {
-          currentPage: 1,
-          totalPages: 7,
-          totalEntries: 122,
-        },
-        prescriptionDetails: {
-          prescriptionId: 1234567890,
-        },
-        apiError: false,
-      },
+      prescriptions: {},
       breadcrumbs: {
         list: [
           { url: medicationsUrls.MEDICATIONS_ABOUT },
@@ -65,18 +82,14 @@ describe('Medications Prescriptions container', () => {
     return renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
+      additionalMiddlewares: [
+        allergiesApiModule.allergiesApi.middleware,
+        prescriptionsApiModule.prescriptionsApi.middleware,
+      ],
     });
   };
 
-  beforeEach(() => {
-    mockFetch();
-  });
-
-  afterEach(() => {
-    resetFetch();
-  });
-
-  it('renders without errors', () => {
+  it('renders without errors', async () => {
     const screen = setup();
     expect(screen);
   });
@@ -115,41 +128,44 @@ describe('Medications Prescriptions container', () => {
     expect(await screen.findByTestId('list-page-title')).to.exist;
   });
 
-  it('displays empty list alert', () => {
-    const mockData = [];
-    resetFetch();
-    mockApiRequest(mockData);
+  it('displays empty list alert', async () => {
+    sandbox.restore();
+    sandbox.stub(allergiesApiModule, 'useGetAllergiesQuery').returns({
+      data: allergiesList,
+      error: undefined,
+      isLoading: false,
+      isFetching: false,
+    });
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
+      .returns({
+        data: {
+          prescriptions: emptyPrescriptionsList.data,
+          meta: emptyPrescriptionsList.meta,
+          pagination: emptyPrescriptionsList.meta.pagination,
+        },
+        error: undefined,
+        isLoading: false,
+        isFetching: false,
+      });
     const screen = renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: {
         rx: {
-          prescriptions: {
-            prescriptionsFilteredList: [],
-            prescriptionsFilteredPagination: {
-              currentPage: 1,
-              totalPages: 1,
-              totalEntries: 0,
-            },
-            filterCount: {
-              allMedications: 0,
-              active: 0,
-              recentlyRequested: 0,
-              renewal: 0,
-              nonActive: 0,
-            },
-          },
+          prescriptions: {},
           breadcrumbs: {
             list: [
               { url: medicationsUrls.MEDICATIONS_ABOUT },
               { label: 'About medications' },
             ],
           },
-          allergies: {
-            allergiesList: [],
-            error: false,
-          },
+          allergies: {},
         },
       },
       reducers: reducer,
+      additionalMiddlewares: [
+        allergiesApiModule.allergiesApi.middleware,
+        prescriptionsApiModule.prescriptionsApi.middleware,
+      ],
     });
     expect(
       screen.getByText(
@@ -158,21 +174,11 @@ describe('Medications Prescriptions container', () => {
     ).to.exist;
   });
 
-  it('should display a clickable download button', () => {
-    const mockData = [prescriptions[0]];
-    resetFetch();
-    mockApiRequest(mockData);
+  it('should display a clickable download button', async () => {
     const screen = renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: {
         rx: {
-          prescriptions: {
-            prescriptionsFilteredList: [prescriptions[0]],
-            prescriptionsFilteredPagination: {
-              currentPage: 1,
-              totalPages: 1,
-              totalEntries: 1,
-            },
-          },
+          prescriptions: {},
           breadcrumbs: {
             list: [
               { url: medicationsUrls.MEDICATIONS_ABOUT },
@@ -186,22 +192,27 @@ describe('Medications Prescriptions container', () => {
         },
       },
       reducers: reducer,
+      additionalMiddlewares: [
+        allergiesApiModule.allergiesApi.middleware,
+        prescriptionsApiModule.prescriptionsApi.middleware,
+      ],
     });
     const pdfButton = screen.getByTestId('download-pdf-button');
-    fireEvent.click(pdfButton);
+    await waitFor(() => {
+      fireEvent.click(pdfButton);
+    });
     expect(screen);
   });
 
-  it('should show the allergy error alert when downloading PDF', () => {
-    const mockData = [prescriptions[0]];
-    resetFetch();
-    mockApiRequest(mockData);
+  it('should show the allergy error alert when downloading PDF', async () => {
     const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
     const pdfButton = screen.getByTestId('download-pdf-button');
-    fireEvent.click(pdfButton);
+    await waitFor(() => {
+      fireEvent.click(pdfButton);
+    });
     expect(screen);
     waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
@@ -209,16 +220,16 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing', () => {
-    const mockData = [prescriptions[0]];
-    resetFetch();
-    mockApiRequest(mockData);
+  it('should show the allergy error alert when printing', async () => {
     const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
     const pdfButton = screen.getByTestId('download-print-button');
-    fireEvent.click(pdfButton);
+
+    await waitFor(() => {
+      fireEvent.click(pdfButton);
+    });
     expect(screen);
     waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
@@ -226,16 +237,15 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing all meds', () => {
-    const mockData = [prescriptions[0]];
-    resetFetch();
-    mockApiRequest(mockData);
+  it('should show the allergy error alert when printing all meds', async () => {
     const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
     const pdfButton = screen.getByTestId('download-print-all-button');
-    fireEvent.click(pdfButton);
+    await waitFor(() => {
+      fireEvent.click(pdfButton);
+    });
     expect(screen);
     waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
@@ -243,16 +253,15 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when downloading txt', () => {
-    const mockData = [prescriptions[0]];
-    resetFetch();
-    mockApiRequest(mockData);
+  it('should show the allergy error alert when downloading txt', async () => {
     const screen = renderWithStoreAndRouterV6(
       <Prescriptions fullList={prescriptions} />,
       allergyErrorState,
     );
     const pdfButton = screen.getByTestId('download-txt-button');
-    fireEvent.click(pdfButton);
+    await waitFor(() => {
+      fireEvent.click(pdfButton);
+    });
     expect(screen);
     waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
@@ -260,7 +269,7 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', () => {
+  it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', async () => {
     const screen = setup({
       ...initialState,
       breadcrumbs: {
@@ -281,7 +290,9 @@ describe('Medications Prescriptions container', () => {
     const button = await screen.findByTestId('download-print-all-button');
     expect(button).to.exist;
     expect(button).to.have.text('Print all medications');
-    button.click();
+    await waitFor(() => {
+      button.click();
+    });
   });
 
   it('Simulates print button click', async () => {
@@ -289,10 +300,12 @@ describe('Medications Prescriptions container', () => {
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
     expect(button).to.have.text('Print this page of the list');
-    button.click();
+    await waitFor(() => {
+      button.click();
+    });
   });
 
-  it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', () => {
+  it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', async () => {
     const screen = setup({
       ...initialState,
       breadcrumbs: {
@@ -303,9 +316,10 @@ describe('Medications Prescriptions container', () => {
         mhv_medications_display_allergies: true,
       },
     });
-    expect(screen.getByText('Go to your allergies and reactions'));
+    expect(screen.getByText('Go to your allergies and reactions')).to.exist;
   });
-  it('displays "If you print or download this list, we’ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
+
+  it('displays "If you print or download this list, we\'ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
     const screen = setup({
       ...initialState,
       breadcrumbs: {
@@ -317,9 +331,10 @@ describe('Medications Prescriptions container', () => {
       },
     });
     expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
-      'If you print or download this list, we’ll include a list of your allergies.',
+      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
     );
   });
+
   it('displays filter accordion', async () => {
     const screen = setup({
       ...initialState,

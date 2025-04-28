@@ -3,12 +3,9 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import sinon from 'sinon';
 import { prescriptions } from '../fixtures/prescriptions.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
-import { allergies } from '../fixtures/allergies.json';
 import { Actions } from '../../util/actionTypes';
 import {
   getPrescriptionDetails,
-  getAllergiesList,
-  clearAllergiesError,
   fillPrescription,
   setPrescriptionDetails,
   clearFillNotification,
@@ -24,38 +21,6 @@ describe('Get prescription list action', () => {
     expect(dispatch.firstCall.args[0].type).to.equal(
       Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
     );
-  });
-});
-
-describe('Get allergies action', () => {
-  it('should dispatch a get allergies list action', () => {
-    const mockData = allergies;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getAllergiesList()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.GET_LIST,
-      );
-    });
-  });
-  it('should dispatch an get list error', () => {
-    const mockData = allergies;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getAllergiesList()(dispatch).then(async () => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('object');
-    });
-  });
-});
-
-describe('Clear allergies error action', () => {
-  it('should dispatch a clear allergies error action', () => {
-    const dispatch = sinon.spy();
-    return clearAllergiesError()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.GET_LIST_ERROR_RESET,
-      );
-    });
   });
 });
 
