@@ -337,25 +337,8 @@ jobs:
         id: run-tests
         run: |
           if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            # Create necessary directories
-            mkdir -p mocha/results
-            mkdir -p coverage
-            mkdir -p test-results
-            
-            # Run tests with coverage and mochawesome reporter
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} \
-              --reporter mocha-multi-reporters \
-              --reporter-options configFile=config/mocha-multi-reporter.js \
-              --coverage \
-              --log-level verbose
-            
-            # Ensure test results exist
-            if [ -d "mocha/results" ] && [ "$(ls -A mocha/results)" ]; then
-              echo "tests_ran=true" >> $GITHUB_OUTPUT
-            else
-              echo "No test results found"
-              echo "tests_ran=false" >> $GITHUB_OUTPUT
-            fi
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+            echo "tests_ran=true" >> $GITHUB_OUTPUT
           else
             echo "No tests to run"
             echo "tests_ran=false" >> $GITHUB_OUTPUT
@@ -372,7 +355,6 @@ jobs:
         with:
           name: unit-test-report
           path: mocha/results
-          retention-days: 1
 
       - name: Upload Coverage Report Artifact
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
@@ -380,17 +362,6 @@ jobs:
         with:
           name: unit-test-coverage
           path: coverage
-          retention-days: 1
-
-      - name: Unit test results
-        if: ${{ always() }}
-        uses: ./.github/workflows/checks-action
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Unit Tests Summary
-          conclusion: ${{ needs.unit-tests.result }}
-          output: |
-            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"passed": 0, "failed": 0, "pending": 0}' }}}}
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -1162,7 +1133,7 @@ jobs:
           name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"passed": 0, "failed": 0, "pending": 0}' }}}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}
 
 
 
@@ -1369,13 +1340,7 @@ jobs:
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
-        run: |
-          if [ -f "coverage/coverage-summary.json" ]; then
-            COVERAGE=$(cat coverage/coverage-summary.json)
-            echo "MARKDOWN=$COVERAGE" >> $GITHUB_OUTPUT
-          else
-            echo "MARKDOWN={\"total\": {\"lines\": {\"pct\": 0}, \"statements\": {\"pct\": 0}, \"functions\": {\"pct\": 0}, \"branches\": {\"pct\": 0}}}" >> $GITHUB_OUTPUT
-          fi
+        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
 
       - name: Publish Unit Test Coverage Results
         if: ${{ always() }}
@@ -1385,7 +1350,7 @@ jobs:
           name: Unit Test Coverage Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": {"coverage": ${{ steps.code-coverage.outputs.MARKDOWN || '{"total": {"lines": {"pct": 0}, "statements": {"pct": 0}, "functions": {"pct": 0}, "branches": {"pct": 0}}}' }}}}
+            {"summary":"<https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/>"}
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
