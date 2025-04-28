@@ -30,13 +30,6 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     [form.data],
   );
 
-  const errorMessageFromResponse = useCallback(response => {
-    const code = response?.errors?.[0]?.status?.[0];
-    return code === '5'
-      ? content['alert-download-message--500']
-      : content['alert-download-message--generic'];
-  }, []);
-
   const handlePdfDownload = useCallback(
     blob => {
       const downloadUrl = URL.createObjectURL(blob);
@@ -67,22 +60,14 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        // Handle request errors
         if (!response.ok) {
-          // Attempt to parse a JSON error response
-          const errorResponse = await response.json();
-          recordEvent({ event: 'hca-pdf-download--failure' });
-
-          const message = errorMessageFromResponse(errorResponse);
-          setErrorMessage(message);
-          return;
+          throw new Error();
         }
+
         const blob = await response.blob();
         // Generate pdf from blob
         handlePdfDownload(blob);
         recordEvent({ event: 'hca-pdf-download--success' });
-
-        // Handle any unexpected errors
       } catch {
         setErrorMessage(content['alert-download-message--generic']);
         recordEvent({ event: 'hca-pdf-download--failure' });
@@ -90,7 +75,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
         setLoading(false);
       }
     },
-    [formData, handlePdfDownload, errorMessageFromResponse],
+    [formData, handlePdfDownload],
   );
 
   // apply focus to the error alert if we have errors set
@@ -115,10 +100,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   if (errorMessage) {
     return (
       <div className="hca-download-error">
-        <va-alert status="error">
-          <h4 slot="headline">{content['alert-heading--generic']}</h4>
-          {errorMessage}
-        </va-alert>
+        <va-alert status="error">{errorMessage}</va-alert>
       </div>
     );
   }

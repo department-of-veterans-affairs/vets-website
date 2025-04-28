@@ -115,7 +115,7 @@ describe('hca <ApplicationDownloadLink>', () => {
         revokeObjectStub.restore();
       });
 
-      it('should still succed when no veternInformation is set', async () => {
+      it('should still succeed when no veteranInformation is set', async () => {
         const { selectors } = subject({ veteranInformation: {} });
         const { vaLink: link } = selectors();
         const createObjectStub = createStubObject();
@@ -145,62 +145,10 @@ describe('hca <ApplicationDownloadLink>', () => {
     });
 
     context('on error', () => {
-      it('should display `downtime` error message when error has status of `5xx`', async () => {
-        const { selectors } = subject();
-        const { vaLink: link } = selectors();
-        triggerError({ link });
-
-        await waitFor(() => {
-          const { vaLoadingIndicator } = selectors();
-          expect(vaLoadingIndicator).to.exist;
-        });
-
-        await waitFor(() => {
-          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-          const error = content['alert-download-message--500'];
-
-          expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
-
-          expect(vaAlert).to.exist;
-          expect(vaAlert).to.contain.text(error);
-
-          const event = 'hca-pdf-download--failure';
-          expect(recordEventStub.calledWith({ event })).to.be.true;
-        });
-      });
-
-      it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
+      it('should display `generic` error message when response is an error', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
         triggerError({ link, status: '403' });
-
-        await waitFor(() => {
-          const { vaLoadingIndicator } = selectors();
-          expect(vaLoadingIndicator).to.exist;
-        });
-
-        await waitFor(() => {
-          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-          const error = content['alert-download-message--generic'];
-
-          expect(vaLoadingIndicator).to.not.exist;
-          expect(vaLink).to.not.exist;
-
-          expect(vaAlert).to.exist;
-          expect(vaAlert).to.contain.text(error);
-
-          const event = 'hca-pdf-download--failure';
-          expect(recordEventStub.calledWith({ event })).to.be.true;
-        });
-      });
-
-      it('should display `generic` error message when parsing error response block throws error', async () => {
-        const { selectors } = subject();
-        const { vaLink: link } = selectors();
-        triggerError({ link, status: '403' });
-
-        recordEventStub.onFirstCall().throws(new Error('Some error'));
 
         await waitFor(() => {
           const { vaLoadingIndicator } = selectors();
