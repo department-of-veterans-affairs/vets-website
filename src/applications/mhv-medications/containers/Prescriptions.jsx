@@ -68,12 +68,6 @@ const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const paginatedPrescriptionsList = useSelector(
-    state => state.rx.prescriptions?.prescriptionsList,
-  );
-  const filteredList = useSelector(
-    state => state.rx.prescriptions?.prescriptionsFilteredList,
-  );
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -92,6 +86,7 @@ const Prescriptions = () => {
 
   // Use RTK Query hook to fetch prescriptions data
   const {
+    data: prescriptionsData,
     error: prescriptionsError,
     isLoading: isPrescriptionsLoading,
     isFetching: isPrescriptionsFetching,
@@ -102,19 +97,21 @@ const Prescriptions = () => {
     filterOption: currentFilter,
   });
 
+  // Use the fetched prescriptions data instead of Redux state
+  const paginatedPrescriptionsList = prescriptionsData?.prescriptions || [];
+  const filteredList = prescriptionsData?.prescriptions || [];
+  const pagination = prescriptionsData?.pagination;
+  const filterCount = prescriptionsData?.meta?.filterCount || {};
+
   const prescriptionsApiError = prescriptionsError;
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
-  const pagination = useSelector(
-    state => state.rx.prescriptions?.prescriptionsFilteredPagination,
-  );
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
-  const filterCount = useSelector(state => state.rx.prescriptions?.filterCount);
   const [prescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
