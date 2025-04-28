@@ -23,7 +23,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
     state => state.featureToggles?.loading,
   );
 
-  // Adding logs to debug values in staging. Redirect is working loaclly but not in staging.
+  // Adding logs to debug values in staging. Redirect is working locally but not in staging.
   const logDebugInfo = (label, values) => {
     if (!environment.isProduction() && navigator.userAgent !== 'node.js') {
       /* eslint-disable no-console */
