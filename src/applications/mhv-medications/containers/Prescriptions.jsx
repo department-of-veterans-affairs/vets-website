@@ -765,7 +765,7 @@ const Prescriptions = () => {
                       (!filteredList || filteredList?.length === 0) && (
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
                           <va-loading-indicator
-                            message={`${loadingMessage}`}
+                            message={loadingMessage}
                             setFocus
                             data-testid="loading-indicator"
                           />
