@@ -80,7 +80,7 @@ export const FormNavButtonContinue = ({ goForward, submitToContinue }) => {
       <div className="small-12 medium-6 columns">
         <ProgressButton
           onButtonClick={finishLater}
-          buttonText="Finish this request later"
+          buttonText="Finish later"
           buttonClass="usa-button-secondary"
         />
       </div>

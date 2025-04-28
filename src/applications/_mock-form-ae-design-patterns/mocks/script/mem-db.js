@@ -22,10 +22,50 @@ const memDb = {
 };
 
 const updateInProgressForm = payload => {
+  const metadata = { ...memDb.inProgressForm.metadata, ...payload.metadata };
   memDb.inProgressForm = {
     formData: { ...memDb.inProgressForm.formData, ...payload.formData },
-    metadata: { ...memDb.inProgressForm.metadata, ...payload.metadata },
+    metadata,
   };
+
+  const formIndex = memDb.user.data.attributes.inProgressForms.findIndex(
+    form => form.form === '20-10206',
+  );
+
+  // get the current time in seconds
+  const lastUpdated = Math.floor(Date.now() / 1000);
+  const expiresAt = Math.floor(Date.now() / 1000) + 5184000;
+
+  const updatedMetadata = {
+    ...memDb.inProgressForm.metadata,
+    expiresAt,
+    lastUpdated,
+    createdAt: lastUpdated - 100,
+  };
+
+  // if the form exists, update it
+  if (formIndex !== -1) {
+    memDb.user.data.attributes.inProgressForms = memDb.user.data.attributes.inProgressForms.map(
+      form => {
+        if (form.form === '20-10206') {
+          return {
+            ...form,
+            metadata: updatedMetadata,
+            expiresAt,
+            lastUpdated,
+          };
+        }
+        return form;
+      },
+    );
+  } else {
+    // if the form does not exist, add it
+    memDb.user.data.attributes.inProgressForms.push({
+      form: '20-10206',
+      metadata: updatedMetadata,
+      lastUpdated,
+    });
+  }
 };
 
 const deleteInProgressForm = () => {
@@ -33,6 +73,7 @@ const deleteInProgressForm = () => {
     formData: {},
     metadata: {},
   };
+  memDb.user.inProgressForms = [];
 };
 
 // sanitize user input
