@@ -14,6 +14,7 @@ describe('Feedback Tool Keyboard Test', () => {
   it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', { body: mockFeedbackPost });
     cy.intercept('GET', '/v0/gi_bill_feedbacks/1234', mockFeedbackGet);
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { body: {} });
     cy.visit(manifest.rootUrl);
     cy.login();
     cy.injectAxe();
