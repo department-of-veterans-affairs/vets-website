@@ -97,7 +97,7 @@ const Prescriptions = () => {
     filterOption: currentFilter,
   });
 
-  // Use the fetched prescriptions data instead of Redux state
+  // Use the fetched prescriptions data with correct property names
   const paginatedPrescriptionsList = prescriptionsData?.prescriptions || [];
   const filteredList = prescriptionsData?.prescriptions || [];
   const pagination = prescriptionsData?.pagination;
@@ -569,47 +569,247 @@ const Prescriptions = () => {
   } else {
     contentMarginTop = isShowingErrorNotification ? '5' : '3';
   }
+
+  const renderLoadingIndicator = (message = 'Loading your medications...') => (
+    <div className="vads-u-height--viewport vads-u-padding-top--3">
+      <va-loading-indicator
+        message={message}
+        setFocus
+        data-testid="loading-indicator"
+      />
+    </div>
+  );
+
+  const renderEmptyPrescriptions = () => (
+    <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+      <h2 className="vads-u-margin--0" data-testid="empty-medList-alert">
+        You don’t have any VA prescriptions or medication records
+      </h2>
+      <p className="vads-u-margin-y--3">
+        If you need a prescription or you want to tell us about a medication
+        you’re taking, tell your care team at your next appointment.
+      </p>
+    </div>
+  );
+
+  const renderNoFilterMatches = () => (
+    <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color vads-u-margin-top--3">
+      <h3
+        className="vads-u-margin--0"
+        id="no-matches-msg"
+        data-testid="zero-filter-results"
+      >
+        We didn’t find any matches for this filter
+      </h3>
+      <p className="vads-u-margin-y--2">Try selecting a different filter.</p>
+    </div>
+  );
+
+  const renderErrorNotification = () => {
+    if (!isShowingErrorNotification) return null;
+
+    return (
+      <div className="vads-u-margin-y--3">
+        <ApiErrorNotification
+          errorType={getErrorTypeFromFormat(pdfTxtGenerateStatus.format)}
+          content="records"
+        >
+          <div>
+            If it still doesn’t work, call us at{' '}
+            <va-telephone contact="8773270022" /> (
+            <va-telephone contact={CONTACTS[711]} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </div>
+        </ApiErrorNotification>
+      </div>
+    );
+  };
+
+  const renderRefillCard = () => {
+    if (!showRefillContent) return null;
+
+    return (
+      <va-card background>
+        <div className="vads-u-padding-x--1">
+          <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+            Refill prescriptions
+          </h2>
+          <Link
+            className="vads-c-action-link--green vads-u-margin--0"
+            to={medicationsUrls.subdirectories.REFILL}
+            data-testid="prescriptions-nav-link-to-refill"
+            data-dd-action-name={
+              dataDogActionNames.medicationsListPage.START_REFILL_REQUEST
+            }
+          >
+            Start a refill request
+          </Link>
+        </div>
+      </va-card>
+    );
+  };
+
+  const renderRefillAlert = () => {
+    if (!showRefillProgressContent) return null;
+
+    return (
+      <RefillAlert
+        dataDogActionName={
+          dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
+        }
+      />
+    );
+  };
+
+  const renderMedicationsList = () => {
+    if (isLoading) {
+      return renderLoadingIndicator(loadingMessage);
+    }
+
+    return (
+      <MedicationsList
+        pagination={pagination}
+        rxList={filteredList}
+        scrollLocation={scrollLocation}
+        selectedSortOption={selectedSortOption}
+        updateLoadingStatus={updateLoadingStatus}
+      />
+    );
+  };
+
+  const renderHeader = () => (
+    <>
+      <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+        Medications
+      </h1>
+      <p
+        className="vads-u-margin-top--0 vads-u-margin-bottom--4"
+        data-testid="Title-Notes"
+      >
+        {removeLandingPage ? (
+          <>
+            Bring your medications list to each appointment. And tell your
+            provider about any new allergies or reactions. If you use Meds by
+            Mail, you can also call your servicing center and ask them to update
+            your records.
+          </>
+        ) : (
+          <>
+            When you share your medications list with providers, make sure you
+            also tell them about your allergies and reactions to medications.
+          </>
+        )}
+        {!showAllergiesContent && (
+          <>
+            {' '}
+            If you print or download this list, we’ll include a list of your
+            allergies.
+          </>
+        )}
+      </p>
+      {showAllergiesContent && (
+        <a
+          href="/my-health/medical-records/allergies"
+          rel="noreferrer"
+          className="vads-u-display--block vads-u-margin-bottom--3"
+          data-testid="allergies-link"
+        >
+          Go to your allergies and reactions
+        </a>
+      )}
+    </>
+  );
+
+  const renderMedicationsContent = () => {
+    // No medications exist
+    const noMedications =
+      filteredList?.length === 0 &&
+      filterCount &&
+      Object.values(filterCount).every(value => value === 0);
+
+    // No medications match the current filter
+    const noFilterMatches =
+      filteredList?.length === 0 &&
+      filterCount &&
+      Object.values(filterCount).some(value => value !== 0);
+
+    // Medications exist and should be displayed
+    const hasMedications =
+      filteredList?.length > 0 || paginatedPrescriptionsList?.length > 0;
+
+    if (isPrescriptionsLoading || isPrescriptionsFetching) {
+      return renderLoadingIndicator();
+    }
+
+    if (noMedications) {
+      return renderEmptyPrescriptions();
+    }
+
+    return (
+      <>
+        {renderRefillCard()}
+        <Alert
+          isAlertVisible={isAlertVisible}
+          paginatedPrescriptionsList={paginatedPrescriptionsList}
+          ssoe={ssoe}
+        />
+        {renderErrorNotification()}
+        <div
+          className={`landing-page-content vads-u-margin-top--${contentMarginTop}
+            mobile-lg:vads-u-margin-top--${contentMarginTop}`}
+        >
+          <>
+            <h2 className="vads-u-margin-y--3" data-testid="med-list">
+              Medications list
+            </h2>
+            <MedicationsListFilter
+              updateFilter={updateFilterAndSort}
+              filterOption={filterOption}
+              setFilterOption={setFilterOption}
+              filterCount={filterCount}
+            />
+            {showIPEContent && <InProductionEducationFiltering />}
+          </>
+          {hasMedications && (
+            <>
+              {!isLoading && (
+                <MedicationsListSort
+                  value={selectedSortOption}
+                  sortRxList={sortRxList}
+                />
+              )}
+              <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+              {renderMedicationsList()}
+              {!isLoading && (
+                <>
+                  <PrintDownload
+                    onDownload={handleFullListDownload}
+                    isSuccess={
+                      pdfTxtGenerateStatus.status ===
+                      PDF_TXT_GENERATE_STATUS.Success
+                    }
+                    isLoading={
+                      !allergiesError &&
+                      pdfTxtGenerateStatus.status ===
+                        PDF_TXT_GENERATE_STATUS.InProgress
+                    }
+                    list
+                  />
+                  <BeforeYouDownloadDropdown page={pageType.LIST} />
+                </>
+              )}
+            </>
+          )}
+          {!isLoading && noFilterMatches && renderNoFilterMatches()}
+        </div>
+      </>
+    );
+  };
+
   const content = () => {
     return (
       <div className="landing-page no-print">
-        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-          Medications
-        </h1>
-        <p
-          className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-          data-testid="Title-Notes"
-        >
-          {removeLandingPage ? (
-            <>
-              Bring your medications list to each appointment. And tell your
-              provider about any new allergies or reactions. If you use Meds by
-              Mail, you can also call your servicing center and ask them to
-              update your records.
-            </>
-          ) : (
-            <>
-              When you share your medications list with providers, make sure you
-              also tell them about your allergies and reactions to medications.
-            </>
-          )}
-          {!showAllergiesContent && (
-            <>
-              {' '}
-              If you print or download this list, we’ll include a list of your
-              allergies.
-            </>
-          )}
-        </p>
-        {showAllergiesContent && (
-          <a
-            href="/my-health/medical-records/allergies"
-            rel="noreferrer"
-            className="vads-u-display--block vads-u-margin-bottom--3"
-            data-testid="allergies-link"
-          >
-            Go to your allergies and reactions
-          </a>
-        )}
+        {renderHeader()}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
@@ -618,175 +818,15 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {showRefillProgressContent && (
-              <RefillAlert
-                dataDogActionName={
-                  dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
-                }
-              />
-            )}
-            {filteredList?.length === 0 &&
-            filterCount &&
-            Object.values(filterCount).every(value => value === 0) ? (
-              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                <h2
-                  className="vads-u-margin--0"
-                  data-testid="empty-medList-alert"
-                >
-                  You don’t have any VA prescriptions or medication records
-                </h2>
-                <p className="vads-u-margin-y--3">
-                  If you need a prescription or you want to tell us about a
-                  medication you’re taking, tell your care team at your next
-                  appointment.
-                </p>
-              </div>
-            ) : (
-              <>
-                {showRefillContent && (
-                  <va-card background>
-                    <div className="vads-u-padding-x--1">
-                      <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                        Refill prescriptions
-                      </h2>
-                      <Link
-                        className="vads-c-action-link--green vads-u-margin--0"
-                        to={medicationsUrls.subdirectories.REFILL}
-                        data-testid="prescriptions-nav-link-to-refill"
-                        data-dd-action-name={
-                          dataDogActionNames.medicationsListPage
-                            .START_REFILL_REQUEST
-                        }
-                      >
-                        Start a refill request
-                      </Link>
-                    </div>
-                  </va-card>
-                )}
-                <Alert
-                  isAlertVisible={isAlertVisible}
-                  paginatedPrescriptionsList={paginatedPrescriptionsList}
-                  ssoe={ssoe}
-                />
-                {isShowingErrorNotification && (
-                  <div className="vads-u-margin-y--3">
-                    <ApiErrorNotification
-                      errorType={getErrorTypeFromFormat(
-                        pdfTxtGenerateStatus.format,
-                      )}
-                      content="records"
-                    >
-                      <div>
-                        If it still doesn’t work, call us at{' '}
-                        <va-telephone contact="8773270022" /> (
-                        <va-telephone contact={CONTACTS[711]} tty />
-                        ). We’re here Monday through Friday, 8:00 a.m. to 8:00
-                        p.m. ET.
-                      </div>
-                    </ApiErrorNotification>
-                  </div>
-                )}
-                <div
-                  className={`landing-page-content vads-u-margin-top--${contentMarginTop}
-                    mobile-lg:vads-u-margin-top--${contentMarginTop}`}
-                >
-                  <>
-                    <h2 className="vads-u-margin-y--3" data-testid="med-list">
-                      Medications list
-                    </h2>
-                    <MedicationsListFilter
-                      updateFilter={updateFilterAndSort}
-                      filterOption={filterOption}
-                      setFilterOption={setFilterOption}
-                      filterCount={filterCount}
-                    />
-                    {showIPEContent && <InProductionEducationFiltering />}
-                  </>
-                  {(paginatedPrescriptionsList?.length ||
-                    filteredList?.length) && (
-                    <>
-                      {!isLoading && (
-                        <MedicationsListSort
-                          value={selectedSortOption}
-                          sortRxList={sortRxList}
-                        />
-                      )}
-                      <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-                      {isLoading ? (
-                        <div className="vads-u-height--viewport vads-u-padding-top--3">
-                          <va-loading-indicator
-                            message={loadingMessage}
-                            setFocus
-                            data-testid="loading-indicator"
-                          />
-                        </div>
-                      ) : (
-                        <MedicationsList
-                          pagination={pagination}
-                          rxList={filteredList}
-                          scrollLocation={scrollLocation}
-                          selectedSortOption={selectedSortOption}
-                          updateLoadingStatus={updateLoadingStatus}
-                        />
-                      )}
-                      {!isLoading && (
-                        <>
-                          <PrintDownload
-                            onDownload={handleFullListDownload}
-                            isSuccess={
-                              pdfTxtGenerateStatus.status ===
-                              PDF_TXT_GENERATE_STATUS.Success
-                            }
-                            isLoading={
-                              !allergiesError &&
-                              pdfTxtGenerateStatus.status ===
-                                PDF_TXT_GENERATE_STATUS.InProgress
-                            }
-                            list
-                          />
-                          <BeforeYouDownloadDropdown page={pageType.LIST} />
-                        </>
-                      )}
-                    </>
-                  )}
-                  <>
-                    {!isLoading &&
-                      filteredList?.length === 0 &&
-                      filterCount &&
-                      Object.values(filterCount).some(value => value !== 0) && (
-                        <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color vads-u-margin-top--3">
-                          <h3
-                            className="vads-u-margin--0"
-                            id="no-matches-msg"
-                            data-testid="zero-filter-results"
-                          >
-                            We didn’t find any matches for this filter
-                          </h3>
-                          <p className="vads-u-margin-y--2">
-                            Try selecting a different filter.
-                          </p>
-                        </div>
-                      )}
-                    {isLoading &&
-                      (!filteredList || filteredList?.length === 0) && (
-                        <div className="vads-u-height--viewport vads-u-padding-top--3">
-                          <va-loading-indicator
-                            message={loadingMessage}
-                            setFocus
-                            data-testid="loading-indicator"
-                          />
-                        </div>
-                      )}
-                  </>
-                </div>
-              </>
-            )}
+            {renderRefillAlert()}
+            {renderMedicationsContent()}
           </>
         )}
         {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };
+
   return (
     <div>
       {content()}
