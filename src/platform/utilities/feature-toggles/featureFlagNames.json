@@ -152,6 +152,7 @@
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
   "mhvMedicationsPartialFillContent": "mhv_medications_partial_fill_content",
   "mhvMedicationsDontIncrementIpeCount": "mhv_medications_dont_increment_ipe_count",
+  "mhvMilestone2ChangesEnabled": "mhv_milestone_2_changes_enabled",
   "mhvModernCtaLinks": "mhv_modern_cta_links",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
   "mhvSecureMessagingFilterAccordion": "mhv_secure_messaging_filter_accordion",
