@@ -16,14 +16,14 @@ export const TaskTabs = ({ location, formConfig }) => {
       path: '/introduction?loggedIn=false',
       description: 'Lemon',
       bgColor: '--vads-color-warning',
-      textColor: '--vads-color-white',
+      textColor: '--vads-color-black',
     },
     {
       name: 'Apple',
       path: '/introduction?loggedIn=true',
       description: 'Apple',
       bgColor: '--vads-color-success-dark',
-      textColor: '--vads-color-black',
+      textColor: '--vads-color-white',
     },
   ];
 
