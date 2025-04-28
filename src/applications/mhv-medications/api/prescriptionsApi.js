@@ -3,7 +3,11 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { EMPTY_FIELD, rxListSortingOptions } from '../util/constants';
+import {
+  defaultSelectedSortOption,
+  EMPTY_FIELD,
+  rxListSortingOptions,
+} from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -87,7 +91,7 @@ export const prescriptionsApi = createApi({
         const {
           page = 1,
           perPage = 10,
-          sortEndpoint = rxListSortingOptions.alphabeticallyByStatus
+          sortEndpoint = rxListSortingOptions[defaultSelectedSortOption]
             .API_ENDPOINT,
           filterOption = '',
           includeImage = false,
