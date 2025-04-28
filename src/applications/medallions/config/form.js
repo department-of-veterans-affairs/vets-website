@@ -59,9 +59,9 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         ...personalInformationPage({
-          key: 'applicantName',
+          key: 'applicantNameView',
           title: 'Personal information',
-          path: 'applicant-name',
+          path: 'applicant-name-view',
           personalInfoConfig: {
             ssn: { show: false, required: false },
             vaFileNumber: { show: false, required: false },
