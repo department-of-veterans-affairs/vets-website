@@ -1,5 +1,5 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
   const history = useHistory();
-  const [sortListOption] = useState(value);
+  const sortListOption = useMemo(() => value, [value]);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
   return (
