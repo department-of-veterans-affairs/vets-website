@@ -1,8 +1,8 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
@@ -12,14 +12,14 @@ import {
   setTypeOfCare,
 } from '../../tests/mocks/setup';
 
-import TypeOfEyeCarePage from './TypeOfEyeCarePage';
+import { createMockFacility } from '../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
+  mockFacilitiesApi,
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
-} from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
-import { createMockFacility } from '../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
+} from '../../tests/mocks/mockApis';
+import TypeOfEyeCarePage from './TypeOfEyeCarePage';
 
 const initialState = {
   featureToggles: {
@@ -126,9 +126,9 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
       supportedSites: ['983GC'],
       careType: 'Optometry',
     });
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
         }),

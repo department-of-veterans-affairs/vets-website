@@ -2,16 +2,16 @@
 // @ts-check
 import { format, subDays, subMonths } from 'date-fns';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
 import {
   mockAppointmentsGetApi,
   mockFeatureToggles,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {

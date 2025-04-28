@@ -16,7 +16,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataDir: null,
     dataSets: [{ title: 'simple', data: simpleFixture }],
-    pageHooks,
+    pageHooks: pageHooks(),
     setupPerTest: () => {
       cy.login(mockUser);
       setupCypress(cy);
