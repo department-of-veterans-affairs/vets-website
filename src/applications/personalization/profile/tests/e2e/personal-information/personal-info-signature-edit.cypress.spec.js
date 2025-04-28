@@ -14,6 +14,14 @@ const updatedSignatureResponse = {
   },
 };
 describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
+  beforeEach(() => {
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
+
+    PersonalInformationPage.load(updatedFeatureToggles);
+  });
+
   it(`verify user can cancel editing signature`, () => {
     cy.get(Locators.SIGNATURE.EDIT_BTN).click();
 
