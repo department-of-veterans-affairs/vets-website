@@ -6,6 +6,7 @@
   },
   "exports": {
     "." :"./exportsFile.js",
+    "./address/data": "./address/data/index.js", 
     "./labels" : "./address/data/labels.js",
     "./addressHelpers": "./address/helpers.js",
     "./address": "./address/index.js",
@@ -43,7 +44,8 @@
     "./constants": "./constants.js",
     "./fields": "./fields.js",
     "./helpers": "./helpers.js",
-    "./sub-task": "./sub-task/index.js"
+    "./sub-task": "./sub-task/index.js",
+    "./save-in-progress/*": "./save-in-progress/*.jsx"
   },
   "license": "MIT",
   "private": true,

@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "exports": {
         ".": "./exportsFile.js",
+        "./api": "./api/index.js",
+        "./data/*": "./data/*.js",
         "./environment": "./environment/index.js",
         "./stagingDomains": "./environment/stagingDomains.js",
         "./feature-toggles": "./feature-toggles/index.js",

@@ -30,6 +30,7 @@
     "./phone": "./src/js/definitions/phone.js",
     "./profileAddress": "./src/js/definitions/profileAddress.js",
     "./ssn": "./src/js/definitions/ssn.js",
+    "./vaFileNumber": "./src/js/definitions/vaFileNumber",
     "./year": "./src/js/definitions/year.js",
     "./FullNameField": "./src/js/fields/FullNameField.jsx",
     "./ObjectField": "./src/js/fields/ObjectField.jsx",
@@ -56,7 +57,10 @@
     "./constants": "./src/js/constants.js",
     "./helpers": "./src/js/helpers.js",
     "./routing": "./src/js/routing",
-    "./validation": "./src/js/validation.js"
+    "./validation": "./src/js/validation.js",
+    "./patterns/*": "./src/js/patterns/*/*.js",
+    "./test-helpers": "./test/config/helpers.js",
+    "./web-component-fields/*": "./src/js/web-component-fields/*.jsx"
   },
   "peerDependencies": {
     "react": "*",
