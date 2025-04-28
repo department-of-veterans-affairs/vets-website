@@ -248,15 +248,21 @@ export function createTransaction(
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
 
-      // Check if it's a 500 error
+      // Check if it's a 500 error and we're in a form context
       if (isServerError(error.status)) {
-        dispatch({
-          type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
-          fieldName,
-          payload,
-        });
-        // Return special flag to indicate form-only update should proceed
-        return { formOnlyUpdate: true };
+        const state = getState();
+        const hasFormData = Boolean(state.form?.data);
+
+        // Only dispatch form-only update if we're in a form context
+        if (hasFormData) {
+          dispatch({
+            type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
+            fieldName,
+            payload,
+          });
+          // Return special flag to indicate form-only update should proceed
+          return { formOnlyUpdate: true };
+        }
       }
 
       recordEvent({

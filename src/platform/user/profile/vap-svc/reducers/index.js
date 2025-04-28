@@ -218,7 +218,7 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_UPDATE_FAILED: {
-      const { transactionId } = action.transaction.data.attributes;
+      const transactionId = action.transaction?.data?.attributes?.transactionId;
       return {
         ...state,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
