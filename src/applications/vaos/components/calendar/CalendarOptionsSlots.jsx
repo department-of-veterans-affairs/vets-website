@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { formatInTimeZone } from 'date-fns-tz';
+import { format, formatInTimeZone } from 'date-fns-tz';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CalendarContext } from './CalendarContext';
@@ -109,11 +109,10 @@ export default function CalendarOptionsSlots({
           selectedDate => selectedDate === slot.start,
         );
 
-        const timeString = formatInTimeZone(
-          new Date(slot.start),
-          timezone,
-          'h:mm aaaa',
-        );
+        const timeString =
+          slot.start.endsWith('Z') && timezone
+            ? formatInTimeZone(new Date(slot.start), timezone, 'h:mm aaaa')
+            : format(new Date(slot.start), 'h:mm aaaa');
 
         const [time, meridiem] = timeString.split(' ');
         const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
