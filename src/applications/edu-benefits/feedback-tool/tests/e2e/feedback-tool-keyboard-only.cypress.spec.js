@@ -1,6 +1,14 @@
 import manifest from '../../manifest.json';
 
 describe('Feedback Tool Keyboard Test', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [],
+      },
+    });
+  });
   it('Is accessible accordingly via keyboard', () => {
     cy.visit(manifest.rootUrl);
     cy.login();
