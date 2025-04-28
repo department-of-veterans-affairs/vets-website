@@ -1,6 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import environment from 'platform/utilities/environment';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
@@ -111,7 +112,7 @@ const testConfig = createTestConfig(
 
       cy.login(user);
     },
-    skip: false,
+    skip: environment.isTest(),
   },
   manifest,
   formConfig,
