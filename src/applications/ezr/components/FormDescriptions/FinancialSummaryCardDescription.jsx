@@ -42,7 +42,7 @@ const FinancialSummaryCardDescription = item => {
     if (deleteButton) {
       deleteButton.style.display = 'none';
     }
-  });
+  }, []);
 
   const { spouseGrossIncome } = item?.['view:spouseGrossIncome'] || '';
   const { spouseNetIncome } = item?.['view:spouseNetIncome'] || '';
