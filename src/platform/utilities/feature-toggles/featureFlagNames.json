@@ -127,6 +127,7 @@
   "mhvIntegrationMedicalRecordsToPhase1": "mhv_integration_medical_records_to_phase_1",
   "mhvInterstitialEnabled": "mhv_interstitial_enabled",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
+  "mhvLandingPageShowShareMyHealthDataLink": "mhv_landing_page_show_share_my_health_data_link",
   "mhvMedicalRecordsAllowTxtDownloads": "mhv_medical_records_allow_txt_downloads",
   "mhvMedicalRecordsDisplayConditions": "mhv_medical_records_display_conditions",
   "mhvMedicalRecordsDisplayDomains": "mhv_medical_records_display_domains",
