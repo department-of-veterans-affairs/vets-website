@@ -153,7 +153,8 @@ describe('YAML tests', () => {
 
         // Intercept the user API request and log in
         cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
-        cy.login();
+        // cy.login();
+        // cy.clearAllCookies();
 
         // TODO: This should be in the interceptAskVaResponses function -- Joe
         cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
@@ -175,6 +176,12 @@ describe('YAML tests', () => {
               cy.log(`Run tests in ${file}`);
               cy.log('-------------------');
               let flowYML = EMPTY_FLOW_YML;
+
+              if (path === 'authenticated') {
+                cy.login();
+              } else {
+                cy.clearAllCookies();
+              }
 
               const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${path}/${file}`;
               cy.readFile(p).then(f => {
