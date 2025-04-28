@@ -37,7 +37,7 @@ import {
   isAutomated5103Notice,
   setPageTitle,
 } from '../utils/helpers';
-import { setUpPage } from '../utils/page';
+import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
@@ -77,7 +77,10 @@ class DocumentRequestPage extends React.Component {
       document.querySelector('.claims-alert').focus();
       scrollToError();
     }
-    setPageTitle(this.props.trackedItem);
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
+      setPageTitle(this.props.trackedItem);
+    }
   }
 
   getDefaultPage() {
