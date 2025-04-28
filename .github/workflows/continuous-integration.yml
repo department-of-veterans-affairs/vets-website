@@ -339,6 +339,8 @@ jobs:
           if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
             echo "tests_ran=true" >> $GITHUB_OUTPUT
+            # Ensure mocha/results directory exists
+            mkdir -p mocha/results
           else
             echo "No tests to run"
             echo "tests_ran=false" >> $GITHUB_OUTPUT
@@ -355,6 +357,17 @@ jobs:
         with:
           name: unit-test-report
           path: mocha/results
+          retention-days: 1
+
+      - name: Unit test results
+        if: ${{ always() }}
+        uses: ./.github/workflows/checks-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Unit Tests Summary
+          conclusion: ${{ needs.unit-tests.result }}
+          output: |
+            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}}
 
       - name: Upload Coverage Report Artifact
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
@@ -1133,7 +1146,7 @@ jobs:
           name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}
+            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}}
 
 
 
