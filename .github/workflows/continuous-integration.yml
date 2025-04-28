@@ -340,8 +340,22 @@ jobs:
             # Create necessary directories
             mkdir -p mocha/results
             mkdir -p coverage
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
+            mkdir -p test-results
+            
+            # Run tests with coverage and mochawesome reporter
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} \
+              --reporter mocha-multi-reporters \
+              --reporter-options configFile=config/mocha-multi-reporter.js \
+              --coverage \
+              --log-level verbose
+            
+            # Ensure test results exist
+            if [ -d "mocha/results" ] && [ "$(ls -A mocha/results)" ]; then
+              echo "tests_ran=true" >> $GITHUB_OUTPUT
+            else
+              echo "No test results found"
+              echo "tests_ran=false" >> $GITHUB_OUTPUT
+            fi
           else
             echo "No tests to run"
             echo "tests_ran=false" >> $GITHUB_OUTPUT
@@ -376,7 +390,7 @@ jobs:
           name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}}
+            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"passed": 0, "failed": 0, "pending": 0}' }}}}
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -1148,7 +1162,7 @@ jobs:
           name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}}
+            {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"passed": 0, "failed": 0, "pending": 0}' }}}}
 
 
 
@@ -1355,7 +1369,13 @@ jobs:
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
-        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+        run: |
+          if [ -f "coverage/coverage-summary.json" ]; then
+            COVERAGE=$(cat coverage/coverage-summary.json)
+            echo "MARKDOWN=$COVERAGE" >> $GITHUB_OUTPUT
+          else
+            echo "MARKDOWN={\"total\": {\"lines\": {\"pct\": 0}, \"statements\": {\"pct\": 0}, \"functions\": {\"pct\": 0}, \"branches\": {\"pct\": 0}}}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Publish Unit Test Coverage Results
         if: ${{ always() }}
@@ -1365,7 +1385,7 @@ jobs:
           name: Unit Test Coverage Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": {"coverage": ${{ steps.code-coverage.outputs.MARKDOWN || '{}' }}}}
+            {"summary": {"coverage": ${{ steps.code-coverage.outputs.MARKDOWN || '{"total": {"lines": {"pct": 0}, "statements": {"pct": 0}, "functions": {"pct": 0}, "branches": {"pct": 0}}}' }}}}
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
