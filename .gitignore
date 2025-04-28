@@ -15,7 +15,7 @@ src/site/tests/html/
 .env
 npm-debug.log
 *.log
-*.swp 
+*.swp
 
 config/config.proxy.js
 
@@ -58,3 +58,7 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
+
+# Agents
+.agent/tmp/context/*
+.github/prompts/local*
