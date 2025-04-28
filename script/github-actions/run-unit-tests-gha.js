@@ -92,7 +92,7 @@ function buildTestCommand(testPaths) {
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
-  return `LOG_LEVEL=${options[
+  return `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
