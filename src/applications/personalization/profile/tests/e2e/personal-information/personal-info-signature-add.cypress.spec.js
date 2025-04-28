@@ -4,6 +4,10 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
   beforeEach(() => {
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
+
     const noSignatureResponse = {
       ...mockSignature,
       data: {
@@ -16,7 +20,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
       },
     };
 
-    PersonalInformationPage.load(noSignatureResponse);
+    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
   });
 
   it('verify user can cancel adding signature', () => {

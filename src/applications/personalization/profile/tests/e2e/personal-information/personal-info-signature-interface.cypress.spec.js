@@ -15,7 +15,10 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
       },
     };
 
-    PersonalInformationPage.load(noSignatureResponse);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
+    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
 
     PersonalInformationPage.verifyNoSignatureInterface();
 
@@ -23,6 +26,11 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
   });
 
   it('verify existing signature content', () => {
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
+
+    PersonalInformationPage.load(updatedFeatureToggles);
     PersonalInformationPage.verifyExistingSignatureInterface();
 
     cy.injectAxeThenAxeCheck();
