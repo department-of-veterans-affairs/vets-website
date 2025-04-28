@@ -43,6 +43,22 @@ const {
   deleteInProgressForm,
 } = require('./script/mem-db');
 
+const notifications = require('../../personalization/common/mocks/notifications');
+
+const {
+  createDebtsSuccess,
+  createNoDebtsSuccess,
+} = require('../../personalization/dashboard/mocks/debts');
+
+const {
+  createHealthCareStatusSuccess,
+} = require('../../personalization/dashboard/mocks/health-care');
+
+const { v2 } = require('../../personalization/dashboard/mocks/appointments');
+
+// set to true to simulate a user with debts for /v0/debts endpoint
+const hasDebts = false;
+
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
@@ -192,6 +208,99 @@ const responses = {
     // this function allows some conditional logic to be added to the status endpoint
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
+  },
+
+  // New endpoints from dashboard mock server
+  'GET /v0/medical_copays': (_req, res) => {
+    return res.json({ data: [] });
+  },
+
+  'GET /v0/profile/payment_history': (_req, res) => {
+    return res.json({ data: { attributes: { payments: [] } } });
+  },
+
+  'GET /v0/profile/service_history': (_req, res) => {
+    return res.json({
+      data: {
+        attributes: {
+          serviceHistory: [],
+        },
+      },
+    });
+  },
+
+  'GET /v0/appeals': (_req, res) => {
+    return res.json({ data: [] });
+  },
+
+  'GET /v0/benefits_claims': (_req, res) => {
+    return res.json({ data: [] });
+  },
+
+  'GET /v0/health_care_applications/enrollment_status': (_req, res) => {
+    return res.json(createHealthCareStatusSuccess());
+  },
+
+  'GET /my_health/v1/messaging/folders': (_req, res) => {
+    return res.json({ data: [] });
+  },
+
+  'GET /v0/my_va/submission_statuses': (_req, res) => {
+    return res.json([]);
+  },
+
+  'GET /v0/profile/full_name': (_req, res) => {
+    return res.json({
+      id: '',
+      type: 'hashes',
+      attributes: {
+        first: 'Mitchell',
+        middle: 'G',
+        last: 'Jenkins',
+        suffix: null,
+      },
+    });
+  },
+
+  'GET /v0/debts': (_req, res) => {
+    return res.json(hasDebts ? createDebtsSuccess() : createNoDebtsSuccess());
+  },
+
+  'GET /v0/onsite_notifications': (_req, res) => {
+    return res.json(notifications.none);
+  },
+
+  'PATCH /v0/onsite_notifications/:id': (req, res) => {
+    const { id } = req.params;
+
+    if (
+      id === 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a' ||
+      id === 'f9947b27-df3b-4b09-875c-7f76594d766d'
+    ) {
+      return res.json(notifications.createDismissalSuccessResponse(id));
+    }
+    if (!id) {
+      return notifications.hasError;
+    }
+
+    return res.json({ data: [] });
+  },
+
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    return res.json({
+      data: {
+        id: '',
+        type: 'evss_disability_compensation_form_rating_info_responses',
+        attributes: {
+          userPercentOfDisability: 40,
+        },
+      },
+    });
+  },
+
+  'GET /vaos/v2/appointments': (_req, res) => {
+    const rv = v2.createAppointmentSuccess({ startsInDays: [31] });
+    return res.status(200).json(rv);
   },
 };
 
