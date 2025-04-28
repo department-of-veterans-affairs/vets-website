@@ -910,9 +910,7 @@ jobs:
           merge-multiple: true
 
       - name: Copy test results to mochawesome directory
-        run: |
-          cp -R qa-standards-dashboard-data/src/allow-list/data/* \
-                qa-standards-dashboard-data/src/testing-reports/data/
+        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Upload Test Results to BigQuery
         continue-on-error: true
@@ -1060,9 +1058,7 @@ jobs:
           merge-multiple: true
 
       - name: Copy test results to mochawesome directory
-        run: |
-          cp -R qa-standards-dashboard-data/src/allow-list/data \
-                qa-standards-dashboard-data/src/testing-reports/data
+        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
