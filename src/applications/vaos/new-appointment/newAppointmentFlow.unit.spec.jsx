@@ -10,7 +10,6 @@ import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
 } from '../tests/mocks/mockApis';
 import { FACILITY_TYPES } from '../utils/constants';
 import getNewAppointmentFlow from './newAppointmentFlow';
@@ -158,20 +157,19 @@ describe('VAOS newAppointmentFlow', () => {
       });
 
       it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
-        const siteIds = ['983'];
+        const ids = ['983'];
 
         mockFetch();
-        mockVAOSParentSites(
-          siteIds,
-          [
+        mockFacilitiesApi({
+          ids,
+          response: [
             createMockFacility({
               id: '983',
               name: 'Cheyenne VA Medical Center',
               isParent: true,
             }),
           ],
-          true,
-        );
+        });
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
@@ -488,7 +486,7 @@ describe('VAOS newAppointmentFlow', () => {
               loading: false,
               data: {
                 ehrDataByVhaId: {
-                  '692': {
+                  692: {
                     vhaId: '692',
                     vamcFacilityName: 'White City VA Medical Center',
                     vamcSystemName: 'VA Southern Oregon health care',
@@ -514,7 +512,7 @@ describe('VAOS newAppointmentFlow', () => {
               typeOfCareId: '123',
             },
             facilities: {
-              '123': [
+              123: [
                 {
                   id: '692',
                 },

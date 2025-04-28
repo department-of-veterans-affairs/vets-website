@@ -37,7 +37,6 @@ import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
 } from './mockApis';
 
 /**
@@ -425,11 +424,12 @@ export async function setCommunityCareFlow({
     },
   });
 
-  mockVAOSParentSites(
-    registered,
-    parentSites.map(data => createMockFacility({ ...data, isParent: true })),
-    true,
-  );
+  mockFacilitiesApi({
+    ids: registered,
+    response: parentSites.map(data =>
+      createMockFacility({ ...data, isParent: true }),
+    ),
+  });
   mockV2CommunityCareEligibility({
     parentSites: parentSites.map(data => data.id),
     supportedSites: supportedSites || parentSites.map(data => data.id),
