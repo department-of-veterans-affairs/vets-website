@@ -33,11 +33,11 @@ import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import {
   setDocumentRequestPageTitle,
-  setDocumentTitle,
   getClaimType,
   isAutomated5103Notice,
+  setPageTitle,
 } from '../utils/helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
@@ -52,15 +52,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (!this.props.loading && this.props.trackedItem) {
-      const pageTitle = setDocumentRequestPageTitle(
-        this.props.trackedItem.friendlyName ||
-          this.props.trackedItem.displayName,
-      );
-      setDocumentTitle(pageTitle);
-    } else {
-      setDocumentTitle('Document Request');
-    }
+    setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -85,18 +77,7 @@ class DocumentRequestPage extends React.Component {
       document.querySelector('.claims-alert').focus();
       scrollToError();
     }
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-      if (this.props.trackedItem) {
-        const pageTitle = setDocumentRequestPageTitle(
-          this.props.trackedItem.friendlyName ||
-            this.props.trackedItem.displayName,
-        );
-        setDocumentTitle(pageTitle);
-      } else {
-        setDocumentTitle('Document Request');
-      }
-    }
+    setPageTitle(this.props.trackedItem);
   }
 
   getDefaultPage() {
