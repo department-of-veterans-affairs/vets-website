@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import get from 'platform/utilities/data/get';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -10,6 +11,8 @@ import veteranName from '../pages/veteranName';
 import veteranInfo1 from '../pages/veteranInfo1';
 import veteranInfo2 from '../pages/veteranInfo2';
 import applicantName from '../pages/applicantName';
+import veteranDemographics1 from '../pages/veteranDemographics1';
+import veteranDemographics2 from '../pages/veteranDemographics2';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
@@ -149,6 +152,19 @@ const formConfig = {
           title: 'Veteran personal information',
           uiSchema: veteranInfo2.uiSchema,
           schema: veteranInfo2.schema,
+        },
+        veteranDemographics1: {
+          path: 'veteran-demographics-1',
+          title: 'Veteran demographics',
+          uiSchema: veteranDemographics1.uiSchema,
+          schema: veteranDemographics1.schema,
+        },
+        veteranDemographics2: {
+          path: 'veteran-demographics-2',
+          title: 'Veteran demographics',
+          uiSchema: veteranDemographics2.uiSchema,
+          schema: veteranDemographics2.schema,
+          depends: formData => get('veteranDemoYesNo', formData),
         },
       },
     },
