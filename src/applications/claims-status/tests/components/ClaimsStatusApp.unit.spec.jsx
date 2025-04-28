@@ -10,14 +10,109 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { AppContent, ClaimsStatusApp } from '../../containers/ClaimsStatusApp';
 
 describe('<AppContent>', () => {
-  it('should render loading indicator if feature toggles are not available', () => {
+  it('should render downtime loading indicator while downtime check is pending', () => {
+    const store = createStore(() => ({
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: false,
+        isPending: true,
+        serviceMap: new Map(),
+        dismissedDowntimeWarnings: [],
+      },
+    }));
+    const props = {
+      dispatchSetLastPage: sinon.spy(),
+      featureFlagsLoading: false,
+      user: {
+        login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
+        profile: {
+          services: [
+            backendServices.EVSS_CLAIMS,
+            backendServices.APPEALS_STATUS,
+            backendServices.LIGHTHOUSE,
+          ],
+          verified: true,
+        },
+      },
+    };
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Routes>
+            <Route element={<ClaimsStatusApp {...props} />}>
+              <Route index element={<div data-testid="children" />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    expect(getByTestId('downtime-notification-loading')).to.have.attribute(
+      'message',
+      'Loading your information...',
+    );
+    expect(getByTestId('downtime-notification-loading')).to.have.attribute(
+      'set-focus',
+    );
+    expect(queryByTestId('children')).to.not.exist;
+  });
+
+  it('should render feature flags loading indicator when feature flags are loading', () => {
     const { getByTestId, queryByTestId } = render(
       <AppContent featureFlagsLoading>
         <div data-testid="children" />
       </AppContent>,
     );
 
-    expect(getByTestId('feature-flags-loading')).to.exist;
+    expect(getByTestId('feature-flags-loading')).to.have.attribute(
+      'message',
+      'Loading your information...',
+    );
+    expect(getByTestId('feature-flags-loading')).to.have.attribute('set-focus');
+    expect(queryByTestId('children')).to.not.exist;
+  });
+
+  it('should render only downtime loading indicator while downtime check is pending even when feature flags are also loading', () => {
+    const store = createStore(() => ({
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: false,
+        isPending: true,
+        serviceMap: new Map(),
+        dismissedDowntimeWarnings: [],
+      },
+    }));
+    const props = {
+      dispatchSetLastPage: sinon.spy(),
+      featureFlagsLoading: true,
+      user: {
+        login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
+        profile: {
+          services: [
+            backendServices.EVSS_CLAIMS,
+            backendServices.APPEALS_STATUS,
+            backendServices.LIGHTHOUSE,
+          ],
+          verified: true,
+        },
+      },
+    };
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Routes>
+            <Route element={<ClaimsStatusApp {...props} />}>
+              <Route index element={<div data-testid="children" />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    expect(getByTestId('downtime-notification-loading')).to.exist;
+    expect(queryByTestId('feature-flags-loading')).to.not.exist;
     expect(queryByTestId('children')).to.not.exist;
   });
 
@@ -78,6 +173,7 @@ describe('<AppContent>', () => {
       </MemoryRouter>,
     );
 
+    expect(queryByTestId('downtime-notification-loading')).to.not.exist;
     expect(queryByTestId('feature-flags-loading')).to.not.exist;
     expect(getByTestId('children')).to.exist;
 
