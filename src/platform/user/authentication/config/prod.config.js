@@ -95,7 +95,6 @@ export default {
       logingov: true,
     },
     legacySignInProviders: {
-      mhv: false,
       dslogon: false,
     },
     isMobile: false,
@@ -118,7 +117,6 @@ export default {
       logingov: true,
     },
     legacySignInProviders: {
-      mhv: false,
       dslogon: false,
     },
     isMobile: false,
