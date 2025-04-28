@@ -60,7 +60,6 @@ export class ConfirmationPage extends React.Component {
           </p>
 
           <va-button
-            type="button"
             text="Print this page"
             className="usa-button screen-only"
             onClick={window.print}

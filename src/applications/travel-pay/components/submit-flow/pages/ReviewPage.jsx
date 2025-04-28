@@ -82,7 +82,10 @@ const ReviewPage = ({
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         Where you traveled from
       </h3>
-      <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+      <p
+        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+        data-dd-privacy="mask"
+      >
         {address.addressLine1}
         <br />
         {address.addressLine2 && (

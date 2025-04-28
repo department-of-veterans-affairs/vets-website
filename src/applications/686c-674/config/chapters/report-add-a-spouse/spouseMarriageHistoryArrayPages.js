@@ -21,19 +21,13 @@ import {
   customLocationSchema,
 } from '../../helpers';
 
-/* NOTE:
- * In "Add mode" of the array builder, formData represents the entire formData object.
- * In "Edit mode," formData represents the specific array item being edited.
- * As a result, the index param may sometimes come back null depending on which mode the user is in.
- * To handle both modes, ensure that you check both via RJSF like these pages do.
- */
-
 /** @type {ArrayBuilderOptions} */
 export const spouseMarriageHistoryOptions = {
   arrayPath: 'spouseMarriageHistory',
   nounSingular: 'former marriage',
   nounPlural: 'former marriages',
   required: false,
+  minItems: 0,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
@@ -64,25 +58,27 @@ export const spouseMarriageHistoryOptions = {
 /** @returns {PageSchema} */
 export const spouseMarriageHistorySummaryPage = {
   uiSchema: {
-    'view:completedSpouseFormerMarriage': arrayBuilderYesNoUI(
-      spouseMarriageHistoryOptions,
-      {
-        title: 'Does your spouse have any former marriages to add?',
-        hint:
-          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
+    'view:completedSpouseFormerMarriage': {
+      ...arrayBuilderYesNoUI(
+        spouseMarriageHistoryOptions,
+        {
+          title: 'Does your spouse have any former marriages to add?',
+          hint:
+            'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
+          labels: {
+            Y: 'Yes',
+            N: 'No',
+          },
         },
-      },
-      {
-        title: 'Does your spouse have any other marriages to add?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
+        {
+          title: 'Does your spouse have any other marriages to add?',
+          labels: {
+            Y: 'Yes',
+            N: 'No',
+          },
         },
-      },
-    ),
+      ),
+    },
   },
   schema: {
     type: 'object',

@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
 import {
   mockFetch,
@@ -11,23 +11,21 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '.';
 import {
+  createMockClinic,
+  createMockFacility,
+} from '../../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
+import {
+  mockEligibilityFetches,
+  mockFacilitiesApi,
+  mockGetCurrentPosition,
+  mockSchedulingConfigurations,
+} from '../../../tests/mocks/mockApis';
+import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
 import { TYPE_OF_CARE_ID } from '../../utils';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
-import {
-  mockEligibilityFetches,
-  mockFacilitiesFetch,
-} from '../../../tests/mocks/fetch';
-import {
-  mockSchedulingConfigurations,
-  mockGetCurrentPosition,
-} from '../../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 
@@ -85,10 +83,10 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: facilityIds,
-        facilities,
+        response: facilities,
       });
 
       const store = createTestStore(initialState);
@@ -162,10 +160,10 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: facilityIds,
-        facilities,
+        response: facilities,
       });
       mockGetCurrentPosition();
 
@@ -246,10 +244,10 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
       });
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities,
+        response: facilities,
       });
       const configs = facilityIds.map(id =>
         getSchedulingConfigurationMock({
@@ -346,10 +344,10 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: facilityIds.slice(0, 5),
-        facilities: facilities.slice(0, 5),
+        response: facilities.slice(0, 5),
       });
 
       const store = createTestStore(testState);
@@ -464,9 +462,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
     it('should display error messaging if user denied location permissions', async () => {
       mockGetCurrentPosition({ fail: true });
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
 
       const store = createTestStore({
@@ -526,9 +524,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       };
       const store = createTestStore(state);
 
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
@@ -557,9 +555,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     it('should display an error message when eligibility calls fail', async () => {
       const store = createTestStore(initialState);
 
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -584,9 +582,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show alert when only one facility is supported', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
       const clinic = createMockClinic({
         id: '1',
@@ -634,9 +632,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show alert and not allow user to continue if only one facility and no clinics', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
       mockEligibilityFetches({
         facilityId: '983',
@@ -678,9 +676,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show error and not allow user to continue if only one facility and clinic call fails', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
@@ -705,9 +703,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show eligibility modal with error if clinic call fails', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [facility983, facility984],
+        response: [facility983, facility984],
       });
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({

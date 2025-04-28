@@ -1,9 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import React from 'react';
 
 import {
   createTestStore,
@@ -13,20 +13,20 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../tests/mocks/setup';
-import {
-  mockCCProviderFetch,
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-  mockGetCurrentPosition,
-} from '../../../tests/mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '.';
-import { calculateBoundingBox } from '../../../utils/address';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
-import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
 import { createMockFacility } from '../../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
+import {
+  mockCCProviderFetch,
+  mockFacilitiesApi,
+  mockGetCurrentPosition,
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
+} from '../../../tests/mocks/mockApis';
+import { calculateBoundingBox } from '../../../utils/address';
+import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -67,10 +67,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
       ids: ['983'],
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           address: {

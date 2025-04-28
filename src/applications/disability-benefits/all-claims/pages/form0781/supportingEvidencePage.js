@@ -3,7 +3,11 @@ import {
   checkboxGroupUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { titleWithTag, form0781HeadingTag } from '../../content/form0781';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 import {
   supportingEvidenceDescription,
   supportingEvidenceNoneLabel,
@@ -78,6 +82,9 @@ export const uiSchema = {
   'view:supportingEvidenceAdditionalInformation': {
     'ui:description': supportingEvidenceAdditionalInformation,
   },
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
   'ui:validations': [validateSupportingEvidenceSelections],
 };
 
@@ -109,6 +116,10 @@ export const schema = {
       properties: {},
     },
     'view:supportingEvidenceAdditionalInformation': {
+      type: 'object',
+      properties: {},
+    },
+    'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},
     },
