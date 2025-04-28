@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FIELD_NAMES, ACTIVE_EDIT_VIEWS } from '@@vap-svc/constants';
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
@@ -6,6 +6,7 @@ import {
   selectAddressValidationType,
   selectCurrentlyOpenEditModal,
 } from 'platform/user/profile/vap-svc/selectors';
+import { focusElement } from 'platform/utilities/ui';
 
 import { useNavigate } from 'react-router-dom-v5-compat';
 
@@ -20,9 +21,16 @@ export function EditAddress() {
     addressValidationType === FIELD_NAMES.MAILING_ADDRESS &&
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
 
+  useEffect(() => {
+    focusElement('h2');
+  }, []);
+
   return (
     <div className="usa-width-three-fourths letters vads-u-margin-top--2 ">
-      <h2 className={!showValidationView ? 'vads-u-margin-bottom--3' : null}>
+      <h2
+        tabIndex={-1}
+        className={!showValidationView ? 'vads-u-margin-bottom--3' : null}
+      >
         Edit mailing address
       </h2>
 
