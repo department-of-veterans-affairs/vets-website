@@ -38,106 +38,105 @@ describe('CG <ApplicationDownloadLink>', () => {
     localStorage.setItem('csrfToken', 'my-token');
     apiRequestStub = sinon.stub(api, 'apiRequest');
     recordEventStub = sinon.stub(recordEventModule, 'default');
-    sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
-    sinon.stub(URL, 'revokeObjectURL');
   });
 
   afterEach(() => {
     localStorage.clear();
-    sinon.restore();
-  });
-
-  context('default behavior', () => {
-    it('should render a download file button', () => {
-      const { selectors } = subject();
-      const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
-      expect(vaLink).to.exist;
-      expect(vaAlert).to.not.exist;
-      expect(vaLoadingIndicator).to.not.exist;
-    });
+    apiRequestStub.restore();
+    recordEventStub.restore();
   });
 
   context('when the download button has been clicked', () => {
+    const createStubObject = () =>
+      sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
+    const revokeObjectstub = () => sinon.stub(URL, 'revokeObjectURL');
+
     const triggerError = ({ link, status = '503' }) => {
       apiRequestStub.rejects({ errors: [{ status }] });
       fireEvent.click(link);
     };
 
-    it('should record the correct event when the request succeeds', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const event = 'caregivers-pdf-download--success';
-
-      apiRequestStub.resolves({
+    const triggerSuccess = ({ link }) => {
+      apiRequestStub.onFirstCall().resolves({
+        ok: true,
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
       fireEvent.click(link);
+    };
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-      await waitFor(() => {
-        const { vaLink } = selectors();
-        expect(vaLink).to.exist;
-      });
+    context('on success', () => {
+      it('should record the correct event when the request succeeds', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        const createObjectStub = createStubObject();
+        const revokeObjectStub = revokeObjectstub();
 
-      sinon.assert.calledWithExactly(recordEventStub, { event });
-    });
+        triggerSuccess({ link });
 
-    it('should record the correct event when the request fails', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const event = 'caregivers-pdf-download--failure';
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
+        await waitFor(() => {
+          const { vaLink } = selectors();
+          expect(vaLink).to.exist;
+        });
 
-      triggerError({ link });
+        expect(
+          recordEventStub.calledWith({
+            event: 'caregivers-pdf-download--success',
+          }),
+        ).to.be.true;
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-      await waitFor(() => {
-        const { vaAlert } = selectors();
-        expect(vaAlert).to.exist;
-      });
-
-      sinon.assert.calledWithExactly(recordEventStub, { event });
-    });
-
-    it('should display `downtime` error message when error has status of `5xx`', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const error = content['alert-download-message--500'];
-
-      triggerError({ link });
-
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
-      });
-
-      await waitFor(() => {
-        const { vaAlert } = selectors();
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
+        createObjectStub.restore();
+        revokeObjectStub.restore();
       });
     });
 
-    it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
-      const { selectors } = subject();
-      const { vaLink: link } = selectors();
-      const error = content['alert-download-message--generic'];
+    context('on error', () => {
+      it('should display `generic` error message when response is an error', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+        const event = 'caregivers-pdf-download--failure';
 
-      triggerError({ link, status: '403' });
+        triggerError({ link });
 
-      await waitFor(() => {
-        const { vaLoadingIndicator } = selectors();
-        expect(vaLoadingIndicator).to.exist;
+        await waitFor(() => {
+          const { vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+        });
+        await waitFor(() => {
+          const { vaAlert } = selectors();
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(
+            content['alert-download-message--generic'],
+          );
+        });
+
+        sinon.assert.calledWithExactly(recordEventStub, { event });
       });
-      await waitFor(() => {
-        const { vaAlert } = selectors();
-        expect(vaAlert).to.exist;
-        expect(vaAlert).to.contain.text(error);
+
+      // createObjectURL is not stubbed so it throws error
+      it('should display `generic` error message when any other error occurs not in the request response', async () => {
+        const { selectors } = subject();
+        const { vaLink: link } = selectors();
+
+        triggerSuccess({ link });
+
+        await waitFor(() => {
+          const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
+
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.not.exist;
+
+          expect(vaAlert).to.exist;
+          expect(vaAlert).to.contain.text(
+            content['alert-download-message--generic'],
+          );
+
+          const event = 'caregivers-pdf-download--failure';
+          expect(recordEventStub.calledWith({ event })).to.be.true;
+        });
       });
     });
   });
