@@ -10,3 +10,21 @@ testNumberOfWebComponentFields(
   'Applicant - Name Dob',
   { ...mockData.data },
 );
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page13a.schema,
+  formConfig.chapters.applicantInformation.pages.page13a.uiSchema,
+  0,
+  'Applicant - Start screen',
+  { applicants: [...mockData.data.applicants, []] },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page14.schema,
+  formConfig.chapters.applicantInformation.pages.page14.uiSchema,
+  1,
+  'Applicant - SSN',
+  { applicants: mockData.data.applicants },
+);

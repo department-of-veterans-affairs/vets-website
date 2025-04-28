@@ -7,7 +7,10 @@ import {
   fullNameSchema,
   titleUI,
   titleSchema,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
@@ -50,4 +53,82 @@ export const applicantNameDobSchema = {
     applicantName: fullNameSchema,
     applicantDob: dateOfBirthSchema,
   }),
+};
+
+/** @type {PageSchema} */
+export const applicantInfoIntroSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        ...titleUI(
+          ({ formData }) => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(formData)}
+              </span>{' '}
+              information
+            </>
+          ),
+          ({ formData }) => (
+            <>
+              Next we’ll ask more questions about{' '}
+              <span className="dd-privacy-hidden">
+                {applicantWording(formData, false, false)}
+              </span>
+              . This includes social security number, mailing address, contact
+              information, relationship to the sponsor, and health insurance
+              information.
+            </>
+          ),
+        ),
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    'view:description': blankSchema,
+  }),
+};
+
+/** @type {PageSchema} */
+export const applicantIdentificationInfoSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+        keepInPageOnReview: true,
+      },
+      items: {
+        ...titleUI(({ formData }) => (
+          <>
+            <span className="dd-privacy-hidden">
+              {applicantWording(formData)}
+            </span>{' '}
+            identification information
+          </>
+        )),
+        applicantSSN: ssnUI(),
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantSSN'], {
+    titleSchema,
+    applicantSSN: ssnSchema,
+  }),
+};
+
+/** @type {PageSchema} */
+export const applicantSharedAddressSchema = {
+  uiSchema: {
+    applicants: {
+      items: {},
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+    },
+  },
+  schema: applicantListSchema([], {}),
 };
