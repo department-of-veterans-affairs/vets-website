@@ -37,7 +37,7 @@ const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 // utils
 const { delaySingleResponse, boot } = require('./script/utils');
-const { updateMemDb } = require('./script/mem-db');
+const { updateMemDb, updateInProgressForm } = require('./script/mem-db');
 
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
@@ -79,8 +79,14 @@ const responses = {
     delaySingleResponse(() => res.json(prefill10182), secondsOfDelay);
   },
 
+  'GET /v0/in_progress_forms/20-10206': (req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(updateMemDb(req)), secondsOfDelay);
+  },
+
   'PUT /v0/in_progress_forms/:id': (req, res) => {
     const secondsOfDelay = 1;
+    updateInProgressForm(req.body);
     delaySingleResponse(
       () => res.json(createSaveInProgressUpdate(req)),
       secondsOfDelay,

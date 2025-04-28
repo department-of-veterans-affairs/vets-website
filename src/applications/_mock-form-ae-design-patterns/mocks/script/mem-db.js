@@ -15,6 +15,17 @@ const possibleUsers = {
 // in memory db
 const memDb = {
   user: possibleUsers.loa3User,
+  inProgressForm: {
+    formData: {},
+    metadata: {},
+  },
+};
+
+const updateInProgressForm = payload => {
+  memDb.inProgressForm = {
+    formData: { ...memDb.inProgressForm.formData, ...payload.formData },
+    metadata: { ...memDb.inProgressForm.metadata, ...payload.metadata },
+  };
 };
 
 // sanitize user input
@@ -165,6 +176,10 @@ const updateMemDb = (req, res = null) => {
     return memDb.user;
   }
 
+  if (key.includes('GET /v0/in_progress_forms')) {
+    return memDb.inProgressForm;
+  }
+
   if (!res) {
     throw new Error(
       `updateMemDB: Response object is required. or key ${key} not found`,
@@ -177,4 +192,5 @@ const updateMemDb = (req, res = null) => {
 module.exports = {
   memDb,
   updateMemDb,
+  updateInProgressForm,
 };
