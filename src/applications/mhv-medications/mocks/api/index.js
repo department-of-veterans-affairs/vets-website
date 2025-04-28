@@ -59,7 +59,13 @@ const responses = {
   'GET /my_health/v1/prescriptions/:id/documentation': (req, res) => {
     // use `req.query.ndc` to get the NDC number
     const data = {
-      data: prescriptions.mockPrescriptionDocumentation(),
+      data: {
+        attributes: {
+          id: '',
+          type: 'prescription_documentation',
+          html: prescriptions.mockPrescriptionDocumentation(),
+        },
+      },
     };
     return res.json(data);
   },
