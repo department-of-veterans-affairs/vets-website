@@ -70,7 +70,7 @@ describe('22-10215 - Institution Details', () => {
         .uiSchema.institutionDetails.facilityCode['ui:validations'][0];
     validateFacilityCode(errors, '1234567');
     expect(errors.messages).to.include(
-      'Please enter a valid 8-digit facility code',
+      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
     );
 
     errors.messages = [];

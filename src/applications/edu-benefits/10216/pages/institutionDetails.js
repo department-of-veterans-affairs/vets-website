@@ -31,7 +31,9 @@ const institutionDetails = () => ({
             const institutionName =
               formData?.institutionDetails?.institutionName;
             if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
-              errors.addError('Please enter a valid 8-digit facility code');
+              errors.addError(
+                'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+              );
             } else if (institutionName === 'not found') {
               errors.addError(
                 'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',

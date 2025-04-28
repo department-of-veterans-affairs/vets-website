@@ -148,8 +148,8 @@ const IntroductionPage = ({ route }) => {
             <ul>
               <li>
                 Provide the full name of your institution as listed on the Web
-                Enabled Approval Management System (WEAMS) report (VA Form
-                22-1998).
+                Enabled Approval Management System (WEAMS) report (WEAMS 1998
+                Report).
               </li>
               <li>Provide your institution’s VA assigned facility code.</li>
             </ul>
