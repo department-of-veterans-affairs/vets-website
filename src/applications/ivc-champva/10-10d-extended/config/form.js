@@ -9,13 +9,18 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { applicantWording } from '../../shared/utilities';
+import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
-import { applicantInfoIntroSchema } from '../chapters/applicantInformation';
-import { onReviewPage } from '../helpers/utilities';
+import {
+  applicantIdentificationInfoSchema,
+  applicantInfoIntroSchema,
+  applicantNameDobSchema,
+  applicantSharedAddressSchema,
+  applicantMailingAddressSchema,
+} from '../chapters/applicantInformation';
+import { onReviewPage, page15aDepends } from '../helpers/utilities';
 
-import mockData from '../tests/fixtures/data/test-data.json';
-
-import baseConfig from '../../10-10D/config/form';
+// import mockData from '../tests/fixtures/data/test-data.json';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -70,10 +75,13 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        ...baseConfig?.chapters?.applicantInformation?.pages,
-        /* example of a page override: */
+        page13: {
+          // initialData: mockData.data,
+          title: 'Applicant information ',
+          path: 'applicant-info',
+          ...applicantNameDobSchema,
+        },
         page13a: {
-          initialData: mockData.data,
           path: 'applicant-info-intro/:index',
           arrayPath: 'applicants',
           title: item => (
@@ -87,6 +95,52 @@ const formConfig = {
           showPagePerItem: true,
           depends: () => !onReviewPage(),
           ...applicantInfoIntroSchema,
+        },
+        page14: {
+          path: 'applicant-identification-info/:index',
+          arrayPath: 'applicants',
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              identification information
+            </>
+          ),
+          showPagePerItem: true,
+          ...applicantIdentificationInfoSchema,
+        },
+        page15a: {
+          path: 'applicant-mailing-same/:index',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          keepInPageOnReview: false,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              address selection
+            </>
+          ),
+          depends: (formData, index) => page15aDepends(formData, index),
+          CustomPage: ApplicantAddressCopyPage,
+          CustomPageReview: null,
+          ...applicantSharedAddressSchema,
+        },
+        page15: {
+          path: 'applicant-mailing-address/:index',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
+          ...applicantMailingAddressSchema,
         },
       },
     },
