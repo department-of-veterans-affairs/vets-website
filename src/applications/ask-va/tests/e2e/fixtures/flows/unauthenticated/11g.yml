@@ -1,10 +1,10 @@
 flow:
-  title: Health Care for Veteran (auth)
-  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  title: Caregiver Support Program (Unauth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
-      value: start-your-question-auth
+      value: start-your-question-unauth
 
     - action: include
       target: page
@@ -12,31 +12,27 @@ flow:
 
     - action: include
       target: page
-      value: select-topic-prosthetics
+      value: select-topic-caregiver-support-program
 
     - action: include
       target: page
-      value: select-subtopic-special-benefits-application-status
+      value: select-subtopic-program-of-comprehensive-assistance-for-family-caregivers-pcafc
 
     - action: include
       target: page
-      value: who-is-your-question-about-myself
+      value: who-is-your-question-about-general-question
 
     - action: include
       target: page
-      value: what-is-your-relationship-to-the-veteran-veteran
+      value: tell-us-about-yourself-general
 
     - action: include
       target: page
-      value: tell-us-about-yourself
+      value: your-contact-information-radio-buttons-email
 
     - action: include
       target: page
-      value: your-va-health-facility
-
-    - action: include
-      target: page
-      value: your-contact-information-email-no-prefill
+      value: your-postal-code
 
     - action: include
       target: page
