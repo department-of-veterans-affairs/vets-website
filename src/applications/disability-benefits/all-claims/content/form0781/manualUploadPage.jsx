@@ -13,6 +13,9 @@ export const manualUploadPageDescription = (
   </>
 );
 
+export const manualUploadAlertText =
+  'We’ve deleted files about your mental health statement.';
+
 export const howToScanFileInfo = (
   <va-additional-info trigger="How to scan a file">
     <div>
