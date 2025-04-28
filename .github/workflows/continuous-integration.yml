@@ -337,10 +337,11 @@ jobs:
         id: run-tests
         run: |
           if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
+            # Create necessary directories
+            mkdir -p mocha/results
+            mkdir -p coverage
             yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
             echo "tests_ran=true" >> $GITHUB_OUTPUT
-            # Ensure mocha/results directory exists
-            mkdir -p mocha/results
           else
             echo "No tests to run"
             echo "tests_ran=false" >> $GITHUB_OUTPUT
@@ -359,6 +360,14 @@ jobs:
           path: mocha/results
           retention-days: 1
 
+      - name: Upload Coverage Report Artifact
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-coverage
+          path: coverage
+          retention-days: 1
+
       - name: Unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/checks-action
@@ -368,13 +377,6 @@ jobs:
           conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary": {"tests": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}}
-
-      - name: Upload Coverage Report Artifact
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-coverage
-          path: coverage
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -1363,7 +1365,7 @@ jobs:
           name: Unit Test Coverage Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary":"<https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/>"}
+            {"summary": {"coverage": ${{ steps.code-coverage.outputs.MARKDOWN || '{}' }}}}
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
