@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
@@ -19,8 +18,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const isUserLOA3 = useSelector(isLOA3);
   const hasRegisteredSystems = sites?.length > 0;
   const featureMhvRouteGuards = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.vaOnlineSchedulingMhvRouteGuards],
+    state => state.featureToggles.vaOnlineSchedulingMhvRouteGuards,
   );
   const isToggleLoading = useSelector(state => state.featureToggles.loading);
 

@@ -17,6 +17,7 @@ const initialState = {
     vaOnlineScheduling: true,
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingMhvRouteGuards: false,
+    loading: false,
   },
   user: {
     login: {
