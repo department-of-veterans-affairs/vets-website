@@ -108,7 +108,7 @@ const Prescriptions = () => {
     false,
   );
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
-  const [isAlertVisible] = useState(false);
+  const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
