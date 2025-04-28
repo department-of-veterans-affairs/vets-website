@@ -188,7 +188,7 @@ FormSignature.defaultProps = {
   signatureLabel: 'Veteran’s full name',
   signaturePath: 'signature',
   checkboxLabel:
-    'I certify the information above is correct and true to the best of my knowledge and belief.',
+    'I certify the information above is true and correct to the best of my knowledge and belief.',
   required: true,
   validations: [],
   // eslint-disable-next-line react/default-props-match-prop-types
