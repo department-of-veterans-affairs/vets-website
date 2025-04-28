@@ -21,14 +21,11 @@ import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import { page15aDepends } from '../helpers/utilities';
 
+import { applicantWording } from '../../shared/utilities';
+
 /*
 // TODO: get the custom prefill stuff working with array builder
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-*/
-
-/*
-// TODO: re-add custom titles in array builder pages
-import { applicantWording } from '../../shared/utilities';
 */
 
 /*
@@ -80,7 +77,7 @@ const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.applicantName?.first || 'Applicant'} identification`,
+        `${applicantWording(formData) || 'Applicant'} identification`,
     ),
     applicantSSN: ssnUI(),
   },
@@ -102,7 +99,7 @@ const applicantMailingAddressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.applicantName?.first || 'Applicant'} mailing address`,
+        `${applicantWording(formData) || 'Applicant'} mailing address`,
     ),
     applicantAddress: addressUI({
       labels: {

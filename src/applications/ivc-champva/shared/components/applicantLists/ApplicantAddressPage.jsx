@@ -262,6 +262,7 @@ ApplicantAddressCopyPage.propTypes = {
   customSelectText: PropTypes.string,
   customTitle: PropTypes.string,
   data: PropTypes.object,
+  fullData: PropTypes.object,
   genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
