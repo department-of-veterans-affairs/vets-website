@@ -13,25 +13,9 @@ import { applicantWording } from '../../shared/utilities';
 import { applicantInfoIntroSchema } from '../chapters/applicantInformation';
 import { onReviewPage } from '../helpers/utilities';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 import baseConfig from '../../10-10D/config/form';
-
-const mhfc = minimalHeaderFormConfigOptions({
-  breadcrumbList: [
-    { href: '/', label: 'VA.gov home' },
-    {
-      href: '/ivc-champva',
-      label: 'Ivc champva',
-    },
-    {
-      href: '/ivc-champva/10-10d-extended',
-      label: '10 10d extended',
-    },
-  ],
-});
-
-const baseConfigExt = { ...baseConfig, ...mhfc };
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,7 +33,19 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  ...mhfc,
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/ivc-champva',
+        label: 'Ivc champva',
+      },
+      {
+        href: '/ivc-champva/10-10d-extended',
+        label: '10 10d extended',
+      },
+    ],
+  }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
   saveInProgress: {
     messages: {
@@ -74,10 +70,10 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        page13: baseConfigExt?.chapters?.applicantInformation?.pages?.page13,
+        ...baseConfig?.chapters?.applicantInformation?.pages,
         /* example of a page override: */
         page13a: {
-          // initialData: mockData.data,
+          initialData: mockData.data,
           path: 'applicant-info-intro/:index',
           arrayPath: 'applicants',
           title: item => (
@@ -92,34 +88,6 @@ const formConfig = {
           depends: () => !onReviewPage(),
           ...applicantInfoIntroSchema,
         },
-        // Explicitly listing all page objects so it'll be easier
-        // when/if we need to insert a new page in between existing ones.
-        page14: baseConfigExt?.chapters?.applicantInformation?.pages?.page14,
-        page15a: baseConfigExt?.chapters?.applicantInformation?.pages?.page15a,
-        page15: baseConfigExt?.chapters?.applicantInformation?.pages?.page15,
-        page16: baseConfigExt?.chapters?.applicantInformation?.pages?.page16,
-        page17: baseConfigExt?.chapters?.applicantInformation?.pages?.page17,
-        page18: baseConfigExt?.chapters?.applicantInformation?.pages?.page18,
-        page18c: baseConfigExt?.chapters?.applicantInformation?.pages?.page18c,
-        page18a: baseConfigExt?.chapters?.applicantInformation?.pages?.page18a,
-        page18d: baseConfigExt?.chapters?.applicantInformation?.pages?.page18d,
-        page18e: baseConfigExt?.chapters?.applicantInformation?.pages?.page18e,
-        page18b1:
-          baseConfigExt?.chapters?.applicantInformation?.pages?.page18b1,
-        page18b: baseConfigExt?.chapters?.applicantInformation?.pages?.page18b,
-        page18b2:
-          baseConfigExt?.chapters?.applicantInformation?.pages?.page18b2,
-        page18f3:
-          baseConfigExt?.chapters?.applicantInformation?.pages?.page18f3,
-        page18f: baseConfigExt?.chapters?.applicantInformation?.pages?.page18f,
-        page19: baseConfigExt?.chapters?.applicantInformation?.pages?.page19,
-        page20: baseConfigExt?.chapters?.applicantInformation?.pages?.page20,
-        page20a: baseConfigExt?.chapters?.applicantInformation?.pages?.page20a,
-        page20b: baseConfigExt?.chapters?.applicantInformation?.pages?.page20b,
-        page20c: baseConfigExt?.chapters?.applicantInformation?.pages?.page20c,
-        page21: baseConfigExt?.chapters?.applicantInformation?.pages?.page21,
-        page21a: baseConfigExt?.chapters?.applicantInformation?.pages?.page21a,
-        page22: baseConfigExt?.chapters?.applicantInformation?.pages?.page22,
       },
     },
   },
