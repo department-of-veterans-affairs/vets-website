@@ -1,9 +1,19 @@
-import React from 'react';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
-import { within } from '@testing-library/react';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
+import { within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import React from 'react';
+import CommunityCareProviderSelectionPage from '.';
+import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
+import { createMockFacility } from '../../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
+import {
+  mockCCProviderFetch,
+  mockFacilitiesApi,
+  mockGetCurrentPosition,
+  mockSchedulingConfigurations,
+} from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -11,18 +21,8 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../tests/mocks/setup';
-import CommunityCareProviderSelectionPage from '.';
 import { calculateBoundingBox } from '../../../utils/address';
-import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
-import { createMockFacility } from '../../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
-import {
-  mockCCProviderFetch,
-  mockSchedulingConfigurations,
-  mockGetCurrentPosition,
-} from '../../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -58,10 +58,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
       ids: ['983'],
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           address: {

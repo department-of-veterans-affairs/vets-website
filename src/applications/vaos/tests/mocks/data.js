@@ -86,23 +86,17 @@ export function createMockAppointment({
  * @param {string} params.id Clinic id
  * @param {string} params.stationId Full location id (sta6aid)
  * @param {?string} params.name Standard clinic name,
- * @param {?string} params.friendlyName Friendly clinic name,
  *
  * @returns {VAOSClinic} A mock clinic object
  */
-export function createMockClinic({
-  id = null,
-  stationId = null,
-  name = null,
-  friendlyName = null,
-}) {
+export function createMockClinic({ id = null, stationId = null, name = null }) {
   return {
     id,
     type: 'clinics',
     attributes: {
       vistaSite: stationId.substr(0, 3),
       id,
-      serviceName: friendlyName || name,
+      serviceName: name,
       physicalLocation: null,
       phoneNumber: null,
       stationId,
