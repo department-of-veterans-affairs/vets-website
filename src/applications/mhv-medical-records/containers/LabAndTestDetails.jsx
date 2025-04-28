@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearLabsAndTestDetails,
-  getlabsAndTestsDetails,
+  getLabsAndTestsDetails,
 } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
@@ -50,7 +50,7 @@ const LabAndTestDetails = () => {
     () => {
       if (labId && !isLoading) {
         dispatch(
-          getlabsAndTestsDetails(
+          getLabsAndTestsDetails(
             labId,
             labAndTestList,
             isAcceleratingLabsAndTests,

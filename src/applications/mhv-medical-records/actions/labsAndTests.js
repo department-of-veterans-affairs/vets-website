@@ -80,7 +80,7 @@ export const getLabsAndTestsList = (
   }
 };
 
-export const getlabsAndTestsDetails = (
+export const getLabsAndTestsDetails = (
   labId,
   labList,
   isAccelerating,
