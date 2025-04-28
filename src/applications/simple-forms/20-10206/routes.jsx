@@ -1,8 +1,10 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import { routeHoc } from 'applications/_mock-form-ae-design-patterns/routes';
 
+import { lazy } from 'react';
 import formConfig from './config/form';
-import App from './containers/App';
+
+const App = lazy(() => import('./containers/App'));
 
 const route = {
   path: '/',

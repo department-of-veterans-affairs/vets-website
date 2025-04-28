@@ -40,8 +40,8 @@ export function isLocalhostOrDev() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
