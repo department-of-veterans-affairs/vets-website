@@ -177,13 +177,11 @@ describe('VAOS Referral Appointments', () => {
       // Validate we've reached the choose date and time page
       chooseDateAndTime.validate();
       chooseDateAndTime.assertProviderInfo();
-      chooseDateAndTime.assertAppointmentSlots({ count: 3 });
+      chooseDateAndTime.selectNextMonth();
+      chooseDateAndTime.assertAppointmentSlots(3);
 
       // Select the first appointment slot
       chooseDateAndTime.selectAppointmentSlot(0);
-      cy.findAllByRole('radio')
-        .eq(0)
-        .click();
 
       // Click continue to proceed with scheduling
       chooseDateAndTime.clickContinue();
