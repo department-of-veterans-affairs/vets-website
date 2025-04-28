@@ -48,9 +48,9 @@ const SubmissionErrorAlert = () => {
         </p>
         <Toggler toggleName={Toggler.TOGGLE_NAMES.hcaDownloadCompletedPdf}>
           <Toggler.Enabled>
-            <div className="hca-application--download">
+            <p className="hca-application--download">
               <ApplicationDownloadLink />
-            </div>
+            </p>
           </Toggler.Enabled>
         </Toggler>
       </va-card>
