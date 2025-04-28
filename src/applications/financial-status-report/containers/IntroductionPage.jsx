@@ -23,7 +23,7 @@ const IntroductionPage = ({
   }, []);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showWizard = useToggleValue(
+  const showLegacyWizard = useToggleValue(
     TOGGLE_NAMES.showFinancialStatusReportWizard,
   );
 
@@ -77,7 +77,8 @@ const IntroductionPage = ({
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
-      {showWizard ? (
+      {/* This link resets the legacy wizard, should be disabled with the main flag */}
+      {showLegacyWizard ? (
         <p>
           If you don’t think this is the right form for you,
           <a
