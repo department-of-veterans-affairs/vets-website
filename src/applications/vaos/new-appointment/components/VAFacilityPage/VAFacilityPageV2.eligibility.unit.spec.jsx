@@ -209,7 +209,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       featureToggles: {
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
       user: {
         profile: {

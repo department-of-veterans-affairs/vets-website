@@ -15,10 +15,7 @@ import VAOSApp from '.';
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
   user: {
     login: {
