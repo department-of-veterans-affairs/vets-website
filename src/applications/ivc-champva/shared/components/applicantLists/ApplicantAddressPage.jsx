@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { applicantWording } from '../../utilities';
@@ -37,7 +39,14 @@ export function ApplicantAddressCopyPage({
   // const [radioError, setRadioError] = useState(undefined);
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+
+  const useTopBackLink =
+    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
+  const navButtons = useTopBackLink ? (
+    <FormNavButtonContinue submitToContinue />
+  ) : (
+    <FormNavButtons goBack={goBack} submitToContinue />
+  );
 
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;

@@ -88,9 +88,8 @@ export default function CompleteReferral() {
           data-testid={appointmentInfoTimeout ? 'warning-alert' : 'error-alert'}
         >
           <p className="vads-u-margin-y--0">
-            {appointmentInfoTimeout
-              ? "Try refreshing this page. If it still doesn't work, call us at [Phone number]. We’re here [day] through [day], [time] to [time]."
-              : 'We’re sorry. Call us at [Phone number]. We’re here [day] through [day], [time] to [time].'}
+            Try refreshing the page. If it still doesn't work, then please try
+            again later.
           </p>
         </va-alert>
       </ReferralLayout>
