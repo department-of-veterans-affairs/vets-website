@@ -298,19 +298,32 @@ export function toggleModal(toggle) {
   };
 }
 
-// Address validation action creators
 export function validateAddress(address) {
   return async dispatch => {
     dispatch({ type: ADDRESS_VALIDATION_START });
-
     // Mocking the API call for local development
-    const mockedResponse = { addresses: [] }; // Simulate successful validation with no suggestions
+    const mockedResponse = {
+      addresses: [
+        {
+          addressPou: 'CORRESPONDENCE',
+          addressType: 'DOMESTIC',
+          addressLine1: '123 test rd',
+          addressLine2: '',
+          addressLine3: '',
+          city: 'springfield',
+          countryCodeIso3: 'USA',
+          stateCode: 'VA',
+          zipCode: '22042',
+          confidence: 80,
+        },
+      ],
+    };
     dispatch({
       type: ADDRESS_VALIDATION_SUCCESS,
       response: mockedResponse,
-      address, // Keep the original address for context if needed by the reducer/component
+      address,
     });
-    return Promise.resolve(mockedResponse); // Return a resolved promise with the mock
+    return Promise.resolve(mockedResponse);
 
     /* Original API call - commented out
     try {

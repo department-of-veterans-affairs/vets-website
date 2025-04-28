@@ -185,6 +185,7 @@ function AddressValidationModal(props) {
     },
   });
 
+  // @NOTE: This can be removed at some point I don't think we're going to render inputs in the modal anymore.
   const renderAddressForm = () => (
     <div>
       <div {...addressPattern}>
@@ -332,7 +333,7 @@ function AddressValidationModal(props) {
         uswds={false}
         primaryButtonText=""
         secondaryButtonText=""
-        status={validationError ? 'error' : 'info'}
+        status="warning"
       >
         {renderModalContent()}
       </VaModal>

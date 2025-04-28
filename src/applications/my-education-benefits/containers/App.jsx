@@ -446,7 +446,6 @@ export const App = ({
     ],
   );
 
-  // useEffect for automatic address validation
   useEffect(
     () => {
       const mailingAddressData =
@@ -457,10 +456,8 @@ export const App = ({
       const addressValidated = addressValidation?.validated;
       const isValidating = addressValidation?.isValidating;
 
-      // Create a string representation of the address to detect changes
       const currentAddressString = JSON.stringify(address);
 
-      // Check conditions for triggering validation
       if (
         isLoggedIn &&
         mebAddressValidationApi &&
@@ -470,12 +467,11 @@ export const App = ({
         isAddressComplete(address) &&
         !addressValidated &&
         !isValidating &&
-        currentAddressString !== previousAddressString.current
+        currentAddressString !== previousAddressString.current &&
+        formData?.mebAddressValidationApi
       ) {
-        // Update the ref to prevent immediate re-triggering
         previousAddressString.current = currentAddressString;
 
-        // Format address for API
         const formattedAddress = {
           addressLine1: address.street,
           addressLine2: address.street2 || '',
@@ -485,7 +481,6 @@ export const App = ({
           countryCode: address.country,
           zipCode: address.postalCode,
         };
-        // Dispatch validation action
         validateAddressAction(formattedAddress);
       } else if (currentAddressString !== previousAddressString.current) {
         // If the address changed but didn't meet validation criteria, update the ref

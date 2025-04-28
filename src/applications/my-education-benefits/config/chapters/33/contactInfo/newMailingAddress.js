@@ -322,11 +322,8 @@ const newMailingAddress33 = {
         showFieldLabel: false,
         viewComponent: MailingAddressViewField,
       },
-      // This field renders the modal component
       'view:addressValidationModal': {
         'ui:field': AddressValidationModal,
-        // The modal itself controls its visibility based on Redux state,
-        // so no specific ui:options needed here to show/hide it.
       },
     },
   },

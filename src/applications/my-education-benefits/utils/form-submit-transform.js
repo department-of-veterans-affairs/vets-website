@@ -376,6 +376,9 @@ export function createMilitaryClaimant(submissionForm) {
     suffix: userFullName?.suffix,
     dateOfBirth,
     contactInfo: createContactInfo(submissionForm),
+    userRejectedValidationSuggestion:
+      submissionForm[formFields.viewMailingAddress]
+        ?.userRejectedValidationSuggestion,
     notificationMethod,
     preferredContact: submissionForm?.contactMethod,
   };
