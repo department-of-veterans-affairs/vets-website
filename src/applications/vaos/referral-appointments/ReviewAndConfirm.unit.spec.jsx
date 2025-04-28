@@ -178,4 +178,39 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       sandbox.assert.calledOnce(flow.routeToNextReferralPage);
     });
   });
+  it('should display an error message when appointment creation fails', async () => {
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .rejects(new Error('Failed to create appointment'));
+
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
+
+    // Ensure the "Continue" button is present
+    expect(screen.queryByTestId('continue-button')).to.exist;
+
+    // Simulate clicking the "Continue" button
+    userEvent.click(screen.queryByTestId('continue-button'));
+
+    // Wait for the error handling logic to execute
+    await waitFor(() => {
+      // Verify that the error message is displayed
+      expect(screen.getByTestId('create-error-alert')).to.exist;
+      expect(screen.getByTestId('create-error-alert')).to.contain.text(
+        'We couldn’t schedule this appointment',
+      );
+
+      // Ensure the loading state is cleared
+      expect(screen.queryByTestId('continue-button')).to.have.attribute(
+        'loading',
+        'false',
+      );
+    });
+  });
 });

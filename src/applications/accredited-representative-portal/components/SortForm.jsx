@@ -1,40 +1,29 @@
-import React, { useState } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Form, useNavigate, useSearchParams } from 'react-router-dom';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { SEARCH_PARAMS } from '../utilities/poaRequests';
 import api from '../utilities/api';
 
-const SEARCH_PARAMS = {
-  STATUS: 'status',
-  SORT: 'sort',
-};
 const SortForm = ({ asc, desc, ascOption, descOption }) => {
   const navigate = useNavigate();
-  const url = new URL(window.location);
-  const params = new URLSearchParams(url.search);
-  const status = params.get(SEARCH_PARAMS.STATUS);
-  const sortby = params.get(SEARCH_PARAMS.SORT);
-  const [sort, setSort] = useState(null);
+  const [searchParams] = useSearchParams();
+  const sortby = searchParams.get(SEARCH_PARAMS.SORTBY);
+  const status = searchParams.get(SEARCH_PARAMS.STATUS);
+  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  const size = searchParams.get(SEARCH_PARAMS.SIZE);
 
-  const handleChange = e => {
+  const handleChange = async e => {
     e.preventDefault();
     const sortBy = e.detail?.value;
-    setSort(sortBy);
-  };
-
-  const handleSorting = async () => {
-    if (sort) {
-      navigate(`?status=${status}&sort=${sort}`);
-      return api.getPOARequests({ status, sort });
-    }
-    return null;
+    navigate(
+      `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${number}&pageSize=${size}`,
+    );
+    return api.getPOARequests({ status, sort, sortBy, size, number });
   };
 
   return (
-    <Form
-      id="search-form"
-      role="search"
-      className="poa-request__sort-by vads-u-display--none"
-    >
+    <Form id="search-form" role="search" className="poa-request__sort-by">
       <VaSelect
         onVaSelect={handleChange}
         label="Sort by"
@@ -46,13 +35,6 @@ const SortForm = ({ asc, desc, ascOption, descOption }) => {
         <option value={asc}>{ascOption}</option>
         <option value={desc}>{descOption}</option>
       </VaSelect>
-      <button
-        type="button"
-        className="usa-button-secondary poa-request__apply"
-        onClick={handleSorting}
-      >
-        Sort
-      </button>
     </Form>
   );
 };

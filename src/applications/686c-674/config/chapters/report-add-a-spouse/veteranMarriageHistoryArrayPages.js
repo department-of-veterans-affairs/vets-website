@@ -34,6 +34,7 @@ export const veteranMarriageHistoryOptions = {
   nounSingular: 'former marriage',
   nounPlural: 'former marriages',
   required: false,
+  minItems: 0,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
