@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
@@ -10,18 +11,18 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser, isLOA3 } from 'platform/user/selectors';
 
 import { useDatadogRum } from '../utils/useDatadogRum';
-import { selectFeatureMhvRouteGuards } from '../redux/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 
 export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const user = useSelector(selectUser);
   const sites = useSelector(selectPatientFacilities);
-  const featureMhvRouteGuards = useSelector(selectFeatureMhvRouteGuards);
   const isUserLOA3 = useSelector(isLOA3);
   const hasRegisteredSystems = sites?.length > 0;
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles?.loading,
+  const featureMhvRouteGuards = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.vaOnlineSchedulingMhvRouteGuards],
   );
+  const isToggleLoading = useSelector(state => state.featureToggles.loading);
 
   // Adding logs to debug values in staging. Redirect is working locally but not in staging.
   const logDebugInfo = (label, values) => {
@@ -39,13 +40,13 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
     featureMhvRouteGuards,
     isUserLOA3,
     hasRegisteredSystems,
-    featureTogglesLoading,
+    isToggleLoading,
   });
 
   useDatadogRum();
 
   // Wait for feature flag to load before rendering.
-  if (featureTogglesLoading) {
+  if (isToggleLoading) {
     return null;
   }
 
@@ -61,7 +62,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
       featureMhvRouteGuards,
       isUserLOA3,
       hasRegisteredSystems,
-      featureTogglesLoading,
+      isToggleLoading,
     });
     window.location.replace(`${window.location.origin}/my-health`);
     return null;
@@ -71,7 +72,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
     featureMhvRouteGuards,
     isUserLOA3,
     hasRegisteredSystems,
-    featureTogglesLoading,
+    isToggleLoading,
   });
   return (
     <RequiredLoginView
