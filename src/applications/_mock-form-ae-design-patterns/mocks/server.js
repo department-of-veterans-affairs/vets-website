@@ -37,7 +37,11 @@ const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 // utils
 const { delaySingleResponse, boot } = require('./script/utils');
-const { updateMemDb, updateInProgressForm } = require('./script/mem-db');
+const {
+  updateMemDb,
+  updateInProgressForm,
+  deleteInProgressForm,
+} = require('./script/mem-db');
 
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
@@ -89,6 +93,40 @@ const responses = {
     updateInProgressForm(req.body);
     delaySingleResponse(
       () => res.json(createSaveInProgressUpdate(req)),
+      secondsOfDelay,
+    );
+  },
+
+  'DELETE /v0/in_progress_forms/:id': (req, res) => {
+    const secondsOfDelay = 1;
+    deleteInProgressForm({});
+    delaySingleResponse(
+      () =>
+        res.json({
+          id: '',
+          type: 'in_progress_forms',
+          attributes: {
+            formId: '20-10206',
+            createdAt: '2025-04-28T18:32:48.830Z',
+            updatedAt: '2025-04-28T18:33:04.820Z',
+            metadata: {
+              version: 0,
+              returnUrl: '/personal-information',
+              savedAt: 1745865184476,
+              submission: {
+                status: false,
+                errorMessage: false,
+                id: false,
+                timestamp: false,
+                hasAttemptedSubmit: false,
+              },
+              createdAt: 1745865168,
+              expiresAt: 1751049184,
+              lastUpdated: 1745865184,
+              inProgressFormId: 44766,
+            },
+          },
+        }),
       secondsOfDelay,
     );
   },

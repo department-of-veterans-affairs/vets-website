@@ -28,6 +28,13 @@ const updateInProgressForm = payload => {
   };
 };
 
+const deleteInProgressForm = () => {
+  memDb.inProgressForm = {
+    formData: {},
+    metadata: {},
+  };
+};
+
 // sanitize user input
 const sanitize = dirty => {
   if (typeof dirty === 'number' && !Number.isNaN(dirty)) return dirty;
@@ -176,7 +183,10 @@ const updateMemDb = (req, res = null) => {
     return memDb.user;
   }
 
-  if (key.includes('GET /v0/in_progress_forms')) {
+  if (
+    key.includes('GET /v0/in_progress_forms') ||
+    key.includes('DELETE /v0/in_progress_forms')
+  ) {
     return memDb.inProgressForm;
   }
 
@@ -193,4 +203,5 @@ module.exports = {
   memDb,
   updateMemDb,
   updateInProgressForm,
+  deleteInProgressForm,
 };
