@@ -1,4 +1,6 @@
 import manifest from '../../manifest.json';
+import mockFeedbackPost from '../fixtures/mocks/feedback-post.json';
+import mockFeedbackGet from '../fixtures/mocks/feedback-1234.json';
 
 describe('Feedback Tool Keyboard Test', () => {
   beforeEach(() => {
@@ -10,6 +12,8 @@ describe('Feedback Tool Keyboard Test', () => {
     });
   });
   it('Is accessible accordingly via keyboard', () => {
+    cy.intercept('POST', '/v0/gi_bill_feedbacks', { body: mockFeedbackPost });
+    cy.intercept('GET', '/v0/gi_bill_feedbacks/1234', mockFeedbackGet);
     cy.visit(manifest.rootUrl);
     cy.login();
     cy.injectAxe();
