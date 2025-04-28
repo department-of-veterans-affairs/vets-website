@@ -17,7 +17,7 @@ describe('22-10215 Form Config', () => {
   });
   it('should have a required properties', () => {
     expect(formConfig.rootUrl).to.contain(manifest.rootUrl);
-    expect(formConfig.title).to.contain('Report 85/15 Rule enrollment ratio');
+    expect(formConfig.title).to.contain('Report 85/15 rule enrollment ratio');
     const { getByText } = render(formConfig.subTitle()); // Render the subTitle component
     expect(
       getByText(

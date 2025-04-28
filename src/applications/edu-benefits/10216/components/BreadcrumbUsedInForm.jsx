@@ -13,7 +13,7 @@ const BreadcrumbUsedInForm = () => {
     },
     {
       href: '/school-administrators/35-percent-exemption/introduction',
-      label: 'Request exemption from the 85/15 Rule reporting requirement',
+      label: 'Request exemption from the 85/15 rule reporting requirement',
     },
   ];
   return (

@@ -19,7 +19,7 @@ describe('22-10216 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
     expect(wrapper.find('FormTitle').props().title).to.contain(
-      'Request exemption from the 85/15 Rule reporting requirements',
+      'Request exemption from the 85/15 rule reporting requirements',
     );
 
     wrapper.unmount();

@@ -16,7 +16,7 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Report 85/15 Rule enrollment ratios" />
+      <FormTitle title="Report 85/15 rule enrollment ratios" />
       <p className="vads-u-margin-y--2">
         Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
         22-10215)
@@ -53,7 +53,7 @@ const IntroductionPage = ({ route }) => {
         By regulation 38 CFR 21.4201(f)(2), schools WITHOUT an approved 35
         percent Exemption are obligated to report all 85/15 percent calculations
         to the VA. To find due dates for submitting your calculations each term,
-        please review the "More information about reporting your 85/15 Rule
+        please review the "More information about reporting your 85/15 rule
         enrollment ratios" section of this page.
       </p>
       <p>
@@ -113,7 +113,7 @@ const IntroductionPage = ({ route }) => {
       </h2>
       <va-accordion>
         <va-accordion-item
-          header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"
+          header="What are the due dates for submitting my 85/15 rule enrollment ratios?"
           id="first"
         >
           <p>Calculations for the corresponding term must be submitted:</p>
@@ -159,11 +159,11 @@ const IntroductionPage = ({ route }) => {
           </va-table>
         </va-accordion-item>
         <va-accordion-item
-          header="What happens after I submit my 85/15 Rule enrollment ratios?"
+          header="What happens after I submit my 85/15 rule enrollment ratios?"
           id="second"
         >
           <p>
-            After you submit your 85/15 Rule enrollment ratios, we will review
+            After you submit your 85/15 rule enrollment ratios, we will review
             them within 7-10 business days. Once we complete the review, we will
             email your school a letter with the decision. If we accept your
             request, we will include a copy of WEAMS form 1998 as confirmation
@@ -173,7 +173,7 @@ const IntroductionPage = ({ route }) => {
           </p>
         </va-accordion-item>
         <va-accordion-item
-          header="How do I request an exemption from routine 85/15 Rule enrollment ratio reporting?"
+          header="How do I request an exemption from routine 85/15 rule enrollment ratio reporting?"
           id="third"
         >
           <p>

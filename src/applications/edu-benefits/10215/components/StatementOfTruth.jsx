@@ -99,6 +99,7 @@ export default function StatementOfTruth(signatureProps) {
           <FormSignatureCheckbox
             checked={checked}
             setChecked={setChecked}
+            checkboxLabel="I certify the information above is true and correct to the best of my knowledge and belief."
             {...signatureProps}
           />
         </section>
