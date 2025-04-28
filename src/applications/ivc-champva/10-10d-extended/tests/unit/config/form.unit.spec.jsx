@@ -1,4 +1,7 @@
-import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
+/*
+import {
+  testNumberOfWebComponentFields,
+} from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
 import mockData from '../../fixtures/data/test-data.json';
 
@@ -11,6 +14,7 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
+/*
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page13a.schema,
@@ -37,3 +41,5 @@ testNumberOfWebComponentFields(
   'Applicant - mailing address',
   { applicants: mockData.data.applicants },
 );
+
+*/

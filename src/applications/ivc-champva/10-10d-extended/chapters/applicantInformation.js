@@ -164,17 +164,17 @@ export const applicantPages = arrayBuilderPages(
       uiSchema: applicantSummaryPage.uiSchema,
       schema: applicantSummaryPage.schema,
     }),
-    applicantNameDob: pageBuilder.itemPage({
+    page13: pageBuilder.itemPage({
       path: 'applicant-name-dob/:index',
       title: 'Applicant name and date of birth',
       ...applicantIntroPage,
     }),
-    applicantIdentification: pageBuilder.itemPage({
+    page14: pageBuilder.itemPage({
       path: 'applicant-identification/:index',
       title: 'Identification',
       ...applicantIdentificationPage,
     }),
-    applicantAddressSelection: pageBuilder.itemPage({
+    page15a: pageBuilder.itemPage({
       path: 'applicant-address-selection/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
@@ -183,7 +183,7 @@ export const applicantPages = arrayBuilderPages(
       },
       depends: (formData, index) => page15aDepends(formData, index),
     }),
-    applicantMailingAddress: pageBuilder.itemPage({
+    page15: pageBuilder.itemPage({
       path: 'applicant-mailing-address/:index',
       title: 'Mailing address',
       ...applicantMailingAddressPage,
