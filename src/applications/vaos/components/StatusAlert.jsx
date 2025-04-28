@@ -120,15 +120,17 @@ export default function StatusAlert({ appointment, facility }) {
       <>
         <InfoAlert status="error" backgroundOnly>
           {message}
-          <br />
-          <br />
           {displayScheduleLink && (
-            <va-link
-              text="Schedule a new appointment"
-              data-testid="schedule-appointment-link"
-              onClick={handleClick(dispatch)}
-              href={`${root.url}${typeOfCare.url}`}
-            />
+            <>
+              <br />
+              <br />
+              <va-link
+                text="Schedule a new appointment"
+                data-testid="schedule-appointment-link"
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
+              />
+            </>
           )}
         </InfoAlert>
       </>
