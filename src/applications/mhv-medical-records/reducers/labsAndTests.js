@@ -236,27 +236,30 @@ export const convertMicrobiologyRecord = record => {
  * @param {Object} record - A FHIR DiagnosticReport pathology object
  * @returns the appropriate frontend object for display
  */
-const convertPathologyRecord = record => {
+export const convertPathologyRecord = record => {
   const { code } = record.code.coding?.[0];
 
   // Define mapping for new LOINC codes to names
   const loincCodeMapping = {
-    '27898-6': 'Surgical Pathology',
-    '50668-3': 'Cytology',
-    '26438-2': 'Molecular Pathology',
+    [loincCodes.PATHOLOGY]: 'Pathology',
+    [loincCodes.SURGICAL_PATHOLOGY]: 'Surgical Pathology',
+    [loincCodes.ELECTRON_MICROSCOPY]: 'Electron Microscopy',
+    [loincCodes.CYTOPATHOLOGY]: 'Cytology',
   };
 
   // Determine pathology type based on LOINC code
   let pathologyType;
-  if (code === '11526-1') {
-    // Keep existing name for old LOINC code
+
+  if (code === loincCodes.PATHOLOGY) {
     pathologyType = record.code.text;
-  } else if (loincCodeMapping[code]) {
-    // Use mapped name for new LOINC codes
+  } else if (
+    code === loincCodes.SURGICAL_PATHOLOGY ||
+    code === loincCodes.ELECTRON_MICROSCOPY ||
+    code === loincCodes.CYTOPATHOLOGY
+  ) {
     pathologyType = loincCodeMapping[code];
   } else {
-    // Default to 'Pathology' if no valid code found
-    pathologyType = 'Pathology';
+    pathologyType = 'Pathology'; // fallback
   }
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;

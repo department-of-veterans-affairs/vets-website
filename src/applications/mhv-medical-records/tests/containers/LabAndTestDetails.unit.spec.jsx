@@ -143,67 +143,6 @@ describe('LabAndTestDetails pathology', () => {
   });
 });
 
-describe('convertPathologyRecord', () => {
-  const mockConvertPathologyRecord = record => {
-    const mockMapping = {
-      '27898-6': 'Surgical Pathology',
-      '50668-3': 'Cytology',
-      '26438-2': 'Molecular Pathology',
-      '11526-1': record.code.text, // Existing logic preserved for old code
-    };
-
-    const code = record.code.coding?.[0]?.code;
-    const pathologyType = mockMapping[code] || 'Pathology';
-
-    return {
-      id: record.id,
-      name: pathologyType,
-      type: 'Pathology',
-      orderedBy: 'Dr. John Doe',
-      date: 'April 27, 2025',
-      dateCollected: 'April 25, 2025',
-      sampleFrom: 'Blood',
-      sampleTested: 'Left Arm',
-      labLocation: 'Central Lab',
-      collectingLocation: 'Central Lab',
-      results: ['Mocked lab result content'],
-      sortDate: '2025-04-27T12:00:00Z',
-      labComments: 'No abnormalities detected.',
-    };
-  };
-
-  const mockRecord = (code, text = 'Legacy Pathology') => ({
-    id: 'mock-id',
-    code: {
-      coding: [{ code }],
-      text,
-    },
-  });
-
-  const testCases = [
-    { code: '27898-6', expectedName: 'Surgical Pathology' },
-    { code: '50668-3', expectedName: 'Cytology' },
-    { code: '26438-2', expectedName: 'Molecular Pathology' },
-    { code: '11526-1', expectedName: 'Legacy Pathology' },
-    { code: 'invalid-code', expectedName: 'Pathology' },
-  ];
-
-  testCases.forEach(({ code, expectedName }) => {
-    it(`should correctly mock pathology type "${expectedName}" for LOINC code "${code}"`, () => {
-      const record = mockRecord(code);
-      const result = mockConvertPathologyRecord(record);
-      expect(result.name).to.equal(expectedName);
-      expect(result.id).to.equal('mock-id');
-      expect(result.type).to.equal('Pathology');
-      expect(result.orderedBy).to.exist;
-      expect(result.labLocation).to.equal('Central Lab');
-      expect(result.results)
-        .to.be.an('array')
-        .that.includes('Mocked lab result content');
-    });
-  });
-});
-
 // describe('LabAndTestDetails ekg', () => {
 //   const initialState = {
 //     user,
