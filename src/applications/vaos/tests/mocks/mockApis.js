@@ -129,16 +129,26 @@ export function mockAppointmentsApi({
 /**
  * Mocks the api call that submits an appointment or request to the VAOS service
  *
+ * @example POST '/vaos/v2/appointments'
+ *
  * @export
- * @param {VAOSAppointment} data The appointment data to return from the mock
+ * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  */
-export function mockAppointmentSubmit(data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
-    { data },
-  );
+export function mockAppointmentSubmitApi({
+  response: data,
+  responseCode = 200,
+}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
 }
 
 /**
