@@ -181,6 +181,18 @@ const responses = {
         appointment.attributes.future = moment(
           appointment.attributes.start,
         ).isAfter(moment());
+
+        if (appointment.attributes.modality === 'vaVideoCareAtHome') {
+          const diff = moment().diff(
+            moment(appointment.attributes.start),
+            'minutes',
+          );
+          if (!appointment.attributes.telehealth) {
+            appointment.attributes.telehealth = {};
+          }
+          appointment.attributes.telehealth.displayLink =
+            diff > -30 && diff < 240;
+        }
       }
     }
     const filteredAppointments = appointments.filter(appointment => {
@@ -438,7 +450,7 @@ const responses = {
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(

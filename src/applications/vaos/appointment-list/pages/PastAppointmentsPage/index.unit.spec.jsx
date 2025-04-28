@@ -3,18 +3,15 @@ import { within } from '@testing-library/dom';
 import { expect } from 'chai';
 import {
   addMinutes,
-  endOfMonth,
   format,
   startOfDay,
-  startOfMonth,
   subDays,
   subMonths,
   subYears,
 } from 'date-fns';
 import MockDate from 'mockdate';
-import moment from 'moment';
 import React from 'react';
-import PastAppointmentsList, { getPastAppointmentDateRangeOptions } from '.';
+import PastAppointmentsList from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../../tests/mocks/data';
 import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
@@ -68,8 +65,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should update range on dropdown change', async () => {
     // Arrange
-    const pastDate = subMonths(new Date(), 3);
-    const endDate = addMinutes(new Date(now).setMinutes(0), 30);
+    const pastDate = subMonths(new Date(), 4);
     const response = new MockAppointmentResponse({
       localStartTime: pastDate,
       serviceType: null,
@@ -85,8 +81,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: format(subMonths(startOfMonth(now), 5), 'yyyy-MM-dd'),
-      end: format(endOfMonth(subMonths(endDate, 3)), 'yyyy-MM-dd'),
+      start: format(subMonths(now, 6), 'yyyy-MM-dd'),
+      end: format(now, 'yyyy-MM-dd'),
       requests: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs: true,
@@ -560,43 +556,5 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Details');
-  });
-
-  describe('getPastAppointmentDateRangeOptions', () => {
-    const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
-
-    it('should return 6 correct date ranges for dropdown', () => {
-      expect(ranges.length).to.equal(6);
-
-      expect(ranges[0].value).to.equal(0);
-      expect(ranges[0].label).to.equal('Past 3 months');
-      expect(ranges[0].startDate).to.include('2019-11-02');
-      expect(ranges[0].endDate).to.include('2020-02-02');
-
-      expect(ranges[1].value).to.equal(1);
-      expect(ranges[1].label).to.equal('Sept. 2019 – Nov. 2019');
-      expect(ranges[1].startDate).to.include('2019-09-01');
-      expect(ranges[1].endDate).to.include('2019-11-30');
-
-      expect(ranges[2].value).to.equal(2);
-      expect(ranges[2].label).to.equal('June 2019 – Aug. 2019');
-      expect(ranges[2].startDate).to.include('2019-06-01');
-      expect(ranges[2].endDate).to.include('2019-08-31');
-
-      expect(ranges[3].value).to.equal(3);
-      expect(ranges[3].label).to.equal('March 2019 – May 2019');
-      expect(ranges[3].startDate).to.include('2019-03-01');
-      expect(ranges[3].endDate).to.include('2019-05-31');
-
-      expect(ranges[4].value).to.equal(4);
-      expect(ranges[4].label).to.equal('All of 2020');
-      expect(ranges[4].startDate).to.include('2020-01-01');
-      expect(ranges[4].endDate).to.include('2020-02-02');
-
-      expect(ranges[5].value).to.equal(5);
-      expect(ranges[5].label).to.equal('All of 2019');
-      expect(ranges[5].startDate).to.include('2019-01-01');
-      expect(ranges[5].endDate).to.include('2019-12-31');
-    });
   });
 });
