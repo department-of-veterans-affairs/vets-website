@@ -1,7 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
-import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('EDIT SIGNATURE FEATURE', () => {
   it('verify "Edit signature" link', () => {
@@ -18,16 +17,7 @@ describe('EDIT SIGNATURE FEATURE', () => {
   });
 
   it('verify "Edit signature" link', () => {
-    const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
-      [
-        {
-          name: 'mhv_secure_messaging_signature_settings',
-          value: true,
-        },
-      ],
-    );
-
-    SecureMessagingSite.login(updatedFeatureTogglesResponse);
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
 

@@ -3,17 +3,6 @@ import mockSignature from '../../fixtures/personal-information-signature.json';
 import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
-  beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-
-    PersonalInformationPage.load(updatedFeatureToggles);
-  });
-
   it('verify remove alert details', () => {
     cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
 

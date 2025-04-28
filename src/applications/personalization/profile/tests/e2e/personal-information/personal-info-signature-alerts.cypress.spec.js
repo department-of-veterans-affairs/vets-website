@@ -4,15 +4,6 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
   it('verify empty fields alerts', () => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-
-    PersonalInformationPage.load(updatedFeatureToggles);
-
     cy.get(Locators.SIGNATURE.EDIT_BTN).click();
     cy.get(Locators.SIGNATURE.NAME_FIELD).clear();
     cy.get(Locators.SIGNATURE.TITLE_FIELD).clear();
@@ -41,14 +32,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
         },
       },
     };
-
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
+    PersonalInformationPage.load(noSignatureResponse);
   });
 
   it('verify alert modal details', () => {
@@ -116,16 +100,6 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
 });
 
 describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
-  beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-    PersonalInformationPage.load(updatedFeatureToggles);
-  });
-
   it('verify alert modal details', () => {
     cy.get(Locators.SIGNATURE.EDIT_BTN).click();
     cy.get(Locators.SIGNATURE.NAME_FIELD)

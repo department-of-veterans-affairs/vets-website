@@ -15,13 +15,7 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
       },
     };
 
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
+    PersonalInformationPage.load(noSignatureResponse);
 
     PersonalInformationPage.verifyNoSignatureInterface();
 
@@ -29,14 +23,6 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
   });
 
   it('verify existing signature content', () => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-
-    PersonalInformationPage.load(updatedFeatureToggles);
     PersonalInformationPage.verifyExistingSignatureInterface();
 
     cy.injectAxeThenAxeCheck();

@@ -14,17 +14,6 @@ const updatedSignatureResponse = {
   },
 };
 describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
-  beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-
-    PersonalInformationPage.load(updatedFeatureToggles);
-  });
-
   it(`verify user can cancel editing signature`, () => {
     cy.get(Locators.SIGNATURE.EDIT_BTN).click();
 

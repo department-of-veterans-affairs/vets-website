@@ -4,13 +4,6 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
   beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
-
     const noSignatureResponse = {
       ...mockSignature,
       data: {
@@ -23,7 +16,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
       },
     };
 
-    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
+    PersonalInformationPage.load(noSignatureResponse);
   });
 
   it('verify user can cancel adding signature', () => {
