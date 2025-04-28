@@ -329,7 +329,7 @@ describe('App', () => {
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
-      path: `/`,
+      path: `/inbox`,
     });
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
