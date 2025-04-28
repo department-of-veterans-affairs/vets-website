@@ -32,6 +32,41 @@
         "applicantMedicarePartD": { "enrollment": "enrolled" },
         "applicantHasOhi": { "hasOhi": "yes" }
       }
-    ]
+    ],
+    "ssn": {
+      "ssn": "123123123"
+    },
+    "veteransFullName": {
+      "first": "Joe",
+      "last": "Johnson"
+    },
+    "certifierRole": "other",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": true,
+        "child": true,
+        "thirdParty": true
+      }
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier Street",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "sponsorDob": "1958-01-01",
+    "sponsorIsDeceased": true,
+    "sponsorDOD": "2001-01-01",
+    "sponsorDeathConditions": false,
+    "statementOfTruthSignature": "Johnny T Alvin",
+    "statementOfTruthCertified": true,
+    "consentToMailMissingRequiredFiles": true
   }
 }
