@@ -94,7 +94,7 @@ const FinancialSummaryCardDescription = item => {
 };
 
 FinancialSummaryCardDescription.propTypes = {
-  formData: PropTypes.object,
+  item: PropTypes.object,
 };
 
 export default FinancialSummaryCardDescription;
