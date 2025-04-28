@@ -2,10 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, cleanup } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
+import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import NationalExamsList from '../../containers/NationalExamsList';
+import { formatNationalExamName } from '../../utils/helpers';
 
 const mockExams = [
   { enrichedId: '1@acce9', name: 'AP-ADVANCED PLACEMENT EXAMS' },
@@ -41,6 +43,21 @@ describe('NationalExamsList', () => {
     cleanup();
   });
 
+  const mountComponent = (location = { search: '' }) => {
+    store = mockStore({
+      nationalExams: {
+        ...initialState.nationalExams,
+      },
+    });
+
+    return mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
+      </Provider>,
+    );
+  };
   const renderWithProviders = (location = '/national-exams') => {
     store = mockStore(initialState);
     return render(
@@ -178,58 +195,57 @@ describe('NationalExamsList', () => {
     const pagination = container.querySelector('va-pagination');
     expect(pagination.getAttribute('page')).to.equal('2');
   });
+  // TODO: Convert to use RTL
+  it('simulates page change in VaPagination to page 2 and verifies displayed items', async () => {
+    const wrapper = mountComponent();
+    const newPage = 2;
+    const itemsPerPage = 10;
+
+    wrapper.find('VaPagination').prop('onPageSelect')({
+      detail: {
+        page: newPage,
+      },
+    });
+    wrapper.update();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const expectedItems = initialState.nationalExams.nationalExams
+      .slice((newPage - 1) * itemsPerPage, newPage * itemsPerPage)
+      .map(exam => exam.name);
+    const expectedItemsFormatted = expectedItems.map(name =>
+      formatNationalExamName(name),
+    );
+    const displayedItems = wrapper.find('li h2').map(node => node.text());
+    expect(displayedItems).to.deep.equal(expectedItemsFormatted);
+    wrapper.unmount();
+  });
+
+  it('should navigate to the correct national exam details page when an exam link is clicked', () => {
+    const testExam = mockExams[0];
+    const expectedExamName = formatNationalExamName(testExam.name);
+    const expectedEncodedName = encodeURIComponent(expectedExamName);
+    const expectedPath = `/national-exams/${
+      testExam.enrichedId
+    }?examName=${expectedEncodedName}`;
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    const firstExamLink = wrapper
+      .find('va-card')
+      .find('va-link')
+      .at(0);
+    firstExamLink.simulate('click', { preventDefault() {} });
+    const memoryRouter = wrapper.find(MemoryRouter).instance();
+    expect(
+      memoryRouter.history.location.pathname +
+        memoryRouter.history.location.search,
+    ).to.equal(expectedPath);
+
+    wrapper.unmount();
+  });
 });
-
-// TODO: Convert to use RTL
-//   it('simulates page change in VaPagination to page 2 and verifies displayed items', async () => {
-//     const wrapper = mountComponent();
-//     const newPage = 2;
-//     const itemsPerPage = 10;
-
-//     wrapper.find('VaPagination').prop('onPageSelect')({
-//       detail: {
-//         page: newPage,
-//       },
-//     });
-//     wrapper.update();
-//     await new Promise(resolve => setTimeout(resolve, 0));
-//     const expectedItems = initialState.nationalExams.nationalExams
-//       .slice((newPage - 1) * itemsPerPage, newPage * itemsPerPage)
-//       .map(exam => exam.name);
-//     const expectedItemsFormatted = expectedItems.map(name =>
-//       formatNationalExamName(name),
-//     );
-//     const displayedItems = wrapper.find('li h2').map(node => node.text());
-//     expect(displayedItems).to.deep.equal(expectedItemsFormatted);
-//     wrapper.unmount();
-//   });
-
-//   it('should navigate to the correct national exam details page when an exam link is clicked', () => {
-//     const testExam = mockExams[0];
-//     const expectedExamName = formatNationalExamName(testExam.name);
-//     const expectedEncodedName = encodeURIComponent(expectedExamName);
-//     const expectedPath = `/national-exams/${
-//       testExam.enrichedId
-//     }?examName=${expectedEncodedName}`;
-
-//     const wrapper = mount(
-//       <Provider store={store}>
-//         <MemoryRouter initialEntries={['/national-exams']}>
-//           <NationalExamsList />
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-
-//     const firstExamLink = wrapper
-//       .find('va-card')
-//       .find('va-link')
-//       .at(0);
-//     firstExamLink.simulate('click', { preventDefault() {} });
-//     const memoryRouter = wrapper.find(MemoryRouter).instance();
-//     expect(
-//       memoryRouter.history.location.pathname +
-//         memoryRouter.history.location.search,
-//     ).to.equal(expectedPath);
-
-//     wrapper.unmount();
-//   });
