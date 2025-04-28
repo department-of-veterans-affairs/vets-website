@@ -164,7 +164,7 @@ export function ApplicantAddressCopyPage({
       }
       setFormData(tmpVal);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: data });
     },
   };
 
