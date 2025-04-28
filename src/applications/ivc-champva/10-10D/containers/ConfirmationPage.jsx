@@ -114,7 +114,9 @@ export function ConfirmationPage(props) {
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>
             <br />
-            {data.statementOfTruthSignature}
+            <span className="dd-privacy-hidden">
+              {data.statementOfTruthSignature}
+            </span>
             <br />
           </span>
         )}

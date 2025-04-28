@@ -1,11 +1,11 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
-$nav-width-bar-max-width: 720px;
-$nav-mobile-breakpoint: 668px;
+$nav-max-width-breakpoint: 53em;
+$nav-mobile-breakpoint: 41.75em;
+$nav-small-screen-breakpoint: 30em;
 
 .mhv-c-sec-nav-bar-row {
   justify-content: space-around;
-  max-width: $nav-width-bar-max-width;
 }
 
 .mhv-c-sec-nav-item {
@@ -93,19 +93,30 @@ $nav-mobile-breakpoint: 668px;
 }
 
 // Show the abbreviation instead of the long title
-@media (max-width: $small-screen) {
+@media (max-width: $nav-small-screen-breakpoint) {
   .mhv-u-sec-nav-item-title {
     display: none;
   }
 }
 
-// Show the title instead of the abbreviation
-@media (min-width: $small-screen) {
+// Show the title instead of the abbreviation on larger screens
+@media (min-width: $nav-small-screen-breakpoint) {
   .mhv-u-sec-nav-short-title {
     display: none;
   }
 
   .mhv-u-sec-nav-item-title {
     display: inline;
+  }
+}
+
+// Settings for the navigation bar on larger screens
+@media (min-width: $nav-max-width-breakpoint) {
+  .mhv-c-sec-nav-bar-row {
+    justify-content: start;
+  }
+
+  .mhv-c-sec-nav-item {
+    padding-left: 0.50rem;
   }
 }
