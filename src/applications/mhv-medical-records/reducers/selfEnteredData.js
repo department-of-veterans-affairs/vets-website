@@ -743,12 +743,18 @@ export const convertMedications = recordList => {
  */
 export const convertDemographics = patient => {
   if (!patient) return null;
-  const { userProfile: profile } = patient;
+
+  // For now, support both multiple SEI calls and the single unified call.
+  const profile = patient.userProfile || patient;
+  const name = profile.name || {};
+  const contact = profile.contact || {};
+  const address = profile.address || {};
+
   return {
-    firstName: profile.name.firstName || NONE_ENTERED,
-    middleName: profile.name.middleName || NONE_ENTERED,
-    lastName: profile.name.lastName || NONE_ENTERED,
-    alias: profile.name.alias || NONE_ENTERED,
+    firstName: name.firstName || NONE_ENTERED,
+    middleName: name.middleName || NONE_ENTERED,
+    lastName: name.lastName || NONE_ENTERED,
+    alias: name.alias || NONE_ENTERED,
     dateOfBirth: profile.birthDate
       ? new Date(profile.birthDate).toISOString().split('T')[0]
       : NONE_ENTERED,
@@ -767,20 +773,20 @@ export const convertDemographics = patient => {
     ].filter(Boolean),
     occupation: profile.currentOccupation || NONE_ENTERED,
     contactInfo: {
-      homePhone: profile.contact.homePhone || NONE_ENTERED,
-      workPhone: profile.contact.workPhone || NONE_ENTERED,
-      pager: profile.contact.pager || NONE_ENTERED,
-      mobilePhone: profile.contact.mobilePhone || NONE_ENTERED,
-      fax: profile.contact.fax || NONE_ENTERED,
-      email: profile.contact.email || NONE_ENTERED,
-      preferredMethod: profile.contact.contactMethod || NONE_ENTERED,
+      homePhone: contact.homePhone || NONE_ENTERED,
+      workPhone: contact.workPhone || NONE_ENTERED,
+      pager: contact.pager || NONE_ENTERED,
+      mobilePhone: contact.mobilePhone || NONE_ENTERED,
+      fax: contact.fax || NONE_ENTERED,
+      email: contact.email || NONE_ENTERED,
+      preferredMethod: contact.contactMethod || NONE_ENTERED,
     },
     address: {
-      street: profile.address.address1 || NONE_ENTERED,
-      city: profile.address.city || NONE_ENTERED,
-      state: profile.address.state || NONE_ENTERED,
-      zip: profile.address.zip || NONE_ENTERED,
-      country: profile.address.country || NONE_ENTERED,
+      street: address.address1 || NONE_ENTERED,
+      city: address.city || NONE_ENTERED,
+      state: address.state || NONE_ENTERED,
+      zip: address.zip || NONE_ENTERED,
+      country: address.country || NONE_ENTERED,
     },
     // emergencyContacts: [...],
   };
@@ -816,6 +822,35 @@ export const convertEmergencyContacts = contacts => {
 
 export const selfEnteredReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Actions.SelfEntered.GET_ALL: {
+      const { responses = {}, errors = {} } = action.payload;
+
+      return {
+        ...state,
+        vitals: convertVitals(responses.vitals),
+        allergies: convertAllergies(responses.allergies),
+        familyHistory: convertFamilyHealthHistory(responses.familyHistory),
+        vaccines: convertVaccines(responses.vaccines),
+        testEntries: convertLabsAndTests(responses.testEntries),
+        medicalEvents: convertMedicalEvents(responses.medicalEvents),
+        militaryHistory: convertMilitaryHistory(responses.militaryHistory),
+        providers: convertHealthcareProviders(responses.providers),
+        healthInsurance: convertHealthInsurance(responses.healthInsurance),
+        treatmentFacilities: convertTreatmentFacilities(
+          responses.treatmentFacilities,
+        ),
+        foodJournal: convertFoodJournal(responses.foodJournal),
+        activityJournal: convertActivityJournal(responses.activityJournal),
+        medications: convertMedications(responses.medications),
+        emergencyContacts: convertEmergencyContacts(
+          responses.emergencyContacts,
+        ),
+        demographics: convertDemographics(responses.demographics),
+
+        // Track all domains that had an error
+        failedDomains: Object.keys(errors),
+      };
+    }
     case Actions.SelfEntered.GET_VITALS: {
       return {
         ...state,

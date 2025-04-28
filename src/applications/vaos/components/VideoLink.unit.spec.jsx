@@ -179,4 +179,59 @@ describe('VAOS Component: VideoLink', () => {
     );
     expect(screen.queryByText('Join appointment')).to.exist;
   });
+
+  describe('with vaOnlineSchedulingFeSourceOfTruthTelehealth=true', () => {
+    const enabled = {
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingFeSourceOfTruthTelehealth: true,
+      },
+    };
+
+    it('renders join appointment link when displayLink=true', () => {
+      const store = createTestStore(enabled);
+      const appointment = {
+        location: {},
+        videoData: {
+          url: 'test.com',
+          displayLink: true,
+        },
+        vaos: {},
+      };
+      const screen = renderWithStoreAndRouter(
+        <VideoLink appointment={appointment} />,
+        {
+          store,
+        },
+      );
+      expect(screen.queryByText('Join appointment')).to.exist;
+    });
+
+    it('does not render join appointment link when displayLink=false', () => {
+      const store = createTestStore(enabled);
+      const appointment = {
+        location: {
+          vistaId: '983',
+          locationId: '983',
+        },
+        videoData: {
+          url: 'test.com',
+          displayLink: false,
+        },
+        vaos: {},
+      };
+      const screen = renderWithStoreAndRouter(
+        <VideoLink appointment={appointment} />,
+        {
+          store,
+        },
+      );
+      expect(screen.queryByText('Join appointment')).not.to.exist;
+      expect(
+        screen.queryByText(
+          /We'll add the link to join this appointment 30 minutes before your appointment time/i,
+        ),
+      ).to.exist;
+    });
+  });
 });

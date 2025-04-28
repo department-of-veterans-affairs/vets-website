@@ -388,7 +388,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {sponsorWording(formData)}
-              </span>
+              </span>{' '}
               identification information
             </>
           ),
@@ -510,7 +510,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {sponsorWording(formData)}
-              </span>
+              </span>{' '}
               mailing address
             </>
           ),
@@ -559,8 +559,7 @@ const formConfig = {
           path: 'sponsor-contact-info',
           title: formData => (
             <>
-              <span>{sponsorWording(formData)}</span>
-              contact information
+              <span>{sponsorWording(formData)}</span> contact information
             </>
           ),
           depends: formData => !get('sponsorIsDeceased', formData),
@@ -668,9 +667,9 @@ const formConfig = {
                   ),
                   ({ formData }) => (
                     <>
-                      Next we’ll ask more questions about
+                      Next we’ll ask more questions about{' '}
                       <span className="dd-privacy-hidden">
-                        {applicantWording(formData, undefined, false)}
+                        {applicantWording(formData, false, false)}
                       </span>
                       . This includes social security number, mailing address,
                       contact information, relationship to the sponsor, and
@@ -760,7 +759,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               mailing address
             </>
           ),
@@ -773,7 +772,7 @@ const formConfig = {
                     <>
                       <span className="dd-privacy-hidden">
                         {applicantWording(formData)}
-                      </span>
+                      </span>{' '}
                       mailing address
                     </>
                   ),
@@ -816,7 +815,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               contact information
             </>
           ),
@@ -1348,7 +1347,7 @@ const formConfig = {
             <>
               <span className="dd-privacy-hidden">
                 {applicantWording(item)}
-              </span>
+              </span>{' '}
               Medicare Part D card
             </>
           ),
