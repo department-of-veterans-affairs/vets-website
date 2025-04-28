@@ -71,6 +71,10 @@ export function fetchDirectDeposit({
       recordDirectDepositEvent({
         endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.SUCCESSFUL,
+        extraProperties: {
+          veteranStatus:
+            response?.data?.attributes?.veteranStatus || 'status-unknown',
+        },
       });
 
       dispatch({
