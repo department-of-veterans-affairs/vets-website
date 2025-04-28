@@ -9,16 +9,22 @@ import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink
 import content from '../../../locales/en/content.json';
 
 describe('CG <ApplicationDownloadLink>', () => {
-  const mockStore = {
-    getState: () => ({
-      form: {
-        data: { veteranFullName: { first: 'John', last: 'Smith' } },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-  const subject = () => {
+  const subject = ({ veteranInformation } = {}) => {
+    const expectedVeteranInformation = veteranInformation ?? {
+      veteranFullName: { first: 'John', last: 'Smith' },
+    };
+
+    const mockStore = {
+      getState: () => ({
+        form: {
+          data: {
+            'view:veteranInformation': expectedVeteranInformation,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <ApplicationDownloadLink formConfig={{}} />
@@ -87,6 +93,37 @@ describe('CG <ApplicationDownloadLink>', () => {
             event: 'caregivers-pdf-download--success',
           }),
         ).to.be.true;
+
+        createObjectStub.restore();
+        revokeObjectStub.restore();
+      });
+
+      it('should still succeed when no veteranInformation is set', async () => {
+        const { selectors } = subject({ veteranInformation: {} });
+        const { vaLink: link } = selectors();
+        const createObjectStub = createStubObject();
+        const revokeObjectStub = revokeObjectstub();
+
+        triggerSuccess({ link });
+
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+          expect(vaLoadingIndicator).to.exist;
+          expect(vaLink).to.not.exist;
+        });
+
+        await waitFor(() => {
+          const { vaLink, vaLoadingIndicator } = selectors();
+
+          expect(
+            recordEventStub.calledWith({
+              event: 'caregivers-pdf-download--success',
+            }),
+          ).to.be.true;
+
+          expect(vaLoadingIndicator).to.not.exist;
+          expect(vaLink).to.exist;
+        });
 
         createObjectStub.restore();
         revokeObjectStub.restore();

@@ -19,7 +19,14 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     formConfig,
     form,
   ]);
-  const { veteranFullName: name } = form.data;
+  const name = useMemo(
+    () => {
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data ?? {};
+      return veteranFullName;
+    },
+    [form.data],
+  );
 
   const handlePdfDownload = useCallback(
     blob => {
