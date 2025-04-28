@@ -62,7 +62,7 @@ export default function EpsAppointmentDetailsPage() {
           <va-alert
             status="error"
             level={1}
-            headline="We’re sorry, we can't find your appointment"
+            headline="We’re sorry, we can’t find your appointment"
           >
             Try searching this appointment on your appointment list or call your
             facility.

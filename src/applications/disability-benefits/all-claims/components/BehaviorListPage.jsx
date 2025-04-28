@@ -56,7 +56,7 @@ const BehaviorListPage = ({
     null,
   );
   const [selectedNoBehaviors, setSelectedNoBehaviors] = useState(
-    data?.['view:noneCheckbox'],
+    data?.noBehavioralChange,
     null,
   );
 
@@ -97,7 +97,7 @@ const BehaviorListPage = ({
         return selectedHealthBehaviors;
       case 'otherBehaviors':
         return selectedOtherBehaviors;
-      case 'view:noneCheckbox':
+      case 'noBehavioralChange':
         return selectedNoBehaviors;
       default:
         return null;
@@ -115,7 +115,7 @@ const BehaviorListPage = ({
       case 'otherBehaviors':
         setSelectedOtherBehaviors(updatedData);
         break;
-      case 'view:noneCheckbox':
+      case 'noBehavioralChange':
         setSelectedNoBehaviors(updatedData);
         break;
       default:
@@ -445,12 +445,9 @@ const BehaviorListPage = ({
           <va-checkbox
             key="none"
             label={behaviorListNoneLabel}
-            value="view:noBehaviorChanges"
+            value="noChange"
             checked={
-              !!(
-                data?.['view:noneCheckbox'] &&
-                data['view:noneCheckbox']['view:noBehaviorChanges']
-              )
+              !!(data?.noBehavioralChange && data.noBehavioralChange.noChange)
             }
             uswds
           />
@@ -468,7 +465,7 @@ BehaviorListPage.propTypes = {
     workBehaviors: PropTypes.object,
     healthBehaviors: PropTypes.object,
     otherBehaviors: PropTypes.object,
-    'view:noneCheckbox': PropTypes.object,
+    noBehavioralChange: PropTypes.object,
     behaviorsDetails: PropTypes.object,
   }),
   goBack: PropTypes.func,

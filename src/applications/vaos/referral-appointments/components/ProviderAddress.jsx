@@ -32,6 +32,11 @@ const ProviderAddress = props => {
             icon="directions"
             size={3}
           />
+          <va-icon
+            className="vads-u-margin-right--0p5 vads-u-color--link-default"
+            icon="directions"
+            size={3}
+          />
           <a
             data-testid="directions-link"
             href={`https://maps.google.com?addr=Current+Location&daddr=${getAddressString(
@@ -45,8 +50,11 @@ const ProviderAddress = props => {
           </a>
         </div>
       )}
-      <p className="vads-u-margin--0" data-testid="phone">
-        Phone: <va-telephone contact={phone} data-testid="provider-telephone" />
+      <p className="vads-u-margin-bottom--0" data-testid="phone">
+        <strong>Main phone:</strong>
+      </p>
+      <p className="vads-u-margin--0">
+        <va-telephone contact={phone} data-testid="provider-telephone" />
       </p>
     </address>
   );

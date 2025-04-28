@@ -40,6 +40,7 @@ const formConfig = {
   urlPrefix: `/${formNumber.toLowerCase()}/`,
   submitUrl: `${environment.API_URL}/accredited_representative_portal/v0/submit_representative_form`,
   dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+  disableSave: true,
   trackingPrefix,
   confirmation: ConfirmationPage,
   CustomTopContent,
@@ -51,10 +52,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   transformForSubmit,
-  savedFormMessages: {
-    notFound: 'Please start over to upload your form.',
-    noAuth: 'Please sign in again to continue uploading your form.',
-  },
   title,
   subTitle,
   defaultDefinitions: {},
