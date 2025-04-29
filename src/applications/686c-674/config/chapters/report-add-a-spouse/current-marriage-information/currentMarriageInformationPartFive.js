@@ -37,6 +37,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'currentSpouseReasonForSeparation',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
         preserveHiddenData: true,
       },
     },

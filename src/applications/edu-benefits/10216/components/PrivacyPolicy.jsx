@@ -5,6 +5,13 @@ import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
 
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);
+  const removeNoteText = async () => {
+    const noteText = await querySelectorWithShadowRoot(
+      'p.font-sans-6',
+      document.querySelector('va-statement-of-truth'),
+    );
+    noteText?.setAttribute('style', 'display:none;');
+  };
 
   const removeNoteText = async () => {
     const noteText = await querySelectorWithShadowRoot(
