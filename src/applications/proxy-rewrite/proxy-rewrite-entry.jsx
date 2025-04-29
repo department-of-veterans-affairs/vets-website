@@ -66,7 +66,7 @@ function createMutationObserverCallback() {
 function renderHeader(megaMenuData = [], headerContainer) {
   // HARDCODED: Since feature toggles aren't available in this context,
   // we're using a hardcoded value. Set to true or false based on desired behavior.
-  const showMvhHeaderLinks = false;
+  const showMhvHeaderLinks = true;
 
   // Create modified versions of the links with the injected header URLs
   const myVaLinkForHeader = {
@@ -83,7 +83,7 @@ function renderHeader(megaMenuData = [], headerContainer) {
   const safeMenuData = Array.isArray(megaMenuData) ? megaMenuData : [];
 
   // Add the links if enabled
-  const updatedMegaMenuData = showMvhHeaderLinks
+  const updatedMegaMenuData = showMhvHeaderLinks
     ? [...safeMenuData, myVaLinkForHeader, myHealthLinkForHeader]
     : safeMenuData;
 
