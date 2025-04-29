@@ -138,7 +138,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartDCard",
+            "name": "applicantMedicarePartDCardFront",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardBack",
             "path": "applicant-medicare-d-file/:index",
             "required": true,
             "uploaded": false

@@ -1370,10 +1370,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: fileWithMetadataSchema(
-              acceptableFiles.medicareDCert,
-              2,
-            ),
+            applicantMedicarePartDCardFront: singleFileSchema,
+            applicantMedicarePartDCardBack: singleFileSchema,
           }),
         },
         // If the user is ineligible for Medicare and over 65 years,

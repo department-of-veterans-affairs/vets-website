@@ -344,14 +344,17 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
-      applicantMedicarePartDCard: {
+      applicantMedicarePartDCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare card',
+          label: 'Upload front of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartDCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[1],
+        }),
       },
     },
   },
