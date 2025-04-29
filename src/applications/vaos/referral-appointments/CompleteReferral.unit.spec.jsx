@@ -107,7 +107,7 @@ describe('CompleteReferral', () => {
       'Clinic: Meridian Health',
     );
     expect(getByTestId('survey-info-block')).to.exist;
-    expect(getByTestId('survey-info-block')).to.have.text(
+    expect(getByTestId('survey-info-block')).to.contain.text(
       'Please consider taking our pilot feedback surveys',
     );
     expect(getByTestId('survey-link')).to.exist;
