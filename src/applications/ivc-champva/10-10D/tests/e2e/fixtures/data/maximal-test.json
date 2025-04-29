@@ -126,7 +126,13 @@
         "applicantDob": "2000-01-02",
         "missingUploads": [
           {
-            "name": "applicantMedicarePartAPartBCard",
+            "name": "applicantMedicarePartAPartBCardFront",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCardBack",
             "path": "applicant-medicare-ab-file/:index",
             "required": true,
             "uploaded": false
