@@ -4,7 +4,7 @@ import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/acti
 import { useSelector, useDispatch } from 'react-redux';
 import ProgressButton from './ProgressButton';
 
-const handleFinishLater = ({ form, dispatch }) => {
+export const handleFinishLater = ({ form, dispatch }) => {
   dispatch(
     saveAndRedirectToReturnUrl(
       form.formId,
