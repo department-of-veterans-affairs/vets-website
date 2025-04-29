@@ -44,6 +44,8 @@ describe('CG <ApplicationDownloadLink>', () => {
     localStorage.setItem('csrfToken', 'my-token');
     apiRequestStub = sinon.stub(api, 'apiRequest');
     recordEventStub = sinon.stub(recordEventModule, 'default');
+    sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
+    sinon.stub(URL, 'revokeObjectURL');
   });
 
   afterEach(() => {
@@ -52,10 +54,6 @@ describe('CG <ApplicationDownloadLink>', () => {
   });
 
   context('when the download button has been clicked', () => {
-    const createStubObject = () =>
-      sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
-    const revokeObjectstub = () => sinon.stub(URL, 'revokeObjectURL');
-
     const triggerError = ({ link, status = '503' }) => {
       apiRequestStub.rejects({ errors: [{ status }] });
       fireEvent.click(link);
@@ -73,8 +71,6 @@ describe('CG <ApplicationDownloadLink>', () => {
       it('should record the correct event when the request succeeds', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
-        const createObjectStub = createStubObject();
-        const revokeObjectStub = revokeObjectstub();
 
         triggerSuccess({ link });
 
@@ -90,16 +86,11 @@ describe('CG <ApplicationDownloadLink>', () => {
         sinon.assert.calledWithExactly(recordEventStub, {
           event: 'caregivers-pdf-download--success',
         });
-
-        createObjectStub.restore();
-        revokeObjectStub.restore();
       });
 
       it('should still succeed when no veteranInformation is set', async () => {
         const { selectors } = subject({ veteranInformation: {} });
         const { vaLink: link } = selectors();
-        const createObjectStub = createStubObject();
-        const revokeObjectStub = revokeObjectstub();
 
         triggerSuccess({ link });
 
@@ -119,9 +110,6 @@ describe('CG <ApplicationDownloadLink>', () => {
           expect(vaLoadingIndicator).to.not.exist;
           expect(vaLink).to.exist;
         });
-
-        createObjectStub.restore();
-        revokeObjectStub.restore();
       });
     });
 
@@ -148,8 +136,11 @@ describe('CG <ApplicationDownloadLink>', () => {
         sinon.assert.calledWithExactly(recordEventStub, { event });
       });
 
-      // createObjectURL is not stubbed so it throws error
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
+        // Stub createObjectURL throwing an error
+        URL.createObjectURL.restore();
+        sinon.stub(URL, 'createObjectURL').throws(new Error('Blob failed'));
+
         const { selectors } = subject();
         const { vaLink: link } = selectors();
 
