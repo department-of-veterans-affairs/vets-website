@@ -12,7 +12,13 @@ const CountrySelect = props => {
   };
 
   return (
-    <VaSelect id={id} name={id} value={value} onVaSelect={handleChange}>
+    <VaSelect
+      id={id}
+      name={id}
+      aria-label="Country"
+      value={value}
+      onVaSelect={handleChange}
+    >
       {countries.map(country => (
         <option key={country.value} value={country.value} id={country.value}>
           {country.label}

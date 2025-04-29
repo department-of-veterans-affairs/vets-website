@@ -1,6 +1,8 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
+
+    // medications
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
@@ -11,6 +13,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -24,14 +27,15 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
-    mhvSecureMessagingEditContactList = true,
-    mhvSecureMessagingTriageGroupPlainLanguage = false,
-    mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvIntegrationMedicalRecordsToPhase1 = true,
-    mhvMedicationsRemoveLandingPage = true,
+
+    // secure messaging
+    mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingRecipientOptGroups = true,
+    mhvSecureMessagingRecipientCombobox = true,
   } = toggles;
 
   return {
@@ -156,10 +160,8 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medical_records_update_landing_page',
           value: mhvMedicalRecordsMarch17Updates,
         },
-        {
-          name: 'mhv_secure_messaging_edit_contact_list',
-          value: mhvSecureMessagingEditContactList,
-        },
+
+        // secure messaging
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',
           value: mhvSecureMessagingTriageGroupPlainLanguage,
@@ -171,6 +173,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_remove_landing_page',
           value: true,
+        },
+        {
+          name: 'mhv_secure_messaging_recipient_combobox',
+          value: mhvSecureMessagingRecipientCombobox,
         },
       ],
     },

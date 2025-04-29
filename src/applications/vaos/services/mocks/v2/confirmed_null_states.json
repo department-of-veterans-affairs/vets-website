@@ -79,7 +79,6 @@
         "localStartTime": "2024-09-20T17:00:00.000-06:00",
         "serviceName": "YOUR FRIENDLY MH CLINIC",
         "physicalLocation": "PHYSICAL LOCATIION TESTING",
-        "friendlyName": "YOUR FRIENDLY MH CLINIC",
         "location": {
           "id": "983GC",
           "type": "appointments",
@@ -191,7 +190,6 @@
         "localStartTime": "2024-05-20T17:00:00.000-06:00",
         "serviceName": "YOUR FRIENDLY MH CLINIC",
         "physicalLocation": "PHYSICAL LOCATIION TESTING",
-        "friendlyName": "YOUR FRIENDLY MH CLINIC",
         "location": {
           "id": "983GC",
           "type": "appointments",
@@ -502,7 +500,6 @@
         },
         "serviceName": "FTC C&P AUDIO BEV",
         "physicalLocation": "FORT COLLINS AUDIO",
-        "friendlyName": "C&P BEV AUDIO FTC",
         "location": {
           "id": "983GC",
           "type": "appointments",
@@ -596,7 +593,6 @@
         },
         "serviceName": "FTC C&P AUDIO BEV",
         "physicalLocation": "FORT COLLINS AUDIO",
-        "friendlyName": "C&P BEV AUDIO FTC",
         "location": {
           "id": "983GC",
           "type": "appointments",
@@ -876,7 +872,6 @@
         "localStartTime": "2025-02-25T12:00:00.000-07:00",
         "physicalLocation": "CHYSHR VIDEO Provider",
         "serviceName": "CHY HEALTH ONE",
-        "friendlyName": "CHY HEALTH ONE",
         "location": {
           "id": "983",
           "type": "appointments",
@@ -993,7 +988,6 @@
         "localStartTime": "2024-06-25T12:00:00.000-07:00",
         "physicalLocation": "CHYSHR VIDEO Provider",
         "serviceName": "CHY HEALTH ONE",
-        "friendlyName": "CHY HEALTH ONE",
         "location": {
           "id": "983",
           "type": "appointments",
@@ -1473,7 +1467,6 @@
         },
         "localStartTime": "2024-12-05T13:00:00.000-05:00",
         "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
-        "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "physicalLocation": "DAYTSHR PHONE Provider",
         "location": {
           "id": "984",
@@ -1595,7 +1588,6 @@
         },
         "localStartTime": "2024-05-05T13:00:00.000-05:00",
         "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
-        "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "physicalLocation": "DAYTSHR PHONE Provider",
         "location": {
           "id": "984",
@@ -2248,7 +2240,6 @@
         },
         "localStartTime": "2024-12-01T08:00:00.000-07:00",
         "serviceName": "ATLAS satellite",
-        "friendlyName": "ATLAS satellite",
         "location": {
           "id": "983",
           "type": "appointments",
@@ -2378,7 +2369,6 @@
         },
         "localStartTime": "2024-06-01T08:00:00.000-07:00",
         "serviceName": "ATLAS satellite",
-        "friendlyName": "ATLAS satellite",
         "location": {
           "id": "983",
           "type": "appointments",
