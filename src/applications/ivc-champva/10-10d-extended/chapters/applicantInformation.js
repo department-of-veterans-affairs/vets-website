@@ -215,6 +215,23 @@ function ApplicantGenderPage(props) {
 }
 // END APPLICANT GENDER CONFIG
 
+const applicantRelationshipPage = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      applicantRelationshipToSponsor: {
+        type: 'object',
+        properties: {
+          relationshipToVeteran: { type: 'string' },
+          otherRelationshipToVeteran: { type: 'string' },
+        },
+      },
+    },
+    required: ['applicantRelationshipToSponsor'],
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -296,6 +313,12 @@ export const applicantPages = arrayBuilderPages(
       title: 'Applicant sex listed at birth',
       ...applicantGenderPage,
       CustomPage: ApplicantGenderPage,
+    }),
+    page18: pageBuilder.itemPage({
+      path: 'applicant-relationship/:index',
+      title: item => `${applicantWording(item)} relationship to the sponsor`,
+      ...applicantRelationshipPage,
+      CustomPage: ApplicantRelationshipPage,
     }),
   }),
 );
