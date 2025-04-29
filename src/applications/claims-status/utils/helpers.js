@@ -1203,6 +1203,17 @@ export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
 
+export const setPageTitle = trackedItem => {
+  if (trackedItem) {
+    const pageTitle = setDocumentRequestPageTitle(
+      trackedItem.friendlyName || trackedItem.displayName,
+    );
+    setDocumentTitle(pageTitle);
+  } else {
+    setDocumentTitle('Document Request');
+  }
+};
+
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
   if (!isTab(lastPage)) {

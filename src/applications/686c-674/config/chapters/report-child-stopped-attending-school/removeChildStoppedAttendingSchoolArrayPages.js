@@ -74,6 +74,14 @@ export const removeChildStoppedAttendingSchoolSummaryPage = {
       removeChildStoppedAttendingSchoolOptions,
       {
         title:
+          'Do you have a child between ages 18 and 23 who left school to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+      {
+        title:
           'Do you have another child between ages 18 and 23 who left school to add?',
         labels: {
           Y: 'Yes',
