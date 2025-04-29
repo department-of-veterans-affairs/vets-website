@@ -28,7 +28,7 @@ export default {
           (errors, fieldData, formData) => {
             if (!isValidStudentRatio(formData)) {
               errors.addError(
-                'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+                'The calculation percentage exceeds 35%, so you may not proceed. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
               );
             }
           },
