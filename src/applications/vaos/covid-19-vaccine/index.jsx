@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 import covid19VaccineReducer from './redux/reducer';
 import { selectIsNewAppointmentStarted } from '../new-appointment/redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
@@ -41,9 +40,6 @@ export function NewBookingSection() {
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const [crumb] = useState('New COVID-19 vaccine appointment');
 
   useEffect(
@@ -114,74 +110,31 @@ export function NewBookingSection() {
   return (
     <FormLayout pageTitle={crumb}>
       <Switch>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/doses-received`
-              : `${match.url}/confirm-doses-received`
-          }
-        >
+        <Route path={`${match.url}/doses-received`}>
           <ReceivedDoseScreenerPage />
         </Route>
         <Route path={`${match.url}/contact-facility`}>
           <ContactFacilitiesPage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/location`
-              : `${match.url}/choose-facility`
-          }
-        >
+        <Route path={`${match.url}/location`}>
           <VAFacilityPage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/clinic`
-              : `${match.url}/choose-clinic`
-          }
-        >
+        <Route path={`${match.url}/clinic`}>
           <ClinicChoicePage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/date-time`
-              : `${match.url}/select-date`
-          }
-        >
+        <Route path={`${match.url}/date-time`}>
           <SelectDate1Page />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/second-dose`
-              : `${match.url}/second-dose-info`
-          }
-        >
+        <Route path={`${match.url}/second-dose`}>
           <SecondDosePage />
         </Route>
-        <Route
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.url}/contact-information`
-              : `${match.url}/contact-info`
-          }
-        >
+        <Route path={`${match.url}/contact-information`}>
           <ContactInfoPage />
         </Route>
         <Route path={`${match.url}/review`}>
           <ReviewPage />
         </Route>
-        <Route
-          exact
-          path={
-            featureBreadcrumbUrlUpdate
-              ? `${match.path}/:id`
-              : `${match.url}/confirmation`
-          }
-        >
+        <Route exact path={`${match.path}/:id`}>
           <ConfirmationPageV2 />
         </Route>
         <Route path={`${match.url}`}>
