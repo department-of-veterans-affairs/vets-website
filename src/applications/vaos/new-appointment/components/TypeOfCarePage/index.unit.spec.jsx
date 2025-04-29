@@ -20,8 +20,8 @@ import TypeOfCarePage from './index';
 import { NewAppointment } from '../..';
 import { createMockFacility } from '../../../tests/mocks/data';
 import {
+  mockFacilitiesApi,
   mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
 } from '../../../tests/mocks/mockApis';
 import { FLOW_TYPES } from '../../../utils/constants';
 
@@ -45,14 +45,13 @@ describe('VAOS Page: TypeOfCarePage', () => {
   beforeEach(() => mockFetch());
 
   it('should open facility type page when CC eligible and has a supported parent site', async () => {
-    mockVAOSParentSites(
-      ['983'],
-      [
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [
         createMockFacility({ id: '983', isParent: true }),
         createMockFacility({ id: '983GC', isParent: true }),
       ],
-      true,
-    );
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
@@ -73,14 +72,13 @@ describe('VAOS Page: TypeOfCarePage', () => {
   });
 
   it('should skip facility type page if eligible for CC but no supported sites', async () => {
-    mockVAOSParentSites(
-      ['983'],
-      [
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [
         createMockFacility({ id: '983', isParent: true }),
         createMockFacility({ id: '983GC', isParent: true }),
       ],
-      true,
-    );
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: [],
