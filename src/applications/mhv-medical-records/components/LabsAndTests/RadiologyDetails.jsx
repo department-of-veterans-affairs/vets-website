@@ -363,6 +363,19 @@ ${record.results}`;
     studyJob?.status !== studyJobStatus.COMPLETE;
 
   /**
+   * Determines whether image requests should be disabled for a given study job.
+   */
+  const disableRequestImages = imageStudyJob => {
+    return (
+      imageStudyJob &&
+      (imageStudyJob.status === studyJobStatus.NEW ||
+        studyJob?.status !== studyJobStatus.QUEUED ||
+        imageStudyJob.status === studyJobStatus.PROCESSING) &&
+      imageStudyJob.percentComplete < 100
+    );
+  };
+
+  /**
    * Either renders the “limit reached” paragraph or the Request Images button.
    */
   const renderRequestImagesControl = imageRequest => {
@@ -379,7 +392,7 @@ ${record.results}`;
     return (
       <va-button
         onClick={makeImageRequest}
-        disabled={imageRequest?.percentComplete < 100}
+        disabled={disableRequestImages(imageRequest)}
         ref={elementRef}
         text="Request Images"
         data-testid="radiology-request-images-button"
