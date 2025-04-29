@@ -3,13 +3,15 @@ import mockFeedbackPost from '../fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from '../fixtures/mocks/feedback-1234.json';
 
 describe('Feedback Tool Keyboard Test', () => {
-  it('Is accessible accordingly via keyboard', () => {
+  beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
         features: [],
       },
     });
+  });
+  it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {
       statusCode: 200,
       body: mockFeedbackPost,
