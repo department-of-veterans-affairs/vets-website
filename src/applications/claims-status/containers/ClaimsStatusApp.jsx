@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
@@ -18,9 +18,19 @@ import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring'
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ featureFlagsLoading, isDataAvailable }) {
+  const [shouldLoadingBeDelayed, setShouldLoadingBeDelayed] = useState(true);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setShouldLoadingBeDelayed(false);
+    }, 2000);
+    return () => clearTimeout(timerId);
+  }, []);
+
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
-  const isAppReady = canUseApp && !featureFlagsLoading;
+  const isAppReady =
+    canUseApp && !shouldLoadingBeDelayed && !featureFlagsLoading;
 
   if (!isAppReady) {
     return (

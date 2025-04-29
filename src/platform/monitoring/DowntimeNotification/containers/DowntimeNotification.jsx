@@ -32,6 +32,9 @@ import { APP_TYPE_DEFAULT } from '../../../forms-system/src/js/constants';
  * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
  * @module platform/monitoring/DowntimeNotification
  */
+
+const IS_LOCAL = true;
+
 class DowntimeNotification extends React.Component {
   static propTypes = {
     appTitle: PropTypes.string,
@@ -51,9 +54,12 @@ class DowntimeNotification extends React.Component {
     dependencies: [],
   };
 
+  state = { delay: IS_LOCAL };
+
   componentDidMount() {
     // this.props.getGlobalDowntime();
     if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
+    if (IS_LOCAL) setTimeout(() => this.setState({ delay: false }), 2000);
   }
 
   renderGlobalDowntimeOverride = appTypeContent => {
@@ -86,7 +92,7 @@ class DowntimeNotification extends React.Component {
       return this.renderGlobalDowntimeOverride(appType);
     }
 
-    if (!this.props.isReady) {
+    if (this.state.delay || !this.props.isReady) {
       return (
         this.props.loadingIndicator || (
           <va-loading-indicator
