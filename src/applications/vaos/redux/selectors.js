@@ -112,7 +112,7 @@ export const selectFeatureFeSourceOfTruthTelehealth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
 
 export const selectFeatureMhvRouteGuards = state =>
-  toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
+  toggleValues(state).vaOnlineSchedulingMHVRouteGuards;
 
 export const selectFeatureDirectScheduleAppointmentConflict = state =>
   toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
