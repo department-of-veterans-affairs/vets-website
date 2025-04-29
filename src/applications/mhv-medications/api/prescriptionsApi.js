@@ -73,8 +73,13 @@ export const convertPrescription = prescription => {
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
   baseQuery: async ({ path, options = {} }) => {
+    const defaultOptions = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     try {
-      const result = await apiRequest(path, { ...options });
+      const result = await apiRequest(path, { ...defaultOptions, ...options });
       return { data: result };
     } catch (error) {
       return {
@@ -167,7 +172,7 @@ export const prescriptionsApi = createApi({
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
         return {
           path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
-          method: 'PATCH',
+          options: { method: 'PATCH' },
         };
       },
     }),

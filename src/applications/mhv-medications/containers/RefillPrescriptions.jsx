@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom-v5-compat';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import {
   VaButton,
   VaCheckbox,
@@ -14,10 +13,9 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
-  getRefillablePrescriptionsList,
-  fillPrescriptions,
-  clearFillNotification,
-} from '../actions/prescriptions';
+  useGetRefillablePrescriptionsQuery,
+  useBulkRefillPrescriptionsMutation,
+} from '../api/prescriptionsApi';
 import { dateFormat } from '../util/helpers';
 import {
   selectRefillContentFlag,
@@ -37,32 +35,36 @@ import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 
-const RefillPrescriptions = ({ isLoadingList = true }) => {
-  // Hooks
-  const location = useLocation();
-  const dispatch = useDispatch();
+const RefillPrescriptions = () => {
+  // Use RTK Query hooks to fetch refillable prescriptions
+  const {
+    data: refillableData,
+    isLoading,
+    error: refillableError,
+  } = useGetRefillablePrescriptionsQuery();
 
-  // State
-  const [isLoading, updateLoadingStatus] = useState(isLoadingList);
+  // Use mutation hook for refilling prescriptions
+  const [
+    bulkRefillPrescriptions,
+    { isLoading: isRefilling, error: bulkRefillError },
+  ] = useBulkRefillPrescriptionsMutation();
+
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState('notStarted');
 
+  // Handle API errors from RTK Query
+  const prescriptionsApiError = refillableError || bulkRefillError;
+
   // Selectors
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
-  const fullRefillList = useSelector(
-    state => state.rx.prescriptions?.refillableList,
-  );
-  const prescriptionsApiError = useSelector(
-    state => state.rx.prescriptions?.apiError,
-  );
-  const refillNotificationData = useSelector(
-    state => state.rx.prescriptions?.refillNotification,
-  );
+
+  // Get refillable list from RTK Query result
+  const fullRefillList = refillableData?.prescriptions || [];
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
@@ -79,11 +81,18 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
       setRefillStatus('inProgress');
-      updateLoadingStatus(true);
       window.scrollTo(0, 0);
-      dispatch(fillPrescriptions(selectedRefillList)).then(() =>
-        setRefillStatus('finished'),
-      );
+
+      // Get just the prescription IDs for the bulk refill
+      const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
+
+      try {
+        await bulkRefillPrescriptions(prescriptionIds);
+        setRefillStatus('finished');
+      } catch (error) {
+        setRefillStatus('error');
+      }
+
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
     } else {
       setHasNoOptionSelectedError(true);
@@ -131,37 +140,23 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     }
   };
 
-  useEffect(() => {
-    if (refillNotificationData) {
-      dispatch(clearFillNotification());
-    }
-    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
-  }, []);
-
   useEffect(
     () => {
-      if (fullRefillList === undefined) {
-        updateLoadingStatus(true);
-      }
-      if (refillStatus !== 'inProgress') {
-        dispatch(getRefillablePrescriptionsList()).then(() =>
-          updateLoadingStatus(false),
-        );
-      }
+      // Remove session data on component mount
+      sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
-    // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption, refillStatus, allergies],
+    [selectedSortOption],
   );
 
   useEffect(
     () => {
-      if (!isLoading) {
+      if (!isLoading && !isRefilling) {
         focusElement(document.querySelector('h1'));
       }
     },
-    [isLoading],
+    [isLoading, isRefilling],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -171,7 +166,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     if (!showRefillContent) {
       return <PageNotFound />;
     }
-    if (isLoading) {
+    if (isLoading || isRefilling) {
       return (
         <div
           className="refill-loading-indicator"
@@ -357,12 +352,6 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
       </div>
     </>
   );
-};
-
-// This have been added for testing purposes only
-// While the loading status is being determined locally
-RefillPrescriptions.propTypes = {
-  isLoadingList: PropTypes.bool,
 };
 
 export default RefillPrescriptions;
