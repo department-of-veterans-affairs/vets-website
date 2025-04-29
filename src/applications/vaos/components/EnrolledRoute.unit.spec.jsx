@@ -16,7 +16,7 @@ const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingMhvRouteGuards: false,
+    vaOnlineSchedulingMHVRouteGuards: false,
     loading: false,
   },
   user: {
