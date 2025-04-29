@@ -1,7 +1,9 @@
-import { addDays } from 'date-fns';
+import { addDays, addMonths, setDate } from 'date-fns';
 
 /**
- * Class to create mock draft referral appointment responses for Cypress tests
+ * Class to create mock draft referral appointment responses for Cypress tests.
+ * Note the appointment slots are created in the next month to make sure we can test
+ * for all slots and get around slots crossing over a month boundary.
  */
 class MockReferralDraftAppointmentResponse {
   constructor(options = {}) {
@@ -227,13 +229,18 @@ class MockReferralDraftAppointmentResponse {
       return MockReferralDraftAppointmentResponse.create500Response();
     }
 
-    // Create slots array
+    // Create slots array with all dates in the next month
     const slotsArray = [];
-    const startHour = 16; // Starting at 4 PM UTC
+    const startHour = 14; // Starting at 2 PM UTC
+
+    // Get first day of next month
+    const today = new Date();
+    const firstDayNextMonth = addMonths(setDate(today, 1), 1);
 
     for (let i = 0; i < numberOfSlots; i++) {
-      const slotDate = addDays(new Date(), i + 3);
-      slotDate.setHours(startHour + i, 0, 0, 0);
+      // Create slots on consecutive days starting from the first day of next month
+      const slotDate = addDays(firstDayNextMonth, i);
+      slotDate.setHours(startHour + (i % 3), 0, 0, 0); // Vary the hours but keep them reasonable
 
       slotsArray.push(
         MockReferralDraftAppointmentResponse.createSlot({
