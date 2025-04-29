@@ -106,5 +106,15 @@ describe('CompleteReferral', () => {
     expect(getByTestId('appointment-clinic')).to.have.text(
       'Clinic: Meridian Health',
     );
+    expect(getByTestId('survey-info-block')).to.exist;
+    expect(getByTestId('survey-info-block')).to.have.text(
+      'Please consider taking our pilot feedback surveys',
+    );
+    expect(getByTestId('survey-link')).to.exist;
+    expect(getByTestId('survey-link')).to.have.text('Start the sign-up survey');
+    expect(getByTestId('survey-link')).to.have.attribute(
+      'href',
+      'https://docs.google.com/forms/d/e/1FAIpQLSeaLpeM0yudkRVQsJzOFRW8yqVqH-f4DKNkXoxxDfP0cRSMCw/viewform',
+    );
   });
 });
