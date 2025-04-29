@@ -75,9 +75,28 @@ const applicantOptions = {
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,
   text: {
-    getItemName: item => item?.applicantName?.first || 'Applicant',
-    cardDescription: item =>
-      `${item?.applicantName?.first || 'Applicant'} details`,
+    getItemName: item => applicantWording(item, false, true, false),
+    cardDescription: item => (
+      <ul className="no-bullets">
+        <li>
+          <b>Date of Birth:</b> {item?.applicantName?.first}
+        </li>
+        <li>
+          <b>Address:</b> {item?.applicantAddress?.street}{' '}
+          {item?.applicantAddress?.city}, {item?.applicantAddress?.state}
+        </li>
+        <li>
+          <b>Phone number:</b> {item?.applicantPhone}
+        </li>
+        <li>
+          <b>Relationship to sponsor:</b>{' '}
+          {item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
+          'other'
+            ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
+            : item?.applicantRelationshipToSponsor?.otherRelationshipToVeteran}
+        </li>
+      </ul>
+    ),
   },
 };
 
