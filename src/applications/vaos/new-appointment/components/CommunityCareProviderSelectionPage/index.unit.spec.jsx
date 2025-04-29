@@ -22,7 +22,7 @@ import {
   mockCCProviderFetch,
   mockFacilitiesApi,
   mockGetCurrentPosition,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from '../../../tests/mocks/mockApis';
 import { calculateBoundingBox } from '../../../utils/address';
@@ -82,16 +82,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations(
-      [
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
         getSchedulingConfigurationMock({
           id: '983',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
       ],
-      true,
-    );
+    });
   });
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);

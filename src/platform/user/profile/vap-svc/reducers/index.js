@@ -20,6 +20,7 @@ import {
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
   VAP_SERVICE_NO_CHANGES_DETECTED,
+  VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
@@ -130,6 +131,33 @@ export default function vapService(state = initialState, action) {
       };
     }
 
+    case VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE: {
+      return {
+        ...state,
+        formFields: {
+          ...state.formFields,
+          [action.fieldName]: {
+            ...state.formFields[action.fieldName],
+            value: action.payload,
+          },
+        },
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: {
+            isPending: false,
+            isFailed: false,
+            error: null,
+            formOnlyUpdate: true,
+          },
+        },
+        hasUnsavedEdits: false,
+        initialFormFields: pickBy(
+          state.initialFormFields,
+          (_, key) => key !== action.fieldName,
+        ),
+      };
+    }
+
     case VAP_SERVICE_NO_CHANGES_DETECTED: {
       return {
         ...state,
@@ -190,7 +218,7 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_UPDATE_FAILED: {
-      const { transactionId } = action.transaction.data.attributes;
+      const transactionId = action.transaction?.data?.attributes?.transactionId;
       return {
         ...state,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(

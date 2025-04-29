@@ -8,6 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
   refreshTransaction,
@@ -142,13 +143,14 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const {
       convertCleanDataToPayload,
       fieldName,
       analyticsSectionName,
       apiRoute,
       field,
+      successCallback,
     } = this.props;
 
     const isAddressField = fieldName.toLowerCase().includes('address');
@@ -207,13 +209,39 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    this.props.createTransaction(
-      apiRoute,
-      method,
-      fieldName,
-      payload,
-      analyticsSectionName,
-    );
+    try {
+      const result = await this.props.createTransaction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+
+      if (result?.formOnlyUpdate && this.context?.updateContactInfoForFormApp) {
+        // Update the form data with the payload format
+        await this.context.updateContactInfoForFormApp(
+          fieldName,
+          payload,
+          'no', // Force form-only update
+        );
+
+        // Update UI state with the schema-compatible structure
+        this.onChangeFormDataAndSchemas(
+          payload,
+          field.formSchema,
+          field.uiSchema,
+        );
+      } else {
+        // For profile updates, make sure we trigger a transaction refresh
+        // so contact info displays reflect the new values without a page refresh
+        this.refreshTransaction();
+      }
+
+      successCallback();
+    } catch (error) {
+      // Silently handle error - form state is preserved
+    }
   };
 
   onInput = (value, schema, uiSchema) => {
@@ -237,6 +265,8 @@ export class ProfileInformationEditView extends Component {
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
+    // Validate before updating
+
     this.props.updateFormFieldWithSchema(
       this.props.fieldName,
       value,
@@ -295,6 +325,29 @@ export class ProfileInformationEditView extends Component {
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
+    const formData =
+      this.context?.formFieldData?.formOnlyUpdate === true
+        ? (() => {
+            // Merge objects but also handle inputPhoneNumber explicitly
+            const merged = {
+              ...field.value,
+              ...this.context.formFieldData,
+            };
+            // For phone fields, ensure inputPhoneNumber is updated to match the new number
+            if (
+              [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
+                fieldName,
+              ) &&
+              this.context.formFieldData?.phoneNumber
+            ) {
+              merged.inputPhoneNumber =
+                this.context.formFieldData.areaCode +
+                this.context.formFieldData.phoneNumber;
+            }
+            return merged;
+          })()
+        : field?.value;
+
     return (
       <>
         {!!field && (
@@ -316,7 +369,7 @@ export class ProfileInformationEditView extends Component {
               name="Contact Info Form"
               title="Contact Info Form"
               schema={field.formSchema}
-              data={field.value}
+              data={formData}
               uiSchema={field.uiSchema}
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
@@ -390,6 +443,7 @@ ProfileInformationEditView.propTypes = {
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
   cancelButtonText: PropTypes.string,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -400,6 +454,7 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
@@ -459,3 +514,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProfileInformationEditView);
+
+ProfileInformationEditView.contextType = ContactInfoFormAppConfigContext;
