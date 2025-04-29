@@ -48,8 +48,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
   afterEach(() => {
     localStorage.clear();
-    apiRequestStub.restore();
-    recordEventStub.restore();
+    sinon.restore();
   });
 
   context('when the download button has been clicked', () => {
@@ -63,7 +62,7 @@ describe('CG <ApplicationDownloadLink>', () => {
     };
 
     const triggerSuccess = ({ link }) => {
-      apiRequestStub.onFirstCall().resolves({
+      apiRequestStub.resolves({
         ok: true,
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
@@ -88,11 +87,9 @@ describe('CG <ApplicationDownloadLink>', () => {
           expect(vaLink).to.exist;
         });
 
-        expect(
-          recordEventStub.calledWith({
-            event: 'caregivers-pdf-download--success',
-          }),
-        ).to.be.true;
+        sinon.assert.calledWithExactly(recordEventStub, {
+          event: 'caregivers-pdf-download--success',
+        });
 
         createObjectStub.restore();
         revokeObjectStub.restore();
@@ -115,11 +112,9 @@ describe('CG <ApplicationDownloadLink>', () => {
         await waitFor(() => {
           const { vaLink, vaLoadingIndicator } = selectors();
 
-          expect(
-            recordEventStub.calledWith({
-              event: 'caregivers-pdf-download--success',
-            }),
-          ).to.be.true;
+          sinon.assert.calledWithExactly(recordEventStub, {
+            event: 'caregivers-pdf-download--success',
+          });
 
           expect(vaLoadingIndicator).to.not.exist;
           expect(vaLink).to.exist;
@@ -171,8 +166,9 @@ describe('CG <ApplicationDownloadLink>', () => {
             content['alert-download-message--generic'],
           );
 
-          const event = 'caregivers-pdf-download--failure';
-          expect(recordEventStub.calledWith({ event })).to.be.true;
+          sinon.assert.calledWithExactly(recordEventStub, {
+            event: 'caregivers-pdf-download--failure',
+          });
         });
       });
     });
